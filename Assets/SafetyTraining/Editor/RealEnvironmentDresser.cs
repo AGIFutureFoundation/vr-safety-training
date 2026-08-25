@@ -17,7 +17,8 @@ namespace SafetyTraining.Editor
             Warehouse,
             FireResponse,
             ChemicalProcessing,
-            ElectricalMaintenance
+            ElectricalMaintenance,
+            ImmersiveLab
         }
 
         readonly struct Placement
@@ -138,6 +139,12 @@ namespace SafetyTraining.Editor
                         new Vector3(-2.5f, 0f, 3.25f), 1.8f, Vector3.zero));
                     Place(site, new Placement("utility_box_01_1k.fbx", "Utility Cabinet B",
                         new Vector3(2.5f, 0f, 3.25f), 1.6f, new Vector3(0f, 180f, 0f)));
+                    break;
+                case SiteStyle.ImmersiveLab:
+                    Place(site, new Placement("utility_box_01_1k.fbx", "Tracking Rack",
+                        new Vector3(4.05f, 0f, 3.3f), 1.5f, new Vector3(0f, -90f, 0f)));
+                    Place(site, new Placement("modular_chainlink_fence_1k.fbx", "Lane Separation Fence",
+                        new Vector3(4f, 0f, -0.7f), 4.6f, new Vector3(0f, 90f, 0f)));
                     break;
             }
         }
@@ -261,7 +268,8 @@ namespace SafetyTraining.Editor
                     renderer.enabled = false;
                 else if (name == "Back Wall")
                     renderer.sharedMaterial = style == SiteStyle.Warehouse ||
-                                              style == SiteStyle.ElectricalMaintenance
+                                              style == SiteStyle.ElectricalMaintenance ||
+                                              style == SiteStyle.ImmersiveLab
                         ? RealEnvironmentMaterials.MetalSheet
                         : RealEnvironmentMaterials.ConcreteWall;
                 else if (name == "Floor")

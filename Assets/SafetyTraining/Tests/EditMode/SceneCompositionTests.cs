@@ -25,11 +25,11 @@ namespace SafetyTraining.Tests.EditMode
         }
 
         [Test]
-        public void Scene_ContainsFiveWorkplaceScenarios()
+        public void Scene_ContainsSixWorkplaceScenarios()
         {
             var targets = Object.FindObjectsByType<InspectionTarget>(FindObjectsSortMode.None);
 
-            Assert.That(targets, Has.Length.EqualTo(20));
+            Assert.That(targets, Has.Length.EqualTo(24));
             foreach (var site in (TrainingSiteId[])System.Enum.GetValues(typeof(TrainingSiteId)))
             {
                 var siteTargets = targets.Where(target => target.SiteId == site).ToArray();
@@ -42,7 +42,7 @@ namespace SafetyTraining.Tests.EditMode
         [Test]
         public void Scene_ContainsNavigationHudAndCoordinator()
         {
-            Assert.That(Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None), Has.Length.EqualTo(10));
+            Assert.That(Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None), Has.Length.EqualTo(12));
             Assert.That(Object.FindObjectsByType<TrainingHud>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
             Assert.That(Object.FindObjectsByType<NpcChatPanel>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
             Assert.That(Object.FindObjectsByType<TrainingCoordinator>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
@@ -88,14 +88,14 @@ namespace SafetyTraining.Tests.EditMode
         }
 
         [Test]
-        public void Scene_IsolationContractOwnsFiveSitesAndThreeHubRoots()
+        public void Scene_IsolationContractOwnsSixSitesAndThreeHubRoots()
         {
             var isolation = Object.FindFirstObjectByType<SiteIsolationController>();
             var zones = Object.FindObjectsByType<SiteExperienceZone>(FindObjectsSortMode.None);
 
-            Assert.That(isolation.SiteCount, Is.EqualTo(5));
+            Assert.That(isolation.SiteCount, Is.EqualTo(6));
             Assert.That(isolation.HubRootCount, Is.EqualTo(3));
-            Assert.That(zones, Has.Length.EqualTo(5));
+            Assert.That(zones, Has.Length.EqualTo(6));
             foreach (var zone in zones)
             {
                 var names = zone.GetComponentsInChildren<Transform>(true)
@@ -162,7 +162,7 @@ namespace SafetyTraining.Tests.EditMode
             var zones = Object.FindObjectsByType<SiteExperienceZone>(FindObjectsSortMode.None);
             var portals = Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None)
                 .Where(portal => !portal.ReturnsToHub).ToArray();
-            Assert.That(portals, Has.Length.EqualTo(5));
+            Assert.That(portals, Has.Length.EqualTo(6));
             foreach (var portal in portals)
             {
                 var zone = zones.Single(item => item.SiteId == portal.DestinationSite);
@@ -379,7 +379,7 @@ namespace SafetyTraining.Tests.EditMode
             var coaches = Object.FindObjectsByType<NpcTalkInteractable>(FindObjectsSortMode.None);
             var targets = Object.FindObjectsByType<InspectionTarget>(FindObjectsSortMode.None);
 
-            Assert.That(coaches, Has.Length.EqualTo(5));
+            Assert.That(coaches, Has.Length.EqualTo(6));
             foreach (var coach in coaches)
             {
                 var bubble = coach.transform.Find("NPC Speech Bubble");
@@ -505,7 +505,7 @@ namespace SafetyTraining.Tests.EditMode
             }
 
             Assert.That(coordinator.AllSitesComplete, Is.True);
-            Assert.That(coordinator.ReviewedConditionCount, Is.EqualTo(10));
+            Assert.That(coordinator.ReviewedConditionCount, Is.EqualTo(12));
             Assert.That(coordinator.IdentifiedHazardCount, Is.EqualTo(coordinator.TotalHazardCount));
             Assert.That(coordinator.CertificationComplete, Is.True);
             Assert.That(coordinator.GuidedProgress01, Is.EqualTo(1f).Within(0.001f));
@@ -516,7 +516,7 @@ namespace SafetyTraining.Tests.EditMode
         {
             var poses = Object.FindObjectsByType<NpcRelaxedPose>(FindObjectsSortMode.None);
 
-            Assert.That(poses, Has.Length.EqualTo(5));
+            Assert.That(poses, Has.Length.EqualTo(6));
             foreach (var pose in poses)
             {
                 Assert.That(pose.enabled, Is.True, pose.name);
@@ -540,7 +540,7 @@ namespace SafetyTraining.Tests.EditMode
         {
             var coaches = Object.FindObjectsByType<NpcConversationAgent>(FindObjectsSortMode.None);
 
-            Assert.That(coaches, Has.Length.EqualTo(5));
+            Assert.That(coaches, Has.Length.EqualTo(6));
             foreach (var coach in coaches)
             {
                 var animator = coach.GetComponentInChildren<Animator>(true);
@@ -580,7 +580,7 @@ namespace SafetyTraining.Tests.EditMode
         {
             var zones = Object.FindObjectsByType<SiteExperienceZone>(FindObjectsSortMode.None);
 
-            Assert.That(zones, Has.Length.EqualTo(5));
+            Assert.That(zones, Has.Length.EqualTo(6));
             for (var first = 0; first < zones.Length; first++)
             for (var second = first + 1; second < zones.Length; second++)
                 Assert.That(Vector3.Distance(zones[first].transform.position, zones[second].transform.position),
@@ -601,8 +601,8 @@ namespace SafetyTraining.Tests.EditMode
         {
             var portals = Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None);
 
-            Assert.That(portals.Count(portal => portal.ReturnsToHub), Is.EqualTo(5));
-            Assert.That(portals.Count(portal => !portal.ReturnsToHub), Is.EqualTo(5));
+            Assert.That(portals.Count(portal => portal.ReturnsToHub), Is.EqualTo(6));
+            Assert.That(portals.Count(portal => !portal.ReturnsToHub), Is.EqualTo(6));
         }
 
         [Test]
@@ -611,7 +611,7 @@ namespace SafetyTraining.Tests.EditMode
             var portals = Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None);
             var modePortals = portals.Where(portal => !portal.ReturnsToHub).ToArray();
 
-            Assert.That(modePortals, Has.Length.EqualTo(5));
+            Assert.That(modePortals, Has.Length.EqualTo(6));
             foreach (var portal in portals)
             {
                 Assert.That(portal.GetComponent<BoxCollider>(), Is.Not.Null, portal.name);
@@ -652,8 +652,8 @@ namespace SafetyTraining.Tests.EditMode
         public void Scene_HasProximityBriefingAndOneCompanionPerSite()
         {
             Assert.That(Object.FindObjectsByType<SiteExperienceDirector>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
-            Assert.That(Object.FindObjectsByType<SiteExperienceZone>(FindObjectsSortMode.None), Has.Length.EqualTo(5));
-            Assert.That(Object.FindObjectsByType<NpcSiteCompanion>(FindObjectsSortMode.None), Has.Length.EqualTo(5));
+            Assert.That(Object.FindObjectsByType<SiteExperienceZone>(FindObjectsSortMode.None), Has.Length.EqualTo(6));
+            Assert.That(Object.FindObjectsByType<NpcSiteCompanion>(FindObjectsSortMode.None), Has.Length.EqualTo(6));
             Physics.SyncTransforms();
             foreach (var companion in Object.FindObjectsByType<NpcSiteCompanion>(FindObjectsSortMode.None))
             {
@@ -773,7 +773,7 @@ namespace SafetyTraining.Tests.EditMode
         {
             var coaches = Object.FindObjectsByType<NpcConversationAgent>(FindObjectsSortMode.None);
 
-            Assert.That(coaches, Has.Length.EqualTo(5));
+            Assert.That(coaches, Has.Length.EqualTo(6));
             foreach (var coach in coaches)
             {
                 var model = coach.GetComponentInChildren<SkinnedMeshRenderer>(true);
@@ -796,13 +796,13 @@ namespace SafetyTraining.Tests.EditMode
         }
 
         [Test]
-        public void Scene_HasContinuousCampusGroundAndFivePortals()
+        public void Scene_HasContinuousCampusGroundAndSixPortals()
         {
             var ground = GameObject.Find("Continuous Walkable Ground");
             Assert.That(ground, Is.Not.Null);
             Assert.That(ground.GetComponent<Terrain>(), Is.Not.Null);
             Assert.That(ground.GetComponent<TerrainCollider>(), Is.Not.Null);
-            Assert.That(Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None), Has.Length.EqualTo(10));
+            Assert.That(Object.FindObjectsByType<SitePortal>(FindObjectsSortMode.None), Has.Length.EqualTo(12));
         }
 
         [Test]
@@ -838,13 +838,14 @@ namespace SafetyTraining.Tests.EditMode
         [Test]
         public void EveryNonConstructionSite_HasThreeOrderedHandsOnActions()
         {
-            // Given: the generated five-site training scene.
+            // Given: the generated six-site training scene.
             var siteRoots = new[]
             {
                 GameObject.Find("Warehouse"),
                 GameObject.Find("Fire Response"),
                 GameObject.Find("Chemical Processing"),
-                GameObject.Find("Electrical Maintenance")
+                GameObject.Find("Electrical Maintenance"),
+                GameObject.Find("Immersive Lab")
             };
 
             // When: each non-construction practical sequence is inspected.
@@ -876,7 +877,7 @@ namespace SafetyTraining.Tests.EditMode
                                     component.GetType().Name == "ConstructionActionInteractable")
                 .ToArray();
 
-            Assert.That(actions, Has.Length.EqualTo(17));
+            Assert.That(actions, Has.Length.EqualTo(20));
             foreach (var action in actions)
             {
                 var placement = action.GetComponents<MonoBehaviour>()
@@ -1149,6 +1150,104 @@ namespace SafetyTraining.Tests.EditMode
         }
 
         [Test]
+        public void ImmersiveLab_TeachesPlaySpaceTetherAndArControls()
+        {
+            // Given: the XR headset-safety module.
+            var lab = GameObject.Find("Immersive Lab");
+            var targets = Object.FindObjectsByType<InspectionTarget>(FindObjectsSortMode.None)
+                .Where(target => target.SiteId == TrainingSiteId.ImmersiveLab)
+                .ToDictionary(target => target.TargetId);
+
+            // When: its authored conditions are inspected.
+            Assert.That(lab, Is.Not.Null);
+            Assert.That(targets.Keys, Is.EquivalentTo(new[]
+            {
+                "play-space-obstruction", "unspotted-ar-route", "managed-tether", "hygiene-comfort-station"
+            }));
+
+            // Then: two conditions are real hazards and two are controlled look-alikes.
+            Assert.That(targets["play-space-obstruction"].IsHazard, Is.True);
+            Assert.That(targets["unspotted-ar-route"].IsHazard, Is.True);
+            Assert.That(targets["managed-tether"].IsHazard, Is.False);
+            Assert.That(targets["hygiene-comfort-station"].IsHazard, Is.False);
+            foreach (var target in targets.Values)
+            {
+                Assert.That(target.DisplayName, Is.Not.Empty, target.TargetId);
+                Assert.That(target.Rationale, Is.Not.Empty, target.TargetId);
+                Assert.That(target.CorrectiveAction, Is.Not.Empty, target.TargetId);
+                Assert.That(target.GetComponent<XRSimpleInteractable>(), Is.Not.Null, target.TargetId);
+                Assert.That(target.GetComponent<InteractiveHoverFeedback>(), Is.Not.Null, target.TargetId);
+            }
+
+            // And: the module is dressed with the equipment the conditions refer to.
+            var names = lab.GetComponentsInChildren<Transform>(true).Select(item => item.name).ToArray();
+            foreach (var required in new[]
+            {
+                "Headset Station A", "Headset Station B", "Active Play Boundary Front",
+                "AR Walkthrough Route", "Powered Equipment Lane", "Equipment Staging Bay Front"
+            })
+                Assert.That(names, Does.Contain(required), required);
+        }
+
+        [Test]
+        public void ImmersiveLab_HazardsAreNotPreMarkedBeforeInspection()
+        {
+            // Given: the two real hazards in the XR headset-safety module.
+            var hazards = Object.FindObjectsByType<InspectionTarget>(FindObjectsSortMode.None)
+                .Where(target => target.SiteId == TrainingSiteId.ImmersiveLab && target.IsHazard)
+                .ToArray();
+
+            // When: their authored labels are read before any learner selection.
+            foreach (var hazard in hazards)
+            {
+                var labels = hazard.GetComponentsInChildren<TextMesh>(true)
+                    .Select(label => label.text.ToUpperInvariant()).ToArray();
+
+                // Then: nothing names the condition as a hazard or an answer.
+                foreach (var label in labels)
+                {
+                    Assert.That(label, Does.Not.Contain("HAZARD"), hazard.TargetId);
+                    Assert.That(label, Does.Not.Contain("DANGER"), hazard.TargetId);
+                    Assert.That(label, Does.Not.Contain("UNSAFE"), hazard.TargetId);
+                }
+            }
+        }
+
+        [Test]
+        public void ImmersiveLab_PracticalPlacesThreeControlsInOperationalPositions()
+        {
+            // Given: the module practical sequence.
+            var lab = GameObject.Find("Immersive Lab");
+            var controller = lab.GetComponent<SitePracticalController>();
+            var actions = lab.GetComponentsInChildren<SitePracticalAction>(true)
+                .OrderBy(action => action.StepIndex).ToArray();
+            foreach (var action in actions)
+                typeof(SitePracticalAction).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(action, null);
+
+            // When: the ordered controls are inspected.
+            Assert.That(controller, Is.Not.Null);
+            Assert.That(controller.SiteId, Is.EqualTo(TrainingSiteId.ImmersiveLab));
+            Assert.That(actions.Select(action => action.ActionName), Is.EqualTo(new[]
+            {
+                "Clear the play space", "Separate the AR route", "Record headset readiness"
+            }));
+
+            // Then: every control has a distinct destination inside the enclosed site.
+            var destinations = actions.Select(action => action.TargetLocalPosition).ToArray();
+            for (var first = 0; first < destinations.Length; first++)
+            {
+                Assert.That(destinations[first].x, Is.InRange(-4.2f, 4.2f), actions[first].ActionName);
+                Assert.That(destinations[first].z, Is.InRange(-4f, 3.8f), actions[first].ActionName);
+                Assert.That(actions[first].GetComponent<XRGrabInteractable>(), Is.Not.Null,
+                    actions[first].ActionName);
+                for (var second = first + 1; second < destinations.Length; second++)
+                    Assert.That(Vector3.Distance(destinations[first], destinations[second]),
+                        Is.GreaterThan(1.1f), $"{actions[first].ActionName} / {actions[second].ActionName}");
+            }
+        }
+
+        [Test]
         public void SiteMentors_ReserveFirefighterModelForFireResponse()
         {
             var coaches = Object.FindObjectsByType<NpcConversationAgent>(FindObjectsSortMode.None);
@@ -1168,7 +1267,7 @@ namespace SafetyTraining.Tests.EditMode
         {
             var coaches = Object.FindObjectsByType<NpcTalkInteractable>(FindObjectsSortMode.None);
 
-            Assert.That(coaches, Has.Length.EqualTo(5));
+            Assert.That(coaches, Has.Length.EqualTo(6));
             foreach (var coach in coaches)
             {
                 var capsule = coach.GetComponent<CapsuleCollider>();

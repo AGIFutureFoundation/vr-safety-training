@@ -93,6 +93,16 @@ namespace SafetyTraining.Editor
                 new Vector3(0f, 20f, 0f)));
         }
 
+        public static void DressImmersiveLab(Transform site)
+        {
+            Add(site, Spec("metal_toolbox_1k.fbx", new Vector3(3.35f, 0.02f, 2.15f), 0.6f,
+                new Vector3(0f, -22f, 0f)));
+            Add(site, Spec("cardboard_box_01_1k.fbx", new Vector3(-3.9f, 0.02f, -1.75f), 0.55f,
+                new Vector3(0f, 16f, 0f)));
+            Add(site, Spec("industrial_storage_cart_1k.fbx", new Vector3(3.5f, 0f, -3.05f), 0.62f,
+                new Vector3(0f, 150f, 0f)));
+        }
+
         static void ReplaceStack(Transform site, string name, string asset, int count, float scale)
         {
             var root = PrepareRoot(site, name);

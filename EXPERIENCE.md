@@ -13,9 +13,9 @@ The learner should feel like a new hire completing a supervised pre-shift safety
 5. Ask the accompanying mentor a typed question or request a hint with `C`.
 6. Complete the hands-on control steps, see progress update, and move to the next zone.
 
-## 20–25 minute guided session
+## 24–30 minute guided session
 
-Certification requires activity, not passive waiting. Each of the five sites contributes a four-minute field review and requires all four visible conditions to be recorded plus two mentor turns. Construction also requires its five ordered hands-on controls. The HUD keeps a live `SESSION mm:ss / 20:00` clock and blends time, inspections, mentor turns, and practical steps into the progress rail.
+Certification requires activity, not passive waiting. Each of the six sites contributes a four-minute field review and requires all four visible conditions to be recorded plus two mentor turns. Construction also requires its five ordered hands-on controls, and every other site requires its three. The HUD keeps a live `SESSION mm:ss / 24:00` clock and blends time, inspections, mentor turns, and practical steps into the progress rail.
 
 | Segment | Required learner work | Target time |
 |---|---|---:|
@@ -25,9 +25,10 @@ Certification requires activity, not passive waiting. Each of the five sites con
 | Fire response | Four condition reviews, two coach turns, egress/access reasoning | 4 min |
 | Chemical processing | Four condition reviews, two coach turns, labeling/segregation reasoning | 4 min |
 | Electrical maintenance | Four condition reviews, two coach turns, lockout/crossing reasoning | 4 min |
+| Immersive lab | Four condition reviews, two coach turns, play-space/AR-route reasoning | 4 min |
 | Final review | Score, missed controls, coach debrief | 1–2 min |
 
-The certification state unlocks only after 20 active site minutes, 20/20 condition reviews, 10 mentor turns, all required hazards, and 5/5 construction practical steps.
+The certification state unlocks only after 24 active site minutes, 24/24 condition reviews, 12 mentor turns, all required hazards, and 20/20 placement controls (5 construction plus 3 in each of the other five sites).
 
 ## State machine
 
@@ -58,7 +59,7 @@ All values below are prototype starting values, not claimed standards.
 | Mentor side offset | 1.55 m right, 0.8 m rear | Mentor is visible with a small head turn and blocks the route 0/10 times | Move farther right in 0.25 m steps |
 | Mentor speed | 1.65 m/s, 2.5 m/s catch-up | Mentor settles beside a continuously walking learner within 4 s | Raise catch-up only; preserve close-range calm |
 | Chat range | 3.2 m | `C` works whenever the mentor visually reads as conversationally close | Increase by 0.5 m if learners repeatedly miss |
-| Guided site time | 4 min × 5 sites | Median first-attempt completion is 20–25 min without idle waiting | Add/trim one guided prompt before changing the time floor |
+| Guided site time | 4 min × 6 sites | Median first-attempt completion is 24–30 min without idle waiting | Add/trim one guided prompt before changing the time floor |
 
 ## Edge and abuse cases
 

@@ -73,12 +73,12 @@ namespace SafetyTraining.Tests.EditMode
         }
 
         [Test]
-        public void GuidedPlan_RemainsIncompleteBeforeTwentyMinutes()
+        public void GuidedPlan_RemainsIncompleteBeforeTheFullSiteMinimum()
         {
             var plan = CreateCompletedActivityPlan(239f);
 
             Assert.That(plan.IsComplete, Is.False);
-            Assert.That(plan.ElapsedSeconds, Is.EqualTo(1195f).Within(0.01f));
+            Assert.That(plan.ElapsedSeconds, Is.EqualTo(239f * GuidedSessionPlan.SiteCount).Within(0.01f));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace SafetyTraining.Tests.EditMode
 
             Assert.That(plan.IsComplete, Is.True);
             Assert.That(plan.ElapsedSeconds, Is.EqualTo(GuidedSessionPlan.MinimumSessionSeconds).Within(0.01f));
-            Assert.That(plan.CompletedCoachTurns, Is.EqualTo(10));
+            Assert.That(plan.CompletedCoachTurns, Is.EqualTo(GuidedSessionPlan.RequiredCoachTurns));
         }
 
         [Test]

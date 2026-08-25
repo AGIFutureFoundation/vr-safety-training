@@ -99,6 +99,14 @@ namespace SafetyTraining.Runtime
                 electricalOrigin);
             yield return CaptureNpc(viewer, outputDirectory, "Electrical Maintenance", "12-electrical-npc.png");
 
+            PrepareSiteCapture(SafetyTraining.Core.TrainingSiteId.ImmersiveLab);
+            var immersiveLabOrigin = SiteOrigin("Immersive Lab");
+            yield return CaptureView(viewer, outputDirectory, "13-immersive-lab-overview.png",
+                immersiveLabOrigin + new Vector3(0f, 2.2f, -6.8f), immersiveLabOrigin + new Vector3(0f, 1f, 0.2f));
+            yield return CapturePropShowcase(viewer, outputDirectory, "13b-immersive-lab-real-props.png",
+                immersiveLabOrigin);
+            yield return CaptureNpc(viewer, outputDirectory, "Immersive Lab", "14-immersive-lab-npc.png");
+
             File.WriteAllText(Path.Combine(outputDirectory, "tour-complete.txt"),
                 DateTime.UtcNow.ToString("O"));
             Debug.Log($"Visual capture tour completed: {outputDirectory}");
