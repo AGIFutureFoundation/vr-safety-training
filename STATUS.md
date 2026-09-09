@@ -1,6 +1,6 @@
 # Current build status
 
-Updated: 2026-08-25
+Updated: 2026-09-09
 
 - Unity 6.0 LTS project scaffold: complete
 - OpenXR + XR Interaction Toolkit package manifest: complete
@@ -35,6 +35,9 @@ Updated: 2026-08-25
 - Final visual tour: `Captures/construction-hands-on-v1` (13/13 frames generated, including the hands-on construction frame)
 - Independent visual QA: functional PASS and typography/visual PASS
 - Windows standalone build: succeeded, `Builds/Windows/VR-Safety-Training.exe`
+
+- Meta Quest standalone path: OpenXR Android configuration (Meta Quest feature, IL2CPP, ARM64, Vulkan/GLES3, ASTC) plus `Build Meta Quest APK` menu item at `Builds/Quest/VR-Safety-Training.apk`
+- WebXR companion: `WebXR/index.html` — six sites, 24 authored conditions, deterministic scoring, Meta Quest Browser immersive VR + desktop fallback, deployment notes for static hosting (rb1.com) in `WebXR/README.md`
 
 ## Not yet re-verified after the immersive lab module
 

@@ -58,6 +58,23 @@ play space, separate the AR route, and record the headset readiness sign-off. Ob
 layout, facilitator script, comfort/stop rules, assessment thresholds, and sources are in
 [`docs/modules/xr-immersive-lab.md`](docs/modules/xr-immersive-lab.md).
 
+## Meta Quest and web deployment
+
+Two additional delivery surfaces beyond the Windows PC-VR build:
+
+- **Meta Quest standalone (native)**: `Safety Training > Configure Meta Quest (Android)` applies
+  the OpenXR Android configuration (Meta Quest feature, Quest Touch profiles, IL2CPP/ARM64,
+  Vulkan-first), and `Safety Training > Build Meta Quest APK` produces
+  `Builds/Quest/VR-Safety-Training.apk` for `adb install -r`. Requires the Android Build Support
+  module in the editor.
+- **WebXR companion** (`WebXR/index.html`): a single static page carrying the full six-site
+  inspection curriculum with the same deterministic scoring — immersive VR in the Meta Quest
+  Browser (controller ray select, stick locomotion, snap turn) and a desktop mouse/keyboard
+  fallback. Deployment notes, hosting assumptions (rb1.com), and the honest device-support
+  matrix — including why Ray-Ban Meta display glasses cannot run it immersively — are in
+  [`WebXR/README.md`](WebXR/README.md). Placement practicals and the LLM coach remain
+  Unity-build features.
+
 ## Validation
 
 - Core scoring smoke test: passed

@@ -21,9 +21,37 @@ namespace SafetyTraining.Editor
 
         public static bool ConfigureStandalone()
         {
+            return Configure(BuildTargetGroup.Standalone);
+        }
+
+        public static bool ConfigureQuestAndroid()
+        {
+            if (!Configure(BuildTargetGroup.Android))
+                return false;
+
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android,
+                ScriptingImplementation.IL2CPP);
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            if ((int)PlayerSettings.Android.minSdkVersion < 32)
+                PlayerSettings.Android.minSdkVersion = (AndroidSdkVersions)32;
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+            PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[]
+            {
+                UnityEngine.Rendering.GraphicsDeviceType.Vulkan,
+                UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3
+            });
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
+            EditorUserBuildSettings.androidBuildSubtarget = MobileTextureSubtarget.ASTC;
+            EnableFeaturesByName(BuildTargetGroup.Android,
+                "MetaQuestFeature", "MetaQuestTouchProControllerProfile");
+            AssetDatabase.SaveAssets();
+            return true;
+        }
+
+        static bool Configure(BuildTargetGroup target)
+        {
             SafetyScenePrimitives.EnsureFolder("Assets/XR/Settings");
             var perBuildTarget = LoadOrCreateSettings();
-            var target = BuildTargetGroup.Standalone;
 
             if (!perBuildTarget.HasSettingsForBuildTarget(target))
                 perBuildTarget.CreateDefaultSettingsForBuildTarget(target);
@@ -46,8 +74,24 @@ namespace SafetyTraining.Editor
             EditorUtility.SetDirty(perBuildTarget);
             AssetDatabase.SaveAssets();
             if (!assigned)
-                Debug.LogError("OpenXR loader could not be assigned for Standalone builds.");
+                Debug.LogError($"OpenXR loader could not be assigned for {target} builds.");
             return assigned;
+        }
+
+        static void EnableFeaturesByName(BuildTargetGroup target, params string[] typeNames)
+        {
+            var settings = OpenXRSettings.GetSettingsForBuildTargetGroup(target);
+            if (settings == null)
+                return;
+
+            foreach (var feature in settings.GetFeatures<OpenXRFeature>())
+            {
+                if (feature == null || !typeNames.Contains(feature.GetType().Name))
+                    continue;
+                feature.enabled = true;
+                EditorUtility.SetDirty(feature);
+            }
+            EditorUtility.SetDirty(settings);
         }
 
         static void ConfigureControllerProfiles(BuildTargetGroup target)
