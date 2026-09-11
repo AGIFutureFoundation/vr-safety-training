@@ -16,12 +16,12 @@ import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const JS = join(ROOT, "WebXR", "trades", "js");
+const WEBXR = join(ROOT, "WebXR");
 
 const MODULES = [
-  "kit.js", "game.js",
-  "rooms/electrical.js", "rooms/salon.js", "rooms/kitchen.js",
-  "rooms/phlebotomy.js", "rooms/welding.js",
+  "shared/kit.js", "shared/game.js",
+  "trades/js/rooms/electrical.js", "trades/js/rooms/salon.js", "trades/js/rooms/kitchen.js",
+  "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js",
 ];
 
 // ------------------------------------------------------------- three.js stub
@@ -172,7 +172,7 @@ function strip(src) {
 const dir = mkdtempSync(join(tmpdir(), "trades-check-"));
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 
-const parts = MODULES.map((rel) => strip(readFileSync(join(JS, rel), "utf8")));
+const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `
 export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING];
 export { Session, Progress, Sfx, THREE };

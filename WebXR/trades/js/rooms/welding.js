@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingPanel, counter, particles, markInteractive, mat, clamp,
-} from "../kit.js";
+} from "../../shared/kit.js";
 
 // Room 05 — Welder / fabricator: hot work permit, fume control, arc-eye
 // protection and a shielded metal arc bead, ending with the fire watch that

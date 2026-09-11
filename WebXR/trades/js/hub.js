@@ -1,8 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, group, decal, repaint, signFace, particles, markInteractive, mat, HUD,
-} from "./kit.js";
-import { Progress } from "./game.js";
+} from "../shared/kit.js";
+import { Progress } from "../shared/game.js";
 
 // The hub: a round atrium with one doorway per trade. Each doorway carries the
 // learner's own record for that room, so progress is legible from the middle of

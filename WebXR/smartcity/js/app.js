@@ -1,39 +1,54 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp } from "../shared/kit.js";
-import { Session, Progress, Sfx } from "../shared/game.js";
+import { disposeTree, decal, repaint, HUD, clamp } from "../../shared/kit.js";
+import { Session, Progress, Sfx } from "../../shared/game.js";
+import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
-import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
-import { ROOM_SALON } from "./rooms/salon.js";
-import { ROOM_KITCHEN } from "./rooms/kitchen.js";
-import { ROOM_PHLEBOTOMY } from "./rooms/phlebotomy.js";
-import { ROOM_WELDING } from "./rooms/welding.js";
+import { SIM_CHARGE_POINT } from "./sims/charge-point.js";
+import { SIM_SIGNAL_CABINET } from "./sims/signal-cabinet.js";
+import { SIM_VALVE_VAULT } from "./sims/valve-vault.js";
+import { SIM_SOLAR_DECK } from "./sims/solar-deck.js";
+import { SIM_SPLICE_NODE } from "./sims/splice-node.js";
+import { SIM_FLIGHT_DECK } from "./sims/flight-deck.js";
+import { SIM_TRACK_ACCESS } from "./sims/track-access.js";
+import { SIM_TRIAGE_POINT } from "./sims/triage-point.js";
+import { SIM_ROBOT_CELL } from "./sims/robot-cell.js";
+import { SIM_CHILLER_PLANT } from "./sims/chiller-plant.js";
 
-const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING];
-const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
+const SIMS = [
+  SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
+  SIM_FLIGHT_DECK, SIM_TRACK_ACCESS, SIM_TRIAGE_POINT, SIM_ROBOT_CELL, SIM_CHILLER_PLANT,
+];
+const SIM_BY_ID = Object.fromEntries(SIMS.map((s) => [s.id, s]));
+const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 
 Progress.load();
 
 // ------------------------------------------------------------------ renderer
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(0x000000, 0);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.xr.enabled = true;
-renderer.xr.setFoveation(0.6);
 document.getElementById("stage").appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a1016);
-scene.fog = new THREE.Fog(0x0a1016, 16, 40);
-
 const rig = new THREE.Group();
-const camera = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.04, 90);
+const camera = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.02, 90);
 camera.position.set(0, 1.62, 0);
 camera.rotation.order = "YXZ";
 rig.add(camera);
 scene.add(rig);
+
+// The placement anchor: everything the learner sees hangs off this. In AR it is
+// repositioned to the surface the learner taps; in VR/flat it stays at the origin
+// of the digital-twin plaza built by stage.js.
+const placement = new THREE.Group();
+scene.add(placement);
+const worldRoot = new THREE.Group();
+placement.add(worldRoot);
 
 // --------------------------------------------------------------- HUD binding
 
@@ -48,11 +63,12 @@ const ui = {
   count: document.getElementById("hud-count"),
   timer: document.getElementById("hud-timer"),
   rail: document.getElementById("hud-rail"),
-  panel: document.getElementById("hud"),
   results: document.getElementById("results"),
   resultsBody: document.getElementById("results-body"),
   intro: document.getElementById("intro"),
   hint: document.getElementById("hud-hint"),
+  arPrompt: document.getElementById("ar-prompt"),
+  scaleRow: document.getElementById("scale-row"),
 };
 let vrHudDirty = true;
 
@@ -65,20 +81,21 @@ function setRail(kind, html) {
 function syncHud() {
   const s = state.session;
   if (!s) {
-    ui.room.textContent = "TRAINING HUB";
-    ui.step.textContent = "Choose a trade";
-    ui.cue.textContent = "Walk into a doorway to start that room's procedure.";
-    ui.score.textContent = String(Progress.data.xp).padStart(4, "0");
-    ui.combo.textContent = `LV ${Progress.level}`;
-    ui.count.textContent = `${Progress.completedRooms}/5 ROOMS · ${Progress.totalStars}★`;
-    ui.fill.style.width = `${(Progress.completedRooms / 5) * 100}%`;
+    ui.room.textContent = "SMARTCITI.X";
+    ui.step.textContent = "Choose a district";
+    ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
+    ui.score.textContent = "----";
+    ui.combo.textContent = "";
+    ui.count.textContent = `${Progress.completedRooms}/10 CLEARED`;
+    ui.fill.style.width = `${(Progress.completedRooms / 10) * 100}%`;
     ui.timer.textContent = "";
     vrHudDirty = true;
     return;
   }
+  const rank = Progress.simRank(s.room.id, s.room.game);
   ui.room.textContent = s.room.title.toUpperCase();
   ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
-  ui.combo.textContent = s.combo > 1.05 ? `×${s.combo.toFixed(1)}` : "×1.0";
+  ui.combo.textContent = `${s.combo > 1.05 ? `×${s.combo.toFixed(1)} · ` : ""}${rank.name}`;
   ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
   ui.fill.style.width = `${s.progress01 * 100}%`;
   const secs = Math.floor(s.elapsed);
@@ -88,8 +105,8 @@ function syncHud() {
   if (step) {
     ui.step.textContent = step.title;
     let cue = step.cue;
-    if (step.kind === "sequence") cue += `  (${s.sequence.length}/${step.targets.length})`;
-    if (step.kind === "hold") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
+    if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
     ui.cue.textContent = cue;
   }
   vrHudDirty = true;
@@ -97,10 +114,8 @@ function syncHud() {
 
 // ------------------------------------------------------------- world objects
 
-const worldRoot = new THREE.Group();
-scene.add(worldRoot);
-
 const state = {
+  mode: "flat",          // "ar" | "vr" | "flat"
   roomRoot: null,
   api: null,
   room: null,
@@ -109,31 +124,27 @@ const state = {
   selectables: [],
   hovered: null,
   paused: true,
+  placed: false,          // AR: has the learner tapped a surface yet
+  stage: null,
 };
 
-// Objective marker: floor ring plus a bobbing diamond over the live target.
 const hint = new THREE.Group();
 const hintRing = new THREE.Mesh(
   new THREE.TorusGeometry(0.42, 0.022, 8, 36),
-  new THREE.MeshBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.85 }));
+  new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.85 }));
 hintRing.rotation.x = -Math.PI / 2;
 hint.add(hintRing);
-const hintPip = new THREE.Mesh(
-  new THREE.OctahedronGeometry(0.07),
-  new THREE.MeshBasicMaterial({ color: 0x37d6c0 }));
+const hintPip = new THREE.Mesh(new THREE.OctahedronGeometry(0.07), new THREE.MeshBasicMaterial({ color: 0x4fd1ff }));
 hint.add(hintPip);
 hint.visible = false;
 worldRoot.add(hint);
 const hintTargets = [];
 
-// Gauge widget: static band panel, geometry marker, and a slow-refresh readout.
 const gauge = new THREE.Group();
 gauge.visible = false;
 const gaugePanel = decal(gauge, 0.62, 0.2, 0, 0, 0, () => {}, { px: 512, glow: true, ei: 0.5 });
 const gaugeReadout = decal(gauge, 0.28, 0.09, 0, 0.16, 0.002, () => {}, { px: 256, glow: true, ei: 0.7 });
-const gaugeMarker = new THREE.Mesh(
-  new THREE.BoxGeometry(0.012, 0.1, 0.014),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }));
+const gaugeMarker = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.1, 0.014), new THREE.MeshBasicMaterial({ color: 0xffffff }));
 gaugeMarker.position.z = 0.006;
 gauge.add(gaugeMarker);
 worldRoot.add(gauge);
@@ -142,7 +153,7 @@ let gaugeReadoutAt = 0;
 function paintGaugeBand(step) {
   const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
   repaint(gaugePanel, (g, w, h) => {
-    g.fillStyle = "rgba(10,17,23,0.94)"; g.fillRect(0, 0, w, h);
+    g.fillStyle = "rgba(6,14,20,0.94)"; g.fillRect(0, 0, w, h);
     g.strokeStyle = HUD.edge; g.lineWidth = 3; g.strokeRect(1.5, 1.5, w - 3, h - 3);
     g.fillStyle = HUD.muted;
     g.font = `600 ${Math.round(h * 0.17)}px 'Barlow Condensed', Arial, sans-serif`;
@@ -160,22 +171,18 @@ function paintGaugeBand(step) {
     g.fillText("select to commit", w / 2, h * 0.87);
   });
 }
-
 function placeGauge(targetObj) {
   if (!targetObj) return;
   const boxHelper = new THREE.Box3().setFromObject(targetObj);
   const c = boxHelper.getCenter(new THREE.Vector3());
-  const top = boxHelper.max.y;
-  gauge.position.set(c.x, Math.min(Math.max(top + 0.3, 1.15), 2.0), c.z);
+  gauge.position.set(c.x, Math.min(Math.max(boxHelper.max.y + 0.3, 1.0), 2.0), c.z);
 }
 
-// ------------------------------------------------------------ room lifecycle
+// ------------------------------------------------------------ scene lifecycle
 
 function clearRoom() {
-  if (state.roomRoot) {
-    disposeTree(state.roomRoot);
-    state.roomRoot = null;
-  }
+  if (state.roomRoot) { disposeTree(state.roomRoot); state.roomRoot = null; }
+  if (state.stage) { disposeTree(state.stage.root); state.stage = null; }
   state.api = null;
   state.hits = {};
   state.selectables = [];
@@ -191,32 +198,42 @@ function collectSelectables() {
   }
 }
 
+function resetPlacement() {
+  placement.position.set(0, 0, 0);
+  placement.quaternion.identity();
+  placement.scale.setScalar(state.mode === "ar" ? AR_DIORAMA_SCALE : 1);
+  state.placed = state.mode !== "ar";
+}
+
 function enterHub() {
   clearRoom();
   state.session = null;
   state.room = null;
+  const stage = buildStage(worldRoot, state.mode, scene);
+  state.stage = stage;
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
-  state.api = buildHub(root, ROOMS);
+  state.api = buildHub(root, SIMS);
   state.hits = state.api.hits;
   collectSelectables();
-  rig.position.set(0.4, 0, 4.9);
-  rig.rotation.y = 0;
-  camera.rotation.set(0, 0, 0);
+  resetPlacement();
+  if (state.mode !== "ar") { rig.position.set(0.4, 0, 4.9); rig.rotation.y = 0; }
+  else { rig.position.set(0, 0, 0); }
   yaw = 0; pitch = 0;
-  scene.background = new THREE.Color(0x0a1016);
-  scene.fog = new THREE.Fog(0x0a1016, 16, 46);
-  document.body.dataset.accent = "#37d6c0";
-  document.documentElement.style.setProperty("--accent", "#37d6c0");
-  setRail("neutral", "<b>Training hub.</b> Five trades, one procedure each. Step into a doorway to begin — the room scores every action against the real order of operations.");
+  camera.rotation.set(0, 0, 0);
+  ui.arPrompt.hidden = state.mode !== "ar";
+  ui.scaleRow.hidden = state.mode !== "ar";
+  setRail("neutral", "<b>SmartCiti.X training campus.</b> Ten simulators, each its own gamified system and its own rank. Select a kiosk to begin.");
   syncHud();
 }
 
-function enterRoom(id) {
-  const room = ROOM_BY_ID[id];
+function enterSim(id) {
+  const room = SIM_BY_ID[id];
   if (!room) return;
   clearRoom();
+  const stage = buildStage(worldRoot, state.mode, scene);
+  state.stage = stage;
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
@@ -224,24 +241,27 @@ function enterRoom(id) {
   state.api = room.build(root);
   state.hits = state.api.hits;
   collectSelectables();
+  resetPlacement();
 
-  rig.position.set(room.spawn.x, 0, room.spawn.z);
-  rig.rotation.y = room.spawn.ry ?? 0;
+  if (state.mode !== "ar") {
+    const spawnR = (room.footprint ?? 2) + 1.4;
+    rig.position.set(0, 0, spawnR);
+    rig.rotation.y = 0;
+  } else {
+    rig.position.set(0, 0, 0);
+  }
   yaw = 0; pitch = 0;
   camera.rotation.set(0, 0, 0);
-  scene.background = new THREE.Color(0x080d12);
-  scene.fog = new THREE.Fog(0x080d12, 14, 32);
   document.documentElement.style.setProperty("--accent", room.accentCss);
+  ui.arPrompt.hidden = state.mode !== "ar";
+  ui.scaleRow.hidden = state.mode !== "ar";
 
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
       updateHintForStep(step);
-      if (step.kind === "gauge") {
-        paintGaugeBand(step);
-        placeGauge(state.hits[step.target]);
-        gauge.visible = true;
-      } else gauge.visible = false;
+      if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
+      else gauge.visible = false;
       syncHud();
     },
     onFeedback: (fb, s) => {
@@ -256,16 +276,12 @@ function enterRoom(id) {
   });
   state.session.start();
   faceFirstTask();
-  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. Follow the procedure in order; the room will tell you why each step matters.`);
+  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
 }
 
-/**
- * Turn the learner toward the opening task. Rooms author where you stand; the
- * first thing you are asked to do decides which way you are looking, so nobody
- * starts a run staring at a blank wall.
- */
 function faceFirstTask() {
+  if (state.mode === "ar") return;
   const first = hintTargets[0];
   if (!first) return;
   const p = new THREE.Vector3();
@@ -278,7 +294,7 @@ function faceFirstTask() {
 function updateHintForStep(step) {
   hintTargets.length = 0;
   if (!step) { hint.visible = false; return; }
-  const ids = step.kind === "sequence" ? step.targets : [step.target];
+  const ids = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
   for (const id of ids) if (state.hits[id]) hintTargets.push(state.hits[id]);
   hint.visible = hintTargets.length > 0;
 }
@@ -291,37 +307,39 @@ function flashDanger() {
 // ------------------------------------------------------------------- results
 
 function showResults(s, summary) {
+  const room = s.room;
+  const rank = Progress.simRank(room.id, room.game);
   const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
+  const earnedNames = s.earned
+    .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
+    .filter(Boolean);
   ui.resultsBody.innerHTML = `
     <div class="res-stars">${stars}</div>
-    <h2>${s.room.title} complete</h2>
-    <p class="res-trade">${s.room.trade}</p>
+    <h2>${room.title}</h2>
+    <p class="res-trade">${room.game?.system ?? ""} · ${rank.name}</p>
     <dl class="res-grid">
       <div><dt>Score</dt><dd>${s.score}</dd></div>
       <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
       <div><dt>Errors</dt><dd>${s.errors}</dd></div>
-      <div><dt>Time bonus</dt><dd>+${s.timeBonus ?? 0}</dd></div>
+      <div><dt>${room.game?.currency ?? "XP"}</dt><dd>${rank.xp}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
       <div><dt>Runs</dt><dd>${summary.runs}</dd></div>
     </dl>
-    ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
+    ${earnedNames.length ? `<div class="res-badges">${earnedNames.map((a) =>
+      `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
     <p class="res-note">${s.errors === 0
       ? "Clean run: every control taken in order, no unsafe action."
-      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>`;
   ui.results.hidden = false;
   state.paused = true;
 }
 
 document.getElementById("res-retry").addEventListener("click", () => {
-  ui.results.hidden = true;
-  state.paused = false;
-  enterRoom(state.room.id);
+  ui.results.hidden = true; state.paused = false; enterSim(state.room.id);
 });
 document.getElementById("res-hub").addEventListener("click", () => {
-  ui.results.hidden = true;
-  state.paused = false;
-  enterHub();
+  ui.results.hidden = true; state.paused = false; enterHub();
 });
 
 // --------------------------------------------------------------- interaction
@@ -332,8 +350,6 @@ const pointerNdc = new THREE.Vector2(0, 0);
 
 function findHit(intersections) {
   for (const it of intersections) {
-    // three.js raycasts hidden meshes too, and rooms hide props until a step
-    // reveals them — walk the chain and drop anything not actually on screen.
     let o = it.object, visible = true, found = null;
     while (o) {
       if (o.visible === false) { visible = false; break; }
@@ -344,12 +360,7 @@ function findHit(intersections) {
   }
   return null;
 }
-
-function castFromCamera() {
-  raycaster.setFromCamera(pointerNdc, camera);
-  return findHit(raycaster.intersectObjects(state.selectables, false));
-}
-
+function castFromCamera() { raycaster.setFromCamera(pointerNdc, camera); return findHit(raycaster.intersectObjects(state.selectables, false)); }
 function castFromController(controller) {
   const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
   raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
@@ -364,18 +375,17 @@ function setHover(id) {
   if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], true);
   document.body.style.cursor = id ? "pointer" : "default";
 }
-
 function tint(root, on) {
   root.traverse((o) => {
     if (!o.isMesh || !o.material || o.material.emissive === undefined) return;
-    if (o.material.map) return;   // canvas decals own their texture; cloning it leaks
+    if (o.material.map) return;
     if (on) {
       if (!o.userData.baseMaterial) o.userData.baseMaterial = o.material;
-      const clone = o.userData.baseMaterial.clone();
-      clone.userData.ownMaterial = true;
-      clone.emissive = new THREE.Color(0x37d6c0);
-      clone.emissiveIntensity = 0.4;
-      o.material = clone;
+      const c = o.userData.baseMaterial.clone();
+      c.userData.ownMaterial = true;
+      c.emissive = new THREE.Color(0x4fd1ff);
+      c.emissiveIntensity = 0.4;
+      o.material = c;
     } else if (o.userData.baseMaterial) {
       if (o.material !== o.userData.baseMaterial) o.material.dispose();
       o.material = o.userData.baseMaterial;
@@ -386,31 +396,27 @@ function tint(root, on) {
 function activate(id) {
   if (!id) return;
   if (!state.session) {
-    if (id.startsWith("door-")) { Sfx.good(); enterRoom(id.slice(5)); }
+    if (id.startsWith("enter-")) { Sfx.good(); enterSim(id.slice(6)); }
     return;
   }
   state.session.select(id);
   syncHud();
 }
-
 function pressStart(id) {
   const s = state.session;
   if (!s || !s.step) return;
-  if (s.step.kind === "hold" && id === s.step.target) s.setHolding(true);
+  if ((s.step.kind === "hold" || s.step.kind === "track") && id === s.step.target) s.setHolding(true);
 }
-function pressEnd() {
-  state.session?.setHolding(false);
-}
+function pressEnd() { state.session?.setHolding(false); }
 
-// Desktop input -------------------------------------------------------------
+// Desktop -------------------------------------------------------------------
 
 let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
-  if (e.code === "KeyH" && !state.session) return;
   if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
-  if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
+  if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { keys[e.code] = false; });
 
@@ -425,8 +431,7 @@ canvas.addEventListener("pointerdown", (e) => {
 });
 addEventListener("pointerup", (e) => {
   if (renderer.xr.isPresenting) return;
-  dragging = false;
-  pressEnd();
+  dragging = false; pressEnd();
   if (performance.now() - downAt < 280 && downId) {
     updateNdc(e);
     const hit = castFromCamera();
@@ -448,7 +453,6 @@ function updateNdc(e) {
   const r = canvas.getBoundingClientRect();
   pointerNdc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
 }
-
 function desktopMove(dt) {
   const speed = (keys.ShiftLeft ? 4.4 : 2.6) * dt;
   const f = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
@@ -457,38 +461,30 @@ function desktopMove(dt) {
   if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
   if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
   if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
-  clampRig();
-}
-
-function clampRig() {
-  const limit = state.session ? 3.6 : 6.6;
+  const limit = state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5;
   const len = Math.hypot(rig.position.x, rig.position.z);
   if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
 }
 
-// XR input ------------------------------------------------------------------
+// XR controllers (VR) --------------------------------------------------------
 
 const controllers = [];
 for (let i = 0; i < 2; i++) {
   const c = renderer.xr.getController(i);
   const line = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -5)]),
-    new THREE.LineBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.7 }));
+    new THREE.LineBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.7 }));
   c.add(line);
-  c.add(new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0x37d6c0 })));
-  // A stubby grip so the hand reads as holding something.
-  const grip = new THREE.Mesh(new THREE.CapsuleGeometry(0.021, 0.07, 4, 8),
-    new THREE.MeshStandardMaterial({ color: 0x1d242b, roughness: 0.6 }));
-  grip.rotation.x = 0.5;
-  grip.position.set(0, -0.012, 0.03);
-  c.add(grip);
+  c.add(new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0x4fd1ff })));
   c.addEventListener("selectstart", () => {
+    if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
     const hit = castFromController(c);
     c.userData.downId = hit?.id ?? null;
     if (hit?.id) pressStart(hit.id);
   });
   c.addEventListener("selectend", () => {
     pressEnd();
+    if (state.mode === "ar" && !state.placed) return;
     const hit = castFromController(c);
     if (hit && hit.id === c.userData.downId) activate(hit.id);
     c.userData.downId = null;
@@ -496,9 +492,9 @@ for (let i = 0; i < 2; i++) {
   rig.add(c);
   controllers.push(c);
 }
-
 let snapReady = true;
 function xrMove(dt) {
+  if (state.mode === "ar") return; // AR: the learner physically walks
   const session = renderer.xr.getSession();
   if (!session) return;
   for (const source of session.inputSources) {
@@ -507,14 +503,12 @@ function xrMove(dt) {
     const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0], gp.axes[1]];
     if (source.handedness === "left") {
       const head = new THREE.Vector3();
-      camera.getWorldDirection(head);
-      head.y = 0;
+      camera.getWorldDirection(head); head.y = 0;
       if (head.lengthSq() < 1e-6) continue;
       head.normalize();
       const right = new THREE.Vector3(-head.z, 0, head.x);
       rig.position.addScaledVector(head, -ax[1] * 2.2 * dt);
       rig.position.addScaledVector(right, ax[0] * 2.2 * dt);
-      clampRig();
     } else if (source.handedness === "right") {
       if (Math.abs(ax[0]) < 0.35) snapReady = true;
       else if (snapReady) { rig.rotation.y -= Math.sign(ax[0]) * (Math.PI / 6); snapReady = false; }
@@ -522,25 +516,85 @@ function xrMove(dt) {
   }
 }
 
-// In-headset HUD panel, low-centre so it never masks the work surface.
+// ------------------------------------------------------------------ AR mode
+
+let xrSession = null, hitTestSource = null, refSpace = null, viewerSpace = null;
+const reticle = new THREE.Mesh(
+  new THREE.RingGeometry(0.06, 0.08, 32),
+  new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.9 }));
+reticle.rotation.x = -Math.PI / 2;
+reticle.visible = false;
+scene.add(reticle);
+let lastHitPose = null;
+
+function placeFromReticle() {
+  if (!lastHitPose || state.placed) return;
+  placement.position.set(lastHitPose.x, lastHitPose.y, lastHitPose.z);
+  placement.quaternion.set(0, 0, 0, 1); // upright, ignore surface tilt for stable footing
+  state.placed = true;
+  reticle.visible = false;
+  ui.arPrompt.hidden = true;
+  Sfx.good();
+}
+document.getElementById("scale-up").addEventListener("click", () => {
+  placement.scale.multiplyScalar(1.15);
+});
+document.getElementById("scale-down").addEventListener("click", () => {
+  placement.scale.multiplyScalar(1 / 1.15);
+});
+
+async function startXr(mode) {
+  const opts = mode === "ar"
+    ? { requiredFeatures: ["hit-test"], optionalFeatures: ["local-floor", "dom-overlay"], domOverlay: { root: document.body } }
+    : { optionalFeatures: ["local-floor", "bounded-floor"] };
+  const session = await navigator.xr.requestSession(mode === "ar" ? "immersive-ar" : "immersive-vr", opts);
+  xrSession = session;
+  await renderer.xr.setSession(session);
+  state.mode = mode;
+  if (mode === "ar") {
+    refSpace = renderer.xr.getReferenceSpace();
+    viewerSpace = await session.requestReferenceSpace("viewer");
+    hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+  }
+  begin();
+  vrPanel.visible = true;
+  vrHudDirty = true;
+  session.addEventListener("end", () => {
+    vrPanel.visible = false;
+    hitTestSource = null;
+    xrSession = null;
+  });
+}
+
+// In-headset / in-AR HUD panel, low-centre so it never masks the work surface.
 const vrCanvas = document.createElement("canvas");
 vrCanvas.width = 1024; vrCanvas.height = 340;
 const vrCtx = vrCanvas.getContext("2d");
 const vrTexture = new THREE.CanvasTexture(vrCanvas);
-const vrPanel = new THREE.Mesh(
-  new THREE.PlaneGeometry(0.9, 0.3),
-  new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true }));
+const vrPanel = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.3), new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true }));
 vrPanel.position.set(0, -0.4, -1.0);
 vrPanel.rotation.x = -0.35;
 vrPanel.renderOrder = 10;
 vrPanel.visible = false;
 camera.add(vrPanel);
 
+function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
+  const words = String(text).split(/\s+/);
+  let line = "", lines = 0;
+  for (const word of words) {
+    if (g.measureText(line + word).width > maxWidth) {
+      g.fillText(line, x, y); y += lineHeight; line = ""; lines++;
+      if (lines >= maxLines) { g.fillText("…", x, y); return; }
+    }
+    line += word + " ";
+  }
+  g.fillText(line, x, y);
+}
 function drawVrHud() {
   const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
   const accent = state.room?.accentCss ?? HUD.accent;
   g.clearRect(0, 0, w, h);
-  g.fillStyle = "rgba(16,28,39,0.9)"; g.fillRect(0, 0, w, h);
+  g.fillStyle = "rgba(10,17,23,0.9)"; g.fillRect(0, 0, w, h);
   const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[ui.rail.dataset.state] ?? HUD.edge;
   g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
   g.fillStyle = accent;
@@ -550,82 +604,58 @@ function drawVrHud() {
   g.fillStyle = HUD.text;
   g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
   g.fillText(ui.step.textContent, 36, 90);
-  g.fillStyle = HUD.muted;
-  g.font = `26px Arial, sans-serif`;
+  g.fillStyle = HUD.muted; g.font = `26px Arial, sans-serif`;
   wrapText(g, ui.cue.textContent, 36, 140, w - 300, 32, 3);
-  g.fillStyle = HUD.text;
-  g.font = `26px Arial, sans-serif`;
+  g.fillStyle = HUD.text; g.font = `26px Arial, sans-serif`;
   wrapText(g, ui.feedback.textContent, 36, 236, w - 300, 30, 2);
-  g.textAlign = "right";
-  g.fillStyle = accent;
+  g.textAlign = "right"; g.fillStyle = accent;
   g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
   g.fillText(ui.score.textContent, w - 34, 62);
-  g.fillStyle = HUD.muted;
-  g.font = `600 28px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(`${ui.combo.textContent}   ${ui.count.textContent}`, w - 34, 110);
-  g.fillText(ui.timer.textContent, w - 34, 148);
+  g.fillStyle = HUD.muted; g.font = `600 26px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(ui.combo.textContent, w - 34, 108);
+  g.fillText(ui.count.textContent + "   " + ui.timer.textContent, w - 34, 144);
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / 5), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / 10), 10);
   vrTexture.needsUpdate = true;
-}
-
-function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
-  const words = String(text).split(/\s+/);
-  let line = "", lines = 0;
-  for (const word of words) {
-    if (g.measureText(line + word).width > maxWidth) {
-      g.fillText(line, x, y);
-      y += lineHeight; line = ""; lines++;
-      if (lines >= maxLines) { g.fillText("…", x, y); return; }
-    }
-    line += word + " ";
-  }
-  g.fillText(line, x, y);
 }
 
 // -------------------------------------------------------------------- intro
 
-// ?room=<id> opens straight into one trade, so a single bay can be linked or
-// embedded on its own without the learner walking the hub first.
-const deepLink = new URLSearchParams(location.search).get("room");
+const deepLink = new URLSearchParams(location.search).get("sim");
 function begin() {
   ui.intro.hidden = true;
   state.paused = false;
   Sfx.ensure();
-  if (deepLink && ROOM_BY_ID[deepLink]) enterRoom(deepLink);
+  if (state.mode === "ar") { resetPlacement(); ui.arPrompt.hidden = false; ui.scaleRow.hidden = false; }
+  if (deepLink && SIM_BY_ID[deepLink]) enterSim(deepLink);
+  else enterHub();
 }
 
-const enterVrBtn = document.getElementById("enter-vr");
-document.getElementById("enter-flat").addEventListener("click", begin);
+const btnAr = document.getElementById("enter-ar");
+const btnVr = document.getElementById("enter-vr");
+const btnFlat = document.getElementById("enter-flat");
+btnFlat.addEventListener("click", () => { state.mode = "flat"; begin(); });
 document.getElementById("reset-progress").addEventListener("click", () => {
-  Progress.reset();
-  state.api?.refresh?.();
-  syncHud();
+  Progress.reset(); state.api?.refresh?.(); syncHud();
   document.getElementById("reset-progress").textContent = "Progress cleared";
 });
 if (navigator.xr?.isSessionSupported) {
-  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
-    if (ok) enterVrBtn.disabled = false;
-    else enterVrBtn.textContent = "VR unavailable in this browser";
-  }).catch(() => { enterVrBtn.textContent = "VR unavailable in this browser"; });
+  navigator.xr.isSessionSupported("immersive-ar").then((ok) => { if (ok) btnAr.disabled = false; else btnAr.textContent = "AR unavailable here"; })
+    .catch(() => { btnAr.textContent = "AR unavailable here"; });
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => { if (ok) btnVr.disabled = false; else btnVr.textContent = "VR unavailable here"; })
+    .catch(() => { btnVr.textContent = "VR unavailable here"; });
 } else {
-  enterVrBtn.textContent = "VR unavailable in this browser";
+  btnAr.textContent = "AR unavailable here"; btnVr.textContent = "VR unavailable here";
 }
-enterVrBtn.addEventListener("click", async () => {
-  try {
-    const session = await navigator.xr.requestSession("immersive-vr",
-      { optionalFeatures: ["local-floor", "bounded-floor", "hand-tracking"] });
-    await renderer.xr.setSession(session);
-    begin();
-    vrPanel.visible = true;
-    vrHudDirty = true;
-    session.addEventListener("end", () => { vrPanel.visible = false; });
-  } catch (err) {
-    begin();
-    setRail("warn", `<b>Could not start the VR session.</b> ${err?.message ?? err}. Open this page in its own tab in a WebXR browser and try again.`);
-  }
+btnAr.addEventListener("click", async () => {
+  try { await startXr("ar"); }
+  catch (err) { begin(); setRail("warn", `<b>Could not start AR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
+});
+btnVr.addEventListener("click", async () => {
+  try { await startXr("vr"); }
+  catch (err) { begin(); setRail("warn", `<b>Could not start VR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
 });
 
 // --------------------------------------------------------------- frame loop
@@ -639,46 +669,52 @@ addEventListener("resize", () => {
 const clock = new THREE.Clock();
 let elapsedTotal = 0;
 
-renderer.setAnimationLoop(() => {
+renderer.setAnimationLoop((_, frame) => {
   const dt = Math.min(clock.getDelta(), 0.05);
   elapsedTotal += dt;
   const presenting = renderer.xr.isPresenting;
 
+  // AR hit-test: keep the reticle tracking the tapped surface until placed.
+  if (state.mode === "ar" && presenting && frame && hitTestSource && !state.placed) {
+    const results = frame.getHitTestResults(hitTestSource);
+    if (results.length) {
+      const pose = results[0].getPose(refSpace);
+      if (pose) {
+        lastHitPose = pose.transform.position;
+        reticle.visible = true;
+        reticle.position.set(pose.transform.position.x, pose.transform.position.y, pose.transform.position.z);
+      }
+    } else reticle.visible = false;
+  } else reticle.visible = false;
+
   if (!state.paused) {
-    if (presenting) xrMove(dt);
-    else desktopMove(dt);
+    if (presenting) xrMove(dt); else desktopMove(dt);
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
-      if (state.session.step?.kind === "hold") syncHud();
+      if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
     }
   }
 
-  // Hover from whichever pointer is live.
+  const canInteract = state.mode !== "ar" || state.placed;
   let hovering = null;
-  if (presenting) {
-    for (const c of controllers) {
-      const hit = castFromController(c);
-      if (hit) { hovering = hit.id; break; }
-    }
-  } else {
-    hovering = castFromCamera()?.id ?? null;
+  if (canInteract) {
+    if (presenting) { for (const c of controllers) { const hit = castFromController(c); if (hit) { hovering = hit.id; break; } } }
+    else hovering = castFromCamera()?.id ?? null;
   }
   setHover(hovering);
 
-  // Objective marker rides the nearest live target.
-  if (hint.visible && hintTargets.length) {
+  if (hint.visible && hintTargets.length && canInteract) {
     let best = null, bestDist = Infinity;
-    const camPos = new THREE.Vector3();
-    camera.getWorldPosition(camPos);
+    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
     for (const t of hintTargets) {
-      const p = new THREE.Vector3();
-      t.getWorldPosition(p);
+      const p = new THREE.Vector3(); t.getWorldPosition(p);
       const d = p.distanceToSquared(camPos);
       if (d < bestDist) { bestDist = d; best = t; }
     }
     if (best) {
       const bb = new THREE.Box3().setFromObject(best);
       const c = bb.getCenter(new THREE.Vector3());
+      const localScale = worldRoot.getWorldScale(new THREE.Vector3()).x || 1;
       hint.position.set(c.x, 0.02, c.z);
       hintPip.position.set(0, Math.max(bb.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
       hintPip.rotation.y = elapsedTotal * 1.4;
@@ -686,21 +722,19 @@ renderer.setAnimationLoop(() => {
     }
   }
 
-  // Gauge marker and readout.
-  const g = state.session?.gauge;
-  if (gauge.visible && g) {
+  const gg = state.session?.gauge;
+  if (gauge.visible && gg && canInteract) {
     const halfWidth = 0.62 * 0.45;
-    gaugeMarker.position.x = -halfWidth + g.t * halfWidth * 2;
-    const inBand = g.t >= g.green[0] && g.t <= g.green[1];
+    gaugeMarker.position.x = -halfWidth + gg.t * halfWidth * 2;
+    const inBand = gg.t >= gg.green[0] && gg.t <= gg.green[1];
     gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
-    const camPos = new THREE.Vector3();
-    camera.getWorldPosition(camPos);
+    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
     gauge.lookAt(camPos.x, gauge.position.y, camPos.z);
     if (elapsedTotal - gaugeReadoutAt > 0.08) {
       gaugeReadoutAt = elapsedTotal;
-      const text = state.session.step?.gauge?.readout?.(g.t) ?? `${Math.round(g.t * 100)}%`;
+      const text = state.session.step?.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;
       repaint(gaugeReadout, (ctx, w, h) => {
-        ctx.fillStyle = "rgba(10,17,23,0.95)"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(6,14,20,0.95)"; ctx.fillRect(0, 0, w, h);
         ctx.fillStyle = inBand ? HUD.good : HUD.text;
         ctx.font = `600 ${Math.round(h * 0.66)}px 'Barlow Condensed', Arial, sans-serif`;
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
@@ -709,12 +743,11 @@ renderer.setAnimationLoop(() => {
     }
   }
 
-  state.api?.animate?.(elapsedTotal, dt, state.session);
+  if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
+  state.stage?.animate?.(elapsedTotal, dt);
 
   if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
   renderer.render(scene, camera);
 });
 
-// Kick off in the hub so the first frame already shows the five trades.
-enterHub();
 state.paused = true;

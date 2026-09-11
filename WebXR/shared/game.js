@@ -47,21 +47,52 @@ export const Progress = {
     const next = Math.pow(this.level, 2) * 120;
     return { into: this.data.xp - base, span: next - base };
   },
-  roomState(id) { return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0 }; },
+  roomState(id) {
+    return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0, xp: 0, badges: [] };
+  },
+
+  /**
+   * Rank inside one simulator's own system. Each area defines its own ladder,
+   * so a learner is (say) a Fault Lead on the charge point and still an
+   * apprentice in the vault — progression is per trade, not one global level.
+   */
+  simRank(id, game) {
+    const xp = this.roomState(id).xp | 0;
+    const marks = game?.rankAt ?? [0, 900, 2200, 4000, 6500];
+    const names = game?.ranks ?? ["Apprentice", "Operator", "Technician", "Lead", "Certified"];
+    let tier = 0;
+    for (let i = 0; i < marks.length; i++) if (xp >= marks[i]) tier = i;
+    const next = marks[tier + 1] ?? null;
+    return {
+      tier, name: names[Math.min(tier, names.length - 1)], xp,
+      next, into: xp - marks[tier], span: next == null ? 0 : next - marks[tier],
+      max: tier >= marks.length - 1,
+    };
+  },
+
+  simBadges(id) { return this.roomState(id).badges ?? []; },
   get completedRooms() { return Object.values(this.data.rooms).filter((r) => r.stars > 0).length; },
   get totalStars() { return Object.values(this.data.rooms).reduce((n, r) => n + (r.stars | 0), 0); },
 
-  record(roomId, { score, stars, seconds, badge }) {
+  record(roomId, { score, stars, seconds, badge, earned = [] }) {
     const prev = this.roomState(roomId);
+    const badges = [...(prev.badges ?? [])];
+    for (const id of earned) if (!badges.includes(id)) badges.push(id);
     const next = {
       stars: Math.max(prev.stars | 0, stars),
       best: Math.max(prev.best | 0, score),
       bestTime: prev.bestTime == null ? seconds : Math.min(prev.bestTime, seconds),
       runs: (prev.runs | 0) + 1,
+      xp: (prev.xp | 0) + Math.max(0, score),
+      badges,
     };
     this.data.rooms[roomId] = next;
     this.data.xp += Math.max(0, Math.round(score / 8));
     if (badge && !this.data.badges.includes(badge)) this.data.badges.push(badge);
+    for (const id of earned) {
+      const scoped = `${roomId}:${id}`;
+      if (!this.data.badges.includes(scoped)) this.data.badges.push(scoped);
+    }
     this.save();
     return next;
   },
@@ -124,8 +155,19 @@ export class Session {
     this.holdFor = 0;        // progress within a 'hold' step
     this.holding = false;
     this.gauge = null;       // live gauge state for a 'gauge' step
+    this.track = null;       // live state for a 'track' step
     this.stars = 0;
     this.badgeEarned = null;
+    this.hazardHits = 0;      // unsafe-action selections in this run
+    this.gaugeScores = [];    // 0..1 accuracy for each graded skill step
+    this.holdBreaks = 0;      // timed steps released early
+    this.earned = [];         // per-sim badges and challenges cleared this run
+  }
+
+  /** Mean accuracy across graded steps, 0 when the run had none. */
+  get precision() {
+    if (!this.gaugeScores.length) return 0;
+    return this.gaugeScores.reduce((a, b) => a + b, 0) / this.gaugeScores.length;
   }
 
   get steps() { return this.room.steps; }
@@ -145,7 +187,24 @@ export class Session {
     this.holdFor = 0;
     this.holding = false;
     this.gauge = null;
+    this.track = null;
     if (!step) return;
+    if (step.kind === "track") {
+      const cfg = step.track ?? {};
+      this.track = {
+        v: cfg.start ?? 0.1,
+        green: cfg.green ?? [0.42, 0.62],
+        rise: cfg.rise ?? 0.62,
+        fall: cfg.fall ?? 0.46,
+        drift: cfg.drift ?? 0.1,
+        wobble: Math.random() * 6,
+        inBand: 0,
+        dropouts: 0,
+        wasIn: false,
+        label: cfg.label ?? "",
+        readout: cfg.readout ?? null,
+      };
+    }
     if (step.kind === "gauge") {
       this.gauge = {
         t: 0, dir: 1,
@@ -171,10 +230,12 @@ export class Session {
       return this.wrong(hitId, "Set the gauge first, then commit the reading.");
     }
 
-    if (step.kind === "hold") {
-      if (hitId === step.target) return null; // hold handled by press/release
+    if (step.kind === "hold" || step.kind === "track") {
+      if (hitId === step.target) return null; // driven by press and release
       return this.wrong(hitId);
     }
+
+    if (step.kind === "find") return this.selectInSequence(hitId, { ...step, anyOrder: true });
 
     if (hitId === step.target) return this.advance(STEP_POINTS);
     return this.wrong(hitId);
@@ -196,12 +257,17 @@ export class Session {
       const done = this.sequence.length === step.targets.length;
       if (done) return this.advance(STEP_POINTS + 20 * (step.targets.length - 1));
       Sfx.tick();
+      const note = step.itemNotes?.[hitId];
       const feedback = {
         kind: "partial",
-        text: `${this.sequence.length}/${step.targets.length} — ${step.itemNames?.[hitId] ?? hitId}. Keep going.`,
+        text: `<b>${this.sequence.length}/${step.targets.length} — ${step.itemNames?.[hitId] ?? hitId}.</b>` +
+          (note ? `<br>${note}` : " Keep going."),
       };
       this.hooks.onFeedback?.(feedback, this);
       return feedback;
+    }
+    if (step.decoyNotes?.[hitId]) {
+      return this.wrong(hitId, step.decoyNotes[hitId]);
     }
     if (step.targets.includes(hitId)) {
       return this.wrong(hitId, step.outOfOrderNote
@@ -212,10 +278,13 @@ export class Session {
 
   /** Called each frame while a 'hold' step's target is held. */
   setHolding(on) {
-    if (!this.step || this.step.kind !== "hold") return;
+    if (!this.step) return;
+    if (this.step.kind === "track") { this.holding = on; return; }
+    if (this.step.kind !== "hold") return;
     this.holding = on;
     if (!on && this.holdFor > 0 && this.holdFor < this.step.seconds) {
       this.holdFor = 0;
+      this.holdBreaks += 1;
       const feedback = { kind: "warn", text: `${this.step.holdBreakNote ?? "Released too early — start the full duration again."}` };
       Sfx.bad();
       this.hooks.onFeedback?.(feedback, this);
@@ -236,6 +305,7 @@ export class Session {
     const centre = (lo + hi) / 2;
     const halfBand = (hi - lo) / 2;
     const accuracy = 1 - Math.abs(t - centre) / halfBand;      // 1 at centre, 0 at edge
+    this.gaugeScores.push(Math.max(0, accuracy));
     const bonus = Math.round(50 * Math.max(0, accuracy));
     return this.advance(STEP_POINTS + bonus, bonus >= 40 ? "Dead centre." : null);
   }
@@ -290,7 +360,7 @@ export class Session {
       text: `<b>−${penalty} — ${label}</b><br>${body}`,
       hazard: !!hazard,
     };
-    if (hazard) { Sfx.alarm(); this.hooks.onHazard?.(hitId, this); } else Sfx.bad();
+    if (hazard) { this.hazardHits += 1; Sfx.alarm(); this.hooks.onHazard?.(hitId, this); } else Sfx.bad();
     this.hooks.onFeedback?.(feedback, this);
     return feedback;
   }
@@ -305,6 +375,30 @@ export class Session {
       this.gauge.t += this.gauge.dir * this.gauge.speed * dt;
       if (this.gauge.t >= 1) { this.gauge.t = 1; this.gauge.dir = -1; }
       if (this.gauge.t <= 0) { this.gauge.t = 0; this.gauge.dir = 1; }
+    }
+
+    if (step.kind === "track" && this.track) {
+      const tr = this.track;
+      // Press to drive the value up, release to let it fall, with a slow drift
+      // the learner has to correct for — the point is holding it steady.
+      tr.v += (this.holding ? tr.rise : -tr.fall) * dt;
+      tr.v += Math.sin((this.elapsed + tr.wobble) * 1.7) * tr.drift * dt;
+      tr.v = Math.max(0, Math.min(1, tr.v));
+      const inside = tr.v >= tr.green[0] && tr.v <= tr.green[1];
+      if (inside) {
+        tr.inBand += dt;
+        if (!tr.wasIn) Sfx.tick();
+      } else {
+        if (tr.wasIn) tr.dropouts += 1;
+        tr.inBand = Math.max(0, tr.inBand - dt * 0.8);
+      }
+      tr.wasIn = inside;
+      if (tr.inBand >= step.seconds) {
+        const clean = Math.max(0, 40 - tr.dropouts * 12);
+        this.advance(STEP_POINTS + 20 + clean,
+          tr.dropouts === 0 ? "Held it clean the whole way." : null);
+      }
+      return;
     }
 
     if (step.kind === "hold" && this.holding) {
@@ -328,9 +422,22 @@ export class Session {
     this.stars = this.errors === 0 && this.elapsed <= par ? 3
       : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
     if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
+
+    // Each simulator judges its own badges and challenges against this run.
+    const system = this.room.game;
+    if (system) {
+      for (const award of [...(system.badges ?? []), ...(system.challenges ?? [])]) {
+        try {
+          if (award.test?.(this)) this.earned.push(award.id);
+        } catch (_) { /* a broken predicate must not break the run */ }
+      }
+    }
+
     const summary = Progress.record(this.room.id, {
-      score: this.score, stars: this.stars, seconds: Math.round(this.elapsed), badge: this.badgeEarned,
+      score: this.score, stars: this.stars, seconds: Math.round(this.elapsed),
+      badge: this.badgeEarned, earned: this.earned,
     });
+    this.rank = Progress.simRank(this.room.id, system);
     Sfx.great();
     this.hooks.onFinish?.(this, summary);
   }

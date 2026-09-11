@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingPanel, counter, cabinet, particles, markInteractive, mat, HUD,
-} from "../kit.js";
+} from "../../shared/kit.js";
 
 // Room 01 — Electrical worker: energy isolation and absence-of-voltage verification.
 // Upgraded from the Unity project's Electrical Maintenance site (open panel,
