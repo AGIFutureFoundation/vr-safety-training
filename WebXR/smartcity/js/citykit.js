@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  mat, HUD, markInteractive,
+  mat, HUD, markInteractive, gradientFill, noiseTexture, grimeOverlay,
 } from "../../shared/kit.js";
 
 // SmartCity.X asset kit — the pieces every station is assembled from.
@@ -76,6 +76,21 @@ export function holoTag(parent, text, x, y, z, o = {}) {
   }, { px: 320, glow: true, ei: 0.8, transparent: true });
 }
 
+/**
+ * A thin transparent decal laid over a flat-coloured surface to add grain and grime
+ * without hiding the material colour underneath — an overlay, not a face.
+ */
+function weatherPanel(parent, w, h, x, y, z, o = {}) {
+  return decal(parent, w, h, x, y, z, (g, cw, ch) => {
+    g.clearRect(0, 0, cw, ch);
+    noiseTexture(g, cw, ch, { density: o.density ?? 650, alpha: o.alpha ?? 0.05, tone: o.tone ?? "8,8,8" });
+    grimeOverlay(g, cw, ch, {
+      blotches: o.blotches ?? 3, streaks: o.streaks ?? 2,
+      tone: o.tone ?? "12,10,6", alpha: o.grime ?? 0.2,
+    });
+  }, { px: o.px ?? 192, transparent: true, rough: 0.95 });
+}
+
 /** Street / plant equipment cabinet with a hinged door, louvres and plinth. */
 export function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
@@ -91,6 +106,10 @@ export function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   box(door, w - 0.03, h - 0.06, 0.022, (w - 0.03) / 2, 0, 0.012, o.doorColor ?? shell,
     { rough: 0.45, metal: 0.55 });
   box(door, 0.03, 0.13, 0.03, w - 0.09, 0, 0.03, CITY.steel, { rough: 0.3, metal: 0.9 });
+  if (o.weathered !== false) {
+    weatherPanel(door, (w - 0.03) * 0.94, (h - 0.06) * 0.94, (w - 0.03) / 2, 0, 0.024,
+      { tone: "10,9,6", alpha: 0.045, grime: 0.16 });
+  }
   if (o.open) door.rotation.y = o.open;
   g.userData.door = door;
   return g;
@@ -112,7 +131,7 @@ export function rackUnit(parent, y, label, o = {}) {
   const g = group(parent, 0, y, 0.26);
   box(g, 0.5, o.h ?? 0.09, 0.5, 0, 0, -0.26, o.color ?? 0x22282e, { rough: 0.5, metal: 0.4 });
   decal(g, 0.46, (o.h ?? 0.09) * 0.7, 0, 0, 0.001,
-    signFace(label, { bg: o.bg ?? "#161c22", accent: o.css ?? CITY.accentCss, scale: 0.55 }),
+    signFace(label, { bg: o.bg ?? "#161c22", accent: o.css ?? CITY.accentCss, scale: 0.55, worn: true }),
     { px: 384, glow: !!o.glow, ei: 0.6 });
   for (const sx of [-1, 1]) {
     ball(g, 0.008, sx * 0.2, (o.h ?? 0.09) * 0.28, 0.004, o.lampColor ?? CITY.good,
@@ -172,6 +191,24 @@ export function cylinderTank(parent, x, z, color, o = {}) {
     cyl(g, 0.035, 0.035, 0.014, 0.07, 1.09, 0, 0xdfe4e8, { rough: 0.3, metal: 0.4, seg: 14 })
       .rotation.z = Math.PI / 2;
   }
+  if (o.plate !== false) {
+    const plate = group(g, 0.107, o.plateY ?? 0.5, 0, Math.PI / 2);
+    decal(plate, o.plateW ?? 0.15, o.plateH ?? 0.19, 0, 0, 0.001, (cx, cw, ch) => {
+      gradientFill(cx, cw, ch, [[0, "#eee7d6"], [1, "#cfc6ab"]]);
+      noiseTexture(cx, cw, ch, { density: 420, alpha: 0.06, tone: "70,58,32" });
+      grimeOverlay(cx, cw, ch, { blotches: 2, streaks: 2, tone: "55,44,24", alpha: 0.2 });
+      cx.strokeStyle = "#3a4450"; cx.lineWidth = Math.max(2, ch * 0.02);
+      cx.strokeRect(ch * 0.06, ch * 0.06, cw - ch * 0.12, ch - ch * 0.12);
+      cx.fillStyle = "#22303c";
+      cx.font = `700 ${Math.round(ch * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
+      cx.textAlign = "center"; cx.textBaseline = "middle";
+      cx.fillText(o.plateLabel ?? "CYLINDER", cw / 2, ch * 0.22);
+      cx.fillStyle = "#5a4a2a";
+      cx.font = `${Math.round(ch * 0.08)}px Arial, sans-serif`;
+      (o.plateLines ?? ["INSPECT BEFORE USE", "SEE TAG FOR CONTENTS"]).forEach((line, i) =>
+        cx.fillText(line, cw / 2, ch * 0.42 + i * ch * 0.11));
+    }, { px: 160, rough: 0.75 });
+  }
   return g;
 }
 
@@ -212,7 +249,7 @@ export function lockTag(parent, x, y, z, o = {}) {
   torus(g, 0.022, 0.006, 0, 0.024, 0, 0xc0c6cc, { rough: 0.25, metal: 0.95 }).rotation.y = Math.PI / 2;
   box(g, 0.03, 0.04, 0.017, 0, 0, 0, o.color ?? 0xd8232a, { rough: 0.5 });
   const tag = decal(g, 0.075, 0.1, 0, -0.085, 0.008,
-    paperFace("DANGER", o.lines ?? ["DO NOT", "OPERATE"], { bg: "#f4e9d8", band: "#b81410" }), { px: 192 });
+    paperFace("DANGER", o.lines ?? ["DO NOT", "OPERATE"], { bg: "#f4e9d8", band: "#b81410", worn: true }), { px: 192 });
   tag.rotation.z = o.tilt ?? 0.07;
   return g;
 }
@@ -264,25 +301,56 @@ export function standingFigure(parent, x, z, o = {}) {
   return g;
 }
 
-/** Distant skyline for the non-AR stage: a silhouette ring, never lit. */
+// Discrete tone/finish sets — reused across towers so the material cache stays small
+// instead of minting one unique material per random roughness value.
+const SKY_TONES = [0x141b23, 0x171f2a, 0x11161d, 0x1a2029, 0x0f151c, 0x1c2733];
+const SKY_ROUGH = [0.82, 0.88, 0.94, 1.0];
+const SKY_WINDOW = [0x4fd1ff, 0x7ee6ff, 0xffd28a, 0xa079ff];
+
+/**
+ * Distant skyline for the non-AR stage: a silhouette ring, never lit by scene lights.
+ * Each tower gets its own height/tone/window-band treatment so the ring reads as a
+ * real mixed-use district rather than a repeated block; a handful of rooftops carry a
+ * slow-pulsing beacon (returned in `userData.beacons` for the caller to animate).
+ */
 export function skyline(parent, o = {}) {
   const g = group(parent);
   const count = o.count ?? 54;
+  const beacons = [];
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2 + Math.random() * 0.05;
     const r = 34 + Math.random() * 16;
-    const h = 5 + Math.random() * 22;
+    const h = 5 + Math.random() * 24;
     const w = 3 + Math.random() * 5;
+    const tone = SKY_TONES[i % SKY_TONES.length];
+    const rough = SKY_ROUGH[i % SKY_ROUGH.length];
+    const metal = i % 5 === 0 ? 0.3 : 0;
     const tower = box(g, w, h, w, Math.sin(a) * r, h / 2 - 1.5, Math.cos(a) * r,
-      0x141b23, { rough: 1, cast: false, receive: false });
+      tone, { rough, metal, cast: false, receive: false });
     tower.rotation.y = a;
-    if (Math.random() < 0.55) {
-      const lit = box(g, w * 0.7, 0.06, 0.05, Math.sin(a) * r, h * (0.4 + Math.random() * 0.5) - 1.5,
-        Math.cos(a) * r + w / 2, 0x4fd1ff,
-        { emissive: 0x4fd1ff, ei: 1.4 + Math.random(), rough: 0.4, cast: false, receive: false });
+    const bands = 1 + (i % 3 === 0 ? 1 : 0);
+    for (let b = 0; b < bands; b++) {
+      if ((i + b * 7) % 5 === 0) continue; // leave some floors dark
+      const wt = SKY_WINDOW[(i + b) % SKY_WINDOW.length];
+      const lit = box(g, w * (0.55 + ((i + b) % 4) * 0.06), 0.06, 0.05,
+        Math.sin(a) * r, h * (0.25 + b * 0.32 + ((i * 7 + b) % 5) * 0.05) - 1.5,
+        Math.cos(a) * r + w / 2, wt,
+        { emissive: wt, ei: 1.3 + ((i + b) % 4) * 0.35, rough: 0.4, cast: false, receive: false });
       lit.rotation.y = a;
     }
+    if (i % 9 === 0) {
+      const beacon = ball(g, 0.09, Math.sin(a) * r, h - 1.5 + 0.12, Math.cos(a) * r, 0xff5f5f,
+        { emissive: 0xff5f5f, ei: 1.6, rough: 0.3, cast: false });
+      // Give each beacon its own material instance (cheap — a handful of towers only)
+      // so the pulse below can stagger per-beacon instead of every one sharing (and
+      // fighting over) the single cached material `mat()` would otherwise reuse.
+      beacon.material = beacon.material.clone();
+      beacon.material.userData.ownMaterial = true; // disposeTree() should free this clone
+      beacon.userData.phase = (i / count) * Math.PI * 2;
+      beacons.push(beacon);
+    }
   }
+  g.userData.beacons = beacons;
   return g;
 }
 

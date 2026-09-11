@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SmartCiti.X AR Training Simulators</title>
+<title>SmartCiti.X ~VR Simulators (Powered by AGI Corp)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
@@ -25,6 +25,8 @@
          padding:9px 14px; pointer-events:none; backdrop-filter:blur(4px); }
   .eyebrow{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.16em;
             text-transform:uppercase; color:var(--muted); }
+  .brandline{ font-family:var(--cond); font-weight:600; font-size:10.5px; letter-spacing:.2em;
+              text-transform:uppercase; color:var(--accent); opacity:.85; margin:0 0 4px; }
   #hud-mission{ top:14px; left:14px; max-width:min(52vw,440px); border-left:3px solid var(--accent); }
   #hud-room{ font-family:var(--cond); font-weight:600; font-size:20px; letter-spacing:.04em; text-transform:uppercase; }
   #hud-metrics{ top:14px; right:14px; text-align:right; min-width:150px; }
@@ -155,6 +157,7 @@
 
 <div class="overlay" id="intro">
   <div class="card">
+    <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp)</div>
     <div class="eyebrow">SmartCiti.X · ten districts, ten certifications</div>
     <h1>AR Training Simulators</h1>
     <p class="lead">Ten deep-skill simulators, each its own gamified system with its own rank ladder,
@@ -189,6 +192,7 @@
     nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
     Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
     display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
+    <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp.</p>
   </div>
 </div>
 
@@ -389,11 +393,81 @@ function repaint(mesh, draw) {
   texture.needsUpdate = true;
 }
 
+// ---------------------------------------------------------------- surface texture helpers
+
+/**
+ * Flat gradient fill for a canvas 2D context. Falls back to a solid fill using the
+ * gradient's last stop when the context has no real gradient support (e.g. the
+ * headless mock used by the CI content checkers), so callers never need to special-case it.
+ */
+function gradientFill(g, w, h, stops, o = {}) {
+  let grad = null;
+  try {
+    grad = o.radial
+      ? g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) / 2)
+      : g.createLinearGradient(0, 0, o.horizontal ? w : 0, o.horizontal ? 0 : h);
+  } catch { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    for (const [stop, color] of stops) grad.addColorStop(stop, color);
+    g.fillStyle = grad;
+  } else {
+    g.fillStyle = stops[stops.length - 1][1];
+  }
+  g.fillRect(0, 0, w, h);
+}
+
+/** Cheap grain: scattered translucent specks that break up a flat canvas fill. */
+function noiseTexture(g, w, h, o = {}) {
+  const count = Math.round((o.density ?? 900) * (w * h) / (512 * 512));
+  const alpha = o.alpha ?? 0.05;
+  const tone = o.tone ?? "0,0,0";
+  for (let i = 0; i < count; i++) {
+    g.fillStyle = `rgba(${tone},${(Math.random() * alpha).toFixed(3)})`;
+    g.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+  }
+}
+
+/**
+ * Weathering pass: soft grime blotches and drip streaks toward the lower half of a
+ * panel. Silently draws nothing where the 2D context has no gradient support, rather
+ * than throwing, so it is safe to call from code paths the headless checkers exercise.
+ */
+function grimeOverlay(g, w, h, o = {}) {
+  const tone = o.tone ?? "18,14,9";
+  const alpha = o.alpha ?? 0.22;
+  for (let i = 0; i < (o.blotches ?? 4); i++) {
+    const x = Math.random() * w, y = h * (0.5 + Math.random() * 0.5);
+    const r = Math.min(w, h) * (0.18 + Math.random() * 0.22);
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  for (let i = 0; i < (o.streaks ?? 3); i++) {
+    const x = w * (0.1 + Math.random() * 0.8);
+    const len = h * (0.25 + Math.random() * 0.45);
+    let grad = null;
+    try { grad = g.createLinearGradient(x, 0, x, len); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha * 0.8})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - (o.streakWidth ?? 2), 0, o.streakWidth ?? 2, len);
+  }
+}
+
 /** Standard sign face: dark plate, accent rule, centred caps text. */
 function signFace(text, o = {}) {
   return (g, w, h) => {
     g.fillStyle = o.bg ?? "#0b141d";
     g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 500, alpha: 0.05, tone: "0,0,0" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 2, alpha: 0.16 });
+    }
     g.fillStyle = o.accent ?? HUD.accent;
     g.fillRect(0, h - Math.max(3, h * 0.07), w, Math.max(3, h * 0.07));
     g.fillStyle = o.fg ?? HUD.text;
@@ -411,6 +485,10 @@ function paperFace(title, rows, o = {}) {
   return (g, w, h) => {
     g.fillStyle = o.bg ?? "#f2efe6";
     g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 350, alpha: 0.05, tone: o.wornTone ?? "90,74,46" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 1, tone: o.wornTone ?? "120,96,52", alpha: 0.16 });
+    }
     g.fillStyle = o.band ?? "#22303c";
     g.fillRect(0, 0, w, h * 0.16);
     g.fillStyle = "#ffffff";
@@ -1169,6 +1247,21 @@ function holoTag(parent, text, x, y, z, o = {}) {
   }, { px: 320, glow: true, ei: 0.8, transparent: true });
 }
 
+/**
+ * A thin transparent decal laid over a flat-coloured surface to add grain and grime
+ * without hiding the material colour underneath — an overlay, not a face.
+ */
+function weatherPanel(parent, w, h, x, y, z, o = {}) {
+  return decal(parent, w, h, x, y, z, (g, cw, ch) => {
+    g.clearRect(0, 0, cw, ch);
+    noiseTexture(g, cw, ch, { density: o.density ?? 650, alpha: o.alpha ?? 0.05, tone: o.tone ?? "8,8,8" });
+    grimeOverlay(g, cw, ch, {
+      blotches: o.blotches ?? 3, streaks: o.streaks ?? 2,
+      tone: o.tone ?? "12,10,6", alpha: o.grime ?? 0.2,
+    });
+  }, { px: o.px ?? 192, transparent: true, rough: 0.95 });
+}
+
 /** Street / plant equipment cabinet with a hinged door, louvres and plinth. */
 function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
@@ -1184,6 +1277,10 @@ function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   box(door, w - 0.03, h - 0.06, 0.022, (w - 0.03) / 2, 0, 0.012, o.doorColor ?? shell,
     { rough: 0.45, metal: 0.55 });
   box(door, 0.03, 0.13, 0.03, w - 0.09, 0, 0.03, CITY.steel, { rough: 0.3, metal: 0.9 });
+  if (o.weathered !== false) {
+    weatherPanel(door, (w - 0.03) * 0.94, (h - 0.06) * 0.94, (w - 0.03) / 2, 0, 0.024,
+      { tone: "10,9,6", alpha: 0.045, grime: 0.16 });
+  }
   if (o.open) door.rotation.y = o.open;
   g.userData.door = door;
   return g;
@@ -1205,7 +1302,7 @@ function rackUnit(parent, y, label, o = {}) {
   const g = group(parent, 0, y, 0.26);
   box(g, 0.5, o.h ?? 0.09, 0.5, 0, 0, -0.26, o.color ?? 0x22282e, { rough: 0.5, metal: 0.4 });
   decal(g, 0.46, (o.h ?? 0.09) * 0.7, 0, 0, 0.001,
-    signFace(label, { bg: o.bg ?? "#161c22", accent: o.css ?? CITY.accentCss, scale: 0.55 }),
+    signFace(label, { bg: o.bg ?? "#161c22", accent: o.css ?? CITY.accentCss, scale: 0.55, worn: true }),
     { px: 384, glow: !!o.glow, ei: 0.6 });
   for (const sx of [-1, 1]) {
     ball(g, 0.008, sx * 0.2, (o.h ?? 0.09) * 0.28, 0.004, o.lampColor ?? CITY.good,
@@ -1265,6 +1362,24 @@ function cylinderTank(parent, x, z, color, o = {}) {
     cyl(g, 0.035, 0.035, 0.014, 0.07, 1.09, 0, 0xdfe4e8, { rough: 0.3, metal: 0.4, seg: 14 })
       .rotation.z = Math.PI / 2;
   }
+  if (o.plate !== false) {
+    const plate = group(g, 0.107, o.plateY ?? 0.5, 0, Math.PI / 2);
+    decal(plate, o.plateW ?? 0.15, o.plateH ?? 0.19, 0, 0, 0.001, (cx, cw, ch) => {
+      gradientFill(cx, cw, ch, [[0, "#eee7d6"], [1, "#cfc6ab"]]);
+      noiseTexture(cx, cw, ch, { density: 420, alpha: 0.06, tone: "70,58,32" });
+      grimeOverlay(cx, cw, ch, { blotches: 2, streaks: 2, tone: "55,44,24", alpha: 0.2 });
+      cx.strokeStyle = "#3a4450"; cx.lineWidth = Math.max(2, ch * 0.02);
+      cx.strokeRect(ch * 0.06, ch * 0.06, cw - ch * 0.12, ch - ch * 0.12);
+      cx.fillStyle = "#22303c";
+      cx.font = `700 ${Math.round(ch * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
+      cx.textAlign = "center"; cx.textBaseline = "middle";
+      cx.fillText(o.plateLabel ?? "CYLINDER", cw / 2, ch * 0.22);
+      cx.fillStyle = "#5a4a2a";
+      cx.font = `${Math.round(ch * 0.08)}px Arial, sans-serif`;
+      (o.plateLines ?? ["INSPECT BEFORE USE", "SEE TAG FOR CONTENTS"]).forEach((line, i) =>
+        cx.fillText(line, cw / 2, ch * 0.42 + i * ch * 0.11));
+    }, { px: 160, rough: 0.75 });
+  }
   return g;
 }
 
@@ -1305,7 +1420,7 @@ function lockTag(parent, x, y, z, o = {}) {
   torus(g, 0.022, 0.006, 0, 0.024, 0, 0xc0c6cc, { rough: 0.25, metal: 0.95 }).rotation.y = Math.PI / 2;
   box(g, 0.03, 0.04, 0.017, 0, 0, 0, o.color ?? 0xd8232a, { rough: 0.5 });
   const tag = decal(g, 0.075, 0.1, 0, -0.085, 0.008,
-    paperFace("DANGER", o.lines ?? ["DO NOT", "OPERATE"], { bg: "#f4e9d8", band: "#b81410" }), { px: 192 });
+    paperFace("DANGER", o.lines ?? ["DO NOT", "OPERATE"], { bg: "#f4e9d8", band: "#b81410", worn: true }), { px: 192 });
   tag.rotation.z = o.tilt ?? 0.07;
   return g;
 }
@@ -1357,25 +1472,56 @@ function standingFigure(parent, x, z, o = {}) {
   return g;
 }
 
-/** Distant skyline for the non-AR stage: a silhouette ring, never lit. */
+// Discrete tone/finish sets — reused across towers so the material cache stays small
+// instead of minting one unique material per random roughness value.
+const SKY_TONES = [0x141b23, 0x171f2a, 0x11161d, 0x1a2029, 0x0f151c, 0x1c2733];
+const SKY_ROUGH = [0.82, 0.88, 0.94, 1.0];
+const SKY_WINDOW = [0x4fd1ff, 0x7ee6ff, 0xffd28a, 0xa079ff];
+
+/**
+ * Distant skyline for the non-AR stage: a silhouette ring, never lit by scene lights.
+ * Each tower gets its own height/tone/window-band treatment so the ring reads as a
+ * real mixed-use district rather than a repeated block; a handful of rooftops carry a
+ * slow-pulsing beacon (returned in `userData.beacons` for the caller to animate).
+ */
 function skyline(parent, o = {}) {
   const g = group(parent);
   const count = o.count ?? 54;
+  const beacons = [];
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2 + Math.random() * 0.05;
     const r = 34 + Math.random() * 16;
-    const h = 5 + Math.random() * 22;
+    const h = 5 + Math.random() * 24;
     const w = 3 + Math.random() * 5;
+    const tone = SKY_TONES[i % SKY_TONES.length];
+    const rough = SKY_ROUGH[i % SKY_ROUGH.length];
+    const metal = i % 5 === 0 ? 0.3 : 0;
     const tower = box(g, w, h, w, Math.sin(a) * r, h / 2 - 1.5, Math.cos(a) * r,
-      0x141b23, { rough: 1, cast: false, receive: false });
+      tone, { rough, metal, cast: false, receive: false });
     tower.rotation.y = a;
-    if (Math.random() < 0.55) {
-      const lit = box(g, w * 0.7, 0.06, 0.05, Math.sin(a) * r, h * (0.4 + Math.random() * 0.5) - 1.5,
-        Math.cos(a) * r + w / 2, 0x4fd1ff,
-        { emissive: 0x4fd1ff, ei: 1.4 + Math.random(), rough: 0.4, cast: false, receive: false });
+    const bands = 1 + (i % 3 === 0 ? 1 : 0);
+    for (let b = 0; b < bands; b++) {
+      if ((i + b * 7) % 5 === 0) continue; // leave some floors dark
+      const wt = SKY_WINDOW[(i + b) % SKY_WINDOW.length];
+      const lit = box(g, w * (0.55 + ((i + b) % 4) * 0.06), 0.06, 0.05,
+        Math.sin(a) * r, h * (0.25 + b * 0.32 + ((i * 7 + b) % 5) * 0.05) - 1.5,
+        Math.cos(a) * r + w / 2, wt,
+        { emissive: wt, ei: 1.3 + ((i + b) % 4) * 0.35, rough: 0.4, cast: false, receive: false });
       lit.rotation.y = a;
     }
+    if (i % 9 === 0) {
+      const beacon = ball(g, 0.09, Math.sin(a) * r, h - 1.5 + 0.12, Math.cos(a) * r, 0xff5f5f,
+        { emissive: 0xff5f5f, ei: 1.6, rough: 0.3, cast: false });
+      // Give each beacon its own material instance (cheap — a handful of towers only)
+      // so the pulse below can stagger per-beacon instead of every one sharing (and
+      // fighting over) the single cached material `mat()` would otherwise reuse.
+      beacon.material = beacon.material.clone();
+      beacon.material.userData.ownMaterial = true; // disposeTree() should free this clone
+      beacon.userData.phase = (i / count) * Math.PI * 2;
+      beacons.push(beacon);
+    }
   }
+  g.userData.beacons = beacons;
   return g;
 }
 
@@ -1387,6 +1533,52 @@ function reg(hits, obj, id) {
 
 
 /* ===== smartcity/js/stage.js ===== */
+// Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
+// simulator brand; AGI Corp is the umbrella brand it is built and run under.
+const MARQUEE_LINE = "SMARTCITI.X ~VR SIMULATORS";
+const MARQUEE_SUB = "POWERED BY AGI CORP";
+
+/** Flagship entrance marquee: two support posts, a lit beam, a canvas wordmark and a
+ *  small rotating holo-emblem. Built once; the returned refs are cheap to animate
+ *  per-frame (no allocations, just property tweaks on cached materials). */
+function buildMarquee(g) {
+  const spanW = 6.2, postH = 4.6, postR = 0.16, mz = -9.6;
+  const marquee = group(g, 0, 0, mz);
+  for (const sx of [-1, 1]) {
+    cyl(marquee, postR, postR * 1.15, postH, sx * spanW / 2, postH / 2, 0, 0x232b33, { rough: 0.4, metal: 0.65, seg: 14 });
+    box(marquee, postR * 2.4, 0.22, postR * 2.4, sx * spanW / 2, 0.11, 0, 0x1a2129, { rough: 0.6, metal: 0.4 });
+  }
+  box(marquee, spanW + 0.5, 0.5, 0.4, 0, postH + 0.05, 0, 0x171f28, { rough: 0.45, metal: 0.55 });
+  const trim = box(marquee, spanW + 0.3, 0.03, 0.05, 0, postH - 0.22, 0.21, CITY.accent,
+    { emissive: CITY.accent, ei: 1.6, rough: 0.4, cast: false });
+
+  const sign = decal(marquee, spanW - 0.4, 1.55, 0, postH - 1.0, 0.22, (cx, cw, ch) => {
+    gradientFill(cx, cw, ch, [[0, "#04141c"], [1, "#0b2733"]]);
+    noiseTexture(cx, cw, ch, { density: 260, alpha: 0.03, tone: "255,255,255" });
+    cx.fillStyle = "#8fd8ff";
+    cx.font = `600 ${Math.round(ch * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
+    cx.textAlign = "center"; cx.textBaseline = "middle";
+    cx.fillText(MARQUEE_SUB, cw / 2, ch * 0.18);
+    cx.fillStyle = "#eaf6fb";
+    cx.font = `700 ${Math.round(ch * 0.36)}px 'Barlow Condensed', Arial, sans-serif`;
+    cx.fillText(MARQUEE_LINE, cw / 2, ch * 0.55);
+    cx.fillStyle = CITY.accentCss;
+    cx.font = `500 ${Math.round(ch * 0.11)}px 'Barlow', Arial, sans-serif`;
+    cx.fillText("FLAGSHIP AR / VR TRAINING SIMULATORS", cw / 2, ch * 0.85);
+  }, { px: 1024, glow: true, ei: 0.85 });
+
+  const emblem = group(marquee, 0, postH + 0.85, 0);
+  torus(emblem, 0.4, 0.03, 0, 0, 0, CITY.accent, { emissive: CITY.accent, ei: 2, rough: 0.4, cast: false, seg: 8, seg2: 40 });
+  const ring2 = torus(emblem, 0.28, 0.02, 0, 0, 0, CITY.violet, { emissive: CITY.violet, ei: 1.8, rough: 0.4, cast: false, seg: 6, seg2: 32 });
+  ring2.rotation.x = Math.PI / 2.4;
+  ball(emblem, 0.09, 0, 0, 0, 0xeaf6fb, { emissive: 0xeaf6fb, ei: 2.4, rough: 0.3 });
+  const beam = new THREE.PointLight(CITY.accent, 2.2, 9, 2);
+  beam.position.set(0, postH - 0.4, 0.4);
+  marquee.add(beam);
+
+  return { sign, emblem, ring2, trim };
+}
+
 // The stage is everything that is *not* the training station.
 //
 // In AR the learner's own room is the environment, so the stage is almost
@@ -1450,7 +1642,8 @@ function buildStage(root, mode, scene) {
     g.add(light);
   }
 
-  skyline(g);
+  const sky = skyline(g);
+  const marquee = buildMarquee(g);
 
   const key = new THREE.DirectionalLight(0xbcd4e8, 0.55);
   key.position.set(4, 9, 5);
@@ -1461,7 +1654,21 @@ function buildStage(root, mode, scene) {
   g.add(key);
   g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.15));
 
-  return { root: g, ar, animate() {} };
+  const beacons = sky.userData.beacons ?? [];
+  return {
+    root: g, ar,
+    animate(t) {
+      // Cheap flagship motion: rotate the holo-emblem, pulse its inner ring and the
+      // marquee trim, and blink a handful of rooftop beacons — property tweaks on
+      // already-built meshes/materials, nothing allocated per frame.
+      marquee.emblem.rotation.y = t * 0.5;
+      marquee.ring2.rotation.z = t * 0.8;
+      marquee.trim.material.emissiveIntensity = 1.4 + Math.sin(t * 1.6) * 0.3;
+      for (const beacon of beacons) {
+        beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
+      }
+    },
+  };
 }
 
 
@@ -4991,17 +5198,24 @@ function buildHub(root, sims) {
   const pillar = group(root, 0, 0, 0);
   cyl(pillar, 0.4, 0.5, 0.9, 0, 0.5, 0, 0x1b232b, { rough: 0.45, metal: 0.4, seg: 24 });
   const beacon = ball(pillar, 0.1, 0, 1.35, 0, CITY.accent, { emissive: CITY.accent, ei: 2.6, rough: 0.3 });
-  const titleFace = decal(pillar, 1.3, 0.36, 0, 1.85, 0, () => {}, { px: 640, glow: true, ei: 0.7 });
+  // Slow-spinning holo halo around the beacon — flagship-plaza flourish, cheap to animate
+  // (one rotation.z tweak per frame, no new geometry or materials).
+  const halo = torus(pillar, 0.62, 0.012, 0, 1.35, 0, CITY.violet,
+    { emissive: CITY.violet, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 40 });
+  const titleFace = decal(pillar, 1.3, 0.5, 0, 1.95, 0, () => {}, { px: 640, glow: true, ei: 0.7 });
   function paintTitle() {
     repaint(titleFace, (g, w, h) => {
       g.fillStyle = "rgba(6,14,20,0.0)"; g.clearRect(0, 0, w, h);
-      g.fillStyle = "#4fd1ff";
-      g.font = `600 ${Math.round(h * 0.42)}px 'Barlow Condensed', Arial, sans-serif`;
+      g.fillStyle = "#8fd8ff";
+      g.font = `600 ${Math.round(h * 0.12)}px 'Barlow Condensed', Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle";
-      g.fillText("SMARTCITI.X", w / 2, h * 0.34);
+      g.fillText("POWERED BY AGI CORP", w / 2, h * 0.15);
+      g.fillStyle = "#4fd1ff";
+      g.font = `700 ${Math.round(h * 0.3)}px 'Barlow Condensed', Arial, sans-serif`;
+      g.fillText("SMARTCITI.X ~VR SIMULATORS", w / 2, h * 0.52);
       g.fillStyle = "#eaf6fb";
-      g.font = `500 ${Math.round(h * 0.2)}px 'Barlow', Arial, sans-serif`;
-      g.fillText("AR TRAINING SIMULATORS", w / 2, h * 0.72);
+      g.font = `500 ${Math.round(h * 0.14)}px 'Barlow', Arial, sans-serif`;
+      g.fillText("AR TRAINING SIMULATORS", w / 2, h * 0.82);
     });
   }
   paintTitle();
@@ -5103,6 +5317,8 @@ function buildHub(root, sims) {
     animate(t) {
       beacon.material.emissiveIntensity = 2.0 + Math.sin(t * 1.5) * 0.7;
       beacon.position.y = 1.35 + Math.sin(t * 0.8) * 0.04;
+      halo.rotation.z = t * 0.4;
+      halo.position.y = beacon.position.y;
     },
   };
 }

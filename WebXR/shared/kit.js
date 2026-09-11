@@ -181,11 +181,81 @@ export function repaint(mesh, draw) {
   texture.needsUpdate = true;
 }
 
+// ---------------------------------------------------------------- surface texture helpers
+
+/**
+ * Flat gradient fill for a canvas 2D context. Falls back to a solid fill using the
+ * gradient's last stop when the context has no real gradient support (e.g. the
+ * headless mock used by the CI content checkers), so callers never need to special-case it.
+ */
+export function gradientFill(g, w, h, stops, o = {}) {
+  let grad = null;
+  try {
+    grad = o.radial
+      ? g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) / 2)
+      : g.createLinearGradient(0, 0, o.horizontal ? w : 0, o.horizontal ? 0 : h);
+  } catch { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    for (const [stop, color] of stops) grad.addColorStop(stop, color);
+    g.fillStyle = grad;
+  } else {
+    g.fillStyle = stops[stops.length - 1][1];
+  }
+  g.fillRect(0, 0, w, h);
+}
+
+/** Cheap grain: scattered translucent specks that break up a flat canvas fill. */
+export function noiseTexture(g, w, h, o = {}) {
+  const count = Math.round((o.density ?? 900) * (w * h) / (512 * 512));
+  const alpha = o.alpha ?? 0.05;
+  const tone = o.tone ?? "0,0,0";
+  for (let i = 0; i < count; i++) {
+    g.fillStyle = `rgba(${tone},${(Math.random() * alpha).toFixed(3)})`;
+    g.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+  }
+}
+
+/**
+ * Weathering pass: soft grime blotches and drip streaks toward the lower half of a
+ * panel. Silently draws nothing where the 2D context has no gradient support, rather
+ * than throwing, so it is safe to call from code paths the headless checkers exercise.
+ */
+export function grimeOverlay(g, w, h, o = {}) {
+  const tone = o.tone ?? "18,14,9";
+  const alpha = o.alpha ?? 0.22;
+  for (let i = 0; i < (o.blotches ?? 4); i++) {
+    const x = Math.random() * w, y = h * (0.5 + Math.random() * 0.5);
+    const r = Math.min(w, h) * (0.18 + Math.random() * 0.22);
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  for (let i = 0; i < (o.streaks ?? 3); i++) {
+    const x = w * (0.1 + Math.random() * 0.8);
+    const len = h * (0.25 + Math.random() * 0.45);
+    let grad = null;
+    try { grad = g.createLinearGradient(x, 0, x, len); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha * 0.8})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - (o.streakWidth ?? 2), 0, o.streakWidth ?? 2, len);
+  }
+}
+
 /** Standard sign face: dark plate, accent rule, centred caps text. */
 export function signFace(text, o = {}) {
   return (g, w, h) => {
     g.fillStyle = o.bg ?? "#0b141d";
     g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 500, alpha: 0.05, tone: "0,0,0" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 2, alpha: 0.16 });
+    }
     g.fillStyle = o.accent ?? HUD.accent;
     g.fillRect(0, h - Math.max(3, h * 0.07), w, Math.max(3, h * 0.07));
     g.fillStyle = o.fg ?? HUD.text;
@@ -203,6 +273,10 @@ export function paperFace(title, rows, o = {}) {
   return (g, w, h) => {
     g.fillStyle = o.bg ?? "#f2efe6";
     g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 350, alpha: 0.05, tone: o.wornTone ?? "90,74,46" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 1, tone: o.wornTone ?? "120,96,52", alpha: 0.16 });
+    }
     g.fillStyle = o.band ?? "#22303c";
     g.fillRect(0, 0, w, h * 0.16);
     g.fillStyle = "#ffffff";

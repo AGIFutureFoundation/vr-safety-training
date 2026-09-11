@@ -21,17 +21,24 @@ export function buildHub(root, sims) {
   const pillar = group(root, 0, 0, 0);
   cyl(pillar, 0.4, 0.5, 0.9, 0, 0.5, 0, 0x1b232b, { rough: 0.45, metal: 0.4, seg: 24 });
   const beacon = ball(pillar, 0.1, 0, 1.35, 0, CITY.accent, { emissive: CITY.accent, ei: 2.6, rough: 0.3 });
-  const titleFace = decal(pillar, 1.3, 0.36, 0, 1.85, 0, () => {}, { px: 640, glow: true, ei: 0.7 });
+  // Slow-spinning holo halo around the beacon — flagship-plaza flourish, cheap to animate
+  // (one rotation.z tweak per frame, no new geometry or materials).
+  const halo = torus(pillar, 0.62, 0.012, 0, 1.35, 0, CITY.violet,
+    { emissive: CITY.violet, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 40 });
+  const titleFace = decal(pillar, 1.3, 0.5, 0, 1.95, 0, () => {}, { px: 640, glow: true, ei: 0.7 });
   function paintTitle() {
     repaint(titleFace, (g, w, h) => {
       g.fillStyle = "rgba(6,14,20,0.0)"; g.clearRect(0, 0, w, h);
-      g.fillStyle = "#4fd1ff";
-      g.font = `600 ${Math.round(h * 0.42)}px 'Barlow Condensed', Arial, sans-serif`;
+      g.fillStyle = "#8fd8ff";
+      g.font = `600 ${Math.round(h * 0.12)}px 'Barlow Condensed', Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle";
-      g.fillText("SMARTCITI.X", w / 2, h * 0.34);
+      g.fillText("POWERED BY AGI CORP", w / 2, h * 0.15);
+      g.fillStyle = "#4fd1ff";
+      g.font = `700 ${Math.round(h * 0.3)}px 'Barlow Condensed', Arial, sans-serif`;
+      g.fillText("SMARTCITI.X ~VR SIMULATORS", w / 2, h * 0.52);
       g.fillStyle = "#eaf6fb";
-      g.font = `500 ${Math.round(h * 0.2)}px 'Barlow', Arial, sans-serif`;
-      g.fillText("AR TRAINING SIMULATORS", w / 2, h * 0.72);
+      g.font = `500 ${Math.round(h * 0.14)}px 'Barlow', Arial, sans-serif`;
+      g.fillText("AR TRAINING SIMULATORS", w / 2, h * 0.82);
     });
   }
   paintTitle();
@@ -133,6 +140,8 @@ export function buildHub(root, sims) {
     animate(t) {
       beacon.material.emissiveIntensity = 2.0 + Math.sin(t * 1.5) * 0.7;
       beacon.position.y = 1.35 + Math.sin(t * 0.8) * 0.04;
+      halo.rotation.z = t * 0.4;
+      halo.position.y = beacon.position.y;
     },
   };
 }
