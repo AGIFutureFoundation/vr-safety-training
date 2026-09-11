@@ -1,7 +1,7 @@
 /**
  * Headless content check for SmartCiti.X.
  *
- * Builds all ten simulators against a stubbed three.js and DOM, then plays a
+ * Builds all twenty simulators against a stubbed three.js and DOM, then plays a
  * scripted perfect run through the real procedure engine for each. Same
  * contract as tools/check_trades.mjs: catches a step pointing at a missing
  * interactable, an unreachable hazard or lateNote, a throwing animate(), a
@@ -26,6 +26,11 @@ const MODULES = [
   "smartcity/js/sims/splice-node.js", "smartcity/js/sims/flight-deck.js",
   "smartcity/js/sims/track-access.js", "smartcity/js/sims/triage-point.js",
   "smartcity/js/sims/robot-cell.js", "smartcity/js/sims/chiller-plant.js",
+  "smartcity/js/sims/tower-climb.js", "smartcity/js/sims/steel-erector.js",
+  "smartcity/js/sims/crane-yard.js", "smartcity/js/sims/trench-box.js",
+  "smartcity/js/sims/boiler-room.js", "smartcity/js/sims/elevator-pit.js",
+  "smartcity/js/sims/abatement-chamber.js", "smartcity/js/sims/rigging-loft.js",
+  "smartcity/js/sims/line-truck.js", "smartcity/js/sims/dock-crane.js",
 ];
 
 const THREE_STUB = `
@@ -137,7 +142,9 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `
 export const SIMS = [SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
-  SIM_FLIGHT_DECK, SIM_TRACK_ACCESS, SIM_TRIAGE_POINT, SIM_ROBOT_CELL, SIM_CHILLER_PLANT];
+  SIM_FLIGHT_DECK, SIM_TRACK_ACCESS, SIM_TRIAGE_POINT, SIM_ROBOT_CELL, SIM_CHILLER_PLANT,
+  SIM_TOWER_CLIMB, SIM_STEEL_ERECTOR, SIM_CRANE_YARD, SIM_TRENCH_BOX, SIM_BOILER_ROOM,
+  SIM_ELEVATOR_PIT, SIM_ABATEMENT_CHAMBER, SIM_RIGGING_LOFT, SIM_LINE_TRUCK, SIM_DOCK_CRANE];
 export { Session, Progress, Sfx, THREE };
 `;
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\n${harness}`);
@@ -242,5 +249,5 @@ for (const sim of suite.SIMS) {
   }
 }
 
-console.log(failures ? `\n${failures} problem(s) found.` : "\nAll ten simulators pass.");
+console.log(failures ? `\n${failures} problem(s) found.` : `\nAll ${suite.SIMS.length} simulators pass.`);
 process.exit(failures ? 1 : 0);

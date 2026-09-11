@@ -3,15 +3,17 @@ import { box, cyl, ball, torus, group, decal, repaint, markInteractive, HUD } fr
 import { Progress } from "../../shared/game.js";
 import { CITY, holoTag } from "./citykit.js";
 
-// The district selector. Ten simulators, each its own gamified system, laid out
-// as kiosks around a plaza. Selecting one starts that simulator's own AR/VR/flat
-// session; the kiosk shows that system's own rank and currency, never a shared
-// platform score, because there isn't one.
+// The district selector. Twenty simulators, each its own gamified system, laid
+// out as kiosks around a plaza. Selecting one starts that simulator's own
+// AR/VR/flat session; the kiosk shows that system's own rank and currency,
+// never a shared platform score, because there isn't one.
 
 export function buildHub(root, sims) {
   const hits = {};
   const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
-  const R = 6.4;
+  // Scale the ring so kiosk spacing stays roughly constant as the roster grows —
+  // 6.4 was tuned for 10 kiosks; keep that floor so a smaller roster never crowds.
+  const R = Math.max(6.4, sims.length * 0.4);
 
   const floor = cyl(root, R + 1.8, R + 1.8, 0.2, 0, -0.1, 0, 0x0d1319, { rough: 0.4, metal: 0.2, seg: 64 });
   floor.receiveShadow = true;

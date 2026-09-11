@@ -1,0 +1,305 @@
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import {
+  box, cyl, slab, group, decal, repaint, signFace, particles,
+} from "../../../shared/kit.js";
+import {
+  stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument,
+  standingFigure, reg,
+} from "../citykit.js";
+import { simTitle, system, AWARD } from "../gamify.js";
+
+// SmartCiti.X~ Trench Box VR — its own gamified system: Ground Authority.
+// Excavation and shoring. A trench that looks stable is not the same thing as a
+// trench that has been tested and protected — the wall does not announce which
+// second it is going to let go.
+
+export const SIM_TRENCH_BOX = {
+  id: "trench-box",
+  index: "14",
+  domain: "Construction",
+  trade: "Laborer / excavation and shoring",
+  name: "Trench Box",
+  title: simTitle("Trench Box"),
+  tagline: "Excavation shoring: competent-person inspection, atmosphere testing and protective systems",
+  accent: 0x7ed321,
+  accentCss: "#7ed321",
+  parSeconds: 220,
+  badge: { id: "ground-authority", name: "Ground Authority", note: "Trench inspected, tested and protected before anyone steps below grade" },
+
+  game: system({
+    name: "Ground Authority",
+    currency: "TRENCH",
+    ranks: ["Laborer", "Excavation Hand", "Competent Person", "Shoring Lead", "Ground Authority Certified"],
+    badges: [
+      { id: "never-unshored", name: "Never Unshored", note: "No one enters before the protective system is placed", test: AWARD.safe },
+      { id: "atmosphere-first", name: "Atmosphere First", note: "Test the air before every entry, no exceptions", test: AWARD.stepClean("atmosphere-test") },
+      { id: "reading-true", name: "Reading True", note: "Hold the gas meter steady near band centre", test: AWARD.precise(0.7) },
+    ],
+    challenges: [
+      { id: "quick-dig", name: "Quick Dig", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
+      { id: "clean-cut", name: "Clean Cut", note: "Clean run, no corrections", test: AWARD.clean },
+      { id: "trench-streak", name: "Trench Streak", note: "Nine correct actions in a row", test: AWARD.streak(9) },
+    ],
+  }),
+
+  hazards: {
+    "unshored-entry": "You stepped into the trench before the protective system was placed. A cubic metre of soil weighs more than a small car, and an unprotected wall can let go with no warning at all before it happens.",
+    "spoil-too-close": "That spoil pile is sitting right on the edge. The extra surcharge load from a pile that close is exactly what pushes a marginal trench wall past the point it can hold itself up.",
+    "no-ladder-access": "There is no ladder within reach of this section. If the wall lets go or the atmosphere turns, everyone below grade needs an exit inside seconds, not a walk to find one.",
+    "untested-entry": "You are entering before the atmosphere has been tested. A trench can fill with oxygen-deficient or toxic air from a nicked utility line with no smell and no colour to warn you first.",
+  },
+
+  lateNotes: {
+    "trench-box": "The box goes in before anyone works below grade, not after the first assessment — it is the physical protection, not a formality that follows it.",
+    "ladder": "The ladder is placed before anyone climbs down, because egress needs to already exist for the worst five seconds of the shift, not just the calm ones.",
+  },
+
+  steps: [
+    {
+      id: "guard-site", kind: "sequence", anyOrder: true,
+      targets: ["cone-a", "cone-b", "trench-guard"],
+      itemNames: { "cone-a": "cone at the approach", "cone-b": "cone at the far end", "trench-guard": "trench guard rail" },
+      title: "Guard the excavation",
+      cue: "Cone both approaches and set the guard rail around the open trench.",
+      why: "An open trench next to foot traffic or vehicle movement is a hazard to everyone who is not on this crew, guarded before the first assessment even starts.",
+    },
+    {
+      id: "permit", kind: "select", target: "excavation-permit",
+      title: "Read the excavation permit",
+      cue: "Confirm the depth, soil classification and the protective system required.",
+      why: "The permit sets the protective system for this trench from its soil classification and depth, not from what looked adequate on the last job.",
+    },
+    {
+      id: "competent-inspect", kind: "select", target: "soil-inspect",
+      title: "Complete the competent-person inspection",
+      cue: "Inspect the trench walls and classify the soil before anyone approaches the edge.",
+      why: "A competent person checks the actual walls in front of them every day conditions could have changed — after rain, after a freeze-thaw, after any nearby vibration.",
+    },
+    {
+      id: "relocate-spoil", kind: "select", target: "spoil-pile",
+      title: "Set the spoil pile back from the edge",
+      cue: "Relocate the excavated soil to at least two feet from the trench edge.",
+      why: "Spoil piled at the edge adds surcharge load exactly where the wall is already carrying the most stress. Setting it back removes that extra weight from the equation entirely.",
+    },
+    {
+      id: "atmosphere-test", kind: "gauge", target: "gas-meter",
+      title: "Test the trench atmosphere",
+      cue: "Lower the meter into the trench and commit only inside the safe oxygen range.",
+      why: "Tested before every entry, not just the first one of the day — a nicked gas line or a change in groundwater can turn a trench's atmosphere hours after it was last checked.",
+      gauge: {
+        label: "TRENCH ATMOSPHERE — OXYGEN", speed: 0.6, green: [0.46, 0.6],
+        readout: (t) => `${(15 + t * 12).toFixed(1)} % O₂`,
+        missNote: "Outside the safe range. Ventilate and re-test before anyone goes below grade on this reading.",
+      },
+    },
+    {
+      id: "install-box", kind: "select", target: "trench-box",
+      title: "Place the trench box",
+      cue: "Lower the protective box into the excavation with the excavator.",
+      why: "The box is rated for this depth and soil class from the permit. It goes in before entry, not as a precaution added after someone is already working below grade.",
+    },
+    {
+      id: "place-ladder", kind: "select", target: "ladder",
+      title: "Place the access ladder",
+      cue: "Set the ladder inside the box, within 25 feet of anyone working.",
+      why: "A ladder within 25 feet means an exit is never more than a few steps away, in the trench or on the surface, in an emergency that gives you no time to walk further.",
+    },
+    {
+      id: "spotter-comm", kind: "hold", target: "spotter", seconds: 8,
+      title: "Maintain contact with the spotter",
+      cue: "Hold continuous contact with the surface spotter while work is underway below grade.",
+      why: "The spotter watches the walls, the spoil pile and the surrounding area the whole time you cannot, because your attention below grade is on the pipe, not the edge.",
+      holdBreakNote: "Contact with the spotter dropped. Re-establish it and hold it for the whole task — nobody works below grade unwatched.",
+    },
+    {
+      id: "pipe-work", kind: "select", target: "utility-line",
+      title: "Complete the utility line repair",
+      cue: "Make the repair to the utility line now that the trench is shored and tested.",
+      why: "The actual task only starts once guarding, inspection, atmosphere and shoring are all already in place — not run in parallel with them to save time.",
+    },
+    {
+      id: "exit-count", kind: "select", target: "headcount-board",
+      title: "Take a headcount before backfill",
+      cue: "Confirm everyone is out of the trench and account for tools before anything closes up.",
+      why: "A headcount against the crew list is what confirms the trench is actually empty — not an assumption because the ladder looked clear from the surface.",
+    },
+    {
+      id: "remove-box", kind: "select", target: "trench-box",
+      title: "Remove the protective box",
+      cue: "Lift the box clear once the crew is out and the trench is ready to close.",
+      why: "The box comes out only after everyone is confirmed clear of the trench — removing protection with anyone still below grade defeats the entire point of having placed it.",
+    },
+    {
+      id: "backfill", kind: "select", target: "backfill-panel",
+      title: "Backfill and compact",
+      cue: "Backfill the trench in lifts and compact each one before signing off.",
+      why: "Backfilling in compacted lifts is what keeps the surface from settling later and undoing the repair that was just made underneath it.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const g = group(root);
+    stationPad(g, 2.1, 0x7ed321);
+
+    // ------------------------------------------------------------------ ground
+    box(g, 4.6, 0.14, 4.6, 0, 0.07, 0, 0x6b5a3f, { rough: 0.95 });
+
+    // ------------------------------------------------------------------ the trench
+    const trench = group(g, -0.2, 0, -0.1);
+    const trenchW = 0.9, trenchL = 2.6, trenchD = 1.1;
+    box(trench, trenchW, 0.02, trenchL, 0, -trenchD / 2, 0, 0x2b2118, { rough: 0.98, cast: false });
+    for (const sx of [-1, 1]) {
+      box(trench, 0.06, trenchD, trenchL, sx * trenchW / 2, -trenchD / 2, 0, 0x453522, { rough: 0.96, cast: false });
+    }
+    const wallCrack = box(trench, 0.3, 0.4, 0.02, trenchW / 2 - 0.02, -0.5, 0.6, 0x2b2118, { rough: 0.98, cast: false });
+
+    // Protective box, hidden until placed.
+    const trenchBox = group(trench, 0, -trenchD / 2 + 0.06, 0);
+    for (const sx of [-1, 1]) {
+      box(trenchBox, 0.05, trenchD - 0.1, trenchL - 0.2, sx * (trenchW / 2 - 0.05), 0, 0, 0xd8b23a, { rough: 0.5, metal: 0.5 });
+    }
+    for (let i = 0; i < 3; i++) {
+      box(trenchBox, trenchW - 0.1, 0.06, 0.06, 0, -trenchD / 2 + 0.15 + i * 0.35, -trenchL / 2 + 0.25 + i * 0.9,
+        0xd8b23a, { rough: 0.5, metal: 0.5 });
+    }
+    trenchBox.visible = false;
+    reg(hits, trenchBox, "trench-box");
+
+    const ladder = group(trench, 0.2, -trenchD, trenchL / 2 - 0.3, 0.1);
+    for (const sx of [-1, 1]) cyl(ladder, 0.012, 0.012, trenchD + 0.4, sx * 0.14, (trenchD + 0.4) / 2, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 });
+    for (let i = 0; i < 6; i++) {
+      cyl(ladder, 0.01, 0.01, 0.3, 0, 0.15 + i * 0.22, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 }).rotation.z = Math.PI / 2;
+    }
+    ladder.visible = false;
+    reg(hits, ladder, "ladder");
+
+    const utilityLine = group(trench, 0, -trenchD + 0.15, 0);
+    cyl(utilityLine, 0.06, 0.06, trenchL - 0.4, 0, 0, 0, 0x2f6f8c, { rough: 0.5, metal: 0.4, seg: 14 }).rotation.x = Math.PI / 2;
+    holoTag(utilityLine, "Utility line", 0, 0.18, 0, { css: "#7ed321", w: 0.3 });
+    reg(hits, utilityLine, "utility-line");
+
+    // Unprotected entry point and untested-entry hazard clickable on the trench itself.
+    reg(hits, wallCrack, "unshored-entry");
+    const trenchFloor = box(trench, trenchW - 0.1, 0.01, trenchL - 0.1, 0, -trenchD + 0.02, 0, 0x1c1712,
+      { rough: 0.98, cast: false, opacity: 0.01, transparent: true });
+    reg(hits, trenchFloor, "untested-entry");
+
+    // Spoil pile — too close to the edge until relocated.
+    const spoil = group(g, 0.65, 0, -0.1);
+    cyl(spoil, 0.4, 0.55, 0.4, 0, 0.2, 0, 0x6b5a3f, { rough: 0.98, seg: 16 });
+    holoTag(spoil, "Spoil pile", 0, 0.5, 0, { css: "#7ed321", w: 0.3 });
+    reg(hits, spoil, "spoil-pile");
+
+    // Surcharge warning at the edge under the pile — the hazard, separate from the pile itself.
+    const surchargeMark = group(g, 0.55, 0, -0.35);
+    box(surchargeMark, 0.3, 0.02, 0.3, 0, 0.16, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
+    holoTag(surchargeMark, "Surcharge risk", 0, 0.2, 0, { css: "#f0645b", w: 0.32 });
+    reg(hits, surchargeMark, "spoil-too-close");
+
+    // No ladder access marker on the far end of the trench, until the ladder step runs.
+    const farEnd = group(g, -0.2, 0, -1.3);
+    box(farEnd, 0.3, 0.03, 0.3, 0, 0.16, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
+    reg(hits, farEnd, "no-ladder-access");
+
+    // ------------------------------------------------------------------ guarding
+    reg(hits, cone(g, -1.9, -1.2, { color: 0x7ed321 }), "cone-a");
+    reg(hits, cone(g, 1.6, 1.3, { color: 0x7ed321 }), "cone-b");
+    const railPanels = [];
+    for (const [rx, rz, ry] of [[-0.7, 1.4, 0], [0.3, 1.4, 0], [-1.3, 0.4, Math.PI / 2], [0.9, 0.4, Math.PI / 2]]) {
+      const panel = barrierPanel(g, rx, rz, { ry, w: 1.1, color: 0x7ed321 });
+      panel.visible = false;
+      railPanels.push(panel);
+    }
+    const railKit = group(g, 1.6, 0, -1.0, 0.3);
+    slab(railKit, 1.0, 0.14, 0.18, 0, 0.08, 0, 0x7ed321, { radius: 0.02, rough: 0.6 });
+    holoTag(railKit, "Trench guard", 0, 0.3, 0, { css: "#7ed321", w: 0.3 });
+    reg(hits, railKit, "trench-guard");
+
+    // ------------------------------------------------------------------ crew
+    const spotter = standingFigure(g, 1.3, -0.9, { ry: -2.0, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    holoTag(spotter, "Spotter", 0, 1.95, 0.15, { css: "#7ed321", w: 0.24 });
+    reg(hits, spotter, "spotter");
+
+    // ------------------------------------------------------------------ paperwork + gear
+    const permit = holoPanel(g, 0.58, 0.4, -1.9, 1.5, 1.1, (ctx, w, h) => {
+      ctx.fillStyle = "rgba(6,16,22,0.9)"; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "#7ed321"; ctx.fillRect(0, 0, w, 5);
+      ctx.fillStyle = "#8fb3c4";
+      ctx.font = `600 ${Math.round(h * 0.09)}px 'Barlow Condensed', Arial, sans-serif`;
+      ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText("EXCAVATION PERMIT · TR-19", w * 0.06, h * 0.14);
+      ctx.fillStyle = "#eaf6fb";
+      ctx.font = `600 ${Math.round(h * 0.14)}px 'Barlow Condensed', Arial, sans-serif`;
+      ctx.fillText("WATER LINE REPAIR, 6 FT DEPTH", w * 0.06, h * 0.33);
+      ctx.font = `${Math.round(h * 0.085)}px Arial, sans-serif`;
+      ctx.fillStyle = "#a9c6d6";
+      ["Soil classification: Type B", "Protective system: trench box, rated 6 ft",
+       "Spoil setback: 2 ft minimum", "O₂ safe range: 19.5–23.5%",
+       "Ladder: within 25 ft of all workers"].forEach((line, i) => ctx.fillText(line, w * 0.06, h * (0.5 + i * 0.11)));
+    }, { ry: 0.7, accent: 0x7ed321 });
+    reg(hits, permit, "excavation-permit");
+
+    const inspectBoard = group(g, -1.6, 0, 0.6, 0.5);
+    slab(inspectBoard, 0.42, 0.32, 0.03, 0, 1.1, 0, 0x1b232b, { radius: 0.01, rough: 0.6 });
+    const inspectFace = decal(inspectBoard, 0.38, 0.28, 0, 1.1, 0.02,
+      signFace("SOIL CLASS\nPENDING", { bg: "#11181f", accent: "#7ed321", scale: 0.3 }), { px: 320 });
+    holoTag(inspectBoard, "Competent-person log", 0, 1.34, 0, { css: "#7ed321", w: 0.34 });
+    reg(hits, inspectBoard, "soil-inspect");
+
+    const chest = toolChest(g, 1.7, 0.6, { ry: -0.4, color: 0x7ed321 });
+    const meter = instrument(chest, -0.08, 0.79, 0.05, { ry: 0.3, idle: "-- %", color: 0x7ed321 });
+    holoTag(meter, "4-gas meter", 0, 0.16, 0, { css: "#7ed321", w: 0.26 });
+    reg(hits, meter, "gas-meter");
+
+    const headcount = group(g, 1.9, 0, 0.0, 0.6);
+    slab(headcount, 0.4, 0.3, 0.03, 0, 1.05, 0, 0x1b232b, { radius: 0.01, rough: 0.6 });
+    const headcountFace = decal(headcount, 0.36, 0.26, 0, 1.05, 0.02,
+      signFace("CREW\nBELOW GRADE", { bg: "#11181f", accent: "#7ed321", scale: 0.3 }), { px: 320 });
+    holoTag(headcount, "Headcount board", 0, 1.28, 0, { css: "#7ed321", w: 0.32 });
+    reg(hits, headcount, "headcount-board");
+
+    const backfill = group(g, 0.9, 0, -1.5, 0.4);
+    slab(backfill, 0.5, 0.16, 0.2, 0, 0.09, 0, 0x6b5a3f, { radius: 0.02, rough: 0.85 });
+    holoTag(backfill, "Backfill and compact", 0, 0.32, 0, { css: "#7ed321", w: 0.36 });
+    reg(hits, backfill, "backfill-panel");
+
+    const dust = particles(spoil, 24, 0x9a8a6a, { size: 0.02, life: 0.6, additive: false, opacity: 0.2 });
+
+    let shored = false;
+
+    return {
+      hits,
+      footprint: 2.1,
+
+      onStepComplete(step) {
+        if (step.id === "guard-site") railPanels.forEach((p) => { p.visible = true; });
+        if (step.id === "relocate-spoil") { spoil.position.set(1.6, 0, -1.4); }
+        if (step.id === "install-box") { trenchBox.visible = true; shored = true; }
+        if (step.id === "place-ladder") { ladder.visible = true; }
+        if (step.id === "pipe-work") {
+          repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));
+        }
+        if (step.id === "exit-count") {
+          repaint(headcountFace, signFace("CREW\nCLEAR", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
+        }
+        if (step.id === "remove-box") { trenchBox.visible = false; shored = false; ladder.visible = false; }
+      },
+
+      onHazard(hitId) { if (hitId === "spoil-too-close") { dust.visible = true; } },
+
+      animate(t, dt, session) {
+        spotter.userData.head.rotation.y = Math.sin(t * 0.6) * 0.4;
+        if (dust.visible) dust.userData.step(dt, new THREE.Vector3(0, 0.4, 0), 0.15, 0.15, -0.1);
+
+        const gg = session?.gauge;
+        if (gg && !gg.committed && session.step?.id === "atmosphere-test") {
+          const o2 = (15 + gg.t * 12).toFixed(1);
+          repaint(meter.userData.screen, signFace(`${o2}%`, {
+            bg: "#0d1c24", accent: gg.t > 0.46 && gg.t < 0.6 ? "#59c97b" : "#f0645b", fg: "#bfeaf7", scale: 0.6,
+          }));
+        }
+      },
+    };
+  },
+};

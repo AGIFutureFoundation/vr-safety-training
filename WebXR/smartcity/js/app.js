@@ -13,10 +13,22 @@ import { SIM_TRACK_ACCESS } from "./sims/track-access.js";
 import { SIM_TRIAGE_POINT } from "./sims/triage-point.js";
 import { SIM_ROBOT_CELL } from "./sims/robot-cell.js";
 import { SIM_CHILLER_PLANT } from "./sims/chiller-plant.js";
+import { SIM_TOWER_CLIMB } from "./sims/tower-climb.js";
+import { SIM_STEEL_ERECTOR } from "./sims/steel-erector.js";
+import { SIM_CRANE_YARD } from "./sims/crane-yard.js";
+import { SIM_TRENCH_BOX } from "./sims/trench-box.js";
+import { SIM_BOILER_ROOM } from "./sims/boiler-room.js";
+import { SIM_ELEVATOR_PIT } from "./sims/elevator-pit.js";
+import { SIM_ABATEMENT_CHAMBER } from "./sims/abatement-chamber.js";
+import { SIM_RIGGING_LOFT } from "./sims/rigging-loft.js";
+import { SIM_LINE_TRUCK } from "./sims/line-truck.js";
+import { SIM_DOCK_CRANE } from "./sims/dock-crane.js";
 
 const SIMS = [
   SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
   SIM_FLIGHT_DECK, SIM_TRACK_ACCESS, SIM_TRIAGE_POINT, SIM_ROBOT_CELL, SIM_CHILLER_PLANT,
+  SIM_TOWER_CLIMB, SIM_STEEL_ERECTOR, SIM_CRANE_YARD, SIM_TRENCH_BOX, SIM_BOILER_ROOM,
+  SIM_ELEVATOR_PIT, SIM_ABATEMENT_CHAMBER, SIM_RIGGING_LOFT, SIM_LINE_TRUCK, SIM_DOCK_CRANE,
 ];
 const SIM_BY_ID = Object.fromEntries(SIMS.map((s) => [s.id, s]));
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
@@ -89,8 +101,8 @@ function syncHud() {
     ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
     ui.score.textContent = "----";
     ui.combo.textContent = "";
-    ui.count.textContent = `${Progress.completedRooms}/10 CLEARED`;
-    ui.fill.style.width = `${(Progress.completedRooms / 10) * 100}%`;
+    ui.count.textContent = `${Progress.completedRooms}/${SIMS.length} CLEARED`;
+    ui.fill.style.width = `${(Progress.completedRooms / SIMS.length) * 100}%`;
     ui.timer.textContent = "";
     vrHudDirty = true;
     return;
@@ -227,7 +239,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   ui.arPrompt.hidden = state.mode !== "ar";
   ui.scaleRow.hidden = state.mode !== "ar";
-  setRail("neutral", "<b>SmartCiti.X training campus.</b> Ten simulators, each its own gamified system and its own rank. Select a kiosk to begin.");
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${SIMS.length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
   syncHud();
 }
 
@@ -658,7 +670,7 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / 10), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / SIMS.length), 10);
   vrTexture.needsUpdate = true;
 }
 
