@@ -69,6 +69,9 @@ const ui = {
   hint: document.getElementById("hud-hint"),
   arPrompt: document.getElementById("ar-prompt"),
   scaleRow: document.getElementById("scale-row"),
+  leaderboard: document.getElementById("leaderboard"),
+  leaderboardBody: document.getElementById("leaderboard-body"),
+  playerName: document.getElementById("player-name"),
 };
 let vrHudDirty = true;
 
@@ -330,10 +333,48 @@ function showResults(s, summary) {
       `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
     <p class="res-note">${s.errors === 0
       ? "Clean run: every control taken in order, no unsafe action."
-      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>`;
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>
+    ${s.leaderboard?.madeBoard
+      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${room.title}, crew tag ${Progress.playerName}.</p>`
+      : ""}`;
   ui.results.hidden = false;
   state.paused = true;
 }
+
+// ----------------------------------------------------------------- leaderboards
+
+function renderLeaderboards() {
+  const standing = Progress.suiteStanding();
+  const cards = SIMS.map((room) => {
+    const board = Progress.leaderboard(room.id);
+    const rows = board.length
+      ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
+          board.map((e, i) => `<tr class="${e.name === Progress.playerName ? "me" : ""}">
+            <td>${i + 1}</td><td>${e.name}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
+        </tbody></table>`
+      : `<p class="lb-empty">No runs yet — be first.</p>`;
+    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${room.name}</h3>
+      <div class="lb-top">${room.game?.system ?? ""}</div>${rows}</div>`;
+  }).join("");
+  ui.leaderboardBody.innerHTML = `
+    <div class="eyebrow">SmartCiti.X · suite standing</div>
+    <h1>Leaderboards</h1>
+    <p class="lead">Local to this device — every board here lives in this browser only.
+      ${standing.simsPlayed}/${SIMS.length} districts played · ${standing.totalRuns} runs ·
+      ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
+    <div class="lb-grid">${cards}</div>`;
+}
+document.getElementById("view-leaderboard").addEventListener("click", () => {
+  renderLeaderboards();
+  ui.leaderboard.hidden = false;
+});
+document.getElementById("lb-close").addEventListener("click", () => { ui.leaderboard.hidden = true; });
+
+ui.playerName.value = Progress.playerName === "YOU" ? "" : Progress.playerName;
+ui.playerName.addEventListener("change", () => {
+  Progress.setPlayerName(ui.playerName.value);
+  ui.playerName.value = Progress.playerName;
+});
 
 document.getElementById("res-retry").addEventListener("click", () => {
   ui.results.hidden = true; state.paused = false; enterSim(state.room.id);

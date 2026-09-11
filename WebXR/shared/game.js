@@ -15,8 +15,12 @@ const STORE_KEY = "trades-sim-v1";
 
 // ---------------------------------------------------------------- progression
 
+const MAX_BOARD_ENTRIES = 8;
+const NAME_KEY = "trades-sim-name";
+
 export const Progress = {
-  data: { xp: 0, rooms: {}, badges: [] },
+  data: { xp: 0, rooms: {}, badges: [], boards: {} },
+  playerName: "YOU",
 
   load() {
     try {
@@ -26,10 +30,20 @@ export const Progress = {
           xp: raw.xp | 0,
           rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
           badges: Array.isArray(raw.badges) ? raw.badges : [],
+          boards: raw.boards && typeof raw.boards === "object" ? raw.boards : {},
         };
       }
     } catch (_) { /* private mode or blocked storage — run unsaved */ }
+    try {
+      const savedName = localStorage.getItem(NAME_KEY);
+      if (savedName) this.playerName = savedName.slice(0, 12);
+    } catch (_) { /* ignore */ }
     return this.data;
+  },
+
+  setPlayerName(name) {
+    this.playerName = (name || "YOU").trim().slice(0, 12).toUpperCase() || "YOU";
+    try { localStorage.setItem(NAME_KEY, this.playerName); } catch (_) { /* ignore */ }
   },
 
   save() {
@@ -37,8 +51,45 @@ export const Progress = {
   },
 
   reset() {
-    this.data = { xp: 0, rooms: {}, badges: [] };
+    this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
     try { localStorage.removeItem(STORE_KEY); } catch (_) { /* ignore */ }
+  },
+
+  /**
+   * Local competitive leaderboard for one simulator: the top runs recorded on
+   * this device, arcade-cabinet style. Everyone sharing the machine — a crew,
+   * a classroom, a kiosk — competes on the same board under their own name.
+   * There is no server: this never leaves the browser.
+   */
+  leaderboard(simId) {
+    return (this.data.boards[simId] ?? []).slice().sort(
+      (a, b) => b.score - a.score || a.seconds - b.seconds);
+  },
+
+  submitScore(simId, { name, score, seconds, stars }) {
+    const board = this.leaderboard(simId);
+    const entry = { name: (name || this.playerName).slice(0, 12).toUpperCase(), score, seconds, stars, at: Date.now() };
+    board.push(entry);
+    board.sort((a, b) => b.score - a.score || a.seconds - b.seconds);
+    const trimmed = board.slice(0, MAX_BOARD_ENTRIES);
+    this.data.boards[simId] = trimmed;
+    this.save();
+    const rank = trimmed.indexOf(entry);
+    return { rank: rank < 0 ? null : rank + 1, board: trimmed, madeBoard: rank >= 0 };
+  },
+
+  /** Combined standing across every simulator this device has played — the
+   * suite-wide leaderboard that rewards breadth across the whole SmartCiti.X campus. */
+  suiteStanding() {
+    let totalScore = 0, totalRuns = 0, totalStars = 0, simsPlayed = 0;
+    for (const state of Object.values(this.data.rooms)) {
+      if (!state.runs) continue;
+      simsPlayed += 1;
+      totalRuns += state.runs | 0;
+      totalScore += state.best | 0;
+      totalStars += state.stars | 0;
+    }
+    return { totalScore, totalRuns, totalStars, simsPlayed };
   },
 
   get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
@@ -438,6 +489,9 @@ export class Session {
       badge: this.badgeEarned, earned: this.earned,
     });
     this.rank = Progress.simRank(this.room.id, system);
+    this.leaderboard = Progress.submitScore(this.room.id, {
+      score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
+    });
     Sfx.great();
     this.hooks.onFinish?.(this, summary);
   }

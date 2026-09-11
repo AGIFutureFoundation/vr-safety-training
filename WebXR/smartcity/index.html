@@ -89,6 +89,25 @@
   kbd{ background:var(--raised); border:1px solid var(--edge); border-radius:3px;
     padding:1px 6px; font-family:var(--cond); font-size:12px; }
   .fineprint{ font-size:12px; color:var(--muted); line-height:1.55; margin:0 }
+  .namerow{ margin:14px 0 4px }
+  .namerow label{ display:block; margin-bottom:5px }
+  .namerow input{ width:180px; background:var(--raised); border:1px solid var(--edge); border-radius:4px;
+    color:var(--text); font-family:var(--cond); font-weight:600; font-size:16px; letter-spacing:.08em;
+    padding:9px 12px; text-transform:uppercase; }
+  .namerow input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+
+  .lb-table{ width:100%; border-collapse:collapse; margin:4px 0 14px; font-size:13.5px }
+  .lb-table th{ text-align:left; font-family:var(--cond); font-weight:600; letter-spacing:.08em;
+    font-size:11px; color:var(--muted); text-transform:uppercase; padding:4px 8px; border-bottom:1px solid var(--edge) }
+  .lb-table td{ padding:6px 8px; border-bottom:1px solid rgba(40,65,79,.4); font-variant-numeric:tabular-nums }
+  .lb-table tr.me{ background:rgba(79,209,255,.12) }
+  .lb-table tr.me td:first-child{ color:var(--accent); font-weight:700 }
+  .lb-empty{ color:var(--muted); font-size:13px; padding:10px 0 }
+  .lb-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; max-height:60vh; overflow-y:auto }
+  .lb-card{ background:var(--raised); border-left:3px solid var(--tint,var(--accent)); border-radius:4px; padding:10px 12px }
+  .lb-card h3{ margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.03em; text-transform:uppercase }
+  .lb-card .lb-top{ font-size:12.5px; color:var(--muted) }
+  .lb-card .lb-top b{ color:var(--text) }
 
   .res-stars{ font-size:36px; letter-spacing:.1em; color:var(--warn); line-height:1 }
   #results h2{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.02em;
@@ -153,10 +172,15 @@
     </div>
     <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
     <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
+    <div class="namerow">
+      <label class="eyebrow" for="player-name">Crew tag (for the leaderboard)</label>
+      <input id="player-name" maxlength="12" placeholder="YOU" autocomplete="off">
+    </div>
     <div class="btnrow">
       <button class="primary" id="enter-ar" disabled>Enter AR</button>
       <button id="enter-vr" disabled>Enter VR</button>
       <button id="enter-flat">Start on screen</button>
+      <button id="view-leaderboard">Leaderboards</button>
       <button id="reset-progress">Reset progress</button>
     </div>
     <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
@@ -169,6 +193,12 @@
 <div class="overlay" id="results" hidden>
   <div class="card"><div id="results-body"></div>
     <div class="btnrow"><button class="primary" id="res-retry">Run it again</button><button id="res-hub">Back to campus</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="leaderboard" hidden>
+  <div class="card"><div id="leaderboard-body"></div>
+    <div class="btnrow"><button class="primary" id="lb-close">Close</button></div>
   </div>
 </div>
 
