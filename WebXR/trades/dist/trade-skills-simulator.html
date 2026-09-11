@@ -1,0 +1,3972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trade Skills Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#071018; --panel:#101c27; --glass:rgba(16,28,39,.88); --raised:#172735;
+    --text:#f4f8fb; --muted:#9fb0bf; --accent:#37d6c0; --warn:#f2b84b;
+    --danger:#f0645b; --edge:#426174; --good:#59c97b;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0}
+  body{
+    background:var(--void); color:var(--text); font-family:var(--sans);
+    overflow:hidden; -webkit-font-smoothing:antialiased;
+  }
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block}
+
+  /* ---------------------------------------------------------------- HUD */
+  .chip{
+    position:fixed; background:var(--glass); border:1px solid var(--edge);
+    border-radius:5px; padding:9px 14px; pointer-events:none;
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .eyebrow{
+    font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  #hud-mission{ top:14px; left:14px; max-width:min(52vw,420px); border-left:3px solid var(--accent); }
+  #hud-room{ font-family:var(--cond); font-weight:600; font-size:21px; letter-spacing:.04em; text-transform:uppercase; }
+  #hud-metrics{ top:14px; right:14px; text-align:right; min-width:132px; }
+  #hud-score{ font-family:var(--cond); font-weight:600; font-size:27px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
+  #hud-combo{ font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.1em; color:var(--accent); }
+
+  #hud-objective{
+    position:fixed; left:50%; transform:translateX(-50%); top:14px;
+    background:var(--glass); border:1px solid var(--edge); border-top:3px solid var(--accent);
+    border-radius:5px; padding:9px 18px; text-align:center; pointer-events:none;
+    max-width:min(58vw,560px); backdrop-filter:blur(4px);
+  }
+  #hud-step{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.03em; }
+  #hud-cue{ font-size:13.5px; color:var(--muted); line-height:1.4; margin-top:2px; }
+
+  #hud-rail{
+    position:fixed; left:50%; transform:translateX(-50%); bottom:14px;
+    width:min(780px, calc(100vw - 28px)); background:var(--glass);
+    border:1px solid var(--edge); border-left:3px solid var(--edge);
+    border-radius:5px; padding:11px 16px; pointer-events:none; backdrop-filter:blur(4px);
+  }
+  #hud-rail[data-state="ok"]{ border-left-color:var(--good) }
+  #hud-rail[data-state="warn"]{ border-left-color:var(--warn) }
+  #hud-rail[data-state="danger"]{ border-left-color:var(--danger) }
+  #hud-rail[data-state="neutral"]{ border-left-color:var(--accent) }
+  #hud-feedback{ font-size:14.5px; line-height:1.5 }
+  #hud-feedback b{ font-weight:600 }
+  #hud-feedback .mult{ color:var(--accent); font-family:var(--cond); letter-spacing:.06em }
+  #hud-progress{ display:flex; align-items:center; gap:14px; margin-top:9px }
+  #hud-track{ flex:1; height:5px; background:var(--raised); border-radius:3px; overflow:hidden }
+  #hud-fill{ height:100%; width:0; background:var(--accent); transition:width .2s ease-out }
+  #hud-count,#hud-timer{
+    font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.1em;
+    color:var(--muted); white-space:nowrap; font-variant-numeric:tabular-nums;
+  }
+  #hud-hint{
+    position:fixed; left:14px; bottom:14px; font-family:var(--cond); font-size:12px;
+    letter-spacing:.1em; color:var(--muted); pointer-events:none; text-transform:uppercase;
+  }
+
+  /* ------------------------------------------------------------ overlays */
+  .overlay{
+    position:fixed; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
+    background:rgba(5,11,16,.82); padding:16px; overflow-y:auto;
+  }
+  .card{
+    width:min(660px,100%); max-height:calc(100vh - 32px); overflow-y:auto;
+    background:var(--panel); border:1px solid var(--edge);
+    border-top:3px solid var(--accent); border-radius:8px; padding:22px 26px;
+  }
+  .card h1{
+    font-family:var(--cond); font-weight:600; font-size:clamp(26px,5vw,34px);
+    letter-spacing:.04em; text-transform:uppercase; margin:3px 0 5px;
+  }
+  .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 10px; max-width:62ch }
+  .card p.lead{ color:var(--text) }
+  .trades{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:6px; margin:12px 0 14px }
+  .trade{ background:var(--raised); border-radius:4px; padding:7px 10px; border-left:3px solid var(--tint) }
+  .trade b{ display:block; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.03em; text-transform:uppercase }
+  .trade span{ font-size:11.5px; color:var(--muted); line-height:1.3; display:block; margin-top:1px }
+  .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 12px }
+  button{
+    font-family:var(--cond); font-weight:600; font-size:16px; letter-spacing:.09em;
+    text-transform:uppercase; cursor:pointer; border-radius:4px; padding:11px 22px;
+    border:1px solid var(--edge); background:var(--raised); color:var(--text);
+  }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#04211c }
+  button:hover{ filter:brightness(1.12) }
+  button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
+  button[disabled]{ opacity:.45; cursor:not-allowed; filter:none }
+  kbd{
+    background:var(--raised); border:1px solid var(--edge); border-radius:3px;
+    padding:1px 6px; font-family:var(--cond); font-size:12.5px; letter-spacing:.06em;
+  }
+  .fineprint{ font-size:12.5px; color:var(--muted); line-height:1.55; margin:0 }
+
+  /* ------------------------------------------------------------- results */
+  .res-stars{ font-size:38px; letter-spacing:.1em; color:var(--warn); line-height:1 }
+  #results h2{ font-family:var(--cond); font-weight:600; font-size:30px; letter-spacing:.03em;
+               text-transform:uppercase; margin:10px 0 2px }
+  .res-trade{ color:var(--accent) !important; font-family:var(--cond); letter-spacing:.1em;
+              text-transform:uppercase; font-size:13px; margin:0 0 16px !important }
+  .res-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin:0 0 16px }
+  .res-grid>div{ background:var(--raised); border-radius:4px; padding:9px 11px }
+  .res-grid dt{ font-family:var(--cond); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted) }
+  .res-grid dd{ margin:2px 0 0; font-family:var(--cond); font-weight:600; font-size:22px; font-variant-numeric:tabular-nums }
+  .res-badge{
+    background:rgba(242,193,75,.1); border-left:3px solid var(--warn); border-radius:4px;
+    padding:10px 12px; color:var(--text) !important; font-size:14px !important;
+  }
+  .res-badge span{ display:block; color:var(--muted); font-size:12.5px; margin-top:2px }
+  .res-note{ font-size:13.5px !important }
+
+  body.danger-flash::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:15;
+    background:radial-gradient(circle at 50% 55%, rgba(240,100,91,.34), rgba(240,100,91,0) 62%);
+    animation:flash .42s ease-out;
+  }
+  @keyframes flash{ from{opacity:1} to{opacity:0} }
+  @media (prefers-reduced-motion:reduce){
+    body.danger-flash::after{ animation:none; opacity:.28 }
+    #hud-fill{ transition:none }
+  }
+  @media (max-width:640px){
+    #hud-objective{ top:auto; bottom:118px; max-width:calc(100vw - 28px) }
+    #hud-room{ font-size:16px } #hud-score{ font-size:21px }
+    #hud-hint{ display:none }
+  }
+</style>
+</head>
+<body>
+<!-- Generated by tools/bundle_trades.py from WebXR/trades/js — edit the modules, not this file. -->
+
+
+<div id="stage"></div>
+
+<div class="chip" id="hud-mission">
+  <div class="eyebrow">Trade module</div>
+  <div id="hud-room">Training Hub</div>
+</div>
+
+<div class="chip" id="hud-metrics">
+  <div class="eyebrow">Score</div>
+  <div id="hud-score">0000</div>
+  <div id="hud-combo">×1.0</div>
+</div>
+
+<div id="hud-objective">
+  <div id="hud-step">Choose a trade</div>
+  <div id="hud-cue">Walk into a doorway to start that room's procedure.</div>
+</div>
+
+<div id="hud-rail" data-state="neutral">
+  <div id="hud-feedback">Loading the training campus…</div>
+  <div id="hud-progress">
+    <div id="hud-track"><div id="hud-fill"></div></div>
+    <div id="hud-count">0/5 ROOMS</div>
+    <div id="hud-timer"></div>
+  </div>
+</div>
+
+<div id="hud-hint">WASD move · drag look · click act · M mute · ESC hub</div>
+
+<div class="overlay" id="intro">
+  <div class="card">
+    <div class="eyebrow">Vocational XR · five trades, five rooms</div>
+    <h1>Trade Skills Simulator</h1>
+    <p class="lead">Each room is a working environment with the real order of operations behind it.
+    The simulator scores what you touch and in what order, explains the consequence of every wrong
+    move, and awards stars for a clean run against par time.</p>
+
+    <div class="trades">
+      <div class="trade" style="--tint:#5aa9ff"><b>Isolation Bay</b><span>Electrical worker — lockout/tagout and live-dead-live verification</span></div>
+      <div class="trade" style="--tint:#e2739b"><b>Colour Studio</b><span>Hair stylist — colour service, developer ratio and station sanitation</span></div>
+      <div class="trade" style="--tint:#f2894b"><b>Hot Line</b><span>Commercial cook — cross-contamination, cook temp, grease flare-up</span></div>
+      <div class="trade" style="--tint:#53c1c9"><b>Draw Station</b><span>Phlebotomy — two-identifier check and the order of draw</span></div>
+      <div class="trade" style="--tint:#f2c14b"><b>Weld Bay</b><span>Welder — hot work permit, lens shade, bead control, fire watch</span></div>
+    </div>
+
+    <p><b>Desktop:</b> <kbd>W A S D</kbd> move, drag to look, click to act, hold on timed steps.<br>
+    <b>Headset:</b> open in the Meta Quest Browser and press Enter VR — point and pull the trigger,
+    left stick glides, right stick snap-turns.</p>
+
+    <div class="btnrow">
+      <button class="primary" id="enter-vr" disabled>Enter VR</button>
+      <button id="enter-flat">Start on screen</button>
+      <button id="reset-progress">Reset progress</button>
+    </div>
+
+    <p class="fineprint">Progress, stars and badges are stored in this browser only — nothing is
+    transmitted. Immersive mode needs a WebXR browser; Ray-Ban Meta display glasses cannot run
+    immersive WebXR, so on those this page is a flat phone view.</p>
+  </div>
+</div>
+
+<div class="overlay" id="results" hidden>
+  <div class="card">
+    <div id="results-body"></div>
+    <div class="btnrow">
+      <button class="primary" id="res-retry">Run it again</button>
+      <button id="res-hub">Back to hub</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+
+/* ===== js/kit.js ===== */
+// Shared procedural asset kit. Every prop in the simulator is built from these
+// primitives at real-world scale in metres, so rooms stay consistent and no
+// external model files are needed.
+
+const TAU = Math.PI * 2;
+
+// HUD tokens from DESIGN.md, reused so the web build reads like the headset build.
+const HUD = {
+  void: "#071018", panel: "#101C27", raised: "#172735", text: "#F4F8FB",
+  muted: "#9FB0BF", accent: "#37D6C0", warn: "#F2B84B", danger: "#F0645B",
+  edge: "#426174", good: "#59C97B",
+};
+
+const materialCache = new Map();
+const disposables = new Set();
+
+function mat(color, o = {}) {
+  const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
+    o.opacity ?? 1, o.flat ? 1 : 0, o.side ?? 0].join("|");
+  let m = materialCache.get(key);
+  if (!m) {
+    m = new THREE.MeshStandardMaterial({
+      color,
+      roughness: o.rough ?? 0.8,
+      metalness: o.metal ?? 0,
+      emissive: o.emissive ?? 0x000000,
+      emissiveIntensity: o.ei ?? 1,
+      transparent: (o.opacity ?? 1) < 1,
+      opacity: o.opacity ?? 1,
+      flatShading: !!o.flat,
+      side: o.side === 2 ? THREE.DoubleSide : THREE.FrontSide,
+    });
+    materialCache.set(key, m);
+  }
+  return m;
+}
+
+function track(geometry) { disposables.add(geometry); return geometry; }
+
+/** Dispose geometry created for a room. Materials stay cached and shared. */
+function disposeTree(root) {
+  root.traverse((o) => {
+    if (o.isMesh || o.isLine || o.isPoints) {
+      o.geometry?.dispose();
+      disposables.delete(o.geometry);
+      if (o.material?.map && o.material.userData.ownTexture) o.material.map.dispose();
+      if (o.material?.userData.ownMaterial) o.material.dispose();
+    }
+  });
+  root.parent?.remove(root);
+}
+
+function group(parent, x = 0, y = 0, z = 0, ry = 0) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.rotation.y = ry;
+  parent?.add(g);
+  return g;
+}
+
+function box(parent, w, h, d, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.BoxGeometry(w, h, d)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function cyl(parent, rTop, rBot, h, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(
+    track(new THREE.CylinderGeometry(rTop, rBot, h, o.seg ?? 20, 1, !!o.open)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function ball(parent, r, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.SphereGeometry(r, o.seg ?? 18, o.seg2 ?? 14)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function torus(parent, r, tube, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.TorusGeometry(r, tube, o.seg ?? 10, o.seg2 ?? 24)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Rounded slab — a box with chamfered vertical edges. Reads far better than a plain cube. */
+function slab(parent, w, h, d, x, y, z, color, o = {}) {
+  const r = Math.min(o.radius ?? 0.02, w / 2 - 0.001, d / 2 - 0.001);
+  const shape = new THREE.Shape();
+  const hw = w / 2 - r, hd = d / 2 - r;
+  shape.moveTo(-hw - r, -hd);
+  shape.lineTo(-hw - r, hd);
+  shape.quadraticCurveTo(-hw - r, hd + r, -hw, hd + r);
+  shape.lineTo(hw, hd + r);
+  shape.quadraticCurveTo(hw + r, hd + r, hw + r, hd);
+  shape.lineTo(hw + r, -hd);
+  shape.quadraticCurveTo(hw + r, -hd - r, hw, -hd - r);
+  shape.lineTo(-hw, -hd - r);
+  shape.quadraticCurveTo(-hw - r, -hd - r, -hw - r, -hd);
+  const geo = track(new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false, curveSegments: 4 }));
+  geo.rotateX(-Math.PI / 2);
+  geo.translate(0, h / 2, 0);
+  const m = new THREE.Mesh(geo, mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Lathe profile — bottles, jars, funnels. `profile` is [[radius, y], ...] bottom-up. */
+function lathe(parent, profile, x, y, z, color, o = {}) {
+  const pts = profile.map(([r, py]) => new THREE.Vector2(Math.max(r, 0.0005), py));
+  const m = new THREE.Mesh(track(new THREE.LatheGeometry(pts, o.seg ?? 20)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Flexible run — cables, hoses, tubing. `points` are local Vector3-ish triples. */
+function hose(parent, points, radius, color, o = {}) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
+  const m = new THREE.Mesh(
+    track(new THREE.TubeGeometry(curve, o.steps ?? 32, radius, o.seg ?? 8, false)), mat(color, o));
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+// ---------------------------------------------------------------- canvas art
+
+/** Painted panel: signage, dials, labels, screens. Returns the mesh; texture is owned by it. */
+function decal(parent, w, h, x, y, z, draw, o = {}) {
+  const px = o.px ?? 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = px;
+  canvas.height = Math.max(8, Math.round(px * (h / w)));
+  const g = canvas.getContext("2d");
+  draw(g, canvas.width, canvas.height);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.anisotropy = 4;
+  const material = new THREE.MeshStandardMaterial({
+    map: tex, roughness: o.rough ?? 0.7, metalness: o.metal ?? 0,
+    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1,
+    emissiveMap: o.glow ? tex : null,
+    transparent: !!o.transparent,
+    side: THREE.DoubleSide,
+  });
+  material.userData.ownMaterial = true;
+  material.userData.ownTexture = true;
+  const m = new THREE.Mesh(track(new THREE.PlaneGeometry(w, h)), material);
+  m.position.set(x, y, z);
+  m.castShadow = false;
+  m.receiveShadow = false;
+  m.userData.canvas = canvas;
+  m.userData.ctx = g;
+  m.userData.texture = tex;
+  parent.add(m);
+  return m;
+}
+
+function repaint(mesh, draw) {
+  const { ctx, canvas, texture } = mesh.userData;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  draw(ctx, canvas.width, canvas.height);
+  texture.needsUpdate = true;
+}
+
+/** Standard sign face: dark plate, accent rule, centred caps text. */
+function signFace(text, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#0b141d";
+    g.fillRect(0, 0, w, h);
+    g.fillStyle = o.accent ?? HUD.accent;
+    g.fillRect(0, h - Math.max(3, h * 0.07), w, Math.max(3, h * 0.07));
+    g.fillStyle = o.fg ?? HUD.text;
+    g.font = `600 ${Math.round(h * (o.scale ?? 0.46))}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    const lines = String(text).split("\n");
+    const step = h * 0.44;
+    lines.forEach((line, i) => g.fillText(line, w / 2, h / 2 - ((lines.length - 1) * step) / 2 + i * step));
+  };
+}
+
+/** Printed paper: permit, chart, schedule, label sheet. */
+function paperFace(title, rows, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#f2efe6";
+    g.fillRect(0, 0, w, h);
+    g.fillStyle = o.band ?? "#22303c";
+    g.fillRect(0, 0, w, h * 0.16);
+    g.fillStyle = "#ffffff";
+    g.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left";
+    g.textBaseline = "middle";
+    g.fillText(title, w * 0.05, h * 0.08);
+    g.fillStyle = "#1d262e";
+    g.font = `${Math.round(h * 0.062)}px Arial, sans-serif`;
+    rows.forEach((row, i) => {
+      const y = h * 0.26 + i * h * 0.1;
+      g.fillStyle = "#63707c";
+      g.fillRect(w * 0.05, y + h * 0.045, w * 0.9, 1);
+      g.fillStyle = "#1d262e";
+      g.fillText(row, w * 0.06, y);
+    });
+  };
+}
+
+// ---------------------------------------------------------------- room shells
+
+/**
+ * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
+ * Rooms are built around the origin; the learner spawns near +z looking to -z.
+ */
+function shell(parent, o = {}) {
+  const w = o.w ?? 8, d = o.d ?? 8, h = o.h ?? 3.1;
+  const g = group(parent);
+  const floor = box(g, w, 0.12, d, 0, -0.06, 0, o.floor ?? 0x3a4048,
+    { rough: o.floorRough ?? 0.85, metal: o.floorMetal ?? 0, cast: false });
+  floor.receiveShadow = true;
+  box(g, w, h, 0.12, 0, h / 2, -d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, 0.12, h, d, -w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, 0.12, h, d, w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, w, 0.12, d, 0, h, 0, o.ceiling ?? 0x2b3238, { rough: 0.96, cast: false });
+  if (o.backWall !== false) box(g, w, h, 0.12, 0, h / 2, d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  if (o.skirt !== false) {
+    box(g, w, 0.1, 0.04, 0, 0.05, -d / 2 + 0.08, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, -w / 2 + 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, w / 2 - 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+  }
+  return g;
+}
+
+/** Recessed ceiling panel that also acts as the room's key light source. */
+function ceilingPanel(parent, x, z, o = {}) {
+  const y = o.y ?? 3.02;
+  box(parent, o.w ?? 1.2, 0.06, o.d ?? 0.32, x, y, z, 0x22282e, { cast: false, rough: 0.6, metal: 0.5 });
+  const lens = box(parent, (o.w ?? 1.2) - 0.08, 0.03, (o.d ?? 0.32) - 0.06, x, y - 0.05, z,
+    o.color ?? 0xfff4e2, { cast: false, emissive: o.color ?? 0xfff4e2, ei: o.ei ?? 1.5, rough: 0.4 });
+  const lamp = new THREE.PointLight(o.color ?? 0xfff4e2, o.lamp ?? 1.5, o.range ?? 9, 2);
+  lamp.position.set(x, y - 0.18, z);
+  parent.add(lamp);
+  return lens;
+}
+
+// ------------------------------------------------------------ composite props
+
+/** Stainless / laminate work counter with legs, apron and optional undershelf. */
+function counter(parent, w, d, x, z, color = 0x9aa4ad, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const hgt = o.height ?? 0.92;
+  slab(g, w, 0.05, d, 0, hgt, 0, color, { rough: o.rough ?? 0.34, metal: o.metal ?? 0.72, radius: 0.02 });
+  box(g, w - 0.06, 0.1, 0.03, 0, hgt - 0.08, -d / 2 + 0.03, color, { rough: 0.4, metal: 0.6 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.022, 0.022, hgt - 0.05, sx * (w / 2 - 0.09), (hgt - 0.05) / 2, sz * (d / 2 - 0.09),
+      0x7c848c, { rough: 0.35, metal: 0.85, seg: 10 });
+  }
+  if (o.undershelf !== false) {
+    slab(g, w - 0.16, 0.03, d - 0.16, 0, 0.24, 0, color, { rough: 0.45, metal: 0.6, radius: 0.01 });
+  }
+  return g;
+}
+
+/** Wheeled trolley — salon trolley, phlebotomy cart, tool cart. */
+function trolley(parent, x, z, color = 0x2b3239, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const w = o.w ?? 0.52, d = o.d ?? 0.4;
+  for (const y of [0.34, 0.6, 0.86]) slab(g, w, 0.028, d, 0, y, 0, color, { rough: 0.42, metal: 0.35, radius: 0.015 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.014, 0.014, 0.86, sx * (w / 2 - 0.03), 0.45, sz * (d / 2 - 0.03), 0x8d959d,
+      { rough: 0.3, metal: 0.9, seg: 8 });
+    const caster = cyl(g, 0.035, 0.035, 0.018, sx * (w / 2 - 0.03), 0.035, sz * (d / 2 - 0.03), 0x16191d,
+      { rough: 0.8, seg: 12 });
+    caster.rotation.z = Math.PI / 2;
+  }
+  return g;
+}
+
+/** Wall cabinet with doors and handles. */
+function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  box(g, w, h, d, 0, 0, 0, color, { rough: 0.55, metal: 0.1 });
+  const gap = 0.006;
+  for (const sx of [-1, 1]) {
+    box(g, w / 2 - gap, h - 0.04, 0.018, sx * (w / 4), 0, d / 2 + 0.01, o.doorColor ?? color,
+      { rough: 0.42, metal: 0.15 });
+    box(g, 0.02, 0.11, 0.02, sx * 0.045, 0, d / 2 + 0.03, 0x8d959d, { rough: 0.3, metal: 0.9 });
+  }
+  return g;
+}
+
+/** Seated human stand-in: client in a salon chair, patient in a draw chair. */
+function seatedFigure(parent, x, y, z, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  const skin = o.skin ?? 0xc99878;
+  const cloth = o.cloth ?? 0x37505f;
+  const torso = group(g, 0, 0, 0);
+  box(torso, 0.4, 0.5, 0.26, 0, 0.72, 0, cloth, { rough: 0.9 });
+  box(torso, 0.34, 0.16, 0.26, 0, 0.42, 0.02, cloth, { rough: 0.9 });        // lap
+  for (const sx of [-1, 1]) {
+    box(torso, 0.14, 0.14, 0.44, sx * 0.16, 0.4, 0.2, cloth, { rough: 0.9 }); // thighs
+    cyl(torso, 0.055, 0.05, 0.42, sx * 0.16, 0.21, 0.4, cloth, { rough: 0.9, seg: 10 });
+  }
+  const head = group(torso, 0, 1.06, 0.01);
+  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 20 });
+  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });          // jaw
+  cyl(torso, 0.05, 0.055, 0.12, 0, 0.98, 0, skin, { rough: 0.75, seg: 12 }); // neck
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    const shoulder = group(torso, sx * 0.23, 0.88, 0);
+    cyl(shoulder, 0.05, 0.045, 0.3, 0, -0.15, 0, cloth, { rough: 0.9, seg: 10 });
+    const fore = group(shoulder, 0, -0.3, 0);
+    cyl(fore, 0.042, 0.038, 0.28, 0, -0.13, 0.02, skin, { rough: 0.75, seg: 10 });
+    ball(fore, 0.045, 0, -0.28, 0.04, skin, { rough: 0.75, seg: 12 });
+    arms.push({ shoulder, fore });
+  }
+  return { root: g, torso, head, arms };
+}
+
+// ------------------------------------------------------------------ particles
+
+/** Cheap additive point burst reused for sparks, steam and water. */
+function particles(parent, count, color, o = {}) {
+  const positions = new Float32Array(count * 3);
+  const geo = track(new THREE.BufferGeometry());
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const material = new THREE.PointsMaterial({
+    color, size: o.size ?? 0.02, transparent: true, opacity: o.opacity ?? 0.9,
+    blending: o.additive === false ? THREE.NormalBlending : THREE.AdditiveBlending,
+    depthWrite: false, sizeAttenuation: true,
+  });
+  material.userData.ownMaterial = true;
+  const points = new THREE.Points(geo, material);
+  points.frustumCulled = false;
+  points.visible = false;
+  parent.add(points);
+  const life = new Float32Array(count);
+  const vel = new Float32Array(count * 3);
+  points.userData.step = (dt, origin, spread, speed, gravity) => {
+    for (let i = 0; i < count; i++) {
+      life[i] -= dt;
+      if (life[i] <= 0) {
+        life[i] = 0.25 + Math.random() * (o.life ?? 0.6);
+        positions[i * 3] = origin.x + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 1] = origin.y + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = origin.z + (Math.random() - 0.5) * spread;
+        vel[i * 3] = (Math.random() - 0.5) * speed;
+        vel[i * 3 + 1] = (Math.random() * 0.6 + 0.4) * speed;
+        vel[i * 3 + 2] = (Math.random() - 0.5) * speed;
+      }
+      positions[i * 3] += vel[i * 3] * dt;
+      positions[i * 3 + 1] += vel[i * 3 + 1] * dt;
+      positions[i * 3 + 2] += vel[i * 3 + 2] * dt;
+      vel[i * 3 + 1] += gravity * dt;
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return points;
+}
+
+// ------------------------------------------------------------------- helpers
+
+function markInteractive(objectOrGroup, id, o = {}) {
+  objectOrGroup.userData.hitId = id;
+  objectOrGroup.userData.hitLabel = o.label ?? id;
+  return objectOrGroup;
+}
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
+
+
+/* ===== js/game.js ===== */
+// Procedure engine and gamification layer.
+//
+// A room supplies an ordered list of steps. The engine owns correctness: it
+// decides whether an interaction advances the procedure, applies score, and
+// produces the coaching line the HUD shows. Rooms never score themselves, so
+// the assessment stays deterministic and auditable — the same contract the
+// Unity build uses.
+
+const STEP_POINTS = 100;
+const WRONG_STEP_PENALTY = 25;
+const HAZARD_PENALTY = 50;
+const MAX_COMBO = 2.0;
+
+const STORE_KEY = "trades-sim-v1";
+
+// ---------------------------------------------------------------- progression
+
+const Progress = {
+  data: { xp: 0, rooms: {}, badges: [] },
+
+  load() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+      if (raw && typeof raw === "object") {
+        this.data = {
+          xp: raw.xp | 0,
+          rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
+          badges: Array.isArray(raw.badges) ? raw.badges : [],
+        };
+      }
+    } catch (_) { /* private mode or blocked storage — run unsaved */ }
+    return this.data;
+  },
+
+  save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(this.data)); } catch (_) { /* ignore */ }
+  },
+
+  reset() {
+    this.data = { xp: 0, rooms: {}, badges: [] };
+    try { localStorage.removeItem(STORE_KEY); } catch (_) { /* ignore */ }
+  },
+
+  get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
+  get xpIntoLevel() {
+    const base = Math.pow(this.level - 1, 2) * 120;
+    const next = Math.pow(this.level, 2) * 120;
+    return { into: this.data.xp - base, span: next - base };
+  },
+  roomState(id) { return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0 }; },
+  get completedRooms() { return Object.values(this.data.rooms).filter((r) => r.stars > 0).length; },
+  get totalStars() { return Object.values(this.data.rooms).reduce((n, r) => n + (r.stars | 0), 0); },
+
+  record(roomId, { score, stars, seconds, badge }) {
+    const prev = this.roomState(roomId);
+    const next = {
+      stars: Math.max(prev.stars | 0, stars),
+      best: Math.max(prev.best | 0, score),
+      bestTime: prev.bestTime == null ? seconds : Math.min(prev.bestTime, seconds),
+      runs: (prev.runs | 0) + 1,
+    };
+    this.data.rooms[roomId] = next;
+    this.data.xp += Math.max(0, Math.round(score / 8));
+    if (badge && !this.data.badges.includes(badge)) this.data.badges.push(badge);
+    this.save();
+    return next;
+  },
+};
+
+// ------------------------------------------------------------------ the audio
+
+/** Tiny WebAudio synth — feedback tones with no asset downloads. */
+const Sfx = {
+  ctx: null,
+  muted: false,
+  ensure() {
+    if (!this.ctx) {
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (Ctor) this.ctx = new Ctor();
+    }
+    if (this.ctx?.state === "suspended") this.ctx.resume();
+    return this.ctx;
+  },
+  blip(freq, dur = 0.12, type = "sine", gain = 0.06) {
+    if (this.muted) return;
+    const ctx = this.ensure();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const amp = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    amp.gain.setValueAtTime(0.0001, ctx.currentTime);
+    amp.gain.exponentialRampToValueAtTime(gain, ctx.currentTime + 0.01);
+    amp.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    osc.connect(amp).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + dur + 0.02);
+  },
+  good() { this.blip(660, 0.09, "triangle"); setTimeout(() => this.blip(990, 0.12, "triangle"), 70); },
+  great() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => this.blip(f, 0.1, "triangle"), i * 65)); },
+  bad() { this.blip(150, 0.22, "sawtooth", 0.05); },
+  tick() { this.blip(1200, 0.03, "square", 0.02); },
+  alarm() { [0, 1, 2].forEach((i) => setTimeout(() => this.blip(220, 0.16, "square", 0.05), i * 190)); },
+};
+
+// ---------------------------------------------------------------- the session
+
+/**
+ * One run of one room. `hooks` receives every state change so the HUD, the 3D
+ * scene and the audio stay in sync without the engine knowing about any of them.
+ */
+class Session {
+  constructor(room, hooks = {}) {
+    this.room = room;
+    this.hooks = hooks;
+    this.index = 0;
+    this.score = 0;
+    this.streak = 0;
+    this.errors = 0;
+    this.finished = false;
+    this.elapsed = 0;
+    this.log = [];
+    this.sequence = [];      // progress within a 'sequence' step
+    this.holdFor = 0;        // progress within a 'hold' step
+    this.holding = false;
+    this.gauge = null;       // live gauge state for a 'gauge' step
+    this.stars = 0;
+    this.badgeEarned = null;
+  }
+
+  get steps() { return this.room.steps; }
+  get step() { return this.steps[this.index] || null; }
+  get combo() { return Math.min(MAX_COMBO, 1 + this.streak * 0.1); }
+  get progress01() { return this.steps.length ? this.index / this.steps.length : 0; }
+
+  start() {
+    this.elapsed = 0;
+    this.enterStep();
+    return this;
+  }
+
+  enterStep() {
+    const step = this.step;
+    this.sequence = [];
+    this.holdFor = 0;
+    this.holding = false;
+    this.gauge = null;
+    if (!step) return;
+    if (step.kind === "gauge") {
+      this.gauge = {
+        t: 0, dir: 1,
+        speed: step.gauge.speed ?? 0.85,
+        green: step.gauge.green ?? [0.44, 0.62],
+        label: step.gauge.label ?? "",
+        readout: step.gauge.readout ?? null,
+        committed: false,
+      };
+    }
+    this.hooks.onStep?.(step, this);
+  }
+
+  /** Player selected an interactable by id. Returns a feedback record. */
+  select(hitId) {
+    if (this.finished || !this.step) return null;
+    const step = this.step;
+
+    if (step.kind === "sequence") return this.selectInSequence(hitId, step);
+
+    if (step.kind === "gauge") {
+      if (hitId === step.target || hitId === "gauge-commit") return this.commitGauge();
+      return this.wrong(hitId, "Set the gauge first, then commit the reading.");
+    }
+
+    if (step.kind === "hold") {
+      if (hitId === step.target) return null; // hold handled by press/release
+      return this.wrong(hitId);
+    }
+
+    if (hitId === step.target) return this.advance(STEP_POINTS);
+    return this.wrong(hitId);
+  }
+
+  selectInSequence(hitId, step) {
+    if (this.sequence.includes(hitId)) {
+      const feedback = { kind: "partial", text: `Already verified — ${step.itemNames?.[hitId] ?? hitId}.` };
+      this.hooks.onFeedback?.(feedback, this);
+      return feedback;
+    }
+    // anyOrder steps require completeness, not a particular order: use them where
+    // the real procedure has no mandated sequence, and strict order where it does.
+    const expected = step.anyOrder
+      ? (step.targets.includes(hitId) ? hitId : null)
+      : step.targets[this.sequence.length];
+    if (hitId === expected) {
+      this.sequence.push(hitId);
+      const done = this.sequence.length === step.targets.length;
+      if (done) return this.advance(STEP_POINTS + 20 * (step.targets.length - 1));
+      Sfx.tick();
+      const feedback = {
+        kind: "partial",
+        text: `${this.sequence.length}/${step.targets.length} — ${step.itemNames?.[hitId] ?? hitId}. Keep going.`,
+      };
+      this.hooks.onFeedback?.(feedback, this);
+      return feedback;
+    }
+    if (step.targets.includes(hitId)) {
+      return this.wrong(hitId, step.outOfOrderNote
+        ?? "Out of order. Sequence matters here — reset and take them in the required order.", true);
+    }
+    return this.wrong(hitId);
+  }
+
+  /** Called each frame while a 'hold' step's target is held. */
+  setHolding(on) {
+    if (!this.step || this.step.kind !== "hold") return;
+    this.holding = on;
+    if (!on && this.holdFor > 0 && this.holdFor < this.step.seconds) {
+      this.holdFor = 0;
+      const feedback = { kind: "warn", text: `${this.step.holdBreakNote ?? "Released too early — start the full duration again."}` };
+      Sfx.bad();
+      this.hooks.onFeedback?.(feedback, this);
+    }
+  }
+
+  commitGauge() {
+    const step = this.step;
+    if (!this.gauge || this.gauge.committed) return null;
+    const [lo, hi] = this.gauge.green;
+    const t = this.gauge.t;
+    this.gauge.committed = true;
+    if (t < lo || t > hi) {
+      this.gauge.committed = false;
+      return this.wrong(step.target, step.gauge.missNote
+        ?? "Outside the acceptable band. Watch the marker and commit inside the green zone.");
+    }
+    const centre = (lo + hi) / 2;
+    const halfBand = (hi - lo) / 2;
+    const accuracy = 1 - Math.abs(t - centre) / halfBand;      // 1 at centre, 0 at edge
+    const bonus = Math.round(50 * Math.max(0, accuracy));
+    return this.advance(STEP_POINTS + bonus, bonus >= 40 ? "Dead centre." : null);
+  }
+
+  advance(points, extraNote = null) {
+    const step = this.step;
+    const earned = Math.round(points * this.combo);
+    this.score += earned;
+    this.streak += 1;
+    this.log.push({ step: step.id, ok: true, points: earned });
+    const feedback = {
+      kind: "ok",
+      points: earned,
+      combo: this.combo,
+      text: `<b>+${earned} — ${step.title}</b>${this.combo > 1.05 ? ` <span class="mult">×${this.combo.toFixed(1)}</span>` : ""}<br>${extraNote ? extraNote + " " : ""}${step.why}`,
+    };
+    if (this.combo >= 1.5) Sfx.great(); else Sfx.good();
+    this.hooks.onFeedback?.(feedback, this);
+    this.hooks.onStepComplete?.(step, this);
+    this.index += 1;
+    if (this.index >= this.steps.length) this.finish();
+    else this.enterStep();
+    return feedback;
+  }
+
+  /** True when `hitId` belongs to a step the learner has not reached yet. */
+  isLaterStep(hitId) {
+    for (let i = this.index + 1; i < this.steps.length; i++) {
+      const s = this.steps[i];
+      if (s.target === hitId || s.targets?.includes(hitId)) return s;
+    }
+    return null;
+  }
+
+  wrong(hitId, note = null, isOrderError = false) {
+    const hazard = this.room.hazards?.[hitId];
+    const later = hazard ? null : this.isLaterStep(hitId);
+    const penalty = hazard ? HAZARD_PENALTY : WRONG_STEP_PENALTY;
+    this.score = Math.max(0, this.score - penalty);
+    this.streak = 0;
+    this.errors += 1;
+    this.log.push({ step: this.step?.id, ok: false, hit: hitId });
+    const lateNote = later
+      ? (this.room.lateNotes?.[hitId] ?? `That control belongs to a later step. ${this.step?.cue ?? ""}`)
+      : null;
+    const body = hazard ?? note ?? lateNote ?? `That is not the next control. ${this.step?.cue ?? ""}`;
+    const label = hazard ? "Unsafe action"
+      : isOrderError ? "Out of sequence"
+      : later ? "Too early" : "Wrong step";
+    const feedback = {
+      kind: hazard ? "danger" : "warn",
+      text: `<b>−${penalty} — ${label}</b><br>${body}`,
+      hazard: !!hazard,
+    };
+    if (hazard) { Sfx.alarm(); this.hooks.onHazard?.(hitId, this); } else Sfx.bad();
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  tick(dt) {
+    if (this.finished) return;
+    this.elapsed += dt;
+    const step = this.step;
+    if (!step) return;
+
+    if (step.kind === "gauge" && this.gauge && !this.gauge.committed) {
+      this.gauge.t += this.gauge.dir * this.gauge.speed * dt;
+      if (this.gauge.t >= 1) { this.gauge.t = 1; this.gauge.dir = -1; }
+      if (this.gauge.t <= 0) { this.gauge.t = 0; this.gauge.dir = 1; }
+    }
+
+    if (step.kind === "hold" && this.holding) {
+      const before = this.holdFor;
+      this.holdFor = Math.min(step.seconds, this.holdFor + dt);
+      if (Math.floor(this.holdFor) !== Math.floor(before)) Sfx.tick();
+      if (this.holdFor >= step.seconds) {
+        this.holding = false;
+        this.advance(STEP_POINTS + 25);
+      }
+    }
+  }
+
+  finish() {
+    if (this.finished) return;
+    this.finished = true;
+    const par = this.room.parSeconds ?? 150;
+    const timeBonus = Math.max(0, Math.round((par - this.elapsed) * 2));
+    this.score += timeBonus;
+    this.timeBonus = timeBonus;
+    this.stars = this.errors === 0 && this.elapsed <= par ? 3
+      : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
+    if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
+    const summary = Progress.record(this.room.id, {
+      score: this.score, stars: this.stars, seconds: Math.round(this.elapsed), badge: this.badgeEarned,
+    });
+    Sfx.great();
+    this.hooks.onFinish?.(this, summary);
+  }
+}
+
+
+/* ===== js/hub.js ===== */
+// The hub: a round atrium with one doorway per trade. Each doorway carries the
+// learner's own record for that room, so progress is legible from the middle of
+// the floor without opening a menu.
+
+function buildHub(root, rooms) {
+  const hits = {};
+  const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+  const R = 5.6;
+
+  // Floor: polished disc with an inlaid ring and radial seams.
+  const floor = cyl(root, R + 1.6, R + 1.6, 0.2, 0, -0.1, 0, 0x1b2027, { rough: 0.35, metal: 0.25, seg: 48 });
+  floor.receiveShadow = true;
+  torus(root, R - 0.9, 0.03, 0, 0.012, 0, 0x37d6c0, { rough: 0.4, emissive: 0x1c6f66, ei: 1.2, cast: false })
+    .rotation.x = -Math.PI / 2;
+  torus(root, 1.5, 0.02, 0, 0.012, 0, 0x2c3a46, { rough: 0.5, cast: false }).rotation.x = -Math.PI / 2;
+
+  // Perimeter wall with a clerestory band.
+  const wall = cyl(root, R + 1.6, R + 1.6, 3.6, 0, 1.8, 0, 0x39434e,
+    { rough: 0.9, seg: 48, open: true, side: 2, cast: false });
+  wall.receiveShadow = true;
+  torus(root, R + 1.55, 0.05, 0, 3.02, 0, 0x37d6c0, { rough: 0.4, emissive: 0x37d6c0, ei: 2.2, cast: false })
+    .rotation.x = -Math.PI / 2;
+  cyl(root, R + 1.6, R + 1.6, 0.16, 0, 3.68, 0, 0x232a31, { rough: 0.95, seg: 48, cast: false });
+  // Lit cove ring just under the ceiling — this is what stops the frame going black.
+  const cove = cyl(root, R + 1.2, R + 1.4, 0.1, 0, 3.5, 0, 0xdfe9f2,
+    { rough: 0.4, emissive: 0xcfe0ee, ei: 1.5, seg: 48, cast: false, open: true, side: 2 });
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    const cl = new THREE.PointLight(0xcfe0ee, 1.15, 11, 2);
+    cl.position.set(Math.sin(a) * (R - 0.6), 3.2, Math.cos(a) * (R - 0.6));
+    root.add(cl);
+  }
+
+  // Central progress pillar.
+  const pillar = group(root, 0, 0, 0);
+  cyl(pillar, 0.55, 0.7, 0.18, 0, 0.09, 0, 0x232b33, { rough: 0.5, metal: 0.3, seg: 30 });
+  cyl(pillar, 0.34, 0.4, 0.78, 0, 0.47, 0, 0x2b343d, { rough: 0.45, metal: 0.35, seg: 30 });
+  const capital = cyl(pillar, 0.52, 0.36, 0.12, 0, 0.92, 0, 0x323c46, { rough: 0.45, metal: 0.35, seg: 30 });
+  const statBoards = [];
+  for (let i = 0; i < 3; i++) {
+    const a = (i / 3) * Math.PI * 2;
+    const b = group(pillar, Math.sin(a) * 0.42, 1.2, Math.cos(a) * 0.42, a);
+    box(b, 0.72, 0.5, 0.04, 0, 0, 0, 0x11181f, { rough: 0.6 });
+    const faceMesh = decal(b, 0.66, 0.44, 0, 0, 0.025, () => {}, { glow: true, ei: 0.75, px: 512 });
+    statBoards.push(faceMesh);
+  }
+  const beacon = ball(pillar, 0.09, 0, 1.58, 0, 0x37d6c0, { emissive: 0x37d6c0, ei: 2.6, rough: 0.3 });
+  const motes = particles(pillar, 60, 0x37d6c0, { size: 0.02, life: 3.2, opacity: 0.5 });
+  motes.visible = true;
+
+  function paintStats() {
+    const p = Progress;
+    const { into, span } = p.xpIntoLevel;
+    for (const b of statBoards) {
+      repaint(b, (g, w, h) => {
+        g.fillStyle = "#0b1219"; g.fillRect(0, 0, w, h);
+        g.fillStyle = HUD.accent; g.fillRect(0, 0, w, 5);
+        g.fillStyle = HUD.muted;
+        g.font = `600 ${Math.round(h * 0.085)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.textAlign = "left"; g.textBaseline = "middle";
+        g.fillText("APPRENTICE RECORD", w * 0.07, h * 0.16);
+        g.fillStyle = HUD.text;
+        g.font = `600 ${Math.round(h * 0.24)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.fillText(`LEVEL ${p.level}`, w * 0.07, h * 0.37);
+        g.font = `600 ${Math.round(h * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.fillStyle = HUD.accent;
+        g.textAlign = "right";
+        g.fillText(`${p.totalStars} ★`, w * 0.93, h * 0.37);
+        g.textAlign = "left";
+        // XP bar
+        g.fillStyle = "#1d2833"; g.fillRect(w * 0.07, h * 0.52, w * 0.86, h * 0.07);
+        g.fillStyle = HUD.accent;
+        g.fillRect(w * 0.07, h * 0.52, w * 0.86 * Math.max(0.02, into / span), h * 0.07);
+        g.fillStyle = HUD.muted;
+        g.font = `${Math.round(h * 0.085)}px Arial, sans-serif`;
+        g.fillText(`${p.data.xp} XP · ${p.completedRooms}/5 rooms cleared`, w * 0.07, h * 0.68);
+        const badges = p.data.badges.length ? p.data.badges.join(" · ") : "no badges yet";
+        g.fillStyle = HUD.text;
+        g.fillText(badges.length > 46 ? badges.slice(0, 45) + "…" : badges, w * 0.07, h * 0.83);
+      });
+    }
+  }
+  paintStats();
+
+  // One doorway per trade, evenly spaced around the atrium.
+  const doorFaces = {};
+  rooms.forEach((room, i) => {
+    const a = (i / rooms.length) * Math.PI * 2 - Math.PI / 2;
+    const dx = Math.sin(a) * R, dz = Math.cos(a) * R;
+    const bay = group(root, dx, 0, dz, a + Math.PI);
+
+    // Portal frame.
+    box(bay, 2.3, 0.28, 0.34, 0, 2.74, 0, 0x39434d, { rough: 0.5, metal: 0.4 });
+    for (const sx of [-1, 1]) box(bay, 0.24, 2.6, 0.34, sx * 1.03, 1.3, 0, 0x39434d, { rough: 0.5, metal: 0.4 });
+    const glow = box(bay, 1.84, 2.5, 0.06, 0, 1.3, -0.1, room.accent,
+      { emissive: room.accent, ei: 1.05, rough: 0.4, opacity: 0.72, cast: false });
+    box(bay, 1.84, 0.05, 0.3, 0, 0.03, 0.06, room.accent, { emissive: room.accent, ei: 1.4, rough: 0.4, cast: false });
+
+    // Trade sign.
+    const sign = decal(bay, 2.0, 0.44, 0, 3.05, 0.02, () => {}, { px: 512, glow: true, ei: 0.5 });
+    // Record plaque beside the door.
+    const plaque = decal(bay, 0.86, 0.62, 1.62, 1.5, 0.06, () => {}, { px: 384, glow: true, ei: 0.45 });
+    plaque.rotation.y = -0.5;
+    box(bay, 0.92, 0.68, 0.04, 1.62, 1.5, 0.04, 0x11181f, { rough: 0.6 }).rotation.y = -0.5;
+    doorFaces[room.id] = { sign, plaque, room };
+
+    // Floor spot in the room's accent, so the hub reads at a glance.
+    cyl(bay, 1.05, 1.05, 0.008, 0, 0.014, 0.95, room.accent,
+      { rough: 0.6, emissive: room.accent, ei: 0.75, cast: false, seg: 28 });
+    reg(box(bay, 1.9, 2.5, 0.5, 0, 1.25, 0.2, 0x000000, { opacity: 0.001, transparent: true, cast: false }),
+      `door-${room.id}`);
+
+    const lamp = new THREE.PointLight(room.accent, 2.4, 7, 2);
+    lamp.position.set(dx * 0.8, 2.4, dz * 0.8);
+    root.add(lamp);
+  });
+
+  function paintDoors() {
+    for (const id of Object.keys(doorFaces)) {
+      const { sign, plaque, room } = doorFaces[id];
+      const state = Progress.roomState(id);
+      repaint(sign, (g, w, h) => {
+        g.fillStyle = "#0b1219"; g.fillRect(0, 0, w, h);
+        g.fillStyle = room.accentCss; g.fillRect(0, h - 6, w, 6);
+        g.fillStyle = HUD.text;
+        g.font = `600 ${Math.round(h * 0.5)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.textAlign = "center"; g.textBaseline = "middle";
+        g.fillText(room.title.toUpperCase(), w / 2, h * 0.42);
+        g.fillStyle = room.accentCss;
+        g.font = `600 ${Math.round(h * 0.2)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.fillText(room.trade.toUpperCase(), w / 2, h * 0.78);
+      });
+      repaint(plaque, (g, w, h) => {
+        g.fillStyle = "#0b1219"; g.fillRect(0, 0, w, h);
+        g.fillStyle = room.accentCss; g.fillRect(0, 0, 6, h);
+        g.textAlign = "left"; g.textBaseline = "middle";
+        g.fillStyle = HUD.muted;
+        g.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.fillText("YOUR RECORD", w * 0.09, h * 0.15);
+        g.font = `${Math.round(h * 0.34)}px Arial, sans-serif`;
+        g.fillStyle = state.stars ? "#f2c14b" : "#2c3a46";
+        g.fillText("★★★".slice(0, state.stars * 1 || 0).padEnd(0), w * 0.09, h * 0.4);
+        g.fillStyle = "#2c3a46";
+        g.fillText("★★★", w * 0.09, h * 0.4);
+        if (state.stars) {
+          g.fillStyle = "#f2c14b";
+          g.fillText("★★★".slice(0, state.stars), w * 0.09, h * 0.4);
+        }
+        g.fillStyle = HUD.text;
+        g.font = `${Math.round(h * 0.12)}px Arial, sans-serif`;
+        g.fillText(state.runs ? `best ${state.best} pts` : "not attempted", w * 0.09, h * 0.66);
+        g.fillStyle = HUD.muted;
+        g.fillText(state.bestTime != null ? `${state.bestTime}s · ${state.runs} run${state.runs === 1 ? "" : "s"}` : "step in to begin",
+          w * 0.09, h * 0.84);
+      });
+    }
+  }
+  paintDoors();
+
+  const key = new THREE.DirectionalLight(0xdbe6f2, 0.75);
+  key.position.set(3, 8, 4);
+  root.add(key);
+  root.add(new THREE.HemisphereLight(0x8ea9c2, 0x1e242b, 1.35));
+
+  return {
+    hits,
+    isHub: true,
+    spawnLook: new THREE.Vector3(0, 1.5, 0),
+    refresh() { paintStats(); paintDoors(); },
+    animate(t, dt) {
+      beacon.material.emissiveIntensity = 2.0 + Math.sin(t * 1.6) * 0.7;
+      beacon.position.y = 1.58 + Math.sin(t * 0.9) * 0.04;
+      capital.rotation.y = t * 0.12;
+      motes.userData.step(dt * 0.3, new THREE.Vector3(0, 0.9, 0), 1.1, 0.12, 0.02);
+    },
+  };
+}
+
+
+/* ===== js/rooms/electrical.js ===== */
+// Room 01 — Electrical worker: energy isolation and absence-of-voltage verification.
+// Upgraded from the Unity project's Electrical Maintenance site (open panel,
+// lockout staging, protected cable crossing) into a full ordered procedure with
+// a live/dead/live proving sequence.
+
+const STEEL = 0x8a949d, DARKSTEEL = 0x3a4148, PANEL_GREY = 0x59636d;
+const COPPER = 0xb87333, HAZARD = 0xf2ae14;
+
+const ROOM_ELECTRICAL = {
+  id: "electrical",
+  trade: "Electrical worker",
+  title: "Isolation Bay",
+  tagline: "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+  accent: 0x5aa9ff,
+  accentCss: "#5aa9ff",
+  parSeconds: 165,
+  spawn: { x: 0, z: 3.0, ry: 0 },
+  badge: { id: "zero-energy", name: "Zero Energy Verified", note: "Perfect live-dead-live on the first run" },
+
+  hazards: {
+    "live-bus": "You reached into an energised enclosure. Exposed bus at 480 V will not warn you first — nothing enters that cabinet until the disconnect is open, locked, and proven dead.",
+    "foreign-lock": "That padlock belongs to another worker. You never remove someone else's lock or tag: their life is on the other end of it. Each worker applies and removes their own.",
+    "damaged-leads": "Those test leads have cracked insulation at the strain relief. Damaged leads put your hand at line potential — bin them and draw a rated set.",
+  },
+
+  lateNotes: {
+    "test-l1": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
+    "test-l2": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
+    "test-l3": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
+    "ground-cluster": "Grounds go on after the circuit is proven dead, not before — applying them to a live conductor is a bolted fault.",
+  },
+
+  steps: [
+    {
+      id: "ppe", kind: "select", target: "ppe-cart",
+      title: "Don arc-rated PPE",
+      cue: "Take arc-rated PPE from the cart before you approach the panel.",
+      why: "Shock and arc-flash protection go on before you enter the approach boundary, not once the door is open.",
+    },
+    {
+      id: "schedule", kind: "select", target: "panel-schedule",
+      title: "Identify the circuit",
+      cue: "Read the panel schedule and confirm which circuit you are isolating.",
+      why: "The schedule tells you what the breaker feeds — and what else goes dark when you open it.",
+    },
+    {
+      id: "notify", kind: "select", target: "notice-board",
+      title: "Notify affected workers",
+      cue: "Post the work notice so everyone downstream knows the feeder is coming out.",
+      why: "Affected employees must be told before and after isolation. An unannounced outage is how someone re-energises your circuit.",
+    },
+    {
+      id: "open", kind: "select", target: "disconnect-handle",
+      title: "Open the disconnect",
+      cue: "Rotate the disconnect handle to OFF.",
+      why: "Opening the disconnect is the isolation itself. Everything after this verifies and protects it.",
+    },
+    {
+      id: "lock", kind: "select", target: "lock-station",
+      title: "Apply your lock and tag",
+      cue: "Take your personal padlock and tag from the station and apply them to the hasp.",
+      why: "Your lock, your key, your control. The tag names who applied it and why, so nobody guesses.",
+    },
+    {
+      id: "prove-live", kind: "gauge", target: "proving-unit",
+      title: "Prove the meter — live",
+      cue: "Test the meter on the known-live proving unit. Commit inside the nominal band.",
+      why: "A meter that reads zero because it is broken looks exactly like a dead circuit. Prove it works first.",
+      gauge: {
+        label: "PROVING UNIT — LINE VOLTAGE", unit: "V", speed: 0.75, green: [0.46, 0.64],
+        readout: (t) => `${Math.round(t * 720)} V`,
+        missNote: "That is not the proving unit's nominal output. Hold the leads steady and commit in the green band.",
+      },
+    },
+    {
+      id: "test-dead", kind: "sequence", target: null, anyOrder: true,
+      targets: ["test-l1", "test-l2", "test-l3"],
+      itemNames: { "test-l1": "L1 phase conductor", "test-l2": "L2 phase conductor", "test-l3": "L3 phase conductor" },
+      title: "Test for absence of voltage",
+      cue: "Test every phase conductor at the work point — all three, in any order.",
+      why: "Absence of voltage means every conductor you could contact, not the one you expect to be dead.",
+      outOfOrderNote: "Test each conductor once; you still have phases left to verify.",
+    },
+    {
+      id: "prove-again", kind: "gauge", target: "proving-unit",
+      title: "Re-prove the meter — live",
+      cue: "Return to the proving unit and confirm the meter still reads correctly.",
+      why: "The meter can fail between the dead test and now. Live-dead-live is one instrument check, not two halves.",
+      gauge: {
+        label: "PROVING UNIT — CONFIRM", unit: "V", speed: 0.95, green: [0.46, 0.64],
+        readout: (t) => `${Math.round(t * 720)} V`,
+        missNote: "Off the nominal band. Steady the leads and commit inside the green zone.",
+      },
+    },
+    {
+      id: "ground", kind: "select", target: "ground-cluster",
+      title: "Apply temporary protective grounds",
+      cue: "Install the grounding cluster on the isolated conductors.",
+      why: "Grounds hold the conductors at earth potential if the circuit is ever back-fed while you are inside it.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+
+    shell(root, {
+      w: 8.4, d: 8.4, h: 3.1,
+      floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
+      floorRough: 0.9, skirtColor: 0x2b3138,
+    });
+
+    // Floor: arc-flash approach boundary painted in front of the panel bank.
+    for (let i = -4; i <= 4; i++) {
+      box(root, 0.26, 0.006, 0.1, i * 0.44, 0.004, -1.5, HAZARD, { cast: false, rough: 0.7 });
+    }
+    decal(root, 1.5, 0.34, 0, 0.006, -1.05, signFace("ARC FLASH BOUNDARY", { bg: "#4a5057", accent: "#f2ae14", scale: 0.5 }))
+      .rotation.x = -Math.PI / 2;
+
+    for (const x of [-2.4, 0, 2.4]) ceilingPanel(root, x, -1.4, { w: 1.5, ei: 1.2 });
+    ceilingPanel(root, 0, 1.8, { w: 1.5, ei: 0.9 });
+
+    // ------------------------------------------------------------- panel bank
+    const bank = group(root, 0, 0, -3.55);
+    box(bank, 3.9, 0.14, 0.72, 0, 0.07, 0, 0x30363c, { rough: 0.8 });            // housekeeping pad
+    for (let i = -1; i <= 1; i++) {
+      const cab = group(bank, i * 1.28, 0, 0);
+      box(cab, 1.2, 2.05, 0.52, 0, 1.16, 0, PANEL_GREY, { rough: 0.42, metal: 0.65 });
+      box(cab, 1.24, 0.06, 0.56, 0, 2.22, 0, PANEL_GREY, { rough: 0.42, metal: 0.65 });   // drip cap
+      box(cab, 1.1, 0.04, 0.02, 0, 0.2, 0.27, 0x2c3238, { rough: 0.6 });                  // door seam
+    }
+
+    // Centre cabinet: door swung open, deadfront off, live bus exposed.
+    const centre = group(bank, 0, 0, 0);
+    const door = group(centre, -0.6, 1.16, 0.26);
+    box(door, 1.14, 1.9, 0.035, 0.57, 0, 0, PANEL_GREY, { rough: 0.4, metal: 0.7 });
+    box(door, 0.05, 0.22, 0.045, 1.06, 0, 0.03, STEEL, { rough: 0.3, metal: 0.9 });
+    decal(door, 0.52, 0.3, 0.6, 0.62, 0.021,
+      signFace("DANGER\nARC FLASH", { bg: "#b81410", accent: "#f2ae14", fg: "#ffffff", scale: 0.32 }));
+    door.rotation.y = 1.15;
+
+    const interior = group(centre, 0, 1.16, 0.14);
+    box(interior, 1.06, 1.82, 0.06, 0, 0, -0.16, 0x1b2026, { rough: 0.9 });               // back pan
+    // Vertical bus with three phase conductors, each individually testable.
+    const phases = [
+      { id: "test-l1", x: -0.3, colour: 0x2d2f33, tag: "L1" },
+      { id: "test-l2", x: 0.0, colour: 0x9b1d18, tag: "L2" },
+      { id: "test-l3", x: 0.3, colour: 0x1b3f86, tag: "L3" },
+    ];
+    const phaseMeshes = {};
+    for (const p of phases) {
+      const run = group(interior, p.x, 0, -0.06);
+      const bar = box(run, 0.07, 1.5, 0.02, 0, 0.06, 0, COPPER, { rough: 0.32, metal: 0.95 });
+      box(run, 0.1, 0.16, 0.05, 0, 0.68, 0.01, p.colour, { rough: 0.7 });                 // insulator boot
+      box(run, 0.1, 0.16, 0.05, 0, -0.6, 0.01, p.colour, { rough: 0.7 });
+      const lug = box(run, 0.11, 0.09, 0.06, 0, -0.2, 0.03, 0x6d757d, { rough: 0.35, metal: 0.9 });
+      decal(run, 0.09, 0.06, 0, 0.86, 0.02, signFace(p.tag, { bg: "#20262c", accent: "#5aa9ff", scale: 0.7 }));
+      reg(lug, p.id);
+      phaseMeshes[p.id] = { bar, lug, run };
+    }
+    // Breaker rows flanking the bus.
+    for (const sx of [-1, 1]) {
+      for (let r = 0; r < 6; r++) {
+        box(interior, 0.16, 0.1, 0.09, sx * 0.44, 0.62 - r * 0.16, 0.02, 0x22272c, { rough: 0.7 });
+        box(interior, 0.05, 0.05, 0.04, sx * 0.44, 0.62 - r * 0.16, 0.08, r === 1 ? HAZARD : 0x0e1215, { rough: 0.6 });
+      }
+    }
+    reg(box(interior, 0.94, 1.72, 0.02, 0, 0, -0.12, 0x141a20, { rough: 0.92, cast: false }), "live-bus");
+
+    // Rotary disconnect handle on the right cabinet face.
+    const discBody = group(bank, 1.28, 1.5, 0.27);
+    box(discBody, 0.3, 0.34, 0.06, 0, 0, 0, 0x2c3238, { rough: 0.45, metal: 0.6 });
+    decal(discBody, 0.26, 0.1, 0, 0.13, 0.035, signFace("MAIN DISCONNECT", { scale: 0.55 }));
+    const handlePivot = group(discBody, 0, -0.03, 0.04);
+    const handle = box(handlePivot, 0.06, 0.2, 0.05, 0, 0.08, 0, HAZARD, { rough: 0.5 });
+    cyl(handlePivot, 0.035, 0.035, 0.05, 0, 0, 0.01, STEEL, { rough: 0.3, metal: 0.9, seg: 14 })
+      .rotation.x = Math.PI / 2;
+    const hasp = torus(discBody, 0.028, 0.008, -0.11, -0.1, 0.05, STEEL, { rough: 0.3, metal: 0.9 });
+    hasp.rotation.y = Math.PI / 2;
+    reg(handlePivot, "disconnect-handle");
+    const stateLamp = ball(discBody, 0.022, 0.11, 0.11, 0.04, 0xff3b30,
+      { emissive: 0xff3b30, ei: 2.4, rough: 0.3 });
+    decal(bank, 0.62, 0.2, 1.28, 1.86, 0.28, signFace("ENERGISED", { bg: "#2a1416", accent: "#f0645b", scale: 0.55 }));
+
+    // Applied lock and tag — hidden until the learner applies them.
+    const appliedLock = group(discBody, -0.11, -0.1, 0.06);
+    torus(appliedLock, 0.026, 0.007, 0, 0.026, 0, 0xc0c6cc, { rough: 0.25, metal: 0.95 }).rotation.y = Math.PI / 2;
+    box(appliedLock, 0.032, 0.042, 0.018, 0, 0, 0, 0xd8232a, { rough: 0.5 });
+    const tag = decal(appliedLock, 0.09, 0.12, 0.005, -0.09, 0.01,
+      paperFace("DANGER", ["DO NOT OPERATE", "A. Rivera", "Feeder 3B"], { bg: "#f4e9d8", band: "#b81410" }));
+    tag.rotation.z = 0.08;
+    appliedLock.visible = false;
+
+    // -------------------------------------------------------- panel schedule
+    const sched = decal(root, 0.6, 0.78, -1.9, 1.55, -4.27,
+      paperFace("PANEL 3B — SCHEDULE", [
+        "01  Bay lighting        20A",
+        "03  Conveyor drive      60A",
+        "05  Compressor          40A",
+        "07  FEEDER 3B  ← WORK   100A",
+        "09  Spare",
+        "11  Weld receptacles    50A",
+      ]));
+    box(root, 0.66, 0.84, 0.02, -1.9, 1.55, -4.29, 0x20262c, { rough: 0.6 });
+    reg(sched, "panel-schedule");
+
+    // ----------------------------------------------------------- lock station
+    const lockWall = group(root, -4.1, 0, -1.2, Math.PI / 2);
+    box(lockWall, 0.9, 0.7, 0.06, 0, 1.5, 0, 0xd8232a, { rough: 0.6 });
+    decal(lockWall, 0.84, 0.16, 0, 1.78, 0.035, signFace("GROUP LOCKOUT STATION", { bg: "#7d1512", accent: "#f2ae14", scale: 0.55 }));
+    const hooks = group(lockWall, 0, 1.44, 0.04);
+    const lockColours = [0xd8232a, 0x1f7ae0, 0x28a745, 0xf2ae14, 0x8e44ad];
+    lockColours.forEach((c, i) => {
+      const lx = -0.32 + i * 0.16;
+      cyl(hooks, 0.006, 0.006, 0.05, lx, 0.14, 0.02, STEEL, { rough: 0.3, metal: 0.9, seg: 8 }).rotation.x = Math.PI / 2;
+      const lock = group(hooks, lx, 0.06, 0.04);
+      torus(lock, 0.022, 0.006, 0, 0.024, 0, 0xc0c6cc, { rough: 0.25, metal: 0.95 }).rotation.y = Math.PI / 2;
+      box(lock, 0.03, 0.038, 0.016, 0, 0, 0, c, { rough: 0.5 });
+    });
+    for (let i = 0; i < 4; i++) {
+      const t = decal(hooks, 0.075, 0.1, -0.26 + i * 0.16, -0.12, 0.03,
+        paperFace("DANGER", ["DO NOT", "OPERATE"], { bg: "#f4e9d8", band: "#b81410" }));
+      t.rotation.z = (i % 2 ? 1 : -1) * 0.06;
+    }
+    reg(lockWall, "lock-station");
+
+    // A second worker's lock already on the board — removing it is the hazard.
+    const foreign = group(lockWall, 0.36, 1.22, 0.06);
+    torus(foreign, 0.024, 0.007, 0, 0.026, 0, 0xc0c6cc, { rough: 0.25, metal: 0.95 }).rotation.y = Math.PI / 2;
+    box(foreign, 0.034, 0.044, 0.018, 0, 0, 0, 0x28a745, { rough: 0.5 });
+    decal(foreign, 0.08, 0.1, 0, -0.09, 0.012,
+      paperFace("IN USE", ["M. OKONKWO", "SHIFT 2"], { bg: "#f4e9d8", band: "#1d6b34" }));
+    reg(foreign, "foreign-lock");
+
+    // --------------------------------------------------------------- PPE cart
+    const ppe = group(root, -2.85, 0, 0.55, 0.95);
+    const cartBody = counter(ppe, 0.9, 0.5, 0, 0, 0x39424b, { height: 0.86, metal: 0.4, rough: 0.5 });
+    // Face shield on a stand.
+    const shieldStand = group(ppe, -0.24, 0.91, 0);
+    cyl(shieldStand, 0.03, 0.05, 0.12, 0, 0.06, 0, 0x2c3238, { rough: 0.6, seg: 12 });
+    ball(shieldStand, 0.1, 0, 0.24, 0, 0xe8e2d6, { rough: 0.5 });
+    const visor = ball(shieldStand, 0.115, 0, 0.24, 0.02, 0xffb26b,
+      { rough: 0.12, metal: 0.1, opacity: 0.55, side: 2 });
+    visor.scale.set(1, 0.86, 0.7);
+    box(shieldStand, 0.24, 0.05, 0.2, 0, 0.35, 0, 0x2c3238, { rough: 0.6 });
+    // Rubber insulating gloves with leather protectors, cuffs up.
+    for (const sx of [-1, 1]) {
+      const glove = group(ppe, 0.14 + (sx > 0 ? 0.17 : 0), 0.9, sx * 0.06);
+      cyl(glove, 0.055, 0.06, 0.26, 0, 0.13, 0, 0xd4622b, { rough: 0.85, seg: 12 });
+      box(glove, 0.1, 0.12, 0.05, 0, 0.3, 0, 0xd4622b, { rough: 0.85 });
+      cyl(glove, 0.062, 0.062, 0.06, 0, 0.03, 0, 0x8a5a3a, { rough: 0.9, seg: 12 });
+    }
+    // FR jacket folded on the shelf.
+    box(ppe, 0.34, 0.1, 0.28, 0.06, 0.3, 0, 0x2f4c7a, { rough: 0.95 });
+    box(ppe, 0.3, 0.03, 0.24, 0.06, 0.36, 0, 0x35558a, { rough: 0.95 });
+    decal(ppe, 0.42, 0.1, 0, 0.62, 0.26, signFace("ARC-RATED PPE  CAT 2", { scale: 0.6 }));
+    reg(ppe, "ppe-cart");
+
+    // ---------------------------------------------------------- notice board
+    const notice = group(root, 4.1, 0, -1.0, -Math.PI / 2);
+    box(notice, 0.8, 0.6, 0.05, 0, 1.55, 0, 0x2c3238, { rough: 0.7 });
+    decal(notice, 0.72, 0.52, 0, 1.55, 0.03, paperFace("WORK NOTICE", [
+      "Feeder 3B out of service", "Crew: A. Rivera", "Start 09:15", "Affected: line 4 conveyor", "Restore: on release only",
+    ]));
+    reg(notice, "notice-board");
+
+    // ---------------------------------------------------------- proving unit
+    const proving = group(root, 4.1, 0, 0.6, -Math.PI / 2);
+    box(proving, 0.34, 0.44, 0.14, 0, 1.35, 0, 0x1f262c, { rough: 0.5, metal: 0.3 });
+    decal(proving, 0.3, 0.12, 0, 1.52, 0.075, signFace("PROVING UNIT", { accent: "#5aa9ff", scale: 0.55 }));
+    for (const sx of [-1, 1]) {
+      cyl(proving, 0.016, 0.016, 0.03, sx * 0.07, 1.28, 0.08, sx < 0 ? 0x1b1e22 : 0xb81410, { rough: 0.5, seg: 10 })
+        .rotation.x = Math.PI / 2;
+    }
+    const provingLamp = ball(proving, 0.018, 0, 1.19, 0.08, 0x59c97b, { emissive: 0x59c97b, ei: 2.2 });
+    reg(proving, "proving-unit");
+
+    // ------------------------------------------------------------- workbench
+    const bench = counter(root, 1.9, 0.7, 2.5, -2.2, 0x6f767d, { height: 0.9, metal: 0.5, rough: 0.45, ry: -0.25 });
+    // Digital multimeter with a live canvas display.
+    const dmmRoot = group(bench, -0.45, 0.94, 0.02, 0.4);
+    slab(dmmRoot, 0.15, 0.045, 0.24, 0, 0.02, 0, 0xf2ae14, { rough: 0.6, radius: 0.012 });
+    const dmmScreen = decal(dmmRoot, 0.11, 0.06, 0, 0.046, -0.05,
+      signFace("0.0 V", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.6 }), { glow: true, ei: 0.8 });
+    dmmScreen.rotation.x = -Math.PI / 2;
+    cyl(dmmRoot, 0.024, 0.024, 0.006, 0, 0.048, 0.05, 0x22262b, { rough: 0.5, seg: 14 });
+    hose(dmmRoot, [[-0.04, 0.03, 0.1], [-0.2, 0.02, 0.22], [-0.34, 0.01, 0.1]], 0.006, 0x1b1e22, { steps: 14 });
+    hose(dmmRoot, [[0.04, 0.03, 0.1], [0.22, 0.02, 0.24], [0.36, 0.01, 0.12]], 0.006, 0xb81410, { steps: 14 });
+
+    // Damaged leads coiled at the far end — the trap.
+    const damaged = group(bench, 0.62, 0.93, 0.06);
+    torus(damaged, 0.09, 0.008, 0, 0.01, 0, 0x1b1e22, { rough: 0.8 });
+    torus(damaged, 0.07, 0.008, 0.01, 0.022, 0.01, 0xb81410, { rough: 0.8 });
+    box(damaged, 0.02, 0.012, 0.02, 0.06, 0.03, 0.05, COPPER, { rough: 0.3, metal: 0.9 });  // exposed conductor
+    decal(damaged, 0.14, 0.05, 0, 0.06, -0.09, signFace("SPARE LEADS", { scale: 0.6 }));
+    reg(damaged, "damaged-leads");
+
+    // Grounding cluster: three clamps on braided cable, waiting on the bench.
+    const grounds = group(bench, 0.12, 0.95, -0.06, 0.2);
+    const clampPts = [[-0.18, 0, 0], [0, 0.02, 0.05], [0.18, 0, 0]];
+    for (const [gx, gy, gz] of clampPts) {
+      box(grounds, 0.05, 0.05, 0.03, gx, gy + 0.02, gz, 0x9aa1a8, { rough: 0.35, metal: 0.85 });
+      cyl(grounds, 0.008, 0.008, 0.07, gx, gy + 0.06, gz, 0x9aa1a8, { rough: 0.35, metal: 0.85, seg: 8 });
+    }
+    hose(grounds, [[-0.18, 0.01, 0], [-0.06, -0.01, 0.12], [0.06, -0.01, 0.12], [0.18, 0.01, 0]], 0.011, 0x2f6f3f,
+      { steps: 20, rough: 0.8 });
+    decal(grounds, 0.2, 0.05, 0, 0.02, -0.14, signFace("TEMPORARY GROUNDS", { accent: "#59c97b", scale: 0.5 }));
+    reg(grounds, "ground-cluster");
+
+    // Installed grounds — revealed on the final step.
+    const installedGrounds = group(interior, 0, -0.55, 0.06);
+    for (const p of phases) {
+      box(installedGrounds, 0.05, 0.05, 0.04, p.x, 0.06, 0.02, 0x9aa1a8, { rough: 0.35, metal: 0.85 });
+    }
+    hose(installedGrounds, [[-0.3, 0.02, 0.03], [-0.15, -0.14, 0.1], [0.15, -0.14, 0.1], [0.3, 0.02, 0.03]],
+      0.01, 0x2f6f3f, { steps: 18, rough: 0.8 });
+    installedGrounds.visible = false;
+
+    // ------------------------------------------------------ ambience & motion
+    const tray = group(root, 0, 2.72, -1.0);
+    for (let i = -3; i <= 3; i++) box(tray, 0.06, 0.05, 6.4, i * 0.14, 0, 0, 0x6a737b, { rough: 0.5, metal: 0.7, cast: false });
+    for (const z of [-2.6, 0, 2.6]) box(tray, 1.0, 0.1, 0.05, 0, 0.08, z, 0x6a737b, { rough: 0.5, metal: 0.7, cast: false });
+    for (const [cx, cz] of [[-1.1, -3.5], [1.1, -3.5]]) {
+      hose(root, [[cx, 2.68, cz], [cx, 2.2, cz + 0.05], [cx * 1.02, 1.4, -3.9]], 0.035, 0x5b636b, { steps: 12, rough: 0.6 });
+    }
+
+    const sparks = particles(interior, 90, 0xffd08a, { size: 0.026, life: 0.35 });
+    const arcLight = new THREE.PointLight(0xbfd8ff, 0, 6, 2);
+    arcLight.position.set(0, 1.3, -3.2);
+    root.add(arcLight);
+
+    const keyLight = new THREE.DirectionalLight(0xdce8f5, 1.35);
+    keyLight.position.set(2.5, 5.2, 3.2);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.camera.left = -6; keyLight.shadow.camera.right = 6;
+    keyLight.shadow.camera.top = 6; keyLight.shadow.camera.bottom = -6;
+    root.add(keyLight);
+    root.add(new THREE.HemisphereLight(0x9db2c6, 0x2b3037, 1.25));
+
+    let energised = true;
+    let arcTimer = 0;
+
+    return {
+      hits,
+      spawnLook: new THREE.Vector3(0, 1.3, -3.4),
+
+      onStepComplete(step) {
+        if (step.id === "open") {
+          energised = false;
+          handlePivot.rotation.z = -Math.PI / 2.2;
+          stateLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.4, rough: 0.3 });
+          for (const p of phases) phaseMeshes[p.id].bar.material = mat(0x7a6a52, { rough: 0.5, metal: 0.7 });
+        }
+        if (step.id === "lock") appliedLock.visible = true;
+        if (step.id === "ground") installedGrounds.visible = true;
+      },
+
+      onHazard(hitId) {
+        if (hitId === "live-bus" && energised) arcTimer = 0.55;
+      },
+
+      animate(t, dt, session) {
+        // Energised bus hums with a faint emissive pulse until it is opened.
+        const pulse = energised ? 0.5 + 0.5 * Math.sin(t * 5) : 0;
+        stateLamp.material.emissiveIntensity = energised ? 1.6 + pulse * 1.4 : 2.2;
+        provingLamp.material.emissiveIntensity = 1.6 + 0.8 * Math.sin(t * 2.4);
+
+        if (arcTimer > 0) {
+          arcTimer -= dt;
+          sparks.visible = true;
+          sparks.userData.step(dt, new THREE.Vector3(0, 0.1, 0.05), 0.35, 2.6, -4.2);
+          arcLight.intensity = arcTimer > 0 ? 14 * Math.random() : 0;
+        } else if (sparks.visible) {
+          sparks.visible = false;
+          arcLight.intensity = 0;
+        }
+
+        // Meter display follows the live gauge so the instrument reads the run.
+        const g = session?.gauge;
+        if (g && !g.committed) {
+          const v = Math.round(g.t * 720);
+          repaint(dmmScreen, signFace(`${v} V`, {
+            bg: "#0d2b22", accent: v > 330 && v < 460 ? "#59c97b" : "#f2ae14", fg: "#8ef0c0", scale: 0.6,
+          }));
+        }
+      },
+    };
+  },
+};
+
+
+/* ===== js/rooms/salon.js ===== */
+// Room 02 — Hair stylist: oxidative colour service, station sanitation and
+// client protection. The trade content here is the salon's real order of
+// operations, where skipping the consultation or the disinfection step is the
+// failure that actually happens on the floor.
+
+const CHROME = 0xb9c0c6, WARMWOOD = 0x8a6244, SALON_BLACK = 0x24262b;
+
+const ROOM_SALON = {
+  id: "salon",
+  trade: "Hair stylist / colourist",
+  title: "Colour Studio",
+  tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
+  accent: 0xe2739b,
+  accentCss: "#e2739b",
+  parSeconds: 185,
+  spawn: { x: 1.9, z: 2.5, ry: -0.35 },
+  badge: { id: "clean-chair", name: "Clean Chair", note: "Full colour service with no sanitation breach" },
+
+  hazards: {
+    "metal-bowl": "That is a metal mixing bowl. Metal reacts with peroxide developer — it degrades the oxidant and can turn the formula. Colour is mixed in a non-metallic bowl, every time.",
+    "dirty-shears": "Those shears came straight off the last client. Tools are cleaned and immersed in disinfectant between every client — a nicked scalp turns cross-contamination into a blood-borne exposure.",
+    "flat-iron": "The iron is at 200 °C and the hair is saturated with product. Thermal styling on wet, chemically processed hair boils water inside the strand and snaps it.",
+  },
+
+  lateNotes: {
+    "mix-bowl": "Gloves first. Oxidative dye is a skin sensitiser — PPD reactions build with every unprotected exposure and they end careers.",
+    "tint-brush": "Nothing goes on the head before the hair is sectioned and the formula is mixed to the right developer volume.",
+    "backwash": "Rinsing now stops development early — the colour has not had its time in the strand.",
+  },
+
+  steps: [
+    {
+      id: "consult", kind: "select", target: "consult-card",
+      title: "Consult and check the patch test",
+      cue: "Read the client record: allergy history, patch test date, previous chemical services.",
+      why: "The patch test is done 48 hours ahead and the record proves it. No record, no oxidative colour — and previous services decide whether the hair can take this one.",
+    },
+    {
+      id: "sanitize", kind: "select", target: "disinfect-jar",
+      title: "Disinfect the tools",
+      cue: "Immerse combs and shears in the disinfectant jar before the service.",
+      why: "Tools are cleaned then fully immersed in an approved disinfectant between clients. Contact time is what does the work, so they go in before you need them.",
+    },
+    {
+      id: "cape", kind: "select", target: "cape",
+      title: "Drape the client",
+      cue: "Cape the client and set the towel at the neckline.",
+      why: "The drape protects skin and clothing, and the towel stops dye running onto the neck where it stains and sensitises.",
+    },
+    {
+      id: "gloves", kind: "select", target: "glove-box",
+      title: "Glove up",
+      cue: "Take gloves before you touch any product.",
+      why: "Gloves go on before mixing, not before applying. The bowl is the first point of contact.",
+    },
+    {
+      id: "mix", kind: "gauge", target: "mix-bowl",
+      title: "Mix to the right developer volume",
+      cue: "Select the developer for two levels of lift and commit inside the band.",
+      why: "Developer volume sets the lift: 20 vol gives roughly two levels and grey coverage. Reaching for a higher volume to go faster buys damage, not time.",
+      gauge: {
+        label: "DEVELOPER — VOLUME", speed: 0.7, green: [0.44, 0.58],
+        readout: (t) => `${Math.round(10 + t * 30)} vol`,
+        missNote: "Wrong strength for the target. Too low will not lift or cover; too high over-processes the mid-lengths.",
+      },
+    },
+    {
+      id: "section", kind: "sequence", anyOrder: true,
+      targets: ["hair-q1", "hair-q2", "hair-q3", "hair-q4"],
+      itemNames: {
+        "hair-q1": "left front quadrant", "hair-q2": "right front quadrant",
+        "hair-q3": "left nape quadrant", "hair-q4": "right nape quadrant",
+      },
+      title: "Section into four quadrants",
+      cue: "Part the hair into four clean quadrants — all four before you apply.",
+      why: "Four quadrants give you control of saturation and timing. Applying into unsectioned hair is how you get patchy roots and missed grey.",
+      outOfOrderNote: "One or more quadrants are still unparted — every quadrant gets clipped before application starts.",
+    },
+    {
+      id: "apply", kind: "select", target: "tint-brush",
+      title: "Apply root to mid-length",
+      cue: "Take the tint brush and apply through the sectioned hair.",
+      why: "Regrowth first: the root is warmest from scalp heat and processes fastest, so it gets product first and the mid-lengths follow.",
+    },
+    {
+      id: "process", kind: "gauge", target: "timer",
+      title: "Process and pull on time",
+      cue: "Watch the development and pull the colour inside the window.",
+      why: "Development is a chemical clock. Pulled early the colour is under-deposited; left long the cuticle keeps swelling and the hair goes porous.",
+      gauge: {
+        label: "PROCESSING TIMER", speed: 0.5, green: [0.62, 0.8],
+        readout: (t) => `${Math.round(t * 55)} min`,
+        missNote: "Off the development window — check the strand and the manufacturer's timing before you commit.",
+      },
+    },
+    {
+      id: "rinse", kind: "select", target: "backwash",
+      title: "Rinse and neutralise",
+      cue: "Take the client to the backwash bowl and rinse until the water runs clear.",
+      why: "Rinsing stops the reaction. Residual oxidant keeps working in the strand and irritates the scalp long after the client leaves.",
+    },
+    {
+      id: "dispose", kind: "select", target: "waste-bin",
+      title: "Strip down the station",
+      cue: "Bin the gloves and leftover product, then reset the station.",
+      why: "Mixed colour is chemical waste and gloves are contaminated. The next client's service starts with a clean station or it starts compromised.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+
+    shell(root, {
+      w: 8.6, d: 8.6, h: 3.05,
+      floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
+      floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
+    });
+    // Warm terrazzo speckle on the polished floor.
+    for (let i = 0; i < 90; i++) {
+      const a = Math.random() * Math.PI * 2, r = Math.random() * 3.9;
+      box(root, 0.05 + Math.random() * 0.06, 0.002, 0.05 + Math.random() * 0.06,
+        Math.cos(a) * r, 0.003, Math.sin(a) * r,
+        [0xb9a389, 0x8d9aa3, 0xd8cfc2][i % 3], { cast: false, receive: false, rough: 0.4 });
+    }
+    ceilingPanel(root, -1.6, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
+    ceilingPanel(root, 1.8, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
+    ceilingPanel(root, 0, 2.4, { w: 2.2, color: 0xfff0dc, ei: 1.0 });
+
+    // ----------------------------------------------------- mirror station
+    const station = group(root, -1.4, 0, -4.1);
+    box(station, 2.5, 2.1, 0.08, 0, 1.55, 0.06, WARMWOOD, { rough: 0.6 });
+    // Mirror: faked with a cool gradient so it reads as glass without a render target.
+    decal(station, 1.5, 1.5, 0, 1.62, 0.11, (g, w, h) => {
+      const grad = g.createLinearGradient(0, 0, w * 0.6, h);
+      grad.addColorStop(0, "#c9d6dd"); grad.addColorStop(0.45, "#93a6b2");
+      grad.addColorStop(0.75, "#aebdc7"); grad.addColorStop(1, "#7d8f9c");
+      g.fillStyle = grad; g.fillRect(0, 0, w, h);
+      g.globalAlpha = 0.25; g.fillStyle = "#ffffff";
+      g.beginPath(); g.moveTo(w * 0.1, h); g.lineTo(w * 0.45, 0); g.lineTo(w * 0.62, 0); g.lineTo(w * 0.27, h);
+      g.closePath(); g.fill(); g.globalAlpha = 1;
+    }, { rough: 0.08, metal: 0.85, px: 384 });
+    box(station, 1.62, 1.62, 0.03, 0, 1.62, 0.09, 0x3a3d44, { rough: 0.4, metal: 0.5 });
+    for (let i = 0; i < 7; i++) {                                   // bulb strip
+      const bx = -0.9 + (i % 2) * 1.8, by = 0.95 + Math.floor(i / 2) * 0.42;
+      if (i === 6) continue;
+      ball(station, 0.045, bx, by, 0.14, 0xfff2d8, { emissive: 0xffe6bd, ei: 2.6, rough: 0.3 });
+    }
+    const stationLight = new THREE.PointLight(0xffe1b8, 1.6, 5.5, 2);
+    stationLight.position.set(-1.4, 1.9, -3.6);
+    root.add(stationLight);
+
+    // Console shelf with the client record, glove box, disinfectant jar, tools.
+    const console_ = counter(station, 2.3, 0.42, 0, 0.42, 0x2b2e33, { height: 0.86, metal: 0.25, rough: 0.5 });
+
+    const consult = group(console_, -0.78, 0.89, 0.02, 0.25);
+    slab(consult, 0.26, 0.012, 0.34, 0, 0, 0, 0x1f2227, { radius: 0.008, rough: 0.4, metal: 0.4 });
+    const consultFace = decal(consult, 0.23, 0.3, 0, 0.008, 0,
+      paperFace("CLIENT RECORD", [
+        "Nadia K. — level 5 base",
+        "Target: level 7, warm",
+        "Patch test: 22/03 — clear",
+        "Last service: gloss, 6 wks",
+        "No metallic home colour",
+      ]));
+    consultFace.rotation.x = -Math.PI / 2;
+    reg(consult, "consult-card");
+
+    // Disinfectant jar: glass cylinder with blue solution and immersed combs.
+    const jar = group(console_, -0.2, 0.87, 0.0);
+    cyl(jar, 0.075, 0.075, 0.26, 0, 0.13, 0, 0xdfeaf2, { opacity: 0.32, rough: 0.05, metal: 0.1, seg: 22 });
+    cyl(jar, 0.068, 0.068, 0.17, 0, 0.095, 0, 0x2f6fb5, { opacity: 0.72, rough: 0.15, seg: 22 });
+    cyl(jar, 0.08, 0.08, 0.02, 0, 0.27, 0, CHROME, { rough: 0.25, metal: 0.9, seg: 22 });
+    for (let i = 0; i < 3; i++) {
+      const comb = box(jar, 0.016, 0.2, 0.05, -0.03 + i * 0.03, 0.13, 0.01, [0x1b1e22, 0x6d3f2a, 0x1b1e22][i], { rough: 0.6 });
+      comb.rotation.z = -0.12 + i * 0.12;
+    }
+    decal(jar, 0.12, 0.05, 0, 0.1, 0.077, signFace("DISINFECTANT", { bg: "#123b63", accent: "#6cc6f0", scale: 0.55 }));
+    reg(jar, "disinfect-jar");
+
+    // Contaminated shears left out from the previous client — the trap.
+    const shears = group(console_, 0.28, 0.88, 0.06, -0.6);
+    for (const s of [-1, 1]) {
+      const blade = box(shears, 0.012, 0.006, 0.15, s * 0.006, 0, 0.06, CHROME, { rough: 0.15, metal: 0.95 });
+      blade.rotation.y = s * 0.05;
+      torus(shears, 0.022, 0.005, s * 0.014, 0, -0.05, CHROME, { rough: 0.2, metal: 0.9 }).rotation.x = Math.PI / 2;
+    }
+    cyl(shears, 0.008, 0.008, 0.012, 0, 0, 0.005, 0x6f767d, { rough: 0.2, metal: 0.9, seg: 10 });
+    box(shears, 0.14, 0.004, 0.1, 0, -0.004, 0.03, 0x8a6c58, { rough: 0.85 });      // hair clippings on the towel
+    reg(shears, "dirty-shears");
+
+    const gloveBox = group(console_, 0.78, 0.88, 0.02, -0.2);
+    slab(gloveBox, 0.2, 0.11, 0.13, 0, 0.055, 0, 0x1d6b8c, { radius: 0.012, rough: 0.7 });
+    box(gloveBox, 0.11, 0.005, 0.06, 0, 0.112, 0, 0x0f4257, { rough: 0.6 });
+    for (let i = 0; i < 3; i++) {
+      const g2 = box(gloveBox, 0.05, 0.03, 0.04, -0.02 + i * 0.02, 0.125 + i * 0.012, 0.005, 0x2b2e33, { rough: 0.9 });
+      g2.rotation.set(0.3 + i * 0.2, i * 0.5, 0.2);
+    }
+    decal(gloveBox, 0.16, 0.045, 0, 0.06, 0.066, signFace("NITRILE  M", { bg: "#0f4257", accent: "#6cc6f0", scale: 0.6 }));
+    reg(gloveBox, "glove-box");
+
+    // The flat iron, hot on its rest.
+    const iron = group(console_, 0.5, 0.88, -0.1, 0.9);
+    box(iron, 0.045, 0.03, 0.26, 0, 0.02, 0, 0x2b2e33, { rough: 0.4, metal: 0.3 });
+    box(iron, 0.042, 0.02, 0.16, 0, 0.045, 0.03, 0x3d4148, { rough: 0.35, metal: 0.4 });
+    ball(iron, 0.008, 0, 0.058, -0.09, 0xff5a3c, { emissive: 0xff5a3c, ei: 3 });
+    hose(iron, [[0, 0.02, -0.13], [-0.1, 0.01, -0.24], [-0.26, 0.005, -0.2]], 0.008, 0x1b1e22, { steps: 12 });
+    reg(iron, "flat-iron");
+
+    // --------------------------------------------------------- styling chair
+    const chairBase = group(root, -1.4, 0, -2.5);
+    cyl(chairBase, 0.36, 0.42, 0.06, 0, 0.03, 0, 0x1b1e22, { rough: 0.5, metal: 0.6, seg: 26 });
+    cyl(chairBase, 0.07, 0.07, 0.44, 0, 0.26, 0, CHROME, { rough: 0.2, metal: 0.95, seg: 18 });
+    const chairSpin = group(chairBase, 0, 0.48, 0);
+    slab(chairSpin, 0.56, 0.12, 0.54, 0, 0.06, 0, SALON_BLACK, { radius: 0.06, rough: 0.75 });
+    const chairBack = group(chairSpin, 0, 0.1, -0.24);
+    slab(chairBack, 0.54, 0.62, 0.12, 0, 0.31, 0, SALON_BLACK, { radius: 0.06, rough: 0.75 });
+    chairBack.rotation.x = -0.1;
+    for (const sx of [-1, 1]) slab(chairSpin, 0.07, 0.24, 0.4, sx * 0.3, 0.16, 0.02, SALON_BLACK, { radius: 0.03, rough: 0.7 });
+    cyl(chairBase, 0.22, 0.22, 0.03, 0, 0.16, 0.22, CHROME, { rough: 0.25, metal: 0.9, seg: 18 });   // footrest
+
+    // Client, caped, with four hair quadrants that take the colour.
+    const client = seatedFigure(chairSpin, 0, 0.12, 0.04, { skin: 0xd6a482, cloth: 0x3b3f46 });
+    const cape = group(client.torso, 0, 0.66, 0);
+    const capeBody = cyl(cape, 0.23, 0.34, 0.62, 0, -0.06, 0.02, 0x1f2a44, { rough: 0.75, seg: 22, open: true, side: 2 });
+    cyl(cape, 0.13, 0.13, 0.06, 0, 0.28, 0, 0xe8e2d6, { rough: 0.9, seg: 18 });        // neck towel
+    cape.visible = false;
+    // A folded cape waiting on the chair arm is what the learner actually picks up.
+    const capeFolded = group(chairSpin, 0.3, 0.3, 0.14);
+    slab(capeFolded, 0.22, 0.06, 0.16, 0, 0, 0, 0x1f2a44, { radius: 0.02, rough: 0.8 });
+    slab(capeFolded, 0.2, 0.03, 0.14, 0, 0.045, 0, 0xe8e2d6, { radius: 0.02, rough: 0.9 });
+    reg(capeFolded, "cape");
+
+    const hairRoot = group(client.head, 0, 0.02, 0);
+    const quadrants = {};
+    const quadSpec = [
+      { id: "hair-q1", x: -0.06, z: 0.05, clip: [-0.09, 0.09, 0.06] },
+      { id: "hair-q2", x: 0.06, z: 0.05, clip: [0.09, 0.09, 0.06] },
+      { id: "hair-q3", x: -0.06, z: -0.06, clip: [-0.09, 0.08, -0.08] },
+      { id: "hair-q4", x: 0.06, z: -0.06, clip: [0.09, 0.08, -0.08] },
+    ];
+    for (const q of quadSpec) {
+      const g = group(hairRoot, 0, 0, 0);
+      const lock = ball(g, 0.085, q.x, 0.03, q.z, 0x4a3227, { rough: 0.95, seg: 16 });
+      lock.scale.set(1, 0.95, 1.05);
+      const tail = cyl(g, 0.05, 0.035, 0.16, q.x * 1.5, -0.06, q.z * 1.6, 0x4a3227, { rough: 0.95, seg: 12 });
+      tail.rotation.set(q.z * 1.2, 0, -q.x * 1.4);
+      const clip = box(g, 0.055, 0.012, 0.02, q.clip[0], q.clip[1], q.clip[2], 0xe2739b, { rough: 0.4 });
+      clip.visible = false;
+      quadrants[q.id] = { lock, tail, clip, parted: false };
+      reg(g, q.id);
+    }
+
+    // --------------------------------------------------------- colour bar
+    const bar = counter(root, 2.0, 0.62, 2.9, -3.6, 0xe4ded4, { height: 0.94, metal: 0.05, rough: 0.5, ry: 0 });
+    decal(bar, 1.7, 0.16, 0, 1.0, -0.32, signFace("COLOUR BAR", { bg: "#2b2e33", accent: "#e2739b", scale: 0.55 }))
+      .rotation.x = -Math.PI / 2;
+    // Non-metallic mixing bowl with product, and its metal twin — the trap.
+    const bowl = group(bar, -0.5, 0.97, 0.05);
+    lathe(bowl, [[0.001, 0], [0.09, 0.005], [0.12, 0.05], [0.125, 0.075], [0.118, 0.078], [0.113, 0.05], [0.085, 0.008], [0.001, 0.004]],
+      0, 0, 0, 0x2b2e33, { rough: 0.55, seg: 26 });
+    const product = cyl(bowl, 0.1, 0.075, 0.03, 0, 0.03, 0, 0x8c5a3c, { rough: 0.35, seg: 24 });
+    reg(bowl, "mix-bowl");
+    const metalBowl = group(bar, 0.62, 0.97, 0.12);
+    lathe(metalBowl, [[0.001, 0], [0.08, 0.004], [0.11, 0.045], [0.115, 0.07], [0.108, 0.072], [0.104, 0.045], [0.075, 0.007], [0.001, 0.003]],
+      0, 0, 0, CHROME, { rough: 0.12, metal: 0.95, seg: 26 });
+    reg(metalBowl, "metal-bowl");
+
+    const brush = group(bar, -0.18, 0.96, 0.02, 0.5);
+    box(brush, 0.016, 0.008, 0.14, 0, 0.006, -0.02, 0x2b2e33, { rough: 0.5 });
+    box(brush, 0.035, 0.006, 0.05, 0, 0.006, 0.07, 0xe8e2d6, { rough: 0.9 });
+    box(brush, 0.033, 0.004, 0.02, 0, 0.008, 0.095, 0x8c5a3c, { rough: 0.4 });
+    reg(brush, "tint-brush");
+
+    // Developer bottles, lathed so they read as real containers.
+    const devProfile = [[0.001, 0], [0.038, 0.004], [0.042, 0.02], [0.042, 0.17], [0.028, 0.2], [0.016, 0.21], [0.016, 0.245], [0.001, 0.248]];
+    ["10", "20", "30", "40"].forEach((vol, i) => {
+      const b = group(bar, -0.02 + i * 0.2, 0.96, -0.16);
+      lathe(b, devProfile, 0, 0, 0, 0xf0ece4, { rough: 0.35, seg: 18 });
+      cyl(b, 0.019, 0.019, 0.02, 0, 0.255, 0, [0x6cc6f0, 0x59c97b, 0xf2ae14, 0xf0645b][i], { rough: 0.5, seg: 14 });
+      decal(b, 0.06, 0.05, 0, 0.11, 0.043, signFace(`${vol} VOL`, { bg: "#f0ece4", fg: "#2b2e33", accent: "#e2739b", scale: 0.55 }));
+    });
+    // Colour tubes in a tray.
+    for (let i = 0; i < 5; i++) {
+      const tube = cyl(bar, 0.014, 0.018, 0.13, 0.7 - i * 0.035, 0.965, -0.16, [0x8c4a2f, 0x5a3a2a, 0xb07840, 0x3a2a24, 0xa85a70][i],
+        { rough: 0.4, metal: 0.35, seg: 12 });
+      tube.rotation.set(Math.PI / 2, 0, 0.1 * i);
+    }
+
+    // Processing timer on the wall behind the bar.
+    const timer = group(root, 2.9, 0, -4.24);
+    box(timer, 0.34, 0.24, 0.05, 0, 1.6, 0, 0x1f2227, { rough: 0.5, metal: 0.3 });
+    const timerFace = decal(timer, 0.28, 0.15, 0, 1.62, 0.028,
+      signFace("00:00", { bg: "#12191f", accent: "#e2739b", fg: "#ffd9e6", scale: 0.72 }), { glow: true, ei: 0.7 });
+    reg(timer, "timer");
+
+    // ----------------------------------------------------------- backwash
+    const wash = group(root, 3.2, 0, 0.9, -Math.PI / 2);
+    counter(wash, 1.5, 0.7, 0, 0, 0xe4ded4, { height: 0.8, metal: 0.05, rough: 0.5 });
+    const basin = lathe(wash, [[0.001, 0], [0.2, 0.01], [0.26, 0.08], [0.28, 0.16], [0.3, 0.17], [0.29, 0.14], [0.26, 0.06], [0.001, 0.006]],
+      0, 0.82, 0.02, 0xf4f1ec, { rough: 0.16, metal: 0.05, seg: 26 });
+    box(wash, 0.24, 0.05, 0.1, 0, 0.9, -0.3, 0xf4f1ec, { rough: 0.16 });              // neck rest
+    cyl(wash, 0.016, 0.016, 0.26, 0, 1.0, 0.28, CHROME, { rough: 0.15, metal: 0.95, seg: 14 });
+    hose(wash, [[0, 1.12, 0.28], [0.02, 1.2, 0.18], [0, 1.16, 0.05]], 0.014, CHROME, { steps: 14, rough: 0.15, metal: 0.9 });
+    const water = particles(wash, 70, 0x9fd8f0, { size: 0.012, life: 0.35, additive: false, opacity: 0.7 });
+    const washChair = group(wash, 0, 0, -1.15);
+    slab(washChair, 0.5, 0.12, 0.5, 0, 0.44, 0, SALON_BLACK, { radius: 0.05, rough: 0.75 });
+    slab(washChair, 0.5, 0.5, 0.12, 0, 0.72, -0.2, SALON_BLACK, { radius: 0.05, rough: 0.75 });
+    cyl(washChair, 0.22, 0.28, 0.4, 0, 0.2, 0, 0x1b1e22, { rough: 0.5, metal: 0.5, seg: 20 });
+    reg(wash, "backwash");
+
+    // ------------------------------------------------- product wall + dryer
+    const wallUnit = group(root, -4.18, 0, 0.6, Math.PI / 2);
+    for (let s = 0; s < 3; s++) {
+      box(wallUnit, 1.9, 0.04, 0.26, 0, 1.05 + s * 0.42, 0, WARMWOOD, { rough: 0.6 });
+      for (let i = 0; i < 8; i++) {
+        const p = group(wallUnit, -0.78 + i * 0.22, 1.07 + s * 0.42, 0);
+        lathe(p, [[0.001, 0], [0.032, 0.003], [0.035, 0.02], [0.035, 0.15], [0.022, 0.18], [0.013, 0.19], [0.013, 0.215], [0.001, 0.218]],
+          0, 0, 0, [0xf0ece4, 0x2b2e33, 0xe2739b, 0xc8b48a][(i + s) % 4], { rough: 0.35, seg: 14 });
+        cyl(p, 0.015, 0.015, 0.016, 0, 0.222, 0, 0x8d959d, { rough: 0.3, metal: 0.8, seg: 10 });
+      }
+    }
+    decal(wallUnit, 1.6, 0.14, 0, 2.4, 0.06, signFace("RETAIL", { bg: "#8a6244", accent: "#e2739b", scale: 0.5 }));
+
+    const dryer = group(root, -3.3, 0, 2.6, -0.6);
+    cyl(dryer, 0.3, 0.36, 0.05, 0, 0.025, 0, 0x1b1e22, { rough: 0.5, metal: 0.6, seg: 22 });
+    cyl(dryer, 0.035, 0.035, 1.15, 0, 0.6, 0, CHROME, { rough: 0.2, metal: 0.95, seg: 14 });
+    const hood = group(dryer, 0, 1.28, 0);
+    lathe(hood, [[0.001, 0.0], [0.22, 0.02], [0.25, 0.1], [0.24, 0.24], [0.16, 0.3], [0.001, 0.31]], 0, 0, 0, 0xf0ece4,
+      { rough: 0.35, seg: 24, side: 2 });
+    const fan = group(hood, 0, 0.2, 0);
+    for (let i = 0; i < 4; i++) {
+      const blade = box(fan, 0.13, 0.006, 0.04, 0, 0, 0, 0xb9c0c6, { rough: 0.4, metal: 0.6, cast: false });
+      blade.rotation.y = (i * Math.PI) / 2;
+      blade.rotation.z = 0.3;
+    }
+
+    // Waste bin with a foot pedal.
+    const bin = group(root, 1.0, 0, -3.3);
+    cyl(bin, 0.19, 0.22, 0.62, 0, 0.31, 0, 0x4b5058, { rough: 0.45, metal: 0.4, seg: 22 });
+    const lid = cyl(bin, 0.2, 0.2, 0.03, 0, 0.635, 0, 0x2b2e33, { rough: 0.4, metal: 0.5, seg: 22 });
+    box(bin, 0.16, 0.02, 0.08, 0, 0.04, 0.2, 0x2b2e33, { rough: 0.5 });
+    decal(bin, 0.2, 0.07, 0, 0.42, 0.222, signFace("SALON WASTE", { bg: "#2b2e33", accent: "#e2739b", scale: 0.5 }));
+    reg(bin, "waste-bin");
+
+    // Towel stack and a stool for dressing.
+    const towels = group(root, 2.0, 0, 2.9);
+    for (let i = 0; i < 4; i++) slab(towels, 0.3, 0.06, 0.22, 0, 0.9 + i * 0.065, 0, [0xe8e2d6, 0xdcd4c6][i % 2], { radius: 0.02, rough: 0.95 });
+    counter(towels, 0.42, 0.34, 0, 0, 0xe4ded4, { height: 0.88, rough: 0.5, metal: 0.05 });
+
+    const dirLight = new THREE.DirectionalLight(0xfff0dd, 0.85);
+    dirLight.position.set(-3, 5, 4);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(1024, 1024);
+    dirLight.shadow.camera.left = -6; dirLight.shadow.camera.right = 6;
+    dirLight.shadow.camera.top = 6; dirLight.shadow.camera.bottom = -6;
+    root.add(dirLight);
+    root.add(new THREE.HemisphereLight(0xffe9d2, 0x3a2f2a, 0.95));
+
+    let rinsing = false;
+    let coloured = false;
+
+    return {
+      hits,
+      spawnLook: new THREE.Vector3(-1.4, 1.2, -2.6),
+
+      onStepComplete(step) {
+        if (step.id === "cape") { cape.visible = true; capeFolded.visible = false; }
+        if (step.id === "gloves") {
+          for (const arm of client.arms) arm.fore.children.forEach((c) => { if (c.isMesh) c.material = mat(0x2b2e33, { rough: 0.9 }); });
+        }
+        if (step.id === "section") Object.values(quadrants).forEach((q) => { q.clip.visible = true; q.parted = true; });
+        if (step.id === "apply") {
+          coloured = true;
+          Object.values(quadrants).forEach((q) => {
+            q.lock.material = mat(0x6b4630, { rough: 0.55, metal: 0.1 });
+            q.tail.material = mat(0x6b4630, { rough: 0.55, metal: 0.1 });
+          });
+        }
+        if (step.id === "process") {
+          Object.values(quadrants).forEach((q) => {
+            q.lock.material = mat(0x9a6b3c, { rough: 0.7 });
+            q.tail.material = mat(0x9a6b3c, { rough: 0.7 });
+          });
+        }
+        if (step.id === "rinse") rinsing = true;
+        if (step.id === "dispose") { product.visible = false; rinsing = false; }
+      },
+
+      animate(t, dt, session) {
+        chairSpin.rotation.y = Math.sin(t * 0.22) * 0.12;
+        client.head.rotation.y = Math.sin(t * 0.35) * 0.14;
+        client.head.rotation.x = Math.sin(t * 0.5) * 0.04;
+        client.torso.position.y = Math.sin(t * 1.1) * 0.004;
+        fan.rotation.y += dt * 3.4;
+        if (rinsing) {
+          water.visible = true;
+          water.userData.step(dt, new THREE.Vector3(0, 1.12, 0.06), 0.05, 0.35, -2.6);
+        } else if (water.visible) water.visible = false;
+
+        const g = session?.gauge;
+        if (g && !g.committed && session.step?.id === "process") {
+          const mins = Math.round(g.t * 55);
+          repaint(timerFace, signFace(`${String(Math.floor(mins)).padStart(2, "0")}:00`, {
+            bg: "#12191f", accent: mins >= 34 && mins <= 44 ? "#59c97b" : "#e2739b", fg: "#ffd9e6", scale: 0.72,
+          }));
+        } else if (coloured && session?.step?.id !== "process") {
+          repaint(timerFace, signFace("DONE", { bg: "#12191f", accent: "#59c97b", fg: "#ffd9e6", scale: 0.6 }));
+        }
+      },
+    };
+  },
+};
+
+
+/* ===== js/rooms/kitchen.js ===== */
+// Room 03 — Commercial cook: the hot line. Hand hygiene, colour-coded boards,
+// cook temperature, and the grease flare-up that every kitchen eventually gets.
+
+const SS = 0xb4bcc3, SS_DARK = 0x767e86, GRATE = 0x2b2f34;
+
+const ROOM_KITCHEN = {
+  id: "kitchen",
+  trade: "Commercial cook",
+  title: "Hot Line",
+  tagline: "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+  accent: 0xf2894b,
+  accentCss: "#f2894b",
+  parSeconds: 195,
+  spawn: { x: 0, z: 3.0, ry: 0 },
+  badge: { id: "clean-line", name: "Clean Line", note: "Full service with no cross-contamination and a controlled flare-up" },
+
+  hazards: {
+    "green-board": "That is the produce board. Raw poultry on a board that goes back to salad is textbook cross-contamination — the pathogen does not care that you rinsed it.",
+    "water-jug": "Never water on a grease fire. Water flashes to steam under burning oil and throws the whole pan across the line. Cut the heat and smother it.",
+    "sink-knife": "There is a knife under the water in that sink. Blades never go into a full sink — the next person reaching in finds it with their hand.",
+    "salad-station": "Those are ready-to-eat greens and you still have raw chicken on your hands. Change gloves and wash before you cross from raw to ready.",
+    "extinguisher-a": "That is a water-based extinguisher. On burning oil it does exactly what the water jug does. The kitchen unit is the wet chemical Class K on the other wall.",
+  },
+
+  lateNotes: {
+    "chef-knife": "Board and sanitiser first. A knife in your hand over an unsanitised surface is a shortcut you cannot take back.",
+    "flat-top": "Nothing hits the heat before it is portioned — uneven pieces cook to different internal temperatures.",
+    "hot-well": "Hot holding is for cooked product that has passed its temperature check.",
+  },
+
+  steps: [
+    {
+      id: "handwash", kind: "hold", target: "hand-sink", seconds: 20,
+      title: "Wash hands — full 20 seconds",
+      cue: "Hold at the hand sink and scrub for the full twenty seconds.",
+      why: "Twenty seconds of friction is the whole point; a three-second rinse moves contamination around instead of removing it.",
+      holdBreakNote: "You stopped short. Restart the full twenty seconds — a partial wash does not count.",
+    },
+    {
+      id: "board", kind: "select", target: "red-board",
+      title: "Take the raw-poultry board",
+      cue: "Pull the correct colour-coded board for raw chicken.",
+      why: "Red is raw meat and poultry. Colour coding exists so the decision is visible from across the line, not remembered.",
+    },
+    {
+      id: "sanitize-board", kind: "select", target: "sani-spray",
+      title: "Sanitise the board and surface",
+      cue: "Spray and wipe the board before the protein touches it.",
+      why: "Clean removes soil, sanitise reduces pathogens. A board that looks clean has not been sanitised.",
+    },
+    {
+      id: "knife", kind: "select", target: "chef-knife",
+      title: "Draw a knife from the rack",
+      cue: "Take the chef knife off the magnetic strip.",
+      why: "Knives live on the rack or in your hand — never loose in a sink or under a towel where somebody finds the edge.",
+    },
+    {
+      id: "cut", kind: "gauge", target: "cut-board",
+      title: "Portion to an even thickness",
+      cue: "Slice to the target portion thickness and commit inside the band.",
+      why: "Even portions cook evenly. Ragged thickness means the thin end is dry before the thick end is safe.",
+      gauge: {
+        label: "PORTION THICKNESS", speed: 0.9, green: [0.42, 0.56],
+        readout: (t) => `${(6 + t * 30).toFixed(1)} mm`,
+        missNote: "Off the spec portion. Reset your claw grip, guide with the knuckles and cut again.",
+      },
+    },
+    {
+      id: "cook", kind: "select", target: "flat-top",
+      title: "Cook on the flat top",
+      cue: "Move the portioned chicken onto the flat top.",
+      why: "The protein goes straight from board to heat — nothing sits at room temperature in the danger zone waiting for a burner.",
+    },
+    {
+      id: "temp", kind: "gauge", target: "probe",
+      title: "Probe the internal temperature",
+      cue: "Probe the thickest part and commit when the reading is safe for poultry.",
+      why: "Poultry is done at 74 °C / 165 °F in the thickest part. Colour is not a doneness test — the probe is.",
+      gauge: {
+        label: "PROBE — INTERNAL TEMP", speed: 0.6, green: [0.72, 0.86],
+        readout: (t) => `${Math.round(40 + t * 160)} °F`,
+        missNote: "Not there yet — or well past it. Poultry needs 165 °F in the thickest part, held for the required time.",
+      },
+    },
+    {
+      id: "kill-heat", kind: "select", target: "burner-knob",
+      title: "Cut the heat",
+      cue: "The pan behind you has flared. Shut the gas off first.",
+      why: "Fuel first. Smothering a burner that is still firing just feeds the flame from underneath.",
+    },
+    {
+      id: "smother", kind: "select", target: "pan-lid",
+      title: "Smother the flare-up",
+      cue: "Cover the pan with the lid and leave it covered.",
+      why: "Starve it of oxygen and leave the lid on until it cools. Lifting the lid to look re-ignites it.",
+    },
+    {
+      id: "hot-hold", kind: "select", target: "hot-well",
+      title: "Move to hot holding",
+      cue: "Transfer the cooked portions into the hot well.",
+      why: "Hot holding stays at or above 135 °F. Below that you are incubating what the cook step just killed.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+
+    shell(root, {
+      w: 9, d: 8.6, h: 3.1,
+      floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
+      floorRough: 0.7, skirtColor: 0x8d949b,
+    });
+    // Quarry-tile grid on the floor.
+    for (let i = -6; i <= 6; i++) {
+      box(root, 8.9, 0.004, 0.018, 0, 0.004, i * 0.62, 0x3c3936, { cast: false, receive: false });
+      box(root, 0.018, 0.004, 8.5, i * 0.62, 0.004, 0, 0x3c3936, { cast: false, receive: false });
+    }
+    // Anti-fatigue mat in front of the range.
+    slab(root, 2.6, 0.02, 0.9, -1.2, 0.012, -1.9, 0x22262b, { radius: 0.04, rough: 0.95, cast: false });
+    for (let i = 0; i < 7; i++) for (let j = 0; j < 3; j++) {
+      box(root, 0.1, 0.006, 0.1, -2.2 + i * 0.34, 0.024, -2.15 + j * 0.26, 0x14171a, { cast: false, receive: false });
+    }
+    for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, 1.4, { w: 1.6, color: 0xf6f9ff, ei: 1.4 });
+    ceilingPanel(root, 2.4, -2.4, { w: 1.6, color: 0xf6f9ff, ei: 1.2 });
+
+    // ------------------------------------------------------------- the range
+    const range = group(root, -1.4, 0, -3.5);
+    counter(range, 2.5, 0.86, 0, 0, SS_DARK, { height: 0.9, metal: 0.8, rough: 0.3, undershelf: false });
+    box(range, 2.5, 0.5, 0.84, 0, 0.6, 0, SS_DARK, { rough: 0.32, metal: 0.78 });
+    box(range, 2.5, 0.06, 0.86, 0, 0.92, 0, 0x2f3439, { rough: 0.5, metal: 0.5 });
+    // Four open burners with grates and pilot flames.
+    const burners = [];
+    for (let i = 0; i < 4; i++) {
+      const bx = -0.86 + (i % 2) * 0.56, bz = -0.2 + Math.floor(i / 2) * 0.42;
+      const b = group(range, bx, 0.95, bz);
+      cyl(b, 0.11, 0.13, 0.03, 0, 0, 0, 0x1b1e22, { rough: 0.75, seg: 18 });
+      for (let s = 0; s < 6; s++) {
+        const bar = box(b, 0.02, 0.02, 0.24, 0, 0.03, 0, GRATE, { rough: 0.8 });
+        bar.rotation.y = (s * Math.PI) / 6;
+      }
+      const flame = cyl(b, 0.02, 0.075, 0.06, 0, 0.02, 0, 0x4aa3ff,
+        { emissive: 0x2f7fff, ei: 2.4, rough: 0.4, opacity: 0.75, seg: 14, cast: false });
+      flame.visible = i === 1;
+      burners.push(flame);
+    }
+    // Flat top griddle to the right of the burners.
+    const flatTop = group(range, 0.66, 0.95, 0.1);
+    slab(flatTop, 0.82, 0.05, 0.72, 0, 0, 0, 0x33383d, { radius: 0.02, rough: 0.42, metal: 0.6 });
+    box(flatTop, 0.86, 0.05, 0.04, 0, 0.03, -0.37, SS_DARK, { rough: 0.35, metal: 0.8 });
+    const chicken = [];
+    for (let i = 0; i < 3; i++) {
+      const c = slab(flatTop, 0.16, 0.035, 0.11, -0.2 + i * 0.2, 0.045, 0.06, 0xe8c9a0, { radius: 0.03, rough: 0.75 });
+      c.visible = false;
+      chicken.push(c);
+    }
+    reg(flatTop, "flat-top");
+    const griddleSteam = particles(flatTop, 60, 0xdfe8ee, { size: 0.05, life: 1.1, additive: false, opacity: 0.28 });
+
+    // Burner control knobs along the front rail.
+    const knobRow = group(range, 0, 0.78, 0.45);
+    for (let i = 0; i < 4; i++) {
+      const k = cyl(knobRow, 0.036, 0.04, 0.05, -0.86 + i * 0.38, 0, 0, 0x1b1e22, { rough: 0.55, seg: 16 });
+      k.rotation.x = Math.PI / 2;
+      box(knobRow, 0.008, 0.03, 0.052, -0.86 + i * 0.38, 0.018, 0.001, 0xf2ae14, { rough: 0.5 });
+    }
+    reg(knobRow, "burner-knob");
+
+    // Sauté pan on burner 2 — this is what flares up.
+    const pan = group(range, -0.3, 0.99, 0.22);
+    lathe(pan, [[0.001, 0], [0.1, 0.004], [0.115, 0.05], [0.12, 0.06], [0.112, 0.058], [0.095, 0.008], [0.001, 0.003]],
+      0, 0, 0, 0x4a4f55, { rough: 0.35, metal: 0.7, seg: 24 });
+    const panHandle = cyl(pan, 0.012, 0.014, 0.24, 0, 0.04, 0.2, 0x22262b, { rough: 0.6, seg: 10 });
+    panHandle.rotation.set(Math.PI / 2.3, 0, 0);
+    const oil = cyl(pan, 0.09, 0.088, 0.012, 0, 0.02, 0, 0xd8a44e, { rough: 0.2, metal: 0.1, seg: 22 });
+    const fire = particles(pan, 120, 0xff9a3c, { size: 0.05, life: 0.5 });
+    const smoke = particles(pan, 60, 0x9aa0a6, { size: 0.09, life: 1.4, additive: false, opacity: 0.22 });
+    const fireLight = new THREE.PointLight(0xff8a3c, 0, 7, 2);
+    fireLight.position.set(-1.7, 1.4, -3.3);
+    root.add(fireLight);
+
+    // The lid, hanging on the rail — the correct response.
+    const lid = group(range, 0.2, 1.42, -0.36);
+    lathe(lid, [[0.001, 0.03], [0.06, 0.028], [0.1, 0.018], [0.118, 0.002], [0.118, 0], [0.001, 0]], 0, 0, 0, 0x9aa1a8,
+      { rough: 0.3, metal: 0.8, seg: 24 });
+    ball(lid, 0.018, 0, 0.045, 0, 0x22262b, { rough: 0.6 });
+    reg(lid, "pan-lid");
+
+    // Ventilation hood with baffle filters and a turning fan.
+    const hood = group(root, -1.4, 0, -3.5);
+    box(hood, 2.8, 0.5, 1.15, 0, 2.35, 0, SS, { rough: 0.3, metal: 0.85 });
+    box(hood, 2.9, 0.1, 1.25, 0, 2.06, 0, SS, { rough: 0.3, metal: 0.85 });
+    for (let i = 0; i < 6; i++) {
+      const baffle = box(hood, 0.42, 0.34, 0.03, -1.05 + i * 0.42, 2.2, 0.5, 0x8d959d, { rough: 0.35, metal: 0.9 });
+      baffle.rotation.x = 0.35;
+    }
+    cyl(hood, 0.26, 0.26, 0.5, 0.7, 2.85, 0, SS, { rough: 0.3, metal: 0.85, seg: 20 });
+    const hoodFan = group(hood, 0.7, 2.62, 0);
+    for (let i = 0; i < 5; i++) {
+      const blade = box(hoodFan, 0.2, 0.008, 0.06, 0, 0, 0, 0x6f767d, { rough: 0.4, metal: 0.7, cast: false });
+      blade.rotation.y = (i * Math.PI * 2) / 5;
+      blade.rotation.z = 0.4;
+    }
+    decal(hood, 0.9, 0.16, 0, 2.5, 0.6, signFace("HOOD ON", { bg: "#1f2429", accent: "#f2894b", scale: 0.55 }));
+
+    // ------------------------------------------------------------ prep table
+    const prep = counter(root, 2.4, 0.85, 1.9, -1.0, SS, { height: 0.92, metal: 0.8, rough: 0.28, ry: -Math.PI / 2 });
+    // Colour-coded board rack.
+    const rack = group(prep, 0, 0.95, -0.28);
+    box(rack, 0.5, 0.02, 0.3, 0, 0, 0, SS_DARK, { rough: 0.4, metal: 0.7 });
+    const boardColours = [
+      { id: "red-board", c: 0xc0392b, label: "RAW MEAT", x: -0.16 },
+      { id: "green-board", c: 0x27904e, label: "PRODUCE", x: 0 },
+      { id: "blue-board", c: 0x2d6fb5, label: "SEAFOOD", x: 0.16 },
+    ];
+    for (const b of boardColours) {
+      const bd = slab(rack, 0.28, 0.014, 0.02, b.x, 0.12, 0, b.c, { radius: 0.006, rough: 0.6 });
+      bd.rotation.x = -0.18;
+      reg(bd, b.id);
+    }
+    // Working board on the table, where the cutting happens.
+    const cutBoard = slab(prep, 0.46, 0.016, 0.32, 0, 0.935, 0.1, 0xc0392b, { radius: 0.01, rough: 0.6 });
+    cutBoard.visible = false;
+    reg(cutBoard, "cut-board");
+    const rawPortions = [];
+    for (let i = 0; i < 3; i++) {
+      const p = slab(prep, 0.13, 0.03, 0.1, -0.14 + i * 0.14, 0.955, 0.1, 0xe9bfa8, { radius: 0.03, rough: 0.8 });
+      p.visible = false;
+      rawPortions.push(p);
+    }
+
+    // Magnetic knife strip on the wall above the prep table.
+    const strip = group(root, 4.24, 0, -1.0, -Math.PI / 2);
+    box(strip, 0.7, 0.05, 0.03, 0, 1.62, 0, 0x2b2f34, { rough: 0.5, metal: 0.6 });
+    const knifeSpecs = [[0.2, 0.19], [0.06, 0.15], [-0.08, 0.13], [-0.22, 0.1]];
+    knifeSpecs.forEach(([kx, len], i) => {
+      const k = group(strip, kx, 1.5, 0.02);
+      box(k, 0.032, len, 0.004, 0, -len / 2 + 0.04, 0, 0xdfe4e8, { rough: 0.12, metal: 0.95 });
+      box(k, 0.024, 0.1, 0.016, 0, 0.09, 0, 0x22262b, { rough: 0.6 });
+      if (i === 0) reg(k, "chef-knife");
+    });
+    decal(strip, 0.66, 0.1, 0, 1.75, 0.02, signFace("KNIVES — RETURN AFTER USE", { scale: 0.5 }));
+
+    // Sanitiser spray and bucket.
+    const sani = group(prep, 0.38, 0.94, -0.06);
+    lathe(sani, [[0.001, 0], [0.035, 0.004], [0.038, 0.02], [0.038, 0.15], [0.03, 0.17], [0.016, 0.18], [0.016, 0.2], [0.001, 0.203]],
+      0, 0, 0, 0xdfe4e8, { rough: 0.3, opacity: 0.85, seg: 16 });
+    cyl(sani, 0.014, 0.014, 0.11, 0, 0.09, 0, 0x59c97b, { rough: 0.3, opacity: 0.8, seg: 12 });
+    box(sani, 0.03, 0.05, 0.05, 0, 0.225, 0.01, 0x2b6f47, { rough: 0.6 });
+    box(sani, 0.02, 0.02, 0.05, 0, 0.21, 0.045, 0x2b6f47, { rough: 0.6 });
+    decal(sani, 0.06, 0.05, 0, 0.1, 0.04, signFace("SANI", { bg: "#dfe4e8", fg: "#1d3b2a", accent: "#59c97b", scale: 0.6 }));
+    reg(sani, "sani-spray");
+
+    // Probe thermometer in its sleeve.
+    const probe = group(prep, -0.5, 0.94, -0.04, 0.4);
+    slab(probe, 0.045, 0.02, 0.11, 0, 0.01, 0, 0xf2ae14, { radius: 0.008, rough: 0.55 });
+    cyl(probe, 0.0035, 0.0035, 0.13, 0, 0.012, 0.12, 0xdfe4e8, { rough: 0.15, metal: 0.95, seg: 8 })
+      .rotation.x = Math.PI / 2;
+    const probeScreen = decal(probe, 0.035, 0.02, 0, 0.021, -0.02,
+      signFace("--", { bg: "#12191f", accent: "#f2894b", fg: "#ffd9b0", scale: 0.7 }), { glow: true, ei: 0.7 });
+    probeScreen.rotation.x = -Math.PI / 2;
+    reg(probe, "probe");
+
+    // ------------------------------------------------------------- hand sink
+    const handSink = group(root, -4.2, 0, -0.4, Math.PI / 2);
+    box(handSink, 0.5, 0.34, 0.4, 0, 0.9, 0, SS, { rough: 0.25, metal: 0.85 });
+    box(handSink, 0.42, 0.02, 0.32, 0, 1.03, 0, 0x8d959d, { rough: 0.2, metal: 0.9 });
+    cyl(handSink, 0.014, 0.014, 0.26, 0, 1.2, -0.14, SS, { rough: 0.18, metal: 0.95, seg: 14 });
+    hose(handSink, [[0, 1.33, -0.14], [0, 1.38, -0.06], [0, 1.32, 0.02]], 0.012, SS, { steps: 10, rough: 0.18, metal: 0.9 });
+    box(handSink, 0.08, 0.14, 0.08, 0.28, 1.24, -0.08, 0xe4e8eb, { rough: 0.5 });     // soap dispenser
+    box(handSink, 0.16, 0.22, 0.09, -0.3, 1.3, -0.08, 0xe4e8eb, { rough: 0.5 });      // towel dispenser
+    decal(handSink, 0.44, 0.14, 0, 1.55, 0.02,
+      signFace("HANDWASHING ONLY", { bg: "#1d3b63", accent: "#6cc6f0", scale: 0.5 }));
+    const washWater = particles(handSink, 60, 0xbfe0f2, { size: 0.011, life: 0.3, additive: false, opacity: 0.65 });
+    reg(handSink, "hand-sink");
+
+    // Three-compartment sink with a knife hidden under the water — the trap.
+    const bigSink = group(root, -4.2, 0, 1.8, Math.PI / 2);
+    counter(bigSink, 1.7, 0.6, 0, 0, SS, { height: 0.9, metal: 0.8, rough: 0.28, undershelf: false });
+    for (let i = 0; i < 3; i++) {
+      const basin = box(bigSink, 0.48, 0.26, 0.44, -0.55 + i * 0.55, 0.79, 0, 0x8d959d, { rough: 0.25, metal: 0.85 });
+      const water = box(bigSink, 0.44, 0.02, 0.4, -0.55 + i * 0.55, 0.9, 0, 0x2f6f8a,
+        { rough: 0.12, metal: 0.2, opacity: 0.78 });
+      if (i === 1) {
+        const submerged = box(bigSink, 0.026, 0.004, 0.17, -0.02, 0.885, 0.03, 0xdfe4e8, { rough: 0.2, metal: 0.9 });
+        submerged.rotation.y = 0.3;
+        reg(basin, "sink-knife");
+      }
+    }
+    decal(bigSink, 1.4, 0.12, 0, 1.4, 0.02, signFace("WASH   RINSE   SANITISE", { scale: 0.45 }));
+
+    // ------------------------------------------------- hot well & ready side
+    const pass = group(root, 2.6, 0, 1.4);
+    counter(pass, 2.2, 0.8, 0, 0, SS, { height: 0.92, metal: 0.8, rough: 0.28 });
+    const well = group(pass, -0.4, 0.94, 0);
+    box(well, 0.9, 0.04, 0.6, 0, 0, 0, SS_DARK, { rough: 0.35, metal: 0.8 });
+    for (let i = 0; i < 2; i++) {
+      box(well, 0.38, 0.14, 0.5, -0.22 + i * 0.44, 0.05, 0, 0x9aa1a8, { rough: 0.3, metal: 0.85 });
+      box(well, 0.34, 0.02, 0.46, -0.22 + i * 0.44, 0.13, 0, 0xc98a4a, { rough: 0.5 });
+    }
+    const wellSteam = particles(well, 50, 0xe4ecf2, { size: 0.05, life: 1.2, additive: false, opacity: 0.22 });
+    decal(pass, 0.7, 0.12, -0.4, 1.06, 0.34, signFace("HOT HOLD ≥ 135 °F", { bg: "#2b1a12", accent: "#f2894b", scale: 0.5 }))
+      .rotation.x = -Math.PI / 2;
+    reg(well, "hot-well");
+
+    // Ready-to-eat salad station — the raw-to-ready trap.
+    const salad = group(pass, 0.62, 0.95, 0);
+    box(salad, 0.5, 0.12, 0.42, 0, 0.06, 0, 0xdfe4e8, { rough: 0.4, opacity: 0.6 });
+    for (let i = 0; i < 16; i++) {
+      const leaf = box(salad, 0.05, 0.012, 0.04, (Math.random() - 0.5) * 0.4, 0.11 + Math.random() * 0.02,
+        (Math.random() - 0.5) * 0.32, [0x4b8f3a, 0x62a54a, 0x3c7a2e][i % 3], { rough: 0.85 });
+      leaf.rotation.set(Math.random(), Math.random() * 3, Math.random());
+    }
+    decal(salad, 0.4, 0.08, 0, 0.2, 0.22, signFace("READY TO EAT", { bg: "#1c3320", accent: "#59c97b", scale: 0.5 }));
+    reg(salad, "salad-station");
+
+    // Ticket rail with service dockets.
+    const rail = group(root, 2.6, 0, -0.4);
+    cyl(rail, 0.012, 0.012, 2.0, 0, 1.62, 0, SS, { rough: 0.2, metal: 0.9, seg: 10 }).rotation.z = Math.PI / 2;
+    for (let i = 0; i < 4; i++) {
+      const t = decal(rail, 0.17, 0.24, -0.6 + i * 0.4, 1.48, 0.01,
+        paperFace("TABLE " + (11 + i), ["2× grilled chicken", "1× side salad", "ALLERGY: none"], { bg: "#fbf7ee" }));
+      t.rotation.z = (i % 2 ? 1 : -1) * 0.05;
+    }
+
+    // Fire equipment: correct Class K by the line, wrong water unit on the far wall.
+    const classK = group(root, -3.0, 0, -4.2);
+    cyl(classK, 0.09, 0.09, 0.52, 0, 0.55, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 18 });
+    cyl(classK, 0.06, 0.09, 0.1, 0, 0.85, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 18 });
+    box(classK, 0.14, 0.04, 0.05, 0, 0.92, 0, 0x22262b, { rough: 0.5 });
+    hose(classK, [[0.05, 0.88, 0], [0.16, 0.7, 0.06], [0.1, 0.45, 0.02]], 0.012, 0x1b1e22, { steps: 12 });
+    decal(classK, 0.14, 0.1, 0, 0.6, 0.095, signFace("K", { bg: "#f2ae14", fg: "#1b1e22", accent: "#b81410", scale: 0.9 }));
+    decal(classK, 0.5, 0.12, 0, 1.3, 0.02, signFace("CLASS K — KITCHEN", { bg: "#2b1a12", accent: "#f2ae14", scale: 0.5 }));
+
+    const waterExt = group(root, 4.2, 0, 2.6, -Math.PI / 2);
+    cyl(waterExt, 0.085, 0.085, 0.5, 0, 0.5, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 18 });
+    decal(waterExt, 0.13, 0.09, 0, 0.55, 0.09, signFace("A", { bg: "#2d6fb5", fg: "#ffffff", accent: "#6cc6f0", scale: 0.9 }));
+    reg(waterExt, "extinguisher-a");
+
+    const jug = group(root, -2.2, 0, -2.6);
+    lathe(jug, [[0.001, 0], [0.08, 0.005], [0.085, 0.03], [0.085, 0.26], [0.06, 0.3], [0.045, 0.31], [0.045, 0.34], [0.001, 0.342]],
+      0, 0.92, 0, 0xdfe4e8, { rough: 0.25, opacity: 0.55, seg: 20 });
+    cyl(jug, 0.078, 0.078, 0.2, 0, 1.02, 0, 0x3f7f9e, { rough: 0.15, opacity: 0.8, seg: 20 });
+    counter(jug, 0.5, 0.5, 0, 0, SS_DARK, { height: 0.9, metal: 0.7, rough: 0.35, undershelf: false });
+    reg(jug, "water-jug");
+
+    // Wire shelving with hotel pans, for depth behind the pass.
+    const shelf = group(root, 4.2, 0, -3.2, -Math.PI / 2);
+    for (let s = 0; s < 4; s++) {
+      box(shelf, 1.5, 0.02, 0.45, 0, 0.5 + s * 0.5, 0, 0x9aa1a8, { rough: 0.4, metal: 0.7 });
+      for (let i = 0; i < 3; i++) {
+        box(shelf, 0.38, 0.1, 0.3, -0.5 + i * 0.5, 0.57 + s * 0.5, 0, SS, { rough: 0.3, metal: 0.8 });
+      }
+    }
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      cyl(shelf, 0.018, 0.018, 2.0, sx * 0.72, 1.0, sz * 0.2, 0x9aa1a8, { rough: 0.4, metal: 0.7, seg: 8 });
+    }
+
+    const key = new THREE.DirectionalLight(0xf2f6fa, 0.9);
+    key.position.set(3, 5.5, 3.5);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.camera.left = -6; key.shadow.camera.right = 6;
+    key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
+    root.add(key);
+    root.add(new THREE.HemisphereLight(0xdce8f2, 0x353a40, 1.15));
+
+    let flareOn = false;
+    let cooking = false;
+    let holding = false;
+
+    return {
+      hits,
+      spawnLook: new THREE.Vector3(-1.4, 1.2, -3.2),
+
+      onStep(step) {
+        // The flare-up starts the moment the cook step is behind the learner.
+        if (step.id === "kill-heat" && !flareOn) {
+          flareOn = true;
+          fire.visible = true;
+          smoke.visible = true;
+        }
+      },
+
+      onStepComplete(step) {
+        if (step.id === "board") cutBoard.visible = true;
+        if (step.id === "cut") rawPortions.forEach((p) => { p.visible = true; });
+        if (step.id === "cook") {
+          cooking = true;
+          rawPortions.forEach((p) => { p.visible = false; });
+          chicken.forEach((c) => { c.visible = true; });
+        }
+        if (step.id === "temp") chicken.forEach((c) => { c.material = mat(0xc98a4a, { rough: 0.7 }); });
+        if (step.id === "kill-heat") { burners.forEach((b) => { b.visible = false; }); }
+        if (step.id === "smother") {
+          flareOn = false;
+          fire.visible = false;
+          smoke.visible = false;
+          fireLight.intensity = 0;
+          lid.position.set(-0.3, 1.03, 0.22);
+          oil.visible = false;
+        }
+        if (step.id === "hot-well" || step.id === "hot-hold") {
+          holding = true;
+          chicken.forEach((c) => { c.visible = false; });
+        }
+      },
+
+      animate(t, dt, session) {
+        hoodFan.rotation.y += dt * 5.5;
+        // Running water while the learner is actually at the sink scrubbing.
+        const washing = session?.step?.id === "handwash" && session.holding;
+        washWater.visible = washing;
+        if (washing) washWater.userData.step(dt, new THREE.Vector3(0, 1.3, 0), 0.04, 0.3, -3.2);
+        burners.forEach((b, i) => {
+          if (!b.visible) return;
+          b.scale.y = 0.85 + Math.sin(t * 11 + i) * 0.16;
+          b.material.emissiveIntensity = 2.1 + Math.sin(t * 14 + i) * 0.5;
+        });
+        if (cooking) {
+          griddleSteam.visible = true;
+          griddleSteam.userData.step(dt, new THREE.Vector3(0, 0.06, 0.04), 0.3, 0.22, 0.35);
+        }
+        if (holding) {
+          wellSteam.visible = true;
+          wellSteam.userData.step(dt, new THREE.Vector3(0, 0.14, 0), 0.4, 0.18, 0.3);
+        }
+        if (flareOn) {
+          fire.userData.step(dt, new THREE.Vector3(0, 0.05, 0), 0.14, 1.5, -0.7);
+          smoke.userData.step(dt, new THREE.Vector3(0, 0.3, 0), 0.2, 0.35, 0.5);
+          fireLight.intensity = 5 + Math.random() * 5;
+        }
+
+        const g = session?.gauge;
+        if (g && !g.committed && session.step?.id === "temp") {
+          const f = Math.round(40 + g.t * 160);
+          repaint(probeScreen, signFace(`${f}`, {
+            bg: "#12191f", accent: f >= 160 && f <= 178 ? "#59c97b" : "#f2894b", fg: "#ffd9b0", scale: 0.7,
+          }));
+        }
+      },
+    };
+  },
+};
+
+
+/* ===== js/rooms/phlebotomy.js ===== */
+// Room 04 — Phlebotomy technician: patient identification, venipuncture and the
+// order of draw. This is the one room where sequence is genuinely non-negotiable:
+// additive carryover between tubes changes results.
+
+const CLINIC_WHITE = 0xeef1f4, TRIM = 0x7fa8bd, CLINIC_STEEL = 0xb9c0c6;
+
+const ROOM_PHLEBOTOMY = {
+  id: "phlebotomy",
+  trade: "Phlebotomy technician",
+  title: "Draw Station",
+  tagline: "Two-identifier check, venipuncture technique and the order of draw",
+  accent: 0x53c1c9,
+  accentCss: "#53c1c9",
+  parSeconds: 200,
+  spawn: { x: 1.6, z: 2.8, ry: -0.3 },
+  badge: { id: "order-of-draw", name: "Order of Draw", note: "Correct draw sequence with no additive carryover" },
+
+  hazards: {
+    "recap": "Never recap a used needle two-handed. That is the classic needlestick — activate the safety device and drop it straight into sharps.",
+    "sharps-full": "That container is past the fill line. Forcing another sharp in is how the one already inside comes back out at your hand. Seal it and start a fresh one.",
+    "iv-arm": "There is an infusion running in that arm. Drawing above an IV dilutes the sample with whatever is in the bag — wrong arm, wrong result.",
+    "pre-labelled": "Those tubes were labelled before the draw. Pre-labelling is how samples get attributed to the wrong patient; tubes are labelled at the bedside, after they are filled.",
+  },
+
+  lateNotes: {
+    "needle": "Not yet. The site is not prepped, and a needle in hand before the tourniquet and the prep is how the sequence falls apart.",
+    "tube-culture": "The needle is not in the vein yet — tubes are filled from a live draw, not staged ahead of it.",
+    "label-printer": "Labels are printed once the tubes are filled and the patient is still in front of you.",
+  },
+
+  steps: [
+    {
+      id: "identify", kind: "select", target: "wristband",
+      title: "Verify two patient identifiers",
+      cue: "Check the wristband against the requisition — name and date of birth.",
+      why: "Two identifiers, actively confirmed. Room number and 'the patient said yes' are not identifiers.",
+    },
+    {
+      id: "gloves", kind: "select", target: "glove-box",
+      title: "Hand hygiene and gloves",
+      cue: "Sanitise and glove before you touch the patient or the tray.",
+      why: "Gloves protect both directions. They go on after hand hygiene, not instead of it.",
+    },
+    {
+      id: "tourniquet", kind: "select", target: "tourniquet",
+      title: "Apply the tourniquet",
+      cue: "Apply the tourniquet three to four inches above the site.",
+      why: "It stays on for no more than a minute. Longer and you get haemoconcentration — the results shift before the needle is even in.",
+    },
+    {
+      id: "clean", kind: "select", target: "alcohol-pad",
+      title: "Clean the site and let it dry",
+      cue: "Prep the site with alcohol and let it air dry.",
+      why: "Wet alcohol stings on entry and haemolyses the sample. Drying time is part of the antisepsis, not a delay.",
+    },
+    {
+      id: "insert", kind: "gauge", target: "needle",
+      title: "Insert bevel up at the right angle",
+      cue: "Set the insertion angle and commit inside the band.",
+      why: "Fifteen to thirty degrees, bevel up. Too shallow and you skate off the vein; too steep and you go straight through it.",
+      gauge: {
+        label: "INSERTION ANGLE", speed: 0.8, green: [0.3, 0.6],
+        readout: (t) => `${Math.round(t * 50)}°`,
+        missNote: "Outside the safe window. Anchor the vein below the site and reset your angle.",
+      },
+    },
+    {
+      id: "draw", kind: "sequence",
+      targets: ["tube-culture", "tube-blue", "tube-gold", "tube-green", "tube-lavender", "tube-gray"],
+      itemNames: {
+        "tube-culture": "blood culture", "tube-blue": "light blue — citrate", "tube-gold": "gold — SST",
+        "tube-green": "green — heparin", "tube-lavender": "lavender — EDTA", "tube-gray": "grey — fluoride",
+      },
+      title: "Fill tubes in the order of draw",
+      cue: "Blood culture, light blue, gold, green, lavender, grey — in that order.",
+      why: "Additive carries over from tube to tube. EDTA before a chemistry tube throws potassium and calcium; citrate ratios break if the blue tube is not early and full.",
+      outOfOrderNote: "Wrong tube for this point in the sequence. Additive carryover contaminates every tube after it — the order is the control.",
+    },
+    {
+      id: "release", kind: "select", target: "tourniquet",
+      title: "Release the tourniquet",
+      cue: "Release the tourniquet before you withdraw the needle.",
+      why: "Withdrawing under pressure forces a haematoma. The tourniquet comes off first, then the needle.",
+    },
+    {
+      id: "sharps", kind: "select", target: "sharps-container",
+      title: "Activate the safety device and dispose",
+      cue: "Engage the needle guard and drop it into the sharps container.",
+      why: "The device is activated before your hand leaves the needle, and it goes into sharps immediately — never onto the tray.",
+    },
+    {
+      id: "pressure", kind: "hold", target: "gauze", seconds: 10,
+      title: "Hold pressure on the site",
+      cue: "Hold gauze on the site with the arm straight.",
+      why: "Direct pressure until bleeding stops. Bending the elbow over the gauze is what produces the bruise the patient remembers you by.",
+      holdBreakNote: "You let go early — the site is still bleeding. Reapply and hold the full time.",
+    },
+    {
+      id: "label", kind: "select", target: "label-printer",
+      title: "Label the tubes at the bedside",
+      cue: "Print and apply the labels here, in front of the patient.",
+      why: "Labelling happens at the bedside with the patient present. Every step away from the chair is a chance for the sample to become someone else's.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+
+    shell(root, {
+      w: 8, d: 8, h: 2.95,
+      floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
+      floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
+    });
+    // Vinyl sheet floor with a welded-seam grid and a colour band.
+    for (let i = -3; i <= 3; i++) box(root, 7.9, 0.003, 0.01, 0, 0.004, i * 1.2, 0x93a0a7, { cast: false, receive: false });
+    box(root, 7.9, 0.004, 0.4, 0, 0.005, 1.6, 0x8fc0c9, { cast: false, receive: false });
+    // Wall dado rail and a handwashing poster.
+    for (const [wx, wz, wry] of [[0, -3.95, 0], [-3.95, 0, Math.PI / 2], [3.95, 0, -Math.PI / 2]]) {
+      const w = group(root, wx, 0, wz, wry);
+      box(w, 7.9, 0.05, 0.02, 0, 0.95, 0.06, TRIM, { cast: false, rough: 0.5 });
+    }
+    for (const x of [-2, 2]) ceilingPanel(root, x, -1, { w: 1.9, color: 0xf2f8ff, ei: 1.35 });
+    ceilingPanel(root, 0, 2, { w: 1.9, color: 0xf2f8ff, ei: 1.1 });
+
+    // ------------------------------------------------------------- draw chair
+    const chair = group(root, -1.0, 0, -1.6, 0.35);
+    slab(chair, 0.62, 0.14, 0.58, 0, 0.48, 0, 0x3f6f86, { radius: 0.06, rough: 0.7 });
+    const chairBack = slab(chair, 0.6, 0.72, 0.14, 0, 0.9, -0.26, 0x3f6f86, { radius: 0.06, rough: 0.7 });
+    chairBack.rotation.x = -0.12;
+    for (const sx of [-1, 1]) {
+      cyl(chair, 0.03, 0.03, 0.46, sx * 0.26, 0.24, -0.2, CLINIC_STEEL, { rough: 0.25, metal: 0.9, seg: 12 });
+      cyl(chair, 0.03, 0.03, 0.46, sx * 0.26, 0.24, 0.2, CLINIC_STEEL, { rough: 0.25, metal: 0.9, seg: 12 });
+      box(chair, 0.05, 0.03, 0.5, sx * 0.26, 0.03, 0, CLINIC_STEEL, { rough: 0.25, metal: 0.9 });
+    }
+    // The hinged phlebotomy armrest, angled across the front.
+    const armrest = group(chair, 0.33, 0.72, 0.1, -0.25);
+    slab(armrest, 0.5, 0.06, 0.2, 0, 0, 0, 0x2f5768, { radius: 0.03, rough: 0.65 });
+    box(armrest, 0.5, 0.06, 0.02, 0, 0.05, -0.1, 0x2f5768, { rough: 0.65 });
+    cyl(armrest, 0.02, 0.02, 0.3, -0.2, -0.16, 0, CLINIC_STEEL, { rough: 0.25, metal: 0.9, seg: 10 });
+
+    const patient = seatedFigure(chair, 0, 0.55, 0.06, { skin: 0xd9a985, cloth: 0x6b7f8c });
+    // The right arm rests on the armrest, presented for the draw.
+    const drawArm = patient.arms[1];
+    drawArm.shoulder.rotation.set(-0.5, 0, -0.5);
+    drawArm.fore.rotation.set(0.2, 0, 0.35);
+    // Antecubital site marker on the presented forearm.
+    const site = group(drawArm.fore, 0.02, -0.16, 0.04);
+    const vein = cyl(site, 0.006, 0.006, 0.12, 0, 0, 0.02, 0x4a6f9a, { rough: 0.8, seg: 8 });
+    vein.rotation.x = Math.PI / 2.2;
+    reg(site, "draw-site");
+
+    // Wristband on the near wrist.
+    const band = group(drawArm.fore, 0, -0.26, 0.04);
+    cyl(band, 0.05, 0.05, 0.03, 0, 0, 0, 0xf2f2f2, { rough: 0.6, seg: 16, open: true, side: 2 });
+    decal(band, 0.075, 0.03, 0, 0, 0.051, paperFace("", ["MARSH, J.  DOB 14/07/71"], { bg: "#ffffff" }), { px: 256 });
+    reg(band, "wristband");
+
+    // The other arm carries a running infusion — drawing there is the trap.
+    const ivArm = patient.arms[0];
+    ivArm.shoulder.rotation.set(-0.25, 0, 0.25);
+    const ivSite = group(ivArm.fore, 0, -0.2, 0.05);
+    box(ivSite, 0.05, 0.005, 0.05, 0, 0, 0, 0xdce6ec, { rough: 0.5 });
+    hose(ivSite, [[0, 0.005, 0], [0.1, 0.1, -0.1], [0.16, 0.5, -0.4]], 0.004, 0xcfe4ee, { steps: 16, opacity: 0.8, rough: 0.2 });
+    reg(ivSite, "iv-arm");
+
+    const pole = group(root, -1.95, 0, -1.95);
+    cyl(pole, 0.14, 0.18, 0.03, 0, 0.02, 0, 0x8d959d, { rough: 0.4, metal: 0.7, seg: 18 });
+    cyl(pole, 0.014, 0.014, 1.85, 0, 0.93, 0, CLINIC_STEEL, { rough: 0.2, metal: 0.95, seg: 12 });
+    box(pole, 0.2, 0.014, 0.014, 0, 1.83, 0, CLINIC_STEEL, { rough: 0.2, metal: 0.95 });
+    const ivBag = lathe(pole, [[0.001, 0], [0.06, 0.03], [0.07, 0.1], [0.06, 0.24], [0.02, 0.27], [0.001, 0.275]],
+      0.08, 1.5, 0, 0xd8e8f0, { rough: 0.2, opacity: 0.72, seg: 16 });
+    const ivFluid = cyl(pole, 0.055, 0.05, 0.16, 0.08, 1.58, 0, 0xa9d6e8, { rough: 0.15, opacity: 0.85, seg: 16 });
+    const dripChamber = cyl(pole, 0.018, 0.018, 0.07, 0.08, 1.44, 0, 0xdff0f6, { rough: 0.1, opacity: 0.6, seg: 12 });
+    const drip = ball(pole, 0.006, 0.08, 1.46, 0, 0xbfe4f2, { rough: 0.1, opacity: 0.9 });
+
+    // ------------------------------------------------------------- draw tray
+    const cart = trolley(root, 0.4, -1.5, 0x36434c, { ry: -0.3, w: 0.62, d: 0.46 });
+    const tray = group(cart, 0, 0.87, 0);
+    slab(tray, 0.56, 0.03, 0.4, 0, 0, 0, 0x2d3940, { radius: 0.02, rough: 0.5 });
+    box(tray, 0.56, 0.05, 0.02, 0, 0.03, -0.19, 0x2d3940, { rough: 0.5 });
+    box(tray, 0.56, 0.05, 0.02, 0, 0.03, 0.19, 0x2d3940, { rough: 0.5 });
+
+    // Tube rack with six colour-coded tubes, each fills as it is drawn.
+    const rackRoot = group(tray, -0.06, 0.02, -0.06);
+    box(rackRoot, 0.34, 0.05, 0.11, 0, 0.025, 0, 0x1f2a30, { rough: 0.6 });
+    const TUBES = [
+      { id: "tube-culture", c: 0xf0d24a, name: "CULT" },
+      { id: "tube-blue", c: 0x6cb6e8, name: "CIT" },
+      { id: "tube-gold", c: 0xd6a83c, name: "SST" },
+      { id: "tube-green", c: 0x4fae63, name: "HEP" },
+      { id: "tube-lavender", c: 0xa285c9, name: "EDTA" },
+      { id: "tube-gray", c: 0x9aa0a6, name: "FLU" },
+    ];
+    const tubeFills = {};
+    TUBES.forEach((t, i) => {
+      const tg = group(rackRoot, -0.14 + i * 0.056, 0.04, 0);
+      cyl(tg, 0.019, 0.019, 0.1, 0, 0.05, 0, 0xdfe8ee, { rough: 0.12, opacity: 0.55, seg: 14 });
+      cyl(tg, 0.02, 0.02, 0.022, 0, 0.108, 0, t.c, { rough: 0.5, seg: 14 });
+      const fill = cyl(tg, 0.016, 0.016, 0.06, 0, 0.032, 0, 0x8e1c1c, { rough: 0.3, seg: 14 });
+      fill.scale.y = 0.001;
+      fill.visible = false;
+      tubeFills[t.id] = fill;
+      reg(tg, t.id);
+    });
+    decal(tray, 0.34, 0.05, -0.06, 0.018, 0.06, signFace("ORDER OF DRAW →", { bg: "#2d3940", accent: "#53c1c9", scale: 0.55 }))
+      .rotation.x = -Math.PI / 2;
+
+    // Tourniquet, alcohol pads, gauze, needle assembly on the tray.
+    const tq = group(tray, 0.19, 0.02, -0.1);
+    torus(tq, 0.05, 0.008, 0, 0.01, 0, 0x3f7f9e, { rough: 0.85 });
+    torus(tq, 0.042, 0.008, 0.012, 0.022, 0.01, 0x3f7f9e, { rough: 0.85 });
+    reg(tq, "tourniquet");
+
+    const pads = group(tray, 0.19, 0.02, 0.08);
+    for (let i = 0; i < 4; i++) {
+      const p = box(pads, 0.05, 0.004, 0.05, (i % 2) * 0.055 - 0.027, i * 0.005, Math.floor(i / 2) * 0.055 - 0.027,
+        0xdfe8ee, { rough: 0.6 });
+      p.rotation.y = i * 0.2;
+    }
+    decal(pads, 0.04, 0.02, -0.027, 0.024, -0.027, signFace("70%", { bg: "#dfe8ee", fg: "#1d3b4a", accent: "#53c1c9", scale: 0.7 }))
+      .rotation.x = -Math.PI / 2;
+    reg(pads, "alcohol-pad");
+
+    const gauze = group(tray, -0.24, 0.02, 0.1);
+    for (let i = 0; i < 3; i++) slab(gauze, 0.05, 0.008, 0.05, 0, i * 0.009, 0, 0xf4f6f8, { radius: 0.004, rough: 0.95 });
+    reg(gauze, "gauze");
+
+    const needle = group(tray, 0.02, 0.03, 0.11, 0.3);
+    cyl(needle, 0.011, 0.011, 0.09, 0, 0, 0, 0xdfe8ee, { rough: 0.3, seg: 12 }).rotation.z = Math.PI / 2;
+    cyl(needle, 0.0018, 0.0018, 0.035, 0.06, 0, 0, CLINIC_STEEL, { rough: 0.1, metal: 0.95, seg: 8 }).rotation.z = Math.PI / 2;
+    box(needle, 0.03, 0.008, 0.016, 0.02, 0.008, 0, 0x53c1c9, { rough: 0.5 });     // safety shield, un-deployed
+    reg(needle, "needle");
+
+    // Pre-labelled tubes sitting on the lower shelf — the identification trap.
+    const preLab = group(cart, 0.14, 0.62, 0.02);
+    for (let i = 0; i < 2; i++) {
+      const t = cyl(preLab, 0.019, 0.019, 0.1, i * 0.05, 0.05, 0, 0xdfe8ee, { rough: 0.12, opacity: 0.55, seg: 12 });
+      decal(preLab, 0.03, 0.03, i * 0.05, 0.05, 0.021, paperFace("", ["PT 0413"], { bg: "#ffffff" }), { px: 128 });
+    }
+    reg(preLab, "pre-labelled");
+
+    // ------------------------------------------------- sharps & waste on wall
+    const sharps = group(root, 3.9, 0, -1.2, -Math.PI / 2);
+    box(sharps, 0.34, 0.42, 0.26, 0, 1.15, 0, 0xd8342a, { rough: 0.6 });
+    box(sharps, 0.36, 0.06, 0.28, 0, 1.39, 0, 0xf2e9c9, { rough: 0.55 });
+    box(sharps, 0.16, 0.02, 0.1, 0, 1.42, 0.02, 0x2b2e33, { rough: 0.6 });          // drop slot
+    decal(sharps, 0.3, 0.16, 0, 1.18, 0.132, signFace("SHARPS\nBIOHAZARD", { bg: "#a5261e", accent: "#f2ae14", fg: "#ffffff", scale: 0.34 }));
+    box(sharps, 0.36, 0.5, 0.3, 0, 1.15, 0, 0x8d959d, { rough: 0.5, opacity: 0.001, transparent: true, cast: false });
+    reg(sharps, "sharps-container");
+
+    // An overfull unit next to it — do not force another sharp in.
+    const sharpsFull = group(root, 3.9, 0, -0.4, -Math.PI / 2);
+    box(sharpsFull, 0.3, 0.36, 0.24, 0, 1.12, 0, 0xd8342a, { rough: 0.6 });
+    box(sharpsFull, 0.32, 0.05, 0.26, 0, 1.32, 0, 0xf2e9c9, { rough: 0.55 });
+    for (let i = 0; i < 5; i++) {
+      const s = cyl(sharpsFull, 0.008, 0.008, 0.07, -0.08 + i * 0.04, 1.37, 0.02, 0xdfe8ee, { rough: 0.3, seg: 8 });
+      s.rotation.set(0.4 * Math.random(), 0, 0.6 * (Math.random() - 0.5));
+    }
+    decal(sharpsFull, 0.26, 0.06, 0, 1.24, 0.122, signFace("FULL — DO NOT FORCE", { bg: "#7d1512", accent: "#f2ae14", scale: 0.42 }));
+    reg(sharpsFull, "sharps-full");
+
+    // Loose needle cap on the counter — recapping is the trap.
+    const bench = counter(root, 2.4, 0.6, 2.6, -3.4, 0xdfe4e8, { height: 0.9, metal: 0.1, rough: 0.5, ry: 0 });
+    const cap = cyl(bench, 0.008, 0.01, 0.05, -0.7, 0.945, 0.06, 0x53c1c9, { rough: 0.5, seg: 10 });
+    cap.rotation.z = Math.PI / 2;
+    reg(cap, "recap");
+
+    // Label printer and requisition on the bench.
+    const printer = group(bench, 0.5, 0.92, 0);
+    slab(printer, 0.28, 0.16, 0.22, 0, 0.08, 0, 0x2b3138, { radius: 0.02, rough: 0.5 });
+    box(printer, 0.2, 0.02, 0.03, 0, 0.17, 0.09, 0x1b1e22, { rough: 0.6 });
+    const labelStrip = decal(printer, 0.16, 0.05, 0, 0.175, 0.14,
+      paperFace("", ["MARSH, J. — 14/07/71"], { bg: "#ffffff" }), { px: 256 });
+    labelStrip.rotation.x = -Math.PI / 3;
+    labelStrip.visible = false;
+    const printerScreen = decal(printer, 0.1, 0.04, 0, 0.162, -0.02,
+      signFace("READY", { bg: "#11242b", accent: "#53c1c9", fg: "#bff0f4", scale: 0.6 }), { glow: true, ei: 0.7 });
+    printerScreen.rotation.x = -Math.PI / 2;
+    reg(printer, "label-printer");
+
+    const req = decal(bench, 0.24, 0.32, -0.2, 0.925, 0.02,
+      paperFace("REQUISITION", ["MARSH, JORDAN", "DOB 14/07/1971", "MRN 55-2041", "CBC · CMP · PT/INR", "Fasting: yes"]));
+    req.rotation.x = -Math.PI / 2;
+
+    // Glove box and sanitiser on the wall.
+    const gloveWall = group(root, -3.9, 0, -0.6, Math.PI / 2);
+    box(gloveWall, 0.26, 0.15, 0.14, 0, 1.35, 0, 0x2f7f9e, { rough: 0.6 });
+    for (let i = 0; i < 3; i++) {
+      const g2 = box(gloveWall, 0.06, 0.03, 0.05, -0.02 + i * 0.02, 1.44 + i * 0.012, 0.02, 0x8fd6e8, { rough: 0.85 });
+      g2.rotation.set(0.3, i * 0.6, 0.2);
+    }
+    decal(gloveWall, 0.22, 0.05, 0, 1.29, 0.075, signFace("NITRILE", { bg: "#0f4257", accent: "#6cc6f0", scale: 0.6 }));
+    const dispenser = group(gloveWall, 0.45, 1.35, 0);
+    box(dispenser, 0.11, 0.24, 0.1, 0, 0, 0, 0xf0f4f6, { rough: 0.4 });
+    box(dispenser, 0.07, 0.03, 0.06, 0, -0.15, 0.02, 0x2b3138, { rough: 0.5 });
+    decal(dispenser, 0.09, 0.05, 0, 0.06, 0.052, signFace("SANITISE", { bg: "#f0f4f6", fg: "#0f4257", accent: "#53c1c9", scale: 0.55 }));
+    reg(gloveWall, "glove-box");
+
+    // Hand hygiene poster and a specimen fridge for depth.
+    decal(root, 0.6, 0.8, -3.93, 1.75, 1.4, paperFace("HAND HYGIENE", [
+      "1  Wet and lather", "2  Palm to palm", "3  Between fingers", "4  Thumbs and tips", "5  Rinse and dry",
+    ])).rotation.y = Math.PI / 2;
+
+    const fridge = group(root, -2.9, 0, 3.2);
+    box(fridge, 0.7, 1.5, 0.62, 0, 0.75, 0, 0xdfe4e8, { rough: 0.4, metal: 0.2 });
+    box(fridge, 0.66, 0.9, 0.03, 0, 1.0, 0.32, 0x2f4a58, { rough: 0.15, metal: 0.3, opacity: 0.55 });
+    box(fridge, 0.03, 0.4, 0.03, 0.28, 1.0, 0.35, CLINIC_STEEL, { rough: 0.25, metal: 0.9 });
+    const fridgeScreen = decal(fridge, 0.16, 0.07, -0.1, 1.56, 0.32,
+      signFace("+4.0 °C", { bg: "#11242b", accent: "#53c1c9", fg: "#bff0f4", scale: 0.6 }), { glow: true, ei: 0.6 });
+
+    const key = new THREE.DirectionalLight(0xf4f9ff, 0.85);
+    key.position.set(-2.5, 5, 4);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.camera.left = -6; key.shadow.camera.right = 6;
+    key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
+    root.add(key);
+    root.add(new THREE.HemisphereLight(0xe8f4fa, 0x39434a, 1.0));
+
+    let tourniquetOn = false;
+    let needleIn = false;
+    let dripT = 0;
+    const drawnTubes = new Set();
+
+    return {
+      hits,
+      spawnLook: new THREE.Vector3(-0.8, 1.1, -1.6),
+
+      onStepComplete(step, session) {
+        if (step.id === "tourniquet" && !tourniquetOn) {
+          tourniquetOn = true;
+          tq.position.set(0, 0, 0);
+          drawArm.shoulder.add(tq);
+          tq.position.set(0, -0.06, 0.01);
+          tq.rotation.set(Math.PI / 2, 0, 0);
+        }
+        if (step.id === "insert") {
+          needleIn = true;
+          site.add(needle);
+          needle.position.set(0.02, 0.02, 0.02);
+          needle.rotation.set(0.4, 0, -0.5);
+        }
+        if (step.id === "release") {
+          tourniquetOn = false;
+          tq.visible = false;
+        }
+        if (step.id === "sharps") { needleIn = false; needle.visible = false; }
+        if (step.id === "label") labelStrip.visible = true;
+      },
+
+      onFeedback(feedback, session) {
+        // Fill each tube as it is drawn in sequence.
+        if (session.step?.id === "draw") {
+          for (const id of session.sequence) {
+            if (drawnTubes.has(id)) continue;
+            drawnTubes.add(id);
+            const fill = tubeFills[id];
+            if (fill) { fill.visible = true; fill.userData.target = 1; }
+          }
+        }
+      },
+
+      animate(t, dt, session) {
+        patient.head.rotation.y = -0.2 + Math.sin(t * 0.4) * 0.1;
+        patient.torso.position.y = Math.sin(t * 1.05) * 0.005;
+
+        // IV drip falls on a slow loop — the running line the learner must notice.
+        dripT += dt * 0.8;
+        if (dripT > 1) dripT = 0;
+        drip.position.y = 1.47 - dripT * 0.05;
+        drip.visible = dripT < 0.7;
+
+        for (const id of Object.keys(tubeFills)) {
+          const fill = tubeFills[id];
+          if (!fill.visible) continue;
+          const target = fill.userData.target ?? 0;
+          fill.scale.y = Math.min(target, fill.scale.y + dt * 2.2);
+          fill.position.y = 0.032 - (1 - fill.scale.y) * 0.03;
+        }
+
+        const g = session?.gauge;
+        if (g && !g.committed && session.step?.id === "insert") {
+          needle.rotation.z = -0.1 - g.t * 0.9;
+          const deg = Math.round(g.t * 50);
+          repaint(printerScreen, signFace(`${deg}°`, {
+            bg: "#11242b", accent: deg >= 15 && deg <= 30 ? "#59c97b" : "#f2ae14", fg: "#bff0f4", scale: 0.6,
+          }));
+        }
+      },
+    };
+  },
+};
+
+
+/* ===== js/rooms/welding.js ===== */
+// Room 05 — Welder / fabricator: hot work permit, fume control, arc-eye
+// protection and a shielded metal arc bead, ending with the fire watch that
+// most hot-work incidents are traced back to skipping.
+
+const SHOP_STEEL = 0x767e86, DARK = 0x24282d, HOT = 0xff8a3c;
+
+const ROOM_WELDING = {
+  id: "welding",
+  trade: "Welder / fabricator",
+  title: "Weld Bay",
+  tagline: "Hot work permit, fume extraction, lens shade, bead control and fire watch",
+  accent: 0xf2c14b,
+  accentCss: "#f2c14b",
+  parSeconds: 210,
+  spawn: { x: 0.4, z: 3.1, ry: -0.1 },
+  badge: { id: "fire-watch", name: "Fire Watch Held", note: "Permit to fire watch with no hot-work shortcut" },
+
+  hazards: {
+    "solvent-drum": "There is an open solvent drum inside the hot work radius. Sparks travel further than people think and vapour ignites well below the flash you can see — it leaves the area or the work does.",
+    "cylinder-loose": "That cylinder is lying unsecured with the cap off. A knocked-over cylinder with a sheared valve becomes a projectile — upright, chained, capped when not in use.",
+    "wet-gloves": "Those gloves are damp. Wet leather conducts, and SMAW open-circuit voltage does not need much help to find a path through you.",
+    "grinder-noguard": "The guard is off that grinder. A disc that lets go at full speed goes straight into whatever is in line with it, and that is usually your hand or your face.",
+    "arc-bare": "You looked at the arc without the helmet down. Arc eye is a burn to the cornea and it does not announce itself for hours — the hood goes down before the arc is struck.",
+  },
+
+  lateNotes: {
+    "stinger": "Put the arc down. Nothing gets struck before the area is cleared, the extraction is running and the kit is on.",
+    "welder-dial": "Set the machine after the work is earthed — a live return path through the bench is not a return path.",
+    "fire-extinguisher": "The watch starts when the arc stops. There is still work in front of you.",
+  },
+
+  steps: [
+    {
+      id: "permit", kind: "select", target: "permit-board",
+      title: "Check the hot work permit",
+      cue: "Read the permit: area, time window and who holds the fire watch.",
+      why: "The permit is the agreement that this area was surveyed and someone owns the watch. No permit, no arc.",
+    },
+    {
+      id: "clear", kind: "select", target: "combustibles",
+      title: "Clear combustibles from the radius",
+      cue: "Move the stacked packaging out of the hot work area.",
+      why: "Combustibles go out to the required radius, or get covered. Sparks roll a long way across a shop floor.",
+    },
+    {
+      id: "blanket", kind: "select", target: "fire-blanket",
+      title: "Cover what cannot be moved",
+      cue: "Drape the fire blanket over the fixed conduit run.",
+      why: "Anything that cannot leave gets shielded. A blanket over the run is what stops a spark lodging in it unnoticed.",
+    },
+    {
+      id: "vent", kind: "select", target: "fume-arm",
+      title: "Position the fume extraction",
+      cue: "Bring the extraction hood over the weld and switch it on.",
+      why: "Extraction is positioned at the fume, not near it. Manganese and hexavalent chromium do their damage over a career, quietly.",
+    },
+    {
+      id: "ppe", kind: "sequence", anyOrder: true,
+      targets: ["helmet", "jacket", "gloves"],
+      itemNames: { helmet: "welding helmet", jacket: "leather jacket", gloves: "welding gloves" },
+      title: "Put on the full kit",
+      cue: "Helmet, leathers and gloves — all three before the arc.",
+      why: "Arc burns skin like sun at close range and spatter goes everywhere. Partial PPE is the burn you explain later.",
+      outOfOrderNote: "Still missing a piece of kit — every item goes on before you strike.",
+    },
+    {
+      id: "lens", kind: "gauge", target: "helmet-lens",
+      title: "Set the lens shade",
+      cue: "Dial the auto-darkening lens to the right shade for this process and current.",
+      why: "Too light and the arc reaches your eyes; too dark and you cannot see the puddle, so you chase it and ruin the bead.",
+      gauge: {
+        label: "LENS SHADE", speed: 0.75, green: [0.5, 0.68],
+        readout: (t) => `shade ${Math.round(5 + t * 10)}`,
+        missNote: "Wrong shade for this current. Match the shade to the process and amperage before the hood goes down.",
+      },
+    },
+    {
+      id: "ground", kind: "select", target: "work-clamp",
+      title: "Attach the work clamp",
+      cue: "Clamp the return lead directly to the workpiece.",
+      why: "The return path goes on the work, close to the weld. Letting the current find its own way through the bench and the building is how bearings and hinges get destroyed.",
+    },
+    {
+      id: "amps", kind: "gauge", target: "welder-dial",
+      title: "Set the amperage",
+      cue: "Set current for a 3.2 mm electrode on 6 mm plate.",
+      why: "Amperage follows electrode diameter and plate thickness. Too low and it sticks; too high and you burn through and undercut the toes.",
+      gauge: {
+        label: "WELDING CURRENT", speed: 0.7, green: [0.44, 0.6],
+        readout: (t) => `${Math.round(40 + t * 220)} A`,
+        missNote: "Off the working range for this electrode. Reset the dial before you strike.",
+      },
+    },
+    {
+      id: "bead", kind: "gauge", target: "stinger",
+      title: "Run the bead",
+      cue: "Strike the arc and hold your travel speed inside the band.",
+      why: "Steady travel and a short arc length build an even bead. Racing gives you a thin ropey cap; crawling piles it up and traps slag.",
+      gauge: {
+        label: "TRAVEL SPEED", speed: 1.15, green: [0.4, 0.56],
+        readout: (t) => `${(1.5 + t * 5).toFixed(1)} mm/s`,
+        missNote: "Travel speed off band — the puddle tells you. Reset and run it again.",
+      },
+    },
+    {
+      id: "firewatch", kind: "hold", target: "fire-extinguisher", seconds: 14,
+      title: "Hold the fire watch",
+      cue: "Stay on the fire watch with the extinguisher until the timer clears.",
+      why: "The watch continues after the arc stops, because that is when smouldering finds its way into something. Walking away at the last bead is how a shop burns down at 2 am.",
+      holdBreakNote: "You broke the watch early. Smouldering takes time to show — hold the full period.",
+    },
+  ],
+
+  build(root) {
+    const hits = {};
+    const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
+
+    shell(root, {
+      w: 9, d: 8.6, h: 3.4,
+      floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
+      floorRough: 0.95, skirtColor: 0x353a40,
+    });
+    // Scorched concrete and spatter around the bay.
+    for (let i = 0; i < 60; i++) {
+      const a = Math.random() * Math.PI * 2, r = 0.4 + Math.random() * 2.4;
+      box(root, 0.03 + Math.random() * 0.05, 0.002, 0.03 + Math.random() * 0.05,
+        -0.6 + Math.cos(a) * r, 0.004, -2.2 + Math.sin(a) * r * 0.7, 0x22262a,
+        { cast: false, receive: false, rough: 0.98 });
+    }
+    // Bay floor marking.
+    for (let i = -6; i <= 6; i++) box(root, 0.2, 0.006, 0.08, i * 0.36, 0.005, 0.4, 0xf2c14b, { cast: false, rough: 0.8 });
+    ceilingPanel(root, -2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
+    ceilingPanel(root, 2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
+    ceilingPanel(root, 0, -2.6, { w: 1.8, color: 0xdfe9f4, ei: 1.1, y: 3.3, lamp: 2.2, range: 12 });
+    ceilingPanel(root, -3.0, -3.0, { w: 1.2, color: 0xdfe9f4, ei: 1.0, y: 3.3, lamp: 1.8, range: 9 });
+
+    // ------------------------------------------------------- welding screens
+    const screens = group(root, -0.6, 0, -2.2);
+    for (const [sx, sz, ry] of [[-1.7, 0, Math.PI / 2], [1.7, 0, Math.PI / 2], [0, -1.5, 0]]) {
+      const panel = group(screens, sx, 0, sz, ry);
+      for (const px of [-0.7, 0.7]) cyl(panel, 0.025, 0.025, 2.2, px, 1.1, 0, SHOP_STEEL, { rough: 0.5, metal: 0.7, seg: 10 });
+      const curtain = box(panel, 1.4, 1.7, 0.02, 0, 1.25, 0, 0xd8562a,
+        { rough: 0.6, opacity: 0.55, side: 2 });
+      curtain.userData.sway = Math.random() * 6;
+      box(panel, 1.5, 0.05, 0.06, 0, 2.12, 0, SHOP_STEEL, { rough: 0.5, metal: 0.7 });
+    }
+
+    // ---------------------------------------------------------- welding table
+    const table = group(root, -0.6, 0, -2.4);
+    slab(table, 1.7, 0.06, 1.0, 0, 0.88, 0, 0x4e545b, { radius: 0.02, rough: 0.72, metal: 0.55 });
+    for (let i = 0; i < 5; i++) for (let j = 0; j < 3; j++) {
+      cyl(table, 0.022, 0.022, 0.07, -0.6 + i * 0.3, 0.88, -0.3 + j * 0.3, 0x2f3439,
+        { rough: 0.8, metal: 0.4, seg: 8, cast: false });                      // fixture holes
+    }
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      box(table, 0.07, 0.85, 0.07, sx * 0.76, 0.43, sz * 0.42, 0x3f454b, { rough: 0.7, metal: 0.5 });
+    }
+    box(table, 1.6, 0.05, 0.06, 0, 0.2, 0, 0x3f454b, { rough: 0.7, metal: 0.5 });
+
+    // Workpiece: two plates set up for a fillet, with the bead that will appear.
+    const workpiece = group(table, 0.05, 0.91, -0.05);
+    box(workpiece, 0.6, 0.012, 0.3, 0, 0.006, 0.06, 0x6b7076, { rough: 0.55, metal: 0.75 });
+    const upright = box(workpiece, 0.6, 0.16, 0.012, 0, 0.086, -0.09, 0x6b7076, { rough: 0.55, metal: 0.75 });
+    const bead = cyl(workpiece, 0.008, 0.008, 0.56, 0, 0.016, -0.078, 0x8a6a44,
+      { rough: 0.5, metal: 0.6, seg: 10, emissive: 0x000000 });
+    bead.rotation.z = Math.PI / 2;
+    bead.visible = false;
+    // Toggle clamps holding the plates down.
+    for (const cx of [-0.34, 0.34]) {
+      const c = group(workpiece, cx, 0.01, 0.16);
+      box(c, 0.05, 0.05, 0.09, 0, 0.02, 0, 0xb8402f, { rough: 0.5, metal: 0.3 });
+      box(c, 0.02, 0.02, 0.16, 0, 0.06, -0.05, SHOP_STEEL, { rough: 0.35, metal: 0.85 });
+    }
+    const sparks = particles(workpiece, 160, 0xffd08a, { size: 0.02, life: 0.5 });
+    const arcLight = new THREE.PointLight(0xdcefff, 0, 9, 2);
+    arcLight.position.set(-0.55, 1.05, -2.45);
+    root.add(arcLight);
+    const arcFlash = ball(workpiece, 0.03, 0, 0.03, -0.078, 0xffffff, { emissive: 0xffffff, ei: 6, rough: 0.1 });
+    arcFlash.visible = false;
+    reg(arcFlash, "arc-bare");
+
+    // ------------------------------------------------------- welding machine
+    const machine = group(root, -2.55, 0, -3.4, 0.25);
+    slab(machine, 0.6, 0.72, 0.5, 0, 0.5, 0, 0x2f5a8c, { radius: 0.03, rough: 0.45, metal: 0.35 });
+    box(machine, 0.64, 0.05, 0.54, 0, 0.88, 0, 0x24486e, { rough: 0.45, metal: 0.35 });
+    for (const sx of [-1, 1]) {
+      const wheel = cyl(machine, 0.07, 0.07, 0.04, sx * 0.24, 0.08, -0.18, 0x1b1e22, { rough: 0.85, seg: 14 });
+      wheel.rotation.z = Math.PI / 2;
+    }
+    box(machine, 0.5, 0.03, 0.03, 0, 0.95, -0.2, SHOP_STEEL, { rough: 0.4, metal: 0.8 });      // push handle
+    const face = group(machine, 0, 0.6, 0.26);
+    const ampScreen = decal(face, 0.22, 0.11, 0, 0.1, 0.005,
+      signFace("--- A", { bg: "#0e1b28", accent: "#f2c14b", fg: "#ffe6a8", scale: 0.62 }), { glow: true, ei: 0.8 });
+    const dial = group(face, 0, -0.08, 0.01);
+    cyl(dial, 0.06, 0.062, 0.03, 0, 0, 0, 0x1b1e22, { rough: 0.5, seg: 20 }).rotation.x = Math.PI / 2;
+    const dialMark = box(dial, 0.008, 0.05, 0.032, 0, 0.022, 0.001, 0xf2c14b, { rough: 0.5 });
+    for (let i = 0; i < 9; i++) {
+      const a = -2.2 + i * 0.55;
+      box(face, 0.006, 0.012, 0.004, Math.sin(a) * 0.082, -0.08 + Math.cos(a) * 0.082, 0.005, 0xdfe4e8, { rough: 0.6 });
+    }
+    reg(dial, "welder-dial");
+    reg(ampScreen, "welder-dial");
+
+    // Stinger and return lead running to the table.
+    const stinger = group(root, -1.5, 0, -1.75, 0.4);
+    box(stinger, 0.045, 0.045, 0.2, 0, 0.95, 0, 0x1b1e22, { rough: 0.6 });
+    box(stinger, 0.03, 0.03, 0.08, 0, 0.99, 0.12, 0xb8402f, { rough: 0.5 });
+    cyl(stinger, 0.004, 0.004, 0.22, 0, 1.0, 0.24, 0x2b2f34, { rough: 0.4, metal: 0.7, seg: 8 })
+      .rotation.x = Math.PI / 2;
+    hose(stinger, [[0, 0.93, -0.1], [-0.4, 0.5, -0.5], [-0.9, 0.12, -1.3], [-1.05, 0.4, -1.65]], 0.018, 0x1b1e22,
+      { steps: 26, rough: 0.85 });
+    reg(stinger, "stinger");
+
+    const clampGrp = group(root, 0.55, 0, -1.6, -0.3);
+    box(clampGrp, 0.06, 0.05, 0.11, 0, 0.92, 0, 0xb8402f, { rough: 0.5, metal: 0.3 });
+    box(clampGrp, 0.05, 0.02, 0.09, 0.01, 0.96, 0.06, SHOP_STEEL, { rough: 0.3, metal: 0.9 });
+    hose(clampGrp, [[0, 0.9, -0.05], [0.4, 0.4, -0.6], [-0.4, 0.12, -1.4], [-1.9, 0.4, -1.8]], 0.018, 0x2f3439,
+      { steps: 26, rough: 0.85 });
+    reg(clampGrp, "work-clamp");
+    const attachedClamp = group(table, 0.72, 0.9, 0.3);
+    box(attachedClamp, 0.06, 0.05, 0.11, 0, 0, 0, 0xb8402f, { rough: 0.5, metal: 0.3 });
+    attachedClamp.visible = false;
+
+    // ------------------------------------------------------ fume extraction
+    const fume = group(root, 1.9, 0, -3.5);
+    cyl(fume, 0.09, 0.11, 2.3, 0, 1.15, 0, SHOP_STEEL, { rough: 0.5, metal: 0.6, seg: 16 });
+    const armA = group(fume, 0, 2.25, 0);
+    cyl(armA, 0.07, 0.07, 1.2, 0, 0, -0.6, 0x8d959d, { rough: 0.5, metal: 0.6, seg: 14 }).rotation.x = Math.PI / 2;
+    const armB = group(armA, 0, 0, -1.2);
+    cyl(armB, 0.065, 0.065, 1.0, 0, -0.2, -0.45, 0x8d959d, { rough: 0.5, metal: 0.6, seg: 14 }).rotation.x = 1.15;
+    const hoodGrp = group(armB, 0, -0.6, -0.85);
+    lathe(hoodGrp, [[0.001, 0], [0.1, 0.02], [0.22, 0.2], [0.24, 0.22], [0.22, 0.21], [0.1, 0.03], [0.001, 0.01]],
+      0, 0, 0, 0x9aa1a8, { rough: 0.45, metal: 0.6, seg: 20, side: 2 });
+    hoodGrp.rotation.x = -0.9;
+    const fumeFan = group(fume, 0, 2.5, 0);
+    for (let i = 0; i < 4; i++) {
+      const blade = box(fumeFan, 0.16, 0.006, 0.05, 0, 0, 0, 0x6f767d, { rough: 0.4, metal: 0.7, cast: false });
+      blade.rotation.y = (i * Math.PI) / 2;
+      blade.rotation.z = 0.35;
+    }
+    const fumeLamp = ball(fume, 0.02, 0.09, 1.5, 0.02, 0xf0645b, { emissive: 0xf0645b, ei: 2 });
+    decal(fume, 0.3, 0.09, 0, 1.32, 0.115, signFace("EXTRACTION", { bg: "#1f2429", accent: "#f2c14b", scale: 0.5 }));
+    reg(fume, "fume-arm");
+    const fumeSmoke = particles(root, 60, 0xb8bec4, { size: 0.06, life: 1.3, additive: false, opacity: 0.24 });
+
+    // ------------------------------------------------------------- PPE stand
+    const ppeStand = group(root, 2.9, 0, -1.0, -0.5);
+    cyl(ppeStand, 0.26, 0.3, 0.04, 0, 0.02, 0, DARK, { rough: 0.6, metal: 0.4, seg: 18 });
+    cyl(ppeStand, 0.025, 0.025, 1.7, 0, 0.85, 0, SHOP_STEEL, { rough: 0.4, metal: 0.8, seg: 12 });
+    box(ppeStand, 0.5, 0.03, 0.03, 0, 1.68, 0, SHOP_STEEL, { rough: 0.4, metal: 0.8 });
+
+    const helmet = group(ppeStand, 0, 1.42, 0.06);
+    lathe(helmet, [[0.001, 0], [0.12, 0.02], [0.145, 0.12], [0.14, 0.26], [0.09, 0.31], [0.001, 0.315]],
+      0, 0, 0, 0x2b2f34, { rough: 0.55, seg: 20, side: 2 });
+    const helmetLens = box(helmet, 0.11, 0.055, 0.02, 0, 0.19, 0.125, 0x1b2a1e,
+      { rough: 0.25, opacity: 0.85, emissive: 0x0a1a10, ei: 0.4 });
+    box(helmet, 0.13, 0.012, 0.02, 0, 0.225, 0.126, 0x9aa1a8, { rough: 0.4, metal: 0.7 });
+    const shadeKnob = group(helmet, 0.14, 0.17, 0.02);
+    cyl(shadeKnob, 0.026, 0.028, 0.022, 0, 0, 0, 0x1b1e22, { rough: 0.5, seg: 14 }).rotation.z = Math.PI / 2;
+    const shadePointer = box(shadeKnob, 0.024, 0.007, 0.02, 0.014, 0.012, 0, 0xf2c14b, { rough: 0.5 });
+    decal(shadeKnob, 0.05, 0.03, 0.016, -0.05, 0, signFace("SHADE", { bg: "#1b1e22", accent: "#f2c14b", scale: 0.6 }))
+      .rotation.y = Math.PI / 2;
+    reg(helmet, "helmet");
+    reg(shadeKnob, "helmet-lens");
+    const wornTicks = [];
+
+    const jacket = group(ppeStand, -0.28, 1.15, 0);
+    box(jacket, 0.34, 0.5, 0.16, 0, 0, 0, 0x8a6a44, { rough: 0.9 });
+    for (const sx of [-1, 1]) cyl(jacket, 0.055, 0.05, 0.4, sx * 0.21, -0.06, 0, 0x8a6a44, { rough: 0.9, seg: 10 });
+    box(jacket, 0.3, 0.06, 0.17, 0, 0.26, 0, 0x74562f, { rough: 0.9 });
+    reg(jacket, "jacket");
+
+    const gloves = group(ppeStand, 0.3, 1.2, 0);
+    for (const sx of [-1, 1]) {
+      const gl = group(gloves, sx * 0.07, 0, 0);
+      cyl(gl, 0.05, 0.055, 0.22, 0, 0, 0, 0x9c7a4e, { rough: 0.92, seg: 12 });
+      box(gl, 0.085, 0.11, 0.045, 0, 0.15, 0, 0x9c7a4e, { rough: 0.92 });
+      box(gl, 0.03, 0.06, 0.04, sx * 0.05, 0.12, 0, 0x9c7a4e, { rough: 0.92 });
+    }
+    reg(gloves, "gloves");
+
+    // Green ticks appear on each item once the kit is on.
+    for (const [obj, tx, ty] of [[helmet, 0, 0.34], [jacket, 0, 0.32], [gloves, 0, 0.28]]) {
+      const tick = decal(obj, 0.09, 0.09, tx, ty, 0.1,
+        signFace("✓", { bg: "#14301f", accent: "#59c97b", fg: "#8ef0c0", scale: 0.8 }));
+      tick.visible = false;
+      wornTicks.push(tick);
+    }
+
+    // Damp gloves left on the machine — the trap.
+    const wetGloves = group(machine, 0.1, 0.93, 0.1, 0.6);
+    for (const sx of [-1, 1]) {
+      const gl = box(wetGloves, 0.08, 0.05, 0.2, sx * 0.06, 0, 0, 0x6b5533, { rough: 0.65 });
+      gl.rotation.z = sx * 0.2;
+    }
+    reg(wetGloves, "wet-gloves");
+
+    // --------------------------------------------------- permit & fire watch
+    const permit = group(root, 4.35, 0, -2.2, -Math.PI / 2);
+    box(permit, 0.75, 0.6, 0.05, 0, 1.6, 0, 0x2b2f34, { rough: 0.7 });
+    decal(permit, 0.66, 0.5, 0, 1.62, 0.03, paperFace("HOT WORK PERMIT", [
+      "Area: Weld bay 2", "Window: 09:00 – 12:00", "Fire watch: K. Ellis",
+      "Post-work watch: 30 min", "Extinguisher: verified",
+    ]));
+    reg(permit, "permit-board");
+
+    const extinguisher = group(root, 4.3, 0, -0.9, -Math.PI / 2);
+    cyl(extinguisher, 0.095, 0.095, 0.56, 0, 0.62, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 18 });
+    cyl(extinguisher, 0.06, 0.095, 0.1, 0, 0.94, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 18 });
+    box(extinguisher, 0.15, 0.04, 0.05, 0, 1.0, 0, 0x22262b, { rough: 0.5 });
+    hose(extinguisher, [[0.06, 0.96, 0], [0.18, 0.75, 0.05], [0.12, 0.5, 0.02]], 0.013, 0x1b1e22, { steps: 12 });
+    decal(extinguisher, 0.16, 0.11, 0, 0.66, 0.1, signFace("ABC", { bg: "#f2ae14", fg: "#1b1e22", accent: "#b81410", scale: 0.7 }));
+    box(extinguisher, 0.16, 0.06, 0.1, 0, 0.3, 0, 0x2b2f34, { rough: 0.6 });     // bracket
+    decal(extinguisher, 0.5, 0.11, 0, 1.42, 0.02, signFace("FIRE WATCH STATION", { bg: "#2b1a12", accent: "#f2ae14", scale: 0.45 }));
+    reg(extinguisher, "fire-extinguisher");
+
+    const blanket = group(root, 3.4, 0, 0.8, -0.4);
+    counter(blanket, 0.6, 0.5, 0, 0, 0x4e545b, { height: 0.8, metal: 0.5, rough: 0.5, undershelf: false });
+    slab(blanket, 0.42, 0.1, 0.3, 0, 0.86, 0, 0x6f6a55, { radius: 0.02, rough: 0.95 });
+    slab(blanket, 0.4, 0.06, 0.28, 0, 0.94, 0, 0x7d7860, { radius: 0.02, rough: 0.95 });
+    decal(blanket, 0.3, 0.07, 0, 0.99, 0, signFace("FIRE BLANKET", { bg: "#4a442f", accent: "#f2c14b", scale: 0.5 }))
+      .rotation.x = -Math.PI / 2;
+    reg(blanket, "fire-blanket");
+    // Where the blanket ends up: over the fixed conduit run.
+    const conduitRun = group(root, -3.2, 0, -1.0);
+    for (const cz of [-0.2, 0, 0.2]) hose(conduitRun, [[0, 0.35, cz - 1.2], [0, 0.4, cz], [0, 0.35, cz + 1.2]], 0.035, 0x5b636b, { steps: 12 });
+    box(conduitRun, 0.4, 0.1, 2.6, 0, 0.14, 0, 0x4e545b, { rough: 0.7, metal: 0.4 });
+    const draped = slab(conduitRun, 0.7, 0.05, 2.4, 0, 0.45, 0, 0x6f6a55, { radius: 0.03, rough: 0.95 });
+    draped.visible = false;
+
+    // ---------------------------------------------------------------- traps
+    const drum = group(root, -3.3, 0, -3.4);
+    lathe(drum, [[0.001, 0], [0.28, 0.01], [0.3, 0.06], [0.3, 0.82], [0.28, 0.87], [0.26, 0.88], [0.26, 0.86], [0.001, 0.855]],
+      0, 0, 0, 0x2f6f4a, { rough: 0.6, metal: 0.35, seg: 24 });
+    for (const y of [0.28, 0.58]) torus(drum, 0.302, 0.016, 0, y, 0, 0x27603f, { rough: 0.6, metal: 0.35 });
+    cyl(drum, 0.07, 0.07, 0.04, 0.14, 0.89, 0, 0x9aa1a8, { rough: 0.35, metal: 0.85, seg: 14 });   // open bung
+    decal(drum, 0.3, 0.2, 0, 0.55, 0.302, signFace("FLAMMABLE\nSOLVENT", { bg: "#b81410", accent: "#f2ae14", fg: "#ffffff", scale: 0.34 }));
+    reg(drum, "solvent-drum");
+
+    const cylinder = group(root, 3.5, 0, 2.6, 0.9);
+    const tank = lathe(cylinder, [[0.001, 0], [0.11, 0.01], [0.115, 0.06], [0.115, 1.0], [0.09, 1.1], [0.045, 1.14], [0.045, 1.22], [0.001, 1.225]],
+      0, 0.115, 0, 0x2b6f8c, { rough: 0.45, metal: 0.5, seg: 20 });
+    cylinder.rotation.z = Math.PI / 2;                                  // lying down, unsecured
+    cyl(cylinder, 0.02, 0.02, 0.06, 0, 1.28, 0, 0x9aa1a8, { rough: 0.3, metal: 0.9, seg: 12 });
+    reg(cylinder, "cylinder-loose");
+    // The safe rack, chained, for contrast.
+    const rack = group(root, -4.3, 0, 2.2, Math.PI / 2);
+    box(rack, 1.0, 0.1, 0.4, 0, 0.05, 0, 0x4e545b, { rough: 0.7, metal: 0.4 });
+    for (let i = 0; i < 2; i++) {
+      lathe(rack, [[0.001, 0], [0.11, 0.01], [0.115, 0.06], [0.115, 1.0], [0.09, 1.1], [0.05, 1.14], [0.05, 1.3], [0.001, 1.305]],
+        -0.25 + i * 0.5, 0.1, 0, [0x8c6a2f, 0x2b6f8c][i], { rough: 0.45, metal: 0.5, seg: 18 });
+      cyl(rack, 0.055, 0.06, 0.09, -0.25 + i * 0.5, 1.44, 0, 0x9aa1a8, { rough: 0.35, metal: 0.8, seg: 14 });
+    }
+    box(rack, 1.0, 0.03, 0.03, 0, 0.9, 0.12, 0x8d959d, { rough: 0.6, metal: 0.7 });     // securing chain
+
+    const grinderBench = counter(root, 1.3, 0.6, -3.3, 1.9, 0x4e545b, { height: 0.88, metal: 0.5, rough: 0.55, ry: 0.3 });
+    const grinder = group(grinderBench, 0.2, 0.93, 0, 0.6);
+    cyl(grinder, 0.045, 0.05, 0.24, 0, 0.05, 0, 0x1f6f5a, { rough: 0.5, seg: 14 }).rotation.z = Math.PI / 2;
+    cyl(grinder, 0.075, 0.075, 0.006, 0.17, 0.05, 0, 0x4a4a4a, { rough: 0.85, seg: 20 });
+    box(grinder, 0.04, 0.03, 0.06, -0.12, 0.06, 0, 0x14171a, { rough: 0.6 });
+    reg(grinder, "grinder-noguard");
+
+    const combustibles = group(root, 2.4, 0, -2.4);
+    for (let i = 0; i < 3; i++) {
+      slab(combustibles, 0.5, 0.32, 0.4, (i % 2) * 0.06, 0.16 + i * 0.33, 0, 0xb08a55, { radius: 0.01, rough: 0.95 });
+      box(combustibles, 0.5, 0.02, 0.02, (i % 2) * 0.06, 0.32 + i * 0.33, 0.2, 0xd8c8a8, { rough: 0.9 });
+    }
+    box(combustibles, 0.62, 0.1, 0.52, 0, 0.05, 0, 0x8a6244, { rough: 0.95 });
+    decal(combustibles, 0.34, 0.1, 0, 0.5, 0.205, signFace("PACKAGING", { bg: "#7a5c38", accent: "#f2c14b", scale: 0.5 }));
+    reg(combustibles, "combustibles");
+
+    // Chipping hammer and brush on the table edge.
+    const tools = group(table, -0.6, 0.93, 0.28, 0.4);
+    box(tools, 0.02, 0.02, 0.24, 0, 0.01, 0, 0x8a6244, { rough: 0.85 });
+    box(tools, 0.02, 0.06, 0.02, 0, 0.04, -0.11, 0x6f767d, { rough: 0.4, metal: 0.85 });
+    box(tools, 0.05, 0.02, 0.13, 0.1, 0.01, 0.02, 0x8a6244, { rough: 0.85 });
+    for (let i = 0; i < 5; i++) box(tools, 0.04, 0.02, 0.006, 0.1, -0.005, -0.03 + i * 0.015, 0x9aa1a8, { rough: 0.6, metal: 0.7 });
+
+    const key = new THREE.DirectionalLight(0xc8d8e8, 1.0);
+    key.position.set(3, 5.5, 3);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.camera.left = -6; key.shadow.camera.right = 6;
+    key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
+    root.add(key);
+    root.add(new THREE.HemisphereLight(0x9db0c4, 0x2f353b, 1.3));
+
+    let arcOn = false;
+    let extractionOn = false;
+    let welded = false;
+
+    return {
+      hits,
+      spawnLook: new THREE.Vector3(-0.6, 1.1, -2.4),
+
+      onStep(step) {
+        arcOn = step.id === "bead";
+        arcFlash.visible = arcOn;
+      },
+
+      onStepComplete(step) {
+        if (step.id === "clear") { combustibles.position.set(3.9, 0, 3.4); }
+        if (step.id === "blanket") { draped.visible = true; }
+        if (step.id === "vent") {
+          extractionOn = true;
+          fumeLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2 });
+          armA.rotation.y = -0.55;
+          armB.rotation.y = 0.5;
+        }
+        if (step.id === "ppe") wornTicks.forEach((tick) => { tick.visible = true; });
+        if (step.id === "ground") { clampGrp.visible = false; attachedClamp.visible = true; }
+        if (step.id === "bead") {
+          welded = true;
+          arcOn = false;
+          arcFlash.visible = false;
+          bead.visible = true;
+          bead.material = mat(0xffb35c, { rough: 0.4, metal: 0.5, emissive: 0xff7a2c, ei: 1.6 });
+        }
+      },
+
+      animate(t, dt, session) {
+        if (extractionOn) fumeFan.rotation.y += dt * 7;
+        fumeLamp.material.emissiveIntensity = 1.4 + Math.sin(t * 3) * 0.5;
+
+        // Curtains breathe with the extraction airflow.
+        screens.children.forEach((panel, i) => {
+          const curtain = panel.children.find((c) => c.isMesh && c.userData.sway !== undefined);
+          if (curtain) curtain.rotation.y = Math.sin(t * 0.7 + curtain.userData.sway) * 0.02;
+        });
+
+        if (arcOn) {
+          sparks.visible = true;
+          sparks.userData.step(dt, new THREE.Vector3(0, 0.02, -0.07), 0.06, 2.2, -5.5);
+          const flicker = 0.6 + Math.random() * 0.4;
+          arcLight.intensity = 12 * flicker;
+          arcFlash.scale.setScalar(0.7 + Math.random() * 0.6);
+          if (extractionOn) fumeSmoke.userData.step(dt, new THREE.Vector3(-0.55, 1.0, -2.5), 0.1, 0.5, 0.9);
+          fumeSmoke.visible = extractionOn;
+        } else {
+          if (sparks.visible) sparks.visible = false;
+          arcLight.intensity = 0;
+          if (fumeSmoke.visible && !welded) fumeSmoke.visible = false;
+        }
+
+        // The bead cools from orange back to grey after the run.
+        if (welded && bead.material.emissiveIntensity > 0) {
+          bead.material.emissiveIntensity = Math.max(0, bead.material.emissiveIntensity - dt * 0.22);
+        }
+
+        const g = session?.gauge;
+        if (g && !g.committed) {
+          if (session.step?.id === "amps") {
+            const a = Math.round(40 + g.t * 220);
+            dialMark.parent.rotation.z = -2.2 + g.t * 4.4;
+            repaint(ampScreen, signFace(`${a} A`, {
+              bg: "#0e1b28", accent: a >= 130 && a <= 175 ? "#59c97b" : "#f2c14b", fg: "#ffe6a8", scale: 0.62,
+            }));
+          }
+          if (session.step?.id === "lens") {
+            const shade = Math.round(5 + g.t * 10);
+            shadeKnob.rotation.x = -1.6 + g.t * 3.2;
+            helmetLens.material = mat(0x1b2a1e, { rough: 0.25, opacity: clamp(0.3 + shade * 0.05, 0.3, 0.95),
+              emissive: 0x0a1a10, ei: 0.4 });
+          }
+        }
+      },
+    };
+  },
+};
+
+
+/* ===== js/app.js ===== */
+const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING];
+const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
+
+Progress.load();
+
+// ------------------------------------------------------------------ renderer
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.xr.enabled = true;
+renderer.xr.setFoveation(0.6);
+document.getElementById("stage").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a1016);
+scene.fog = new THREE.Fog(0x0a1016, 16, 40);
+
+const rig = new THREE.Group();
+const camera = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.04, 90);
+camera.position.set(0, 1.62, 0);
+camera.rotation.order = "YXZ";
+rig.add(camera);
+scene.add(rig);
+
+// --------------------------------------------------------------- HUD binding
+
+const ui = {
+  room: document.getElementById("hud-room"),
+  step: document.getElementById("hud-step"),
+  cue: document.getElementById("hud-cue"),
+  feedback: document.getElementById("hud-feedback"),
+  score: document.getElementById("hud-score"),
+  combo: document.getElementById("hud-combo"),
+  fill: document.getElementById("hud-fill"),
+  count: document.getElementById("hud-count"),
+  timer: document.getElementById("hud-timer"),
+  rail: document.getElementById("hud-rail"),
+  panel: document.getElementById("hud"),
+  results: document.getElementById("results"),
+  resultsBody: document.getElementById("results-body"),
+  intro: document.getElementById("intro"),
+  hint: document.getElementById("hud-hint"),
+};
+let vrHudDirty = true;
+
+function setRail(kind, html) {
+  ui.rail.dataset.state = kind;
+  ui.feedback.innerHTML = html;
+  vrHudDirty = true;
+}
+
+function syncHud() {
+  const s = state.session;
+  if (!s) {
+    ui.room.textContent = "TRAINING HUB";
+    ui.step.textContent = "Choose a trade";
+    ui.cue.textContent = "Walk into a doorway to start that room's procedure.";
+    ui.score.textContent = String(Progress.data.xp).padStart(4, "0");
+    ui.combo.textContent = `LV ${Progress.level}`;
+    ui.count.textContent = `${Progress.completedRooms}/5 ROOMS · ${Progress.totalStars}★`;
+    ui.fill.style.width = `${(Progress.completedRooms / 5) * 100}%`;
+    ui.timer.textContent = "";
+    vrHudDirty = true;
+    return;
+  }
+  ui.room.textContent = s.room.title.toUpperCase();
+  ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
+  ui.combo.textContent = s.combo > 1.05 ? `×${s.combo.toFixed(1)}` : "×1.0";
+  ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
+  ui.fill.style.width = `${s.progress01 * 100}%`;
+  const secs = Math.floor(s.elapsed);
+  ui.timer.textContent = `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
+    String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`;
+  const step = s.step;
+  if (step) {
+    ui.step.textContent = step.title;
+    let cue = step.cue;
+    if (step.kind === "sequence") cue += `  (${s.sequence.length}/${step.targets.length})`;
+    if (step.kind === "hold") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    ui.cue.textContent = cue;
+  }
+  vrHudDirty = true;
+}
+
+// ------------------------------------------------------------- world objects
+
+const worldRoot = new THREE.Group();
+scene.add(worldRoot);
+
+const state = {
+  roomRoot: null,
+  api: null,
+  room: null,
+  session: null,
+  hits: {},
+  selectables: [],
+  hovered: null,
+  paused: true,
+};
+
+// Objective marker: floor ring plus a bobbing diamond over the live target.
+const hint = new THREE.Group();
+const hintRing = new THREE.Mesh(
+  new THREE.TorusGeometry(0.42, 0.022, 8, 36),
+  new THREE.MeshBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.85 }));
+hintRing.rotation.x = -Math.PI / 2;
+hint.add(hintRing);
+const hintPip = new THREE.Mesh(
+  new THREE.OctahedronGeometry(0.07),
+  new THREE.MeshBasicMaterial({ color: 0x37d6c0 }));
+hint.add(hintPip);
+hint.visible = false;
+worldRoot.add(hint);
+const hintTargets = [];
+
+// Gauge widget: static band panel, geometry marker, and a slow-refresh readout.
+const gauge = new THREE.Group();
+gauge.visible = false;
+const gaugePanel = decal(gauge, 0.62, 0.2, 0, 0, 0, () => {}, { px: 512, glow: true, ei: 0.5 });
+const gaugeReadout = decal(gauge, 0.28, 0.09, 0, 0.16, 0.002, () => {}, { px: 256, glow: true, ei: 0.7 });
+const gaugeMarker = new THREE.Mesh(
+  new THREE.BoxGeometry(0.012, 0.1, 0.014),
+  new THREE.MeshBasicMaterial({ color: 0xffffff }));
+gaugeMarker.position.z = 0.006;
+gauge.add(gaugeMarker);
+worldRoot.add(gauge);
+let gaugeReadoutAt = 0;
+
+function paintGaugeBand(step) {
+  const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
+  repaint(gaugePanel, (g, w, h) => {
+    g.fillStyle = "rgba(10,17,23,0.94)"; g.fillRect(0, 0, w, h);
+    g.strokeStyle = HUD.edge; g.lineWidth = 3; g.strokeRect(1.5, 1.5, w - 3, h - 3);
+    g.fillStyle = HUD.muted;
+    g.font = `600 ${Math.round(h * 0.17)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left"; g.textBaseline = "middle";
+    g.fillText(step.gauge.label ?? "SET THE VALUE", w * 0.05, h * 0.2);
+    const barY = h * 0.5, barH = h * 0.3, x0 = w * 0.05, x1 = w * 0.95;
+    g.fillStyle = "#1d2833"; g.fillRect(x0, barY - barH / 2, x1 - x0, barH);
+    g.fillStyle = "rgba(89,201,123,0.85)";
+    g.fillRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.strokeStyle = HUD.good; g.lineWidth = 2;
+    g.strokeRect(x0 + (x1 - x0) * lo, barY - barH / 2, (x1 - x0) * (hi - lo), barH);
+    g.fillStyle = HUD.muted;
+    g.font = `${Math.round(h * 0.14)}px Arial, sans-serif`;
+    g.textAlign = "center";
+    g.fillText("select to commit", w / 2, h * 0.87);
+  });
+}
+
+function placeGauge(targetObj) {
+  if (!targetObj) return;
+  const boxHelper = new THREE.Box3().setFromObject(targetObj);
+  const c = boxHelper.getCenter(new THREE.Vector3());
+  const top = boxHelper.max.y;
+  gauge.position.set(c.x, Math.min(Math.max(top + 0.3, 1.15), 2.0), c.z);
+}
+
+// ------------------------------------------------------------ room lifecycle
+
+function clearRoom() {
+  if (state.roomRoot) {
+    disposeTree(state.roomRoot);
+    state.roomRoot = null;
+  }
+  state.api = null;
+  state.hits = {};
+  state.selectables = [];
+  state.hovered = null;
+  hint.visible = false;
+  gauge.visible = false;
+}
+
+function collectSelectables() {
+  state.selectables = [];
+  for (const id of Object.keys(state.hits)) {
+    state.hits[id].traverse((o) => { if (o.isMesh) state.selectables.push(o); });
+  }
+}
+
+function enterHub() {
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.api = buildHub(root, ROOMS);
+  state.hits = state.api.hits;
+  collectSelectables();
+  rig.position.set(0.4, 0, 4.9);
+  rig.rotation.y = 0;
+  camera.rotation.set(0, 0, 0);
+  yaw = 0; pitch = 0;
+  scene.background = new THREE.Color(0x0a1016);
+  scene.fog = new THREE.Fog(0x0a1016, 16, 46);
+  document.body.dataset.accent = "#37d6c0";
+  document.documentElement.style.setProperty("--accent", "#37d6c0");
+  setRail("neutral", "<b>Training hub.</b> Five trades, one procedure each. Step into a doorway to begin — the room scores every action against the real order of operations.");
+  syncHud();
+}
+
+function enterRoom(id) {
+  const room = ROOM_BY_ID[id];
+  if (!room) return;
+  clearRoom();
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  state.room = room;
+  state.api = room.build(root);
+  state.hits = state.api.hits;
+  collectSelectables();
+
+  rig.position.set(room.spawn.x, 0, room.spawn.z);
+  rig.rotation.y = room.spawn.ry ?? 0;
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  scene.background = new THREE.Color(0x080d12);
+  scene.fog = new THREE.Fog(0x080d12, 14, 32);
+  document.documentElement.style.setProperty("--accent", room.accentCss);
+
+  state.session = new Session(room, {
+    onStep: (step, s) => {
+      state.api.onStep?.(step, s);
+      updateHintForStep(step);
+      if (step.kind === "gauge") {
+        paintGaugeBand(step);
+        placeGauge(state.hits[step.target]);
+        gauge.visible = true;
+      } else gauge.visible = false;
+      syncHud();
+    },
+    onFeedback: (fb, s) => {
+      state.api.onFeedback?.(fb, s);
+      setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
+      if (fb.kind === "danger") flashDanger();
+      syncHud();
+    },
+    onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
+    onHazard: (hitId, s) => { state.api.onHazard?.(hitId, s); },
+    onFinish: (s, summary) => showResults(s, summary),
+  });
+  state.session.start();
+  faceFirstTask();
+  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. Follow the procedure in order; the room will tell you why each step matters.`);
+  syncHud();
+}
+
+/**
+ * Turn the learner toward the opening task. Rooms author where you stand; the
+ * first thing you are asked to do decides which way you are looking, so nobody
+ * starts a run staring at a blank wall.
+ */
+function faceFirstTask() {
+  const first = hintTargets[0];
+  if (!first) return;
+  const p = new THREE.Vector3();
+  first.getWorldPosition(p);
+  const dx = p.x - rig.position.x, dz = p.z - rig.position.z;
+  if (Math.hypot(dx, dz) < 0.2) return;
+  rig.rotation.y = Math.atan2(-dx, -dz);
+}
+
+function updateHintForStep(step) {
+  hintTargets.length = 0;
+  if (!step) { hint.visible = false; return; }
+  const ids = step.kind === "sequence" ? step.targets : [step.target];
+  for (const id of ids) if (state.hits[id]) hintTargets.push(state.hits[id]);
+  hint.visible = hintTargets.length > 0;
+}
+
+function flashDanger() {
+  document.body.classList.add("danger-flash");
+  setTimeout(() => document.body.classList.remove("danger-flash"), 420);
+}
+
+// ------------------------------------------------------------------- results
+
+function showResults(s, summary) {
+  const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
+  const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
+  ui.resultsBody.innerHTML = `
+    <div class="res-stars">${stars}</div>
+    <h2>${s.room.title} complete</h2>
+    <p class="res-trade">${s.room.trade}</p>
+    <dl class="res-grid">
+      <div><dt>Score</dt><dd>${s.score}</dd></div>
+      <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
+      <div><dt>Errors</dt><dd>${s.errors}</dd></div>
+      <div><dt>Time bonus</dt><dd>+${s.timeBonus ?? 0}</dd></div>
+      <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
+      <div><dt>Runs</dt><dd>${summary.runs}</dd></div>
+    </dl>
+    ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
+    <p class="res-note">${s.errors === 0
+      ? "Clean run: every control taken in order, no unsafe action."
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
+  ui.results.hidden = false;
+  state.paused = true;
+}
+
+document.getElementById("res-retry").addEventListener("click", () => {
+  ui.results.hidden = true;
+  state.paused = false;
+  enterRoom(state.room.id);
+});
+document.getElementById("res-hub").addEventListener("click", () => {
+  ui.results.hidden = true;
+  state.paused = false;
+  enterHub();
+});
+
+// --------------------------------------------------------------- interaction
+
+const raycaster = new THREE.Raycaster();
+raycaster.far = 14;
+const pointerNdc = new THREE.Vector2(0, 0);
+
+function findHit(intersections) {
+  for (const it of intersections) {
+    // three.js raycasts hidden meshes too, and rooms hide props until a step
+    // reveals them — walk the chain and drop anything not actually on screen.
+    let o = it.object, visible = true, found = null;
+    while (o) {
+      if (o.visible === false) { visible = false; break; }
+      if (!found && o.userData.hitId) found = o.userData.hitId;
+      o = o.parent;
+    }
+    if (visible && found) return { id: found, object: it.object };
+  }
+  return null;
+}
+
+function castFromCamera() {
+  raycaster.setFromCamera(pointerNdc, camera);
+  return findHit(raycaster.intersectObjects(state.selectables, false));
+}
+
+function castFromController(controller) {
+  const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(m);
+  return findHit(raycaster.intersectObjects(state.selectables, false));
+}
+
+function setHover(id) {
+  if (state.hovered === id) return;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], false);
+  state.hovered = id;
+  if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], true);
+  document.body.style.cursor = id ? "pointer" : "default";
+}
+
+function tint(root, on) {
+  root.traverse((o) => {
+    if (!o.isMesh || !o.material || o.material.emissive === undefined) return;
+    if (o.material.map) return;   // canvas decals own their texture; cloning it leaks
+    if (on) {
+      if (!o.userData.baseMaterial) o.userData.baseMaterial = o.material;
+      const clone = o.userData.baseMaterial.clone();
+      clone.userData.ownMaterial = true;
+      clone.emissive = new THREE.Color(0x37d6c0);
+      clone.emissiveIntensity = 0.4;
+      o.material = clone;
+    } else if (o.userData.baseMaterial) {
+      if (o.material !== o.userData.baseMaterial) o.material.dispose();
+      o.material = o.userData.baseMaterial;
+    }
+  });
+}
+
+function activate(id) {
+  if (!id) return;
+  if (!state.session) {
+    if (id.startsWith("door-")) { Sfx.good(); enterRoom(id.slice(5)); }
+    return;
+  }
+  state.session.select(id);
+  syncHud();
+}
+
+function pressStart(id) {
+  const s = state.session;
+  if (!s || !s.step) return;
+  if (s.step.kind === "hold" && id === s.step.target) s.setHolding(true);
+}
+function pressEnd() {
+  state.session?.setHolding(false);
+}
+
+// Desktop input -------------------------------------------------------------
+
+let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
+const keys = Object.create(null);
+addEventListener("keydown", (e) => {
+  keys[e.code] = true;
+  if (e.code === "KeyH" && !state.session) return;
+  if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
+  if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
+});
+addEventListener("keyup", (e) => { keys[e.code] = false; });
+
+const canvas = renderer.domElement;
+canvas.addEventListener("pointerdown", (e) => {
+  if (renderer.xr.isPresenting) return;
+  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
+  updateNdc(e);
+  const hit = castFromCamera();
+  downId = hit?.id ?? null;
+  if (downId) pressStart(downId);
+});
+addEventListener("pointerup", (e) => {
+  if (renderer.xr.isPresenting) return;
+  dragging = false;
+  pressEnd();
+  if (performance.now() - downAt < 280 && downId) {
+    updateNdc(e);
+    const hit = castFromCamera();
+    if (hit && hit.id === downId) activate(hit.id);
+  }
+  downId = null;
+});
+addEventListener("pointermove", (e) => {
+  if (renderer.xr.isPresenting) return;
+  updateNdc(e);
+  if (dragging) {
+    yaw -= (e.clientX - lastX) * 0.0038;
+    pitch = clamp(pitch - (e.clientY - lastY) * 0.0038, -1.2, 1.2);
+    lastX = e.clientX; lastY = e.clientY;
+    camera.rotation.set(pitch, yaw, 0);
+  }
+});
+function updateNdc(e) {
+  const r = canvas.getBoundingClientRect();
+  pointerNdc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+}
+
+function desktopMove(dt) {
+  const speed = (keys.ShiftLeft ? 4.4 : 2.6) * dt;
+  const f = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = new THREE.Vector3(-f.z, 0, f.x);
+  if (keys.KeyW || keys.ArrowUp) rig.position.addScaledVector(f, speed);
+  if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
+  if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
+  if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
+  clampRig();
+}
+
+function clampRig() {
+  const limit = state.session ? 3.6 : 6.6;
+  const len = Math.hypot(rig.position.x, rig.position.z);
+  if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
+}
+
+// XR input ------------------------------------------------------------------
+
+const controllers = [];
+for (let i = 0; i < 2; i++) {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -5)]),
+    new THREE.LineBasicMaterial({ color: 0x37d6c0, transparent: true, opacity: 0.7 }));
+  c.add(line);
+  c.add(new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0x37d6c0 })));
+  // A stubby grip so the hand reads as holding something.
+  const grip = new THREE.Mesh(new THREE.CapsuleGeometry(0.021, 0.07, 4, 8),
+    new THREE.MeshStandardMaterial({ color: 0x1d242b, roughness: 0.6 }));
+  grip.rotation.x = 0.5;
+  grip.position.set(0, -0.012, 0.03);
+  c.add(grip);
+  c.addEventListener("selectstart", () => {
+    const hit = castFromController(c);
+    c.userData.downId = hit?.id ?? null;
+    if (hit?.id) pressStart(hit.id);
+  });
+  c.addEventListener("selectend", () => {
+    pressEnd();
+    const hit = castFromController(c);
+    if (hit && hit.id === c.userData.downId) activate(hit.id);
+    c.userData.downId = null;
+  });
+  rig.add(c);
+  controllers.push(c);
+}
+
+let snapReady = true;
+function xrMove(dt) {
+  const session = renderer.xr.getSession();
+  if (!session) return;
+  for (const source of session.inputSources) {
+    const gp = source.gamepad;
+    if (!gp || gp.axes.length < 2) continue;
+    const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0], gp.axes[1]];
+    if (source.handedness === "left") {
+      const head = new THREE.Vector3();
+      camera.getWorldDirection(head);
+      head.y = 0;
+      if (head.lengthSq() < 1e-6) continue;
+      head.normalize();
+      const right = new THREE.Vector3(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -ax[1] * 2.2 * dt);
+      rig.position.addScaledVector(right, ax[0] * 2.2 * dt);
+      clampRig();
+    } else if (source.handedness === "right") {
+      if (Math.abs(ax[0]) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(ax[0]) * (Math.PI / 6); snapReady = false; }
+    }
+  }
+}
+
+// In-headset HUD panel, low-centre so it never masks the work surface.
+const vrCanvas = document.createElement("canvas");
+vrCanvas.width = 1024; vrCanvas.height = 340;
+const vrCtx = vrCanvas.getContext("2d");
+const vrTexture = new THREE.CanvasTexture(vrCanvas);
+const vrPanel = new THREE.Mesh(
+  new THREE.PlaneGeometry(0.9, 0.3),
+  new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true }));
+vrPanel.position.set(0, -0.4, -1.0);
+vrPanel.rotation.x = -0.35;
+vrPanel.renderOrder = 10;
+vrPanel.visible = false;
+camera.add(vrPanel);
+
+function drawVrHud() {
+  const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
+  const accent = state.room?.accentCss ?? HUD.accent;
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = "rgba(16,28,39,0.9)"; g.fillRect(0, 0, w, h);
+  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[ui.rail.dataset.state] ?? HUD.edge;
+  g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
+  g.fillStyle = accent;
+  g.font = `600 34px 'Barlow Condensed', Arial, sans-serif`;
+  g.textAlign = "left"; g.textBaseline = "middle";
+  g.fillText(ui.room.textContent, 36, 40);
+  g.fillStyle = HUD.text;
+  g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(ui.step.textContent, 36, 90);
+  g.fillStyle = HUD.muted;
+  g.font = `26px Arial, sans-serif`;
+  wrapText(g, ui.cue.textContent, 36, 140, w - 300, 32, 3);
+  g.fillStyle = HUD.text;
+  g.font = `26px Arial, sans-serif`;
+  wrapText(g, ui.feedback.textContent, 36, 236, w - 300, 30, 2);
+  g.textAlign = "right";
+  g.fillStyle = accent;
+  g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(ui.score.textContent, w - 34, 62);
+  g.fillStyle = HUD.muted;
+  g.font = `600 28px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText(`${ui.combo.textContent}   ${ui.count.textContent}`, w - 34, 110);
+  g.fillText(ui.timer.textContent, w - 34, 148);
+  g.textAlign = "left";
+  g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
+  g.fillStyle = accent;
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / 5), 10);
+  vrTexture.needsUpdate = true;
+}
+
+function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
+  const words = String(text).split(/\s+/);
+  let line = "", lines = 0;
+  for (const word of words) {
+    if (g.measureText(line + word).width > maxWidth) {
+      g.fillText(line, x, y);
+      y += lineHeight; line = ""; lines++;
+      if (lines >= maxLines) { g.fillText("…", x, y); return; }
+    }
+    line += word + " ";
+  }
+  g.fillText(line, x, y);
+}
+
+// -------------------------------------------------------------------- intro
+
+// ?room=<id> opens straight into one trade, so a single bay can be linked or
+// embedded on its own without the learner walking the hub first.
+const deepLink = new URLSearchParams(location.search).get("room");
+function begin() {
+  ui.intro.hidden = true;
+  state.paused = false;
+  Sfx.ensure();
+  if (deepLink && ROOM_BY_ID[deepLink]) enterRoom(deepLink);
+}
+
+const enterVrBtn = document.getElementById("enter-vr");
+document.getElementById("enter-flat").addEventListener("click", begin);
+document.getElementById("reset-progress").addEventListener("click", () => {
+  Progress.reset();
+  state.api?.refresh?.();
+  syncHud();
+  document.getElementById("reset-progress").textContent = "Progress cleared";
+});
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    if (ok) enterVrBtn.disabled = false;
+    else enterVrBtn.textContent = "VR unavailable in this browser";
+  }).catch(() => { enterVrBtn.textContent = "VR unavailable in this browser"; });
+} else {
+  enterVrBtn.textContent = "VR unavailable in this browser";
+}
+enterVrBtn.addEventListener("click", async () => {
+  try {
+    const session = await navigator.xr.requestSession("immersive-vr",
+      { optionalFeatures: ["local-floor", "bounded-floor", "hand-tracking"] });
+    await renderer.xr.setSession(session);
+    begin();
+    vrPanel.visible = true;
+    vrHudDirty = true;
+    session.addEventListener("end", () => { vrPanel.visible = false; });
+  } catch (err) {
+    begin();
+    setRail("warn", `<b>Could not start the VR session.</b> ${err?.message ?? err}. Open this page in its own tab in a WebXR browser and try again.`);
+  }
+});
+
+// --------------------------------------------------------------- frame loop
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const clock = new THREE.Clock();
+let elapsedTotal = 0;
+
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  elapsedTotal += dt;
+  const presenting = renderer.xr.isPresenting;
+
+  if (!state.paused) {
+    if (presenting) xrMove(dt);
+    else desktopMove(dt);
+    if (state.session && !state.session.finished) {
+      state.session.tick(dt);
+      if (state.session.step?.kind === "hold") syncHud();
+    }
+  }
+
+  // Hover from whichever pointer is live.
+  let hovering = null;
+  if (presenting) {
+    for (const c of controllers) {
+      const hit = castFromController(c);
+      if (hit) { hovering = hit.id; break; }
+    }
+  } else {
+    hovering = castFromCamera()?.id ?? null;
+  }
+  setHover(hovering);
+
+  // Objective marker rides the nearest live target.
+  if (hint.visible && hintTargets.length) {
+    let best = null, bestDist = Infinity;
+    const camPos = new THREE.Vector3();
+    camera.getWorldPosition(camPos);
+    for (const t of hintTargets) {
+      const p = new THREE.Vector3();
+      t.getWorldPosition(p);
+      const d = p.distanceToSquared(camPos);
+      if (d < bestDist) { bestDist = d; best = t; }
+    }
+    if (best) {
+      const bb = new THREE.Box3().setFromObject(best);
+      const c = bb.getCenter(new THREE.Vector3());
+      hint.position.set(c.x, 0.02, c.z);
+      hintPip.position.set(0, Math.max(bb.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.rotation.y = elapsedTotal * 1.4;
+      hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
+    }
+  }
+
+  // Gauge marker and readout.
+  const g = state.session?.gauge;
+  if (gauge.visible && g) {
+    const halfWidth = 0.62 * 0.45;
+    gaugeMarker.position.x = -halfWidth + g.t * halfWidth * 2;
+    const inBand = g.t >= g.green[0] && g.t <= g.green[1];
+    gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
+    const camPos = new THREE.Vector3();
+    camera.getWorldPosition(camPos);
+    gauge.lookAt(camPos.x, gauge.position.y, camPos.z);
+    if (elapsedTotal - gaugeReadoutAt > 0.08) {
+      gaugeReadoutAt = elapsedTotal;
+      const text = state.session.step?.gauge?.readout?.(g.t) ?? `${Math.round(g.t * 100)}%`;
+      repaint(gaugeReadout, (ctx, w, h) => {
+        ctx.fillStyle = "rgba(10,17,23,0.95)"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = inBand ? HUD.good : HUD.text;
+        ctx.font = `600 ${Math.round(h * 0.66)}px 'Barlow Condensed', Arial, sans-serif`;
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(text, w / 2, h * 0.56);
+      });
+    }
+  }
+
+  state.api?.animate?.(elapsedTotal, dt, state.session);
+
+  if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
+  renderer.render(scene, camera);
+});
+
+// Kick off in the hub so the first frame already shows the five trades.
+enterHub();
+state.paused = true;
+
+</script>
+</body>
+</html>

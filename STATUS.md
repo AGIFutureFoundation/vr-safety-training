@@ -1,6 +1,6 @@
 # Current build status
 
-Updated: 2026-09-09
+Updated: 2026-09-11
 
 - Unity 6.0 LTS project scaffold: complete
 - OpenXR + XR Interaction Toolkit package manifest: complete
@@ -37,6 +37,8 @@ Updated: 2026-09-09
 - Windows standalone build: succeeded, `Builds/Windows/VR-Safety-Training.exe`
 
 - Meta Quest standalone path: OpenXR Android configuration (Meta Quest feature, IL2CPP, ARM64, Vulkan/GLES3, ASTC) plus `Build Meta Quest APK` menu item at `Builds/Quest/VR-Safety-Training.apk`
+- Trade Skills Simulator: `WebXR/trades/` — five vocational rooms (electrical isolation, salon colour service, commercial kitchen line, phlebotomy draw station, weld bay) with procedural 3D assets, animated equipment, hazard traps, graded gauges, timed holds, combo scoring, stars, badges and persistent XP; single-file build at `WebXR/trades/dist/trade-skills-simulator.html`
+- Trades tooling: `tools/bundle_trades.py` (single-file bundler with duplicate-symbol detection) and `tools/check_trades.mjs` (headless build + perfect-run check for all five rooms — passing)
 - WebXR companion: `WebXR/index.html` — six sites, 24 authored conditions, deterministic scoring, Meta Quest Browser immersive VR + desktop fallback, deployment notes for static hosting (rb1.com) in `WebXR/README.md`
 
 ## Not yet re-verified after the immersive lab module
