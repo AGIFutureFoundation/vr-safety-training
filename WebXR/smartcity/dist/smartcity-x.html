@@ -4862,7 +4862,7 @@ const SIM_ROBOT_CELL = {
       { id: "curtain-intact", name: "Curtain Intact", note: "Never bypass the light curtain", test: AWARD.safe },
       { id: "teach-safe", name: "Teach Safe", note: "Every teach-mode move inside the reduced-speed band", test: AWARD.precise(0.72) },
       { id: "energy-zero", name: "Energy Zero", note: "Verify zero energy before the guard opens", test: AWARD.stepClean("verify-zero") },
-      { id: "path-taught", name: "Path Taught", note: "Teach every waypoint in the correct order, first try", test: AWARD.stepClean("teach-points") },
+      { id: "path-taught", name: "Path Taught Clean", note: "Teach every waypoint in the correct order, first try", test: AWARD.stepClean("teach-points") },
     ],
     challenges: [
       { id: "line-down", name: "Line Down Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
