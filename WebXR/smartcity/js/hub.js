@@ -34,7 +34,7 @@ export function buildHub(root, sims) {
       g.fillStyle = "#8fd8ff";
       g.font = `600 ${Math.round(h * 0.12)}px 'Barlow Condensed', Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle";
-      g.fillText("POWERED BY AGI CORP", w / 2, h * 0.15);
+      g.fillText("POWERED BY AGI CORP & VISKO", w / 2, h * 0.15);
       g.fillStyle = "#4fd1ff";
       g.font = `700 ${Math.round(h * 0.3)}px 'Barlow Condensed', Arial, sans-serif`;
       g.fillText("SMARTCITI.X ~VR SIMULATORS", w / 2, h * 0.52);

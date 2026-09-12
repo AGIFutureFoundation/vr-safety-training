@@ -3,9 +3,9 @@ import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } 
 import { CITY, skyline } from "./citykit.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
-// simulator brand; AGI Corp is the umbrella brand it is built and run under.
+// simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
 const MARQUEE_LINE = "SMARTCITI.X ~VR SIMULATORS";
-const MARQUEE_SUB = "POWERED BY AGI CORP";
+const MARQUEE_SUB = "POWERED BY AGI CORP & VISKO";
 
 /** Flagship entrance marquee: two support posts, a lit beam, a canvas wordmark and a
  *  small rotating holo-emblem. Built once; the returned refs are cheap to animate
