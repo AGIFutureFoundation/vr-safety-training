@@ -3877,10 +3877,10 @@ const SIM_FLIGHT_DECK = {
   trade: "Drone / UAS ground technician",
   name: "Flight Deck",
   title: simTitle("Flight Deck"),
-  tagline: "Vertiport ramp safety: rotor lockout, battery handling and pre-flight release",
+  tagline: "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",
   accent: 0x4fd1ff,
   accentCss: "#4fd1ff",
-  parSeconds: 200,
+  parSeconds: 240,
   badge: { id: "airside-clear", name: "Airside Clear", note: "Full ramp procedure with rotors safed throughout" },
 
   game: system({
@@ -3891,6 +3891,7 @@ const SIM_FLIGHT_DECK = {
       { id: "rotor-safe", name: "Rotor Safe", note: "Never approach an unlocked rotor", test: AWARD.safe },
       { id: "battery-handler", name: "Battery Handler", note: "Every cell check inside spec", test: AWARD.precise(0.72) },
       { id: "clean-release", name: "Clean Release", note: "Pre-flight signed off with no corrections", test: AWARD.stepClean("release") },
+      { id: "route-clean", name: "Route Planned Clean", note: "Plan the delivery route in the correct order, first try", test: AWARD.stepClean("plan-route") },
     ],
     challenges: [
       { id: "turnaround", name: "Fast Turnaround", note: "Release the aircraft inside 80% of par", test: AWARD.fast(0.8) },
@@ -3996,6 +3997,32 @@ const SIM_FLIGHT_DECK = {
       why: "The pins come out last, right before release — never while there is still a reason for a hand to be near the airframe.",
     },
     {
+      id: "plan-route", kind: "sequence", targets: ["wp-launch", "wp-relay", "wp-delivery"],
+      title: "Plan the autonomous delivery route",
+      cue: "Set the route waypoints on the mission map in the order the aircraft will actually fly them.",
+      why: "The flight controller flies the waypoints in the order they were entered — swap the relay and the delivery point and the aircraft plans a straight line through restricted airspace instead of around it.",
+      itemNames: { "wp-launch": "launch waypoint", "wp-relay": "relay waypoint", "wp-delivery": "delivery waypoint" },
+      itemNotes: {
+        "wp-launch": "The climb-out point clear of the ramp boundary.",
+        "wp-relay": "Routes the aircraft around the restricted corridor, not through it.",
+        "wp-delivery": "The drop point at the delivery address.",
+      },
+      outOfOrderNote: "That waypoint comes later in the actual route. Launch, then relay, then delivery — the controller flies them in the order you entered them, not the order that looks obvious on the map.",
+    },
+    {
+      id: "upload-mission", kind: "select", target: "upload-mission-btn",
+      title: "Upload the mission",
+      cue: "Push the planned route to the flight controller.",
+      why: "A planned route sitting on the tablet is not a flight plan yet — uploading it is what the aircraft actually flies.",
+    },
+    {
+      id: "verify-mission", kind: "hold", target: "verify-mission-btn", seconds: 2.5,
+      title: "Verify the route against restricted airspace",
+      cue: "Hold VERIFY while the controller checks every leg of the uploaded route.",
+      why: "Airspace restrictions shift by the hour. You verify the specific route you are about to fly, every time, not the general area it happens to be in.",
+      holdBreakNote: "Released before the airspace check finished — hold it through the full check, that's the only way to catch a corridor that shifted since the route was drawn.",
+    },
+    {
       id: "release", kind: "select", target: "preflight-tablet",
       title: "Sign the pre-flight release",
       cue: "Complete the digital release with the inspection findings.",
@@ -4074,6 +4101,37 @@ const SIM_FLIGHT_DECK = {
       { glow: true, ei: 0.85, px: 256 });
     holoTag(controller, "Flight controller link", 0, 1.05, 0.04, { css: "#4fd1ff", w: 0.4 });
     reg(hits, controller, "flight-controller");
+    const uploadBtn = cyl(controller, 0.018, 0.018, 0.012, -0.05, 0.8, 0.032, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    uploadBtn.rotation.x = Math.PI / 2;
+    reg(hits, uploadBtn, "upload-mission-btn");
+    const verifyBtn = cyl(controller, 0.018, 0.018, 0.012, 0.05, 0.8, 0.032, 0x59c97b, { rough: 0.4, seg: 14 });
+    verifyBtn.rotation.x = Math.PI / 2;
+    reg(hits, verifyBtn, "verify-mission-btn");
+    holoTag(controller, "Upload · Verify", 0, 0.76, 0.03, { css: "#4fd1ff", w: 0.32 });
+
+    // --------------------------------------------------------- route waypoints
+    // Ground markers standing in for the mission-map pins on the tablet — the
+    // same abstraction Robot Cell uses for taught positions. The connecting
+    // line only lights up once the route is uploaded and verified.
+    const wpLaunch = new THREE.Vector3(-1.4, 0.02, 0.4);
+    const wpRelay = new THREE.Vector3(0, 0.02, -1.75);
+    const wpDelivery = new THREE.Vector3(1.4, 0.02, 0.4);
+    const waypointDefs = [
+      [wpLaunch, "wp-launch", "1 · Launch", 0x59c97b],
+      [wpRelay, "wp-relay", "2 · Relay", 0x4fd1ff],
+      [wpDelivery, "wp-delivery", "3 · Delivery", 0xffcc00],
+    ];
+    for (const [pos, id, label, color] of waypointDefs) {
+      const ring = torus(g, 0.09, 0.012, pos.x, pos.y, pos.z, color,
+        { emissive: color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      ring.rotation.x = Math.PI / 2;
+      holoTag(g, label, pos.x, pos.y + 0.24, pos.z, { css: "#4fd1ff", w: 0.32 });
+      reg(hits, ring, id);
+    }
+    const routeLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([wpLaunch, wpRelay, wpDelivery]),
+      new THREE.LineBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.12 }));
+    g.add(routeLine);
 
     // Spare propeller and containment bag on the tool chest.
     const chest = toolChest(g, 1.6, 0.9, { ry: -0.6, color: 0x2b6f8c });
@@ -4168,6 +4226,11 @@ const SIM_FLIGHT_DECK = {
         if (step.id === "battery") battDoor.rotation.x = -1.2;
         if (step.id === "swollen") swollenBatt.visible = false;
         if (step.id === "unpin") { pinned = false; pins.forEach((p) => { p.visible = false; }); }
+        if (step.id === "upload-mission") routeLine.material.opacity = 0.45;
+        if (step.id === "verify-mission") {
+          routeLine.material.opacity = 1;
+          routeLine.material.color.set(0x59c97b);
+        }
         if (step.id === "release") {
           repaint(controllerScreen, signFace("RELEASED", { bg: "#0d1c14", accent: "#4fd1ff", fg: "#bfeaf7", scale: 0.4 }));
         }
@@ -4182,6 +4245,12 @@ const SIM_FLIGHT_DECK = {
           repaint(battMeter.userData.screen, signFace(`${Math.round(gg.t * 180)} mV`, {
             bg: "#0d1c24", accent: gg.t < 0.14 ? "#59c97b" : "#f0645b", fg: "#bfeaf7", scale: 0.55,
           }));
+        }
+
+        if (session?.step?.id === "verify-mission" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          routeLine.material.opacity = 0.45 + p * 0.55;
+          routeLine.material.color.set(p > 0.98 ? 0x59c97b : 0x4fd1ff);
         }
       },
     };
