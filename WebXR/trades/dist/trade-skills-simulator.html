@@ -3952,6 +3952,16 @@ const raycaster = new THREE.Raycaster();
 raycaster.far = 14;
 const pointerNdc = new THREE.Vector2(0, 0);
 
+// Scratch objects reused every frame by the hot paths below (controller
+// raycasting, the hint marker, the gauge marker) instead of allocating a new
+// Vector3/Box3/Matrix4 each call — this runs at frame rate in VR, and
+// garbage-collector pauses are exactly the kind of stutter that's
+// uncomfortable in a headset.
+const _scratchM4 = new THREE.Matrix4();
+const _scratchV1 = new THREE.Vector3();
+const _scratchV2 = new THREE.Vector3();
+const _scratchBox = new THREE.Box3();
+
 function findHit(intersections) {
   for (const it of intersections) {
     // three.js raycasts hidden meshes too, and rooms hide props until a step
@@ -3973,9 +3983,9 @@ function castFromCamera() {
 }
 
 function castFromController(controller) {
-  const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+  _scratchM4.identity().extractRotation(controller.matrixWorld);
   raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
-  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(m);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
   return findHit(raycaster.intersectObjects(state.selectables, false));
 }
 
@@ -4060,19 +4070,18 @@ function beginDrag(id, controller) {
 function updateDrag() {
   if (!dragState) return;
   const { object, plane, controller } = dragState;
-  const hitPoint = new THREE.Vector3();
   let ok;
   if (controller) {
-    const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
-    const origin = new THREE.Vector3().setFromMatrixPosition(controller.matrixWorld);
-    const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(m);
-    ok = new THREE.Ray(origin, dir).intersectPlane(plane, hitPoint);
+    _scratchM4.identity().extractRotation(controller.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   } else {
     raycaster.setFromCamera(pointerNdc, camera);
-    ok = raycaster.ray.intersectPlane(plane, hitPoint);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   }
   if (!ok) return;
-  const local = hitPoint.clone();
+  const local = _scratchV2.copy(_scratchV1);
   object.parent.worldToLocal(local);
   local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
   object.position.copy(local);
@@ -4270,20 +4279,22 @@ function xrMove(dt) {
   for (const source of session.inputSources) {
     const gp = source.gamepad;
     if (!gp || gp.axes.length < 2) continue;
-    const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0], gp.axes[1]];
+    const fourAxis = gp.axes.length >= 4;
+    const axX = fourAxis ? gp.axes[2] : gp.axes[0];
+    const axY = fourAxis ? gp.axes[3] : gp.axes[1];
     if (source.handedness === "left") {
-      const head = new THREE.Vector3();
+      const head = _scratchV1;
       camera.getWorldDirection(head);
       head.y = 0;
       if (head.lengthSq() < 1e-6) continue;
       head.normalize();
-      const right = new THREE.Vector3(-head.z, 0, head.x);
-      rig.position.addScaledVector(head, -ax[1] * 2.2 * dt);
-      rig.position.addScaledVector(right, ax[0] * 2.2 * dt);
+      const right = _scratchV2.set(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -axY * 2.2 * dt);
+      rig.position.addScaledVector(right, axX * 2.2 * dt);
       clampRig();
     } else if (source.handedness === "right") {
-      if (Math.abs(ax[0]) < 0.35) snapReady = true;
-      else if (snapReady) { rig.rotation.y -= Math.sign(ax[0]) * (Math.PI / 6); snapReady = false; }
+      if (Math.abs(axX) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(axX) * (Math.PI / 6); snapReady = false; }
     }
   }
 }
@@ -4434,19 +4445,17 @@ renderer.setAnimationLoop(() => {
   // Objective marker rides the nearest live target.
   if (hint.visible && hintTargets.length) {
     let best = null, bestDist = Infinity;
-    const camPos = new THREE.Vector3();
-    camera.getWorldPosition(camPos);
+    camera.getWorldPosition(_scratchV1);
     for (const t of hintTargets) {
-      const p = new THREE.Vector3();
-      t.getWorldPosition(p);
-      const d = p.distanceToSquared(camPos);
+      t.getWorldPosition(_scratchV2);
+      const d = _scratchV2.distanceToSquared(_scratchV1);
       if (d < bestDist) { bestDist = d; best = t; }
     }
     if (best) {
-      const bb = new THREE.Box3().setFromObject(best);
-      const c = bb.getCenter(new THREE.Vector3());
+      _scratchBox.setFromObject(best);
+      const c = _scratchBox.getCenter(_scratchV1);
       hint.position.set(c.x, 0.02, c.z);
-      hintPip.position.set(0, Math.max(bb.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
       hintPip.rotation.y = elapsedTotal * 1.4;
       hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
     }
@@ -4459,9 +4468,8 @@ renderer.setAnimationLoop(() => {
     gaugeMarker.position.x = -halfWidth + g.t * halfWidth * 2;
     const inBand = g.t >= g.green[0] && g.t <= g.green[1];
     gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
-    const camPos = new THREE.Vector3();
-    camera.getWorldPosition(camPos);
-    gauge.lookAt(camPos.x, gauge.position.y, camPos.z);
+    camera.getWorldPosition(_scratchV1);
+    gauge.lookAt(_scratchV1.x, gauge.position.y, _scratchV1.z);
     if (elapsedTotal - gaugeReadoutAt > 0.08) {
       gaugeReadoutAt = elapsedTotal;
       const text = state.session.step?.gauge?.readout?.(g.t) ?? `${Math.round(g.t * 100)}%`;

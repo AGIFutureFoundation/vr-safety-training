@@ -23,6 +23,7 @@ import { SIM_ABATEMENT_CHAMBER } from "./sims/abatement-chamber.js";
 import { SIM_RIGGING_LOFT } from "./sims/rigging-loft.js";
 import { SIM_LINE_TRUCK } from "./sims/line-truck.js";
 import { SIM_DOCK_CRANE } from "./sims/dock-crane.js";
+import { CustomScenarios, buildCustomRoom, customRooms, newScenarioId } from "./scenarios.js";
 
 const SIMS = [
   SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
@@ -32,6 +33,21 @@ const SIMS = [
 ];
 const SIM_BY_ID = Object.fromEntries(SIMS.map((s) => [s.id, s]));
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
+
+// The 20 built-in stations plus whatever the learner has built in the
+// scenario editor — the hub, the leaderboard and every sim lookup work off
+// this combined roster so a custom drill is a first-class citizen everywhere
+// a built-in one is, with zero special-casing downstream.
+function allSims() { return [...SIMS, ...customRooms(SIM_BY_ID)]; }
+function findSim(id) {
+  if (SIM_BY_ID[id]) return SIM_BY_ID[id];
+  if (typeof id === "string" && id.startsWith("custom:")) {
+    const entry = CustomScenarios.get(id.slice(7));
+    const base = entry && SIM_BY_ID[entry.baseId];
+    if (base) return buildCustomRoom(base, entry);
+  }
+  return null;
+}
 
 Progress.load();
 
@@ -84,6 +100,7 @@ const ui = {
   leaderboard: document.getElementById("leaderboard"),
   leaderboardBody: document.getElementById("leaderboard-body"),
   playerName: document.getElementById("player-name"),
+  editor: document.getElementById("editor"),
 };
 let vrHudDirty = true;
 
@@ -101,8 +118,8 @@ function syncHud() {
     ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
     ui.score.textContent = "----";
     ui.combo.textContent = "";
-    ui.count.textContent = `${Progress.completedRooms}/${SIMS.length} CLEARED`;
-    ui.fill.style.width = `${(Progress.completedRooms / SIMS.length) * 100}%`;
+    ui.count.textContent = `${Progress.completedRooms}/${allSims().length} CLEARED`;
+    ui.fill.style.width = `${(Progress.completedRooms / allSims().length) * 100}%`;
     ui.timer.textContent = "";
     vrHudDirty = true;
     return;
@@ -246,7 +263,7 @@ function enterHub() {
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
-  state.api = buildHub(root, SIMS);
+  state.api = buildHub(root, allSims());
   state.hits = state.api.hits;
   collectSelectables();
   resetPlacement();
@@ -256,12 +273,12 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   ui.arPrompt.hidden = state.mode !== "ar";
   ui.scaleRow.hidden = state.mode !== "ar";
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${SIMS.length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
   syncHud();
 }
 
 function enterSim(id) {
-  const room = SIM_BY_ID[id];
+  const room = findSim(id);
   if (!room) return;
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene);
@@ -379,7 +396,8 @@ function showResults(s, summary) {
 
 function renderLeaderboards() {
   const standing = Progress.suiteStanding();
-  const cards = SIMS.map((room) => {
+  const roster = allSims();
+  const cards = roster.map((room) => {
     const board = Progress.leaderboard(room.id);
     const rows = board.length
       ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
@@ -394,7 +412,7 @@ function renderLeaderboards() {
     <div class="eyebrow">SmartCiti.X · suite standing</div>
     <h1>Leaderboards</h1>
     <p class="lead">Local to this device — every board here lives in this browser only.
-      ${standing.simsPlayed}/${SIMS.length} districts played · ${standing.totalRuns} runs ·
+      ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
       ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
     <div class="lb-grid">${cards}</div>`;
 }
@@ -403,6 +421,134 @@ document.getElementById("view-leaderboard").addEventListener("click", () => {
   ui.leaderboard.hidden = false;
 });
 document.getElementById("lb-close").addEventListener("click", () => { ui.leaderboard.hidden = true; });
+
+// ------------------------------------------------------------- scenario editor
+//
+// A custom scenario never invents new steps or new 3D content — it curates
+// and reorders the real steps a real station already has, so it plays
+// through the exact same engine, hazards and rank system as the original.
+
+const edBase = document.getElementById("ed-base");
+const edStepsWrap = document.getElementById("ed-steps-wrap");
+const edSteps = document.getElementById("ed-steps");
+const edName = document.getElementById("ed-name");
+const edPar = document.getElementById("ed-par");
+const edTagline = document.getElementById("ed-tagline");
+const edError = document.getElementById("ed-error");
+const edLibrary = document.getElementById("ed-library");
+let edOrder = []; // [{ id, title, kind, on }] — the checklist's live working order
+
+function edPopulateBaseOptions() {
+  edBase.innerHTML = `<option value="">Choose a simulator…</option>` +
+    SIMS.map((s) => `<option value="${s.id}">${s.name} — ${s.trade}</option>`).join("");
+  edBase.value = "";
+  edStepsWrap.hidden = true;
+}
+
+function edLoadBase(simId) {
+  const sim = SIM_BY_ID[simId];
+  if (!sim) { edStepsWrap.hidden = true; return; }
+  edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
+  edName.value = ""; edTagline.value = ""; edPar.value = "";
+  edError.hidden = true;
+  edStepsWrap.hidden = false;
+  edRenderSteps();
+}
+
+function edRenderSteps() {
+  edSteps.innerHTML = edOrder.map((s, i) => `
+    <div class="ed-step${s.on ? "" : " off"}" data-i="${i}">
+      <input type="checkbox" ${s.on ? "checked" : ""} data-act="toggle">
+      <span class="kind">${s.kind}</span>
+      <span class="title">${s.title}</span>
+      <button type="button" class="mv" data-act="up" ${i === 0 ? "disabled" : ""}>&uarr;</button>
+      <button type="button" class="mv" data-act="down" ${i === edOrder.length - 1 ? "disabled" : ""}>&darr;</button>
+    </div>`).join("");
+}
+
+edBase.addEventListener("change", () => edLoadBase(edBase.value));
+edSteps.addEventListener("click", (e) => {
+  const row = e.target.closest(".ed-step");
+  if (!row) return;
+  const i = Number(row.dataset.i);
+  const act = e.target.dataset.act;
+  if (act === "up" && i > 0) { [edOrder[i - 1], edOrder[i]] = [edOrder[i], edOrder[i - 1]]; edRenderSteps(); }
+  else if (act === "down" && i < edOrder.length - 1) { [edOrder[i + 1], edOrder[i]] = [edOrder[i], edOrder[i + 1]]; edRenderSteps(); }
+});
+edSteps.addEventListener("change", (e) => {
+  if (e.target.dataset.act !== "toggle") return;
+  const row = e.target.closest(".ed-step");
+  const i = Number(row.dataset.i);
+  edOrder[i].on = e.target.checked;
+  row.classList.toggle("off", !edOrder[i].on);
+});
+
+function edValidate() {
+  if (!edBase.value) return "Pick a base simulator first.";
+  if (!edName.value.trim()) return "Give the scenario a name.";
+  if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
+  return null;
+}
+
+function edEnter(customId) {
+  ui.editor.hidden = true;
+  pendingEnter = customId;
+  begin();
+}
+
+function edSave(andPlay) {
+  const err = edValidate();
+  if (err) { edError.textContent = err; edError.hidden = false; return; }
+  edError.hidden = true;
+  const par = edPar.value ? Math.max(30, Math.min(900, Number(edPar.value))) : null;
+  const entry = {
+    id: newScenarioId(),
+    baseId: edBase.value,
+    name: edName.value.trim(),
+    tagline: edTagline.value.trim(),
+    stepIds: edOrder.filter((s) => s.on).map((s) => s.id),
+    parSeconds: par,
+    createdAt: Date.now(),
+  };
+  CustomScenarios.save(entry);
+  edRenderLibrary();
+  if (andPlay) edEnter(`custom:${entry.id}`);
+  else { edStepsWrap.hidden = true; edBase.value = ""; }
+}
+
+function edRenderLibrary() {
+  const list = CustomScenarios.list();
+  edLibrary.innerHTML = list.length
+    ? list.map((entry) => {
+        const base = SIM_BY_ID[entry.baseId];
+        return `<div class="ed-lib-card">
+          <h3>${entry.name}</h3>
+          <p>${base ? base.name : "base simulator removed"} · ${entry.stepIds.length} step${entry.stepIds.length === 1 ? "" : "s"}</p>
+          <div class="btnrow">
+            <button class="primary" data-act="play" data-id="${entry.id}" ${base ? "" : "disabled"}>Play</button>
+            <button data-act="delete" data-id="${entry.id}">Delete</button>
+          </div>
+        </div>`;
+      }).join("")
+    : `<p class="ed-empty">Nothing saved yet — pick a simulator above and build one.</p>`;
+}
+
+edLibrary.addEventListener("click", (e) => {
+  const id = e.target.dataset.id;
+  if (!id) return;
+  if (e.target.dataset.act === "delete") { CustomScenarios.remove(id); edRenderLibrary(); }
+  else if (e.target.dataset.act === "play") edEnter(`custom:${id}`);
+});
+
+document.getElementById("ed-save-play").addEventListener("click", () => edSave(true));
+document.getElementById("ed-save").addEventListener("click", () => edSave(false));
+document.getElementById("ed-cancel").addEventListener("click", () => { edStepsWrap.hidden = true; edBase.value = ""; });
+document.getElementById("open-editor").addEventListener("click", () => {
+  edPopulateBaseOptions();
+  edRenderLibrary();
+  ui.editor.hidden = false;
+});
+document.getElementById("ed-close").addEventListener("click", () => { ui.editor.hidden = true; });
 
 ui.playerName.value = Progress.playerName === "YOU" ? "" : Progress.playerName;
 ui.playerName.addEventListener("change", () => {
@@ -423,6 +569,16 @@ const raycaster = new THREE.Raycaster();
 raycaster.far = 14;
 const pointerNdc = new THREE.Vector2(0, 0);
 
+// Scratch objects reused every frame by the hot paths below (controller
+// raycasting, the hint marker, the gauge marker) instead of allocating a new
+// Vector3/Box3/Matrix4 each call — this runs at frame rate in VR, and
+// garbage-collector pauses are exactly the kind of stutter that's
+// uncomfortable in a headset.
+const _scratchM4 = new THREE.Matrix4();
+const _scratchV1 = new THREE.Vector3();
+const _scratchV2 = new THREE.Vector3();
+const _scratchBox = new THREE.Box3();
+
 function findHit(intersections) {
   for (const it of intersections) {
     let o = it.object, visible = true, found = null;
@@ -437,9 +593,9 @@ function findHit(intersections) {
 }
 function castFromCamera() { raycaster.setFromCamera(pointerNdc, camera); return findHit(raycaster.intersectObjects(state.selectables, false)); }
 function castFromController(controller) {
-  const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+  _scratchM4.identity().extractRotation(controller.matrixWorld);
   raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
-  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(m);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
   return findHit(raycaster.intersectObjects(state.selectables, false));
 }
 
@@ -520,19 +676,18 @@ function beginDrag(id, controller) {
 function updateDrag() {
   if (!dragState) return;
   const { object, plane, controller } = dragState;
-  const hitPoint = new THREE.Vector3();
   let ok;
   if (controller) {
-    const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
-    const origin = new THREE.Vector3().setFromMatrixPosition(controller.matrixWorld);
-    const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(m);
-    ok = new THREE.Ray(origin, dir).intersectPlane(plane, hitPoint);
+    _scratchM4.identity().extractRotation(controller.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   } else {
     raycaster.setFromCamera(pointerNdc, camera);
-    ok = raycaster.ray.intersectPlane(plane, hitPoint);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   }
   if (!ok) return;
-  const local = hitPoint.clone();
+  const local = _scratchV2.copy(_scratchV1);
   object.parent.worldToLocal(local);
   local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
   object.position.copy(local);
@@ -719,18 +874,20 @@ function xrMove(dt) {
   for (const source of session.inputSources) {
     const gp = source.gamepad;
     if (!gp || gp.axes.length < 2) continue;
-    const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0], gp.axes[1]];
+    const fourAxis = gp.axes.length >= 4;
+    const axX = fourAxis ? gp.axes[2] : gp.axes[0];
+    const axY = fourAxis ? gp.axes[3] : gp.axes[1];
     if (source.handedness === "left") {
-      const head = new THREE.Vector3();
+      const head = _scratchV1;
       camera.getWorldDirection(head); head.y = 0;
       if (head.lengthSq() < 1e-6) continue;
       head.normalize();
-      const right = new THREE.Vector3(-head.z, 0, head.x);
-      rig.position.addScaledVector(head, -ax[1] * 2.2 * dt);
-      rig.position.addScaledVector(right, ax[0] * 2.2 * dt);
+      const right = _scratchV2.set(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -axY * 2.2 * dt);
+      rig.position.addScaledVector(right, axX * 2.2 * dt);
     } else if (source.handedness === "right") {
-      if (Math.abs(ax[0]) < 0.35) snapReady = true;
-      else if (snapReady) { rig.rotation.y -= Math.sign(ax[0]) * (Math.PI / 6); snapReady = false; }
+      if (Math.abs(axX) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(axX) * (Math.PI / 6); snapReady = false; }
     }
   }
 }
@@ -836,19 +993,22 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / SIMS.length), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / allSims().length), 10);
   vrTexture.needsUpdate = true;
 }
 
 // -------------------------------------------------------------------- intro
 
 const deepLink = new URLSearchParams(location.search).get("sim");
+let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
   ui.intro.hidden = true;
   state.paused = false;
   Sfx.ensure();
   if (state.mode === "ar") { resetPlacement(); ui.arPrompt.hidden = false; ui.scaleRow.hidden = false; }
-  if (deepLink && SIM_BY_ID[deepLink]) enterSim(deepLink);
+  const target = pendingEnter ?? deepLink;
+  pendingEnter = null;
+  if (target && findSim(target)) enterSim(target);
   else enterHub();
 }
 
@@ -924,18 +1084,17 @@ renderer.setAnimationLoop((_, frame) => {
 
   if (hint.visible && hintTargets.length && canInteract) {
     let best = null, bestDist = Infinity;
-    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
+    camera.getWorldPosition(_scratchV1);
     for (const t of hintTargets) {
-      const p = new THREE.Vector3(); t.getWorldPosition(p);
-      const d = p.distanceToSquared(camPos);
+      t.getWorldPosition(_scratchV2);
+      const d = _scratchV2.distanceToSquared(_scratchV1);
       if (d < bestDist) { bestDist = d; best = t; }
     }
     if (best) {
-      const bb = new THREE.Box3().setFromObject(best);
-      const c = bb.getCenter(new THREE.Vector3());
-      const localScale = worldRoot.getWorldScale(new THREE.Vector3()).x || 1;
+      _scratchBox.setFromObject(best);
+      const c = _scratchBox.getCenter(_scratchV1);
       hint.position.set(c.x, 0.02, c.z);
-      hintPip.position.set(0, Math.max(bb.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
       hintPip.rotation.y = elapsedTotal * 1.4;
       hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
     }
@@ -947,8 +1106,8 @@ renderer.setAnimationLoop((_, frame) => {
     gaugeMarker.position.x = -halfWidth + gg.t * halfWidth * 2;
     const inBand = gg.t >= gg.green[0] && gg.t <= gg.green[1];
     gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
-    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
-    gauge.lookAt(camPos.x, gauge.position.y, camPos.z);
+    camera.getWorldPosition(_scratchV1);
+    gauge.lookAt(_scratchV1.x, gauge.position.y, _scratchV1.z);
     if (elapsedTotal - gaugeReadoutAt > 0.08) {
       gaugeReadoutAt = elapsedTotal;
       const text = state.session.step?.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;

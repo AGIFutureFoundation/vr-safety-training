@@ -128,6 +128,33 @@
   .lb-card .lb-top{ font-size:12.5px; color:var(--muted) }
   .lb-card .lb-top b{ color:var(--text) }
 
+  .ed-row{ margin:12px 0 }
+  .ed-row label{ display:block; margin-bottom:5px }
+  .ed-row select, .ed-row input{ width:100%; max-width:420px; background:var(--raised);
+    border:1px solid var(--edge); border-radius:4px; color:var(--text); font-family:var(--sans);
+    font-size:14px; padding:9px 12px; }
+  .ed-row select:focus, .ed-row input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+  .ed-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:4px 16px }
+  .ed-steps{ max-height:38vh; overflow-y:auto; border:1px solid var(--edge); border-radius:5px;
+    background:var(--raised); margin:6px 0 4px }
+  .ed-step{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-bottom:1px solid rgba(40,65,79,.5) }
+  .ed-step:last-child{ border-bottom:none }
+  .ed-step.off{ opacity:.42 }
+  .ed-step .kind{ font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent); border:1px solid var(--edge); border-radius:3px;
+    padding:2px 6px; white-space:nowrap; }
+  .ed-step .title{ flex:1; font-size:13.5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ed-step .mv{ font-family:var(--cond); font-weight:600; padding:3px 8px; font-size:13px; }
+  .ed-error{ color:var(--danger); font-size:13px; margin:6px 0 0 }
+  .ed-library{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;
+    margin:6px 0 4px; max-height:32vh; overflow-y:auto }
+  .ed-lib-card{ background:var(--raised); border-left:3px solid var(--accent); border-radius:4px; padding:10px 12px }
+  .ed-lib-card h3{ margin:0 0 4px; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
+  .ed-lib-card p{ margin:0 0 8px; font-size:12px; color:var(--muted) }
+  .ed-lib-card .btnrow{ margin:0; gap:6px }
+  .ed-lib-card button{ padding:6px 10px; font-size:12px }
+  .ed-empty{ color:var(--muted); font-size:13px; padding:8px 2px }
+
   .res-stars{ font-size:36px; letter-spacing:.1em; color:var(--warn); line-height:1 }
   #results h2{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.02em;
     text-transform:uppercase; margin:10px 0 2px }
@@ -211,6 +238,7 @@
       <button id="enter-vr" disabled>Enter VR</button>
       <button id="enter-flat">Start on screen</button>
       <button id="view-leaderboard">Leaderboards</button>
+      <button id="open-editor">Create a scenario</button>
       <button id="reset-progress">Reset progress</button>
     </div>
     <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
@@ -230,6 +258,57 @@
 <div class="overlay" id="leaderboard" hidden>
   <div class="card"><div id="leaderboard-body"></div>
     <div class="btnrow"><button class="primary" id="lb-close">Close</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="editor" hidden>
+  <div class="card">
+    <div class="eyebrow">SmartCiti.X · scenario editor</div>
+    <h1>Create a Scenario</h1>
+    <p class="lead">Build your own drill out of a real station's real steps. Pick a simulator, keep
+    the steps that matter for what you're teaching, put them in the order you want, and it runs
+    through the exact same procedure engine and rank system as the original — hazards included.</p>
+
+    <div class="ed-row">
+      <label class="eyebrow" for="ed-base">Base simulator</label>
+      <select id="ed-base"></select>
+    </div>
+
+    <div id="ed-steps-wrap" hidden>
+      <div class="ed-row">
+        <label class="eyebrow">Steps — checked and in this order</label>
+      </div>
+      <div id="ed-steps" class="ed-steps"></div>
+
+      <div class="ed-grid">
+        <div class="ed-row">
+          <label class="eyebrow" for="ed-name">Scenario name</label>
+          <input id="ed-name" maxlength="40" placeholder="e.g. Quick Isolation Drill">
+        </div>
+        <div class="ed-row">
+          <label class="eyebrow" for="ed-par">Par time (seconds, optional)</label>
+          <input id="ed-par" type="number" min="30" max="900" placeholder="auto">
+        </div>
+      </div>
+      <div class="ed-row">
+        <label class="eyebrow" for="ed-tagline">Tagline (optional)</label>
+        <input id="ed-tagline" maxlength="90" placeholder="Shown on the kiosk and the intro card">
+      </div>
+      <p id="ed-error" class="ed-error" hidden></p>
+      <div class="btnrow">
+        <button class="primary" id="ed-save-play">Save &amp; play</button>
+        <button id="ed-save">Save</button>
+        <button id="ed-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <div id="ed-library-wrap">
+      <div class="eyebrow" style="margin-top:6px">My scenarios</div>
+      <div id="ed-library" class="ed-library"></div>
+    </div>
+    <div class="btnrow" id="ed-close-row">
+      <button id="ed-close">Close</button>
+    </div>
   </div>
 </div>
 

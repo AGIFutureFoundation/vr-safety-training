@@ -128,6 +128,33 @@
   .lb-card .lb-top{ font-size:12.5px; color:var(--muted) }
   .lb-card .lb-top b{ color:var(--text) }
 
+  .ed-row{ margin:12px 0 }
+  .ed-row label{ display:block; margin-bottom:5px }
+  .ed-row select, .ed-row input{ width:100%; max-width:420px; background:var(--raised);
+    border:1px solid var(--edge); border-radius:4px; color:var(--text); font-family:var(--sans);
+    font-size:14px; padding:9px 12px; }
+  .ed-row select:focus, .ed-row input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+  .ed-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:4px 16px }
+  .ed-steps{ max-height:38vh; overflow-y:auto; border:1px solid var(--edge); border-radius:5px;
+    background:var(--raised); margin:6px 0 4px }
+  .ed-step{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-bottom:1px solid rgba(40,65,79,.5) }
+  .ed-step:last-child{ border-bottom:none }
+  .ed-step.off{ opacity:.42 }
+  .ed-step .kind{ font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent); border:1px solid var(--edge); border-radius:3px;
+    padding:2px 6px; white-space:nowrap; }
+  .ed-step .title{ flex:1; font-size:13.5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ed-step .mv{ font-family:var(--cond); font-weight:600; padding:3px 8px; font-size:13px; }
+  .ed-error{ color:var(--danger); font-size:13px; margin:6px 0 0 }
+  .ed-library{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;
+    margin:6px 0 4px; max-height:32vh; overflow-y:auto }
+  .ed-lib-card{ background:var(--raised); border-left:3px solid var(--accent); border-radius:4px; padding:10px 12px }
+  .ed-lib-card h3{ margin:0 0 4px; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
+  .ed-lib-card p{ margin:0 0 8px; font-size:12px; color:var(--muted) }
+  .ed-lib-card .btnrow{ margin:0; gap:6px }
+  .ed-lib-card button{ padding:6px 10px; font-size:12px }
+  .ed-empty{ color:var(--muted); font-size:13px; padding:8px 2px }
+
   .res-stars{ font-size:36px; letter-spacing:.1em; color:var(--warn); line-height:1 }
   #results h2{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.02em;
     text-transform:uppercase; margin:10px 0 2px }
@@ -213,6 +240,7 @@
       <button id="enter-vr" disabled>Enter VR</button>
       <button id="enter-flat">Start on screen</button>
       <button id="view-leaderboard">Leaderboards</button>
+      <button id="open-editor">Create a scenario</button>
       <button id="reset-progress">Reset progress</button>
     </div>
     <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
@@ -232,6 +260,57 @@
 <div class="overlay" id="leaderboard" hidden>
   <div class="card"><div id="leaderboard-body"></div>
     <div class="btnrow"><button class="primary" id="lb-close">Close</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="editor" hidden>
+  <div class="card">
+    <div class="eyebrow">SmartCiti.X · scenario editor</div>
+    <h1>Create a Scenario</h1>
+    <p class="lead">Build your own drill out of a real station's real steps. Pick a simulator, keep
+    the steps that matter for what you're teaching, put them in the order you want, and it runs
+    through the exact same procedure engine and rank system as the original — hazards included.</p>
+
+    <div class="ed-row">
+      <label class="eyebrow" for="ed-base">Base simulator</label>
+      <select id="ed-base"></select>
+    </div>
+
+    <div id="ed-steps-wrap" hidden>
+      <div class="ed-row">
+        <label class="eyebrow">Steps — checked and in this order</label>
+      </div>
+      <div id="ed-steps" class="ed-steps"></div>
+
+      <div class="ed-grid">
+        <div class="ed-row">
+          <label class="eyebrow" for="ed-name">Scenario name</label>
+          <input id="ed-name" maxlength="40" placeholder="e.g. Quick Isolation Drill">
+        </div>
+        <div class="ed-row">
+          <label class="eyebrow" for="ed-par">Par time (seconds, optional)</label>
+          <input id="ed-par" type="number" min="30" max="900" placeholder="auto">
+        </div>
+      </div>
+      <div class="ed-row">
+        <label class="eyebrow" for="ed-tagline">Tagline (optional)</label>
+        <input id="ed-tagline" maxlength="90" placeholder="Shown on the kiosk and the intro card">
+      </div>
+      <p id="ed-error" class="ed-error" hidden></p>
+      <div class="btnrow">
+        <button class="primary" id="ed-save-play">Save &amp; play</button>
+        <button id="ed-save">Save</button>
+        <button id="ed-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <div id="ed-library-wrap">
+      <div class="eyebrow" style="margin-top:6px">My scenarios</div>
+      <div id="ed-library" class="ed-library"></div>
+    </div>
+    <div class="btnrow" id="ed-close-row">
+      <button id="ed-close">Close</button>
+    </div>
   </div>
 </div>
 
@@ -8718,6 +8797,105 @@ const SIM_DOCK_CRANE = {
 };
 
 
+/* ===== smartcity/js/scenarios.js ===== */
+// User-created scenarios: let a learner or instructor build their own drill
+// out of a real simulator's real steps, and run it through the exact same
+// procedure engine that scores every built-in SmartCiti.X station.
+//
+// A custom scenario never invents new 3D content or new hazards — it curates
+// and reorders the *existing* steps of one base simulator (the station it was
+// built from is what gets constructed and walked). That keeps every custom
+// drill grounded in an authored, reviewed procedure instead of arbitrary
+// user-typed text standing in for real training content, and it means the
+// engine, the hazards, the gamified rank system and the 3D station all keep
+// working exactly as they already do — nothing new to verify there.
+
+const SCENARIO_STORE_KEY = "smartcity-custom-scenarios-v1";
+const MAX_SCENARIOS = 30;
+
+/**
+ * Local-only library of custom scenario descriptors. A descriptor is plain
+ * data (never functions), so it survives localStorage round-tripping:
+ * { id, baseId, name, tagline, stepIds, parSeconds, createdAt }
+ */
+const CustomScenarios = {
+  list() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(SCENARIO_STORE_KEY) || "[]");
+      return Array.isArray(raw) ? raw : [];
+    } catch (_) { return []; }
+  },
+
+  get(id) { return this.list().find((e) => e.id === id) ?? null; },
+
+  save(entry) {
+    const all = this.list();
+    const i = all.findIndex((e) => e.id === entry.id);
+    if (i >= 0) all[i] = entry;
+    else all.push(entry);
+    // Oldest-first eviction rather than a hard refusal once the shelf is full —
+    // a local library should keep working, not block a save with an error.
+    while (all.length > MAX_SCENARIOS) all.shift();
+    try { localStorage.setItem(SCENARIO_STORE_KEY, JSON.stringify(all)); } catch (_) { /* ignore */ }
+    return entry;
+  },
+
+  remove(id) {
+    const all = this.list().filter((e) => e.id !== id);
+    try { localStorage.setItem(SCENARIO_STORE_KEY, JSON.stringify(all)); } catch (_) { /* ignore */ }
+  },
+};
+
+/** A short, collision-safe id with no dependency on crypto.randomUUID. */
+function newScenarioId() {
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+/**
+ * Build a full room-shaped object from a base simulator plus a scenario
+ * descriptor. The result is a real drop-in room: same build() (so the same
+ * 3D station, the same interactables, the same hazards), same gamified
+ * system (so it ranks and pays out in that trade's own currency), but with
+ * `steps` narrowed and reordered to whatever the author kept. `Session`,
+ * `Progress`, the hub and the leaderboard never need to know a room is
+ * custom — they only ever see the shape they already understand.
+ */
+function buildCustomRoom(baseSim, entry) {
+  const byId = new Map(baseSim.steps.map((s) => [s.id, s]));
+  const steps = entry.stepIds.map((id) => byId.get(id)).filter(Boolean);
+  const fraction = baseSim.steps.length ? steps.length / baseSim.steps.length : 1;
+  return {
+    ...baseSim,
+    id: `custom:${entry.id}`,
+    index: "★",
+    domain: "Custom",
+    name: entry.name,
+    title: `${entry.name} — Custom Drill`,
+    tagline: entry.tagline?.trim() || `A custom drill built from ${baseSim.name}: ${steps.length} of ${baseSim.steps.length} steps.`,
+    parSeconds: entry.parSeconds ?? Math.max(45, Math.round(baseSim.parSeconds * fraction)),
+    steps,
+    isCustom: true,
+    baseId: baseSim.id,
+    baseName: baseSim.name,
+    build: (root) => baseSim.build(root),
+  };
+}
+
+/**
+ * Resolve every saved descriptor against the live base-sim catalogue into
+ * playable room objects, silently dropping any whose base simulator no
+ * longer exists (e.g. content was renamed) rather than crashing the hub.
+ */
+function customRooms(simById) {
+  const rooms = [];
+  for (const entry of CustomScenarios.list()) {
+    const base = simById[entry.baseId];
+    if (base) rooms.push(buildCustomRoom(base, entry));
+  }
+  return rooms;
+}
+
+
 /* ===== smartcity/js/hub.js ===== */
 // The district selector. Twenty simulators, each its own gamified system, laid
 // out as kiosks around a plaza. Selecting one starts that simulator's own
@@ -8875,6 +9053,21 @@ const SIMS = [
 const SIM_BY_ID = Object.fromEntries(SIMS.map((s) => [s.id, s]));
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 
+// The 20 built-in stations plus whatever the learner has built in the
+// scenario editor — the hub, the leaderboard and every sim lookup work off
+// this combined roster so a custom drill is a first-class citizen everywhere
+// a built-in one is, with zero special-casing downstream.
+function allSims() { return [...SIMS, ...customRooms(SIM_BY_ID)]; }
+function findSim(id) {
+  if (SIM_BY_ID[id]) return SIM_BY_ID[id];
+  if (typeof id === "string" && id.startsWith("custom:")) {
+    const entry = CustomScenarios.get(id.slice(7));
+    const base = entry && SIM_BY_ID[entry.baseId];
+    if (base) return buildCustomRoom(base, entry);
+  }
+  return null;
+}
+
 Progress.load();
 
 // ------------------------------------------------------------------ renderer
@@ -8926,6 +9119,7 @@ const ui = {
   leaderboard: document.getElementById("leaderboard"),
   leaderboardBody: document.getElementById("leaderboard-body"),
   playerName: document.getElementById("player-name"),
+  editor: document.getElementById("editor"),
 };
 let vrHudDirty = true;
 
@@ -8943,8 +9137,8 @@ function syncHud() {
     ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
     ui.score.textContent = "----";
     ui.combo.textContent = "";
-    ui.count.textContent = `${Progress.completedRooms}/${SIMS.length} CLEARED`;
-    ui.fill.style.width = `${(Progress.completedRooms / SIMS.length) * 100}%`;
+    ui.count.textContent = `${Progress.completedRooms}/${allSims().length} CLEARED`;
+    ui.fill.style.width = `${(Progress.completedRooms / allSims().length) * 100}%`;
     ui.timer.textContent = "";
     vrHudDirty = true;
     return;
@@ -9088,7 +9282,7 @@ function enterHub() {
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
-  state.api = buildHub(root, SIMS);
+  state.api = buildHub(root, allSims());
   state.hits = state.api.hits;
   collectSelectables();
   resetPlacement();
@@ -9098,12 +9292,12 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   ui.arPrompt.hidden = state.mode !== "ar";
   ui.scaleRow.hidden = state.mode !== "ar";
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${SIMS.length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
   syncHud();
 }
 
 function enterSim(id) {
-  const room = SIM_BY_ID[id];
+  const room = findSim(id);
   if (!room) return;
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene);
@@ -9221,7 +9415,8 @@ function showResults(s, summary) {
 
 function renderLeaderboards() {
   const standing = Progress.suiteStanding();
-  const cards = SIMS.map((room) => {
+  const roster = allSims();
+  const cards = roster.map((room) => {
     const board = Progress.leaderboard(room.id);
     const rows = board.length
       ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
@@ -9236,7 +9431,7 @@ function renderLeaderboards() {
     <div class="eyebrow">SmartCiti.X · suite standing</div>
     <h1>Leaderboards</h1>
     <p class="lead">Local to this device — every board here lives in this browser only.
-      ${standing.simsPlayed}/${SIMS.length} districts played · ${standing.totalRuns} runs ·
+      ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
       ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
     <div class="lb-grid">${cards}</div>`;
 }
@@ -9245,6 +9440,134 @@ document.getElementById("view-leaderboard").addEventListener("click", () => {
   ui.leaderboard.hidden = false;
 });
 document.getElementById("lb-close").addEventListener("click", () => { ui.leaderboard.hidden = true; });
+
+// ------------------------------------------------------------- scenario editor
+//
+// A custom scenario never invents new steps or new 3D content — it curates
+// and reorders the real steps a real station already has, so it plays
+// through the exact same engine, hazards and rank system as the original.
+
+const edBase = document.getElementById("ed-base");
+const edStepsWrap = document.getElementById("ed-steps-wrap");
+const edSteps = document.getElementById("ed-steps");
+const edName = document.getElementById("ed-name");
+const edPar = document.getElementById("ed-par");
+const edTagline = document.getElementById("ed-tagline");
+const edError = document.getElementById("ed-error");
+const edLibrary = document.getElementById("ed-library");
+let edOrder = []; // [{ id, title, kind, on }] — the checklist's live working order
+
+function edPopulateBaseOptions() {
+  edBase.innerHTML = `<option value="">Choose a simulator…</option>` +
+    SIMS.map((s) => `<option value="${s.id}">${s.name} — ${s.trade}</option>`).join("");
+  edBase.value = "";
+  edStepsWrap.hidden = true;
+}
+
+function edLoadBase(simId) {
+  const sim = SIM_BY_ID[simId];
+  if (!sim) { edStepsWrap.hidden = true; return; }
+  edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
+  edName.value = ""; edTagline.value = ""; edPar.value = "";
+  edError.hidden = true;
+  edStepsWrap.hidden = false;
+  edRenderSteps();
+}
+
+function edRenderSteps() {
+  edSteps.innerHTML = edOrder.map((s, i) => `
+    <div class="ed-step${s.on ? "" : " off"}" data-i="${i}">
+      <input type="checkbox" ${s.on ? "checked" : ""} data-act="toggle">
+      <span class="kind">${s.kind}</span>
+      <span class="title">${s.title}</span>
+      <button type="button" class="mv" data-act="up" ${i === 0 ? "disabled" : ""}>&uarr;</button>
+      <button type="button" class="mv" data-act="down" ${i === edOrder.length - 1 ? "disabled" : ""}>&darr;</button>
+    </div>`).join("");
+}
+
+edBase.addEventListener("change", () => edLoadBase(edBase.value));
+edSteps.addEventListener("click", (e) => {
+  const row = e.target.closest(".ed-step");
+  if (!row) return;
+  const i = Number(row.dataset.i);
+  const act = e.target.dataset.act;
+  if (act === "up" && i > 0) { [edOrder[i - 1], edOrder[i]] = [edOrder[i], edOrder[i - 1]]; edRenderSteps(); }
+  else if (act === "down" && i < edOrder.length - 1) { [edOrder[i + 1], edOrder[i]] = [edOrder[i], edOrder[i + 1]]; edRenderSteps(); }
+});
+edSteps.addEventListener("change", (e) => {
+  if (e.target.dataset.act !== "toggle") return;
+  const row = e.target.closest(".ed-step");
+  const i = Number(row.dataset.i);
+  edOrder[i].on = e.target.checked;
+  row.classList.toggle("off", !edOrder[i].on);
+});
+
+function edValidate() {
+  if (!edBase.value) return "Pick a base simulator first.";
+  if (!edName.value.trim()) return "Give the scenario a name.";
+  if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
+  return null;
+}
+
+function edEnter(customId) {
+  ui.editor.hidden = true;
+  pendingEnter = customId;
+  begin();
+}
+
+function edSave(andPlay) {
+  const err = edValidate();
+  if (err) { edError.textContent = err; edError.hidden = false; return; }
+  edError.hidden = true;
+  const par = edPar.value ? Math.max(30, Math.min(900, Number(edPar.value))) : null;
+  const entry = {
+    id: newScenarioId(),
+    baseId: edBase.value,
+    name: edName.value.trim(),
+    tagline: edTagline.value.trim(),
+    stepIds: edOrder.filter((s) => s.on).map((s) => s.id),
+    parSeconds: par,
+    createdAt: Date.now(),
+  };
+  CustomScenarios.save(entry);
+  edRenderLibrary();
+  if (andPlay) edEnter(`custom:${entry.id}`);
+  else { edStepsWrap.hidden = true; edBase.value = ""; }
+}
+
+function edRenderLibrary() {
+  const list = CustomScenarios.list();
+  edLibrary.innerHTML = list.length
+    ? list.map((entry) => {
+        const base = SIM_BY_ID[entry.baseId];
+        return `<div class="ed-lib-card">
+          <h3>${entry.name}</h3>
+          <p>${base ? base.name : "base simulator removed"} · ${entry.stepIds.length} step${entry.stepIds.length === 1 ? "" : "s"}</p>
+          <div class="btnrow">
+            <button class="primary" data-act="play" data-id="${entry.id}" ${base ? "" : "disabled"}>Play</button>
+            <button data-act="delete" data-id="${entry.id}">Delete</button>
+          </div>
+        </div>`;
+      }).join("")
+    : `<p class="ed-empty">Nothing saved yet — pick a simulator above and build one.</p>`;
+}
+
+edLibrary.addEventListener("click", (e) => {
+  const id = e.target.dataset.id;
+  if (!id) return;
+  if (e.target.dataset.act === "delete") { CustomScenarios.remove(id); edRenderLibrary(); }
+  else if (e.target.dataset.act === "play") edEnter(`custom:${id}`);
+});
+
+document.getElementById("ed-save-play").addEventListener("click", () => edSave(true));
+document.getElementById("ed-save").addEventListener("click", () => edSave(false));
+document.getElementById("ed-cancel").addEventListener("click", () => { edStepsWrap.hidden = true; edBase.value = ""; });
+document.getElementById("open-editor").addEventListener("click", () => {
+  edPopulateBaseOptions();
+  edRenderLibrary();
+  ui.editor.hidden = false;
+});
+document.getElementById("ed-close").addEventListener("click", () => { ui.editor.hidden = true; });
 
 ui.playerName.value = Progress.playerName === "YOU" ? "" : Progress.playerName;
 ui.playerName.addEventListener("change", () => {
@@ -9265,6 +9588,16 @@ const raycaster = new THREE.Raycaster();
 raycaster.far = 14;
 const pointerNdc = new THREE.Vector2(0, 0);
 
+// Scratch objects reused every frame by the hot paths below (controller
+// raycasting, the hint marker, the gauge marker) instead of allocating a new
+// Vector3/Box3/Matrix4 each call — this runs at frame rate in VR, and
+// garbage-collector pauses are exactly the kind of stutter that's
+// uncomfortable in a headset.
+const _scratchM4 = new THREE.Matrix4();
+const _scratchV1 = new THREE.Vector3();
+const _scratchV2 = new THREE.Vector3();
+const _scratchBox = new THREE.Box3();
+
 function findHit(intersections) {
   for (const it of intersections) {
     let o = it.object, visible = true, found = null;
@@ -9279,9 +9612,9 @@ function findHit(intersections) {
 }
 function castFromCamera() { raycaster.setFromCamera(pointerNdc, camera); return findHit(raycaster.intersectObjects(state.selectables, false)); }
 function castFromController(controller) {
-  const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+  _scratchM4.identity().extractRotation(controller.matrixWorld);
   raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
-  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(m);
+  raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
   return findHit(raycaster.intersectObjects(state.selectables, false));
 }
 
@@ -9362,19 +9695,18 @@ function beginDrag(id, controller) {
 function updateDrag() {
   if (!dragState) return;
   const { object, plane, controller } = dragState;
-  const hitPoint = new THREE.Vector3();
   let ok;
   if (controller) {
-    const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
-    const origin = new THREE.Vector3().setFromMatrixPosition(controller.matrixWorld);
-    const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(m);
-    ok = new THREE.Ray(origin, dir).intersectPlane(plane, hitPoint);
+    _scratchM4.identity().extractRotation(controller.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(_scratchM4);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   } else {
     raycaster.setFromCamera(pointerNdc, camera);
-    ok = raycaster.ray.intersectPlane(plane, hitPoint);
+    ok = raycaster.ray.intersectPlane(plane, _scratchV1);
   }
   if (!ok) return;
-  const local = hitPoint.clone();
+  const local = _scratchV2.copy(_scratchV1);
   object.parent.worldToLocal(local);
   local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
   object.position.copy(local);
@@ -9561,18 +9893,20 @@ function xrMove(dt) {
   for (const source of session.inputSources) {
     const gp = source.gamepad;
     if (!gp || gp.axes.length < 2) continue;
-    const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0], gp.axes[1]];
+    const fourAxis = gp.axes.length >= 4;
+    const axX = fourAxis ? gp.axes[2] : gp.axes[0];
+    const axY = fourAxis ? gp.axes[3] : gp.axes[1];
     if (source.handedness === "left") {
-      const head = new THREE.Vector3();
+      const head = _scratchV1;
       camera.getWorldDirection(head); head.y = 0;
       if (head.lengthSq() < 1e-6) continue;
       head.normalize();
-      const right = new THREE.Vector3(-head.z, 0, head.x);
-      rig.position.addScaledVector(head, -ax[1] * 2.2 * dt);
-      rig.position.addScaledVector(right, ax[0] * 2.2 * dt);
+      const right = _scratchV2.set(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -axY * 2.2 * dt);
+      rig.position.addScaledVector(right, axX * 2.2 * dt);
     } else if (source.handedness === "right") {
-      if (Math.abs(ax[0]) < 0.35) snapReady = true;
-      else if (snapReady) { rig.rotation.y -= Math.sign(ax[0]) * (Math.PI / 6); snapReady = false; }
+      if (Math.abs(axX) < 0.35) snapReady = true;
+      else if (snapReady) { rig.rotation.y -= Math.sign(axX) * (Math.PI / 6); snapReady = false; }
     }
   }
 }
@@ -9678,19 +10012,22 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / SIMS.length), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / allSims().length), 10);
   vrTexture.needsUpdate = true;
 }
 
 // -------------------------------------------------------------------- intro
 
 const deepLink = new URLSearchParams(location.search).get("sim");
+let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
   ui.intro.hidden = true;
   state.paused = false;
   Sfx.ensure();
   if (state.mode === "ar") { resetPlacement(); ui.arPrompt.hidden = false; ui.scaleRow.hidden = false; }
-  if (deepLink && SIM_BY_ID[deepLink]) enterSim(deepLink);
+  const target = pendingEnter ?? deepLink;
+  pendingEnter = null;
+  if (target && findSim(target)) enterSim(target);
   else enterHub();
 }
 
@@ -9766,18 +10103,17 @@ renderer.setAnimationLoop((_, frame) => {
 
   if (hint.visible && hintTargets.length && canInteract) {
     let best = null, bestDist = Infinity;
-    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
+    camera.getWorldPosition(_scratchV1);
     for (const t of hintTargets) {
-      const p = new THREE.Vector3(); t.getWorldPosition(p);
-      const d = p.distanceToSquared(camPos);
+      t.getWorldPosition(_scratchV2);
+      const d = _scratchV2.distanceToSquared(_scratchV1);
       if (d < bestDist) { bestDist = d; best = t; }
     }
     if (best) {
-      const bb = new THREE.Box3().setFromObject(best);
-      const c = bb.getCenter(new THREE.Vector3());
-      const localScale = worldRoot.getWorldScale(new THREE.Vector3()).x || 1;
+      _scratchBox.setFromObject(best);
+      const c = _scratchBox.getCenter(_scratchV1);
       hint.position.set(c.x, 0.02, c.z);
-      hintPip.position.set(0, Math.max(bb.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
+      hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);
       hintPip.rotation.y = elapsedTotal * 1.4;
       hintRing.scale.setScalar(1 + Math.sin(elapsedTotal * 2.2) * 0.06);
     }
@@ -9789,8 +10125,8 @@ renderer.setAnimationLoop((_, frame) => {
     gaugeMarker.position.x = -halfWidth + gg.t * halfWidth * 2;
     const inBand = gg.t >= gg.green[0] && gg.t <= gg.green[1];
     gaugeMarker.material.color.set(inBand ? 0x59c97b : 0xffffff);
-    const camPos = new THREE.Vector3(); camera.getWorldPosition(camPos);
-    gauge.lookAt(camPos.x, gauge.position.y, camPos.z);
+    camera.getWorldPosition(_scratchV1);
+    gauge.lookAt(_scratchV1.x, gauge.position.y, _scratchV1.z);
     if (elapsedTotal - gaugeReadoutAt > 0.08) {
       gaugeReadoutAt = elapsedTotal;
       const text = state.session.step?.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;

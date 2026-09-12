@@ -71,6 +71,7 @@ APPS = {
             WEBXR / "smartcity/js/sims/rigging-loft.js",
             WEBXR / "smartcity/js/sims/line-truck.js",
             WEBXR / "smartcity/js/sims/dock-crane.js",
+            WEBXR / "smartcity/js/scenarios.js",
             WEBXR / "smartcity/js/hub.js",
             WEBXR / "smartcity/js/app.js",
         ],
