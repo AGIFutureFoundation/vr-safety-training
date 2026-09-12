@@ -100,10 +100,11 @@ export const SIM_STEEL_ERECTOR = {
       why: "A deck hazard scan happens before you commit to walking a section, because the deck that looked finished from the ladder is not the same thing as a deck that has actually been checked.",
     },
     {
-      id: "secure-deck", kind: "select", target: "hole-cover",
+      id: "secure-deck", kind: "drag", target: "hole-cover",
       title: "Cover and barricade the opening",
-      cue: "Fit the cover over the deck opening the scan found and mark it.",
+      cue: "Carry the cover over to the opening the scan found and fit it in place.",
       why: "A found hazard that is not corrected is just a hazard you now feel less responsible for. The cover goes on before anyone else reaches that section of deck.",
+      drag: { to: "unmarked-hole", radius: 0.3, missNote: "Not lined up with the opening — carry the cover over the hole the scan found." },
     },
     {
       id: "guide-member", kind: "hold", target: "tag-line", seconds: 6,
@@ -325,7 +326,10 @@ export const SIM_STEEL_ERECTOR = {
           damagedPlank.children[1].material = mat(0x59c97b, { rough: 0.6, cast: false });
           strayDecking.children[0].material = mat(0x59c97b, { rough: 0.5, metal: 0.3 });
         }
-        if (step.id === "secure-deck") { unmarkedHole.children[0].visible = false; coverKit.visible = false; }
+        // coverKit's own position/rotation are already set by the drag-and-
+        // drop gesture (app.js snaps it onto the opening on a successful
+        // drop) — just hide the dark void mesh it now sits on top of.
+        if (step.id === "secure-deck") unmarkedHole.children[0].visible = false;
         if (step.id === "land-member") column.position.y = 0;
         if (step.id === "align-plumb") turnbuckle.rotation.z = Math.PI / 2;
         if (step.id === "bolt-sequence") {

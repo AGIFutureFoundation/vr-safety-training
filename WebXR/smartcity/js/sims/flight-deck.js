@@ -101,10 +101,11 @@ export const SIM_FLIGHT_DECK = {
       why: "A pre-flight inspection is a search, not a checklist tick. Damage that looks cosmetic on the ramp is structural at altitude.",
     },
     {
-      id: "swap-prop", kind: "select", target: "spare-prop",
+      id: "swap-prop", kind: "drag", target: "spare-prop",
       title: "Replace the damaged propeller",
-      cue: "Swap the chipped propeller for a balanced spare.",
+      cue: "Carry the spare propeller over to the damaged rotor and fit it.",
       why: "Matched, balanced propellers keep the airframe's vibration profile inside what the flight controller expects.",
+      drag: { to: "damaged-prop", radius: 0.12, missNote: "Not lined up with the rotor mount — carry the spare over the damaged prop and fit it there." },
     },
     {
       id: "battery", kind: "select", target: "battery-bay",
@@ -301,7 +302,10 @@ export const SIM_FLIGHT_DECK = {
           repaint(controllerScreen, signFace("DISARMED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.42 }));
         }
         if (step.id === "pin") { pinned = true; pins.forEach((p) => { p.visible = true; }); }
-        if (step.id === "swap-prop") spareProp.visible = false;
+        // spare-prop's own position/rotation are already set by the drag-and-
+        // drop gesture (app.js snaps it onto the damaged rotor mount on a
+        // successful drop); hide the old damaged rotor assembly it replaces.
+        if (step.id === "swap-prop") rotors[0].visible = false;
         if (step.id === "battery") battDoor.rotation.x = -1.2;
         if (step.id === "swollen") swollenBatt.visible = false;
         if (step.id === "unpin") { pinned = false; pins.forEach((p) => { p.visible = false; }); }
