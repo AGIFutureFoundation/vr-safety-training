@@ -199,141 +199,10 @@
 
 <div id="stage"></div>
 
-<div class="chip" id="hud-mission"><div class="eyebrow">District</div><div id="hud-room">SmartCiti.X</div></div>
-<div class="chip" id="hud-metrics"><div class="eyebrow">Score</div><div id="hud-score">----</div><div id="hud-combo"></div></div>
-<div id="hud-objective"><div id="hud-step">Choose a district</div><div id="hud-cue">Select a simulator to begin.</div><div id="hud-gesture" hidden></div></div>
-<div id="hud-rail" data-state="neutral">
-  <div id="hud-feedback">Loading the training campus…</div>
-  <div id="hud-progress"><div id="hud-track"><div id="hud-fill"></div></div><div id="hud-count">0/20 CLEARED</div><div id="hud-timer"></div></div>
-</div>
-<div id="hud-hint">Drag look · click act · M mute · ESC hub</div>
-<div id="gesture-tip"></div>
-<div id="ar-prompt" hidden><b>Tap a surface</b><br>to place this station</div>
-<div id="scale-row" hidden><button id="scale-down">− Smaller</button><button id="scale-up">+ Larger</button></div>
+<div id="react-root"></div>
 
-<div class="overlay" id="intro">
-  <div class="card">
-    <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-    <div class="eyebrow">SmartCiti.X · twenty districts, twenty certifications</div>
-    <h1>AR Training Simulators</h1>
-    <p class="lead">Twenty deep-skill simulators across the union trades, each its own gamified system
-    with its own rank ladder, currency and badges. Every station is a real procedure with real hazards —
-    the training scores what you touch and in what order.</p>
-    <div class="sims">
-      <div class="sim" style="--tint:#59c97b"><b>Charge Point</b><span>EV DC fast-charger isolation · Grid Certification</span></div>
-      <div class="sim" style="--tint:#f2c14b"><b>Signal Cabinet</b><span>Traffic controller fault work · Intersection Command</span></div>
-      <div class="sim" style="--tint:#4fa3ff"><b>Valve Vault</b><span>Confined space entry · Entry Authority</span></div>
-      <div class="sim" style="--tint:#ffb648"><b>Solar Deck</b><span>Rooftop PV/BESS commissioning · Rooftop Authority</span></div>
-      <div class="sim" style="--tint:#a079ff"><b>Splice Node</b><span>Fibre laser safety and splicing · Photon Guild</span></div>
-      <div class="sim" style="--tint:#4fd1ff"><b>Flight Deck</b><span>Drone ramp and battery safety · Airside Command</span></div>
-      <div class="sim" style="--tint:#f2894b"><b>Track Access</b><span>Rail possession and third-rail isolation · Right-of-Way</span></div>
-      <div class="sim" style="--tint:#f0645b"><b>Triage Point</b><span>Mass-casualty START triage · Golden Hour</span></div>
-      <div class="sim" style="--tint:#a079ff"><b>Robot Cell</b><span>Six-axis robot lockout · Cell Lockout</span></div>
-      <div class="sim" style="--tint:#4fd1ff"><b>Chiller Plant</b><span>Refrigerant recovery, confined space · Cold Chain Command</span></div>
-      <div class="sim" style="--tint:#ff7a1a"><b>Tower Climb</b><span>Guyed tower ascent, RF lockout · Summit Authority</span></div>
-      <div class="sim" style="--tint:#ffcc00"><b>Steel Erector</b><span>Structural steel connecting, bolt-up · Iron Certified</span></div>
-      <div class="sim" style="--tint:#2f8fdb"><b>Crane Yard</b><span>Mobile crane pick, load chart, rigging · Rigging Command</span></div>
-      <div class="sim" style="--tint:#7ed321"><b>Trench Box</b><span>Excavation shoring, atmosphere testing · Ground Authority</span></div>
-      <div class="sim" style="--tint:#d83a2a"><b>Boiler Room</b><span>Boiler lockout, firebox confined space · Steam Certified</span></div>
-      <div class="sim" style="--tint:#2dd4bf"><b>Elevator Pit</b><span>Pit/car-top entry, dual stop switches · Shaftway Authority</span></div>
-      <div class="sim" style="--tint:#c9e265"><b>Abatement Chamber</b><span>Containment, wet removal, decon airlock · Containment Command</span></div>
-      <div class="sim" style="--tint:#ff6fae"><b>Rigging Loft</b><span>Counterweight fly system, arbor balance · Fly Certified</span></div>
-      <div class="sim" style="--tint:#fcee21"><b>Line Truck</b><span>Bucket-truck line work, isolation, grounding · Storm Command</span></div>
-      <div class="sim" style="--tint:#3a7ca5"><b>Dock Crane</b><span>Container lift, twist-locks, wind limits · Waterfront Authority</span></div>
-    </div>
-    <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
-    <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
-    <div class="namerow">
-      <label class="eyebrow" for="player-name">Crew tag (for the leaderboard)</label>
-      <input id="player-name" maxlength="12" placeholder="YOU" autocomplete="off">
-    </div>
-    <div class="btnrow">
-      <button class="primary" id="start-tour">Start guided tour</button>
-      <button id="enter-ar" disabled>Enter AR</button>
-      <button id="enter-vr" disabled>Enter VR</button>
-      <button id="enter-flat">Free explore</button>
-      <button id="view-leaderboard">Leaderboards</button>
-      <button id="open-editor">Create a scenario</button>
-      <button id="reset-progress">Reset progress</button>
-    </div>
-    <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
-    through all twenty stations in order, one after another, with no need to find your own way back to the campus
-    between them.</p>
-    <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
-    nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
-    Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
-    display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
-    <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
-  </div>
-</div>
-
-<div class="overlay" id="results" hidden>
-  <div class="card"><div id="results-body"></div>
-    <div class="btnrow">
-      <button class="primary" id="res-next" hidden>Next stop &rarr;</button>
-      <button class="primary" id="res-retry">Run it again</button>
-      <button id="res-hub">Back to campus</button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="leaderboard" hidden>
-  <div class="card"><div id="leaderboard-body"></div>
-    <div class="btnrow"><button class="primary" id="lb-close">Close</button></div>
-  </div>
-</div>
-
-<div class="overlay" id="editor" hidden>
-  <div class="card">
-    <div class="eyebrow">SmartCiti.X · scenario editor</div>
-    <h1>Create a Scenario</h1>
-    <p class="lead">Build your own drill out of a real station's real steps. Pick a simulator, keep
-    the steps that matter for what you're teaching, put them in the order you want, and it runs
-    through the exact same procedure engine and rank system as the original — hazards included.</p>
-
-    <div class="ed-row">
-      <label class="eyebrow" for="ed-base">Base simulator</label>
-      <select id="ed-base"></select>
-    </div>
-
-    <div id="ed-steps-wrap" hidden>
-      <div class="ed-row">
-        <label class="eyebrow">Steps — checked and in this order</label>
-      </div>
-      <div id="ed-steps" class="ed-steps"></div>
-
-      <div class="ed-grid">
-        <div class="ed-row">
-          <label class="eyebrow" for="ed-name">Scenario name</label>
-          <input id="ed-name" maxlength="40" placeholder="e.g. Quick Isolation Drill">
-        </div>
-        <div class="ed-row">
-          <label class="eyebrow" for="ed-par">Par time (seconds, optional)</label>
-          <input id="ed-par" type="number" min="30" max="900" placeholder="auto">
-        </div>
-      </div>
-      <div class="ed-row">
-        <label class="eyebrow" for="ed-tagline">Tagline (optional)</label>
-        <input id="ed-tagline" maxlength="90" placeholder="Shown on the kiosk and the intro card">
-      </div>
-      <p id="ed-error" class="ed-error" hidden></p>
-      <div class="btnrow">
-        <button class="primary" id="ed-save-play">Save &amp; play</button>
-        <button id="ed-save">Save</button>
-        <button id="ed-cancel">Cancel</button>
-      </div>
-    </div>
-
-    <div id="ed-library-wrap">
-      <div class="eyebrow" style="margin-top:6px">My scenarios</div>
-      <div id="ed-library" class="ed-library"></div>
-    </div>
-    <div class="btnrow" id="ed-close-row">
-      <button id="ed-close">Close</button>
-    </div>
-  </div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script type="module">
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 
@@ -9113,6 +8982,286 @@ function buildHub(root, sims) {
 }
 
 
+/* ===== smartcity/js/store.js ===== */
+/**
+ * A minimal reactive store — just enough pub-sub to let app.js (the Three.js
+ * engine) hand its UI state to react-ui.js (the 2D chrome) without either
+ * side reaching into the other's DOM. Every write replaces the whole state
+ * object (or a named slice of it) so React's useSyncExternalStore can tell
+ * "changed" from "same" with a plain reference check.
+ */
+function createStore(initial) {
+  let state = initial;
+  const subs = new Set();
+
+  function get() {
+    return state;
+  }
+
+  function set(patch) {
+    state = typeof patch === "function" ? patch(state) : { ...state, ...patch };
+    for (const fn of subs) fn(state);
+  }
+
+  /** Shallow-merge `partial` (or the object a function of the previous slice
+   * returns) into the named top-level slice, e.g. "hud". */
+  function patch(key, partial) {
+    const prev = state[key];
+    const delta = typeof partial === "function" ? partial(prev) : partial;
+    set({ [key]: { ...prev, ...delta } });
+  }
+
+  function subscribe(fn) {
+    subs.add(fn);
+    return () => subs.delete(fn);
+  }
+
+  return { get, set, patch, subscribe };
+}
+
+
+/* ===== smartcity/js/react-ui.js ===== */
+/**
+ * The 2D UI chrome — HUD, intro, results, leaderboard, scenario editor — as
+ * React components. This file owns none of the Three.js scene, the Session,
+ * or the render loop; it only reads `store` and calls back into `actions`,
+ * both handed to it by app.js. The CSS in index.html targets these same
+ * element ids/classes as before, so no style changes were needed to move
+ * the markup here.
+ */
+
+const h = React.createElement;
+const { Fragment, useSyncExternalStore } = React;
+
+// Static marketing copy for the intro card — this never changes at runtime,
+// so it is kept as one HTML block rather than hand-built as elements.
+const INTRO_HEAD_HTML = `
+  <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
+  <div class="eyebrow">SmartCiti.X · twenty districts, twenty certifications</div>
+  <h1>AR Training Simulators</h1>
+  <p class="lead">Twenty deep-skill simulators across the union trades, each its own gamified system
+  with its own rank ladder, currency and badges. Every station is a real procedure with real hazards —
+  the training scores what you touch and in what order.</p>
+  <div class="sims">
+    <div class="sim" style="--tint:#59c97b"><b>Charge Point</b><span>EV DC fast-charger isolation · Grid Certification</span></div>
+    <div class="sim" style="--tint:#f2c14b"><b>Signal Cabinet</b><span>Traffic controller fault work · Intersection Command</span></div>
+    <div class="sim" style="--tint:#4fa3ff"><b>Valve Vault</b><span>Confined space entry · Entry Authority</span></div>
+    <div class="sim" style="--tint:#ffb648"><b>Solar Deck</b><span>Rooftop PV/BESS commissioning · Rooftop Authority</span></div>
+    <div class="sim" style="--tint:#a079ff"><b>Splice Node</b><span>Fibre laser safety and splicing · Photon Guild</span></div>
+    <div class="sim" style="--tint:#4fd1ff"><b>Flight Deck</b><span>Drone ramp and battery safety · Airside Command</span></div>
+    <div class="sim" style="--tint:#f2894b"><b>Track Access</b><span>Rail possession and third-rail isolation · Right-of-Way</span></div>
+    <div class="sim" style="--tint:#f0645b"><b>Triage Point</b><span>Mass-casualty START triage · Golden Hour</span></div>
+    <div class="sim" style="--tint:#a079ff"><b>Robot Cell</b><span>Six-axis robot lockout · Cell Lockout</span></div>
+    <div class="sim" style="--tint:#4fd1ff"><b>Chiller Plant</b><span>Refrigerant recovery, confined space · Cold Chain Command</span></div>
+    <div class="sim" style="--tint:#ff7a1a"><b>Tower Climb</b><span>Guyed tower ascent, RF lockout · Summit Authority</span></div>
+    <div class="sim" style="--tint:#ffcc00"><b>Steel Erector</b><span>Structural steel connecting, bolt-up · Iron Certified</span></div>
+    <div class="sim" style="--tint:#2f8fdb"><b>Crane Yard</b><span>Mobile crane pick, load chart, rigging · Rigging Command</span></div>
+    <div class="sim" style="--tint:#7ed321"><b>Trench Box</b><span>Excavation shoring, atmosphere testing · Ground Authority</span></div>
+    <div class="sim" style="--tint:#d83a2a"><b>Boiler Room</b><span>Boiler lockout, firebox confined space · Steam Certified</span></div>
+    <div class="sim" style="--tint:#2dd4bf"><b>Elevator Pit</b><span>Pit/car-top entry, dual stop switches · Shaftway Authority</span></div>
+    <div class="sim" style="--tint:#c9e265"><b>Abatement Chamber</b><span>Containment, wet removal, decon airlock · Containment Command</span></div>
+    <div class="sim" style="--tint:#ff6fae"><b>Rigging Loft</b><span>Counterweight fly system, arbor balance · Fly Certified</span></div>
+    <div class="sim" style="--tint:#fcee21"><b>Line Truck</b><span>Bucket-truck line work, isolation, grounding · Storm Command</span></div>
+    <div class="sim" style="--tint:#3a7ca5"><b>Dock Crane</b><span>Container lift, twist-locks, wind limits · Waterfront Authority</span></div>
+  </div>
+  <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
+  <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
+`;
+const INTRO_FOOT_HTML = `
+  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
+  through all twenty stations in order, one after another, with no need to find your own way back to the campus
+  between them.</p>
+  <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
+  nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
+  Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
+  display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
+  <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
+`;
+
+function stripHtml(html) {
+  return String(html ?? "").replace(/<[^>]*>/g, "");
+}
+
+function mountUI(store, actions) {
+  function useSlice(key) {
+    return useSyncExternalStore(store.subscribe, () => store.get()[key]);
+  }
+
+  function HudMission() {
+    const hud = useSlice("hud");
+    return h("div", { className: "chip", id: "hud-mission" },
+      h("div", { className: "eyebrow" }, "District"),
+      h("div", { id: "hud-room" }, hud.room));
+  }
+
+  function HudMetrics() {
+    const hud = useSlice("hud");
+    return h("div", { className: "chip", id: "hud-metrics" },
+      h("div", { className: "eyebrow" }, "Score"),
+      h("div", { id: "hud-score" }, hud.score),
+      h("div", { id: "hud-combo", className: [hud.comboHot && "hot", hud.comboFire && "fire"].filter(Boolean).join(" ") }, hud.comboText),
+      hud.scorePops.map((p) => h("div", { key: p.id, className: p.big ? "score-pop big" : "score-pop" }, p.text)));
+  }
+
+  function HudObjective() {
+    const hud = useSlice("hud");
+    return h("div", { id: "hud-objective" },
+      h("div", { id: "hud-step" }, hud.step),
+      h("div", { id: "hud-cue" }, hud.cue),
+      h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
+  }
+
+  function HudRail() {
+    const hud = useSlice("hud");
+    return h("div", { id: "hud-rail", "data-state": hud.railState },
+      h("div", { id: "hud-feedback", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
+      h("div", { id: "hud-progress" },
+        h("div", { id: "hud-track" }, h("div", { id: "hud-fill", style: { width: `${hud.fillPct}%` } })),
+        h("div", { id: "hud-count" }, hud.count),
+        h("div", { id: "hud-timer" }, hud.timer)));
+  }
+
+  function HudHint() {
+    return h("div", { id: "hud-hint" }, "Drag look · click act · M mute · ESC hub");
+  }
+
+  function GestureTip() {
+    const tip = useSlice("gestureTip");
+    return h("div", {
+      id: "gesture-tip",
+      className: tip.show ? "show" : "",
+      dangerouslySetInnerHTML: { __html: tip.html },
+    });
+  }
+
+  function ArPrompt() {
+    const ar = useSlice("arPrompt");
+    return h("div", { id: "ar-prompt", hidden: !ar.visible }, h("b", null, "Tap a surface"), h("br"), "to place this station");
+  }
+
+  function ScaleRow() {
+    const scaleRow = useSlice("scaleRow");
+    return h("div", { id: "scale-row", hidden: !scaleRow.visible },
+      h("button", { id: "scale-down", onClick: actions.scaleDown }, "− Smaller"),
+      h("button", { id: "scale-up", onClick: actions.scaleUp }, "+ Larger"));
+  }
+
+  function IntroCard() {
+    const intro = useSlice("intro");
+    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible },
+      h("div", { className: "card" },
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_HEAD_HTML } }),
+        h("div", { className: "namerow" },
+          h("label", { className: "eyebrow", htmlFor: "player-name" }, "Crew tag (for the leaderboard)"),
+          h("input", {
+            id: "player-name", maxLength: 12, placeholder: "YOU", autoComplete: "off",
+            value: intro.playerName,
+            onChange: (e) => actions.setPlayerNameDraft(e.target.value),
+            onBlur: actions.commitPlayerName,
+          })),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "start-tour", onClick: actions.startTour }, "Start guided tour"),
+          h("button", { id: "enter-ar", disabled: intro.arDisabled, onClick: actions.enterAr }, intro.arText),
+          h("button", { id: "enter-vr", disabled: intro.vrDisabled, onClick: actions.enterVr }, intro.vrText),
+          h("button", { id: "enter-flat", onClick: actions.enterFlat }, "Free explore"),
+          h("button", { id: "view-leaderboard", onClick: actions.viewLeaderboard }, "Leaderboards"),
+          h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
+          h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
+  }
+
+  function ResultsCard() {
+    const results = useSlice("results");
+    if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
+    return h("div", { className: "overlay", id: "results" },
+      h("div", { className: "card" },
+        h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, "Next stop →"),
+          h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, "Run it again"),
+          h("button", { id: "res-hub", onClick: actions.backToHub }, "Back to campus"))));
+  }
+
+  function LeaderboardCard() {
+    const lb = useSlice("leaderboard");
+    if (!lb.visible) return h("div", { className: "overlay", id: "leaderboard", hidden: true });
+    return h("div", { className: "overlay", id: "leaderboard" },
+      h("div", { className: "card" },
+        h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
+        h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
+  }
+
+  function EditorStepRow({ step, i, count }) {
+    return h("div", { className: `ed-step${step.on ? "" : " off"}` },
+      h("input", { type: "checkbox", checked: step.on, onChange: (e) => actions.edToggleStep(i, e.target.checked) }),
+      h("span", { className: "kind" }, step.kind),
+      h("span", { className: "title" }, step.title),
+      h("button", { type: "button", className: "mv", disabled: i === 0, onClick: () => actions.edMoveStep(i, -1) }, "↑"),
+      h("button", { type: "button", className: "mv", disabled: i === count - 1, onClick: () => actions.edMoveStep(i, 1) }, "↓"));
+  }
+
+  function EditorLibraryCard({ entry }) {
+    return h("div", { className: "ed-lib-card" },
+      h("h3", null, entry.name),
+      h("p", null, `${entry.baseName} · ${entry.stepCount} step${entry.stepCount === 1 ? "" : "s"}`),
+      h("div", { className: "btnrow" },
+        h("button", { className: "primary", disabled: !entry.playable, onClick: () => actions.edPlayLibrary(entry.id) }, "Play"),
+        h("button", { onClick: () => actions.edDeleteLibrary(entry.id) }, "Delete")));
+  }
+
+  function EditorCard() {
+    const ed = useSlice("editor");
+    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
+        h("h1", null, "Create a Scenario"),
+        h("p", { className: "lead" }, "Build your own drill out of a real station's real steps. Pick a simulator, keep " +
+          "the steps that matter for what you're teaching, put them in the order you want, and it runs " +
+          "through the exact same procedure engine and rank system as the original — hazards included."),
+        h("div", { className: "ed-row" },
+          h("label", { className: "eyebrow", htmlFor: "ed-base" }, "Base simulator"),
+          h("select", { id: "ed-base", value: ed.baseValue, onChange: (e) => actions.edSelectBase(e.target.value) },
+            h("option", { value: "" }, "Choose a simulator…"),
+            ed.baseOptions.map((o) => h("option", { key: o.id, value: o.id }, o.label)))),
+        h("div", { id: "ed-steps-wrap", hidden: !ed.stepsVisible },
+          h("div", { className: "ed-row" }, h("label", { className: "eyebrow" }, "Steps — checked and in this order")),
+          h("div", { id: "ed-steps", className: "ed-steps" },
+            ed.steps.map((s, i) => h(EditorStepRow, { key: s.id, step: s, i, count: ed.steps.length }))),
+          h("div", { className: "ed-grid" },
+            h("div", { className: "ed-row" },
+              h("label", { className: "eyebrow", htmlFor: "ed-name" }, "Scenario name"),
+              h("input", { id: "ed-name", maxLength: 40, placeholder: "e.g. Quick Isolation Drill", value: ed.name, onChange: (e) => actions.edSetName(e.target.value) })),
+            h("div", { className: "ed-row" },
+              h("label", { className: "eyebrow", htmlFor: "ed-par" }, "Par time (seconds, optional)"),
+              h("input", { id: "ed-par", type: "number", min: 30, max: 900, placeholder: "auto", value: ed.par, onChange: (e) => actions.edSetPar(e.target.value) }))),
+          h("div", { className: "ed-row" },
+            h("label", { className: "eyebrow", htmlFor: "ed-tagline" }, "Tagline (optional)"),
+            h("input", { id: "ed-tagline", maxLength: 90, placeholder: "Shown on the kiosk and the intro card", value: ed.tagline, onChange: (e) => actions.edSetTagline(e.target.value) })),
+          h("p", { id: "ed-error", className: "ed-error", hidden: !ed.error }, ed.error),
+          h("div", { className: "btnrow" },
+            h("button", { className: "primary", id: "ed-save-play", onClick: actions.edSavePlay }, "Save & play"),
+            h("button", { id: "ed-save", onClick: actions.edSaveOnly }, "Save"),
+            h("button", { id: "ed-cancel", onClick: actions.edCancel }, "Cancel"))),
+        h("div", { id: "ed-library-wrap" },
+          h("div", { className: "eyebrow", style: { marginTop: "6px" } }, "My scenarios"),
+          h("div", { id: "ed-library", className: "ed-library" },
+            ed.library.length
+              ? ed.library.map((entry) => h(EditorLibraryCard, { key: entry.id, entry }))
+              : h("p", { className: "ed-empty" }, "Nothing saved yet — pick a simulator above and build one."))),
+        h("div", { className: "btnrow", id: "ed-close-row" }, h("button", { id: "ed-close", onClick: actions.closeEditor }, "Close"))));
+  }
+
+  function App() {
+    return h(Fragment, null,
+      h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
+      h(GestureTip), h(ArPrompt), h(ScaleRow),
+      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
+  }
+
+  ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
+}
+
+
 /* ===== smartcity/js/app.js ===== */
 const SIMS = [
   SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
@@ -9168,79 +9317,95 @@ const worldRoot = new THREE.Group();
 placement.add(worldRoot);
 
 // --------------------------------------------------------------- HUD binding
+//
+// app.js never touches the DOM directly for UI chrome any more — it writes
+// state into this store, and react-ui.js (mounted near the bottom of this
+// file) renders it. The Three.js scene, Session wiring and render loop below
+// are otherwise unchanged.
 
-const ui = {
-  room: document.getElementById("hud-room"),
-  step: document.getElementById("hud-step"),
-  cue: document.getElementById("hud-cue"),
-  feedback: document.getElementById("hud-feedback"),
-  score: document.getElementById("hud-score"),
-  combo: document.getElementById("hud-combo"),
-  fill: document.getElementById("hud-fill"),
-  count: document.getElementById("hud-count"),
-  timer: document.getElementById("hud-timer"),
-  rail: document.getElementById("hud-rail"),
-  results: document.getElementById("results"),
-  resultsBody: document.getElementById("results-body"),
-  intro: document.getElementById("intro"),
-  hint: document.getElementById("hud-hint"),
-  arPrompt: document.getElementById("ar-prompt"),
-  scaleRow: document.getElementById("scale-row"),
-  leaderboard: document.getElementById("leaderboard"),
-  leaderboardBody: document.getElementById("leaderboard-body"),
-  playerName: document.getElementById("player-name"),
-  editor: document.getElementById("editor"),
-  gesture: document.getElementById("hud-gesture"),
-  gestureTip: document.getElementById("gesture-tip"),
-  resNext: document.getElementById("res-next"),
-  resRetry: document.getElementById("res-retry"),
-};
+const store = createStore({
+  hud: {
+    room: "SMARTCITI.X",
+    step: "Choose a district",
+    cue: "Select a simulator to begin its own procedure and its own rank system.",
+    gestureVerb: "", gestureVisible: false,
+    score: "----", comboText: "", comboHot: false, comboFire: false,
+    fillPct: 0, count: "0/20 CLEARED", timer: "",
+    railState: "neutral", feedbackHtml: "Loading the training campus…",
+    scorePops: [],
+  },
+  gestureTip: { html: "", show: false },
+  arPrompt: { visible: false },
+  scaleRow: { visible: false },
+  intro: {
+    visible: true,
+    arDisabled: true, arText: "Enter AR",
+    vrDisabled: true, vrText: "Enter VR",
+    playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
+  },
+  results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  leaderboard: { visible: false, html: "" },
+  editor: {
+    visible: false,
+    baseOptions: SIMS.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
+    baseValue: "",
+    stepsVisible: false,
+    steps: [],
+    name: "", par: "", tagline: "",
+    error: "",
+    library: [],
+  },
+  resetProgressText: "Reset progress",
+});
 let vrHudDirty = true;
 
 function setRail(kind, html) {
-  ui.rail.dataset.state = kind;
-  ui.feedback.innerHTML = html;
+  store.patch("hud", { railState: kind, feedbackHtml: html });
   vrHudDirty = true;
 }
 
 function syncHud() {
   const s = state.session;
   if (!s) {
-    ui.room.textContent = "SMARTCITI.X";
-    ui.step.textContent = "Choose a district";
-    ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
-    ui.score.textContent = "----";
-    ui.combo.textContent = "";
-    ui.count.textContent = `${Progress.completedRooms}/${allSims().length} CLEARED`;
-    ui.fill.style.width = `${(Progress.completedRooms / allSims().length) * 100}%`;
-    ui.timer.textContent = "";
-    ui.gesture.hidden = true;
+    store.patch("hud", {
+      room: "SMARTCITI.X",
+      step: "Choose a district",
+      cue: "Select a simulator to begin its own procedure and its own rank system.",
+      score: "----", comboText: "", comboHot: false, comboFire: false,
+      count: `${Progress.completedRooms}/${allSims().length} CLEARED`,
+      fillPct: (Progress.completedRooms / allSims().length) * 100,
+      timer: "",
+      gestureVisible: false,
+    });
     vrHudDirty = true;
     return;
   }
   const rank = Progress.simRank(s.room.id, s.room.game);
-  ui.room.textContent = state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase();
-  ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
-  ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name;
-  ui.combo.classList.toggle("hot", s.streak >= 4);
-  ui.combo.classList.toggle("fire", s.combo >= 1.8);
-  ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
-  ui.fill.style.width = `${s.progress01 * 100}%`;
   const secs = Math.floor(s.elapsed);
-  ui.timer.textContent = `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
-    String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`;
+  const patch = {
+    room: state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase(),
+    score: String(Math.round(s.score)).padStart(4, "0"),
+    comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name,
+    comboHot: s.streak >= 4,
+    comboFire: s.combo >= 1.8,
+    count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
+    fillPct: s.progress01 * 100,
+    timer: `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
+      String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`,
+  };
   const step = s.step;
   if (step) {
-    ui.step.textContent = step.title;
     let cue = step.cue;
     if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
     if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
-    ui.cue.textContent = cue;
     const hint = GESTURE_HINTS[step.kind];
-    ui.gesture.textContent = hint?.verb ?? "";
-    ui.gesture.hidden = !hint;
+    patch.step = step.title;
+    patch.cue = cue;
+    patch.gestureVerb = hint?.verb ?? "";
+    patch.gestureVisible = !!hint;
   }
+  store.patch("hud", patch);
   vrHudDirty = true;
 }
 
@@ -9318,10 +9483,9 @@ function maybeShowGestureTip(kind) {
   const hint = GESTURE_HINTS[kind];
   if (!hint || hasSeenGesture(kind)) return;
   markGestureSeen(kind);
-  ui.gestureTip.innerHTML = `<b>${hint.verb}</b><br>${hint.tip}`;
-  ui.gestureTip.classList.add("show");
+  store.patch("gestureTip", { html: `<b>${hint.verb}</b><br>${hint.tip}`, show: true });
   clearTimeout(gestureTipTimer);
-  gestureTipTimer = setTimeout(() => ui.gestureTip.classList.remove("show"), 5200);
+  gestureTipTimer = setTimeout(() => store.patch("gestureTip", { show: false }), 5200);
 }
 
 function paintGaugeBand(step) {
@@ -9396,8 +9560,8 @@ function enterHub() {
   else { rig.position.set(0, 0, 0); }
   yaw = 0; pitch = 0;
   camera.rotation.set(0, 0, 0);
-  ui.arPrompt.hidden = state.mode !== "ar";
-  ui.scaleRow.hidden = state.mode !== "ar";
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
   setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
   syncHud();
 }
@@ -9427,8 +9591,8 @@ function enterSim(id) {
   yaw = 0; pitch = 0;
   camera.rotation.set(0, 0, 0);
   document.documentElement.style.setProperty("--accent", room.accentCss);
-  ui.arPrompt.hidden = state.mode !== "ar";
-  ui.scaleRow.hidden = state.mode !== "ar";
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
 
   state.session = new Session(room, {
     onStep: (step, s) => {
@@ -9493,7 +9657,7 @@ function showResults(s, summary) {
   const earnedNames = s.earned
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
-  ui.resultsBody.innerHTML = `
+  const bodyHtml = `
     ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
     <div class="res-stars">${stars}</div>
     <h2>${room.title}</h2>
@@ -9517,9 +9681,12 @@ function showResults(s, summary) {
     ${state.tour ? renderTourFooter() : ""}`;
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS.length;
-  ui.resNext.hidden = !touring || tourDone;
-  ui.resRetry.classList.toggle("primary", !touring || tourDone);
-  ui.results.hidden = false;
+  store.patch("results", {
+    visible: true,
+    html: bodyHtml,
+    showNext: touring && !tourDone,
+    retryPrimary: !touring || tourDone,
+  });
   state.paused = true;
 }
 
@@ -9550,19 +9717,17 @@ function renderLeaderboards() {
     return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${room.name}</h3>
       <div class="lb-top">${room.game?.system ?? ""}</div>${rows}</div>`;
   }).join("");
-  ui.leaderboardBody.innerHTML = `
+  const html = `
     <div class="eyebrow">SmartCiti.X · suite standing</div>
     <h1>Leaderboards</h1>
     <p class="lead">Local to this device — every board here lives in this browser only.
       ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
       ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
     <div class="lb-grid">${cards}</div>`;
+  store.patch("leaderboard", { html });
 }
-document.getElementById("view-leaderboard").addEventListener("click", () => {
-  renderLeaderboards();
-  ui.leaderboard.hidden = false;
-});
-document.getElementById("lb-close").addEventListener("click", () => { ui.leaderboard.hidden = true; });
+function viewLeaderboard() { renderLeaderboards(); store.patch("leaderboard", { visible: true }); }
+function closeLeaderboard() { store.patch("leaderboard", { visible: false }); }
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -9570,84 +9735,60 @@ document.getElementById("lb-close").addEventListener("click", () => { ui.leaderb
 // and reorders the real steps a real station already has, so it plays
 // through the exact same engine, hazards and rank system as the original.
 
-const edBase = document.getElementById("ed-base");
-const edStepsWrap = document.getElementById("ed-steps-wrap");
-const edSteps = document.getElementById("ed-steps");
-const edName = document.getElementById("ed-name");
-const edPar = document.getElementById("ed-par");
-const edTagline = document.getElementById("ed-tagline");
-const edError = document.getElementById("ed-error");
-const edLibrary = document.getElementById("ed-library");
 let edOrder = []; // [{ id, title, kind, on }] — the checklist's live working order
 
 function edPopulateBaseOptions() {
-  edBase.innerHTML = `<option value="">Choose a simulator…</option>` +
-    SIMS.map((s) => `<option value="${s.id}">${s.name} — ${s.trade}</option>`).join("");
-  edBase.value = "";
-  edStepsWrap.hidden = true;
+  store.patch("editor", { baseValue: "", stepsVisible: false });
+}
+
+function edRenderSteps() {
+  store.patch("editor", { steps: edOrder.map((s) => ({ ...s })) });
 }
 
 function edLoadBase(simId) {
   const sim = SIM_BY_ID[simId];
-  if (!sim) { edStepsWrap.hidden = true; return; }
+  if (!sim) { store.patch("editor", { baseValue: simId, stepsVisible: false }); return; }
   edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
-  edName.value = ""; edTagline.value = ""; edPar.value = "";
-  edError.hidden = true;
-  edStepsWrap.hidden = false;
+  store.patch("editor", { baseValue: simId, name: "", tagline: "", par: "", error: "", stepsVisible: true });
   edRenderSteps();
 }
 
-function edRenderSteps() {
-  edSteps.innerHTML = edOrder.map((s, i) => `
-    <div class="ed-step${s.on ? "" : " off"}" data-i="${i}">
-      <input type="checkbox" ${s.on ? "checked" : ""} data-act="toggle">
-      <span class="kind">${s.kind}</span>
-      <span class="title">${s.title}</span>
-      <button type="button" class="mv" data-act="up" ${i === 0 ? "disabled" : ""}>&uarr;</button>
-      <button type="button" class="mv" data-act="down" ${i === edOrder.length - 1 ? "disabled" : ""}>&darr;</button>
-    </div>`).join("");
+function edToggleStep(i, on) { edOrder[i].on = on; edRenderSteps(); }
+function edMoveStep(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= edOrder.length) return;
+  [edOrder[i], edOrder[j]] = [edOrder[j], edOrder[i]];
+  edRenderSteps();
 }
-
-edBase.addEventListener("change", () => edLoadBase(edBase.value));
-edSteps.addEventListener("click", (e) => {
-  const row = e.target.closest(".ed-step");
-  if (!row) return;
-  const i = Number(row.dataset.i);
-  const act = e.target.dataset.act;
-  if (act === "up" && i > 0) { [edOrder[i - 1], edOrder[i]] = [edOrder[i], edOrder[i - 1]]; edRenderSteps(); }
-  else if (act === "down" && i < edOrder.length - 1) { [edOrder[i + 1], edOrder[i]] = [edOrder[i], edOrder[i + 1]]; edRenderSteps(); }
-});
-edSteps.addEventListener("change", (e) => {
-  if (e.target.dataset.act !== "toggle") return;
-  const row = e.target.closest(".ed-step");
-  const i = Number(row.dataset.i);
-  edOrder[i].on = e.target.checked;
-  row.classList.toggle("off", !edOrder[i].on);
-});
+function edSetName(v) { store.patch("editor", { name: v }); }
+function edSetPar(v) { store.patch("editor", { par: v }); }
+function edSetTagline(v) { store.patch("editor", { tagline: v }); }
+function edSelectBase(v) { edLoadBase(v); }
 
 function edValidate() {
-  if (!edBase.value) return "Pick a base simulator first.";
-  if (!edName.value.trim()) return "Give the scenario a name.";
+  const ed = store.get().editor;
+  if (!ed.baseValue) return "Pick a base simulator first.";
+  if (!ed.name.trim()) return "Give the scenario a name.";
   if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
   return null;
 }
 
 function edEnter(customId) {
-  ui.editor.hidden = true;
+  store.patch("editor", { visible: false });
   pendingEnter = customId;
   begin();
 }
 
 function edSave(andPlay) {
   const err = edValidate();
-  if (err) { edError.textContent = err; edError.hidden = false; return; }
-  edError.hidden = true;
-  const par = edPar.value ? Math.max(30, Math.min(900, Number(edPar.value))) : null;
+  if (err) { store.patch("editor", { error: err }); return; }
+  const ed = store.get().editor;
+  const par = ed.par ? Math.max(30, Math.min(900, Number(ed.par))) : null;
   const entry = {
     id: newScenarioId(),
-    baseId: edBase.value,
-    name: edName.value.trim(),
-    tagline: edTagline.value.trim(),
+    baseId: ed.baseValue,
+    name: ed.name.trim(),
+    tagline: ed.tagline.trim(),
     stepIds: edOrder.filter((s) => s.on).map((s) => s.id),
     parSeconds: par,
     createdAt: Date.now(),
@@ -9655,71 +9796,73 @@ function edSave(andPlay) {
   CustomScenarios.save(entry);
   edRenderLibrary();
   if (andPlay) edEnter(`custom:${entry.id}`);
-  else { edStepsWrap.hidden = true; edBase.value = ""; }
+  else store.patch("editor", { error: "", stepsVisible: false, baseValue: "" });
 }
+function edSavePlay() { edSave(true); }
+function edSaveOnly() { edSave(false); }
+function edCancel() { store.patch("editor", { stepsVisible: false, baseValue: "" }); }
 
 function edRenderLibrary() {
   const list = CustomScenarios.list();
-  edLibrary.innerHTML = list.length
-    ? list.map((entry) => {
-        const base = SIM_BY_ID[entry.baseId];
-        return `<div class="ed-lib-card">
-          <h3>${entry.name}</h3>
-          <p>${base ? base.name : "base simulator removed"} · ${entry.stepIds.length} step${entry.stepIds.length === 1 ? "" : "s"}</p>
-          <div class="btnrow">
-            <button class="primary" data-act="play" data-id="${entry.id}" ${base ? "" : "disabled"}>Play</button>
-            <button data-act="delete" data-id="${entry.id}">Delete</button>
-          </div>
-        </div>`;
-      }).join("")
-    : `<p class="ed-empty">Nothing saved yet — pick a simulator above and build one.</p>`;
+  const library = list.map((entry) => {
+    const base = SIM_BY_ID[entry.baseId];
+    return {
+      id: entry.id,
+      name: entry.name,
+      baseName: base ? base.name : "base simulator removed",
+      stepCount: entry.stepIds.length,
+      playable: !!base,
+    };
+  });
+  store.patch("editor", { library });
 }
 
-edLibrary.addEventListener("click", (e) => {
-  const id = e.target.dataset.id;
-  if (!id) return;
-  if (e.target.dataset.act === "delete") { CustomScenarios.remove(id); edRenderLibrary(); }
-  else if (e.target.dataset.act === "play") edEnter(`custom:${id}`);
-});
+function edPlayLibrary(id) { edEnter(`custom:${id}`); }
+function edDeleteLibrary(id) { CustomScenarios.remove(id); edRenderLibrary(); }
 
-document.getElementById("ed-save-play").addEventListener("click", () => edSave(true));
-document.getElementById("ed-save").addEventListener("click", () => edSave(false));
-document.getElementById("ed-cancel").addEventListener("click", () => { edStepsWrap.hidden = true; edBase.value = ""; });
-document.getElementById("open-editor").addEventListener("click", () => {
+function openEditor() {
   edPopulateBaseOptions();
   edRenderLibrary();
-  ui.editor.hidden = false;
-});
-document.getElementById("ed-close").addEventListener("click", () => { ui.editor.hidden = true; });
+  store.patch("editor", { visible: true });
+}
+function closeEditor() { store.patch("editor", { visible: false }); }
 
-ui.playerName.value = Progress.playerName === "YOU" ? "" : Progress.playerName;
-ui.playerName.addEventListener("change", () => {
-  Progress.setPlayerName(ui.playerName.value);
-  ui.playerName.value = Progress.playerName;
-});
+// Mirrors the original <input> semantics: every keystroke updates the field
+// as typed (untransformed, so typing "JOHN SMITH" keeps its space), and only
+// losing focus — like the native "change" event — commits it through
+// Progress.setPlayerName's trim/case/length normalization.
+function setPlayerNameDraft(v) { store.patch("intro", { playerName: v }); }
+function commitPlayerName() {
+  Progress.setPlayerName(store.get().intro.playerName);
+  store.patch("intro", { playerName: Progress.playerName });
+}
 
-document.getElementById("res-retry").addEventListener("click", () => {
-  ui.results.hidden = true; state.paused = false; enterSim(state.room.id);
-});
-document.getElementById("res-hub").addEventListener("click", () => {
+function retryResult() {
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterSim(state.room.id);
+}
+function backToHub() {
   state.tour = null;
-  ui.results.hidden = true; state.paused = false; enterHub();
-});
-document.getElementById("res-next").addEventListener("click", () => {
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterHub();
+}
+function nextTourStop() {
   if (!state.tour) return;
   state.tour.i += 1;
   const next = SIMS[state.tour.i];
-  ui.results.hidden = true; state.paused = false;
+  store.patch("results", { visible: false });
+  state.paused = false;
   if (next) enterSim(next.id);
   else { state.tour = null; enterHub(); }
-});
-
-document.getElementById("start-tour").addEventListener("click", () => {
+}
+function startTour() {
   state.mode = "flat";
   state.tour = { i: 0 };
   pendingEnter = SIMS[0].id;
   begin();
-});
+}
 
 // --------------------------------------------------------------- interaction
 
@@ -9800,12 +9943,13 @@ function activate(id) {
 }
 
 /** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+let scorePopSeq = 0;
 function scorePop(text, big) {
-  const el = document.createElement("div");
-  el.className = big ? "score-pop big" : "score-pop";
-  el.textContent = text;
-  ui.score.parentElement.appendChild(el);
-  setTimeout(() => el.remove(), 900);
+  const id = ++scorePopSeq;
+  store.patch("hud", (hud) => ({ scorePops: [...hud.scorePops, { id, text, big }] }));
+  setTimeout(() => {
+    store.patch("hud", (hud) => ({ scorePops: hud.scorePops.filter((p) => p.id !== id) }));
+  }, 900);
 }
 function pressStart(id) {
   const s = state.session;
@@ -9945,7 +10089,7 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
-  if (e.code === "Escape" && state.session) { state.tour = null; ui.results.hidden = true; enterHub(); }
+  if (e.code === "Escape" && state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { keys[e.code] = false; });
@@ -10078,15 +10222,11 @@ function placeFromReticle() {
   placement.quaternion.set(0, 0, 0, 1); // upright, ignore surface tilt for stable footing
   state.placed = true;
   reticle.visible = false;
-  ui.arPrompt.hidden = true;
+  store.patch("arPrompt", { visible: false });
   Sfx.good();
 }
-document.getElementById("scale-up").addEventListener("click", () => {
-  placement.scale.multiplyScalar(1.15);
-});
-document.getElementById("scale-down").addEventListener("click", () => {
-  placement.scale.multiplyScalar(1 / 1.15);
-});
+function scaleUp() { placement.scale.multiplyScalar(1.15); }
+function scaleDown() { placement.scale.multiplyScalar(1 / 1.15); }
 
 async function startXr(mode) {
   const opts = mode === "ar"
@@ -10138,27 +10278,28 @@ function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
 function drawVrHud() {
   const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
   const accent = state.room?.accentCss ?? HUD.accent;
+  const hud = store.get().hud;
   g.clearRect(0, 0, w, h);
   g.fillStyle = "rgba(10,17,23,0.9)"; g.fillRect(0, 0, w, h);
-  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[ui.rail.dataset.state] ?? HUD.edge;
+  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[hud.railState] ?? HUD.edge;
   g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
   g.fillStyle = accent;
   g.font = `600 34px 'Barlow Condensed', Arial, sans-serif`;
   g.textAlign = "left"; g.textBaseline = "middle";
-  g.fillText(ui.room.textContent, 36, 40);
+  g.fillText(hud.room, 36, 40);
   g.fillStyle = HUD.text;
   g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.step.textContent, 36, 90);
+  g.fillText(hud.step, 36, 90);
   g.fillStyle = HUD.muted; g.font = `26px Arial, sans-serif`;
-  wrapText(g, ui.cue.textContent, 36, 140, w - 300, 32, 3);
+  wrapText(g, hud.cue, 36, 140, w - 300, 32, 3);
   g.fillStyle = HUD.text; g.font = `26px Arial, sans-serif`;
-  wrapText(g, ui.feedback.textContent, 36, 236, w - 300, 30, 2);
+  wrapText(g, stripHtml(hud.feedbackHtml), 36, 236, w - 300, 30, 2);
   g.textAlign = "right"; g.fillStyle = accent;
   g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.score.textContent, w - 34, 62);
+  g.fillText(hud.score, w - 34, 62);
   g.fillStyle = HUD.muted; g.font = `600 26px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.combo.textContent, w - 34, 108);
-  g.fillText(ui.count.textContent + "   " + ui.timer.textContent, w - 34, 144);
+  g.fillText(hud.comboText, w - 34, 108);
+  g.fillText(hud.count + "   " + hud.timer, w - 34, 144);
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
@@ -10171,39 +10312,53 @@ function drawVrHud() {
 const deepLink = new URLSearchParams(location.search).get("sim");
 let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
-  ui.intro.hidden = true;
+  store.patch("intro", { visible: false });
   state.paused = false;
   Sfx.ensure();
-  if (state.mode === "ar") { resetPlacement(); ui.arPrompt.hidden = false; ui.scaleRow.hidden = false; }
+  if (state.mode === "ar") {
+    resetPlacement();
+    store.patch("arPrompt", { visible: true });
+    store.patch("scaleRow", { visible: true });
+  }
   const target = pendingEnter ?? deepLink;
   pendingEnter = null;
   if (target && findSim(target)) enterSim(target);
   else enterHub();
 }
 
-const btnAr = document.getElementById("enter-ar");
-const btnVr = document.getElementById("enter-vr");
-const btnFlat = document.getElementById("enter-flat");
-btnFlat.addEventListener("click", () => { state.mode = "flat"; begin(); });
-document.getElementById("reset-progress").addEventListener("click", () => {
+function enterFlat() { state.mode = "flat"; begin(); }
+function resetProgress() {
   Progress.reset(); state.api?.refresh?.(); syncHud();
-  document.getElementById("reset-progress").textContent = "Progress cleared";
-});
-if (navigator.xr?.isSessionSupported) {
-  navigator.xr.isSessionSupported("immersive-ar").then((ok) => { if (ok) btnAr.disabled = false; else btnAr.textContent = "AR unavailable here"; })
-    .catch(() => { btnAr.textContent = "AR unavailable here"; });
-  navigator.xr.isSessionSupported("immersive-vr").then((ok) => { if (ok) btnVr.disabled = false; else btnVr.textContent = "VR unavailable here"; })
-    .catch(() => { btnVr.textContent = "VR unavailable here"; });
-} else {
-  btnAr.textContent = "AR unavailable here"; btnVr.textContent = "VR unavailable here";
+  store.set({ resetProgressText: "Progress cleared" });
 }
-btnAr.addEventListener("click", async () => {
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-ar").then((ok) => {
+    store.patch("intro", ok ? { arDisabled: false } : { arText: "AR unavailable here" });
+  }).catch(() => store.patch("intro", { arText: "AR unavailable here" }));
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    store.patch("intro", ok ? { vrDisabled: false } : { vrText: "VR unavailable here" });
+  }).catch(() => store.patch("intro", { vrText: "VR unavailable here" }));
+} else {
+  store.patch("intro", { arText: "AR unavailable here", vrText: "VR unavailable here" });
+}
+async function enterAr() {
   try { await startXr("ar"); }
   catch (err) { begin(); setRail("warn", `<b>Could not start AR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
-});
-btnVr.addEventListener("click", async () => {
+}
+async function enterVr() {
   try { await startXr("vr"); }
   catch (err) { begin(); setRail("warn", `<b>Could not start VR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
+}
+
+mountUI(store, {
+  viewLeaderboard, closeLeaderboard,
+  openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
+  edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
+  edPlayLibrary, edDeleteLibrary,
+  setPlayerNameDraft, commitPlayerName,
+  retryResult, backToHub, nextTourStop, startTour,
+  enterAr, enterVr, enterFlat, resetProgress,
+  scaleUp, scaleDown,
 });
 
 // --------------------------------------------------------------- frame loop

@@ -73,6 +73,8 @@ APPS = {
             WEBXR / "smartcity/js/sims/dock-crane.js",
             WEBXR / "smartcity/js/scenarios.js",
             WEBXR / "smartcity/js/hub.js",
+            WEBXR / "smartcity/js/store.js",
+            WEBXR / "smartcity/js/react-ui.js",
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

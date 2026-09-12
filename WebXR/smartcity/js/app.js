@@ -24,6 +24,8 @@ import { SIM_RIGGING_LOFT } from "./sims/rigging-loft.js";
 import { SIM_LINE_TRUCK } from "./sims/line-truck.js";
 import { SIM_DOCK_CRANE } from "./sims/dock-crane.js";
 import { CustomScenarios, buildCustomRoom, customRooms, newScenarioId } from "./scenarios.js";
+import { createStore } from "./store.js";
+import { mountUI, stripHtml } from "./react-ui.js";
 
 const SIMS = [
   SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
@@ -79,79 +81,95 @@ const worldRoot = new THREE.Group();
 placement.add(worldRoot);
 
 // --------------------------------------------------------------- HUD binding
+//
+// app.js never touches the DOM directly for UI chrome any more — it writes
+// state into this store, and react-ui.js (mounted near the bottom of this
+// file) renders it. The Three.js scene, Session wiring and render loop below
+// are otherwise unchanged.
 
-const ui = {
-  room: document.getElementById("hud-room"),
-  step: document.getElementById("hud-step"),
-  cue: document.getElementById("hud-cue"),
-  feedback: document.getElementById("hud-feedback"),
-  score: document.getElementById("hud-score"),
-  combo: document.getElementById("hud-combo"),
-  fill: document.getElementById("hud-fill"),
-  count: document.getElementById("hud-count"),
-  timer: document.getElementById("hud-timer"),
-  rail: document.getElementById("hud-rail"),
-  results: document.getElementById("results"),
-  resultsBody: document.getElementById("results-body"),
-  intro: document.getElementById("intro"),
-  hint: document.getElementById("hud-hint"),
-  arPrompt: document.getElementById("ar-prompt"),
-  scaleRow: document.getElementById("scale-row"),
-  leaderboard: document.getElementById("leaderboard"),
-  leaderboardBody: document.getElementById("leaderboard-body"),
-  playerName: document.getElementById("player-name"),
-  editor: document.getElementById("editor"),
-  gesture: document.getElementById("hud-gesture"),
-  gestureTip: document.getElementById("gesture-tip"),
-  resNext: document.getElementById("res-next"),
-  resRetry: document.getElementById("res-retry"),
-};
+const store = createStore({
+  hud: {
+    room: "SMARTCITI.X",
+    step: "Choose a district",
+    cue: "Select a simulator to begin its own procedure and its own rank system.",
+    gestureVerb: "", gestureVisible: false,
+    score: "----", comboText: "", comboHot: false, comboFire: false,
+    fillPct: 0, count: "0/20 CLEARED", timer: "",
+    railState: "neutral", feedbackHtml: "Loading the training campus…",
+    scorePops: [],
+  },
+  gestureTip: { html: "", show: false },
+  arPrompt: { visible: false },
+  scaleRow: { visible: false },
+  intro: {
+    visible: true,
+    arDisabled: true, arText: "Enter AR",
+    vrDisabled: true, vrText: "Enter VR",
+    playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
+  },
+  results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  leaderboard: { visible: false, html: "" },
+  editor: {
+    visible: false,
+    baseOptions: SIMS.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
+    baseValue: "",
+    stepsVisible: false,
+    steps: [],
+    name: "", par: "", tagline: "",
+    error: "",
+    library: [],
+  },
+  resetProgressText: "Reset progress",
+});
 let vrHudDirty = true;
 
 function setRail(kind, html) {
-  ui.rail.dataset.state = kind;
-  ui.feedback.innerHTML = html;
+  store.patch("hud", { railState: kind, feedbackHtml: html });
   vrHudDirty = true;
 }
 
 function syncHud() {
   const s = state.session;
   if (!s) {
-    ui.room.textContent = "SMARTCITI.X";
-    ui.step.textContent = "Choose a district";
-    ui.cue.textContent = "Select a simulator to begin its own procedure and its own rank system.";
-    ui.score.textContent = "----";
-    ui.combo.textContent = "";
-    ui.count.textContent = `${Progress.completedRooms}/${allSims().length} CLEARED`;
-    ui.fill.style.width = `${(Progress.completedRooms / allSims().length) * 100}%`;
-    ui.timer.textContent = "";
-    ui.gesture.hidden = true;
+    store.patch("hud", {
+      room: "SMARTCITI.X",
+      step: "Choose a district",
+      cue: "Select a simulator to begin its own procedure and its own rank system.",
+      score: "----", comboText: "", comboHot: false, comboFire: false,
+      count: `${Progress.completedRooms}/${allSims().length} CLEARED`,
+      fillPct: (Progress.completedRooms / allSims().length) * 100,
+      timer: "",
+      gestureVisible: false,
+    });
     vrHudDirty = true;
     return;
   }
   const rank = Progress.simRank(s.room.id, s.room.game);
-  ui.room.textContent = state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase();
-  ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
-  ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name;
-  ui.combo.classList.toggle("hot", s.streak >= 4);
-  ui.combo.classList.toggle("fire", s.combo >= 1.8);
-  ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
-  ui.fill.style.width = `${s.progress01 * 100}%`;
   const secs = Math.floor(s.elapsed);
-  ui.timer.textContent = `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
-    String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`;
+  const patch = {
+    room: state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase(),
+    score: String(Math.round(s.score)).padStart(4, "0"),
+    comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name,
+    comboHot: s.streak >= 4,
+    comboFire: s.combo >= 1.8,
+    count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
+    fillPct: s.progress01 * 100,
+    timer: `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
+      String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`,
+  };
   const step = s.step;
   if (step) {
-    ui.step.textContent = step.title;
     let cue = step.cue;
     if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
     if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
-    ui.cue.textContent = cue;
     const hint = GESTURE_HINTS[step.kind];
-    ui.gesture.textContent = hint?.verb ?? "";
-    ui.gesture.hidden = !hint;
+    patch.step = step.title;
+    patch.cue = cue;
+    patch.gestureVerb = hint?.verb ?? "";
+    patch.gestureVisible = !!hint;
   }
+  store.patch("hud", patch);
   vrHudDirty = true;
 }
 
@@ -229,10 +247,9 @@ function maybeShowGestureTip(kind) {
   const hint = GESTURE_HINTS[kind];
   if (!hint || hasSeenGesture(kind)) return;
   markGestureSeen(kind);
-  ui.gestureTip.innerHTML = `<b>${hint.verb}</b><br>${hint.tip}`;
-  ui.gestureTip.classList.add("show");
+  store.patch("gestureTip", { html: `<b>${hint.verb}</b><br>${hint.tip}`, show: true });
   clearTimeout(gestureTipTimer);
-  gestureTipTimer = setTimeout(() => ui.gestureTip.classList.remove("show"), 5200);
+  gestureTipTimer = setTimeout(() => store.patch("gestureTip", { show: false }), 5200);
 }
 
 function paintGaugeBand(step) {
@@ -307,8 +324,8 @@ function enterHub() {
   else { rig.position.set(0, 0, 0); }
   yaw = 0; pitch = 0;
   camera.rotation.set(0, 0, 0);
-  ui.arPrompt.hidden = state.mode !== "ar";
-  ui.scaleRow.hidden = state.mode !== "ar";
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
   setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
   syncHud();
 }
@@ -338,8 +355,8 @@ function enterSim(id) {
   yaw = 0; pitch = 0;
   camera.rotation.set(0, 0, 0);
   document.documentElement.style.setProperty("--accent", room.accentCss);
-  ui.arPrompt.hidden = state.mode !== "ar";
-  ui.scaleRow.hidden = state.mode !== "ar";
+  store.patch("arPrompt", { visible: state.mode === "ar" });
+  store.patch("scaleRow", { visible: state.mode === "ar" });
 
   state.session = new Session(room, {
     onStep: (step, s) => {
@@ -404,7 +421,7 @@ function showResults(s, summary) {
   const earnedNames = s.earned
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
-  ui.resultsBody.innerHTML = `
+  const bodyHtml = `
     ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
     <div class="res-stars">${stars}</div>
     <h2>${room.title}</h2>
@@ -428,9 +445,12 @@ function showResults(s, summary) {
     ${state.tour ? renderTourFooter() : ""}`;
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS.length;
-  ui.resNext.hidden = !touring || tourDone;
-  ui.resRetry.classList.toggle("primary", !touring || tourDone);
-  ui.results.hidden = false;
+  store.patch("results", {
+    visible: true,
+    html: bodyHtml,
+    showNext: touring && !tourDone,
+    retryPrimary: !touring || tourDone,
+  });
   state.paused = true;
 }
 
@@ -461,19 +481,17 @@ function renderLeaderboards() {
     return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${room.name}</h3>
       <div class="lb-top">${room.game?.system ?? ""}</div>${rows}</div>`;
   }).join("");
-  ui.leaderboardBody.innerHTML = `
+  const html = `
     <div class="eyebrow">SmartCiti.X · suite standing</div>
     <h1>Leaderboards</h1>
     <p class="lead">Local to this device — every board here lives in this browser only.
       ${standing.simsPlayed}/${roster.length} districts played · ${standing.totalRuns} runs ·
       ${standing.totalStars}★ earned · best-score sum ${standing.totalScore}.</p>
     <div class="lb-grid">${cards}</div>`;
+  store.patch("leaderboard", { html });
 }
-document.getElementById("view-leaderboard").addEventListener("click", () => {
-  renderLeaderboards();
-  ui.leaderboard.hidden = false;
-});
-document.getElementById("lb-close").addEventListener("click", () => { ui.leaderboard.hidden = true; });
+function viewLeaderboard() { renderLeaderboards(); store.patch("leaderboard", { visible: true }); }
+function closeLeaderboard() { store.patch("leaderboard", { visible: false }); }
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -481,84 +499,60 @@ document.getElementById("lb-close").addEventListener("click", () => { ui.leaderb
 // and reorders the real steps a real station already has, so it plays
 // through the exact same engine, hazards and rank system as the original.
 
-const edBase = document.getElementById("ed-base");
-const edStepsWrap = document.getElementById("ed-steps-wrap");
-const edSteps = document.getElementById("ed-steps");
-const edName = document.getElementById("ed-name");
-const edPar = document.getElementById("ed-par");
-const edTagline = document.getElementById("ed-tagline");
-const edError = document.getElementById("ed-error");
-const edLibrary = document.getElementById("ed-library");
 let edOrder = []; // [{ id, title, kind, on }] — the checklist's live working order
 
 function edPopulateBaseOptions() {
-  edBase.innerHTML = `<option value="">Choose a simulator…</option>` +
-    SIMS.map((s) => `<option value="${s.id}">${s.name} — ${s.trade}</option>`).join("");
-  edBase.value = "";
-  edStepsWrap.hidden = true;
+  store.patch("editor", { baseValue: "", stepsVisible: false });
+}
+
+function edRenderSteps() {
+  store.patch("editor", { steps: edOrder.map((s) => ({ ...s })) });
 }
 
 function edLoadBase(simId) {
   const sim = SIM_BY_ID[simId];
-  if (!sim) { edStepsWrap.hidden = true; return; }
+  if (!sim) { store.patch("editor", { baseValue: simId, stepsVisible: false }); return; }
   edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
-  edName.value = ""; edTagline.value = ""; edPar.value = "";
-  edError.hidden = true;
-  edStepsWrap.hidden = false;
+  store.patch("editor", { baseValue: simId, name: "", tagline: "", par: "", error: "", stepsVisible: true });
   edRenderSteps();
 }
 
-function edRenderSteps() {
-  edSteps.innerHTML = edOrder.map((s, i) => `
-    <div class="ed-step${s.on ? "" : " off"}" data-i="${i}">
-      <input type="checkbox" ${s.on ? "checked" : ""} data-act="toggle">
-      <span class="kind">${s.kind}</span>
-      <span class="title">${s.title}</span>
-      <button type="button" class="mv" data-act="up" ${i === 0 ? "disabled" : ""}>&uarr;</button>
-      <button type="button" class="mv" data-act="down" ${i === edOrder.length - 1 ? "disabled" : ""}>&darr;</button>
-    </div>`).join("");
+function edToggleStep(i, on) { edOrder[i].on = on; edRenderSteps(); }
+function edMoveStep(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= edOrder.length) return;
+  [edOrder[i], edOrder[j]] = [edOrder[j], edOrder[i]];
+  edRenderSteps();
 }
-
-edBase.addEventListener("change", () => edLoadBase(edBase.value));
-edSteps.addEventListener("click", (e) => {
-  const row = e.target.closest(".ed-step");
-  if (!row) return;
-  const i = Number(row.dataset.i);
-  const act = e.target.dataset.act;
-  if (act === "up" && i > 0) { [edOrder[i - 1], edOrder[i]] = [edOrder[i], edOrder[i - 1]]; edRenderSteps(); }
-  else if (act === "down" && i < edOrder.length - 1) { [edOrder[i + 1], edOrder[i]] = [edOrder[i], edOrder[i + 1]]; edRenderSteps(); }
-});
-edSteps.addEventListener("change", (e) => {
-  if (e.target.dataset.act !== "toggle") return;
-  const row = e.target.closest(".ed-step");
-  const i = Number(row.dataset.i);
-  edOrder[i].on = e.target.checked;
-  row.classList.toggle("off", !edOrder[i].on);
-});
+function edSetName(v) { store.patch("editor", { name: v }); }
+function edSetPar(v) { store.patch("editor", { par: v }); }
+function edSetTagline(v) { store.patch("editor", { tagline: v }); }
+function edSelectBase(v) { edLoadBase(v); }
 
 function edValidate() {
-  if (!edBase.value) return "Pick a base simulator first.";
-  if (!edName.value.trim()) return "Give the scenario a name.";
+  const ed = store.get().editor;
+  if (!ed.baseValue) return "Pick a base simulator first.";
+  if (!ed.name.trim()) return "Give the scenario a name.";
   if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
   return null;
 }
 
 function edEnter(customId) {
-  ui.editor.hidden = true;
+  store.patch("editor", { visible: false });
   pendingEnter = customId;
   begin();
 }
 
 function edSave(andPlay) {
   const err = edValidate();
-  if (err) { edError.textContent = err; edError.hidden = false; return; }
-  edError.hidden = true;
-  const par = edPar.value ? Math.max(30, Math.min(900, Number(edPar.value))) : null;
+  if (err) { store.patch("editor", { error: err }); return; }
+  const ed = store.get().editor;
+  const par = ed.par ? Math.max(30, Math.min(900, Number(ed.par))) : null;
   const entry = {
     id: newScenarioId(),
-    baseId: edBase.value,
-    name: edName.value.trim(),
-    tagline: edTagline.value.trim(),
+    baseId: ed.baseValue,
+    name: ed.name.trim(),
+    tagline: ed.tagline.trim(),
     stepIds: edOrder.filter((s) => s.on).map((s) => s.id),
     parSeconds: par,
     createdAt: Date.now(),
@@ -566,71 +560,73 @@ function edSave(andPlay) {
   CustomScenarios.save(entry);
   edRenderLibrary();
   if (andPlay) edEnter(`custom:${entry.id}`);
-  else { edStepsWrap.hidden = true; edBase.value = ""; }
+  else store.patch("editor", { error: "", stepsVisible: false, baseValue: "" });
 }
+function edSavePlay() { edSave(true); }
+function edSaveOnly() { edSave(false); }
+function edCancel() { store.patch("editor", { stepsVisible: false, baseValue: "" }); }
 
 function edRenderLibrary() {
   const list = CustomScenarios.list();
-  edLibrary.innerHTML = list.length
-    ? list.map((entry) => {
-        const base = SIM_BY_ID[entry.baseId];
-        return `<div class="ed-lib-card">
-          <h3>${entry.name}</h3>
-          <p>${base ? base.name : "base simulator removed"} · ${entry.stepIds.length} step${entry.stepIds.length === 1 ? "" : "s"}</p>
-          <div class="btnrow">
-            <button class="primary" data-act="play" data-id="${entry.id}" ${base ? "" : "disabled"}>Play</button>
-            <button data-act="delete" data-id="${entry.id}">Delete</button>
-          </div>
-        </div>`;
-      }).join("")
-    : `<p class="ed-empty">Nothing saved yet — pick a simulator above and build one.</p>`;
+  const library = list.map((entry) => {
+    const base = SIM_BY_ID[entry.baseId];
+    return {
+      id: entry.id,
+      name: entry.name,
+      baseName: base ? base.name : "base simulator removed",
+      stepCount: entry.stepIds.length,
+      playable: !!base,
+    };
+  });
+  store.patch("editor", { library });
 }
 
-edLibrary.addEventListener("click", (e) => {
-  const id = e.target.dataset.id;
-  if (!id) return;
-  if (e.target.dataset.act === "delete") { CustomScenarios.remove(id); edRenderLibrary(); }
-  else if (e.target.dataset.act === "play") edEnter(`custom:${id}`);
-});
+function edPlayLibrary(id) { edEnter(`custom:${id}`); }
+function edDeleteLibrary(id) { CustomScenarios.remove(id); edRenderLibrary(); }
 
-document.getElementById("ed-save-play").addEventListener("click", () => edSave(true));
-document.getElementById("ed-save").addEventListener("click", () => edSave(false));
-document.getElementById("ed-cancel").addEventListener("click", () => { edStepsWrap.hidden = true; edBase.value = ""; });
-document.getElementById("open-editor").addEventListener("click", () => {
+function openEditor() {
   edPopulateBaseOptions();
   edRenderLibrary();
-  ui.editor.hidden = false;
-});
-document.getElementById("ed-close").addEventListener("click", () => { ui.editor.hidden = true; });
+  store.patch("editor", { visible: true });
+}
+function closeEditor() { store.patch("editor", { visible: false }); }
 
-ui.playerName.value = Progress.playerName === "YOU" ? "" : Progress.playerName;
-ui.playerName.addEventListener("change", () => {
-  Progress.setPlayerName(ui.playerName.value);
-  ui.playerName.value = Progress.playerName;
-});
+// Mirrors the original <input> semantics: every keystroke updates the field
+// as typed (untransformed, so typing "JOHN SMITH" keeps its space), and only
+// losing focus — like the native "change" event — commits it through
+// Progress.setPlayerName's trim/case/length normalization.
+function setPlayerNameDraft(v) { store.patch("intro", { playerName: v }); }
+function commitPlayerName() {
+  Progress.setPlayerName(store.get().intro.playerName);
+  store.patch("intro", { playerName: Progress.playerName });
+}
 
-document.getElementById("res-retry").addEventListener("click", () => {
-  ui.results.hidden = true; state.paused = false; enterSim(state.room.id);
-});
-document.getElementById("res-hub").addEventListener("click", () => {
+function retryResult() {
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterSim(state.room.id);
+}
+function backToHub() {
   state.tour = null;
-  ui.results.hidden = true; state.paused = false; enterHub();
-});
-document.getElementById("res-next").addEventListener("click", () => {
+  store.patch("results", { visible: false });
+  state.paused = false;
+  enterHub();
+}
+function nextTourStop() {
   if (!state.tour) return;
   state.tour.i += 1;
   const next = SIMS[state.tour.i];
-  ui.results.hidden = true; state.paused = false;
+  store.patch("results", { visible: false });
+  state.paused = false;
   if (next) enterSim(next.id);
   else { state.tour = null; enterHub(); }
-});
-
-document.getElementById("start-tour").addEventListener("click", () => {
+}
+function startTour() {
   state.mode = "flat";
   state.tour = { i: 0 };
   pendingEnter = SIMS[0].id;
   begin();
-});
+}
 
 // --------------------------------------------------------------- interaction
 
@@ -711,12 +707,13 @@ function activate(id) {
 }
 
 /** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+let scorePopSeq = 0;
 function scorePop(text, big) {
-  const el = document.createElement("div");
-  el.className = big ? "score-pop big" : "score-pop";
-  el.textContent = text;
-  ui.score.parentElement.appendChild(el);
-  setTimeout(() => el.remove(), 900);
+  const id = ++scorePopSeq;
+  store.patch("hud", (hud) => ({ scorePops: [...hud.scorePops, { id, text, big }] }));
+  setTimeout(() => {
+    store.patch("hud", (hud) => ({ scorePops: hud.scorePops.filter((p) => p.id !== id) }));
+  }, 900);
 }
 function pressStart(id) {
   const s = state.session;
@@ -856,7 +853,7 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
-  if (e.code === "Escape" && state.session) { state.tour = null; ui.results.hidden = true; enterHub(); }
+  if (e.code === "Escape" && state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { keys[e.code] = false; });
@@ -989,15 +986,11 @@ function placeFromReticle() {
   placement.quaternion.set(0, 0, 0, 1); // upright, ignore surface tilt for stable footing
   state.placed = true;
   reticle.visible = false;
-  ui.arPrompt.hidden = true;
+  store.patch("arPrompt", { visible: false });
   Sfx.good();
 }
-document.getElementById("scale-up").addEventListener("click", () => {
-  placement.scale.multiplyScalar(1.15);
-});
-document.getElementById("scale-down").addEventListener("click", () => {
-  placement.scale.multiplyScalar(1 / 1.15);
-});
+function scaleUp() { placement.scale.multiplyScalar(1.15); }
+function scaleDown() { placement.scale.multiplyScalar(1 / 1.15); }
 
 async function startXr(mode) {
   const opts = mode === "ar"
@@ -1049,27 +1042,28 @@ function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
 function drawVrHud() {
   const g = vrCtx, w = vrCanvas.width, h = vrCanvas.height;
   const accent = state.room?.accentCss ?? HUD.accent;
+  const hud = store.get().hud;
   g.clearRect(0, 0, w, h);
   g.fillStyle = "rgba(10,17,23,0.9)"; g.fillRect(0, 0, w, h);
-  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[ui.rail.dataset.state] ?? HUD.edge;
+  const stateColour = { ok: HUD.good, warn: HUD.warn, danger: HUD.danger, neutral: HUD.edge }[hud.railState] ?? HUD.edge;
   g.fillStyle = stateColour; g.fillRect(0, 0, 12, h);
   g.fillStyle = accent;
   g.font = `600 34px 'Barlow Condensed', Arial, sans-serif`;
   g.textAlign = "left"; g.textBaseline = "middle";
-  g.fillText(ui.room.textContent, 36, 40);
+  g.fillText(hud.room, 36, 40);
   g.fillStyle = HUD.text;
   g.font = `600 40px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.step.textContent, 36, 90);
+  g.fillText(hud.step, 36, 90);
   g.fillStyle = HUD.muted; g.font = `26px Arial, sans-serif`;
-  wrapText(g, ui.cue.textContent, 36, 140, w - 300, 32, 3);
+  wrapText(g, hud.cue, 36, 140, w - 300, 32, 3);
   g.fillStyle = HUD.text; g.font = `26px Arial, sans-serif`;
-  wrapText(g, ui.feedback.textContent, 36, 236, w - 300, 30, 2);
+  wrapText(g, stripHtml(hud.feedbackHtml), 36, 236, w - 300, 30, 2);
   g.textAlign = "right"; g.fillStyle = accent;
   g.font = `600 56px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.score.textContent, w - 34, 62);
+  g.fillText(hud.score, w - 34, 62);
   g.fillStyle = HUD.muted; g.font = `600 26px 'Barlow Condensed', Arial, sans-serif`;
-  g.fillText(ui.combo.textContent, w - 34, 108);
-  g.fillText(ui.count.textContent + "   " + ui.timer.textContent, w - 34, 144);
+  g.fillText(hud.comboText, w - 34, 108);
+  g.fillText(hud.count + "   " + hud.timer, w - 34, 144);
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
@@ -1082,39 +1076,53 @@ function drawVrHud() {
 const deepLink = new URLSearchParams(location.search).get("sim");
 let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
-  ui.intro.hidden = true;
+  store.patch("intro", { visible: false });
   state.paused = false;
   Sfx.ensure();
-  if (state.mode === "ar") { resetPlacement(); ui.arPrompt.hidden = false; ui.scaleRow.hidden = false; }
+  if (state.mode === "ar") {
+    resetPlacement();
+    store.patch("arPrompt", { visible: true });
+    store.patch("scaleRow", { visible: true });
+  }
   const target = pendingEnter ?? deepLink;
   pendingEnter = null;
   if (target && findSim(target)) enterSim(target);
   else enterHub();
 }
 
-const btnAr = document.getElementById("enter-ar");
-const btnVr = document.getElementById("enter-vr");
-const btnFlat = document.getElementById("enter-flat");
-btnFlat.addEventListener("click", () => { state.mode = "flat"; begin(); });
-document.getElementById("reset-progress").addEventListener("click", () => {
+function enterFlat() { state.mode = "flat"; begin(); }
+function resetProgress() {
   Progress.reset(); state.api?.refresh?.(); syncHud();
-  document.getElementById("reset-progress").textContent = "Progress cleared";
-});
-if (navigator.xr?.isSessionSupported) {
-  navigator.xr.isSessionSupported("immersive-ar").then((ok) => { if (ok) btnAr.disabled = false; else btnAr.textContent = "AR unavailable here"; })
-    .catch(() => { btnAr.textContent = "AR unavailable here"; });
-  navigator.xr.isSessionSupported("immersive-vr").then((ok) => { if (ok) btnVr.disabled = false; else btnVr.textContent = "VR unavailable here"; })
-    .catch(() => { btnVr.textContent = "VR unavailable here"; });
-} else {
-  btnAr.textContent = "AR unavailable here"; btnVr.textContent = "VR unavailable here";
+  store.set({ resetProgressText: "Progress cleared" });
 }
-btnAr.addEventListener("click", async () => {
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-ar").then((ok) => {
+    store.patch("intro", ok ? { arDisabled: false } : { arText: "AR unavailable here" });
+  }).catch(() => store.patch("intro", { arText: "AR unavailable here" }));
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => {
+    store.patch("intro", ok ? { vrDisabled: false } : { vrText: "VR unavailable here" });
+  }).catch(() => store.patch("intro", { vrText: "VR unavailable here" }));
+} else {
+  store.patch("intro", { arText: "AR unavailable here", vrText: "VR unavailable here" });
+}
+async function enterAr() {
   try { await startXr("ar"); }
   catch (err) { begin(); setRail("warn", `<b>Could not start AR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
-});
-btnVr.addEventListener("click", async () => {
+}
+async function enterVr() {
   try { await startXr("vr"); }
   catch (err) { begin(); setRail("warn", `<b>Could not start VR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
+}
+
+mountUI(store, {
+  viewLeaderboard, closeLeaderboard,
+  openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
+  edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
+  edPlayLibrary, edDeleteLibrary,
+  setPlayerNameDraft, commitPlayerName,
+  retryResult, backToHub, nextTourStop, startTour,
+  enterAr, enterVr, enterFlat, resetProgress,
+  scaleUp, scaleDown,
 });
 
 // --------------------------------------------------------------- frame loop
