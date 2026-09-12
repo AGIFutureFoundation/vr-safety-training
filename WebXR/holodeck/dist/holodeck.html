@@ -1,0 +1,2038 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Holodeck ~ Speak a Simulation Into Existence (Powered by AGI Corp &amp; Visko)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#0a0714; --panel:#150f24; --glass:rgba(15,10,26,.88); --raised:#1d1530;
+    --text:#f3edfb; --muted:#a998c4; --accent:#c58cff; --warn:#f2c14b;
+    --danger:#f0645b; --edge:#3a2a52; --good:#59c97b;
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{ background:var(--void); color:var(--text); font-family:var(--sans); overflow:hidden; -webkit-font-smoothing:antialiased; }
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;touch-action:none}
+
+  .chip{ position:fixed; background:var(--glass); border:1px solid var(--edge); border-radius:5px;
+         padding:9px 14px; pointer-events:none; backdrop-filter:blur(4px); }
+  .eyebrow{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.16em;
+            text-transform:uppercase; color:var(--muted); }
+  .brandline{ font-family:var(--cond); font-weight:600; font-size:10.5px; letter-spacing:.2em;
+              text-transform:uppercase; color:var(--accent); opacity:.85; margin:0 0 4px; }
+  #hud-hole-chip{ top:14px; left:14px; }
+  #hud-hole-name{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.03em; text-transform:uppercase; }
+  #hud-hole-sub{ font-size:12px; color:var(--muted); margin-top:1px }
+  #hud-score-chip{ top:14px; right:14px; text-align:right; min-width:150px; }
+  #hud-strokes{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
+  #hud-par{ font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.08em; color:var(--accent); }
+  #hud-rail{ position:fixed; left:50%; transform:translateX(-50%); bottom:14px;
+    width:min(560px, calc(100vw - 28px)); background:var(--glass);
+    border:1px solid var(--edge); border-left:3px solid var(--accent);
+    border-radius:5px; padding:11px 16px; pointer-events:none; backdrop-filter:blur(4px); }
+  #hud-feedback{ font-size:14px; line-height:1.5 }
+  #hud-power-track{ height:6px; background:var(--raised); border-radius:3px; overflow:hidden; margin-top:9px }
+  #hud-power-fill{ height:100%; width:0; background:var(--accent); transition:width .05s linear }
+
+  .overlay{ position:fixed; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
+    background:rgba(5,3,10,.86); padding:16px; overflow-y:auto; }
+  .card{ width:min(680px,100%); max-height:calc(100vh - 32px); max-height:calc(100dvh - 32px); overflow-y:auto;
+    background:var(--panel); border:1px solid var(--edge); border-top:3px solid var(--accent);
+    border-radius:8px; padding:24px 28px; }
+  .card h1{ font-family:var(--cond); font-weight:600; font-size:clamp(26px,5vw,36px);
+    letter-spacing:.03em; text-transform:uppercase; margin:3px 0 5px; }
+  .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 10px; max-width:64ch }
+  .card p.lead{ color:var(--text) }
+  .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px }
+  button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
+    text-transform:uppercase; cursor:pointer; border-radius:4px; padding:11px 20px; min-height:44px;
+    border:1px solid var(--edge); background:var(--raised); color:var(--text); touch-action:manipulation; }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#1c0d33 }
+  button:hover{ filter:brightness(1.12) }
+  button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
+  button[disabled]{ opacity:.4; cursor:not-allowed; filter:none }
+  .fineprint{ font-size:12px; color:var(--muted); line-height:1.55; margin:0 }
+
+  #prompt-row{ margin:14px 0 6px }
+  #prompt-row label{ display:block; margin-bottom:6px }
+  #prompt-input{ width:100%; background:var(--raised); border:1px solid var(--edge); border-radius:6px;
+    color:var(--text); font-family:var(--sans); font-size:15px; padding:12px 14px; resize:vertical;
+    min-height:64px; }
+  #prompt-input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+  #prompt-actions{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap }
+  #mic-btn.listening{ background:var(--danger); border-color:var(--danger); color:#2a0c0c; animation:pulseMic 1s ease-in-out infinite; }
+  @keyframes pulseMic{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.05); } }
+  #prompt-error{ color:var(--danger); font-size:13px; margin:6px 0 0 }
+  #prompt-heard{ font-size:13px; color:var(--accent); margin:6px 0 0 }
+
+  .theme-picks{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 4px }
+  .theme-chip{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.05em;
+    text-transform:uppercase; padding:8px 12px; border-radius:20px; border:1px solid var(--edge);
+    background:var(--raised); color:var(--text); cursor:pointer; touch-action:manipulation; min-height:auto; }
+  .theme-chip.active{ background:var(--accent); border-color:var(--accent); color:#1c0d33 }
+
+  .scorecard{ width:100%; border-collapse:collapse; margin:10px 0; font-size:14px }
+  .scorecard th{ text-align:left; font-family:var(--cond); font-weight:600; letter-spacing:.06em;
+    font-size:11px; color:var(--muted); text-transform:uppercase; padding:6px 8px; border-bottom:1px solid var(--edge) }
+  .scorecard td{ padding:7px 8px; border-bottom:1px solid rgba(58,42,82,.4); font-variant-numeric:tabular-nums }
+  .res-stars{ font-size:34px; letter-spacing:.1em; color:var(--warn); line-height:1; margin-bottom:6px }
+  .res-note{ font-size:13.5px !important }
+  body.danger-flash::after{ content:""; position:fixed; inset:0; pointer-events:none; z-index:15;
+    background:radial-gradient(circle at 50% 55%, rgba(197,140,255,.34), rgba(197,140,255,0) 62%);
+    animation:flash .42s ease-out; }
+  @keyframes flash{ from{opacity:1} to{opacity:0} }
+  @media (prefers-reduced-motion:reduce){ body.danger-flash::after{ animation:none; opacity:.28 } #mic-btn.listening{ animation:none } }
+  @media (max-width:640px){
+    #hud-hole-name{ font-size:15px } #hud-strokes{ font-size:20px }
+    .btnrow button{ flex:1 1 calc(50% - 4px) }
+    .card{ padding:20px 18px }
+  }
+  @supports (padding: max(0px)){
+    #hud-hole-chip{ left:max(14px, env(safe-area-inset-left)) }
+    #hud-score-chip{ right:max(14px, env(safe-area-inset-right)) }
+    #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
+  }
+</style>
+</head>
+<body>
+<!-- Generated by tools/bundle_webxr.py from WebXR/holodeck/js — edit the modules, not this file. -->
+
+
+<div id="stage"></div>
+
+<div id="react-root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script type="module">
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+
+/* ===== shared/kit.js ===== */
+// Shared procedural asset kit. Every prop in the simulator is built from these
+// primitives at real-world scale in metres, so rooms stay consistent and no
+// external model files are needed.
+
+const TAU = Math.PI * 2;
+
+// HUD tokens from DESIGN.md, reused so the web build reads like the headset build.
+const HUD = {
+  void: "#071018", panel: "#101C27", raised: "#172735", text: "#F4F8FB",
+  muted: "#9FB0BF", accent: "#37D6C0", warn: "#F2B84B", danger: "#F0645B",
+  edge: "#426174", good: "#59C97B",
+};
+
+/**
+ * What a step kind physically asks the learner's hands to do, in one short
+ * verb for the HUD and one sentence for a first-time explainer. A room's own
+ * `cue` text always says *what* to touch; this says *how* to touch it — the
+ * part a new interaction (like turning a valve by dragging it) can't be
+ * assumed to be obvious just from staring at the 3D object.
+ */
+const GESTURE_HINTS = {
+  select: { verb: "CLICK", tip: "Click the highlighted control to select it." },
+  sequence: { verb: "CLICK IN ORDER", tip: "Click each highlighted item, in the order the procedure calls for." },
+  find: { verb: "SEARCH & CLICK", tip: "Look around and click whatever you find wrong — some objects are decoys." },
+  gauge: { verb: "WATCH & CLICK", tip: "Watch the marker sweep the band, then click to commit while it's centred." },
+  hold: { verb: "PRESS & HOLD", tip: "Press and hold the highlighted control for the full duration — releasing early breaks it." },
+  track: { verb: "HOLD TO CORRECT", tip: "Hold to raise the value, release to let it fall, and keep it inside the band." },
+  turn: { verb: "CLICK & DRAG TO TURN", tip: "Click the control and drag in a circle around it, like turning a real wheel or handle." },
+  drag: { verb: "CLICK & DRAG TO CARRY", tip: "Click and hold the object, drag it to the marker, then let go." },
+};
+
+const materialCache = new Map();
+const disposables = new Set();
+
+function mat(color, o = {}) {
+  const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
+    o.opacity ?? 1, o.flat ? 1 : 0, o.side ?? 0].join("|");
+  let m = materialCache.get(key);
+  if (!m) {
+    m = new THREE.MeshStandardMaterial({
+      color,
+      roughness: o.rough ?? 0.8,
+      metalness: o.metal ?? 0,
+      emissive: o.emissive ?? 0x000000,
+      emissiveIntensity: o.ei ?? 1,
+      transparent: (o.opacity ?? 1) < 1,
+      opacity: o.opacity ?? 1,
+      flatShading: !!o.flat,
+      side: o.side === 2 ? THREE.DoubleSide : THREE.FrontSide,
+    });
+    materialCache.set(key, m);
+  }
+  return m;
+}
+
+function track(geometry) { disposables.add(geometry); return geometry; }
+
+/** Dispose geometry created for a room. Materials stay cached and shared. */
+function disposeTree(root) {
+  root.traverse((o) => {
+    if (o.isMesh || o.isLine || o.isPoints) {
+      o.geometry?.dispose();
+      disposables.delete(o.geometry);
+      if (o.material?.map && o.material.userData.ownTexture) o.material.map.dispose();
+      if (o.material?.userData.ownMaterial) o.material.dispose();
+    }
+  });
+  root.parent?.remove(root);
+}
+
+function group(parent, x = 0, y = 0, z = 0, ry = 0) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.rotation.y = ry;
+  parent?.add(g);
+  return g;
+}
+
+function box(parent, w, h, d, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.BoxGeometry(w, h, d)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function cyl(parent, rTop, rBot, h, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(
+    track(new THREE.CylinderGeometry(rTop, rBot, h, o.seg ?? 20, 1, !!o.open)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function ball(parent, r, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.SphereGeometry(r, o.seg ?? 18, o.seg2 ?? 14)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+function torus(parent, r, tube, x, y, z, color, o = {}) {
+  const m = new THREE.Mesh(track(new THREE.TorusGeometry(r, tube, o.seg ?? 10, o.seg2 ?? 24)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Rounded slab — a box with chamfered vertical edges. Reads far better than a plain cube. */
+function slab(parent, w, h, d, x, y, z, color, o = {}) {
+  const r = Math.min(o.radius ?? 0.02, w / 2 - 0.001, d / 2 - 0.001);
+  const shape = new THREE.Shape();
+  const hw = w / 2 - r, hd = d / 2 - r;
+  shape.moveTo(-hw - r, -hd);
+  shape.lineTo(-hw - r, hd);
+  shape.quadraticCurveTo(-hw - r, hd + r, -hw, hd + r);
+  shape.lineTo(hw, hd + r);
+  shape.quadraticCurveTo(hw + r, hd + r, hw + r, hd);
+  shape.lineTo(hw + r, -hd);
+  shape.quadraticCurveTo(hw + r, -hd - r, hw, -hd - r);
+  shape.lineTo(-hw, -hd - r);
+  shape.quadraticCurveTo(-hw - r, -hd - r, -hw - r, -hd);
+  const geo = track(new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false, curveSegments: 4 }));
+  geo.rotateX(-Math.PI / 2);
+  geo.translate(0, h / 2, 0);
+  const m = new THREE.Mesh(geo, mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Lathe profile — bottles, jars, funnels. `profile` is [[radius, y], ...] bottom-up. */
+function lathe(parent, profile, x, y, z, color, o = {}) {
+  const pts = profile.map(([r, py]) => new THREE.Vector2(Math.max(r, 0.0005), py));
+  const m = new THREE.Mesh(track(new THREE.LatheGeometry(pts, o.seg ?? 20)), mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/** Flexible run — cables, hoses, tubing. `points` are local Vector3-ish triples. */
+function hose(parent, points, radius, color, o = {}) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
+  const m = new THREE.Mesh(
+    track(new THREE.TubeGeometry(curve, o.steps ?? 32, radius, o.seg ?? 8, false)), mat(color, o));
+  m.castShadow = o.cast !== false;
+  parent.add(m);
+  return m;
+}
+
+// ---------------------------------------------------------------- canvas art
+
+/** Painted panel: signage, dials, labels, screens. Returns the mesh; texture is owned by it. */
+function decal(parent, w, h, x, y, z, draw, o = {}) {
+  const px = o.px ?? 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = px;
+  canvas.height = Math.max(8, Math.round(px * (h / w)));
+  const g = canvas.getContext("2d");
+  draw(g, canvas.width, canvas.height);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.anisotropy = 4;
+  const material = new THREE.MeshStandardMaterial({
+    map: tex, roughness: o.rough ?? 0.7, metalness: o.metal ?? 0,
+    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1,
+    emissiveMap: o.glow ? tex : null,
+    transparent: !!o.transparent,
+    side: THREE.DoubleSide,
+  });
+  material.userData.ownMaterial = true;
+  material.userData.ownTexture = true;
+  const m = new THREE.Mesh(track(new THREE.PlaneGeometry(w, h)), material);
+  m.position.set(x, y, z);
+  m.castShadow = false;
+  m.receiveShadow = false;
+  m.userData.canvas = canvas;
+  m.userData.ctx = g;
+  m.userData.texture = tex;
+  parent.add(m);
+  return m;
+}
+
+function repaint(mesh, draw) {
+  const { ctx, canvas, texture } = mesh.userData;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  draw(ctx, canvas.width, canvas.height);
+  texture.needsUpdate = true;
+}
+
+// ---------------------------------------------------------------- surface texture helpers
+
+/**
+ * Flat gradient fill for a canvas 2D context. Falls back to a solid fill using the
+ * gradient's last stop when the context has no real gradient support (e.g. the
+ * headless mock used by the CI content checkers), so callers never need to special-case it.
+ */
+function gradientFill(g, w, h, stops, o = {}) {
+  let grad = null;
+  try {
+    grad = o.radial
+      ? g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) / 2)
+      : g.createLinearGradient(0, 0, o.horizontal ? w : 0, o.horizontal ? 0 : h);
+  } catch { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    for (const [stop, color] of stops) grad.addColorStop(stop, color);
+    g.fillStyle = grad;
+  } else {
+    g.fillStyle = stops[stops.length - 1][1];
+  }
+  g.fillRect(0, 0, w, h);
+}
+
+/** Cheap grain: scattered translucent specks that break up a flat canvas fill. */
+function noiseTexture(g, w, h, o = {}) {
+  const count = Math.round((o.density ?? 900) * (w * h) / (512 * 512));
+  const alpha = o.alpha ?? 0.05;
+  const tone = o.tone ?? "0,0,0";
+  for (let i = 0; i < count; i++) {
+    g.fillStyle = `rgba(${tone},${(Math.random() * alpha).toFixed(3)})`;
+    g.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+  }
+}
+
+/**
+ * Weathering pass: soft grime blotches and drip streaks toward the lower half of a
+ * panel. Silently draws nothing where the 2D context has no gradient support, rather
+ * than throwing, so it is safe to call from code paths the headless checkers exercise.
+ */
+function grimeOverlay(g, w, h, o = {}) {
+  const tone = o.tone ?? "18,14,9";
+  const alpha = o.alpha ?? 0.22;
+  for (let i = 0; i < (o.blotches ?? 4); i++) {
+    const x = Math.random() * w, y = h * (0.5 + Math.random() * 0.5);
+    const r = Math.min(w, h) * (0.18 + Math.random() * 0.22);
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  for (let i = 0; i < (o.streaks ?? 3); i++) {
+    const x = w * (0.1 + Math.random() * 0.8);
+    const len = h * (0.25 + Math.random() * 0.45);
+    let grad = null;
+    try { grad = g.createLinearGradient(x, 0, x, len); } catch { grad = null; }
+    if (!grad || typeof grad.addColorStop !== "function") continue;
+    grad.addColorStop(0, `rgba(${tone},${alpha * 0.8})`);
+    grad.addColorStop(1, `rgba(${tone},0)`);
+    g.fillStyle = grad;
+    g.fillRect(x - (o.streakWidth ?? 2), 0, o.streakWidth ?? 2, len);
+  }
+}
+
+/** Standard sign face: dark plate, accent rule, centred caps text. */
+function signFace(text, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#0b141d";
+    g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 500, alpha: 0.05, tone: "0,0,0" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 2, alpha: 0.16 });
+    }
+    g.fillStyle = o.accent ?? HUD.accent;
+    g.fillRect(0, h - Math.max(3, h * 0.07), w, Math.max(3, h * 0.07));
+    g.fillStyle = o.fg ?? HUD.text;
+    g.font = `600 ${Math.round(h * (o.scale ?? 0.46))}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    const lines = String(text).split("\n");
+    const step = h * 0.44;
+    lines.forEach((line, i) => g.fillText(line, w / 2, h / 2 - ((lines.length - 1) * step) / 2 + i * step));
+  };
+}
+
+/** Printed paper: permit, chart, schedule, label sheet. */
+function paperFace(title, rows, o = {}) {
+  return (g, w, h) => {
+    g.fillStyle = o.bg ?? "#f2efe6";
+    g.fillRect(0, 0, w, h);
+    if (o.worn) {
+      noiseTexture(g, w, h, { density: 350, alpha: 0.05, tone: o.wornTone ?? "90,74,46" });
+      grimeOverlay(g, w, h, { blotches: 2, streaks: 1, tone: o.wornTone ?? "120,96,52", alpha: 0.16 });
+    }
+    g.fillStyle = o.band ?? "#22303c";
+    g.fillRect(0, 0, w, h * 0.16);
+    g.fillStyle = "#ffffff";
+    g.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "left";
+    g.textBaseline = "middle";
+    g.fillText(title, w * 0.05, h * 0.08);
+    g.fillStyle = "#1d262e";
+    g.font = `${Math.round(h * 0.062)}px Arial, sans-serif`;
+    rows.forEach((row, i) => {
+      const y = h * 0.26 + i * h * 0.1;
+      g.fillStyle = "#63707c";
+      g.fillRect(w * 0.05, y + h * 0.045, w * 0.9, 1);
+      g.fillStyle = "#1d262e";
+      g.fillText(row, w * 0.06, y);
+    });
+  };
+}
+
+// ---------------------------------------------------------------- room shells
+
+/**
+ * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
+ * Rooms are built around the origin; the learner spawns near +z looking to -z.
+ */
+function shell(parent, o = {}) {
+  const w = o.w ?? 8, d = o.d ?? 8, h = o.h ?? 3.1;
+  const g = group(parent);
+  const floor = box(g, w, 0.12, d, 0, -0.06, 0, o.floor ?? 0x3a4048,
+    { rough: o.floorRough ?? 0.85, metal: o.floorMetal ?? 0, cast: false });
+  floor.receiveShadow = true;
+  box(g, w, h, 0.12, 0, h / 2, -d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, 0.12, h, d, -w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, 0.12, h, d, w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  box(g, w, 0.12, d, 0, h, 0, o.ceiling ?? 0x2b3238, { rough: 0.96, cast: false });
+  if (o.backWall !== false) box(g, w, h, 0.12, 0, h / 2, d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  if (o.skirt !== false) {
+    box(g, w, 0.1, 0.04, 0, 0.05, -d / 2 + 0.08, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, -w / 2 + 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+    box(g, 0.04, 0.1, d, w / 2 - 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+  }
+  return g;
+}
+
+/** Recessed ceiling panel that also acts as the room's key light source. */
+function ceilingPanel(parent, x, z, o = {}) {
+  const y = o.y ?? 3.02;
+  box(parent, o.w ?? 1.2, 0.06, o.d ?? 0.32, x, y, z, 0x22282e, { cast: false, rough: 0.6, metal: 0.5 });
+  const lens = box(parent, (o.w ?? 1.2) - 0.08, 0.03, (o.d ?? 0.32) - 0.06, x, y - 0.05, z,
+    o.color ?? 0xfff4e2, { cast: false, emissive: o.color ?? 0xfff4e2, ei: o.ei ?? 1.5, rough: 0.4 });
+  const lamp = new THREE.PointLight(o.color ?? 0xfff4e2, o.lamp ?? 1.5, o.range ?? 9, 2);
+  lamp.position.set(x, y - 0.18, z);
+  parent.add(lamp);
+  return lens;
+}
+
+// ------------------------------------------------------------ composite props
+
+/** Stainless / laminate work counter with legs, apron and optional undershelf. */
+function counter(parent, w, d, x, z, color = 0x9aa4ad, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const hgt = o.height ?? 0.92;
+  slab(g, w, 0.05, d, 0, hgt, 0, color, { rough: o.rough ?? 0.34, metal: o.metal ?? 0.72, radius: 0.02 });
+  box(g, w - 0.06, 0.1, 0.03, 0, hgt - 0.08, -d / 2 + 0.03, color, { rough: 0.4, metal: 0.6 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.022, 0.022, hgt - 0.05, sx * (w / 2 - 0.09), (hgt - 0.05) / 2, sz * (d / 2 - 0.09),
+      0x7c848c, { rough: 0.35, metal: 0.85, seg: 10 });
+  }
+  if (o.undershelf !== false) {
+    slab(g, w - 0.16, 0.03, d - 0.16, 0, 0.24, 0, color, { rough: 0.45, metal: 0.6, radius: 0.01 });
+  }
+  return g;
+}
+
+/** Wheeled trolley — salon trolley, phlebotomy cart, tool cart. */
+function trolley(parent, x, z, color = 0x2b3239, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const w = o.w ?? 0.52, d = o.d ?? 0.4;
+  for (const y of [0.34, 0.6, 0.86]) slab(g, w, 0.028, d, 0, y, 0, color, { rough: 0.42, metal: 0.35, radius: 0.015 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(g, 0.014, 0.014, 0.86, sx * (w / 2 - 0.03), 0.45, sz * (d / 2 - 0.03), 0x8d959d,
+      { rough: 0.3, metal: 0.9, seg: 8 });
+    const caster = cyl(g, 0.035, 0.035, 0.018, sx * (w / 2 - 0.03), 0.035, sz * (d / 2 - 0.03), 0x16191d,
+      { rough: 0.8, seg: 12 });
+    caster.rotation.z = Math.PI / 2;
+  }
+  return g;
+}
+
+/** Wall cabinet with doors and handles. */
+function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  box(g, w, h, d, 0, 0, 0, color, { rough: 0.55, metal: 0.1 });
+  const gap = 0.006;
+  for (const sx of [-1, 1]) {
+    box(g, w / 2 - gap, h - 0.04, 0.018, sx * (w / 4), 0, d / 2 + 0.01, o.doorColor ?? color,
+      { rough: 0.42, metal: 0.15 });
+    box(g, 0.02, 0.11, 0.02, sx * 0.045, 0, d / 2 + 0.03, 0x8d959d, { rough: 0.3, metal: 0.9 });
+  }
+  return g;
+}
+
+/** Seated human stand-in: client in a salon chair, patient in a draw chair. */
+function seatedFigure(parent, x, y, z, o = {}) {
+  const g = group(parent, x, y, z, o.ry ?? 0);
+  const skin = o.skin ?? 0xc99878;
+  const cloth = o.cloth ?? 0x37505f;
+  const torso = group(g, 0, 0, 0);
+  box(torso, 0.4, 0.5, 0.26, 0, 0.72, 0, cloth, { rough: 0.9 });
+  box(torso, 0.34, 0.16, 0.26, 0, 0.42, 0.02, cloth, { rough: 0.9 });        // lap
+  for (const sx of [-1, 1]) {
+    box(torso, 0.14, 0.14, 0.44, sx * 0.16, 0.4, 0.2, cloth, { rough: 0.9 }); // thighs
+    cyl(torso, 0.055, 0.05, 0.42, sx * 0.16, 0.21, 0.4, cloth, { rough: 0.9, seg: 10 });
+  }
+  const head = group(torso, 0, 1.06, 0.01);
+  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 20 });
+  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });          // jaw
+  cyl(torso, 0.05, 0.055, 0.12, 0, 0.98, 0, skin, { rough: 0.75, seg: 12 }); // neck
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    const shoulder = group(torso, sx * 0.23, 0.88, 0);
+    cyl(shoulder, 0.05, 0.045, 0.3, 0, -0.15, 0, cloth, { rough: 0.9, seg: 10 });
+    const fore = group(shoulder, 0, -0.3, 0);
+    cyl(fore, 0.042, 0.038, 0.28, 0, -0.13, 0.02, skin, { rough: 0.75, seg: 10 });
+    ball(fore, 0.045, 0, -0.28, 0.04, skin, { rough: 0.75, seg: 12 });
+    arms.push({ shoulder, fore });
+  }
+  return { root: g, torso, head, arms };
+}
+
+// ------------------------------------------------------------------ particles
+
+/** Cheap additive point burst reused for sparks, steam and water. */
+function particles(parent, count, color, o = {}) {
+  const positions = new Float32Array(count * 3);
+  const geo = track(new THREE.BufferGeometry());
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const material = new THREE.PointsMaterial({
+    color, size: o.size ?? 0.02, transparent: true, opacity: o.opacity ?? 0.9,
+    blending: o.additive === false ? THREE.NormalBlending : THREE.AdditiveBlending,
+    depthWrite: false, sizeAttenuation: true,
+  });
+  material.userData.ownMaterial = true;
+  const points = new THREE.Points(geo, material);
+  points.frustumCulled = false;
+  points.visible = false;
+  parent.add(points);
+  const life = new Float32Array(count);
+  const vel = new Float32Array(count * 3);
+  points.userData.step = (dt, origin, spread, speed, gravity) => {
+    for (let i = 0; i < count; i++) {
+      life[i] -= dt;
+      if (life[i] <= 0) {
+        life[i] = 0.25 + Math.random() * (o.life ?? 0.6);
+        positions[i * 3] = origin.x + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 1] = origin.y + (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = origin.z + (Math.random() - 0.5) * spread;
+        vel[i * 3] = (Math.random() - 0.5) * speed;
+        vel[i * 3 + 1] = (Math.random() * 0.6 + 0.4) * speed;
+        vel[i * 3 + 2] = (Math.random() - 0.5) * speed;
+      }
+      positions[i * 3] += vel[i * 3] * dt;
+      positions[i * 3 + 1] += vel[i * 3 + 1] * dt;
+      positions[i * 3 + 2] += vel[i * 3 + 2] * dt;
+      vel[i * 3 + 1] += gravity * dt;
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return points;
+}
+
+/**
+ * A one-shot, self-driving particle celebration for "big moment" feedback — a
+ * hot-streak step, a rank-up, a personal best. Parented once to `parent` (any
+ * static node already in the scene, e.g. the room root); after that, call the
+ * returned `fire(localPoint)` whenever the moment happens and call `update(dt)`
+ * unconditionally from the render loop — it is a cheap no-op once the burst
+ * has finished, so the caller never needs to track whether one is playing.
+ */
+function celebrationBurst(parent, o = {}) {
+  const points = particles(parent, o.count ?? 70, o.color ?? 0xffe37a, {
+    size: o.size ?? 0.032, life: o.life ?? 0.6, additive: o.additive !== false, opacity: o.opacity ?? 0.95,
+  });
+  const origin = new THREE.Vector3();
+  let timer = 0;
+  return {
+    fire(localPoint) {
+      origin.copy(localPoint);
+      timer = o.duration ?? 0.5;
+      points.visible = true;
+    },
+    update(dt) {
+      if (timer <= 0) { if (points.visible) points.visible = false; return; }
+      timer -= dt;
+      points.userData.step(dt, origin, o.spread ?? 0.1, o.speed ?? 1.6, o.gravity ?? -1.8);
+    },
+  };
+}
+
+// ------------------------------------------------------------------- helpers
+
+function markInteractive(objectOrGroup, id, o = {}) {
+  objectOrGroup.userData.hitId = id;
+  objectOrGroup.userData.hitLabel = o.label ?? id;
+  return objectOrGroup;
+}
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
+
+
+/* ===== shared/game.js ===== */
+// Procedure engine and gamification layer.
+//
+// A room supplies an ordered list of steps. The engine owns correctness: it
+// decides whether an interaction advances the procedure, applies score, and
+// produces the coaching line the HUD shows. Rooms never score themselves, so
+// the assessment stays deterministic and auditable — the same contract the
+// Unity build uses.
+
+const STEP_POINTS = 100;
+const WRONG_STEP_PENALTY = 25;
+const HAZARD_PENALTY = 50;
+const MAX_COMBO = 2.0;
+
+// Named combo tiers — the HUD shows the label, not just the multiplier, so a
+// hot streak reads as a game feel moment rather than an accounting detail.
+const COMBO_TIERS = [
+  { at: 0, label: "" },
+  { at: 1.2, label: "Nice" },
+  { at: 1.4, label: "Great" },
+  { at: 1.6, label: "Awesome" },
+  { at: 1.8, label: "On Fire" },
+  { at: MAX_COMBO, label: "Unstoppable" },
+];
+
+const STORE_KEY = "trades-sim-v1";
+
+// ---------------------------------------------------------------- progression
+
+const MAX_BOARD_ENTRIES = 8;
+const NAME_KEY = "trades-sim-name";
+
+const Progress = {
+  data: { xp: 0, rooms: {}, badges: [], boards: {} },
+  playerName: "YOU",
+
+  load() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+      if (raw && typeof raw === "object") {
+        this.data = {
+          xp: raw.xp | 0,
+          rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
+          badges: Array.isArray(raw.badges) ? raw.badges : [],
+          boards: raw.boards && typeof raw.boards === "object" ? raw.boards : {},
+        };
+      }
+    } catch (_) { /* private mode or blocked storage — run unsaved */ }
+    try {
+      const savedName = localStorage.getItem(NAME_KEY);
+      if (savedName) this.playerName = savedName.slice(0, 12);
+    } catch (_) { /* ignore */ }
+    return this.data;
+  },
+
+  setPlayerName(name) {
+    this.playerName = (name || "YOU").trim().slice(0, 12).toUpperCase() || "YOU";
+    try { localStorage.setItem(NAME_KEY, this.playerName); } catch (_) { /* ignore */ }
+  },
+
+  save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(this.data)); } catch (_) { /* ignore */ }
+  },
+
+  reset() {
+    this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
+    try { localStorage.removeItem(STORE_KEY); } catch (_) { /* ignore */ }
+  },
+
+  /**
+   * Local competitive leaderboard for one simulator: the top runs recorded on
+   * this device, arcade-cabinet style. Everyone sharing the machine — a crew,
+   * a classroom, a kiosk — competes on the same board under their own name.
+   * There is no server: this never leaves the browser.
+   */
+  leaderboard(simId) {
+    return (this.data.boards[simId] ?? []).slice().sort(
+      (a, b) => b.score - a.score || a.seconds - b.seconds);
+  },
+
+  submitScore(simId, { name, score, seconds, stars }) {
+    const board = this.leaderboard(simId);
+    const entry = { name: (name || this.playerName).slice(0, 12).toUpperCase(), score, seconds, stars, at: Date.now() };
+    board.push(entry);
+    board.sort((a, b) => b.score - a.score || a.seconds - b.seconds);
+    const trimmed = board.slice(0, MAX_BOARD_ENTRIES);
+    this.data.boards[simId] = trimmed;
+    this.save();
+    const rank = trimmed.indexOf(entry);
+    return { rank: rank < 0 ? null : rank + 1, board: trimmed, madeBoard: rank >= 0 };
+  },
+
+  /** Combined standing across every simulator this device has played — the
+   * suite-wide leaderboard that rewards breadth across the whole SmartCiti.X campus. */
+  suiteStanding() {
+    let totalScore = 0, totalRuns = 0, totalStars = 0, simsPlayed = 0;
+    for (const state of Object.values(this.data.rooms)) {
+      if (!state.runs) continue;
+      simsPlayed += 1;
+      totalRuns += state.runs | 0;
+      totalScore += state.best | 0;
+      totalStars += state.stars | 0;
+    }
+    return { totalScore, totalRuns, totalStars, simsPlayed };
+  },
+
+  get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
+  get xpIntoLevel() {
+    const base = Math.pow(this.level - 1, 2) * 120;
+    const next = Math.pow(this.level, 2) * 120;
+    return { into: this.data.xp - base, span: next - base };
+  },
+  roomState(id) {
+    return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0, xp: 0, badges: [] };
+  },
+
+  /**
+   * Rank inside one simulator's own system. Each area defines its own ladder,
+   * so a learner is (say) a Fault Lead on the charge point and still an
+   * apprentice in the vault — progression is per trade, not one global level.
+   */
+  simRank(id, game) {
+    const xp = this.roomState(id).xp | 0;
+    const marks = game?.rankAt ?? [0, 900, 2200, 4000, 6500];
+    const names = game?.ranks ?? ["Apprentice", "Operator", "Technician", "Lead", "Certified"];
+    let tier = 0;
+    for (let i = 0; i < marks.length; i++) if (xp >= marks[i]) tier = i;
+    const next = marks[tier + 1] ?? null;
+    return {
+      tier, name: names[Math.min(tier, names.length - 1)], xp,
+      next, into: xp - marks[tier], span: next == null ? 0 : next - marks[tier],
+      max: tier >= marks.length - 1,
+    };
+  },
+
+  simBadges(id) { return this.roomState(id).badges ?? []; },
+  get completedRooms() { return Object.values(this.data.rooms).filter((r) => r.stars > 0).length; },
+  get totalStars() { return Object.values(this.data.rooms).reduce((n, r) => n + (r.stars | 0), 0); },
+
+  record(roomId, { score, stars, seconds, badge, earned = [] }) {
+    const prev = this.roomState(roomId);
+    const badges = [...(prev.badges ?? [])];
+    for (const id of earned) if (!badges.includes(id)) badges.push(id);
+    const next = {
+      stars: Math.max(prev.stars | 0, stars),
+      best: Math.max(prev.best | 0, score),
+      bestTime: prev.bestTime == null ? seconds : Math.min(prev.bestTime, seconds),
+      runs: (prev.runs | 0) + 1,
+      xp: (prev.xp | 0) + Math.max(0, score),
+      badges,
+    };
+    this.data.rooms[roomId] = next;
+    this.data.xp += Math.max(0, Math.round(score / 8));
+    if (badge && !this.data.badges.includes(badge)) this.data.badges.push(badge);
+    for (const id of earned) {
+      const scoped = `${roomId}:${id}`;
+      if (!this.data.badges.includes(scoped)) this.data.badges.push(scoped);
+    }
+    this.save();
+    return next;
+  },
+};
+
+// ------------------------------------------------------------------ the audio
+
+/** Tiny WebAudio synth — feedback tones with no asset downloads. */
+const Sfx = {
+  ctx: null,
+  muted: false,
+  ensure() {
+    if (!this.ctx) {
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (Ctor) this.ctx = new Ctor();
+    }
+    if (this.ctx?.state === "suspended") this.ctx.resume();
+    return this.ctx;
+  },
+  blip(freq, dur = 0.12, type = "sine", gain = 0.06) {
+    if (this.muted) return;
+    const ctx = this.ensure();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const amp = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    amp.gain.setValueAtTime(0.0001, ctx.currentTime);
+    amp.gain.exponentialRampToValueAtTime(gain, ctx.currentTime + 0.01);
+    amp.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    osc.connect(amp).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + dur + 0.02);
+  },
+  good() { this.blip(660, 0.09, "triangle"); setTimeout(() => this.blip(990, 0.12, "triangle"), 70); },
+  great() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => this.blip(f, 0.1, "triangle"), i * 65)); },
+  bad() { this.blip(150, 0.22, "sawtooth", 0.05); },
+  tick() { this.blip(1200, 0.03, "square", 0.02); },
+  alarm() { [0, 1, 2].forEach((i) => setTimeout(() => this.blip(220, 0.16, "square", 0.05), i * 190)); },
+};
+
+// ---------------------------------------------------------------- the session
+
+/**
+ * One run of one room. `hooks` receives every state change so the HUD, the 3D
+ * scene and the audio stay in sync without the engine knowing about any of them.
+ */
+class Session {
+  constructor(room, hooks = {}) {
+    this.room = room;
+    this.hooks = hooks;
+    this.index = 0;
+    this.score = 0;
+    this.streak = 0;
+    this.peakCombo = 1;      // best combo multiplier reached this run
+    this.errors = 0;
+    this.finished = false;
+    this.elapsed = 0;
+    this.log = [];
+    this.sequence = [];      // progress within a 'sequence' step
+    this.holdFor = 0;        // progress within a 'hold' step
+    this.holding = false;
+    this.gauge = null;       // live gauge state for a 'gauge' step
+    this.track = null;       // live state for a 'track' step
+    this.turn = null;        // live state for a 'turn' step
+    this.stars = 0;
+    this.badgeEarned = null;
+    this.hazardHits = 0;      // unsafe-action selections in this run
+    this.gaugeScores = [];    // 0..1 accuracy for each graded skill step
+    this.holdBreaks = 0;      // timed steps released early
+    this.earned = [];         // per-sim badges and challenges cleared this run
+  }
+
+  /** Mean accuracy across graded steps, 0 when the run had none. */
+  get precision() {
+    if (!this.gaugeScores.length) return 0;
+    return this.gaugeScores.reduce((a, b) => a + b, 0) / this.gaugeScores.length;
+  }
+
+  get steps() { return this.room.steps; }
+  get step() { return this.steps[this.index] || null; }
+  get combo() { return Math.min(MAX_COMBO, 1 + this.streak * 0.1); }
+  /** Named tier for the current combo — the HUD shows this, not just the number. */
+  get comboLabel() {
+    let label = "";
+    for (const tier of COMBO_TIERS) if (this.combo >= tier.at) label = tier.label;
+    return label;
+  }
+  get progress01() { return this.steps.length ? this.index / this.steps.length : 0; }
+
+  start() {
+    this.elapsed = 0;
+    // Snapshot rank before this run so finish() can tell whether it moved the
+    // needle — a rank-up mid-progression is a moment worth celebrating.
+    this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
+    this.enterStep();
+    return this;
+  }
+
+  enterStep() {
+    const step = this.step;
+    this.sequence = [];
+    this.holdFor = 0;
+    this.holding = false;
+    this.gauge = null;
+    this.track = null;
+    this.turn = null;
+    if (!step) return;
+    if (step.kind === "track") {
+      const cfg = step.track ?? {};
+      this.track = {
+        v: cfg.start ?? 0.1,
+        green: cfg.green ?? [0.42, 0.62],
+        rise: cfg.rise ?? 0.62,
+        fall: cfg.fall ?? 0.46,
+        drift: cfg.drift ?? 0.1,
+        wobble: Math.random() * 6,
+        inBand: 0,
+        dropouts: 0,
+        wasIn: false,
+        label: cfg.label ?? "",
+        readout: cfg.readout ?? null,
+      };
+    }
+    if (step.kind === "gauge") {
+      this.gauge = {
+        t: 0, dir: 1,
+        speed: step.gauge.speed ?? 0.85,
+        green: step.gauge.green ?? [0.44, 0.62],
+        label: step.gauge.label ?? "",
+        readout: step.gauge.readout ?? null,
+        committed: false,
+      };
+    }
+    if (step.kind === "turn") {
+      this.turn = {
+        amount: 0,
+        required: step.turn?.turns ?? 1,
+        label: step.turn?.label ?? "",
+        readout: step.turn?.readout ?? null,
+      };
+    }
+    this.hooks.onStep?.(step, this);
+  }
+
+  /** Player selected an interactable by id. Returns a feedback record. */
+  select(hitId) {
+    if (this.finished || !this.step) return null;
+    const step = this.step;
+
+    if (step.kind === "sequence") return this.selectInSequence(hitId, step);
+
+    if (step.kind === "gauge") {
+      if (hitId === step.target || hitId === "gauge-commit") return this.commitGauge();
+      return this.wrong(hitId, "Set the gauge first, then commit the reading.");
+    }
+
+    if (step.kind === "hold" || step.kind === "track") {
+      if (hitId === step.target) return null; // driven by press and release
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "turn") {
+      if (hitId === step.target) return null; // driven by rotate(), a continuous drag input
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "drag") {
+      if (hitId === step.target) return null; // driven by dropAt(), a pick-up-and-carry gesture
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "find") return this.selectInSequence(hitId, { ...step, anyOrder: true });
+
+    if (hitId === step.target) return this.advance(STEP_POINTS);
+    return this.wrong(hitId);
+  }
+
+  selectInSequence(hitId, step) {
+    if (this.sequence.includes(hitId)) {
+      const feedback = { kind: "partial", text: `Already verified — ${step.itemNames?.[hitId] ?? hitId}.` };
+      this.hooks.onFeedback?.(feedback, this);
+      return feedback;
+    }
+    // anyOrder steps require completeness, not a particular order: use them where
+    // the real procedure has no mandated sequence, and strict order where it does.
+    const expected = step.anyOrder
+      ? (step.targets.includes(hitId) ? hitId : null)
+      : step.targets[this.sequence.length];
+    if (hitId === expected) {
+      this.sequence.push(hitId);
+      const done = this.sequence.length === step.targets.length;
+      if (done) return this.advance(STEP_POINTS + 20 * (step.targets.length - 1));
+      Sfx.tick();
+      const note = step.itemNotes?.[hitId];
+      const feedback = {
+        kind: "partial",
+        text: `<b>${this.sequence.length}/${step.targets.length} — ${step.itemNames?.[hitId] ?? hitId}.</b>` +
+          (note ? `<br>${note}` : " Keep going."),
+      };
+      this.hooks.onFeedback?.(feedback, this);
+      return feedback;
+    }
+    if (step.decoyNotes?.[hitId]) {
+      return this.wrong(hitId, step.decoyNotes[hitId]);
+    }
+    if (step.targets.includes(hitId)) {
+      return this.wrong(hitId, step.outOfOrderNote
+        ?? "Out of order. Sequence matters here — reset and take them in the required order.", true);
+    }
+    return this.wrong(hitId);
+  }
+
+  /** Called each frame while a 'hold' step's target is held. */
+  setHolding(on) {
+    if (!this.step) return;
+    if (this.step.kind === "track") { this.holding = on; return; }
+    if (this.step.kind !== "hold") return;
+    this.holding = on;
+    if (!on && this.holdFor > 0 && this.holdFor < this.step.seconds) {
+      this.holdFor = 0;
+      this.holdBreaks += 1;
+      const feedback = { kind: "warn", text: `${this.step.holdBreakNote ?? "Released too early — start the full duration again."}` };
+      Sfx.bad();
+      this.hooks.onFeedback?.(feedback, this);
+    }
+  }
+
+  commitGauge() {
+    const step = this.step;
+    if (!this.gauge || this.gauge.committed) return null;
+    const [lo, hi] = this.gauge.green;
+    const t = this.gauge.t;
+    this.gauge.committed = true;
+    if (t < lo || t > hi) {
+      this.gauge.committed = false;
+      return this.wrong(step.target, step.gauge.missNote
+        ?? "Outside the acceptable band. Watch the marker and commit inside the green zone.");
+    }
+    const centre = (lo + hi) / 2;
+    const halfBand = (hi - lo) / 2;
+    const accuracy = 1 - Math.abs(t - centre) / halfBand;      // 1 at centre, 0 at edge
+    this.gaugeScores.push(Math.max(0, accuracy));
+    const bonus = Math.round(50 * Math.max(0, accuracy));
+    return this.advance(STEP_POINTS + bonus, bonus >= 40 ? "Dead centre." : null);
+  }
+
+  /**
+   * Continuous rotational input for a 'turn' step — spinning a valve wheel or
+   * throwing a switch by dragging it, rather than clicking an abstract target.
+   * `deltaTurns` is a signed fraction of one full turn; the UI layer converts a
+   * pointer or controller angular delta into this. Turning backward is free —
+   * it lets a learner back off an overshoot rather than being penalised for it.
+   */
+  rotate(hitId, deltaTurns) {
+    if (this.finished || !this.step || this.step.kind !== "turn" || hitId !== this.step.target || !this.turn) return null;
+    this.turn.amount = Math.max(0, Math.min(this.turn.required, this.turn.amount + deltaTurns));
+    if (this.turn.amount >= this.turn.required) return this.advance(STEP_POINTS);
+    return null;
+  }
+
+  /** Whether `hitId` is a live pick-up point for the current 'drag' step. */
+  canDrag(hitId) {
+    return !this.finished && this.step?.kind === "drag" && hitId === this.step.target;
+  }
+
+  /**
+   * Player released a carried object. `distance` is how far, in metres, the
+   * drop landed from the step's required socket; pass null for "no useful
+   * distance" (also treated as a miss). Unlike a gauge, a drag near-miss costs
+   * nothing — carrying something into place is exploratory, not a precision
+   * test — the object is expected to spring back to be tried again. Dropping
+   * it onto a registered hazard is still scored, through the normal hazard
+   * path, by calling wrong() with that hazard's id instead of this method.
+   */
+  dropAt(hitId, distance) {
+    if (this.finished || !this.step || this.step.kind !== "drag" || hitId !== this.step.target) return null;
+    const radius = this.step.drag?.radius ?? 0.35;
+    if (distance != null && distance <= radius) return this.advance(STEP_POINTS);
+    const feedback = { kind: "partial", text: this.step.drag?.missNote ?? "Not quite lined up — line it up with the marker and try again." };
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  advance(points, extraNote = null) {
+    const step = this.step;
+    const earned = Math.round(points * this.combo);
+    this.score += earned;
+    this.streak += 1;
+    this.peakCombo = Math.max(this.peakCombo, this.combo);
+    this.log.push({ step: step.id, ok: true, points: earned });
+    const feedback = {
+      kind: "ok",
+      points: earned,
+      combo: this.combo,
+      text: `<b>+${earned} — ${step.title}</b>${this.combo > 1.05 ? ` <span class="mult">×${this.combo.toFixed(1)}</span>` : ""}<br>${extraNote ? extraNote + " " : ""}${step.why}`,
+    };
+    if (this.combo >= 1.5) Sfx.great(); else Sfx.good();
+    this.hooks.onFeedback?.(feedback, this);
+    this.hooks.onStepComplete?.(step, this);
+    this.index += 1;
+    if (this.index >= this.steps.length) this.finish();
+    else this.enterStep();
+    return feedback;
+  }
+
+  /** True when `hitId` belongs to a step the learner has not reached yet. */
+  isLaterStep(hitId) {
+    for (let i = this.index + 1; i < this.steps.length; i++) {
+      const s = this.steps[i];
+      if (s.target === hitId || s.targets?.includes(hitId)) return s;
+    }
+    return null;
+  }
+
+  wrong(hitId, note = null, isOrderError = false) {
+    const hazard = this.room.hazards?.[hitId];
+    const later = hazard ? null : this.isLaterStep(hitId);
+    const penalty = hazard ? HAZARD_PENALTY : WRONG_STEP_PENALTY;
+    this.score = Math.max(0, this.score - penalty);
+    this.streak = 0;
+    this.errors += 1;
+    this.log.push({ step: this.step?.id, ok: false, hit: hitId });
+    const lateNote = later
+      ? (this.room.lateNotes?.[hitId] ?? `That control belongs to a later step. ${this.step?.cue ?? ""}`)
+      : null;
+    const body = hazard ?? note ?? lateNote ?? `That is not the next control. ${this.step?.cue ?? ""}`;
+    const label = hazard ? "Unsafe action"
+      : isOrderError ? "Out of sequence"
+      : later ? "Too early" : "Wrong step";
+    const feedback = {
+      kind: hazard ? "danger" : "warn",
+      text: `<b>−${penalty} — ${label}</b><br>${body}`,
+      hazard: !!hazard,
+    };
+    if (hazard) { this.hazardHits += 1; Sfx.alarm(); this.hooks.onHazard?.(hitId, this); } else Sfx.bad();
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  tick(dt) {
+    if (this.finished) return;
+    this.elapsed += dt;
+    const step = this.step;
+    if (!step) return;
+
+    if (step.kind === "gauge" && this.gauge && !this.gauge.committed) {
+      this.gauge.t += this.gauge.dir * this.gauge.speed * dt;
+      if (this.gauge.t >= 1) { this.gauge.t = 1; this.gauge.dir = -1; }
+      if (this.gauge.t <= 0) { this.gauge.t = 0; this.gauge.dir = 1; }
+    }
+
+    if (step.kind === "track" && this.track) {
+      const tr = this.track;
+      // Press to drive the value up, release to let it fall, with a slow drift
+      // the learner has to correct for — the point is holding it steady.
+      tr.v += (this.holding ? tr.rise : -tr.fall) * dt;
+      tr.v += Math.sin((this.elapsed + tr.wobble) * 1.7) * tr.drift * dt;
+      tr.v = Math.max(0, Math.min(1, tr.v));
+      const inside = tr.v >= tr.green[0] && tr.v <= tr.green[1];
+      if (inside) {
+        tr.inBand += dt;
+        if (!tr.wasIn) Sfx.tick();
+      } else {
+        if (tr.wasIn) tr.dropouts += 1;
+        tr.inBand = Math.max(0, tr.inBand - dt * 0.8);
+      }
+      tr.wasIn = inside;
+      if (tr.inBand >= step.seconds) {
+        const clean = Math.max(0, 40 - tr.dropouts * 12);
+        this.advance(STEP_POINTS + 20 + clean,
+          tr.dropouts === 0 ? "Held it clean the whole way." : null);
+      }
+      return;
+    }
+
+    if (step.kind === "hold" && this.holding) {
+      const before = this.holdFor;
+      this.holdFor = Math.min(step.seconds, this.holdFor + dt);
+      if (Math.floor(this.holdFor) !== Math.floor(before)) Sfx.tick();
+      if (this.holdFor >= step.seconds) {
+        this.holding = false;
+        this.advance(STEP_POINTS + 25);
+      }
+    }
+  }
+
+  finish() {
+    if (this.finished) return;
+    this.finished = true;
+    const par = this.room.parSeconds ?? 150;
+    const timeBonus = Math.max(0, Math.round((par - this.elapsed) * 2));
+    this.score += timeBonus;
+    this.timeBonus = timeBonus;
+    this.stars = this.errors === 0 && this.elapsed <= par ? 3
+      : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
+    if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
+
+    // Each simulator judges its own badges and challenges against this run.
+    const system = this.room.game;
+    if (system) {
+      for (const award of [...(system.badges ?? []), ...(system.challenges ?? [])]) {
+        try {
+          if (award.test?.(this)) this.earned.push(award.id);
+        } catch (_) { /* a broken predicate must not break the run */ }
+      }
+    }
+
+    const summary = Progress.record(this.room.id, {
+      score: this.score, stars: this.stars, seconds: Math.round(this.elapsed),
+      badge: this.badgeEarned, earned: this.earned,
+    });
+    this.rank = Progress.simRank(this.room.id, system);
+    this.rankedUp = !!(this.rankBefore && this.rank.tier > this.rankBefore.tier);
+    this.leaderboard = Progress.submitScore(this.room.id, {
+      score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
+    });
+    Sfx.great();
+    this.hooks.onFinish?.(this, summary);
+  }
+}
+
+
+/* ===== holodeck/js/themes.js ===== */
+/**
+ * The theme registry — the only thing standing in for "the model understood
+ * the theme" right now. Adding a theme means adding one entry here; nothing
+ * else in the app needs to change, which is the whole point of keeping
+ * "understand the prompt" and "render the course" as separate layers.
+ */
+const THEMES = [
+  {
+    id: "alaska",
+    name: "Alaskan Frontier",
+    keywords: ["alaska", "alaskan", "arctic", "glacier", "igloo", "tundra", "aurora", "northern lights", "snowy", "snow"],
+    sky: 0x0a1622,
+    fog: 0x18324a,
+    ground: 0xe7f1f7,
+    fairway: 0xdfeef5,
+    accent: 0x4fd1ff,
+    wall: 0x2f6f8c,
+    cupRing: 0xffe37a,
+    props: ["pine", "igloo", "iceberg"],
+  },
+  {
+    id: "desert",
+    name: "Desert Mesa",
+    keywords: ["desert", "sahara", "cactus", "mesa", "sand", "dune", "arizona", "canyon"],
+    sky: 0x1a0f08,
+    fog: 0x6b4a2a,
+    ground: 0xd8b878,
+    fairway: 0xc9a869,
+    accent: 0xff8a3c,
+    wall: 0x8c5a2f,
+    cupRing: 0xffe37a,
+    props: ["cactus", "mesa", "dune"],
+  },
+  {
+    id: "tropical",
+    name: "Tropical Lagoon",
+    keywords: ["tropical", "hawaii", "hawaiian", "beach", "island", "lagoon", "palm", "tiki"],
+    sky: 0x06181a,
+    fog: 0x0f4a4a,
+    ground: 0xe8dca0,
+    fairway: 0xdccd8a,
+    accent: 0x4fffb0,
+    wall: 0x2f8c6f,
+    cupRing: 0xffe37a,
+    props: ["palm", "tiki", "lagoon"],
+  },
+];
+
+const DEFAULT_THEME_ID = "alaska";
+
+function findTheme(id) {
+  return THEMES.find((t) => t.id === id) ?? THEMES.find((t) => t.id === DEFAULT_THEME_ID);
+}
+
+
+/* ===== holodeck/js/prompt-parser.js ===== */
+/**
+ * Turns a spoken or typed prompt into a scene request: { gameType, themeId }.
+ *
+ * There is no live model behind this yet — no working API endpoint or
+ * credentials have been wired into this project (the same reason the
+ * Reactor/Orbis-Stable integrations elsewhere in this repo are stubs, not
+ * live calls), and this is a public, static-hosted, client-only app with
+ * nowhere safe to hold a real API key even if one existed. `localInterpreter`
+ * is a small keyword-matching stand-in that actually runs and actually
+ * works for the vocabulary it knows.
+ *
+ * The seam is real, though: `interpretPrompt` takes an injectable
+ * `interpreter`, exactly like createOrbisClient's `transport` in
+ * shared/orbis-stable.js. Swapping in a real model later — one that reads
+ * arbitrary prompts and returns a richer scene description — means passing
+ * a different `interpreter` here, not rewriting the app around it. Whatever
+ * a real interpreter returns must stay data (a plain object describing what
+ * to build), never code to execute — the renderer in minigolf.js is the
+ * only thing that turns a scene request into 3D content.
+ */
+
+// The only generator that actually exists today. Listed explicitly (rather
+// than inferred from whatever the parser matches) so the UI can be honest
+// about what "speaking a simulation into existence" currently covers.
+const SUPPORTED_GAME_TYPES = ["minigolf"];
+
+const GAME_KEYWORDS = {
+  minigolf: ["mini golf", "minigolf", "mini-golf", "golf course", "putt putt", "putt-putt", "golf"],
+};
+
+function localInterpreter(text) {
+  const lower = String(text ?? "").toLowerCase();
+
+  let gameType = "minigolf"; // the only one there is right now
+  let matchedGame = false;
+  for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
+    if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
+  }
+
+  let themeId = DEFAULT_THEME_ID;
+  let matchedTheme = false;
+  for (const theme of THEMES) {
+    if (theme.keywords.some((w) => lower.includes(w))) { themeId = theme.id; matchedTheme = true; break; }
+  }
+
+  return { gameType, matchedGame, themeId, matchedTheme, raw: text };
+}
+
+async function interpretPrompt(text, { interpreter = localInterpreter } = {}) {
+  return interpreter(text);
+}
+
+
+/* ===== holodeck/js/minigolf.js ===== */
+/**
+ * Mini-golf course data and ball physics — pure data and arithmetic, no
+ * THREE dependency, so this can be unit-tested with plain Node (see
+ * tools/check_holodeck.mjs) the same way the physics-free parts of the
+ * union-trade sims are checked without a browser.
+ *
+ * The 3D rendering of a hole (turning this data into meshes, with theme
+ * colors and props) lives in app.js, which already imports THREE — keeping
+ * that split is what makes the physics testable at all.
+ */
+
+// A local, uniquely-named clamp rather than importing shared/kit.js's: that
+// module's own top-level import of THREE (from a remote URL) would make
+// this file unloadable under plain Node, breaking tools/check_holodeck.mjs's
+// ability to test this physics code without a browser.
+const clampNum = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+const BALL_RADIUS = 0.055;
+// A fixed deceleration (m/s^2), not a percentage-per-frame decay: with a
+// percentage decay a fast putt coasts for many seconds approaching zero
+// asymptotically, which felt broken in practice (a browser test caught a
+// ball still "Rolling…" 1.5s after a routine putt). Linear friction stops
+// in bounded time — roughly v0/FRICTION_DECEL seconds — and covers a
+// bounded distance — roughly v0^2/(2*FRICTION_DECEL) — which is what lets
+// MAX_PUTT_SPEED be tuned against the longest hole below.
+const FRICTION_DECEL = 2.4;
+const MAX_PUTT_SPEED = 6.5;
+const MOVING_EPS = 0.02;
+const SINK_SPEED_LIMIT = 1.4;
+const WALL_RESTITUTION = 0.6;
+
+// Three hole shapes, theme-agnostic — theme only changes how a hole is
+// decorated (props, colors), never its geometry. Walls are axis-aligned
+// rectangles in the hole's own local space: {x, z} is the wall's centre,
+// {w, d} its full width (along local x) and depth (along local z).
+const HOLE_LAYOUTS = [
+  {
+    id: "straight",
+    name: "The Straightaway",
+    par: 2,
+    width: 2.4,
+    length: 6.5,
+    tee: { x: 0, z: 0.6 },
+    cup: { x: 0, z: 5.9, r: 0.16 },
+    walls: [],
+  },
+  {
+    id: "dogleg-left",
+    name: "The Bend",
+    par: 3,
+    width: 3.2,
+    length: 7.5,
+    tee: { x: -0.9, z: 0.6 },
+    cup: { x: 1.1, z: 6.9, r: 0.16 },
+    walls: [
+      { x: 0.4, z: 3.6, w: 1.8, d: 0.3 },
+    ],
+  },
+  {
+    id: "gauntlet",
+    name: "The Gauntlet",
+    par: 4,
+    width: 2.8,
+    length: 9.0,
+    tee: { x: 0, z: 0.6 },
+    cup: { x: 0, z: 8.4, r: 0.16 },
+    walls: [
+      { x: -0.65, z: 3.0, w: 0.3, d: 1.6 },
+      { x: 0.65, z: 5.6, w: 0.3, d: 1.6 },
+    ],
+  },
+];
+
+function buildCourse(theme, holeIds = HOLE_LAYOUTS.map((h) => h.id)) {
+  return {
+    themeId: theme.id,
+    holes: HOLE_LAYOUTS.filter((h) => holeIds.includes(h.id)),
+  };
+}
+
+function createBall(hole) {
+  return { x: hole.tee.x, z: hole.tee.z, vx: 0, vz: 0, r: BALL_RADIUS, sunk: false, strokes: 0 };
+}
+
+/** Launch the ball. `dirX`/`dirZ` need not be normalized; `power` is 0..1. */
+function putt(ball, dirX, dirZ, power) {
+  const len = Math.hypot(dirX, dirZ) || 1;
+  const speed = clampNum(power, 0, 1) * MAX_PUTT_SPEED;
+  ball.vx = (dirX / len) * speed;
+  ball.vz = (dirZ / len) * speed;
+  ball.strokes += 1;
+}
+
+function collideWithWall(ball, wall) {
+  const halfW = wall.w / 2, halfD = wall.d / 2;
+  const closestX = clampNum(ball.x, wall.x - halfW, wall.x + halfW);
+  const closestZ = clampNum(ball.z, wall.z - halfD, wall.z + halfD);
+  const dx = ball.x - closestX, dz = ball.z - closestZ;
+  const distSq = dx * dx + dz * dz;
+  if (distSq >= ball.r * ball.r) return;
+  const dist = Math.sqrt(distSq) || 0.0001;
+  const nx = dx / dist, nz = dz / dist;
+  const overlap = ball.r - dist;
+  ball.x += nx * overlap;
+  ball.z += nz * overlap;
+  const vn = ball.vx * nx + ball.vz * nz;
+  if (vn < 0) {
+    ball.vx -= (1 + WALL_RESTITUTION) * vn * nx;
+    ball.vz -= (1 + WALL_RESTITUTION) * vn * nz;
+  }
+}
+
+/** Advance the ball by `dt` seconds. Returns { moving, sunk }. */
+function stepBall(ball, hole, dt) {
+  if (ball.sunk) return { moving: false, sunk: true };
+
+  const speed0 = Math.hypot(ball.vx, ball.vz);
+  if (speed0 > 0) {
+    const speed1 = Math.max(0, speed0 - FRICTION_DECEL * dt);
+    const scale = speed1 / speed0;
+    ball.vx *= scale;
+    ball.vz *= scale;
+  }
+  if (Math.hypot(ball.vx, ball.vz) < MOVING_EPS) { ball.vx = 0; ball.vz = 0; }
+
+  ball.x += ball.vx * dt;
+  ball.z += ball.vz * dt;
+
+  const halfW = hole.width / 2;
+  if (ball.x < -halfW + ball.r) { ball.x = -halfW + ball.r; ball.vx = Math.abs(ball.vx) * WALL_RESTITUTION; }
+  if (ball.x > halfW - ball.r) { ball.x = halfW - ball.r; ball.vx = -Math.abs(ball.vx) * WALL_RESTITUTION; }
+  if (ball.z < ball.r) { ball.z = ball.r; ball.vz = Math.abs(ball.vz) * WALL_RESTITUTION; }
+  if (ball.z > hole.length - ball.r) { ball.z = hole.length - ball.r; ball.vz = -Math.abs(ball.vz) * WALL_RESTITUTION; }
+
+  for (const wall of hole.walls) collideWithWall(ball, wall);
+
+  const dx = ball.x - hole.cup.x, dz = ball.z - hole.cup.z;
+  const dist = Math.hypot(dx, dz);
+  const speed = Math.hypot(ball.vx, ball.vz);
+  if (dist < hole.cup.r && speed < SINK_SPEED_LIMIT) {
+    ball.sunk = true;
+    ball.vx = 0; ball.vz = 0;
+    return { moving: false, sunk: true };
+  }
+  return { moving: speed > MOVING_EPS, sunk: false };
+}
+
+
+/* ===== holodeck/js/store.js ===== */
+/**
+ * A minimal reactive store — identical in shape to smartcity's store.js.
+ * Duplicated rather than shared because each WebXR app is bundled
+ * independently into one self-contained file; this file is small enough
+ * that copying it is simpler than adding a cross-app shared module.
+ */
+function createStore(initial) {
+  let state = initial;
+  const subs = new Set();
+
+  function get() {
+    return state;
+  }
+
+  function set(patch) {
+    state = typeof patch === "function" ? patch(state) : { ...state, ...patch };
+    for (const fn of subs) fn(state);
+  }
+
+  function patch(key, partial) {
+    const prev = state[key];
+    const delta = typeof partial === "function" ? partial(prev) : partial;
+    set({ [key]: { ...prev, ...delta } });
+  }
+
+  function subscribe(fn) {
+    subs.add(fn);
+    return () => subs.delete(fn);
+  }
+
+  return { get, set, patch, subscribe };
+}
+
+
+/* ===== holodeck/js/react-ui.js ===== */
+/**
+ * Holodeck's 2D UI chrome — same architecture as SmartCiti.X's react-ui.js:
+ * React owns the HUD/overlays, app.js owns the Three.js scene and physics
+ * and only writes into the store.
+ */
+
+const h = React.createElement;
+const { Fragment, useSyncExternalStore } = React;
+
+function mountUI(store, actions) {
+  function useSlice(key) {
+    return useSyncExternalStore(store.subscribe, () => store.get()[key]);
+  }
+
+  function HoleChip() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    return h("div", { className: "chip", id: "hud-hole-chip" },
+      h("div", { className: "eyebrow" }, "Hole"),
+      h("div", { id: "hud-hole-name" }, hud.holeName),
+      h("div", { id: "hud-hole-sub" }, hud.holeSub));
+  }
+
+  function ScoreChip() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    return h("div", { className: "chip", id: "hud-score-chip" },
+      h("div", { className: "eyebrow" }, "Strokes"),
+      h("div", { id: "hud-strokes" }, hud.strokes),
+      h("div", { id: "hud-par" }, `PAR ${hud.par}`));
+  }
+
+  function Rail() {
+    const hud = useSlice("hud");
+    if (!hud.visible) return null;
+    return h("div", { id: "hud-rail" },
+      h("div", { id: "hud-feedback" }, hud.feedback),
+      hud.powerVisible && h("div", { id: "hud-power-track" },
+        h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
+  }
+
+  function ThemePicks() {
+    const intro = useSlice("intro");
+    return h("div", { className: "theme-picks" },
+      THEMES.map((t) => h("button", {
+        key: t.id, type: "button",
+        className: "theme-chip" + (intro.themeId === t.id ? " active" : ""),
+        onClick: () => actions.selectTheme(t.id),
+      }, t.name)));
+  }
+
+  function IntroCard() {
+    const intro = useSlice("intro");
+    if (!intro.visible) return null;
+    return h("div", { className: "overlay", id: "intro" },
+      h("div", { className: "card" },
+        h("div", { className: "brandline" }, "Holodeck ~ Powered by AGI Corp & Visko"),
+        h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
+        h("h1", null, "Holodeck"),
+        h("p", { className: "lead" },
+          "Describe a course out loud or type it, and it renders and plays for real. " +
+          "Right now that means one generator — a 3-hole mini-golf course — with a theme " +
+          "your words pick from a small set below. There is no live AI model behind this " +
+          "reading arbitrary prompts yet; the words below are the whole vocabulary."),
+        h("div", { id: "prompt-row" },
+          h("label", { className: "eyebrow", htmlFor: "prompt-input" }, "Try: “make a mini golf game with an alaskan theme”"),
+          h("textarea", {
+            id: "prompt-input", value: intro.promptText,
+            placeholder: "make a mini golf course, tropical theme...",
+            onChange: (e) => actions.setPromptText(e.target.value),
+          }),
+          h("div", { id: "prompt-actions" },
+            h("button", {
+              id: "mic-btn", type: "button",
+              className: intro.listening ? "listening" : "",
+              disabled: !intro.speechSupported,
+              onClick: actions.toggleMic,
+            }, intro.listening ? "■ Listening…" : "🎙 Speak it"),
+            h("button", { className: "primary", type: "button", onClick: actions.generate }, "Generate course")),
+          !intro.speechSupported && h("p", { className: "fineprint", style: { marginTop: "6px" } },
+            "Voice input isn't supported in this browser — Chrome desktop/Android has it. Typing works everywhere."),
+          intro.error && h("p", { id: "prompt-error" }, intro.error),
+          intro.heard && h("p", { id: "prompt-heard" }, `Heard: “${intro.heard}”`)),
+        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Theme (auto-picked from your words, or choose one)"),
+        h(ThemePicks),
+        h("div", { className: "btnrow" }),
+        h("p", { className: "fineprint" },
+          "Nothing you say or type is sent anywhere — the theme match runs entirely in this browser."),
+        h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
+          "Holodeck — powered by AGI Corp & Visko.")));
+  }
+
+  function HoleResultCard() {
+    const r = useSlice("holeResult");
+    if (!r.visible) return null;
+    return h("div", { className: "overlay", id: "hole-result" },
+      h("div", { className: "card" },
+        h("div", { className: "res-stars" }, r.stars),
+        h("h1", null, r.title),
+        h("p", { className: "res-note" }, r.note),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.nextHole }, r.isLast ? "See final score" : "Next hole →"))));
+  }
+
+  function FinalCard() {
+    const f = useSlice("final");
+    if (!f.visible) return null;
+    return h("div", { className: "overlay", id: "final" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "Course complete"),
+        h("h1", null, "Scorecard"),
+        h("table", { className: "scorecard" },
+          h("thead", null, h("tr", null, h("th", null, "Hole"), h("th", null, "Par"), h("th", null, "Strokes"))),
+          h("tbody", null,
+            f.rows.map((row, i) => h("tr", { key: i },
+              h("td", null, row.name), h("td", null, row.par), h("td", null, row.strokes))),
+            h("tr", null, h("td", null, h("b", null, "Total")), h("td", null, h("b", null, f.totalPar)), h("td", null, h("b", null, f.totalStrokes))))),
+        h("p", { className: "res-note" }, f.summary),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.playAgain }, "Play it again"),
+          h("button", { onClick: actions.newPrompt }, "New prompt"))));
+  }
+
+  function App() {
+    return h(Fragment, null,
+      h(HoleChip), h(ScoreChip), h(Rail),
+      h(IntroCard), h(HoleResultCard), h(FinalCard));
+  }
+
+  ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
+}
+
+
+/* ===== holodeck/js/app.js ===== */
+// This is the engine half of Holodeck: the Three.js scene, the ball
+// physics tick and the pointer-drag putting interaction. react-ui.js
+// (mounted at the bottom of this file) owns every DOM element — this file
+// never touches the DOM except to mount the canvas and the renderer.
+
+// --------------------------------------------------------------- renderer
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.getElementById("stage").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(58, innerWidth / innerHeight, 0.05, 60);
+const worldRoot = new THREE.Group();
+scene.add(worldRoot);
+
+scene.add(new THREE.HemisphereLight(0xdfe9f4, 0x201530, 1.1));
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+keyLight.position.set(3, 6, 2);
+scene.add(keyLight);
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
+
+// ------------------------------------------------------------------ store
+
+const speechSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+const store = createStore({
+  hud: { visible: false, holeName: "", holeSub: "", strokes: 0, par: 0, feedback: "", powerVisible: false, powerPct: 0 },
+  intro: {
+    visible: true, promptText: "", listening: false, speechSupported,
+    error: "", heard: "", themeId: DEFAULT_THEME_ID, userPickedTheme: false,
+  },
+  holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
+  final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
+});
+
+// ----------------------------------------------------------- prop dressing
+//
+// Small, cheap primitive assemblies per theme. Adding a theme only needs an
+// entry in themes.js plus cases here for whatever new prop names it lists —
+// the course generator and physics never change.
+
+function buildProp(g, kind, x, z, theme) {
+  switch (kind) {
+    case "pine": {
+      const t = group(g, x, 0, z);
+      cyl(t, 0.05, 0.06, 0.3, 0, 0.15, 0, 0x5a3a22, { rough: 0.85 });
+      cyl(t, 0, 0.3, 0.5, 0, 0.52, 0, 0x2f6b4a, { rough: 0.75 });
+      cyl(t, 0, 0.22, 0.4, 0, 0.8, 0, 0x2f6b4a, { rough: 0.75 });
+      cyl(t, 0, 0.14, 0.32, 0, 1.04, 0, 0x2f6b4a, { rough: 0.75 });
+      break;
+    }
+    case "igloo":
+      ball(g, 0.3, x, 0.0, z, 0xeaf3f8, { rough: 0.6 });
+      break;
+    case "iceberg": {
+      const t = group(g, x, 0, z, Math.random() * Math.PI);
+      box(t, 0.4, 0.5, 0.3, 0, 0.2, 0, 0xbfe6f2, { rough: 0.3, metal: 0.1 });
+      box(t, 0.22, 0.28, 0.2, 0.12, 0.48, 0, 0xd8f0f8, { rough: 0.3 });
+      break;
+    }
+    case "cactus": {
+      const t = group(g, x, 0, z);
+      cyl(t, 0.06, 0.07, 0.6, 0, 0.3, 0, 0x2f7d4a, { rough: 0.85 });
+      const arm = cyl(t, 0.04, 0.045, 0.3, 0.09, 0.45, 0, 0x2f7d4a, { rough: 0.85 });
+      arm.rotation.z = 0.6;
+      break;
+    }
+    case "mesa":
+      cyl(g, 0.5, 0.65, 0.5, x, 0.25, z, 0xa8703f, { rough: 0.9, seg: 8 });
+      break;
+    case "dune": {
+      const d = ball(g, 0.5, x, -0.18, z, theme.ground, { rough: 0.95 });
+      d.scale.set(1.4, 0.5, 1.2);
+      break;
+    }
+    case "palm": {
+      const t = group(g, x, 0, z);
+      cyl(t, 0.04, 0.06, 1.2, 0.05, 0.6, 0, 0x8a6b3f, { rough: 0.8 });
+      for (let i = 0; i < 5; i++) {
+        const frond = box(t, 0.5, 0.03, 0.14, 0.05, 1.2, 0, 0x2f8c4a, { rough: 0.7 });
+        frond.rotation.y = (i / 5) * Math.PI * 2;
+        frond.rotation.z = 0.5;
+      }
+      break;
+    }
+    case "tiki": {
+      const t = group(g, x, 0, z);
+      cyl(t, 0.09, 0.11, 0.9, 0, 0.45, 0, 0x6b4a2f, { rough: 0.8 });
+      decal(t, 0.14, 0.16, 0, 0.6, 0.1, signFace(":", { bg: "#3a2a1a", accent: "#ffcc66", scale: 0.6 }), { px: 96 });
+      break;
+    }
+    case "lagoon":
+      box(g, 0.7, 0.02, 0.5, x, 0.005, z, 0x1a8c9c, { rough: 0.2, opacity: 0.85, transparent: true });
+      break;
+    default:
+      break;
+  }
+}
+
+function scatterProps(g, hole, theme) {
+  const count = 6;
+  for (let i = 0; i < count; i++) {
+    const side = i % 2 === 0 ? -1 : 1;
+    const x = side * (hole.width / 2 + 0.5 + Math.random() * 0.6);
+    const z = 0.4 + (i / count) * (hole.length - 0.8) + (Math.random() - 0.5) * 0.4;
+    const kind = theme.props[i % theme.props.length];
+    buildProp(g, kind, x, z, theme);
+  }
+}
+
+// -------------------------------------------------------------- hole scene
+
+function buildHoleScene(g, hole, theme) {
+  scene.background = new THREE.Color(theme.sky);
+  scene.fog = new THREE.Fog(theme.fog, 6, 22);
+
+  box(g, hole.width + 3, 0.02, hole.length + 3, 0, -0.03, hole.length / 2, theme.ground, { rough: 0.95, cast: false });
+  box(g, hole.width, 0.04, hole.length, 0, -0.02, hole.length / 2, theme.fairway, { rough: 0.8 });
+
+  const curbH = 0.12;
+  const halfW = hole.width / 2;
+  box(g, 0.06, curbH, hole.length, -halfW - 0.03, curbH / 2, hole.length / 2, theme.wall, { rough: 0.6, metal: 0.3 });
+  box(g, 0.06, curbH, hole.length, halfW + 0.03, curbH / 2, hole.length / 2, theme.wall, { rough: 0.6, metal: 0.3 });
+  box(g, hole.width + 0.12, curbH, 0.06, 0, curbH / 2, -0.03, theme.wall, { rough: 0.6, metal: 0.3 });
+  box(g, hole.width + 0.12, curbH, 0.06, 0, curbH / 2, hole.length + 0.03, theme.wall, { rough: 0.6, metal: 0.3 });
+  for (const w of hole.walls) box(g, w.w, curbH * 1.4, w.d, w.x, curbH * 0.7, w.z, theme.wall, { rough: 0.6, metal: 0.3 });
+
+  // Tee marker.
+  const teeRing = torus(g, 0.14, 0.008, hole.tee.x, 0.011, hole.tee.z, theme.accent, { emissive: theme.accent, ei: 0.7, rough: 0.5, cast: false });
+  teeRing.rotation.x = Math.PI / 2;
+
+  // Cup, ring and flag.
+  cyl(g, hole.cup.r * 0.85, hole.cup.r * 0.85, 0.05, hole.cup.x, -0.015, hole.cup.z, 0x0a0a0a, { rough: 0.9, cast: false });
+  const cupRing = torus(g, hole.cup.r, 0.012, hole.cup.x, 0.012, hole.cup.z, theme.cupRing, { emissive: theme.cupRing, ei: 1.1, rough: 0.4, cast: false });
+  cupRing.rotation.x = Math.PI / 2;
+  cyl(g, 0.006, 0.006, 0.5, hole.cup.x, 0.25, hole.cup.z, 0xd8d8d8, { rough: 0.4, metal: 0.6, seg: 6 });
+  box(g, 0.14, 0.09, 0.006, hole.cup.x + 0.07, 0.44, hole.cup.z, theme.accent, { rough: 0.5 });
+
+  scatterProps(g, hole, theme);
+
+  const ballMesh = ball(g, BALL_RADIUS, hole.tee.x, BALL_RADIUS, hole.tee.z, 0xffffff, { rough: 0.35, metal: 0.05 });
+  return { ballMesh };
+}
+
+function positionCamera(hole) {
+  const cx = (hole.tee.x + hole.cup.x) / 2;
+  const cz = (hole.tee.z + hole.cup.z) / 2;
+  camera.position.set(cx * 0.4, 2.3 + hole.length * 0.24, hole.tee.z - 1.9);
+  camera.lookAt(cx, 0, cz);
+}
+
+// ---------------------------------------------------------------- game state
+
+let course = null;
+let holeIndex = 0;
+let hole = null;
+let ballState = null;
+let holeGroup = null;
+let ballMesh = null;
+let ballMoving = false;
+let strokesLog = [];
+
+function clearHole() {
+  if (holeGroup) { disposeTree(holeGroup); worldRoot.remove(holeGroup); holeGroup = null; }
+}
+
+function enterHole() {
+  clearHole();
+  hole = course.holes[holeIndex];
+  ballState = createBall(hole);
+  ballMoving = false;
+  holeGroup = new THREE.Group();
+  worldRoot.add(holeGroup);
+  const theme = findTheme(course.themeId);
+  const built = buildHoleScene(holeGroup, hole, theme);
+  ballMesh = built.ballMesh;
+  positionCamera(hole);
+  store.patch("hud", {
+    visible: true,
+    holeName: hole.name,
+    holeSub: `HOLE ${holeIndex + 1} OF ${course.holes.length}`,
+    strokes: 0,
+    par: hole.par,
+    feedback: "Drag back from the ball, then release to putt.",
+    powerVisible: false,
+    powerPct: 0,
+  });
+}
+
+function handleSunk() {
+  Sfx.good();
+  burst.fire(new THREE.Vector3(ballState.x, 0.1, ballState.z));
+  strokesLog.push({ name: hole.name, par: hole.par, strokes: ballState.strokes });
+  const diff = ballState.strokes - hole.par;
+  const stars = diff <= -1 ? "★★★" : diff === 0 ? "★★☆" : "★☆☆";
+  const title = diff <= -1 ? "Eagle!" : diff === 0 ? "Par!" : diff === 1 ? "Bogey" : "Sunk it";
+  const note = `Sunk it in ${ballState.strokes} stroke${ballState.strokes === 1 ? "" : "s"} — par is ${hole.par}.`;
+  const isLast = holeIndex >= course.holes.length - 1;
+  store.patch("holeResult", { visible: true, stars, title, note, isLast });
+}
+
+function nextHole() {
+  store.patch("holeResult", { visible: false });
+  if (holeIndex >= course.holes.length - 1) { showFinal(); return; }
+  holeIndex += 1;
+  enterHole();
+}
+
+function showFinal() {
+  const totalStrokes = strokesLog.reduce((a, r) => a + r.strokes, 0);
+  const totalPar = strokesLog.reduce((a, r) => a + r.par, 0);
+  const diff = totalStrokes - totalPar;
+  const summary = diff <= -2 ? "Outstanding round — well under par."
+    : diff <= 0 ? "Nice round, at or under par."
+    : "Round complete — every course plays easier the second time.";
+  store.patch("hud", { visible: false });
+  store.patch("final", { visible: true, rows: strokesLog.slice(), totalPar, totalStrokes, summary });
+}
+
+function playAgain() {
+  store.patch("final", { visible: false });
+  holeIndex = 0;
+  strokesLog = [];
+  enterHole();
+}
+
+function newPrompt() {
+  store.patch("final", { visible: false });
+  store.patch("hud", { visible: false });
+  clearHole();
+  scene.background = null;
+  scene.fog = null;
+  store.patch("intro", { visible: true });
+}
+
+async function generate() {
+  Sfx.ensure();
+  const { promptText, themeId, userPickedTheme } = store.get().intro;
+  const parsed = await interpretPrompt(promptText);
+  const finalThemeId = userPickedTheme ? themeId : parsed.themeId;
+  course = buildCourse(findTheme(finalThemeId));
+  holeIndex = 0;
+  strokesLog = [];
+  store.patch("intro", { visible: false });
+  enterHole();
+}
+
+function setPromptText(v) {
+  const { userPickedTheme } = store.get().intro;
+  const patch = { promptText: v };
+  if (!userPickedTheme) patch.themeId = localInterpreter(v).themeId;
+  store.patch("intro", patch);
+}
+
+function selectTheme(id) {
+  store.patch("intro", { themeId: id, userPickedTheme: true });
+}
+
+// ------------------------------------------------------------------ speech
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+if (SR) {
+  recognition = new SR();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = (e) => {
+    const transcript = e.results?.[0]?.[0]?.transcript ?? "";
+    setPromptText(transcript);
+    store.patch("intro", { heard: transcript, listening: false, error: "" });
+    generate();
+  };
+  recognition.onerror = (e) => {
+    store.patch("intro", { listening: false, error: `Voice input error: ${e.error ?? "unknown"}. Try typing instead.` });
+  };
+  recognition.onend = () => store.patch("intro", { listening: false });
+}
+
+function toggleMic() {
+  if (!recognition) return;
+  if (store.get().intro.listening) { recognition.stop(); return; }
+  try {
+    store.patch("intro", { error: "", heard: "", listening: true });
+    recognition.start();
+  } catch (err) {
+    store.patch("intro", { listening: false, error: String(err?.message ?? err) });
+  }
+}
+
+// -------------------------------------------------------- putting interaction
+//
+// Drag back from the ball, release to putt — the whole interaction budget
+// on this canvas, since the camera is fixed per hole and there is nothing
+// else to click.
+
+const raycaster = new THREE.Raycaster();
+const pointerNdc = new THREE.Vector2();
+const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+const canvas = renderer.domElement;
+
+const aimGeom = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+const aimLine = new THREE.Line(aimGeom, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.85 }));
+aimLine.visible = false;
+scene.add(aimLine);
+
+const MAX_DRAG = 2.2;
+const MIN_POWER = 0.06;
+let aiming = false;
+let dragAnchor = null;
+let lastDir = { x: 0, z: 1 };
+
+function raycastGround(clientX, clientY) {
+  const r = canvas.getBoundingClientRect();
+  pointerNdc.set(((clientX - r.left) / r.width) * 2 - 1, -((clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(pointerNdc, camera);
+  const hit = new THREE.Vector3();
+  return raycaster.ray.intersectPlane(groundPlane, hit) ? hit : null;
+}
+
+function canPutt() {
+  return hole && ballState && !ballState.sunk && !ballMoving &&
+    !store.get().intro.visible && !store.get().holeResult.visible && !store.get().final.visible;
+}
+
+function updateAimVisual(power) {
+  if (!aiming) { aimLine.visible = false; return; }
+  aimLine.visible = true;
+  const len = 0.4 + power * 1.6;
+  aimLine.geometry.setFromPoints([
+    new THREE.Vector3(ballState.x, BALL_RADIUS, ballState.z),
+    new THREE.Vector3(ballState.x + lastDir.x * len, BALL_RADIUS, ballState.z + lastDir.z * len),
+  ]);
+}
+
+canvas.addEventListener("pointerdown", (e) => {
+  if (!canPutt()) return;
+  dragAnchor = raycastGround(e.clientX, e.clientY);
+  if (!dragAnchor) return;
+  aiming = true;
+  store.patch("hud", { powerVisible: true, powerPct: 0 });
+});
+addEventListener("pointermove", (e) => {
+  if (!aiming) return;
+  const cur = raycastGround(e.clientX, e.clientY);
+  if (!cur) return;
+  const dx = dragAnchor.x - cur.x, dz = dragAnchor.z - cur.z;
+  const dist = Math.hypot(dx, dz);
+  const power = clamp(dist / MAX_DRAG, 0, 1);
+  if (dist > 0.001) lastDir = { x: dx / dist, z: dz / dist };
+  store.patch("hud", { powerPct: Math.round(power * 100) });
+  updateAimVisual(power);
+});
+function endAim(commit) {
+  if (!aiming) return;
+  aiming = false;
+  aimLine.visible = false;
+  const power = clamp(store.get().hud.powerPct / 100, 0, 1);
+  store.patch("hud", { powerVisible: false, powerPct: 0 });
+  if (commit && power >= MIN_POWER) {
+    putt(ballState, lastDir.x, lastDir.z, power);
+    ballMoving = true;
+    Sfx.tick();
+    store.patch("hud", { strokes: ballState.strokes, feedback: "Rolling…" });
+  }
+}
+addEventListener("pointerup", () => endAim(true));
+addEventListener("pointercancel", () => endAim(false));
+
+// --------------------------------------------------------------- frame loop
+
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  if (ballMoving && ballState) {
+    const { moving, sunk } = stepBall(ballState, hole, dt);
+    ballMesh.position.set(ballState.x, BALL_RADIUS, ballState.z);
+    if (!moving) {
+      ballMoving = false;
+      if (sunk) handleSunk();
+      else store.patch("hud", { feedback: "Drag back from the ball, then release to putt." });
+    }
+  }
+  burst.update(dt);
+  renderer.render(scene, camera);
+});
+
+mountUI(store, {
+  setPromptText, toggleMic, selectTheme, generate,
+  nextHole, playAgain, newPrompt,
+});
+
+</script>
+</body>
+</html>

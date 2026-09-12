@@ -79,6 +79,20 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    "holodeck": {
+        "out": "holodeck.html",
+        "modules": [
+            SHARED / "kit.js",
+            SHARED / "game.js",
+            WEBXR / "holodeck/js/themes.js",
+            WEBXR / "holodeck/js/prompt-parser.js",
+            WEBXR / "holodeck/js/minigolf.js",
+            WEBXR / "holodeck/js/store.js",
+            WEBXR / "holodeck/js/react-ui.js",
+            WEBXR / "holodeck/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
 }
 
 IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MULTILINE)
