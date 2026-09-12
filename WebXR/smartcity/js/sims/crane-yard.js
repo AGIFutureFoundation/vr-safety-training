@@ -126,10 +126,11 @@ export const SIM_CRANE_YARD = {
       holdBreakNote: "Tag line released mid-lift. An unguided load keeps whatever swing it already had.",
     },
     {
-      id: "set-down", kind: "select", target: "landing-zone",
+      id: "set-down", kind: "drag", target: "suspended-load",
       title: "Make a controlled set-down",
-      cue: "Lower the load onto the landing zone and confirm it is stable before unhooking.",
+      cue: "Carry the load over the landing zone and lower it into place.",
       why: "A controlled set-down means the load is stable on its own before the rigging comes off — not lowered fast and released before anyone has checked it is actually sitting flat.",
+      drag: { to: "load-socket", radius: 0.5, missNote: "Not over the landing zone — line the load up with the marked pad before setting it down." },
     },
     {
       id: "log-lift", kind: "select", target: "crane-log",
@@ -195,6 +196,7 @@ export const SIM_CRANE_YARD = {
     box(load, 0.5, 0.4, 0.5, 0, 0, 0, 0x8b929a, { rough: 0.5, metal: 0.4 });
     const slingHang = hose(load, [[-0.24, 0.5, -0.24], [0, 0.9, 0], [0.24, 0.5, 0.24]], 0.01, CITY.steel,
       { steps: 12, rough: 0.5, metal: 0.6 });
+    reg(hits, load, "suspended-load");
 
     const swingShadow = box(g, 3.0, 0.005, 3.0, -1.0, 0.15, -1.3, 0x000000, { opacity: 0.16, transparent: true, cast: false });
     holoTag(swingShadow, "Swing radius", -1.0, 0.3, 0.3, { css: "#f0645b", w: 0.32 });
@@ -240,7 +242,12 @@ export const SIM_CRANE_YARD = {
     const landingZone = group(g, 1.5, 0, 1.3);
     box(landingZone, 0.9, 0.02, 0.9, 0, 0.15, 0, 0x2f8fdb, { rough: 0.6, opacity: 0.5, transparent: true, cast: false });
     holoTag(landingZone, "Landing zone", 0, 0.28, 0, { css: "#2f8fdb", w: 0.3 });
-    reg(hits, landingZone, "landing-zone");
+    // A plain, non-interactive marker at the load's actual resting transform
+    // (same footprint as the pad above, but at the load's own resting height,
+    // not the pad's) — the drag step measures and snaps against this, never
+    // against the pad itself.
+    const loadSocket = group(g, 1.5, 0.2, 1.3);
+    hits["load-socket"] = loadSocket;
 
     // ------------------------------------------------------------------- paperwork
     const plan = holoPanel(g, 0.58, 0.4, -1.9, 1.5, 1.6, (ctx, w, h) => {
@@ -284,6 +291,21 @@ export const SIM_CRANE_YARD = {
       hits,
       footprint: 2.1,
 
+      // While the load is actually being carried by hand to its landing spot,
+      // the crane's own hook and cable would otherwise stay frozen pointing
+      // at wherever the load started — hiding them for the moment reads as
+      // "guided in by the tag line" rather than a visibly broken rig.
+      onDragStart(id) {
+        if (id !== "suspended-load") return;
+        hookCable.visible = false;
+        hookBlock.visible = false;
+      },
+      onDragEnd(id) {
+        if (id !== "suspended-load") return;
+        hookCable.visible = true;
+        hookBlock.visible = true;
+      },
+
       onStepComplete(step) {
         if (step.id === "outrigger-setup") {
           outriggersDown = true;
@@ -291,7 +313,9 @@ export const SIM_CRANE_YARD = {
             for (const o of outriggerBeams[key]) { o.beam.scale.x = 1; o.pad.visible = true; }
           }
         }
-        if (step.id === "set-down") { load.position.y = 0.2; }
+        // load's own position/rotation are already set by the drag-and-drop
+        // gesture itself (app.js snaps it onto load-socket on a successful
+        // drop) — nothing to do here.
         if (step.id === "log-lift") {
           repaint(logFace, signFace("LIFT LOG\nCLOSED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
         }

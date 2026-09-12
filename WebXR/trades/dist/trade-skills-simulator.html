@@ -4131,6 +4131,7 @@ function beginDrag(id, controller) {
   plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
   dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
   document.body.style.cursor = "grabbing";
+  state.api?.onDragStart?.(id);
   return true;
 }
 
@@ -4187,6 +4188,7 @@ function endDrag() {
     }
   }
   if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  state.api?.onDragEnd?.(id, result?.kind === "ok");
   dragState = null;
   document.body.style.cursor = "default";
   syncHud();
