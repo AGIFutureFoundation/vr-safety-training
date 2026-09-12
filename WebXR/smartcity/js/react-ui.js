@@ -228,10 +228,23 @@ export function mountUI(store, actions) {
         h("div", { className: "btnrow", id: "ed-close-row" }, h("button", { id: "ed-close", onClick: actions.closeEditor }, "Close"))));
   }
 
+  function VoiceButton() {
+    const voice = useSlice("voice");
+    if (!voice.supported) return null;
+    return h(Fragment, null,
+      h("button", {
+        id: "voice-btn", type: "button",
+        className: voice.listening ? "listening" : "",
+        onClick: actions.toggleVoice,
+      }, voice.listening ? "■ Listening…" : "🎙 Voice"),
+      (voice.heard || voice.error) && h("div", { id: "voice-heard", className: voice.error ? "error" : "" },
+        voice.error || `Heard: “${voice.heard}”`));
+  }
+
   function App() {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
-      h(GestureTip), h(ArPrompt), h(ScaleRow),
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton),
       h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
   }
 

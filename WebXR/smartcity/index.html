@@ -87,6 +87,16 @@
   #hud-hint{ position:fixed; left:14px; bottom:14px; font-family:var(--cond); font-size:11.5px;
     letter-spacing:.09em; color:var(--muted); pointer-events:none; text-transform:uppercase; }
 
+  #voice-btn{ position:fixed; right:14px; bottom:14px; z-index:11; padding:9px 16px; font-size:12px; }
+  #voice-btn.listening{ background:var(--danger); border-color:var(--danger); color:#2a0c0c;
+    animation:voicePulse 1s ease-in-out infinite; }
+  @keyframes voicePulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
+  #voice-heard{ position:fixed; right:14px; bottom:58px; z-index:11; max-width:min(320px, calc(100vw - 28px));
+    background:var(--glass); border:1px solid var(--accent); border-radius:6px; padding:8px 12px;
+    font-size:12.5px; color:var(--text); pointer-events:none; text-align:right; }
+  #voice-heard.error{ border-color:var(--danger); color:var(--danger); }
+  @media (prefers-reduced-motion:reduce){ #voice-btn.listening{ animation:none } }
+
   #ar-prompt{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
     background:var(--glass); border:1px solid var(--accent); border-radius:6px;
     padding:14px 20px; text-align:center; pointer-events:none; }
@@ -198,6 +208,7 @@
     #hud-metrics{ right:max(14px, env(safe-area-inset-right)) }
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
+    #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
   }
 </style>
 </head>

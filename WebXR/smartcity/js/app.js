@@ -120,6 +120,7 @@ const store = createStore({
     library: [],
   },
   resetProgressText: "Reset progress",
+  voice: { supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition), listening: false, heard: "", error: "" },
 });
 let vrHudDirty = true;
 
@@ -1123,6 +1124,72 @@ async function enterVr() {
   catch (err) { begin(); setRail("warn", `<b>Could not start VR.</b> ${err?.message ?? err}. Falling back to the desktop view.`); }
 }
 
+// ------------------------------------------------------------------- voice
+//
+// Navigation only, deliberately: "go to the valve vault," "leaderboards,"
+// "guided tour," "campus." Every command routes through the exact same
+// action a click already triggers — nothing new to verify in the procedure
+// engine itself. This never activates a step inside a running procedure;
+// the hands-on click/drag/turn is the point of a hands-on trainer, and
+// voice-skipping it would undermine the training, not assist it.
+
+const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null;
+if (VoiceSR) {
+  voiceRecognition = new VoiceSR();
+  voiceRecognition.lang = "en-US";
+  voiceRecognition.interimResults = false;
+  voiceRecognition.maxAlternatives = 1;
+  voiceRecognition.onresult = (e) => {
+    const transcript = e.results?.[0]?.[0]?.transcript ?? "";
+    store.patch("voice", { heard: transcript, listening: false, error: "" });
+    handleVoiceCommand(transcript);
+  };
+  voiceRecognition.onerror = (e) => {
+    store.patch("voice", { listening: false, error: `Voice error: ${e.error ?? "unknown"}.` });
+  };
+  voiceRecognition.onend = () => store.patch("voice", { listening: false });
+}
+
+function toggleVoice() {
+  if (!voiceRecognition) return;
+  if (store.get().voice.listening) { voiceRecognition.stop(); return; }
+  Sfx.ensure();
+  try {
+    store.patch("voice", { listening: true, heard: "", error: "" });
+    voiceRecognition.start();
+  } catch (err) {
+    store.patch("voice", { listening: false, error: String(err?.message ?? err) });
+  }
+}
+
+/** Longest name first, so "dock crane" cannot shadow-match inside a longer
+ * phrase that happens to contain it as a substring. */
+const VOICE_SIMS = [...SIMS].sort((a, b) => b.name.length - a.name.length);
+
+function parseVoiceCommand(text) {
+  const lower = text.toLowerCase();
+  const sim = VOICE_SIMS.find((s) => lower.includes(s.name.toLowerCase()));
+  if (sim) return { type: "sim", id: sim.id };
+  if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
+  if (/\bleaderboards?\b/.test(lower)) return { type: "leaderboard" };
+  if (/\btour\b/.test(lower)) return { type: "tour" };
+  if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
+  if (/\breset\b/.test(lower)) return { type: "reset" };
+  return { type: "unknown" };
+}
+
+function handleVoiceCommand(text) {
+  const cmd = parseVoiceCommand(text);
+  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); return; }
+  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); return; }
+  if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
+  if (cmd.type === "tour") { startTour(); return; }
+  if (cmd.type === "editor") { openEditor(); return; }
+  if (cmd.type === "reset") { resetProgress(); return; }
+  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor" or "reset."` });
+}
+
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
@@ -1131,8 +1198,15 @@ mountUI(store, {
   setPlayerNameDraft, commitPlayerName,
   retryResult, backToHub, nextTourStop, startTour,
   enterAr, enterVr, enterFlat, resetProgress,
-  scaleUp, scaleDown,
+  scaleUp, scaleDown, toggleVoice,
 });
+
+// Test-only hook: headless test runners can't grant microphone permission
+// or produce a real SpeechRecognition result, but the interesting logic is
+// the command parsing/routing in handleVoiceCommand, not the browser's own
+// recognizer — so expose that directly, the same pattern as Holodeck's
+// window.__holodeckTest.
+window.__smartcityVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
 
 // --------------------------------------------------------------- frame loop
 
