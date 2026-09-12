@@ -7942,10 +7942,10 @@ const SIM_RIGGING_LOFT = {
   trade: "Theatrical rigger (IATSE)",
   name: "Rigging Loft",
   title: simTitle("Rigging Loft"),
-  tagline: "Counterweight fly-system operation: arbor inspection, balance and cued flying",
+  tagline: "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",
   accent: 0xff6fae,
   accentCss: "#ff6fae",
-  parSeconds: 225,
+  parSeconds: 265,
   badge: { id: "fly-qualified", name: "Fly Qualified", note: "Full fly cue with the arbor locked and the deck clear throughout" },
 
   game: system({
@@ -7956,6 +7956,7 @@ const SIM_RIGGING_LOFT = {
       { id: "clear-deck", name: "Clear Deck", note: "Never stand under a loaded line", test: AWARD.safe },
       { id: "true-balance", name: "True Balance", note: "Hold every arbor reading near band centre", test: AWARD.precise(0.72) },
       { id: "cued-clean", name: "Cued Clean", note: "Call the fly cue with no correction", test: AWARD.stepClean("fly-cue") },
+      { id: "cue-taught", name: "Cue Taught Clean", note: "Teach the automation cue in the correct order, first try", test: AWARD.stepClean("auto-teach") },
     ],
     challenges: [
       { id: "half-hour", name: "Half-Hour Call", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -8059,6 +8060,32 @@ const SIM_RIGGING_LOFT = {
       why: "The trim pin is the second, physical lock that holds the line set exactly where the cue left it, independent of the rail lock.",
     },
     {
+      id: "auto-teach", kind: "sequence", targets: ["auto-park", "auto-mid", "auto-out"],
+      title: "Teach the automation winch's cue positions",
+      cue: "Record line 6's park, mid-show and full-out positions in the order the cue actually runs.",
+      why: "A motorized automation line plays back a taught cue exactly as recorded — teach full-out before mid-show and the batten runs straight past the position an actor is expecting it to stop at, on stage, live.",
+      itemNames: { "auto-park": "park position", "auto-mid": "mid-show position", "auto-out": "full-out position" },
+      itemNotes: {
+        "auto-park": "Clear of the grid, out of the way between cues.",
+        "auto-mid": "Where the piece sits for the scene it's used in.",
+        "auto-out": "Fully deployed for the final reveal.",
+      },
+      outOfOrderNote: "That position comes later in the cue. Park, then mid-show, then full-out — the console runs them back in the order you taught them, not the order that looks obvious from the deck.",
+    },
+    {
+      id: "auto-save", kind: "select", target: "auto-save-btn",
+      title: "Save the automation cue",
+      cue: "Commit the three taught positions to the automation controller as one cue.",
+      why: "An untaught position list is just where the winch happened to stop. Saving it as a cue is what lets the board operator fire it with one button during the actual show.",
+    },
+    {
+      id: "auto-run", kind: "hold", target: "auto-run-btn", seconds: 2.5,
+      title: "Run the cue at rehearsal speed and verify the deck",
+      cue: "Hold RUN CUE and confirm the automated line clears the deck through every position.",
+      why: "You run a brand-new automation cue at rehearsal speed with your hand on the console before it ever fires at full speed during a live show with the cast on stage.",
+      holdBreakNote: "Released before the cue finished running — hold it through the whole sequence, that's the only way to catch a position that fouls the deck.",
+    },
+    {
       id: "log", kind: "select", target: "rigging-plot",
       title: "Sign the rigging log",
       cue: "Record the load, trim height and lock status, and sign the plot closed.",
@@ -8142,6 +8169,31 @@ const SIM_RIGGING_LOFT = {
     holoTag(looseRail, "Rail unlocked", 0, 0.1, 0, { css: "#f0645b", w: 0.3 });
     reg(hits, looseRail, "unlocked-rail");
 
+    // ------------------------------------------------------- automation winch
+    // A motorized "house automation" line, separate from the hand-hauled
+    // counterweight lines above — the same teach/save/verify pattern used for
+    // Robot Cell's arm and Flight Deck's drone, applied to a stage automation
+    // winch console.
+    const autoTrack = group(rail, 0.09, 0, 1.7);
+    cyl(autoTrack, 0.09, 0.09, 0.3, 0, 2.6, 0, 0x2b3138, { rough: 0.4, metal: 0.6, seg: 16 });
+    cyl(autoTrack, 0.01, 0.01, 2.2, 0.3, 1.5, 0, CITY.darkSteel, { rough: 0.5, metal: 0.7, seg: 8 });
+    holoTag(autoTrack, "Line 6 · House Automation", 0, 2.85, 0, { css: "#ff6fae", w: 0.42 });
+    const autoBatten = box(autoTrack, 0.4, 0.02, 0.02, 0.3, 2.3, 0, 0x545e67, { rough: 0.5, metal: 0.5 });
+
+    const autoPositions = { park: 2.3, mid: 1.5, out: 0.7 };
+    const autoPosDefs = [
+      [autoPositions.park, "auto-park", "Park", 0x59c97b],
+      [autoPositions.mid, "auto-mid", "Mid-show", 0x4fd1ff],
+      [autoPositions.out, "auto-out", "Full-out", 0xffcc00],
+    ];
+    for (const [y, id, label, color] of autoPosDefs) {
+      const ring = torus(autoTrack, 0.08, 0.01, 0.3, y, 0, color,
+        { emissive: color, ei: 1.1, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      ring.rotation.x = Math.PI / 2;
+      holoTag(autoTrack, label, 0.3, y + 0.14, 0, { css: "#ff6fae", w: 0.3 });
+      reg(hits, ring, id);
+    }
+
     // Excess bricks stacked beside the arbor — the overload trap.
     const excess = group(g, -0.85, 0, 1.0);
     for (let i = 0; i < 5; i++) box(excess, 0.16, 0.07, 0.24, 0, 0.045 + i * 0.08, 0, 0x8b929a, { rough: 0.6, metal: 0.4 });
@@ -8156,6 +8208,18 @@ const SIM_RIGGING_LOFT = {
     box(headsetHook, 0.03, 0.1, 0.02, 0, -0.06, 0, 0x2b3138, { rough: 0.5 });
     holoTag(headsetHook, "Comms headset", 0, 0.14, 0, { css: "#ff6fae", w: 0.3 });
     reg(hits, headsetHook, "headset");
+
+    // Automation cue console, on the same fly rail desk as the manual calls.
+    const autoConsole = group(desk, -0.15, 0.5, 0.16);
+    const autoScreen = decal(autoConsole, 0.1, 0.06, 0, 0.05, 0.006,
+      signFace("CUE 6", { bg: "#11181f", accent: "#ff6fae", fg: "#fdecf3", scale: 0.55 }), { glow: true, ei: 0.8, px: 160 });
+    const autoSaveBtn = cyl(autoConsole, 0.016, 0.016, 0.01, -0.025, -0.03, 0.006, 0x59c97b, { rough: 0.4, seg: 14 });
+    autoSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, autoSaveBtn, "auto-save-btn");
+    const autoRunBtn = cyl(autoConsole, 0.016, 0.016, 0.01, 0.025, -0.03, 0.006, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    autoRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, autoRunBtn, "auto-run-btn");
+    holoTag(autoConsole, "Save · Run cue", 0, -0.06, 0, { css: "#ff6fae", w: 0.3 });
 
     const callBoard = group(desk, 0.15, 0.75, 0.05);
     const callFaces = {};
@@ -8214,6 +8278,13 @@ const SIM_RIGGING_LOFT = {
         if (step.id === "lock-arbor") { batOnRail = true; railPin.rotation.z = -0.9; }
         if (step.id === "fly-cue") { flying = true; }
         if (step.id === "trim-lock") { flying = false; trimPin.rotation.z = 1.2; }
+        if (step.id === "auto-save") {
+          repaint(autoScreen, signFace("SAVED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.5 }));
+        }
+        if (step.id === "auto-run") {
+          autoBatten.position.y = autoPositions.out;
+          repaint(autoScreen, signFace("VERIFIED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
+        }
         if (step.id === "log") {
           repaint(callFaces["call-stopped"], signFace("LOGGED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.34 }));
         }
@@ -8229,6 +8300,14 @@ const SIM_RIGGING_LOFT = {
           repaint(arborMeter.userData.screen, signFace(`${lb} lb`, {
             bg: "#0d1c24", accent: gg.t > 0.42 && gg.t < 0.58 ? "#59c97b" : "#ff6fae", fg: "#bfeaf7", scale: 0.55,
           }));
+        }
+
+        // Cue playback: the automation batten rides park -> mid -> full-out in
+        // step with how far the RUN CUE hold has gotten.
+        if (session?.step?.id === "auto-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const { park, mid, out } = autoPositions;
+          autoBatten.position.y = p < 0.5 ? park + (mid - park) * (p * 2) : mid + (out - mid) * ((p - 0.5) * 2);
         }
       },
     };
