@@ -6,6 +6,7 @@
 <title>SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -9601,7 +9602,18 @@ const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 // scenario editor — the hub, the leaderboard and every sim lookup work off
 // this combined roster so a custom drill is a first-class citizen everywhere
 // a built-in one is, with zero special-casing downstream.
-function allSims() { return [...SIMS, ...customRooms(SIM_BY_ID)]; }
+// Cached rather than rebuilt on every call: building it re-parses the
+// custom-scenario list from localStorage and rebuilds a full room object
+// (steps map, spread, etc.) per saved scenario, and this is read on every
+// HUD sync — several times a second during an active run with combos and
+// streaks firing. Invalidated only where the roster can actually change:
+// saving or deleting a custom scenario.
+let allSimsCache = null;
+function invalidateSimsCache() { allSimsCache = null; }
+function allSims() {
+  if (!allSimsCache) allSimsCache = [...SIMS, ...customRooms(SIM_BY_ID)];
+  return allSimsCache;
+}
 function findSim(id) {
   if (SIM_BY_ID[id]) return SIM_BY_ID[id];
   if (typeof id === "string" && id.startsWith("custom:")) {
@@ -10120,6 +10132,7 @@ function edSave(andPlay) {
     createdAt: Date.now(),
   };
   CustomScenarios.save(entry);
+  invalidateSimsCache();
   edRenderLibrary();
   if (andPlay) edEnter(`custom:${entry.id}`);
   else store.patch("editor", { error: "", stepsVisible: false, baseValue: "" });
@@ -10144,7 +10157,7 @@ function edRenderLibrary() {
 }
 
 function edPlayLibrary(id) { edEnter(`custom:${id}`); }
-function edDeleteLibrary(id) { CustomScenarios.remove(id); edRenderLibrary(); }
+function edDeleteLibrary(id) { CustomScenarios.remove(id); invalidateSimsCache(); edRenderLibrary(); }
 
 function openEditor() {
   edPopulateBaseOptions();
