@@ -6287,10 +6287,10 @@ const SIM_CRANE_YARD = {
   trade: "Mobile crane operator / rigger",
   name: "Crane Yard",
   title: simTitle("Crane Yard"),
-  tagline: "Mobile crane pick: outrigger setup, load chart verification and a tag-line controlled lift",
+  tagline: "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
   accent: 0x2f8fdb,
   accentCss: "#2f8fdb",
-  parSeconds: 235,
+  parSeconds: 275,
   badge: { id: "rigging-command", name: "Rigging Command", note: "Set, verified against the chart and landed with the swing radius clear" },
 
   game: system({
@@ -6301,6 +6301,7 @@ const SIM_CRANE_YARD = {
       { id: "solid-set", name: "Solid Set", note: "Level the outriggers and clear the chart before every pick", test: AWARD.all(AWARD.stepClean("level-check"), AWARD.stepClean("load-chart")) },
       { id: "swing-clear", name: "Swing Clear", note: "Never stand in the load path or the swing radius", test: AWARD.safe },
       { id: "rigging-precise", name: "Rigging Precise", note: "Hold every gauge reading near band centre", test: AWARD.precise(0.72) },
+      { id: "zone-set", name: "Zone Set Clean", note: "Teach the anti-collision boundary in the correct order, first try", test: AWARD.stepClean("zone-teach") },
     ],
     challenges: [
       { id: "quick-pick", name: "Quick Pick", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -6357,6 +6358,32 @@ const SIM_CRANE_YARD = {
         readout: (t) => `${Math.round(t * 100)}% of rated capacity`,
         missNote: "That radius eats too much of the chart's rated capacity for this load. Walk the boom in or reduce the radius before rigging.",
       },
+    },
+    {
+      id: "zone-teach", kind: "sequence", targets: ["zone-pt-a", "zone-pt-b", "zone-pt-c"],
+      title: "Teach the anti-collision boundary",
+      cue: "Walk the boom to each corner of the property line next door and mark it, in order, going around the corner.",
+      why: "The RCI's anti-collision system only knows about a boundary you actually taught it. Teach the corners out of order and the system draws the line through the wrong side of the property, not around it.",
+      itemNames: { "zone-pt-a": "boundary corner A", "zone-pt-b": "boundary corner B", "zone-pt-c": "boundary corner C" },
+      itemNotes: {
+        "zone-pt-a": "The near corner, closest to the crane's set position.",
+        "zone-pt-b": "The mid corner, where the property line turns.",
+        "zone-pt-c": "The far corner, at the limit of any planned swing.",
+      },
+      outOfOrderNote: "That corner comes later walking the line. Near corner, then the turn, then the far corner — the system connects them in the order you taught them, not the order that looks obvious from the cab.",
+    },
+    {
+      id: "zone-save", kind: "select", target: "zone-save-btn",
+      title: "Save the boundary to the RCI",
+      cue: "Commit the taught boundary to the crane's rated capacity indicator as a no-swing zone.",
+      why: "A taught boundary sitting unsaved is just where the boom happened to point. Saving it is what makes the RCI actually cut the swing at that line instead of trusting the operator to remember it.",
+    },
+    {
+      id: "zone-verify", kind: "hold", target: "zone-verify-btn", seconds: 2.5,
+      title: "Test-swing and verify the cutout",
+      cue: "Hold VERIFY while the RCI test-swings the boom and confirms it stops dead at the taught boundary.",
+      why: "You verify a brand-new anti-collision zone at slow test speed before the actual pick, because the first time it should ever stop the boom for real is the first time it's asked to.",
+      holdBreakNote: "Released before the test-swing finished — hold it through the full check, that's the only way to catch a boundary point that was taught short or long.",
     },
     {
       id: "rigging-select", kind: "select", target: "rated-sling",
@@ -6453,6 +6480,34 @@ const SIM_CRANE_YARD = {
     bubbleFace.rotation.x = -Math.PI / 2;
     holoTag(bubbleHousing, "Level bubble", 0, 0.09, 0, { css: "#2f8fdb", w: 0.28 });
     reg(hits, bubbleHousing, "level-bubble");
+
+    // Anti-collision RCI console, on the cab beside the level bubble.
+    const rciConsole = group(cab, 0.2, -0.1, 0.26);
+    const rciScreen = decal(rciConsole, 0.12, 0.06, 0, 0.05, 0.006,
+      signFace("RCI ZONE", { bg: "#0d1c24", accent: "#2f8fdb", fg: "#bfeaf7", scale: 0.5 }), { glow: true, ei: 0.8, px: 180 });
+    const zoneSaveBtn = cyl(rciConsole, 0.016, 0.016, 0.01, -0.03, -0.03, 0.006, 0x59c97b, { rough: 0.4, seg: 14 });
+    zoneSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, zoneSaveBtn, "zone-save-btn");
+    const zoneVerifyBtn = cyl(rciConsole, 0.016, 0.016, 0.01, 0.03, -0.03, 0.006, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    zoneVerifyBtn.rotation.x = Math.PI / 2;
+    reg(hits, zoneVerifyBtn, "zone-verify-btn");
+    holoTag(rciConsole, "Save · Verify zone", 0, -0.07, 0, { css: "#2f8fdb", w: 0.32 });
+
+    // ------------------------------------------------------- property boundary
+    // Three corners along the fence line the boom must never swing past —
+    // taught, saved and test-verified through the RCI console above.
+    const zonePts = [
+      [-2.7, -2.6, "zone-pt-a", "A · Near corner"],
+      [-2.7, -0.6, "zone-pt-b", "B · Line turn"],
+      [-2.7, 1.4, "zone-pt-c", "C · Far corner"],
+    ];
+    for (const [zx, zz, id, label] of zonePts) {
+      const marker = torus(g, 0.09, 0.012, zx, 0.02, zz, 0x2f8fdb,
+        { emissive: 0x2f8fdb, ei: 1.1, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(g, label, zx, 0.26, zz, { css: "#2f8fdb", w: 0.34 });
+      reg(hits, marker, id);
+    }
 
     // ------------------------------------------------------------------- the load
     const hookCable = hose(g, [[0.45, 2.5, -0.7], [0.4, 1.6, 0.0], [0.35, 0.95, 0.15]], 0.014, CITY.steel,
@@ -6583,6 +6638,12 @@ const SIM_CRANE_YARD = {
             for (const o of outriggerBeams[key]) { o.beam.scale.x = 1; o.pad.visible = true; }
           }
         }
+        if (step.id === "zone-save") {
+          repaint(rciScreen, signFace("SAVED", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.5 }));
+        }
+        if (step.id === "zone-verify") {
+          repaint(rciScreen, signFace("VERIFIED", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.4 }));
+        }
         // load's own position/rotation are already set by the drag-and-drop
         // gesture itself (app.js snaps it onto load-socket on a successful
         // drop) — nothing to do here.
@@ -6612,6 +6673,12 @@ const SIM_CRANE_YARD = {
               bg: "#0d1c24", accent: gg.t > 0.55 && gg.t < 0.85 ? "#59c97b" : "#f0645b", fg: "#bfeaf7", scale: 0.55,
             }));
           }
+        }
+
+        // Test-swing toward the taught boundary as the RCI verify hold progresses.
+        if (session?.step?.id === "zone-verify" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          crane.rotation.y = 0.3 + p * 0.5;
         }
       },
     };
