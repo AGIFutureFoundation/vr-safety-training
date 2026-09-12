@@ -103,6 +103,8 @@ const ui = {
   editor: document.getElementById("editor"),
   gesture: document.getElementById("hud-gesture"),
   gestureTip: document.getElementById("gesture-tip"),
+  resNext: document.getElementById("res-next"),
+  resRetry: document.getElementById("res-retry"),
 };
 let vrHudDirty = true;
 
@@ -128,7 +130,7 @@ function syncHud() {
     return;
   }
   const rank = Progress.simRank(s.room.id, s.room.game);
-  ui.room.textContent = s.room.title.toUpperCase();
+  ui.room.textContent = state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase();
   ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
   ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name;
   ui.combo.classList.toggle("hot", s.streak >= 4);
@@ -167,6 +169,7 @@ const state = {
   paused: true,
   placed: false,          // AR: has the learner tapped a surface yet
   stage: null,
+  tour: null,             // { i } while walking the built-in curriculum in order
 };
 
 const hint = new THREE.Group();
@@ -421,9 +424,25 @@ function showResults(s, summary) {
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>
     ${s.leaderboard?.madeBoard
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${room.title}, crew tag ${Progress.playerName}.</p>`
-      : ""}`;
+      : ""}
+    ${state.tour ? renderTourFooter() : ""}`;
+  const touring = !!state.tour;
+  const tourDone = touring && state.tour.i + 1 >= SIMS.length;
+  ui.resNext.hidden = !touring || tourDone;
+  ui.resRetry.classList.toggle("primary", !touring || tourDone);
   ui.results.hidden = false;
   state.paused = true;
+}
+
+/** Progress line shown on the results card while a guided tour is running. */
+function renderTourFooter() {
+  const done = state.tour.i + 1;
+  const tourDone = done >= SIMS.length;
+  return `<p class="res-note" style="color:var(--accent) !important">${
+    tourDone
+      ? `<b>That's all twenty stations.</b> The guided tour ends here — nice work.`
+      : `<b>Guided tour: stop ${done} of ${SIMS.length} complete.</b> Next up: ${SIMS[done].name}.`
+  }</p>`;
 }
 
 // ----------------------------------------------------------------- leaderboards
@@ -594,7 +613,23 @@ document.getElementById("res-retry").addEventListener("click", () => {
   ui.results.hidden = true; state.paused = false; enterSim(state.room.id);
 });
 document.getElementById("res-hub").addEventListener("click", () => {
+  state.tour = null;
   ui.results.hidden = true; state.paused = false; enterHub();
+});
+document.getElementById("res-next").addEventListener("click", () => {
+  if (!state.tour) return;
+  state.tour.i += 1;
+  const next = SIMS[state.tour.i];
+  ui.results.hidden = true; state.paused = false;
+  if (next) enterSim(next.id);
+  else { state.tour = null; enterHub(); }
+});
+
+document.getElementById("start-tour").addEventListener("click", () => {
+  state.mode = "flat";
+  state.tour = { i: 0 };
+  pendingEnter = SIMS[0].id;
+  begin();
 });
 
 // --------------------------------------------------------------- interaction
@@ -821,7 +856,7 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
-  if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
+  if (e.code === "Escape" && state.session) { state.tour = null; ui.results.hidden = true; enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { keys[e.code] = false; });

@@ -246,13 +246,17 @@
       <input id="player-name" maxlength="12" placeholder="YOU" autocomplete="off">
     </div>
     <div class="btnrow">
-      <button class="primary" id="enter-ar" disabled>Enter AR</button>
+      <button class="primary" id="start-tour">Start guided tour</button>
+      <button id="enter-ar" disabled>Enter AR</button>
       <button id="enter-vr" disabled>Enter VR</button>
-      <button id="enter-flat">Start on screen</button>
+      <button id="enter-flat">Free explore</button>
       <button id="view-leaderboard">Leaderboards</button>
       <button id="open-editor">Create a scenario</button>
       <button id="reset-progress">Reset progress</button>
     </div>
+    <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
+    through all twenty stations in order, one after another, with no need to find your own way back to the campus
+    between them.</p>
     <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
     nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
     Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
@@ -263,7 +267,11 @@
 
 <div class="overlay" id="results" hidden>
   <div class="card"><div id="results-body"></div>
-    <div class="btnrow"><button class="primary" id="res-retry">Run it again</button><button id="res-hub">Back to campus</button></div>
+    <div class="btnrow">
+      <button class="primary" id="res-next" hidden>Next stop &rarr;</button>
+      <button class="primary" id="res-retry">Run it again</button>
+      <button id="res-hub">Back to campus</button>
+    </div>
   </div>
 </div>
 
