@@ -14,6 +14,14 @@
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "../WebXR/holodeck/js/themes.js";
 import { localInterpreter, interpretPrompt, SUPPORTED_GAME_TYPES } from "../WebXR/holodeck/js/prompt-parser.js";
 import { HOLE_LAYOUTS, buildCourse, createBall, putt, stepBall } from "../WebXR/holodeck/js/minigolf.js";
+import { EQUIPMENT, TEMPLATES, buildTrainingRoom } from "../WebXR/holodeck/js/training.js";
+
+// game.js's Sfx.ensure() reads `window` unguarded (unlike its localStorage
+// calls, which are already wrapped in try/catch) — stub it before import,
+// the same way check_smartcity.mjs and check_trades.mjs do.
+globalThis.window = globalThis.window ?? {};
+const { Session, Sfx } = await import("../WebXR/shared/game.js");
+Sfx.muted = true;
 
 let failures = 0;
 function check(name, fn) {
@@ -125,6 +133,70 @@ check("ball physics stay finite and in-bounds on every hole under a hard putt", 
       if (ball.x < -halfW - 1e-6 || ball.x > halfW + 1e-6) throw new Error(`${hole.id}: ball escaped fairway width (x=${ball.x})`);
       if (ball.z < -1e-6 || ball.z > hole.length + 1e-6) throw new Error(`${hole.id}: ball escaped fairway length (z=${ball.z})`);
       if (ball.sunk) break;
+    }
+  }
+});
+
+check("every template and equipment entry has a unique id and keywords", () => {
+  for (const [label, list] of [["template", TEMPLATES], ["equipment", EQUIPMENT]]) {
+    const ids = new Set();
+    for (const item of list) {
+      if (ids.has(item.id)) throw new Error(`duplicate ${label} id "${item.id}"`);
+      ids.add(item.id);
+      if (!item.keywords?.length) throw new Error(`${label} "${item.id}" has no keywords`);
+    }
+  }
+  if (TEMPLATES.length < 2) throw new Error("expected at least 2 templates to prove the generator isn't one hardcoded procedure");
+});
+
+check('localInterpreter recognizes "run a lockout training on a forklift"', () => {
+  const r = localInterpreter("run a lockout training on a forklift");
+  if (r.gameType !== "training") throw new Error(`expected gameType "training", got "${r.gameType}"`);
+  if (r.templateId !== "lockout") throw new Error(`expected template "lockout", got "${r.templateId}"`);
+  if (r.equipmentId !== "forklift") throw new Error(`expected equipment "forklift", got "${r.equipmentId}"`);
+});
+
+check('localInterpreter recognizes "confined space entry simulation for a storage tank"', () => {
+  const r = localInterpreter("confined space entry simulation for a storage tank");
+  if (r.gameType !== "training") throw new Error(`expected gameType "training", got "${r.gameType}"`);
+  if (r.templateId !== "confined-space") throw new Error(`expected template "confined-space", got "${r.templateId}"`);
+  if (r.equipmentId !== "tank") throw new Error(`expected equipment "tank", got "${r.equipmentId}"`);
+});
+
+/** A generic scripted "perfect run" driver — the same idea as
+ * check_smartcity.mjs's player, general enough for any generated room
+ * since generated procedures only ever use select/turn/gauge steps. */
+function playPerfect(session) {
+  let guard = 0;
+  while (!session.finished) {
+    if (++guard > 1000) throw new Error("perfect run did not finish — possible infinite loop");
+    const step = session.step;
+    if (!step) throw new Error("session has no current step but is not finished");
+    if (step.kind === "turn") {
+      session.rotate(step.target, (step.turn?.turns ?? 1) + 0.01);
+    } else if (step.kind === "gauge") {
+      const [lo, hi] = step.gauge.green;
+      session.gauge.t = (lo + hi) / 2;
+      session.select(step.target);
+    } else {
+      session.select(step.target);
+    }
+  }
+}
+
+check("every template x equipment combination generates a well-formed, playable room", () => {
+  for (const tpl of TEMPLATES) {
+    for (const eq of EQUIPMENT) {
+      const room = buildTrainingRoom({ templateId: tpl.id, equipmentId: eq.id });
+      if (!room.steps.length) throw new Error(`${room.id}: no steps generated`);
+      if (!(room.parSeconds > 0)) throw new Error(`${room.id}: invalid parSeconds`);
+      if (!Object.keys(room.hazards).length) throw new Error(`${room.id}: no hazards generated`);
+      const session = new Session(room, {});
+      session.start();
+      playPerfect(session);
+      if (!session.finished) throw new Error(`${room.id}: session never finished`);
+      if (session.errors !== 0) throw new Error(`${room.id}: a perfect run logged ${session.errors} error(s)`);
+      if (!(session.score > 0)) throw new Error(`${room.id}: perfect run scored ${session.score}`);
     }
   }
 });

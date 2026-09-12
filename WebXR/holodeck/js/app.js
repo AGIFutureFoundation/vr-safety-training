@@ -1,11 +1,12 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
-  box, cyl, ball, torus, group, decal, signFace, particles, celebrationBurst, disposeTree, clamp,
+  box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp,
 } from "../../shared/kit.js";
-import { Sfx } from "../../shared/game.js";
+import { Sfx, Session } from "../../shared/game.js";
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "./themes.js";
 import { localInterpreter, interpretPrompt } from "./prompt-parser.js";
 import { BALL_RADIUS, buildCourse, createBall, putt, stepBall } from "./minigolf.js";
+import { buildTrainingRoom } from "./training.js";
 import { createStore } from "./store.js";
 import { mountUI } from "./react-ui.js";
 
@@ -44,13 +45,22 @@ const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
 const speechSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
 const store = createStore({
-  hud: { visible: false, holeName: "", holeSub: "", strokes: 0, par: 0, feedback: "", powerVisible: false, powerPct: 0 },
+  // A single hud slice shared by both generators — `mode` decides which
+  // fields the chips read, so the DOM structure and CSS never change
+  // between a mini-golf hole and a training procedure, only the content.
+  hud: {
+    visible: false, mode: "golf",
+    holeName: "", holeSub: "", strokes: 0, par: 0,           // golf-mode fields
+    step: "", cue: "", score: "0000", comboText: "", count: "", // training-mode fields
+    feedback: "", powerVisible: false, powerPct: 0, railState: "neutral", // shared
+  },
   intro: {
     visible: true, promptText: "", listening: false, speechSupported,
     error: "", heard: "", themeId: DEFAULT_THEME_ID, userPickedTheme: false,
   },
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
+  trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "" },
 });
 
 // ----------------------------------------------------------- prop dressing
@@ -196,7 +206,7 @@ function enterHole() {
   ballMesh = built.ballMesh;
   positionCamera(hole);
   store.patch("hud", {
-    visible: true,
+    visible: true, mode: "golf",
     holeName: hole.name,
     holeSub: `HOLE ${holeIndex + 1} OF ${course.holes.length}`,
     strokes: 0,
@@ -238,6 +248,11 @@ function showFinal() {
 }
 
 function playAgain() {
+  if (mode === "training") {
+    store.patch("trainingResult", { visible: false });
+    enterTraining(lastTrainingParams.templateId, lastTrainingParams.equipmentId);
+    return;
+  }
   store.patch("final", { visible: false });
   holeIndex = 0;
   strokesLog = [];
@@ -246,22 +261,217 @@ function playAgain() {
 
 function newPrompt() {
   store.patch("final", { visible: false });
+  store.patch("trainingResult", { visible: false });
   store.patch("hud", { visible: false });
   clearHole();
+  clearTraining();
   scene.background = null;
   scene.fog = null;
+  mode = null;
   store.patch("intro", { visible: true });
+}
+
+// ----------------------------------------------------------- training scene
+//
+// A generic renderer for any generated procedure: the same handful of
+// primitives (a control panel, a disconnect, a hasp, a meter, a vent fan,
+// an attendant stand-in) serve every equipment noun and every template —
+// only labels, colors and which pieces appear change.
+
+function simplePerson(g, x, z, accent) {
+  const p = group(g, x, 0, z);
+  cyl(p, 0.14, 0.16, 0.9, 0, 0.45, 0, 0x2b3138, { rough: 0.6 });
+  ball(p, 0.13, 0, 1.0, 0, 0xd8b48c, { rough: 0.7 });
+  box(p, 0.3, 0.1, 0.3, 0, 0.95, 0, accent, { rough: 0.5 });
+  return p;
+}
+
+function buildTrainingScene(g, room) {
+  const eq = room.equipment;
+  const accent = new THREE.Color(eq.accent).getHex();
+  const isConfinedSpace = room.templateId === "confined-space";
+  const refs = {};
+
+  box(g, 6, 0.05, 6, 0, -0.03, 0, 0x14101f, { rough: 0.95, cast: false });
+
+  // The equipment itself — every step ultimately concerns this one object.
+  const equipGroup = group(g, 0, 0, -0.9);
+  box(equipGroup, 1.0, 1.2, 0.5, 0, 0.6, 0, accent, { rough: 0.45, metal: 0.35 });
+  const readout = decal(equipGroup, 0.6, 0.3, 0, 1.0, 0.26,
+    signFace(eq.noun.toUpperCase(), { bg: "#0d0a18", accent: eq.accent, scale: 0.4 }), { glow: true, ei: 0.7, px: 220 });
+  equipGroup.userData.hitId = "task-point";
+  refs.taskPoint = equipGroup;
+
+  // Disconnect: a post with a rotating handle — the "turn" step's target.
+  const discPost = group(g, -1.1, 0, 0.2);
+  cyl(discPost, 0.06, 0.07, 0.9, 0, 0.45, 0, 0x2b3138, { rough: 0.5, metal: 0.4 });
+  const discHandle = box(discPost, 0.05, 0.28, 0.05, 0, 0.85, 0.1, 0xf0645b, { rough: 0.5 });
+  discPost.userData.hitId = "disconnect";
+  refs.disconnectHandle = discHandle;
+  refs.disconnectPost = discPost;
+
+  // Lockout hasp beside the disconnect.
+  const hasp = torus(g, 0.05, 0.01, -1.1, 0.6, 0.28, 0xc8ccd0, { rough: 0.4, metal: 0.7 });
+  hasp.rotation.y = Math.PI / 2;
+  hasp.userData.hitId = "hasp";
+  const appliedLock = box(g, 0.05, 0.08, 0.03, -1.1, 0.6, 0.3, 0xf2c14b, { rough: 0.5 });
+  appliedLock.visible = false;
+  refs.appliedLock = appliedLock;
+
+  // Meter — used by both the lockout "verify" gauge and the confined-space
+  // "atmosphere" gauge.
+  const meterPost = group(g, 1.1, 0, 0.2);
+  box(meterPost, 0.24, 0.16, 0.05, 0, 0.9, 0, 0x1b1e22, { rough: 0.5 });
+  const meterScreen = decal(meterPost, 0.2, 0.1, 0, 0.9, 0.027,
+    signFace("--", { bg: "#0d1c24", accent: eq.accent, fg: "#bfeaf7", scale: 0.6 }), { glow: true, ei: 0.85, px: 160 });
+  cyl(meterPost, 0.03, 0.03, 0.85, 0, 0.42, 0, 0x2b3138, { rough: 0.5, metal: 0.4 });
+  meterPost.userData.hitId = "meter";
+  refs.meterScreen = meterScreen;
+
+  // Work order / permit board, always present.
+  const board = group(g, -1.3, 0, -1.3, 0.5);
+  box(board, 0.5, 0.36, 0.03, 0, 1.1, 0, 0x1b1e22, { rough: 0.6 });
+  decal(board, 0.44, 0.3, 0, 1.1, 0.02,
+    signFace(isConfinedSpace ? "ENTRY PERMIT" : "WORK ORDER", { bg: "#11181f", accent: eq.accent, scale: 0.34 }), { px: 220 });
+  board.userData.hitId = isConfinedSpace ? "permit-board" : "work-order";
+
+  if (isConfinedSpace) {
+    // Ventilation fan.
+    const fanGroup = group(g, 1.3, 0, -1.1);
+    cyl(fanGroup, 0.22, 0.22, 0.08, 0, 0.9, 0, 0x2b3138, { rough: 0.5, metal: 0.4, seg: 16 });
+    const blades = group(fanGroup, 0, 0.9, 0.05);
+    for (let i = 0; i < 4; i++) {
+      const blade = box(blades, 0.18, 0.02, 0.05, 0, 0, 0, 0x8d959d, { rough: 0.4, cast: false });
+      blade.rotation.z = (i * Math.PI) / 2;
+    }
+    fanGroup.userData.hitId = "vent-fan";
+    refs.ventBlades = blades;
+
+    // Attendant, posted at the entry.
+    const attendant = simplePerson(g, 1.6, 1.1, accent);
+    attendant.userData.hitId = "attendant";
+    refs.attendant = attendant;
+  }
+
+  return refs;
+}
+
+function positionTrainingCamera() {
+  camera.position.set(0.1, 1.9, 2.6);
+  camera.lookAt(0, 0.7, -0.5);
+}
+
+// -------------------------------------------------------- training lifecycle
+
+let mode = null; // "golf" | "training" | null
+let trainingSession = null;
+let trainingRoom = null;
+let trainingGroup = null;
+let trainingRefs = null;
+let lastTrainingParams = null;
+let hits = {};
+let selectables = [];
+
+function collectSelectables() {
+  selectables = [];
+  for (const id of Object.keys(hits)) hits[id].traverse((o) => { if (o.isMesh) selectables.push(o); });
+}
+
+function clearTraining() {
+  if (trainingGroup) { disposeTree(trainingGroup); worldRoot.remove(trainingGroup); trainingGroup = null; }
+  trainingSession = null;
+  hits = {};
+  selectables = [];
+  trainingTurnState = null;
+  ventOn = false;
+}
+
+function syncTrainingHud() {
+  const s = trainingSession;
+  if (!s) return;
+  const step = s.step;
+  store.patch("hud", {
+    score: String(Math.round(s.score)).padStart(4, "0"),
+    comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : "",
+    count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
+    step: step ? step.title : "",
+    cue: step ? step.cue : "",
+  });
+}
+
+let ventOn = false;
+
+function onTrainingStepComplete(step) {
+  if (step.id === "isolate") Sfx.tick();
+  if (step.id === "lock") trainingRefs.appliedLock.visible = true;
+  if (step.id === "restore") { trainingRefs.appliedLock.visible = false; trainingRefs.disconnectHandle.rotation.z = 0; }
+  if (step.id === "ventilate") ventOn = true;
+}
+
+function showTrainingResult(s) {
+  const stars = "★".repeat(s.stars) + "☆".repeat(3 - s.stars);
+  const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
+  Sfx.great();
+  store.patch("hud", { visible: false });
+  store.patch("trainingResult", {
+    visible: true, stars,
+    title: s.errors === 0 ? "Clean Run" : "Procedure Complete",
+    scoreText: `Score ${s.score} · ${mins}:${String(secs).padStart(2, "0")} · ${s.errors} error${s.errors === 1 ? "" : "s"}`,
+    note: s.errors === 0
+      ? "Every control taken in order, no unsafe action."
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — run it again for a clean pass.`,
+  });
+}
+
+function enterTraining(templateId, equipmentId) {
+  clearTraining();
+  lastTrainingParams = { templateId, equipmentId };
+  trainingRoom = buildTrainingRoom({ templateId, equipmentId });
+  trainingGroup = new THREE.Group();
+  worldRoot.add(trainingGroup);
+  scene.background = new THREE.Color(0x0a0714);
+  scene.fog = null;
+  trainingRefs = buildTrainingScene(trainingGroup, trainingRoom);
+  hits = {};
+  trainingGroup.traverse((o) => { if (o.userData.hitId) hits[o.userData.hitId] = o; });
+  collectSelectables();
+  positionTrainingCamera();
+
+  trainingSession = new Session(trainingRoom, {
+    onStep: () => syncTrainingHud(),
+    onFeedback: (fb) => {
+      const railState = fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn";
+      store.patch("hud", { feedback: fb.text, railState });
+      syncTrainingHud();
+    },
+    onStepComplete: (step) => onTrainingStepComplete(step),
+    onHazard: () => {},
+    onFinish: (s) => showTrainingResult(s),
+  });
+  trainingSession.start();
+  store.patch("hud", {
+    visible: true, mode: "training",
+    feedback: `<b>${trainingRoom.title}</b> — follow the procedure in order.`,
+    powerVisible: false, powerPct: 0,
+  });
+  syncTrainingHud();
 }
 
 async function generate() {
   Sfx.ensure();
   const { promptText, themeId, userPickedTheme } = store.get().intro;
   const parsed = await interpretPrompt(promptText);
+  store.patch("intro", { visible: false });
+  if (parsed.gameType === "training") {
+    mode = "training";
+    enterTraining(parsed.templateId, parsed.equipmentId);
+    return;
+  }
+  mode = "golf";
   const finalThemeId = userPickedTheme ? themeId : parsed.themeId;
   course = buildCourse(findTheme(finalThemeId));
   holeIndex = 0;
   strokesLog = [];
-  store.patch("intro", { visible: false });
   enterHole();
 }
 
@@ -339,8 +549,81 @@ function raycastGround(clientX, clientY) {
 }
 
 function canPutt() {
-  return hole && ballState && !ballState.sunk && !ballMoving &&
+  return mode === "golf" && hole && ballState && !ballState.sunk && !ballMoving &&
     !store.get().intro.visible && !store.get().holeResult.visible && !store.get().final.visible;
+}
+
+// ------------------------------------------------------- training interaction
+//
+// Click to select, drag horizontally on the disconnect to turn it — the
+// same two gestures every hand-authored sim in this project uses, just
+// against the generic props buildTrainingScene() creates.
+
+function findHit(intersections) {
+  for (const it of intersections) {
+    let o = it.object;
+    while (o) { if (o.userData.hitId) return o.userData.hitId; o = o.parent; }
+  }
+  return null;
+}
+function castFromCameraObjects() {
+  raycaster.setFromCamera(pointerNdc, camera);
+  return findHit(raycaster.intersectObjects(selectables, false));
+}
+function updateNdc(clientX, clientY) {
+  const r = canvas.getBoundingClientRect();
+  pointerNdc.set(((clientX - r.left) / r.width) * 2 - 1, -((clientY - r.top) / r.height) * 2 + 1);
+}
+
+let trainingTurnState = null; // { id, lastX }
+let trainingDownId = null;
+let trainingDownAt = 0;
+
+function activateTraining(id) {
+  trainingSession?.select(id);
+}
+function beginTrainingTurn(id, clientX) {
+  if (!trainingSession || trainingSession.step?.kind !== "turn" || trainingSession.step.target !== id) return false;
+  trainingTurnState = { id, lastX: clientX };
+  return true;
+}
+function updateTrainingTurn(clientX) {
+  if (!trainingTurnState) return;
+  const delta = (clientX - trainingTurnState.lastX) * 0.003;
+  trainingTurnState.lastX = clientX;
+  trainingSession.rotate(trainingTurnState.id, delta);
+  syncTrainingHud();
+}
+function endTrainingTurn() { trainingTurnState = null; }
+
+function trainingPointerDown(e) {
+  if (mode !== "training" || !trainingSession) return;
+  updateNdc(e.clientX, e.clientY);
+  const hit = castFromCameraObjects();
+  if (hit && beginTrainingTurn(hit, e.clientX)) { trainingDownAt = performance.now(); return; }
+  trainingDownId = hit ?? null;
+  trainingDownAt = performance.now();
+}
+function trainingPointerMove(e) {
+  if (mode !== "training") return;
+  updateNdc(e.clientX, e.clientY);
+  if (trainingTurnState) { updateTrainingTurn(e.clientX); return; }
+  const hit = castFromCameraObjects();
+  canvas.style.cursor = hit ? (hit === trainingSession?.step?.target && trainingSession?.step?.kind === "turn" ? "grab" : "pointer") : "default";
+}
+function trainingPointerUp(e) {
+  if (mode !== "training") return;
+  if (trainingTurnState) { endTrainingTurn(); return; }
+  if (performance.now() - trainingDownAt < 280 && trainingDownId) {
+    updateNdc(e.clientX, e.clientY);
+    const hit = castFromCameraObjects();
+    if (hit && hit === trainingDownId) activateTraining(hit);
+  }
+  trainingDownId = null;
+}
+function trainingPointerCancel() {
+  trainingTurnState = null;
+  trainingDownId = null;
 }
 
 function updateAimVisual(power) {
@@ -354,6 +637,7 @@ function updateAimVisual(power) {
 }
 
 canvas.addEventListener("pointerdown", (e) => {
+  if (mode === "training") { trainingPointerDown(e); return; }
   if (!canPutt()) return;
   dragAnchor = raycastGround(e.clientX, e.clientY);
   if (!dragAnchor) return;
@@ -361,6 +645,7 @@ canvas.addEventListener("pointerdown", (e) => {
   store.patch("hud", { powerVisible: true, powerPct: 0 });
 });
 addEventListener("pointermove", (e) => {
+  if (mode === "training") { trainingPointerMove(e); return; }
   if (!aiming) return;
   const cur = raycastGround(e.clientX, e.clientY);
   if (!cur) return;
@@ -384,21 +669,39 @@ function endAim(commit) {
     store.patch("hud", { strokes: ballState.strokes, feedback: "Rolling…" });
   }
 }
-addEventListener("pointerup", () => endAim(true));
-addEventListener("pointercancel", () => endAim(false));
+addEventListener("pointerup", (e) => { if (mode === "training") trainingPointerUp(e); else endAim(true); });
+addEventListener("pointercancel", () => { if (mode === "training") trainingPointerCancel(); else endAim(false); });
 
 // --------------------------------------------------------------- frame loop
 
 const clock = new THREE.Clock();
 renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 0.05);
-  if (ballMoving && ballState) {
+  if (mode === "golf" && ballMoving && ballState) {
     const { moving, sunk } = stepBall(ballState, hole, dt);
     ballMesh.position.set(ballState.x, BALL_RADIUS, ballState.z);
     if (!moving) {
       ballMoving = false;
       if (sunk) handleSunk();
       else store.patch("hud", { feedback: "Drag back from the ball, then release to putt." });
+    }
+  }
+  if (mode === "training" && trainingSession && !trainingSession.finished) {
+    trainingSession.tick(dt);
+    const step = trainingSession.step;
+    if (step?.kind === "turn") {
+      const amount = trainingSession.turn?.amount ?? 0;
+      const reverse = step.turn?.reverse ? -1 : 1;
+      trainingRefs.disconnectHandle.rotation.z = amount * Math.PI * 2 * reverse;
+    }
+    if (trainingRefs.ventBlades && ventOn) trainingRefs.ventBlades.rotation.z += dt * 6;
+    const gg = trainingSession.gauge;
+    if (gg && !gg.committed && step?.kind === "gauge") {
+      const text = step.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;
+      const inBand = gg.t >= step.gauge.green[0] && gg.t <= step.gauge.green[1];
+      repaint(trainingRefs.meterScreen, signFace(text, {
+        bg: "#0d1c24", accent: inBand ? "#59c97b" : trainingRoom.equipment.accent, fg: "#bfeaf7", scale: 0.55,
+      }));
     }
   }
   burst.update(dt);
@@ -409,3 +712,14 @@ mountUI(store, {
   setPromptText, toggleMic, selectTheme, generate,
   nextHole, playAgain, newPrompt,
 });
+
+// Test-only hook: precisely clicking a 3D object's exact screen position
+// from an automated browser test is brittle, but the click/turn handlers
+// just forward to trainingSession.select()/rotate() — the same calls this
+// exposes directly, so a test can drive the real Session and verify the
+// UI reacts correctly without needing to replicate the camera projection.
+window.__holodeckTest = {
+  select: (id) => trainingSession?.select(id),
+  rotate: (id, delta) => trainingSession?.rotate(id, delta),
+  getMode: () => mode,
+};

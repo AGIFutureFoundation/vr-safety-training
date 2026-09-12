@@ -16,6 +16,12 @@ export function mountUI(store, actions) {
   function HoleChip() {
     const hud = useSlice("hud");
     if (!hud.visible) return null;
+    if (hud.mode === "training") {
+      return h("div", { className: "chip", id: "hud-hole-chip" },
+        h("div", { className: "eyebrow" }, "Training"),
+        h("div", { id: "hud-hole-name" }, hud.step),
+        h("div", { id: "hud-hole-sub" }, hud.cue));
+    }
     return h("div", { className: "chip", id: "hud-hole-chip" },
       h("div", { className: "eyebrow" }, "Hole"),
       h("div", { id: "hud-hole-name" }, hud.holeName),
@@ -25,6 +31,12 @@ export function mountUI(store, actions) {
   function ScoreChip() {
     const hud = useSlice("hud");
     if (!hud.visible) return null;
+    if (hud.mode === "training") {
+      return h("div", { className: "chip", id: "hud-score-chip" },
+        h("div", { className: "eyebrow" }, "Score"),
+        h("div", { id: "hud-strokes" }, hud.score),
+        h("div", { id: "hud-par" }, hud.comboText));
+    }
     return h("div", { className: "chip", id: "hud-score-chip" },
       h("div", { className: "eyebrow" }, "Strokes"),
       h("div", { id: "hud-strokes" }, hud.strokes),
@@ -34,10 +46,12 @@ export function mountUI(store, actions) {
   function Rail() {
     const hud = useSlice("hud");
     if (!hud.visible) return null;
-    return h("div", { id: "hud-rail" },
-      h("div", { id: "hud-feedback" }, hud.feedback),
-      hud.powerVisible && h("div", { id: "hud-power-track" },
-        h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
+    return h("div", { id: "hud-rail", "data-state": hud.railState },
+      h("div", { id: "hud-feedback", dangerouslySetInnerHTML: { __html: hud.feedback } }),
+      hud.mode === "training"
+        ? h("div", { id: "hud-count" }, hud.count)
+        : hud.powerVisible && h("div", { id: "hud-power-track" },
+            h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
   }
 
   function ThemePicks() {
@@ -59,12 +73,14 @@ export function mountUI(store, actions) {
         h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
         h("h1", null, "Holodeck"),
         h("p", { className: "lead" },
-          "Describe a course out loud or type it, and it renders and plays for real. " +
-          "Right now that means one generator — a 3-hole mini-golf course — with a theme " +
-          "your words pick from a small set below. There is no live AI model behind this " +
-          "reading arbitrary prompts yet; the words below are the whole vocabulary."),
+          "Describe it out loud or type it, and it renders and plays for real. Two generators " +
+          "exist today: a 3-hole mini-golf course (pick a theme below with your words), and a " +
+          "real scored safety-training procedure — the same engine every union-trade simulator " +
+          "in this project runs on. There is no live AI model reading arbitrary prompts yet; " +
+          "the words below are the whole vocabulary for both."),
         h("div", { id: "prompt-row" },
-          h("label", { className: "eyebrow", htmlFor: "prompt-input" }, "Try: “make a mini golf game with an alaskan theme”"),
+          h("label", { className: "eyebrow", htmlFor: "prompt-input" },
+            "Try: “make a mini golf game with an alaskan theme” or “run a lockout training on a forklift”"),
           h("textarea", {
             id: "prompt-input", value: intro.promptText,
             placeholder: "make a mini golf course, tropical theme...",
@@ -82,11 +98,14 @@ export function mountUI(store, actions) {
             "Voice input isn't supported in this browser — Chrome desktop/Android has it. Typing works everywhere."),
           intro.error && h("p", { id: "prompt-error" }, intro.error),
           intro.heard && h("p", { id: "prompt-heard" }, `Heard: “${intro.heard}”`)),
-        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Theme (auto-picked from your words, or choose one)"),
+        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Mini-golf theme (auto-picked from your words, or choose one — ignored for training prompts)"),
         h(ThemePicks),
-        h("div", { className: "btnrow" }),
+        h("p", { className: "fineprint", style: { marginTop: "8px" } },
+          "Training prompts instead pick from: lockout & verify or confined-space entry, on an electrical panel, " +
+          "forklift, boiler, conveyor, air compressor or storage tank — e.g. “confined space entry simulation " +
+          "for a storage tank.”"),
         h("p", { className: "fineprint" },
-          "Nothing you say or type is sent anywhere — the theme match runs entirely in this browser."),
+          "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
         h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
           "Holodeck — powered by AGI Corp & Visko.")));
   }
@@ -122,10 +141,24 @@ export function mountUI(store, actions) {
           h("button", { onClick: actions.newPrompt }, "New prompt"))));
   }
 
+  function TrainingResultCard() {
+    const r = useSlice("trainingResult");
+    if (!r.visible) return null;
+    return h("div", { className: "overlay", id: "training-result" },
+      h("div", { className: "card" },
+        h("div", { className: "res-stars" }, r.stars),
+        h("h1", null, r.title),
+        h("p", { className: "res-note" }, r.scoreText),
+        h("p", { className: "res-note" }, r.note),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", onClick: actions.playAgain }, "Run it again"),
+          h("button", { onClick: actions.newPrompt }, "New prompt"))));
+  }
+
   function App() {
     return h(Fragment, null,
       h(HoleChip), h(ScoreChip), h(Rail),
-      h(IntroCard), h(HoleResultCard), h(FinalCard));
+      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));

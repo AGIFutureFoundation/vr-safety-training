@@ -37,6 +37,12 @@
     width:min(560px, calc(100vw - 28px)); background:var(--glass);
     border:1px solid var(--edge); border-left:3px solid var(--accent);
     border-radius:5px; padding:11px 16px; pointer-events:none; backdrop-filter:blur(4px); }
+  #hud-rail[data-state="ok"]{ border-left-color:var(--good) }
+  #hud-rail[data-state="warn"]{ border-left-color:var(--warn) }
+  #hud-rail[data-state="danger"]{ border-left-color:var(--danger) }
+  #hud-rail[data-state="neutral"]{ border-left-color:var(--accent) }
+  #hud-count{ font-family:var(--cond); font-weight:600; font-size:11.5px; letter-spacing:.09em;
+    color:var(--muted); margin-top:8px; display:block }
   #hud-feedback{ font-size:14px; line-height:1.5 }
   #hud-power-track{ height:6px; background:var(--raised); border-radius:3px; overflow:hidden; margin-top:9px }
   #hud-power-fill{ height:100%; width:0; background:var(--accent); transition:width .05s linear }

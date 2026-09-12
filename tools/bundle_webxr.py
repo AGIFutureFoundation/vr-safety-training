@@ -85,6 +85,7 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "game.js",
             WEBXR / "holodeck/js/themes.js",
+            WEBXR / "holodeck/js/training.js",
             WEBXR / "holodeck/js/prompt-parser.js",
             WEBXR / "holodeck/js/minigolf.js",
             WEBXR / "holodeck/js/store.js",

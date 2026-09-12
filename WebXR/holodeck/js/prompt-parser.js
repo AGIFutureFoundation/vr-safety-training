@@ -19,20 +19,25 @@
  * only thing that turns a scene request into 3D content.
  */
 import { THEMES, DEFAULT_THEME_ID } from "./themes.js";
+import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from "./training.js";
 
-// The only generator that actually exists today. Listed explicitly (rather
-// than inferred from whatever the parser matches) so the UI can be honest
-// about what "speaking a simulation into existence" currently covers.
-export const SUPPORTED_GAME_TYPES = ["minigolf"];
+// The generators that actually exist today. Listed explicitly (rather than
+// inferred from whatever the parser matches) so the UI can be honest about
+// what "speaking a simulation into existence" currently covers.
+export const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
 
 const GAME_KEYWORDS = {
+  // Checked before minigolf: a phrase like "confined space entry training"
+  // never mentions golf, but "training" alone is unambiguous, so order only
+  // matters for a prompt that could plausibly say both.
+  training: ["training", "safety simulation", "simulation training", "procedure", ...TEMPLATES.flatMap((t) => t.keywords)],
   minigolf: ["mini golf", "minigolf", "mini-golf", "golf course", "putt putt", "putt-putt", "golf"],
 };
 
 export function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
 
-  let gameType = "minigolf"; // the only one there is right now
+  let gameType = "minigolf"; // the fallback if nothing at all matches
   let matchedGame = false;
   for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
     if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
@@ -44,7 +49,25 @@ export function localInterpreter(text) {
     if (theme.keywords.some((w) => lower.includes(w))) { themeId = theme.id; matchedTheme = true; break; }
   }
 
-  return { gameType, matchedGame, themeId, matchedTheme, raw: text };
+  let templateId = DEFAULT_TEMPLATE_ID;
+  let matchedTemplate = false;
+  for (const tpl of TEMPLATES) {
+    if (tpl.keywords.some((w) => lower.includes(w))) { templateId = tpl.id; matchedTemplate = true; break; }
+  }
+
+  let equipmentId = DEFAULT_EQUIPMENT_ID;
+  let matchedEquipment = false;
+  for (const eq of EQUIPMENT) {
+    if (eq.keywords.some((w) => lower.includes(w))) { equipmentId = eq.id; matchedEquipment = true; break; }
+  }
+
+  return {
+    gameType, matchedGame,
+    themeId, matchedTheme,
+    templateId, matchedTemplate,
+    equipmentId, matchedEquipment,
+    raw: text,
+  };
 }
 
 export async function interpretPrompt(text, { interpreter = localInterpreter } = {}) {
