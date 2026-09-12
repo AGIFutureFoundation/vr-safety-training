@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingPanel, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
-} from "../../shared/kit.js";
+} from "../../../shared/kit.js";
 
 // Room 02 — Hair stylist: oxidative colour service, station sanitation and
 // client protection. The trade content here is the salon's real order of

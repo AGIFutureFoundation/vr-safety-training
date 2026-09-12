@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingPanel, counter, particles, markInteractive, mat, clamp,
-} from "../../shared/kit.js";
+} from "../../../shared/kit.js";
 
 // Room 03 — Commercial cook: the hot line. Hand hygiene, colour-coded boards,
 // cook temperature, and the grease flare-up that every kitchen eventually gets.

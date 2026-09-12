@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingPanel, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
-} from "../../shared/kit.js";
+} from "../../../shared/kit.js";
 
 // Room 04 — Phlebotomy technician: patient identification, venipuncture and the
 // order of draw. This is the one room where sequence is genuinely non-negotiable:

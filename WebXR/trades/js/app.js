@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../shared/kit.js";
-import { Session, Progress, Sfx } from "../shared/game.js";
+import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
+import { Session, Progress, Sfx } from "../../shared/game.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
