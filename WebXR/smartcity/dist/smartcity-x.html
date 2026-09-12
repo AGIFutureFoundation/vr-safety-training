@@ -4779,10 +4779,10 @@ const SIM_ROBOT_CELL = {
   trade: "Automation / robotics technician",
   name: "Robot Cell",
   title: simTitle("Robot Cell"),
-  tagline: "Six-axis robot cell lockout, light-curtain integrity and teach-pendant safety",
+  tagline: "Six-axis robot cell lockout, light-curtain integrity and teach-pendant pick-and-place programming",
   accent: 0xa079ff,
   accentCss: "#a079ff",
-  parSeconds: 210,
+  parSeconds: 260,
   badge: { id: "cell-locked", name: "Cell Locked", note: "Full lockout with the light curtain never defeated" },
 
   game: system({
@@ -4793,6 +4793,7 @@ const SIM_ROBOT_CELL = {
       { id: "curtain-intact", name: "Curtain Intact", note: "Never bypass the light curtain", test: AWARD.safe },
       { id: "teach-safe", name: "Teach Safe", note: "Every teach-mode move inside the reduced-speed band", test: AWARD.precise(0.72) },
       { id: "energy-zero", name: "Energy Zero", note: "Verify zero energy before the guard opens", test: AWARD.stepClean("verify-zero") },
+      { id: "path-taught", name: "Path Taught", note: "Teach every waypoint in the correct order, first try", test: AWARD.stepClean("teach-points") },
     ],
     challenges: [
       { id: "line-down", name: "Line Down Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -4884,6 +4885,32 @@ const SIM_ROBOT_CELL = {
         readout: (t) => `${Math.round(t * 100)}% speed`,
         missNote: "Over the teach-mode speed cap. That limit is what keeps a reflex reaction fast enough to matter.",
       },
+    },
+    {
+      id: "teach-points", kind: "sequence", targets: ["wp-pick", "wp-transfer", "wp-place"],
+      title: "Teach the pick-and-place waypoints",
+      cue: "Jog to each point and press teach, in the order the part actually travels.",
+      why: "A taught path is only as safe as the order it was recorded in — teach the transfer point after place and the arm swings back through the fence line on playback instead of clearing it.",
+      itemNames: { "wp-pick": "Pick point", "wp-transfer": "Transfer point", "wp-place": "Place point" },
+      itemNotes: {
+        "wp-pick": "Recorded right over the part in the infeed fixture.",
+        "wp-transfer": "High enough to clear the fence rail on the way across the cell.",
+        "wp-place": "Recorded over the outfeed pallet.",
+      },
+      outOfOrderNote: "That point comes later in the part's actual path. Teach pick, then transfer, then place — playback runs the points in the order you recorded them, not the order that seems obvious.",
+    },
+    {
+      id: "teach-save", kind: "select", target: "save-program",
+      title: "Save the taught program",
+      cue: "Commit the three points to the controller as one program.",
+      why: "An untaught point list is just jog history. Saving it is what turns three recorded positions into a program the controller can actually execute.",
+    },
+    {
+      id: "teach-run", kind: "hold", target: "run-verify", seconds: 2.5,
+      title: "Dry-run the program at teach speed",
+      cue: "Hold RUN/VERIFY and watch the whole path clear the fence and the fixtures.",
+      why: "You verify a brand-new program at teach speed with your hand on the pendant's dead-man switch, watching every point, before it ever runs unattended at full production speed.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the entire path — that's the only way to catch a bad point before it runs in production.",
     },
     {
       id: "close", kind: "select", target: "cell-gate",
@@ -4997,6 +5024,44 @@ const SIM_ROBOT_CELL = {
       signFace("TEACH", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.55 }), { glow: true, ei: 0.85, px: 192 });
     holoTag(pendant, "Teach pendant", 0, 0.16, 0, { css: "#a079ff", w: 0.3 });
     reg(hits, pendant, "teach-pendant");
+    const saveBtn = cyl(pendant, 0.018, 0.018, 0.012, -0.032, -0.07, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    saveBtn.rotation.x = Math.PI / 2;
+    reg(hits, saveBtn, "save-program");
+    const runBtn = cyl(pendant, 0.018, 0.018, 0.012, 0.032, -0.07, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    runBtn.rotation.x = Math.PI / 2;
+    reg(hits, runBtn, "run-verify");
+    holoTag(pendant, "Save · Run", 0, -0.1, 0, { css: "#a079ff", w: 0.26 });
+
+    // ---------------------------------------------------- pick-and-place teach
+    // A taught program: an infeed fixture the arm picks from, a high waypoint
+    // that clears the fence, and an outfeed pallet it places onto. The part
+    // itself only moves during the teach-run dry-run, driven by that step's
+    // hold progress, so the payoff for a correctly taught path is visible.
+    const pickPos = new THREE.Vector3(0.7, 0.46, -0.55);
+    const transferPos = new THREE.Vector3(0, 1.35, -0.3);
+    const placePos = new THREE.Vector3(-0.7, 0.46, -0.55);
+
+    cyl(g, 0.1, 0.12, 0.4, pickPos.x, 0.2, pickPos.z, CITY.steel, { rough: 0.5, metal: 0.6, seg: 16 });
+    const wpPick = torus(g, 0.09, 0.012, pickPos.x, pickPos.y - 0.04, pickPos.z, 0x59c97b,
+      { emissive: 0x59c97b, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+    wpPick.rotation.x = Math.PI / 2;
+    holoTag(g, "1 · Pick point", pickPos.x, pickPos.y + 0.24, pickPos.z, { css: "#59c97b", w: 0.34 });
+    reg(hits, wpPick, "wp-pick");
+
+    const wpTransfer = torus(g, 0.09, 0.012, transferPos.x, transferPos.y, transferPos.z, 0x4fd1ff,
+      { emissive: 0x4fd1ff, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+    wpTransfer.rotation.x = Math.PI / 2;
+    holoTag(g, "2 · Transfer point", transferPos.x, transferPos.y + 0.2, transferPos.z, { css: "#4fd1ff", w: 0.4 });
+    reg(hits, wpTransfer, "wp-transfer");
+
+    cyl(g, 0.11, 0.13, 0.4, placePos.x, 0.2, placePos.z, CITY.steel, { rough: 0.5, metal: 0.6, seg: 16 });
+    const wpPlace = torus(g, 0.1, 0.012, placePos.x, placePos.y - 0.04, placePos.z, 0xffcc00,
+      { emissive: 0xffcc00, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+    wpPlace.rotation.x = Math.PI / 2;
+    holoTag(g, "3 · Place point", placePos.x, placePos.y + 0.24, placePos.z, { css: "#ffcc00", w: 0.36 });
+    reg(hits, wpPlace, "wp-place");
+
+    const part = ball(g, 0.06, pickPos.x, pickPos.y, pickPos.z, 0xffcc00, { rough: 0.4, metal: 0.3 });
 
     // Meter, work order, on the tool chest.
     const chest = toolChest(g, 1.7, 0.9, { ry: -0.6, color: 0xa079ff });
@@ -5039,6 +5104,11 @@ const SIM_ROBOT_CELL = {
         if (step.id === "bleed") { bleeding = true; }
         if (step.id === "verify-zero") repaint(hmiScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
         if (step.id === "guard") { gate.rotation.y = 1.4; curtainActive = false; }
+        if (step.id === "teach-save") repaint(pendantScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.5 }));
+        if (step.id === "teach-run") {
+          part.position.copy(placePos);
+          repaint(pendantScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
+        }
         if (step.id === "restore") {
           appliedLock.visible = false; discHandle.rotation.z = 0; cellPowered = true;
           repaint(hmiScreen, signFace("READY", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.45 }));
@@ -5075,6 +5145,14 @@ const SIM_ROBOT_CELL = {
               bg: "#2a1a0d", accent: gg.t < 0.3 ? "#59c97b" : "#f0645b", fg: "#ffe3ac", scale: 0.55,
             }));
           }
+        }
+
+        // Dry-run playback: the part rides the taught path — pick to transfer
+        // to place — in step with how far the RUN/VERIFY hold has gotten.
+        if (session?.step?.id === "teach-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          if (p < 0.5) part.position.lerpVectors(pickPos, transferPos, p * 2);
+          else part.position.lerpVectors(transferPos, placePos, (p - 0.5) * 2);
         }
       },
     };
