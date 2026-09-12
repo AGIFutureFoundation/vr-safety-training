@@ -11,6 +11,17 @@ export const WRONG_STEP_PENALTY = 25;
 export const HAZARD_PENALTY = 50;
 export const MAX_COMBO = 2.0;
 
+// Named combo tiers — the HUD shows the label, not just the multiplier, so a
+// hot streak reads as a game feel moment rather than an accounting detail.
+const COMBO_TIERS = [
+  { at: 0, label: "" },
+  { at: 1.2, label: "Nice" },
+  { at: 1.4, label: "Great" },
+  { at: 1.6, label: "Awesome" },
+  { at: 1.8, label: "On Fire" },
+  { at: MAX_COMBO, label: "Unstoppable" },
+];
+
 const STORE_KEY = "trades-sim-v1";
 
 // ---------------------------------------------------------------- progression
@@ -198,6 +209,7 @@ export class Session {
     this.index = 0;
     this.score = 0;
     this.streak = 0;
+    this.peakCombo = 1;      // best combo multiplier reached this run
     this.errors = 0;
     this.finished = false;
     this.elapsed = 0;
@@ -207,6 +219,7 @@ export class Session {
     this.holding = false;
     this.gauge = null;       // live gauge state for a 'gauge' step
     this.track = null;       // live state for a 'track' step
+    this.turn = null;        // live state for a 'turn' step
     this.stars = 0;
     this.badgeEarned = null;
     this.hazardHits = 0;      // unsafe-action selections in this run
@@ -224,10 +237,19 @@ export class Session {
   get steps() { return this.room.steps; }
   get step() { return this.steps[this.index] || null; }
   get combo() { return Math.min(MAX_COMBO, 1 + this.streak * 0.1); }
+  /** Named tier for the current combo — the HUD shows this, not just the number. */
+  get comboLabel() {
+    let label = "";
+    for (const tier of COMBO_TIERS) if (this.combo >= tier.at) label = tier.label;
+    return label;
+  }
   get progress01() { return this.steps.length ? this.index / this.steps.length : 0; }
 
   start() {
     this.elapsed = 0;
+    // Snapshot rank before this run so finish() can tell whether it moved the
+    // needle — a rank-up mid-progression is a moment worth celebrating.
+    this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
     this.enterStep();
     return this;
   }
@@ -239,6 +261,7 @@ export class Session {
     this.holding = false;
     this.gauge = null;
     this.track = null;
+    this.turn = null;
     if (!step) return;
     if (step.kind === "track") {
       const cfg = step.track ?? {};
@@ -266,6 +289,14 @@ export class Session {
         committed: false,
       };
     }
+    if (step.kind === "turn") {
+      this.turn = {
+        amount: 0,
+        required: step.turn?.turns ?? 1,
+        label: step.turn?.label ?? "",
+        readout: step.turn?.readout ?? null,
+      };
+    }
     this.hooks.onStep?.(step, this);
   }
 
@@ -283,6 +314,16 @@ export class Session {
 
     if (step.kind === "hold" || step.kind === "track") {
       if (hitId === step.target) return null; // driven by press and release
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "turn") {
+      if (hitId === step.target) return null; // driven by rotate(), a continuous drag input
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "drag") {
+      if (hitId === step.target) return null; // driven by dropAt(), a pick-up-and-carry gesture
       return this.wrong(hitId);
     }
 
@@ -361,11 +402,49 @@ export class Session {
     return this.advance(STEP_POINTS + bonus, bonus >= 40 ? "Dead centre." : null);
   }
 
+  /**
+   * Continuous rotational input for a 'turn' step — spinning a valve wheel or
+   * throwing a switch by dragging it, rather than clicking an abstract target.
+   * `deltaTurns` is a signed fraction of one full turn; the UI layer converts a
+   * pointer or controller angular delta into this. Turning backward is free —
+   * it lets a learner back off an overshoot rather than being penalised for it.
+   */
+  rotate(hitId, deltaTurns) {
+    if (this.finished || !this.step || this.step.kind !== "turn" || hitId !== this.step.target || !this.turn) return null;
+    this.turn.amount = Math.max(0, Math.min(this.turn.required, this.turn.amount + deltaTurns));
+    if (this.turn.amount >= this.turn.required) return this.advance(STEP_POINTS);
+    return null;
+  }
+
+  /** Whether `hitId` is a live pick-up point for the current 'drag' step. */
+  canDrag(hitId) {
+    return !this.finished && this.step?.kind === "drag" && hitId === this.step.target;
+  }
+
+  /**
+   * Player released a carried object. `distance` is how far, in metres, the
+   * drop landed from the step's required socket; pass null for "no useful
+   * distance" (also treated as a miss). Unlike a gauge, a drag near-miss costs
+   * nothing — carrying something into place is exploratory, not a precision
+   * test — the object is expected to spring back to be tried again. Dropping
+   * it onto a registered hazard is still scored, through the normal hazard
+   * path, by calling wrong() with that hazard's id instead of this method.
+   */
+  dropAt(hitId, distance) {
+    if (this.finished || !this.step || this.step.kind !== "drag" || hitId !== this.step.target) return null;
+    const radius = this.step.drag?.radius ?? 0.35;
+    if (distance != null && distance <= radius) return this.advance(STEP_POINTS);
+    const feedback = { kind: "partial", text: this.step.drag?.missNote ?? "Not quite lined up — line it up with the marker and try again." };
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
   advance(points, extraNote = null) {
     const step = this.step;
     const earned = Math.round(points * this.combo);
     this.score += earned;
     this.streak += 1;
+    this.peakCombo = Math.max(this.peakCombo, this.combo);
     this.log.push({ step: step.id, ok: true, points: earned });
     const feedback = {
       kind: "ok",
@@ -489,6 +568,7 @@ export class Session {
       badge: this.badgeEarned, earned: this.earned,
     });
     this.rank = Progress.simRank(this.room.id, system);
+    this.rankedUp = !!(this.rankBefore && this.rank.tier > this.rankBefore.tier);
     this.leaderboard = Progress.submitScore(this.room.id, {
       score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
     });

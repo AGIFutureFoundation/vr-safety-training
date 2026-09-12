@@ -93,10 +93,11 @@ export const SIM_TRENCH_BOX = {
       },
     },
     {
-      id: "install-box", kind: "select", target: "trench-box",
+      id: "install-box", kind: "drag", target: "trench-box",
       title: "Place the trench box",
-      cue: "Lower the protective box into the excavation with the excavator.",
+      cue: "Pick up the protective box and lower it into the marked footprint.",
       why: "The box is rated for this depth and soil class from the permit. It goes in before entry, not as a precaution added after someone is already working below grade.",
+      drag: { to: "trench-socket", radius: 0.4, missNote: "Not lined up with the excavation — line it up with the marked footprint and lower it in." },
     },
     {
       id: "place-ladder", kind: "select", target: "ladder",
@@ -154,8 +155,9 @@ export const SIM_TRENCH_BOX = {
     }
     const wallCrack = box(trench, 0.3, 0.4, 0.02, trenchW / 2 - 0.02, -0.5, 0.6, 0x2b2118, { rough: 0.98, cast: false });
 
-    // Protective box, hidden until placed.
-    const trenchBox = group(trench, 0, -trenchD / 2 + 0.06, 0);
+    // Protective box, staged beside the excavation until it is carried into place.
+    const boxStageX = trenchW / 2 + 0.85;
+    const trenchBox = group(trench, boxStageX, 0.06, 0);
     for (const sx of [-1, 1]) {
       box(trenchBox, 0.05, trenchD - 0.1, trenchL - 0.2, sx * (trenchW / 2 - 0.05), 0, 0, 0xd8b23a, { rough: 0.5, metal: 0.5 });
     }
@@ -163,8 +165,13 @@ export const SIM_TRENCH_BOX = {
       box(trenchBox, trenchW - 0.1, 0.06, 0.06, 0, -trenchD / 2 + 0.15 + i * 0.35, -trenchL / 2 + 0.25 + i * 0.9,
         0xd8b23a, { rough: 0.5, metal: 0.5 });
     }
-    trenchBox.visible = false;
+    holoTag(trenchBox, "Trench box — carry it in", 0, trenchD * 0.55, 0, { css: "#7ed321", w: 0.4 });
     reg(hits, trenchBox, "trench-box");
+
+    // A plain, non-interactive marker for where the box actually belongs — the
+    // drag step measures against this, never against the box's own footprint.
+    const trenchSocket = group(trench, 0, -trenchD / 2 + 0.06, 0);
+    hits["trench-socket"] = trenchSocket;
 
     const ladder = group(trench, 0.2, -trenchD, trenchL / 2 - 0.3, 0.1);
     for (const sx of [-1, 1]) cyl(ladder, 0.012, 0.012, trenchD + 0.4, sx * 0.14, (trenchD + 0.4) / 2, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 });
@@ -275,7 +282,10 @@ export const SIM_TRENCH_BOX = {
       onStepComplete(step) {
         if (step.id === "guard-site") railPanels.forEach((p) => { p.visible = true; });
         if (step.id === "relocate-spoil") { spoil.position.set(1.6, 0, -1.4); }
-        if (step.id === "install-box") { trenchBox.visible = true; shored = true; }
+        // The box's own position is already set by the drag-and-drop gesture
+        // itself (app.js snaps it onto the socket on a successful drop) — this
+        // just flips the bookkeeping flag.
+        if (step.id === "install-box") shored = true;
         if (step.id === "place-ladder") { ladder.visible = true; }
         if (step.id === "pipe-work") {
           repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));

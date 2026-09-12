@@ -88,10 +88,11 @@ export const SIM_BOILER_ROOM = {
       outOfOrderNote: "Wrong order — both blocks close before the bleed valve opens, so the vent is confirming isolation rather than releasing line pressure.",
     },
     {
-      id: "isolate-steam", kind: "select", target: "steam-valve",
+      id: "isolate-steam", kind: "turn", target: "steam-valve",
       title: "Isolate the main steam stop valve",
-      cue: "Close and tag the main steam stop valve.",
+      cue: "Grab the handwheel and turn it closed — a full turn and a half.",
       why: "The steam side gets isolated independently of the fuel side — a firebox repair with the steam header still connected leaves a pressurised path back into the drum you are working next to.",
+      turn: { turns: 1.5, axis: "z", label: "MAIN STEAM STOP", readout: (t) => `${Math.round(t * 100)}% CLOSED` },
     },
     {
       id: "lock-all", kind: "select", target: "lockout-point",
@@ -287,7 +288,9 @@ export const SIM_BOILER_ROOM = {
           bleedValve.userData.wheel.rotation.z += 1.6;
           liveFuelIndicator.children[0].material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.6 });
         }
-        if (step.id === "isolate-steam") steamValve.userData.wheel.rotation.z += 1.6;
+        // The steam stop valve's handwheel is turned live by the player's drag —
+        // app.js drives its rotation directly from session.turn while the
+        // 'isolate-steam' step is active, so there is nothing to do here.
         if (step.id === "lock-all") { fuelLock.visible = true; steamLock.visible = true; }
         if (step.id === "entry-permit") {
           repaint(permitFace, signFace("CSP\nSIGNED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));

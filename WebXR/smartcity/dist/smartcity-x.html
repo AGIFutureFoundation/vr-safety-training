@@ -31,7 +31,24 @@
   #hud-room{ font-family:var(--cond); font-weight:600; font-size:20px; letter-spacing:.04em; text-transform:uppercase; }
   #hud-metrics{ top:14px; right:14px; text-align:right; min-width:150px; }
   #hud-score{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
-  #hud-combo{ font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.08em; color:var(--accent); }
+  #hud-combo{ font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.08em; color:var(--accent);
+    transition:color .15s, transform .15s; }
+  #hud-combo.hot{ color:var(--warn); }
+  #hud-combo.fire{ color:var(--danger); animation:pulse .5s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
+  .score-pop{ position:absolute; right:4px; top:34px; font-family:var(--cond); font-weight:700;
+    font-size:15px; color:var(--good); pointer-events:none; animation:popUp .9s ease-out forwards; }
+  .score-pop.big{ font-size:20px; color:var(--warn); }
+  @keyframes popUp{ 0%{ opacity:0; transform:translateY(0); } 15%{ opacity:1; }
+    100%{ opacity:0; transform:translateY(-30px); } }
+  .rank-up{ font-family:var(--cond); font-weight:700; font-size:15px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--warn); text-align:center;
+    background:rgba(242,193,75,.12); border:1px solid var(--warn); border-radius:5px;
+    padding:8px; margin:0 0 10px; animation:rankGlow 1.1s ease-in-out infinite; }
+  @keyframes rankGlow{ 0%,100%{ box-shadow:0 0 0 rgba(242,193,75,0); } 50%{ box-shadow:0 0 18px rgba(242,193,75,.5); } }
+  @media (prefers-reduced-motion:reduce){
+    #hud-combo.fire{ animation:none; } .rank-up{ animation:none; }
+  }
 
   #hud-objective{ position:fixed; left:50%; transform:translateX(-50%); top:14px;
     background:var(--glass); border:1px solid var(--edge); border-top:3px solid var(--accent);
@@ -670,6 +687,34 @@ function particles(parent, count, color, o = {}) {
   return points;
 }
 
+/**
+ * A one-shot, self-driving particle celebration for "big moment" feedback — a
+ * hot-streak step, a rank-up, a personal best. Parented once to `parent` (any
+ * static node already in the scene, e.g. the room root); after that, call the
+ * returned `fire(localPoint)` whenever the moment happens and call `update(dt)`
+ * unconditionally from the render loop — it is a cheap no-op once the burst
+ * has finished, so the caller never needs to track whether one is playing.
+ */
+function celebrationBurst(parent, o = {}) {
+  const points = particles(parent, o.count ?? 70, o.color ?? 0xffe37a, {
+    size: o.size ?? 0.032, life: o.life ?? 0.6, additive: o.additive !== false, opacity: o.opacity ?? 0.95,
+  });
+  const origin = new THREE.Vector3();
+  let timer = 0;
+  return {
+    fire(localPoint) {
+      origin.copy(localPoint);
+      timer = o.duration ?? 0.5;
+      points.visible = true;
+    },
+    update(dt) {
+      if (timer <= 0) { if (points.visible) points.visible = false; return; }
+      timer -= dt;
+      points.userData.step(dt, origin, o.spread ?? 0.1, o.speed ?? 1.6, o.gravity ?? -1.8);
+    },
+  };
+}
+
 // ------------------------------------------------------------------- helpers
 
 function markInteractive(objectOrGroup, id, o = {}) {
@@ -696,6 +741,17 @@ const STEP_POINTS = 100;
 const WRONG_STEP_PENALTY = 25;
 const HAZARD_PENALTY = 50;
 const MAX_COMBO = 2.0;
+
+// Named combo tiers — the HUD shows the label, not just the multiplier, so a
+// hot streak reads as a game feel moment rather than an accounting detail.
+const COMBO_TIERS = [
+  { at: 0, label: "" },
+  { at: 1.2, label: "Nice" },
+  { at: 1.4, label: "Great" },
+  { at: 1.6, label: "Awesome" },
+  { at: 1.8, label: "On Fire" },
+  { at: MAX_COMBO, label: "Unstoppable" },
+];
 
 const STORE_KEY = "trades-sim-v1";
 
@@ -884,6 +940,7 @@ class Session {
     this.index = 0;
     this.score = 0;
     this.streak = 0;
+    this.peakCombo = 1;      // best combo multiplier reached this run
     this.errors = 0;
     this.finished = false;
     this.elapsed = 0;
@@ -893,6 +950,7 @@ class Session {
     this.holding = false;
     this.gauge = null;       // live gauge state for a 'gauge' step
     this.track = null;       // live state for a 'track' step
+    this.turn = null;        // live state for a 'turn' step
     this.stars = 0;
     this.badgeEarned = null;
     this.hazardHits = 0;      // unsafe-action selections in this run
@@ -910,10 +968,19 @@ class Session {
   get steps() { return this.room.steps; }
   get step() { return this.steps[this.index] || null; }
   get combo() { return Math.min(MAX_COMBO, 1 + this.streak * 0.1); }
+  /** Named tier for the current combo — the HUD shows this, not just the number. */
+  get comboLabel() {
+    let label = "";
+    for (const tier of COMBO_TIERS) if (this.combo >= tier.at) label = tier.label;
+    return label;
+  }
   get progress01() { return this.steps.length ? this.index / this.steps.length : 0; }
 
   start() {
     this.elapsed = 0;
+    // Snapshot rank before this run so finish() can tell whether it moved the
+    // needle — a rank-up mid-progression is a moment worth celebrating.
+    this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
     this.enterStep();
     return this;
   }
@@ -925,6 +992,7 @@ class Session {
     this.holding = false;
     this.gauge = null;
     this.track = null;
+    this.turn = null;
     if (!step) return;
     if (step.kind === "track") {
       const cfg = step.track ?? {};
@@ -952,6 +1020,14 @@ class Session {
         committed: false,
       };
     }
+    if (step.kind === "turn") {
+      this.turn = {
+        amount: 0,
+        required: step.turn?.turns ?? 1,
+        label: step.turn?.label ?? "",
+        readout: step.turn?.readout ?? null,
+      };
+    }
     this.hooks.onStep?.(step, this);
   }
 
@@ -969,6 +1045,16 @@ class Session {
 
     if (step.kind === "hold" || step.kind === "track") {
       if (hitId === step.target) return null; // driven by press and release
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "turn") {
+      if (hitId === step.target) return null; // driven by rotate(), a continuous drag input
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "drag") {
+      if (hitId === step.target) return null; // driven by dropAt(), a pick-up-and-carry gesture
       return this.wrong(hitId);
     }
 
@@ -1047,11 +1133,49 @@ class Session {
     return this.advance(STEP_POINTS + bonus, bonus >= 40 ? "Dead centre." : null);
   }
 
+  /**
+   * Continuous rotational input for a 'turn' step — spinning a valve wheel or
+   * throwing a switch by dragging it, rather than clicking an abstract target.
+   * `deltaTurns` is a signed fraction of one full turn; the UI layer converts a
+   * pointer or controller angular delta into this. Turning backward is free —
+   * it lets a learner back off an overshoot rather than being penalised for it.
+   */
+  rotate(hitId, deltaTurns) {
+    if (this.finished || !this.step || this.step.kind !== "turn" || hitId !== this.step.target || !this.turn) return null;
+    this.turn.amount = Math.max(0, Math.min(this.turn.required, this.turn.amount + deltaTurns));
+    if (this.turn.amount >= this.turn.required) return this.advance(STEP_POINTS);
+    return null;
+  }
+
+  /** Whether `hitId` is a live pick-up point for the current 'drag' step. */
+  canDrag(hitId) {
+    return !this.finished && this.step?.kind === "drag" && hitId === this.step.target;
+  }
+
+  /**
+   * Player released a carried object. `distance` is how far, in metres, the
+   * drop landed from the step's required socket; pass null for "no useful
+   * distance" (also treated as a miss). Unlike a gauge, a drag near-miss costs
+   * nothing — carrying something into place is exploratory, not a precision
+   * test — the object is expected to spring back to be tried again. Dropping
+   * it onto a registered hazard is still scored, through the normal hazard
+   * path, by calling wrong() with that hazard's id instead of this method.
+   */
+  dropAt(hitId, distance) {
+    if (this.finished || !this.step || this.step.kind !== "drag" || hitId !== this.step.target) return null;
+    const radius = this.step.drag?.radius ?? 0.35;
+    if (distance != null && distance <= radius) return this.advance(STEP_POINTS);
+    const feedback = { kind: "partial", text: this.step.drag?.missNote ?? "Not quite lined up — line it up with the marker and try again." };
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
   advance(points, extraNote = null) {
     const step = this.step;
     const earned = Math.round(points * this.combo);
     this.score += earned;
     this.streak += 1;
+    this.peakCombo = Math.max(this.peakCombo, this.combo);
     this.log.push({ step: step.id, ok: true, points: earned });
     const feedback = {
       kind: "ok",
@@ -1175,6 +1299,7 @@ class Session {
       badge: this.badgeEarned, earned: this.earned,
     });
     this.rank = Progress.simRank(this.room.id, system);
+    this.rankedUp = !!(this.rankBefore && this.rank.tier > this.rankBefore.tier);
     this.leaderboard = Progress.submitScore(this.room.id, {
       score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
     });
@@ -6390,10 +6515,11 @@ const SIM_TRENCH_BOX = {
       },
     },
     {
-      id: "install-box", kind: "select", target: "trench-box",
+      id: "install-box", kind: "drag", target: "trench-box",
       title: "Place the trench box",
-      cue: "Lower the protective box into the excavation with the excavator.",
+      cue: "Pick up the protective box and lower it into the marked footprint.",
       why: "The box is rated for this depth and soil class from the permit. It goes in before entry, not as a precaution added after someone is already working below grade.",
+      drag: { to: "trench-socket", radius: 0.4, missNote: "Not lined up with the excavation — line it up with the marked footprint and lower it in." },
     },
     {
       id: "place-ladder", kind: "select", target: "ladder",
@@ -6451,8 +6577,9 @@ const SIM_TRENCH_BOX = {
     }
     const wallCrack = box(trench, 0.3, 0.4, 0.02, trenchW / 2 - 0.02, -0.5, 0.6, 0x2b2118, { rough: 0.98, cast: false });
 
-    // Protective box, hidden until placed.
-    const trenchBox = group(trench, 0, -trenchD / 2 + 0.06, 0);
+    // Protective box, staged beside the excavation until it is carried into place.
+    const boxStageX = trenchW / 2 + 0.85;
+    const trenchBox = group(trench, boxStageX, 0.06, 0);
     for (const sx of [-1, 1]) {
       box(trenchBox, 0.05, trenchD - 0.1, trenchL - 0.2, sx * (trenchW / 2 - 0.05), 0, 0, 0xd8b23a, { rough: 0.5, metal: 0.5 });
     }
@@ -6460,8 +6587,13 @@ const SIM_TRENCH_BOX = {
       box(trenchBox, trenchW - 0.1, 0.06, 0.06, 0, -trenchD / 2 + 0.15 + i * 0.35, -trenchL / 2 + 0.25 + i * 0.9,
         0xd8b23a, { rough: 0.5, metal: 0.5 });
     }
-    trenchBox.visible = false;
+    holoTag(trenchBox, "Trench box — carry it in", 0, trenchD * 0.55, 0, { css: "#7ed321", w: 0.4 });
     reg(hits, trenchBox, "trench-box");
+
+    // A plain, non-interactive marker for where the box actually belongs — the
+    // drag step measures against this, never against the box's own footprint.
+    const trenchSocket = group(trench, 0, -trenchD / 2 + 0.06, 0);
+    hits["trench-socket"] = trenchSocket;
 
     const ladder = group(trench, 0.2, -trenchD, trenchL / 2 - 0.3, 0.1);
     for (const sx of [-1, 1]) cyl(ladder, 0.012, 0.012, trenchD + 0.4, sx * 0.14, (trenchD + 0.4) / 2, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 });
@@ -6572,7 +6704,10 @@ const SIM_TRENCH_BOX = {
       onStepComplete(step) {
         if (step.id === "guard-site") railPanels.forEach((p) => { p.visible = true; });
         if (step.id === "relocate-spoil") { spoil.position.set(1.6, 0, -1.4); }
-        if (step.id === "install-box") { trenchBox.visible = true; shored = true; }
+        // The box's own position is already set by the drag-and-drop gesture
+        // itself (app.js snaps it onto the socket on a successful drop) — this
+        // just flips the bookkeeping flag.
+        if (step.id === "install-box") shored = true;
         if (step.id === "place-ladder") { ladder.visible = true; }
         if (step.id === "pipe-work") {
           repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));
@@ -6683,10 +6818,11 @@ const SIM_BOILER_ROOM = {
       outOfOrderNote: "Wrong order — both blocks close before the bleed valve opens, so the vent is confirming isolation rather than releasing line pressure.",
     },
     {
-      id: "isolate-steam", kind: "select", target: "steam-valve",
+      id: "isolate-steam", kind: "turn", target: "steam-valve",
       title: "Isolate the main steam stop valve",
-      cue: "Close and tag the main steam stop valve.",
+      cue: "Grab the handwheel and turn it closed — a full turn and a half.",
       why: "The steam side gets isolated independently of the fuel side — a firebox repair with the steam header still connected leaves a pressurised path back into the drum you are working next to.",
+      turn: { turns: 1.5, axis: "z", label: "MAIN STEAM STOP", readout: (t) => `${Math.round(t * 100)}% CLOSED` },
     },
     {
       id: "lock-all", kind: "select", target: "lockout-point",
@@ -6882,7 +7018,9 @@ const SIM_BOILER_ROOM = {
           bleedValve.userData.wheel.rotation.z += 1.6;
           liveFuelIndicator.children[0].material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.6 });
         }
-        if (step.id === "isolate-steam") steamValve.userData.wheel.rotation.z += 1.6;
+        // The steam stop valve's handwheel is turned live by the player's drag —
+        // app.js drives its rotation directly from session.turn while the
+        // 'isolate-steam' step is active, so there is nothing to do here.
         if (step.id === "lock-all") { fuelLock.visible = true; steamLock.visible = true; }
         if (step.id === "entry-permit") {
           repaint(permitFace, signFace("CSP\nSIGNED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
@@ -8792,7 +8930,9 @@ function syncHud() {
   const rank = Progress.simRank(s.room.id, s.room.game);
   ui.room.textContent = s.room.title.toUpperCase();
   ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
-  ui.combo.textContent = `${s.combo > 1.05 ? `×${s.combo.toFixed(1)} · ` : ""}${rank.name}`;
+  ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name;
+  ui.combo.classList.toggle("hot", s.streak >= 4);
+  ui.combo.classList.toggle("fire", s.combo >= 1.8);
   ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
   ui.fill.style.width = `${s.progress01 * 100}%`;
   const secs = Math.floor(s.elapsed);
@@ -8804,6 +8944,7 @@ function syncHud() {
     let cue = step.cue;
     if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
     ui.cue.textContent = cue;
   }
   vrHudDirty = true;
@@ -8846,6 +8987,20 @@ gaugeMarker.position.z = 0.006;
 gauge.add(gaugeMarker);
 worldRoot.add(gauge);
 let gaugeReadoutAt = 0;
+
+// A hot-streak or a satisfying carry/turn completion gets a one-shot particle
+// burst right where the learner's hands are — anchored to worldRoot so a
+// world position just needs converting into its local space to fire it.
+const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
+let lastActivatedId = null;
+function burstAtHit(id) {
+  const obj = id && state.hits[id];
+  if (!obj) return;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  worldRoot.worldToLocal(p);
+  burst.fire(p);
+}
 
 function paintGaugeBand(step) {
   const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
@@ -8965,6 +9120,10 @@ function enterSim(id) {
       state.api.onFeedback?.(fb, s);
       setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
       if (fb.kind === "danger") flashDanger();
+      if (fb.kind === "ok" && fb.points) {
+        scorePop(`+${fb.points}`, fb.combo >= 1.6);
+        if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
+      }
       syncHud();
     },
     onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
@@ -9012,6 +9171,7 @@ function showResults(s, summary) {
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
   ui.resultsBody.innerHTML = `
+    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
     <div class="res-stars">${stars}</div>
     <h2>${room.title}</h2>
     <p class="res-trade">${room.game?.system ?? ""} · ${rank.name}</p>
@@ -9021,7 +9181,7 @@ function showResults(s, summary) {
       <div><dt>Errors</dt><dd>${s.errors}</dd></div>
       <div><dt>${room.game?.currency ?? "XP"}</dt><dd>${rank.xp}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
-      <div><dt>Runs</dt><dd>${summary.runs}</dd></div>
+      <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
     </dl>
     ${earnedNames.length ? `<div class="res-badges">${earnedNames.map((a) =>
       `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
@@ -9134,8 +9294,18 @@ function activate(id) {
     if (id.startsWith("enter-")) { Sfx.good(); enterSim(id.slice(6)); }
     return;
   }
+  lastActivatedId = id;
   state.session.select(id);
   syncHud();
+}
+
+/** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+function scorePop(text, big) {
+  const el = document.createElement("div");
+  el.className = big ? "score-pop big" : "score-pop";
+  el.textContent = text;
+  ui.score.parentElement.appendChild(el);
+  setTimeout(() => el.remove(), 900);
 }
 function pressStart(id) {
   const s = state.session;
@@ -9143,6 +9313,120 @@ function pressStart(id) {
   if ((s.step.kind === "hold" || s.step.kind === "track") && id === s.step.target) s.setHolding(true);
 }
 function pressEnd() { state.session?.setHolding(false); }
+
+// ---------------------------------------------------- turn & drag: embodied interaction
+//
+// A 'select' step is a click; these two kinds ask for something closer to a
+// real hand: spinning a valve wheel by dragging it round, or picking an object
+// up and carrying it to where it belongs. Both route through the same
+// pointer/controller plumbing the rest of the app already uses — a raycast
+// finds what you grabbed, then every frame moves or rotates it while you hold.
+
+let dragState = null;   // { id, object, homeLocal, controller, plane }
+let turnState = null;   // { id, cx, cy, lastAngle } — desktop only; VR tracks per-controller
+const returning = [];   // objects springing back to homeLocal after a missed drop
+
+function beginDrag(id, controller) {
+  const obj = state.hits[id];
+  if (!obj || !state.session?.canDrag(id)) return false;
+  const worldPos = new THREE.Vector3();
+  obj.getWorldPosition(worldPos);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+  plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
+  dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  return true;
+}
+
+function updateDrag() {
+  if (!dragState) return;
+  const { object, plane, controller } = dragState;
+  const hitPoint = new THREE.Vector3();
+  let ok;
+  if (controller) {
+    const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+    const origin = new THREE.Vector3().setFromMatrixPosition(controller.matrixWorld);
+    const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(m);
+    ok = new THREE.Ray(origin, dir).intersectPlane(plane, hitPoint);
+  } else {
+    raycaster.setFromCamera(pointerNdc, camera);
+    ok = raycaster.ray.intersectPlane(plane, hitPoint);
+  }
+  if (!ok) return;
+  const local = hitPoint.clone();
+  object.parent.worldToLocal(local);
+  local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
+  object.position.copy(local);
+}
+
+function endDrag() {
+  if (!dragState) return;
+  const { id, object, homeLocal } = dragState;
+  const step = state.session?.step;
+  let result = null;
+  if (step?.kind === "drag" && step.target === id) {
+    const socket = state.hits[step.drag?.to];
+    let dist = null;
+    if (socket) {
+      // Horizontal alignment only — a carried object is dragged along a fixed
+      // height while its socket (a trench floor, a shaft, a mounting point)
+      // often sits at a different height, so the vertical gap between the
+      // carry plane and the resting spot must never count against the player.
+      const a = new THREE.Vector3(); object.getWorldPosition(a); a.y = 0;
+      const b = new THREE.Vector3(); socket.getWorldPosition(b); b.y = 0;
+      dist = a.distanceTo(b);
+    }
+    lastActivatedId = id;
+    result = state.session.dropAt(id, dist);
+    if (result?.kind === "ok" && socket) {
+      const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
+      object.parent.worldToLocal(snapped);
+      object.position.copy(snapped);
+    }
+  }
+  if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  dragState = null;
+  syncHud();
+}
+
+function beginTurn(id, clientX, clientY) {
+  const obj = state.hits[id];
+  if (!obj || state.session?.step?.kind !== "turn" || state.session.step.target !== id) return false;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  p.project(camera);
+  const r = canvas.getBoundingClientRect();
+  const cx = (p.x * 0.5 + 0.5) * r.width + r.left;
+  const cy = (-p.y * 0.5 + 0.5) * r.height + r.top;
+  turnState = { id, cx, cy, lastAngle: Math.atan2(clientY - cy, clientX - cx) };
+  return true;
+}
+
+function updateTurn(clientX, clientY) {
+  if (!turnState) return;
+  const angle = Math.atan2(clientY - turnState.cy, clientX - turnState.cx);
+  let delta = angle - turnState.lastAngle;
+  if (delta > Math.PI) delta -= Math.PI * 2;
+  if (delta < -Math.PI) delta += Math.PI * 2;
+  turnState.lastAngle = angle;
+  lastActivatedId = turnState.id;
+  state.session?.rotate(turnState.id, delta / (Math.PI * 2));
+  syncHud();
+}
+
+function endTurn() { turnState = null; }
+
+/** Drive the actual mesh rotation from engine state — a pure reflection, never
+ * the source of truth, so the checker's direct rotate() calls stay in sync
+ * with whatever the 3D scene shows a real player. */
+function syncTurnVisual() {
+  const s = state.session;
+  if (s?.step?.kind !== "turn" || !s.turn) return;
+  const obj = state.hits[s.step.target];
+  if (!obj) return;
+  const node = obj.userData.wheel ?? obj;
+  const axis = s.step.turn?.axis ?? "y";
+  node.rotation[axis] = s.turn.amount * Math.PI * 2 * (s.step.turn?.reverse ? -1 : 1);
+}
 
 // Desktop -------------------------------------------------------------------
 
@@ -9158,14 +9442,18 @@ addEventListener("keyup", (e) => { keys[e.code] = false; });
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
   if (renderer.xr.isPresenting) return;
-  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
   updateNdc(e);
   const hit = castFromCamera();
+  if (hit?.id && beginDrag(hit.id, null)) { downAt = performance.now(); return; }
+  if (hit?.id && beginTurn(hit.id, e.clientX, e.clientY)) { downAt = performance.now(); return; }
+  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
   downId = hit?.id ?? null;
   if (downId) pressStart(downId);
 });
 addEventListener("pointerup", (e) => {
   if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
   dragging = false; pressEnd();
   if (performance.now() - downAt < 280 && downId) {
     updateNdc(e);
@@ -9177,6 +9465,8 @@ addEventListener("pointerup", (e) => {
 addEventListener("pointermove", (e) => {
   if (renderer.xr.isPresenting) return;
   updateNdc(e);
+  if (turnState) { updateTurn(e.clientX, e.clientY); return; }
+  if (dragState) return; // followed every frame in the render loop instead
   if (dragging) {
     yaw -= (e.clientX - lastX) * 0.0038;
     pitch = clamp(pitch - (e.clientY - lastY) * 0.0038, -1.2, 1.2);
@@ -9214,11 +9504,18 @@ for (let i = 0; i < 2; i++) {
   c.addEventListener("selectstart", () => {
     if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
     const hit = castFromController(c);
+    if (hit?.id && beginDrag(hit.id, c)) return;
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      c.userData.turning = true; c.userData.lastRoll = c.rotation.z;
+      return;
+    }
     c.userData.downId = hit?.id ?? null;
     if (hit?.id) pressStart(hit.id);
   });
   c.addEventListener("selectend", () => {
     pressEnd();
+    if (dragState?.controller === c) { endDrag(); return; }
+    if (c.userData.turning) { c.userData.turning = false; return; }
     if (state.mode === "ar" && !state.placed) return;
     const hit = castFromController(c);
     if (hit && hit.id === c.userData.downId) activate(hit.id);
@@ -9477,6 +9774,32 @@ renderer.setAnimationLoop((_, frame) => {
       });
     }
   }
+
+  if (canInteract) {
+    // Continuous twist-to-open: sample controller roll each frame while a
+    // 'turn' step's target is grabbed, same idea as the desktop screen-angle
+    // drag but driven by wrist rotation instead of mouse position.
+    if (presenting) {
+      for (const c of controllers) {
+        if (!c.userData.turning) continue;
+        let d = c.rotation.z - c.userData.lastRoll;
+        c.userData.lastRoll = c.rotation.z;
+        if (d > Math.PI) d -= Math.PI * 2;
+        if (d < -Math.PI) d += Math.PI * 2;
+        const targetId = state.session?.step?.target;
+        if (targetId) { lastActivatedId = targetId; state.session.rotate(targetId, d / (Math.PI * 2)); syncHud(); }
+      }
+    }
+    updateDrag();
+    syncTurnVisual();
+  }
+  for (let i = returning.length - 1; i >= 0; i--) {
+    const r = returning[i];
+    r.t = Math.min(1, r.t + dt / 0.3);
+    r.object.position.lerpVectors(r.from, r.to, easeOut(r.t));
+    if (r.t >= 1) returning.splice(i, 1);
+  }
+  burst.update(dt);
 
   if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
   state.stage?.animate?.(elapsedTotal, dt);

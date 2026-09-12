@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, HUD, clamp } from "../../shared/kit.js";
+import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
@@ -110,7 +110,9 @@ function syncHud() {
   const rank = Progress.simRank(s.room.id, s.room.game);
   ui.room.textContent = s.room.title.toUpperCase();
   ui.score.textContent = String(Math.round(s.score)).padStart(4, "0");
-  ui.combo.textContent = `${s.combo > 1.05 ? `×${s.combo.toFixed(1)} · ` : ""}${rank.name}`;
+  ui.combo.textContent = s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name;
+  ui.combo.classList.toggle("hot", s.streak >= 4);
+  ui.combo.classList.toggle("fire", s.combo >= 1.8);
   ui.count.textContent = `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`;
   ui.fill.style.width = `${s.progress01 * 100}%`;
   const secs = Math.floor(s.elapsed);
@@ -122,6 +124,7 @@ function syncHud() {
     let cue = step.cue;
     if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
+    if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
     ui.cue.textContent = cue;
   }
   vrHudDirty = true;
@@ -164,6 +167,20 @@ gaugeMarker.position.z = 0.006;
 gauge.add(gaugeMarker);
 worldRoot.add(gauge);
 let gaugeReadoutAt = 0;
+
+// A hot-streak or a satisfying carry/turn completion gets a one-shot particle
+// burst right where the learner's hands are — anchored to worldRoot so a
+// world position just needs converting into its local space to fire it.
+const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
+let lastActivatedId = null;
+function burstAtHit(id) {
+  const obj = id && state.hits[id];
+  if (!obj) return;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  worldRoot.worldToLocal(p);
+  burst.fire(p);
+}
 
 function paintGaugeBand(step) {
   const [lo, hi] = step.gauge.green ?? [0.44, 0.62];
@@ -283,6 +300,10 @@ function enterSim(id) {
       state.api.onFeedback?.(fb, s);
       setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
       if (fb.kind === "danger") flashDanger();
+      if (fb.kind === "ok" && fb.points) {
+        scorePop(`+${fb.points}`, fb.combo >= 1.6);
+        if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
+      }
       syncHud();
     },
     onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
@@ -330,6 +351,7 @@ function showResults(s, summary) {
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
   ui.resultsBody.innerHTML = `
+    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
     <div class="res-stars">${stars}</div>
     <h2>${room.title}</h2>
     <p class="res-trade">${room.game?.system ?? ""} · ${rank.name}</p>
@@ -339,7 +361,7 @@ function showResults(s, summary) {
       <div><dt>Errors</dt><dd>${s.errors}</dd></div>
       <div><dt>${room.game?.currency ?? "XP"}</dt><dd>${rank.xp}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
-      <div><dt>Runs</dt><dd>${summary.runs}</dd></div>
+      <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
     </dl>
     ${earnedNames.length ? `<div class="res-badges">${earnedNames.map((a) =>
       `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
@@ -452,8 +474,18 @@ function activate(id) {
     if (id.startsWith("enter-")) { Sfx.good(); enterSim(id.slice(6)); }
     return;
   }
+  lastActivatedId = id;
   state.session.select(id);
   syncHud();
+}
+
+/** A floating "+120" over the score chip — cheap, satisfying, no 3D cost. */
+function scorePop(text, big) {
+  const el = document.createElement("div");
+  el.className = big ? "score-pop big" : "score-pop";
+  el.textContent = text;
+  ui.score.parentElement.appendChild(el);
+  setTimeout(() => el.remove(), 900);
 }
 function pressStart(id) {
   const s = state.session;
@@ -461,6 +493,120 @@ function pressStart(id) {
   if ((s.step.kind === "hold" || s.step.kind === "track") && id === s.step.target) s.setHolding(true);
 }
 function pressEnd() { state.session?.setHolding(false); }
+
+// ---------------------------------------------------- turn & drag: embodied interaction
+//
+// A 'select' step is a click; these two kinds ask for something closer to a
+// real hand: spinning a valve wheel by dragging it round, or picking an object
+// up and carrying it to where it belongs. Both route through the same
+// pointer/controller plumbing the rest of the app already uses — a raycast
+// finds what you grabbed, then every frame moves or rotates it while you hold.
+
+let dragState = null;   // { id, object, homeLocal, controller, plane }
+let turnState = null;   // { id, cx, cy, lastAngle } — desktop only; VR tracks per-controller
+const returning = [];   // objects springing back to homeLocal after a missed drop
+
+function beginDrag(id, controller) {
+  const obj = state.hits[id];
+  if (!obj || !state.session?.canDrag(id)) return false;
+  const worldPos = new THREE.Vector3();
+  obj.getWorldPosition(worldPos);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+  plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
+  dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  return true;
+}
+
+function updateDrag() {
+  if (!dragState) return;
+  const { object, plane, controller } = dragState;
+  const hitPoint = new THREE.Vector3();
+  let ok;
+  if (controller) {
+    const m = new THREE.Matrix4().identity().extractRotation(controller.matrixWorld);
+    const origin = new THREE.Vector3().setFromMatrixPosition(controller.matrixWorld);
+    const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(m);
+    ok = new THREE.Ray(origin, dir).intersectPlane(plane, hitPoint);
+  } else {
+    raycaster.setFromCamera(pointerNdc, camera);
+    ok = raycaster.ray.intersectPlane(plane, hitPoint);
+  }
+  if (!ok) return;
+  const local = hitPoint.clone();
+  object.parent.worldToLocal(local);
+  local.y = dragState.homeLocal.y; // carried along the ground, not lifted or dropped
+  object.position.copy(local);
+}
+
+function endDrag() {
+  if (!dragState) return;
+  const { id, object, homeLocal } = dragState;
+  const step = state.session?.step;
+  let result = null;
+  if (step?.kind === "drag" && step.target === id) {
+    const socket = state.hits[step.drag?.to];
+    let dist = null;
+    if (socket) {
+      // Horizontal alignment only — a carried object is dragged along a fixed
+      // height while its socket (a trench floor, a shaft, a mounting point)
+      // often sits at a different height, so the vertical gap between the
+      // carry plane and the resting spot must never count against the player.
+      const a = new THREE.Vector3(); object.getWorldPosition(a); a.y = 0;
+      const b = new THREE.Vector3(); socket.getWorldPosition(b); b.y = 0;
+      dist = a.distanceTo(b);
+    }
+    lastActivatedId = id;
+    result = state.session.dropAt(id, dist);
+    if (result?.kind === "ok" && socket) {
+      const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
+      object.parent.worldToLocal(snapped);
+      object.position.copy(snapped);
+    }
+  }
+  if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  dragState = null;
+  syncHud();
+}
+
+function beginTurn(id, clientX, clientY) {
+  const obj = state.hits[id];
+  if (!obj || state.session?.step?.kind !== "turn" || state.session.step.target !== id) return false;
+  const p = new THREE.Vector3();
+  obj.getWorldPosition(p);
+  p.project(camera);
+  const r = canvas.getBoundingClientRect();
+  const cx = (p.x * 0.5 + 0.5) * r.width + r.left;
+  const cy = (-p.y * 0.5 + 0.5) * r.height + r.top;
+  turnState = { id, cx, cy, lastAngle: Math.atan2(clientY - cy, clientX - cx) };
+  return true;
+}
+
+function updateTurn(clientX, clientY) {
+  if (!turnState) return;
+  const angle = Math.atan2(clientY - turnState.cy, clientX - turnState.cx);
+  let delta = angle - turnState.lastAngle;
+  if (delta > Math.PI) delta -= Math.PI * 2;
+  if (delta < -Math.PI) delta += Math.PI * 2;
+  turnState.lastAngle = angle;
+  lastActivatedId = turnState.id;
+  state.session?.rotate(turnState.id, delta / (Math.PI * 2));
+  syncHud();
+}
+
+function endTurn() { turnState = null; }
+
+/** Drive the actual mesh rotation from engine state — a pure reflection, never
+ * the source of truth, so the checker's direct rotate() calls stay in sync
+ * with whatever the 3D scene shows a real player. */
+function syncTurnVisual() {
+  const s = state.session;
+  if (s?.step?.kind !== "turn" || !s.turn) return;
+  const obj = state.hits[s.step.target];
+  if (!obj) return;
+  const node = obj.userData.wheel ?? obj;
+  const axis = s.step.turn?.axis ?? "y";
+  node.rotation[axis] = s.turn.amount * Math.PI * 2 * (s.step.turn?.reverse ? -1 : 1);
+}
 
 // Desktop -------------------------------------------------------------------
 
@@ -476,14 +622,18 @@ addEventListener("keyup", (e) => { keys[e.code] = false; });
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
   if (renderer.xr.isPresenting) return;
-  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
   updateNdc(e);
   const hit = castFromCamera();
+  if (hit?.id && beginDrag(hit.id, null)) { downAt = performance.now(); return; }
+  if (hit?.id && beginTurn(hit.id, e.clientX, e.clientY)) { downAt = performance.now(); return; }
+  dragging = true; lastX = e.clientX; lastY = e.clientY; downAt = performance.now();
   downId = hit?.id ?? null;
   if (downId) pressStart(downId);
 });
 addEventListener("pointerup", (e) => {
   if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
   dragging = false; pressEnd();
   if (performance.now() - downAt < 280 && downId) {
     updateNdc(e);
@@ -495,6 +645,8 @@ addEventListener("pointerup", (e) => {
 addEventListener("pointermove", (e) => {
   if (renderer.xr.isPresenting) return;
   updateNdc(e);
+  if (turnState) { updateTurn(e.clientX, e.clientY); return; }
+  if (dragState) return; // followed every frame in the render loop instead
   if (dragging) {
     yaw -= (e.clientX - lastX) * 0.0038;
     pitch = clamp(pitch - (e.clientY - lastY) * 0.0038, -1.2, 1.2);
@@ -532,11 +684,18 @@ for (let i = 0; i < 2; i++) {
   c.addEventListener("selectstart", () => {
     if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
     const hit = castFromController(c);
+    if (hit?.id && beginDrag(hit.id, c)) return;
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      c.userData.turning = true; c.userData.lastRoll = c.rotation.z;
+      return;
+    }
     c.userData.downId = hit?.id ?? null;
     if (hit?.id) pressStart(hit.id);
   });
   c.addEventListener("selectend", () => {
     pressEnd();
+    if (dragState?.controller === c) { endDrag(); return; }
+    if (c.userData.turning) { c.userData.turning = false; return; }
     if (state.mode === "ar" && !state.placed) return;
     const hit = castFromController(c);
     if (hit && hit.id === c.userData.downId) activate(hit.id);
@@ -795,6 +954,32 @@ renderer.setAnimationLoop((_, frame) => {
       });
     }
   }
+
+  if (canInteract) {
+    // Continuous twist-to-open: sample controller roll each frame while a
+    // 'turn' step's target is grabbed, same idea as the desktop screen-angle
+    // drag but driven by wrist rotation instead of mouse position.
+    if (presenting) {
+      for (const c of controllers) {
+        if (!c.userData.turning) continue;
+        let d = c.rotation.z - c.userData.lastRoll;
+        c.userData.lastRoll = c.rotation.z;
+        if (d > Math.PI) d -= Math.PI * 2;
+        if (d < -Math.PI) d += Math.PI * 2;
+        const targetId = state.session?.step?.target;
+        if (targetId) { lastActivatedId = targetId; state.session.rotate(targetId, d / (Math.PI * 2)); syncHud(); }
+      }
+    }
+    updateDrag();
+    syncTurnVisual();
+  }
+  for (let i = returning.length - 1; i >= 0; i--) {
+    const r = returning[i];
+    r.t = Math.min(1, r.t + dt / 0.3);
+    r.object.position.lerpVectors(r.from, r.to, easeOut(r.t));
+    if (r.t >= 1) returning.splice(i, 1);
+  }
+  burst.update(dt);
 
   if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
   state.stage?.animate?.(elapsedTotal, dt);

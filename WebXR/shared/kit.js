@@ -448,6 +448,34 @@ export function particles(parent, count, color, o = {}) {
   return points;
 }
 
+/**
+ * A one-shot, self-driving particle celebration for "big moment" feedback — a
+ * hot-streak step, a rank-up, a personal best. Parented once to `parent` (any
+ * static node already in the scene, e.g. the room root); after that, call the
+ * returned `fire(localPoint)` whenever the moment happens and call `update(dt)`
+ * unconditionally from the render loop — it is a cheap no-op once the burst
+ * has finished, so the caller never needs to track whether one is playing.
+ */
+export function celebrationBurst(parent, o = {}) {
+  const points = particles(parent, o.count ?? 70, o.color ?? 0xffe37a, {
+    size: o.size ?? 0.032, life: o.life ?? 0.6, additive: o.additive !== false, opacity: o.opacity ?? 0.95,
+  });
+  const origin = new THREE.Vector3();
+  let timer = 0;
+  return {
+    fire(localPoint) {
+      origin.copy(localPoint);
+      timer = o.duration ?? 0.5;
+      points.visible = true;
+    },
+    update(dt) {
+      if (timer <= 0) { if (points.visible) points.visible = false; return; }
+      timer -= dt;
+      points.userData.step(dt, origin, o.spread ?? 0.1, o.speed ?? 1.6, o.gravity ?? -1.8);
+    },
+  };
+}
+
 // ------------------------------------------------------------------- helpers
 
 export function markInteractive(objectOrGroup, id, o = {}) {

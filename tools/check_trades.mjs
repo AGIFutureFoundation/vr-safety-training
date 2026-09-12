@@ -213,6 +213,11 @@ for (const room of suite.ROOMS) {
     if (!step.cue) fail(room.id, `step "${step.id}" has no cue`);
     if (step.kind === "gauge" && !step.gauge) fail(room.id, `gauge step "${step.id}" has no gauge config`);
     if (step.kind === "hold" && !(step.seconds > 0)) fail(room.id, `hold step "${step.id}" has no duration`);
+    if (step.kind === "turn" && !(step.turn?.turns > 0)) fail(room.id, `turn step "${step.id}" has no turns amount`);
+    if (step.kind === "drag") {
+      if (!step.drag?.to) fail(room.id, `drag step "${step.id}" has no drop socket`);
+      else if (!api.hits[step.drag.to]) fail(room.id, `drag step "${step.id}" socket "${step.drag.to}" has no object in the room`);
+    }
   }
 
   // Reaching-ahead notes must name objects that exist, and steps that come later.
@@ -255,6 +260,10 @@ for (const room of suite.ROOMS) {
       for (let i = 0; i < step.seconds * 20 + 4 && !session.finished && session.step === step; i++) {
         session.tick(0.05);
       }
+    } else if (step.kind === "turn") {
+      session.rotate(step.target, (step.turn?.turns ?? 1) + 1);
+    } else if (step.kind === "drag") {
+      session.dropAt(step.target, 0);
     }
     // Rooms animate every frame in the browser; make sure they survive it.
     try { api.animate?.(guard * 0.05, 0.05, session); } catch (err) {

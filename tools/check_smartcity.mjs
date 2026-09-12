@@ -174,6 +174,11 @@ for (const sim of suite.SIMS) {
     if (!step.cue) fail(sim.id, `step "${step.id}" has no cue`);
     if (step.kind === "gauge" && !step.gauge) fail(sim.id, `gauge step "${step.id}" has no gauge config`);
     if ((step.kind === "hold" || step.kind === "track") && !(step.seconds > 0)) fail(sim.id, `timed step "${step.id}" has no duration`);
+    if (step.kind === "turn" && !(step.turn?.turns > 0)) fail(sim.id, `turn step "${step.id}" has no turns amount`);
+    if (step.kind === "drag") {
+      if (!step.drag?.to) fail(sim.id, `drag step "${step.id}" has no drop socket`);
+      else if (!api.hits[step.drag.to]) fail(sim.id, `drag step "${step.id}" socket "${step.drag.to}" has no object in the station`);
+    }
   }
 
   for (const id of Object.keys(sim.hazards ?? {})) {
@@ -216,6 +221,14 @@ for (const sim of suite.SIMS) {
       const [lo, hi] = step.track?.green ?? [0.42, 0.62];
       session.track = { t: (lo + hi) / 2, green: [lo, hi], rise: 0, fall: 0, drift: 0, wobble: 0, inBand: 0, dropouts: 0, wasIn: true };
       for (let i = 0; i < (step.seconds ?? 5) * 20 + 4 && !session.finished && session.step === step; i++) session.tick(0.05);
+    } else if (step.kind === "turn") {
+      // A real player drags in small increments; one oversized call exercises
+      // the same clamp-to-required path a full drag would, deterministically.
+      session.rotate(step.target, (step.turn?.turns ?? 1) + 1);
+    } else if (step.kind === "drag") {
+      // Distance 0 stands in for "dropped exactly on the socket" — a real
+      // player's drag-and-release is a UI concern the checker does not model.
+      session.dropAt(step.target, 0);
     }
     try { api.animate?.(guard * 0.05, 0.05, session); }
     catch (err) { fail(sim.id, `animate() threw at step "${step.id}": ${err.message}`); break; }
