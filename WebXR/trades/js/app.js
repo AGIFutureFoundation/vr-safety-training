@@ -855,6 +855,88 @@ enterVrBtn.addEventListener("click", async () => {
   }
 });
 
+// --------------------------------------------------------------- voice nav
+//
+// Web Speech API driving navigation only — jump to a named room, back to the
+// hub, or reset progress. Deliberately never used to activate a step inside a
+// running procedure: saying "open the valve" instead of actually turning it
+// would defeat the point of a hands-on trainer.
+
+const voiceBtn = document.getElementById("voice-btn");
+const voiceHeard = document.getElementById("voice-heard");
+const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null;
+
+function setVoiceHeard(text, isError) {
+  if (!voiceHeard) return;
+  voiceHeard.textContent = text;
+  voiceHeard.classList.toggle("error", !!isError);
+  voiceHeard.hidden = !text;
+}
+
+if (VoiceSR && voiceBtn) {
+  voiceBtn.hidden = false;
+  voiceRecognition = new VoiceSR();
+  voiceRecognition.lang = "en-US";
+  voiceRecognition.interimResults = false;
+  voiceRecognition.maxAlternatives = 1;
+  voiceRecognition.onresult = (e) => {
+    const transcript = e.results?.[0]?.[0]?.transcript ?? "";
+    setVoiceHeard(transcript, false);
+    handleVoiceCommand(transcript);
+  };
+  voiceRecognition.onerror = (e) => {
+    voiceBtn.classList.remove("listening");
+    setVoiceHeard(`Voice error: ${e.error ?? "unknown"}.`, true);
+  };
+  voiceRecognition.onend = () => voiceBtn.classList.remove("listening");
+  voiceBtn.addEventListener("click", toggleVoice);
+}
+
+function toggleVoice() {
+  if (!voiceRecognition) return;
+  if (voiceBtn.classList.contains("listening")) { voiceRecognition.stop(); return; }
+  Sfx.ensure();
+  try {
+    setVoiceHeard("", false);
+    voiceBtn.classList.add("listening");
+    voiceRecognition.start();
+  } catch (err) {
+    voiceBtn.classList.remove("listening");
+    setVoiceHeard(String(err?.message ?? err), true);
+  }
+}
+
+const VOICE_ROOMS = [...ROOMS].sort((a, b) => b.title.length - a.title.length);
+function parseVoiceCommand(text) {
+  const lower = text.toLowerCase();
+  const room = VOICE_ROOMS.find((r) => lower.includes(r.title.toLowerCase()));
+  if (room) return { type: "room", id: room.id };
+  if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
+  if (/\breset\b/.test(lower)) return { type: "reset" };
+  return { type: "unknown" };
+}
+
+function goLive() {
+  if (!ui.intro.hidden) { ui.intro.hidden = true; state.paused = false; Sfx.ensure(); }
+  ui.results.hidden = true;
+}
+
+function handleVoiceCommand(text) {
+  const cmd = parseVoiceCommand(text);
+  if (cmd.type === "room") { goLive(); enterRoom(cmd.id); return; }
+  if (cmd.type === "hub") { goLive(); state.paused = false; enterHub(); return; }
+  if (cmd.type === "reset") {
+    Progress.reset();
+    state.api?.refresh?.();
+    syncHud();
+    return;
+  }
+  setVoiceHeard(`Didn't recognize "${text}" — try a room name, "hub," or "reset."`, true);
+}
+
+window.__tradesVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
+
 // --------------------------------------------------------------- frame loop
 
 addEventListener("resize", () => {

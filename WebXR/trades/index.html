@@ -96,6 +96,27 @@
     letter-spacing:.1em; color:var(--muted); pointer-events:none; text-transform:uppercase;
   }
 
+  #voice-btn{
+    position:fixed; right:14px; bottom:14px; z-index:5; display:flex; align-items:center; gap:6px;
+    font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.08em;
+    text-transform:uppercase; cursor:pointer; border-radius:22px; padding:10px 16px; min-height:44px;
+    border:1px solid var(--edge); background:var(--glass); color:var(--text);
+    backdrop-filter:blur(4px); touch-action:manipulation;
+  }
+  #voice-btn.listening{ background:var(--danger); border-color:var(--danger); color:#2a0c0c; animation:voicePulse 1s ease-in-out infinite; }
+  @keyframes voicePulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.05); } }
+  #voice-heard{
+    position:fixed; right:14px; bottom:66px; max-width:min(320px, calc(100vw - 28px));
+    background:var(--glass); border:1px solid var(--edge); border-radius:5px; padding:7px 12px;
+    font-size:12.5px; color:var(--muted); pointer-events:none; backdrop-filter:blur(4px); z-index:5;
+  }
+  #voice-heard.error{ color:var(--danger); border-color:var(--danger); }
+  @media (prefers-reduced-motion:reduce){ #voice-btn.listening{ animation:none } }
+  @supports (padding: max(0px)){
+    #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
+    #voice-heard{ right:max(14px, env(safe-area-inset-right)) }
+  }
+
   /* ------------------------------------------------------------ overlays */
   .overlay{
     position:fixed; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
@@ -206,6 +227,9 @@
 
 <div id="hud-hint">WASD move · drag look · click act · M mute · ESC hub</div>
 <div id="gesture-tip"></div>
+
+<button id="voice-btn" hidden title="Voice navigation — say a room name, &quot;hub,&quot; or &quot;reset&quot;">🎙 Voice</button>
+<div id="voice-heard" hidden></div>
 
 <div class="overlay" id="intro">
   <div class="card">
