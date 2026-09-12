@@ -881,6 +881,15 @@ addEventListener("pointerup", (e) => {
   }
   downId = null;
 });
+// A touch can be cancelled by the OS (an incoming call, a system gesture) with
+// no pointerup at all — without this a phone could get stuck mid-drag/turn.
+addEventListener("pointercancel", () => {
+  if (renderer.xr.isPresenting) return;
+  if (dragState) { endDrag(); return; }
+  if (turnState) { endTurn(); return; }
+  dragging = false; pressEnd();
+  downId = null;
+});
 addEventListener("pointermove", (e) => {
   if (renderer.xr.isPresenting) return;
   updateNdc(e);
