@@ -113,10 +113,11 @@ export const SIM_LINE_TRUCK = {
       why: "The boundary is set before the boom starts moving, not judged by eye once the bucket is already close to the conductor.",
     },
     {
-      id: "isolate", kind: "select", target: "line-switch",
+      id: "isolate", kind: "turn", target: "line-switch",
       title: "Open the line switch",
-      cue: "Open the upstream switch or recloser to de-energize the circuit.",
+      cue: "Grab the switch handle and pull the upstream switch open.",
       why: "This is the isolation. Everything from here on is checked against the assumption that a switch position can still be wrong.",
+      turn: { turns: 0.16, axis: "z", reverse: true, label: "LINE SWITCH" },
     },
     {
       id: "verify-dead", kind: "gauge", target: "hotstick-meter",
@@ -212,6 +213,7 @@ export const SIM_LINE_TRUCK = {
     const switchHandle = box(lineSwitchGroup, 0.03, 0.14, 0.03, 0, 0.16, 0.05, 0xd8232a, { rough: 0.5 });
     holoTag(lineSwitchGroup, "Line switch", 0, 0.3, 0, { css: "#fcee21", w: 0.28 });
     reg(hits, lineSwitchGroup, "line-switch");
+    lineSwitchGroup.userData.wheel = switchHandle; // the part app.js actually spins for the 'turn' step
 
     // Minimum approach distance boundary marker on the ground beneath the pole.
     const madRing = torus(g, 1.1, 0.02, 1.1, 0.01, -0.9, 0xf0645b, { emissive: 0xf0645b, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 40 });
@@ -303,7 +305,8 @@ export const SIM_LINE_TRUCK = {
 
       onStepComplete(step) {
         if (step.id === "outrigger") outriggerPads.forEach((p) => { p.position.y = -0.15; });
-        if (step.id === "isolate") { energized = false; switchHandle.rotation.z = -1.0; }
+        // switchHandle is turned live by the player's drag while this step is active.
+        if (step.id === "isolate") energized = false;
         if (step.id === "verify-dead") phases.forEach((p) => { p.material = mat(0x53585e, { rough: 0.6 }); });
         if (step.id === "apply-grounds") { grounded = true; }
         if (step.id === "rescue-ready") holoTag(g, "Ready", -1.7, 1.5, 1.4, { css: "#59c97b", w: 0.2 });

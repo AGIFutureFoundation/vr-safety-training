@@ -61,10 +61,11 @@ export const SIM_ELEVATOR_PIT = {
       why: "The signage is what keeps a passenger from calling a car that a mechanic is standing inside. It goes up before the disconnect comes down.",
     },
     {
-      id: "disconnect", kind: "select", target: "main-disconnect",
+      id: "disconnect", kind: "turn", target: "main-disconnect",
       title: "Open the main line disconnect",
-      cue: "Open the machine room's main line disconnect for this car.",
+      cue: "Grab the machine room's main line disconnect handle and pull it open.",
       why: "The disconnect is the isolation. Nothing in the pit or on the car top is approached before the drive has no source of power.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN LINE DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-hasp",
@@ -322,7 +323,8 @@ export const SIM_ELEVATOR_PIT = {
       footprint: 2.0,
 
       onStepComplete(step) {
-        if (step.id === "disconnect") { live = false; discHandle.rotation.z = -1.2; repaint(controllerScreen, signFace("ISOLATED", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.38 })); }
+        // discHandle is turned live by the player's drag while this step is active.
+        if (step.id === "disconnect") { live = false; repaint(controllerScreen, signFace("ISOLATED", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.38 })); }
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "verify-zero") repaint(controllerScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
         if (step.id === "pit-switch") { pitOn = true; pitLever.rotation.x = -1.0; pitLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.8 }); }

@@ -77,10 +77,11 @@ export const SIM_CHILLER_PLANT = {
       why: "A controlled shutdown lets refrigerant equalise and the compressor spin down safely, instead of isolating a running machine under load.",
     },
     {
-      id: "isolate", kind: "select", target: "disconnect",
+      id: "isolate", kind: "turn", target: "disconnect",
       title: "Isolate electrical power",
-      cue: "Open the chiller's main disconnect.",
+      cue: "Grab the chiller's main disconnect handle and pull it open.",
       why: "A stopped compressor can restart on a call for cooling if the electrics are still live. Isolation is what makes 'stopped' permanent for the duration of your work.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-point",
@@ -260,7 +261,8 @@ export const SIM_CHILLER_PLANT = {
 
       onStepComplete(step) {
         if (step.id === "estop") { running = false; repaint(hmi, signFace("STOPPED\n42°F CHW", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.26 })); }
-        if (step.id === "isolate") discHandle.rotation.z = -1.1;
+        // discHandle is turned live by the player's drag — app.js drives its
+        // rotation from session.turn while the 'isolate' step is active.
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "close-valves") {
           liquidValve.userData.wheel.rotation.z += 1.6;

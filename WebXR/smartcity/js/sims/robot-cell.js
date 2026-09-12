@@ -66,10 +66,11 @@ export const SIM_ROBOT_CELL = {
       why: "E-stop takes the program out of automatic immediately. It is the first move, and it buys you the moment you need to isolate properly.",
     },
     {
-      id: "isolate", kind: "select", target: "disconnect-switch",
+      id: "isolate", kind: "turn", target: "disconnect-switch",
       title: "Open the main disconnect",
-      cue: "Rotate the cell's main power disconnect to off.",
+      cue: "Grab the cell's main power disconnect and rotate it to off.",
       why: "The e-stop is a control-level stop; the disconnect is the isolation. A cell that only e-stopped can still be reset from the HMI by someone who does not know you are inside.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "CELL MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-hasp",
@@ -271,7 +272,8 @@ export const SIM_ROBOT_CELL = {
 
       onStepComplete(step) {
         if (step.id === "estop") { armMoving = false; repaint(hmiScreen, signFace("E-STOP", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 })); }
-        if (step.id === "isolate") { cellPowered = false; discHandle.rotation.z = -1.2; }
+        // discHandle is turned live by the player's drag while this step is active.
+        if (step.id === "isolate") cellPowered = false;
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "bleed") { bleeding = true; }
         if (step.id === "verify-zero") repaint(hmiScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));

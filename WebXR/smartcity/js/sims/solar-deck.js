@@ -78,16 +78,18 @@ export const SIM_SOLAR_DECK = {
       why: "Rapid shutdown drops the array conductors to a safe voltage outside the modules. It is the only thing that makes the roof wiring approachable in daylight.",
     },
     {
-      id: "dc-isolate", kind: "select", target: "dc-disconnect",
+      id: "dc-isolate", kind: "turn", target: "dc-disconnect",
       title: "Open the DC disconnect",
-      cue: "Open the DC side at the combiner.",
+      cue: "Grab the DC disconnect handle and pull it open.",
       why: "DC first. Opening AC while DC is still feeding the inverter leaves stored energy and a live front end behind the cover.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "DC DISCONNECT" },
     },
     {
-      id: "ac-isolate", kind: "select", target: "ac-disconnect",
+      id: "ac-isolate", kind: "turn", target: "ac-disconnect",
       title: "Open the AC disconnect",
-      cue: "Open the AC side to the building.",
+      cue: "Grab the AC disconnect handle and pull it open.",
       why: "Now the inverter has neither a source nor a grid connection. Both sides are what makes it isolated rather than just quiet.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "AC DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-point",
@@ -208,12 +210,14 @@ export const SIM_SOLAR_DECK = {
     const dcHandle = box(dcBox, 0.05, 0.13, 0.04, 0, 1.05, 0.11, 0xf0645b, { rough: 0.5 });
     decal(dcBox, 0.26, 0.06, 0, 1.27, 0.101, signFace("DC DISCONNECT", { accent: "#ffb648", scale: 0.5 }));
     reg(hits, dcBox, "dc-disconnect");
+    dcBox.userData.wheel = dcHandle; // the part app.js actually spins for the 'turn' step
 
     const acBox = group(wall, 0.62, 0, 0);
     slab(acBox, 0.3, 0.32, 0.18, 0, 1.05, 0, 0x53585e, { radius: 0.02, rough: 0.5, metal: 0.5 });
     const acHandle = box(acBox, 0.05, 0.12, 0.04, 0, 1.05, 0.1, 0xf2c14b, { rough: 0.5 });
     decal(acBox, 0.24, 0.06, 0, 1.25, 0.091, signFace("AC DISCONNECT", { accent: "#ffb648", scale: 0.5 }));
     reg(hits, acBox, "ac-disconnect");
+    acBox.userData.wheel = acHandle;
 
     const lockPoint = group(wall, 0, 0.62, 0.16);
     box(lockPoint, 0.2, 0.1, 0.03, 0, 0, 0, 0xd8232a, { rough: 0.6 });
@@ -358,8 +362,8 @@ export const SIM_SOLAR_DECK = {
           modules.forEach(({ glass }) => { glass.material = mat(0x1b3050, { rough: 0.15, metal: 0.2 }); });
           repaint(invScreen, signFace("RAPID\nSHUTDOWN", { bg: "#2a1a0d", accent: "#f0645b", fg: "#ffd2ce", scale: 0.3 }));
         }
-        if (step.id === "dc-isolate") dcHandle.rotation.z = -1.2;
-        if (step.id === "ac-isolate") acHandle.rotation.z = -1.2;
+        // Both handles are turned live by the player's drag — app.js drives
+        // their rotation from session.turn while each step is active.
         if (step.id === "lock") { dcLock.visible = true; acLock.visible = true; }
         if (step.id === "checks") {
           for (const c of checks) {

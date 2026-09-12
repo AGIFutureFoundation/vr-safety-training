@@ -79,10 +79,11 @@ export const SIM_VALVE_VAULT = {
       outOfOrderNote: "Roles are assigned top down: the supervisor authorises the entry before the attendant and entrant are posted to it.",
     },
     {
-      id: "isolate", kind: "select", target: "blank-plate",
+      id: "isolate", kind: "drag", target: "blank-plate",
       title: "Isolate and blank the line",
-      cue: "Close the upstream valve and fit the blank.",
+      cue: "Carry the blanking plate from the kerb and fit it into the flange gap.",
       why: "Positive isolation. The blank is a physical plate that cannot be operated from a control room by somebody who does not know you are in there.",
+      drag: { to: "blank-socket", radius: 0.35, missNote: "Not lined up with the flange gap — line the plate up with the pipe run and fit it in." },
     },
     {
       id: "lock", kind: "select", target: "valve-lock",
@@ -191,17 +192,23 @@ export const SIM_VALVE_VAULT = {
     pipeRun(pipes, [[-0.45, 0, 0], [0, 0.02, 0], [0.45, 0, 0]], 0.09, 0x2f6f8c,
       { steps: 16, flanges: [[-0.28, 0, 0], [0.28, 0.01, 0]], flangeAxis: "x" });
     const valve = valveWheel(pipes, 0, 0.1, 0, { color: 0xb8402f, body: 0x2f6f4a, r: 0.13 });
+    // A permanently invisible marker for exactly where the blank belongs — the
+    // drag step measures and snaps against this transform; the plate the
+    // player actually sees and carries is spareBlank, below.
     const blank = cyl(pipes, 0.13, 0.13, 0.02, 0.3, 0.01, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 18 });
     blank.rotation.z = Math.PI / 2;
     blank.visible = false;
+    hits["blank-socket"] = blank;
     const valveLock = lockTag(pipes, 0.02, 0.3, 0.1, { color: 0x1f7ae0 });
     valveLock.visible = false;
     const waterDrip = particles(pipes, 40, 0x6fb4d8, { size: 0.012, life: 0.5, additive: false, opacity: 0.6 });
 
-    // Blank plate leaning against the kerb, waiting to be fitted.
+    // Blank plate staged by the kerb, waiting to be carried to the flange gap.
+    // Its own child mesh carries no extra tilt — dragging sets the group's
+    // full transform directly, and a baked-in child rotation would survive a
+    // snap onto the socket and leave the plate sitting crooked once fitted.
     const spareBlank = group(g, 0.75, 0, 0.55, 0.4);
-    cyl(spareBlank, 0.17, 0.17, 0.02, 0, 0.19, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 20 })
-      .rotation.x = 1.3;
+    cyl(spareBlank, 0.17, 0.17, 0.02, 0, 0.19, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 20 });
     decal(spareBlank, 0.2, 0.06, 0, 0.42, 0, signFace("BLANK DN150", { accent: "#4fa3ff", scale: 0.5 }));
     reg(hits, spareBlank, "blank-plate");
     reg(hits, valve, "valve-lock");
@@ -362,7 +369,9 @@ export const SIM_VALVE_VAULT = {
             }));
           }
         }
-        if (step.id === "isolate") { blank.visible = true; spareBlank.visible = false; }
+        // spareBlank's own position/rotation are already set by the drag-and-
+        // drop gesture (app.js snaps it onto the socket's exact transform on
+        // a successful drop) — nothing to do here.
         if (step.id === "lock") valveLock.visible = true;
         if (step.id === "ventilate") { ventilating = true; }
         if (step.id === "retrieval") { tripod.visible = true; tripodCase.visible = false; }

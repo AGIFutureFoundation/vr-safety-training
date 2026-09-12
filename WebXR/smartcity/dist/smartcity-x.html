@@ -2740,10 +2740,11 @@ const SIM_VALVE_VAULT = {
       outOfOrderNote: "Roles are assigned top down: the supervisor authorises the entry before the attendant and entrant are posted to it.",
     },
     {
-      id: "isolate", kind: "select", target: "blank-plate",
+      id: "isolate", kind: "drag", target: "blank-plate",
       title: "Isolate and blank the line",
-      cue: "Close the upstream valve and fit the blank.",
+      cue: "Carry the blanking plate from the kerb and fit it into the flange gap.",
       why: "Positive isolation. The blank is a physical plate that cannot be operated from a control room by somebody who does not know you are in there.",
+      drag: { to: "blank-socket", radius: 0.35, missNote: "Not lined up with the flange gap — line the plate up with the pipe run and fit it in." },
     },
     {
       id: "lock", kind: "select", target: "valve-lock",
@@ -2852,17 +2853,23 @@ const SIM_VALVE_VAULT = {
     pipeRun(pipes, [[-0.45, 0, 0], [0, 0.02, 0], [0.45, 0, 0]], 0.09, 0x2f6f8c,
       { steps: 16, flanges: [[-0.28, 0, 0], [0.28, 0.01, 0]], flangeAxis: "x" });
     const valve = valveWheel(pipes, 0, 0.1, 0, { color: 0xb8402f, body: 0x2f6f4a, r: 0.13 });
+    // A permanently invisible marker for exactly where the blank belongs — the
+    // drag step measures and snaps against this transform; the plate the
+    // player actually sees and carries is spareBlank, below.
     const blank = cyl(pipes, 0.13, 0.13, 0.02, 0.3, 0.01, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 18 });
     blank.rotation.z = Math.PI / 2;
     blank.visible = false;
+    hits["blank-socket"] = blank;
     const valveLock = lockTag(pipes, 0.02, 0.3, 0.1, { color: 0x1f7ae0 });
     valveLock.visible = false;
     const waterDrip = particles(pipes, 40, 0x6fb4d8, { size: 0.012, life: 0.5, additive: false, opacity: 0.6 });
 
-    // Blank plate leaning against the kerb, waiting to be fitted.
+    // Blank plate staged by the kerb, waiting to be carried to the flange gap.
+    // Its own child mesh carries no extra tilt — dragging sets the group's
+    // full transform directly, and a baked-in child rotation would survive a
+    // snap onto the socket and leave the plate sitting crooked once fitted.
     const spareBlank = group(g, 0.75, 0, 0.55, 0.4);
-    cyl(spareBlank, 0.17, 0.17, 0.02, 0, 0.19, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 20 })
-      .rotation.x = 1.3;
+    cyl(spareBlank, 0.17, 0.17, 0.02, 0, 0.19, 0, 0xc0c6cc, { rough: 0.35, metal: 0.85, seg: 20 });
     decal(spareBlank, 0.2, 0.06, 0, 0.42, 0, signFace("BLANK DN150", { accent: "#4fa3ff", scale: 0.5 }));
     reg(hits, spareBlank, "blank-plate");
     reg(hits, valve, "valve-lock");
@@ -3023,7 +3030,9 @@ const SIM_VALVE_VAULT = {
             }));
           }
         }
-        if (step.id === "isolate") { blank.visible = true; spareBlank.visible = false; }
+        // spareBlank's own position/rotation are already set by the drag-and-
+        // drop gesture (app.js snaps it onto the socket's exact transform on
+        // a successful drop) — nothing to do here.
         if (step.id === "lock") valveLock.visible = true;
         if (step.id === "ventilate") { ventilating = true; }
         if (step.id === "retrieval") { tripod.visible = true; tripodCase.visible = false; }
@@ -3143,16 +3152,18 @@ const SIM_SOLAR_DECK = {
       why: "Rapid shutdown drops the array conductors to a safe voltage outside the modules. It is the only thing that makes the roof wiring approachable in daylight.",
     },
     {
-      id: "dc-isolate", kind: "select", target: "dc-disconnect",
+      id: "dc-isolate", kind: "turn", target: "dc-disconnect",
       title: "Open the DC disconnect",
-      cue: "Open the DC side at the combiner.",
+      cue: "Grab the DC disconnect handle and pull it open.",
       why: "DC first. Opening AC while DC is still feeding the inverter leaves stored energy and a live front end behind the cover.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "DC DISCONNECT" },
     },
     {
-      id: "ac-isolate", kind: "select", target: "ac-disconnect",
+      id: "ac-isolate", kind: "turn", target: "ac-disconnect",
       title: "Open the AC disconnect",
-      cue: "Open the AC side to the building.",
+      cue: "Grab the AC disconnect handle and pull it open.",
       why: "Now the inverter has neither a source nor a grid connection. Both sides are what makes it isolated rather than just quiet.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "AC DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-point",
@@ -3273,12 +3284,14 @@ const SIM_SOLAR_DECK = {
     const dcHandle = box(dcBox, 0.05, 0.13, 0.04, 0, 1.05, 0.11, 0xf0645b, { rough: 0.5 });
     decal(dcBox, 0.26, 0.06, 0, 1.27, 0.101, signFace("DC DISCONNECT", { accent: "#ffb648", scale: 0.5 }));
     reg(hits, dcBox, "dc-disconnect");
+    dcBox.userData.wheel = dcHandle; // the part app.js actually spins for the 'turn' step
 
     const acBox = group(wall, 0.62, 0, 0);
     slab(acBox, 0.3, 0.32, 0.18, 0, 1.05, 0, 0x53585e, { radius: 0.02, rough: 0.5, metal: 0.5 });
     const acHandle = box(acBox, 0.05, 0.12, 0.04, 0, 1.05, 0.1, 0xf2c14b, { rough: 0.5 });
     decal(acBox, 0.24, 0.06, 0, 1.25, 0.091, signFace("AC DISCONNECT", { accent: "#ffb648", scale: 0.5 }));
     reg(hits, acBox, "ac-disconnect");
+    acBox.userData.wheel = acHandle;
 
     const lockPoint = group(wall, 0, 0.62, 0.16);
     box(lockPoint, 0.2, 0.1, 0.03, 0, 0, 0, 0xd8232a, { rough: 0.6 });
@@ -3423,8 +3436,8 @@ const SIM_SOLAR_DECK = {
           modules.forEach(({ glass }) => { glass.material = mat(0x1b3050, { rough: 0.15, metal: 0.2 }); });
           repaint(invScreen, signFace("RAPID\nSHUTDOWN", { bg: "#2a1a0d", accent: "#f0645b", fg: "#ffd2ce", scale: 0.3 }));
         }
-        if (step.id === "dc-isolate") dcHandle.rotation.z = -1.2;
-        if (step.id === "ac-isolate") acHandle.rotation.z = -1.2;
+        // Both handles are turned live by the player's drag — app.js drives
+        // their rotation from session.turn while each step is active.
         if (step.id === "lock") { dcLock.visible = true; acLock.visible = true; }
         if (step.id === "checks") {
           for (const c of checks) {
@@ -4816,10 +4829,11 @@ const SIM_ROBOT_CELL = {
       why: "E-stop takes the program out of automatic immediately. It is the first move, and it buys you the moment you need to isolate properly.",
     },
     {
-      id: "isolate", kind: "select", target: "disconnect-switch",
+      id: "isolate", kind: "turn", target: "disconnect-switch",
       title: "Open the main disconnect",
-      cue: "Rotate the cell's main power disconnect to off.",
+      cue: "Grab the cell's main power disconnect and rotate it to off.",
       why: "The e-stop is a control-level stop; the disconnect is the isolation. A cell that only e-stopped can still be reset from the HMI by someone who does not know you are inside.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "CELL MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-hasp",
@@ -5021,7 +5035,8 @@ const SIM_ROBOT_CELL = {
 
       onStepComplete(step) {
         if (step.id === "estop") { armMoving = false; repaint(hmiScreen, signFace("E-STOP", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 })); }
-        if (step.id === "isolate") { cellPowered = false; discHandle.rotation.z = -1.2; }
+        // discHandle is turned live by the player's drag while this step is active.
+        if (step.id === "isolate") cellPowered = false;
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "bleed") { bleeding = true; }
         if (step.id === "verify-zero") repaint(hmiScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
@@ -5139,10 +5154,11 @@ const SIM_CHILLER_PLANT = {
       why: "A controlled shutdown lets refrigerant equalise and the compressor spin down safely, instead of isolating a running machine under load.",
     },
     {
-      id: "isolate", kind: "select", target: "disconnect",
+      id: "isolate", kind: "turn", target: "disconnect",
       title: "Isolate electrical power",
-      cue: "Open the chiller's main disconnect.",
+      cue: "Grab the chiller's main disconnect handle and pull it open.",
       why: "A stopped compressor can restart on a call for cooling if the electrics are still live. Isolation is what makes 'stopped' permanent for the duration of your work.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-point",
@@ -5322,7 +5338,8 @@ const SIM_CHILLER_PLANT = {
 
       onStepComplete(step) {
         if (step.id === "estop") { running = false; repaint(hmi, signFace("STOPPED\n42°F CHW", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.26 })); }
-        if (step.id === "isolate") discHandle.rotation.z = -1.1;
+        // discHandle is turned live by the player's drag — app.js drives its
+        // rotation from session.turn while the 'isolate' step is active.
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "close-valves") {
           liquidValve.userData.wheel.rotation.z += 1.6;
@@ -7121,10 +7138,11 @@ const SIM_ELEVATOR_PIT = {
       why: "The signage is what keeps a passenger from calling a car that a mechanic is standing inside. It goes up before the disconnect comes down.",
     },
     {
-      id: "disconnect", kind: "select", target: "main-disconnect",
+      id: "disconnect", kind: "turn", target: "main-disconnect",
       title: "Open the main line disconnect",
-      cue: "Open the machine room's main line disconnect for this car.",
+      cue: "Grab the machine room's main line disconnect handle and pull it open.",
       why: "The disconnect is the isolation. Nothing in the pit or on the car top is approached before the drive has no source of power.",
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN LINE DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-hasp",
@@ -7382,7 +7400,8 @@ const SIM_ELEVATOR_PIT = {
       footprint: 2.0,
 
       onStepComplete(step) {
-        if (step.id === "disconnect") { live = false; discHandle.rotation.z = -1.2; repaint(controllerScreen, signFace("ISOLATED", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.38 })); }
+        // discHandle is turned live by the player's drag while this step is active.
+        if (step.id === "disconnect") { live = false; repaint(controllerScreen, signFace("ISOLATED", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.38 })); }
         if (step.id === "lock") appliedLock.visible = true;
         if (step.id === "verify-zero") repaint(controllerScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
         if (step.id === "pit-switch") { pitOn = true; pitLever.rotation.x = -1.0; pitLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.8 }); }
@@ -8151,10 +8170,11 @@ const SIM_LINE_TRUCK = {
       why: "The boundary is set before the boom starts moving, not judged by eye once the bucket is already close to the conductor.",
     },
     {
-      id: "isolate", kind: "select", target: "line-switch",
+      id: "isolate", kind: "turn", target: "line-switch",
       title: "Open the line switch",
-      cue: "Open the upstream switch or recloser to de-energize the circuit.",
+      cue: "Grab the switch handle and pull the upstream switch open.",
       why: "This is the isolation. Everything from here on is checked against the assumption that a switch position can still be wrong.",
+      turn: { turns: 0.16, axis: "z", reverse: true, label: "LINE SWITCH" },
     },
     {
       id: "verify-dead", kind: "gauge", target: "hotstick-meter",
@@ -8250,6 +8270,7 @@ const SIM_LINE_TRUCK = {
     const switchHandle = box(lineSwitchGroup, 0.03, 0.14, 0.03, 0, 0.16, 0.05, 0xd8232a, { rough: 0.5 });
     holoTag(lineSwitchGroup, "Line switch", 0, 0.3, 0, { css: "#fcee21", w: 0.28 });
     reg(hits, lineSwitchGroup, "line-switch");
+    lineSwitchGroup.userData.wheel = switchHandle; // the part app.js actually spins for the 'turn' step
 
     // Minimum approach distance boundary marker on the ground beneath the pole.
     const madRing = torus(g, 1.1, 0.02, 1.1, 0.01, -0.9, 0xf0645b, { emissive: 0xf0645b, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 40 });
@@ -8341,7 +8362,8 @@ const SIM_LINE_TRUCK = {
 
       onStepComplete(step) {
         if (step.id === "outrigger") outriggerPads.forEach((p) => { p.position.y = -0.15; });
-        if (step.id === "isolate") { energized = false; switchHandle.rotation.z = -1.0; }
+        // switchHandle is turned live by the player's drag while this step is active.
+        if (step.id === "isolate") energized = false;
         if (step.id === "verify-dead") phases.forEach((p) => { p.material = mat(0x53585e, { rough: 0.6 }); });
         if (step.id === "apply-grounds") { grounded = true; }
         if (step.id === "rescue-ready") holoTag(g, "Ready", -1.7, 1.5, 1.4, { css: "#59c97b", w: 0.2 });
@@ -9378,9 +9400,16 @@ function endDrag() {
     lastActivatedId = id;
     result = state.session.dropAt(id, dist);
     if (result?.kind === "ok" && socket) {
+      // Snap to the socket's full transform, not just its position, so a
+      // plate or panel that has to sit a particular way round lands correctly
+      // — matching world rotation converted into the object's own parent
+      // space, exactly like the position conversion just above it.
       const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
       object.parent.worldToLocal(snapped);
       object.position.copy(snapped);
+      const socketQuat = new THREE.Quaternion(); socket.getWorldQuaternion(socketQuat);
+      const parentQuat = new THREE.Quaternion(); object.parent.getWorldQuaternion(parentQuat);
+      object.quaternion.copy(parentQuat.invert().multiply(socketQuat));
     }
   }
   if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });

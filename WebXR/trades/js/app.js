@@ -497,9 +497,16 @@ function endDrag() {
     lastActivatedId = id;
     result = state.session.dropAt(id, dist);
     if (result?.kind === "ok" && socket) {
+      // Snap to the socket's full transform, not just its position, so a
+      // plate or panel that has to sit a particular way round lands correctly
+      // — matching world rotation converted into the object's own parent
+      // space, exactly like the position conversion just above it.
       const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
       object.parent.worldToLocal(snapped);
       object.position.copy(snapped);
+      const socketQuat = new THREE.Quaternion(); socket.getWorldQuaternion(socketQuat);
+      const parentQuat = new THREE.Quaternion(); object.parent.getWorldQuaternion(parentQuat);
+      object.quaternion.copy(parentQuat.invert().multiply(socketQuat));
     }
   }
   if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
