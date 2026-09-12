@@ -59,6 +59,16 @@
   }
   #hud-step{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.03em; }
   #hud-cue{ font-size:13.5px; color:var(--muted); line-height:1.4; margin-top:2px; }
+  #hud-gesture{ display:inline-block; margin-top:6px; font-family:var(--cond); font-weight:600;
+    font-size:10.5px; letter-spacing:.1em; color:var(--accent); border:1px solid var(--accent);
+    border-radius:3px; padding:2px 8px; text-transform:uppercase; }
+  #gesture-tip{ position:fixed; left:50%; bottom:98px; transform:translateX(-50%) translateY(6px);
+    max-width:min(520px, calc(100vw - 28px)); background:var(--glass); border:1px solid var(--accent);
+    border-radius:6px; padding:10px 16px; text-align:center; font-size:13px; color:var(--text);
+    line-height:1.4; pointer-events:none; opacity:0; transition:opacity .25s ease, transform .25s ease;
+    z-index:12; backdrop-filter:blur(4px); }
+  #gesture-tip.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #gesture-tip b{ color:var(--accent); }
 
   #hud-rail{
     position:fixed; left:50%; transform:translateX(-50%); bottom:14px;
@@ -173,6 +183,7 @@
 <div id="hud-objective">
   <div id="hud-step">Choose a trade</div>
   <div id="hud-cue">Walk into a doorway to start that room's procedure.</div>
+  <div id="hud-gesture" hidden></div>
 </div>
 
 <div id="hud-rail" data-state="neutral">
@@ -185,6 +196,7 @@
 </div>
 
 <div id="hud-hint">WASD move · drag look · click act · M mute · ESC hub</div>
+<div id="gesture-tip"></div>
 
 <div class="overlay" id="intro">
   <div class="card">

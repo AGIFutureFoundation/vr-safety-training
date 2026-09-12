@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst } from "../../shared/kit.js";
+import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
@@ -101,6 +101,8 @@ const ui = {
   leaderboardBody: document.getElementById("leaderboard-body"),
   playerName: document.getElementById("player-name"),
   editor: document.getElementById("editor"),
+  gesture: document.getElementById("hud-gesture"),
+  gestureTip: document.getElementById("gesture-tip"),
 };
 let vrHudDirty = true;
 
@@ -121,6 +123,7 @@ function syncHud() {
     ui.count.textContent = `${Progress.completedRooms}/${allSims().length} CLEARED`;
     ui.fill.style.width = `${(Progress.completedRooms / allSims().length) * 100}%`;
     ui.timer.textContent = "";
+    ui.gesture.hidden = true;
     vrHudDirty = true;
     return;
   }
@@ -143,6 +146,9 @@ function syncHud() {
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
     if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
     ui.cue.textContent = cue;
+    const hint = GESTURE_HINTS[step.kind];
+    ui.gesture.textContent = hint?.verb ?? "";
+    ui.gesture.hidden = !hint;
   }
   vrHudDirty = true;
 }
@@ -197,6 +203,33 @@ function burstAtHit(id) {
   obj.getWorldPosition(p);
   worldRoot.worldToLocal(p);
   burst.fire(p);
+}
+
+// One-time, just-in-time teaching: the first time a learner's own play
+// history ever reaches a given step kind, explain the physical gesture it
+// wants — after that it never interrupts again, trusting the HUD gesture
+// chip (and by then, muscle memory) to carry it.
+const GESTURE_SEEN_KEY = "smartcity-gestures-seen";
+let gestureTipTimer = null;
+function hasSeenGesture(kind) {
+  try { return JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]").includes(kind); }
+  catch (_) { return true; } // if storage is blocked, don't nag every single step
+}
+function markGestureSeen(kind) {
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]"));
+    seen.add(kind);
+    localStorage.setItem(GESTURE_SEEN_KEY, JSON.stringify([...seen]));
+  } catch (_) { /* ignore */ }
+}
+function maybeShowGestureTip(kind) {
+  const hint = GESTURE_HINTS[kind];
+  if (!hint || hasSeenGesture(kind)) return;
+  markGestureSeen(kind);
+  ui.gestureTip.innerHTML = `<b>${hint.verb}</b><br>${hint.tip}`;
+  ui.gestureTip.classList.add("show");
+  clearTimeout(gestureTipTimer);
+  gestureTipTimer = setTimeout(() => ui.gestureTip.classList.remove("show"), 5200);
 }
 
 function paintGaugeBand(step) {
@@ -311,6 +344,7 @@ function enterSim(id) {
       updateHintForStep(step);
       if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
       else gauge.visible = false;
+      maybeShowGestureTip(step.kind);
       syncHud();
     },
     onFeedback: (fb, s) => {
@@ -604,7 +638,13 @@ function setHover(id) {
   if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], false);
   state.hovered = id;
   if (state.hovered && state.hits[state.hovered]) tint(state.hits[state.hovered], true);
-  document.body.style.cursor = id ? "pointer" : "default";
+  const step = state.session?.step;
+  // A grab cursor on the live target of a turn/drag step signals "manipulate
+  // this," distinct from the plain pointer every click-style target gets —
+  // the same object shouldn't look identically interactive for two very
+  // different physical gestures.
+  const manipulable = step && id === step.target && (step.kind === "turn" || step.kind === "drag");
+  document.body.style.cursor = id ? (manipulable ? "grab" : "pointer") : "default";
 }
 function tint(root, on) {
   root.traverse((o) => {
@@ -670,6 +710,7 @@ function beginDrag(id, controller) {
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
   plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
   dragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  document.body.style.cursor = "grabbing";
   return true;
 }
 
@@ -727,6 +768,7 @@ function endDrag() {
   }
   if (result?.kind !== "ok") returning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
   dragState = null;
+  document.body.style.cursor = "default";
   syncHud();
 }
 
@@ -740,6 +782,7 @@ function beginTurn(id, clientX, clientY) {
   const cx = (p.x * 0.5 + 0.5) * r.width + r.left;
   const cy = (-p.y * 0.5 + 0.5) * r.height + r.top;
   turnState = { id, cx, cy, lastAngle: Math.atan2(clientY - cy, clientX - cx) };
+  document.body.style.cursor = "grabbing";
   return true;
 }
 
@@ -755,7 +798,7 @@ function updateTurn(clientX, clientY) {
   syncHud();
 }
 
-function endTurn() { turnState = null; }
+function endTurn() { turnState = null; document.body.style.cursor = "default"; }
 
 /** Drive the actual mesh rotation from engine state — a pure reflection, never
  * the source of truth, so the checker's direct rotate() calls stay in sync

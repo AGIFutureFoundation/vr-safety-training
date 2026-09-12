@@ -13,6 +13,24 @@ export const HUD = {
   edge: "#426174", good: "#59C97B",
 };
 
+/**
+ * What a step kind physically asks the learner's hands to do, in one short
+ * verb for the HUD and one sentence for a first-time explainer. A room's own
+ * `cue` text always says *what* to touch; this says *how* to touch it — the
+ * part a new interaction (like turning a valve by dragging it) can't be
+ * assumed to be obvious just from staring at the 3D object.
+ */
+export const GESTURE_HINTS = {
+  select: { verb: "CLICK", tip: "Click the highlighted control to select it." },
+  sequence: { verb: "CLICK IN ORDER", tip: "Click each highlighted item, in the order the procedure calls for." },
+  find: { verb: "SEARCH & CLICK", tip: "Look around and click whatever you find wrong — some objects are decoys." },
+  gauge: { verb: "WATCH & CLICK", tip: "Watch the marker sweep the band, then click to commit while it's centred." },
+  hold: { verb: "PRESS & HOLD", tip: "Press and hold the highlighted control for the full duration — releasing early breaks it." },
+  track: { verb: "HOLD TO CORRECT", tip: "Hold to raise the value, release to let it fall, and keep it inside the band." },
+  turn: { verb: "CLICK & DRAG TO TURN", tip: "Click the control and drag in a circle around it, like turning a real wheel or handle." },
+  drag: { verb: "CLICK & DRAG TO CARRY", tip: "Click and hold the object, drag it to the marker, then let go." },
+};
+
 const materialCache = new Map();
 const disposables = new Set();
 
