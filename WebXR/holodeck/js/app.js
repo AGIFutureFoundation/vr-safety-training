@@ -60,7 +60,7 @@ const store = createStore({
   },
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
-  trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "" },
+  trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "", rankName: "", rankedUp: false, boardRows: [] },
 });
 
 // ----------------------------------------------------------- prop dressing
@@ -413,6 +413,10 @@ function showTrainingResult(s) {
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
   Sfx.great();
   store.patch("hud", { visible: false });
+  // s.leaderboard/s.rank come straight from Progress via Session.finish() —
+  // the same real local-device leaderboard every union-trade sim uses,
+  // keyed by this procedure's stable generated id (template + equipment).
+  const board = s.leaderboard?.board ?? [];
   store.patch("trainingResult", {
     visible: true, stars,
     title: s.errors === 0 ? "Clean Run" : "Procedure Complete",
@@ -420,6 +424,13 @@ function showTrainingResult(s) {
     note: s.errors === 0
       ? "Every control taken in order, no unsafe action."
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — run it again for a clean pass.`,
+    rankName: s.rank?.name ?? "",
+    rankedUp: !!s.rankedUp,
+    boardRows: board.map((entry, i) => ({
+      place: i + 1, name: entry.name, score: entry.score,
+      time: `${Math.floor(entry.seconds / 60)}:${String(entry.seconds % 60).padStart(2, "0")}`,
+      isThisRun: s.leaderboard.madeBoard && i === s.leaderboard.rank - 1,
+    })),
   });
 }
 
@@ -722,4 +733,5 @@ window.__holodeckTest = {
   select: (id) => trainingSession?.select(id),
   rotate: (id, delta) => trainingSession?.rotate(id, delta),
   getMode: () => mode,
+  session: () => trainingSession,
 };

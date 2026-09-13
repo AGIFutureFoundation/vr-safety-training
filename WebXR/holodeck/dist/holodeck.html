@@ -1841,6 +1841,15 @@ function mountUI(store, actions) {
         h("h1", null, r.title),
         h("p", { className: "res-note" }, r.scoreText),
         h("p", { className: "res-note" }, r.note),
+        r.rankName && h("p", { className: "res-note" },
+          r.rankedUp ? `Ranked up — you're now a ${r.rankName} on this procedure.` : `Rank on this procedure: ${r.rankName}.`),
+        r.boardRows.length > 0 && h(Fragment, null,
+          h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Local leaderboard — this procedure, this device"),
+          h("table", { className: "scorecard" },
+            h("thead", null, h("tr", null, h("th", null, "#"), h("th", null, "Name"), h("th", null, "Score"), h("th", null, "Time"))),
+            h("tbody", null, r.boardRows.map((row) => h("tr", { key: row.place, style: row.isThisRun ? { color: "var(--accent)" } : null },
+              h("td", null, row.place), h("td", null, row.isThisRun ? h("b", null, row.name) : row.name),
+              h("td", null, row.score), h("td", null, row.time)))))),
         h("div", { className: "btnrow" },
           h("button", { className: "primary", onClick: actions.playAgain }, "Run it again"),
           h("button", { onClick: actions.newPrompt }, "New prompt"))));
@@ -1907,7 +1916,7 @@ const store = createStore({
   },
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
-  trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "" },
+  trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "", rankName: "", rankedUp: false, boardRows: [] },
 });
 
 // ----------------------------------------------------------- prop dressing
@@ -2260,6 +2269,10 @@ function showTrainingResult(s) {
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
   Sfx.great();
   store.patch("hud", { visible: false });
+  // s.leaderboard/s.rank come straight from Progress via Session.finish() —
+  // the same real local-device leaderboard every union-trade sim uses,
+  // keyed by this procedure's stable generated id (template + equipment).
+  const board = s.leaderboard?.board ?? [];
   store.patch("trainingResult", {
     visible: true, stars,
     title: s.errors === 0 ? "Clean Run" : "Procedure Complete",
@@ -2267,6 +2280,13 @@ function showTrainingResult(s) {
     note: s.errors === 0
       ? "Every control taken in order, no unsafe action."
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — run it again for a clean pass.`,
+    rankName: s.rank?.name ?? "",
+    rankedUp: !!s.rankedUp,
+    boardRows: board.map((entry, i) => ({
+      place: i + 1, name: entry.name, score: entry.score,
+      time: `${Math.floor(entry.seconds / 60)}:${String(entry.seconds % 60).padStart(2, "0")}`,
+      isThisRun: s.leaderboard.madeBoard && i === s.leaderboard.rank - 1,
+    })),
   });
 }
 
@@ -2569,6 +2589,7 @@ window.__holodeckTest = {
   select: (id) => trainingSession?.select(id),
   rotate: (id, delta) => trainingSession?.rotate(id, delta),
   getMode: () => mode,
+  session: () => trainingSession,
 };
 
 </script>
