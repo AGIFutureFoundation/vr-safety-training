@@ -80,17 +80,3 @@ export function buildCustomRoom(baseSim, entry) {
     build: (root) => baseSim.build(root),
   };
 }
-
-/**
- * Resolve every saved descriptor against the live base-sim catalogue into
- * playable room objects, silently dropping any whose base simulator no
- * longer exists (e.g. content was renamed) rather than crashing the hub.
- */
-export function customRooms(simById) {
-  const rooms = [];
-  for (const entry of CustomScenarios.list()) {
-    const base = simById[entry.baseId];
-    if (base) rooms.push(buildCustomRoom(base, entry));
-  }
-  return rooms;
-}

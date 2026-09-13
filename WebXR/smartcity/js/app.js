@@ -3,61 +3,81 @@ import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GES
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
-import { SIM_CHARGE_POINT } from "./sims/charge-point.js";
-import { SIM_SIGNAL_CABINET } from "./sims/signal-cabinet.js";
-import { SIM_VALVE_VAULT } from "./sims/valve-vault.js";
-import { SIM_SOLAR_DECK } from "./sims/solar-deck.js";
-import { SIM_SPLICE_NODE } from "./sims/splice-node.js";
-import { SIM_FLIGHT_DECK } from "./sims/flight-deck.js";
-import { SIM_TRACK_ACCESS } from "./sims/track-access.js";
-import { SIM_TRIAGE_POINT } from "./sims/triage-point.js";
-import { SIM_ROBOT_CELL } from "./sims/robot-cell.js";
-import { SIM_CHILLER_PLANT } from "./sims/chiller-plant.js";
-import { SIM_TOWER_CLIMB } from "./sims/tower-climb.js";
-import { SIM_STEEL_ERECTOR } from "./sims/steel-erector.js";
-import { SIM_CRANE_YARD } from "./sims/crane-yard.js";
-import { SIM_TRENCH_BOX } from "./sims/trench-box.js";
-import { SIM_BOILER_ROOM } from "./sims/boiler-room.js";
-import { SIM_ELEVATOR_PIT } from "./sims/elevator-pit.js";
-import { SIM_ABATEMENT_CHAMBER } from "./sims/abatement-chamber.js";
-import { SIM_RIGGING_LOFT } from "./sims/rigging-loft.js";
-import { SIM_LINE_TRUCK } from "./sims/line-truck.js";
-import { SIM_DOCK_CRANE } from "./sims/dock-crane.js";
-import { CustomScenarios, buildCustomRoom, customRooms, newScenarioId } from "./scenarios.js";
+import { SIMS_META } from "./sims-meta.js";
+import { CustomScenarios, buildCustomRoom, newScenarioId } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
 
-const SIMS = [
-  SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_SOLAR_DECK, SIM_SPLICE_NODE,
-  SIM_FLIGHT_DECK, SIM_TRACK_ACCESS, SIM_TRIAGE_POINT, SIM_ROBOT_CELL, SIM_CHILLER_PLANT,
-  SIM_TOWER_CLIMB, SIM_STEEL_ERECTOR, SIM_CRANE_YARD, SIM_TRENCH_BOX, SIM_BOILER_ROOM,
-  SIM_ELEVATOR_PIT, SIM_ABATEMENT_CHAMBER, SIM_RIGGING_LOFT, SIM_LINE_TRUCK, SIM_DOCK_CRANE,
-];
-const SIM_BY_ID = Object.fromEntries(SIMS.map((s) => [s.id, s]));
+// The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
+// small, always-available metadata every display surface (hub kiosks,
+// leaderboards, the tour, the editor's base-simulator picker) actually needs;
+// a sim's real module — its steps, hazards and build() — is only fetched via
+// loadSim() the moment a player actually enters it. This is why
+// dist/smartcity-x.html ships as a folder (index.html + sims/ + citykit.js +
+// gamify.js) rather than one self-contained file: see tools/bundle_webxr.py.
+const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
+
+const simModuleCache = new Map();
+function loadSim(id) {
+  if (simModuleCache.has(id)) return simModuleCache.get(id);
+  const exportName = `SIM_${id.toUpperCase().replace(/-/g, "_")}`;
+  const promise = import(`./sims/${id}.js`).then((mod) => mod[exportName]);
+  simModuleCache.set(id, promise);
+  return promise;
+}
 
 // The 20 built-in stations plus whatever the learner has built in the
 // scenario editor — the hub, the leaderboard and every sim lookup work off
 // this combined roster so a custom drill is a first-class citizen everywhere
-// a built-in one is, with zero special-casing downstream.
-// Cached rather than rebuilt on every call: building it re-parses the
-// custom-scenario list from localStorage and rebuilds a full room object
-// (steps map, spread, etc.) per saved scenario, and this is read on every
-// HUD sync — several times a second during an active run with combos and
-// streaks firing. Invalidated only where the roster can actually change:
-// saving or deleting a custom scenario.
+// a built-in one is, with zero special-casing downstream. This is metadata
+// only (never a custom room's full steps/build) — see loadSim()/findSim()
+// for what actually runs a station.
+// Cached rather than rebuilt on every call: this is read on every HUD sync —
+// several times a second during an active run with combos and streaks
+// firing. Invalidated only where the roster can actually change: saving or
+// deleting a custom scenario.
 let allSimsCache = null;
 function invalidateSimsCache() { allSimsCache = null; }
+function customRoomMeta(entry) {
+  const base = SIMS_META_BY_ID[entry.baseId];
+  if (!base) return null;
+  return {
+    ...base,
+    id: `custom:${entry.id}`,
+    index: "★",
+    domain: "Custom",
+    name: entry.name,
+    title: `${entry.name} — Custom Drill`,
+    tagline: entry.tagline?.trim() || `A custom drill built from ${base.name}: ${entry.stepIds.length} of ${base.stepCount} steps.`,
+    parSeconds: entry.parSeconds ?? base.parSeconds,
+    isCustom: true,
+    baseId: base.id,
+    baseName: base.name,
+  };
+}
 function allSims() {
-  if (!allSimsCache) allSimsCache = [...SIMS, ...customRooms(SIM_BY_ID)];
+  if (!allSimsCache) allSimsCache = [...SIMS_META, ...CustomScenarios.list().map(customRoomMeta).filter(Boolean)];
   return allSimsCache;
 }
-function findSim(id) {
-  if (SIM_BY_ID[id]) return SIM_BY_ID[id];
+/** True the instant a real or custom sim COULD be entered, with no fetch —
+ * used to decide hub-vs-enter before actually awaiting findSim(). */
+function simExists(id) {
+  if (SIMS_META_BY_ID[id]) return true;
   if (typeof id === "string" && id.startsWith("custom:")) {
     const entry = CustomScenarios.get(id.slice(7));
-    const base = entry && SIM_BY_ID[entry.baseId];
-    if (base) return buildCustomRoom(base, entry);
+    return !!(entry && SIMS_META_BY_ID[entry.baseId]);
+  }
+  return false;
+}
+async function findSim(id) {
+  if (SIMS_META_BY_ID[id]) return loadSim(id);
+  if (typeof id === "string" && id.startsWith("custom:")) {
+    const entry = CustomScenarios.get(id.slice(7));
+    if (!entry) return null;
+    const base = await loadSim(entry.baseId);
+    if (!base) return null;
+    return buildCustomRoom(base, entry);
   }
   return null;
 }
@@ -122,7 +142,7 @@ const store = createStore({
   leaderboard: { visible: false, html: "" },
   editor: {
     visible: false,
-    baseOptions: SIMS.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
+    baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
     baseValue: "",
     stepsVisible: false,
     steps: [],
@@ -159,7 +179,7 @@ function syncHud() {
   const rank = Progress.simRank(s.room.id, s.room.game);
   const secs = Math.floor(s.elapsed);
   const patch = {
-    room: state.tour ? `TOUR ${state.tour.i + 1}/${SIMS.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase(),
+    room: state.tour ? `TOUR ${state.tour.i + 1}/${SIMS_META.length} · ${s.room.title.toUpperCase()}` : s.room.title.toUpperCase(),
     score: String(Math.round(s.score)).padStart(4, "0"),
     comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : rank.name,
     comboHot: s.streak >= 4,
@@ -342,9 +362,16 @@ function enterHub() {
   syncHud();
 }
 
-function enterSim(id) {
-  const room = findSim(id);
-  if (!room) return;
+// Bumped on every call so a station whose dynamic import is still in flight
+// can tell, once it resolves, whether it is still the one the player wants —
+// two quick kiosk picks in a row must not race and land in the wrong room.
+let enterSimToken = 0;
+async function enterSim(id) {
+  const myToken = ++enterSimToken;
+  setRail("neutral", "<b>Loading station…</b>");
+  const room = await findSim(id);
+  if (myToken !== enterSimToken) return; // superseded by a later pick
+  if (!room) { enterHub(); return; }
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene);
   state.stage = stage;
@@ -456,7 +483,7 @@ function showResults(s, summary) {
       : ""}
     ${state.tour ? renderTourFooter() : ""}`;
   const touring = !!state.tour;
-  const tourDone = touring && state.tour.i + 1 >= SIMS.length;
+  const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
     visible: true,
     html: bodyHtml,
@@ -469,11 +496,11 @@ function showResults(s, summary) {
 /** Progress line shown on the results card while a guided tour is running. */
 function renderTourFooter() {
   const done = state.tour.i + 1;
-  const tourDone = done >= SIMS.length;
+  const tourDone = done >= SIMS_META.length;
   return `<p class="res-note" style="color:var(--accent) !important">${
     tourDone
       ? `<b>That's all twenty stations.</b> The guided tour ends here — nice work.`
-      : `<b>Guided tour: stop ${done} of ${SIMS.length} complete.</b> Next up: ${SIMS[done].name}.`
+      : `<b>Guided tour: stop ${done} of ${SIMS_META.length} complete.</b> Next up: ${SIMS_META[done].name}.`
   }</p>`;
 }
 
@@ -521,11 +548,17 @@ function edRenderSteps() {
   store.patch("editor", { steps: edOrder.map((s) => ({ ...s })) });
 }
 
-function edLoadBase(simId) {
-  const sim = SIM_BY_ID[simId];
-  if (!sim) { store.patch("editor", { baseValue: simId, stepsVisible: false }); return; }
+async function edLoadBase(simId) {
+  if (!SIMS_META_BY_ID[simId]) { store.patch("editor", { baseValue: simId, stepsVisible: false }); return; }
+  store.patch("editor", { baseValue: simId, stepsVisible: false });
+  const sim = await loadSim(simId);
+  // The picker may have moved on to a different (or no) base while this
+  // station's module was still in flight — a stale response must not clobber
+  // whatever the editor is showing now.
+  if (store.get().editor.baseValue !== simId) return;
+  if (!sim) { store.patch("editor", { error: "Could not load that simulator." }); return; }
   edOrder = sim.steps.map((s) => ({ id: s.id, title: s.title, kind: s.kind, on: true }));
-  store.patch("editor", { baseValue: simId, name: "", tagline: "", par: "", error: "", stepsVisible: true });
+  store.patch("editor", { name: "", tagline: "", par: "", error: "", stepsVisible: true });
   edRenderSteps();
 }
 
@@ -582,7 +615,7 @@ function edCancel() { store.patch("editor", { stepsVisible: false, baseValue: ""
 function edRenderLibrary() {
   const list = CustomScenarios.list();
   const library = list.map((entry) => {
-    const base = SIM_BY_ID[entry.baseId];
+    const base = SIMS_META_BY_ID[entry.baseId];
     return {
       id: entry.id,
       name: entry.name,
@@ -628,7 +661,7 @@ function backToHub() {
 function nextTourStop() {
   if (!state.tour) return;
   state.tour.i += 1;
-  const next = SIMS[state.tour.i];
+  const next = SIMS_META[state.tour.i];
   store.patch("results", { visible: false });
   state.paused = false;
   if (next) enterSim(next.id);
@@ -637,7 +670,7 @@ function nextTourStop() {
 function startTour() {
   state.mode = "flat";
   state.tour = { i: 0 };
-  pendingEnter = SIMS[0].id;
+  pendingEnter = SIMS_META[0].id;
   begin();
 }
 
@@ -1108,7 +1141,7 @@ function begin() {
   }
   const target = pendingEnter ?? deepLink;
   pendingEnter = null;
-  if (target && findSim(target)) enterSim(target);
+  if (target && simExists(target)) enterSim(target);
   else enterHub();
 }
 
@@ -1177,7 +1210,7 @@ function toggleVoice() {
 
 /** Longest name first, so "dock crane" cannot shadow-match inside a longer
  * phrase that happens to contain it as a substring. */
-const VOICE_SIMS = [...SIMS].sort((a, b) => b.name.length - a.name.length);
+const VOICE_SIMS = [...SIMS_META].sort((a, b) => b.name.length - a.name.length);
 
 function parseVoiceCommand(text) {
   const lower = text.toLowerCase();

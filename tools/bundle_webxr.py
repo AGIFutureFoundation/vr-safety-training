@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
-"""Inline a WebXR app's ES modules into one distributable HTML file.
+"""Inline a WebXR app's ES modules into a distributable HTML file.
 
 The modular source under WebXR/<app>/js is what you edit; this produces
-WebXR/<app>/dist/<name>.html, a single file that can be dropped on any static
-HTTPS host with no build step and no module server. Both apps share the engine
-and asset kit in WebXR/shared.
+WebXR/<app>/dist/<name>.html. For trades and holodeck that HTML is genuinely
+self-contained — drop it on any static host, or open it directly via
+file://, no build step or module server needed. SmartCiti.X is the
+exception: its 20 sims are lazy-loaded via dynamic import() (see
+app.js's loadSim() and this file's "copy_files"), so its dist/ is a real
+folder — the HTML plus sims/, citykit.js and gamify.js copied alongside it —
+and needs a real HTTP(S) server; opening it via file:// will fail (browsers
+block dynamic import() from a file: origin). All three share the engine and
+asset kit in WebXR/shared.
 
     python3 tools/bundle_webxr.py             # all apps
     python3 tools/bundle_webxr.py smartcity   # one app
@@ -51,26 +57,7 @@ APPS = {
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/stage.js",
-            WEBXR / "smartcity/js/sims/charge-point.js",
-            WEBXR / "smartcity/js/sims/signal-cabinet.js",
-            WEBXR / "smartcity/js/sims/valve-vault.js",
-            WEBXR / "smartcity/js/sims/solar-deck.js",
-            WEBXR / "smartcity/js/sims/splice-node.js",
-            WEBXR / "smartcity/js/sims/flight-deck.js",
-            WEBXR / "smartcity/js/sims/track-access.js",
-            WEBXR / "smartcity/js/sims/triage-point.js",
-            WEBXR / "smartcity/js/sims/robot-cell.js",
-            WEBXR / "smartcity/js/sims/chiller-plant.js",
-            WEBXR / "smartcity/js/sims/tower-climb.js",
-            WEBXR / "smartcity/js/sims/steel-erector.js",
-            WEBXR / "smartcity/js/sims/crane-yard.js",
-            WEBXR / "smartcity/js/sims/trench-box.js",
-            WEBXR / "smartcity/js/sims/boiler-room.js",
-            WEBXR / "smartcity/js/sims/elevator-pit.js",
-            WEBXR / "smartcity/js/sims/abatement-chamber.js",
-            WEBXR / "smartcity/js/sims/rigging-loft.js",
-            WEBXR / "smartcity/js/sims/line-truck.js",
-            WEBXR / "smartcity/js/sims/dock-crane.js",
+            WEBXR / "smartcity/js/sims-meta.js",
             WEBXR / "smartcity/js/scenarios.js",
             WEBXR / "smartcity/js/hub.js",
             WEBXR / "smartcity/js/store.js",
@@ -78,6 +65,20 @@ APPS = {
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
+        # The 20 sims are lazy-loaded at runtime (app.js's loadSim(), one
+        # dynamic import() per station on demand) rather than inlined above,
+        # so dist/smartcity-x.html is no longer a single self-contained file —
+        # it needs these shipped alongside it as real files, at the same
+        # relative depth under dist/ that their originals have under js/, so
+        # each file's own existing relative imports resolve unchanged (a
+        # sims/*.js file's "../../../shared/..." and "../citykit.js" reach
+        # the same shared/ and citykit.js either way). Regenerate sims-meta.js
+        # with tools/gen_sims_meta.mjs whenever a sim's header fields change.
+        "copy_files": {
+            WEBXR / "smartcity/js/citykit.js": "citykit.js",
+            WEBXR / "smartcity/js/gamify.js": "gamify.js",
+            **{p: f"sims/{p.name}" for p in sorted((WEBXR / "smartcity/js/sims").glob("*.js"))},
+        },
     },
     "holodeck": {
         "out": "holodeck.html",
@@ -160,8 +161,19 @@ def build(app: str) -> int:
     out = src / "dist" / cfg["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
+
+    copy_files = cfg.get("copy_files", {})
+    for source_path, rel_dest in copy_files.items():
+        if not source_path.exists():
+            print(f"[{app}] missing copy_files source: {source_path}", file=sys.stderr)
+            return 1
+        dest = out.parent / rel_dest
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(source_path.read_text())
+
+    extra = f", {len(copy_files)} lazy-loaded files alongside it" if copy_files else ""
     print(f"[{app}] wrote {out.relative_to(ROOT)}  "
-          f"({len(html) / 1024:.0f} KB, {len(cfg['modules'])} modules)")
+          f"({len(html) / 1024:.0f} KB, {len(cfg['modules'])} modules{extra})")
     return 0
 
 
