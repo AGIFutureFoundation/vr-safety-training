@@ -6725,6 +6725,7 @@ const SIM_TRENCH_BOX = {
       { id: "never-unshored", name: "Never Unshored", note: "No one enters before the protective system is placed", test: AWARD.safe },
       { id: "atmosphere-first", name: "Atmosphere First", note: "Test the air before every entry, no exceptions", test: AWARD.stepClean("atmosphere-test") },
       { id: "reading-true", name: "Reading True", note: "Hold the gas meter steady near band centre", test: AWARD.precise(0.7) },
+      { id: "grade-programmed", name: "Grade Programmed Clean", note: "Teach every grade-control waypoint in order, first try", test: AWARD.stepClean("gps-teach") },
     ],
     challenges: [
       { id: "quick-dig", name: "Quick Dig", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -6808,6 +6809,32 @@ const SIM_TRENCH_BOX = {
       title: "Complete the utility line repair",
       cue: "Make the repair to the utility line now that the trench is shored and tested.",
       why: "The actual task only starts once guarding, inspection, atmosphere and shoring are all already in place — not run in parallel with them to save time.",
+    },
+    {
+      id: "gps-teach", kind: "sequence", targets: ["grade-wp-start", "grade-wp-mid", "grade-wp-end"],
+      itemNames: { "grade-wp-start": "Start waypoint", "grade-wp-mid": "Mid waypoint", "grade-wp-end": "End waypoint" },
+      title: "Teach the GPS grade-control waypoints",
+      cue: "Record the start, mid and end grade points along the pipe run, in that order.",
+      why: "The automated grader follows these points in the order they're recorded, not the order that seems obvious — teach them start to end, matching the pipe's actual slope.",
+      itemNotes: {
+        "grade-wp-start": "Recorded at the pipe's upstream invert.",
+        "grade-wp-mid": "Recorded at the midpoint, matching the design slope.",
+        "grade-wp-end": "Recorded at the downstream invert.",
+      },
+      outOfOrderNote: "That point comes later in the run. Teach start, then mid, then end — the grader reads the profile in recording order.",
+    },
+    {
+      id: "gps-save", kind: "select", target: "grade-console-save",
+      title: "Save the grade-control profile",
+      cue: "Commit the three waypoints to the machine control system as one profile.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three grade points into a profile the grader can actually run against.",
+    },
+    {
+      id: "gps-run", kind: "hold", target: "grade-console-run", seconds: 2.5,
+      title: "Dry-run the grade-control profile",
+      cue: "Hold RUN/VERIFY and watch the automated profile track clear of the box and the crew.",
+      why: "A brand-new profile is verified at a walk-through pace with a hand on the console, watching the whole run, before the grader ever moves unattended over a trench a crew just worked in.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole profile — that's how you catch a bad waypoint before the machine runs it for real.",
     },
     {
       id: "exit-count", kind: "select", target: "headcount-board",
@@ -6950,6 +6977,41 @@ const SIM_TRENCH_BOX = {
     holoTag(meter, "4-gas meter", 0, 0.16, 0, { css: "#7ed321", w: 0.26 });
     reg(hits, meter, "gas-meter");
 
+    // ------------------------------------------------- GPS grade-control automation
+    // Waypoints run along the trench's own length so the taught profile
+    // visibly follows the pipe grade, not an arbitrary spot in the yard.
+    const gradeWpSpecs = [
+      { id: "grade-wp-start", label: "1 · Start", z: -1.0, color: 0x59c97b },
+      { id: "grade-wp-mid", label: "2 · Mid", z: 0, color: 0x4fd1ff },
+      { id: "grade-wp-end", label: "3 · End", z: 1.0, color: 0xffcc00 },
+    ];
+    const gradeWps = gradeWpSpecs.map((s) => {
+      const marker = torus(trench, 0.09, 0.012, 0.55, 0.02, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(trench, s.label, 0.55, 0.24, s.z, { css: "#7ed321", w: 0.3 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const gradeRover = group(g, 0.55, 0, 0.9, 0.4);
+    cyl(gradeRover, 0.012, 0.012, 0.9, 0, 0.45, 0, 0xa8b0b8, { rough: 0.5, metal: 0.6, seg: 8 });
+    ball(gradeRover, 0.05, 0, 0.92, 0, 0xd8b23a, { rough: 0.4, metal: 0.3 });
+    holoTag(gradeRover, "GPS rover", 0, 1.06, 0, { css: "#7ed321", w: 0.26 });
+
+    const gradeConsole = group(g, 0.85, 0, 0.55, -0.4);
+    slab(gradeConsole, 0.34, 0.28, 0.03, 0, 0.9, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const gradeConsoleScreen = decal(gradeConsole, 0.28, 0.12, 0, 0.94, 0.017,
+      signFace("GRADE CTRL", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.45 }), { glow: true, ei: 0.85, px: 220 });
+    holoTag(gradeConsole, "Grade-control console", 0, 1.06, 0, { css: "#7ed321", w: 0.34 });
+    const gradeSaveBtn = cyl(gradeConsole, 0.018, 0.018, 0.012, -0.07, 0.75, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    gradeSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, gradeSaveBtn, "grade-console-save");
+    const gradeRunBtn = cyl(gradeConsole, 0.018, 0.018, 0.012, 0.07, 0.75, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    gradeRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, gradeRunBtn, "grade-console-run");
+    holoTag(gradeConsole, "Save · Run", 0, 0.7, 0, { css: "#7ed321", w: 0.26 });
+
     const headcount = group(g, 1.9, 0, 0.0, 0.6);
     slab(headcount, 0.4, 0.3, 0.03, 0, 1.05, 0, 0x1b232b, { radius: 0.01, rough: 0.6 });
     const headcountFace = decal(headcount, 0.36, 0.26, 0, 1.05, 0.02,
@@ -6981,6 +7043,12 @@ const SIM_TRENCH_BOX = {
         if (step.id === "pipe-work") {
           repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));
         }
+        if (step.id === "gps-save") {
+          repaint(gradeConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.45 }));
+        }
+        if (step.id === "gps-run") {
+          repaint(gradeConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
+        }
         if (step.id === "exit-count") {
           repaint(headcountFace, signFace("CREW\nCLEAR", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
         }
@@ -6992,6 +7060,20 @@ const SIM_TRENCH_BOX = {
       animate(t, dt, session) {
         spotter.userData.head.rotation.y = Math.sin(t * 0.6) * 0.4;
         if (dust.visible) dust.userData.step(dt, new THREE.Vector3(0, 0.4, 0), 0.15, 0.15, -0.1);
+
+        // Dry-run playback: the rover rides the taught grade profile —
+        // start to mid to end — in step with how far the RUN/VERIFY hold
+        // has gotten, so a correctly taught profile has a visible payoff.
+        if (session?.step?.id === "gps-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? gradeWps[0] : gradeWps[1];
+          const to = p < 0.5 ? gradeWps[1] : gradeWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          gradeRover.position.lerpVectors(
+            new THREE.Vector3(trench.position.x + from.position.x, 0, trench.position.z + from.position.z),
+            new THREE.Vector3(trench.position.x + to.position.x, 0, trench.position.z + to.position.z),
+            localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed && session.step?.id === "atmosphere-test") {
@@ -8421,6 +8503,7 @@ const SIM_LINE_TRUCK = {
       { id: "rubber-proven", name: "Rubber Proven", note: "Never approach the conductor unprotected", test: AWARD.safe },
       { id: "dead-line-true", name: "Dead Line True", note: "Hold every test reading near band centre", test: AWARD.precise(0.72) },
       { id: "grounds-clean", name: "Grounds Clean", note: "Apply every ground in the correct order", test: AWARD.stepClean("apply-grounds") },
+      { id: "crawler-programmed", name: "Crawler Programmed Clean", note: "Teach the line-crawler path in order, first try", test: AWARD.stepClean("crawler-teach") },
     ],
     challenges: [
       { id: "storm-window", name: "Storm Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -8530,6 +8613,32 @@ const SIM_LINE_TRUCK = {
       outOfOrderNote: "Wrong order — ground electrode first, then neutral, then the phase conductor. Removal happens in the exact reverse.",
     },
     {
+      id: "crawler-teach", kind: "sequence", targets: ["crawler-wp-start", "crawler-wp-mid", "crawler-wp-end"],
+      itemNames: { "crawler-wp-start": "Start waypoint", "crawler-wp-mid": "Mid waypoint", "crawler-wp-end": "End waypoint" },
+      title: "Teach the line-crawler waypoints",
+      cue: "Record the start, mid and end inspection points along the de-energized span, in that order.",
+      why: "The crawler drives this span in the order the points were recorded — teach start to end, matching the direction it will actually travel along the conductor.",
+      itemNotes: {
+        "crawler-wp-start": "Recorded at the near end, by the truck-side pole.",
+        "crawler-wp-mid": "Recorded at the midspan sag point.",
+        "crawler-wp-end": "Recorded at the far anchor.",
+      },
+      outOfOrderNote: "That point comes later on the span. Teach start, then mid, then end — the crawler drives the points in recording order.",
+    },
+    {
+      id: "crawler-save", kind: "select", target: "crawler-console-save",
+      title: "Save the crawler path",
+      cue: "Commit the three waypoints to the crawler's controller as one path.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three waypoints into a path the crawler can actually run.",
+    },
+    {
+      id: "crawler-run", kind: "hold", target: "crawler-console-run", seconds: 2.5,
+      title: "Dry-run the line-crawler path",
+      cue: "Hold RUN/VERIFY and watch the crawler's path clear the grounds and the crew before it runs the span.",
+      why: "A brand-new path is verified at a walking pace with a hand on the controller, watching the whole span, before the crawler ever runs it unattended over grounds a crew just applied.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole path — that's how you catch a bad waypoint before the crawler runs it for real.",
+    },
+    {
       id: "rescue-ready", kind: "select", target: "rescue-hook",
       title: "Confirm rescue readiness",
       cue: "Check the pole-top and bucket rescue hook and line are staged and ready.",
@@ -8632,6 +8741,40 @@ const SIM_LINE_TRUCK = {
     holoTag(groundPointTrap, "Untested ground point", 0, 0.1, 0, { css: "#f0645b", w: 0.36 });
     reg(hits, groundPointTrap, "ground-point-untested");
 
+    // ------------------------------------------------------ robotic line-crawler
+    // Waypoints ride the neutral messenger wire's own span — the same span the
+    // crawler will actually travel, once it's proven dead and grounded.
+    const crawlerWpSpecs = [
+      { id: "crawler-wp-start", label: "1 · Start", z: -0.1, color: 0x59c97b },
+      { id: "crawler-wp-mid", label: "2 · Mid", z: -0.8, color: 0x4fd1ff },
+      { id: "crawler-wp-end", label: "3 · End", z: -1.5, color: 0xffcc00 },
+    ];
+    const crawlerWps = crawlerWpSpecs.map((s) => {
+      const marker = torus(pole, 0.05, 0.008, 0, 1.9, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 20 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(pole, s.label, 0, 2.02, s.z, { css: "#fcee21", w: 0.28 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const crawler = group(pole, 0, 1.9, -0.1, 0.3);
+    box(crawler, 0.14, 0.08, 0.1, 0, 0, 0, 0x2b3138, { rough: 0.5, metal: 0.5 });
+    holoTag(crawler, "Line crawler", 0, 0.14, 0, { css: "#fcee21", w: 0.26 });
+
+    const crawlerConsole = group(truck, 0.55, 0.35, 0.35, -0.6);
+    slab(crawlerConsole, 0.3, 0.24, 0.03, 0, 0, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const crawlerConsoleScreen = decal(crawlerConsole, 0.24, 0.1, 0, 0.03, 0.017,
+      signFace("CRAWLER", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.45 }), { glow: true, ei: 0.85, px: 200 });
+    holoTag(crawlerConsole, "Crawler controller", 0, 0.16, 0, { css: "#fcee21", w: 0.32 });
+    const crawlerSaveBtn = cyl(crawlerConsole, 0.016, 0.016, 0.01, -0.06, -0.08, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    crawlerSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, crawlerSaveBtn, "crawler-console-save");
+    const crawlerRunBtn = cyl(crawlerConsole, 0.016, 0.016, 0.01, 0.06, -0.08, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    crawlerRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, crawlerRunBtn, "crawler-console-run");
+    holoTag(crawlerConsole, "Save · Run", 0, -0.13, 0, { css: "#fcee21", w: 0.24 });
+
     // ------------------------------------------------------------ PPE and instruments
     const chest = toolChest(g, 1.5, 1.4, { ry: -0.7, color: 0xfcee21 });
     const gloveGroup = group(chest, -0.14, 0.79, 0.06, 0.3);
@@ -8697,11 +8840,27 @@ const SIM_LINE_TRUCK = {
         if (step.id === "isolate") energized = false;
         if (step.id === "verify-dead") phases.forEach((p) => { p.material = mat(0x53585e, { rough: 0.6 }); });
         if (step.id === "apply-grounds") { grounded = true; }
+        if (step.id === "crawler-save") {
+          repaint(crawlerConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
+        }
+        if (step.id === "crawler-run") {
+          repaint(crawlerConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
+        }
         if (step.id === "rescue-ready") holoTag(g, "Ready", -1.7, 1.5, 1.4, { css: "#59c97b", w: 0.2 });
       },
 
       animate(t, dt, session) {
         boomLever.rotation.x = Math.sin(t * 0.6) * 0.1;
+
+        // Dry-run playback: the crawler rides the taught span — start to mid
+        // to end — in step with the RUN/VERIFY hold progress.
+        if (session?.step?.id === "crawler-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? crawlerWps[0] : crawlerWps[1];
+          const to = p < 0.5 ? crawlerWps[1] : crawlerWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          crawler.position.lerpVectors(from.position, to.position, localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed) {
@@ -8754,6 +8913,7 @@ const SIM_DOCK_CRANE = {
       { id: "red-zone-clear", name: "Red Zone Clear", note: "Never stand under a suspended load", test: AWARD.safe },
       { id: "true-limits", name: "True Limits", note: "Hold every reading near band centre", test: AWARD.precise(0.72) },
       { id: "locks-verified", name: "Locks Verified", note: "Clear the twist-lock check with no correction", test: AWARD.stepClean("twist-lock-check") },
+      { id: "agv-routed-clean", name: "AGV Routed Clean", note: "Teach the AGV route in order, first try", test: AWARD.stepClean("agv-teach") },
     ],
     challenges: [
       { id: "vessel-window", name: "Vessel Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -8855,6 +9015,32 @@ const SIM_DOCK_CRANE = {
       cue: "Lower fully onto the chassis, confirm the hook is slack, then release the locks and retract.",
       why: "The locks only release once the container's full weight is back on the chassis — releasing early hands the load's weight to whatever is left holding it, which may be nothing.",
       outOfOrderNote: "Wrong order — the container lands and takes its own weight first, then the locks release, then the spreader retracts.",
+    },
+    {
+      id: "agv-teach", kind: "sequence", targets: ["agv-wp-pickup", "agv-wp-transit", "agv-wp-stack"],
+      itemNames: { "agv-wp-pickup": "Pickup waypoint", "agv-wp-transit": "Transit waypoint", "agv-wp-stack": "Stack waypoint" },
+      title: "Teach the AGV route waypoints",
+      cue: "Record the pickup, transit and stack points for the yard AGV, in that order.",
+      why: "The AGV drives this route exactly in the order it was recorded — teach pickup, then transit, then stack, matching the path the container actually needs to travel.",
+      itemNotes: {
+        "agv-wp-pickup": "Recorded at the chassis where the container just landed.",
+        "agv-wp-transit": "Recorded clear of the crane's swing radius and the lashing gang.",
+        "agv-wp-stack": "Recorded at the destination stack.",
+      },
+      outOfOrderNote: "That point comes later in the route. Teach pickup, then transit, then stack — the AGV drives the points in recording order.",
+    },
+    {
+      id: "agv-save", kind: "select", target: "agv-console-save",
+      title: "Save the AGV route",
+      cue: "Commit the three waypoints to the yard's AGV coordination system.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three waypoints into a route the AGV can actually dispatch on.",
+    },
+    {
+      id: "agv-run", kind: "hold", target: "agv-console-run", seconds: 2.5,
+      title: "Dry-run the AGV route",
+      cue: "Hold RUN/VERIFY and watch the route clear the swing radius and the gang before dispatch.",
+      why: "A brand-new route is verified at walking pace with a hand on the console, watching the whole path, before an unmanned AGV ever drives it at full speed through a working yard.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole route — that's how you catch a bad waypoint before the AGV drives it for real.",
     },
     {
       id: "log", kind: "select", target: "lift-plan",
@@ -8979,6 +9165,41 @@ const SIM_DOCK_CRANE = {
     reg(hits, releaseHandle, "release-twist-locks");
     reg(hits, trolley, "retract-spreader");
 
+    // -------------------------------------------------------- AGV coordination
+    // Waypoints span from the chassis (pickup) through open yard clear of the
+    // red zone (transit) to the destination stack — the same route an
+    // automated guided vehicle would actually drive to clear the container.
+    const agvWpSpecs = [
+      { id: "agv-wp-pickup", label: "1 · Pickup", x: 0.45, z: 1.25, color: 0x59c97b },
+      { id: "agv-wp-transit", label: "2 · Transit", x: -0.55, z: 0.75, color: 0x4fd1ff },
+      { id: "agv-wp-stack", label: "3 · Stack", x: -1.15, z: 0.35, color: 0xffcc00 },
+    ];
+    const agvWps = agvWpSpecs.map((s) => {
+      const marker = torus(g, 0.09, 0.012, s.x, 0.02, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(g, s.label, s.x, 0.24, s.z, { css: "#3a7ca5", w: 0.32 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const agv = group(g, 0.45, 0, 1.55, 0.3);
+    box(agv, 0.4, 0.14, 0.6, 0, 0.09, 0, 0xd8b23a, { rough: 0.5, metal: 0.3 });
+    holoTag(agv, "Yard AGV", 0, 0.24, 0, { css: "#3a7ca5", w: 0.26 });
+
+    const agvConsole = group(g, 0.9, 0, 1.0, -0.5);
+    slab(agvConsole, 0.34, 0.28, 0.03, 0, 0.9, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const agvConsoleScreen = decal(agvConsole, 0.28, 0.12, 0, 0.94, 0.017,
+      signFace("AGV COORD", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }), { glow: true, ei: 0.85, px: 220 });
+    holoTag(agvConsole, "AGV coordination console", 0, 1.06, 0, { css: "#3a7ca5", w: 0.38 });
+    const agvSaveBtn = cyl(agvConsole, 0.018, 0.018, 0.012, -0.07, 0.75, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    agvSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, agvSaveBtn, "agv-console-save");
+    const agvRunBtn = cyl(agvConsole, 0.018, 0.018, 0.012, 0.07, 0.75, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    agvRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, agvRunBtn, "agv-console-run");
+    holoTag(agvConsole, "Save · Run", 0, 0.7, 0, { css: "#3a7ca5", w: 0.26 });
+
     // ------------------------------------------------------------------------- paperwork
     const chest = toolChest(g, 1.8, 1.3, { ry: -0.7, color: 0x3a7ca5 });
     const chart = holoPanel(g, 0.56, 0.4, 1.9, 1.5, 0.6, (ctx, w, h) => {
@@ -9026,6 +9247,12 @@ const SIM_DOCK_CRANE = {
         }
         if (step.id === "hoist") { hoisting = true; }
         if (step.id === "land-release") { hoisting = false; spreader.position.y = -1.6; }
+        if (step.id === "agv-save") {
+          repaint(agvConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.45 }));
+        }
+        if (step.id === "agv-run") {
+          repaint(agvConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
+        }
       },
 
       animate(t, dt, session) {
@@ -9035,6 +9262,16 @@ const SIM_DOCK_CRANE = {
           hoistCable.scale.y = 1 - lift / 1.5;
         }
         signal.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
+
+        // Dry-run playback: the AGV rides the taught route — pickup to
+        // transit to stack — in step with the RUN/VERIFY hold progress.
+        if (session?.step?.id === "agv-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? agvWps[0] : agvWps[1];
+          const to = p < 0.5 ? agvWps[1] : agvWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          agv.position.lerpVectors(from.position, to.position, localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed && session.step?.id === "wind-check") {

@@ -34,6 +34,7 @@ export const SIM_TRENCH_BOX = {
       { id: "never-unshored", name: "Never Unshored", note: "No one enters before the protective system is placed", test: AWARD.safe },
       { id: "atmosphere-first", name: "Atmosphere First", note: "Test the air before every entry, no exceptions", test: AWARD.stepClean("atmosphere-test") },
       { id: "reading-true", name: "Reading True", note: "Hold the gas meter steady near band centre", test: AWARD.precise(0.7) },
+      { id: "grade-programmed", name: "Grade Programmed Clean", note: "Teach every grade-control waypoint in order, first try", test: AWARD.stepClean("gps-teach") },
     ],
     challenges: [
       { id: "quick-dig", name: "Quick Dig", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -117,6 +118,32 @@ export const SIM_TRENCH_BOX = {
       title: "Complete the utility line repair",
       cue: "Make the repair to the utility line now that the trench is shored and tested.",
       why: "The actual task only starts once guarding, inspection, atmosphere and shoring are all already in place — not run in parallel with them to save time.",
+    },
+    {
+      id: "gps-teach", kind: "sequence", targets: ["grade-wp-start", "grade-wp-mid", "grade-wp-end"],
+      itemNames: { "grade-wp-start": "Start waypoint", "grade-wp-mid": "Mid waypoint", "grade-wp-end": "End waypoint" },
+      title: "Teach the GPS grade-control waypoints",
+      cue: "Record the start, mid and end grade points along the pipe run, in that order.",
+      why: "The automated grader follows these points in the order they're recorded, not the order that seems obvious — teach them start to end, matching the pipe's actual slope.",
+      itemNotes: {
+        "grade-wp-start": "Recorded at the pipe's upstream invert.",
+        "grade-wp-mid": "Recorded at the midpoint, matching the design slope.",
+        "grade-wp-end": "Recorded at the downstream invert.",
+      },
+      outOfOrderNote: "That point comes later in the run. Teach start, then mid, then end — the grader reads the profile in recording order.",
+    },
+    {
+      id: "gps-save", kind: "select", target: "grade-console-save",
+      title: "Save the grade-control profile",
+      cue: "Commit the three waypoints to the machine control system as one profile.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three grade points into a profile the grader can actually run against.",
+    },
+    {
+      id: "gps-run", kind: "hold", target: "grade-console-run", seconds: 2.5,
+      title: "Dry-run the grade-control profile",
+      cue: "Hold RUN/VERIFY and watch the automated profile track clear of the box and the crew.",
+      why: "A brand-new profile is verified at a walk-through pace with a hand on the console, watching the whole run, before the grader ever moves unattended over a trench a crew just worked in.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole profile — that's how you catch a bad waypoint before the machine runs it for real.",
     },
     {
       id: "exit-count", kind: "select", target: "headcount-board",
@@ -259,6 +286,41 @@ export const SIM_TRENCH_BOX = {
     holoTag(meter, "4-gas meter", 0, 0.16, 0, { css: "#7ed321", w: 0.26 });
     reg(hits, meter, "gas-meter");
 
+    // ------------------------------------------------- GPS grade-control automation
+    // Waypoints run along the trench's own length so the taught profile
+    // visibly follows the pipe grade, not an arbitrary spot in the yard.
+    const gradeWpSpecs = [
+      { id: "grade-wp-start", label: "1 · Start", z: -1.0, color: 0x59c97b },
+      { id: "grade-wp-mid", label: "2 · Mid", z: 0, color: 0x4fd1ff },
+      { id: "grade-wp-end", label: "3 · End", z: 1.0, color: 0xffcc00 },
+    ];
+    const gradeWps = gradeWpSpecs.map((s) => {
+      const marker = torus(trench, 0.09, 0.012, 0.55, 0.02, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(trench, s.label, 0.55, 0.24, s.z, { css: "#7ed321", w: 0.3 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const gradeRover = group(g, 0.55, 0, 0.9, 0.4);
+    cyl(gradeRover, 0.012, 0.012, 0.9, 0, 0.45, 0, 0xa8b0b8, { rough: 0.5, metal: 0.6, seg: 8 });
+    ball(gradeRover, 0.05, 0, 0.92, 0, 0xd8b23a, { rough: 0.4, metal: 0.3 });
+    holoTag(gradeRover, "GPS rover", 0, 1.06, 0, { css: "#7ed321", w: 0.26 });
+
+    const gradeConsole = group(g, 0.85, 0, 0.55, -0.4);
+    slab(gradeConsole, 0.34, 0.28, 0.03, 0, 0.9, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const gradeConsoleScreen = decal(gradeConsole, 0.28, 0.12, 0, 0.94, 0.017,
+      signFace("GRADE CTRL", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.45 }), { glow: true, ei: 0.85, px: 220 });
+    holoTag(gradeConsole, "Grade-control console", 0, 1.06, 0, { css: "#7ed321", w: 0.34 });
+    const gradeSaveBtn = cyl(gradeConsole, 0.018, 0.018, 0.012, -0.07, 0.75, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    gradeSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, gradeSaveBtn, "grade-console-save");
+    const gradeRunBtn = cyl(gradeConsole, 0.018, 0.018, 0.012, 0.07, 0.75, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    gradeRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, gradeRunBtn, "grade-console-run");
+    holoTag(gradeConsole, "Save · Run", 0, 0.7, 0, { css: "#7ed321", w: 0.26 });
+
     const headcount = group(g, 1.9, 0, 0.0, 0.6);
     slab(headcount, 0.4, 0.3, 0.03, 0, 1.05, 0, 0x1b232b, { radius: 0.01, rough: 0.6 });
     const headcountFace = decal(headcount, 0.36, 0.26, 0, 1.05, 0.02,
@@ -290,6 +352,12 @@ export const SIM_TRENCH_BOX = {
         if (step.id === "pipe-work") {
           repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));
         }
+        if (step.id === "gps-save") {
+          repaint(gradeConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.45 }));
+        }
+        if (step.id === "gps-run") {
+          repaint(gradeConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
+        }
         if (step.id === "exit-count") {
           repaint(headcountFace, signFace("CREW\nCLEAR", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
         }
@@ -301,6 +369,20 @@ export const SIM_TRENCH_BOX = {
       animate(t, dt, session) {
         spotter.userData.head.rotation.y = Math.sin(t * 0.6) * 0.4;
         if (dust.visible) dust.userData.step(dt, new THREE.Vector3(0, 0.4, 0), 0.15, 0.15, -0.1);
+
+        // Dry-run playback: the rover rides the taught grade profile —
+        // start to mid to end — in step with how far the RUN/VERIFY hold
+        // has gotten, so a correctly taught profile has a visible payoff.
+        if (session?.step?.id === "gps-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? gradeWps[0] : gradeWps[1];
+          const to = p < 0.5 ? gradeWps[1] : gradeWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          gradeRover.position.lerpVectors(
+            new THREE.Vector3(trench.position.x + from.position.x, 0, trench.position.z + from.position.z),
+            new THREE.Vector3(trench.position.x + to.position.x, 0, trench.position.z + to.position.z),
+            localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed && session.step?.id === "atmosphere-test") {

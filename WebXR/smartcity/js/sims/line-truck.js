@@ -33,6 +33,7 @@ export const SIM_LINE_TRUCK = {
       { id: "rubber-proven", name: "Rubber Proven", note: "Never approach the conductor unprotected", test: AWARD.safe },
       { id: "dead-line-true", name: "Dead Line True", note: "Hold every test reading near band centre", test: AWARD.precise(0.72) },
       { id: "grounds-clean", name: "Grounds Clean", note: "Apply every ground in the correct order", test: AWARD.stepClean("apply-grounds") },
+      { id: "crawler-programmed", name: "Crawler Programmed Clean", note: "Teach the line-crawler path in order, first try", test: AWARD.stepClean("crawler-teach") },
     ],
     challenges: [
       { id: "storm-window", name: "Storm Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -142,6 +143,32 @@ export const SIM_LINE_TRUCK = {
       outOfOrderNote: "Wrong order — ground electrode first, then neutral, then the phase conductor. Removal happens in the exact reverse.",
     },
     {
+      id: "crawler-teach", kind: "sequence", targets: ["crawler-wp-start", "crawler-wp-mid", "crawler-wp-end"],
+      itemNames: { "crawler-wp-start": "Start waypoint", "crawler-wp-mid": "Mid waypoint", "crawler-wp-end": "End waypoint" },
+      title: "Teach the line-crawler waypoints",
+      cue: "Record the start, mid and end inspection points along the de-energized span, in that order.",
+      why: "The crawler drives this span in the order the points were recorded — teach start to end, matching the direction it will actually travel along the conductor.",
+      itemNotes: {
+        "crawler-wp-start": "Recorded at the near end, by the truck-side pole.",
+        "crawler-wp-mid": "Recorded at the midspan sag point.",
+        "crawler-wp-end": "Recorded at the far anchor.",
+      },
+      outOfOrderNote: "That point comes later on the span. Teach start, then mid, then end — the crawler drives the points in recording order.",
+    },
+    {
+      id: "crawler-save", kind: "select", target: "crawler-console-save",
+      title: "Save the crawler path",
+      cue: "Commit the three waypoints to the crawler's controller as one path.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three waypoints into a path the crawler can actually run.",
+    },
+    {
+      id: "crawler-run", kind: "hold", target: "crawler-console-run", seconds: 2.5,
+      title: "Dry-run the line-crawler path",
+      cue: "Hold RUN/VERIFY and watch the crawler's path clear the grounds and the crew before it runs the span.",
+      why: "A brand-new path is verified at a walking pace with a hand on the controller, watching the whole span, before the crawler ever runs it unattended over grounds a crew just applied.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole path — that's how you catch a bad waypoint before the crawler runs it for real.",
+    },
+    {
       id: "rescue-ready", kind: "select", target: "rescue-hook",
       title: "Confirm rescue readiness",
       cue: "Check the pole-top and bucket rescue hook and line are staged and ready.",
@@ -244,6 +271,40 @@ export const SIM_LINE_TRUCK = {
     holoTag(groundPointTrap, "Untested ground point", 0, 0.1, 0, { css: "#f0645b", w: 0.36 });
     reg(hits, groundPointTrap, "ground-point-untested");
 
+    // ------------------------------------------------------ robotic line-crawler
+    // Waypoints ride the neutral messenger wire's own span — the same span the
+    // crawler will actually travel, once it's proven dead and grounded.
+    const crawlerWpSpecs = [
+      { id: "crawler-wp-start", label: "1 · Start", z: -0.1, color: 0x59c97b },
+      { id: "crawler-wp-mid", label: "2 · Mid", z: -0.8, color: 0x4fd1ff },
+      { id: "crawler-wp-end", label: "3 · End", z: -1.5, color: 0xffcc00 },
+    ];
+    const crawlerWps = crawlerWpSpecs.map((s) => {
+      const marker = torus(pole, 0.05, 0.008, 0, 1.9, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 20 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(pole, s.label, 0, 2.02, s.z, { css: "#fcee21", w: 0.28 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const crawler = group(pole, 0, 1.9, -0.1, 0.3);
+    box(crawler, 0.14, 0.08, 0.1, 0, 0, 0, 0x2b3138, { rough: 0.5, metal: 0.5 });
+    holoTag(crawler, "Line crawler", 0, 0.14, 0, { css: "#fcee21", w: 0.26 });
+
+    const crawlerConsole = group(truck, 0.55, 0.35, 0.35, -0.6);
+    slab(crawlerConsole, 0.3, 0.24, 0.03, 0, 0, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const crawlerConsoleScreen = decal(crawlerConsole, 0.24, 0.1, 0, 0.03, 0.017,
+      signFace("CRAWLER", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.45 }), { glow: true, ei: 0.85, px: 200 });
+    holoTag(crawlerConsole, "Crawler controller", 0, 0.16, 0, { css: "#fcee21", w: 0.32 });
+    const crawlerSaveBtn = cyl(crawlerConsole, 0.016, 0.016, 0.01, -0.06, -0.08, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    crawlerSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, crawlerSaveBtn, "crawler-console-save");
+    const crawlerRunBtn = cyl(crawlerConsole, 0.016, 0.016, 0.01, 0.06, -0.08, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    crawlerRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, crawlerRunBtn, "crawler-console-run");
+    holoTag(crawlerConsole, "Save · Run", 0, -0.13, 0, { css: "#fcee21", w: 0.24 });
+
     // ------------------------------------------------------------ PPE and instruments
     const chest = toolChest(g, 1.5, 1.4, { ry: -0.7, color: 0xfcee21 });
     const gloveGroup = group(chest, -0.14, 0.79, 0.06, 0.3);
@@ -309,11 +370,27 @@ export const SIM_LINE_TRUCK = {
         if (step.id === "isolate") energized = false;
         if (step.id === "verify-dead") phases.forEach((p) => { p.material = mat(0x53585e, { rough: 0.6 }); });
         if (step.id === "apply-grounds") { grounded = true; }
+        if (step.id === "crawler-save") {
+          repaint(crawlerConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
+        }
+        if (step.id === "crawler-run") {
+          repaint(crawlerConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.32 }));
+        }
         if (step.id === "rescue-ready") holoTag(g, "Ready", -1.7, 1.5, 1.4, { css: "#59c97b", w: 0.2 });
       },
 
       animate(t, dt, session) {
         boomLever.rotation.x = Math.sin(t * 0.6) * 0.1;
+
+        // Dry-run playback: the crawler rides the taught span — start to mid
+        // to end — in step with the RUN/VERIFY hold progress.
+        if (session?.step?.id === "crawler-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? crawlerWps[0] : crawlerWps[1];
+          const to = p < 0.5 ? crawlerWps[1] : crawlerWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          crawler.position.lerpVectors(from.position, to.position, localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed) {

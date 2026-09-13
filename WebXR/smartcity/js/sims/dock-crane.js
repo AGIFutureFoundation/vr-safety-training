@@ -33,6 +33,7 @@ export const SIM_DOCK_CRANE = {
       { id: "red-zone-clear", name: "Red Zone Clear", note: "Never stand under a suspended load", test: AWARD.safe },
       { id: "true-limits", name: "True Limits", note: "Hold every reading near band centre", test: AWARD.precise(0.72) },
       { id: "locks-verified", name: "Locks Verified", note: "Clear the twist-lock check with no correction", test: AWARD.stepClean("twist-lock-check") },
+      { id: "agv-routed-clean", name: "AGV Routed Clean", note: "Teach the AGV route in order, first try", test: AWARD.stepClean("agv-teach") },
     ],
     challenges: [
       { id: "vessel-window", name: "Vessel Window", note: "Complete inside 80% of par", test: AWARD.fast(0.8) },
@@ -134,6 +135,32 @@ export const SIM_DOCK_CRANE = {
       cue: "Lower fully onto the chassis, confirm the hook is slack, then release the locks and retract.",
       why: "The locks only release once the container's full weight is back on the chassis — releasing early hands the load's weight to whatever is left holding it, which may be nothing.",
       outOfOrderNote: "Wrong order — the container lands and takes its own weight first, then the locks release, then the spreader retracts.",
+    },
+    {
+      id: "agv-teach", kind: "sequence", targets: ["agv-wp-pickup", "agv-wp-transit", "agv-wp-stack"],
+      itemNames: { "agv-wp-pickup": "Pickup waypoint", "agv-wp-transit": "Transit waypoint", "agv-wp-stack": "Stack waypoint" },
+      title: "Teach the AGV route waypoints",
+      cue: "Record the pickup, transit and stack points for the yard AGV, in that order.",
+      why: "The AGV drives this route exactly in the order it was recorded — teach pickup, then transit, then stack, matching the path the container actually needs to travel.",
+      itemNotes: {
+        "agv-wp-pickup": "Recorded at the chassis where the container just landed.",
+        "agv-wp-transit": "Recorded clear of the crane's swing radius and the lashing gang.",
+        "agv-wp-stack": "Recorded at the destination stack.",
+      },
+      outOfOrderNote: "That point comes later in the route. Teach pickup, then transit, then stack — the AGV drives the points in recording order.",
+    },
+    {
+      id: "agv-save", kind: "select", target: "agv-console-save",
+      title: "Save the AGV route",
+      cue: "Commit the three waypoints to the yard's AGV coordination system.",
+      why: "An untaught point list is just recorded positions. Saving it is what turns three waypoints into a route the AGV can actually dispatch on.",
+    },
+    {
+      id: "agv-run", kind: "hold", target: "agv-console-run", seconds: 2.5,
+      title: "Dry-run the AGV route",
+      cue: "Hold RUN/VERIFY and watch the route clear the swing radius and the gang before dispatch.",
+      why: "A brand-new route is verified at walking pace with a hand on the console, watching the whole path, before an unmanned AGV ever drives it at full speed through a working yard.",
+      holdBreakNote: "Released before the dry-run finished. Hold it through the whole route — that's how you catch a bad waypoint before the AGV drives it for real.",
     },
     {
       id: "log", kind: "select", target: "lift-plan",
@@ -258,6 +285,41 @@ export const SIM_DOCK_CRANE = {
     reg(hits, releaseHandle, "release-twist-locks");
     reg(hits, trolley, "retract-spreader");
 
+    // -------------------------------------------------------- AGV coordination
+    // Waypoints span from the chassis (pickup) through open yard clear of the
+    // red zone (transit) to the destination stack — the same route an
+    // automated guided vehicle would actually drive to clear the container.
+    const agvWpSpecs = [
+      { id: "agv-wp-pickup", label: "1 · Pickup", x: 0.45, z: 1.25, color: 0x59c97b },
+      { id: "agv-wp-transit", label: "2 · Transit", x: -0.55, z: 0.75, color: 0x4fd1ff },
+      { id: "agv-wp-stack", label: "3 · Stack", x: -1.15, z: 0.35, color: 0xffcc00 },
+    ];
+    const agvWps = agvWpSpecs.map((s) => {
+      const marker = torus(g, 0.09, 0.012, s.x, 0.02, s.z, s.color,
+        { emissive: s.color, ei: 1.2, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+      marker.rotation.x = Math.PI / 2;
+      holoTag(g, s.label, s.x, 0.24, s.z, { css: "#3a7ca5", w: 0.32 });
+      reg(hits, marker, s.id);
+      return marker;
+    });
+
+    const agv = group(g, 0.45, 0, 1.55, 0.3);
+    box(agv, 0.4, 0.14, 0.6, 0, 0.09, 0, 0xd8b23a, { rough: 0.5, metal: 0.3 });
+    holoTag(agv, "Yard AGV", 0, 0.24, 0, { css: "#3a7ca5", w: 0.26 });
+
+    const agvConsole = group(g, 0.9, 0, 1.0, -0.5);
+    slab(agvConsole, 0.34, 0.28, 0.03, 0, 0.9, 0, 0xf2c14b, { radius: 0.02, rough: 0.55 });
+    const agvConsoleScreen = decal(agvConsole, 0.28, 0.12, 0, 0.94, 0.017,
+      signFace("AGV COORD", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }), { glow: true, ei: 0.85, px: 220 });
+    holoTag(agvConsole, "AGV coordination console", 0, 1.06, 0, { css: "#3a7ca5", w: 0.38 });
+    const agvSaveBtn = cyl(agvConsole, 0.018, 0.018, 0.012, -0.07, 0.75, 0.017, 0x59c97b, { rough: 0.4, seg: 14 });
+    agvSaveBtn.rotation.x = Math.PI / 2;
+    reg(hits, agvSaveBtn, "agv-console-save");
+    const agvRunBtn = cyl(agvConsole, 0.018, 0.018, 0.012, 0.07, 0.75, 0.017, 0x4fd1ff, { rough: 0.4, seg: 14 });
+    agvRunBtn.rotation.x = Math.PI / 2;
+    reg(hits, agvRunBtn, "agv-console-run");
+    holoTag(agvConsole, "Save · Run", 0, 0.7, 0, { css: "#3a7ca5", w: 0.26 });
+
     // ------------------------------------------------------------------------- paperwork
     const chest = toolChest(g, 1.8, 1.3, { ry: -0.7, color: 0x3a7ca5 });
     const chart = holoPanel(g, 0.56, 0.4, 1.9, 1.5, 0.6, (ctx, w, h) => {
@@ -305,6 +367,12 @@ export const SIM_DOCK_CRANE = {
         }
         if (step.id === "hoist") { hoisting = true; }
         if (step.id === "land-release") { hoisting = false; spreader.position.y = -1.6; }
+        if (step.id === "agv-save") {
+          repaint(agvConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.45 }));
+        }
+        if (step.id === "agv-run") {
+          repaint(agvConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
+        }
       },
 
       animate(t, dt, session) {
@@ -314,6 +382,16 @@ export const SIM_DOCK_CRANE = {
           hoistCable.scale.y = 1 - lift / 1.5;
         }
         signal.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
+
+        // Dry-run playback: the AGV rides the taught route — pickup to
+        // transit to stack — in step with the RUN/VERIFY hold progress.
+        if (session?.step?.id === "agv-run" && session.holding) {
+          const p = Math.min(1, session.holdFor / session.step.seconds);
+          const from = p < 0.5 ? agvWps[0] : agvWps[1];
+          const to = p < 0.5 ? agvWps[1] : agvWps[2];
+          const localP = p < 0.5 ? p * 2 : (p - 0.5) * 2;
+          agv.position.lerpVectors(from.position, to.position, localP);
+        }
 
         const gg = session?.gauge;
         if (gg && !gg.committed && session.step?.id === "wind-check") {
