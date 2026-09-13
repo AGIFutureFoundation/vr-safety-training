@@ -20,12 +20,31 @@ import { mountUI } from "./react-ui.js";
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+renderer.xr.enabled = true;
 document.getElementById("stage").appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(58, innerWidth / innerHeight, 0.05, 60);
+// Neither generator has locomotion even on desktop — one fixed vantage per
+// hole or procedure, reach out and click. A VR headset gets the same fixed
+// seat: `rig` is the vantage point positionCamera()/positionTrainingCamera()
+// place in the world, and the headset's own pose composes on top of it, the
+// same rig-plus-child-camera pattern SmartCiti.X and the Trade Skills
+// Simulator use for room-scale movement.
+const rig = new THREE.Group();
+rig.add(camera);
+// Group.lookAt() (unlike Camera.lookAt()) orients an object's forward axis
+// AWAY from the target, not toward it — the right convention for something
+// like a bone or an arrow, the wrong one for a camera rig. This builds the
+// camera-style look-at matrix directly instead.
+const _lookMat = new THREE.Matrix4();
+function orientRig(tx, ty, tz) {
+  _lookMat.lookAt(rig.position, new THREE.Vector3(tx, ty, tz), rig.up);
+  rig.quaternion.setFromRotationMatrix(_lookMat);
+}
 const worldRoot = new THREE.Group();
 scene.add(worldRoot);
+scene.add(rig);
 
 scene.add(new THREE.HemisphereLight(0xdfe9f4, 0x201530, 1.1));
 const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -57,6 +76,7 @@ const store = createStore({
   intro: {
     visible: true, promptText: "", listening: false, speechSupported,
     error: "", heard: "", themeId: DEFAULT_THEME_ID, userPickedTheme: false,
+    xrSupported: false,
   },
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
@@ -175,8 +195,9 @@ function buildHoleScene(g, hole, theme) {
 function positionCamera(hole) {
   const cx = (hole.tee.x + hole.cup.x) / 2;
   const cz = (hole.tee.z + hole.cup.z) / 2;
-  camera.position.set(cx * 0.4, 2.3 + hole.length * 0.24, hole.tee.z - 1.9);
-  camera.lookAt(cx, 0, cz);
+  rig.position.set(cx * 0.4, 2.3 + hole.length * 0.24, hole.tee.z - 1.9);
+  orientRig(cx, 0, cz);
+  rig.updateMatrixWorld(true);
 }
 
 // ---------------------------------------------------------------- game state
@@ -357,8 +378,9 @@ function buildTrainingScene(g, room) {
 }
 
 function positionTrainingCamera() {
-  camera.position.set(0.1, 1.9, 2.6);
-  camera.lookAt(0, 0.7, -0.5);
+  rig.position.set(0.1, 1.9, 2.6);
+  orientRig(0, 0.7, -0.5);
+  rig.updateMatrixWorld(true);
 }
 
 // -------------------------------------------------------- training lifecycle
@@ -655,10 +677,7 @@ canvas.addEventListener("pointerdown", (e) => {
   aiming = true;
   store.patch("hud", { powerVisible: true, powerPct: 0 });
 });
-addEventListener("pointermove", (e) => {
-  if (mode === "training") { trainingPointerMove(e); return; }
-  if (!aiming) return;
-  const cur = raycastGround(e.clientX, e.clientY);
+function updateAimTo(cur) {
   if (!cur) return;
   const dx = dragAnchor.x - cur.x, dz = dragAnchor.z - cur.z;
   const dist = Math.hypot(dx, dz);
@@ -666,6 +685,11 @@ addEventListener("pointermove", (e) => {
   if (dist > 0.001) lastDir = { x: dx / dist, z: dz / dist };
   store.patch("hud", { powerPct: Math.round(power * 100) });
   updateAimVisual(power);
+}
+addEventListener("pointermove", (e) => {
+  if (mode === "training") { trainingPointerMove(e); return; }
+  if (!aiming) return;
+  updateAimTo(raycastGround(e.clientX, e.clientY));
 });
 function endAim(commit) {
   if (!aiming) return;
@@ -682,6 +706,88 @@ function endAim(commit) {
 }
 addEventListener("pointerup", (e) => { if (mode === "training") trainingPointerUp(e); else endAim(true); });
 addEventListener("pointercancel", () => { if (mode === "training") trainingPointerCancel(); else endAim(false); });
+
+// --------------------------------------------------------------------- XR
+//
+// Same two gestures as desktop — point and click to select/putt, point and
+// twist to turn a valve — just driven by a controller ray instead of the
+// mouse. There is no locomotion to add: the desktop experience never moves
+// the camera either, so a seated headset reaching out to the same fixed
+// diorama is a natural fit, not a cut-down version of a bigger VR mode.
+
+const xrRaycaster = new THREE.Raycaster();
+xrRaycaster.far = 20;
+const _xrM4 = new THREE.Matrix4();
+let aimingController = null;
+
+function controllerRay(controller) {
+  _xrM4.identity().extractRotation(controller.matrixWorld);
+  xrRaycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+  xrRaycaster.ray.direction.set(0, 0, -1).applyMatrix4(_xrM4);
+  return xrRaycaster;
+}
+function rayGroundHit(controller) {
+  const hit = new THREE.Vector3();
+  return controllerRay(controller).ray.intersectPlane(groundPlane, hit) ? hit : null;
+}
+function castFromController(controller) {
+  return findHit(controllerRay(controller).intersectObjects(selectables, false));
+}
+
+const controllers = [];
+for (let i = 0; i < 2; i++) {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -5)]),
+    new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 }));
+  c.add(line);
+  c.addEventListener("selectstart", () => {
+    if (mode === "golf") {
+      if (!canPutt() || aimingController) return;
+      dragAnchor = rayGroundHit(c);
+      if (!dragAnchor) return;
+      aimingController = c;
+      aiming = true;
+      store.patch("hud", { powerVisible: true, powerPct: 0 });
+      return;
+    }
+    if (mode === "training") {
+      const hit = castFromController(c);
+      if (hit && beginTrainingTurn(hit, 0)) { c.userData.turning = true; c.userData.lastRoll = c.rotation.z; trainingTurnState.controller = c; return; }
+      c.userData.downId = hit ?? null;
+    }
+  });
+  c.addEventListener("selectend", () => {
+    if (aimingController === c) { aimingController = null; endAim(true); return; }
+    if (mode === "training") {
+      if (c.userData.turning) { c.userData.turning = false; endTrainingTurn(); return; }
+      const hit = castFromController(c);
+      if (hit && hit === c.userData.downId) activateTraining(hit);
+      c.userData.downId = null;
+    }
+  });
+  rig.add(c);
+  controllers.push(c);
+}
+
+async function enterXR() {
+  if (!navigator.xr) return;
+  try {
+    const session = await navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor"] });
+    await renderer.xr.setSession(session);
+  } catch (err) {
+    store.patch("hud", { feedback: `<b>Could not start the VR session.</b> ${err?.message ?? err}` });
+  }
+}
+async function generateInVR() {
+  await generate();
+  await enterXR();
+}
+
+if (navigator.xr?.isSessionSupported) {
+  navigator.xr.isSessionSupported("immersive-vr").then((ok) => store.patch("intro", { xrSupported: ok }))
+    .catch(() => store.patch("intro", { xrSupported: false }));
+}
 
 // --------------------------------------------------------------- frame loop
 
@@ -715,12 +821,24 @@ renderer.setAnimationLoop(() => {
       }));
     }
   }
+  if (renderer.xr.isPresenting) {
+    if (aimingController) updateAimTo(rayGroundHit(aimingController));
+    for (const c of controllers) {
+      if (!c.userData.turning) continue;
+      let delta = c.rotation.z - c.userData.lastRoll;
+      c.userData.lastRoll = c.rotation.z;
+      if (delta > Math.PI) delta -= Math.PI * 2;
+      if (delta < -Math.PI) delta += Math.PI * 2;
+      trainingSession?.rotate(trainingTurnState?.id, delta / (Math.PI * 2));
+      syncTrainingHud();
+    }
+  }
   burst.update(dt);
   renderer.render(scene, camera);
 });
 
 mountUI(store, {
-  setPromptText, toggleMic, selectTheme, generate,
+  setPromptText, toggleMic, selectTheme, generate, generateInVR,
   nextHole, playAgain, newPrompt,
 });
 

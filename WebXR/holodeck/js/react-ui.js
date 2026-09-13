@@ -93,7 +93,12 @@ export function mountUI(store, actions) {
               disabled: !intro.speechSupported,
               onClick: actions.toggleMic,
             }, intro.listening ? "■ Listening…" : "🎙 Speak it"),
-            h("button", { className: "primary", type: "button", onClick: actions.generate }, "Generate course")),
+            h("button", { className: "primary", type: "button", onClick: actions.generate }, "Generate course"),
+            h("button", {
+              type: "button", disabled: !intro.xrSupported,
+              title: intro.xrSupported ? "" : "VR unavailable in this browser",
+              onClick: actions.generateInVR,
+            }, "Generate in VR")),
           !intro.speechSupported && h("p", { className: "fineprint", style: { marginTop: "6px" } },
             "Voice input isn't supported in this browser — Chrome desktop/Android has it. Typing works everywhere."),
           intro.error && h("p", { id: "prompt-error" }, intro.error),
