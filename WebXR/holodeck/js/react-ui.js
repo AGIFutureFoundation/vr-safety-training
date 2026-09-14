@@ -8,6 +8,11 @@ import { THEMES } from "./themes.js";
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
 
+/** "a Technician" vs "an Automation Lead" — rank names are real sim content
+ * (e.g. "Automation Lead", "Elevator Constructor"), not picked to avoid
+ * vowels, so the article has to actually check. */
+const article = (word) => (/^[aeiou]/i.test(word) ? "an" : "a");
+
 export function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -158,7 +163,9 @@ export function mountUI(store, actions) {
         h("p", { className: "res-note" }, r.scoreText),
         h("p", { className: "res-note" }, r.note),
         r.rankName && h("p", { className: "res-note" },
-          r.rankedUp ? `Ranked up — you're now a ${r.rankName} on this procedure.` : `Rank on this procedure: ${r.rankName}.`),
+          r.rankedUp
+            ? `Ranked up — you're now ${article(r.rankName)} ${r.rankName} on this procedure.`
+            : `Rank on this procedure: ${r.rankName}.`),
         r.boardRows.length > 0 && h(Fragment, null,
           h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Local leaderboard — this procedure, this device"),
           h("table", { className: "scorecard" },
