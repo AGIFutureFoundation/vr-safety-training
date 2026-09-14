@@ -1456,6 +1456,33 @@ function buildTrainingRoom({ templateId, equipmentId }) {
 // what "speaking a simulation into existence" currently covers.
 const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
 
+// Naming one of these directly loads the real SmartCiti.X station instead of
+// building a generic Mad-Libs procedure — see app.js's loadRealSim(). Scoped
+// to the 15 stations whose steps use only interaction kinds Holodeck's
+// pointer routing already drives (select/sequence/find/gauge/hold/turn); the
+// other 5 use a "drag" step Holodeck has no gesture for yet, so naming one
+// of those falls through to the generic generator instead.
+const REAL_SIMS = [
+  { id: "charge-point", name: "Charge Point" },
+  { id: "signal-cabinet", name: "Signal Cabinet" },
+  { id: "solar-deck", name: "Solar Deck" },
+  { id: "splice-node", name: "Splice Node" },
+  { id: "track-access", name: "Track Access" },
+  { id: "triage-point", name: "Triage Point" },
+  { id: "robot-cell", name: "Robot Cell" },
+  { id: "chiller-plant", name: "Chiller Plant" },
+  { id: "tower-climb", name: "Tower Climb" },
+  { id: "boiler-room", name: "Boiler Room" },
+  { id: "elevator-pit", name: "Elevator Pit" },
+  { id: "abatement-chamber", name: "Abatement Chamber" },
+  { id: "rigging-loft", name: "Rigging Loft" },
+  { id: "line-truck", name: "Line Truck" },
+  { id: "dock-crane", name: "Dock Crane" },
+];
+// Longest name first so "dock crane" can't be shadow-matched by a shorter
+// name that happens to be a substring of a longer phrase.
+const REAL_SIMS_BY_LENGTH = [...REAL_SIMS].sort((a, b) => b.name.length - a.name.length);
+
 const GAME_KEYWORDS = {
   // Checked before minigolf: a phrase like "confined space entry training"
   // never mentions golf, but "training" alone is unambiguous, so order only
@@ -1467,10 +1494,17 @@ const GAME_KEYWORDS = {
 function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
 
-  let gameType = "minigolf"; // the fallback if nothing at all matches
-  let matchedGame = false;
-  for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
-    if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
+  // Naming a real station beats generic keyword matching — it's the more
+  // specific, more confident signal, so it decides gameType outright.
+  const realSim = REAL_SIMS_BY_LENGTH.find((s) => lower.includes(s.name.toLowerCase()));
+  const realSimId = realSim?.id ?? null;
+
+  let gameType = realSimId ? "training" : "minigolf"; // the fallback if nothing at all matches
+  let matchedGame = !!realSimId;
+  if (!realSimId) {
+    for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
+      if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
+    }
   }
 
   let themeId = DEFAULT_THEME_ID;
@@ -1493,6 +1527,7 @@ function localInterpreter(text) {
 
   return {
     gameType, matchedGame,
+    realSimId, matchedRealSim: !!realSimId,
     themeId, matchedTheme,
     templateId, matchedTemplate,
     equipmentId, matchedEquipment,
@@ -1799,7 +1834,9 @@ function mountUI(store, actions) {
         h("p", { className: "fineprint", style: { marginTop: "8px" } },
           "Training prompts instead pick from: lockout & verify or confined-space entry, on an electrical panel, " +
           "forklift, boiler, conveyor, air compressor or storage tank — e.g. “confined space entry simulation " +
-          "for a storage tank.”"),
+          "for a storage tank.” Or name one of 15 real SmartCiti.X stations directly — e.g. “run the robot cell " +
+          "simulation” or “practice the dock crane drill” — and it loads that actual station, hazards and all, " +
+          "not a generated stand-in."),
         h("p", { className: "fineprint" },
           "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
         h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
@@ -2132,7 +2169,8 @@ function showFinal() {
 function playAgain() {
   if (mode === "training") {
     store.patch("trainingResult", { visible: false });
-    enterTraining(lastTrainingParams.templateId, lastTrainingParams.equipmentId);
+    if (lastTrainingParams.kind === "real") enterRealSim(lastTrainingParams.simId);
+    else enterGenericTraining(lastTrainingParams.templateId, lastTrainingParams.equipmentId);
     return;
   }
   store.patch("final", { visible: false });
@@ -2217,6 +2255,7 @@ function buildTrainingScene(g, room) {
     signFace(isConfinedSpace ? "ENTRY PERMIT" : "WORK ORDER", { bg: "#11181f", accent: eq.accent, scale: 0.34 }), { px: 220 });
   board.userData.hitId = isConfinedSpace ? "permit-board" : "work-order";
 
+  let ventBlades = null;
   if (isConfinedSpace) {
     // Ventilation fan.
     const fanGroup = group(g, 1.3, 0, -1.1);
@@ -2227,6 +2266,7 @@ function buildTrainingScene(g, room) {
       blade.rotation.z = (i * Math.PI) / 2;
     }
     fanGroup.userData.hitId = "vent-fan";
+    ventBlades = blades;
     refs.ventBlades = blades;
 
     // Attendant, posted at the entry.
@@ -2235,12 +2275,53 @@ function buildTrainingScene(g, room) {
     refs.attendant = attendant;
   }
 
+  // Bundling the step-reaction and per-frame visual logic onto the returned
+  // refs — rather than in a module-level closure keyed on hardcoded step ids
+  // — is exactly the shape every real SmartCiti.X sim's own build() already
+  // returns. That shared shape is what lets enterTraining() below run either
+  // kind of room through one unified path, including a real station loaded
+  // straight from the SmartCiti.X library (see loadRealSim()).
+  let ventOn = false;
+  refs.onStepComplete = (step) => {
+    if (step.id === "isolate") Sfx.tick();
+    if (step.id === "lock") appliedLock.visible = true;
+    if (step.id === "restore") { appliedLock.visible = false; discHandle.rotation.z = 0; }
+    if (step.id === "ventilate") ventOn = true;
+  };
+  refs.animate = (t, dt, session) => {
+    const step = session?.step;
+    if (step?.kind === "turn") {
+      const amount = session.turn?.amount ?? 0;
+      const reverse = step.turn?.reverse ? -1 : 1;
+      discHandle.rotation.z = amount * Math.PI * 2 * reverse;
+    }
+    if (ventBlades && ventOn) ventBlades.rotation.z += dt * 6;
+    const gg = session?.gauge;
+    if (gg && !gg.committed && step?.kind === "gauge") {
+      const text = step.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;
+      const inBand = gg.t >= step.gauge.green[0] && gg.t <= step.gauge.green[1];
+      repaint(meterScreen, signFace(text, {
+        bg: "#0d1c24", accent: inBand ? "#59c97b" : eq.accent, fg: "#bfeaf7", scale: 0.55,
+      }));
+    }
+  };
+
   return refs;
 }
 
-function positionTrainingCamera() {
-  rig.position.set(0.1, 1.9, 2.6);
-  orientRig(0, 0.7, -0.5);
+function positionTrainingCamera(footprint) {
+  // The generic Mad-Libs procedure has one fixed, hand-tuned layout. A real
+  // SmartCiti.X station reports its own footprint (its build() sizes the
+  // whole scene around it) and has no fixed layout Holodeck knows in
+  // advance, so it gets a generic distance-from-footprint vantage instead —
+  // the same "footprint + margin" formula SmartCiti.X's own app.js uses.
+  if (footprint == null) {
+    rig.position.set(0.1, 1.9, 2.6);
+    orientRig(0, 0.7, -0.5);
+  } else {
+    rig.position.set(0, 1.7, footprint + 1.6);
+    orientRig(0, 0.9, 0);
+  }
   rig.updateMatrixWorld(true);
 }
 
@@ -2263,10 +2344,10 @@ function collectSelectables() {
 function clearTraining() {
   if (trainingGroup) { disposeTree(trainingGroup); worldRoot.remove(trainingGroup); trainingGroup = null; }
   trainingSession = null;
+  trainingRefs = null;
   hits = {};
   selectables = [];
   trainingTurnState = null;
-  ventOn = false;
 }
 
 function syncTrainingHud() {
@@ -2280,15 +2361,6 @@ function syncTrainingHud() {
     step: step ? step.title : "",
     cue: step ? step.cue : "",
   });
-}
-
-let ventOn = false;
-
-function onTrainingStepComplete(step) {
-  if (step.id === "isolate") Sfx.tick();
-  if (step.id === "lock") trainingRefs.appliedLock.visible = true;
-  if (step.id === "restore") { trainingRefs.appliedLock.visible = false; trainingRefs.disconnectHandle.rotation.z = 0; }
-  if (step.id === "ventilate") ventOn = true;
 }
 
 function showTrainingResult(s) {
@@ -2317,38 +2389,98 @@ function showTrainingResult(s) {
   });
 }
 
-function enterTraining(templateId, equipmentId) {
+/**
+ * Drives ANY Session-compatible room through Holodeck's training UI — the
+ * generic Mad-Libs procedure buildTrainingScene() renders, or a real
+ * SmartCiti.X station loaded straight from its own module (see
+ * loadRealSim()). Session hooks forward to whatever the room's own build()
+ * returned, exactly like SmartCiti.X's own enterSim() — this file never
+ * special-cases which kind of room it got.
+ */
+function enterTraining(room, buildFn) {
   clearTraining();
-  lastTrainingParams = { templateId, equipmentId };
-  trainingRoom = buildTrainingRoom({ templateId, equipmentId });
+  trainingRoom = room;
   trainingGroup = new THREE.Group();
   worldRoot.add(trainingGroup);
   scene.background = new THREE.Color(0x0a0714);
   scene.fog = null;
-  trainingRefs = buildTrainingScene(trainingGroup, trainingRoom);
+  trainingRefs = buildFn(trainingGroup);
   hits = {};
   trainingGroup.traverse((o) => { if (o.userData.hitId) hits[o.userData.hitId] = o; });
   collectSelectables();
-  positionTrainingCamera();
+  positionTrainingCamera(room.footprint);
 
-  trainingSession = new Session(trainingRoom, {
-    onStep: () => syncTrainingHud(),
-    onFeedback: (fb) => {
+  trainingSession = new Session(room, {
+    onStep: (step, s) => { trainingRefs.onStep?.(step, s); syncTrainingHud(); },
+    onFeedback: (fb, s) => {
+      trainingRefs.onFeedback?.(fb, s);
       const railState = fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn";
       store.patch("hud", { feedback: fb.text, railState });
       syncTrainingHud();
     },
-    onStepComplete: (step) => onTrainingStepComplete(step),
-    onHazard: () => {},
+    onStepComplete: (step, s) => trainingRefs.onStepComplete?.(step, s),
+    onHazard: (id, s) => trainingRefs.onHazard?.(id, s),
     onFinish: (s) => showTrainingResult(s),
   });
   trainingSession.start();
   store.patch("hud", {
     visible: true, mode: "training",
-    feedback: `<b>${trainingRoom.title}</b> — follow the procedure in order.`,
+    feedback: `<b>${room.title}</b> — follow the procedure in order.`,
     powerVisible: false, powerPct: 0,
   });
   syncTrainingHud();
+}
+
+function enterGenericTraining(templateId, equipmentId) {
+  lastTrainingParams = { kind: "generic", templateId, equipmentId };
+  const room = buildTrainingRoom({ templateId, equipmentId });
+  enterTraining(room, (g) => buildTrainingScene(g, room));
+}
+
+// -------------------------------------------------------- real SmartCiti.X sims
+//
+// Holodeck's own generic procedures are Mad-Libs stand-ins built from a
+// small vocabulary of equipment nouns; SmartCiti.X's 20 stations are the
+// real, hand-authored thing — a full hazard set and a purpose-built 3D
+// station per trade. Naming one directly loads its actual module and runs
+// it through the exact same engine and UI a generic prompt does, so
+// "speak a simulation into existence" can reach the whole real library, not
+// just the generated one.
+//
+// Scoped to the 15 stations whose steps use only select/sequence/find/
+// gauge/hold/turn — every interaction kind Holodeck's pointer routing
+// already drives. The other 5 (crane-yard, flight-deck, steel-erector,
+// trench-box, valve-vault) use a "drag" step Holodeck has no drag gesture
+// for yet, so they are left to SmartCiti.X itself rather than shipping a
+// station with an uncompletable step.
+const realSimCache = new Map();
+function loadRealSim(id) {
+  if (realSimCache.has(id)) return realSimCache.get(id);
+  const exportName = `SIM_${id.toUpperCase().replace(/-/g, "_")}`;
+  // Reaches the real station module SmartCiti.X's own dist ships for lazy
+  // loading (tools/bundle_webxr.py) — this makes Holodeck's dist depend on
+  // SmartCiti.X's dist being deployed alongside it under the same WebXR/
+  // root, unlike its generic-only predecessor.
+  const promise = import(`../../smartcity/dist/sims/${id}.js`).then((mod) => mod[exportName]);
+  realSimCache.set(id, promise);
+  return promise;
+}
+
+async function enterRealSim(simId) {
+  lastTrainingParams = { kind: "real", simId };
+  // Cleared up front, not just on success: a failed reload (Play Again on a
+  // finished real-sim run, then the fetch rejects) must not leave the prior
+  // run's finished scene/session sitting under the "Could not load" message.
+  clearTraining();
+  store.patch("hud", { visible: true, mode: "training", feedback: "<b>Loading station…</b>" });
+  let room;
+  try { room = await loadRealSim(simId); }
+  catch (err) { room = null; }
+  if (!room) {
+    store.patch("hud", { feedback: `<b>Could not load that station.</b> Try describing a generic procedure instead.` });
+    return;
+  }
+  enterTraining(room, (g) => room.build(g));
 }
 
 async function generate() {
@@ -2356,9 +2488,14 @@ async function generate() {
   const { promptText, themeId, userPickedTheme } = store.get().intro;
   const parsed = await interpretPrompt(promptText);
   store.patch("intro", { visible: false });
+  if (parsed.realSimId) {
+    mode = "training";
+    await enterRealSim(parsed.realSimId);
+    return;
+  }
   if (parsed.gameType === "training") {
     mode = "training";
-    enterTraining(parsed.templateId, parsed.equipmentId);
+    enterGenericTraining(parsed.templateId, parsed.equipmentId);
     return;
   }
   mode = "golf";
@@ -2476,6 +2613,17 @@ let trainingDownAt = 0;
 function activateTraining(id) {
   trainingSession?.select(id);
 }
+// "hold" steps (several real SmartCiti.X stations use them — teach-run
+// dry-runs, sustained comms checks) need the session told when the press
+// actually starts and ends, not just a quick click on release; Holodeck's
+// own generic procedures never happened to use this kind, so this path was
+// never wired up until a real station exposed the gap.
+function pressStart(id) {
+  if (trainingSession?.step?.kind === "hold" && id === trainingSession.step.target) trainingSession.setHolding(true);
+}
+function pressEnd() {
+  trainingSession?.setHolding(false);
+}
 function beginTrainingTurn(id, clientX) {
   if (!trainingSession || trainingSession.step?.kind !== "turn" || trainingSession.step.target !== id) return false;
   trainingTurnState = { id, lastX: clientX };
@@ -2497,6 +2645,7 @@ function trainingPointerDown(e) {
   if (hit && beginTrainingTurn(hit, e.clientX)) { trainingDownAt = performance.now(); return; }
   trainingDownId = hit ?? null;
   trainingDownAt = performance.now();
+  if (trainingDownId) pressStart(trainingDownId);
 }
 function trainingPointerMove(e) {
   if (mode !== "training") return;
@@ -2508,6 +2657,7 @@ function trainingPointerMove(e) {
 function trainingPointerUp(e) {
   if (mode !== "training") return;
   if (trainingTurnState) { endTrainingTurn(); return; }
+  pressEnd();
   if (performance.now() - trainingDownAt < 280 && trainingDownId) {
     updateNdc(e.clientX, e.clientY);
     const hit = castFromCameraObjects();
@@ -2517,6 +2667,7 @@ function trainingPointerUp(e) {
 }
 function trainingPointerCancel() {
   trainingTurnState = null;
+  pressEnd();
   trainingDownId = null;
 }
 
@@ -2616,12 +2767,14 @@ for (let i = 0; i < 2; i++) {
       const hit = castFromController(c);
       if (hit && beginTrainingTurn(hit, 0)) { c.userData.turning = true; c.userData.lastRoll = c.rotation.z; trainingTurnState.controller = c; return; }
       c.userData.downId = hit ?? null;
+      if (c.userData.downId) pressStart(c.userData.downId);
     }
   });
   c.addEventListener("selectend", () => {
     if (aimingController === c) { aimingController = null; endAim(true); return; }
     if (mode === "training") {
       if (c.userData.turning) { c.userData.turning = false; endTrainingTurn(); return; }
+      pressEnd();
       const hit = castFromController(c);
       if (hit && hit === c.userData.downId) activateTraining(hit);
       c.userData.downId = null;
@@ -2653,8 +2806,10 @@ if (navigator.xr?.isSessionSupported) {
 // --------------------------------------------------------------- frame loop
 
 const clock = new THREE.Clock();
+let elapsedTotal = 0;
 renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 0.05);
+  elapsedTotal += dt;
   if (mode === "golf" && ballMoving && ballState) {
     const { moving, sunk } = stepBall(ballState, hole, dt);
     ballMesh.position.set(ballState.x, BALL_RADIUS, ballState.z);
@@ -2666,21 +2821,7 @@ renderer.setAnimationLoop(() => {
   }
   if (mode === "training" && trainingSession && !trainingSession.finished) {
     trainingSession.tick(dt);
-    const step = trainingSession.step;
-    if (step?.kind === "turn") {
-      const amount = trainingSession.turn?.amount ?? 0;
-      const reverse = step.turn?.reverse ? -1 : 1;
-      trainingRefs.disconnectHandle.rotation.z = amount * Math.PI * 2 * reverse;
-    }
-    if (trainingRefs.ventBlades && ventOn) trainingRefs.ventBlades.rotation.z += dt * 6;
-    const gg = trainingSession.gauge;
-    if (gg && !gg.committed && step?.kind === "gauge") {
-      const text = step.gauge?.readout?.(gg.t) ?? `${Math.round(gg.t * 100)}%`;
-      const inBand = gg.t >= step.gauge.green[0] && gg.t <= step.gauge.green[1];
-      repaint(trainingRefs.meterScreen, signFace(text, {
-        bg: "#0d1c24", accent: inBand ? "#59c97b" : trainingRoom.equipment.accent, fg: "#bfeaf7", scale: 0.55,
-      }));
-    }
+    trainingRefs.animate?.(elapsedTotal, dt, trainingSession);
   }
   if (renderer.xr.isPresenting) {
     if (aimingController) updateAimTo(rayGroundHit(aimingController));
@@ -2711,6 +2852,8 @@ mountUI(store, {
 window.__holodeckTest = {
   select: (id) => trainingSession?.select(id),
   rotate: (id, delta) => trainingSession?.rotate(id, delta),
+  press: (id) => pressStart(id),
+  release: () => pressEnd(),
   getMode: () => mode,
   session: () => trainingSession,
 };

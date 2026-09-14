@@ -26,6 +26,33 @@ import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from 
 // what "speaking a simulation into existence" currently covers.
 export const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
 
+// Naming one of these directly loads the real SmartCiti.X station instead of
+// building a generic Mad-Libs procedure — see app.js's loadRealSim(). Scoped
+// to the 15 stations whose steps use only interaction kinds Holodeck's
+// pointer routing already drives (select/sequence/find/gauge/hold/turn); the
+// other 5 use a "drag" step Holodeck has no gesture for yet, so naming one
+// of those falls through to the generic generator instead.
+export const REAL_SIMS = [
+  { id: "charge-point", name: "Charge Point" },
+  { id: "signal-cabinet", name: "Signal Cabinet" },
+  { id: "solar-deck", name: "Solar Deck" },
+  { id: "splice-node", name: "Splice Node" },
+  { id: "track-access", name: "Track Access" },
+  { id: "triage-point", name: "Triage Point" },
+  { id: "robot-cell", name: "Robot Cell" },
+  { id: "chiller-plant", name: "Chiller Plant" },
+  { id: "tower-climb", name: "Tower Climb" },
+  { id: "boiler-room", name: "Boiler Room" },
+  { id: "elevator-pit", name: "Elevator Pit" },
+  { id: "abatement-chamber", name: "Abatement Chamber" },
+  { id: "rigging-loft", name: "Rigging Loft" },
+  { id: "line-truck", name: "Line Truck" },
+  { id: "dock-crane", name: "Dock Crane" },
+];
+// Longest name first so "dock crane" can't be shadow-matched by a shorter
+// name that happens to be a substring of a longer phrase.
+const REAL_SIMS_BY_LENGTH = [...REAL_SIMS].sort((a, b) => b.name.length - a.name.length);
+
 const GAME_KEYWORDS = {
   // Checked before minigolf: a phrase like "confined space entry training"
   // never mentions golf, but "training" alone is unambiguous, so order only
@@ -37,10 +64,17 @@ const GAME_KEYWORDS = {
 export function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
 
-  let gameType = "minigolf"; // the fallback if nothing at all matches
-  let matchedGame = false;
-  for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
-    if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
+  // Naming a real station beats generic keyword matching — it's the more
+  // specific, more confident signal, so it decides gameType outright.
+  const realSim = REAL_SIMS_BY_LENGTH.find((s) => lower.includes(s.name.toLowerCase()));
+  const realSimId = realSim?.id ?? null;
+
+  let gameType = realSimId ? "training" : "minigolf"; // the fallback if nothing at all matches
+  let matchedGame = !!realSimId;
+  if (!realSimId) {
+    for (const [type, words] of Object.entries(GAME_KEYWORDS)) {
+      if (words.some((w) => lower.includes(w))) { gameType = type; matchedGame = true; break; }
+    }
   }
 
   let themeId = DEFAULT_THEME_ID;
@@ -63,6 +97,7 @@ export function localInterpreter(text) {
 
   return {
     gameType, matchedGame,
+    realSimId, matchedRealSim: !!realSimId,
     themeId, matchedTheme,
     templateId, matchedTemplate,
     equipmentId, matchedEquipment,
