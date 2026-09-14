@@ -4074,8 +4074,8 @@ function updateNdc(e) {
 }
 function desktopMove(dt) {
   const speed = (keys.ShiftLeft ? 4.4 : 2.6) * dt;
-  const f = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
-  const r = new THREE.Vector3(-f.z, 0, f.x);
+  const f = _scratchV1.set(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = _scratchV2.set(-f.z, 0, f.x);
   if (keys.KeyW || keys.ArrowUp) rig.position.addScaledVector(f, speed);
   if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
   if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
