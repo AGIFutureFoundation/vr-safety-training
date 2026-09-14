@@ -945,6 +945,20 @@ function handleVoiceCommand(text) {
 
 window.__tradesVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
 
+// Test-only hook: precisely clicking a 3D object's exact screen position
+// from an automated browser test is brittle, but the click/turn handlers
+// just forward to state.session.select()/rotate() — the same calls this
+// exposes directly, so a test can drive the real Session and verify the
+// UI reacts correctly without needing to replicate the camera projection.
+// Same pattern as Holodeck's window.__holodeckTest.
+window.__tradesTest = {
+  select: (id) => state.session?.select(id),
+  rotate: (id, delta) => state.session?.rotate(id, delta),
+  press: (id) => pressStart(id),
+  release: () => pressEnd(),
+  session: () => state.session,
+};
+
 // --------------------------------------------------------------- frame loop
 
 addEventListener("resize", () => {
