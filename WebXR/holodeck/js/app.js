@@ -20,6 +20,17 @@ import { mountUI } from "./react-ui.js";
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+// Every prop's mesh already defaults to castShadow/receiveShadow (see
+// shared/kit.js) — shadows were simply never turned on at the renderer, so
+// nothing has ever actually cast one. Filmic tone mapping + correct sRGB
+// output is a post-process color-grading step, not a lighting change: every
+// existing light intensity stays as tuned, but highlights roll off instead
+// of clipping and colors read as real materials instead of flat fills.
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.5;
 renderer.xr.enabled = true;
 document.getElementById("stage").appendChild(renderer.domElement);
 
@@ -49,6 +60,21 @@ scene.add(rig);
 scene.add(new THREE.HemisphereLight(0xdfe9f4, 0x201530, 1.1));
 const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
 keyLight.position.set(3, 6, 2);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.set(1536, 1536);
+keyLight.shadow.bias = -0.0015;
+// Generously sized rather than fit tightly per-scene: the mini-golf holes
+// (up to ~9m long, tee near the origin) and the training procedure's fixed
+// 6x6 pad sit in different parts of world space, and this light's frustum
+// is defined in its own tilted view direction, not raw world x/z — one
+// frustum comfortably covering the union of both is simpler and safer than
+// re-fitting it every time a new scene is entered.
+keyLight.shadow.camera.left = -10;
+keyLight.shadow.camera.right = 10;
+keyLight.shadow.camera.top = 10;
+keyLight.shadow.camera.bottom = -10;
+keyLight.shadow.camera.near = 1;
+keyLight.shadow.camera.far = 22;
 scene.add(keyLight);
 
 addEventListener("resize", () => {

@@ -92,6 +92,14 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// Filmic tone mapping + correct sRGB output is a post-process color-grading
+// step, not a lighting change — every prop's existing MeshStandardMaterial
+// and every scene's existing light intensities stay exactly as tuned, but
+// highlights roll off instead of clipping and colors read as real materials
+// instead of flat, washed-out fills.
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.5;
 renderer.xr.enabled = true;
 document.getElementById("stage").appendChild(renderer.domElement);
 
@@ -1075,7 +1083,7 @@ const vrCanvas = document.createElement("canvas");
 vrCanvas.width = 1024; vrCanvas.height = 340;
 const vrCtx = vrCanvas.getContext("2d");
 const vrTexture = new THREE.CanvasTexture(vrCanvas);
-const vrPanel = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.3), new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true }));
+const vrPanel = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.3), new THREE.MeshBasicMaterial({ map: vrTexture, transparent: true, toneMapped: false }));
 vrPanel.position.set(0, -0.4, -1.0);
 vrPanel.rotation.x = -0.35;
 vrPanel.renderOrder = 10;
