@@ -418,7 +418,7 @@ async function enterSim(id) {
     onFeedback: (fb, s) => {
       state.api.onFeedback?.(fb, s);
       setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
-      if (fb.kind === "danger") flashDanger();
+      if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
       if (fb.kind === "ok" && fb.points) {
         scorePop(`+${fb.points}`, fb.combo >= 1.6);
         if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
@@ -500,6 +500,10 @@ function showResults(s, summary) {
     retryPrimary: !touring || tourDone,
   });
   state.paused = true;
+  announce(`${room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.rankedUp ? ` Rank up — ${rank.name}.` : "") +
+    (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
+    (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
 }
 
 /** Progress line shown on the results card while a guided tour is running. */

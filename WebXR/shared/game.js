@@ -488,6 +488,9 @@ export class Session {
     const feedback = {
       kind: hazard ? "danger" : "warn",
       text: `<b>−${penalty} — ${label}</b><br>${body}`,
+      // Plain-text version of the same call-out, for apps that speak hazard
+      // feedback aloud — the HTML in `text` is fine on a HUD, not in a TTS queue.
+      speech: `${label}. ${body}`,
       hazard: !!hazard,
     };
     if (hazard) { this.hazardHits += 1; Sfx.alarm(); this.hooks.onHazard?.(hitId, this); } else Sfx.bad();
