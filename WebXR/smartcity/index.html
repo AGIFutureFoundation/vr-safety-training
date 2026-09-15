@@ -98,6 +98,10 @@
   #voice-heard.error{ border-color:var(--danger); color:var(--danger); }
   @media (prefers-reduced-motion:reduce){ #voice-btn.listening{ animation:none } }
 
+  #speak-btn{ position:fixed; right:14px; bottom:60px; z-index:11; display:flex; align-items:center;
+    justify-content:center; width:40px; height:40px; border-radius:50%; font-size:16px; padding:0; }
+  #speak-btn:hover{ filter:brightness(1.12) }
+
   #ar-prompt{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
     background:var(--glass); border:1px solid var(--accent); border-radius:6px;
     padding:14px 20px; text-align:center; pointer-events:none; }
@@ -210,6 +214,7 @@
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
+    #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(60px, calc(env(safe-area-inset-bottom) + 46px)) }
   }
 </style>
 </head>

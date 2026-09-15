@@ -236,15 +236,25 @@ export function mountUI(store, actions) {
         id: "voice-btn", type: "button",
         className: voice.listening ? "listening" : "",
         onClick: actions.toggleVoice,
+        title: 'Voice — say a station name, "hub," "reset," "hint," "brief," "status," or "help"',
       }, voice.listening ? "■ Listening…" : "🎙 Voice"),
       (voice.heard || voice.error) && h("div", { id: "voice-heard", className: voice.error ? "error" : "" },
         voice.error || `Heard: “${voice.heard}”`));
   }
 
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: "Read the current step aloud",
+    }, "🔊");
+  }
+
   function App() {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
-      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton),
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
       h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
   }
 

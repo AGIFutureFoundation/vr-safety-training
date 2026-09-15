@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
+import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -1179,12 +1180,38 @@ async function enterVr() {
 
 // ------------------------------------------------------------------- voice
 //
-// Navigation only, deliberately: "go to the valve vault," "leaderboards,"
-// "guided tour," "campus." Every command routes through the exact same
-// action a click already triggers — nothing new to verify in the procedure
-// engine itself. This never activates a step inside a running procedure;
-// the hands-on click/drag/turn is the point of a hands-on trainer, and
-// voice-skipping it would undermine the training, not assist it.
+// Navigation and assistive narration only, deliberately: "go to the valve
+// vault," "leaderboards," "guided tour," "campus," "hint," "brief," "status."
+// Every navigation command routes through the exact same action a click
+// already triggers — nothing new to verify in the procedure engine itself.
+// This never activates a step inside a running procedure; the hands-on
+// click/drag/turn is the point of a hands-on trainer, and voice-skipping it
+// would undermine the training, not assist it. "Hint"/"brief"/"status" only
+// ever read something back — they change nothing in the session.
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  if (!Sfx.muted) speak(text);
+}
+
+/** The line the speaker button/voice "hint" command reads back: the live
+ * step's title and cue while a procedure is running, otherwise how to start one. */
+function currentHintLine() {
+  const s = state.session;
+  if (s?.step) return `${s.step.title}. ${s.step.cue}`;
+  return "Select a simulator kiosk to begin its procedure.";
+}
+
+function speakBrief() {
+  if (!state.room) return `${allSims().length} simulators on the campus. Say a station name to begin, like ${SIMS_META[0].name}.`;
+  return `${state.room.trade}. ${state.room.tagline}.`;
+}
+
+function speakStatus() {
+  return `${Progress.completedRooms} of ${allSims().length} stations cleared. ${Progress.totalStars} stars.`;
+}
+
+const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -1229,18 +1256,27 @@ function parseVoiceCommand(text) {
   if (/\btour\b/.test(lower)) return { type: "tour" };
   if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
   if (/\breset\b/.test(lower)) return { type: "reset" };
+  if (/\b(help|commands|what can i say)\b/.test(lower)) return { type: "help" };
+  if (/\b(hint|what now|what next|current step|repeat)\b/.test(lower)) return { type: "hint" };
+  if (/\b(brief|briefing|about this station)\b/.test(lower)) return { type: "brief" };
+  if (/\b(status|progress|score)\b/.test(lower)) return { type: "status" };
   return { type: "unknown" };
 }
 
 function handleVoiceCommand(text) {
   const cmd = parseVoiceCommand(text);
-  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); return; }
-  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); return; }
+  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return; }
+  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
   if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
-  if (cmd.type === "tour") { startTour(); return; }
+  if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
   if (cmd.type === "editor") { openEditor(); return; }
-  if (cmd.type === "reset") { resetProgress(); return; }
-  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor" or "reset."` });
+  if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
+  if (cmd.type === "help") { announce(VOICE_HELP); return; }
+  if (cmd.type === "hint") { announce(currentHintLine()); return; }
+  if (cmd.type === "brief") { announce(speakBrief()); return; }
+  if (cmd.type === "status") { announce(speakStatus()); return; }
+  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."` });
+  announce('Didn\'t catch that. Say "help" for commands.');
 }
 
 mountUI(store, {
@@ -1252,6 +1288,7 @@ mountUI(store, {
   retryResult, backToHub, nextTourStop, startTour,
   enterAr, enterVr, enterFlat, resetProgress,
   scaleUp, scaleDown, toggleVoice,
+  speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
 });
 
 // Test-only hook: headless test runners can't grant microphone permission

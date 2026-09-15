@@ -98,6 +98,10 @@
   #voice-heard.error{ border-color:var(--danger); color:var(--danger); }
   @media (prefers-reduced-motion:reduce){ #voice-btn.listening{ animation:none } }
 
+  #speak-btn{ position:fixed; right:14px; bottom:60px; z-index:11; display:flex; align-items:center;
+    justify-content:center; width:40px; height:40px; border-radius:50%; font-size:16px; padding:0; }
+  #speak-btn:hover{ filter:brightness(1.12) }
+
   #ar-prompt{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
     background:var(--glass); border:1px solid var(--accent); border-radius:6px;
     padding:14px 20px; text-align:center; pointer-events:none; }
@@ -210,6 +214,7 @@
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
+    #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(60px, calc(env(safe-area-inset-bottom) + 46px)) }
   }
 </style>
 </head>
@@ -1312,6 +1317,37 @@ class Session {
     Sfx.great();
     this.hooks.onFinish?.(this, summary);
   }
+}
+
+
+/* ===== shared/voice-assist.js ===== */
+// Text-to-speech helper shared by every app's voice layer. This is purely
+// assistive narration — reading back a hint, a room briefing, or progress —
+// never a way to perform a step. The hands-on click/drag/turn stays the only
+// way to actually advance a procedure; speaking to the app only ever tells
+// you things, it never does things for you.
+
+const speechSupported = typeof window !== "undefined" && "speechSynthesis" in window;
+
+/**
+ * Speak a line, cancelling whatever the app was already saying so responses
+ * never queue up and talk over the run. Silently does nothing where speech
+ * synthesis isn't available (older browsers, headless test runners) so
+ * callers never need their own support check.
+ */
+function speak(text, { rate = 1, pitch = 1 } = {}) {
+  if (!speechSupported || !text) return false;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = rate;
+  utterance.pitch = pitch;
+  synth.speak(utterance);
+  return true;
+}
+
+function stopSpeaking() {
+  if (speechSupported) window.speechSynthesis.cancel();
 }
 
 
@@ -3111,15 +3147,25 @@ function mountUI(store, actions) {
         id: "voice-btn", type: "button",
         className: voice.listening ? "listening" : "",
         onClick: actions.toggleVoice,
+        title: 'Voice — say a station name, "hub," "reset," "hint," "brief," "status," or "help"',
       }, voice.listening ? "■ Listening…" : "🎙 Voice"),
       (voice.heard || voice.error) && h("div", { id: "voice-heard", className: voice.error ? "error" : "" },
         voice.error || `Heard: “${voice.heard}”`));
   }
 
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: "Read the current step aloud",
+    }, "🔊");
+  }
+
   function App() {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
-      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton),
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
       h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
   }
 
@@ -4299,12 +4345,38 @@ async function enterVr() {
 
 // ------------------------------------------------------------------- voice
 //
-// Navigation only, deliberately: "go to the valve vault," "leaderboards,"
-// "guided tour," "campus." Every command routes through the exact same
-// action a click already triggers — nothing new to verify in the procedure
-// engine itself. This never activates a step inside a running procedure;
-// the hands-on click/drag/turn is the point of a hands-on trainer, and
-// voice-skipping it would undermine the training, not assist it.
+// Navigation and assistive narration only, deliberately: "go to the valve
+// vault," "leaderboards," "guided tour," "campus," "hint," "brief," "status."
+// Every navigation command routes through the exact same action a click
+// already triggers — nothing new to verify in the procedure engine itself.
+// This never activates a step inside a running procedure; the hands-on
+// click/drag/turn is the point of a hands-on trainer, and voice-skipping it
+// would undermine the training, not assist it. "Hint"/"brief"/"status" only
+// ever read something back — they change nothing in the session.
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  if (!Sfx.muted) speak(text);
+}
+
+/** The line the speaker button/voice "hint" command reads back: the live
+ * step's title and cue while a procedure is running, otherwise how to start one. */
+function currentHintLine() {
+  const s = state.session;
+  if (s?.step) return `${s.step.title}. ${s.step.cue}`;
+  return "Select a simulator kiosk to begin its procedure.";
+}
+
+function speakBrief() {
+  if (!state.room) return `${allSims().length} simulators on the campus. Say a station name to begin, like ${SIMS_META[0].name}.`;
+  return `${state.room.trade}. ${state.room.tagline}.`;
+}
+
+function speakStatus() {
+  return `${Progress.completedRooms} of ${allSims().length} stations cleared. ${Progress.totalStars} stars.`;
+}
+
+const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -4349,18 +4421,27 @@ function parseVoiceCommand(text) {
   if (/\btour\b/.test(lower)) return { type: "tour" };
   if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
   if (/\breset\b/.test(lower)) return { type: "reset" };
+  if (/\b(help|commands|what can i say)\b/.test(lower)) return { type: "help" };
+  if (/\b(hint|what now|what next|current step|repeat)\b/.test(lower)) return { type: "hint" };
+  if (/\b(brief|briefing|about this station)\b/.test(lower)) return { type: "brief" };
+  if (/\b(status|progress|score)\b/.test(lower)) return { type: "status" };
   return { type: "unknown" };
 }
 
 function handleVoiceCommand(text) {
   const cmd = parseVoiceCommand(text);
-  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); return; }
-  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); return; }
+  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return; }
+  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
   if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
-  if (cmd.type === "tour") { startTour(); return; }
+  if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
   if (cmd.type === "editor") { openEditor(); return; }
-  if (cmd.type === "reset") { resetProgress(); return; }
-  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor" or "reset."` });
+  if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
+  if (cmd.type === "help") { announce(VOICE_HELP); return; }
+  if (cmd.type === "hint") { announce(currentHintLine()); return; }
+  if (cmd.type === "brief") { announce(speakBrief()); return; }
+  if (cmd.type === "status") { announce(speakStatus()); return; }
+  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."` });
+  announce('Didn\'t catch that. Say "help" for commands.');
 }
 
 mountUI(store, {
@@ -4372,6 +4453,7 @@ mountUI(store, {
   retryResult, backToHub, nextTourStop, startTour,
   enterAr, enterVr, enterFlat, resetProgress,
   scaleUp, scaleDown, toggleVoice,
+  speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
 });
 
 // Test-only hook: headless test runners can't grant microphone permission

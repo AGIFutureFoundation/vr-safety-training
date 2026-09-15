@@ -52,6 +52,20 @@ most one correction, one otherwise. Three stars earns the room's badge
 Clean Promote). XP and stars persist per browser and show on the hub pillar and
 on each doorway.
 
+## Voice assist
+
+The 🎙 Voice button (Web Speech API) is navigation and narration only, never a
+way to perform a step — saying "open the valve" instead of actually turning it
+would defeat the point of a hands-on trainer. It understands a room name,
+`"hub"`, `"reset"`, and three read-back commands that speak an answer aloud
+without changing anything: `"hint"` (the current step's title and cue, or how
+to start one), `"brief"` (the room's trade and tagline, or how many trades
+there are), and `"status"` (rooms cleared, stars, level). `"help"` lists all of
+it. Responses come back through speech synthesis, so a learner mid-procedure —
+hands full, eyes on the room — can ask without breaking stride. The 🔊 button
+next to it reads the same hint aloud with a click, for anyone without (or not
+using) a microphone. Both respect the M mute key.
+
 ## Running it
 
 - **Modular source** (what you edit): open `index.html` from any static server —

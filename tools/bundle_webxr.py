@@ -39,6 +39,7 @@ APPS = {
         "modules": [
             SHARED / "kit.js",
             SHARED / "game.js",
+            SHARED / "voice-assist.js",
             WEBXR / "trades/js/hub.js",
             WEBXR / "trades/js/rooms/electrical.js",
             WEBXR / "trades/js/rooms/salon.js",
@@ -55,6 +56,7 @@ APPS = {
         "modules": [
             SHARED / "kit.js",
             SHARED / "game.js",
+            SHARED / "voice-assist.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/stage.js",

@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
+import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -866,13 +867,15 @@ enterVrBtn.addEventListener("click", async () => {
 
 // --------------------------------------------------------------- voice nav
 //
-// Web Speech API driving navigation only — jump to a named room, back to the
-// hub, or reset progress. Deliberately never used to activate a step inside a
-// running procedure: saying "open the valve" instead of actually turning it
-// would defeat the point of a hands-on trainer.
+// Web Speech API driving navigation and assistive narration only — jump to a
+// named room, back to the hub, reset progress, or ask the room to talk back
+// (a hint, a briefing, current status). Deliberately never used to activate
+// a step inside a running procedure: saying "open the valve" instead of
+// actually turning it would defeat the point of a hands-on trainer.
 
 const voiceBtn = document.getElementById("voice-btn");
 const voiceHeard = document.getElementById("voice-heard");
+const speakBtn = document.getElementById("speak-btn");
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
 
@@ -881,6 +884,11 @@ function setVoiceHeard(text, isError) {
   voiceHeard.textContent = text;
   voiceHeard.classList.toggle("error", !!isError);
   voiceHeard.hidden = !text;
+}
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  if (!Sfx.muted) speak(text);
 }
 
 if (VoiceSR && voiceBtn) {
@@ -900,6 +908,11 @@ if (VoiceSR && voiceBtn) {
   };
   voiceRecognition.onend = () => voiceBtn.classList.remove("listening");
   voiceBtn.addEventListener("click", toggleVoice);
+}
+
+if (speechSupported && speakBtn) {
+  speakBtn.hidden = false;
+  speakBtn.addEventListener("click", () => { Sfx.ensure(); speak(currentHintLine()); });
 }
 
 function toggleVoice() {
@@ -923,8 +936,31 @@ function parseVoiceCommand(text) {
   if (room) return { type: "room", id: room.id };
   if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
   if (/\breset\b/.test(lower)) return { type: "reset" };
+  if (/\b(help|commands|what can i say)\b/.test(lower)) return { type: "help" };
+  if (/\b(hint|what now|what next|current step|repeat)\b/.test(lower)) return { type: "hint" };
+  if (/\b(brief|briefing|about this room)\b/.test(lower)) return { type: "brief" };
+  if (/\b(status|progress|score)\b/.test(lower)) return { type: "status" };
   return { type: "unknown" };
 }
+
+/** The line the hint button/voice command reads back: the live step's title
+ * and cue while a procedure is running, otherwise how to get one started. */
+function currentHintLine() {
+  const s = state.session;
+  if (s?.step) return `${s.step.title}. ${s.step.cue}`;
+  return "Walk into a doorway to start a room's procedure.";
+}
+
+function speakBrief() {
+  if (!state.room) return `${ROOMS.length} trades to choose from. Say a trade name to begin, like ${ROOMS[0].title}.`;
+  return `${state.room.trade}. ${state.room.tagline}.`;
+}
+
+function speakStatus() {
+  return `${Progress.completedRooms} of ${ROOMS.length} rooms complete. ${Progress.totalStars} stars. Level ${Progress.level}.`;
+}
+
+const VOICE_HELP = 'Say a trade name, "hub," "reset," "hint," "brief," "status," or "help."';
 
 function goLive() {
   if (!ui.intro.hidden) { ui.intro.hidden = true; state.paused = false; Sfx.ensure(); }
@@ -933,15 +969,26 @@ function goLive() {
 
 function handleVoiceCommand(text) {
   const cmd = parseVoiceCommand(text);
-  if (cmd.type === "room") { goLive(); enterRoom(cmd.id); return; }
-  if (cmd.type === "hub") { goLive(); state.paused = false; enterHub(); return; }
+  if (cmd.type === "room") {
+    goLive();
+    enterRoom(cmd.id);
+    announce(`Entering ${ROOM_BY_ID[cmd.id].title}.`);
+    return;
+  }
+  if (cmd.type === "hub") { goLive(); state.paused = false; enterHub(); announce("Back at the training hub."); return; }
   if (cmd.type === "reset") {
     Progress.reset();
     state.api?.refresh?.();
     syncHud();
+    announce("Progress cleared.");
     return;
   }
-  setVoiceHeard(`Didn't recognize "${text}" — try a room name, "hub," or "reset."`, true);
+  if (cmd.type === "help") { announce(VOICE_HELP); return; }
+  if (cmd.type === "hint") { announce(currentHintLine()); return; }
+  if (cmd.type === "brief") { announce(speakBrief()); return; }
+  if (cmd.type === "status") { announce(speakStatus()); return; }
+  setVoiceHeard(`Didn't recognize "${text}" — try a room name, "hub," "reset," "hint," "brief," "status," or "help."`, true);
+  announce('Didn\'t catch that. Say "help" for commands.');
 }
 
 window.__tradesVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
