@@ -27,11 +27,10 @@ import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from 
 export const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
 
 // Naming one of these directly loads the real SmartCiti.X station instead of
-// building a generic Mad-Libs procedure — see app.js's loadRealSim(). Scoped
-// to the 15 stations whose steps use only interaction kinds Holodeck's
-// pointer routing already drives (select/sequence/find/gauge/hold/turn); the
-// other 5 use a "drag" step Holodeck has no gesture for yet, so naming one
-// of those falls through to the generic generator instead.
+// building a generic Mad-Libs procedure — see app.js's loadRealSim(). Every
+// interaction kind a SmartCiti.X step can use (select/sequence/find/gauge/
+// hold/turn/drag) now has a Holodeck gesture behind it, so all 20 stations
+// are reachable by name — not just the 15 that predate drag support.
 export const REAL_SIMS = [
   { id: "charge-point", name: "Charge Point" },
   { id: "signal-cabinet", name: "Signal Cabinet" },
@@ -48,6 +47,11 @@ export const REAL_SIMS = [
   { id: "rigging-loft", name: "Rigging Loft" },
   { id: "line-truck", name: "Line Truck" },
   { id: "dock-crane", name: "Dock Crane" },
+  { id: "crane-yard", name: "Crane Yard" },
+  { id: "flight-deck", name: "Flight Deck" },
+  { id: "steel-erector", name: "Steel Erector" },
+  { id: "trench-box", name: "Trench Box" },
+  { id: "valve-vault", name: "Valve Vault" },
 ];
 // Longest name first so "dock crane" can't be shadow-matched by a shorter
 // name that happens to be a substring of a longer phrase.

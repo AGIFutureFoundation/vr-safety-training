@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
-  box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp,
+  box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
 } from "../../shared/kit.js";
 import { Sfx, Session } from "../../shared/game.js";
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "./themes.js";
@@ -476,6 +476,8 @@ function clearTraining() {
   hits = {};
   selectables = [];
   trainingTurnState = null;
+  trainingDragState = null;
+  trainingReturning.length = 0;
 }
 
 function syncTrainingHud() {
@@ -535,6 +537,13 @@ function enterTraining(room, buildFn) {
   trainingRefs = buildFn(trainingGroup);
   hits = {};
   trainingGroup.traverse((o) => { if (o.userData.hitId) hits[o.userData.hitId] = o; });
+  // A real SmartCiti.X room's own build() return already carries a complete
+  // hits map (see loadRealSim()) — merge it in on top of the traversal.
+  // Needed for entries like a drag step's socket: a permanently invisible,
+  // non-clickable marker that never gets a userData.hitId (nothing should
+  // ever raycast onto it), registered only so app.js can look up its
+  // transform for the snap/distance check. The traversal alone would drop it.
+  if (trainingRefs.hits) Object.assign(hits, trainingRefs.hits);
   collectSelectables();
   positionTrainingCamera(room.footprint);
 
@@ -575,12 +584,9 @@ function enterGenericTraining(templateId, equipmentId) {
 // "speak a simulation into existence" can reach the whole real library, not
 // just the generated one.
 //
-// Scoped to the 15 stations whose steps use only select/sequence/find/
-// gauge/hold/turn — every interaction kind Holodeck's pointer routing
-// already drives. The other 5 (crane-yard, flight-deck, steel-erector,
-// trench-box, valve-vault) use a "drag" step Holodeck has no drag gesture
-// for yet, so they are left to SmartCiti.X itself rather than shipping a
-// station with an uncompletable step.
+// Covers all 20 stations — the pick-up-and-carry "drag" gesture (see
+// beginTrainingDrag() below) closed the last gap, so every interaction kind
+// a SmartCiti.X step can use now has a Holodeck pointer/controller path.
 const realSimCache = new Map();
 function loadRealSim(id) {
   if (realSimCache.has(id)) return realSimCache.get(id);
@@ -766,10 +772,81 @@ function updateTrainingTurn(clientX) {
 }
 function endTrainingTurn() { trainingTurnState = null; }
 
+// "drag" steps (blanking plates, shoring, a rigging shackle — five real
+// SmartCiti.X stations use them) need a pick-up-and-carry gesture Holodeck
+// never had: its own generic procedures only ever used click/turn, so this
+// path, like "hold" above, was missing until a real station exposed the gap.
+// It reuses the exact carry/socket-snap/spring-back logic SmartCiti.X and
+// Trade Skills already ship, just against `hits`/`trainingSession` instead
+// of their own state.
+let trainingDragState = null; // { id, object, homeLocal, controller, plane }
+const trainingReturning = []; // objects springing back to homeLocal after a missed drop
+const _dragPlaneHit = new THREE.Vector3();
+const _dragLocal = new THREE.Vector3();
+const _dragM4 = new THREE.Matrix4();
+
+function beginTrainingDrag(id, controller) {
+  const obj = hits[id];
+  if (!obj || !trainingSession?.canDrag(id)) return false;
+  const worldPos = new THREE.Vector3();
+  obj.getWorldPosition(worldPos);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+  plane.setFromNormalAndCoplanarPoint(plane.normal, worldPos);
+  trainingDragState = { id, object: obj, homeLocal: obj.position.clone(), controller: controller ?? null, plane };
+  return true;
+}
+function updateTrainingDrag() {
+  if (!trainingDragState) return;
+  const { object, plane, controller } = trainingDragState;
+  let ok;
+  if (controller) {
+    _dragM4.identity().extractRotation(controller.matrixWorld);
+    xrRaycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+    xrRaycaster.ray.direction.set(0, 0, -1).applyMatrix4(_dragM4);
+    ok = xrRaycaster.ray.intersectPlane(plane, _dragPlaneHit);
+  } else {
+    raycaster.setFromCamera(pointerNdc, camera);
+    ok = raycaster.ray.intersectPlane(plane, _dragPlaneHit);
+  }
+  if (!ok) return;
+  _dragLocal.copy(_dragPlaneHit);
+  object.parent.worldToLocal(_dragLocal);
+  _dragLocal.y = trainingDragState.homeLocal.y; // carried along the ground, not lifted or dropped
+  object.position.copy(_dragLocal);
+}
+function endTrainingDrag() {
+  if (!trainingDragState) return;
+  const { id, object, homeLocal } = trainingDragState;
+  const step = trainingSession?.step;
+  let result = null;
+  if (step?.kind === "drag" && step.target === id) {
+    const socket = hits[step.drag?.to];
+    let dist = null;
+    if (socket) {
+      const a = new THREE.Vector3(); object.getWorldPosition(a); a.y = 0;
+      const b = new THREE.Vector3(); socket.getWorldPosition(b); b.y = 0;
+      dist = a.distanceTo(b);
+    }
+    result = trainingSession.dropAt(id, dist);
+    if (result?.kind === "ok" && socket) {
+      const snapped = new THREE.Vector3(); socket.getWorldPosition(snapped);
+      object.parent.worldToLocal(snapped);
+      object.position.copy(snapped);
+      const socketQuat = new THREE.Quaternion(); socket.getWorldQuaternion(socketQuat);
+      const parentQuat = new THREE.Quaternion(); object.parent.getWorldQuaternion(parentQuat);
+      object.quaternion.copy(parentQuat.invert().multiply(socketQuat));
+    }
+  }
+  if (result?.kind !== "ok") trainingReturning.push({ object, from: object.position.clone(), to: homeLocal.clone(), t: 0 });
+  trainingDragState = null;
+  syncTrainingHud();
+}
+
 function trainingPointerDown(e) {
   if (mode !== "training" || !trainingSession) return;
   updateNdc(e.clientX, e.clientY);
   const hit = castFromCameraObjects();
+  if (hit && beginTrainingDrag(hit, null)) { trainingDownAt = performance.now(); return; }
   if (hit && beginTrainingTurn(hit, e.clientX)) { trainingDownAt = performance.now(); return; }
   trainingDownId = hit ?? null;
   trainingDownAt = performance.now();
@@ -778,12 +855,17 @@ function trainingPointerDown(e) {
 function trainingPointerMove(e) {
   if (mode !== "training") return;
   updateNdc(e.clientX, e.clientY);
+  if (trainingDragState) return; // followed every frame in the render loop instead
   if (trainingTurnState) { updateTrainingTurn(e.clientX); return; }
   const hit = castFromCameraObjects();
-  canvas.style.cursor = hit ? (hit === trainingSession?.step?.target && trainingSession?.step?.kind === "turn" ? "grab" : "pointer") : "default";
+  const step = trainingSession?.step;
+  canvas.style.cursor = hit
+    ? (hit === step?.target && (step?.kind === "turn" || step?.kind === "drag") ? "grab" : "pointer")
+    : "default";
 }
 function trainingPointerUp(e) {
   if (mode !== "training") return;
+  if (trainingDragState && !trainingDragState.controller) { endTrainingDrag(); return; }
   if (trainingTurnState) { endTrainingTurn(); return; }
   pressEnd();
   if (performance.now() - trainingDownAt < 280 && trainingDownId) {
@@ -794,6 +876,7 @@ function trainingPointerUp(e) {
   trainingDownId = null;
 }
 function trainingPointerCancel() {
+  if (trainingDragState && !trainingDragState.controller) endTrainingDrag();
   trainingTurnState = null;
   pressEnd();
   trainingDownId = null;
@@ -893,6 +976,7 @@ for (let i = 0; i < 2; i++) {
     }
     if (mode === "training") {
       const hit = castFromController(c);
+      if (hit && beginTrainingDrag(hit, c)) return;
       if (hit && beginTrainingTurn(hit, 0)) { c.userData.turning = true; c.userData.lastRoll = c.rotation.z; trainingTurnState.controller = c; return; }
       c.userData.downId = hit ?? null;
       if (c.userData.downId) pressStart(c.userData.downId);
@@ -901,6 +985,7 @@ for (let i = 0; i < 2; i++) {
   c.addEventListener("selectend", () => {
     if (aimingController === c) { aimingController = null; endAim(true); return; }
     if (mode === "training") {
+      if (trainingDragState?.controller === c) { endTrainingDrag(); return; }
       if (c.userData.turning) { c.userData.turning = false; endTrainingTurn(); return; }
       pressEnd();
       const hit = castFromController(c);
@@ -950,6 +1035,13 @@ renderer.setAnimationLoop(() => {
   if (mode === "training" && trainingSession && !trainingSession.finished) {
     trainingSession.tick(dt);
     trainingRefs.animate?.(elapsedTotal, dt, trainingSession);
+    updateTrainingDrag();
+    for (let i = trainingReturning.length - 1; i >= 0; i--) {
+      const r = trainingReturning[i];
+      r.t = Math.min(1, r.t + dt / 0.3);
+      r.object.position.lerpVectors(r.from, r.to, easeOut(r.t));
+      if (r.t >= 1) trainingReturning.splice(i, 1);
+    }
   }
   if (renderer.xr.isPresenting) {
     if (aimingController) updateAimTo(rayGroundHit(aimingController));

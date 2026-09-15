@@ -113,7 +113,7 @@ export function mountUI(store, actions) {
         h("p", { className: "fineprint", style: { marginTop: "8px" } },
           "Training prompts instead pick from: lockout & verify or confined-space entry, on an electrical panel, " +
           "forklift, boiler, conveyor, air compressor or storage tank — e.g. “confined space entry simulation " +
-          "for a storage tank.” Or name one of 15 real SmartCiti.X stations directly — e.g. “run the robot cell " +
+          "for a storage tank.” Or name one of 20 real SmartCiti.X stations directly — e.g. “run the robot cell " +
           "simulation” or “practice the dock crane drill” — and it loads that actual station, hazards and all, " +
           "not a generated stand-in."),
         h("p", { className: "fineprint" },
