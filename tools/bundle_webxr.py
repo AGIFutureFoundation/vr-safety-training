@@ -45,6 +45,7 @@ APPS = {
             WEBXR / "trades/js/rooms/kitchen.js",
             WEBXR / "trades/js/rooms/phlebotomy.js",
             WEBXR / "trades/js/rooms/welding.js",
+            WEBXR / "trades/js/rooms/devops.js",
             WEBXR / "trades/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

@@ -21,7 +21,7 @@ const WEBXR = join(ROOT, "WebXR");
 const MODULES = [
   "shared/kit.js", "shared/game.js",
   "trades/js/rooms/electrical.js", "trades/js/rooms/salon.js", "trades/js/rooms/kitchen.js",
-  "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js",
+  "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js", "trades/js/rooms/devops.js",
 ];
 
 // ------------------------------------------------------------- three.js stub
@@ -174,7 +174,7 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `
-export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING];
+export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS];
 export { Session, Progress, Sfx, THREE };
 `;
 writeFileSync(join(dir, "suite.mjs"),

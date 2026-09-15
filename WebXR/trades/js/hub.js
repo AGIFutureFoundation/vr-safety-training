@@ -79,7 +79,7 @@ export function buildHub(root, rooms) {
         g.fillRect(w * 0.07, h * 0.52, w * 0.86 * Math.max(0.02, into / span), h * 0.07);
         g.fillStyle = HUD.muted;
         g.font = `${Math.round(h * 0.085)}px Arial, sans-serif`;
-        g.fillText(`${p.data.xp} XP · ${p.completedRooms}/5 rooms cleared`, w * 0.07, h * 0.68);
+        g.fillText(`${p.data.xp} XP · ${p.completedRooms}/${rooms.length} rooms cleared`, w * 0.07, h * 0.68);
         const badges = p.data.badges.length ? p.data.badges.join(" · ") : "no badges yet";
         g.fillStyle = HUD.text;
         g.fillText(badges.length > 46 ? badges.slice(0, 45) + "…" : badges, w * 0.07, h * 0.83);

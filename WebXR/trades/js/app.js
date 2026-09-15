@@ -7,8 +7,9 @@ import { ROOM_SALON } from "./rooms/salon.js";
 import { ROOM_KITCHEN } from "./rooms/kitchen.js";
 import { ROOM_PHLEBOTOMY } from "./rooms/phlebotomy.js";
 import { ROOM_WELDING } from "./rooms/welding.js";
+import { ROOM_DEVOPS } from "./rooms/devops.js";
 
-const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING];
+const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS];
 const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
 
 Progress.load();
@@ -80,8 +81,8 @@ function syncHud() {
     ui.cue.textContent = "Walk into a doorway to start that room's procedure.";
     ui.score.textContent = String(Progress.data.xp).padStart(4, "0");
     ui.combo.textContent = `LV ${Progress.level}`;
-    ui.count.textContent = `${Progress.completedRooms}/5 ROOMS · ${Progress.totalStars}★`;
-    ui.fill.style.width = `${(Progress.completedRooms / 5) * 100}%`;
+    ui.count.textContent = `${Progress.completedRooms}/${ROOMS.length} ROOMS · ${Progress.totalStars}★`;
+    ui.fill.style.width = `${(Progress.completedRooms / ROOMS.length) * 100}%`;
     ui.timer.textContent = "";
     ui.gesture.hidden = true;
     vrHudDirty = true;
@@ -267,7 +268,7 @@ function enterHub() {
   scene.fog = new THREE.Fog(0x0a1016, 16, 46);
   document.body.dataset.accent = "#37d6c0";
   document.documentElement.style.setProperty("--accent", "#37d6c0");
-  setRail("neutral", "<b>Training hub.</b> Five trades, one procedure each. Step into a doorway to begin — the room scores every action against the real order of operations.");
+  setRail("neutral", `<b>Training hub.</b> ${ROOMS.length} trades, one procedure each. Step into a doorway to begin — the room scores every action against the real order of operations.`);
   syncHud();
 }
 
@@ -1067,6 +1068,6 @@ renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
 
-// Kick off in the hub so the first frame already shows the five trades.
+// Kick off in the hub so the first frame already shows all the trades.
 enterHub();
 state.paused = true;

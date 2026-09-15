@@ -60,19 +60,21 @@ layout, facilitator script, comfort/stop rules, assessment thresholds, and sourc
 
 ## Trade Skills Simulator (multi-trade demo)
 
-`WebXR/trades/` is a five-room vocational demo built on the same assessment
+`WebXR/trades/` is a six-room vocational demo built on the same assessment
 contract: **Isolation Bay** (electrical lockout/tagout and live-dead-live),
 **Colour Studio** (hair stylist colour service and sanitation), **Hot Line**
 (commercial cook: cross-contamination, cook temperature, grease flare-up),
-**Draw Station** (phlebotomy two-identifier check and order of draw) and
-**Weld Bay** (hot work permit, lens shade, bead control, fire watch). Each room
-is a distinct 3D environment with animated equipment, seeded hazard traps,
-graded skill gauges, timed holds, combo scoring, stars, badges and persistent XP.
+**Draw Station** (phlebotomy two-identifier check and order of draw),
+**Weld Bay** (hot work permit, lens shade, bead control, fire watch), and
+**Deploy Bay** (platform engineer / SRE: environment promotion, agent
+permission scoping, canary-gated rollout). Each room is a distinct 3D
+environment with animated equipment, seeded hazard traps, graded skill gauges,
+timed holds, combo scoring, stars, badges and persistent XP.
 
 Run the modular source over HTTP from `WebXR/trades/`, or deploy the generated
 single file `WebXR/trades/dist/trade-skills-simulator.html`. `?room=<id>` deep
-links a single trade. Build it with `python3 tools/bundle_trades.py`; check the
-content with `node tools/check_trades.mjs`. Details in
+links a single trade. Build it with `python3 tools/bundle_webxr.py trades`;
+check the content with `node tools/check_trades.mjs`. Details in
 [`WebXR/trades/README.md`](WebXR/trades/README.md).
 
 ## Meta Quest and web deployment
