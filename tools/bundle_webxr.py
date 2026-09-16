@@ -47,6 +47,7 @@ APPS = {
             WEBXR / "trades/js/rooms/phlebotomy.js",
             WEBXR / "trades/js/rooms/welding.js",
             WEBXR / "trades/js/rooms/devops.js",
+            WEBXR / "trades/js/rooms/plumbing.js",
             WEBXR / "trades/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -105,7 +106,12 @@ IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MU
 EXPORT_BLOCK_RE = re.compile(r"^export\s*\{[^}]*\}\s*;\s*$", re.MULTILINE)
 EXPORT_KEYWORD_RE = re.compile(r"^export\s+(?=(const|let|var|function|class|async))", re.MULTILINE)
 TOP_DECL_RE = re.compile(r"^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)", re.MULTILINE)
-TOP_MULTI_CONST_RE = re.compile(r"^const\s+([^=;\n]+?)\s*=", re.MULTILINE)
+# Whole statement up to its closing `;`, not just up to the first `=` — a
+# multi-declarator line like `const A = 1, B = 2, C = 3;` used to only ever
+# yield "A", silently missing "B" and "C" as declared names (a real bundler
+# bug: two room files both declaring `const ... COPPER = ...` past the first
+# comma went undetected until Node itself threw on the concatenated output).
+TOP_MULTI_CONST_RE = re.compile(r"^const\s+(.+?);\s*$", re.MULTILINE)
 
 
 def strip_module_syntax(source: str) -> str:
@@ -120,7 +126,14 @@ def top_level_names(source: str) -> set[str]:
     names = {m.group(1) for m in TOP_DECL_RE.finditer(source)}
     for match in TOP_MULTI_CONST_RE.finditer(source):
         for part in match.group(1).split(","):
-            ident = part.strip().split("=")[0].strip()
+            part = part.strip()
+            # A comma-separated segment only introduces a new name if it has
+            # its own "=" — otherwise it's an element reference inside a
+            # single-declarator statement (e.g. `const ROOMS = [A, B, C];`),
+            # not a second declarator, and must not be treated as one.
+            if "=" not in part:
+                continue
+            ident = part.split("=")[0].strip()
             if re.fullmatch(r"[A-Za-z_$][\w$]*", ident):
                 names.add(ident)
     return names

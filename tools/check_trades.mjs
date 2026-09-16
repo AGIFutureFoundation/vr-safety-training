@@ -22,6 +22,7 @@ const MODULES = [
   "shared/kit.js", "shared/game.js",
   "trades/js/rooms/electrical.js", "trades/js/rooms/salon.js", "trades/js/rooms/kitchen.js",
   "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js", "trades/js/rooms/devops.js",
+  "trades/js/rooms/plumbing.js",
 ];
 
 // ------------------------------------------------------------- three.js stub
@@ -174,7 +175,7 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `
-export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS];
+export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING];
 export { Session, Progress, Sfx, THREE };
 `;
 writeFileSync(join(dir, "suite.mjs"),
@@ -204,7 +205,7 @@ for (const room of suite.ROOMS) {
 
   // Every step must point at an interactable that the room actually built.
   for (const step of room.steps) {
-    const ids = step.kind === "sequence" ? step.targets : [step.target];
+    const ids = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
     for (const id of ids) {
       if (!id) { fail(room.id, `step "${step.id}" has no target`); continue; }
       if (!api.hits[id]) fail(room.id, `step "${step.id}" targets missing interactable "${id}"`);
@@ -249,7 +250,7 @@ for (const room of suite.ROOMS) {
     if (!step) break;
     if (step.kind === "select") {
       session.select(step.target);
-    } else if (step.kind === "sequence") {
+    } else if (step.kind === "sequence" || step.kind === "find") {
       for (const id of step.targets) session.select(id);
     } else if (step.kind === "gauge") {
       const [lo, hi] = step.gauge.green ?? [0.44, 0.62];

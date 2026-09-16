@@ -60,16 +60,18 @@ layout, facilitator script, comfort/stop rules, assessment thresholds, and sourc
 
 ## Trade Skills Simulator (multi-trade demo)
 
-`WebXR/trades/` is a six-room vocational demo built on the same assessment
+`WebXR/trades/` is a seven-room vocational demo built on the same assessment
 contract: **Isolation Bay** (electrical lockout/tagout and live-dead-live),
 **Colour Studio** (hair stylist colour service and sanitation), **Hot Line**
 (commercial cook: cross-contamination, cook temperature, grease flare-up),
 **Draw Station** (phlebotomy two-identifier check and order of draw),
-**Weld Bay** (hot work permit, lens shade, bead control, fire watch), and
+**Weld Bay** (hot work permit, lens shade, bead control, fire watch),
 **Deploy Bay** (platform engineer / SRE: environment promotion, agent
-permission scoping, canary-gated rollout). Each room is a distinct 3D
-environment with animated equipment, seeded hazard traps, graded skill gauges,
-timed holds, combo scoring, stars, badges and persistent XP.
+permission scoping, canary-gated rollout), and **Rough-In Bay** (plumber /
+pipefitter: DWV rough-in, backflow prevention, torch brazing, pressure test).
+Each room is a distinct 3D environment with animated equipment, seeded hazard
+traps, graded skill gauges, timed holds, combo scoring, stars, badges and
+persistent XP.
 
 Run the modular source over HTTP from `WebXR/trades/`, or deploy the generated
 single file `WebXR/trades/dist/trade-skills-simulator.html`. `?room=<id>` deep

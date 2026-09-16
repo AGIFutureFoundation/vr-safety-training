@@ -9,8 +9,9 @@ import { ROOM_KITCHEN } from "./rooms/kitchen.js";
 import { ROOM_PHLEBOTOMY } from "./rooms/phlebotomy.js";
 import { ROOM_WELDING } from "./rooms/welding.js";
 import { ROOM_DEVOPS } from "./rooms/devops.js";
+import { ROOM_PLUMBING } from "./rooms/plumbing.js";
 
-const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS];
+const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING];
 const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
 
 Progress.load();

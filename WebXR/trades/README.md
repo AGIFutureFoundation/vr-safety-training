@@ -1,6 +1,6 @@
 # Trade Skills Simulator
 
-Six vocational training rooms in one WebXR demo. Each room is a working
+Seven vocational training rooms in one WebXR demo. Each room is a working
 environment with a real order of operations behind it: the simulator scores what
 you touch and in what order, explains the consequence of every wrong move, and
 awards stars for a clean run against par time.
@@ -13,6 +13,7 @@ awards stars for a clean run against par time.
 | Draw Station | Phlebotomy technician | Two-identifier check → tourniquet → prep → insertion angle → **order of draw** → release → sharps → pressure → bedside labelling | 10 |
 | Weld Bay | Welder / fabricator | Hot work permit → clear combustibles → blanket → fume extraction → PPE → lens shade → work clamp → amperage → bead → fire watch | 10 |
 | Deploy Bay | Platform engineer / SRE | Read the deploy ticket → confirm environment → verify scoped secrets → issue a scoped agent token → review the agent's diff → open the canary → watch its error rate → promote to full traffic → test the rollback → log the audit trail | 10 |
+| Rough-In Bay | Plumber / pipefitter | Read the work order → close the main → bleed the line → dry-fit the DWV run → fit the backflow preventer → solvent-weld the PVC joint → dial a neutral torch flame → sweat the copper joint → hold test pressure → find the weeping joint | 10 |
 
 The electrical room is an upgrade of the Unity project's existing Electrical
 Maintenance site (open panel, lockout staging, protected cable crossing), rebuilt
@@ -49,8 +50,8 @@ consecutive correct actions and resets on any mistake. Gauge accuracy adds up to
 under par adds a time bonus. Stars: three for a clean run inside par, two for at
 most one correction, one otherwise. Three stars earns the room's badge
 (Zero Energy Verified, Clean Chair, Clean Line, Order of Draw, Fire Watch Held,
-Clean Promote). XP and stars persist per browser and show on the hub pillar and
-on each doorway.
+Clean Promote, Zero Leaks). XP and stars persist per browser and show on the
+hub pillar and on each doorway.
 
 ## Voice assist
 
@@ -119,7 +120,7 @@ view.
 
 ## Verification status
 
-Content and engine behaviour are covered by `tools/check_trades.mjs` (all six
+Content and engine behaviour are covered by `tools/check_trades.mjs` (all seven
 rooms pass). The rendered output was reviewed on desktop Chromium at 1280×800.
 Not yet verified: Quest hardware — frame rate, controller ergonomics, comfort of
 the stick locomotion, and in-headset HUD legibility all need a headset pass
