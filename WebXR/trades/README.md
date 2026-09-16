@@ -1,6 +1,6 @@
 # Trade Skills Simulator
 
-Seven vocational training rooms in one WebXR demo. Each room is a working
+Nine vocational training rooms in one WebXR demo. Each room is a working
 environment with a real order of operations behind it: the simulator scores what
 you touch and in what order, explains the consequence of every wrong move, and
 awards stars for a clean run against par time.
@@ -14,6 +14,8 @@ awards stars for a clean run against par time.
 | Weld Bay | Welder / fabricator | Hot work permit → clear combustibles → blanket → fume extraction → PPE → lens shade → work clamp → amperage → bead → fire watch | 10 |
 | Deploy Bay | Platform engineer / SRE | Read the deploy ticket → confirm environment → verify scoped secrets → issue a scoped agent token → review the agent's diff → open the canary → watch its error rate → promote to full traffic → test the rollback → log the audit trail | 10 |
 | Rough-In Bay | Plumber / pipefitter | Read the work order → close the main → bleed the line → dry-fit the DWV run → fit the backflow preventer → solvent-weld the PVC joint → dial a neutral torch flame → sweat the copper joint → hold test pressure → find the weeping joint | 10 |
+| Wash-Down Yard | Laborer — surface prep (LIUNA) | Read the job sheet → seal the storm drain → set the berms → face shield and boots → walk around the machine → fit the 25° tip → set the unloader → set standoff → **coverage pass** (tracked overlap) → recover the wash water → find the berm breach | 11 |
+| Coatings Bay | Painter / coatings applicator (IUPAT), hazmat & environmental crews | Read the spec → lead-test the old paint → contain the room → respirator and coveralls → strain the material → fit the 517 tip → set fluid pressure → shoot a test pattern → **coverage pass** (tracked overlap) → check wet film → find the overspray drift | 11 |
 
 The electrical room is an upgrade of the Unity project's existing Electrical
 Maintenance site (open panel, lockout staging, protected cable crossing), rebuilt
@@ -50,7 +52,7 @@ consecutive correct actions and resets on any mistake. Gauge accuracy adds up to
 under par adds a time bonus. Stars: three for a clean run inside par, two for at
 most one correction, one otherwise. Three stars earns the room's badge
 (Zero Energy Verified, Clean Chair, Clean Line, Order of Draw, Fire Watch Held,
-Clean Promote, Zero Leaks). XP and stars persist per browser and show on the
+Clean Promote, Zero Leaks, Clean Recovery, Even Build). XP and stars persist per browser and show on the
 hub pillar and on each doorway.
 
 ## One profile, two apps
@@ -62,7 +64,7 @@ two. Each room's own record (stars, best score, per-room rank) stays
 separate because every room/sim id in either app's catalog is unique; only
 the totals are pooled. Every "X/N" readout in this app's own UI (the hub
 count, the HUD fill bar, the spoken status line) is scoped to this app's
-own seven rooms, never inflated by rooms cleared on the SmartCiti.X side —
+own nine rooms, never inflated by rooms cleared on the SmartCiti.X side —
 see `Progress.roomsClearedIn()`/`starsIn()` in `shared/game.js` if adding a
 new one. The intro screen links to SmartCiti.X and back, since the two
 catalogs cover different, complementary trades (this app is closer to
@@ -139,7 +141,7 @@ view.
 
 ## Verification status
 
-Content and engine behaviour are covered by `tools/check_trades.mjs` (all seven
+Content and engine behaviour are covered by `tools/check_trades.mjs` (all nine
 rooms pass). The rendered output was reviewed on desktop Chromium at 1280×800.
 Not yet verified: Quest hardware — frame rate, controller ergonomics, comfort of
 the stick locomotion, and in-headset HUD legibility all need a headset pass

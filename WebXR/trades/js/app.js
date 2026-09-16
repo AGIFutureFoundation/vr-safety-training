@@ -13,8 +13,10 @@ import { ROOM_PHLEBOTOMY } from "./rooms/phlebotomy.js";
 import { ROOM_WELDING } from "./rooms/welding.js";
 import { ROOM_DEVOPS } from "./rooms/devops.js";
 import { ROOM_PLUMBING } from "./rooms/plumbing.js";
+import { ROOM_PRESSURE_WASHER } from "./rooms/pressure-washer.js";
+import { ROOM_PAINT_SPRAYER } from "./rooms/paint-sprayer.js";
 
-const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING];
+const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING, ROOM_PRESSURE_WASHER, ROOM_PAINT_SPRAYER];
 const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
 // Progress is a profile shared with SmartCiti.X and Holodeck (see
 // shared/game.js) — scope "X/N" readouts to this app's own rooms so a
@@ -394,12 +396,14 @@ function showResults(s, summary) {
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
   ui.results.hidden = false;
   state.paused = true;
-  // Same attempt record SmartCiti.X writes. Trade rooms carry no category or
-  // certification of their own yet, so they roll up under one category.
+  // Same attempt record SmartCiti.X writes. Rooms that name their category,
+  // union and certification (the surface-prep bays) carry them; the older
+  // rooms roll up under one category until they are given their own.
   const attempt = TrainingRecords.record({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
-    simId: s.room.id, simName: s.room.title, category: "Trade Skills Simulator", trade: s.room.trade,
+    simId: s.room.id, simName: s.room.title, category: s.room.category ?? "Trade Skills Simulator", trade: s.room.trade,
+    certification: s.room.certification, union: s.room.union,
     score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
     seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,

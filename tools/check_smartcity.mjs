@@ -219,7 +219,7 @@ for (const sim of suite.SIMS) {
     } else if (step.kind === "track") {
       session.setHolding(true);
       const [lo, hi] = step.track?.green ?? [0.42, 0.62];
-      session.track = { t: (lo + hi) / 2, green: [lo, hi], rise: 0, fall: 0, drift: 0, wobble: 0, inBand: 0, dropouts: 0, wasIn: true };
+      session.track = { v: (lo + hi) / 2, green: [lo, hi], rise: 0, fall: 0, drift: 0, wobble: 0, inBand: 0, dropouts: 0, wasIn: true };
       for (let i = 0; i < (step.seconds ?? 5) * 20 + 4 && !session.finished && session.step === step; i++) session.tick(0.05);
     } else if (step.kind === "turn") {
       // A real player drags in small increments; one oversized call exercises

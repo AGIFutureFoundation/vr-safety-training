@@ -60,7 +60,7 @@ layout, facilitator script, comfort/stop rules, assessment thresholds, and sourc
 
 ## Trade Skills Simulator (multi-trade demo)
 
-`WebXR/trades/` is a seven-room vocational demo built on the same assessment
+`WebXR/trades/` is a nine-room vocational demo built on the same assessment
 contract: **Isolation Bay** (electrical lockout/tagout and live-dead-live),
 **Colour Studio** (hair stylist colour service and sanitation), **Hot Line**
 (commercial cook: cross-contamination, cook temperature, grease flare-up),

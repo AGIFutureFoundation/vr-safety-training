@@ -22,7 +22,7 @@ const MODULES = [
   "shared/kit.js", "shared/game.js",
   "trades/js/rooms/electrical.js", "trades/js/rooms/salon.js", "trades/js/rooms/kitchen.js",
   "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js", "trades/js/rooms/devops.js",
-  "trades/js/rooms/plumbing.js",
+  "trades/js/rooms/plumbing.js", "trades/js/rooms/pressure-washer.js", "trades/js/rooms/paint-sprayer.js",
 ];
 
 // ------------------------------------------------------------- three.js stub
@@ -175,7 +175,7 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `
-export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING];
+export const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING, ROOM_PRESSURE_WASHER, ROOM_PAINT_SPRAYER];
 export { Session, Progress, Sfx, THREE };
 `;
 writeFileSync(join(dir, "suite.mjs"),
@@ -213,7 +213,7 @@ for (const room of suite.ROOMS) {
     if (!step.why || step.why.length < 20) fail(room.id, `step "${step.id}" has no real rationale`);
     if (!step.cue) fail(room.id, `step "${step.id}" has no cue`);
     if (step.kind === "gauge" && !step.gauge) fail(room.id, `gauge step "${step.id}" has no gauge config`);
-    if (step.kind === "hold" && !(step.seconds > 0)) fail(room.id, `hold step "${step.id}" has no duration`);
+    if ((step.kind === "hold" || step.kind === "track") && !(step.seconds > 0)) fail(room.id, `timed step "${step.id}" has no duration`);
     if (step.kind === "turn" && !(step.turn?.turns > 0)) fail(room.id, `turn step "${step.id}" has no turns amount`);
     if (step.kind === "drag") {
       if (!step.drag?.to) fail(room.id, `drag step "${step.id}" has no drop socket`);
@@ -260,6 +260,16 @@ for (const room of suite.ROOMS) {
       session.setHolding(true);
       for (let i = 0; i < step.seconds * 20 + 4 && !session.finished && session.step === step; i++) {
         session.tick(0.05);
+      }
+    } else if (step.kind === "track") {
+      // Pin the tracked value mid-band with no drift, so a perfect hold
+      // completes in exactly step.seconds — same driver check_smartcity uses.
+      session.setHolding(true);
+      const [lo, hi] = step.track?.green ?? [0.42, 0.62];
+      session.track = { v: (lo + hi) / 2, green: [lo, hi], rise: 0, fall: 0, drift: 0, wobble: 0, inBand: 0, dropouts: 0, wasIn: true, label: "", readout: null };
+      for (let i = 0; i < (step.seconds ?? 5) * 20 + 4 && !session.finished && session.step === step; i++) {
+        session.tick(0.05);
+        try { api.animate?.(i * 0.05, 0.05, session); } catch (err) { fail(room.id, `animate() threw mid-track at "${step.id}": ${err.message}`); break; }
       }
     } else if (step.kind === "turn") {
       session.rotate(step.target, (step.turn?.turns ?? 1) + 1);
