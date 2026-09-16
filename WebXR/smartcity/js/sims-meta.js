@@ -849,5 +849,81 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "air-monitor",
+    "index": "22",
+    "domain": "Environmental",
+    "trade": "Environmental monitoring technician",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order",
+    "name": "Perimeter Air",
+    "title": "SmartCiti.X~ Perimeter Air VR",
+    "tagline": "Real-time PM10 fence-line monitoring: wind, placement, flow calibration, zero check, and the exceedance response",
+    "accent": 10475712,
+    "accentCss": "#9fd8c0",
+    "parSeconds": 235,
+    "badge": {
+      "id": "fence-line-true",
+      "name": "Fence Line True",
+      "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
+    },
+    "stepCount": 10,
+    "game": {
+      "system": "Air Watch",
+      "currency": "READING",
+      "ranks": [
+        "Monitor Tech",
+        "Line Lead",
+        "Plan Holder",
+        "Exceedance Ready",
+        "Air Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sampling-well",
+    "index": "23",
+    "domain": "Environmental",
+    "trade": "Environmental sampling technician",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
+    "name": "Sampling Well",
+    "title": "SmartCiti.X~ Sampling Well VR",
+    "tagline": "Low-flow groundwater sampling: water level, pump set, stabilised purge, volatiles first, chain of custody",
+    "accent": 7324625,
+    "accentCss": "#6fc3d1",
+    "parSeconds": 245,
+    "badge": {
+      "id": "chain-unbroken",
+      "name": "Chain Unbroken",
+      "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Sample Integrity",
+      "currency": "ALIQUOT",
+      "ranks": [
+        "Sampler",
+        "Purge Lead",
+        "Field Chemist",
+        "Custody Holder",
+        "Integrity Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Twenty-one stations exist
-today — twenty walkable AR/VR procedures and one flat briefing station — each a real ordered
+AR/VR training simulators across eleven trade-union categories. Twenty-three stations exist
+today — twenty-two walkable AR/VR procedures and one flat briefing station — each a real ordered
 procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
@@ -20,7 +20,7 @@ training" wrapper, a specific one per trade.
 | Emergency Services | Triage Point |
 | Maritime & Ports | Dock Crane |
 | Entertainment & Live Events | Rigging Loft |
-| Environmental Monitoring | Hunters Point Briefing (flat — see below) |
+| Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well |
 
 This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category (330
 total) — enough for every category to eventually cover a whole family of real, distinct
@@ -268,7 +268,7 @@ context — an LTI 1.3 or SSO launch needs a server to verify the signed launch,
 page cannot do; (2) subject-matter review of every station by a qualified practitioner in
 that trade before any record is treated as certification evidence; (3) a headset pass on
 Meta Quest for frame rate, comfort and in-headset legibility; (4) the remaining stations
-toward 33 per category. Environmental Monitoring is one station deep today; the Bay restoration sites and their
+toward 33 per category. Environmental Monitoring is three stations deep today (one flat briefing, two walkable procedures); the Bay restoration sites and their
 trade linkage that the roadmap mentions are not in this repository yet — this is the first, honest
 entry in the category, not that content.
 

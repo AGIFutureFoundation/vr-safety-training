@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 21
+      "stations": 23
     },
     "trades": {
       "entry": "trades/index.html",
@@ -109,7 +109,9 @@
     {
       "name": "Environmental Monitoring",
       "stations": [
-        "hunters-point"
+        "hunters-point",
+        "air-monitor",
+        "sampling-well"
       ]
     },
     {
@@ -1752,6 +1754,155 @@
         }
       ],
       "deepLink": "smartcity/index.html?sim=hunters-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "air-monitor",
+      "name": "Perimeter Air",
+      "title": "SmartCiti.X~ Perimeter Air VR",
+      "tagline": "Real-time PM10 fence-line monitoring: wind, placement, flow calibration, zero check, and the exceedance response",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Environmental monitoring technician",
+      "union": null,
+      "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order",
+      "accent": "#9fd8c0",
+      "parSeconds": 235,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "fence-line-true",
+        "name": "Fence Line True",
+        "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
+      },
+      "index": "22",
+      "flat": false,
+      "system": "Air Watch",
+      "currency": "READING",
+      "ranks": [
+        "Monitor Tech",
+        "Line Lead",
+        "Plan Holder",
+        "Exceedance Ready",
+        "Air Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "by-the-wind",
+          "name": "By the Wind",
+          "note": "Placed upwind before downwind, first time"
+        },
+        {
+          "id": "never-muted",
+          "name": "Never Muted",
+          "note": "Never bypassed or muted a monitor alarm"
+        },
+        {
+          "id": "flow-true",
+          "name": "Flow True",
+          "note": "Held flow and zero inside spec"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections anywhere on the line"
+        },
+        {
+          "id": "zero-held",
+          "name": "Zero Held",
+          "note": "Never broke the zero check"
+        },
+        {
+          "id": "shift-ready",
+          "name": "Shift Ready",
+          "note": "Line up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=air-monitor"
+    },
+    {
+      "app": "smartcity",
+      "id": "sampling-well",
+      "name": "Sampling Well",
+      "title": "SmartCiti.X~ Sampling Well VR",
+      "tagline": "Low-flow groundwater sampling: water level, pump set, stabilised purge, volatiles first, chain of custody",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Environmental sampling technician",
+      "union": null,
+      "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
+      "accent": "#6fc3d1",
+      "parSeconds": 245,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "chain-unbroken",
+        "name": "Chain Unbroken",
+        "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
+      },
+      "index": "23",
+      "flat": false,
+      "system": "Sample Integrity",
+      "currency": "ALIQUOT",
+      "ranks": [
+        "Sampler",
+        "Purge Lead",
+        "Field Chemist",
+        "Custody Holder",
+        "Integrity Certified"
+      ],
+      "awards": [
+        {
+          "id": "volatiles-first",
+          "name": "Volatiles First",
+          "note": "Bottles filled in the required order, first time"
+        },
+        {
+          "id": "no-agitation",
+          "name": "No Agitation",
+          "note": "Never bailed, never dumped, never leaned in"
+        },
+        {
+          "id": "steady-purge",
+          "name": "Steady Purge",
+          "note": "Held the purge flow steady in the low-flow band"
+        },
+        {
+          "id": "clean-draw",
+          "name": "Clean Draw",
+          "note": "No corrections anywhere in the sampling event"
+        },
+        {
+          "id": "level-true",
+          "name": "Level True",
+          "note": "Water level and flow read inside spec"
+        },
+        {
+          "id": "holding-time",
+          "name": "Holding Time",
+          "note": "Sample on ice inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sampling-well"
     },
     {
       "app": "trades",

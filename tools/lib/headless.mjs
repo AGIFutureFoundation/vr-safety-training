@@ -137,7 +137,7 @@ export async function buildSuite(modules, harness, label = "suite") {
 export const SMARTCITY_SIMS = [
   "charge-point", "signal-cabinet", "valve-vault", "solar-deck", "splice-node", "flight-deck", "track-access",
   "triage-point", "robot-cell", "chiller-plant", "tower-climb", "steel-erector", "crane-yard", "trench-box",
-  "boiler-room", "elevator-pit", "abatement-chamber", "rigging-loft", "line-truck", "dock-crane", "hunters-point",
+  "boiler-room", "elevator-pit", "abatement-chamber", "rigging-loft", "line-truck", "dock-crane", "hunters-point", "air-monitor", "sampling-well",
 ];
 export const TRADES_ROOMS = ["electrical", "salon", "kitchen", "phlebotomy", "welding", "devops", "plumbing", "pressure-washer", "paint-sprayer"];
 const constName = (id) => id.toUpperCase().replace(/-/g, "_");
