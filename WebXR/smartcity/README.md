@@ -219,6 +219,24 @@ back to the host page as `{ type: "smartcitix:record", record }` — only when e
 to `learner_home`, never broadcast. A hosting LMS can therefore capture attempts live with no
 LRS at all. Real authentication (LTI 1.3 / SSO) needs a server and remains the next step.
 
+## LTI 1.3 launch — the reference relay
+
+A static page cannot verify a signed launch, so `tools/lti_relay.mjs` is the one small server
+in this repository: an LTI 1.3 / OIDC third-party-initiated login relay. The platform sends
+the learner to `/lti/login`; the relay redirects to the platform's auth endpoint with a
+single-use state and nonce; the platform posts the `id_token` to `/lti/launch`; the relay
+verifies the RS256 signature against the platform's JWKS, the issuer, the audience (client
+id), expiry, the nonce (single use, never replayed), and that it is an `LtiResourceLinkRequest`
+on LTI 1.3.0 — then 302s the browser into the app with the launch context the apps already
+read: `?sim=<custom.sim>&learner=<name>&learner_id=<sub>&learner_home=<relay origin>` (a
+`custom.room` maps to `?room=` for Trade Skills; `custom.lrs_endpoint` passes through). From
+there everything downstream — records, LRS statements, Open Badges, the platform channel — is
+attributable to `sub` at `iss`. Configure with `LTI_ISSUER`, `LTI_CLIENT_ID`, `LTI_AUTH_URL`,
+`LTI_JWKS_URL`, `APP_URL`, `RELAY_ORIGIN` (and `PORT`), deploy behind TLS, and register
+`<RELAY_ORIGIN>/lti/login` and `/lti/launch` with the platform. `tools/check_lti.mjs` stands
+in a platform with its own RSA key and proves a good launch redirects correctly and a bad
+signature, wrong audience, expired token, replayed nonce or unknown state is refused.
+
 ## Live Learning Record Store
 
 `WebXR/shared/lrs.js` is the step after the file export: connect an xAPI endpoint and every
@@ -263,9 +281,11 @@ input escaping, a CI gate, and single-file/static deployment with no server depe
 Done as well: live xAPI delivery to a Learning Record Store with an offline queue and retry; a
 flipped-classroom pre-brief with a Prepared award; Open Badges 2.0 credential export and live hand-off.
 
-Not yet done, in the order it should happen: (1) real authentication behind the launch
-context — an LTI 1.3 or SSO launch needs a server to verify the signed launch, which a static
-page cannot do; (2) subject-matter review of every station by a qualified practitioner in
+Done as well: an LTI 1.3 launch relay (the one server), verified against a stand-in platform.
+
+Not yet done, in the order it should happen: (1) deploy the relay behind TLS and register it
+with a real platform (Canvas, Moodle, Blackboard) — the code is here, the registration is a
+platform-side act; (2) subject-matter review of every station by a qualified practitioner in
 that trade before any record is treated as certification evidence; (3) a headset pass on
 Meta Quest for frame rate, comfort and in-headset legibility; (4) the remaining stations
 toward 33 per category. Environmental Monitoring is three stations deep today (one flat briefing, two walkable procedures); the Bay restoration sites and their
