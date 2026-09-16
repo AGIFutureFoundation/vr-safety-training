@@ -75,6 +75,31 @@ screen groups all stations by category and shows both: the in-game system name (
 Certification") for gamification, and the real certification line for grounding. See
 `js/sims-meta.js` (generated — do not hand-edit; run `node tools/gen_sims_meta.mjs`).
 
+## Gamification 2.0 — flipped classroom and portable credentials
+
+The first run of any walkable station on screen is preceded by a **pre-brief**: the
+station's real procedure as study material — every step and the reason behind it, the real
+union and certification it maps to, and how many hazards are seeded (never which). Reading
+it stamps the shared profile (`Progress.markBriefed`), and the run that follows starts
+*prepared*: the engine-wide **Prepared** award and a 10% score bonus on that run. Skipping is
+allowed and costs only that. The idea is the flipped classroom — learn the procedure first,
+then prove it in the simulator — and because the mechanic lives in `shared/game.js` it works
+identically in Trade Skills Simulator; Holodeck's generated procedures have no fixed brief
+and are exempt. Flat briefing stations are their own brief.
+
+Every passing run on a station with a real certification is also a **portable credential**:
+the Training Records overlay lists the certifications earned and exports them as **Open
+Badges 2.0** assertions (`toOpenBadges` in `shared/records.js` — BadgeClass, issuer profile,
+recipient from the launch identity when there is one, evidence pointing at the same xAPI
+statement the LRS receives). A host page that launched the learner also receives each new
+assertion live as `{ type: "smartcitix:credential", assertion }`, so badges and
+certifications carry across the whole SmartCiti.X network and into any external ecosystem
+that ingests Open Badges or listens on the launch channel (Cognition.X or any other host —
+none is special-cased here). These are self-asserted by a static page: hosting the
+BadgeClass and Assertion URLs under an issuer is what makes them verifiable, and the ids are
+laid out for that. Passing a simulator evidences readiness for the named certification; it
+is not the certification.
+
 ## Gamification
 
 - **Per-sim rank ladder**: each station has its own 5-tier ladder (Apprentice → Certified by
@@ -172,7 +197,8 @@ launch context (URL or embedding page, origin-bound, with live record hand-back 
 host), accessibility basics (dialog semantics, live region, focus rings, reduced motion),
 input escaping, a CI gate, and single-file/static deployment with no server dependency.
 
-Done as well: live xAPI delivery to a Learning Record Store with an offline queue and retry.
+Done as well: live xAPI delivery to a Learning Record Store with an offline queue and retry; a
+flipped-classroom pre-brief with a Prepared award; Open Badges 2.0 credential export and live hand-off.
 
 Not yet done, in the order it should happen: (1) real authentication behind the launch
 context — an LTI 1.3 or SSO launch needs a server to verify the signed launch, which a static

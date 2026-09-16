@@ -719,8 +719,24 @@ const LEVEL_TIERS = [
   { through: MAX_LEVEL, name: "Legend" },
 ];
 
+/**
+ * Awards every station can earn, judged by the engine itself rather than by
+ * a sim's own system — the flipped-classroom mechanic lives here so all
+ * three apps reward it identically. Apps merge these into a sim's own
+ * badge/challenge list when naming what a run earned.
+ */
+const UNIVERSAL_AWARDS = [
+  {
+    id: "prepared", name: "Prepared",
+    note: "Studied the pre-brief before the run — learn first, prove it in the sim",
+    test: (s) => !!s.prepared,
+  },
+];
+/** Score bonus for a run the learner prepared for (fraction of the run's own score). */
+const PREPARED_BONUS = 0.1;
+
 const Progress = {
-  data: { xp: 0, rooms: {}, badges: [], boards: {} },
+  data: { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} },
   playerName: "YOU",
 
   load() {
@@ -736,6 +752,7 @@ const Progress = {
           rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
           badges: Array.isArray(raw.badges) ? raw.badges : [],
           boards: raw.boards && typeof raw.boards === "object" ? raw.boards : {},
+          briefed: raw.briefed && typeof raw.briefed === "object" ? raw.briefed : {},
         };
       }
     } catch (_) { /* private mode or blocked storage — run unsaved */ }
@@ -756,7 +773,7 @@ const Progress = {
   },
 
   reset() {
-    this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
+    this.data = { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} };
     try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEGACY_STORE_KEY); } catch (_) { /* ignore */ }
   },
 
@@ -852,6 +869,16 @@ const Progress = {
   },
 
   simBadges(id) { return this.roomState(id).badges ?? []; },
+
+  /** Flipped classroom: the learner read a station's pre-brief (its steps and
+   * the reason for each) before running it. Stamped once per station; the
+   * next Session on that station starts `prepared`. */
+  markBriefed(id) {
+    if (!this.data.briefed) this.data.briefed = {};
+    this.data.briefed[id] = new Date().toISOString();
+    this.save();
+  },
+  isBriefed(id) { return !!this.data.briefed?.[id]; },
   // True cross-network totals — every room/sim ever cleared in any app
   // sharing this profile, not just the caller's own catalog. Use
   // roomsClearedIn()/starsIn() above for an app-scoped "X/N" readout.
@@ -973,6 +1000,8 @@ class Session {
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
     this.levelBefore = Progress.level;
+    this.prepared = Progress.isBriefed(this.room.id);
+    this.preparedBonus = 0;
     this.enterStep();
     return this;
   }
@@ -1275,11 +1304,17 @@ class Session {
     const timeBonus = Math.max(0, Math.round((par - this.elapsed) * 2));
     this.score += timeBonus;
     this.timeBonus = timeBonus;
+    if (this.prepared) {
+      this.preparedBonus = Math.round(this.score * PREPARED_BONUS);
+      this.score += this.preparedBonus;
+    }
     this.stars = this.errors === 0 && this.elapsed <= par ? 3
       : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
     if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
 
-    // Each simulator judges its own badges and challenges against this run.
+    // Engine-wide awards first, then each simulator judges its own badges
+    // and challenges against this run.
+    for (const award of UNIVERSAL_AWARDS) if (award.test(this)) this.earned.push(award.id);
     const system = this.room.game;
     if (system) {
       for (const award of [...(system.badges ?? []), ...(system.challenges ?? [])]) {
@@ -1514,6 +1549,62 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
       },
     })),
   };
+}
+
+// ------------------------------------------------------------- credentials
+
+/** Distinct certifications with a passing attempt — the latest pass for each. */
+function earnedCertifications(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!r.passed || !r.certification) continue;
+    const prev = by.get(r.certification);
+    if (!prev || String(r.at) > String(prev.at)) by.set(r.certification, r);
+  }
+  return [...by.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+function badgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<circle cx="120" cy="104" r="62" fill="none" stroke="#37d6c0" stroke-width="10"/>` +
+    `<text x="120" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions — the portable credential format LMSs, wallets
+ * and other training ecosystems ingest — one per certification with a
+ * passing attempt. These are self-asserted by a static page: an issuer that
+ * hosts the BadgeClass and Assertion URLs is what makes them verifiable, so
+ * the ids are laid out as URLs under `homePage` ready for that host. The
+ * evidence entry points at the same xAPI statement the LRS export carries.
+ */
+function toOpenBadges(list, { issuerName = "SmartCiti.X Training Network", homePage = "https://smartciti.example", actorName = "YOU" } = {}) {
+  return earnedCertifications(list).map((r) => {
+    const home = r.homePage ?? homePage;
+    const who = r.learnerId ?? r.learner ?? actorName;
+    return {
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/${r.id}`,
+      recipient: { type: "url", hashed: false, identity: `${home}/learners/${encodeURIComponent(who)}`, name: r.learnerName ?? r.learner ?? actorName },
+      issuedOn: r.at,
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/${r.app ?? "app"}/${r.simId}`,
+        name: `${r.simName ?? r.simId} — ${r.certification}`,
+        description: `Passed the ${r.simName ?? r.simId} simulator (${r.category ?? "uncategorized"}): ${r.stars | 0} stars, ` +
+          `${r.hazardHits | 0} unsafe actions, ${r.errors | 0} corrections. Maps to: ${r.certification}.`,
+        image: badgeImage(r.simName ?? r.simId),
+        criteria: { narrative: "Two or more stars with no unsafe action on the station's real ordered procedure, assessed by the SmartCiti.X procedure engine. Passing a simulator evidences readiness for the named certification; it is not the certification itself." },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: [r.category, r.trade].filter(Boolean),
+      },
+      evidence: [{ id: `${homePage}/xapi/statements/${r.id}`, narrative: `Score ${r.score | 0}, ${r.stars | 0} stars, ${r.seconds | 0} s against par ${r.parSeconds ?? "—"} s; xAPI statement ${r.id}.` }],
+    };
+  });
 }
 
 /** Browser-only: hand the learner a file. No-op outside a DOM. */

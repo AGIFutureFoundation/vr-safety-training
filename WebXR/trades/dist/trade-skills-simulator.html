@@ -173,6 +173,10 @@
   .res-grid>div{ background:var(--raised); border-radius:4px; padding:9px 11px }
   .res-grid dt{ font-family:var(--cond); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted) }
   .res-grid dd{ margin:2px 0 0; font-family:var(--cond); font-weight:600; font-size:22px; font-variant-numeric:tabular-nums }
+  .prebrief-steps{ margin:8px 0 6px; padding-left:22px; display:grid; gap:8px }
+  .prebrief-steps li{ font-size:13.5px; line-height:1.45 }
+  .prebrief-steps li b{ display:block; color:var(--text) }
+  .prebrief-steps li span{ color:var(--muted) }
   .res-badge{
     background:rgba(242,193,75,.1); border-left:3px solid var(--warn); border-radius:4px;
     padding:10px 12px; color:var(--text) !important; font-size:14px !important;
@@ -283,6 +287,17 @@
     same engine — one shared apprentice record across both. See <a href="../../portal/index.html">the
     network map</a> for all four apps in this repository, including <a href="../../holodeck/index.html">Holodeck</a>'s
     prompt-driven procedure generator.</p>
+  </div>
+</div>
+
+<div class="overlay" id="prebrief" hidden role="dialog" aria-modal="true" aria-label="Pre-brief">
+  <div class="card">
+    <div id="prebrief-body"></div>
+    <div class="btnrow">
+      <button class="primary" id="prebrief-start">I've read it — start the run</button>
+      <button id="prebrief-skip">Skip the brief</button>
+      <button id="prebrief-close">Back to hub</button>
+    </div>
   </div>
 </div>
 
@@ -879,8 +894,24 @@ const LEVEL_TIERS = [
   { through: MAX_LEVEL, name: "Legend" },
 ];
 
+/**
+ * Awards every station can earn, judged by the engine itself rather than by
+ * a sim's own system — the flipped-classroom mechanic lives here so all
+ * three apps reward it identically. Apps merge these into a sim's own
+ * badge/challenge list when naming what a run earned.
+ */
+const UNIVERSAL_AWARDS = [
+  {
+    id: "prepared", name: "Prepared",
+    note: "Studied the pre-brief before the run — learn first, prove it in the sim",
+    test: (s) => !!s.prepared,
+  },
+];
+/** Score bonus for a run the learner prepared for (fraction of the run's own score). */
+const PREPARED_BONUS = 0.1;
+
 const Progress = {
-  data: { xp: 0, rooms: {}, badges: [], boards: {} },
+  data: { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} },
   playerName: "YOU",
 
   load() {
@@ -896,6 +927,7 @@ const Progress = {
           rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
           badges: Array.isArray(raw.badges) ? raw.badges : [],
           boards: raw.boards && typeof raw.boards === "object" ? raw.boards : {},
+          briefed: raw.briefed && typeof raw.briefed === "object" ? raw.briefed : {},
         };
       }
     } catch (_) { /* private mode or blocked storage — run unsaved */ }
@@ -916,7 +948,7 @@ const Progress = {
   },
 
   reset() {
-    this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
+    this.data = { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} };
     try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEGACY_STORE_KEY); } catch (_) { /* ignore */ }
   },
 
@@ -1012,6 +1044,16 @@ const Progress = {
   },
 
   simBadges(id) { return this.roomState(id).badges ?? []; },
+
+  /** Flipped classroom: the learner read a station's pre-brief (its steps and
+   * the reason for each) before running it. Stamped once per station; the
+   * next Session on that station starts `prepared`. */
+  markBriefed(id) {
+    if (!this.data.briefed) this.data.briefed = {};
+    this.data.briefed[id] = new Date().toISOString();
+    this.save();
+  },
+  isBriefed(id) { return !!this.data.briefed?.[id]; },
   // True cross-network totals — every room/sim ever cleared in any app
   // sharing this profile, not just the caller's own catalog. Use
   // roomsClearedIn()/starsIn() above for an app-scoped "X/N" readout.
@@ -1133,6 +1175,8 @@ class Session {
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
     this.levelBefore = Progress.level;
+    this.prepared = Progress.isBriefed(this.room.id);
+    this.preparedBonus = 0;
     this.enterStep();
     return this;
   }
@@ -1435,11 +1479,17 @@ class Session {
     const timeBonus = Math.max(0, Math.round((par - this.elapsed) * 2));
     this.score += timeBonus;
     this.timeBonus = timeBonus;
+    if (this.prepared) {
+      this.preparedBonus = Math.round(this.score * PREPARED_BONUS);
+      this.score += this.preparedBonus;
+    }
     this.stars = this.errors === 0 && this.elapsed <= par ? 3
       : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
     if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
 
-    // Each simulator judges its own badges and challenges against this run.
+    // Engine-wide awards first, then each simulator judges its own badges
+    // and challenges against this run.
+    for (const award of UNIVERSAL_AWARDS) if (award.test(this)) this.earned.push(award.id);
     const system = this.room.game;
     if (system) {
       for (const award of [...(system.badges ?? []), ...(system.challenges ?? [])]) {
@@ -1674,6 +1724,62 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
       },
     })),
   };
+}
+
+// ------------------------------------------------------------- credentials
+
+/** Distinct certifications with a passing attempt — the latest pass for each. */
+function earnedCertifications(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!r.passed || !r.certification) continue;
+    const prev = by.get(r.certification);
+    if (!prev || String(r.at) > String(prev.at)) by.set(r.certification, r);
+  }
+  return [...by.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+function badgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<circle cx="120" cy="104" r="62" fill="none" stroke="#37d6c0" stroke-width="10"/>` +
+    `<text x="120" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions — the portable credential format LMSs, wallets
+ * and other training ecosystems ingest — one per certification with a
+ * passing attempt. These are self-asserted by a static page: an issuer that
+ * hosts the BadgeClass and Assertion URLs is what makes them verifiable, so
+ * the ids are laid out as URLs under `homePage` ready for that host. The
+ * evidence entry points at the same xAPI statement the LRS export carries.
+ */
+function toOpenBadges(list, { issuerName = "SmartCiti.X Training Network", homePage = "https://smartciti.example", actorName = "YOU" } = {}) {
+  return earnedCertifications(list).map((r) => {
+    const home = r.homePage ?? homePage;
+    const who = r.learnerId ?? r.learner ?? actorName;
+    return {
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/${r.id}`,
+      recipient: { type: "url", hashed: false, identity: `${home}/learners/${encodeURIComponent(who)}`, name: r.learnerName ?? r.learner ?? actorName },
+      issuedOn: r.at,
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/${r.app ?? "app"}/${r.simId}`,
+        name: `${r.simName ?? r.simId} — ${r.certification}`,
+        description: `Passed the ${r.simName ?? r.simId} simulator (${r.category ?? "uncategorized"}): ${r.stars | 0} stars, ` +
+          `${r.hazardHits | 0} unsafe actions, ${r.errors | 0} corrections. Maps to: ${r.certification}.`,
+        image: badgeImage(r.simName ?? r.simId),
+        criteria: { narrative: "Two or more stars with no unsafe action on the station's real ordered procedure, assessed by the SmartCiti.X procedure engine. Passing a simulator evidences readiness for the named certification; it is not the certification itself." },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: [r.category, r.trade].filter(Boolean),
+      },
+      evidence: [{ id: `${homePage}/xapi/statements/${r.id}`, narrative: `Score ${r.score | 0}, ${r.stars | 0} stars, ${r.seconds | 0} s against par ${r.parSeconds ?? "—"} s; xAPI statement ${r.id}.` }],
+    };
+  });
 }
 
 /** Browser-only: hand the learner a file. No-op outside a DOM. */
@@ -5880,6 +5986,8 @@ const ui = {
   results: document.getElementById("results"),
   resultsBody: document.getElementById("results-body"),
   intro: document.getElementById("intro"),
+  prebrief: document.getElementById("prebrief"),
+  prebriefBody: document.getElementById("prebrief-body"),
   hint: document.getElementById("hud-hint"),
   gesture: document.getElementById("hud-gesture"),
   gestureTip: document.getElementById("gesture-tip"),
@@ -6091,9 +6199,13 @@ function enterHub() {
   syncHud();
 }
 
-function enterRoom(id) {
+function enterRoom(id, { briefed = false } = {}) {
   const room = ROOM_BY_ID[id];
   if (!room) return;
+  // Flipped classroom: the first run of a room is offered as study material
+  // first — every step and its reason. Reading it stamps the shared profile
+  // and the run starts `prepared` (see shared/game.js).
+  if (!briefed && !Progress.isBriefed(room.id) && !renderer.xr.isPresenting) { showPreBrief(room); return; }
   clearRoom();
   const root = new THREE.Group();
   worldRoot.add(root);
@@ -6143,6 +6255,33 @@ function enterRoom(id) {
   syncHud();
 }
 
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let pendingBrief = null;
+function showPreBrief(room) {
+  pendingBrief = room.id;
+  const hazards = Object.keys(room.hazards ?? {}).length;
+  ui.prebriefBody.innerHTML = `
+    <div class="eyebrow">${esc(room.trade)} · pre-brief · learn it first, then prove it</div>
+    <h2>${esc(room.title)}</h2>
+    <p class="res-trade">${esc(room.tagline)}</p>
+    ${room.certification ? `<p class="fineprint" style="color:var(--accent);font-style:italic">${esc(room.union ? `${room.union} · ` : "")}${esc(room.certification)}</p>` : ""}
+    <p class="fineprint">The procedure below is the real order of operations for this room, with the reason behind each step.
+    Read it now and the run that follows starts prepared: the Prepared award and a 10% score bonus on that run.
+    ${hazards} seeded hazard${hazards === 1 ? "" : "s"} wait in the room — the brief does not name them.</p>
+    <ol class="prebrief-steps">${room.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.why)}</span></li>`).join("")}</ol>`;
+  ui.prebrief.hidden = false;
+}
+function hidePreBrief() { ui.prebrief.hidden = true; }
+document.getElementById("prebrief-start").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  Progress.markBriefed(id); hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-skip").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-close").addEventListener("click", () => { pendingBrief = null; hidePreBrief(); });
+
 /**
  * Turn the learner toward the opening task. Rooms author where you stand; the
  * first thing you are asked to do decides which way you are looking, so nobody
@@ -6187,6 +6326,7 @@ function showResults(s, summary) {
       <div><dt>Time bonus</dt><dd>+${s.timeBonus ?? 0}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
       <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
+      ${s.preparedBonus ? `<div><dt>Prepared bonus</dt><dd>+${s.preparedBonus}</dd></div>` : ""}
     </dl>
     ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
     <p class="res-note">${s.errors === 0
@@ -6455,6 +6595,7 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
+  if (e.code === "Escape" && !ui.prebrief.hidden) { pendingBrief = null; hidePreBrief(); return; }
   if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
 });

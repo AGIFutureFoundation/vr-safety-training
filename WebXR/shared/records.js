@@ -175,6 +175,62 @@ export function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.
   };
 }
 
+// ------------------------------------------------------------- credentials
+
+/** Distinct certifications with a passing attempt — the latest pass for each. */
+export function earnedCertifications(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!r.passed || !r.certification) continue;
+    const prev = by.get(r.certification);
+    if (!prev || String(r.at) > String(prev.at)) by.set(r.certification, r);
+  }
+  return [...by.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+function badgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<circle cx="120" cy="104" r="62" fill="none" stroke="#37d6c0" stroke-width="10"/>` +
+    `<text x="120" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions — the portable credential format LMSs, wallets
+ * and other training ecosystems ingest — one per certification with a
+ * passing attempt. These are self-asserted by a static page: an issuer that
+ * hosts the BadgeClass and Assertion URLs is what makes them verifiable, so
+ * the ids are laid out as URLs under `homePage` ready for that host. The
+ * evidence entry points at the same xAPI statement the LRS export carries.
+ */
+export function toOpenBadges(list, { issuerName = "SmartCiti.X Training Network", homePage = "https://smartciti.example", actorName = "YOU" } = {}) {
+  return earnedCertifications(list).map((r) => {
+    const home = r.homePage ?? homePage;
+    const who = r.learnerId ?? r.learner ?? actorName;
+    return {
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/${r.id}`,
+      recipient: { type: "url", hashed: false, identity: `${home}/learners/${encodeURIComponent(who)}`, name: r.learnerName ?? r.learner ?? actorName },
+      issuedOn: r.at,
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/${r.app ?? "app"}/${r.simId}`,
+        name: `${r.simName ?? r.simId} — ${r.certification}`,
+        description: `Passed the ${r.simName ?? r.simId} simulator (${r.category ?? "uncategorized"}): ${r.stars | 0} stars, ` +
+          `${r.hazardHits | 0} unsafe actions, ${r.errors | 0} corrections. Maps to: ${r.certification}.`,
+        image: badgeImage(r.simName ?? r.simId),
+        criteria: { narrative: "Two or more stars with no unsafe action on the station's real ordered procedure, assessed by the SmartCiti.X procedure engine. Passing a simulator evidences readiness for the named certification; it is not the certification itself." },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: [r.category, r.trade].filter(Boolean),
+      },
+      evidence: [{ id: `${homePage}/xapi/statements/${r.id}`, narrative: `Score ${r.score | 0}, ${r.stars | 0} stars, ${r.seconds | 0} s against par ${r.parSeconds ?? "—"} s; xAPI statement ${r.id}.` }],
+    };
+  });
+}
+
 /** Browser-only: hand the learner a file. No-op outside a DOM. */
 export function download(filename, text, mime = "text/plain") {
   if (typeof document === "undefined" || typeof URL?.createObjectURL !== "function") return false;

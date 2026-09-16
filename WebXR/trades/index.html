@@ -173,6 +173,10 @@
   .res-grid>div{ background:var(--raised); border-radius:4px; padding:9px 11px }
   .res-grid dt{ font-family:var(--cond); font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted) }
   .res-grid dd{ margin:2px 0 0; font-family:var(--cond); font-weight:600; font-size:22px; font-variant-numeric:tabular-nums }
+  .prebrief-steps{ margin:8px 0 6px; padding-left:22px; display:grid; gap:8px }
+  .prebrief-steps li{ font-size:13.5px; line-height:1.45 }
+  .prebrief-steps li b{ display:block; color:var(--text) }
+  .prebrief-steps li span{ color:var(--muted) }
   .res-badge{
     background:rgba(242,193,75,.1); border-left:3px solid var(--warn); border-radius:4px;
     padding:10px 12px; color:var(--text) !important; font-size:14px !important;
@@ -281,6 +285,17 @@
     same engine — one shared apprentice record across both. See <a href="../portal/index.html">the
     network map</a> for all four apps in this repository, including <a href="../holodeck/index.html">Holodeck</a>'s
     prompt-driven procedure generator.</p>
+  </div>
+</div>
+
+<div class="overlay" id="prebrief" hidden role="dialog" aria-modal="true" aria-label="Pre-brief">
+  <div class="card">
+    <div id="prebrief-body"></div>
+    <div class="btnrow">
+      <button class="primary" id="prebrief-start">I've read it — start the run</button>
+      <button id="prebrief-skip">Skip the brief</button>
+      <button id="prebrief-close">Back to hub</button>
+    </div>
   </div>
 </div>
 

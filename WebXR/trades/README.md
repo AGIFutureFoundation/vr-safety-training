@@ -44,6 +44,14 @@ as a full ordered procedure with proving-unit verification.
   flares and is smothered, the bead glows and cools, extraction fans spin up,
   the canary dial and promote lever turn under a live error-rate readout.
 
+## Pre-brief (flipped classroom)
+
+The first time a room is entered on screen it opens as a pre-brief: the room's procedure as
+study material — every step and its reason, the union and certification where the room
+names them, and how many hazards are seeded. "I've read it" stamps the shared profile and
+the run starts prepared (the engine-wide Prepared award and a 10% score bonus); "Skip the
+brief" runs it cold. Same mechanic and same profile as SmartCiti.X — see `shared/game.js`.
+
 ## Gamification
 
 Score is 100 points per step, multiplied by a combo that climbs to ×2.0 on

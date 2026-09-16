@@ -1,8 +1,8 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
-import { Session, Progress, Sfx } from "../../shared/game.js";
+import { Session, Progress, Sfx, UNIVERSAL_AWARDS } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
-import { TrainingRecords, toCSV, toXAPI, download } from "../../shared/records.js";
+import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { buildStage } from "./stage.js";
@@ -180,12 +180,15 @@ const store = createStore({
     identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  // Flipped-classroom pre-brief: a station's steps and the reason for each,
+  // shown before the first run of that station (see shared/game.js).
+  prebrief: { visible: false, id: "", name: "", trade: "", category: "", tagline: "", certification: "", steps: [], hazardCount: 0 },
   // A flat briefing station (room.flat): dossier + knowledge check rendered as a
   // card instead of a walkable scene, scored by the same Session.
   flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
   leaderboard: { visible: false, html: "" },
   records: {
-    visible: false, rows: [], summary: [], total: 0, passes: 0,
+    visible: false, rows: [], summary: [], total: 0, passes: 0, credentials: [],
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
   editor: {
@@ -415,7 +418,7 @@ function enterHub() {
 // can tell, once it resolves, whether it is still the one the player wants —
 // two quick kiosk picks in a row must not race and land in the wrong room.
 let enterSimToken = 0;
-async function enterSim(id) {
+async function enterSim(id, { briefed = false } = {}) {
   const myToken = ++enterSimToken;
   setRail("neutral", "<b>Loading station…</b>");
   const room = await findSim(id);
@@ -428,6 +431,9 @@ async function enterSim(id) {
     setRail("warn", `<b>${escapeHtml(room.name ?? room.title)}</b> is a flat briefing station — it runs on screen, not in AR/VR. Exit the headset view to open it.`);
     return;
   }
+  // First run of a station on screen: offer the pre-brief before anything
+  // is built, so the timer isn't running while the learner reads.
+  if (!briefed && !flat && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
@@ -527,7 +533,7 @@ function showResults(s, summary) {
   const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
   const earnedNames = s.earned
-    .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
+    .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? []), ...UNIVERSAL_AWARDS].find((a) => a.id === id))
     .filter(Boolean);
   const bodyHtml = `
     ${s.leveledUp ? `<div class="rank-up">LEVEL UP — ${escapeHtml(s.levelName.toUpperCase())} (LEVEL ${s.level})</div>` : ""}
@@ -542,6 +548,7 @@ function showResults(s, summary) {
       <div><dt>${room.game?.currency ?? "XP"}</dt><dd>${rank.xp}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
       <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
+      ${s.preparedBonus ? `<div><dt>Prepared bonus</dt><dd>+${s.preparedBonus}</dd></div>` : ""}
     </dl>
     ${earnedNames.length ? `<div class="res-badges">${earnedNames.map((a) =>
       `<p class="res-badge"><b>${a.name}</b><span>${a.note}</span></p>`).join("")}</div>` : ""}
@@ -568,6 +575,9 @@ function showResults(s, summary) {
   // Hand the attempt to the hosting LMS page, if there is one and it told
   // us who the learner is — only ever to that origin (see identity.js).
   Identity.emit("smartcitix:record", { record: attempt });
+  // A passing run on a station with a real certification is a portable
+  // credential: hand the Open Badges assertion to the host ecosystem too.
+  if (attempt.passed && attempt.certification) Identity.emit("smartcitix:credential", { assertion: toOpenBadges([attempt], xapiOpts())[0] });
   shipToLrs([attempt]);
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
@@ -656,6 +666,38 @@ function flatSyncStep(step, s) {
 }
 function flatSelect(id) { if (state.session && !state.paused) activate(id); }
 
+// ------------------------------------------------------------- pre-brief
+//
+// Flipped classroom: before the first run of a station the learner is
+// offered the procedure itself — every step and the reason behind it — as
+// study material. Reading it stamps the profile (Progress.markBriefed); the
+// run that follows starts `prepared`, earns the engine-wide Prepared award
+// and a score bonus. Skipping is allowed and costs only that.
+
+function showPreBrief(room) {
+  state.pendingBrief = room.id;
+  const meta = SIMS_META_BY_ID[room.baseId] ?? {};
+  store.patch("prebrief", {
+    visible: true, id: room.id, name: room.name ?? room.title, trade: room.trade ?? meta.trade ?? "",
+    category: room.category ?? meta.category ?? "", tagline: room.tagline ?? "",
+    certification: room.certification ?? meta.certification ?? "",
+    steps: room.steps.map((s) => ({ id: s.id, title: s.title, why: s.why })),
+    hazardCount: Object.keys(room.hazards ?? {}).length,
+  });
+}
+function prebriefStart() {
+  const id = state.pendingBrief; if (!id) return;
+  Progress.markBriefed(id);
+  store.patch("prebrief", { visible: false });
+  enterSim(id, { briefed: true });
+}
+function prebriefSkip() {
+  const id = state.pendingBrief; if (!id) return;
+  store.patch("prebrief", { visible: false });
+  enterSim(id, { briefed: true });
+}
+function prebriefClose() { state.pendingBrief = null; store.patch("prebrief", { visible: false }); }
+
 // ---------------------------------------------------------- training records
 //
 // The instructor/compliance view of the same runs the leaderboards celebrate:
@@ -672,6 +714,7 @@ function renderRecords() {
   }));
   store.patch("records", {
     rows, summary: TrainingRecords.summary(list),
+    credentials: earnedCertifications(list).map((r) => ({ id: r.id, certification: r.certification, simName: r.simName ?? r.simId, at: r.at, app: r.app })),
     total: list.length, passes: list.filter((r) => r.passed).length,
   });
 }
@@ -689,6 +732,11 @@ function exportRecordsCsv() {
 function exportRecordsXapi() {
   const statements = toXAPI(TrainingRecords.list(), { actorName: Progress.playerName, homePage: location.origin });
   download(`smartcitix-xapi-statements-${stamp()}.json`, JSON.stringify(statements, null, 2), "application/json");
+}
+function exportCredentials() {
+  const assertions = toOpenBadges(TrainingRecords.list(), xapiOpts());
+  if (!assertions.length) return;
+  download(`smartcitix-credentials-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
 }
 function clearRecords() {
   if (!TrainingRecords.count()) return;
@@ -1124,6 +1172,7 @@ addEventListener("keydown", (e) => {
     // leaderboards, editor) should close on Escape, not eject the learner to
     // the hub underneath it.
     const ui = store.get();
+    if (ui.prebrief.visible) { prebriefClose(); return; }
     if (ui.records.visible) closeRecords();
     else if (ui.leaderboard.visible) closeLeaderboard();
     else if (ui.editor.visible) closeEditor();
@@ -1509,7 +1558,8 @@ function handleVoiceCommand(text) {
 
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
-  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, clearRecords,
+  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
+  prebriefStart, prebriefSkip, prebriefClose,
   lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,

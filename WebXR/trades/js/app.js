@@ -82,6 +82,8 @@ const ui = {
   results: document.getElementById("results"),
   resultsBody: document.getElementById("results-body"),
   intro: document.getElementById("intro"),
+  prebrief: document.getElementById("prebrief"),
+  prebriefBody: document.getElementById("prebrief-body"),
   hint: document.getElementById("hud-hint"),
   gesture: document.getElementById("hud-gesture"),
   gestureTip: document.getElementById("gesture-tip"),
@@ -293,9 +295,13 @@ function enterHub() {
   syncHud();
 }
 
-function enterRoom(id) {
+function enterRoom(id, { briefed = false } = {}) {
   const room = ROOM_BY_ID[id];
   if (!room) return;
+  // Flipped classroom: the first run of a room is offered as study material
+  // first — every step and its reason. Reading it stamps the shared profile
+  // and the run starts `prepared` (see shared/game.js).
+  if (!briefed && !Progress.isBriefed(room.id) && !renderer.xr.isPresenting) { showPreBrief(room); return; }
   clearRoom();
   const root = new THREE.Group();
   worldRoot.add(root);
@@ -345,6 +351,33 @@ function enterRoom(id) {
   syncHud();
 }
 
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let pendingBrief = null;
+function showPreBrief(room) {
+  pendingBrief = room.id;
+  const hazards = Object.keys(room.hazards ?? {}).length;
+  ui.prebriefBody.innerHTML = `
+    <div class="eyebrow">${esc(room.trade)} · pre-brief · learn it first, then prove it</div>
+    <h2>${esc(room.title)}</h2>
+    <p class="res-trade">${esc(room.tagline)}</p>
+    ${room.certification ? `<p class="fineprint" style="color:var(--accent);font-style:italic">${esc(room.union ? `${room.union} · ` : "")}${esc(room.certification)}</p>` : ""}
+    <p class="fineprint">The procedure below is the real order of operations for this room, with the reason behind each step.
+    Read it now and the run that follows starts prepared: the Prepared award and a 10% score bonus on that run.
+    ${hazards} seeded hazard${hazards === 1 ? "" : "s"} wait in the room — the brief does not name them.</p>
+    <ol class="prebrief-steps">${room.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.why)}</span></li>`).join("")}</ol>`;
+  ui.prebrief.hidden = false;
+}
+function hidePreBrief() { ui.prebrief.hidden = true; }
+document.getElementById("prebrief-start").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  Progress.markBriefed(id); hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-skip").addEventListener("click", () => {
+  const id = pendingBrief; if (!id) return;
+  hidePreBrief(); enterRoom(id, { briefed: true });
+});
+document.getElementById("prebrief-close").addEventListener("click", () => { pendingBrief = null; hidePreBrief(); });
+
 /**
  * Turn the learner toward the opening task. Rooms author where you stand; the
  * first thing you are asked to do decides which way you are looking, so nobody
@@ -389,6 +422,7 @@ function showResults(s, summary) {
       <div><dt>Time bonus</dt><dd>+${s.timeBonus ?? 0}</dd></div>
       <div><dt>Personal best</dt><dd>${summary.best}</dd></div>
       <div><dt>Best combo</dt><dd>×${s.peakCombo.toFixed(1)}</dd></div>
+      ${s.preparedBonus ? `<div><dt>Prepared bonus</dt><dd>+${s.preparedBonus}</dd></div>` : ""}
     </dl>
     ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
     <p class="res-note">${s.errors === 0
@@ -657,6 +691,7 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
+  if (e.code === "Escape" && !ui.prebrief.hidden) { pendingBrief = null; hidePreBrief(); return; }
   if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
 });

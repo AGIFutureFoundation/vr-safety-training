@@ -211,6 +211,31 @@ export function mountUI(store, actions) {
           h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, "Back to campus"))));
   }
 
+  /** Flipped-classroom pre-brief: the station's procedure as study material
+   * before the first run, with the reason for every step. */
+  function PreBriefCard() {
+    const b = useSlice("prebrief");
+    if (!b.visible) return null;
+    return h("div", { className: "overlay", id: "prebrief", role: "dialog", "aria-modal": "true", "aria-label": `Pre-brief: ${b.name}` },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, `${b.category || "Station"} · pre-brief · learn it first, then prove it`),
+        h("h1", null, b.name),
+        h("p", { className: "lead" }, b.tagline),
+        b.certification && h("p", { className: "fineprint flat-cert" }, `${b.trade} · ${b.certification}`),
+        h("p", { className: "fineprint" },
+          `The procedure below is the real order of operations for this station, with the reason behind each step. ` +
+          `Read it now and the run that follows starts prepared: the Prepared award and a 10% score bonus on that run. ` +
+          `${b.hazardCount} seeded hazard${b.hazardCount === 1 ? "" : "s"} wait in the station — the brief does not name them.`),
+        h("ol", { className: "prebrief-steps" },
+          b.steps.map((s, i) => h("li", { key: s.id },
+            h("b", null, s.title),
+            h("span", null, s.why)))),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "prebrief-start", type: "button", onClick: actions.prebriefStart }, "I've read it — start the run"),
+          h("button", { id: "prebrief-skip", type: "button", onClick: actions.prebriefSkip }, "Skip the brief"),
+          h("button", { id: "prebrief-close", type: "button", onClick: actions.prebriefClose }, "Back to campus"))));
+  }
+
   function ResultsCard() {
     const results = useSlice("results");
     if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
@@ -265,10 +290,16 @@ export function mountUI(store, actions) {
                   h("td", null, fmtTime(r.seconds)),
                   h("td", null, h("span", { className: `rec-verdict ${r.passed ? "pass" : "fail"}` }, r.passed ? "PASS" : "FAIL")))))))
           : h("p", { className: "lb-empty" }, "No attempts recorded yet — finish any station and it will appear here."),
+        rec.credentials.length > 0 && h(Fragment, null,
+          h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Credentials earned — portable (Open Badges 2.0)"),
+          h("ul", { className: "cred-list" }, rec.credentials.map((c) => h("li", { key: c.id, className: "cred-row" },
+            h("b", null, c.certification),
+            h("span", null, `${c.simName} · ${fmtDate(c.at)}`))))),
         h(LrsBox, { lrs: rec.lrs, total: rec.total }),
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
           h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
+          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)"),
           h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
           h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
   }
@@ -394,7 +425,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(FlatStationCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));

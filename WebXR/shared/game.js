@@ -66,8 +66,24 @@ const LEVEL_TIERS = [
   { through: MAX_LEVEL, name: "Legend" },
 ];
 
+/**
+ * Awards every station can earn, judged by the engine itself rather than by
+ * a sim's own system — the flipped-classroom mechanic lives here so all
+ * three apps reward it identically. Apps merge these into a sim's own
+ * badge/challenge list when naming what a run earned.
+ */
+export const UNIVERSAL_AWARDS = [
+  {
+    id: "prepared", name: "Prepared",
+    note: "Studied the pre-brief before the run — learn first, prove it in the sim",
+    test: (s) => !!s.prepared,
+  },
+];
+/** Score bonus for a run the learner prepared for (fraction of the run's own score). */
+export const PREPARED_BONUS = 0.1;
+
 export const Progress = {
-  data: { xp: 0, rooms: {}, badges: [], boards: {} },
+  data: { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} },
   playerName: "YOU",
 
   load() {
@@ -83,6 +99,7 @@ export const Progress = {
           rooms: raw.rooms && typeof raw.rooms === "object" ? raw.rooms : {},
           badges: Array.isArray(raw.badges) ? raw.badges : [],
           boards: raw.boards && typeof raw.boards === "object" ? raw.boards : {},
+          briefed: raw.briefed && typeof raw.briefed === "object" ? raw.briefed : {},
         };
       }
     } catch (_) { /* private mode or blocked storage — run unsaved */ }
@@ -103,7 +120,7 @@ export const Progress = {
   },
 
   reset() {
-    this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
+    this.data = { xp: 0, rooms: {}, badges: [], boards: {}, briefed: {} };
     try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEGACY_STORE_KEY); } catch (_) { /* ignore */ }
   },
 
@@ -199,6 +216,16 @@ export const Progress = {
   },
 
   simBadges(id) { return this.roomState(id).badges ?? []; },
+
+  /** Flipped classroom: the learner read a station's pre-brief (its steps and
+   * the reason for each) before running it. Stamped once per station; the
+   * next Session on that station starts `prepared`. */
+  markBriefed(id) {
+    if (!this.data.briefed) this.data.briefed = {};
+    this.data.briefed[id] = new Date().toISOString();
+    this.save();
+  },
+  isBriefed(id) { return !!this.data.briefed?.[id]; },
   // True cross-network totals — every room/sim ever cleared in any app
   // sharing this profile, not just the caller's own catalog. Use
   // roomsClearedIn()/starsIn() above for an app-scoped "X/N" readout.
@@ -320,6 +347,8 @@ export class Session {
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
     this.levelBefore = Progress.level;
+    this.prepared = Progress.isBriefed(this.room.id);
+    this.preparedBonus = 0;
     this.enterStep();
     return this;
   }
@@ -622,11 +651,17 @@ export class Session {
     const timeBonus = Math.max(0, Math.round((par - this.elapsed) * 2));
     this.score += timeBonus;
     this.timeBonus = timeBonus;
+    if (this.prepared) {
+      this.preparedBonus = Math.round(this.score * PREPARED_BONUS);
+      this.score += this.preparedBonus;
+    }
     this.stars = this.errors === 0 && this.elapsed <= par ? 3
       : this.errors <= 1 && this.elapsed <= par * 1.5 ? 2 : 1;
     if (this.stars === 3 && this.room.badge) this.badgeEarned = this.room.badge.id;
 
-    // Each simulator judges its own badges and challenges against this run.
+    // Engine-wide awards first, then each simulator judges its own badges
+    // and challenges against this run.
+    for (const award of UNIVERSAL_AWARDS) if (award.test(this)) this.earned.push(award.id);
     const system = this.room.game;
     if (system) {
       for (const award of [...(system.badges ?? []), ...(system.challenges ?? [])]) {

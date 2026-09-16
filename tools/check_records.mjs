@@ -14,7 +14,7 @@ globalThis.localStorage = {
   removeItem: (k) => store.delete(k),
 };
 
-const { TrainingRecords, passed, toCSV, toXAPI, isoDuration } = await import("../WebXR/shared/records.js");
+const { TrainingRecords, passed, toCSV, toXAPI, isoDuration, earnedCertifications, toOpenBadges } = await import("../WebXR/shared/records.js");
 
 let failures = 0;
 function check(name, fn) {
@@ -92,6 +92,28 @@ check("toXAPI() uses a launch identity as the actor account when the record carr
   eq(statements[0].actor.account.name, "al-1815", "account id"); eq(statements[0].actor.account.homePage, "https://lms.example.org", "account home");
   eq(statements[0].object.id, "https://deploy.example/smartcity/x", "activity still scoped to the deployment");
   eq(statements[1].actor.account.homePage, "https://deploy.example", "fallback home"); eq(statements[1].actor.account.name, "YOU", "fallback account");
+});
+
+check("earnedCertifications() keeps the latest pass per certification; toOpenBadges() emits OB 2.0 assertions", () => {
+  const list = [
+    { id: "r1", at: "2026-09-01T10:00:00.000Z", app: "smartcity", simId: "charge-point", simName: "Charge Point", category: "Energy & Power", trade: "EV service technician", certification: "IBEW — NFPA 70E", passed: true, stars: 3, score: 2300, seconds: 90, parSeconds: 205 },
+    { id: "r2", at: "2026-09-02T10:00:00.000Z", app: "smartcity", simId: "charge-point", simName: "Charge Point", category: "Energy & Power", certification: "IBEW — NFPA 70E", passed: false, stars: 1 },
+    { id: "r3", at: "2026-09-03T10:00:00.000Z", app: "smartcity", simId: "charge-point", simName: "Charge Point", category: "Energy & Power", certification: "IBEW — NFPA 70E", passed: true, stars: 2, score: 1900, seconds: 120, parSeconds: 205, learnerId: "al-1815", learnerName: "Ada Lovelace", homePage: "https://lms.example.org" },
+    { id: "r4", at: "2026-09-04T10:00:00.000Z", app: "trades", simId: "paint-sprayer", simName: "Coatings Bay", category: "Surface Prep & Coatings", certification: "IUPAT — coatings applicator", passed: true, stars: 3, score: 2500, seconds: 60, parSeconds: 240 },
+  ];
+  const certs = earnedCertifications(list);
+  eq(certs.length, 2, "two distinct certifications");
+  eq(certs[0].id, "r4", "newest first"); eq(certs[1].id, "r3", "latest pass, not the first");
+  const ob = toOpenBadges(list, { homePage: "https://sim.example.org" });
+  eq(ob.length, 2, "one assertion per certification");
+  const a = ob.find((x) => x.id.endsWith("/r3"));
+  eq(a["@context"], "https://w3id.org/openbadges/v2", "context"); eq(a.type, "Assertion", "type");
+  eq(a.id, "https://lms.example.org/credentials/r3", "assertion id under the learner's home");
+  eq(a.recipient.identity, "https://lms.example.org/learners/al-1815", "recipient from launch identity");
+  eq(a.badge.type, "BadgeClass", "badge class"); eq(a.badge.issuer.type, "Profile", "issuer profile");
+  eq(a.badge.image.startsWith("data:image/svg+xml"), true, "image present");
+  eq(a.verification.type, "hosted", "hosted verification"); eq(a.evidence[0].id, "https://sim.example.org/xapi/statements/r3", "evidence points at the xAPI statement");
+  eq(JSON.parse(JSON.stringify(ob)).length, 2, "serialisable");
 });
 
 check("record() caps the log at 1000 entries, dropping the oldest", () => {
