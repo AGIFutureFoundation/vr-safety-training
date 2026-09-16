@@ -83,6 +83,7 @@
   button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
   button[disabled]{ opacity:.4; cursor:not-allowed; filter:none }
   .fineprint{ font-size:12px; color:var(--muted); line-height:1.55; margin:0 }
+  .fineprint a{ color:var(--accent) }
 
   #prompt-row{ margin:14px 0 6px }
   #prompt-row label{ display:block; margin-bottom:6px }
@@ -2017,6 +2018,11 @@ function mountUI(store, actions) {
           "not a generated stand-in."),
         h("p", { className: "fineprint" },
           "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
+        h("p", { className: "fineprint" },
+          "Your level, XP and badges are the same shared apprentice record as ",
+          h("a", { href: "../../smartcity/index.html" }, "SmartCiti.X"), " and ",
+          h("a", { href: "../../trades/index.html" }, "Trade Skills Simulator"), " — see ",
+          h("a", { href: "../../portal/index.html" }, "the network map"), " for all four apps."),
         h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
           "Holodeck — powered by AGI Corp & Visko.")));
   }

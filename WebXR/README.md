@@ -7,6 +7,11 @@ positive, repeats score nothing). Progress persists per browser via `localStorag
 transmitted. The hands-on placement practicals and the LLM coach remain exclusive to the
 Unity headset build.
 
+Three more independent WebXR apps live alongside this one under `WebXR/` — SmartCiti.X, Trade
+Skills Simulator and Holodeck, which share a separate procedure engine and learner profile from
+this page's own. [`portal/index.html`](portal/index.html) links all four with a short
+description of each.
+
 ## Device support — the honest matrix
 
 | Surface | Status |

@@ -81,6 +81,18 @@ check the content with `node tools/check_trades.mjs`. Details in
 profile (level, XP, badges) with its sibling app `WebXR/smartcity/` — see
 that README's "One profile, two apps" section.
 
+## WebXR training network
+
+Trade Skills Simulator is one of four independent WebXR apps under `WebXR/`. The other
+three: **SmartCiti.X** (`WebXR/smartcity/`, 20 more union-trade AR/VR simulators — crane
+operator, tower climber, lineworker and more — sharing the same apprentice profile as Trade
+Skills Simulator), **Holodeck** (`WebXR/holodeck/`, a prompt-driven generator that builds a
+scored safety-training procedure from a spoken or typed description, or loads any real
+SmartCiti.X station by name), and the **Safety Campus** WebXR companion described below.
+[`WebXR/portal/index.html`](WebXR/portal/index.html) is a static map linking all four with a
+short description of each; open it first if exploring the WebXR suite rather than the Unity
+build.
+
 ## Meta Quest and web deployment
 
 Two additional delivery surfaces beyond the Windows PC-VR build:

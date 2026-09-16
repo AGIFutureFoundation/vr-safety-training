@@ -54,7 +54,9 @@ const INTRO_FOOT_HTML = `
   display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
   <p class="fineprint">Your level, XP and badges carry over to <a href="../trades/index.html">Trade Skills Simulator</a>,
   seven more union-trade rooms (electrician, welder, plumber and more) built on the same engine —
-  one shared apprentice record across both.</p>
+  one shared apprentice record across both. See <a href="../portal/index.html">the network map</a> for
+  all four apps in this repository, including <a href="../holodeck/index.html">Holodeck</a>'s
+  prompt-driven procedure generator.</p>
   <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
 `;
 

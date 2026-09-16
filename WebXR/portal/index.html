@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VR/AR Training Network</title>
+<meta name="description" content="One entry point for every WebXR training app in this repository.">
+<style>
+  :root{
+    --void:#080b12; --panel:#101722; --glass:rgba(16,23,34,.88); --raised:#182231;
+    --text:#f2f6fa; --muted:#93a4b8; --edge:#2c3948;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    background:
+      radial-gradient(1100px 620px at 12% -8%, rgba(55,214,192,.10), transparent 60%),
+      radial-gradient(1100px 620px at 88% 8%, rgba(197,140,255,.10), transparent 60%),
+      var(--void);
+    color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased;
+    padding:56px 20px 80px;
+  }
+  main{ max-width:980px; margin:0 auto }
+  header{ margin-bottom:40px }
+  .eyebrow{
+    font-family:var(--cond); font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    font-size:12.5px; color:var(--muted); margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--cond); font-weight:600; letter-spacing:.02em; text-transform:uppercase;
+    font-size:clamp(30px,5.4vw,46px); margin:0 0 14px;
+  }
+  p.lead{ color:var(--muted); font-size:15.5px; line-height:1.6; max-width:64ch; margin:0 }
+  p.lead a{ color:inherit; text-decoration-color:var(--edge) }
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;
+    margin:34px 0 44px;
+  }
+  .card{
+    position:relative; display:block; text-decoration:none; color:inherit;
+    background:var(--panel); border:1px solid var(--edge); border-radius:10px;
+    padding:22px 22px 20px; overflow:hidden; transition:transform .15s ease, border-color .15s ease;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0 0 auto 0; height:4px; background:var(--tint,#37d6c0);
+  }
+  .card:hover{ transform:translateY(-2px); border-color:var(--tint,#37d6c0) }
+  .card .kicker{
+    font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+    font-size:11.5px; color:var(--tint,#37d6c0); margin:6px 90px 8px 0;
+  }
+  .card h2{
+    font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.02em;
+    font-size:23px; margin:0 0 8px;
+  }
+  .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 14px }
+  .card .go{
+    font-family:var(--cond); font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    font-size:12.5px; color:var(--text);
+  }
+  .card .go::after{ content:" →"; color:var(--tint,#37d6c0) }
+  .card .badge{
+    position:absolute; top:16px; right:18px; font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); border:1px solid var(--edge); border-radius:99px;
+    padding:3px 9px;
+  }
+  section.note{
+    background:var(--raised); border:1px solid var(--edge); border-radius:10px;
+    padding:20px 22px; margin-bottom:20px;
+  }
+  section.note h3{
+    font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.06em;
+    font-size:13.5px; color:var(--text); margin:0 0 8px;
+  }
+  section.note p{ color:var(--muted); font-size:13.5px; line-height:1.6; margin:0 0 8px; max-width:74ch }
+  section.note p:last-child{ margin-bottom:0 }
+  footer{ color:var(--muted); font-size:12px; margin-top:34px }
+  footer a{ color:var(--muted) }
+  code{ background:var(--raised); border:1px solid var(--edge); border-radius:4px; padding:1px 6px; font-size:12px }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">This repository · four WebXR apps</div>
+    <h1>VR/AR Training Network</h1>
+    <p class="lead">Four independent, self-contained training apps live side by side under
+    <code>WebXR/</code>. Three of them — SmartCiti.X, Trade Skills Simulator and Holodeck —
+    share one procedure engine and one learner profile; Safety Campus is the standalone web
+    companion to the Unity headset build. This page is just a map between them; each app also
+    works fine opened directly at its own URL.</p>
+  </header>
+
+  <div class="grid">
+    <a class="card" style="--tint:#4fd1ff" href="../smartcity/index.html">
+      <span class="badge">20 stations</span>
+      <div class="kicker">Municipal &amp; heavy industrial</div>
+      <h2>SmartCiti.X</h2>
+      <p>AR/VR simulators across twenty union trades — charge-point technician, tower climber,
+      crane operator, lineworker, elevator mechanic and more. Each station is its own rank
+      ladder, currency and badge set.</p>
+      <span class="go">Enter SmartCiti.X</span>
+    </a>
+
+    <a class="card" style="--tint:#37d6c0" href="../trades/index.html">
+      <span class="badge">7 rooms</span>
+      <div class="kicker">Skilled trade &amp; service work</div>
+      <h2>Trade Skills Simulator</h2>
+      <p>Electrician, hair stylist, commercial cook, phlebotomist, welder, platform engineer
+      and plumber/pipefitter — each a full ordered procedure with seeded hazards and graded
+      skill gauges.</p>
+      <span class="go">Enter Trade Skills Simulator</span>
+    </a>
+
+    <a class="card" style="--tint:#c58cff" href="../holodeck/index.html">
+      <span class="badge">Generator</span>
+      <div class="kicker">Prompt-driven procedure generator</div>
+      <h2>Holodeck</h2>
+      <p>A prompt-driven scene generator: mini-golf courses on any theme, or a real scored
+      safety-training procedure crossed against any of six equipment nouns — or name a real
+      SmartCiti.X station directly and it loads that exact one, hazards and all.</p>
+      <span class="go">Enter Holodeck</span>
+    </a>
+
+    <a class="card" style="--tint:#f0645b" href="../index.html">
+      <span class="badge">Unity companion</span>
+      <div class="kicker">Six-site campus inspection curriculum</div>
+      <h2>Safety Campus</h2>
+      <p>The standalone WebXR version of the Unity build's hazard-spotting campus: construction,
+      warehouse, fire response, chemical processing, electrical maintenance and the immersive-lab
+      module. Its own scoring, its own progress store — not part of the shared profile below.</p>
+      <span class="go">Enter Safety Campus</span>
+    </a>
+  </div>
+
+  <section class="note">
+    <h3>One shared apprentice profile</h3>
+    <p>SmartCiti.X, Trade Skills Simulator and Holodeck's real-station mode all read and write
+    the same learner profile — level, XP, badges and player name carry over between them,
+    because <code>shared/game.js</code>'s <code>Progress</code> store is the same module import
+    in all three. A room or station's own record (stars, best score, its own rank ladder) never
+    collides between apps, since every id in the combined 27-profession catalog is unique — only
+    the totals are pooled. Each app's own hub still shows counts scoped to its own catalog
+    (never inflated by a sibling app), so "7/7 rooms" always means this app's seven, not the
+    network's twenty-seven.</p>
+    <p>Safety Campus is intentionally outside this — it is the web mirror of a separate Unity
+    curriculum with its own scoring contract, not a fourth catalog on the shared ladder.</p>
+  </section>
+
+  <footer>
+    Each app is a fully static page — open any of them directly, or build the single-file
+    versions with <code>python3 tools/bundle_webxr.py</code> from the repository root. See
+    <a href="https://github.com/AGIFutureFoundation/vr-safety-training">the repository README</a>
+    for build/verification details on each.
+  </footer>
+</main>
+</body>
+</html>

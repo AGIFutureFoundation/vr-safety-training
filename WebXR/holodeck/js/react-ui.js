@@ -139,6 +139,11 @@ export function mountUI(store, actions) {
           "not a generated stand-in."),
         h("p", { className: "fineprint" },
           "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
+        h("p", { className: "fineprint" },
+          "Your level, XP and badges are the same shared apprentice record as ",
+          h("a", { href: "../smartcity/index.html" }, "SmartCiti.X"), " and ",
+          h("a", { href: "../trades/index.html" }, "Trade Skills Simulator"), " — see ",
+          h("a", { href: "../portal/index.html" }, "the network map"), " for all four apps."),
         h("p", { className: "fineprint", style: { opacity: .65, marginTop: "8px" } },
           "Holodeck — powered by AGI Corp & Visko.")));
   }

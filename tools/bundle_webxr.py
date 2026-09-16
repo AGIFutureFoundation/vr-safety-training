@@ -102,6 +102,24 @@ APPS = {
     },
 }
 
+# Cross-app links (e.g. trades' intro pointing at "../smartcity/index.html")
+# are written relative to the SOURCE index.html's own directory (WebXR/<app>/).
+# The dist file this bundles into lives one directory deeper, at
+# WebXR/<app>/dist/<name>.html, so the same "../<sibling>/" text would resolve
+# one level too shallow there — dist_fixup() rewrites it to "../../<sibling>/"
+# in the bundled output only, leaving the edited source files untouched. This
+# covers both a plain HTML href="../smartcity/..." and a JS object property
+# like href: "../smartcity/..." (Holodeck's react-ui.js uses the latter),
+# since both contain the same quoted "../smartcity/ substring.
+SIBLING_APP_DIRS = [*APPS, "portal"]
+
+
+def dist_fixup(html: str) -> str:
+    for name in SIBLING_APP_DIRS:
+        html = html.replace(f'"../{name}/', f'"../../{name}/')
+    return html
+
+
 IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MULTILINE)
 EXPORT_BLOCK_RE = re.compile(r"^export\s*\{[^}]*\}\s*;\s*$", re.MULTILINE)
 EXPORT_KEYWORD_RE = re.compile(r"^export\s+(?=(const|let|var|function|class|async))", re.MULTILINE)
@@ -174,6 +192,7 @@ def build(app: str) -> int:
               "edit the modules, not this file. -->\n")
     html = index.replace(cfg["entry"], '<script type="module">\n' + bundle + "\n</script>")
     html = html.replace("<body>", "<body>\n" + banner, 1)
+    html = dist_fixup(html)
 
     out = src / "dist" / cfg["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
