@@ -32,7 +32,6 @@ export const GESTURE_HINTS = {
 };
 
 const materialCache = new Map();
-const disposables = new Set();
 
 export function mat(color, o = {}) {
   const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
@@ -55,14 +54,18 @@ export function mat(color, o = {}) {
   return m;
 }
 
-function track(geometry) { disposables.add(geometry); return geometry; }
+// A geometry-constructor passthrough — every call site below wraps its own
+// `new THREE.XGeometry(...)` in this. It used to also add the geometry to a
+// module-level Set for later disposal, but disposeTree() below never
+// actually read that Set (it disposes by traversing the live scene graph
+// instead) — pure dead bookkeeping, removed.
+function track(geometry) { return geometry; }
 
 /** Dispose geometry created for a room. Materials stay cached and shared. */
 export function disposeTree(root) {
   root.traverse((o) => {
     if (o.isMesh || o.isLine || o.isPoints) {
       o.geometry?.dispose();
-      disposables.delete(o.geometry);
       if (o.material?.map && o.material.userData.ownTexture) o.material.map.dispose();
       if (o.material?.userData.ownMaterial) o.material.dispose();
     }

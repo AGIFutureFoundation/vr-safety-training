@@ -83,7 +83,8 @@ installDomStubs();
 const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);
 
 const meta = suite.SIMS.map((s) => ({
-  id: s.id, index: s.index, domain: s.domain, trade: s.trade, name: s.name,
+  id: s.id, index: s.index, domain: s.domain, trade: s.trade,
+  category: s.category, certification: s.certification, name: s.name,
   title: s.title, tagline: s.tagline, accent: s.accent, accentCss: s.accentCss,
   parSeconds: s.parSeconds, badge: s.badge, stepCount: s.steps.length,
   game: { system: s.game.system, currency: s.game.currency, ranks: s.game.ranks, rankAt: s.game.rankAt },

@@ -17,6 +17,8 @@ export const SIM_VALVE_VAULT = {
   index: "03",
   domain: "Water",
   trade: "Water utility operator",
+  category: "Water & Environmental",
+  certification: "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant",
   name: "Valve Vault",
   title: simTitle("Valve Vault"),
   tagline: "Permit-required confined space entry: isolation, atmosphere, roles and retrieval",

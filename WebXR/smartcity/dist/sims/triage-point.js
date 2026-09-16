@@ -17,6 +17,8 @@ export const SIM_TRIAGE_POINT = {
   index: "08",
   domain: "Emergency Services",
   trade: "EMT / paramedic",
+  category: "Emergency Services",
+  certification: "IAEP — NREMT-Paramedic certified",
   name: "Triage Point",
   title: simTitle("Triage Point"),
   tagline: "START mass-casualty triage: rapid assessment, tagging and the golden hour",

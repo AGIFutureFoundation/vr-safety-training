@@ -16,6 +16,8 @@ export const SIM_SOLAR_DECK = {
   index: "04",
   domain: "Energy",
   trade: "Solar / BESS technician",
+  category: "Energy & Power",
+  certification: "IBEW — NABCEP PV Installation Professional certified",
   name: "Solar Deck",
   title: simTitle("Solar Deck"),
   tagline: "Rooftop array and battery commissioning: fall protection, rapid shutdown and string test",

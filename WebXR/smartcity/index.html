@@ -119,10 +119,14 @@
     letter-spacing:.03em; text-transform:uppercase; margin:3px 0 5px; }
   .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 10px; max-width:64ch }
   .card p.lead{ color:var(--text) }
-  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px; margin:14px 0 16px }
+  .sim-category{ font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+    font-size:12px; color:var(--accent); margin:14px 0 6px }
+  .sim-category:first-of-type{ margin-top:6px }
+  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px; margin:0 0 4px }
   .sim{ background:var(--raised); border-radius:4px; padding:8px 10px; border-left:3px solid var(--tint) }
   .sim b{ display:block; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
   .sim span{ font-size:11.5px; color:var(--muted); line-height:1.3; display:block; margin-top:1px }
+  .sim span.sim-cert{ color:var(--text); opacity:.75; font-style:italic; margin-top:3px }
   .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px }
   button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
     text-transform:uppercase; cursor:pointer; border-radius:4px; padding:11px 20px; min-height:44px;

@@ -18,6 +18,8 @@ export const SIM_TRENCH_BOX = {
   index: "14",
   domain: "Construction",
   trade: "Laborer / excavation and shoring",
+  category: "Construction & Structural Trades",
+  certification: "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
   name: "Trench Box",
   title: simTitle("Trench Box"),
   tagline: "Excavation shoring: competent-person inspection, atmosphere testing and protective systems",

@@ -17,6 +17,8 @@ export const SIM_STEEL_ERECTOR = {
   index: "12",
   domain: "Construction",
   trade: "Ironworker / structural steel connector",
+  category: "Construction & Structural Trades",
+  certification: "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
   name: "Steel Erector",
   title: simTitle("Steel Erector"),
   tagline: "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",

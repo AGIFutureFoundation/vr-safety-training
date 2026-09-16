@@ -17,6 +17,8 @@ export const SIM_ABATEMENT_CHAMBER = {
   index: "17",
   domain: "Environmental",
   trade: "Asbestos / lead abatement worker",
+  category: "Water & Environmental",
+  certification: "LIUNA — EPA AHERA-certified asbestos abatement worker",
   name: "Abatement Chamber",
   title: simTitle("Abatement Chamber"),
   tagline: "Containment integrity, wet-method removal and the three-stage decon airlock",

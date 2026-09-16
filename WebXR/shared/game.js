@@ -39,6 +39,33 @@ const LEGACY_NAME_KEY = "trades-sim-name";
 
 const MAX_BOARD_ENTRIES = 8;
 
+// The account-wide level ladder — one number spanning every room/sim across
+// every app sharing this profile, capped at a real endgame rather than
+// growing forever. Levels 1-32 use a smooth curve (each level costs more
+// than the last); level 33 is the cap — once reached, further XP still
+// accumulates (it still counts toward suite standing and leaderboards) but
+// no longer raises the level number. Tuned so clearing every sim in the
+// current 20-sim SmartCiti.X catalog once (roughly 300 XP each) lands
+// solidly in the "Journeyworker" band, leaving "Foreman" and above as a
+// real long-term goal — one that gets more reachable, not less, as the
+// catalog grows toward its planned 330 sims.
+export const MAX_LEVEL = 33;
+const LEVEL_XP = Array.from({ length: MAX_LEVEL }, (_, i) => Math.round(120 * Math.pow(i, 1.65)));
+// Several levels share a tier name, the same way a real trade ladder doesn't
+// mint a new title every single level — "through" is the highest level still
+// carrying that name.
+const LEVEL_TIERS = [
+  { through: 4, name: "Trainee" },
+  { through: 8, name: "Apprentice" },
+  { through: 12, name: "Journeyworker" },
+  { through: 16, name: "Technician" },
+  { through: 20, name: "Specialist" },
+  { through: 24, name: "Foreman" },
+  { through: 28, name: "Master" },
+  { through: 32, name: "Certified Master" },
+  { through: MAX_LEVEL, name: "Legend" },
+];
+
 export const Progress = {
   data: { xp: 0, rooms: {}, badges: [], boards: {} },
   playerName: "YOU",
@@ -129,11 +156,24 @@ export const Progress = {
   roomsClearedIn(ids) { return ids.filter((id) => (this.data.rooms[id]?.stars ?? 0) > 0).length; },
   starsIn(ids) { return ids.reduce((n, id) => n + (this.data.rooms[id]?.stars ?? 0), 0); },
 
-  get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
+  get level() {
+    let lvl = 1;
+    for (let i = 1; i < LEVEL_XP.length; i++) if (this.data.xp >= LEVEL_XP[i]) lvl = i + 1;
+    return lvl;
+  },
+  get maxLevel() { return this.level >= MAX_LEVEL; },
+  /** The trade-apprenticeship-style tier name for the current level — several
+   * levels share a name (e.g. 9-12 are all "Journeyworker"), the same way a
+   * real union ladder doesn't mint a new title every single level. */
+  get levelName() {
+    const lvl = this.level;
+    return LEVEL_TIERS.find((t) => lvl <= t.through)?.name ?? LEVEL_TIERS[LEVEL_TIERS.length - 1].name;
+  },
   get xpIntoLevel() {
-    const base = Math.pow(this.level - 1, 2) * 120;
-    const next = Math.pow(this.level, 2) * 120;
-    return { into: this.data.xp - base, span: next - base };
+    const lvl = this.level;
+    const base = LEVEL_XP[lvl - 1];
+    const next = lvl < MAX_LEVEL ? LEVEL_XP[lvl] : base;
+    return { into: this.data.xp - base, span: Math.max(1, next - base) };
   },
   roomState(id) {
     return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0, xp: 0, badges: [] };
@@ -279,6 +319,7 @@ export class Session {
     // Snapshot rank before this run so finish() can tell whether it moved the
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
+    this.levelBefore = Progress.level;
     this.enterStep();
     return this;
   }
@@ -601,6 +642,9 @@ export class Session {
     });
     this.rank = Progress.simRank(this.room.id, system);
     this.rankedUp = !!(this.rankBefore && this.rank.tier > this.rankBefore.tier);
+    this.level = Progress.level;
+    this.levelName = Progress.levelName;
+    this.leveledUp = this.level > this.levelBefore;
     this.leaderboard = Progress.submitScore(this.room.id, {
       score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
     });

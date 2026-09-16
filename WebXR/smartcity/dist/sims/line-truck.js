@@ -17,6 +17,8 @@ export const SIM_LINE_TRUCK = {
   index: "19",
   domain: "Energy",
   trade: "Outside / overhead lineworker (IBEW)",
+  category: "Energy & Power",
+  certification: "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
   name: "Line Truck",
   title: simTitle("Line Truck"),
   tagline: "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",

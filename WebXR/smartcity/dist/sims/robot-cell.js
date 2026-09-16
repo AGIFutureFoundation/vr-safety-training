@@ -16,6 +16,8 @@ export const SIM_ROBOT_CELL = {
   index: "09",
   domain: "Manufacturing",
   trade: "Automation / robotics technician",
+  category: "Manufacturing & Automation",
+  certification: "UAW — ANSI/RIA R15.06 robot safety qualified",
   name: "Robot Cell",
   title: simTitle("Robot Cell"),
   tagline: "Six-axis robot cell lockout, light-curtain integrity and teach-pendant pick-and-place programming",

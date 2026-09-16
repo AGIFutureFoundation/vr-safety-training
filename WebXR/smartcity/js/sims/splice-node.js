@@ -16,6 +16,8 @@ export const SIM_SPLICE_NODE = {
   index: "05",
   domain: "Connectivity",
   trade: "Fibre optic technician",
+  category: "Connectivity & Telecom",
+  certification: "CWA — BICSI Installer 2, Optical Fiber Technician certified",
   name: "Splice Node",
   title: simTitle("Splice Node"),
   tagline: "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",

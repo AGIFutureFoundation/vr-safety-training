@@ -119,10 +119,14 @@
     letter-spacing:.03em; text-transform:uppercase; margin:3px 0 5px; }
   .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 10px; max-width:64ch }
   .card p.lead{ color:var(--text) }
-  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px; margin:14px 0 16px }
+  .sim-category{ font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+    font-size:12px; color:var(--accent); margin:14px 0 6px }
+  .sim-category:first-of-type{ margin-top:6px }
+  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px; margin:0 0 4px }
   .sim{ background:var(--raised); border-radius:4px; padding:8px 10px; border-left:3px solid var(--tint) }
   .sim b{ display:block; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
   .sim span{ font-size:11.5px; color:var(--muted); line-height:1.3; display:block; margin-top:1px }
+  .sim span.sim-cert{ color:var(--text); opacity:.75; font-style:italic; margin-top:3px }
   .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px }
   button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
     text-transform:uppercase; cursor:pointer; border-radius:4px; padding:11px 20px; min-height:44px;
@@ -265,7 +269,6 @@ const GESTURE_HINTS = {
 };
 
 const materialCache = new Map();
-const disposables = new Set();
 
 function mat(color, o = {}) {
   const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
@@ -288,14 +291,18 @@ function mat(color, o = {}) {
   return m;
 }
 
-function track(geometry) { disposables.add(geometry); return geometry; }
+// A geometry-constructor passthrough — every call site below wraps its own
+// `new THREE.XGeometry(...)` in this. It used to also add the geometry to a
+// module-level Set for later disposal, but disposeTree() below never
+// actually read that Set (it disposes by traversing the live scene graph
+// instead) — pure dead bookkeeping, removed.
+function track(geometry) { return geometry; }
 
 /** Dispose geometry created for a room. Materials stay cached and shared. */
 function disposeTree(root) {
   root.traverse((o) => {
     if (o.isMesh || o.isLine || o.isPoints) {
       o.geometry?.dispose();
-      disposables.delete(o.geometry);
       if (o.material?.map && o.material.userData.ownTexture) o.material.map.dispose();
       if (o.material?.userData.ownMaterial) o.material.dispose();
     }
@@ -782,6 +789,33 @@ const LEGACY_NAME_KEY = "trades-sim-name";
 
 const MAX_BOARD_ENTRIES = 8;
 
+// The account-wide level ladder — one number spanning every room/sim across
+// every app sharing this profile, capped at a real endgame rather than
+// growing forever. Levels 1-32 use a smooth curve (each level costs more
+// than the last); level 33 is the cap — once reached, further XP still
+// accumulates (it still counts toward suite standing and leaderboards) but
+// no longer raises the level number. Tuned so clearing every sim in the
+// current 20-sim SmartCiti.X catalog once (roughly 300 XP each) lands
+// solidly in the "Journeyworker" band, leaving "Foreman" and above as a
+// real long-term goal — one that gets more reachable, not less, as the
+// catalog grows toward its planned 330 sims.
+const MAX_LEVEL = 33;
+const LEVEL_XP = Array.from({ length: MAX_LEVEL }, (_, i) => Math.round(120 * Math.pow(i, 1.65)));
+// Several levels share a tier name, the same way a real trade ladder doesn't
+// mint a new title every single level — "through" is the highest level still
+// carrying that name.
+const LEVEL_TIERS = [
+  { through: 4, name: "Trainee" },
+  { through: 8, name: "Apprentice" },
+  { through: 12, name: "Journeyworker" },
+  { through: 16, name: "Technician" },
+  { through: 20, name: "Specialist" },
+  { through: 24, name: "Foreman" },
+  { through: 28, name: "Master" },
+  { through: 32, name: "Certified Master" },
+  { through: MAX_LEVEL, name: "Legend" },
+];
+
 const Progress = {
   data: { xp: 0, rooms: {}, badges: [], boards: {} },
   playerName: "YOU",
@@ -872,11 +906,24 @@ const Progress = {
   roomsClearedIn(ids) { return ids.filter((id) => (this.data.rooms[id]?.stars ?? 0) > 0).length; },
   starsIn(ids) { return ids.reduce((n, id) => n + (this.data.rooms[id]?.stars ?? 0), 0); },
 
-  get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
+  get level() {
+    let lvl = 1;
+    for (let i = 1; i < LEVEL_XP.length; i++) if (this.data.xp >= LEVEL_XP[i]) lvl = i + 1;
+    return lvl;
+  },
+  get maxLevel() { return this.level >= MAX_LEVEL; },
+  /** The trade-apprenticeship-style tier name for the current level — several
+   * levels share a name (e.g. 9-12 are all "Journeyworker"), the same way a
+   * real union ladder doesn't mint a new title every single level. */
+  get levelName() {
+    const lvl = this.level;
+    return LEVEL_TIERS.find((t) => lvl <= t.through)?.name ?? LEVEL_TIERS[LEVEL_TIERS.length - 1].name;
+  },
   get xpIntoLevel() {
-    const base = Math.pow(this.level - 1, 2) * 120;
-    const next = Math.pow(this.level, 2) * 120;
-    return { into: this.data.xp - base, span: next - base };
+    const lvl = this.level;
+    const base = LEVEL_XP[lvl - 1];
+    const next = lvl < MAX_LEVEL ? LEVEL_XP[lvl] : base;
+    return { into: this.data.xp - base, span: Math.max(1, next - base) };
   },
   roomState(id) {
     return this.data.rooms[id] || { stars: 0, best: 0, bestTime: null, runs: 0, xp: 0, badges: [] };
@@ -1022,6 +1069,7 @@ class Session {
     // Snapshot rank before this run so finish() can tell whether it moved the
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
+    this.levelBefore = Progress.level;
     this.enterStep();
     return this;
   }
@@ -1344,6 +1392,9 @@ class Session {
     });
     this.rank = Progress.simRank(this.room.id, system);
     this.rankedUp = !!(this.rankBefore && this.rank.tier > this.rankBefore.tier);
+    this.level = Progress.level;
+    this.levelName = Progress.levelName;
+    this.leveledUp = this.level > this.levelBefore;
     this.leaderboard = Progress.submitScore(this.room.id, {
       score: this.score, seconds: Math.round(this.elapsed), stars: this.stars,
     });
@@ -1953,6 +2004,8 @@ const SIMS_META = [
     "index": "01",
     "domain": "Energy",
     "trade": "EV service technician",
+    "category": "Energy & Power",
+    "certification": "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
     "name": "Charge Point",
     "title": "SmartCiti.X~ Charge Point VR",
     "tagline": "DC fast-charger fault isolation, capacitor discharge and busbar torque",
@@ -1989,6 +2042,8 @@ const SIMS_META = [
     "index": "02",
     "domain": "Mobility",
     "trade": "Traffic signal technician",
+    "category": "Mobility & Transit",
+    "certification": "IBEW — IMSA Level II Traffic Signal Technician certified",
     "name": "Signal Cabinet",
     "title": "SmartCiti.X~ Signal Cabinet VR",
     "tagline": "Intersection work zone, controller fault diagnosis and conflict monitor integrity",
@@ -2025,6 +2080,8 @@ const SIMS_META = [
     "index": "03",
     "domain": "Water",
     "trade": "Water utility operator",
+    "category": "Water & Environmental",
+    "certification": "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant",
     "name": "Valve Vault",
     "title": "SmartCiti.X~ Valve Vault VR",
     "tagline": "Permit-required confined space entry: isolation, atmosphere, roles and retrieval",
@@ -2061,6 +2118,8 @@ const SIMS_META = [
     "index": "04",
     "domain": "Energy",
     "trade": "Solar / BESS technician",
+    "category": "Energy & Power",
+    "certification": "IBEW — NABCEP PV Installation Professional certified",
     "name": "Solar Deck",
     "title": "SmartCiti.X~ Solar Deck VR",
     "tagline": "Rooftop array and battery commissioning: fall protection, rapid shutdown and string test",
@@ -2097,6 +2156,8 @@ const SIMS_META = [
     "index": "05",
     "domain": "Connectivity",
     "trade": "Fibre optic technician",
+    "category": "Connectivity & Telecom",
+    "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
     "name": "Splice Node",
     "title": "SmartCiti.X~ Splice Node VR",
     "tagline": "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",
@@ -2133,6 +2194,8 @@ const SIMS_META = [
     "index": "06",
     "domain": "Aviation",
     "trade": "Drone / UAS ground technician",
+    "category": "Mobility & Transit",
+    "certification": "Teamsters — FAA Part 107 remote pilot certificate holder",
     "name": "Flight Deck",
     "title": "SmartCiti.X~ Flight Deck VR",
     "tagline": "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",
@@ -2169,6 +2232,8 @@ const SIMS_META = [
     "index": "07",
     "domain": "Mobility",
     "trade": "Rail track worker",
+    "category": "Mobility & Transit",
+    "certification": "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
     "name": "Track Access",
     "title": "SmartCiti.X~ Track Access VR",
     "tagline": "Track possession, third-rail isolation and lookout protection",
@@ -2205,6 +2270,8 @@ const SIMS_META = [
     "index": "08",
     "domain": "Emergency Services",
     "trade": "EMT / paramedic",
+    "category": "Emergency Services",
+    "certification": "IAEP — NREMT-Paramedic certified",
     "name": "Triage Point",
     "title": "SmartCiti.X~ Triage Point VR",
     "tagline": "START mass-casualty triage: rapid assessment, tagging and the golden hour",
@@ -2241,6 +2308,8 @@ const SIMS_META = [
     "index": "09",
     "domain": "Manufacturing",
     "trade": "Automation / robotics technician",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW — ANSI/RIA R15.06 robot safety qualified",
     "name": "Robot Cell",
     "title": "SmartCiti.X~ Robot Cell VR",
     "tagline": "Six-axis robot cell lockout, light-curtain integrity and teach-pendant pick-and-place programming",
@@ -2277,6 +2346,8 @@ const SIMS_META = [
     "index": "10",
     "domain": "Building Systems",
     "trade": "HVAC / refrigeration technician",
+    "category": "Building Systems & Facilities",
+    "certification": "UA — EPA Section 608 Universal refrigerant certified",
     "name": "Chiller Plant",
     "title": "SmartCiti.X~ Chiller Plant VR",
     "tagline": "District chiller isolation, refrigerant recovery and confined mechanical space entry",
@@ -2313,6 +2384,8 @@ const SIMS_META = [
     "index": "11",
     "domain": "Telecom",
     "trade": "Telecom / broadcast tower technician",
+    "category": "Connectivity & Telecom",
+    "certification": "CWA — NATE Tower Climber Level II certified",
     "name": "Tower Climb",
     "title": "SmartCiti.X~ Tower Climb VR",
     "tagline": "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",
@@ -2349,6 +2422,8 @@ const SIMS_META = [
     "index": "12",
     "domain": "Construction",
     "trade": "Ironworker / structural steel connector",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
     "name": "Steel Erector",
     "title": "SmartCiti.X~ Steel Erector VR",
     "tagline": "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",
@@ -2385,6 +2460,8 @@ const SIMS_META = [
     "index": "13",
     "domain": "Construction",
     "trade": "Mobile crane operator / rigger",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE — NCCCO Mobile Crane Operator certified",
     "name": "Crane Yard",
     "title": "SmartCiti.X~ Crane Yard VR",
     "tagline": "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
@@ -2421,6 +2498,8 @@ const SIMS_META = [
     "index": "14",
     "domain": "Construction",
     "trade": "Laborer / excavation and shoring",
+    "category": "Construction & Structural Trades",
+    "certification": "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
     "name": "Trench Box",
     "title": "SmartCiti.X~ Trench Box VR",
     "tagline": "Excavation shoring: competent-person inspection, atmosphere testing and protective systems",
@@ -2457,6 +2536,8 @@ const SIMS_META = [
     "index": "15",
     "domain": "Facilities",
     "trade": "Stationary engineer / steamfitter",
+    "category": "Building Systems & Facilities",
+    "certification": "IUOE — state-licensed Stationary Engineer, boiler operation",
     "name": "Boiler Room",
     "title": "SmartCiti.X~ Boiler Room VR",
     "tagline": "Boiler lockout, confined-space firebox entry and a controlled re-light",
@@ -2493,6 +2574,8 @@ const SIMS_META = [
     "index": "16",
     "domain": "Facilities",
     "trade": "Elevator constructor / mechanic",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
     "name": "Elevator Pit",
     "title": "SmartCiti.X~ Elevator Pit VR",
     "tagline": "Pit and car-top entry: main line lockout, dual stop switches and governor inspection",
@@ -2529,6 +2612,8 @@ const SIMS_META = [
     "index": "17",
     "domain": "Environmental",
     "trade": "Asbestos / lead abatement worker",
+    "category": "Water & Environmental",
+    "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
     "name": "Abatement Chamber",
     "title": "SmartCiti.X~ Abatement Chamber VR",
     "tagline": "Containment integrity, wet-method removal and the three-stage decon airlock",
@@ -2565,6 +2650,8 @@ const SIMS_META = [
     "index": "18",
     "domain": "Entertainment",
     "trade": "Theatrical rigger (IATSE)",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE — ETCP Certified Rigger, Arena",
     "name": "Rigging Loft",
     "title": "SmartCiti.X~ Rigging Loft VR",
     "tagline": "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",
@@ -2601,6 +2688,8 @@ const SIMS_META = [
     "index": "19",
     "domain": "Energy",
     "trade": "Outside / overhead lineworker (IBEW)",
+    "category": "Energy & Power",
+    "certification": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
     "name": "Line Truck",
     "title": "SmartCiti.X~ Line Truck VR",
     "tagline": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
@@ -2637,6 +2726,8 @@ const SIMS_META = [
     "index": "20",
     "domain": "Maritime",
     "trade": "Longshoreman / container-crane operator",
+    "category": "Maritime & Ports",
+    "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
     "name": "Dock Crane",
     "title": "SmartCiti.X~ Dock Crane VR",
     "tagline": "Container lift: lashing release order, twist-lock verification and wind-limit discipline",
@@ -2965,43 +3056,40 @@ function createStore(initial) {
  * the markup here.
  */
 
+
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
 
 // Static marketing copy for the intro card — this never changes at runtime,
-// so it is kept as one HTML block rather than hand-built as elements.
+// so it is kept as one HTML block rather than hand-built as elements. The
+// per-sim roster used to be a THIRD hand-written copy of this same list
+// (name/tagline/tint), duplicating sims-meta.js (itself generated from the
+// real sim modules — see tools/gen_sims_meta.mjs) with nothing enforcing
+// they stayed in sync. SimsGrid below replaces that copy with a real
+// render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">SmartCiti.X · twenty districts, twenty certifications</div>
+  <div class="eyebrow">SmartCiti.X · 10 categories, twenty stations today</div>
   <h1>AR Training Simulators</h1>
-  <p class="lead">Twenty deep-skill simulators across the union trades, each its own gamified system
-  with its own rank ladder, currency and badges. Every station is a real procedure with real hazards —
-  the training scores what you touch and in what order.</p>
-  <div class="sims">
-    <div class="sim" style="--tint:#59c97b"><b>Charge Point</b><span>EV DC fast-charger isolation · Grid Certification</span></div>
-    <div class="sim" style="--tint:#f2c14b"><b>Signal Cabinet</b><span>Traffic controller fault work · Intersection Command</span></div>
-    <div class="sim" style="--tint:#4fa3ff"><b>Valve Vault</b><span>Confined space entry · Entry Authority</span></div>
-    <div class="sim" style="--tint:#ffb648"><b>Solar Deck</b><span>Rooftop PV/BESS commissioning · Rooftop Authority</span></div>
-    <div class="sim" style="--tint:#a079ff"><b>Splice Node</b><span>Fibre laser safety and splicing · Photon Guild</span></div>
-    <div class="sim" style="--tint:#4fd1ff"><b>Flight Deck</b><span>Drone ramp and battery safety · Airside Command</span></div>
-    <div class="sim" style="--tint:#f2894b"><b>Track Access</b><span>Rail possession and third-rail isolation · Right-of-Way</span></div>
-    <div class="sim" style="--tint:#f0645b"><b>Triage Point</b><span>Mass-casualty START triage · Golden Hour</span></div>
-    <div class="sim" style="--tint:#a079ff"><b>Robot Cell</b><span>Six-axis robot lockout · Cell Lockout</span></div>
-    <div class="sim" style="--tint:#4fd1ff"><b>Chiller Plant</b><span>Refrigerant recovery, confined space · Cold Chain Command</span></div>
-    <div class="sim" style="--tint:#ff7a1a"><b>Tower Climb</b><span>Guyed tower ascent, RF lockout · Summit Authority</span></div>
-    <div class="sim" style="--tint:#ffcc00"><b>Steel Erector</b><span>Structural steel connecting, bolt-up · Iron Certified</span></div>
-    <div class="sim" style="--tint:#2f8fdb"><b>Crane Yard</b><span>Mobile crane pick, load chart, rigging · Rigging Command</span></div>
-    <div class="sim" style="--tint:#7ed321"><b>Trench Box</b><span>Excavation shoring, atmosphere testing · Ground Authority</span></div>
-    <div class="sim" style="--tint:#d83a2a"><b>Boiler Room</b><span>Boiler lockout, firebox confined space · Steam Certified</span></div>
-    <div class="sim" style="--tint:#2dd4bf"><b>Elevator Pit</b><span>Pit/car-top entry, dual stop switches · Shaftway Authority</span></div>
-    <div class="sim" style="--tint:#c9e265"><b>Abatement Chamber</b><span>Containment, wet removal, decon airlock · Containment Command</span></div>
-    <div class="sim" style="--tint:#ff6fae"><b>Rigging Loft</b><span>Counterweight fly system, arbor balance · Fly Certified</span></div>
-    <div class="sim" style="--tint:#fcee21"><b>Line Truck</b><span>Bucket-truck line work, isolation, grounding · Storm Command</span></div>
-    <div class="sim" style="--tint:#3a7ca5"><b>Dock Crane</b><span>Container lift, twist-locks, wind limits · Waterfront Authority</span></div>
-  </div>
+  <p class="lead">Deep-skill simulators across ten trade-union categories, each its own gamified system
+  with its own rank ladder, currency and badges — and each naming the real union and certification a
+  worker in that role would actually need. Every station is a real procedure with real hazards — the
+  training scores what you touch and in what order.</p>
+`;
+const INTRO_TAIL_HTML = `
   <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
   <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
 `;
+
+// Canonical display order for the 10 categories — not alphabetical, so the
+// roster reads as an intentional taxonomy (infrastructure trades first,
+// specialty trades after) rather than a shuffled list.
+const CATEGORY_ORDER = [
+  "Energy & Power", "Mobility & Transit", "Water & Environmental",
+  "Connectivity & Telecom", "Building Systems & Facilities",
+  "Construction & Structural Trades", "Manufacturing & Automation",
+  "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
+];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
   through all twenty stations in order, one after another, with no need to find your own way back to the campus
@@ -3054,7 +3142,7 @@ function mountUI(store, actions) {
   function HudRail() {
     const hud = useSlice("hud");
     return h("div", { id: "hud-rail", "data-state": hud.railState },
-      h("div", { id: "hud-feedback", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
+      h("div", { id: "hud-feedback", "aria-live": "polite", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
       h("div", { id: "hud-progress" },
         h("div", { id: "hud-track" }, h("div", { id: "hud-fill", style: { width: `${hud.fillPct}%` } })),
         h("div", { id: "hud-count" }, hud.count),
@@ -3086,11 +3174,36 @@ function mountUI(store, actions) {
       h("button", { id: "scale-up", onClick: actions.scaleUp }, "+ Larger"));
   }
 
+  /** Grouped by category, in CATEGORY_ORDER, sorted by each sim's own
+   * catalog index within its category — a real render from SIMS_META
+   * (see tools/gen_sims_meta.mjs) instead of a hand-copied HTML list, so
+   * it can never silently drift from the actual sim roster. */
+  function SimsGrid() {
+    const byCategory = new Map();
+    for (const sim of SIMS_META) {
+      const cat = sim.category ?? "Uncategorized";
+      if (!byCategory.has(cat)) byCategory.set(cat, []);
+      byCategory.get(cat).push(sim);
+    }
+    const categories = [...byCategory.keys()].sort(
+      (a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b));
+    return h(Fragment, null, categories.map((cat) => h(Fragment, { key: cat },
+      h("div", { className: "sim-category" }, cat),
+      h("div", { className: "sims" },
+        byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index)).map((sim) =>
+          h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
+            h("b", null, sim.name),
+            h("span", null, `${sim.trade} · ${sim.game.system}`),
+            h("span", { className: "sim-cert" }, sim.certification)))))));
+  }
+
   function IntroCard() {
     const intro = useSlice("intro");
-    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible },
+    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible, role: "dialog", "aria-modal": "true", "aria-label": "SmartCiti.X training campus" },
       h("div", { className: "card" },
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_HEAD_HTML } }),
+        h(SimsGrid),
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
         h("div", { className: "namerow" },
           h("label", { className: "eyebrow", htmlFor: "player-name" }, "Crew tag (for the leaderboard)"),
           h("input", {
@@ -3113,7 +3226,7 @@ function mountUI(store, actions) {
   function ResultsCard() {
     const results = useSlice("results");
     if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
-    return h("div", { className: "overlay", id: "results" },
+    return h("div", { className: "overlay", id: "results", role: "dialog", "aria-modal": "true", "aria-label": "Run results" },
       h("div", { className: "card" },
         h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
         h("div", { className: "btnrow" },
@@ -3125,7 +3238,7 @@ function mountUI(store, actions) {
   function LeaderboardCard() {
     const lb = useSlice("leaderboard");
     if (!lb.visible) return h("div", { className: "overlay", id: "leaderboard", hidden: true });
-    return h("div", { className: "overlay", id: "leaderboard" },
+    return h("div", { className: "overlay", id: "leaderboard", role: "dialog", "aria-modal": "true", "aria-label": "Leaderboards" },
       h("div", { className: "card" },
         h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
@@ -3151,7 +3264,7 @@ function mountUI(store, actions) {
 
   function EditorCard() {
     const ed = useSlice("editor");
-    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible },
+    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible, role: "dialog", "aria-modal": "true", "aria-label": "Create a scenario" },
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
         h("h1", null, "Create a Scenario"),
@@ -3235,6 +3348,14 @@ function mountUI(store, actions) {
 // dist/smartcity-x.html ships as a folder (index.html + sims/ + citykit.js +
 // gamify.js) rather than one self-contained file: see tools/bundle_webxr.py.
 const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
+// Crew tags and custom-scenario names are learner-typed text that ends up
+// inside HTML template strings (results card, leaderboards) rendered via
+// react-ui.js's dangerouslySetInnerHTML — escape before interpolating so a
+// tag like `<b>` typed as a crew name renders literally instead of as
+// markup on a shared kiosk's next screen.
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 
 const simModuleCache = new Map();
@@ -3394,7 +3515,7 @@ function syncHud() {
       room: "SMARTCITI.X",
       step: "Choose a district",
       cue: "Select a simulator to begin its own procedure and its own rank system.",
-      score: "----", comboText: "", comboHot: false, comboFire: false,
+      score: "----", comboText: `LV ${Progress.level} · ${Progress.levelName.toUpperCase()}`, comboHot: false, comboFire: false,
       count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
       fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
       timer: "",
@@ -3649,7 +3770,7 @@ async function enterSim(id) {
   });
   state.session.start();
   faceFirstTask();
-  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
+  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
 }
 
@@ -3691,10 +3812,11 @@ function showResults(s, summary) {
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
   const bodyHtml = `
-    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
+    ${s.leveledUp ? `<div class="rank-up">LEVEL UP — ${escapeHtml(s.levelName.toUpperCase())} (LEVEL ${s.level})</div>` : ""}
+    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${escapeHtml(rank.name.toUpperCase())}</div>` : ""}
     <div class="res-stars">${stars}</div>
-    <h2>${room.title}</h2>
-    <p class="res-trade">${room.game?.system ?? ""} · ${rank.name}</p>
+    <h2>${escapeHtml(room.title)}</h2>
+    <p class="res-trade">${escapeHtml(room.game?.system ?? "")} · ${escapeHtml(rank.name)}</p>
     <dl class="res-grid">
       <div><dt>Score</dt><dd>${s.score}</dd></div>
       <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
@@ -3709,7 +3831,7 @@ function showResults(s, summary) {
       ? "Clean run: every control taken in order, no unsafe action."
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>
     ${s.leaderboard?.madeBoard
-      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${room.title}, crew tag ${Progress.playerName}.</p>`
+      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${state.tour ? renderTourFooter() : ""}`;
   const touring = !!state.tour;
@@ -3722,6 +3844,7 @@ function showResults(s, summary) {
   });
   state.paused = true;
   announce(`${room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.leveledUp ? ` Level up — ${s.levelName}, level ${s.level}.` : "") +
     (s.rankedUp ? ` Rank up — ${rank.name}.` : "") +
     (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
     (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
@@ -3748,11 +3871,11 @@ function renderLeaderboards() {
     const rows = board.length
       ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
           board.map((e, i) => `<tr class="${e.name === Progress.playerName ? "me" : ""}">
-            <td>${i + 1}</td><td>${e.name}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
+            <td>${i + 1}</td><td>${escapeHtml(e.name)}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
         </tbody></table>`
       : `<p class="lb-empty">No runs yet — be first.</p>`;
-    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${room.name}</h3>
-      <div class="lb-top">${room.game?.system ?? ""}</div>${rows}</div>`;
+    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${escapeHtml(room.name)}</h3>
+      <div class="lb-top">${escapeHtml(room.game?.system ?? "")}</div>${rows}</div>`;
   }).join("");
   const html = `
     <div class="eyebrow">SmartCiti.X · suite standing</div>
@@ -4166,7 +4289,11 @@ function isTypingTarget(e) {
 addEventListener("keydown", (e) => {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
-  if (e.code === "Escape" && state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
+  if (e.code === "Escape") {
+    if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
+    else if (store.get().leaderboard.visible) closeLeaderboard();
+    else if (store.get().editor.visible) closeEditor();
+  }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { if (!isTypingTarget(e)) keys[e.code] = false; });
@@ -4471,7 +4598,8 @@ function speakBrief() {
 
 function speakStatus() {
   const ids = allSims().map((s) => s.id);
-  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars.`;
+  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars. ` +
+    `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
 const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';

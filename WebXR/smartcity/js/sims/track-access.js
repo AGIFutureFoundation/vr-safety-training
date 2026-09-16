@@ -17,6 +17,8 @@ export const SIM_TRACK_ACCESS = {
   index: "07",
   domain: "Mobility",
   trade: "Rail track worker",
+  category: "Mobility & Transit",
+  certification: "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
   name: "Track Access",
   title: simTitle("Track Access"),
   tagline: "Track possession, third-rail isolation and lookout protection",

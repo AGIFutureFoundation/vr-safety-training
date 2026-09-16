@@ -7,43 +7,41 @@
  * the markup here.
  */
 
+import { SIMS_META } from "./sims-meta.js";
+
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
 
 // Static marketing copy for the intro card — this never changes at runtime,
-// so it is kept as one HTML block rather than hand-built as elements.
+// so it is kept as one HTML block rather than hand-built as elements. The
+// per-sim roster used to be a THIRD hand-written copy of this same list
+// (name/tagline/tint), duplicating sims-meta.js (itself generated from the
+// real sim modules — see tools/gen_sims_meta.mjs) with nothing enforcing
+// they stayed in sync. SimsGrid below replaces that copy with a real
+// render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">SmartCiti.X · twenty districts, twenty certifications</div>
+  <div class="eyebrow">SmartCiti.X · 10 categories, twenty stations today</div>
   <h1>AR Training Simulators</h1>
-  <p class="lead">Twenty deep-skill simulators across the union trades, each its own gamified system
-  with its own rank ladder, currency and badges. Every station is a real procedure with real hazards —
-  the training scores what you touch and in what order.</p>
-  <div class="sims">
-    <div class="sim" style="--tint:#59c97b"><b>Charge Point</b><span>EV DC fast-charger isolation · Grid Certification</span></div>
-    <div class="sim" style="--tint:#f2c14b"><b>Signal Cabinet</b><span>Traffic controller fault work · Intersection Command</span></div>
-    <div class="sim" style="--tint:#4fa3ff"><b>Valve Vault</b><span>Confined space entry · Entry Authority</span></div>
-    <div class="sim" style="--tint:#ffb648"><b>Solar Deck</b><span>Rooftop PV/BESS commissioning · Rooftop Authority</span></div>
-    <div class="sim" style="--tint:#a079ff"><b>Splice Node</b><span>Fibre laser safety and splicing · Photon Guild</span></div>
-    <div class="sim" style="--tint:#4fd1ff"><b>Flight Deck</b><span>Drone ramp and battery safety · Airside Command</span></div>
-    <div class="sim" style="--tint:#f2894b"><b>Track Access</b><span>Rail possession and third-rail isolation · Right-of-Way</span></div>
-    <div class="sim" style="--tint:#f0645b"><b>Triage Point</b><span>Mass-casualty START triage · Golden Hour</span></div>
-    <div class="sim" style="--tint:#a079ff"><b>Robot Cell</b><span>Six-axis robot lockout · Cell Lockout</span></div>
-    <div class="sim" style="--tint:#4fd1ff"><b>Chiller Plant</b><span>Refrigerant recovery, confined space · Cold Chain Command</span></div>
-    <div class="sim" style="--tint:#ff7a1a"><b>Tower Climb</b><span>Guyed tower ascent, RF lockout · Summit Authority</span></div>
-    <div class="sim" style="--tint:#ffcc00"><b>Steel Erector</b><span>Structural steel connecting, bolt-up · Iron Certified</span></div>
-    <div class="sim" style="--tint:#2f8fdb"><b>Crane Yard</b><span>Mobile crane pick, load chart, rigging · Rigging Command</span></div>
-    <div class="sim" style="--tint:#7ed321"><b>Trench Box</b><span>Excavation shoring, atmosphere testing · Ground Authority</span></div>
-    <div class="sim" style="--tint:#d83a2a"><b>Boiler Room</b><span>Boiler lockout, firebox confined space · Steam Certified</span></div>
-    <div class="sim" style="--tint:#2dd4bf"><b>Elevator Pit</b><span>Pit/car-top entry, dual stop switches · Shaftway Authority</span></div>
-    <div class="sim" style="--tint:#c9e265"><b>Abatement Chamber</b><span>Containment, wet removal, decon airlock · Containment Command</span></div>
-    <div class="sim" style="--tint:#ff6fae"><b>Rigging Loft</b><span>Counterweight fly system, arbor balance · Fly Certified</span></div>
-    <div class="sim" style="--tint:#fcee21"><b>Line Truck</b><span>Bucket-truck line work, isolation, grounding · Storm Command</span></div>
-    <div class="sim" style="--tint:#3a7ca5"><b>Dock Crane</b><span>Container lift, twist-locks, wind limits · Waterfront Authority</span></div>
-  </div>
+  <p class="lead">Deep-skill simulators across ten trade-union categories, each its own gamified system
+  with its own rank ladder, currency and badges — and each naming the real union and certification a
+  worker in that role would actually need. Every station is a real procedure with real hazards — the
+  training scores what you touch and in what order.</p>
+`;
+const INTRO_TAIL_HTML = `
   <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
   <b>VR:</b> full-scale digital-twin plaza. <b>Desktop:</b> drag to look, click to act, <kbd>WASD</kbd> to move.</p>
 `;
+
+// Canonical display order for the 10 categories — not alphabetical, so the
+// roster reads as an intentional taxonomy (infrastructure trades first,
+// specialty trades after) rather than a shuffled list.
+const CATEGORY_ORDER = [
+  "Energy & Power", "Mobility & Transit", "Water & Environmental",
+  "Connectivity & Telecom", "Building Systems & Facilities",
+  "Construction & Structural Trades", "Manufacturing & Automation",
+  "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
+];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
   through all twenty stations in order, one after another, with no need to find your own way back to the campus
@@ -96,7 +94,7 @@ export function mountUI(store, actions) {
   function HudRail() {
     const hud = useSlice("hud");
     return h("div", { id: "hud-rail", "data-state": hud.railState },
-      h("div", { id: "hud-feedback", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
+      h("div", { id: "hud-feedback", "aria-live": "polite", dangerouslySetInnerHTML: { __html: hud.feedbackHtml } }),
       h("div", { id: "hud-progress" },
         h("div", { id: "hud-track" }, h("div", { id: "hud-fill", style: { width: `${hud.fillPct}%` } })),
         h("div", { id: "hud-count" }, hud.count),
@@ -128,11 +126,36 @@ export function mountUI(store, actions) {
       h("button", { id: "scale-up", onClick: actions.scaleUp }, "+ Larger"));
   }
 
+  /** Grouped by category, in CATEGORY_ORDER, sorted by each sim's own
+   * catalog index within its category — a real render from SIMS_META
+   * (see tools/gen_sims_meta.mjs) instead of a hand-copied HTML list, so
+   * it can never silently drift from the actual sim roster. */
+  function SimsGrid() {
+    const byCategory = new Map();
+    for (const sim of SIMS_META) {
+      const cat = sim.category ?? "Uncategorized";
+      if (!byCategory.has(cat)) byCategory.set(cat, []);
+      byCategory.get(cat).push(sim);
+    }
+    const categories = [...byCategory.keys()].sort(
+      (a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b));
+    return h(Fragment, null, categories.map((cat) => h(Fragment, { key: cat },
+      h("div", { className: "sim-category" }, cat),
+      h("div", { className: "sims" },
+        byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index)).map((sim) =>
+          h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
+            h("b", null, sim.name),
+            h("span", null, `${sim.trade} · ${sim.game.system}`),
+            h("span", { className: "sim-cert" }, sim.certification)))))));
+  }
+
   function IntroCard() {
     const intro = useSlice("intro");
-    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible },
+    return h("div", { className: "overlay", id: "intro", hidden: !intro.visible, role: "dialog", "aria-modal": "true", "aria-label": "SmartCiti.X training campus" },
       h("div", { className: "card" },
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_HEAD_HTML } }),
+        h(SimsGrid),
+        h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
         h("div", { className: "namerow" },
           h("label", { className: "eyebrow", htmlFor: "player-name" }, "Crew tag (for the leaderboard)"),
           h("input", {
@@ -155,7 +178,7 @@ export function mountUI(store, actions) {
   function ResultsCard() {
     const results = useSlice("results");
     if (!results.visible) return h("div", { className: "overlay", id: "results", hidden: true });
-    return h("div", { className: "overlay", id: "results" },
+    return h("div", { className: "overlay", id: "results", role: "dialog", "aria-modal": "true", "aria-label": "Run results" },
       h("div", { className: "card" },
         h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
         h("div", { className: "btnrow" },
@@ -167,7 +190,7 @@ export function mountUI(store, actions) {
   function LeaderboardCard() {
     const lb = useSlice("leaderboard");
     if (!lb.visible) return h("div", { className: "overlay", id: "leaderboard", hidden: true });
-    return h("div", { className: "overlay", id: "leaderboard" },
+    return h("div", { className: "overlay", id: "leaderboard", role: "dialog", "aria-modal": "true", "aria-label": "Leaderboards" },
       h("div", { className: "card" },
         h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
@@ -193,7 +216,7 @@ export function mountUI(store, actions) {
 
   function EditorCard() {
     const ed = useSlice("editor");
-    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible },
+    return h("div", { className: "overlay", id: "editor", hidden: !ed.visible, role: "dialog", "aria-modal": "true", "aria-label": "Create a scenario" },
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
         h("h1", null, "Create a Scenario"),

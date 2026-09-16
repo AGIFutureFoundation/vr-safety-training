@@ -17,6 +17,14 @@ import { mountUI, stripHtml } from "./react-ui.js";
 // dist/smartcity-x.html ships as a folder (index.html + sims/ + citykit.js +
 // gamify.js) rather than one self-contained file: see tools/bundle_webxr.py.
 const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
+// Crew tags and custom-scenario names are learner-typed text that ends up
+// inside HTML template strings (results card, leaderboards) rendered via
+// react-ui.js's dangerouslySetInnerHTML — escape before interpolating so a
+// tag like `<b>` typed as a crew name renders literally instead of as
+// markup on a shared kiosk's next screen.
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 
 const simModuleCache = new Map();
@@ -176,7 +184,7 @@ function syncHud() {
       room: "SMARTCITI.X",
       step: "Choose a district",
       cue: "Select a simulator to begin its own procedure and its own rank system.",
-      score: "----", comboText: "", comboHot: false, comboFire: false,
+      score: "----", comboText: `LV ${Progress.level} · ${Progress.levelName.toUpperCase()}`, comboHot: false, comboFire: false,
       count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
       fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
       timer: "",
@@ -431,7 +439,7 @@ async function enterSim(id) {
   });
   state.session.start();
   faceFirstTask();
-  setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
+  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
 }
 
@@ -473,10 +481,11 @@ function showResults(s, summary) {
     .map((id) => [...(room.game?.badges ?? []), ...(room.game?.challenges ?? [])].find((a) => a.id === id))
     .filter(Boolean);
   const bodyHtml = `
-    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${rank.name.toUpperCase()}</div>` : ""}
+    ${s.leveledUp ? `<div class="rank-up">LEVEL UP — ${escapeHtml(s.levelName.toUpperCase())} (LEVEL ${s.level})</div>` : ""}
+    ${s.rankedUp ? `<div class="rank-up">RANK UP — ${escapeHtml(rank.name.toUpperCase())}</div>` : ""}
     <div class="res-stars">${stars}</div>
-    <h2>${room.title}</h2>
-    <p class="res-trade">${room.game?.system ?? ""} · ${rank.name}</p>
+    <h2>${escapeHtml(room.title)}</h2>
+    <p class="res-trade">${escapeHtml(room.game?.system ?? "")} · ${escapeHtml(rank.name)}</p>
     <dl class="res-grid">
       <div><dt>Score</dt><dd>${s.score}</dd></div>
       <div><dt>Time</dt><dd>${mins}:${String(secs).padStart(2, "0")}</dd></div>
@@ -491,7 +500,7 @@ function showResults(s, summary) {
       ? "Clean run: every control taken in order, no unsafe action."
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run for a cleaner pass.`}</p>
     ${s.leaderboard?.madeBoard
-      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${room.title}, crew tag ${Progress.playerName}.</p>`
+      ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${state.tour ? renderTourFooter() : ""}`;
   const touring = !!state.tour;
@@ -504,6 +513,7 @@ function showResults(s, summary) {
   });
   state.paused = true;
   announce(`${room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.leveledUp ? ` Level up — ${s.levelName}, level ${s.level}.` : "") +
     (s.rankedUp ? ` Rank up — ${rank.name}.` : "") +
     (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
     (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
@@ -530,11 +540,11 @@ function renderLeaderboards() {
     const rows = board.length
       ? `<table class="lb-table"><thead><tr><th>#</th><th>Crew</th><th>Score</th><th>Stars</th></tr></thead><tbody>${
           board.map((e, i) => `<tr class="${e.name === Progress.playerName ? "me" : ""}">
-            <td>${i + 1}</td><td>${e.name}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
+            <td>${i + 1}</td><td>${escapeHtml(e.name)}</td><td>${e.score}</td><td>${"★".repeat(e.stars)}</td></tr>`).join("")}
         </tbody></table>`
       : `<p class="lb-empty">No runs yet — be first.</p>`;
-    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${room.name}</h3>
-      <div class="lb-top">${room.game?.system ?? ""}</div>${rows}</div>`;
+    return `<div class="lb-card" style="--tint:${room.accentCss}"><h3>${escapeHtml(room.name)}</h3>
+      <div class="lb-top">${escapeHtml(room.game?.system ?? "")}</div>${rows}</div>`;
   }).join("");
   const html = `
     <div class="eyebrow">SmartCiti.X · suite standing</div>
@@ -948,7 +958,11 @@ function isTypingTarget(e) {
 addEventListener("keydown", (e) => {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
-  if (e.code === "Escape" && state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
+  if (e.code === "Escape") {
+    if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
+    else if (store.get().leaderboard.visible) closeLeaderboard();
+    else if (store.get().editor.visible) closeEditor();
+  }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
 addEventListener("keyup", (e) => { if (!isTypingTarget(e)) keys[e.code] = false; });
@@ -1253,7 +1267,8 @@ function speakBrief() {
 
 function speakStatus() {
   const ids = allSims().map((s) => s.id);
-  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars.`;
+  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars. ` +
+    `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
 const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';

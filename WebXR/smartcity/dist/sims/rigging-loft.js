@@ -17,6 +17,8 @@ export const SIM_RIGGING_LOFT = {
   index: "18",
   domain: "Entertainment",
   trade: "Theatrical rigger (IATSE)",
+  category: "Entertainment & Live Events",
+  certification: "IATSE — ETCP Certified Rigger, Arena",
   name: "Rigging Loft",
   title: simTitle("Rigging Loft"),
   tagline: "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",

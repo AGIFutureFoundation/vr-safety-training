@@ -17,6 +17,8 @@ export const SIM_DOCK_CRANE = {
   index: "20",
   domain: "Maritime",
   trade: "Longshoreman / container-crane operator",
+  category: "Maritime & Ports",
+  certification: "ILWU — OSHA 29 CFR 1917 qualified crane operator",
   name: "Dock Crane",
   title: simTitle("Dock Crane"),
   tagline: "Container lift: lashing release order, twist-lock verification and wind-limit discipline",

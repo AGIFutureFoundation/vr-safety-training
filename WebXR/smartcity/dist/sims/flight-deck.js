@@ -16,6 +16,8 @@ export const SIM_FLIGHT_DECK = {
   index: "06",
   domain: "Aviation",
   trade: "Drone / UAS ground technician",
+  category: "Mobility & Transit",
+  certification: "Teamsters — FAA Part 107 remote pilot certificate holder",
   name: "Flight Deck",
   title: simTitle("Flight Deck"),
   tagline: "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",

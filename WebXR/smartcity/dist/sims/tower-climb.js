@@ -18,6 +18,8 @@ export const SIM_TOWER_CLIMB = {
   index: "11",
   domain: "Telecom",
   trade: "Telecom / broadcast tower technician",
+  category: "Connectivity & Telecom",
+  certification: "CWA — NATE Tower Climber Level II certified",
   name: "Tower Climb",
   title: simTitle("Tower Climb"),
   tagline: "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",

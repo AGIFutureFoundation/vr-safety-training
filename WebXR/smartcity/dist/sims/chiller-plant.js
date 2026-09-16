@@ -17,6 +17,8 @@ export const SIM_CHILLER_PLANT = {
   index: "10",
   domain: "Building Systems",
   trade: "HVAC / refrigeration technician",
+  category: "Building Systems & Facilities",
+  certification: "UA — EPA Section 608 Universal refrigerant certified",
   name: "Chiller Plant",
   title: simTitle("Chiller Plant"),
   tagline: "District chiller isolation, refrigerant recovery and confined mechanical space entry",

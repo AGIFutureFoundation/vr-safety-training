@@ -18,6 +18,8 @@ export const SIM_CHARGE_POINT = {
   index: "01",
   domain: "Energy",
   trade: "EV service technician",
+  category: "Energy & Power",
+  certification: "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
   name: "Charge Point",
   title: simTitle("Charge Point"),
   tagline: "DC fast-charger fault isolation, capacitor discharge and busbar torque",

@@ -15,6 +15,8 @@ export const SIM_CRANE_YARD = {
   index: "13",
   domain: "Construction",
   trade: "Mobile crane operator / rigger",
+  category: "Construction & Structural Trades",
+  certification: "IUOE — NCCCO Mobile Crane Operator certified",
   name: "Crane Yard",
   title: simTitle("Crane Yard"),
   tagline: "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
