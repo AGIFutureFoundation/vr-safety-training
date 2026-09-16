@@ -180,6 +180,9 @@ const store = createStore({
     identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  // A flat briefing station (room.flat): dossier + knowledge check rendered as a
+  // card instead of a walkable scene, scored by the same Session.
+  flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
   leaderboard: { visible: false, html: "" },
   records: {
     visible: false, rows: [], summary: [], total: 0, passes: 0,
@@ -368,6 +371,7 @@ function clearRoom() {
   state.hovered = null;
   hint.visible = false;
   gauge.visible = false;
+  store.patch("flat", { visible: false });
 }
 
 function collectSelectables() {
@@ -403,7 +407,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   store.patch("arPrompt", { visible: state.mode === "ar" });
   store.patch("scaleRow", { visible: state.mode === "ar" });
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ten categories, each with its own rank ladder. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.`);
   syncHud();
 }
 
@@ -417,6 +421,13 @@ async function enterSim(id) {
   const room = await findSim(id);
   if (myToken !== enterSimToken) return; // superseded by a later pick
   if (!room) { enterHub(); return; }
+  const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
+  if (flat && state.mode !== "flat") {
+    // A dossier card cannot be shown inside an immersive session; say so
+    // instead of dropping the learner into an empty scene.
+    setRail("warn", `<b>${escapeHtml(room.name ?? room.title)}</b> is a flat briefing station — it runs on screen, not in AR/VR. Exit the headset view to open it.`);
+    return;
+  }
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
@@ -428,6 +439,14 @@ async function enterSim(id) {
   state.hits = state.api.hits;
   collectSelectables();
   resetPlacement();
+  if (flat) {
+    hint.visible = false; gauge.visible = false;
+    store.patch("flat", {
+      visible: true, name: room.name ?? room.title, category: room.category ?? "", tagline: room.tagline ?? "",
+      certification: room.certification ?? "", dossier: room.dossier ?? SIMS_META_BY_ID[room.baseId]?.dossier ?? [],
+      stepIndex: 0, stepCount: room.steps.length, question: "", cue: "", options: [], picked: [], feedback: null,
+    });
+  }
 
   if (state.mode !== "ar") {
     const spawnR = (room.footprint ?? 2) + 1.4;
@@ -445,6 +464,7 @@ async function enterSim(id) {
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
+      if (flat) { flatSyncStep(step, s); syncHud(); return; }
       updateHintForStep(step);
       if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
       else gauge.visible = false;
@@ -457,8 +477,9 @@ async function enterSim(id) {
       if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
       if (fb.kind === "ok" && fb.points) {
         scorePop(`+${fb.points}`, fb.combo >= 1.6);
-        if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
+        if (fb.combo >= 1.6 && !flat) burstAtHit(lastActivatedId);
       }
+      if (flat) store.patch("flat", { feedback: { kind: fb.kind, html: fb.text }, picked: [...s.sequence] });
       syncHud();
     },
     onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
@@ -466,7 +487,7 @@ async function enterSim(id) {
     onFinish: (s, summary) => showResults(s, summary),
   });
   state.session.start();
-  faceFirstTask();
+  if (!flat) faceFirstTask();
   setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
 }
@@ -570,7 +591,7 @@ function renderTourFooter() {
   const tourDone = done >= SIMS_META.length;
   return `<p class="res-note" style="color:var(--accent) !important">${
     tourDone
-      ? `<b>That's all twenty stations.</b> The guided tour ends here — nice work.`
+      ? `<b>That's all ${SIMS_META.length} stations.</b> The guided tour ends here — nice work.`
       : `<b>Guided tour: stop ${done} of ${SIMS_META.length} complete.</b> Next up: ${SIMS_META[done].name}.`
   }</p>`;
 }
@@ -615,6 +636,25 @@ function viewLeaderboard() {
   store.patch("leaderboard", { visible: true });
 }
 function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
+
+// ------------------------------------------------------------ flat stations
+//
+// A station with `flat: true` (see sims/hunters-point.js) has no walkable
+// scene: a dossier and a knowledge check render as a card, and every answer
+// is an invisible interactable the ordinary Session scores. Selecting an
+// option is activate() — same path a kiosk click takes — so hazards, combos,
+// records and the ladder all behave exactly as in a 3D station.
+
+function categoryCount() { return new Set(allSims().map((s) => s.category).filter(Boolean)).size; }
+function flatSyncStep(step, s) {
+  store.patch("flat", {
+    stepIndex: s.index, stepCount: s.steps.length,
+    question: step.title, cue: step.cue,
+    options: (step.options ?? []).map((o) => ({ id: o.id, label: o.label })),
+    picked: [], feedback: null,
+  });
+}
+function flatSelect(id) { if (state.session && !state.paused) activate(id); }
 
 // ---------------------------------------------------------- training records
 //
@@ -1475,7 +1515,7 @@ mountUI(store, {
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
   edPlayLibrary, edDeleteLibrary,
   setPlayerNameDraft, commitPlayerName,
-  retryResult, backToHub, nextTourStop, startTour,
+  retryResult, backToHub, nextTourStop, startTour, flatSelect,
   enterAr, enterVr, enterFlat, resetProgress,
   scaleUp, scaleDown, toggleVoice,
   speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },

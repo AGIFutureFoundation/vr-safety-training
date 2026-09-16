@@ -21,9 +21,9 @@ const { Fragment, useSyncExternalStore } = React;
 // render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">Ten categories · Twenty stations · One apprentice record</div>
+  <div class="eyebrow">${new Set(SIMS_META.map((s) => s.category)).size} categories · ${SIMS_META.length} stations · One apprentice record</div>
   <h1>AR / VR Training Simulators</h1>
-  <p class="lead">Deep-skill simulators across ten trade-union categories. Each station is its own
+  <p class="lead">Deep-skill simulators across ${new Set(SIMS_META.map((s) => s.category)).size} trade-union categories. Each station is its own
   gamified system — its own rank ladder, currency and badges — and names the real union and
   certification a worker in that role actually needs. Every procedure is real and every hazard is
   real: the training scores what you touch and in what order.</p>
@@ -41,10 +41,11 @@ const CATEGORY_ORDER = [
   "Connectivity & Telecom", "Building Systems & Facilities",
   "Construction & Structural Trades", "Manufacturing & Automation",
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
+  "Environmental Monitoring",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
-  twenty stations in order and brings you back to the campus between each one.</p>
+  ${SIMS_META.length} stations in order and brings you back to the campus between each one.</p>
   <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
@@ -143,7 +144,7 @@ export function mountUI(store, actions) {
       h("div", { className: "sims" },
         byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index)).map((sim) =>
           h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
-            h("b", null, sim.name),
+            h("b", null, sim.name, sim.flat && h("em", { className: "sim-flat" }, "flat briefing")),
             h("span", null, `${sim.trade} · ${sim.game.system}`),
             h("span", { className: "sim-cert" }, sim.certification)))))));
   }
@@ -176,6 +177,38 @@ export function mountUI(store, actions) {
           h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
           h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
+  }
+
+  /** A flat briefing station: dossier with sources, then the knowledge
+   * check, each option a real interactable the Session scores. */
+  function FlatStationCard() {
+    const f = useSlice("flat");
+    if (!f.visible) return null;
+    const link = (src) => h("a", { href: src.url, target: "_blank", rel: "noopener noreferrer" }, src.label);
+    return h("div", { className: "overlay flat-overlay", id: "flat-station", role: "region", "aria-label": f.name },
+      h("div", { className: "card card-wide flat-card" },
+        h("div", { className: "eyebrow" }, `${f.category} · briefing station · flat, not a walkable scene`),
+        h("h1", null, f.name),
+        h("p", { className: "lead" }, f.tagline),
+        f.certification && h("p", { className: "fineprint flat-cert" }, f.certification),
+        h("details", { className: "dossier", open: f.stepIndex === 0 },
+          h("summary", null, "Site dossier — read this first"),
+          f.dossier.map((d, i) => h("section", { key: i, className: "dossier-section" },
+            h("h3", null, d.title),
+            h("p", null, d.body),
+            h("p", { className: "dossier-src" }, "Source: ", link(d.source), d.source2 && h(Fragment, null, " · ", link(d.source2)))))),
+        h("div", { className: "flat-q" },
+          h("div", { className: "eyebrow" }, `Knowledge check · ${Math.min(f.stepIndex + 1, f.stepCount)} of ${f.stepCount}`),
+          h("h2", { id: "flat-question" }, f.question),
+          h("p", { className: "flat-cue" }, f.cue),
+          h("div", { className: "flat-options", role: "group", "aria-labelledby": "flat-question" },
+            f.options.map((o) => h("button", {
+              key: o.id, type: "button", className: "flat-opt" + (f.picked.includes(o.id) ? " picked" : ""),
+              disabled: f.picked.includes(o.id), onClick: () => actions.flatSelect(o.id),
+            }, o.label))),
+          f.feedback && h("div", { className: `flat-feedback ${f.feedback.kind}`, "aria-live": "polite", dangerouslySetInnerHTML: { __html: f.feedback.html } })),
+        h("div", { className: "btnrow" },
+          h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, "Back to campus"))));
   }
 
   function ResultsCard() {
@@ -361,7 +394,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
+      h(IntroCard), h(FlatStationCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));

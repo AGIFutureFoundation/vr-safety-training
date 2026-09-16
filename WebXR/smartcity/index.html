@@ -219,6 +219,26 @@
 
   /* --------------------------------------------------- training records */
   .card.card-wide{ width:min(960px,100%) }
+  .sim em.sim-flat{ font-style:normal; font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--tint); border:1px solid var(--tint); border-radius:999px; padding:1px 7px; margin-left:8px; vertical-align:middle }
+  .flat-overlay{ align-items:flex-start; padding-top:76px }
+  .flat-card{ max-height:calc(100vh - 92px); max-height:calc(100dvh - 92px) }
+  .flat-cert{ color:var(--accent); font-style:italic }
+  .dossier{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:8px 14px; margin:10px 0 14px }
+  .dossier summary{ cursor:pointer; font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--accent); padding:4px 0 }
+  .dossier-section{ border-top:1px solid var(--edge); padding:10px 0 4px }
+  .dossier-section h3{ margin:0 0 6px; font-size:15px }
+  .dossier-section p{ margin:0 0 6px; font-size:13.5px; line-height:1.5; color:var(--text) }
+  .dossier-src{ font-size:12px; color:var(--muted) }
+  .dossier-src a{ color:var(--accent) }
+  .flat-q h2{ margin:6px 0 4px; font-size:20px; line-height:1.25 }
+  .flat-cue{ margin:0 0 10px; color:var(--muted); font-size:13.5px }
+  .flat-options{ display:grid; gap:8px; margin:0 0 10px }
+  .flat-opt{ text-align:left; white-space:normal; line-height:1.4; padding:10px 14px; font-size:14px; font-weight:500; letter-spacing:0; text-transform:none }
+  .flat-opt.picked{ border-color:var(--good); color:var(--good); opacity:.85 }
+  .flat-feedback{ border-left:3px solid var(--edge-strong); background:var(--surface-raised); border-radius:0 8px 8px 0; padding:10px 12px; font-size:13.5px; line-height:1.45 }
+  .flat-feedback.ok{ border-left-color:var(--good) } .flat-feedback.danger{ border-left-color:var(--danger) }
+  .flat-feedback.warn{ border-left-color:var(--warn, #f2ae14) }
   .rec-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; margin:4px 0 14px }
   .rec-tile{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:10px 12px }
   .rec-cat{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent) }

@@ -219,6 +219,26 @@
 
   /* --------------------------------------------------- training records */
   .card.card-wide{ width:min(960px,100%) }
+  .sim em.sim-flat{ font-style:normal; font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--tint); border:1px solid var(--tint); border-radius:999px; padding:1px 7px; margin-left:8px; vertical-align:middle }
+  .flat-overlay{ align-items:flex-start; padding-top:76px }
+  .flat-card{ max-height:calc(100vh - 92px); max-height:calc(100dvh - 92px) }
+  .flat-cert{ color:var(--accent); font-style:italic }
+  .dossier{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:8px 14px; margin:10px 0 14px }
+  .dossier summary{ cursor:pointer; font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--accent); padding:4px 0 }
+  .dossier-section{ border-top:1px solid var(--edge); padding:10px 0 4px }
+  .dossier-section h3{ margin:0 0 6px; font-size:15px }
+  .dossier-section p{ margin:0 0 6px; font-size:13.5px; line-height:1.5; color:var(--text) }
+  .dossier-src{ font-size:12px; color:var(--muted) }
+  .dossier-src a{ color:var(--accent) }
+  .flat-q h2{ margin:6px 0 4px; font-size:20px; line-height:1.25 }
+  .flat-cue{ margin:0 0 10px; color:var(--muted); font-size:13.5px }
+  .flat-options{ display:grid; gap:8px; margin:0 0 10px }
+  .flat-opt{ text-align:left; white-space:normal; line-height:1.4; padding:10px 14px; font-size:14px; font-weight:500; letter-spacing:0; text-transform:none }
+  .flat-opt.picked{ border-color:var(--good); color:var(--good); opacity:.85 }
+  .flat-feedback{ border-left:3px solid var(--edge-strong); background:var(--surface-raised); border-radius:0 8px 8px 0; padding:10px 12px; font-size:13.5px; line-height:1.45 }
+  .flat-feedback.ok{ border-left-color:var(--good) } .flat-feedback.danger{ border-left-color:var(--danger) }
+  .flat-feedback.warn{ border-left-color:var(--warn, #f2ae14) }
   .rec-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; margin:4px 0 14px }
   .rec-tile{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:10px 12px }
   .rec-cat{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent) }
@@ -3465,6 +3485,87 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hunters-point",
+    "index": "21",
+    "domain": "Environmental",
+    "trade": "Environmental monitoring technician",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
+    "name": "Hunters Point Briefing",
+    "title": "SmartCiti.X~ Hunters Point Briefing VR",
+    "tagline": "A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene",
+    "accent": 9425291,
+    "accentCss": "#8fd18b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "data-integrity",
+      "name": "Data Integrity",
+      "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
+    },
+    "stepCount": 10,
+    "flat": true,
+    "dossier": [
+      {
+        "title": "What the site is",
+        "body": "Hunters Point Naval Shipyard (HPNS) is an 866-acre former U.S. Navy shipyard on the southeast San Francisco waterfront. It has been on the EPA's National Priorities List (a Superfund site) since 1989. The Navy is the lead agency for investigation and cleanup; the U.S. EPA and California's regulators (DTSC and the Regional Water Board) oversee and enforce the Navy's work. Contamination includes radionuclides, PCBs, heavy metals, petroleum fuels, pesticides and volatile organic compounds, in soil and groundwater on land and in bay sediment offshore (the ~443-acre Parcel F).",
+        "source": {
+          "label": "EPA Superfund site profile",
+          "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+        },
+        "source2": {
+          "label": "SF.gov — HPNS cleanup",
+          "url": "https://www.sf.gov/hpns-cleanup-learn"
+        }
+      },
+      {
+        "title": "The data-integrity case",
+        "body": "Between 2003 and 2014 the Navy's radiological remediation contractor, Tetra Tech EC, was required to survey soil and buildings and remediate excess radiation so parcels could be transferred to the city. Federal False Claims Act litigation alleged that employees and subcontractors substituted clean soil for potentially contaminated samples and fabricated radiological readings the Navy relied on. A Navy review found roughly 48% of the contractor's radiological data suspect or showing signs of manipulation; an EPA letter raised concerns about a far larger share in parts of the site. In August 2026 a federal judge approved a $57 million settlement of the government's False Claims Act claims; the company did not admit liability, and the settlement does not resolve a separate suit by homeowners.",
+        "source": {
+          "label": "U.S. Department of Justice press release (2026)",
+          "url": "https://www.justice.gov/opa/pr/tetra-tech-ec-inc-agrees-pay-57m-settle-false-claims-act-allegations-falsifying-soil-test"
+        }
+      },
+      {
+        "title": "The community and the litigation",
+        "body": "Bayview Hunters Point is a residential neighborhood next to the shipyard fence. Greenaction for Health and Environmental Justice filed a federal lawsuit against the Navy in 2024 alleging the cleanup is not protective of human health and the environment; a court hearing on it was held in February 2026, and in June 2026 Greenaction and the Marie Harrison Community Foundation issued a public call to action and demands. Marie Harrison (1948–2019) was a Greenaction organizer, a Bayview resident for decades and, as a young woman, a worker at the shipyard; residents later installed neighborhood air monitors in her memory. That community air-monitoring effort, run by Greenaction with the Marie Harrison Community Foundation, is the independent neighborhood air record this station points you to — there is no on-site monitoring program of ours here.",
+        "source": {
+          "label": "Greenaction — Bayview Hunters Point",
+          "url": "https://greenaction.org/bayview-hunters-point/"
+        },
+        "source2": {
+          "label": "Greenaction — in memory of Marie Harrison",
+          "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+        }
+      },
+      {
+        "title": "Who does the work",
+        "body": "Environmental monitoring and remediation on a site like this is union trade work with real training gates: hazmat and environmental laborers (LIUNA) under OSHA HAZWOPER — a 40-hour course, three days of supervised field time and an annual 8-hour refresher (29 CFR 1910.120(e)); operating engineers (IUOE) on the excavators and soil-handling equipment; Teamsters hauling regulated soil under DOT hazardous-materials rules; radiation control technicians on survey and clearance; and industrial hygienists and environmental sampling technicians keeping chain of custody on every sample. The lesson of this site is that the last item is not paperwork — independent split samples, chain of custody and third-party verification are the only reason anyone can trust a clearance number.",
+        "source": {
+          "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+        }
+      }
+    ],
+    "game": {
+      "system": "Site Awareness",
+      "currency": "SAMPLE",
+      "ranks": [
+        "Site Aware",
+        "Sampler",
+        "Field Lead",
+        "QA Verifier",
+        "Integrity Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -3826,9 +3927,9 @@ const { Fragment, useSyncExternalStore } = React;
 // render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">Ten categories · Twenty stations · One apprentice record</div>
+  <div class="eyebrow">${new Set(SIMS_META.map((s) => s.category)).size} categories · ${SIMS_META.length} stations · One apprentice record</div>
   <h1>AR / VR Training Simulators</h1>
-  <p class="lead">Deep-skill simulators across ten trade-union categories. Each station is its own
+  <p class="lead">Deep-skill simulators across ${new Set(SIMS_META.map((s) => s.category)).size} trade-union categories. Each station is its own
   gamified system — its own rank ladder, currency and badges — and names the real union and
   certification a worker in that role actually needs. Every procedure is real and every hazard is
   real: the training scores what you touch and in what order.</p>
@@ -3846,10 +3947,11 @@ const CATEGORY_ORDER = [
   "Connectivity & Telecom", "Building Systems & Facilities",
   "Construction & Structural Trades", "Manufacturing & Automation",
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
+  "Environmental Monitoring",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
-  twenty stations in order and brings you back to the campus between each one.</p>
+  ${SIMS_META.length} stations in order and brings you back to the campus between each one.</p>
   <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
@@ -3948,7 +4050,7 @@ function mountUI(store, actions) {
       h("div", { className: "sims" },
         byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index)).map((sim) =>
           h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
-            h("b", null, sim.name),
+            h("b", null, sim.name, sim.flat && h("em", { className: "sim-flat" }, "flat briefing")),
             h("span", null, `${sim.trade} · ${sim.game.system}`),
             h("span", { className: "sim-cert" }, sim.certification)))))));
   }
@@ -3981,6 +4083,38 @@ function mountUI(store, actions) {
           h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
           h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
+  }
+
+  /** A flat briefing station: dossier with sources, then the knowledge
+   * check, each option a real interactable the Session scores. */
+  function FlatStationCard() {
+    const f = useSlice("flat");
+    if (!f.visible) return null;
+    const link = (src) => h("a", { href: src.url, target: "_blank", rel: "noopener noreferrer" }, src.label);
+    return h("div", { className: "overlay flat-overlay", id: "flat-station", role: "region", "aria-label": f.name },
+      h("div", { className: "card card-wide flat-card" },
+        h("div", { className: "eyebrow" }, `${f.category} · briefing station · flat, not a walkable scene`),
+        h("h1", null, f.name),
+        h("p", { className: "lead" }, f.tagline),
+        f.certification && h("p", { className: "fineprint flat-cert" }, f.certification),
+        h("details", { className: "dossier", open: f.stepIndex === 0 },
+          h("summary", null, "Site dossier — read this first"),
+          f.dossier.map((d, i) => h("section", { key: i, className: "dossier-section" },
+            h("h3", null, d.title),
+            h("p", null, d.body),
+            h("p", { className: "dossier-src" }, "Source: ", link(d.source), d.source2 && h(Fragment, null, " · ", link(d.source2)))))),
+        h("div", { className: "flat-q" },
+          h("div", { className: "eyebrow" }, `Knowledge check · ${Math.min(f.stepIndex + 1, f.stepCount)} of ${f.stepCount}`),
+          h("h2", { id: "flat-question" }, f.question),
+          h("p", { className: "flat-cue" }, f.cue),
+          h("div", { className: "flat-options", role: "group", "aria-labelledby": "flat-question" },
+            f.options.map((o) => h("button", {
+              key: o.id, type: "button", className: "flat-opt" + (f.picked.includes(o.id) ? " picked" : ""),
+              disabled: f.picked.includes(o.id), onClick: () => actions.flatSelect(o.id),
+            }, o.label))),
+          f.feedback && h("div", { className: `flat-feedback ${f.feedback.kind}`, "aria-live": "polite", dangerouslySetInnerHTML: { __html: f.feedback.html } })),
+        h("div", { className: "btnrow" },
+          h("button", { id: "flat-hub", type: "button", onClick: actions.backToHub }, "Back to campus"))));
   }
 
   function ResultsCard() {
@@ -4166,7 +4300,7 @@ function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
+      h(IntroCard), h(FlatStationCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
@@ -4342,6 +4476,9 @@ const store = createStore({
     identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  // A flat briefing station (room.flat): dossier + knowledge check rendered as a
+  // card instead of a walkable scene, scored by the same Session.
+  flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
   leaderboard: { visible: false, html: "" },
   records: {
     visible: false, rows: [], summary: [], total: 0, passes: 0,
@@ -4530,6 +4667,7 @@ function clearRoom() {
   state.hovered = null;
   hint.visible = false;
   gauge.visible = false;
+  store.patch("flat", { visible: false });
 }
 
 function collectSelectables() {
@@ -4565,7 +4703,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   store.patch("arPrompt", { visible: state.mode === "ar" });
   store.patch("scaleRow", { visible: state.mode === "ar" });
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ten categories, each with its own rank ladder. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.`);
   syncHud();
 }
 
@@ -4579,6 +4717,13 @@ async function enterSim(id) {
   const room = await findSim(id);
   if (myToken !== enterSimToken) return; // superseded by a later pick
   if (!room) { enterHub(); return; }
+  const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
+  if (flat && state.mode !== "flat") {
+    // A dossier card cannot be shown inside an immersive session; say so
+    // instead of dropping the learner into an empty scene.
+    setRail("warn", `<b>${escapeHtml(room.name ?? room.title)}</b> is a flat briefing station — it runs on screen, not in AR/VR. Exit the headset view to open it.`);
+    return;
+  }
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
@@ -4590,6 +4735,14 @@ async function enterSim(id) {
   state.hits = state.api.hits;
   collectSelectables();
   resetPlacement();
+  if (flat) {
+    hint.visible = false; gauge.visible = false;
+    store.patch("flat", {
+      visible: true, name: room.name ?? room.title, category: room.category ?? "", tagline: room.tagline ?? "",
+      certification: room.certification ?? "", dossier: room.dossier ?? SIMS_META_BY_ID[room.baseId]?.dossier ?? [],
+      stepIndex: 0, stepCount: room.steps.length, question: "", cue: "", options: [], picked: [], feedback: null,
+    });
+  }
 
   if (state.mode !== "ar") {
     const spawnR = (room.footprint ?? 2) + 1.4;
@@ -4607,6 +4760,7 @@ async function enterSim(id) {
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
+      if (flat) { flatSyncStep(step, s); syncHud(); return; }
       updateHintForStep(step);
       if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
       else gauge.visible = false;
@@ -4619,8 +4773,9 @@ async function enterSim(id) {
       if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
       if (fb.kind === "ok" && fb.points) {
         scorePop(`+${fb.points}`, fb.combo >= 1.6);
-        if (fb.combo >= 1.6) burstAtHit(lastActivatedId);
+        if (fb.combo >= 1.6 && !flat) burstAtHit(lastActivatedId);
       }
+      if (flat) store.patch("flat", { feedback: { kind: fb.kind, html: fb.text }, picked: [...s.sequence] });
       syncHud();
     },
     onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
@@ -4628,7 +4783,7 @@ async function enterSim(id) {
     onFinish: (s, summary) => showResults(s, summary),
   });
   state.session.start();
-  faceFirstTask();
+  if (!flat) faceFirstTask();
   setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
 }
@@ -4732,7 +4887,7 @@ function renderTourFooter() {
   const tourDone = done >= SIMS_META.length;
   return `<p class="res-note" style="color:var(--accent) !important">${
     tourDone
-      ? `<b>That's all twenty stations.</b> The guided tour ends here — nice work.`
+      ? `<b>That's all ${SIMS_META.length} stations.</b> The guided tour ends here — nice work.`
       : `<b>Guided tour: stop ${done} of ${SIMS_META.length} complete.</b> Next up: ${SIMS_META[done].name}.`
   }</p>`;
 }
@@ -4777,6 +4932,25 @@ function viewLeaderboard() {
   store.patch("leaderboard", { visible: true });
 }
 function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
+
+// ------------------------------------------------------------ flat stations
+//
+// A station with `flat: true` (see sims/hunters-point.js) has no walkable
+// scene: a dossier and a knowledge check render as a card, and every answer
+// is an invisible interactable the ordinary Session scores. Selecting an
+// option is activate() — same path a kiosk click takes — so hazards, combos,
+// records and the ladder all behave exactly as in a 3D station.
+
+function categoryCount() { return new Set(allSims().map((s) => s.category).filter(Boolean)).size; }
+function flatSyncStep(step, s) {
+  store.patch("flat", {
+    stepIndex: s.index, stepCount: s.steps.length,
+    question: step.title, cue: step.cue,
+    options: (step.options ?? []).map((o) => ({ id: o.id, label: o.label })),
+    picked: [], feedback: null,
+  });
+}
+function flatSelect(id) { if (state.session && !state.paused) activate(id); }
 
 // ---------------------------------------------------------- training records
 //
@@ -5637,7 +5811,7 @@ mountUI(store, {
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
   edPlayLibrary, edDeleteLibrary,
   setPlayerNameDraft, commitPlayerName,
-  retryResult, backToHub, nextTourStop, startTour,
+  retryResult, backToHub, nextTourStop, startTour, flatSelect,
   enterAr, enterVr, enterFlat, resetProgress,
   scaleUp, scaleDown, toggleVoice,
   speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },

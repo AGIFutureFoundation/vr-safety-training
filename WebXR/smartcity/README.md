@@ -1,11 +1,12 @@
 # SmartCiti.X
 
-AR/VR training simulators across ten trade-union categories. Twenty stations exist today,
-each a real ordered procedure with real hazards, its own gamified rank ladder, and the real
+AR/VR training simulators across eleven trade-union categories. Twenty-one stations exist
+today — twenty walkable AR/VR procedures and one flat briefing station — each a real ordered
+procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
 
-## The ten categories
+## The eleven categories
 
 | Category | Stations today |
 |---|---|
@@ -19,15 +20,46 @@ training" wrapper, a specific one per trade.
 | Emergency Services | Triage Point |
 | Maritime & Ports | Dock Crane |
 | Entertainment & Live Events | Rigging Loft |
+| Environmental Monitoring | Hunters Point Briefing (flat — see below) |
 
 This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category (330
 total) — enough for every category to eventually cover a whole family of real, distinct
 trades rather than one representative example. The 20 stations above were categorized by
 consolidating the 13 ad-hoc `domain` values each sim already carried (Energy, Mobility,
 Water, Connectivity, Aviation, Emergency Services, Manufacturing, Building Systems, Telecom,
-Construction, Facilities, Environmental, Entertainment, Maritime) down into these 10; a new
-sim declares both `domain` (its specific field) and `category` (which of the 10 it belongs
+Construction, Facilities, Environmental, Entertainment, Maritime) down into the first 10;
+Environmental Monitoring was added as the eleventh for sites that need a documentary rather
+than a walkable treatment; a new
+sim declares both `domain` (its specific field) and `category` (which of the 11 it belongs
 to) in its own module — see `js/sims/*.js` and `tools/gen_sims_meta.mjs`.
+
+## Environmental Monitoring and flat briefing stations
+
+Some real places should not be rendered as a pleasant scene to stroll through. Hunters Point
+Naval Shipyard — the first station in Environmental Monitoring — is an active EPA Superfund
+site with a federal False Claims Act settlement over falsified radiological soil data
+(approved August 2026), a federal lawsuit by neighborhood residents over the adequacy of the
+Navy's cleanup, and a community that measures its own air. So `js/sims/hunters-point.js` is a
+**flat station** (`flat: true`): no walkable 3D scene, the same treatment a map or an aerial
+lookup gets. It renders as a dossier — site status, the data-integrity case, the community
+and the litigation, and which union trades the actual work calls on (LIUNA hazmat laborers
+under HAZWOPER, IUOE operating engineers, Teamsters on regulated hauling, radiation control
+technicians, industrial hygienists) — every paragraph carrying its source (EPA, DOJ, OSHA,
+Greenaction). Below it is a scored knowledge check that runs on the ordinary procedure
+engine: each option is an invisible interactable, wrong answers are corrections, and
+unsafe conclusions (treating a parcel as open ground, swapping a clean sample, silencing a
+dust monitor, dismissing the community's monitors) are hazards that fail the record exactly
+as an unsafe action does in a 3D station. It records, ranks, badges and exports like every
+other station and appears in the guided tour; in AR/VR it declines to open and says why.
+
+The community air monitoring the dossier points to is the real one — installed by Bayview
+Hunters Point residents in Marie Harrison's memory and run by Greenaction with the Marie
+Harrison Community Foundation. It is not a program of ours, and this station does not
+render, simulate or speak for it. The settlement and the lawsuit are live matters; whoever
+maintains the dossier re-checks its sources when the record changes.
+
+Add another flat station by declaring `flat: true`, a `dossier` array and `options` on each
+step; `tools/check_smartcity.mjs` validates it like any other sim.
 
 ## Real union and certification requirements
 
@@ -147,7 +179,9 @@ context — an LTI 1.3 or SSO launch needs a server to verify the signed launch,
 page cannot do; (2) subject-matter review of every station by a qualified practitioner in
 that trade before any record is treated as certification evidence; (3) a headset pass on
 Meta Quest for frame rate, comfort and in-headset legibility; (4) the remaining stations
-toward 33 per category.
+toward 33 per category. Environmental Monitoring is one station deep today; the Bay restoration sites and their
+trade linkage that the roadmap mentions are not in this repository yet — this is the first, honest
+entry in the category, not that content.
 
 ## Running it
 

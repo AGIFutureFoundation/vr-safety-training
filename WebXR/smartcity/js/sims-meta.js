@@ -768,5 +768,86 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hunters-point",
+    "index": "21",
+    "domain": "Environmental",
+    "trade": "Environmental monitoring technician",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
+    "name": "Hunters Point Briefing",
+    "title": "SmartCiti.X~ Hunters Point Briefing VR",
+    "tagline": "A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene",
+    "accent": 9425291,
+    "accentCss": "#8fd18b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "data-integrity",
+      "name": "Data Integrity",
+      "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
+    },
+    "stepCount": 10,
+    "flat": true,
+    "dossier": [
+      {
+        "title": "What the site is",
+        "body": "Hunters Point Naval Shipyard (HPNS) is an 866-acre former U.S. Navy shipyard on the southeast San Francisco waterfront. It has been on the EPA's National Priorities List (a Superfund site) since 1989. The Navy is the lead agency for investigation and cleanup; the U.S. EPA and California's regulators (DTSC and the Regional Water Board) oversee and enforce the Navy's work. Contamination includes radionuclides, PCBs, heavy metals, petroleum fuels, pesticides and volatile organic compounds, in soil and groundwater on land and in bay sediment offshore (the ~443-acre Parcel F).",
+        "source": {
+          "label": "EPA Superfund site profile",
+          "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+        },
+        "source2": {
+          "label": "SF.gov — HPNS cleanup",
+          "url": "https://www.sf.gov/hpns-cleanup-learn"
+        }
+      },
+      {
+        "title": "The data-integrity case",
+        "body": "Between 2003 and 2014 the Navy's radiological remediation contractor, Tetra Tech EC, was required to survey soil and buildings and remediate excess radiation so parcels could be transferred to the city. Federal False Claims Act litigation alleged that employees and subcontractors substituted clean soil for potentially contaminated samples and fabricated radiological readings the Navy relied on. A Navy review found roughly 48% of the contractor's radiological data suspect or showing signs of manipulation; an EPA letter raised concerns about a far larger share in parts of the site. In August 2026 a federal judge approved a $57 million settlement of the government's False Claims Act claims; the company did not admit liability, and the settlement does not resolve a separate suit by homeowners.",
+        "source": {
+          "label": "U.S. Department of Justice press release (2026)",
+          "url": "https://www.justice.gov/opa/pr/tetra-tech-ec-inc-agrees-pay-57m-settle-false-claims-act-allegations-falsifying-soil-test"
+        }
+      },
+      {
+        "title": "The community and the litigation",
+        "body": "Bayview Hunters Point is a residential neighborhood next to the shipyard fence. Greenaction for Health and Environmental Justice filed a federal lawsuit against the Navy in 2024 alleging the cleanup is not protective of human health and the environment; a court hearing on it was held in February 2026, and in June 2026 Greenaction and the Marie Harrison Community Foundation issued a public call to action and demands. Marie Harrison (1948–2019) was a Greenaction organizer, a Bayview resident for decades and, as a young woman, a worker at the shipyard; residents later installed neighborhood air monitors in her memory. That community air-monitoring effort, run by Greenaction with the Marie Harrison Community Foundation, is the independent neighborhood air record this station points you to — there is no on-site monitoring program of ours here.",
+        "source": {
+          "label": "Greenaction — Bayview Hunters Point",
+          "url": "https://greenaction.org/bayview-hunters-point/"
+        },
+        "source2": {
+          "label": "Greenaction — in memory of Marie Harrison",
+          "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+        }
+      },
+      {
+        "title": "Who does the work",
+        "body": "Environmental monitoring and remediation on a site like this is union trade work with real training gates: hazmat and environmental laborers (LIUNA) under OSHA HAZWOPER — a 40-hour course, three days of supervised field time and an annual 8-hour refresher (29 CFR 1910.120(e)); operating engineers (IUOE) on the excavators and soil-handling equipment; Teamsters hauling regulated soil under DOT hazardous-materials rules; radiation control technicians on survey and clearance; and industrial hygienists and environmental sampling technicians keeping chain of custody on every sample. The lesson of this site is that the last item is not paperwork — independent split samples, chain of custody and third-party verification are the only reason anyone can trust a clearance number.",
+        "source": {
+          "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+        }
+      }
+    ],
+    "game": {
+      "system": "Site Awareness",
+      "currency": "SAMPLE",
+      "ranks": [
+        "Site Aware",
+        "Sampler",
+        "Field Lead",
+        "QA Verifier",
+        "Integrity Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
