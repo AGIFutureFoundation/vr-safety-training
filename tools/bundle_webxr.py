@@ -88,6 +88,7 @@ APPS = {
         "modules": [
             SHARED / "kit.js",
             SHARED / "game.js",
+            SHARED / "voice-assist.js",
             WEBXR / "holodeck/js/themes.js",
             WEBXR / "holodeck/js/training.js",
             WEBXR / "holodeck/js/prompt-parser.js",

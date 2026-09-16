@@ -31,6 +31,23 @@
   #hud-hole-chip{ top:14px; left:14px; }
   #hud-hole-name{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.03em; text-transform:uppercase; }
   #hud-hole-sub{ font-size:12px; color:var(--muted); margin-top:1px }
+  #hud-gesture{ display:inline-block; margin-top:6px; font-family:var(--cond); font-weight:600;
+    font-size:10.5px; letter-spacing:.1em; color:var(--accent); border:1px solid var(--accent);
+    border-radius:3px; padding:2px 8px; text-transform:uppercase; }
+  #gesture-tip{ position:fixed; left:50%; bottom:98px; transform:translateX(-50%) translateY(6px);
+    max-width:min(520px, calc(100vw - 28px)); background:var(--glass); border:1px solid var(--accent);
+    border-radius:6px; padding:10px 16px; text-align:center; font-size:13px; color:var(--text);
+    line-height:1.4; pointer-events:none; opacity:0; transition:opacity .25s ease, transform .25s ease;
+    z-index:12; backdrop-filter:blur(4px); }
+  #gesture-tip.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #gesture-tip b{ color:var(--accent); }
+  #speak-btn{ position:fixed; right:14px; bottom:14px; z-index:11; display:flex; align-items:center;
+    justify-content:center; width:44px; height:44px; border-radius:50%; font-size:18px; padding:0;
+    border:1px solid var(--edge); background:var(--glass); color:var(--text); backdrop-filter:blur(4px); }
+  #speak-btn:hover{ filter:brightness(1.15) }
+  @supports (padding: max(0px)){
+    #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
+  }
   #hud-score-chip{ top:14px; right:14px; text-align:right; min-width:150px; }
   #hud-strokes{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
   #hud-par{ font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.08em; color:var(--accent); }

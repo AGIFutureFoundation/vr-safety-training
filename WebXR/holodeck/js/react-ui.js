@@ -25,7 +25,8 @@ export function mountUI(store, actions) {
       return h("div", { className: "chip", id: "hud-hole-chip" },
         h("div", { className: "eyebrow" }, "Training"),
         h("div", { id: "hud-hole-name" }, hud.step),
-        h("div", { id: "hud-hole-sub" }, hud.cue));
+        h("div", { id: "hud-hole-sub" }, hud.cue),
+        h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
     }
     return h("div", { className: "chip", id: "hud-hole-chip" },
       h("div", { className: "eyebrow" }, "Hole"),
@@ -57,6 +58,25 @@ export function mountUI(store, actions) {
         ? h("div", { id: "hud-count" }, hud.count)
         : hud.powerVisible && h("div", { id: "hud-power-track" },
             h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
+  }
+
+  function GestureTip() {
+    const tip = useSlice("gestureTip");
+    return h("div", {
+      id: "gesture-tip",
+      className: tip.show ? "show" : "",
+      dangerouslySetInnerHTML: { __html: tip.html },
+    });
+  }
+
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: "Read the current step aloud",
+      "aria-label": "Read the current step aloud",
+    }, "🔊");
   }
 
   function ThemePicks() {
@@ -180,7 +200,7 @@ export function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HoleChip), h(ScoreChip), h(Rail),
+      h(HoleChip), h(ScoreChip), h(Rail), h(GestureTip), h(SpeakButton),
       h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard));
   }
 

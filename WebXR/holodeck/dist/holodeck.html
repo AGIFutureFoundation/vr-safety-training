@@ -31,6 +31,23 @@
   #hud-hole-chip{ top:14px; left:14px; }
   #hud-hole-name{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.03em; text-transform:uppercase; }
   #hud-hole-sub{ font-size:12px; color:var(--muted); margin-top:1px }
+  #hud-gesture{ display:inline-block; margin-top:6px; font-family:var(--cond); font-weight:600;
+    font-size:10.5px; letter-spacing:.1em; color:var(--accent); border:1px solid var(--accent);
+    border-radius:3px; padding:2px 8px; text-transform:uppercase; }
+  #gesture-tip{ position:fixed; left:50%; bottom:98px; transform:translateX(-50%) translateY(6px);
+    max-width:min(520px, calc(100vw - 28px)); background:var(--glass); border:1px solid var(--accent);
+    border-radius:6px; padding:10px 16px; text-align:center; font-size:13px; color:var(--text);
+    line-height:1.4; pointer-events:none; opacity:0; transition:opacity .25s ease, transform .25s ease;
+    z-index:12; backdrop-filter:blur(4px); }
+  #gesture-tip.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #gesture-tip b{ color:var(--accent); }
+  #speak-btn{ position:fixed; right:14px; bottom:14px; z-index:11; display:flex; align-items:center;
+    justify-content:center; width:44px; height:44px; border-radius:50%; font-size:18px; padding:0;
+    border:1px solid var(--edge); background:var(--glass); color:var(--text); backdrop-filter:blur(4px); }
+  #speak-btn:hover{ filter:brightness(1.15) }
+  @supports (padding: max(0px)){
+    #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
+  }
   #hud-score-chip{ top:14px; right:14px; text-align:right; min-width:150px; }
   #hud-strokes{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
   #hud-par{ font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.08em; color:var(--accent); }
@@ -1213,6 +1230,37 @@ class Session {
 }
 
 
+/* ===== shared/voice-assist.js ===== */
+// Text-to-speech helper shared by every app's voice layer. This is purely
+// assistive narration — reading back a hint, a room briefing, or progress —
+// never a way to perform a step. The hands-on click/drag/turn stays the only
+// way to actually advance a procedure; speaking to the app only ever tells
+// you things, it never does things for you.
+
+const speechSupported = typeof window !== "undefined" && "speechSynthesis" in window;
+
+/**
+ * Speak a line, cancelling whatever the app was already saying so responses
+ * never queue up and talk over the run. Silently does nothing where speech
+ * synthesis isn't available (older browsers, headless test runners) so
+ * callers never need their own support check.
+ */
+function speak(text, { rate = 1, pitch = 1 } = {}) {
+  if (!speechSupported || !text) return false;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = rate;
+  utterance.pitch = pitch;
+  synth.speak(utterance);
+  return true;
+}
+
+function stopSpeaking() {
+  if (speechSupported) window.speechSynthesis.cancel();
+}
+
+
 /* ===== holodeck/js/themes.js ===== */
 /**
  * The theme registry — the only thing standing in for "the model understood
@@ -1758,7 +1806,8 @@ function mountUI(store, actions) {
       return h("div", { className: "chip", id: "hud-hole-chip" },
         h("div", { className: "eyebrow" }, "Training"),
         h("div", { id: "hud-hole-name" }, hud.step),
-        h("div", { id: "hud-hole-sub" }, hud.cue));
+        h("div", { id: "hud-hole-sub" }, hud.cue),
+        h("div", { id: "hud-gesture", hidden: !hud.gestureVisible }, hud.gestureVerb));
     }
     return h("div", { className: "chip", id: "hud-hole-chip" },
       h("div", { className: "eyebrow" }, "Hole"),
@@ -1790,6 +1839,25 @@ function mountUI(store, actions) {
         ? h("div", { id: "hud-count" }, hud.count)
         : hud.powerVisible && h("div", { id: "hud-power-track" },
             h("div", { id: "hud-power-fill", style: { width: `${hud.powerPct}%` } })));
+  }
+
+  function GestureTip() {
+    const tip = useSlice("gestureTip");
+    return h("div", {
+      id: "gesture-tip",
+      className: tip.show ? "show" : "",
+      dangerouslySetInnerHTML: { __html: tip.html },
+    });
+  }
+
+  function SpeakButton() {
+    if (!actions.speechSupported) return null;
+    return h("button", {
+      id: "speak-btn", type: "button",
+      onClick: actions.speakHint,
+      title: "Read the current step aloud",
+      "aria-label": "Read the current step aloud",
+    }, "🔊");
   }
 
   function ThemePicks() {
@@ -1913,7 +1981,7 @@ function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HoleChip), h(ScoreChip), h(Rail),
+      h(HoleChip), h(ScoreChip), h(Rail), h(GestureTip), h(SpeakButton),
       h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard));
   }
 
@@ -1999,7 +2067,11 @@ const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
 
 // ------------------------------------------------------------------ store
 
-const speechSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+// Speech RECOGNITION (dictating a prompt) is a separate capability from the
+// speech SYNTHESIS this file also imports from voice-assist.js (reading a
+// hint aloud) — kept as two names since a browser can support either
+// independently of the other.
+const micInputSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
 const store = createStore({
   // A single hud slice shared by both generators — `mode` decides which
@@ -2009,10 +2081,12 @@ const store = createStore({
     visible: false, mode: "golf",
     holeName: "", holeSub: "", strokes: 0, par: 0,           // golf-mode fields
     step: "", cue: "", score: "0000", comboText: "", count: "", // training-mode fields
+    gestureVerb: "", gestureVisible: false,                  // training-mode fields
     feedback: "", powerVisible: false, powerPct: 0, railState: "neutral", // shared
   },
+  gestureTip: { html: "", show: false },
   intro: {
-    visible: true, promptText: "", listening: false, speechSupported,
+    visible: true, promptText: "", listening: false, speechSupported: micInputSupported,
     error: "", heard: "", themeId: DEFAULT_THEME_ID, userPickedTheme: false,
     xrSupported: false,
   },
@@ -2396,13 +2470,55 @@ function syncTrainingHud() {
   const s = trainingSession;
   if (!s) return;
   const step = s.step;
+  const hint = step ? GESTURE_HINTS[step.kind] : null;
   store.patch("hud", {
     score: String(Math.round(s.score)).padStart(4, "0"),
     comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : "",
     count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
     step: step ? step.title : "",
     cue: step ? step.cue : "",
+    gestureVerb: hint?.verb ?? "",
+    gestureVisible: !!hint,
   });
+}
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  if (!Sfx.muted) speak(text);
+}
+
+/** The line the speaker button reads back: the live step's title and cue
+ * while a procedure is running, otherwise how to get one started. */
+function currentHintLine() {
+  const step = trainingSession?.step;
+  if (step) return `${step.title}. ${step.cue}`;
+  return "Speak or type a procedure to begin.";
+}
+
+// One-time, just-in-time teaching, exactly like SmartCiti.X and Trade
+// Skills: the first time a learner's own play history ever reaches a given
+// step kind, explain the physical gesture it wants — after that it trusts
+// the HUD gesture chip to carry it.
+const GESTURE_SEEN_KEY = "holodeck-gestures-seen";
+let gestureTipTimer = null;
+function hasSeenGesture(kind) {
+  try { return JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]").includes(kind); }
+  catch (_) { return true; } // if storage is blocked, don't nag every single step
+}
+function markGestureSeen(kind) {
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]"));
+    seen.add(kind);
+    localStorage.setItem(GESTURE_SEEN_KEY, JSON.stringify([...seen]));
+  } catch (_) { /* ignore */ }
+}
+function maybeShowGestureTip(kind) {
+  const hint = GESTURE_HINTS[kind];
+  if (!hint || hasSeenGesture(kind)) return;
+  markGestureSeen(kind);
+  store.patch("gestureTip", { html: `<b>${hint.verb}</b><br>${hint.tip}`, show: true });
+  clearTimeout(gestureTipTimer);
+  gestureTipTimer = setTimeout(() => store.patch("gestureTip", { show: false }), 5200);
 }
 
 function showTrainingResult(s) {
@@ -2429,6 +2545,9 @@ function showTrainingResult(s) {
       isThisRun: s.leaderboard.madeBoard && i === s.leaderboard.rank - 1,
     })),
   });
+  announce(`${trainingRoom.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.rankedUp && s.rank?.name ? ` Rank up — ${s.rank.name}.` : "") +
+    (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
 }
 
 /**
@@ -2460,11 +2579,12 @@ function enterTraining(room, buildFn) {
   positionTrainingCamera(room.footprint);
 
   trainingSession = new Session(room, {
-    onStep: (step, s) => { trainingRefs.onStep?.(step, s); syncTrainingHud(); },
+    onStep: (step, s) => { trainingRefs.onStep?.(step, s); maybeShowGestureTip(step.kind); syncTrainingHud(); },
     onFeedback: (fb, s) => {
       trainingRefs.onFeedback?.(fb, s);
       const railState = fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn";
       store.patch("hud", { feedback: fb.text, railState });
+      if (fb.kind === "danger" && fb.speech) announce(fb.speech);
       syncTrainingHud();
     },
     onStepComplete: (step, s) => trainingRefs.onStepComplete?.(step, s),
@@ -2974,6 +3094,7 @@ renderer.setAnimationLoop(() => {
 mountUI(store, {
   setPromptText, toggleMic, selectTheme, generate, generateInVR,
   nextHole, playAgain, newPrompt,
+  speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
 });
 
 // Test-only hook: precisely clicking a 3D object's exact screen position

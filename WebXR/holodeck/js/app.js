@@ -1,8 +1,10 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
+  GESTURE_HINTS,
 } from "../../shared/kit.js";
 import { Sfx, Session } from "../../shared/game.js";
+import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "./themes.js";
 import { localInterpreter, interpretPrompt } from "./prompt-parser.js";
 import { BALL_RADIUS, buildCourse, createBall, putt, stepBall } from "./minigolf.js";
@@ -87,7 +89,11 @@ const burst = celebrationBurst(worldRoot, { color: 0xffe37a });
 
 // ------------------------------------------------------------------ store
 
-const speechSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+// Speech RECOGNITION (dictating a prompt) is a separate capability from the
+// speech SYNTHESIS this file also imports from voice-assist.js (reading a
+// hint aloud) — kept as two names since a browser can support either
+// independently of the other.
+const micInputSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
 const store = createStore({
   // A single hud slice shared by both generators — `mode` decides which
@@ -97,10 +103,12 @@ const store = createStore({
     visible: false, mode: "golf",
     holeName: "", holeSub: "", strokes: 0, par: 0,           // golf-mode fields
     step: "", cue: "", score: "0000", comboText: "", count: "", // training-mode fields
+    gestureVerb: "", gestureVisible: false,                  // training-mode fields
     feedback: "", powerVisible: false, powerPct: 0, railState: "neutral", // shared
   },
+  gestureTip: { html: "", show: false },
   intro: {
-    visible: true, promptText: "", listening: false, speechSupported,
+    visible: true, promptText: "", listening: false, speechSupported: micInputSupported,
     error: "", heard: "", themeId: DEFAULT_THEME_ID, userPickedTheme: false,
     xrSupported: false,
   },
@@ -484,13 +492,55 @@ function syncTrainingHud() {
   const s = trainingSession;
   if (!s) return;
   const step = s.step;
+  const hint = step ? GESTURE_HINTS[step.kind] : null;
   store.patch("hud", {
     score: String(Math.round(s.score)).padStart(4, "0"),
     comboText: s.comboLabel ? `${s.comboLabel.toUpperCase()} ×${s.combo.toFixed(1)}` : "",
     count: `STEP ${Math.min(s.index + 1, s.steps.length)}/${s.steps.length}`,
     step: step ? step.title : "",
     cue: step ? step.cue : "",
+    gestureVerb: hint?.verb ?? "",
+    gestureVisible: !!hint,
   });
+}
+
+/** Speak a line unless the player has muted the room with M. */
+function announce(text) {
+  if (!Sfx.muted) speak(text);
+}
+
+/** The line the speaker button reads back: the live step's title and cue
+ * while a procedure is running, otherwise how to get one started. */
+function currentHintLine() {
+  const step = trainingSession?.step;
+  if (step) return `${step.title}. ${step.cue}`;
+  return "Speak or type a procedure to begin.";
+}
+
+// One-time, just-in-time teaching, exactly like SmartCiti.X and Trade
+// Skills: the first time a learner's own play history ever reaches a given
+// step kind, explain the physical gesture it wants — after that it trusts
+// the HUD gesture chip to carry it.
+const GESTURE_SEEN_KEY = "holodeck-gestures-seen";
+let gestureTipTimer = null;
+function hasSeenGesture(kind) {
+  try { return JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]").includes(kind); }
+  catch (_) { return true; } // if storage is blocked, don't nag every single step
+}
+function markGestureSeen(kind) {
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem(GESTURE_SEEN_KEY) || "[]"));
+    seen.add(kind);
+    localStorage.setItem(GESTURE_SEEN_KEY, JSON.stringify([...seen]));
+  } catch (_) { /* ignore */ }
+}
+function maybeShowGestureTip(kind) {
+  const hint = GESTURE_HINTS[kind];
+  if (!hint || hasSeenGesture(kind)) return;
+  markGestureSeen(kind);
+  store.patch("gestureTip", { html: `<b>${hint.verb}</b><br>${hint.tip}`, show: true });
+  clearTimeout(gestureTipTimer);
+  gestureTipTimer = setTimeout(() => store.patch("gestureTip", { show: false }), 5200);
 }
 
 function showTrainingResult(s) {
@@ -517,6 +567,9 @@ function showTrainingResult(s) {
       isThisRun: s.leaderboard.madeBoard && i === s.leaderboard.rank - 1,
     })),
   });
+  announce(`${trainingRoom.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
+    (s.rankedUp && s.rank?.name ? ` Rank up — ${s.rank.name}.` : "") +
+    (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
 }
 
 /**
@@ -548,11 +601,12 @@ function enterTraining(room, buildFn) {
   positionTrainingCamera(room.footprint);
 
   trainingSession = new Session(room, {
-    onStep: (step, s) => { trainingRefs.onStep?.(step, s); syncTrainingHud(); },
+    onStep: (step, s) => { trainingRefs.onStep?.(step, s); maybeShowGestureTip(step.kind); syncTrainingHud(); },
     onFeedback: (fb, s) => {
       trainingRefs.onFeedback?.(fb, s);
       const railState = fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn";
       store.patch("hud", { feedback: fb.text, railState });
+      if (fb.kind === "danger" && fb.speech) announce(fb.speech);
       syncTrainingHud();
     },
     onStepComplete: (step, s) => trainingRefs.onStepComplete?.(step, s),
@@ -1062,6 +1116,7 @@ renderer.setAnimationLoop(() => {
 mountUI(store, {
   setPromptText, toggleMic, selectTheme, generate, generateInVR,
   nextHole, playAgain, newPrompt,
+  speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
 });
 
 // Test-only hook: precisely clicking a 3D object's exact screen position
