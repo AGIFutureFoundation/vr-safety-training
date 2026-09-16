@@ -215,6 +215,21 @@
   .lb-card .lb-top{ font-size:12.5px; color:var(--muted) }
   .lb-card .lb-top b{ color:var(--text) }
 
+  /* --------------------------------------------------- training records */
+  .card.card-wide{ width:min(960px,100%) }
+  .rec-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; margin:4px 0 14px }
+  .rec-tile{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:10px 12px }
+  .rec-cat{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent) }
+  .rec-big{ font-family:var(--cond); font-weight:700; font-size:24px; line-height:1.1; margin-top:4px; font-variant-numeric:tabular-nums }
+  .rec-sub{ font-size:11.5px; color:var(--muted); margin-top:3px; line-height:1.35 }
+  .rec-table-wrap{ max-height:42vh; overflow:auto; border:1px solid var(--edge); border-radius:8px; background:rgba(0,0,0,.18); margin:0 0 6px }
+  .rec-table{ margin:0; font-size:12.5px; white-space:nowrap }
+  .rec-table th{ position:sticky; top:0; background:var(--panel-2); z-index:1 }
+  .rec-table tr.fail td{ color:var(--muted) }
+  .rec-verdict{ font-family:var(--cond); font-weight:700; font-size:11px; letter-spacing:.12em; border-radius:999px; padding:2px 9px }
+  .rec-verdict.pass{ color:#0c2a17; background:var(--good) }
+  .rec-verdict.fail{ color:#2a0c0c; background:var(--danger) }
+
   /* ------------------------------------------------------------ editor */
   .ed-row{ margin:12px 0 }
   .ed-row label{ display:block; margin-bottom:6px }
@@ -1498,6 +1513,195 @@ function speak(text, { rate = 1, pitch = 1 } = {}) {
 
 function stopSpeaking() {
   if (speechSupported) window.speechSynthesis.cancel();
+}
+
+
+/* ===== shared/records.js ===== */
+// Training records — the auditable attempt log an employer, union hall or
+// LMS actually needs from a simulator, as opposed to the gamified profile in
+// game.js (XP, ranks, leaderboards) which is there to motivate.
+//
+// Every finished run appends one immutable entry. Entries carry what an
+// assessment record needs (station, category, the real certification the
+// station maps to, score, stars, corrections, unsafe actions, time vs par,
+// pass/fail against a stated rule) and nothing it must not (no biometrics,
+// no free text beyond the learner's own crew tag). Storage is this browser
+// only, like everything else in these apps; export is the hand-off — CSV for
+// a spreadsheet or HR system, xAPI 1.0.3 statements for a Learning Record
+// Store.
+//
+// Shared by every app on this engine; SmartCiti.X is the first to wire it.
+
+const KEY = "vr-training-records-v1";
+const MAX_ENTRIES = 1000;
+
+/**
+ * The pass rule, stated once so the results card, the export and the
+ * summary can never disagree: no unsafe action, at most one correction,
+ * and finished inside 1.5x par (which is exactly the engine's 2-star
+ * threshold, so stars >= 2 already encodes the time and correction limits).
+ */
+function passed(entry) {
+  return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
+}
+
+function load() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch (_) { return []; }
+}
+
+function save(list) {
+  try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+}
+
+const TrainingRecords = {
+  /** Oldest first. */
+  list() { return load(); },
+
+  count() { return load().length; },
+
+  /**
+   * Append one attempt. `entry` is the plain data a finished Session yields
+   * (see SmartCiti.X's showResults); this adds the id, timestamp and the
+   * pass verdict so callers never compute it themselves.
+   */
+  record(entry) {
+    const list = load();
+    const full = {
+      id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+      at: new Date().toISOString(),
+      ...entry,
+    };
+    full.passed = passed(full);
+    list.push(full);
+    if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
+    save(list);
+    return full;
+  },
+
+  clear() { try { localStorage.removeItem(KEY); } catch (_) { /* ignore */ } },
+
+  /**
+   * Per-category roll-up for an instructor view: attempts, passes, distinct
+   * stations passed, best stars. Categories come from the entries themselves
+   * so a record from a since-renamed category still counts.
+   */
+  summary(list = load()) {
+    const by = new Map();
+    for (const r of list) {
+      const key = r.category ?? "Uncategorized";
+      if (!by.has(key)) by.set(key, { category: key, attempts: 0, passes: 0, stations: new Set(), stationsPassed: new Set(), bestStars: 0 });
+      const s = by.get(key);
+      s.attempts += 1;
+      s.stations.add(r.simId);
+      if (r.passed) { s.passes += 1; s.stationsPassed.add(r.simId); }
+      s.bestStars = Math.max(s.bestStars, r.stars | 0);
+    }
+    return [...by.values()].map((s) => ({
+      category: s.category, attempts: s.attempts, passes: s.passes,
+      stations: s.stations.size, stationsPassed: s.stationsPassed.size, bestStars: s.bestStars,
+    }));
+  },
+};
+
+// -------------------------------------------------------------------- export
+
+const CSV_COLUMNS = [
+  "at", "learner", "app", "simId", "simName", "category", "trade", "certification", "system",
+  "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
+  "badges", "level", "levelName", "id",
+];
+
+function csvCell(v) {
+  if (v == null) return "";
+  const s = Array.isArray(v) ? v.join("; ") : String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** RFC 4180 CSV, one row per attempt, columns in CSV_COLUMNS order. */
+function toCSV(list) {
+  const lines = [CSV_COLUMNS.join(",")];
+  for (const r of list) lines.push(CSV_COLUMNS.map((c) => csvCell(r[c])).join(","));
+  return lines.join("\r\n") + "\r\n";
+}
+
+/** ISO 8601 duration from whole seconds, e.g. 125 -> "PT2M5S". */
+function isoDuration(seconds) {
+  const s = Math.max(0, Math.round(seconds | 0));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return `PT${h ? `${h}H` : ""}${m ? `${m}M` : ""}${sec || (!h && !m) ? `${sec}S` : ""}`;
+}
+
+/**
+ * xAPI 1.0.3 statements — the standard a Learning Record Store ingests.
+ * `homePage` scopes the actor account and activity ids; pass the real
+ * deployment origin when exporting from a hosted install. Extensions carry
+ * the assessment detail (category, certification, stars, unsafe actions)
+ * that the core result object has no field for.
+ */
+function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example" } = {}) {
+  const ext = (k) => `${homePage}/xapi/ext/${k}`;
+  return {
+    statements: list.map((r) => ({
+      id: r.id,
+      timestamp: r.at,
+      actor: {
+        objectType: "Agent",
+        name: r.learner ?? actorName,
+        account: { homePage, name: r.learner ?? actorName },
+      },
+      verb: {
+        id: r.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed",
+        display: { "en-US": r.passed ? "passed" : "failed" },
+      },
+      object: {
+        objectType: "Activity",
+        id: `${homePage}/${r.app ?? "app"}/${r.simId}`,
+        definition: {
+          name: { "en-US": r.simName ?? r.simId },
+          description: { "en-US": `${r.trade ?? ""}${r.certification ? ` — ${r.certification}` : ""}`.trim() },
+          type: "http://adlnet.gov/expapi/activities/simulation",
+        },
+      },
+      result: {
+        score: { raw: r.score | 0, min: 0 },
+        success: !!r.passed,
+        completion: true,
+        duration: isoDuration(r.seconds),
+        extensions: {
+          [ext("stars")]: r.stars | 0,
+          [ext("corrections")]: r.errors | 0,
+          [ext("unsafe-actions")]: r.hazardHits | 0,
+          [ext("hold-breaks")]: r.holdBreaks | 0,
+          [ext("par-seconds")]: r.parSeconds ?? null,
+          [ext("badges")]: r.badges ?? [],
+        },
+      },
+      context: {
+        platform: "SmartCiti.X ~VR Simulators",
+        extensions: {
+          [ext("category")]: r.category ?? null,
+          [ext("certification")]: r.certification ?? null,
+          [ext("system")]: r.system ?? null,
+          [ext("learner-level")]: r.level ?? null,
+        },
+      },
+    })),
+  };
+}
+
+/** Browser-only: hand the learner a file. No-op outside a DOM. */
+function download(filename, text, mime = "text/plain") {
+  if (typeof document === "undefined" || typeof URL?.createObjectURL !== "function") return false;
+  const blob = new Blob([text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
 }
 
 
@@ -3443,6 +3647,7 @@ function mountUI(store, actions) {
           h("button", { id: "enter-vr", disabled: intro.vrDisabled, onClick: actions.enterVr }, intro.vrText),
           h("button", { id: "enter-flat", onClick: actions.enterFlat }, "Free explore"),
           h("button", { id: "view-leaderboard", onClick: actions.viewLeaderboard }, "Leaderboards"),
+          h("button", { id: "view-records", onClick: actions.viewRecords }, "Training records"),
           h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
           h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
@@ -3467,6 +3672,46 @@ function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
+  }
+
+  /** Instructor/compliance view: every attempt with its pass verdict, per
+   * category, with CSV and xAPI export. Built from plain data — never an
+   * HTML string — so a crew tag can't inject markup here. */
+  function RecordsCard() {
+    const rec = useSlice("records");
+    if (!rec.visible) return h("div", { className: "overlay", id: "records", hidden: true });
+    const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }); };
+    const fmtTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    return h("div", { className: "overlay", id: "records", role: "dialog", "aria-modal": "true", "aria-label": "Training records" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · training records"),
+        h("h1", null, "Training Records"),
+        h("p", { className: "lead" },
+          `${rec.total} attempt${rec.total === 1 ? "" : "s"} on this device · ${rec.passes} passed. ` +
+          "A pass is two or more stars with no unsafe action. Records stay in this browser until you export them."),
+        rec.summary.length > 0 && h("div", { className: "rec-grid" },
+          rec.summary.map((s) => h("div", { className: "rec-tile", key: s.category },
+            h("div", { className: "rec-cat" }, s.category),
+            h("div", { className: "rec-big" }, `${s.stationsPassed}/${s.stations}`),
+            h("div", { className: "rec-sub" }, `stations passed · ${s.passes}/${s.attempts} attempts · best ${"★".repeat(s.bestStars)}`)))),
+        rec.rows.length
+          ? h("div", { className: "rec-table-wrap" },
+              h("table", { className: "lb-table rec-table" },
+                h("thead", null, h("tr", null,
+                  h("th", null, "When"), h("th", null, "Learner"), h("th", null, "Station"), h("th", null, "Category"),
+                  h("th", null, "Score"), h("th", null, "Stars"), h("th", null, "Corr."), h("th", null, "Unsafe"),
+                  h("th", null, "Time"), h("th", null, "Result"))),
+                h("tbody", null, rec.rows.map((r) => h("tr", { key: r.id, className: r.passed ? "pass" : "fail" },
+                  h("td", null, fmtDate(r.at)), h("td", null, r.learner), h("td", null, r.simName), h("td", null, r.category),
+                  h("td", null, r.score), h("td", null, "★".repeat(r.stars)), h("td", null, r.errors), h("td", null, r.hazardHits),
+                  h("td", null, fmtTime(r.seconds)),
+                  h("td", null, h("span", { className: `rec-verdict ${r.passed ? "pass" : "fail"}` }, r.passed ? "PASS" : "FAIL")))))))
+          : h("p", { className: "lb-empty" }, "No attempts recorded yet — finish any station and it will appear here."),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
+          h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
+          h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
+          h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
   }
 
   function EditorStepRow({ step, i, count }) {
@@ -3557,7 +3802,7 @@ function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
+      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
@@ -3713,6 +3958,7 @@ const store = createStore({
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
   leaderboard: { visible: false, html: "" },
+  records: { visible: false, rows: [], summary: [], total: 0, passes: 0 },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -4059,6 +4305,18 @@ function showResults(s, summary) {
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${state.tour ? renderTourFooter() : ""}`;
+  // The auditable record of this attempt — separate from the gamified
+  // Progress profile, exportable as CSV or xAPI from the Training Records
+  // overlay. Custom scenarios record under their base station's category.
+  TrainingRecords.record({
+    app: "smartcity", learner: Progress.playerName,
+    simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
+    trade: room.trade, certification: room.certification ?? SIMS_META_BY_ID[room.baseId]?.certification,
+    system: room.game?.system,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
+    badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
+  });
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
@@ -4126,6 +4384,47 @@ function viewLeaderboard() {
   store.patch("leaderboard", { visible: true });
 }
 function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
+
+// ---------------------------------------------------------- training records
+//
+// The instructor/compliance view of the same runs the leaderboards celebrate:
+// every attempt with its pass verdict, rolled up per category, exportable as
+// CSV (spreadsheet/HR) or xAPI statements (Learning Record Store). Rendered
+// from plain data by react-ui.js — no HTML strings, so nothing to escape.
+
+function renderRecords() {
+  const list = TrainingRecords.list();
+  const rows = list.slice(-200).reverse().map((r) => ({
+    id: r.id, at: r.at, simName: r.simName ?? r.simId, category: r.category ?? "—",
+    score: r.score | 0, stars: r.stars | 0, errors: r.errors | 0, hazardHits: r.hazardHits | 0,
+    seconds: r.seconds | 0, passed: !!r.passed, learner: r.learner ?? "",
+  }));
+  store.patch("records", {
+    rows, summary: TrainingRecords.summary(list),
+    total: list.length, passes: list.filter((r) => r.passed).length,
+  });
+}
+function viewRecords() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderRecords();
+  store.patch("records", { visible: true });
+}
+function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("records", { visible: false }); }
+function stamp() { return new Date().toISOString().slice(0, 10); }
+function exportRecordsCsv() {
+  download(`smartcitix-training-records-${stamp()}.csv`, toCSV(TrainingRecords.list()), "text/csv");
+}
+function exportRecordsXapi() {
+  const statements = toXAPI(TrainingRecords.list(), { actorName: Progress.playerName, homePage: location.origin });
+  download(`smartcitix-xapi-statements-${stamp()}.json`, JSON.stringify(statements, null, 2), "application/json");
+}
+function clearRecords() {
+  if (!TrainingRecords.count()) return;
+  if (!confirm("Delete every training record on this device? Export first if you need them.")) return;
+  TrainingRecords.clear();
+  renderRecords();
+}
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -4515,9 +4814,14 @@ addEventListener("keydown", (e) => {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
   if (e.code === "Escape") {
-    if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
-    else if (store.get().leaderboard.visible) closeLeaderboard();
-    else if (store.get().editor.visible) closeEditor();
+    // Topmost overlay first: an overlay opened by voice mid-run (records,
+    // leaderboards, editor) should close on Escape, not eject the learner to
+    // the hub underneath it.
+    const ui = store.get();
+    if (ui.records.visible) closeRecords();
+    else if (ui.leaderboard.visible) closeLeaderboard();
+    else if (ui.editor.visible) closeEditor();
+    else if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
@@ -4827,7 +5131,7 @@ function speakStatus() {
     `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
-const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
+const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "records," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -4869,6 +5173,7 @@ function parseVoiceCommand(text) {
   if (sim) return { type: "sim", id: sim.id };
   if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
   if (/\bleaderboards?\b/.test(lower)) return { type: "leaderboard" };
+  if (/\b(records?|training records?|transcript)\b/.test(lower)) return { type: "records" };
   if (/\btour\b/.test(lower)) return { type: "tour" };
   if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
   if (/\breset\b/.test(lower)) return { type: "reset" };
@@ -4884,6 +5189,7 @@ function handleVoiceCommand(text) {
   if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return; }
   if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
   if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
+  if (cmd.type === "records") { viewRecords(); return; }
   if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
   if (cmd.type === "editor") { openEditor(); return; }
   if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
@@ -4897,6 +5203,7 @@ function handleVoiceCommand(text) {
 
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
+  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, clearRecords,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
   edPlayLibrary, edDeleteLibrary,

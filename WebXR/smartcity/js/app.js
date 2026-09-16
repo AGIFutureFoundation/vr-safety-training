@@ -2,6 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
+import { TrainingRecords, toCSV, toXAPI, download } from "../../shared/records.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -157,6 +158,7 @@ const store = createStore({
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
   leaderboard: { visible: false, html: "" },
+  records: { visible: false, rows: [], summary: [], total: 0, passes: 0 },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -503,6 +505,18 @@ function showResults(s, summary) {
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${state.tour ? renderTourFooter() : ""}`;
+  // The auditable record of this attempt — separate from the gamified
+  // Progress profile, exportable as CSV or xAPI from the Training Records
+  // overlay. Custom scenarios record under their base station's category.
+  TrainingRecords.record({
+    app: "smartcity", learner: Progress.playerName,
+    simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
+    trade: room.trade, certification: room.certification ?? SIMS_META_BY_ID[room.baseId]?.certification,
+    system: room.game?.system,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
+    badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
+  });
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
@@ -570,6 +584,47 @@ function viewLeaderboard() {
   store.patch("leaderboard", { visible: true });
 }
 function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
+
+// ---------------------------------------------------------- training records
+//
+// The instructor/compliance view of the same runs the leaderboards celebrate:
+// every attempt with its pass verdict, rolled up per category, exportable as
+// CSV (spreadsheet/HR) or xAPI statements (Learning Record Store). Rendered
+// from plain data by react-ui.js — no HTML strings, so nothing to escape.
+
+function renderRecords() {
+  const list = TrainingRecords.list();
+  const rows = list.slice(-200).reverse().map((r) => ({
+    id: r.id, at: r.at, simName: r.simName ?? r.simId, category: r.category ?? "—",
+    score: r.score | 0, stars: r.stars | 0, errors: r.errors | 0, hazardHits: r.hazardHits | 0,
+    seconds: r.seconds | 0, passed: !!r.passed, learner: r.learner ?? "",
+  }));
+  store.patch("records", {
+    rows, summary: TrainingRecords.summary(list),
+    total: list.length, passes: list.filter((r) => r.passed).length,
+  });
+}
+function viewRecords() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderRecords();
+  store.patch("records", { visible: true });
+}
+function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("records", { visible: false }); }
+function stamp() { return new Date().toISOString().slice(0, 10); }
+function exportRecordsCsv() {
+  download(`smartcitix-training-records-${stamp()}.csv`, toCSV(TrainingRecords.list()), "text/csv");
+}
+function exportRecordsXapi() {
+  const statements = toXAPI(TrainingRecords.list(), { actorName: Progress.playerName, homePage: location.origin });
+  download(`smartcitix-xapi-statements-${stamp()}.json`, JSON.stringify(statements, null, 2), "application/json");
+}
+function clearRecords() {
+  if (!TrainingRecords.count()) return;
+  if (!confirm("Delete every training record on this device? Export first if you need them.")) return;
+  TrainingRecords.clear();
+  renderRecords();
+}
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -959,9 +1014,14 @@ addEventListener("keydown", (e) => {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
   if (e.code === "Escape") {
-    if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
-    else if (store.get().leaderboard.visible) closeLeaderboard();
-    else if (store.get().editor.visible) closeEditor();
+    // Topmost overlay first: an overlay opened by voice mid-run (records,
+    // leaderboards, editor) should close on Escape, not eject the learner to
+    // the hub underneath it.
+    const ui = store.get();
+    if (ui.records.visible) closeRecords();
+    else if (ui.leaderboard.visible) closeLeaderboard();
+    else if (ui.editor.visible) closeEditor();
+    else if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
@@ -1271,7 +1331,7 @@ function speakStatus() {
     `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
-const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
+const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "records," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -1313,6 +1373,7 @@ function parseVoiceCommand(text) {
   if (sim) return { type: "sim", id: sim.id };
   if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
   if (/\bleaderboards?\b/.test(lower)) return { type: "leaderboard" };
+  if (/\b(records?|training records?|transcript)\b/.test(lower)) return { type: "records" };
   if (/\btour\b/.test(lower)) return { type: "tour" };
   if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
   if (/\breset\b/.test(lower)) return { type: "reset" };
@@ -1328,6 +1389,7 @@ function handleVoiceCommand(text) {
   if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return; }
   if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
   if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
+  if (cmd.type === "records") { viewRecords(); return; }
   if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
   if (cmd.type === "editor") { openEditor(); return; }
   if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
@@ -1341,6 +1403,7 @@ function handleVoiceCommand(text) {
 
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
+  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, clearRecords,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
   edPlayLibrary, edDeleteLibrary,

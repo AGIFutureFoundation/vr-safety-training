@@ -58,6 +58,7 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "game.js",
             SHARED / "voice-assist.js",
+            SHARED / "records.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/stage.js",

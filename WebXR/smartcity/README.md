@@ -56,6 +56,51 @@ Certification") for gamification, and the real certification line for grounding.
   the hub HUD and on a level-up in the results card.
 - **Local leaderboards**: per-station, this-device-only, arcade-cabinet style.
 
+## Training records (the enterprise layer)
+
+The gamified profile above exists to motivate; the training record exists to prove. Every
+finished run also appends one immutable entry to `WebXR/shared/records.js`'s local attempt log:
+station, category, the real union/certification it maps to, score, stars, corrections, unsafe
+actions, hold breaks, time vs par, the learner's crew tag and level, and a pass verdict. The
+pass rule is stated once in code and used everywhere: **two or more stars with no unsafe
+action** (which is the engine's own 2-star gate — at most one correction, inside 1.5× par).
+
+The **Training records** overlay (intro screen, or say "records") is the instructor view:
+a per-category roll-up of stations passed / attempts, the attempt table with PASS/FAIL, and
+two exports —
+
+- **CSV** (RFC 4180) for a spreadsheet, HR system or a union hall's training register;
+- **xAPI 1.0.3 statements** (JSON) for a Learning Record Store — `passed`/`failed` verbs,
+  the station as a `simulation` activity, score/success/duration in `result`, and the
+  category, certification, stars and unsafe-action count as extensions. `homePage` is the
+  page's own origin, so activity and actor ids are stable per deployment.
+
+Records never leave the browser on their own; export is the hand-off. No biometric or
+inferred-emotional signal is recorded — see `WebXR/shared/orbis-stable.js` for the wider
+safety posture that any future adaptive-content integration has to respect.
+
+## Quality gate
+
+`.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
+all five headless checkers (`check_smartcity`, `check_trades`, `check_holodeck`,
+`check_records`, `check_orbis_stable`) and a freshness check that regenerates `sims-meta.js`
+and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
+silent deploy of old code.
+
+## Enterprise readiness — what is and isn't here
+
+Done: deterministic assessment engine, real certification mapping per station, auditable
+per-attempt records with standard exports, accessibility basics (dialog semantics, live
+region, focus rings, reduced motion), input escaping, a CI gate, and single-file/static
+deployment with no server dependency.
+
+Not yet done, in the order it should happen: (1) learner identity beyond a self-typed crew
+tag — SSO or an LMS launch (LTI 1.3) so records are attributable; (2) a live LRS endpoint
+behind the xAPI export instead of a file download; (3) subject-matter review of every
+station by a qualified practitioner in that trade before any record is treated as
+certification evidence; (4) a headset pass on Meta Quest for frame rate, comfort and
+in-headset legibility; (5) the remaining stations toward 33 per category.
+
 ## Running it
 
 - **Modular source** (what you edit): open `index.html` from any static server —

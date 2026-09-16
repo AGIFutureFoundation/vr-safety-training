@@ -169,6 +169,7 @@ export function mountUI(store, actions) {
           h("button", { id: "enter-vr", disabled: intro.vrDisabled, onClick: actions.enterVr }, intro.vrText),
           h("button", { id: "enter-flat", onClick: actions.enterFlat }, "Free explore"),
           h("button", { id: "view-leaderboard", onClick: actions.viewLeaderboard }, "Leaderboards"),
+          h("button", { id: "view-records", onClick: actions.viewRecords }, "Training records"),
           h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
           h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
@@ -193,6 +194,46 @@ export function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
+  }
+
+  /** Instructor/compliance view: every attempt with its pass verdict, per
+   * category, with CSV and xAPI export. Built from plain data — never an
+   * HTML string — so a crew tag can't inject markup here. */
+  function RecordsCard() {
+    const rec = useSlice("records");
+    if (!rec.visible) return h("div", { className: "overlay", id: "records", hidden: true });
+    const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }); };
+    const fmtTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    return h("div", { className: "overlay", id: "records", role: "dialog", "aria-modal": "true", "aria-label": "Training records" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · training records"),
+        h("h1", null, "Training Records"),
+        h("p", { className: "lead" },
+          `${rec.total} attempt${rec.total === 1 ? "" : "s"} on this device · ${rec.passes} passed. ` +
+          "A pass is two or more stars with no unsafe action. Records stay in this browser until you export them."),
+        rec.summary.length > 0 && h("div", { className: "rec-grid" },
+          rec.summary.map((s) => h("div", { className: "rec-tile", key: s.category },
+            h("div", { className: "rec-cat" }, s.category),
+            h("div", { className: "rec-big" }, `${s.stationsPassed}/${s.stations}`),
+            h("div", { className: "rec-sub" }, `stations passed · ${s.passes}/${s.attempts} attempts · best ${"★".repeat(s.bestStars)}`)))),
+        rec.rows.length
+          ? h("div", { className: "rec-table-wrap" },
+              h("table", { className: "lb-table rec-table" },
+                h("thead", null, h("tr", null,
+                  h("th", null, "When"), h("th", null, "Learner"), h("th", null, "Station"), h("th", null, "Category"),
+                  h("th", null, "Score"), h("th", null, "Stars"), h("th", null, "Corr."), h("th", null, "Unsafe"),
+                  h("th", null, "Time"), h("th", null, "Result"))),
+                h("tbody", null, rec.rows.map((r) => h("tr", { key: r.id, className: r.passed ? "pass" : "fail" },
+                  h("td", null, fmtDate(r.at)), h("td", null, r.learner), h("td", null, r.simName), h("td", null, r.category),
+                  h("td", null, r.score), h("td", null, "★".repeat(r.stars)), h("td", null, r.errors), h("td", null, r.hazardHits),
+                  h("td", null, fmtTime(r.seconds)),
+                  h("td", null, h("span", { className: `rec-verdict ${r.passed ? "pass" : "fail"}` }, r.passed ? "PASS" : "FAIL")))))))
+          : h("p", { className: "lb-empty" }, "No attempts recorded yet — finish any station and it will appear here."),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
+          h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
+          h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
+          h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
   }
 
   function EditorStepRow({ step, i, count }) {
@@ -283,7 +324,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(EditorCard));
+      h(IntroCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
