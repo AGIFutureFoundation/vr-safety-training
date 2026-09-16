@@ -6,6 +6,7 @@ import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, dow
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
+import { Platform } from "../../shared/platform.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -491,7 +492,10 @@ async function enterSim(id, { briefed = false } = {}) {
       if (flat) store.patch("flat", { feedback: { kind: fb.kind, html: fb.text }, picked: [...s.sequence] });
       syncHud();
     },
-    onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
+    onStepComplete: (step, s) => {
+      state.api.onStepComplete?.(step, s);
+      Platform.progress({ sim: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
+    },
     onHazard: (hitId, s) => { state.api.onHazard?.(hitId, s); },
     onFinish: (s, summary) => showResults(s, summary),
   });
@@ -708,6 +712,45 @@ function startRobot(room) {
   }, 320);
 }
 window.__smartcityRobot = { get active() { return robot.active; }, get skill() { return robot.skill; }, get log() { return robot.log; }, get running() { return !!robot.timer; } };
+
+// -------------------------------------------------------- platform channel
+//
+// A hosting platform that has established the learner's identity (from its
+// own origin) can drive this app and hear back — open a station, return to
+// the hub, ask for state or the roster. See shared/platform.js and
+// smartcity/catalog.json for the full surface.
+
+function platformState() {
+  const s = state.session;
+  return {
+    room: state.room ? { id: state.room.id, name: state.room.name ?? state.room.title, category: state.room.category ?? null } : null,
+    mode: state.mode, intro: store.get().intro.visible,
+    stepIndex: s ? s.index : null, stepCount: s ? s.steps.length : null, stepId: s?.step?.id ?? null,
+    score: s?.score ?? null, finished: s?.finished ?? null,
+    level: Progress.level, levelName: Progress.levelName, xp: Progress.data.xp, learner: Progress.playerName,
+    records: TrainingRecords.count(), lrs: Lrs.status().configured,
+  };
+}
+Platform.init({
+  app: "smartcity",
+  onCommand(type, data, reply) {
+    if (type === "smartcitix:open") {
+      const id = String(data.sim ?? data.room ?? "");
+      if (!simExists(id)) { reply("smartcitix:state", { ...platformState(), error: `unknown station: ${id}` }); return; }
+      if (!renderer.xr.isPresenting) state.mode = "flat";
+      if (store.get().intro.visible) { store.patch("intro", { visible: false }); pendingEnter = null; deepLink = null; Sfx.ensure(); }
+      store.patch("results", { visible: false }); store.patch("prebrief", { visible: false });
+      state.paused = false;
+      enterSim(id, { briefed: !!data.skipBrief });
+      return;
+    }
+    if (type === "smartcitix:hub") { if (!store.get().intro.visible) backToHub(); reply("smartcitix:state", platformState()); return; }
+    if (type === "smartcitix:status") { reply("smartcitix:state", platformState()); return; }
+    if (type === "smartcitix:catalog") {
+      reply("smartcitix:catalog", { stations: allSims().map((s) => ({ id: s.id, name: s.name, category: s.category ?? null, trade: s.trade ?? null, certification: s.certification ?? null, flat: !!s.flat, custom: !!s.isCustom })) });
+    }
+  },
+});
 
 // ------------------------------------------------------------- pre-brief
 //

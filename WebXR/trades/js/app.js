@@ -5,6 +5,7 @@ import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
+import { Platform } from "../../shared/platform.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -341,7 +342,10 @@ function enterRoom(id, { briefed = false } = {}) {
       }
       syncHud();
     },
-    onStepComplete: (step, s) => { state.api.onStepComplete?.(step, s); },
+    onStepComplete: (step, s) => {
+      state.api.onStepComplete?.(step, s);
+      Platform.progress({ room: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
+    },
     onHazard: (hitId, s) => { state.api.onHazard?.(hitId, s); },
     onFinish: (s, summary) => showResults(s, summary),
   });
@@ -350,6 +354,31 @@ function enterRoom(id, { briefed = false } = {}) {
   setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. Follow the procedure in order; the room will tell you why each step matters.`);
   syncHud();
 }
+
+// Host platform channel (see shared/platform.js): open a room, return to the
+// hub, report state — only from the origin that established the learner.
+Platform.init({
+  app: "trades",
+  onCommand(type, data, reply) {
+    const s = state.session;
+    const snapshot = () => ({
+      room: state.room ? { id: state.room.id, name: state.room.title, category: state.room.category ?? "Trade Skills Simulator" } : null,
+      intro: !ui.intro.hidden, stepIndex: s ? s.index : null, stepCount: s ? s.steps.length : null, score: s?.score ?? null, finished: s?.finished ?? null,
+      level: Progress.level, levelName: Progress.levelName, xp: Progress.data.xp, learner: Progress.playerName, records: TrainingRecords.count(),
+    });
+    if (type === "smartcitix:open") {
+      const id = String(data.room ?? data.sim ?? "");
+      if (!ROOM_BY_ID[id]) { reply("smartcitix:state", { ...snapshot(), error: `unknown room: ${id}` }); return; }
+      if (!ui.intro.hidden) begin();
+      ui.results.hidden = true; hidePreBrief(); state.paused = false;
+      enterRoom(id, { briefed: !!data.skipBrief });
+      return;
+    }
+    if (type === "smartcitix:hub") { if (ui.intro.hidden) { ui.results.hidden = true; enterHub(); } reply("smartcitix:state", snapshot()); return; }
+    if (type === "smartcitix:status") { reply("smartcitix:state", snapshot()); return; }
+    if (type === "smartcitix:catalog") reply("smartcitix:catalog", { rooms: ROOMS.map((r) => ({ id: r.id, name: r.title, trade: r.trade, category: r.category ?? "Trade Skills Simulator", certification: r.certification ?? null })) });
+  },
+});
 
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 let pendingBrief = null;

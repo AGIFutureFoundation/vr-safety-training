@@ -1,0 +1,2014 @@
+{
+  "protocol": 1,
+  "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
+  "generatedAt": "2026-09-16",
+  "apps": {
+    "smartcity": {
+      "entry": "smartcity/index.html",
+      "dist": "smartcity/dist/smartcity-x.html",
+      "modes": [
+        "flat",
+        "ar",
+        "vr"
+      ],
+      "stations": 21
+    },
+    "trades": {
+      "entry": "trades/index.html",
+      "dist": "trades/dist/trade-skills-simulator.html",
+      "modes": [
+        "flat",
+        "vr"
+      ],
+      "rooms": 9
+    },
+    "holodeck": {
+      "entry": "holodeck/index.html",
+      "dist": "holodeck/dist/holodeck.html",
+      "modes": [
+        "flat",
+        "vr"
+      ],
+      "note": "prompt-generated procedures; can load any SmartCiti.X station by name"
+    },
+    "portal": {
+      "entry": "portal/index.html"
+    }
+  },
+  "categories": [
+    {
+      "name": "Energy & Power",
+      "stations": [
+        "charge-point",
+        "solar-deck",
+        "line-truck"
+      ]
+    },
+    {
+      "name": "Mobility & Transit",
+      "stations": [
+        "signal-cabinet",
+        "flight-deck",
+        "track-access"
+      ]
+    },
+    {
+      "name": "Water & Environmental",
+      "stations": [
+        "valve-vault",
+        "abatement-chamber"
+      ]
+    },
+    {
+      "name": "Connectivity & Telecom",
+      "stations": [
+        "splice-node",
+        "tower-climb"
+      ]
+    },
+    {
+      "name": "Emergency Services",
+      "stations": [
+        "triage-point"
+      ]
+    },
+    {
+      "name": "Manufacturing & Automation",
+      "stations": [
+        "robot-cell"
+      ]
+    },
+    {
+      "name": "Building Systems & Facilities",
+      "stations": [
+        "chiller-plant",
+        "boiler-room",
+        "elevator-pit"
+      ]
+    },
+    {
+      "name": "Construction & Structural Trades",
+      "stations": [
+        "steel-erector",
+        "crane-yard",
+        "trench-box"
+      ]
+    },
+    {
+      "name": "Entertainment & Live Events",
+      "stations": [
+        "rigging-loft"
+      ]
+    },
+    {
+      "name": "Maritime & Ports",
+      "stations": [
+        "dock-crane"
+      ]
+    },
+    {
+      "name": "Environmental Monitoring",
+      "stations": [
+        "hunters-point"
+      ]
+    },
+    {
+      "name": "Trade Skills Simulator",
+      "stations": [
+        "electrical",
+        "salon",
+        "kitchen",
+        "phlebotomy",
+        "welding",
+        "devops",
+        "plumbing"
+      ]
+    },
+    {
+      "name": "Surface Prep & Coatings",
+      "stations": [
+        "pressure-washer",
+        "paint-sprayer"
+      ]
+    }
+  ],
+  "launch": {
+    "identity": "?learner=<name>&learner_id=<id>&learner_home=<https origin>  or  postMessage({type:'smartcitix:identity', learner, learner_id, learner_home})",
+    "lrs": "?lrs_endpoint=<https url>  or  postMessage({type:'smartcitix:lrs', endpoint, auth})",
+    "robot": "?robot=<skill 0..1>  runs a software trainee (SmartCiti.X)",
+    "commands": [
+      "smartcitix:open {sim|room, skipBrief?}",
+      "smartcitix:hub",
+      "smartcitix:status",
+      "smartcitix:catalog"
+    ],
+    "events": [
+      "smartcitix:ready",
+      "smartcitix:state",
+      "smartcitix:catalog",
+      "smartcitix:progress",
+      "smartcitix:record",
+      "smartcitix:credential"
+    ],
+    "trust": "commands are accepted, and events sent, only to the origin given as learner_home"
+  },
+  "profile": {
+    "levels": 33,
+    "tiers": [
+      "Trainee",
+      "Apprentice",
+      "Journeyworker",
+      "Technician",
+      "Specialist",
+      "Foreman",
+      "Master",
+      "Certified Master",
+      "Legend"
+    ],
+    "shared": [
+      "smartcity",
+      "trades",
+      "holodeck"
+    ]
+  },
+  "records": {
+    "formats": [
+      "csv",
+      "xapi-1.0.3",
+      "open-badges-2.0"
+    ],
+    "passRule": "stars >= 2 and no unsafe action"
+  },
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "charge-point",
+      "name": "Charge Point",
+      "title": "SmartCiti.X~ Charge Point VR",
+      "tagline": "DC fast-charger fault isolation, capacitor discharge and busbar torque",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "EV service technician",
+      "union": null,
+      "certification": "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
+      "accent": "#59c97b",
+      "parSeconds": 205,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "dc-clear",
+        "name": "DC Clear",
+        "note": "Full isolation with the DC link proven dead"
+      },
+      "index": "01",
+      "flat": false,
+      "system": "Grid Certification",
+      "currency": "GRID",
+      "ranks": [
+        "Bay Apprentice",
+        "Bay Technician",
+        "Commissioning Tech",
+        "Fault Lead",
+        "Grid Certified"
+      ],
+      "awards": [
+        {
+          "id": "dc-clear",
+          "name": "DC Clear",
+          "note": "Prove the link dead before the guard comes off"
+        },
+        {
+          "id": "hands-off",
+          "name": "Hands Off",
+          "note": "Finish without one unsafe contact"
+        },
+        {
+          "id": "torque-spec",
+          "name": "Torque to Spec",
+          "note": "Hold every graded value near centre band"
+        },
+        {
+          "id": "full-wait",
+          "name": "Full Wait",
+          "note": "Never break the discharge hold"
+        },
+        {
+          "id": "first-time",
+          "name": "First Time Right",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "bay-turnaround",
+          "name": "Bay Turnaround",
+          "note": "Restore service inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=charge-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "signal-cabinet",
+      "name": "Signal Cabinet",
+      "title": "SmartCiti.X~ Signal Cabinet VR",
+      "tagline": "Intersection work zone, controller fault diagnosis and conflict monitor integrity",
+      "category": "Mobility & Transit",
+      "domain": "Mobility",
+      "trade": "Traffic signal technician",
+      "union": null,
+      "certification": "IBEW — IMSA Level II Traffic Signal Technician certified",
+      "accent": "#f2c14b",
+      "parSeconds": 215,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge"
+      ],
+      "badge": {
+        "id": "intersection-safe",
+        "name": "Intersection Safe",
+        "note": "Zone, flash, repair and restore with nothing defeated"
+      },
+      "index": "02",
+      "flat": false,
+      "system": "Intersection Command",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Cabinet Trainee",
+        "Signal Technician",
+        "Intersection Tech",
+        "Controller Lead",
+        "Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "monitor-intact",
+          "name": "Monitor Intact",
+          "note": "Never touch the conflict monitor bypass"
+        },
+        {
+          "id": "fault-finder",
+          "name": "Fault Finder",
+          "note": "Find all three cabinet faults with no misdiagnosis"
+        },
+        {
+          "id": "timing-true",
+          "name": "Timing True",
+          "note": "Set clearance and conflict values near centre band"
+        },
+        {
+          "id": "zone-first",
+          "name": "Zone First",
+          "note": "Clean run with the work zone never skipped"
+        },
+        {
+          "id": "peak-hour",
+          "name": "Peak Hour",
+          "note": "Back in service inside 80% of par"
+        },
+        {
+          "id": "ten-straight",
+          "name": "Ten Straight",
+          "note": "Ten correct actions without a correction"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=signal-cabinet"
+    },
+    {
+      "app": "smartcity",
+      "id": "valve-vault",
+      "name": "Valve Vault",
+      "title": "SmartCiti.X~ Valve Vault VR",
+      "tagline": "Permit-required confined space entry: isolation, atmosphere, roles and retrieval",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "Water utility operator",
+      "union": null,
+      "certification": "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant",
+      "accent": "#4fa3ff",
+      "parSeconds": 225,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "entry-authority",
+        "name": "Entry Authority",
+        "note": "Permit to exit with every control in place"
+      },
+      "index": "03",
+      "flat": false,
+      "system": "Entry Authority",
+      "currency": "PERMIT",
+      "ranks": [
+        "Entrant",
+        "Attendant",
+        "Entry Supervisor",
+        "Rescue Trained",
+        "Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "atmosphere-first",
+          "name": "Atmosphere First",
+          "note": "Test in the correct order, every time"
+        },
+        {
+          "id": "no-hero",
+          "name": "No Hero Entry",
+          "note": "Never make an unprotected rescue entry"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Hold the meter steady on every gas check"
+        },
+        {
+          "id": "permit-perfect",
+          "name": "Permit Perfect",
+          "note": "No corrections anywhere in the entry"
+        },
+        {
+          "id": "held-comms",
+          "name": "Held Comms",
+          "note": "Never drop the continuous communication hold"
+        },
+        {
+          "id": "shift-ready",
+          "name": "Shift Ready",
+          "note": "Complete the entry inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=valve-vault"
+    },
+    {
+      "app": "smartcity",
+      "id": "solar-deck",
+      "name": "Solar Deck",
+      "title": "SmartCiti.X~ Solar Deck VR",
+      "tagline": "Rooftop array and battery commissioning: fall protection, rapid shutdown and string test",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Solar / BESS technician",
+      "union": null,
+      "certification": "IBEW — NABCEP PV Installation Professional certified",
+      "accent": "#ffb648",
+      "parSeconds": 215,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "rooftop-authority",
+        "name": "Rooftop Authority",
+        "note": "Anchored, isolated and commissioned with no shortcut"
+      },
+      "index": "04",
+      "flat": false,
+      "system": "Rooftop Authority",
+      "currency": "SOLAR",
+      "ranks": [
+        "Roof Hand",
+        "Array Technician",
+        "String Tester",
+        "Commissioning Lead",
+        "Rooftop Certified"
+      ],
+      "awards": [
+        {
+          "id": "tied-off",
+          "name": "Tied Off",
+          "note": "Anchor before the edge, every run"
+        },
+        {
+          "id": "string-true",
+          "name": "String True",
+          "note": "Hold every electrical reading near band centre"
+        },
+        {
+          "id": "shutdown-clean",
+          "name": "Rapid Shutdown",
+          "note": "Isolate DC and AC without a misstep"
+        },
+        {
+          "id": "daylight",
+          "name": "Daylight Run",
+          "note": "Commission inside 80% of par"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "array-streak",
+          "name": "Array Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=solar-deck"
+    },
+    {
+      "app": "smartcity",
+      "id": "splice-node",
+      "name": "Splice Node",
+      "title": "SmartCiti.X~ Splice Node VR",
+      "tagline": "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "Fibre optic technician",
+      "union": null,
+      "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
+      "accent": "#a079ff",
+      "parSeconds": 200,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge"
+      ],
+      "badge": {
+        "id": "photon-guild",
+        "name": "Photon Guild",
+        "note": "Dark fibre proven, splice inside budget"
+      },
+      "index": "05",
+      "flat": false,
+      "system": "Photon Guild",
+      "currency": "PHOTON",
+      "ranks": [
+        "Cable Hand",
+        "Splicer",
+        "Node Technician",
+        "Loss Budget Lead",
+        "Guild Certified"
+      ],
+      "awards": [
+        {
+          "id": "dark-proven",
+          "name": "Dark Proven",
+          "note": "Confirm the fibre is dark before it is ever exposed"
+        },
+        {
+          "id": "sub-tenth",
+          "name": "Sub-Tenth",
+          "note": "Cleave and splice near the centre of every band"
+        },
+        {
+          "id": "eyes-intact",
+          "name": "Eyes Intact",
+          "note": "Never look into a fibre end"
+        },
+        {
+          "id": "single-pass",
+          "name": "Single Pass",
+          "note": "No corrections across the whole splice"
+        },
+        {
+          "id": "night-window",
+          "name": "Night Window",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-bench",
+          "name": "Clean Bench",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=splice-node"
+    },
+    {
+      "app": "smartcity",
+      "id": "flight-deck",
+      "name": "Flight Deck",
+      "title": "SmartCiti.X~ Flight Deck VR",
+      "tagline": "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Drone / UAS ground technician",
+      "union": null,
+      "certification": "Teamsters — FAA Part 107 remote pilot certificate holder",
+      "accent": "#4fd1ff",
+      "parSeconds": 240,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "airside-clear",
+        "name": "Airside Clear",
+        "note": "Full ramp procedure with rotors safed throughout"
+      },
+      "index": "06",
+      "flat": false,
+      "system": "Airside Command",
+      "currency": "AIRSIDE",
+      "ranks": [
+        "Ramp Trainee",
+        "Ground Crew",
+        "Ramp Lead",
+        "Release Certifier",
+        "Airside Command"
+      ],
+      "awards": [
+        {
+          "id": "rotor-safe",
+          "name": "Rotor Safe",
+          "note": "Never approach an unlocked rotor"
+        },
+        {
+          "id": "battery-handler",
+          "name": "Battery Handler",
+          "note": "Every cell check inside spec"
+        },
+        {
+          "id": "clean-release",
+          "name": "Clean Release",
+          "note": "Pre-flight signed off with no corrections"
+        },
+        {
+          "id": "route-clean",
+          "name": "Route Planned Clean",
+          "note": "Plan the delivery route in the correct order, first try"
+        },
+        {
+          "id": "turnaround",
+          "name": "Fast Turnaround",
+          "note": "Release the aircraft inside 80% of par"
+        },
+        {
+          "id": "first-flight",
+          "name": "First Flight",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ramp-streak",
+          "name": "Ramp Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=flight-deck"
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access",
+      "name": "Track Access",
+      "title": "SmartCiti.X~ Track Access VR",
+      "tagline": "Track possession, third-rail isolation and lookout protection",
+      "category": "Mobility & Transit",
+      "domain": "Mobility",
+      "trade": "Rail track worker",
+      "union": null,
+      "certification": "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
+      "accent": "#f2894b",
+      "parSeconds": 220,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "possession-clear",
+        "name": "Possession Clear",
+        "note": "Full possession taken and handed back with nothing skipped"
+      },
+      "index": "07",
+      "flat": false,
+      "system": "Right-of-Way",
+      "currency": "TRACK",
+      "ranks": [
+        "Track Trainee",
+        "Track Worker",
+        "Possession Lead",
+        "Protection Officer",
+        "Right-of-Way Certified"
+      ],
+      "awards": [
+        {
+          "id": "clear-of-rail",
+          "name": "Clear of Rail",
+          "note": "Never cross the fouling point unprotected"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Every track measurement near band centre"
+        },
+        {
+          "id": "possession-clean",
+          "name": "Clean Possession",
+          "note": "Take and hand back possession with no correction"
+        },
+        {
+          "id": "engineering-hours",
+          "name": "Engineering Hours",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-possession",
+          "name": "First Possession",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=track-access"
+    },
+    {
+      "app": "smartcity",
+      "id": "triage-point",
+      "name": "Triage Point",
+      "title": "SmartCiti.X~ Triage Point VR",
+      "tagline": "START mass-casualty triage: rapid assessment, tagging and the golden hour",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "EMT / paramedic",
+      "union": null,
+      "certification": "IAEP — NREMT-Paramedic certified",
+      "accent": "#f0645b",
+      "parSeconds": 210,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "golden-hour",
+        "name": "Golden Hour",
+        "note": "Every casualty triaged and tagged inside protocol time"
+      },
+      "index": "08",
+      "flat": false,
+      "system": "Golden Hour",
+      "currency": "TRIAGE",
+      "ranks": [
+        "First Responder",
+        "Triage Trained",
+        "Scene Lead",
+        "Mass Casualty Officer",
+        "Golden Hour Certified"
+      ],
+      "awards": [
+        {
+          "id": "sixty-second",
+          "name": "Sixty Second",
+          "note": "Triage every casualty inside protocol time"
+        },
+        {
+          "id": "correct-tags",
+          "name": "Correct Tags",
+          "note": "No casualty mistagged"
+        },
+        {
+          "id": "scene-safe",
+          "name": "Scene Safe",
+          "note": "Never enter the hazard zone unprotected"
+        },
+        {
+          "id": "no-second-look",
+          "name": "No Second Look",
+          "note": "Tag every casualty in a single pass"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Hold the airway check the full duration"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=triage-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "robot-cell",
+      "name": "Robot Cell",
+      "title": "SmartCiti.X~ Robot Cell VR",
+      "tagline": "Six-axis robot cell lockout, light-curtain integrity and teach-pendant pick-and-place programming",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Automation / robotics technician",
+      "union": null,
+      "certification": "UAW — ANSI/RIA R15.06 robot safety qualified",
+      "accent": "#a079ff",
+      "parSeconds": 260,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "cell-locked",
+        "name": "Cell Locked",
+        "note": "Full lockout with the light curtain never defeated"
+      },
+      "index": "09",
+      "flat": false,
+      "system": "Cell Lockout",
+      "currency": "CELL",
+      "ranks": [
+        "Cell Trainee",
+        "Cell Technician",
+        "Automation Lead",
+        "Cell Auditor",
+        "Cell Certified"
+      ],
+      "awards": [
+        {
+          "id": "curtain-intact",
+          "name": "Curtain Intact",
+          "note": "Never bypass the light curtain"
+        },
+        {
+          "id": "teach-safe",
+          "name": "Teach Safe",
+          "note": "Every teach-mode move inside the reduced-speed band"
+        },
+        {
+          "id": "energy-zero",
+          "name": "Energy Zero",
+          "note": "Verify zero energy before the guard opens"
+        },
+        {
+          "id": "path-taught",
+          "name": "Path Taught Clean",
+          "note": "Teach every waypoint in the correct order, first try"
+        },
+        {
+          "id": "line-down",
+          "name": "Line Down Window",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-pass",
+          "name": "First Pass",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "cell-streak",
+          "name": "Cell Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=robot-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "chiller-plant",
+      "name": "Chiller Plant",
+      "title": "SmartCiti.X~ Chiller Plant VR",
+      "tagline": "District chiller isolation, refrigerant recovery and confined mechanical space entry",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems",
+      "trade": "HVAC / refrigeration technician",
+      "union": null,
+      "certification": "UA — EPA Section 608 Universal refrigerant certified",
+      "accent": "#4fd1ff",
+      "parSeconds": 220,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "turn",
+        "sequence"
+      ],
+      "badge": {
+        "id": "cold-chain-clear",
+        "name": "Cold Chain Clear",
+        "note": "Full isolation and recovery with atmosphere proven safe"
+      },
+      "index": "10",
+      "flat": false,
+      "system": "Cold Chain Command",
+      "currency": "COLD",
+      "ranks": [
+        "Plant Trainee",
+        "Chiller Technician",
+        "Refrigerant Certified",
+        "Plant Lead",
+        "Cold Chain Command"
+      ],
+      "awards": [
+        {
+          "id": "atmosphere-clear",
+          "name": "Atmosphere Clear",
+          "note": "Prove oxygen level before entry every time"
+        },
+        {
+          "id": "zero-leak",
+          "name": "Zero Leak",
+          "note": "Recover refrigerant with no venting to atmosphere"
+        },
+        {
+          "id": "pressure-true",
+          "name": "Pressure True",
+          "note": "Hold every reading near band centre"
+        },
+        {
+          "id": "shutdown-window",
+          "name": "Shutdown Window",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-cycle",
+          "name": "Clean Cycle",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "plant-streak",
+          "name": "Plant Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=chiller-plant"
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb",
+      "name": "Tower Climb",
+      "title": "SmartCiti.X~ Tower Climb VR",
+      "tagline": "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",
+      "category": "Connectivity & Telecom",
+      "domain": "Telecom",
+      "trade": "Telecom / broadcast tower technician",
+      "union": null,
+      "certification": "CWA — NATE Tower Climber Level II certified",
+      "accent": "#ff7a1a",
+      "parSeconds": 240,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "summit-authority",
+        "name": "Summit Authority",
+        "note": "Every clip made, every tool tethered, no unprotected air"
+      },
+      "index": "11",
+      "flat": false,
+      "system": "Summit Authority",
+      "currency": "SUMMIT",
+      "ranks": [
+        "Ground Hand",
+        "Tower Climber",
+        "Rigger",
+        "Climb Lead",
+        "Summit Certified"
+      ],
+      "awards": [
+        {
+          "id": "always-clipped",
+          "name": "100% Tied Off",
+          "note": "Never move without an active connection"
+        },
+        {
+          "id": "rf-cleared",
+          "name": "RF Cleared",
+          "note": "Survey and lock out the RF before every ascent"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Hold every reading near band centre"
+        },
+        {
+          "id": "clear-summit",
+          "name": "Clear Summit",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-ascent",
+          "name": "First Ascent",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "summit-streak",
+          "name": "Summit Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tower-climb"
+    },
+    {
+      "app": "smartcity",
+      "id": "steel-erector",
+      "name": "Steel Erector",
+      "title": "SmartCiti.X~ Steel Erector VR",
+      "tagline": "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworker / structural steel connector",
+      "union": null,
+      "certification": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
+      "accent": "#ffcc00",
+      "parSeconds": 235,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "iron-certified",
+        "name": "Iron Certified",
+        "note": "Every connection made with fall protection live and the tag line in hand"
+      },
+      "index": "12",
+      "flat": false,
+      "system": "Iron Certified",
+      "currency": "IRON",
+      "ranks": [
+        "Ground Rigger",
+        "Connector",
+        "Raising Gang Lead",
+        "Bolt-Up Certified",
+        "Iron Certified"
+      ],
+      "awards": [
+        {
+          "id": "always-anchored",
+          "name": "Always Anchored",
+          "note": "Never work the leading edge unclipped"
+        },
+        {
+          "id": "tag-line-control",
+          "name": "Tag Line Control",
+          "note": "Guide every member with the tag line, hand free of the steel"
+        },
+        {
+          "id": "torque-true",
+          "name": "Torque True",
+          "note": "Hold the plumb reading near band centre"
+        },
+        {
+          "id": "raising-gang",
+          "name": "Raising Gang",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-connection",
+          "name": "Clean Connection",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "iron-streak",
+          "name": "Iron Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=steel-erector"
+    },
+    {
+      "app": "smartcity",
+      "id": "crane-yard",
+      "name": "Crane Yard",
+      "title": "SmartCiti.X~ Crane Yard VR",
+      "tagline": "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Mobile crane operator / rigger",
+      "union": null,
+      "certification": "IUOE — NCCCO Mobile Crane Operator certified",
+      "accent": "#2f8fdb",
+      "parSeconds": 275,
+      "steps": 15,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "rigging-command",
+        "name": "Rigging Command",
+        "note": "Set, verified against the chart and landed with the swing radius clear"
+      },
+      "index": "13",
+      "flat": false,
+      "system": "Rigging Command",
+      "currency": "RIG",
+      "ranks": [
+        "Yard Hand",
+        "Rigger",
+        "Signal Person",
+        "Load Chart Certified",
+        "Rigging Command"
+      ],
+      "awards": [
+        {
+          "id": "solid-set",
+          "name": "Solid Set",
+          "note": "Level the outriggers and clear the chart before every pick"
+        },
+        {
+          "id": "swing-clear",
+          "name": "Swing Clear",
+          "note": "Never stand in the load path or the swing radius"
+        },
+        {
+          "id": "rigging-precise",
+          "name": "Rigging Precise",
+          "note": "Hold every gauge reading near band centre"
+        },
+        {
+          "id": "zone-set",
+          "name": "Zone Set Clean",
+          "note": "Teach the anti-collision boundary in the correct order, first try"
+        },
+        {
+          "id": "quick-pick",
+          "name": "Quick Pick",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "rig-streak",
+          "name": "Rig Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=crane-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "trench-box",
+      "name": "Trench Box",
+      "title": "SmartCiti.X~ Trench Box VR",
+      "tagline": "Excavation shoring: competent-person inspection, atmosphere testing and protective systems",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Laborer / excavation and shoring",
+      "union": null,
+      "certification": "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
+      "accent": "#7ed321",
+      "parSeconds": 220,
+      "steps": 15,
+      "hazards": 4,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "ground-authority",
+        "name": "Ground Authority",
+        "note": "Trench inspected, tested and protected before anyone steps below grade"
+      },
+      "index": "14",
+      "flat": false,
+      "system": "Ground Authority",
+      "currency": "TRENCH",
+      "ranks": [
+        "Laborer",
+        "Excavation Hand",
+        "Competent Person",
+        "Shoring Lead",
+        "Ground Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-unshored",
+          "name": "Never Unshored",
+          "note": "No one enters before the protective system is placed"
+        },
+        {
+          "id": "atmosphere-first",
+          "name": "Atmosphere First",
+          "note": "Test the air before every entry, no exceptions"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Hold the gas meter steady near band centre"
+        },
+        {
+          "id": "grade-programmed",
+          "name": "Grade Programmed Clean",
+          "note": "Teach every grade-control waypoint in order, first try"
+        },
+        {
+          "id": "quick-dig",
+          "name": "Quick Dig",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-cut",
+          "name": "Clean Cut",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "trench-streak",
+          "name": "Trench Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=trench-box"
+    },
+    {
+      "app": "smartcity",
+      "id": "boiler-room",
+      "name": "Boiler Room",
+      "title": "SmartCiti.X~ Boiler Room VR",
+      "tagline": "Boiler lockout, confined-space firebox entry and a controlled re-light",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Stationary engineer / steamfitter",
+      "union": null,
+      "certification": "IUOE — state-licensed Stationary Engineer, boiler operation",
+      "accent": "#d83a2a",
+      "parSeconds": 245,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn"
+      ],
+      "badge": {
+        "id": "steam-certified",
+        "name": "Steam Certified",
+        "note": "Isolated, cooled, tested and relit with nothing skipped"
+      },
+      "index": "15",
+      "flat": false,
+      "system": "Steam Certified",
+      "currency": "STEAM",
+      "ranks": [
+        "Fireman",
+        "Boiler Operator",
+        "Stationary Engineer",
+        "Plant Lead",
+        "Steam Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-and-clear",
+          "name": "Cold and Clear",
+          "note": "Never open the port before pressure and atmosphere are proven safe"
+        },
+        {
+          "id": "double-block",
+          "name": "Double Block Certified",
+          "note": "Isolate the fuel train in the correct order every time"
+        },
+        {
+          "id": "steam-precise",
+          "name": "Steam Precise",
+          "note": "Hold every reading near band centre"
+        },
+        {
+          "id": "fast-relight",
+          "name": "Fast Relight",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "steam-streak",
+          "name": "Steam Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=boiler-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "elevator-pit",
+      "name": "Elevator Pit",
+      "title": "SmartCiti.X~ Elevator Pit VR",
+      "tagline": "Pit and car-top entry: main line lockout, dual stop switches and governor inspection",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic",
+      "union": null,
+      "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
+      "accent": "#2dd4bf",
+      "parSeconds": 235,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "sequence"
+      ],
+      "badge": {
+        "id": "pit-certified",
+        "name": "Pit Certified",
+        "note": "Pit and car-top entry with both stop switches confirmed"
+      },
+      "index": "16",
+      "flat": false,
+      "system": "Shaftway Authority",
+      "currency": "SHAFT",
+      "ranks": [
+        "Pit Hand",
+        "Car Mechanic",
+        "Adjuster",
+        "Inspector Lead",
+        "Shaftway Certified"
+      ],
+      "awards": [
+        {
+          "id": "dual-switch",
+          "name": "Dual Switch Certified",
+          "note": "Never enter the pit or car top unconfirmed"
+        },
+        {
+          "id": "governor-sharp",
+          "name": "Governor Sharp",
+          "note": "Hold every reading near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restore power in the correct order, no correction"
+        },
+        {
+          "id": "shift-turnaround",
+          "name": "Shift Turnaround",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "pit-streak",
+          "name": "Pit Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=elevator-pit"
+    },
+    {
+      "app": "smartcity",
+      "id": "abatement-chamber",
+      "name": "Abatement Chamber",
+      "title": "SmartCiti.X~ Abatement Chamber VR",
+      "tagline": "Containment integrity, wet-method removal and the three-stage decon airlock",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Asbestos / lead abatement worker",
+      "union": null,
+      "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
+      "accent": "#c9e265",
+      "parSeconds": 245,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "containment-sealed",
+        "name": "Containment Sealed",
+        "note": "Full containment and decon with no shortcut on either"
+      },
+      "index": "17",
+      "flat": false,
+      "system": "Containment Command",
+      "currency": "ABATE",
+      "ranks": [
+        "Bag Handler",
+        "Removal Tech",
+        "Containment Lead",
+        "Decon Supervisor",
+        "Containment Certified"
+      ],
+      "awards": [
+        {
+          "id": "negative-hold",
+          "name": "Negative Hold",
+          "note": "Never enter before pressure is confirmed"
+        },
+        {
+          "id": "wet-clean",
+          "name": "Wet and Clean",
+          "note": "Hold every pressure reading near band centre"
+        },
+        {
+          "id": "decon-disciplined",
+          "name": "Decon Disciplined",
+          "note": "Clear the airlock stages with no correction"
+        },
+        {
+          "id": "shift-clearance",
+          "name": "Shift Clearance",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-air",
+          "name": "Clean Air",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "chamber-streak",
+          "name": "Chamber Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=abatement-chamber"
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft",
+      "name": "Rigging Loft",
+      "title": "SmartCiti.X~ Rigging Loft VR",
+      "tagline": "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment",
+      "trade": "Theatrical rigger (IATSE)",
+      "union": null,
+      "certification": "IATSE — ETCP Certified Rigger, Arena",
+      "accent": "#ff6fae",
+      "parSeconds": 265,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "fly-qualified",
+        "name": "Fly Qualified",
+        "note": "Full fly cue with the arbor locked and the deck clear throughout"
+      },
+      "index": "18",
+      "flat": false,
+      "system": "Fly Certified",
+      "currency": "FLY",
+      "ranks": [
+        "Deck Hand",
+        "Rail Operator",
+        "Fly Rigger",
+        "Head Flyman",
+        "Fly Certified"
+      ],
+      "awards": [
+        {
+          "id": "clear-deck",
+          "name": "Clear Deck",
+          "note": "Never stand under a loaded line"
+        },
+        {
+          "id": "true-balance",
+          "name": "True Balance",
+          "note": "Hold every arbor reading near band centre"
+        },
+        {
+          "id": "cued-clean",
+          "name": "Cued Clean",
+          "note": "Call the fly cue with no correction"
+        },
+        {
+          "id": "cue-taught",
+          "name": "Cue Taught Clean",
+          "note": "Teach the automation cue in the correct order, first try"
+        },
+        {
+          "id": "half-hour",
+          "name": "Half-Hour Call",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-drop",
+          "name": "No Drop",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "rail-streak",
+          "name": "Rail Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rigging-loft"
+    },
+    {
+      "app": "smartcity",
+      "id": "line-truck",
+      "name": "Line Truck",
+      "title": "SmartCiti.X~ Line Truck VR",
+      "tagline": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Outside / overhead lineworker (IBEW)",
+      "union": null,
+      "certification": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
+      "accent": "#fcee21",
+      "parSeconds": 250,
+      "steps": 15,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "turn",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "storm-ready",
+        "name": "Storm Ready",
+        "note": "Full de-energized procedure with rubber proven and grounds applied in order"
+      },
+      "index": "19",
+      "flat": false,
+      "system": "Storm Command",
+      "currency": "VOLT",
+      "ranks": [
+        "Ground Hand",
+        "Apprentice Lineman",
+        "Journeyman Lineman",
+        "Crew Lead",
+        "Storm Certified"
+      ],
+      "awards": [
+        {
+          "id": "rubber-proven",
+          "name": "Rubber Proven",
+          "note": "Never approach the conductor unprotected"
+        },
+        {
+          "id": "dead-line-true",
+          "name": "Dead Line True",
+          "note": "Hold every test reading near band centre"
+        },
+        {
+          "id": "grounds-clean",
+          "name": "Grounds Clean",
+          "note": "Apply every ground in the correct order"
+        },
+        {
+          "id": "crawler-programmed",
+          "name": "Crawler Programmed Clean",
+          "note": "Teach the line-crawler path in order, first try"
+        },
+        {
+          "id": "storm-window",
+          "name": "Storm Window",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-flash",
+          "name": "No Flash",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "crew-streak",
+          "name": "Crew Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=line-truck"
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "name": "Dock Crane",
+      "title": "SmartCiti.X~ Dock Crane VR",
+      "tagline": "Container lift: lashing release order, twist-lock verification and wind-limit discipline",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Longshoreman / container-crane operator",
+      "union": null,
+      "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
+      "accent": "#3a7ca5",
+      "parSeconds": 240,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "waterfront-certified",
+        "name": "Waterfront Certified",
+        "note": "Full lift cycle with the red zone clear and every lock verified"
+      },
+      "index": "20",
+      "flat": false,
+      "system": "Waterfront Authority",
+      "currency": "DOCK",
+      "ranks": [
+        "Lashing Hand",
+        "Signal Person",
+        "Crane Operator",
+        "Gang Boss",
+        "Waterfront Certified"
+      ],
+      "awards": [
+        {
+          "id": "red-zone-clear",
+          "name": "Red Zone Clear",
+          "note": "Never stand under a suspended load"
+        },
+        {
+          "id": "true-limits",
+          "name": "True Limits",
+          "note": "Hold every reading near band centre"
+        },
+        {
+          "id": "locks-verified",
+          "name": "Locks Verified",
+          "note": "Clear the twist-lock check with no correction"
+        },
+        {
+          "id": "agv-routed-clean",
+          "name": "AGV Routed Clean",
+          "note": "Teach the AGV route in order, first try"
+        },
+        {
+          "id": "vessel-window",
+          "name": "Vessel Window",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-respot",
+          "name": "No Respot",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "gang-streak",
+          "name": "Gang Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dock-crane"
+    },
+    {
+      "app": "smartcity",
+      "id": "hunters-point",
+      "name": "Hunters Point Briefing",
+      "title": "SmartCiti.X~ Hunters Point Briefing VR",
+      "tagline": "A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Environmental monitoring technician",
+      "union": null,
+      "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
+      "accent": "#8fd18b",
+      "parSeconds": 300,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence"
+      ],
+      "badge": {
+        "id": "data-integrity",
+        "name": "Data Integrity",
+        "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
+      },
+      "index": "21",
+      "flat": true,
+      "system": "Site Awareness",
+      "currency": "SAMPLE",
+      "ranks": [
+        "Site Aware",
+        "Sampler",
+        "Field Lead",
+        "QA Verifier",
+        "Integrity Certified"
+      ],
+      "awards": [
+        {
+          "id": "sourced",
+          "name": "Sourced",
+          "note": "Site status and oversight answered clean"
+        },
+        {
+          "id": "no-substitution",
+          "name": "No Substitution",
+          "note": "Never chose a shortcut over an honest sample"
+        },
+        {
+          "id": "crew-ready",
+          "name": "Crew Ready",
+          "note": "Trades and training questions answered without correction"
+        },
+        {
+          "id": "clean-sheet",
+          "name": "Clean Sheet",
+          "note": "No corrections anywhere in the check"
+        },
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "Finish the check inside 70% of par — you read the dossier, not the options"
+        }
+      ],
+      "sources": [
+        {
+          "label": "EPA Superfund site profile",
+          "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+        },
+        {
+          "label": "SF.gov — HPNS cleanup",
+          "url": "https://www.sf.gov/hpns-cleanup-learn"
+        },
+        {
+          "label": "U.S. Department of Justice press release (2026)",
+          "url": "https://www.justice.gov/opa/pr/tetra-tech-ec-inc-agrees-pay-57m-settle-false-claims-act-allegations-falsifying-soil-test"
+        },
+        {
+          "label": "Greenaction — Bayview Hunters Point",
+          "url": "https://greenaction.org/bayview-hunters-point/"
+        },
+        {
+          "label": "Greenaction — in memory of Marie Harrison",
+          "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+        },
+        {
+          "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+        }
+      ],
+      "deepLink": "smartcity/index.html?sim=hunters-point"
+    },
+    {
+      "app": "trades",
+      "id": "electrical",
+      "name": "Isolation Bay",
+      "title": "Isolation Bay",
+      "tagline": "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Electrical worker",
+      "union": null,
+      "certification": null,
+      "accent": "#5aa9ff",
+      "parSeconds": 165,
+      "steps": 9,
+      "hazards": 3,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "zero-energy",
+        "name": "Zero Energy Verified",
+        "note": "Perfect live-dead-live on the first run"
+      },
+      "deepLink": "trades/index.html?room=electrical"
+    },
+    {
+      "app": "trades",
+      "id": "salon",
+      "name": "Colour Studio",
+      "title": "Colour Studio",
+      "tagline": "Oxidative colour service from consultation to rinse, with station sanitation",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Hair stylist / colourist",
+      "union": null,
+      "certification": null,
+      "accent": "#e2739b",
+      "parSeconds": 185,
+      "steps": 10,
+      "hazards": 3,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "clean-chair",
+        "name": "Clean Chair",
+        "note": "Full colour service with no sanitation breach"
+      },
+      "deepLink": "trades/index.html?room=salon"
+    },
+    {
+      "app": "trades",
+      "id": "kitchen",
+      "name": "Hot Line",
+      "title": "Hot Line",
+      "tagline": "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Commercial cook",
+      "union": null,
+      "certification": null,
+      "accent": "#f2894b",
+      "parSeconds": 195,
+      "steps": 10,
+      "hazards": 5,
+      "stepKinds": [
+        "hold",
+        "select",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "Full service with no cross-contamination and a controlled flare-up"
+      },
+      "deepLink": "trades/index.html?room=kitchen"
+    },
+    {
+      "app": "trades",
+      "id": "phlebotomy",
+      "name": "Draw Station",
+      "title": "Draw Station",
+      "tagline": "Two-identifier check, venipuncture technique and the order of draw",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Phlebotomy technician",
+      "union": null,
+      "certification": null,
+      "accent": "#53c1c9",
+      "parSeconds": 200,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "order-of-draw",
+        "name": "Order of Draw",
+        "note": "Correct draw sequence with no additive carryover"
+      },
+      "deepLink": "trades/index.html?room=phlebotomy"
+    },
+    {
+      "app": "trades",
+      "id": "welding",
+      "name": "Weld Bay",
+      "title": "Weld Bay",
+      "tagline": "Hot work permit, fume extraction, lens shade, bead control and fire watch",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Welder / fabricator",
+      "union": null,
+      "certification": null,
+      "accent": "#f2c14b",
+      "parSeconds": 210,
+      "steps": 10,
+      "hazards": 5,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "fire-watch",
+        "name": "Fire Watch Held",
+        "note": "Permit to fire watch with no hot-work shortcut"
+      },
+      "deepLink": "trades/index.html?room=welding"
+    },
+    {
+      "app": "trades",
+      "id": "devops",
+      "name": "Deploy Bay",
+      "title": "Deploy Bay",
+      "tagline": "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Platform engineer / SRE",
+      "union": null,
+      "certification": null,
+      "accent": "#7c6fea",
+      "parSeconds": 195,
+      "steps": 10,
+      "hazards": 3,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "clean-promote",
+        "name": "Clean Promote",
+        "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
+      },
+      "deepLink": "trades/index.html?room=devops"
+    },
+    {
+      "app": "trades",
+      "id": "plumbing",
+      "name": "Rough-In Bay",
+      "title": "Rough-In Bay",
+      "tagline": "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
+      "category": "Trade Skills Simulator",
+      "domain": null,
+      "trade": "Plumber / Pipefitter",
+      "union": null,
+      "certification": null,
+      "accent": "#cf8b3c",
+      "parSeconds": 215,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "hold",
+        "sequence",
+        "drag",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "zero-leaks",
+        "name": "Zero Leaks",
+        "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
+      },
+      "deepLink": "trades/index.html?room=plumbing"
+    },
+    {
+      "app": "trades",
+      "id": "pressure-washer",
+      "name": "Wash-Down Yard",
+      "title": "Wash-Down Yard",
+      "tagline": "Contained pressure-wash of a painted wall and apron: nozzle, pressure, standoff, coverage, recovery",
+      "category": "Surface Prep & Coatings",
+      "domain": null,
+      "trade": "Laborer — surface prep",
+      "union": "LIUNA — Laborers' International Union of North America",
+      "certification": "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)",
+      "accent": "#f2c14b",
+      "parSeconds": 230,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-recovery",
+        "name": "Clean Recovery",
+        "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
+      },
+      "deepLink": "trades/index.html?room=pressure-washer"
+    },
+    {
+      "app": "trades",
+      "id": "paint-sprayer",
+      "name": "Coatings Bay",
+      "title": "Coatings Bay",
+      "tagline": "Airless spray in a pre-1978 room: lead test, containment, tip, pressure, pattern, coverage, film build",
+      "category": "Surface Prep & Coatings",
+      "domain": null,
+      "trade": "Painter / coatings applicator",
+      "union": "IUPAT — International Union of Painters and Allied Trades; hazmat & environmental crews (LIUNA)",
+      "certification": "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews",
+      "accent": "#6fb0e6",
+      "parSeconds": 240,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "even-build",
+        "name": "Even Build",
+        "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
+      },
+      "deepLink": "trades/index.html?room=paint-sprayer"
+    }
+  ]
+}

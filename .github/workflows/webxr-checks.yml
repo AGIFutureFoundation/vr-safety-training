@@ -29,6 +29,7 @@ jobs:
       - name: Generated files are fresh
         run: |
           node tools/gen_sims_meta.mjs
+          node tools/gen_catalog.mjs
           python3 tools/bundle_webxr.py
-          git diff --exit-code --stat -- WebXR/smartcity/js/sims-meta.js WebXR/*/dist \
-            || { echo "::error::sims-meta.js or a dist bundle is stale — run 'node tools/gen_sims_meta.mjs && python3 tools/bundle_webxr.py' and commit."; exit 1; }
+          git diff --exit-code --stat -I "generatedAt" -- WebXR/smartcity/js/sims-meta.js WebXR/smartcity/catalog.json WebXR/*/dist \
+            || { echo "::error::sims-meta.js, catalog.json or a dist bundle is stale — run 'node tools/gen_sims_meta.mjs && node tools/gen_catalog.mjs && python3 tools/bundle_webxr.py' and commit."; exit 1; }
