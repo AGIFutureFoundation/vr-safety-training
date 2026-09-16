@@ -75,6 +75,40 @@ screen groups all stations by category and shows both: the in-game system name (
 Certification") for gamification, and the real certification line for grounding. See
 `js/sims-meta.js` (generated — do not hand-edit; run `node tools/gen_sims_meta.mjs`).
 
+## Robot trainees and synthetic training data
+
+`WebXR/shared/robot.js` is a software learner. It sees exactly what the procedure engine
+exposes (step kind and targets, gauge/track/turn state, score, streak, errors) and emits one
+action at a time — select, commit a gauge, press, release, rotate, drop — parameterised by a
+single **skill** in [0, 1]: an expert never misses; a novice lapses, commits gauges off
+centre, lets holds go early, and sometimes reaches for a seeded hazard. Everything is seeded
+and reproducible.
+
+Two ways to run it:
+
+- **Headless, at scale** — `node tools/robot_train.mjs` plays every SmartCiti.X station and
+  Trade Skills room and writes `tools/out/robot/`: `manifest.json` (per station, the
+  **optimal skill** — the level at which the success rate lands in a target band, 60–80% by
+  default, found by bisection — plus the whole difficulty curve behind it), `episodes.jsonl`
+  (one line per episode: score, stars, corrections, unsafe actions, pass/fail, awards) and
+  `trajectories.jsonl` (one line per decision: observation, action, reward, feedback) —
+  synthetic training data across all the trades, regenerable from the seed. Flags: `--apps`,
+  `--only`, `--skills`, `--episodes`, `--band`, `--seed`, `--out`, `--no-trajectories`.
+  A default run (30 stations, 900 episodes, ~22k decisions) takes about two seconds.
+- **Live, in the browser** — open any station with `?robot=<skill>` (e.g.
+  `index.html?sim=charge-point&robot=0.85`) and the agent runs it through the same click,
+  press, rotate and drop paths a learner uses, so the scene, HUD, records and ladder react
+  as they would to a person; its decisions are on `window.__smartcityRobot.log`. A robot
+  run records to the training log like any other attempt — clear or filter it before
+  exporting a learner's record.
+
+The optimal-skill number is the honest use of this: it tells you how hard a station is
+relative to its siblings, which stations an expert still fails (over-tuned) or a random
+agent already passes (under-tuned), and where a learner's cohort should be pitched. The
+trajectories are what a model would train on to imitate or grade procedure execution;
+they are engine-level (ids, states, rewards), not pixels. `tools/check_robot.mjs` gates
+the layer in CI.
+
 ## Gamification 2.0 — flipped classroom and portable credentials
 
 The first run of any walkable station on screen is preceded by a **pre-brief**: the

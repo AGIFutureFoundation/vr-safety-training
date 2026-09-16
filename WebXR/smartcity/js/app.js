@@ -5,6 +5,7 @@ import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
+import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -366,6 +367,7 @@ function placeGauge(targetObj) {
 // ------------------------------------------------------------ scene lifecycle
 
 function clearRoom() {
+  stopRobot();
   if (state.roomRoot) { disposeTree(state.roomRoot); state.roomRoot = null; }
   if (state.stage) { disposeTree(state.stage.root); state.stage = null; }
   state.api = null;
@@ -432,8 +434,9 @@ async function enterSim(id, { briefed = false } = {}) {
     return;
   }
   // First run of a station on screen: offer the pre-brief before anything
-  // is built, so the timer isn't running while the learner reads.
-  if (!briefed && !flat && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
+  // is built, so the timer isn't running while the learner reads. A robot
+  // trainee has no brief to read.
+  if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
@@ -493,6 +496,7 @@ async function enterSim(id, { briefed = false } = {}) {
     onFinish: (s, summary) => showResults(s, summary),
   });
   state.session.start();
+  if (robot.active) startRobot(room);
   if (!flat) faceFirstTask();
   setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
   syncHud();
@@ -665,6 +669,45 @@ function flatSyncStep(step, s) {
   });
 }
 function flatSelect(id) { if (state.session && !state.paused) activate(id); }
+
+// ---------------------------------------------------------- robot trainee
+//
+// ?robot=<skill 0..1> lets a software agent (shared/robot.js) run the station
+// live in the browser through the same activate / press / rotate / drop
+// paths a learner's clicks take, so the scene, HUD, records and ladder all
+// react exactly as they would to a person. Every decision is logged with its
+// observation to window.__smartcityRobot.log — the same trajectory shape
+// tools/robot_train.mjs writes headlessly at scale.
+
+const robotParam = new URLSearchParams(location.search).get("robot");
+const robot = { active: robotParam != null, skill: Math.max(0, Math.min(1, parseFloat(robotParam) || 0.85)), timer: null, agent: null, log: [], seed: 1 };
+function stopRobot() { if (robot.timer) { clearInterval(robot.timer); robot.timer = null; } robot.agent = null; }
+function startRobot(room) {
+  stopRobot();
+  const session = state.session;
+  robot.agent = new RobotAgent({
+    skill: robot.skill, seed: robot.seed++,
+    hitIds: Object.keys(state.hits), hazardIds: Object.keys(room.hazards ?? {}).filter((id) => state.hits[id]),
+  });
+  robot.log = [];
+  setRail("neutral", `<b>Robot trainee</b> running ${escapeHtml(room.name ?? room.title)} at skill ${robot.skill.toFixed(2)} — every decision is logged to <code>window.__smartcityRobot.log</code>.`);
+  robot.timer = setInterval(() => {
+    const s = state.session;
+    if (!s || s !== session || s.finished || state.paused) { if (!s || s.finished) stopRobot(); return; }
+    const before = s.score;
+    const obs = observe(s);
+    const a = robot.agent.act(s);
+    if (a.type === "wait") return;
+    if (a.type === "select") activate(a.id);
+    else if (a.type === "commit") { if (s.gauge) s.gauge.t = a.at; activate(a.id); }
+    else if (a.type === "press") pressStart(a.id);
+    else if (a.type === "release") pressEnd();
+    else if (a.type === "rotate") { lastActivatedId = a.id; s.rotate(a.id, a.delta); syncHud(); }
+    else if (a.type === "drop") { lastActivatedId = a.id; s.dropAt(a.id, a.distance); syncHud(); }
+    robot.log.push({ t: +s.elapsed.toFixed(2), obs, action: a, reward: s.score - before });
+  }, 320);
+}
+window.__smartcityRobot = { get active() { return robot.active; }, get skill() { return robot.skill; }, get log() { return robot.log; }, get running() { return !!robot.timer; } };
 
 // ------------------------------------------------------------- pre-brief
 //
