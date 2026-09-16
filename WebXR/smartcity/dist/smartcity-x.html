@@ -134,6 +134,7 @@
   kbd{ background:var(--raised); border:1px solid var(--edge); border-radius:3px;
     padding:1px 6px; font-family:var(--cond); font-size:12px; }
   .fineprint{ font-size:12px; color:var(--muted); line-height:1.55; margin:0 }
+  .fineprint a{ color:var(--accent) }
   .namerow{ margin:14px 0 4px }
   .namerow label{ display:block; margin-bottom:5px }
   .namerow input{ width:180px; background:var(--raised); border:1px solid var(--edge); border-radius:4px;
@@ -764,12 +765,22 @@ const COMBO_TIERS = [
   { at: MAX_COMBO, label: "Unstoppable" },
 ];
 
-const STORE_KEY = "trades-sim-v1";
+// One profile, shared on purpose: SmartCiti.X, Trade Skills Simulator and
+// Holodeck's real-station mode all import this same module, so a learner's
+// XP/level/badges/player name are a single cross-app total rather than
+// three separate ones — a room/sim's own record (data.rooms[id]) can't
+// collide between apps because every id in the whole vocabulary is unique.
+// The key name predates that: it was written when only Trade Skills
+// existed. Renamed to say what it actually is now, with a one-time,
+// one-way migration from the old key so nobody's saved progress vanishes.
+const STORE_KEY = "vr-training-profile-v1";
+const LEGACY_STORE_KEY = "trades-sim-v1";
+const NAME_KEY = "vr-training-profile-name";
+const LEGACY_NAME_KEY = "trades-sim-name";
 
 // ---------------------------------------------------------------- progression
 
 const MAX_BOARD_ENTRIES = 8;
-const NAME_KEY = "trades-sim-name";
 
 const Progress = {
   data: { xp: 0, rooms: {}, badges: [], boards: {} },
@@ -777,7 +788,11 @@ const Progress = {
 
   load() {
     try {
-      const raw = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+      let raw = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+      if (!raw) {
+        const legacy = localStorage.getItem(LEGACY_STORE_KEY);
+        if (legacy) { raw = JSON.parse(legacy); localStorage.setItem(STORE_KEY, legacy); }
+      }
       if (raw && typeof raw === "object") {
         this.data = {
           xp: raw.xp | 0,
@@ -788,7 +803,7 @@ const Progress = {
       }
     } catch (_) { /* private mode or blocked storage — run unsaved */ }
     try {
-      const savedName = localStorage.getItem(NAME_KEY);
+      const savedName = localStorage.getItem(NAME_KEY) ?? localStorage.getItem(LEGACY_NAME_KEY);
       if (savedName) this.playerName = savedName.slice(0, 12);
     } catch (_) { /* ignore */ }
     return this.data;
@@ -805,7 +820,7 @@ const Progress = {
 
   reset() {
     this.data = { xp: 0, rooms: {}, badges: [], boards: {} };
-    try { localStorage.removeItem(STORE_KEY); } catch (_) { /* ignore */ }
+    try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEGACY_STORE_KEY); } catch (_) { /* ignore */ }
   },
 
   /**
@@ -831,11 +846,14 @@ const Progress = {
     return { rank: rank < 0 ? null : rank + 1, board: trimmed, madeBoard: rank >= 0 };
   },
 
-  /** Combined standing across every simulator this device has played — the
-   * suite-wide leaderboard that rewards breadth across the whole SmartCiti.X campus. */
-  suiteStanding() {
+  /** Combined standing across every simulator this device has played. Pass
+   * this app's own room/sim ids to scope it to that app's own catalog —
+   * every id in the shared profile is unique, so without a scope this
+   * silently spans every app built on this engine, not just the caller's. */
+  suiteStanding(ids) {
+    const entries = ids ? ids.map((id) => this.data.rooms[id]).filter(Boolean) : Object.values(this.data.rooms);
     let totalScore = 0, totalRuns = 0, totalStars = 0, simsPlayed = 0;
-    for (const state of Object.values(this.data.rooms)) {
+    for (const state of entries) {
       if (!state.runs) continue;
       simsPlayed += 1;
       totalRuns += state.runs | 0;
@@ -844,6 +862,15 @@ const Progress = {
     }
     return { totalScore, totalRuns, totalStars, simsPlayed };
   },
+
+  /** Rooms/sims cleared and stars earned, scoped to one app's own id list —
+   * the shared profile's own completedRooms/totalStars getters below are
+   * the true cross-network totals; use these two instead anywhere a count
+   * is shown against that app's own catalog size (an "X/N" readout), so a
+   * learner who has also played a sibling app doesn't see an inflated or
+   * over-100% figure. */
+  roomsClearedIn(ids) { return ids.filter((id) => (this.data.rooms[id]?.stars ?? 0) > 0).length; },
+  starsIn(ids) { return ids.reduce((n, id) => n + (this.data.rooms[id]?.stars ?? 0), 0); },
 
   get level() { return 1 + Math.floor(Math.sqrt(this.data.xp / 120)); },
   get xpIntoLevel() {
@@ -875,6 +902,9 @@ const Progress = {
   },
 
   simBadges(id) { return this.roomState(id).badges ?? []; },
+  // True cross-network totals — every room/sim ever cleared in any app
+  // sharing this profile, not just the caller's own catalog. Use
+  // roomsClearedIn()/starsIn() above for an app-scoped "X/N" readout.
   get completedRooms() { return Object.values(this.data.rooms).filter((r) => r.stars > 0).length; },
   get totalStars() { return Object.values(this.data.rooms).reduce((n, r) => n + (r.stars | 0), 0); },
 
@@ -2980,6 +3010,9 @@ const INTRO_FOOT_HTML = `
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
   display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
+  <p class="fineprint">Your level, XP and badges carry over to <a href="../trades/index.html">Trade Skills Simulator</a>,
+  seven more union-trade rooms (electrician, welder, plumber and more) built on the same engine —
+  one shared apprentice record across both.</p>
   <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
 `;
 
@@ -3360,8 +3393,8 @@ function syncHud() {
       step: "Choose a district",
       cue: "Select a simulator to begin its own procedure and its own rank system.",
       score: "----", comboText: "", comboHot: false, comboFire: false,
-      count: `${Progress.completedRooms}/${allSims().length} CLEARED`,
-      fillPct: (Progress.completedRooms / allSims().length) * 100,
+      count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
+      fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
       timer: "",
       gestureVisible: false,
     });
@@ -3706,8 +3739,8 @@ function renderTourFooter() {
 // ----------------------------------------------------------------- leaderboards
 
 function renderLeaderboards() {
-  const standing = Progress.suiteStanding();
   const roster = allSims();
+  const standing = Progress.suiteStanding(roster.map((s) => s.id));
   const cards = roster.map((room) => {
     const board = Progress.leaderboard(room.id);
     const rows = board.length
@@ -4354,7 +4387,7 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / allSims().length), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length), 10);
   vrTexture.needsUpdate = true;
 }
 
@@ -4435,7 +4468,8 @@ function speakBrief() {
 }
 
 function speakStatus() {
-  return `${Progress.completedRooms} of ${allSims().length} stations cleared. ${Progress.totalStars} stars.`;
+  const ids = allSims().map((s) => s.id);
+  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars.`;
 }
 
 const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';

@@ -9,6 +9,9 @@ import { Progress } from "../../shared/game.js";
 // the floor without opening a menu.
 
 export function buildHub(root, rooms) {
+  // Progress is a profile shared with SmartCiti.X and Holodeck — scope the
+  // plaque's "X/N rooms cleared" to this app's own rooms (see shared/game.js).
+  const roomIds = rooms.map((r) => r.id);
   const hits = {};
   const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
   const R = 5.6;
@@ -71,7 +74,7 @@ export function buildHub(root, rooms) {
         g.font = `600 ${Math.round(h * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
         g.fillStyle = HUD.accent;
         g.textAlign = "right";
-        g.fillText(`${p.totalStars} ★`, w * 0.93, h * 0.37);
+        g.fillText(`${p.starsIn(roomIds)} ★`, w * 0.93, h * 0.37);
         g.textAlign = "left";
         // XP bar
         g.fillStyle = "#1d2833"; g.fillRect(w * 0.07, h * 0.52, w * 0.86, h * 0.07);
@@ -79,7 +82,7 @@ export function buildHub(root, rooms) {
         g.fillRect(w * 0.07, h * 0.52, w * 0.86 * Math.max(0.02, into / span), h * 0.07);
         g.fillStyle = HUD.muted;
         g.font = `${Math.round(h * 0.085)}px Arial, sans-serif`;
-        g.fillText(`${p.data.xp} XP · ${p.completedRooms}/${rooms.length} rooms cleared`, w * 0.07, h * 0.68);
+        g.fillText(`${p.data.xp} XP · ${p.roomsClearedIn(roomIds)}/${rooms.length} rooms cleared`, w * 0.07, h * 0.68);
         const badges = p.data.badges.length ? p.data.badges.join(" · ") : "no badges yet";
         g.fillStyle = HUD.text;
         g.fillText(badges.length > 46 ? badges.slice(0, 45) + "…" : badges, w * 0.07, h * 0.83);

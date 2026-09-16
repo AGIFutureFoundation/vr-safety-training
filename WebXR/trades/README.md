@@ -53,6 +53,22 @@ most one correction, one otherwise. Three stars earns the room's badge
 Clean Promote, Zero Leaks). XP and stars persist per browser and show on the
 hub pillar and on each doorway.
 
+## One profile, two apps
+
+Level, XP, badges and player name are a single shared record with
+[SmartCiti.X](../smartcity/) — both apps import the same `Progress` object
+from `shared/game.js`, so a learner who plays both is one apprentice, not
+two. Each room's own record (stars, best score, per-room rank) stays
+separate because every room/sim id in either app's catalog is unique; only
+the totals are pooled. Every "X/N" readout in this app's own UI (the hub
+count, the HUD fill bar, the spoken status line) is scoped to this app's
+own seven rooms, never inflated by rooms cleared on the SmartCiti.X side —
+see `Progress.roomsClearedIn()`/`starsIn()` in `shared/game.js` if adding a
+new one. The intro screen links to SmartCiti.X and back, since the two
+catalogs cover different, complementary trades (this app is closer to
+skilled-trade/service work; SmartCiti.X leans municipal/heavy-industrial)
+rather than duplicating each other.
+
 ## Voice assist
 
 The 🎙 Voice button (Web Speech API) is navigation and narration only, never a

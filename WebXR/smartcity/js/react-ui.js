@@ -52,6 +52,9 @@ const INTRO_FOOT_HTML = `
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
   display glasses cannot run immersive WebXR, so on those this page is a flat phone view.</p>
+  <p class="fineprint">Your level, XP and badges carry over to <a href="../trades/index.html">Trade Skills Simulator</a>,
+  seven more union-trade rooms (electrician, welder, plumber and more) built on the same engine —
+  one shared apprentice record across both.</p>
   <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
 `;
 

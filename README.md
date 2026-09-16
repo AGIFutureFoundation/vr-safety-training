@@ -77,7 +77,9 @@ Run the modular source over HTTP from `WebXR/trades/`, or deploy the generated
 single file `WebXR/trades/dist/trade-skills-simulator.html`. `?room=<id>` deep
 links a single trade. Build it with `python3 tools/bundle_webxr.py trades`;
 check the content with `node tools/check_trades.mjs`. Details in
-[`WebXR/trades/README.md`](WebXR/trades/README.md).
+[`WebXR/trades/README.md`](WebXR/trades/README.md). It shares one apprentice
+profile (level, XP, badges) with its sibling app `WebXR/smartcity/` — see
+that README's "One profile, two apps" section.
 
 ## Meta Quest and web deployment
 

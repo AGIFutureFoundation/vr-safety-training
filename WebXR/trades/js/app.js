@@ -13,6 +13,10 @@ import { ROOM_PLUMBING } from "./rooms/plumbing.js";
 
 const ROOMS = [ROOM_ELECTRICAL, ROOM_SALON, ROOM_KITCHEN, ROOM_PHLEBOTOMY, ROOM_WELDING, ROOM_DEVOPS, ROOM_PLUMBING];
 const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
+// Progress is a profile shared with SmartCiti.X and Holodeck (see
+// shared/game.js) — scope "X/N" readouts to this app's own rooms so a
+// learner who has also played the sibling app doesn't see an inflated count.
+const ROOM_IDS = ROOMS.map((r) => r.id);
 
 Progress.load();
 
@@ -83,8 +87,8 @@ function syncHud() {
     ui.cue.textContent = "Walk into a doorway to start that room's procedure.";
     ui.score.textContent = String(Progress.data.xp).padStart(4, "0");
     ui.combo.textContent = `LV ${Progress.level}`;
-    ui.count.textContent = `${Progress.completedRooms}/${ROOMS.length} ROOMS · ${Progress.totalStars}★`;
-    ui.fill.style.width = `${(Progress.completedRooms / ROOMS.length) * 100}%`;
+    ui.count.textContent = `${Progress.roomsClearedIn(ROOM_IDS)}/${ROOMS.length} ROOMS · ${Progress.starsIn(ROOM_IDS)}★`;
+    ui.fill.style.width = `${(Progress.roomsClearedIn(ROOM_IDS) / ROOMS.length) * 100}%`;
     ui.timer.textContent = "";
     ui.gesture.hidden = true;
     vrHudDirty = true;
@@ -807,7 +811,7 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / 5), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(ROOM_IDS) / ROOMS.length), 10);
   vrTexture.needsUpdate = true;
 }
 
@@ -960,7 +964,7 @@ function speakBrief() {
 }
 
 function speakStatus() {
-  return `${Progress.completedRooms} of ${ROOMS.length} rooms complete. ${Progress.totalStars} stars. Level ${Progress.level}.`;
+  return `${Progress.roomsClearedIn(ROOM_IDS)} of ${ROOMS.length} rooms complete. ${Progress.starsIn(ROOM_IDS)} stars. Level ${Progress.level}.`;
 }
 
 const VOICE_HELP = 'Say a trade name, "hub," "reset," "hint," "brief," "status," or "help."';

@@ -177,8 +177,8 @@ function syncHud() {
       step: "Choose a district",
       cue: "Select a simulator to begin its own procedure and its own rank system.",
       score: "----", comboText: "", comboHot: false, comboFire: false,
-      count: `${Progress.completedRooms}/${allSims().length} CLEARED`,
-      fillPct: (Progress.completedRooms / allSims().length) * 100,
+      count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
+      fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
       timer: "",
       gestureVisible: false,
     });
@@ -523,8 +523,8 @@ function renderTourFooter() {
 // ----------------------------------------------------------------- leaderboards
 
 function renderLeaderboards() {
-  const standing = Progress.suiteStanding();
   const roster = allSims();
+  const standing = Progress.suiteStanding(roster.map((s) => s.id));
   const cards = roster.map((room) => {
     const board = Progress.leaderboard(room.id);
     const rows = board.length
@@ -1171,7 +1171,7 @@ function drawVrHud() {
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
-  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.completedRooms / allSims().length), 10);
+  g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length), 10);
   vrTexture.needsUpdate = true;
 }
 
@@ -1252,7 +1252,8 @@ function speakBrief() {
 }
 
 function speakStatus() {
-  return `${Progress.completedRooms} of ${allSims().length} stations cleared. ${Progress.totalStars} stars.`;
+  const ids = allSims().map((s) => s.id);
+  return `${Progress.roomsClearedIn(ids)} of ${allSims().length} stations cleared. ${Progress.starsIn(ids)} stars.`;
 }
 
 const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
