@@ -52,6 +52,21 @@ export function newScenarioId() {
 }
 
 /**
+ * The par time a drill gets when its author leaves "Par time" blank: the
+ * base sim's own par, scaled down by how much of the procedure survived the
+ * cut. Shared by buildCustomRoom() (the room that's actually played) and
+ * app.js's customRoomMeta() (the hub-card/roster preview of that same room)
+ * so the two can never quote a different number for the same drill. Takes
+ * plain counts rather than the base sim object itself: customRoomMeta()
+ * only ever has the lightweight SIMS_META entry (a `stepCount` number, no
+ * `steps` array), while buildCustomRoom() has the fully-loaded sim module.
+ */
+export function estimateParSeconds(baseParSeconds, totalSteps, keptSteps) {
+  const fraction = totalSteps ? keptSteps / totalSteps : 1;
+  return Math.max(45, Math.round(baseParSeconds * fraction));
+}
+
+/**
  * Build a full room-shaped object from a base simulator plus a scenario
  * descriptor. The result is a real drop-in room: same build() (so the same
  * 3D station, the same interactables, the same hazards), same gamified
@@ -63,7 +78,6 @@ export function newScenarioId() {
 export function buildCustomRoom(baseSim, entry) {
   const byId = new Map(baseSim.steps.map((s) => [s.id, s]));
   const steps = entry.stepIds.map((id) => byId.get(id)).filter(Boolean);
-  const fraction = baseSim.steps.length ? steps.length / baseSim.steps.length : 1;
   return {
     ...baseSim,
     id: `custom:${entry.id}`,
@@ -72,7 +86,7 @@ export function buildCustomRoom(baseSim, entry) {
     name: entry.name,
     title: `${entry.name} — Custom Drill`,
     tagline: entry.tagline?.trim() || `A custom drill built from ${baseSim.name}: ${steps.length} of ${baseSim.steps.length} steps.`,
-    parSeconds: entry.parSeconds ?? Math.max(45, Math.round(baseSim.parSeconds * fraction)),
+    parSeconds: entry.parSeconds ?? estimateParSeconds(baseSim.parSeconds, baseSim.steps.length, steps.length),
     steps,
     isCustom: true,
     baseId: baseSim.id,

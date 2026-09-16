@@ -248,6 +248,7 @@ export function mountUI(store, actions) {
       id: "speak-btn", type: "button",
       onClick: actions.speakHint,
       title: "Read the current step aloud",
+      "aria-label": "Read the current step aloud",
     }, "🔊");
   }
 

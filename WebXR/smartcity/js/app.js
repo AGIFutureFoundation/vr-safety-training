@@ -5,7 +5,7 @@ import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
-import { CustomScenarios, buildCustomRoom, newScenarioId } from "./scenarios.js";
+import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
 
@@ -51,7 +51,7 @@ function customRoomMeta(entry) {
     name: entry.name,
     title: `${entry.name} — Custom Drill`,
     tagline: entry.tagline?.trim() || `A custom drill built from ${base.name}: ${entry.stepIds.length} of ${base.stepCount} steps.`,
-    parSeconds: entry.parSeconds ?? base.parSeconds,
+    parSeconds: entry.parSeconds ?? estimateParSeconds(base.parSeconds, base.stepCount, entry.stepIds.length),
     isCustom: true,
     baseId: base.id,
     baseName: base.name,
@@ -448,7 +448,10 @@ function faceFirstTask() {
 
 function updateHintForStep(step) {
   hintTargets.length = 0;
-  if (!step) { hint.visible = false; return; }
+  // A "find" step marked noHint is a search-among-decoys exercise (GESTURE_HINTS.find
+  // literally tells the learner "some objects are decoys") — ringing the correct
+  // targets would hand over the answer, so it gets no objective ring at all.
+  if (!step || (step.kind === "find" && step.noHint)) { hint.visible = false; return; }
   const ids = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
   for (const id of ids) if (state.hits[id]) hintTargets.push(state.hits[id]);
   hint.visible = hintTargets.length > 0;
@@ -542,8 +545,21 @@ function renderLeaderboards() {
     <div class="lb-grid">${cards}</div>`;
   store.patch("leaderboard", { html });
 }
-function viewLeaderboard() { renderLeaderboards(); store.patch("leaderboard", { visible: true }); }
-function closeLeaderboard() { store.patch("leaderboard", { visible: false }); }
+// Both reachable mid-run (voice only — there's no button once a session is
+// active), so a session must not keep ticking behind the modal: a hold/track
+// timer would keep counting, and a drag/turn left mid-gesture would drift.
+// Remembering the prior value rather than forcing false on close matters for
+// the hub's own "Leaderboards"/"Create a scenario" buttons, reachable before
+// begin() has ever run — closing the modal there must leave the intro screen
+// exactly as paused as it already was, not wake the camera up behind it.
+let pausedBeforeOverlay = false;
+function viewLeaderboard() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderLeaderboards();
+  store.patch("leaderboard", { visible: true });
+}
+function closeLeaderboard() { state.paused = pausedBeforeOverlay; store.patch("leaderboard", { visible: false }); }
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -592,6 +608,10 @@ function edValidate() {
   if (!ed.baseValue) return "Pick a base simulator first.";
   if (!ed.name.trim()) return "Give the scenario a name.";
   if (!edOrder.some((s) => s.on)) return "Keep at least one step.";
+  // A number input can still hold an unparseable transient value (a bare
+  // "-", for instance) — catch it here rather than silently saving a NaN
+  // par time that would poison every future run's score (timeBonus = NaN).
+  if (ed.par && !Number.isFinite(Number(ed.par))) return "Par time must be a number, or left blank.";
   return null;
 }
 
@@ -644,11 +664,13 @@ function edPlayLibrary(id) { edEnter(`custom:${id}`); }
 function edDeleteLibrary(id) { CustomScenarios.remove(id); invalidateSimsCache(); edRenderLibrary(); }
 
 function openEditor() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
   edPopulateBaseOptions();
   edRenderLibrary();
   store.patch("editor", { visible: true });
 }
-function closeEditor() { store.patch("editor", { visible: false }); }
+function closeEditor() { state.paused = pausedBeforeOverlay; store.patch("editor", { visible: false }); }
 
 // Mirrors the original <input> semantics: every keystroke updates the field
 // as typed (untransformed, so typing "JOHN SMITH" keeps its space), and only
@@ -681,7 +703,12 @@ function nextTourStop() {
   else { state.tour = null; enterHub(); }
 }
 function startTour() {
-  state.mode = "flat";
+  // Only force flat mode when nothing real is presenting — state.mode only
+  // ever becomes "ar"/"vr" once an actual immersive session is live
+  // (startXr()), so overwriting it unconditionally here would desync the
+  // mode flag from a still-running AR/VR session if "tour" is said mid-run,
+  // rather than genuinely switching out of it.
+  if (!renderer.xr.isPresenting) state.mode = "flat";
   state.tour = { i: 0 };
   pendingEnter = SIMS_META[0].id;
   begin();
@@ -910,12 +937,21 @@ function syncTurnVisual() {
 
 let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
 const keys = Object.create(null);
+// SmartCiti.X is the only one of the three apps with real text inputs (the
+// crew-tag name field, the scenario editor's name/tagline/par fields) — WASD,
+// M and Escape must stay text while one of those has focus, not drive the
+// rig, toggle mute, or discard whatever the learner is typing.
+function isTypingTarget(e) {
+  const tag = e.target?.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
 addEventListener("keydown", (e) => {
+  if (isTypingTarget(e)) return;
   keys[e.code] = true;
   if (e.code === "Escape" && state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
 });
-addEventListener("keyup", (e) => { keys[e.code] = false; });
+addEventListener("keyup", (e) => { if (!isTypingTarget(e)) keys[e.code] = false; });
 
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
@@ -1141,7 +1177,7 @@ function drawVrHud() {
 
 // -------------------------------------------------------------------- intro
 
-const deepLink = new URLSearchParams(location.search).get("sim");
+let deepLink = new URLSearchParams(location.search).get("sim");
 let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
   store.patch("intro", { visible: false });
@@ -1153,7 +1189,11 @@ function begin() {
     store.patch("scaleRow", { visible: true });
   }
   const target = pendingEnter ?? deepLink;
+  // One-shot, like pendingEnter: otherwise the next bare begin() — e.g.
+  // enterFlat() from the voice "hub" command once no session is active —
+  // would silently re-enter the ?sim= station instead of landing on the hub.
   pendingEnter = null;
+  deepLink = null;
   if (target && simExists(target)) enterSim(target);
   else enterHub();
 }
