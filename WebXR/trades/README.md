@@ -67,7 +67,10 @@ see `Progress.roomsClearedIn()`/`starsIn()` in `shared/game.js` if adding a
 new one. The intro screen links to SmartCiti.X and back, since the two
 catalogs cover different, complementary trades (this app is closer to
 skilled-trade/service work; SmartCiti.X leans municipal/heavy-industrial)
-rather than duplicating each other.
+rather than duplicating each other. It also links to Holodeck, which shares
+the same profile and can load real SmartCiti.X stations from a prompt, and
+to [`../portal/`](../portal/index.html), a static map of all four WebXR apps
+in this repository.
 
 ## Voice assist
 
