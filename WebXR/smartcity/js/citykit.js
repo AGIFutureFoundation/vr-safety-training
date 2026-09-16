@@ -25,6 +25,94 @@ export const CITY = {
   good: 0x59c97b,
 };
 
+// ------------------------------------------------------------ surface textures
+//
+// Tiling canvas textures for the large flat surfaces (plaza deck, atrium
+// floor) that previously read as one flat colour. Generated once per build,
+// owned by the material they're attached to (userData.ownTexture/ownMaterial)
+// so disposeTree() frees them with the room. Every canvas call is guarded the
+// same way kit.js's gradientFill is, so the headless checkers' 2D-context stub
+// never throws even though nothing in the checker path actually calls these.
+
+/** A repeating CanvasTexture drawn by `draw(g, w, h)`. */
+export function surfaceTexture(draw, o = {}) {
+  const px = o.px ?? 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = px; canvas.height = px;
+  const g = canvas.getContext("2d");
+  draw(g, px, px);
+  const tex = new THREE.CanvasTexture(canvas);
+  if (THREE.RepeatWrapping !== undefined) { tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; }
+  tex.repeat?.set?.(o.repeat ?? 4, o.repeat ?? 4);
+  tex.anisotropy = 8;
+  if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** A standard material carrying its own (disposable) texture map. */
+export function texturedMat(tex, o = {}) {
+  const m = new THREE.MeshStandardMaterial({
+    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? 0.85, metalness: o.metal ?? 0.05,
+    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1, emissiveMap: o.glow ? tex : null,
+  });
+  m.userData.ownMaterial = true;
+  m.userData.ownTexture = true;
+  return m;
+}
+
+/**
+ * Cast-concrete plaza paving: a cool base with per-tile tonal variation, a fine
+ * grain, saw-cut seam lines on a grid, and a faint lighter chamfer along each
+ * seam so tiles read as separate slabs under raking light.
+ */
+export function pavingFace(g, w, h, o = {}) {
+  const tiles = o.tiles ?? 4;
+  const base = o.base ?? "#1a222b";
+  gradientFill(g, w, h, [[0, base], [1, o.base2 ?? "#151c24"]]);
+  const t = w / tiles;
+  for (let i = 0; i < tiles; i++) {
+    for (let j = 0; j < tiles; j++) {
+      const v = ((i * 7 + j * 13) % 5) - 2; // deterministic tone jitter per slab
+      g.fillStyle = `rgba(${v > 0 ? "255,255,255" : "0,0,0"},${(Math.abs(v) * 0.025).toFixed(3)})`;
+      g.fillRect(i * t, j * t, t, t);
+    }
+  }
+  noiseTexture(g, w, h, { density: 2600, alpha: 0.09, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 1400, alpha: 0.06, tone: "200,220,235" });
+  g.fillStyle = o.seam ?? "rgba(0,0,0,0.55)";
+  for (let i = 0; i <= tiles; i++) {
+    g.fillRect(i * t - 1.5, 0, 3, h);
+    g.fillRect(0, i * t - 1.5, w, 3);
+  }
+  g.fillStyle = "rgba(255,255,255,0.05)";
+  for (let i = 0; i <= tiles; i++) {
+    g.fillRect(i * t + 1.5, 0, 1.5, h);
+    g.fillRect(0, i * t + 1.5, w, 1.5);
+  }
+}
+
+/**
+ * Anti-slip deck plate for walk lanes: darker steel with a raised-dot pattern
+ * and a subtle directional brushing.
+ */
+export function deckPlateFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#232b33"], [1, o.base2 ?? "#1b222a"]], { horizontal: true });
+  noiseTexture(g, w, h, { density: 3000, alpha: 0.07, tone: "0,0,0" });
+  const step = o.step ?? 24;
+  for (let y = step / 2; y < h; y += step) {
+    for (let x = ((y / step) | 0) % 2 ? step / 2 : 0; x < w; x += step) {
+      g.fillStyle = "rgba(255,255,255,0.10)";
+      g.fillRect(x - 2, y - 2, 4, 4);
+      g.fillStyle = "rgba(0,0,0,0.35)";
+      g.fillRect(x - 2, y + 2, 4, 1.5);
+    }
+  }
+  for (let y = 0; y < h; y += 3) {
+    g.fillStyle = `rgba(255,255,255,${(0.01 + ((y / 3) % 4) * 0.004).toFixed(3)})`;
+    g.fillRect(0, y, w, 1);
+  }
+}
+
 /** The station footprint: a holographic pad the equipment stands on. */
 export function stationPad(parent, radius = 1.75, accent = CITY.accent) {
   const g = group(parent);

@@ -7,72 +7,95 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap">
 <style>
+  /* ------------------------------------------------------------ tokens
+     One surface/colour/radius/elevation system for every piece of 2D chrome.
+     The 3D scene owns its own palette (citykit.js CITY); these mirror it. */
   :root{
-    --void:#050a10; --panel:#0c1620; --glass:rgba(9,18,26,.88); --raised:#131f2b;
-    --text:#eaf6fb; --muted:#8fb3c4; --accent:#4fd1ff; --warn:#f2c14b;
-    --danger:#f0645b; --edge:#28414f; --good:#59c97b;
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --glass:rgba(10,19,28,.82);
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --accent-ink:#03202b; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px; --r-lg:14px;
+    --shadow-1:0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+    --shadow-2:0 24px 60px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.03) inset;
+    --ring:0 0 0 3px rgba(79,209,255,.22);
     --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --surface-chip:linear-gradient(180deg, rgba(22,36,52,.92), rgba(10,19,28,.86));
+    --surface-card:linear-gradient(180deg, var(--panel-2), var(--panel));
+    --surface-raised:linear-gradient(180deg, var(--raised-2), var(--raised));
   }
   *{box-sizing:border-box}
   [hidden]{display:none !important}
   html,body{height:100%;margin:0;overscroll-behavior:none}
-  body{ background:var(--void); color:var(--text); font-family:var(--sans); overflow:hidden; -webkit-font-smoothing:antialiased; }
+  body{ background:var(--void); color:var(--text); font-family:var(--sans); overflow:hidden;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  ::selection{ background:rgba(79,209,255,.35); color:#fff }
   #stage{position:fixed;inset:0}
   #stage canvas{display:block;touch-action:none}
 
-  .chip{ position:fixed; background:var(--glass); border:1px solid var(--edge); border-radius:5px;
-         padding:9px 14px; pointer-events:none; backdrop-filter:blur(4px); }
+  /* -------------------------------------------------------------- HUD */
+  .chip{ position:fixed; background:var(--surface-chip); border:1px solid var(--edge); border-radius:var(--r-md);
+         padding:10px 15px; pointer-events:none; backdrop-filter:blur(12px) saturate(1.25);
+         -webkit-backdrop-filter:blur(12px) saturate(1.25); box-shadow:var(--shadow-1); }
   .eyebrow{ font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.16em;
             text-transform:uppercase; color:var(--muted); }
   .brandline{ font-family:var(--cond); font-weight:600; font-size:10.5px; letter-spacing:.2em;
-              text-transform:uppercase; color:var(--accent); opacity:.85; margin:0 0 4px; }
+              text-transform:uppercase; color:var(--accent); opacity:.9; margin:0 0 4px; }
   #hud-mission{ top:14px; left:14px; max-width:min(52vw,440px); border-left:3px solid var(--accent); }
-  #hud-room{ font-family:var(--cond); font-weight:600; font-size:20px; letter-spacing:.04em; text-transform:uppercase; }
-  #hud-metrics{ top:14px; right:14px; text-align:right; min-width:150px; }
-  #hud-score{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.05em; font-variant-numeric:tabular-nums; }
-  #hud-combo{ font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.08em; color:var(--accent);
-    transition:color .15s, transform .15s; }
+  #hud-room{ font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.04em; text-transform:uppercase; line-height:1.15; }
+  #hud-metrics{ top:14px; right:14px; text-align:right; min-width:156px; }
+  #hud-score{ font-family:var(--cond); font-weight:700; font-size:28px; letter-spacing:.04em; line-height:1;
+    font-variant-numeric:tabular-nums; margin-top:2px; }
+  #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
+    margin-top:3px; transition:color .15s, transform .15s; }
   #hud-combo.hot{ color:var(--warn); }
   #hud-combo.fire{ color:var(--danger); animation:pulse .5s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
-  .score-pop{ position:absolute; right:4px; top:34px; font-family:var(--cond); font-weight:700;
-    font-size:15px; color:var(--good); pointer-events:none; animation:popUp .9s ease-out forwards; }
-  .score-pop.big{ font-size:20px; color:var(--warn); }
+  .score-pop{ position:absolute; right:6px; top:36px; font-family:var(--cond); font-weight:700;
+    font-size:15px; color:var(--good); pointer-events:none; animation:popUp .9s ease-out forwards;
+    text-shadow:0 0 12px rgba(89,201,123,.5); }
+  .score-pop.big{ font-size:20px; color:var(--warn); text-shadow:0 0 14px rgba(242,193,75,.55); }
   @keyframes popUp{ 0%{ opacity:0; transform:translateY(0); } 15%{ opacity:1; }
     100%{ opacity:0; transform:translateY(-30px); } }
   .rank-up{ font-family:var(--cond); font-weight:700; font-size:15px; letter-spacing:.12em;
     text-transform:uppercase; color:var(--warn); text-align:center;
-    background:rgba(242,193,75,.12); border:1px solid var(--warn); border-radius:5px;
-    padding:8px; margin:0 0 10px; animation:rankGlow 1.1s ease-in-out infinite; }
-  @keyframes rankGlow{ 0%,100%{ box-shadow:0 0 0 rgba(242,193,75,0); } 50%{ box-shadow:0 0 18px rgba(242,193,75,.5); } }
+    background:linear-gradient(180deg, rgba(242,193,75,.18), rgba(242,193,75,.08));
+    border:1px solid rgba(242,193,75,.7); border-radius:var(--r-sm);
+    padding:9px 12px; margin:0 0 10px; animation:rankGlow 1.1s ease-in-out infinite; }
+  @keyframes rankGlow{ 0%,100%{ box-shadow:0 0 0 rgba(242,193,75,0); } 50%{ box-shadow:0 0 22px rgba(242,193,75,.45); } }
   @media (prefers-reduced-motion:reduce){
     #hud-combo.fire{ animation:none; } .rank-up{ animation:none; }
   }
 
   #hud-objective{ position:fixed; left:50%; transform:translateX(-50%); top:14px;
-    background:var(--glass); border:1px solid var(--edge); border-top:3px solid var(--accent);
-    border-radius:5px; padding:9px 18px; text-align:center; pointer-events:none;
-    max-width:min(58vw,560px); backdrop-filter:blur(4px); }
-  #hud-step{ font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.03em; }
-  #hud-cue{ font-size:13px; color:var(--muted); line-height:1.4; margin-top:2px; }
-  #hud-gesture{ display:inline-block; margin-top:6px; font-family:var(--cond); font-weight:600;
-    font-size:10.5px; letter-spacing:.1em; color:var(--accent); border:1px solid var(--accent);
-    border-radius:3px; padding:2px 8px; text-transform:uppercase; }
+    background:var(--surface-chip); border:1px solid var(--edge); border-top:3px solid var(--accent);
+    border-radius:var(--r-md); padding:10px 20px 11px; text-align:center; pointer-events:none;
+    max-width:min(58vw,560px); backdrop-filter:blur(12px) saturate(1.25); -webkit-backdrop-filter:blur(12px) saturate(1.25);
+    box-shadow:var(--shadow-1); }
+  #hud-step{ font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.03em; line-height:1.15; }
+  #hud-cue{ font-size:13px; color:var(--muted); line-height:1.45; margin-top:3px; }
+  #hud-gesture{ display:inline-block; margin-top:7px; font-family:var(--cond); font-weight:600;
+    font-size:10.5px; letter-spacing:.12em; color:var(--accent); border:1px solid rgba(79,209,255,.55);
+    background:rgba(79,209,255,.08); border-radius:999px; padding:3px 10px; text-transform:uppercase; }
   #gesture-tip{ position:fixed; left:50%; bottom:98px; transform:translateX(-50%) translateY(6px);
-    max-width:min(520px, calc(100vw - 28px)); background:var(--glass); border:1px solid var(--accent);
-    border-radius:6px; padding:10px 16px; text-align:center; font-size:13px; color:var(--text);
-    line-height:1.4; pointer-events:none; opacity:0; transition:opacity .25s ease, transform .25s ease;
-    z-index:12; backdrop-filter:blur(4px); }
+    max-width:min(520px, calc(100vw - 28px)); background:var(--surface-chip); border:1px solid rgba(79,209,255,.55);
+    border-radius:var(--r-md); padding:11px 18px; text-align:center; font-size:13px; color:var(--text);
+    line-height:1.45; pointer-events:none; opacity:0; transition:opacity .25s ease, transform .25s ease;
+    z-index:12; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:var(--shadow-1); }
   #gesture-tip.show{ opacity:1; transform:translateX(-50%) translateY(0); }
   #gesture-tip b{ color:var(--accent); }
   @media (prefers-reduced-motion:reduce){ #gesture-tip{ transition:opacity .25s ease } }
 
   #hud-rail{ position:fixed; left:50%; transform:translateX(-50%); bottom:14px;
-    width:min(780px, calc(100vw - 28px)); background:var(--glass);
+    width:min(780px, calc(100vw - 28px)); background:var(--surface-chip);
     border:1px solid var(--edge); border-left:3px solid var(--edge);
-    border-radius:5px; padding:11px 16px; pointer-events:none; backdrop-filter:blur(4px); }
+    border-radius:var(--r-md); padding:12px 18px; pointer-events:none;
+    backdrop-filter:blur(12px) saturate(1.25); -webkit-backdrop-filter:blur(12px) saturate(1.25);
+    box-shadow:var(--shadow-1); transition:border-left-color .2s; }
   #hud-rail[data-state="ok"]{ border-left-color:var(--good) }
   #hud-rail[data-state="warn"]{ border-left-color:var(--warn) }
   #hud-rail[data-state="danger"]{ border-left-color:var(--danger) }
@@ -80,124 +103,163 @@
   #hud-feedback{ font-size:14px; line-height:1.5 }
   #hud-feedback b{ font-weight:600 }
   #hud-feedback .mult{ color:var(--accent); font-family:var(--cond) }
-  #hud-progress{ display:flex; align-items:center; gap:14px; margin-top:9px }
-  #hud-track{ flex:1; height:5px; background:var(--raised); border-radius:3px; overflow:hidden }
-  #hud-fill{ height:100%; width:0; background:var(--accent); transition:width .2s ease-out }
-  #hud-count,#hud-timer{ font-family:var(--cond); font-weight:600; font-size:11.5px; letter-spacing:.09em;
+  #hud-progress{ display:flex; align-items:center; gap:14px; margin-top:10px }
+  #hud-track{ flex:1; height:6px; background:rgba(0,0,0,.45); border-radius:999px; overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.5) }
+  #hud-fill{ height:100%; width:0; border-radius:999px;
+    background:linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow:0 0 10px rgba(79,209,255,.45);
+    transition:width .2s ease-out }
+  #hud-count,#hud-timer{ font-family:var(--cond); font-weight:600; font-size:11.5px; letter-spacing:.1em;
     color:var(--muted); white-space:nowrap; font-variant-numeric:tabular-nums; }
-  #hud-hint{ position:fixed; left:14px; bottom:14px; font-family:var(--cond); font-size:11.5px;
-    letter-spacing:.09em; color:var(--muted); pointer-events:none; text-transform:uppercase; }
+  #hud-hint{ position:fixed; left:14px; bottom:14px; font-family:var(--cond); font-size:11.5px; font-weight:500;
+    letter-spacing:.1em; color:var(--dim); pointer-events:none; text-transform:uppercase; }
 
   #voice-btn{ position:fixed; right:14px; bottom:14px; z-index:11; padding:9px 16px; font-size:12px; }
   #voice-btn.listening{ background:var(--danger); border-color:var(--danger); color:#2a0c0c;
     animation:voicePulse 1s ease-in-out infinite; }
   @keyframes voicePulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
   #voice-heard{ position:fixed; right:14px; bottom:58px; z-index:11; max-width:min(320px, calc(100vw - 28px));
-    background:var(--glass); border:1px solid var(--accent); border-radius:6px; padding:8px 12px;
-    font-size:12.5px; color:var(--text); pointer-events:none; text-align:right; }
+    background:var(--surface-chip); border:1px solid rgba(79,209,255,.55); border-radius:var(--r-md); padding:8px 12px;
+    font-size:12.5px; color:var(--text); pointer-events:none; text-align:right; box-shadow:var(--shadow-1); }
   #voice-heard.error{ border-color:var(--danger); color:var(--danger); }
   @media (prefers-reduced-motion:reduce){ #voice-btn.listening{ animation:none } }
 
   #speak-btn{ position:fixed; right:14px; bottom:60px; z-index:11; display:flex; align-items:center;
     justify-content:center; width:40px; height:40px; border-radius:50%; font-size:16px; padding:0; }
-  #speak-btn:hover{ filter:brightness(1.12) }
 
   #ar-prompt{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
-    background:var(--glass); border:1px solid var(--accent); border-radius:6px;
-    padding:14px 20px; text-align:center; pointer-events:none; }
+    background:var(--surface-chip); border:1px solid rgba(79,209,255,.55); border-radius:var(--r-md);
+    padding:14px 20px; text-align:center; pointer-events:none; box-shadow:var(--shadow-1); }
   #ar-prompt b{ font-family:var(--cond); font-size:16px; letter-spacing:.03em; text-transform:uppercase; }
   #scale-row{ position:fixed; bottom:70px; left:50%; transform:translateX(-50%);
     display:flex; gap:8px; }
   #scale-row button{ pointer-events:auto; padding:12px 18px; font-size:16px; min-width:56px; }
 
+  /* ---------------------------------------------------------- overlays */
   .overlay{ position:fixed; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
-    background:rgba(3,7,11,.85); padding:16px; overflow-y:auto; }
-  .card{ width:min(680px,100%); max-height:calc(100vh - 32px); max-height:calc(100dvh - 32px); overflow-y:auto;
-    background:var(--panel); border:1px solid var(--edge); border-top:3px solid var(--accent);
-    border-radius:8px; padding:24px 28px; }
-  .card h1{ font-family:var(--cond); font-weight:600; font-size:clamp(26px,5vw,36px);
-    letter-spacing:.03em; text-transform:uppercase; margin:3px 0 5px; }
-  .card p{ color:var(--muted); font-size:13.5px; line-height:1.55; margin:0 0 10px; max-width:64ch }
-  .card p.lead{ color:var(--text) }
-  .sim-category{ font-family:var(--cond); font-weight:600; letter-spacing:.1em; text-transform:uppercase;
-    font-size:12px; color:var(--accent); margin:14px 0 6px }
-  .sim-category:first-of-type{ margin-top:6px }
-  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px; margin:0 0 4px }
-  .sim{ background:var(--raised); border-radius:4px; padding:8px 10px; border-left:3px solid var(--tint) }
-  .sim b{ display:block; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
-  .sim span{ font-size:11.5px; color:var(--muted); line-height:1.3; display:block; margin-top:1px }
-  .sim span.sim-cert{ color:var(--text); opacity:.75; font-style:italic; margin-top:3px }
-  .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px }
-  button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
-    text-transform:uppercase; cursor:pointer; border-radius:4px; padding:11px 20px; min-height:44px;
-    border:1px solid var(--edge); background:var(--raised); color:var(--text); touch-action:manipulation; }
-  button.primary{ background:var(--accent); border-color:var(--accent); color:#04212b }
-  button:hover{ filter:brightness(1.12) }
-  button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
-  button[disabled]{ opacity:.4; cursor:not-allowed; filter:none }
-  kbd{ background:var(--raised); border:1px solid var(--edge); border-radius:3px;
-    padding:1px 6px; font-family:var(--cond); font-size:12px; }
-  .fineprint{ font-size:12px; color:var(--muted); line-height:1.55; margin:0 }
-  .fineprint a{ color:var(--accent) }
-  .namerow{ margin:14px 0 4px }
-  .namerow label{ display:block; margin-bottom:5px }
-  .namerow input{ width:180px; background:var(--raised); border:1px solid var(--edge); border-radius:4px;
-    color:var(--text); font-family:var(--cond); font-weight:600; font-size:16px; letter-spacing:.08em;
-    padding:9px 12px; text-transform:uppercase; }
-  .namerow input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+    background:radial-gradient(1200px 700px at 50% -10%, rgba(79,209,255,.08), transparent 60%), rgba(3,7,11,.86);
+    padding:16px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .card{ width:min(700px,100%); max-height:calc(100vh - 32px); max-height:calc(100dvh - 32px); overflow-y:auto;
+    background:var(--surface-card); border:1px solid var(--edge-strong); border-top:3px solid var(--accent);
+    border-radius:var(--r-lg); padding:26px 30px 24px; box-shadow:var(--shadow-2);
+    scrollbar-width:thin; scrollbar-color:rgba(126,170,200,.28) transparent; }
+  .card::-webkit-scrollbar{ width:10px }
+  .card::-webkit-scrollbar-thumb{ background:rgba(126,170,200,.28); border-radius:8px; border:2px solid transparent; background-clip:padding-box }
+  .card::-webkit-scrollbar-track{ background:transparent }
+  .card h1{ font-family:var(--cond); font-weight:700; font-size:clamp(28px,5vw,38px);
+    letter-spacing:.02em; text-transform:uppercase; margin:4px 0 8px; line-height:1.05; }
+  .card p{ color:var(--muted); font-size:13.5px; line-height:1.6; margin:0 0 10px; max-width:66ch }
+  .card p.lead{ color:var(--text); font-size:14.5px }
+  .card .eyebrow{ margin-bottom:2px }
 
+  .sim-category{ display:flex; align-items:center; gap:12px; font-family:var(--cond); font-weight:600;
+    letter-spacing:.12em; text-transform:uppercase; font-size:12px; color:var(--accent); margin:18px 0 8px }
+  .sim-category::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, var(--edge-strong), transparent) }
+  .sim-category:first-of-type{ margin-top:8px }
+  .sims{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin:0 0 4px }
+  .sim{ background:var(--surface-raised); border:1px solid var(--edge); border-left:3px solid var(--tint);
+    border-radius:8px; padding:10px 12px; box-shadow:inset 0 1px 0 rgba(255,255,255,.03) }
+  .sim b{ display:block; font-family:var(--cond); font-weight:600; font-size:14.5px; letter-spacing:.03em; text-transform:uppercase }
+  .sim span{ font-size:11.5px; color:var(--muted); line-height:1.35; display:block; margin-top:2px }
+  .sim span.sim-cert{ color:var(--text); opacity:.72; font-style:italic; margin-top:4px }
+
+  /* --------------------------------------------------------- controls */
+  .btnrow{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 14px }
+  button{ font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.08em;
+    text-transform:uppercase; cursor:pointer; border-radius:var(--r-sm); padding:11px 20px; min-height:44px;
+    border:1px solid var(--edge-strong); background:var(--surface-raised); color:var(--text); touch-action:manipulation;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+    transition:transform .12s ease, box-shadow .15s ease, border-color .15s ease, filter .15s ease; }
+  button:hover{ border-color:rgba(79,209,255,.5); transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06) }
+  button:active{ transform:translateY(0); box-shadow:inset 0 2px 4px rgba(0,0,0,.35) }
+  /* Primary follows --accent so a station that re-tints the HUD (app.js sets
+     --accent per sim) re-tints its buttons too; the plain fallback covers
+     browsers without color-mix(). */
+  button.primary{ background:var(--accent); border-color:transparent; color:var(--accent-ink);
+    box-shadow:0 0 0 1px rgba(255,255,255,.12), 0 8px 22px rgba(0,0,0,.35) }
+  @supports (background: color-mix(in srgb, red 50%, white)){
+    button.primary{ background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 78%, white), var(--accent));
+      box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent), 0 8px 22px color-mix(in srgb, var(--accent) 28%, transparent) }
+    button.primary:hover{ box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent), 0 10px 26px color-mix(in srgb, var(--accent) 36%, transparent) }
+  }
+  button.primary:hover{ filter:brightness(1.06) }
+  button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px }
+  button[disabled]{ opacity:.38; cursor:not-allowed; transform:none; box-shadow:none; filter:none }
+  kbd{ background:var(--raised); border:1px solid var(--edge-strong); border-bottom-width:2px; border-radius:4px;
+    padding:1px 7px; font-family:var(--cond); font-size:12px; letter-spacing:.06em; }
+  .fineprint{ font-size:12px; color:var(--muted); line-height:1.6; margin:0 }
+  .fineprint a{ color:var(--accent); text-decoration-color:rgba(79,209,255,.4); text-underline-offset:2px }
+  .fineprint a:hover{ text-decoration-color:var(--accent) }
+  .namerow{ margin:16px 0 4px }
+  .namerow label{ display:block; margin-bottom:6px }
+  input, select{ accent-color:var(--accent) }
+  .namerow input{ width:200px; background:var(--raised); border:1px solid var(--edge-strong); border-radius:var(--r-sm);
+    color:var(--text); font-family:var(--cond); font-weight:600; font-size:16px; letter-spacing:.08em;
+    padding:10px 12px; text-transform:uppercase; transition:border-color .15s, box-shadow .15s; }
+  .namerow input::placeholder{ color:var(--dim) }
+  .namerow input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring) }
+
+  /* ------------------------------------------------------ leaderboards */
   .lb-table{ width:100%; border-collapse:collapse; margin:4px 0 14px; font-size:13.5px }
-  .lb-table th{ text-align:left; font-family:var(--cond); font-weight:600; letter-spacing:.08em;
-    font-size:11px; color:var(--muted); text-transform:uppercase; padding:4px 8px; border-bottom:1px solid var(--edge) }
-  .lb-table td{ padding:6px 8px; border-bottom:1px solid rgba(40,65,79,.4); font-variant-numeric:tabular-nums }
-  .lb-table tr.me{ background:rgba(79,209,255,.12) }
+  .lb-table th{ text-align:left; font-family:var(--cond); font-weight:600; letter-spacing:.1em;
+    font-size:11px; color:var(--muted); text-transform:uppercase; padding:5px 8px; border-bottom:1px solid var(--edge-strong) }
+  .lb-table td{ padding:7px 8px; border-bottom:1px solid var(--edge); font-variant-numeric:tabular-nums }
+  .lb-table tbody tr:nth-child(even) td{ background:rgba(255,255,255,.02) }
+  .lb-table tr.me td{ background:rgba(79,209,255,.12) }
   .lb-table tr.me td:first-child{ color:var(--accent); font-weight:700 }
   .lb-empty{ color:var(--muted); font-size:13px; padding:10px 0 }
   .lb-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; max-height:60vh; overflow-y:auto }
-  .lb-card{ background:var(--raised); border-left:3px solid var(--tint,var(--accent)); border-radius:4px; padding:10px 12px }
-  .lb-card h3{ margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.03em; text-transform:uppercase }
+  .lb-card{ background:var(--surface-raised); border:1px solid var(--edge); border-left:3px solid var(--tint,var(--accent));
+    border-radius:8px; padding:11px 13px }
+  .lb-card h3{ margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:14.5px; letter-spacing:.03em; text-transform:uppercase }
   .lb-card .lb-top{ font-size:12.5px; color:var(--muted) }
   .lb-card .lb-top b{ color:var(--text) }
 
+  /* ------------------------------------------------------------ editor */
   .ed-row{ margin:12px 0 }
-  .ed-row label{ display:block; margin-bottom:5px }
+  .ed-row label{ display:block; margin-bottom:6px }
   .ed-row select, .ed-row input{ width:100%; max-width:420px; background:var(--raised);
-    border:1px solid var(--edge); border-radius:4px; color:var(--text); font-family:var(--sans);
-    font-size:14px; padding:9px 12px; }
-  .ed-row select:focus, .ed-row input:focus{ outline:2px solid var(--accent); outline-offset:1px }
+    border:1px solid var(--edge-strong); border-radius:var(--r-sm); color:var(--text); font-family:var(--sans);
+    font-size:14px; padding:10px 12px; transition:border-color .15s, box-shadow .15s; }
+  .ed-row input::placeholder{ color:var(--dim) }
+  .ed-row select:focus, .ed-row input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring) }
   .ed-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:4px 16px }
-  .ed-steps{ max-height:38vh; overflow-y:auto; border:1px solid var(--edge); border-radius:5px;
+  .ed-steps{ max-height:38vh; overflow-y:auto; border:1px solid var(--edge-strong); border-radius:8px;
     background:var(--raised); margin:6px 0 4px }
-  .ed-step{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-bottom:1px solid rgba(40,65,79,.5) }
+  .ed-step{ display:flex; align-items:center; gap:10px; padding:9px 11px; border-bottom:1px solid var(--edge) }
   .ed-step:last-child{ border-bottom:none }
   .ed-step.off{ opacity:.42 }
-  .ed-step .kind{ font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.08em;
-    text-transform:uppercase; color:var(--accent); border:1px solid var(--edge); border-radius:3px;
-    padding:2px 6px; white-space:nowrap; }
+  .ed-step .kind{ font-family:var(--cond); font-weight:600; font-size:10px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--accent); border:1px solid rgba(79,209,255,.4); background:rgba(79,209,255,.07);
+    border-radius:999px; padding:2px 8px; white-space:nowrap; }
   .ed-step .title{ flex:1; font-size:13.5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .ed-step .mv{ font-family:var(--cond); font-weight:600; padding:3px 8px; font-size:13px; }
+  .ed-step .mv{ font-family:var(--cond); font-weight:600; padding:3px 9px; font-size:13px; min-height:30px; }
   .ed-error{ color:var(--danger); font-size:13px; margin:6px 0 0 }
   .ed-library{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;
     margin:6px 0 4px; max-height:32vh; overflow-y:auto }
-  .ed-lib-card{ background:var(--raised); border-left:3px solid var(--accent); border-radius:4px; padding:10px 12px }
-  .ed-lib-card h3{ margin:0 0 4px; font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.02em; text-transform:uppercase }
+  .ed-lib-card{ background:var(--surface-raised); border:1px solid var(--edge); border-left:3px solid var(--accent);
+    border-radius:8px; padding:11px 13px }
+  .ed-lib-card h3{ margin:0 0 4px; font-family:var(--cond); font-weight:600; font-size:14.5px; letter-spacing:.02em; text-transform:uppercase }
   .ed-lib-card p{ margin:0 0 8px; font-size:12px; color:var(--muted) }
   .ed-lib-card .btnrow{ margin:0; gap:6px }
-  .ed-lib-card button{ padding:6px 10px; font-size:12px }
+  .ed-lib-card button{ padding:6px 10px; font-size:12px; min-height:34px }
   .ed-empty{ color:var(--muted); font-size:13px; padding:8px 2px }
 
-  .res-stars{ font-size:36px; letter-spacing:.1em; color:var(--warn); line-height:1 }
-  #results h2{ font-family:var(--cond); font-weight:600; font-size:26px; letter-spacing:.02em;
-    text-transform:uppercase; margin:10px 0 2px }
-  .res-trade{ color:var(--accent) !important; font-family:var(--cond); letter-spacing:.08em;
+  /* ----------------------------------------------------------- results */
+  .res-stars{ font-size:36px; letter-spacing:.1em; color:var(--warn); line-height:1;
+    text-shadow:0 0 18px rgba(242,193,75,.35) }
+  #results h2{ font-family:var(--cond); font-weight:700; font-size:27px; letter-spacing:.02em;
+    text-transform:uppercase; margin:10px 0 2px; line-height:1.1 }
+  .res-trade{ color:var(--accent) !important; font-family:var(--cond); letter-spacing:.1em;
     text-transform:uppercase; font-size:12.5px; margin:0 0 14px !important }
-  .res-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin:0 0 14px }
-  .res-grid>div{ background:var(--raised); border-radius:4px; padding:8px 10px }
-  .res-grid dt{ font-family:var(--cond); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted) }
-  .res-grid dd{ margin:2px 0 0; font-family:var(--cond); font-weight:600; font-size:20px; font-variant-numeric:tabular-nums }
+  .res-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(112px,1fr)); gap:8px; margin:0 0 14px }
+  .res-grid>div{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:9px 11px }
+  .res-grid dt{ font-family:var(--cond); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
+  .res-grid dd{ margin:3px 0 0; font-family:var(--cond); font-weight:700; font-size:22px; font-variant-numeric:tabular-nums; line-height:1 }
   .res-badges{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px }
-  .res-badge{ background:rgba(242,193,75,.1); border-left:3px solid var(--warn); border-radius:4px;
-    padding:9px 11px; color:var(--text) !important; font-size:13.5px !important; margin:0 !important }
+  .res-badge{ background:linear-gradient(180deg, rgba(242,193,75,.14), rgba(242,193,75,.06)); border:1px solid rgba(242,193,75,.28);
+    border-left:3px solid var(--warn); border-radius:8px;
+    padding:9px 12px; color:var(--text) !important; font-size:13.5px !important; margin:0 !important }
   .res-badge span{ display:block; color:var(--muted); font-size:12px; margin-top:2px }
   .res-note{ font-size:13px !important }
 
@@ -205,13 +267,17 @@
     background:radial-gradient(circle at 50% 55%, rgba(240,100,91,.34), rgba(240,100,91,0) 62%);
     animation:flash .42s ease-out; }
   @keyframes flash{ from{opacity:1} to{opacity:0} }
-  @media (prefers-reduced-motion:reduce){ body.danger-flash::after{ animation:none; opacity:.28 } #hud-fill{ transition:none } }
+  @media (prefers-reduced-motion:reduce){
+    body.danger-flash::after{ animation:none; opacity:.28 } #hud-fill{ transition:none }
+    button, button:hover, button:active{ transition:none; transform:none }
+  }
   @media (max-width:640px){
     #hud-objective{ top:auto; bottom:120px; max-width:calc(100vw - 28px) }
-    #hud-room{ font-size:15px } #hud-score{ font-size:20px } #hud-hint{ display:none }
+    #hud-room{ font-size:15px } #hud-score{ font-size:22px } #hud-hint{ display:none }
     .sims{ grid-template-columns:1fr 1fr }
     .btnrow button{ flex:1 1 calc(50% - 4px) }
-    .card{ padding:20px 18px }
+    .card{ padding:20px 18px; border-radius:var(--r-md) }
+    .namerow input{ width:100% }
   }
   @supports (padding: max(0px)){
     #hud-mission{ left:max(14px, env(safe-area-inset-left)) }
@@ -1457,6 +1523,94 @@ const CITY = {
   good: 0x59c97b,
 };
 
+// ------------------------------------------------------------ surface textures
+//
+// Tiling canvas textures for the large flat surfaces (plaza deck, atrium
+// floor) that previously read as one flat colour. Generated once per build,
+// owned by the material they're attached to (userData.ownTexture/ownMaterial)
+// so disposeTree() frees them with the room. Every canvas call is guarded the
+// same way kit.js's gradientFill is, so the headless checkers' 2D-context stub
+// never throws even though nothing in the checker path actually calls these.
+
+/** A repeating CanvasTexture drawn by `draw(g, w, h)`. */
+function surfaceTexture(draw, o = {}) {
+  const px = o.px ?? 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = px; canvas.height = px;
+  const g = canvas.getContext("2d");
+  draw(g, px, px);
+  const tex = new THREE.CanvasTexture(canvas);
+  if (THREE.RepeatWrapping !== undefined) { tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; }
+  tex.repeat?.set?.(o.repeat ?? 4, o.repeat ?? 4);
+  tex.anisotropy = 8;
+  if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+/** A standard material carrying its own (disposable) texture map. */
+function texturedMat(tex, o = {}) {
+  const m = new THREE.MeshStandardMaterial({
+    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? 0.85, metalness: o.metal ?? 0.05,
+    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1, emissiveMap: o.glow ? tex : null,
+  });
+  m.userData.ownMaterial = true;
+  m.userData.ownTexture = true;
+  return m;
+}
+
+/**
+ * Cast-concrete plaza paving: a cool base with per-tile tonal variation, a fine
+ * grain, saw-cut seam lines on a grid, and a faint lighter chamfer along each
+ * seam so tiles read as separate slabs under raking light.
+ */
+function pavingFace(g, w, h, o = {}) {
+  const tiles = o.tiles ?? 4;
+  const base = o.base ?? "#1a222b";
+  gradientFill(g, w, h, [[0, base], [1, o.base2 ?? "#151c24"]]);
+  const t = w / tiles;
+  for (let i = 0; i < tiles; i++) {
+    for (let j = 0; j < tiles; j++) {
+      const v = ((i * 7 + j * 13) % 5) - 2; // deterministic tone jitter per slab
+      g.fillStyle = `rgba(${v > 0 ? "255,255,255" : "0,0,0"},${(Math.abs(v) * 0.025).toFixed(3)})`;
+      g.fillRect(i * t, j * t, t, t);
+    }
+  }
+  noiseTexture(g, w, h, { density: 2600, alpha: 0.09, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 1400, alpha: 0.06, tone: "200,220,235" });
+  g.fillStyle = o.seam ?? "rgba(0,0,0,0.55)";
+  for (let i = 0; i <= tiles; i++) {
+    g.fillRect(i * t - 1.5, 0, 3, h);
+    g.fillRect(0, i * t - 1.5, w, 3);
+  }
+  g.fillStyle = "rgba(255,255,255,0.05)";
+  for (let i = 0; i <= tiles; i++) {
+    g.fillRect(i * t + 1.5, 0, 1.5, h);
+    g.fillRect(0, i * t + 1.5, w, 1.5);
+  }
+}
+
+/**
+ * Anti-slip deck plate for walk lanes: darker steel with a raised-dot pattern
+ * and a subtle directional brushing.
+ */
+function deckPlateFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#232b33"], [1, o.base2 ?? "#1b222a"]], { horizontal: true });
+  noiseTexture(g, w, h, { density: 3000, alpha: 0.07, tone: "0,0,0" });
+  const step = o.step ?? 24;
+  for (let y = step / 2; y < h; y += step) {
+    for (let x = ((y / step) | 0) % 2 ? step / 2 : 0; x < w; x += step) {
+      g.fillStyle = "rgba(255,255,255,0.10)";
+      g.fillRect(x - 2, y - 2, 4, 4);
+      g.fillStyle = "rgba(0,0,0,0.35)";
+      g.fillRect(x - 2, y + 2, 4, 1.5);
+    }
+  }
+  for (let y = 0; y < h; y += 3) {
+    g.fillStyle = `rgba(255,255,255,${(0.01 + ((y / 3) % 4) * 0.004).toFixed(3)})`;
+    g.fillRect(0, y, w, 1);
+  }
+}
+
 /** The station footprint: a holographic pad the equipment stands on. */
 function stationPad(parent, radius = 1.75, accent = CITY.accent) {
   const g = group(parent);
@@ -1903,7 +2057,7 @@ function buildMarquee(g) {
 
 const STAGE_MODES = ["ar", "vr", "flat"];
 
-function buildStage(root, mode, scene) {
+function buildStage(root, mode, scene, accent = CITY.accent) {
   const g = group(root);
   const ar = mode === "ar";
 
@@ -1929,18 +2083,29 @@ function buildStage(root, mode, scene) {
     return { root: g, ar, animate() {} };
   }
 
-  scene.background = new THREE.Color(0x070c12);
-  scene.fog = new THREE.Fog(0x070c12, 20, 62);
+  scene.background = new THREE.Color(0x060a11);
+  scene.fog = new THREE.Fog(0x080d16, 22, 64);
 
-  // Plaza deck.
-  const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 56 });
+  // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
+  // planar UVs make a repeating texture read as a real slab grid), with a
+  // deck-plate walk ring around the perimeter so the edge reads as a
+  // different material rather than the same colour to the horizon.
+  const pavingTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4 }), { repeat: 7, px: 512 });
+  const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 64 });
+  deck.material = texturedMat(pavingTex, { rough: 0.9, metal: 0.04, color: 0xd8dde3 });
   deck.receiveShadow = true;
-  for (let i = -7; i <= 7; i++) {
-    box(g, 30, 0.004, 0.014, 0, 0.004, i * 2, 0x223140, { cast: false, receive: false });
-    box(g, 0.014, 0.004, 30, i * 2, 0.004, 0, 0x223140, { cast: false, receive: false });
-  }
-  torus(g, 12.4, 0.05, 0, 0.02, 0, CITY.accent,
-    { emissive: CITY.accent, ei: 1.5, rough: 0.4, cast: false, seg: 6, seg2: 64 });
+  const plateTex = surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 22, px: 256 });
+  const walkRing = cyl(g, 13.6, 13.6, 0.04, 0, 0.02, 0, 0x232b33, { rough: 0.6, metal: 0.5, seg: 64 });
+  walkRing.material = texturedMat(plateTex, { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
+  walkRing.receiveShadow = true;
+  cyl(g, 11.8, 11.8, 0.05, 0, 0.025, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
+    .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1c242d", base2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
+  // Station-accent glow ring and an inner hazard-yellow kerb line: the ring
+  // takes the current station's colour so each sim's plaza is subtly its own.
+  torus(g, 12.6, 0.05, 0, 0.03, 0, accent,
+    { emissive: accent, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 72 });
+  torus(g, 11.75, 0.02, 0, 0.055, 0, CITY.hiVis,
+    { emissive: CITY.hiVis, ei: 0.6, rough: 0.5, cast: false, seg: 6, seg2: 72 });
 
   // Perimeter light masts.
   for (let i = 0; i < 8; i++) {
@@ -1960,14 +2125,25 @@ function buildStage(root, mode, scene) {
   const sky = skyline(g);
   const marquee = buildMarquee(g);
 
-  const key = new THREE.DirectionalLight(0xbcd4e8, 0.55);
+  const key = new THREE.DirectionalLight(0xbcd4e8, 0.6);
   key.position.set(4, 9, 5);
   key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.camera.left = -8; key.shadow.camera.right = 8;
-  key.shadow.camera.top = 8; key.shadow.camera.bottom = -8;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left = -9; key.shadow.camera.right = 9;
+  key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
+  key.shadow.bias = -0.0008;
   g.add(key);
-  g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.15));
+  g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.1));
+  // A soft overhead wash in the station's own accent — the one light that
+  // changes per sim, so the same plaza reads warm for a boiler room and cool
+  // for a chiller plant without rebuilding anything.
+  const wash = new THREE.PointLight(accent, 1.1, 10, 2);
+  wash.position.set(0, 4.2, 0.6);
+  g.add(wash);
+  // Cool rim from behind the marquee so silhouettes separate from the skyline.
+  const rim = new THREE.DirectionalLight(0x6fb8ff, 0.35);
+  rim.position.set(-3, 4, -8);
+  g.add(rim);
 
   const beacons = sky.userData.beacons ?? [];
   return {
@@ -2867,6 +3043,14 @@ function buildCustomRoom(baseSim, entry) {
 // AR/VR/flat session; the kiosk shows that system's own rank and currency,
 // never a shared platform score, because there isn't one.
 
+/** Clip a single line to `maxWidth` with an ellipsis, using the context's current font. */
+function fitText(g, text, maxWidth) {
+  let s = String(text);
+  if (g.measureText(s).width <= maxWidth) return s;
+  while (s.length > 1 && g.measureText(s + "…").width > maxWidth) s = s.slice(0, -1);
+  return s.trimEnd() + "…";
+}
+
 function buildHub(root, sims) {
   const hits = {};
   const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
@@ -2874,10 +3058,25 @@ function buildHub(root, sims) {
   // 6.4 was tuned for 10 kiosks; keep that floor so a smaller roster never crowds.
   const R = Math.max(6.4, sims.length * 0.4);
 
+  // Atrium floor: the same cast-concrete paving as the plaza, with a
+  // deck-plate walk ring under the kiosks so the selector lane reads as a
+  // different, tougher surface than the paving inside it.
   const floor = cyl(root, R + 1.8, R + 1.8, 0.2, 0, -0.1, 0, 0x0d1319, { rough: 0.4, metal: 0.2, seg: 64 });
+  floor.material = texturedMat(
+    surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4, base: "#161e27", base2: "#111820" }), { repeat: 6, px: 512 }),
+    { rough: 0.9, metal: 0.04, color: 0xd6dbe1 });
   floor.receiveShadow = true;
-  torus(root, R - 1.0, 0.03, 0, 0.012, 0, CITY.accent,
+  const lane = cyl(root, R + 0.9, R + 0.9, 0.03, 0, 0.012, 0, 0x232b33, { rough: 0.6, metal: 0.5, seg: 64, cast: false });
+  lane.material = texturedMat(surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 16, px: 256 }),
+    { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
+  lane.receiveShadow = true;
+  cyl(root, R - 1.1, R - 1.1, 0.035, 0, 0.018, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
+    .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1b232c", base2: "#161d25" }), { repeat: 4, px: 512 }),
+      { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
+  torus(root, R - 1.0, 0.03, 0, 0.04, 0, CITY.accent,
     { emissive: CITY.accent, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 64 });
+  torus(root, R + 0.95, 0.018, 0, 0.03, 0, CITY.hiVis,
+    { emissive: CITY.hiVis, ei: 0.55, rough: 0.5, cast: false, seg: 6, seg2: 72 });
 
   const pillar = group(root, 0, 0, 0);
   cyl(pillar, 0.4, 0.5, 0.9, 0, 0.5, 0, 0x1b232b, { rough: 0.45, metal: 0.4, seg: 24 });
@@ -2887,19 +3086,23 @@ function buildHub(root, sims) {
   const halo = torus(pillar, 0.62, 0.012, 0, 1.35, 0, CITY.violet,
     { emissive: CITY.violet, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 40 });
   const titleFace = decal(pillar, 1.3, 0.5, 0, 1.95, 0, () => {}, { px: 640, glow: true, ei: 0.7 });
+  // The pillar is wayfinding, not branding — the marquee behind it already
+  // carries the SmartCiti.X / AGI Corp & Visko wordmark, and repeating it
+  // here put two copies of the same text in one sightline.
+  const categoryCount = new Set(sims.map((s) => s.category ?? s.domain)).size;
   function paintTitle() {
     repaint(titleFace, (g, w, h) => {
       g.fillStyle = "rgba(6,14,20,0.0)"; g.clearRect(0, 0, w, h);
       g.fillStyle = "#8fd8ff";
       g.font = `600 ${Math.round(h * 0.12)}px 'Barlow Condensed', Arial, sans-serif`;
       g.textAlign = "center"; g.textBaseline = "middle";
-      g.fillText("POWERED BY AGI CORP & VISKO", w / 2, h * 0.15);
+      g.fillText("SMARTCITI.X · TRAINING CAMPUS", w / 2, h * 0.15);
       g.fillStyle = "#4fd1ff";
       g.font = `700 ${Math.round(h * 0.3)}px 'Barlow Condensed', Arial, sans-serif`;
-      g.fillText("SMARTCITI.X ~VR SIMULATORS", w / 2, h * 0.52);
+      g.fillText("SELECT A STATION", w / 2, h * 0.52);
       g.fillStyle = "#eaf6fb";
       g.font = `500 ${Math.round(h * 0.14)}px 'Barlow', Arial, sans-serif`;
-      g.fillText("AR TRAINING SIMULATORS", w / 2, h * 0.82);
+      g.fillText(`${sims.length} STATIONS · ${categoryCount} CATEGORIES`, w / 2, h * 0.82);
     });
   }
   paintTitle();
@@ -2910,9 +3113,18 @@ function buildHub(root, sims) {
     const dx = Math.sin(a) * R, dz = Math.cos(a) * R;
     const kiosk = group(root, dx, 0, dz, a + Math.PI);
 
-    box(kiosk, 1.0, 2.0, 0.18, 0, 1.0, 0, 0x1b232b, { rough: 0.5, metal: 0.45 });
-    box(kiosk, 1.06, 0.06, 0.24, 0, 2.02, 0, sim.accent, { emissive: sim.accent, ei: 1.6, rough: 0.4, cast: false });
-    box(kiosk, 1.06, 0.03, 0.2, 0, 0.03, 0.02, sim.accent, { emissive: sim.accent, ei: 1.0, rough: 0.4, cast: false });
+    // Kiosk: a brushed-steel frame around a dark face, a plinth, and two
+    // vertical light bars in the station's accent so it reads as a lit
+    // totem from across the atrium rather than a flat painted slab.
+    box(kiosk, 1.22, 0.08, 0.44, 0, 0.04, 0.02, CITY.darkSteel, { rough: 0.55, metal: 0.6 });
+    box(kiosk, 1.08, 2.0, 0.18, 0, 1.04, 0, 0x1b232b, { rough: 0.5, metal: 0.45 });
+    for (const sx of [-1, 1]) {
+      box(kiosk, 0.05, 2.02, 0.22, sx * 0.565, 1.04, 0, CITY.steel, { rough: 0.35, metal: 0.75 });
+      box(kiosk, 0.02, 1.84, 0.02, sx * 0.535, 1.04, 0.1, sim.accent, { emissive: sim.accent, ei: 1.3, rough: 0.4, cast: false });
+    }
+    box(kiosk, 1.16, 0.06, 0.26, 0, 2.08, 0, CITY.steel, { rough: 0.35, metal: 0.75 });
+    box(kiosk, 1.08, 0.04, 0.24, 0, 2.13, 0, sim.accent, { emissive: sim.accent, ei: 1.6, rough: 0.4, cast: false });
+    box(kiosk, 1.06, 0.03, 0.2, 0, 0.09, 0.05, sim.accent, { emissive: sim.accent, ei: 1.0, rough: 0.4, cast: false });
 
     const indexBadge = decal(kiosk, 0.3, 0.3, -0.3, 1.7, 0.1, () => {}, { px: 256, glow: true, ei: 0.7 });
     const sign = decal(kiosk, 0.94, 0.7, 0.02, 1.15, 0.1, () => {}, { px: 512, glow: true, ei: 0.6 });
@@ -2944,18 +3156,24 @@ function buildHub(root, sims) {
         g.fillStyle = "rgba(10,16,22,0.92)"; g.fillRect(0, 0, w, h);
         g.fillStyle = accentCss; g.fillRect(0, h - 6, w, 6);
         g.fillStyle = "#8fb3c4";
-        g.font = `600 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.font = `600 ${Math.round(h * 0.09)}px 'Barlow Condensed', Arial, sans-serif`;
         g.textAlign = "center"; g.textBaseline = "middle";
-        g.fillText(sim.domain.toUpperCase(), w / 2, h * 0.14);
+        g.fillText((sim.category ?? sim.domain).toUpperCase(), w / 2, h * 0.12);
         g.fillStyle = "#eaf6fb";
         g.font = `600 ${Math.round(h * 0.24)}px 'Barlow Condensed', Arial, sans-serif`;
-        g.fillText(sim.name.toUpperCase(), w / 2, h * 0.4);
+        g.fillText(sim.name.toUpperCase(), w / 2, h * 0.37);
         g.fillStyle = accentCss;
-        g.font = `${Math.round(h * 0.1)}px Arial, sans-serif`;
-        g.fillText(sim.trade, w / 2, h * 0.64);
+        g.font = `${Math.round(h * 0.095)}px Arial, sans-serif`;
+        g.fillText(sim.trade, w / 2, h * 0.58);
+        // The real union + credential for this trade, split at the em dash so
+        // the union sits on its own line and the credential is clipped to fit.
+        const [union, credential] = String(sim.certification ?? "").split(" — ");
+        g.fillStyle = "#c9dbe6";
+        g.font = `600 ${Math.round(h * 0.08)}px 'Barlow Condensed', Arial, sans-serif`;
+        g.fillText((union ?? "").toUpperCase(), w / 2, h * 0.74);
         g.fillStyle = "#6d8296";
-        g.font = `500 ${Math.round(h * 0.08)}px 'Barlow Condensed', Arial, sans-serif`;
-        g.fillText(`SMARTCITI.X~ ${sim.name.toUpperCase()} VR`, w / 2, h * 0.84);
+        g.font = `${Math.round(h * 0.07)}px Arial, sans-serif`;
+        g.fillText(fitText(g, credential ?? "", w * 0.92), w / 2, h * 0.87);
       });
       const rank = Progress.simRank(sim.id, sim.game);
       const state = Progress.roomState(sim.id);
@@ -2988,10 +3206,18 @@ function buildHub(root, sims) {
   }
   paintKiosks();
 
-  const key = new THREE.DirectionalLight(0xdbe6f2, 0.7);
+  const key = new THREE.DirectionalLight(0xdbe6f2, 0.85);
   key.position.set(3, 8, 4);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left = -10; key.shadow.camera.right = 10;
+  key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
+  key.shadow.bias = -0.0008;
   root.add(key);
-  root.add(new THREE.HemisphereLight(0x8ea9c2, 0x1e242b, 1.3));
+  root.add(new THREE.HemisphereLight(0x8ea9c2, 0x1e242b, 1.4));
+  const rim = new THREE.DirectionalLight(0x6fb8ff, 0.3);
+  rim.position.set(-4, 5, -7);
+  root.add(rim);
 
   return {
     hits,
@@ -3069,12 +3295,12 @@ const { Fragment, useSyncExternalStore } = React;
 // render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">SmartCiti.X · 10 categories, twenty stations today</div>
-  <h1>AR Training Simulators</h1>
-  <p class="lead">Deep-skill simulators across ten trade-union categories, each its own gamified system
-  with its own rank ladder, currency and badges — and each naming the real union and certification a
-  worker in that role would actually need. Every station is a real procedure with real hazards — the
-  training scores what you touch and in what order.</p>
+  <div class="eyebrow">Ten categories · Twenty stations · One apprentice record</div>
+  <h1>AR / VR Training Simulators</h1>
+  <p class="lead">Deep-skill simulators across ten trade-union categories. Each station is its own
+  gamified system — its own rank ladder, currency and badges — and names the real union and
+  certification a worker in that role actually needs. Every procedure is real and every hazard is
+  real: the training scores what you touch and in what order.</p>
 `;
 const INTRO_TAIL_HTML = `
   <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
@@ -3091,9 +3317,8 @@ const CATEGORY_ORDER = [
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
 ];
 const INTRO_FOOT_HTML = `
-  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
-  through all twenty stations in order, one after another, with no need to find your own way back to the campus
-  between them.</p>
+  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
+  twenty stations in order and brings you back to the campus between each one.</p>
   <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
@@ -3150,7 +3375,7 @@ function mountUI(store, actions) {
   }
 
   function HudHint() {
-    return h("div", { id: "hud-hint" }, "Drag look · click act · M mute · ESC hub");
+    return h("div", { id: "hud-hint" }, "Drag to look · Click to act · M mute · Esc campus");
   }
 
   function GestureTip() {
@@ -3268,9 +3493,9 @@ function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
         h("h1", null, "Create a Scenario"),
-        h("p", { className: "lead" }, "Build your own drill out of a real station's real steps. Pick a simulator, keep " +
-          "the steps that matter for what you're teaching, put them in the order you want, and it runs " +
-          "through the exact same procedure engine and rank system as the original — hazards included."),
+        h("p", { className: "lead" }, "Build your own drill from a real station's real steps: pick a simulator, keep " +
+          "the steps that matter for what you're teaching, order them how you want, and it runs on the " +
+          "same procedure engine and rank ladder as the original — hazards included."),
         h("div", { className: "ed-row" },
           h("label", { className: "eyebrow", htmlFor: "ed-base" }, "Base simulator"),
           h("select", { id: "ed-base", value: ed.baseValue, onChange: (e) => actions.edSelectBase(e.target.value) },
@@ -3469,8 +3694,8 @@ placement.add(worldRoot);
 const store = createStore({
   hud: {
     room: "SMARTCITI.X",
-    step: "Choose a district",
-    cue: "Select a simulator to begin its own procedure and its own rank system.",
+    step: "Choose a station",
+    cue: "Select a kiosk to start that station's procedure and rank ladder.",
     gestureVerb: "", gestureVisible: false,
     score: "----", comboText: "", comboHot: false, comboFire: false,
     fillPct: 0, count: "0/20 CLEARED", timer: "",
@@ -3513,8 +3738,8 @@ function syncHud() {
   if (!s) {
     store.patch("hud", {
       room: "SMARTCITI.X",
-      step: "Choose a district",
-      cue: "Select a simulator to begin its own procedure and its own rank system.",
+      step: "Choose a station",
+      cue: "Select a kiosk to start that station's procedure and rank ladder.",
       score: "----", comboText: `LV ${Progress.level} · ${Progress.levelName.toUpperCase()}`, comboHot: false, comboFire: false,
       count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
       fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
@@ -3706,7 +3931,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   store.patch("arPrompt", { visible: state.mode === "ar" });
   store.patch("scaleRow", { visible: state.mode === "ar" });
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ten categories, each with its own rank ladder. Select a kiosk to begin.`);
   syncHud();
 }
 
@@ -3721,7 +3946,7 @@ async function enterSim(id) {
   if (myToken !== enterSimToken) return; // superseded by a later pick
   if (!room) { enterHub(); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
   const root = new THREE.Group();
   worldRoot.add(root);
@@ -4588,7 +4813,7 @@ function announce(text) {
 function currentHintLine() {
   const s = state.session;
   if (s?.step) return `${s.step.title}. ${s.step.cue}`;
-  return "Select a simulator kiosk to begin its procedure.";
+  return "Select a station kiosk to begin its procedure.";
 }
 
 function speakBrief() {

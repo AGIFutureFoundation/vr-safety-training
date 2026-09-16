@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } from "../../shared/kit.js";
-import { CITY, skyline } from "./citykit.js";
+import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -57,7 +57,7 @@ function buildMarquee(g) {
 
 export const STAGE_MODES = ["ar", "vr", "flat"];
 
-export function buildStage(root, mode, scene) {
+export function buildStage(root, mode, scene, accent = CITY.accent) {
   const g = group(root);
   const ar = mode === "ar";
 
@@ -83,18 +83,29 @@ export function buildStage(root, mode, scene) {
     return { root: g, ar, animate() {} };
   }
 
-  scene.background = new THREE.Color(0x070c12);
-  scene.fog = new THREE.Fog(0x070c12, 20, 62);
+  scene.background = new THREE.Color(0x060a11);
+  scene.fog = new THREE.Fog(0x080d16, 22, 64);
 
-  // Plaza deck.
-  const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 56 });
+  // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
+  // planar UVs make a repeating texture read as a real slab grid), with a
+  // deck-plate walk ring around the perimeter so the edge reads as a
+  // different material rather than the same colour to the horizon.
+  const pavingTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4 }), { repeat: 7, px: 512 });
+  const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 64 });
+  deck.material = texturedMat(pavingTex, { rough: 0.9, metal: 0.04, color: 0xd8dde3 });
   deck.receiveShadow = true;
-  for (let i = -7; i <= 7; i++) {
-    box(g, 30, 0.004, 0.014, 0, 0.004, i * 2, 0x223140, { cast: false, receive: false });
-    box(g, 0.014, 0.004, 30, i * 2, 0.004, 0, 0x223140, { cast: false, receive: false });
-  }
-  torus(g, 12.4, 0.05, 0, 0.02, 0, CITY.accent,
-    { emissive: CITY.accent, ei: 1.5, rough: 0.4, cast: false, seg: 6, seg2: 64 });
+  const plateTex = surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 22, px: 256 });
+  const walkRing = cyl(g, 13.6, 13.6, 0.04, 0, 0.02, 0, 0x232b33, { rough: 0.6, metal: 0.5, seg: 64 });
+  walkRing.material = texturedMat(plateTex, { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
+  walkRing.receiveShadow = true;
+  cyl(g, 11.8, 11.8, 0.05, 0, 0.025, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
+    .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1c242d", base2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
+  // Station-accent glow ring and an inner hazard-yellow kerb line: the ring
+  // takes the current station's colour so each sim's plaza is subtly its own.
+  torus(g, 12.6, 0.05, 0, 0.03, 0, accent,
+    { emissive: accent, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 72 });
+  torus(g, 11.75, 0.02, 0, 0.055, 0, CITY.hiVis,
+    { emissive: CITY.hiVis, ei: 0.6, rough: 0.5, cast: false, seg: 6, seg2: 72 });
 
   // Perimeter light masts.
   for (let i = 0; i < 8; i++) {
@@ -114,14 +125,25 @@ export function buildStage(root, mode, scene) {
   const sky = skyline(g);
   const marquee = buildMarquee(g);
 
-  const key = new THREE.DirectionalLight(0xbcd4e8, 0.55);
+  const key = new THREE.DirectionalLight(0xbcd4e8, 0.6);
   key.position.set(4, 9, 5);
   key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.camera.left = -8; key.shadow.camera.right = 8;
-  key.shadow.camera.top = 8; key.shadow.camera.bottom = -8;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left = -9; key.shadow.camera.right = 9;
+  key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
+  key.shadow.bias = -0.0008;
   g.add(key);
-  g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.15));
+  g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.1));
+  // A soft overhead wash in the station's own accent — the one light that
+  // changes per sim, so the same plaza reads warm for a boiler room and cool
+  // for a chiller plant without rebuilding anything.
+  const wash = new THREE.PointLight(accent, 1.1, 10, 2);
+  wash.position.set(0, 4.2, 0.6);
+  g.add(wash);
+  // Cool rim from behind the marquee so silhouettes separate from the skyline.
+  const rim = new THREE.DirectionalLight(0x6fb8ff, 0.35);
+  rim.position.set(-3, 4, -8);
+  g.add(rim);
 
   const beacons = sky.userData.beacons ?? [];
   return {

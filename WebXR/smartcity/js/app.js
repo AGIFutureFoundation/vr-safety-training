@@ -138,8 +138,8 @@ placement.add(worldRoot);
 const store = createStore({
   hud: {
     room: "SMARTCITI.X",
-    step: "Choose a district",
-    cue: "Select a simulator to begin its own procedure and its own rank system.",
+    step: "Choose a station",
+    cue: "Select a kiosk to start that station's procedure and rank ladder.",
     gestureVerb: "", gestureVisible: false,
     score: "----", comboText: "", comboHot: false, comboFire: false,
     fillPct: 0, count: "0/20 CLEARED", timer: "",
@@ -182,8 +182,8 @@ function syncHud() {
   if (!s) {
     store.patch("hud", {
       room: "SMARTCITI.X",
-      step: "Choose a district",
-      cue: "Select a simulator to begin its own procedure and its own rank system.",
+      step: "Choose a station",
+      cue: "Select a kiosk to start that station's procedure and rank ladder.",
       score: "----", comboText: `LV ${Progress.level} · ${Progress.levelName.toUpperCase()}`, comboHot: false, comboFire: false,
       count: `${Progress.roomsClearedIn(allSims().map((s) => s.id))}/${allSims().length} CLEARED`,
       fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
@@ -375,7 +375,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   store.patch("arPrompt", { visible: state.mode === "ar" });
   store.patch("scaleRow", { visible: state.mode === "ar" });
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} simulators, each its own gamified system and its own rank. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ten categories, each with its own rank ladder. Select a kiosk to begin.`);
   syncHud();
 }
 
@@ -390,7 +390,7 @@ async function enterSim(id) {
   if (myToken !== enterSimToken) return; // superseded by a later pick
   if (!room) { enterHub(); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent);
   state.stage = stage;
   const root = new THREE.Group();
   worldRoot.add(root);
@@ -1257,7 +1257,7 @@ function announce(text) {
 function currentHintLine() {
   const s = state.session;
   if (s?.step) return `${s.step.title}. ${s.step.cue}`;
-  return "Select a simulator kiosk to begin its procedure.";
+  return "Select a station kiosk to begin its procedure.";
 }
 
 function speakBrief() {

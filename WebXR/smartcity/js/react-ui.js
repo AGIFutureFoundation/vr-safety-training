@@ -21,12 +21,12 @@ const { Fragment, useSyncExternalStore } = React;
 // render from SIMS_META, so it can't drift again.
 const INTRO_HEAD_HTML = `
   <div class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</div>
-  <div class="eyebrow">SmartCiti.X · 10 categories, twenty stations today</div>
-  <h1>AR Training Simulators</h1>
-  <p class="lead">Deep-skill simulators across ten trade-union categories, each its own gamified system
-  with its own rank ladder, currency and badges — and each naming the real union and certification a
-  worker in that role would actually need. Every station is a real procedure with real hazards — the
-  training scores what you touch and in what order.</p>
+  <div class="eyebrow">Ten categories · Twenty stations · One apprentice record</div>
+  <h1>AR / VR Training Simulators</h1>
+  <p class="lead">Deep-skill simulators across ten trade-union categories. Each station is its own
+  gamified system — its own rank ladder, currency and badges — and names the real union and
+  certification a worker in that role actually needs. Every procedure is real and every hazard is
+  real: the training scores what you touch and in what order.</p>
 `;
 const INTRO_TAIL_HTML = `
   <p><b>AR:</b> place a tabletop diorama of any station on a real surface, then tap components.<br>
@@ -43,9 +43,8 @@ const CATEGORY_ORDER = [
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
 ];
 const INTRO_FOOT_HTML = `
-  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> walks you
-  through all twenty stations in order, one after another, with no need to find your own way back to the campus
-  between them.</p>
+  <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
+  twenty stations in order and brings you back to the campus between each one.</p>
   <p class="fineprint">Progress, ranks and badges are stored per simulator in this browser only —
   nothing is transmitted. AR needs a WebXR + hit-test capable browser (most current Android
   Chrome-based browsers on ARCore devices, and Meta Quest Browser in passthrough). Ray-Ban Meta
@@ -102,7 +101,7 @@ export function mountUI(store, actions) {
   }
 
   function HudHint() {
-    return h("div", { id: "hud-hint" }, "Drag look · click act · M mute · ESC hub");
+    return h("div", { id: "hud-hint" }, "Drag to look · Click to act · M mute · Esc campus");
   }
 
   function GestureTip() {
@@ -220,9 +219,9 @@ export function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · scenario editor"),
         h("h1", null, "Create a Scenario"),
-        h("p", { className: "lead" }, "Build your own drill out of a real station's real steps. Pick a simulator, keep " +
-          "the steps that matter for what you're teaching, put them in the order you want, and it runs " +
-          "through the exact same procedure engine and rank system as the original — hazards included."),
+        h("p", { className: "lead" }, "Build your own drill from a real station's real steps: pick a simulator, keep " +
+          "the steps that matter for what you're teaching, order them how you want, and it runs on the " +
+          "same procedure engine and rank ladder as the original — hazards included."),
         h("div", { className: "ed-row" },
           h("label", { className: "eyebrow", htmlFor: "ed-base" }, "Base simulator"),
           h("select", { id: "ed-base", value: ed.baseValue, onChange: (e) => actions.edSelectBase(e.target.value) },
