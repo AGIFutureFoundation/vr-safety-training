@@ -4,6 +4,7 @@ import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, download } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
+import { Lrs } from "../../shared/lrs.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -180,7 +181,10 @@ const store = createStore({
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
   leaderboard: { visible: false, html: "" },
-  records: { visible: false, rows: [], summary: [], total: 0, passes: 0 },
+  records: {
+    visible: false, rows: [], summary: [], total: 0, passes: 0,
+    lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
+  },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -543,6 +547,7 @@ function showResults(s, summary) {
   // Hand the attempt to the hosting LMS page, if there is one and it told
   // us who the learner is — only ever to that origin (see identity.js).
   Identity.emit("smartcitix:record", { record: attempt });
+  shipToLrs([attempt]);
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
@@ -651,6 +656,41 @@ function clearRecords() {
   TrainingRecords.clear();
   renderRecords();
 }
+
+// ------------------------------------------------------------------ live LRS
+//
+// The step after exporting a file: with an endpoint connected, each finished
+// attempt is sent as an xAPI statement the moment it happens, and anything
+// that fails to send waits in a local queue for the next try. Configured on
+// the records overlay, by the launch URL (endpoint only), or by the embedding
+// page from the learner's home origin — see shared/lrs.js.
+
+function xapiOpts() { return { actorName: Progress.playerName, homePage: location.origin }; }
+function refreshLrs(extra = {}) {
+  const s = Lrs.status();
+  store.patch("records", { lrs: { ...store.get().records.lrs, configured: s.configured, host: s.host, authed: s.authed, pending: s.pending, last: s.last, ...extra } });
+}
+function shipToLrs(records) {
+  if (!Lrs.configured) return;
+  refreshLrs({ busy: true });
+  Lrs.ship(records, xapiOpts()).then(() => refreshLrs({ busy: false }));
+}
+function lrsSetEndpoint(v) { refreshLrs({ endpointDraft: v, error: null }); }
+function lrsSetAuth(v) { refreshLrs({ authDraft: v }); }
+function lrsConnect() {
+  const d = store.get().records.lrs;
+  const cfg = Lrs.configure({ endpoint: d.endpointDraft, auth: d.authDraft });
+  if (!cfg) { refreshLrs({ error: "The endpoint must be an https URL (http is allowed on localhost only)." }); return; }
+  refreshLrs({ error: null, authDraft: "", busy: true });
+  Lrs.flush().then(() => refreshLrs({ busy: false }));
+}
+function lrsDisconnect() { Lrs.disconnect(); refreshLrs({ error: null, busy: false }); }
+function lrsSendAll() { shipToLrs(TrainingRecords.list()); }
+
+Lrs.load();
+Lrs.listen(() => Identity.current?.homePage, () => { refreshLrs(); Lrs.flush().then(() => refreshLrs()); });
+refreshLrs();
+if (Lrs.pending()) Lrs.flush().then(() => refreshLrs());
 
 // ------------------------------------------------------------- scenario editor
 //
@@ -1430,6 +1470,7 @@ function handleVoiceCommand(text) {
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, clearRecords,
+  lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
   edSetName, edSetPar, edSetTagline, edSavePlay, edSaveOnly, edCancel,
   edPlayLibrary, edDeleteLibrary,

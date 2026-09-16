@@ -231,6 +231,16 @@
   .rec-verdict{ font-family:var(--cond); font-weight:700; font-size:11px; letter-spacing:.12em; border-radius:999px; padding:2px 9px }
   .rec-verdict.pass{ color:#0c2a17; background:var(--good) }
   .rec-verdict.fail{ color:#2a0c0c; background:var(--danger) }
+  .lrs-box{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:10px 12px; margin:6px 0 4px }
+  .lrs-box .fineprint{ margin:4px 0 8px }
+  .lrs-form{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+  .lrs-form input{ flex:1 1 220px; min-width:0; background:var(--raised); border:1px solid var(--edge-strong); border-radius:var(--r-sm);
+    color:var(--text); font:inherit; font-size:13px; padding:8px 10px }
+  .lrs-form input::placeholder{ color:var(--dim) }
+  .lrs-form input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring) }
+  .lrs-status{ font-size:12.5px; color:var(--muted); margin:4px 0 8px }
+  .lrs-row{ margin:0 }
+  .lrs-error{ color:var(--danger); font-size:12.5px; margin:8px 0 0 }
 
   /* ------------------------------------------------------------ editor */
   .ed-row{ margin:12px 0 }

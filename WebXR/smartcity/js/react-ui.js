@@ -232,11 +232,45 @@ export function mountUI(store, actions) {
                   h("td", null, fmtTime(r.seconds)),
                   h("td", null, h("span", { className: `rec-verdict ${r.passed ? "pass" : "fail"}` }, r.passed ? "PASS" : "FAIL")))))))
           : h("p", { className: "lb-empty" }, "No attempts recorded yet — finish any station and it will appear here."),
+        h(LrsBox, { lrs: rec.lrs, total: rec.total }),
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
           h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
           h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
           h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
+  }
+
+  function LrsBox({ lrs, total }) {
+    const n = lrs.pending;
+    let status = `Connected to ${lrs.host}${lrs.authed ? " (authenticated)" : ""} · ${n} statement${n === 1 ? "" : "s"} waiting`;
+    if (lrs.busy) status += " · sending…";
+    else if (lrs.last?.error) status += ` · last send failed: ${lrs.last.error}`;
+    else if (lrs.last) status += ` · last send delivered ${lrs.last.sent}`;
+    return h("div", { className: "lrs-box" },
+      h("div", { className: "eyebrow" }, "Learning Record Store (live xAPI)"),
+      lrs.configured
+        ? h(Fragment, null,
+            h("p", { className: "lrs-status", id: "lrs-status", "aria-live": "polite" }, status),
+            h("div", { className: "btnrow lrs-row" },
+              h("button", { id: "lrs-send-all", disabled: !total || lrs.busy, onClick: actions.lrsSendAll }, "Send all records now"),
+              h("button", { id: "lrs-disconnect", onClick: actions.lrsDisconnect }, "Disconnect")))
+        : h(Fragment, null,
+            h("p", { className: "fineprint" },
+              "Connect an xAPI endpoint and every finished attempt is delivered as it happens. Statements that " +
+              "cannot be sent wait on this device and retry; the credential lives in this tab only."),
+            h("div", { className: "lrs-form" },
+              h("input", {
+                id: "lrs-endpoint", type: "url", inputMode: "url", placeholder: "https://lrs.example.org/xapi",
+                "aria-label": "LRS endpoint", value: lrs.endpointDraft, autoComplete: "off", spellCheck: false,
+                onChange: (e) => actions.lrsSetEndpoint(e.target.value),
+              }),
+              h("input", {
+                id: "lrs-auth", type: "password", placeholder: "user:secret or token (optional)",
+                "aria-label": "LRS credential", value: lrs.authDraft, autoComplete: "off",
+                onChange: (e) => actions.lrsSetAuth(e.target.value),
+              }),
+              h("button", { id: "lrs-connect", className: "primary", disabled: !lrs.endpointDraft.trim(), onClick: actions.lrsConnect }, "Connect")),
+            lrs.error && h("p", { className: "lrs-error", role: "alert" }, lrs.error)));
   }
 
   function EditorStepRow({ step, i, count }) {

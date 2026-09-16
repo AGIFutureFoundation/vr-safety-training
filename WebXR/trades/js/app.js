@@ -4,6 +4,7 @@ import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
+import { Lrs } from "../../shared/lrs.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -26,6 +27,11 @@ Progress.load();
 Identity.load();
 if (Identity.tag()) Progress.setPlayerName(Identity.tag());
 Identity.listen(() => { if (Identity.tag()) Progress.setPlayerName(Identity.tag()); });
+// Live LRS delivery, configured by launch URL or the embedding page; a
+// queue left by an earlier tab is retried on load.
+Lrs.load();
+Lrs.listen(() => Identity.current?.homePage, () => Lrs.flush());
+if (Lrs.pending()) Lrs.flush();
 
 // ------------------------------------------------------------------ renderer
 
@@ -399,6 +405,7 @@ function showResults(s, summary) {
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
   });
   Identity.emit("smartcitix:record", { record: attempt });
+  Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
   announce(`${s.room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
     (s.badgeEarned ? ` Badge earned — ${s.room.badge.name}.` : ""));
 }

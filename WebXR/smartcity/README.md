@@ -99,11 +99,36 @@ back to the host page as `{ type: "smartcitix:record", record }` — only when e
 to `learner_home`, never broadcast. A hosting LMS can therefore capture attempts live with no
 LRS at all. Real authentication (LTI 1.3 / SSO) needs a server and remains the next step.
 
+## Live Learning Record Store
+
+`WebXR/shared/lrs.js` is the step after the file export: connect an xAPI endpoint and every
+finished attempt in any of the three apps is POSTed to `<endpoint>/statements` (xAPI 1.0.3,
+batched, `X-Experience-API-Version` set) the moment it happens. A statement that cannot be
+delivered — kiosk offline, LRS down, wrong credential — waits in a local queue and is retried
+on the next attempt, the next page load, or **Send all records now** on the records overlay;
+statements carry the record's own id, so a retry or a "send all" never double-counts at an LRS
+that de-duplicates on statement id (they all do). The overlay's status line shows the host,
+whether a credential is set, how many statements are waiting and how the last send went.
+
+Three ways to configure it, all under the deployer's control:
+
+- **Records overlay** — endpoint plus an optional credential (`user:secret` becomes Basic, a
+  bare token becomes Bearer, a full `Basic …`/`Bearer …` value is used as-is). Kept per tab in
+  sessionStorage; a credential is never written to localStorage.
+- **Launch URL** — `?lrs_endpoint=https://lrs.example.org/xapi` (endpoint only, never a
+  credential; scrubbed from the address bar like the identity params) for an LRS that accepts
+  statements from a kiosk network without auth.
+- **Embedding page** — `postMessage({ type: "smartcitix:lrs", endpoint, auth })`, accepted only
+  from the learner's home origin established by the identity message above.
+
+Endpoints must be https (http is allowed on localhost only). Nothing is queued while no LRS
+is connected — connecting later and pressing **Send all** delivers the local history.
+
 ## Quality gate
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
 `node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
-identity, orbis-stable — one line each) and a freshness check that regenerates `sims-meta.js`
+identity, lrs, orbis-stable — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
 silent deploy of old code. Run the same command locally before pushing.
 
@@ -115,12 +140,14 @@ launch context (URL or embedding page, origin-bound, with live record hand-back 
 host), accessibility basics (dialog semantics, live region, focus rings, reduced motion),
 input escaping, a CI gate, and single-file/static deployment with no server dependency.
 
+Done as well: live xAPI delivery to a Learning Record Store with an offline queue and retry.
+
 Not yet done, in the order it should happen: (1) real authentication behind the launch
 context — an LTI 1.3 or SSO launch needs a server to verify the signed launch, which a static
-page cannot do; (2) a live LRS endpoint behind the xAPI export instead of a file download;
-(3) subject-matter review of every station by a qualified practitioner in that trade before
-any record is treated as certification evidence; (4) a headset pass on Meta Quest for frame
-rate, comfort and in-headset legibility; (5) the remaining stations toward 33 per category.
+page cannot do; (2) subject-matter review of every station by a qualified practitioner in
+that trade before any record is treated as certification evidence; (3) a headset pass on
+Meta Quest for frame rate, comfort and in-headset legibility; (4) the remaining stations
+toward 33 per category.
 
 ## Running it
 
