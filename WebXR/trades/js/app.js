@@ -2,6 +2,8 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
+import { TrainingRecords } from "../../shared/records.js";
+import { Identity } from "../../shared/identity.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -19,6 +21,11 @@ const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r]));
 const ROOM_IDS = ROOMS.map((r) => r.id);
 
 Progress.load();
+// A launch identity (LMS URL or embedding page — see shared/identity.js)
+// names the learner on this app's records; there is no crew-tag field here.
+Identity.load();
+if (Identity.tag()) Progress.setPlayerName(Identity.tag());
+Identity.listen(() => { if (Identity.tag()) Progress.setPlayerName(Identity.tag()); });
 
 // ------------------------------------------------------------------ renderer
 
@@ -381,6 +388,17 @@ function showResults(s, summary) {
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
   ui.results.hidden = false;
   state.paused = true;
+  // Same attempt record SmartCiti.X writes. Trade rooms carry no category or
+  // certification of their own yet, so they roll up under one category.
+  const attempt = TrainingRecords.record({
+    app: "trades", learner: Progress.playerName,
+    learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
+    simId: s.room.id, simName: s.room.title, category: "Trade Skills Simulator", trade: s.room.trade,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
+    badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
+  });
+  Identity.emit("smartcitix:record", { record: attempt });
   announce(`${s.room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
     (s.badgeEarned ? ` Badge earned — ${s.room.badge.name}.` : ""));
 }
@@ -411,6 +429,7 @@ const _scratchM4 = new THREE.Matrix4();
 const _scratchV1 = new THREE.Vector3();
 const _scratchV2 = new THREE.Vector3();
 const _scratchBox = new THREE.Box3();
+let _hintBoxFor = null, _hintBoxAt = -1;
 
 function findHit(intersections) {
   for (const it of intersections) {
@@ -627,7 +646,6 @@ let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, down
 const keys = Object.create(null);
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
-  if (e.code === "KeyH" && !state.session) return;
   if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
 });
@@ -1061,7 +1079,12 @@ renderer.setAnimationLoop(() => {
       if (d < bestDist) { bestDist = d; best = t; }
     }
     if (best) {
-      _scratchBox.setFromObject(best);
+      // setFromObject() walks the whole target subtree; do it when the
+      // target changes and then only a few times a second, not every frame.
+      if (best !== _hintBoxFor || elapsedTotal - _hintBoxAt > 0.25) {
+        _scratchBox.setFromObject(best);
+        _hintBoxFor = best; _hintBoxAt = elapsedTotal;
+      }
       const c = _scratchBox.getCenter(_scratchV1);
       hint.position.set(c.x, 0.02, c.z);
       hintPip.position.set(0, Math.max(_scratchBox.max.y + 0.18, 0.6) + Math.sin(elapsedTotal * 2.6) * 0.05, 0);

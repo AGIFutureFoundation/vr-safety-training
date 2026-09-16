@@ -55,7 +55,7 @@ check("summary() rolls up attempts, passes and distinct stations per category", 
 check("toCSV() is RFC 4180: header row, quoted commas/quotes, CRLF", () => {
   const csv = toCSV([{ at: "2026-01-01T00:00:00Z", learner: 'A "B", C', simId: "x", badges: ["p", "q"], score: 10, stars: 3, passed: true }]);
   const [header, row, tail] = csv.split("\r\n");
-  if (!header.startsWith("at,learner,app,simId")) throw new Error(`bad header: ${header}`);
+  if (!header.startsWith("at,learner,learnerName,learnerId,homePage,app,simId")) throw new Error(`bad header: ${header}`);
   if (!row.includes('"A ""B"", C"')) throw new Error(`quoting failed: ${row}`);
   if (!row.includes("p; q")) throw new Error(`array cell failed: ${row}`);
   eq(tail, "", "trailing CRLF");
@@ -81,6 +81,17 @@ check("toXAPI() emits well-formed 1.0.3 statements with passed/failed verbs", ()
   eq(st.result.extensions["https://example.test/xapi/ext/stars"], 3, "stars extension");
   eq(st.context.extensions["https://example.test/xapi/ext/category"], "Energy & Power", "category extension");
   JSON.stringify(statements); // must be serialisable
+});
+
+check("toXAPI() uses a launch identity as the actor account when the record carries one", () => {
+  const { statements } = toXAPI([
+    { id: "r1", at: "2026-01-01T00:00:00Z", learner: "ADA", learnerName: "Ada Lovelace", learnerId: "al-1815", homePage: "https://lms.example.org", simId: "x", app: "smartcity", stars: 3, hazardHits: 0, passed: true, score: 1, seconds: 1 },
+    { id: "r2", at: "2026-01-01T00:00:00Z", learner: "YOU", simId: "x", app: "smartcity", stars: 3, hazardHits: 0, passed: true, score: 1, seconds: 1 },
+  ], { homePage: "https://deploy.example" });
+  eq(statements[0].actor.name, "Ada Lovelace", "display name");
+  eq(statements[0].actor.account.name, "al-1815", "account id"); eq(statements[0].actor.account.homePage, "https://lms.example.org", "account home");
+  eq(statements[0].object.id, "https://deploy.example/smartcity/x", "activity still scoped to the deployment");
+  eq(statements[1].actor.account.homePage, "https://deploy.example", "fallback home"); eq(statements[1].actor.account.name, "YOU", "fallback account");
 });
 
 check("record() caps the log at 1000 entries, dropping the oldest", () => {

@@ -198,6 +198,8 @@
     padding:10px 12px; text-transform:uppercase; transition:border-color .15s, box-shadow .15s; }
   .namerow input::placeholder{ color:var(--dim) }
   .namerow input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring) }
+  .namerow input[readonly]{ opacity:.8; cursor:default; border-style:dashed }
+  .identity-note{ margin-top:6px; color:var(--accent) }
 
   /* ------------------------------------------------------ leaderboards */
   .lb-table{ width:100%; border-collapse:collapse; margin:4px 0 14px; font-size:13.5px }

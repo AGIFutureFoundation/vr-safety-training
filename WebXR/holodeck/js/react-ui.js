@@ -53,7 +53,7 @@ export function mountUI(store, actions) {
     const hud = useSlice("hud");
     if (!hud.visible) return null;
     return h("div", { id: "hud-rail", "data-state": hud.railState },
-      h("div", { id: "hud-feedback", dangerouslySetInnerHTML: { __html: hud.feedback } }),
+      h("div", { id: "hud-feedback", "aria-live": "polite", dangerouslySetInnerHTML: { __html: hud.feedback } }),
       hud.mode === "training"
         ? h("div", { id: "hud-count" }, hud.count)
         : hud.powerVisible && h("div", { id: "hud-power-track" },
@@ -92,7 +92,7 @@ export function mountUI(store, actions) {
   function IntroCard() {
     const intro = useSlice("intro");
     if (!intro.visible) return null;
-    return h("div", { className: "overlay", id: "intro" },
+    return h("div", { className: "overlay", id: "intro", role: "dialog", "aria-modal": "true", "aria-label": "Holodeck prompt" },
       h("div", { className: "card" },
         h("div", { className: "brandline" }, "Holodeck ~ Powered by AGI Corp & Visko"),
         h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
@@ -151,7 +151,7 @@ export function mountUI(store, actions) {
   function HoleResultCard() {
     const r = useSlice("holeResult");
     if (!r.visible) return null;
-    return h("div", { className: "overlay", id: "hole-result" },
+    return h("div", { className: "overlay", id: "hole-result", role: "dialog", "aria-modal": "true", "aria-label": "Hole result" },
       h("div", { className: "card" },
         h("div", { className: "res-stars" }, r.stars),
         h("h1", null, r.title),
@@ -163,7 +163,7 @@ export function mountUI(store, actions) {
   function FinalCard() {
     const f = useSlice("final");
     if (!f.visible) return null;
-    return h("div", { className: "overlay", id: "final" },
+    return h("div", { className: "overlay", id: "final", role: "dialog", "aria-modal": "true", "aria-label": "Scorecard" },
       h("div", { className: "card" },
         h("div", { className: "eyebrow" }, "Course complete"),
         h("h1", null, "Scorecard"),
@@ -182,7 +182,7 @@ export function mountUI(store, actions) {
   function TrainingResultCard() {
     const r = useSlice("trainingResult");
     if (!r.visible) return null;
-    return h("div", { className: "overlay", id: "training-result" },
+    return h("div", { className: "overlay", id: "training-result", role: "dialog", "aria-modal": "true", "aria-label": "Procedure result" },
       h("div", { className: "card" },
         h("div", { className: "res-stars" }, r.stars),
         h("h1", null, r.title),

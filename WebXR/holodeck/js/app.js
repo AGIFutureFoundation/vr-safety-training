@@ -3,8 +3,21 @@ import {
   box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
   GESTURE_HINTS,
 } from "../../shared/kit.js";
-import { Sfx, Session } from "../../shared/game.js";
+import { Sfx, Session, Progress } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
+import { TrainingRecords } from "../../shared/records.js";
+import { Identity } from "../../shared/identity.js";
+
+// Progress is the profile shared with SmartCiti.X and Trade Skills. It has
+// to be loaded before any Session finishes: Session.finish() calls
+// Progress.record()/submitScore(), which save the in-memory profile — and
+// without this load that in-memory profile was the empty default, so one
+// finished Holodeck run overwrote the learner's XP, badges and leaderboards
+// from the other two apps with nothing.
+Progress.load();
+Identity.load();
+if (Identity.tag()) Progress.setPlayerName(Identity.tag());
+Identity.listen(() => { if (Identity.tag()) Progress.setPlayerName(Identity.tag()); });
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "./themes.js";
 import { localInterpreter, interpretPrompt } from "./prompt-parser.js";
 import { BALL_RADIUS, buildCourse, createBall, putt, stepBall } from "./minigolf.js";
@@ -574,6 +587,21 @@ function showTrainingResult(s) {
   // the same real local-device leaderboard every union-trade sim uses,
   // keyed by this procedure's stable generated id (template + equipment).
   const board = s.leaderboard?.board ?? [];
+  // Same attempt record SmartCiti.X writes, shape-tolerant: a real station
+  // loaded from the SmartCiti.X library carries category/certification, a
+  // generated procedure records under its template as the category.
+  const room = trainingRoom;
+  const attempt = TrainingRecords.record({
+    app: "holodeck", source: lastTrainingParams?.kind ?? "generic",
+    learner: Progress.playerName, learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
+    simId: room.id, simName: room.name ?? room.title,
+    category: room.category ?? `Holodeck — ${room.title.split(" — ")[1] ?? "Generated procedure"}`,
+    trade: room.trade, certification: room.certification, system: room.game?.system,
+    score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
+    seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
+    badges: s.earned ?? [], level: s.level, levelName: s.levelName,
+  });
+  Identity.emit("smartcitix:record", { record: attempt });
   store.patch("trainingResult", {
     visible: true, stars,
     title: s.errors === 0 ? "Clean Run" : "Procedure Complete",
@@ -1079,7 +1107,10 @@ async function enterXR() {
     const session = await navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor"] });
     await renderer.xr.setSession(session);
   } catch (err) {
-    store.patch("hud", { feedback: `<b>Could not start the VR session.</b> ${err?.message ?? err}` });
+    // err.message is browser/driver text, not ours — escape it before it
+    // lands in an innerHTML sink.
+    const detail = String(err?.message ?? err).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    store.patch("hud", { feedback: `<b>Could not start the VR session.</b> ${detail}` });
   }
 }
 async function generateInVR() {
@@ -1154,3 +1185,13 @@ window.__holodeckTest = {
   getMode: () => mode,
   session: () => trainingSession,
 };
+
+// Keyboard parity with the sibling apps: Escape returns to the prompt screen
+// (Holodeck's "hub"), M toggles sound — never while the learner is typing in
+// the prompt box.
+addEventListener("keydown", (e) => {
+  const tag = e.target?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (e.code === "Escape" && !store.get().intro.visible) newPrompt();
+  if (e.code === "KeyM") Sfx.muted = !Sfx.muted;
+});

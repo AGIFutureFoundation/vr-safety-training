@@ -227,7 +227,7 @@
 </div>
 
 <div id="hud-rail" data-state="neutral">
-  <div id="hud-feedback">Loading the training campus…</div>
+  <div id="hud-feedback" aria-live="polite">Loading the training campus…</div>
   <div id="hud-progress">
     <div id="hud-track"><div id="hud-fill"></div></div>
     <div id="hud-count">0/7 ROOMS</div>
@@ -242,7 +242,7 @@
 <button id="speak-btn" hidden title="Read the current step aloud" aria-label="Read the current step aloud">🔊</button>
 <div id="voice-heard" hidden></div>
 
-<div class="overlay" id="intro">
+<div class="overlay" id="intro" role="dialog" aria-modal="true" aria-label="Trade Skills Simulator">
   <div class="card">
     <div class="eyebrow">Vocational XR · seven trades, seven rooms</div>
     <h1>Trade Skills Simulator</h1>
@@ -282,7 +282,7 @@
   </div>
 </div>
 
-<div class="overlay" id="results" hidden>
+<div class="overlay" id="results" hidden role="dialog" aria-modal="true" aria-label="Room results">
   <div class="card">
     <div id="results-body"></div>
     <div class="btnrow">

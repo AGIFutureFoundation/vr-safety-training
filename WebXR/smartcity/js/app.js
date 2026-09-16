@@ -3,6 +3,7 @@ import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GES
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, download } from "../../shared/records.js";
+import { Identity } from "../../shared/identity.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -94,6 +95,26 @@ async function findSim(id) {
 
 Progress.load();
 
+// Launch identity (an LMS/portal URL or an embedding page's postMessage)
+// overrides the self-typed crew tag and locks the field: the record must be
+// attributable to the person the host launched, not whatever got typed.
+function identityLabel() {
+  const id = Identity.current;
+  if (!id) return "";
+  const host = id.homePage ? ` · ${new URL(id.homePage).host}` : "";
+  return `Launched as ${id.name}${id.id !== id.name ? ` (${id.id})` : ""}${host}`;
+}
+function applyIdentity() {
+  const tag = Identity.tag();
+  if (tag) Progress.setPlayerName(tag);
+}
+Identity.load();
+applyIdentity();
+Identity.listen(() => {
+  applyIdentity();
+  store.patch("intro", { playerName: Progress.playerName, identityLocked: true, identityLabel: identityLabel() });
+});
+
 // ------------------------------------------------------------------ renderer
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -155,6 +176,7 @@ const store = createStore({
     arDisabled: true, arText: "Enter AR",
     vrDisabled: true, vrText: "Enter VR",
     playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
+    identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
   leaderboard: { visible: false, html: "" },
@@ -508,8 +530,9 @@ function showResults(s, summary) {
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
   // overlay. Custom scenarios record under their base station's category.
-  TrainingRecords.record({
+  const attempt = TrainingRecords.record({
     app: "smartcity", learner: Progress.playerName,
+    learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
     trade: room.trade, certification: room.certification ?? SIMS_META_BY_ID[room.baseId]?.certification,
     system: room.game?.system,
@@ -517,6 +540,9 @@ function showResults(s, summary) {
     seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
     badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
   });
+  // Hand the attempt to the hosting LMS page, if there is one and it told
+  // us who the learner is — only ever to that origin (see identity.js).
+  Identity.emit("smartcitix:record", { record: attempt });
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {

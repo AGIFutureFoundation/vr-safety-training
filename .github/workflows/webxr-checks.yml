@@ -24,12 +24,7 @@ jobs:
           python-version: "3.12"
 
       - name: Engine and content checkers
-        run: |
-          node tools/check_smartcity.mjs
-          node tools/check_trades.mjs
-          node tools/check_holodeck.mjs
-          node tools/check_records.mjs
-          node tools/check_orbis_stable.mjs
+        run: node tools/check_all.mjs
 
       - name: Generated files are fresh
         run: |

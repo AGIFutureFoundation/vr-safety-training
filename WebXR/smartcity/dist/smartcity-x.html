@@ -198,6 +198,8 @@
     padding:10px 12px; text-transform:uppercase; transition:border-color .15s, box-shadow .15s; }
   .namerow input::placeholder{ color:var(--dim) }
   .namerow input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring) }
+  .namerow input[readonly]{ opacity:.8; cursor:default; border-style:dashed }
+  .identity-note{ margin-top:6px; color:var(--accent) }
 
   /* ------------------------------------------------------ leaderboards */
   .lb-table{ width:100%; border-collapse:collapse; margin:4px 0 14px; font-size:13.5px }
@@ -1532,7 +1534,7 @@ function stopSpeaking() {
 //
 // Shared by every app on this engine; SmartCiti.X is the first to wire it.
 
-const KEY = "vr-training-records-v1";
+const RECORDS_KEY = "vr-training-records-v1";
 const MAX_ENTRIES = 1000;
 
 /**
@@ -1545,22 +1547,22 @@ function passed(entry) {
   return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
 }
 
-function load() {
+function loadRecords() {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY) || "[]");
+    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
     return Array.isArray(raw) ? raw : [];
   } catch (_) { return []; }
 }
 
-function save(list) {
-  try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+function saveRecords(list) {
+  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
 }
 
 const TrainingRecords = {
   /** Oldest first. */
-  list() { return load(); },
+  list() { return loadRecords(); },
 
-  count() { return load().length; },
+  count() { return loadRecords().length; },
 
   /**
    * Append one attempt. `entry` is the plain data a finished Session yields
@@ -1568,7 +1570,7 @@ const TrainingRecords = {
    * pass verdict so callers never compute it themselves.
    */
   record(entry) {
-    const list = load();
+    const list = loadRecords();
     const full = {
       id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
       at: new Date().toISOString(),
@@ -1577,18 +1579,18 @@ const TrainingRecords = {
     full.passed = passed(full);
     list.push(full);
     if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
-    save(list);
+    saveRecords(list);
     return full;
   },
 
-  clear() { try { localStorage.removeItem(KEY); } catch (_) { /* ignore */ } },
+  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
 
   /**
    * Per-category roll-up for an instructor view: attempts, passes, distinct
    * stations passed, best stars. Categories come from the entries themselves
    * so a record from a since-renamed category still counts.
    */
-  summary(list = load()) {
+  summary(list = loadRecords()) {
     const by = new Map();
     for (const r of list) {
       const key = r.category ?? "Uncategorized";
@@ -1609,7 +1611,7 @@ const TrainingRecords = {
 // -------------------------------------------------------------------- export
 
 const CSV_COLUMNS = [
-  "at", "learner", "app", "simId", "simName", "category", "trade", "certification", "system",
+  "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
   "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
   "badges", "level", "levelName", "id",
 ];
@@ -1636,10 +1638,12 @@ function isoDuration(seconds) {
 
 /**
  * xAPI 1.0.3 statements — the standard a Learning Record Store ingests.
- * `homePage` scopes the actor account and activity ids; pass the real
- * deployment origin when exporting from a hosted install. Extensions carry
- * the assessment detail (category, certification, stars, unsafe actions)
- * that the core result object has no field for.
+ * `homePage` scopes the activity ids and is the fallback actor account
+ * home; a record that carries a launch identity (learnerId/homePage from
+ * shared/identity.js) uses that as the actor account instead, so the LRS
+ * can join it to the LMS user. Extensions carry the assessment detail
+ * (category, certification, stars, unsafe actions) that the core result
+ * object has no field for.
  */
 function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example" } = {}) {
   const ext = (k) => `${homePage}/xapi/ext/${k}`;
@@ -1649,8 +1653,8 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
       timestamp: r.at,
       actor: {
         objectType: "Agent",
-        name: r.learner ?? actorName,
-        account: { homePage, name: r.learner ?? actorName },
+        name: r.learnerName ?? r.learner ?? actorName,
+        account: { homePage: r.homePage ?? homePage, name: r.learnerId ?? r.learner ?? actorName },
       },
       verb: {
         id: r.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed",
@@ -1703,6 +1707,129 @@ function download(filename, text, mime = "text/plain") {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   return true;
 }
+
+
+/* ===== shared/identity.js ===== */
+// Learner identity for a static app — the launch context an LMS, portal or
+// union-hall kiosk hands us, so a training record is attributable to a
+// person rather than a self-typed crew tag.
+//
+// There is no server here, so nothing can be cryptographically verified:
+// this is a *launch context*, not authentication, and the docs say so. What
+// it does guarantee is provenance — identity only arrives two ways, both
+// under the host's control:
+//
+//   1. Launch URL:  ?learner=<display name>&learner_id=<account id>&learner_home=<https origin>
+//      Read once, stored per tab (sessionStorage), then scrubbed from the
+//      address bar so bookmarks and screenshots never carry it.
+//   2. Embedding page (iframe): window.postMessage({ type: "smartcitix:identity",
+//      learner, learner_id, learner_home }) — accepted only when learner_home
+//      equals the sender's real origin, so a frame can't claim a home it isn't.
+//
+// In return the app posts every finished attempt back to that same origin
+// (see emit()), so a hosting LMS can capture records live without an LRS.
+
+const IDENTITY_KEY = "vr-training-identity-v1";
+const MSG_IDENTITY = "smartcitix:identity";
+const MAX_NAME = 60, MAX_ID = 120;
+// ASCII control characters (0-31 and 127), built without escape sequences so
+// the source stays plain text in every editor and bundler.
+const CONTROL_CHARS = new RegExp(`[${String.fromCharCode(0)}-${String.fromCharCode(31)}${String.fromCharCode(127)}]`, "g");
+
+function cleanField(v, max) {
+  if (typeof v !== "string") return null;
+  const s = v.replace(CONTROL_CHARS, "").trim().slice(0, max);
+  return s || null;
+}
+
+/** An https (or http on localhost) origin with no path — or null. */
+function cleanOrigin(v) {
+  if (typeof v !== "string") return null;
+  try {
+    const u = new URL(v);
+    const local = u.hostname === "localhost" || u.hostname === "127.0.0.1";
+    if (u.protocol !== "https:" && !(u.protocol === "http:" && local)) return null;
+    return u.origin;
+  } catch (_) { return null; }
+}
+
+function parseIdentity(raw, senderOrigin = null) {
+  const name = cleanField(raw?.learner, MAX_NAME);
+  const id = cleanField(raw?.learner_id, MAX_ID);
+  const homePage = cleanOrigin(raw?.learner_home);
+  if (!name && !id) return null;
+  if (senderOrigin != null && homePage !== senderOrigin) return null;
+  return { name: name ?? id, id: id ?? name, homePage, source: senderOrigin == null ? "url" : "message" };
+}
+
+const Identity = {
+  current: null,
+
+  /** Launch-URL identity first (then scrubbed), else whatever this tab already has. */
+  load() {
+    let found = null;
+    try {
+      const params = new URLSearchParams(location.search);
+      if (params.has("learner") || params.has("learner_id")) {
+        found = parseIdentity({
+          learner: params.get("learner"), learner_id: params.get("learner_id"), learner_home: params.get("learner_home"),
+        });
+        for (const k of ["learner", "learner_id", "learner_home"]) params.delete(k);
+        const q = params.toString();
+        history.replaceState(null, "", location.pathname + (q ? `?${q}` : "") + location.hash);
+      }
+    } catch (_) { /* no URL API (headless stub) — fall through */ }
+    if (found) this.set(found);
+    else {
+      try { const saved = JSON.parse(sessionStorage.getItem(IDENTITY_KEY) || "null"); if (saved?.id) this.current = saved; }
+      catch (_) { /* ignore */ }
+    }
+    return this.current;
+  },
+
+  set(identity) {
+    this.current = identity;
+    try { sessionStorage.setItem(IDENTITY_KEY, JSON.stringify(identity)); } catch (_) { /* ignore */ }
+  },
+
+  clear() {
+    this.current = null;
+    try { sessionStorage.removeItem(IDENTITY_KEY); } catch (_) { /* ignore */ }
+  },
+
+  /** Accept identity from an embedding page. Returns the unsubscribe function. */
+  listen(onChange) {
+    const handler = (e) => {
+      if (e.data?.type !== MSG_IDENTITY) return;
+      const identity = parseIdentity(e.data, e.origin);
+      if (!identity) return;
+      this.set(identity);
+      onChange?.(identity);
+    };
+    addEventListener("message", handler);
+    return () => removeEventListener("message", handler);
+  },
+
+  /** True when running inside another page (an LMS iframe, a portal). */
+  get embedded() { try { return window.parent !== window; } catch (_) { return false; } },
+
+  /**
+   * Post an event to the host page — only when embedded AND the learner's
+   * home origin is known, and only to that origin. Never broadcasts.
+   */
+  emit(type, payload) {
+    const target = this.current?.homePage;
+    if (!this.embedded || !target) return false;
+    try { window.parent.postMessage({ type, ...payload }, target); return true; }
+    catch (_) { return false; }
+  },
+
+  /** A short crew-tag-sized label for HUDs and leaderboards. */
+  tag() {
+    const n = this.current?.name;
+    return n ? n.replace(/\s+/g, " ").slice(0, 12).toUpperCase() : null;
+  },
+};
 
 
 /* ===== smartcity/js/citykit.js ===== */
@@ -3634,13 +3761,16 @@ function mountUI(store, actions) {
         h(SimsGrid),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_TAIL_HTML } }),
         h("div", { className: "namerow" },
-          h("label", { className: "eyebrow", htmlFor: "player-name" }, "Crew tag (for the leaderboard)"),
+          h("label", { className: "eyebrow", htmlFor: "player-name" },
+            intro.identityLocked ? "Crew tag (set by your training provider)" : "Crew tag (for the leaderboard)"),
           h("input", {
             id: "player-name", maxLength: 12, placeholder: "YOU", autoComplete: "off",
-            value: intro.playerName,
+            value: intro.playerName, readOnly: intro.identityLocked,
+            "aria-describedby": intro.identityLocked ? "identity-note" : undefined,
             onChange: (e) => actions.setPlayerNameDraft(e.target.value),
             onBlur: actions.commitPlayerName,
-          })),
+          }),
+          intro.identityLocked && h("p", { id: "identity-note", className: "fineprint identity-note" }, intro.identityLabel)),
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "start-tour", onClick: actions.startTour }, "Start guided tour"),
           h("button", { id: "enter-ar", disabled: intro.arDisabled, onClick: actions.enterAr }, intro.arText),
@@ -3894,6 +4024,26 @@ async function findSim(id) {
 
 Progress.load();
 
+// Launch identity (an LMS/portal URL or an embedding page's postMessage)
+// overrides the self-typed crew tag and locks the field: the record must be
+// attributable to the person the host launched, not whatever got typed.
+function identityLabel() {
+  const id = Identity.current;
+  if (!id) return "";
+  const host = id.homePage ? ` · ${new URL(id.homePage).host}` : "";
+  return `Launched as ${id.name}${id.id !== id.name ? ` (${id.id})` : ""}${host}`;
+}
+function applyIdentity() {
+  const tag = Identity.tag();
+  if (tag) Progress.setPlayerName(tag);
+}
+Identity.load();
+applyIdentity();
+Identity.listen(() => {
+  applyIdentity();
+  store.patch("intro", { playerName: Progress.playerName, identityLocked: true, identityLabel: identityLabel() });
+});
+
 // ------------------------------------------------------------------ renderer
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -3955,6 +4105,7 @@ const store = createStore({
     arDisabled: true, arText: "Enter AR",
     vrDisabled: true, vrText: "Enter VR",
     playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
+    identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
   results: { visible: false, html: "", showNext: false, retryPrimary: true },
   leaderboard: { visible: false, html: "" },
@@ -4308,8 +4459,9 @@ function showResults(s, summary) {
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
   // overlay. Custom scenarios record under their base station's category.
-  TrainingRecords.record({
+  const attempt = TrainingRecords.record({
     app: "smartcity", learner: Progress.playerName,
+    learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
     trade: room.trade, certification: room.certification ?? SIMS_META_BY_ID[room.baseId]?.certification,
     system: room.game?.system,
@@ -4317,6 +4469,9 @@ function showResults(s, summary) {
     seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
     badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
   });
+  // Hand the attempt to the hosting LMS page, if there is one and it told
+  // us who the learner is — only ever to that origin (see identity.js).
+  Identity.emit("smartcitix:record", { record: attempt });
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {

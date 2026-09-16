@@ -79,27 +79,48 @@ Records never leave the browser on their own; export is the hand-off. No biometr
 inferred-emotional signal is recorded — see `WebXR/shared/orbis-stable.js` for the wider
 safety posture that any future adaptive-content integration has to respect.
 
+## Learner identity and LMS embedding
+
+A static page can't authenticate anyone, so identity is a **launch context** the host
+supplies, and the docs never call it more than that. Two routes, both under the host's
+control, both handled by `WebXR/shared/identity.js`:
+
+1. **Launch URL** — `index.html?learner=Ada%20Lovelace&learner_id=al-1815&learner_home=https://lms.example.org`.
+   Read once, kept per tab, then scrubbed from the address bar so bookmarks and screenshots
+   never carry it.
+2. **Embedding page** (iframe) — `iframe.contentWindow.postMessage({ type: "smartcitix:identity",
+   learner, learner_id, learner_home }, "https://<smartciti origin>")`. Accepted only when
+   `learner_home` equals the sender's real origin, so a frame can't claim a home it isn't.
+
+With an identity present the crew-tag field is locked and derived from the name, every
+record carries `learnerName` / `learnerId` / `homePage`, xAPI statements use that account as
+the actor (so an LRS can join it to the LMS user), and each finished attempt is also posted
+back to the host page as `{ type: "smartcitix:record", record }` — only when embedded, and only
+to `learner_home`, never broadcast. A hosting LMS can therefore capture attempts live with no
+LRS at all. Real authentication (LTI 1.3 / SSO) needs a server and remains the next step.
+
 ## Quality gate
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
-all five headless checkers (`check_smartcity`, `check_trades`, `check_holodeck`,
-`check_records`, `check_orbis_stable`) and a freshness check that regenerates `sims-meta.js`
+`node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
+identity, orbis-stable — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
-silent deploy of old code.
+silent deploy of old code. Run the same command locally before pushing.
 
 ## Enterprise readiness — what is and isn't here
 
 Done: deterministic assessment engine, real certification mapping per station, auditable
-per-attempt records with standard exports, accessibility basics (dialog semantics, live
-region, focus rings, reduced motion), input escaping, a CI gate, and single-file/static
-deployment with no server dependency.
+per-attempt records with standard exports written by all three apps, learner identity as a
+launch context (URL or embedding page, origin-bound, with live record hand-back to the
+host), accessibility basics (dialog semantics, live region, focus rings, reduced motion),
+input escaping, a CI gate, and single-file/static deployment with no server dependency.
 
-Not yet done, in the order it should happen: (1) learner identity beyond a self-typed crew
-tag — SSO or an LMS launch (LTI 1.3) so records are attributable; (2) a live LRS endpoint
-behind the xAPI export instead of a file download; (3) subject-matter review of every
-station by a qualified practitioner in that trade before any record is treated as
-certification evidence; (4) a headset pass on Meta Quest for frame rate, comfort and
-in-headset legibility; (5) the remaining stations toward 33 per category.
+Not yet done, in the order it should happen: (1) real authentication behind the launch
+context — an LTI 1.3 or SSO launch needs a server to verify the signed launch, which a static
+page cannot do; (2) a live LRS endpoint behind the xAPI export instead of a file download;
+(3) subject-matter review of every station by a qualified practitioner in that trade before
+any record is treated as certification evidence; (4) a headset pass on Meta Quest for frame
+rate, comfort and in-headset legibility; (5) the remaining stations toward 33 per category.
 
 ## Running it
 

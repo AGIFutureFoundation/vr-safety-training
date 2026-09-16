@@ -13,7 +13,7 @@
 //
 // Shared by every app on this engine; SmartCiti.X is the first to wire it.
 
-const KEY = "vr-training-records-v1";
+const RECORDS_KEY = "vr-training-records-v1";
 const MAX_ENTRIES = 1000;
 
 /**
@@ -26,22 +26,22 @@ export function passed(entry) {
   return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
 }
 
-function load() {
+function loadRecords() {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY) || "[]");
+    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
     return Array.isArray(raw) ? raw : [];
   } catch (_) { return []; }
 }
 
-function save(list) {
-  try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+function saveRecords(list) {
+  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
 }
 
 export const TrainingRecords = {
   /** Oldest first. */
-  list() { return load(); },
+  list() { return loadRecords(); },
 
-  count() { return load().length; },
+  count() { return loadRecords().length; },
 
   /**
    * Append one attempt. `entry` is the plain data a finished Session yields
@@ -49,7 +49,7 @@ export const TrainingRecords = {
    * pass verdict so callers never compute it themselves.
    */
   record(entry) {
-    const list = load();
+    const list = loadRecords();
     const full = {
       id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
       at: new Date().toISOString(),
@@ -58,18 +58,18 @@ export const TrainingRecords = {
     full.passed = passed(full);
     list.push(full);
     if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
-    save(list);
+    saveRecords(list);
     return full;
   },
 
-  clear() { try { localStorage.removeItem(KEY); } catch (_) { /* ignore */ } },
+  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
 
   /**
    * Per-category roll-up for an instructor view: attempts, passes, distinct
    * stations passed, best stars. Categories come from the entries themselves
    * so a record from a since-renamed category still counts.
    */
-  summary(list = load()) {
+  summary(list = loadRecords()) {
     const by = new Map();
     for (const r of list) {
       const key = r.category ?? "Uncategorized";
@@ -90,7 +90,7 @@ export const TrainingRecords = {
 // -------------------------------------------------------------------- export
 
 const CSV_COLUMNS = [
-  "at", "learner", "app", "simId", "simName", "category", "trade", "certification", "system",
+  "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
   "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
   "badges", "level", "levelName", "id",
 ];
@@ -117,10 +117,12 @@ export function isoDuration(seconds) {
 
 /**
  * xAPI 1.0.3 statements — the standard a Learning Record Store ingests.
- * `homePage` scopes the actor account and activity ids; pass the real
- * deployment origin when exporting from a hosted install. Extensions carry
- * the assessment detail (category, certification, stars, unsafe actions)
- * that the core result object has no field for.
+ * `homePage` scopes the activity ids and is the fallback actor account
+ * home; a record that carries a launch identity (learnerId/homePage from
+ * shared/identity.js) uses that as the actor account instead, so the LRS
+ * can join it to the LMS user. Extensions carry the assessment detail
+ * (category, certification, stars, unsafe actions) that the core result
+ * object has no field for.
  */
 export function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example" } = {}) {
   const ext = (k) => `${homePage}/xapi/ext/${k}`;
@@ -130,8 +132,8 @@ export function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.
       timestamp: r.at,
       actor: {
         objectType: "Agent",
-        name: r.learner ?? actorName,
-        account: { homePage, name: r.learner ?? actorName },
+        name: r.learnerName ?? r.learner ?? actorName,
+        account: { homePage: r.homePage ?? homePage, name: r.learnerId ?? r.learner ?? actorName },
       },
       verb: {
         id: r.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed",
