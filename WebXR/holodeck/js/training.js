@@ -6,10 +6,11 @@
  * scoring, hazards or combo system is a toy version; only the content
  * (which steps, which equipment) is generated rather than hand-authored.
  *
- * Two templates today (lockout & verify, confined-space entry), each
- * applicable to any equipment noun in the registry — proving the
- * generator isn't one hardcoded procedure, the same way three themes
- * prove themes.js isn't hardcoded to Alaska.
+ * Three templates today (lockout & verify, confined-space entry,
+ * pressure isolation & bleed-down), each applicable to any equipment
+ * noun in the registry — proving the generator isn't one hardcoded
+ * procedure, the same way three themes prove themes.js isn't
+ * hardcoded to Alaska.
  */
 
 export const EQUIPMENT = [
@@ -25,6 +26,7 @@ export const DEFAULT_EQUIPMENT_ID = "electrical-panel";
 export const TEMPLATES = [
   { id: "lockout", name: "Lockout & Verify", keywords: ["lockout", "loto", "tag out", "tagout", "isolate", "isolation", "de-energize", "deenergize"] },
   { id: "confined-space", name: "Confined Space Entry", keywords: ["confined space", "permit space", "vessel entry", "tank entry", "enclosed space"] },
+  { id: "pressure-bleed", name: "Pressure Isolation & Bleed-Down", keywords: ["pressure release", "bleed down", "bleed-down", "bleed the line", "depressurize", "depressurization", "blind flange", "isolation blind"] },
 ];
 export const DEFAULT_TEMPLATE_ID = "lockout";
 
@@ -130,20 +132,86 @@ function confinedSpaceSteps(eq) {
   ];
 }
 
+function pressureBleedSteps(eq) {
+  return [
+    {
+      id: "workorder", kind: "select", target: "work-order",
+      title: `Read the ${eq.noun} work order`,
+      cue: `Confirm the task and the isolation valve listed for this ${eq.noun}.`,
+      why: `Every isolation starts with knowing exactly which valve controls this ${eq.noun} — not the one that looks similar next to it.`,
+    },
+    {
+      id: "isolate", kind: "turn", target: "disconnect",
+      title: `Close the ${eq.noun} isolation valve`,
+      cue: "Rotate the upstream isolation valve to closed.",
+      why: `Closing the valve is what actually stops ${eq.energy} pressure from feeding the ${eq.noun} — the gauge dropping later is the proof, not this step itself.`,
+      turn: { turns: 0.2, axis: "z", reverse: true, label: "ISOLATION VALVE" },
+    },
+    {
+      id: "bleed", kind: "hold", target: "bleed-valve", seconds: 4,
+      title: "Bleed the trapped pressure",
+      cue: "Hold the bleed valve open for a full 4 seconds.",
+      why: `Closing the isolation valve traps whatever ${eq.energy} pressure was already in the line — the bleed is what actually gets it to zero.`,
+      holdBreakNote: "Released early — residual pressure is still trapped in the line. Hold the full duration.",
+    },
+    {
+      id: "verify", kind: "gauge", target: "meter",
+      title: "Verify zero pressure",
+      cue: `Meter the ${eq.noun} and commit only once it reads zero.`,
+      why: "A closed valve and a bled line are not proof by themselves — a stuck check valve can leave a trapped pocket. You confirm it the same way every time.",
+      gauge: {
+        label: `${eq.energy.toUpperCase()} — ${eq.unit}`, speed: 0.65, green: [0.0, 0.08],
+        readout: (t) => `${Math.round(t * eq.max)} ${eq.unit}`,
+        missNote: "Still reading pressure. Recheck the isolation valve and bleed again before breaking the line.",
+      },
+    },
+    {
+      id: "blind", kind: "select", target: "flange",
+      title: "Install the isolation blind",
+      cue: `Fit the blind flange before opening the ${eq.noun} line.`,
+      why: "A valve can leak through or be reopened by someone else — a blind is the only barrier that physically cannot pass pressure.",
+    },
+    {
+      id: "task", kind: "select", target: "task-point",
+      title: "Complete the task",
+      cue: `Do the work on the ${eq.noun} now that the line is blinded.`,
+      why: "With a physical blind in place, the task itself is finally just a mechanical job, not a pressure hazard.",
+    },
+    {
+      id: "restore", kind: "select", target: "flange",
+      title: "Remove the blind and restore",
+      cue: "Remove the blind and reopen the isolation valve once you are clear.",
+      why: "The blind comes out only after the task is done and everyone is clear — the same order every time, never before.",
+    },
+  ];
+}
+
+const HAZARDS_BY_TEMPLATE = {
+  "confined-space": (eq) => ({
+    "vent-fan-off": `Entering with ventilation off risks the atmosphere drifting the moment anyone is actually inside the ${eq.noun}.`,
+    "no-attendant": `No attendant posted — nobody outside would know if someone inside the ${eq.noun} needed help.`,
+  }),
+  "pressure-bleed": (eq) => ({
+    "flange-loose": `That blind isn't seated. A loose blind on a ${eq.noun} line can blow through the moment pressure returns.`,
+    "valve-open": `The isolation valve is open. Working on the ${eq.noun} line with the valve open defeats the point of blinding it.`,
+  }),
+  lockout: (eq) => ({
+    "disconnect-hot": `That disconnect is still live. Touching a live ${eq.noun} circuit is exactly what lockout exists to prevent.`,
+    "no-lock": `Working on the ${eq.noun} without your own lock means anyone could re-energize it while you are still on it.`,
+  }),
+};
+
+const STEPS_BY_TEMPLATE = {
+  "confined-space": confinedSpaceSteps,
+  "pressure-bleed": pressureBleedSteps,
+  lockout: lockoutSteps,
+};
+
 export function buildTrainingRoom({ templateId, equipmentId }) {
   const eq = findEquipment(equipmentId);
   const tpl = findTemplate(templateId);
-  const isConfinedSpace = tpl.id === "confined-space";
-  const steps = isConfinedSpace ? confinedSpaceSteps(eq) : lockoutSteps(eq);
-  const hazards = isConfinedSpace
-    ? {
-      "vent-fan-off": `Entering with ventilation off risks the atmosphere drifting the moment anyone is actually inside the ${eq.noun}.`,
-      "no-attendant": `No attendant posted — nobody outside would know if someone inside the ${eq.noun} needed help.`,
-    }
-    : {
-      "disconnect-hot": `That disconnect is still live. Touching a live ${eq.noun} circuit is exactly what lockout exists to prevent.`,
-      "no-lock": `Working on the ${eq.noun} without your own lock means anyone could re-energize it while you are still on it.`,
-    };
+  const steps = (STEPS_BY_TEMPLATE[tpl.id] ?? lockoutSteps)(eq);
+  const hazards = (HAZARDS_BY_TEMPLATE[tpl.id] ?? HAZARDS_BY_TEMPLATE.lockout)(eq);
 
   return {
     id: `gen-${tpl.id}-${eq.id}`,

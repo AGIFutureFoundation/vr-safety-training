@@ -346,6 +346,7 @@ function buildTrainingScene(g, room) {
   const eq = room.equipment;
   const accent = new THREE.Color(eq.accent).getHex();
   const isConfinedSpace = room.templateId === "confined-space";
+  const isPressureBleed = room.templateId === "pressure-bleed";
   const refs = {};
 
   box(g, 6, 0.05, 6, 0, -0.03, 0, 0x14101f, { rough: 0.95, cast: false });
@@ -411,6 +412,26 @@ function buildTrainingScene(g, room) {
     refs.attendant = attendant;
   }
 
+  let blindDisc = null;
+  if (isPressureBleed) {
+    // Bleed valve: a small wheeled valve beside the disconnect post — the
+    // "hold" step's target, bled by holding it rather than a single click.
+    const bleedPost = group(g, -0.75, 0, 0.5);
+    cyl(bleedPost, 0.035, 0.035, 0.4, 0, 0.2, 0, 0x2b3138, { rough: 0.5, metal: 0.4 });
+    torus(bleedPost, 0.09, 0.02, 0, 0.42, 0, 0xf2c14b, { rough: 0.4, metal: 0.5 });
+    bleedPost.userData.hitId = "bleed-valve";
+
+    // Flange stub — always visible and clickable, the "blind"/"restore"
+    // steps' actual target. blindDisc is the physical barrier itself,
+    // invisible until installed, exactly like hasp/appliedLock above.
+    const flangeStub = group(g, -1.1, 0, 0.42);
+    cyl(flangeStub, 0.1, 0.1, 0.04, 0, 0.6, 0, 0x8a949d, { rough: 0.4, metal: 0.6, seg: 20 });
+    flangeStub.userData.hitId = "flange";
+    blindDisc = cyl(g, 0.13, 0.13, 0.025, -1.1, 0.6, 0.45, 0xc8ccd0, { rough: 0.3, metal: 0.75, seg: 20 });
+    blindDisc.visible = false;
+    refs.blindDisc = blindDisc;
+  }
+
   // Bundling the step-reaction and per-frame visual logic onto the returned
   // refs — rather than in a module-level closure keyed on hardcoded step ids
   // — is exactly the shape every real SmartCiti.X sim's own build() already
@@ -421,8 +442,9 @@ function buildTrainingScene(g, room) {
   refs.onStepComplete = (step) => {
     if (step.id === "isolate") Sfx.tick();
     if (step.id === "lock") appliedLock.visible = true;
-    if (step.id === "restore") { appliedLock.visible = false; discHandle.rotation.z = 0; }
+    if (step.id === "restore") { appliedLock.visible = false; discHandle.rotation.z = 0; if (blindDisc) blindDisc.visible = false; }
     if (step.id === "ventilate") ventOn = true;
+    if (step.id === "blind" && blindDisc) blindDisc.visible = true;
   };
   refs.animate = (t, dt, session) => {
     const step = session?.step;

@@ -163,9 +163,16 @@ check('localInterpreter recognizes "confined space entry simulation for a storag
   if (r.equipmentId !== "tank") throw new Error(`expected equipment "tank", got "${r.equipmentId}"`);
 });
 
+check('localInterpreter recognizes "bleed down and depressurize the air compressor"', () => {
+  const r = localInterpreter("bleed down and depressurize the air compressor");
+  if (r.gameType !== "training") throw new Error(`expected gameType "training", got "${r.gameType}"`);
+  if (r.templateId !== "pressure-bleed") throw new Error(`expected template "pressure-bleed", got "${r.templateId}"`);
+  if (r.equipmentId !== "compressor") throw new Error(`expected equipment "compressor", got "${r.equipmentId}"`);
+});
+
 /** A generic scripted "perfect run" driver — the same idea as
  * check_smartcity.mjs's player, general enough for any generated room
- * since generated procedures only ever use select/turn/gauge steps. */
+ * since generated procedures only ever use select/turn/gauge/hold steps. */
 function playPerfect(session) {
   let guard = 0;
   while (!session.finished) {
@@ -178,6 +185,11 @@ function playPerfect(session) {
       const [lo, hi] = step.gauge.green;
       session.gauge.t = (lo + hi) / 2;
       session.select(step.target);
+    } else if (step.kind === "hold") {
+      session.setHolding(true);
+      for (let i = 0; i < step.seconds * 20 + 4 && !session.finished && session.step === step; i++) {
+        session.tick(0.05);
+      }
     } else {
       session.select(step.target);
     }
