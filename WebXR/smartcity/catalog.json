@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 39
+      "stations": 41
     },
     "trades": {
       "entry": "trades/index.html",
@@ -111,7 +111,8 @@
       "stations": [
         "rigging-loft",
         "stage-power",
-        "chain-hoist"
+        "chain-hoist",
+        "fly-system"
       ]
     },
     {
@@ -119,7 +120,8 @@
       "stations": [
         "dock-crane",
         "container-lashing",
-        "mooring-line"
+        "mooring-line",
+        "bunkering-watch"
       ]
     },
     {
@@ -3232,6 +3234,159 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=forklift-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system",
+      "name": "Fly System",
+      "title": "SmartCiti.X~ Fly System VR",
+      "tagline": "Counterweight lineset load: rail locked, deck cleared with a call, batten in, fixtures hung and safetied, loader clipped in on the bridge, bricks to match the pipe with spreaders and a lock ring, balanced test lift, trim, lock, clamp, tag",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "Theatrical rigger / fly operator",
+      "union": null,
+      "certification": "IATSE — ETCP Certified Rigger (Theatre); ANSI E1.4-1 manual counterweight rigging systems; OSHA 29 CFR 1910.28 fall protection on the loading bridge; venue 'heads up' and lineset-tagging procedure",
+      "accent": "#a079ff",
+      "parSeconds": 260,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "in-balance",
+        "name": "In Balance",
+        "note": "A lineset loaded to the pipe, spreadered and ringed, test-lifted in balance and tagged — first time"
+      },
+      "meshes": 158,
+      "lights": 0,
+      "overBudget": false,
+      "index": "40",
+      "flat": false,
+      "system": "Fly Crew",
+      "currency": "BRICK",
+      "ranks": [
+        "Deckhand",
+        "Loader",
+        "Fly Operator",
+        "Head Flyman",
+        "Fly Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "heads-up",
+          "name": "Heads Up",
+          "note": "Rail locked and the deck called clear before the batten moved, first time"
+        },
+        {
+          "id": "never-runaway",
+          "name": "Never a Runaway",
+          "note": "Never unlocked out of balance, never on the bridge unclipped, never under a moving pipe"
+        },
+        {
+          "id": "to-the-brick",
+          "name": "To the Brick",
+          "note": "Arbor loaded and trim set inside the band"
+        },
+        {
+          "id": "clean-hang",
+          "name": "Clean Hang",
+          "note": "No corrections anywhere on the lineset"
+        },
+        {
+          "id": "hand-over-hand",
+          "name": "Hand Over Hand",
+          "note": "Both fly moves held steady the whole way"
+        },
+        {
+          "id": "hang-fast",
+          "name": "Hung In Time",
+          "note": "Lineset loaded and tagged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=fly-system"
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch",
+      "name": "Bunkering Watch",
+      "title": "SmartCiti.X~ Bunkering Watch VR",
+      "tagline": "Fuel-oil transfer: plan and signed DOI, scuppers plugged and drip tray and SOPEP kit set, flange bolted all round, radio and emergency stop tested, line-up tank-first, slow start, soundings, topping off at reduced rate, manifold closed, sample sealed, BDN signed",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Marine engineer — person in charge of oil transfer",
+      "union": null,
+      "certification": "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1",
+      "accent": "#3fa9d8",
+      "parSeconds": 270,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "gauge",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "not-a-drop",
+        "name": "Not a Drop",
+        "note": "A transfer with the deck contained before the hose, every bolt in, a slow start, and topping off at the reduced rate — first time"
+      },
+      "meshes": 166,
+      "lights": 0,
+      "overBudget": false,
+      "index": "41",
+      "flat": false,
+      "system": "Engine Department",
+      "currency": "TONNE",
+      "ranks": [
+        "Wiper",
+        "Oiler",
+        "Third Engineer",
+        "Second Engineer",
+        "Chief Engineer Certified"
+      ],
+      "awards": [
+        {
+          "id": "deck-contained",
+          "name": "Deck Contained",
+          "note": "Scuppers, tray and kit set before the hose came aboard, first time"
+        },
+        {
+          "id": "no-spill",
+          "name": "No Spill",
+          "note": "Never started uncontained, never topped off at full rate, never a phone on the tank deck"
+        },
+        {
+          "id": "sounded-true",
+          "name": "Sounded True",
+          "note": "Sounding and topping rate both inside the band"
+        },
+        {
+          "id": "clean-transfer",
+          "name": "Clean Transfer",
+          "note": "No corrections anywhere in the transfer"
+        },
+        {
+          "id": "slow-start-held",
+          "name": "Slow Start Held",
+          "note": "Initial rate held low the whole walk-round"
+        },
+        {
+          "id": "bunkered-fast",
+          "name": "Bunkered In Time",
+          "note": "Transfer complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bunkering-watch"
     },
     {
       "app": "trades",

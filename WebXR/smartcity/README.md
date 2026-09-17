@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Thirty-nine stations exist
-today — thirty-eight walkable AR/VR procedures and one flat briefing station — each a real ordered
+AR/VR training simulators across eleven trade-union categories. Forty-one stations exist
+today — forty walkable AR/VR procedures and one flat briefing station — each a real ordered
 procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
@@ -18,8 +18,8 @@ training" wrapper, a specific one per trade.
 | Construction & Structural Trades | Steel Erector, Crane Yard, Trench Box, Scaffold Erection |
 | Manufacturing & Automation | Robot Cell, Press Brake, Conveyor Guard, Forklift Dock |
 | Emergency Services | Triage Point, Decon Line, Aerial Ladder |
-| Maritime & Ports | Dock Crane, Container Lashing, Mooring Line |
-| Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist |
+| Maritime & Ports | Dock Crane, Container Lashing, Mooring Line, Bunkering Watch |
+| Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist, Fly System |
 | Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well |
 
 This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category (330
@@ -168,7 +168,8 @@ Manufacturing & Automation; a rooftop plant with a turning cooling-tower fan for
 Systems & Facilities; and low hills over the bay with monitoring masts and a windsock for
 Environmental Monitoring. Each district also sets the sky, fog, hemisphere and light-mast
 tint, so a substation reads sodium-warm and a company switch reads violet without any station
-code changing. Districts are twenty to sixty kit meshes placed in the ring between the plaza
+code changing. The districts are authored for night; `?time=dusk` or `?time=day` lifts the sky,
+fog, hemisphere and key light for a hall running a day shift and turns the masts down. Districts are twenty to sixty kit meshes placed in the ring between the plaza
 edge and the skyline, lit by one directional flood plus a faint self-glow (a point light under
 physically-based falloff is black twenty metres out), and animated by property tweaks on
 already-built materials. The hub keeps the default sky. AR mode is unchanged: passthrough is

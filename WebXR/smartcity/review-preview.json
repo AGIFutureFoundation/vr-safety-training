@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-09-17",
   "meshBudget": 320,
-  "total": 48,
-  "previewPassed": 48,
+  "total": 50,
+  "previewPassed": 50,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -2532,6 +2532,136 @@
           "check": "Every step target exists in the scene",
           "ok": true,
           "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "fly-system",
+      "app": "smartcity",
+      "name": "Fly System",
+      "category": "Entertainment & Live Events",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Entertainment & Live Events"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Theatrical rigger / fly operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IATSE — ETCP Certified Rigger (Theatre); ANSI E1.4-1 manual counterweight rigging systems; OSHA 29 CFR 1910.28 fall protection on the loading bridge; venue 'heads up' and lineset-tagging procedure"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "158 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "158 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "bunkering-watch",
+      "app": "smartcity",
+      "name": "Bunkering Watch",
+      "category": "Maritime & Ports",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Maritime & Ports"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Marine engineer — person in charge of oil transfer"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "166 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "166 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "20 targets"
         }
       ],
       "practitioner": "pending"

@@ -62,10 +62,28 @@ function buildMarquee(g) {
 
 export const STAGE_MODES = ["ar", "vr", "flat"];
 
+// Time of day for the plaza: the districts are authored for night, and a
+// training hall running a day shift can ask for dusk or day with
+// `?time=day|dusk|night`. Day lifts the sky and fog to a pale overcast,
+// turns the key light up and the masts down; dusk is the sodium hour in
+// between. Emissive props keep their glow (a lit window at noon is a small
+// price for not rebuilding every district twice).
+export const TIMES_OF_DAY = ["night", "dusk", "day"];
+const TIME = {
+  night: { sky: null, fog: null, hemi: null, key: [0xbcd4e8, 0.6], mast: 1.0, glow: 0.22 },
+  dusk: { sky: 0x3a2a3c, fog: 0x4a3644, hemi: [0xd9a67a, 0x2a2430], key: [0xffb27a, 1.4], mast: 0.8, glow: 0.14 },
+  day: { sky: 0x9fb8cc, fog: 0xb8c9d8, hemi: [0xe9f0f6, 0x7a8590], key: [0xfff6e8, 2.6], mast: 0.15, glow: 0.04 },
+};
+export function timeOfDay() {
+  const t = typeof location !== "undefined" ? new URLSearchParams(location.search).get("time") : null;
+  return TIMES_OF_DAY.includes(t) ? t : "night";
+}
+
 export function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
+  const tod = TIME[timeOfDay()];
 
   if (ar) {
     // Passthrough: no sky, no ground, nothing that would paint over the room.
@@ -89,9 +107,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     return { root: g, ar, animate() {} };
   }
 
-  scene.background = new THREE.Color(district.sky);
+  scene.background = new THREE.Color(tod.sky ?? district.sky);
   // A district on the horizon needs the fog held back past it (r ≈ 20–46).
-  scene.fog = new THREE.Fog(district.fog, district.build ? 36 : 22, district.build ? 96 : 64);
+  scene.fog = new THREE.Fog(tod.fog ?? district.fog, district.build ? 36 : 22, district.build ? 96 : 64);
 
   // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
   // planar UVs make a repeating texture read as a real slab grid), with a
@@ -122,9 +140,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     const head = box(g, 0.5, 0.09, 0.26, mx, 5.2, mz, 0x2b333c, { rough: 0.5, metal: 0.6 });
     head.rotation.y = a;
     const lamp = box(g, 0.42, 0.03, 0.2, mx, 5.14, mz, district.mast,
-      { emissive: district.mast, ei: 1.8, rough: 0.4, cast: false });
+      { emissive: district.mast, ei: 1.8 * tod.mast, rough: 0.4, cast: false });
     lamp.rotation.y = a;
-    const light = new THREE.PointLight(district.mast, 1.6, 16, 2);
+    const light = new THREE.PointLight(district.mast, 1.6 * tod.mast, 16, 2);
     light.position.set(mx * 0.82, 4.6, mz * 0.82);
     g.add(light);
   }
@@ -132,9 +150,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   const sky = skyline(g);
   const marquee = buildMarquee(g);
   let districtAnimate = null;
-  if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg); }
+  if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
-  const key = new THREE.DirectionalLight(0xbcd4e8, 0.6);
+  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1]);
   key.position.set(4, 9, 5);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -142,7 +160,8 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
   key.shadow.bias = -0.0008;
   g.add(key);
-  g.add(new THREE.HemisphereLight(district.hemi[0], district.hemi[1], 1.1));
+  const hemi = tod.hemi ?? district.hemi;
+  g.add(new THREE.HemisphereLight(hemi[0], hemi[1], 1.1));
   // A soft overhead wash in the station's own accent — the one light that
   // changes per sim, so the same plaza reads warm for a boiler room and cool
   // for a chiller plant without rebuilding anything.
