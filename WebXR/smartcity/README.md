@@ -338,7 +338,8 @@ Done as well: an LTI 1.3 launch relay (the one server), verified against a stand
 Not yet done, in the order it should happen: (1) deploy the relay behind TLS and register it
 with a real platform (Canvas, Moodle, Blackboard) — the code is here, the registration is a
 platform-side act; (2) subject-matter review of every station by a qualified practitioner in
-that trade, on `REVIEW.md`, before any record is treated as certification evidence; (3) a headset
+that trade, on `REVIEW.md`, before any record is treated as certification evidence — the
+automated preview signature is on all 45 sections; the practitioner signature is on none; (3) a headset
 pass on Meta Quest for frame rate, comfort and in-headset legibility, heaviest stations first per
 `catalog.json`; (4) the remaining stations
 toward 33 per category. Environmental Monitoring is three stations deep today (one flat briefing, two walkable procedures); the Bay restoration sites and their
