@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Credential Verifier</title>
+<meta name="description" content="Check an Open Badges 2.0 credential exported from the SmartCiti.X training network: structure, dates, issuer, and the hosted copy.">
+<style>
+  :root{ --void:#080b12; --panel:#101722; --raised:#182231; --text:#f2f6fa; --muted:#93a4b8; --edge:#2c3948;
+    --good:#59c97b; --warn:#f2c14b; --bad:#f0645b; --accent:#4fd1ff;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif; }
+  *{box-sizing:border-box} html,body{margin:0;min-height:100%}
+  body{ background: radial-gradient(1100px 620px at 12% -8%, rgba(79,209,255,.10), transparent 60%), var(--void);
+    color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; padding:48px 20px 80px; }
+  main{max-width:900px;margin:0 auto}
+  .eyebrow{font-family:var(--cond);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+  h1{font-family:var(--cond);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(28px,5vw,42px);margin:0 0 12px}
+  p.lead{color:var(--muted);font-size:15px;line-height:1.6;max-width:66ch;margin:0 0 26px}
+  a{color:var(--accent)}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:18px;margin:0 0 18px}
+  textarea{width:100%;min-height:160px;background:#0b111a;color:var(--text);border:1px solid var(--edge);border-radius:10px;padding:12px;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+  button{font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--raised);border:1px solid var(--edge);border-radius:10px;padding:10px 16px;cursor:pointer}
+  button.primary{background:var(--accent);color:#08131a;border-color:transparent}
+  button:disabled{opacity:.45;cursor:default}
+  input[type=file]{color:var(--muted);font-size:13px}
+  .verdict{border-radius:12px;padding:14px 16px;font-weight:600;margin:0 0 14px;border:1px solid var(--edge)}
+  .verdict.pass{background:rgba(89,201,123,.12);border-color:rgba(89,201,123,.5);color:#c9f5d6}
+  .verdict.warn{background:rgba(242,193,75,.12);border-color:rgba(242,193,75,.5);color:#fff0c2}
+  .verdict.fail{background:rgba(240,100,91,.12);border-color:rgba(240,100,91,.5);color:#ffd9d6}
+  .badge{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;margin-bottom:14px}
+  .badge img{width:96px;height:96px;border-radius:12px;background:#0b111a;border:1px solid var(--edge)}
+  .badge h2{font-family:var(--cond);font-weight:600;font-size:22px;margin:0 0 4px;letter-spacing:.01em}
+  .badge .meta{color:var(--muted);font-size:13.5px;line-height:1.5}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:7px 8px;border-bottom:1px solid var(--edge);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-family:var(--cond);letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+  .ok{color:var(--good)} .no{color:var(--bad)}
+  .fine{color:var(--muted);font-size:12.5px;line-height:1.55;margin:12px 0 0}
+  .hosted{font-size:13.5px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">SmartCiti.X ~VR Simulators · Trade Skills Simulator · Holodeck</p>
+  <h1>Credential verifier</h1>
+  <p class="lead">Paste or drop an Open Badges 2.0 assertion exported from any app in the network (the "Export credentials" file, one assertion or the whole list). The verifier checks its structure, dates, issuer and badge class on this page, with nothing sent anywhere. Where the issuing hall hosts its assertions, it can also fetch the hosted copy and compare.</p>
+
+  <section class="panel">
+    <textarea id="input" placeholder='{"@context":"https://w3id.org/openbadges/v2","type":"Assertion", ...}' aria-label="Assertion JSON"></textarea>
+    <div class="row">
+      <button class="primary" id="check">Check</button>
+      <input type="file" id="file" accept=".json,application/json" aria-label="Choose an exported credentials file">
+      <button id="hosted" disabled>Fetch hosted copy</button>
+      <button id="clear">Clear</button>
+    </div>
+    <p class="fine">What a pass means: the file is a well-formed assertion that names a real badge, issuer, recipient and evidence. It does not make the credential a certification — a passing simulator run evidences readiness for the named standard, and the hall that issued it is the authority on whether it counts. Hosted verification confirms the issuer still publishes the same assertion at its own address.</p>
+  </section>
+
+  <section id="results" hidden></section>
+</main>
+<script type="module">
+  import { validateAssertion, verifyHosted, parseInput, verdict } from "./verify.js";
+  const $ = (id) => document.getElementById(id);
+  let current = [];
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  function render(hostedResults = []) {
+    const out = $("results");
+    if (!current.length) { out.hidden = true; return; }
+    out.hidden = false;
+    out.innerHTML = current.map((a, i) => {
+      const res = validateAssertion(a);
+      const v = verdict(res, hostedResults[i]);
+      const s = res.summary ?? {};
+      return `<section class="panel" data-i="${i}">
+        <div class="verdict ${v.level}">${esc(v.text)}</div>
+        ${s.badge ? `<div class="badge">
+          ${a.badge?.image ? `<img alt="" src="${esc(a.badge.image)}">` : "<div></div>"}
+          <div><h2>${esc(s.badge)}</h2>
+            <div class="meta">${esc(s.description ?? "")}</div>
+            <div class="meta">Issued by <b>${esc(s.issuer ?? "—")}</b>${s.issuerUrl ? ` &lt;${esc(s.issuerUrl)}&gt;` : ""} to <b>${esc(s.recipient ?? "—")}</b> on ${esc(s.issuedOn ? new Date(s.issuedOn).toLocaleString() : "—")}</div>
+            ${s.tags?.length ? `<div class="meta">${s.tags.map(esc).join(" · ")}</div>` : ""}
+            ${s.evidence?.length ? `<div class="meta">Evidence: ${s.evidence.map(esc).join(" — ")}</div>` : ""}
+          </div></div>` : ""}
+        <table><thead><tr><th>Check</th><th>Result</th><th>Note</th></tr></thead><tbody>
+          ${res.checks.map((c) => `<tr><td>${esc(c.name)}</td><td class="${c.ok ? "ok" : "no"}">${c.ok ? "pass" : "fail"}</td><td>${esc(c.note)}</td></tr>`).join("")}
+        </tbody></table>
+        ${hostedResults[i] ? `<p class="hosted">Hosted copy: <b>${esc(hostedResults[i].status)}</b> — ${esc(hostedResults[i].note)}</p>` : ""}
+      </section>`;
+    }).join("");
+    $("hosted").disabled = !current.some((a) => typeof a?.id === "string");
+  }
+  function check() {
+    try { current = parseInput($("input").value); } catch (e) { current = []; $("results").hidden = false; $("results").innerHTML = `<div class="verdict fail">Not JSON: ${esc(e.message)}</div>`; $("hosted").disabled = true; return; }
+    render();
+  }
+  $("check").addEventListener("click", check);
+  $("clear").addEventListener("click", () => { $("input").value = ""; current = []; render(); });
+  $("file").addEventListener("change", async (e) => { const f = e.target.files?.[0]; if (!f) return; $("input").value = await f.text(); check(); });
+  $("hosted").addEventListener("click", async () => { $("hosted").disabled = true; const results = await Promise.all(current.map((a) => verifyHosted(a))); render(results); });
+  document.addEventListener("dragover", (e) => e.preventDefault());
+  document.addEventListener("drop", async (e) => { e.preventDefault(); const f = e.dataTransfer?.files?.[0]; if (f) { $("input").value = await f.text(); check(); } });
+  const q = new URLSearchParams(location.search).get("assertion");
+  if (q) { try { $("input").value = decodeURIComponent(q); check(); } catch (_) {} }
+</script>
+</body>
+</html>

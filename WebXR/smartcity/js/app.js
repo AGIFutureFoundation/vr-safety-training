@@ -7,6 +7,7 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { Platform } from "../../shared/platform.js";
+import { Perf } from "../../shared/perf.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -441,6 +442,7 @@ async function enterSim(id, { briefed = false } = {}) {
   clearRoom();
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category);
   state.stage = stage;
+  Perf.reset();
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
@@ -583,6 +585,7 @@ function showResults(s, summary) {
   // Hand the attempt to the hosting LMS page, if there is one and it told
   // us who the learner is — only ever to that origin (see identity.js).
   Identity.emit("smartcitix:record", { record: attempt });
+  Perf.logRun({ app: "smartcity", simId: room.id, mode: state.mode, presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed) });
   // A passing run on a station with a real certification is a portable
   // credential: hand the Open Badges assertion to the host ecosystem too.
   if (attempt.passed && attempt.certification) Identity.emit("smartcitix:credential", { assertion: toOpenBadges([attempt], xapiOpts())[0] });
@@ -1487,6 +1490,7 @@ function drawVrHud() {
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
   g.fillRect(36, h - 34, (w - 70) * (state.session ? state.session.progress01 : Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length), 10);
+  if (Perf.enabled) { g.fillStyle = HUD.muted; g.font = "22px ui-monospace, Menlo, Consolas, monospace"; g.fillText(Perf.text(), 36, h - 58); }
   vrTexture.needsUpdate = true;
 }
 
@@ -1681,7 +1685,9 @@ window.__smartcityTest = {
   scene: () => scene,
   camera: () => camera,
   stage: () => state.stage,
+  perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
 };
+Perf.mountOverlay();
 
 // --------------------------------------------------------------- frame loop
 
@@ -1695,9 +1701,13 @@ const clock = new THREE.Clock();
 let elapsedTotal = 0;
 
 renderer.setAnimationLoop((_, frame) => {
-  const dt = Math.min(clock.getDelta(), 0.05);
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, 0.05);
   elapsedTotal += dt;
   const presenting = renderer.xr.isPresenting;
+  // Headset-pass instrument (?perf=1): real frame time, not the clamped one.
+  Perf.frame(rawDt);
+  if (Perf.sample(renderer, elapsedTotal) && presenting) vrHudDirty = true;
 
   // AR hit-test: keep the reticle tracking the tapped surface until placed.
   if (state.mode === "ar" && presenting && frame && hitTestSource && !state.placed) {

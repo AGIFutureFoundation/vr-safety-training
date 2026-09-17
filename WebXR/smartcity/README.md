@@ -128,6 +128,31 @@ review, not a stand-in for it. Every Trade Skills room now names its union and t
 certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
 so on), which the preview requires.
 
+## Headset-pass instrument
+
+Add `?perf=1` to any SmartCiti.X URL and the app keeps the last three seconds of real frame
+times, samples the renderer's draw calls and triangles twice a second, shows them in a corner
+readout on screen and on a line of the in-headset HUD, and writes one summary per completed run
+(station, mode, in-headset or not, average, 95th-percentile and worst frame time, calls,
+triangles, user agent) to a local log. Clicking the readout downloads the log as JSON. This is
+the data the Quest pass records, heaviest stations first per `catalog.json`; nothing runs
+without the flag and nothing leaves the device unless the log is exported. The shared module is
+`shared/perf.js`; `tools/check_verify.mjs` checks it stays inert without the flag and computes
+sane statistics with it.
+
+## Credential verifier
+
+`WebXR/verify/index.html` is the page a training director or employer checks an exported
+credential on, without the issuing hall's cooperation: paste or drop an Open Badges 2.0
+assertion (one, a list, or the export wrapper) and it checks the context, type, id, recipient,
+dates, verification type, badge class, criteria, issuer, image and evidence on the page,
+flags the `smartciti.example` placeholder home that means the hall never hosted the
+assertion, and, on request, fetches the hosted copy at the assertion's own id and compares.
+The verdict is honest about what it knows: a structural pass without a hosted match is
+"self-asserted", a hosted match is "the issuing hall stands behind it", a mismatch is
+"altered". The logic is a plain module (`verify/verify.js`) checked by `tools/check_verify.mjs`
+against a real exported assertion and eleven ways of breaking one.
+
 ## Districts: a horizon per trade category
 
 In VR and on a flat screen every station sits on the same plaza with the same marquee and

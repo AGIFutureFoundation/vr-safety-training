@@ -69,6 +69,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "robot.js",
+            SHARED / "perf.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",
@@ -127,7 +128,7 @@ APPS = {
 # covers both a plain HTML href="../smartcity/..." and a JS object property
 # like href: "../smartcity/..." (Holodeck's react-ui.js uses the latter),
 # since both contain the same quoted "../smartcity/ substring.
-SIBLING_APP_DIRS = [*APPS, "portal"]
+SIBLING_APP_DIRS = [*APPS, "portal", "verify"]
 
 
 def dist_fixup(html: str) -> str:
