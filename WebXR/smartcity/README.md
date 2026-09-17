@@ -168,8 +168,10 @@ Manufacturing & Automation; a rooftop plant with a turning cooling-tower fan for
 Systems & Facilities; and low hills over the bay with monitoring masts and a windsock for
 Environmental Monitoring. Each district also sets the sky, fog, hemisphere and light-mast
 tint, so a substation reads sodium-warm and a company switch reads violet without any station
-code changing. The districts are authored for night; `?time=dusk` or `?time=day` lifts the sky,
-fog, hemisphere and key light for a hall running a day shift and turns the masts down. Districts are twenty to sixty kit meshes placed in the ring between the plaza
+code changing. The districts are authored for night, and night is lit to read: a lifted sky and fog, a
+strong hemisphere and key, an ambient fill so no face of a station goes to black, and a
+brighter station wash. `?time=dusk` or `?time=day` lifts the sky, fog, hemisphere and key
+light further for a hall running a day shift and turns the masts down. Districts are twenty to sixty kit meshes placed in the ring between the plaza
 edge and the skyline, lit by one directional flood plus a faint self-glow (a point light under
 physically-based falloff is black twenty metres out), and animated by property tweaks on
 already-built materials. The hub keeps the default sky. AR mode is unchanged: passthrough is

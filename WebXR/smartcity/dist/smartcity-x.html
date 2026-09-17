@@ -2956,7 +2956,7 @@ function standingFigure(parent, x, z, o = {}) {
 
 // Discrete tone/finish sets — reused across towers so the material cache stays small
 // instead of minting one unique material per random roughness value.
-const SKY_TONES = [0x141b23, 0x171f2a, 0x11161d, 0x1a2029, 0x0f151c, 0x1c2733];
+const SKY_TONES = [0x283547, 0x2d3c53, 0x222d3d, 0x323e51, 0x1f2b3b, 0x354a62];
 const SKY_ROUGH = [0.82, 0.88, 0.94, 1.0];
 const SKY_WINDOW = [0x4fd1ff, 0x7ee6ff, 0xffd28a, 0xa079ff];
 
@@ -3316,7 +3316,7 @@ function guideway(g, z = -24, span_ = 56) {
 
 // ------------------------------------------------------------------ table
 
-const DEFAULT = { sky: 0x060a11, fog: 0x080d16, hemi: [0x6d8296, 0x121820], mast: 0xdfeaf2, build: null };
+const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
 
 const DISTRICTS = {
   "Energy & Power": {
@@ -3519,10 +3519,16 @@ const STAGE_MODES = ["ar", "vr", "flat"];
 // price for not rebuilding every district twice).
 const TIMES_OF_DAY = ["night", "dusk", "day"];
 const TIME = {
-  night: { sky: null, fog: null, hemi: null, key: [0xbcd4e8, 0.6], mast: 1.0, glow: 0.22 },
-  dusk: { sky: 0x3a2a3c, fog: 0x4a3644, hemi: [0xd9a67a, 0x2a2430], key: [0xffb27a, 1.4], mast: 0.8, glow: 0.14 },
-  day: { sky: 0x9fb8cc, fog: 0xb8c9d8, hemi: [0xe9f0f6, 0x7a8590], key: [0xfff6e8, 2.6], mast: 0.15, glow: 0.04 },
+  night: { sky: null, fog: null, hemi: null, key: [0xd6e4f0, 1.3], mast: 1.0, glow: 0.34, hemiI: 2.0, ambient: 0.55, lift: 1.9 },
+  dusk: { sky: 0x4a3a4c, fog: 0x5c4856, hemi: [0xe6b98f, 0x3a3240], key: [0xffb27a, 1.8], mast: 0.8, glow: 0.2, hemiI: 1.8, ambient: 0.45, lift: 1 },
+  day: { sky: 0x9fb8cc, fog: 0xb8c9d8, hemi: [0xe9f0f6, 0x7a8590], key: [0xfff6e8, 2.6], mast: 0.15, glow: 0.04, hemiI: 1.6, ambient: 0.35, lift: 1 },
 };
+/** Lift a dark authored colour toward a readable one (night skies and fog). */
+function lift(hex, k) {
+  const c = new THREE.Color(hex);
+  c.r = Math.min(1, c.r * k + 0.02); c.g = Math.min(1, c.g * k + 0.025); c.b = Math.min(1, c.b * k + 0.035);
+  return c;
+}
 function timeOfDay() {
   const t = typeof location !== "undefined" ? new URLSearchParams(location.search).get("time") : null;
   return TIMES_OF_DAY.includes(t) ? t : "night";
@@ -3556,9 +3562,9 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
     return { root: g, ar, animate() {} };
   }
 
-  scene.background = new THREE.Color(tod.sky ?? district.sky);
+  scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);
   // A district on the horizon needs the fog held back past it (r ≈ 20–46).
-  scene.fog = new THREE.Fog(tod.fog ?? district.fog, district.build ? 36 : 22, district.build ? 96 : 64);
+  scene.fog = new THREE.Fog(tod.fog !== null ? new THREE.Color(tod.fog) : lift(district.fog, tod.lift), district.build ? 36 : 22, district.build ? 96 : 64);
 
   // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
   // planar UVs make a repeating texture read as a real slab grid), with a
@@ -3609,16 +3615,19 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
   key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
   key.shadow.bias = -0.0008;
   g.add(key);
-  const hemi = tod.hemi ?? district.hemi;
-  g.add(new THREE.HemisphereLight(hemi[0], hemi[1], 1.1));
+  const hemi = tod.hemi ?? [lift(district.hemi[0], 1.35).getHex(), lift(district.hemi[1], 1.6).getHex()];
+  g.add(new THREE.HemisphereLight(hemi[0], hemi[1], tod.hemiI));
+  // A flat fill so no face of a station ever goes to black — the districts and
+  // the station props are authored bright enough to read at a glance.
+  g.add(new THREE.AmbientLight(0xb8c8d8, tod.ambient));
   // A soft overhead wash in the station's own accent — the one light that
   // changes per sim, so the same plaza reads warm for a boiler room and cool
   // for a chiller plant without rebuilding anything.
-  const wash = new THREE.PointLight(accent, 1.1, 10, 2);
+  const wash = new THREE.PointLight(accent, 1.6, 12, 2);
   wash.position.set(0, 4.2, 0.6);
   g.add(wash);
   // Cool rim from behind the marquee so silhouettes separate from the skyline.
-  const rim = new THREE.DirectionalLight(0x6fb8ff, 0.35);
+  const rim = new THREE.DirectionalLight(0x6fb8ff, 0.55);
   rim.position.set(-3, 4, -8);
   g.add(rim);
 
@@ -5533,7 +5542,8 @@ function buildHub(root, sims) {
   key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
   key.shadow.bias = -0.0008;
   root.add(key);
-  root.add(new THREE.HemisphereLight(0x8ea9c2, 0x1e242b, 1.4));
+  root.add(new THREE.HemisphereLight(0xa9c0d6, 0x2a323b, 2.0));
+  root.add(new THREE.AmbientLight(0xb8c8d8, 0.4));
   const rim = new THREE.DirectionalLight(0x6fb8ff, 0.3);
   rim.position.set(-4, 5, -7);
   root.add(rim);

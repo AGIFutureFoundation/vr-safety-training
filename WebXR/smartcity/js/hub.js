@@ -179,7 +179,8 @@ export function buildHub(root, sims) {
   key.shadow.camera.top = 10; key.shadow.camera.bottom = -10;
   key.shadow.bias = -0.0008;
   root.add(key);
-  root.add(new THREE.HemisphereLight(0x8ea9c2, 0x1e242b, 1.4));
+  root.add(new THREE.HemisphereLight(0xa9c0d6, 0x2a323b, 2.0));
+  root.add(new THREE.AmbientLight(0xb8c8d8, 0.4));
   const rim = new THREE.DirectionalLight(0x6fb8ff, 0.3);
   rim.position.set(-4, 5, -7);
   root.add(rim);

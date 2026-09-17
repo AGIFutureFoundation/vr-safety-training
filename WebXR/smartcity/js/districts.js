@@ -249,7 +249,7 @@ function guideway(g, z = -24, span_ = 56) {
 
 // ------------------------------------------------------------------ table
 
-const DEFAULT = { sky: 0x060a11, fog: 0x080d16, hemi: [0x6d8296, 0x121820], mast: 0xdfeaf2, build: null };
+const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
 
 export const DISTRICTS = {
   "Energy & Power": {

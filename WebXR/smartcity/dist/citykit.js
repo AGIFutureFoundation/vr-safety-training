@@ -391,7 +391,7 @@ export function standingFigure(parent, x, z, o = {}) {
 
 // Discrete tone/finish sets — reused across towers so the material cache stays small
 // instead of minting one unique material per random roughness value.
-const SKY_TONES = [0x141b23, 0x171f2a, 0x11161d, 0x1a2029, 0x0f151c, 0x1c2733];
+const SKY_TONES = [0x283547, 0x2d3c53, 0x222d3d, 0x323e51, 0x1f2b3b, 0x354a62];
 const SKY_ROUGH = [0.82, 0.88, 0.94, 1.0];
 const SKY_WINDOW = [0x4fd1ff, 0x7ee6ff, 0xffd28a, 0xa079ff];
 
