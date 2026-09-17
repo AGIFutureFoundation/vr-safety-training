@@ -925,5 +925,119 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "press-brake",
+    "index": "24",
+    "domain": "Manufacturing",
+    "trade": "Sheet-metal press brake operator",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
+    "name": "Press Brake",
+    "title": "SmartCiti.X~ Press Brake VR",
+    "tagline": "Tooling change under lockout, light-curtain proof, back gauge, tonnage, first-article bend",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 240,
+    "badge": {
+      "id": "curtain-proven",
+      "name": "Curtain Proven",
+      "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Bend Authority",
+      "currency": "STROKE",
+      "ranks": [
+        "Helper",
+        "Operator",
+        "Setup Operator",
+        "Lead Operator",
+        "Bend Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "decon-line",
+    "index": "25",
+    "domain": "Emergency Services",
+    "trade": "Hazmat firefighter / decon technician",
+    "category": "Emergency Services",
+    "certification": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
+    "name": "Decon Line",
+    "title": "SmartCiti.X~ Decon Line VR",
+    "tagline": "Hazmat decontamination corridor: zones by the wind, pools in order, gross wash, doffing order, runoff contained",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 250,
+    "badge": {
+      "id": "corridor-clean",
+      "name": "Corridor Clean",
+      "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Decon Command",
+      "currency": "PASS",
+      "ranks": [
+        "Decon Tech",
+        "Corridor Lead",
+        "Decon Officer",
+        "Hazmat Ops",
+        "Decon Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "stage-power",
+    "index": "26",
+    "domain": "Entertainment",
+    "trade": "Stage / touring electrician",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
+    "name": "Stage Power",
+    "title": "SmartCiti.X~ Stage Power VR",
+    "tagline": "Company switch tie-in: lockout, live-dead-live, cam-locks ground-first, cover and strain relief, energise, phase check, load test",
+    "accent": 13073919,
+    "accentCss": "#c77dff",
+    "parSeconds": 235,
+    "badge": {
+      "id": "ground-first",
+      "name": "Ground First",
+      "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Tie-In Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Deck Electrician",
+        "Distro Tech",
+        "Head Electrician",
+        "Production Electrician",
+        "Tie-In Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

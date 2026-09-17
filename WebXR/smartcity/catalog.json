@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-16",
+  "generatedAt": "2026-09-17",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 23
+      "stations": 26
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,13 +69,15 @@
     {
       "name": "Emergency Services",
       "stations": [
-        "triage-point"
+        "triage-point",
+        "decon-line"
       ]
     },
     {
       "name": "Manufacturing & Automation",
       "stations": [
-        "robot-cell"
+        "robot-cell",
+        "press-brake"
       ]
     },
     {
@@ -97,7 +99,8 @@
     {
       "name": "Entertainment & Live Events",
       "stations": [
-        "rigging-loft"
+        "rigging-loft",
+        "stage-power"
       ]
     },
     {
@@ -1903,6 +1906,230 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=sampling-well"
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake",
+      "name": "Press Brake",
+      "title": "SmartCiti.X~ Press Brake VR",
+      "tagline": "Tooling change under lockout, light-curtain proof, back gauge, tonnage, first-article bend",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Sheet-metal press brake operator",
+      "union": null,
+      "certification": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
+      "accent": "#d9a441",
+      "parSeconds": 240,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "drag",
+        "sequence",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "curtain-proven",
+        "name": "Curtain Proven",
+        "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
+      },
+      "index": "24",
+      "flat": false,
+      "system": "Bend Authority",
+      "currency": "STROKE",
+      "ranks": [
+        "Helper",
+        "Operator",
+        "Setup Operator",
+        "Lead Operator",
+        "Bend Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-change",
+          "name": "Locked Change",
+          "note": "Tooling changed with control power locked, first time"
+        },
+        {
+          "id": "hands-out",
+          "name": "Hands Out",
+          "note": "Never reached into the die space or bypassed the curtain"
+        },
+        {
+          "id": "in-tolerance",
+          "name": "In Tolerance",
+          "note": "Back gauge, tonnage and angle inside spec"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Setup",
+          "note": "No corrections through the whole setup"
+        },
+        {
+          "id": "pedal-steady",
+          "name": "Pedal Steady",
+          "note": "Never let the stroke break early"
+        },
+        {
+          "id": "first-article-fast",
+          "name": "First Article Fast",
+          "note": "Setup inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=press-brake"
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-line",
+      "name": "Decon Line",
+      "title": "SmartCiti.X~ Decon Line VR",
+      "tagline": "Hazmat decontamination corridor: zones by the wind, pools in order, gross wash, doffing order, runoff contained",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Hazmat firefighter / decon technician",
+      "union": null,
+      "certification": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
+      "accent": "#f2c14b",
+      "parSeconds": 250,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "turn",
+        "track",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "corridor-clean",
+        "name": "Corridor Clean",
+        "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
+      },
+      "index": "25",
+      "flat": false,
+      "system": "Decon Command",
+      "currency": "PASS",
+      "ranks": [
+        "Decon Tech",
+        "Corridor Lead",
+        "Decon Officer",
+        "Hazmat Ops",
+        "Decon Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "zones-first",
+          "name": "Zones First",
+          "note": "Hot, warm and cold set in order, first time"
+        },
+        {
+          "id": "mask-on",
+          "name": "Mask On",
+          "note": "Never unmasked in the warm zone, never shortcut the corridor"
+        },
+        {
+          "id": "vitals-true",
+          "name": "Vitals True",
+          "note": "Medical monitoring read inside the criteria"
+        },
+        {
+          "id": "clean-corridor",
+          "name": "Clean Corridor",
+          "note": "No corrections anywhere on the line"
+        },
+        {
+          "id": "wash-held",
+          "name": "Wash Held",
+          "note": "Held the gross wash steady the whole pass"
+        },
+        {
+          "id": "line-up-fast",
+          "name": "Line Up Fast",
+          "note": "Corridor established inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=decon-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-power",
+      "name": "Stage Power",
+      "title": "SmartCiti.X~ Stage Power VR",
+      "tagline": "Company switch tie-in: lockout, live-dead-live, cam-locks ground-first, cover and strain relief, energise, phase check, load test",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment",
+      "trade": "Stage / touring electrician",
+      "union": null,
+      "certification": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
+      "accent": "#c77dff",
+      "parSeconds": 235,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "turn",
+        "sequence",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "ground-first",
+        "name": "Ground First",
+        "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
+      },
+      "index": "26",
+      "flat": false,
+      "system": "Tie-In Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Deck Electrician",
+        "Distro Tech",
+        "Head Electrician",
+        "Production Electrician",
+        "Tie-In Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-dead",
+          "name": "Proven Dead",
+          "note": "Live-dead-live in order, first time"
+        },
+        {
+          "id": "cam-order",
+          "name": "Cam Order",
+          "note": "Ground, neutral, then phases — never a phase first"
+        },
+        {
+          "id": "phases-read",
+          "name": "Phases Read",
+          "note": "Voltage read inside spec on every phase"
+        },
+        {
+          "id": "clean-tie-in",
+          "name": "Clean Tie-In",
+          "note": "No corrections through the whole tie-in"
+        },
+        {
+          "id": "load-held",
+          "name": "Load Held",
+          "note": "Held the load test the full duration"
+        },
+        {
+          "id": "doors-open",
+          "name": "Doors Open",
+          "note": "Power up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=stage-power"
     },
     {
       "app": "trades",
