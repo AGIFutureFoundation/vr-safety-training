@@ -128,6 +128,27 @@ review, not a stand-in for it. Every Trade Skills room now names its union and t
 certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
 so on), which the preview requires.
 
+## Districts: a horizon per trade category
+
+In VR and on a flat screen every station sits on the same plaza with the same marquee and
+skyline, and since the 2026 expansion, a **district** for its trade category on the horizon
+between the two (`js/districts.js`): transmission pylons with catenary lines behind an Energy &
+Power station; a container terminal, ship-to-shore gantries and a ship at anchor behind
+Maritime & Ports; a tower crane that slews behind Construction & Structural Trades; a truss
+arch with sweeping moving-head lights behind Entertainment & Live Events; a monorail guideway
+with a passing train and signal heads for Mobility & Transit; clarifier tanks over still water
+for Water & Environmental; a lattice tower with dishes for Connectivity & Telecom; a fire
+engine and an ambulance with light bars for Emergency Services; saw-tooth sheds and stacks for
+Manufacturing & Automation; a rooftop plant with a turning cooling-tower fan for Building
+Systems & Facilities; and low hills over the bay with monitoring masts and a windsock for
+Environmental Monitoring. Each district also sets the sky, fog, hemisphere and light-mast
+tint, so a substation reads sodium-warm and a company switch reads violet without any station
+code changing. Districts are twenty to sixty kit meshes placed in the ring between the plaza
+edge and the skyline, lit by one directional flood plus a faint self-glow (a point light under
+physically-based falloff is black twenty metres out), and animated by property tweaks on
+already-built materials. The hub keeps the default sky. AR mode is unchanged: passthrough is
+the environment there.
+
 ## Headset budget
 
 `catalog.json` carries a `meshes` and `lights` count for every station, from a headless build,

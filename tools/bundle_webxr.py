@@ -71,6 +71,7 @@ APPS = {
             SHARED / "robot.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
+            WEBXR / "smartcity/js/districts.js",
             WEBXR / "smartcity/js/stage.js",
             WEBXR / "smartcity/js/sims-meta.js",
             WEBXR / "smartcity/js/scenarios.js",

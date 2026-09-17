@@ -439,7 +439,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // trainee has no brief to read.
   if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category);
   state.stage = stage;
   const root = new THREE.Group();
   worldRoot.add(root);
@@ -1676,6 +1676,11 @@ window.__smartcityTest = {
   press: (id) => pressStart(id),
   release: () => pressEnd(),
   session: () => state.session,
+  // Scene and camera for live verification scripts (screenshots of the
+  // stage districts, headset-budget spot checks); read-only by convention.
+  scene: () => scene,
+  camera: () => camera,
+  stage: () => state.stage,
 };
 
 // --------------------------------------------------------------- frame loop

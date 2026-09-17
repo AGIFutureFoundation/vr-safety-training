@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
+import { districtFor, selfLight } from "./districts.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -53,13 +54,18 @@ function buildMarquee(g) {
 // In AR the learner's own room is the environment, so the stage is almost
 // nothing: passthrough behind, and a faint floor grid to anchor the station.
 // In VR and on a flat screen there is no real room to stand in, so the same
-// station is dropped into a digital-twin plaza with a city skyline around it.
+// station is dropped into a digital-twin plaza with a city skyline around it,
+// and a district for the station's trade category on the horizon between the
+// two (districts.js): pylons behind a substation, a container terminal behind
+// a lashing deck, a truss arch behind a company switch, with the sky, fog and
+// light-mast tint to match.
 
 export const STAGE_MODES = ["ar", "vr", "flat"];
 
-export function buildStage(root, mode, scene, accent = CITY.accent) {
+export function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
   const g = group(root);
   const ar = mode === "ar";
+  const district = districtFor(category);
 
   if (ar) {
     // Passthrough: no sky, no ground, nothing that would paint over the room.
@@ -83,8 +89,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent) {
     return { root: g, ar, animate() {} };
   }
 
-  scene.background = new THREE.Color(0x060a11);
-  scene.fog = new THREE.Fog(0x080d16, 22, 64);
+  scene.background = new THREE.Color(district.sky);
+  // A district on the horizon needs the fog held back past it (r ≈ 20–46).
+  scene.fog = new THREE.Fog(district.fog, district.build ? 36 : 22, district.build ? 96 : 64);
 
   // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
   // planar UVs make a repeating texture read as a real slab grid), with a
@@ -114,16 +121,18 @@ export function buildStage(root, mode, scene, accent = CITY.accent) {
     cyl(g, 0.055, 0.075, 5.2, mx, 2.6, mz, 0x2b333c, { rough: 0.5, metal: 0.6, seg: 12 });
     const head = box(g, 0.5, 0.09, 0.26, mx, 5.2, mz, 0x2b333c, { rough: 0.5, metal: 0.6 });
     head.rotation.y = a;
-    const lamp = box(g, 0.42, 0.03, 0.2, mx, 5.14, mz, 0xdfeaf2,
-      { emissive: 0xdfeaf2, ei: 1.8, rough: 0.4, cast: false });
+    const lamp = box(g, 0.42, 0.03, 0.2, mx, 5.14, mz, district.mast,
+      { emissive: district.mast, ei: 1.8, rough: 0.4, cast: false });
     lamp.rotation.y = a;
-    const light = new THREE.PointLight(0xdfeaf2, 1.6, 16, 2);
+    const light = new THREE.PointLight(district.mast, 1.6, 16, 2);
     light.position.set(mx * 0.82, 4.6, mz * 0.82);
     g.add(light);
   }
 
   const sky = skyline(g);
   const marquee = buildMarquee(g);
+  let districtAnimate = null;
+  if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg); }
 
   const key = new THREE.DirectionalLight(0xbcd4e8, 0.6);
   key.position.set(4, 9, 5);
@@ -133,7 +142,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent) {
   key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
   key.shadow.bias = -0.0008;
   g.add(key);
-  g.add(new THREE.HemisphereLight(0x6d8296, 0x121820, 1.1));
+  g.add(new THREE.HemisphereLight(district.hemi[0], district.hemi[1], 1.1));
   // A soft overhead wash in the station's own accent — the one light that
   // changes per sim, so the same plaza reads warm for a boiler room and cool
   // for a chiller plant without rebuilding anything.
@@ -158,6 +167,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent) {
       for (const beacon of beacons) {
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
+      if (districtAnimate) districtAnimate(t);
     },
   };
 }
