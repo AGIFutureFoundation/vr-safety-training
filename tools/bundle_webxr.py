@@ -106,6 +106,7 @@ APPS = {
             SHARED / "lrs.js",
             WEBXR / "holodeck/js/themes.js",
             WEBXR / "holodeck/js/training.js",
+            WEBXR / "smartcity/js/sims-meta.js",
             WEBXR / "holodeck/js/prompt-parser.js",
             WEBXR / "holodeck/js/minigolf.js",
             WEBXR / "holodeck/js/store.js",

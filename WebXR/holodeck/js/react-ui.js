@@ -4,6 +4,7 @@
  * and only writes into the store.
  */
 import { THEMES } from "./themes.js";
+import { REAL_SIMS } from "./prompt-parser.js";
 
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
@@ -134,7 +135,7 @@ export function mountUI(store, actions) {
           "Training prompts instead pick from: lockout & verify, confined-space entry, or pressure isolation & " +
           "bleed-down, on an electrical panel, forklift, boiler, conveyor, air compressor or storage tank — e.g. " +
           "“confined space entry simulation for a storage tank” or “bleed down and depressurize the air " +
-          "compressor.” Or name one of 20 real SmartCiti.X stations directly — e.g. “run the robot cell " +
+          `compressor.” Or name one of ${REAL_SIMS.length} real SmartCiti.X stations directly — e.g. “run the robot cell ` +
           "simulation” or “practice the dock crane drill” — and it loads that actual station, hazards and all, " +
           "not a generated stand-in."),
         h("p", { className: "fineprint" },

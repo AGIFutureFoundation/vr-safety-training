@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 26
+      "stations": 27
     },
     "trades": {
       "entry": "trades/index.html",
@@ -106,7 +106,8 @@
     {
       "name": "Maritime & Ports",
       "stations": [
-        "dock-crane"
+        "dock-crane",
+        "container-lashing"
       ]
     },
     {
@@ -2130,6 +2131,80 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=stage-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing",
+      "name": "Container Lashing",
+      "title": "SmartCiti.X~ Container Lashing VR",
+      "tagline": "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Longshore worker — lasher",
+      "union": null,
+      "certification": "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges",
+      "accent": "#4f9dde",
+      "parSeconds": 240,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "stow-secured",
+        "name": "Stow Secured",
+        "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
+      },
+      "index": "27",
+      "flat": false,
+      "system": "Stow Authority",
+      "currency": "LASH",
+      "ranks": [
+        "Lasher",
+        "Lead Lasher",
+        "Hatch Boss",
+        "Walking Boss",
+        "Stow Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locks-proven",
+          "name": "Locks Proven",
+          "note": "Every twist-lock checked before a rod went on"
+        },
+        {
+          "id": "clear-of-crane",
+          "name": "Clear of the Crane",
+          "note": "Never under a suspended load, never untied on the bridge"
+        },
+        {
+          "id": "torque-true",
+          "name": "Torque True",
+          "note": "Turnbuckles inside the manual's tension"
+        },
+        {
+          "id": "clean-bay",
+          "name": "Clean Bay",
+          "note": "No corrections anywhere in the bay"
+        },
+        {
+          "id": "rod-steady",
+          "name": "Rod Steady",
+          "note": "Held the rod seating the full count"
+        },
+        {
+          "id": "sailing-time",
+          "name": "Sailing Time",
+          "note": "Bay secured inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=container-lashing"
     },
     {
       "app": "trades",

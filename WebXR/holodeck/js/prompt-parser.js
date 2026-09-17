@@ -20,6 +20,7 @@
  */
 import { THEMES, DEFAULT_THEME_ID } from "./themes.js";
 import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from "./training.js";
+import { SIMS_META } from "../../smartcity/js/sims-meta.js";
 
 // The generators that actually exist today. Listed explicitly (rather than
 // inferred from whatever the parser matches) so the UI can be honest about
@@ -27,32 +28,13 @@ import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from 
 export const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
 
 // Naming one of these directly loads the real SmartCiti.X station instead of
-// building a generic Mad-Libs procedure — see app.js's loadRealSim(). Every
-// interaction kind a SmartCiti.X step can use (select/sequence/find/gauge/
-// hold/turn/drag) now has a Holodeck gesture behind it, so all 20 stations
-// are reachable by name — not just the 15 that predate drag support.
-export const REAL_SIMS = [
-  { id: "charge-point", name: "Charge Point" },
-  { id: "signal-cabinet", name: "Signal Cabinet" },
-  { id: "solar-deck", name: "Solar Deck" },
-  { id: "splice-node", name: "Splice Node" },
-  { id: "track-access", name: "Track Access" },
-  { id: "triage-point", name: "Triage Point" },
-  { id: "robot-cell", name: "Robot Cell" },
-  { id: "chiller-plant", name: "Chiller Plant" },
-  { id: "tower-climb", name: "Tower Climb" },
-  { id: "boiler-room", name: "Boiler Room" },
-  { id: "elevator-pit", name: "Elevator Pit" },
-  { id: "abatement-chamber", name: "Abatement Chamber" },
-  { id: "rigging-loft", name: "Rigging Loft" },
-  { id: "line-truck", name: "Line Truck" },
-  { id: "dock-crane", name: "Dock Crane" },
-  { id: "crane-yard", name: "Crane Yard" },
-  { id: "flight-deck", name: "Flight Deck" },
-  { id: "steel-erector", name: "Steel Erector" },
-  { id: "trench-box", name: "Trench Box" },
-  { id: "valve-vault", name: "Valve Vault" },
-];
+// building a generic Mad-Libs procedure — see app.js's loadRealSim(). The
+// roster is SmartCiti.X's own generated metadata, so a station added there is
+// reachable here by name the moment it exists; every interaction kind a
+// SmartCiti.X step can use (select/sequence/find/gauge/hold/turn/drag) has a
+// Holodeck gesture behind it. Flat briefing stations (no 3D scene) are the
+// one exclusion — they render as a dossier card SmartCiti.X owns.
+export const REAL_SIMS = SIMS_META.filter((s) => !s.flat).map((s) => ({ id: s.id, name: s.name }));
 // Longest name first so "dock crane" can't be shadow-matched by a shorter
 // name that happens to be a substring of a longer phrase.
 const REAL_SIMS_BY_LENGTH = [...REAL_SIMS].sort((a, b) => b.name.length - a.name.length);

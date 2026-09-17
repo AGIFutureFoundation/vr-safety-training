@@ -688,14 +688,14 @@ function enterGenericTraining(templateId, equipmentId) {
 // -------------------------------------------------------- real SmartCiti.X sims
 //
 // Holodeck's own generic procedures are Mad-Libs stand-ins built from a
-// small vocabulary of equipment nouns; SmartCiti.X's 20 stations are the
+// small vocabulary of equipment nouns; SmartCiti.X's walkable stations are the
 // real, hand-authored thing — a full hazard set and a purpose-built 3D
 // station per trade. Naming one directly loads its actual module and runs
 // it through the exact same engine and UI a generic prompt does, so
 // "speak a simulation into existence" can reach the whole real library, not
 // just the generated one.
 //
-// Covers all 20 stations — the pick-up-and-carry "drag" gesture (see
+// Covers every walkable station — the pick-up-and-carry "drag" gesture (see
 // beginTrainingDrag() below) closed the last gap, so every interaction kind
 // a SmartCiti.X step can use now has a Holodeck pointer/controller path.
 const realSimCache = new Map();
