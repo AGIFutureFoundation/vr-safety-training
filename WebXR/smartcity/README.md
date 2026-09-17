@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Twenty-seven stations exist
-today — twenty-six walkable AR/VR procedures and one flat briefing station — each a real ordered
+AR/VR training simulators across eleven trade-union categories. Thirty-two stations exist
+today — thirty-one walkable AR/VR procedures and one flat briefing station — each a real ordered
 procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
@@ -12,14 +12,14 @@ training" wrapper, a specific one per trade.
 |---|---|
 | Energy & Power | Charge Point, Solar Deck, Line Truck |
 | Mobility & Transit | Signal Cabinet, Flight Deck, Track Access |
-| Water & Environmental | Valve Vault, Abatement Chamber |
-| Connectivity & Telecom | Splice Node, Tower Climb |
+| Water & Environmental | Valve Vault, Abatement Chamber, Lift Station |
+| Connectivity & Telecom | Splice Node, Tower Climb, Cell Site Battery |
 | Building Systems & Facilities | Chiller Plant, Boiler Room, Elevator Pit |
 | Construction & Structural Trades | Steel Erector, Crane Yard, Trench Box |
-| Manufacturing & Automation | Robot Cell, Press Brake |
+| Manufacturing & Automation | Robot Cell, Press Brake, Conveyor Guard |
 | Emergency Services | Triage Point, Decon Line |
-| Maritime & Ports | Dock Crane, Container Lashing |
-| Entertainment & Live Events | Rigging Loft, Stage Power |
+| Maritime & Ports | Dock Crane, Container Lashing, Mooring Line |
+| Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist |
 | Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well |
 
 This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category (330

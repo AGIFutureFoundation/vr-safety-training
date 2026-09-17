@@ -1077,5 +1077,195 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "lift-station",
+    "index": "28",
+    "domain": "Water",
+    "trade": "Wastewater collection system operator",
+    "category": "Water & Environmental",
+    "certification": "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout",
+    "name": "Lift Station",
+    "title": "SmartCiti.X~ Lift Station VR",
+    "tagline": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
+    "accent": 6009000,
+    "accentCss": "#5bb0a8",
+    "parSeconds": 245,
+    "badge": {
+      "id": "well-never-entered",
+      "name": "Well Never Entered",
+      "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
+    },
+    "stepCount": 10,
+    "game": {
+      "system": "Collection Command",
+      "currency": "LIFT",
+      "ranks": [
+        "Operator I",
+        "Operator II",
+        "Crew Lead",
+        "Collection Supervisor",
+        "Collection Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mooring-line",
+    "index": "29",
+    "domain": "Maritime",
+    "trade": "Line handler / wharf mooring crew",
+    "category": "Maritime & Ports",
+    "certification": "ILWU / SIU — OSHA 29 CFR 1917 marine terminals (mooring operations); OCIMF Mooring Equipment Guidelines snap-back awareness; port authority line-handling qualification",
+    "name": "Mooring Line",
+    "title": "SmartCiti.X~ Mooring Line VR",
+    "tagline": "Taking a ship's lines: snap-back zone, heaving line, eye on the bollard, tension by radio, stopper, and the bight you never stand in",
+    "accent": 5223400,
+    "accentCss": "#4fb3e8",
+    "parSeconds": 230,
+    "badge": {
+      "id": "out-of-the-bight",
+      "name": "Out of the Bight",
+      "note": "Every line taken from outside the snap-back zone, hands clear, tension called by radio, stopper held"
+    },
+    "stepCount": 10,
+    "game": {
+      "system": "Wharf Authority",
+      "currency": "LINE",
+      "ranks": [
+        "Line Handler",
+        "Lead Handler",
+        "Mooring Boss",
+        "Wharf Supervisor",
+        "Wharf Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "chain-hoist",
+    "index": "30",
+    "domain": "Entertainment",
+    "trade": "Entertainment rigger — chain motors",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance",
+    "name": "Chain Hoist",
+    "title": "SmartCiti.X~ Chain Hoist VR",
+    "tagline": "Flying a truss: load calc, chain inspection, bridle angle, moused hooks, test lift, deck clear, trim and lock",
+    "accent": 16747100,
+    "accentCss": "#ff8a5c",
+    "parSeconds": 240,
+    "badge": {
+      "id": "trim-locked",
+      "name": "Trim Locked",
+      "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
+    },
+    "stepCount": 10,
+    "game": {
+      "system": "Fly Authority",
+      "currency": "POINT",
+      "ranks": [
+        "Deck Hand",
+        "Up-Rigger",
+        "Head Rigger",
+        "Production Rigger",
+        "Fly Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "conveyor-guard",
+    "index": "31",
+    "domain": "Manufacturing",
+    "trade": "Conveyor maintenance technician",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding",
+    "name": "Conveyor Guard",
+    "title": "SmartCiti.X~ Conveyor Guard VR",
+    "tagline": "Belt jam clearance: e-stop, lockout, stored-energy release, try-start, guard off and back on, pull-cord restored, restart",
+    "accent": 9358054,
+    "accentCss": "#8ecae6",
+    "parSeconds": 225,
+    "badge": {
+      "id": "nip-point-never",
+      "name": "Nip Point Never",
+      "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Line Guard",
+      "currency": "BELT",
+      "ranks": [
+        "Line Tech",
+        "Maintenance Tech",
+        "Line Lead",
+        "Maintenance Lead",
+        "Line Guard Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cell-site-battery",
+    "index": "32",
+    "domain": "Telecom",
+    "trade": "Cell site / DC power technician",
+    "category": "Connectivity & Telecom",
+    "certification": "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work",
+    "name": "Cell Site Battery",
+    "title": "SmartCiti.X~ Cell Site Battery VR",
+    "tagline": "−48 V plant string replacement: ventilate for hydrogen, PPE, isolate the string, insulated tools, terminal covers, cell checks, return to bus",
+    "accent": 10980346,
+    "accentCss": "#a78bfa",
+    "parSeconds": 240,
+    "badge": {
+      "id": "string-swapped-live",
+      "name": "String Swapped Live",
+      "note": "A battery string replaced on a live plant with the cabinet ventilated, tools insulated, terminals covered and every cell checked"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Plant Authority",
+      "currency": "CELL",
+      "ranks": [
+        "Site Tech",
+        "Power Tech",
+        "Plant Lead",
+        "Regional Power Lead",
+        "Plant Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
