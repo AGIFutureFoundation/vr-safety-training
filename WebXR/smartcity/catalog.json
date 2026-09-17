@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 36
+      "stations": 37
     },
     "trades": {
       "entry": "trades/index.html",
@@ -74,7 +74,8 @@
       "name": "Emergency Services",
       "stations": [
         "triage-point",
-        "decon-line"
+        "decon-line",
+        "aerial-ladder"
       ]
     },
     {
@@ -2996,6 +2997,84 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=scaffold-erection"
+    },
+    {
+      "app": "smartcity",
+      "id": "aerial-ladder",
+      "name": "Aerial Ladder",
+      "title": "SmartCiti.X~ Aerial Ladder VR",
+      "tagline": "Aerial apparatus set-up: size-up, spot at the corner outside the collapse zone, chock, stabilizers on pads to level, PTO, raise and rotate clear of the lines, tip above the roofline, lock, belt, report",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Firefighter — aerial apparatus driver/operator",
+      "union": null,
+      "certification": "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines",
+      "accent": "#d2312b",
+      "parSeconds": 260,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "tip-on-target",
+        "name": "Tip On Target",
+        "note": "Spotted outside the collapse zone, level on pads, ten feet from the lines, and the tip landed just above the roofline first time"
+      },
+      "meshes": 166,
+      "lights": 0,
+      "overBudget": false,
+      "index": "37",
+      "flat": false,
+      "system": "Truck Company",
+      "currency": "SPOT",
+      "ranks": [
+        "Probie",
+        "Truckie",
+        "Driver/Operator",
+        "Aerial Operator",
+        "Truck Company Certified"
+      ],
+      "awards": [
+        {
+          "id": "corner-spot",
+          "name": "Corner Spot",
+          "note": "Spotted at the corner, outside the collapse zone, first time"
+        },
+        {
+          "id": "lines-clear",
+          "name": "Lines Clear",
+          "note": "Never inside ten feet of the lines, never climbed unbelted"
+        },
+        {
+          "id": "dead-level",
+          "name": "Dead Level",
+          "note": "Turntable levelled and the tip placed inside the band"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections anywhere in the set-up"
+        },
+        {
+          "id": "smooth-raise",
+          "name": "Smooth Raise",
+          "note": "Raise and rotate held steady the whole way"
+        },
+        {
+          "id": "truck-fast",
+          "name": "Set In Time",
+          "note": "Aerial to the roof inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=aerial-ladder"
     },
     {
       "app": "trades",

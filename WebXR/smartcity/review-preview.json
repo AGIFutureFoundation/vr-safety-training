@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-09-17",
   "meshBudget": 320,
-  "total": 45,
-  "previewPassed": 45,
+  "total": 46,
+  "previewPassed": 46,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -2337,6 +2337,71 @@
           "check": "Every step target exists in the scene",
           "ok": true,
           "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "aerial-ladder",
+      "app": "smartcity",
+      "name": "Aerial Ladder",
+      "category": "Emergency Services",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Emergency Services"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Firefighter — aerial apparatus driver/operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "166 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "166 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "16 targets"
         }
       ],
       "practitioner": "pending"

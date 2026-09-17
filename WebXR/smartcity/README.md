@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Thirty-six stations exist
-today — thirty-five walkable AR/VR procedures and one flat briefing station — each a real ordered
+AR/VR training simulators across eleven trade-union categories. Thirty-seven stations exist
+today — thirty-six walkable AR/VR procedures and one flat briefing station — each a real ordered
 procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
@@ -17,7 +17,7 @@ training" wrapper, a specific one per trade.
 | Building Systems & Facilities | Chiller Plant, Boiler Room, Elevator Pit, Fire Pump |
 | Construction & Structural Trades | Steel Erector, Crane Yard, Trench Box, Scaffold Erection |
 | Manufacturing & Automation | Robot Cell, Press Brake, Conveyor Guard |
-| Emergency Services | Triage Point, Decon Line |
+| Emergency Services | Triage Point, Decon Line, Aerial Ladder |
 | Maritime & Ports | Dock Crane, Container Lashing, Mooring Line |
 | Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist |
 | Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well |
