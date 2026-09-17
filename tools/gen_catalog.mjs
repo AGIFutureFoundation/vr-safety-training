@@ -16,6 +16,20 @@ const OUT = join(WEBXR, "smartcity", "catalog.json");
 const city = await loadSmartCity();
 const trades = await loadTrades();
 
+function meshCount(suite, r) {
+  try {
+    const root = new suite.THREE.Group();
+    r.build(root);
+    let meshes = 0, lights = 0;
+    root.traverse((o) => { if (o.isMesh || o.isPoints || o.isLine) meshes += 1; if (o.intensity !== undefined) lights += 1; });
+    return { meshes, lights };
+  } catch (_) { return { meshes: null, lights: null }; }
+}
+// A Quest-class headset comfortably draws a few hundred small meshes per
+// station on top of the stage; flag anything past this so the headset pass
+// starts with the heaviest stations.
+const MESH_BUDGET = 320;
+
 const common = (r) => ({
   id: r.id, name: r.name ?? r.title, title: r.title, tagline: r.tagline ?? null,
   category: r.category ?? null, domain: r.domain ?? null, trade: r.trade ?? null,
@@ -27,14 +41,14 @@ const common = (r) => ({
 });
 
 const stations = city.ROOMS.map((r) => ({
-  app: "smartcity", ...common(r), index: r.index ?? null, flat: !!r.flat,
+  app: "smartcity", ...common(r), ...meshCount(city, r), overBudget: (meshCount(city, r).meshes ?? 0) > MESH_BUDGET, index: r.index ?? null, flat: !!r.flat,
   system: r.game?.system ?? null, currency: r.game?.currency ?? null, ranks: r.game?.ranks ?? [],
   awards: [...(r.game?.badges ?? []), ...(r.game?.challenges ?? [])].map((a) => ({ id: a.id, name: a.name, note: a.note })),
   sources: (r.dossier ?? []).flatMap((d) => [d.source, d.source2].filter(Boolean)),
   deepLink: `smartcity/index.html?sim=${r.id}`,
 }));
 const rooms = trades.ROOMS.map((r) => ({
-  app: "trades", ...common(r), category: r.category ?? "Trade Skills Simulator",
+  app: "trades", ...common(r), ...meshCount(trades, r), overBudget: (meshCount(trades, r).meshes ?? 0) > MESH_BUDGET, category: r.category ?? "Trade Skills Simulator",
   deepLink: `trades/index.html?room=${r.id}`,
 }));
 
@@ -61,6 +75,7 @@ const catalog = {
   },
   profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },
   records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
+  performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station, excluding the shared stage; overBudget stations go first in the headset pass" },
   stations: [...stations, ...rooms],
 };
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");

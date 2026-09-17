@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 32
+      "stations": 36
     },
     "trades": {
       "entry": "trades/index.html",
@@ -41,7 +41,8 @@
       "stations": [
         "charge-point",
         "solar-deck",
-        "line-truck"
+        "line-truck",
+        "substation-switching"
       ]
     },
     {
@@ -49,7 +50,8 @@
       "stations": [
         "signal-cabinet",
         "flight-deck",
-        "track-access"
+        "track-access",
+        "bus-depot-lift"
       ]
     },
     {
@@ -88,7 +90,8 @@
       "stations": [
         "chiller-plant",
         "boiler-room",
-        "elevator-pit"
+        "elevator-pit",
+        "fire-pump"
       ]
     },
     {
@@ -96,7 +99,8 @@
       "stations": [
         "steel-erector",
         "crane-yard",
-        "trench-box"
+        "trench-box",
+        "scaffold-erection"
       ]
     },
     {
@@ -190,6 +194,10 @@
     ],
     "passRule": "stars >= 2 and no unsafe action"
   },
+  "performance": {
+    "meshBudget": 320,
+    "note": "meshes counted from a headless build of each station, excluding the shared stage; overBudget stations go first in the headset pass"
+  },
   "stations": [
     {
       "app": "smartcity",
@@ -217,6 +225,9 @@
         "name": "DC Clear",
         "note": "Full isolation with the DC link proven dead"
       },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
       "index": "01",
       "flat": false,
       "system": "Grid Certification",
@@ -289,6 +300,9 @@
         "name": "Intersection Safe",
         "note": "Zone, flash, repair and restore with nothing defeated"
       },
+      "meshes": 149,
+      "lights": 0,
+      "overBudget": false,
       "index": "02",
       "flat": false,
       "system": "Intersection Command",
@@ -362,6 +376,9 @@
         "name": "Entry Authority",
         "note": "Permit to exit with every control in place"
       },
+      "meshes": 195,
+      "lights": 0,
+      "overBudget": false,
       "index": "03",
       "flat": false,
       "system": "Entry Authority",
@@ -434,6 +451,9 @@
         "name": "Rooftop Authority",
         "note": "Anchored, isolated and commissioned with no shortcut"
       },
+      "meshes": 227,
+      "lights": 0,
+      "overBudget": false,
       "index": "04",
       "flat": false,
       "system": "Rooftop Authority",
@@ -504,6 +524,9 @@
         "name": "Photon Guild",
         "note": "Dark fibre proven, splice inside budget"
       },
+      "meshes": 175,
+      "lights": 0,
+      "overBudget": false,
       "index": "05",
       "flat": false,
       "system": "Photon Guild",
@@ -578,6 +601,9 @@
         "name": "Airside Clear",
         "note": "Full ramp procedure with rotors safed throughout"
       },
+      "meshes": 144,
+      "lights": 0,
+      "overBudget": false,
       "index": "06",
       "flat": false,
       "system": "Airside Command",
@@ -654,6 +680,9 @@
         "name": "Possession Clear",
         "note": "Full possession taken and handed back with nothing skipped"
       },
+      "meshes": 135,
+      "lights": 0,
+      "overBudget": false,
       "index": "07",
       "flat": false,
       "system": "Right-of-Way",
@@ -725,6 +754,9 @@
         "name": "Golden Hour",
         "note": "Every casualty triaged and tagged inside protocol time"
       },
+      "meshes": 125,
+      "lights": 0,
+      "overBudget": false,
       "index": "08",
       "flat": false,
       "system": "Golden Hour",
@@ -798,6 +830,9 @@
         "name": "Cell Locked",
         "note": "Full lockout with the light curtain never defeated"
       },
+      "meshes": 115,
+      "lights": 0,
+      "overBudget": false,
       "index": "09",
       "flat": false,
       "system": "Cell Lockout",
@@ -875,6 +910,9 @@
         "name": "Cold Chain Clear",
         "note": "Full isolation and recovery with atmosphere proven safe"
       },
+      "meshes": 93,
+      "lights": 0,
+      "overBudget": false,
       "index": "10",
       "flat": false,
       "system": "Cold Chain Command",
@@ -948,6 +986,9 @@
         "name": "Summit Authority",
         "note": "Every clip made, every tool tethered, no unprotected air"
       },
+      "meshes": 144,
+      "lights": 0,
+      "overBudget": false,
       "index": "11",
       "flat": false,
       "system": "Summit Authority",
@@ -1022,6 +1063,9 @@
         "name": "Iron Certified",
         "note": "Every connection made with fall protection live and the tag line in hand"
       },
+      "meshes": 111,
+      "lights": 0,
+      "overBudget": false,
       "index": "12",
       "flat": false,
       "system": "Iron Certified",
@@ -1095,6 +1139,9 @@
         "name": "Rigging Command",
         "note": "Set, verified against the chart and landed with the swing radius clear"
       },
+      "meshes": 122,
+      "lights": 0,
+      "overBudget": false,
       "index": "13",
       "flat": false,
       "system": "Rigging Command",
@@ -1173,6 +1220,9 @@
         "name": "Ground Authority",
         "note": "Trench inspected, tested and protected before anyone steps below grade"
       },
+      "meshes": 160,
+      "lights": 0,
+      "overBudget": false,
       "index": "14",
       "flat": false,
       "system": "Ground Authority",
@@ -1250,6 +1300,9 @@
         "name": "Steam Certified",
         "note": "Isolated, cooled, tested and relit with nothing skipped"
       },
+      "meshes": 123,
+      "lights": 0,
+      "overBudget": false,
       "index": "15",
       "flat": false,
       "system": "Steam Certified",
@@ -1323,6 +1376,9 @@
         "name": "Pit Certified",
         "note": "Pit and car-top entry with both stop switches confirmed"
       },
+      "meshes": 121,
+      "lights": 0,
+      "overBudget": false,
       "index": "16",
       "flat": false,
       "system": "Shaftway Authority",
@@ -1394,6 +1450,9 @@
         "name": "Containment Sealed",
         "note": "Full containment and decon with no shortcut on either"
       },
+      "meshes": 96,
+      "lights": 0,
+      "overBudget": false,
       "index": "17",
       "flat": false,
       "system": "Containment Command",
@@ -1467,6 +1526,9 @@
         "name": "Fly Qualified",
         "note": "Full fly cue with the arbor locked and the deck clear throughout"
       },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
       "index": "18",
       "flat": false,
       "system": "Fly Certified",
@@ -1545,6 +1607,9 @@
         "name": "Storm Ready",
         "note": "Full de-energized procedure with rubber proven and grounds applied in order"
       },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
       "index": "19",
       "flat": false,
       "system": "Storm Command",
@@ -1623,6 +1688,9 @@
         "name": "Waterfront Certified",
         "note": "Full lift cycle with the red zone clear and every lock verified"
       },
+      "meshes": 131,
+      "lights": 0,
+      "overBudget": false,
       "index": "20",
       "flat": false,
       "system": "Waterfront Authority",
@@ -1698,6 +1766,9 @@
         "name": "Data Integrity",
         "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
       },
+      "meshes": 0,
+      "lights": 0,
+      "overBudget": false,
       "index": "21",
       "flat": true,
       "system": "Site Awareness",
@@ -1792,6 +1863,9 @@
         "name": "Fence Line True",
         "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
       },
+      "meshes": 174,
+      "lights": 0,
+      "overBudget": false,
       "index": "22",
       "flat": false,
       "system": "Air Watch",
@@ -1867,6 +1941,9 @@
         "name": "Chain Unbroken",
         "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
       },
+      "meshes": 115,
+      "lights": 0,
+      "overBudget": false,
       "index": "23",
       "flat": false,
       "system": "Sample Integrity",
@@ -1942,6 +2019,9 @@
         "name": "Curtain Proven",
         "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
       },
+      "meshes": 89,
+      "lights": 0,
+      "overBudget": false,
       "index": "24",
       "flat": false,
       "system": "Bend Authority",
@@ -2017,6 +2097,9 @@
         "name": "Corridor Clean",
         "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
       },
+      "meshes": 139,
+      "lights": 0,
+      "overBudget": false,
       "index": "25",
       "flat": false,
       "system": "Decon Command",
@@ -2091,6 +2174,9 @@
         "name": "Ground First",
         "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
       },
+      "meshes": 92,
+      "lights": 0,
+      "overBudget": false,
       "index": "26",
       "flat": false,
       "system": "Tie-In Authority",
@@ -2165,6 +2251,9 @@
         "name": "Stow Secured",
         "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
       },
+      "meshes": 127,
+      "lights": 0,
+      "overBudget": false,
       "index": "27",
       "flat": false,
       "system": "Stow Authority",
@@ -2240,6 +2329,9 @@
         "name": "Well Never Entered",
         "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
       },
+      "meshes": 90,
+      "lights": 0,
+      "overBudget": false,
       "index": "28",
       "flat": false,
       "system": "Collection Command",
@@ -2315,6 +2407,9 @@
         "name": "Out of the Bight",
         "note": "Every line taken from outside the snap-back zone, hands clear, tension called by radio, stopper held"
       },
+      "meshes": 101,
+      "lights": 0,
+      "overBudget": false,
       "index": "29",
       "flat": false,
       "system": "Wharf Authority",
@@ -2389,6 +2484,9 @@
         "name": "Trim Locked",
         "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
       },
+      "meshes": 117,
+      "lights": 0,
+      "overBudget": false,
       "index": "30",
       "flat": false,
       "system": "Fly Authority",
@@ -2463,6 +2561,9 @@
         "name": "Nip Point Never",
         "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
       },
+      "meshes": 81,
+      "lights": 0,
+      "overBudget": false,
       "index": "31",
       "flat": false,
       "system": "Line Guard",
@@ -2538,6 +2639,9 @@
         "name": "String Swapped Live",
         "note": "A battery string replaced on a live plant with the cabinet ventilated, tools insulated, terminals covered and every cell checked"
       },
+      "meshes": 117,
+      "lights": 0,
+      "overBudget": false,
       "index": "32",
       "flat": false,
       "system": "Plant Authority",
@@ -2585,6 +2689,315 @@
       "deepLink": "smartcity/index.html?sim=cell-site-battery"
     },
     {
+      "app": "smartcity",
+      "id": "substation-switching",
+      "name": "Substation Switching",
+      "title": "SmartCiti.X~ Substation Switching VR",
+      "tagline": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Substation electrician / switching operator",
+      "union": null,
+      "certification": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
+      "accent": "#ffb84d",
+      "parSeconds": 245,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "order-held",
+        "name": "Order Held",
+        "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
+      },
+      "meshes": 132,
+      "lights": 0,
+      "overBudget": false,
+      "index": "33",
+      "flat": false,
+      "system": "Switching Authority",
+      "currency": "STEP",
+      "ranks": [
+        "Sub Tech",
+        "Switching Operator",
+        "Senior Operator",
+        "System Operator",
+        "Switching Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-back",
+          "name": "Read-Back",
+          "note": "Every step confirmed with the control centre before it was done"
+        },
+        {
+          "id": "breaker-first",
+          "name": "Breaker First",
+          "note": "Never opened a disconnect under load, never grounded untested bus"
+        },
+        {
+          "id": "proven-dead",
+          "name": "Proven Dead",
+          "note": "Phase-to-ground readings inside the dead band on every phase"
+        },
+        {
+          "id": "clean-order",
+          "name": "Clean Order",
+          "note": "No corrections through the whole switching order"
+        },
+        {
+          "id": "grounds-held",
+          "name": "Grounds Held",
+          "note": "Held the ground clamps to the click every time"
+        },
+        {
+          "id": "outage-window",
+          "name": "Outage Window",
+          "note": "Feeder cleared inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=substation-switching"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift",
+      "name": "Bus Depot Lift",
+      "title": "SmartCiti.X~ Bus Depot Lift VR",
+      "tagline": "Electric bus on column lifts: HV disable and prove, chocks, pad placement, synchronised raise, locks down, under-bus work, controlled lower",
+      "category": "Mobility & Transit",
+      "domain": "Mobility",
+      "trade": "Transit bus technician — electric fleet",
+      "union": null,
+      "certification": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
+      "accent": "#7bd389",
+      "parSeconds": 240,
+      "steps": 10,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "on-the-locks",
+        "name": "On the Locks",
+        "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
+      },
+      "meshes": 93,
+      "lights": 0,
+      "overBudget": false,
+      "index": "34",
+      "flat": false,
+      "system": "Depot Authority",
+      "currency": "RAISE",
+      "ranks": [
+        "Fleet Tech",
+        "EV Tech",
+        "Lead Tech",
+        "Shop Supervisor",
+        "Depot Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "hv-proven",
+          "name": "HV Proven",
+          "note": "High voltage disabled and metered before the lift, first time"
+        },
+        {
+          "id": "never-under",
+          "name": "Never Under Hydraulics",
+          "note": "Never under the bus off the locks, never touched HV bare-handed"
+        },
+        {
+          "id": "level-raise",
+          "name": "Level Raise",
+          "note": "Held the columns level through the raise"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections through the whole lift"
+        },
+        {
+          "id": "pads-true",
+          "name": "Pads True",
+          "note": "Lift pads placed inside the manufacturer's points"
+        },
+        {
+          "id": "bay-turn",
+          "name": "Bay Turn",
+          "note": "Bus up, worked and down inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bus-depot-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "fire-pump",
+      "name": "Fire Pump",
+      "title": "SmartCiti.X~ Fire Pump VR",
+      "tagline": "Annual pump flow test: alarm notification, controller to manual, test header to safe discharge, churn / 100% / 150% points, curve compared, system restored",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems",
+      "trade": "Fire sprinkler fitter / fire pump technician",
+      "union": null,
+      "certification": "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems",
+      "accent": "#e25c5c",
+      "parSeconds": 245,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "curve-met",
+        "name": "Curve Met",
+        "note": "A pump flowed at three points, read against its nameplate curve, with the alarm company told and the system restored"
+      },
+      "meshes": 114,
+      "lights": 0,
+      "overBudget": false,
+      "index": "35",
+      "flat": false,
+      "system": "Pump Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice Fitter",
+        "Journeyman Fitter",
+        "Inspector",
+        "Senior Inspector",
+        "Pump Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "alarm-told",
+          "name": "Alarm Told",
+          "note": "Alarm company notified before the pump ran, first time"
+        },
+        {
+          "id": "discharge-safe",
+          "name": "Discharge Safe",
+          "note": "Never flowed into a room, never ran the pump dry"
+        },
+        {
+          "id": "points-true",
+          "name": "Points True",
+          "note": "Flow points held inside their bands"
+        },
+        {
+          "id": "clean-test",
+          "name": "Clean Test",
+          "note": "No corrections through the whole test"
+        },
+        {
+          "id": "flow-held",
+          "name": "Flow Held",
+          "note": "Held the 150% point the full reading"
+        },
+        {
+          "id": "test-window",
+          "name": "Test Window",
+          "note": "Test complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=fire-pump"
+    },
+    {
+      "app": "smartcity",
+      "id": "scaffold-erection",
+      "name": "Scaffold Erection",
+      "title": "SmartCiti.X~ Scaffold Erection VR",
+      "tagline": "Frame scaffold, two lifts: ground and sills, base plates, plumb and level, tie-ins, full planking, guardrails, ladder access, green tag",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Scaffold erector / carpenter",
+      "union": null,
+      "certification": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
+      "accent": "#f0a63a",
+      "parSeconds": 250,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "green-tagged",
+        "name": "Green Tagged",
+        "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
+      },
+      "meshes": 108,
+      "lights": 0,
+      "overBudget": false,
+      "index": "36",
+      "flat": false,
+      "system": "Scaffold Authority",
+      "currency": "LIFT",
+      "ranks": [
+        "Erector",
+        "Lead Erector",
+        "Competent Person",
+        "Scaffold Foreman",
+        "Scaffold Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "sound-ground",
+          "name": "Sound Ground",
+          "note": "Sills and base plates set before a frame went up, first time"
+        },
+        {
+          "id": "tied-in",
+          "name": "Tied In",
+          "note": "Never climbed the frames, never worked an untied lift"
+        },
+        {
+          "id": "plumb-true",
+          "name": "Plumb True",
+          "note": "Plumb and level inside tolerance"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections through the whole erection"
+        },
+        {
+          "id": "tie-held",
+          "name": "Tie Held",
+          "note": "Held every tie to torque"
+        },
+        {
+          "id": "up-by-break",
+          "name": "Up by Break",
+          "note": "Tagged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=scaffold-erection"
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -2609,6 +3022,9 @@
         "name": "Zero Energy Verified",
         "note": "Perfect live-dead-live on the first run"
       },
+      "meshes": 185,
+      "lights": 6,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=electrical"
     },
     {
@@ -2636,6 +3052,9 @@
         "name": "Clean Chair",
         "note": "Full colour service with no sanitation breach"
       },
+      "meshes": 306,
+      "lights": 5,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=salon"
     },
     {
@@ -2663,6 +3082,9 @@
         "name": "Clean Line",
         "note": "Full service with no cross-contamination and a controlled flare-up"
       },
+      "meshes": 269,
+      "lights": 6,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=kitchen"
     },
     {
@@ -2691,6 +3113,9 @@
         "name": "Order of Draw",
         "note": "Correct draw sequence with no additive carryover"
       },
+      "meshes": 154,
+      "lights": 4,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=phlebotomy"
     },
     {
@@ -2719,6 +3144,9 @@
         "name": "Fire Watch Held",
         "note": "Permit to fire watch with no hot-work shortcut"
       },
+      "meshes": 254,
+      "lights": 6,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=welding"
     },
     {
@@ -2748,6 +3176,9 @@
         "name": "Clean Promote",
         "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
       },
+      "meshes": 202,
+      "lights": 6,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=devops"
     },
     {
@@ -2779,6 +3210,9 @@
         "name": "Zero Leaks",
         "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
       },
+      "meshes": 101,
+      "lights": 4,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=plumbing"
     },
     {
@@ -2810,6 +3244,9 @@
         "name": "Clean Recovery",
         "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
       },
+      "meshes": 96,
+      "lights": 3,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=pressure-washer"
     },
     {
@@ -2839,6 +3276,9 @@
         "name": "Even Build",
         "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
       },
+      "meshes": 94,
+      "lights": 4,
+      "overBudget": false,
       "deepLink": "trades/index.html?room=paint-sprayer"
     }
   ]

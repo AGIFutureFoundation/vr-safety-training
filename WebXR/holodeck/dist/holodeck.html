@@ -3489,6 +3489,158 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "substation-switching",
+    "index": "33",
+    "domain": "Energy",
+    "trade": "Substation electrician / switching operator",
+    "category": "Energy & Power",
+    "certification": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
+    "name": "Substation Switching",
+    "title": "SmartCiti.X~ Substation Switching VR",
+    "tagline": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
+    "accent": 16758861,
+    "accentCss": "#ffb84d",
+    "parSeconds": 245,
+    "badge": {
+      "id": "order-held",
+      "name": "Order Held",
+      "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
+    },
+    "stepCount": 11,
+    "game": {
+      "system": "Switching Authority",
+      "currency": "STEP",
+      "ranks": [
+        "Sub Tech",
+        "Switching Operator",
+        "Senior Operator",
+        "System Operator",
+        "Switching Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bus-depot-lift",
+    "index": "34",
+    "domain": "Mobility",
+    "trade": "Transit bus technician — electric fleet",
+    "category": "Mobility & Transit",
+    "certification": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
+    "name": "Bus Depot Lift",
+    "title": "SmartCiti.X~ Bus Depot Lift VR",
+    "tagline": "Electric bus on column lifts: HV disable and prove, chocks, pad placement, synchronised raise, locks down, under-bus work, controlled lower",
+    "accent": 8115081,
+    "accentCss": "#7bd389",
+    "parSeconds": 240,
+    "badge": {
+      "id": "on-the-locks",
+      "name": "On the Locks",
+      "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
+    },
+    "stepCount": 10,
+    "game": {
+      "system": "Depot Authority",
+      "currency": "RAISE",
+      "ranks": [
+        "Fleet Tech",
+        "EV Tech",
+        "Lead Tech",
+        "Shop Supervisor",
+        "Depot Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "fire-pump",
+    "index": "35",
+    "domain": "Building Systems",
+    "trade": "Fire sprinkler fitter / fire pump technician",
+    "category": "Building Systems & Facilities",
+    "certification": "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems",
+    "name": "Fire Pump",
+    "title": "SmartCiti.X~ Fire Pump VR",
+    "tagline": "Annual pump flow test: alarm notification, controller to manual, test header to safe discharge, churn / 100% / 150% points, curve compared, system restored",
+    "accent": 14834780,
+    "accentCss": "#e25c5c",
+    "parSeconds": 245,
+    "badge": {
+      "id": "curve-met",
+      "name": "Curve Met",
+      "note": "A pump flowed at three points, read against its nameplate curve, with the alarm company told and the system restored"
+    },
+    "stepCount": 12,
+    "game": {
+      "system": "Pump Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice Fitter",
+        "Journeyman Fitter",
+        "Inspector",
+        "Senior Inspector",
+        "Pump Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "scaffold-erection",
+    "index": "36",
+    "domain": "Construction",
+    "trade": "Scaffold erector / carpenter",
+    "category": "Construction & Structural Trades",
+    "certification": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
+    "name": "Scaffold Erection",
+    "title": "SmartCiti.X~ Scaffold Erection VR",
+    "tagline": "Frame scaffold, two lifts: ground and sills, base plates, plumb and level, tie-ins, full planking, guardrails, ladder access, green tag",
+    "accent": 15771194,
+    "accentCss": "#f0a63a",
+    "parSeconds": 250,
+    "badge": {
+      "id": "green-tagged",
+      "name": "Green Tagged",
+      "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
+    },
+    "stepCount": 12,
+    "game": {
+      "system": "Scaffold Authority",
+      "currency": "LIFT",
+      "ranks": [
+        "Erector",
+        "Lead Erector",
+        "Competent Person",
+        "Scaffold Foreman",
+        "Scaffold Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
