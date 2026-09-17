@@ -459,9 +459,9 @@ function showResults(s, summary) {
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
   ui.results.hidden = false;
   state.paused = true;
-  // Same attempt record SmartCiti.X writes. Rooms that name their category,
-  // union and certification (the surface-prep bays) carry them; the older
-  // rooms roll up under one category until they are given their own.
+  // Same attempt record SmartCiti.X writes. Every room names the union and
+  // certification it maps to; the seven original rooms roll up under one
+  // category, the surface-prep bays carry their own.
   const attempt = TrainingRecords.record({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,

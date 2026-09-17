@@ -15,6 +15,8 @@ export const ROOM_PHLEBOTOMY = {
   trade: "Phlebotomy technician",
   title: "Draw Station",
   tagline: "Two-identifier check, venipuncture technique and the order of draw",
+  union: "SEIU / NUHW — healthcare workers (hospital and laboratory locals)",
+  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
   parSeconds: 200,

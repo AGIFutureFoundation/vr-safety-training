@@ -15,6 +15,8 @@ export const ROOM_WELDING = {
   trade: "Welder / fabricator",
   title: "Weld Bay",
   tagline: "Hot work permit, fume extraction, lens shade, bead control and fire watch",
+  union: "Boilermakers (IBB), Ironworkers and UA welders; AWS Certified Welder programme",
+  certification: "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
   accent: 0xf2c14b,
   accentCss: "#f2c14b",
   parSeconds: 210,

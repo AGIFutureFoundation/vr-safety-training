@@ -19,6 +19,8 @@ export const ROOM_DEVOPS = {
   trade: "Platform engineer / SRE",
   title: "Deploy Bay",
   tagline: "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
+  union: "Non-union profession (CWA and the Alphabet Workers Union organise some technology workplaces)",
+  certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
   accent: VIOLET,
   accentCss: "#7c6fea",
   parSeconds: 195,

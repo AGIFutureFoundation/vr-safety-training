@@ -16,6 +16,8 @@ export const ROOM_SALON = {
   trade: "Hair stylist / colourist",
   title: "Colour Studio",
   tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
+  union: "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
+  certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
   accent: 0xe2739b,
   accentCss: "#e2739b",
   parSeconds: 185,

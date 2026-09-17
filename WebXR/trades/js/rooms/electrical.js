@@ -17,6 +17,8 @@ export const ROOM_ELECTRICAL = {
   trade: "Electrical worker",
   title: "Isolation Bay",
   tagline: "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+  union: "IBEW — International Brotherhood of Electrical Workers (inside wireman JATC)",
+  certification: "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
   accent: 0x5aa9ff,
   accentCss: "#5aa9ff",
   parSeconds: 165,

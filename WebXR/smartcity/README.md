@@ -116,6 +116,18 @@ it are training records, not evidence for the named certification. Regenerate th
 content changes and transcribe verdicts to the tracking system; it is deliberately not in the CI
 freshness check so filled-in verdicts are never overwritten by a build.
 
+Every section carries two signatures. The first is automated and already present: a **preview**
+verdict the generator signs after running the checks a machine can make — category, trade and
+certification named; a rationale on every step; a judgeable consequence (40+ characters) on
+every hazard; late notes on real targets; the scene builds inside the 320-mesh headset budget;
+every dossier statement sourced. The generator exits non-zero if any section fails, and writes
+the same verdicts to `review-preview.json` so a portal can show "preview passed, sign-off
+pending" per station. All 45 sections pass preview today. The second signature is the
+practitioner's, blank until a named person signs it; a preview pass is the entry ticket to
+review, not a stand-in for it. Every Trade Skills room now names its union and the real
+certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
+so on), which the preview requires.
+
 ## Headset budget
 
 `catalog.json` carries a `meshes` and `lights` count for every station, from a headless build,

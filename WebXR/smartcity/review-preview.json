@@ -1,0 +1,2930 @@
+{
+  "generatedAt": "2026-09-17",
+  "meshBudget": 320,
+  "total": 45,
+  "previewPassed": 45,
+  "practitionerSigned": 0,
+  "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
+  "stations": [
+    {
+      "id": "charge-point",
+      "app": "smartcity",
+      "name": "Charge Point",
+      "category": "Energy & Power",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Energy & Power"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "EV service technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "185 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "185 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "signal-cabinet",
+      "app": "smartcity",
+      "name": "Signal Cabinet",
+      "category": "Mobility & Transit",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Mobility & Transit"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Traffic signal technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW — IMSA Level II Traffic Signal Technician certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "149 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "149 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "valve-vault",
+      "app": "smartcity",
+      "name": "Valve Vault",
+      "category": "Water & Environmental",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Water & Environmental"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Water utility operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "1 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "195 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "195 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "17 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "solar-deck",
+      "app": "smartcity",
+      "name": "Solar Deck",
+      "category": "Energy & Power",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Energy & Power"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Solar / BESS technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW — NABCEP PV Installation Professional certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "227 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "227 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "splice-node",
+      "app": "smartcity",
+      "name": "Splice Node",
+      "category": "Connectivity & Telecom",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Connectivity & Telecom"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Fibre optic technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "CWA — BICSI Installer 2, Optical Fiber Technician certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "175 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "175 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "flight-deck",
+      "app": "smartcity",
+      "name": "Flight Deck",
+      "category": "Mobility & Transit",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Mobility & Transit"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Drone / UAS ground technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "Teamsters — FAA Part 107 remote pilot certificate holder"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "14 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "14 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "144 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "144 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "track-access",
+      "app": "smartcity",
+      "name": "Track Access",
+      "category": "Mobility & Transit",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Mobility & Transit"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Rail track worker"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "135 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "135 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "11 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "triage-point",
+      "app": "smartcity",
+      "name": "Triage Point",
+      "category": "Emergency Services",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Emergency Services"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "EMT / paramedic"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAEP — NREMT-Paramedic certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "1 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "125 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "125 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "8 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "robot-cell",
+      "app": "smartcity",
+      "name": "Robot Cell",
+      "category": "Manufacturing & Automation",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Manufacturing & Automation"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Automation / robotics technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UAW — ANSI/RIA R15.06 robot safety qualified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "14 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "14 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "115 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "115 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "14 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "chiller-plant",
+      "app": "smartcity",
+      "name": "Chiller Plant",
+      "category": "Building Systems & Facilities",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Building Systems & Facilities"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "HVAC / refrigeration technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UA — EPA Section 608 Universal refrigerant certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "1 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "93 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "93 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "11 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "tower-climb",
+      "app": "smartcity",
+      "name": "Tower Climb",
+      "category": "Connectivity & Telecom",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Connectivity & Telecom"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Telecom / broadcast tower technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "CWA — NATE Tower Climber Level II certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "144 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "144 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "17 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "steel-erector",
+      "app": "smartcity",
+      "name": "Steel Erector",
+      "category": "Construction & Structural Trades",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Construction & Structural Trades"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Ironworker / structural steel connector"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "111 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "111 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "16 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "crane-yard",
+      "app": "smartcity",
+      "name": "Crane Yard",
+      "category": "Construction & Structural Trades",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Construction & Structural Trades"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Mobile crane operator / rigger"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IUOE — NCCCO Mobile Crane Operator certified"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "15 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "15 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "122 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "122 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "trench-box",
+      "app": "smartcity",
+      "name": "Trench Box",
+      "category": "Construction & Structural Trades",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Construction & Structural Trades"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Laborer / excavation and shoring"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "15 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "15 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "160 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "160 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "boiler-room",
+      "app": "smartcity",
+      "name": "Boiler Room",
+      "category": "Building Systems & Facilities",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Building Systems & Facilities"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Stationary engineer / steamfitter"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IUOE — state-licensed Stationary Engineer, boiler operation"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "123 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "123 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "elevator-pit",
+      "app": "smartcity",
+      "name": "Elevator Pit",
+      "category": "Building Systems & Facilities",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Building Systems & Facilities"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Elevator constructor / mechanic"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IUEC — NAESA QEI-qualified elevator mechanic"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "121 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "121 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "abatement-chamber",
+      "app": "smartcity",
+      "name": "Abatement Chamber",
+      "category": "Water & Environmental",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Water & Environmental"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Asbestos / lead abatement worker"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA — EPA AHERA-certified asbestos abatement worker"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "96 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "96 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "rigging-loft",
+      "app": "smartcity",
+      "name": "Rigging Loft",
+      "category": "Entertainment & Live Events",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Entertainment & Live Events"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Theatrical rigger (IATSE)"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IATSE — ETCP Certified Rigger, Arena"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "14 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "14 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "line-truck",
+      "app": "smartcity",
+      "name": "Line Truck",
+      "category": "Energy & Power",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Energy & Power"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Outside / overhead lineworker (IBEW)"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "15 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "15 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "dock-crane",
+      "app": "smartcity",
+      "name": "Dock Crane",
+      "category": "Maritime & Ports",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Maritime & Ports"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Longshoreman / container-crane operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "ILWU — OSHA 29 CFR 1917 qualified crane operator"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "14 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "14 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "131 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "131 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "20 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "hunters-point",
+      "app": "smartcity",
+      "name": "Hunters Point Briefing",
+      "category": "Environmental Monitoring",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Environmental Monitoring"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Environmental monitoring technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "0 notes"
+        },
+        {
+          "check": "Every dossier statement is sourced",
+          "ok": true,
+          "note": "4 sourced statements"
+        },
+        {
+          "check": "Every knowledge-check step has options",
+          "ok": true,
+          "note": "ok"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "air-monitor",
+      "app": "smartcity",
+      "name": "Perimeter Air",
+      "category": "Environmental Monitoring",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Environmental Monitoring"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Environmental monitoring technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "174 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "174 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "sampling-well",
+      "app": "smartcity",
+      "name": "Sampling Well",
+      "category": "Environmental Monitoring",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Environmental Monitoring"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Environmental sampling technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "115 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "115 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "16 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "press-brake",
+      "app": "smartcity",
+      "name": "Press Brake",
+      "category": "Manufacturing & Automation",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Manufacturing & Automation"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Sheet-metal press brake operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "89 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "89 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "decon-line",
+      "app": "smartcity",
+      "name": "Decon Line",
+      "category": "Emergency Services",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Emergency Services"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Hazmat firefighter / decon technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "139 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "139 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "stage-power",
+      "app": "smartcity",
+      "name": "Stage Power",
+      "category": "Entertainment & Live Events",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Entertainment & Live Events"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Stage / touring electrician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "92 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "92 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "17 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "container-lashing",
+      "app": "smartcity",
+      "name": "Container Lashing",
+      "category": "Maritime & Ports",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Maritime & Ports"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Longshore worker — lasher"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "127 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "127 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "17 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "lift-station",
+      "app": "smartcity",
+      "name": "Lift Station",
+      "category": "Water & Environmental",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Water & Environmental"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Wastewater collection system operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "90 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "90 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "14 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "mooring-line",
+      "app": "smartcity",
+      "name": "Mooring Line",
+      "category": "Maritime & Ports",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Maritime & Ports"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Line handler / wharf mooring crew"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "ILWU / SIU — OSHA 29 CFR 1917 marine terminals (mooring operations); OCIMF Mooring Equipment Guidelines snap-back awareness; port authority line-handling qualification"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "101 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "101 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "chain-hoist",
+      "app": "smartcity",
+      "name": "Chain Hoist",
+      "category": "Entertainment & Live Events",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Entertainment & Live Events"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Entertainment rigger — chain motors"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "117 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "117 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "conveyor-guard",
+      "app": "smartcity",
+      "name": "Conveyor Guard",
+      "category": "Manufacturing & Automation",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Manufacturing & Automation"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Conveyor maintenance technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "81 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "81 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "10 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "cell-site-battery",
+      "app": "smartcity",
+      "name": "Cell Site Battery",
+      "category": "Connectivity & Telecom",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Connectivity & Telecom"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Cell site / DC power technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "117 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "117 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "15 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "substation-switching",
+      "app": "smartcity",
+      "name": "Substation Switching",
+      "category": "Energy & Power",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Energy & Power"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Substation electrician / switching operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "132 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "132 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "15 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "bus-depot-lift",
+      "app": "smartcity",
+      "name": "Bus Depot Lift",
+      "category": "Mobility & Transit",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Mobility & Transit"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Transit bus technician — electric fleet"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "93 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "93 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "fire-pump",
+      "app": "smartcity",
+      "name": "Fire Pump",
+      "category": "Building Systems & Facilities",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Building Systems & Facilities"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Fire sprinkler fitter / fire pump technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "114 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "114 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "15 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "scaffold-erection",
+      "app": "smartcity",
+      "name": "Scaffold Erection",
+      "category": "Construction & Structural Trades",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Construction & Structural Trades"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Scaffold erector / carpenter"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "2 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "108 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "108 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "electrical",
+      "app": "trades",
+      "name": "Isolation Bay",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Electrical worker"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "9 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "9 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "3 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "4 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "185 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "185 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "10 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "salon",
+      "app": "trades",
+      "name": "Colour Studio",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Hair stylist / colourist"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "3 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "306 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "306 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "13 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "kitchen",
+      "app": "trades",
+      "name": "Hot Line",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Commercial cook"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "5 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "269 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "269 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "10 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "phlebotomy",
+      "app": "trades",
+      "name": "Draw Station",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Phlebotomy technician"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "154 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "154 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "14 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "welding",
+      "app": "trades",
+      "name": "Weld Bay",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Welder / fabricator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "5 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "254 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "254 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "devops",
+      "app": "trades",
+      "name": "Deploy Bay",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Platform engineer / SRE"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "3 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "4 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "202 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "202 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "plumbing",
+      "app": "trades",
+      "name": "Rough-In Bay",
+      "category": "Trade Skills Simulator",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Trade Skills Simulator"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Plumber / Pipefitter"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "10 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "10 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "101 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "101 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "12 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "pressure-washer",
+      "app": "trades",
+      "name": "Wash-Down Yard",
+      "category": "Surface Prep & Coatings",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Surface Prep & Coatings"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Laborer — surface prep"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "96 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "96 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "15 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "paint-sprayer",
+      "app": "trades",
+      "name": "Coatings Bay",
+      "category": "Surface Prep & Coatings",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Surface Prep & Coatings"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Painter / coatings applicator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "94 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "94 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "14 targets"
+        }
+      ],
+      "practitioner": "pending"
+    }
+  ]
+}

@@ -2372,6 +2372,8 @@ const ROOM_ELECTRICAL = {
   trade: "Electrical worker",
   title: "Isolation Bay",
   tagline: "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+  union: "IBEW — International Brotherhood of Electrical Workers (inside wireman JATC)",
+  certification: "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
   accent: 0x5aa9ff,
   accentCss: "#5aa9ff",
   parSeconds: 165,
@@ -2764,6 +2766,8 @@ const ROOM_SALON = {
   trade: "Hair stylist / colourist",
   title: "Colour Studio",
   tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
+  union: "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
+  certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
   accent: 0xe2739b,
   accentCss: "#e2739b",
   parSeconds: 185,
@@ -3178,6 +3182,8 @@ const ROOM_KITCHEN = {
   trade: "Commercial cook",
   title: "Hot Line",
   tagline: "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+  union: "UNITE HERE — hospitality and food service workers",
+  certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
   accent: 0xf2894b,
   accentCss: "#f2894b",
   parSeconds: 195,
@@ -3626,6 +3632,8 @@ const ROOM_PHLEBOTOMY = {
   trade: "Phlebotomy technician",
   title: "Draw Station",
   tagline: "Two-identifier check, venipuncture technique and the order of draw",
+  union: "SEIU / NUHW — healthcare workers (hospital and laboratory locals)",
+  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
   parSeconds: 200,
@@ -4022,6 +4030,8 @@ const ROOM_WELDING = {
   trade: "Welder / fabricator",
   title: "Weld Bay",
   tagline: "Hot work permit, fume extraction, lens shade, bead control and fire watch",
+  union: "Boilermakers (IBB), Ironworkers and UA welders; AWS Certified Welder programme",
+  certification: "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
   accent: 0xf2c14b,
   accentCss: "#f2c14b",
   parSeconds: 210,
@@ -4498,6 +4508,8 @@ const ROOM_DEVOPS = {
   trade: "Platform engineer / SRE",
   title: "Deploy Bay",
   tagline: "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
+  union: "Non-union profession (CWA and the Alphabet Workers Union organise some technology workplaces)",
+  certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
   accent: VIOLET,
   accentCss: "#7c6fea",
   parSeconds: 195,
@@ -4803,6 +4815,8 @@ const ROOM_PLUMBING = {
   trade: "Plumber / Pipefitter",
   title: "Rough-In Bay",
   tagline: "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
+  union: "UA — United Association of Plumbers, Pipefitters and Service Technicians",
+  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
   parSeconds: 215,
@@ -6429,9 +6443,9 @@ function showResults(s, summary) {
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
   ui.results.hidden = false;
   state.paused = true;
-  // Same attempt record SmartCiti.X writes. Rooms that name their category,
-  // union and certification (the surface-prep bays) carry them; the older
-  // rooms roll up under one category until they are given their own.
+  // Same attempt record SmartCiti.X writes. Every room names the union and
+  // certification it maps to; the seven original rooms roll up under one
+  // category, the surface-prep bays carry their own.
   const attempt = TrainingRecords.record({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,

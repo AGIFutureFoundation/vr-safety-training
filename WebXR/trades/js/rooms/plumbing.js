@@ -17,6 +17,8 @@ export const ROOM_PLUMBING = {
   trade: "Plumber / Pipefitter",
   title: "Rough-In Bay",
   tagline: "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
+  union: "UA — United Association of Plumbers, Pipefitters and Service Technicians",
+  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
   parSeconds: 215,

@@ -14,6 +14,8 @@ export const ROOM_KITCHEN = {
   trade: "Commercial cook",
   title: "Hot Line",
   tagline: "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
+  union: "UNITE HERE — hospitality and food service workers",
+  certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
   accent: 0xf2894b,
   accentCss: "#f2894b",
   parSeconds: 195,
