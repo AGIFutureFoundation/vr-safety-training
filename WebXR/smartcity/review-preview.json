@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-09-17",
   "meshBudget": 320,
-  "total": 46,
-  "previewPassed": 46,
+  "total": 48,
+  "previewPassed": 48,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -2402,6 +2402,136 @@
           "check": "Every step target exists in the scene",
           "ok": true,
           "note": "16 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "chlorine-room",
+      "app": "smartcity",
+      "name": "Chlorine Room",
+      "category": "Water & Environmental",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Water & Environmental"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Water treatment plant operator"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "146 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "146 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "16 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "forklift-dock",
+      "app": "smartcity",
+      "name": "Forklift Dock",
+      "category": "Manufacturing & Automation",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Manufacturing & Automation"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Powered industrial truck operator — warehouse and dock"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "161 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "161 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
         }
       ],
       "practitioner": "pending"

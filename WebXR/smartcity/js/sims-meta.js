@@ -1457,5 +1457,81 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "chlorine-room",
+    "index": "38",
+    "domain": "Water & Environmental",
+    "trade": "Water treatment plant operator",
+    "category": "Water & Environmental",
+    "certification": "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage",
+    "name": "Chlorine Room",
+    "title": "SmartCiti.X~ Chlorine Room VR",
+    "tagline": "150-lb chlorine cylinder change: room monitor and SCBA before the door, empty isolated and capped, full one on the scale and chained, new gasket, yoke a quarter turn past snug, ammonia leak test, valve one turn, wrench on the stem",
+    "accent": 8378536,
+    "accentCss": "#7fd8a8",
+    "parSeconds": 270,
+    "badge": {
+      "id": "tight-and-tested",
+      "name": "Tight and Tested",
+      "note": "A change with a new gasket, a quarter-turn yoke, a clean ammonia test and the valve opened one turn — first time"
+    },
+    "stepCount": 12,
+    "game": {
+      "system": "Plant Operations",
+      "currency": "PPM",
+      "ranks": [
+        "Operator-in-Training",
+        "Grade I",
+        "Grade II",
+        "Chief Operator",
+        "Plant Operations Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "forklift-dock",
+    "index": "39",
+    "domain": "Manufacturing & Automation",
+    "trade": "Powered industrial truck operator — warehouse and dock",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes",
+    "name": "Forklift Dock",
+    "title": "SmartCiti.X~ Forklift Dock VR",
+    "tagline": "Dock load-out: pre-shift inspection, belt on, trailer chocked and dock-locked before the plate, load against the capacity plate, forks under and mast back, low and steady, ramp in reverse, rack height, and the trailer that crept",
+    "accent": 15901243,
+    "accentCss": "#f2a23b",
+    "parSeconds": 240,
+    "badge": {
+      "id": "dock-clean",
+      "name": "Dock Clean",
+      "note": "A load-out with the trailer secured before the plate, the load inside the plate rating, the mast back and low, and the ramp taken in reverse — first time"
+    },
+    "stepCount": 12,
+    "game": {
+      "system": "Dock Operations",
+      "currency": "LIFT",
+      "ranks": [
+        "Trainee",
+        "Certified Operator",
+        "Lead Operator",
+        "Dock Supervisor",
+        "Dock Operations Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

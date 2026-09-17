@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 37
+      "stations": 39
     },
     "trades": {
       "entry": "trades/index.html",
@@ -59,7 +59,8 @@
       "stations": [
         "valve-vault",
         "abatement-chamber",
-        "lift-station"
+        "lift-station",
+        "chlorine-room"
       ]
     },
     {
@@ -83,7 +84,8 @@
       "stations": [
         "robot-cell",
         "press-brake",
-        "conveyor-guard"
+        "conveyor-guard",
+        "forklift-dock"
       ]
     },
     {
@@ -3075,6 +3077,161 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=aerial-ladder"
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room",
+      "name": "Chlorine Room",
+      "title": "SmartCiti.X~ Chlorine Room VR",
+      "tagline": "150-lb chlorine cylinder change: room monitor and SCBA before the door, empty isolated and capped, full one on the scale and chained, new gasket, yoke a quarter turn past snug, ammonia leak test, valve one turn, wrench on the stem",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Water treatment plant operator",
+      "union": null,
+      "certification": "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage",
+      "accent": "#7fd8a8",
+      "parSeconds": 270,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "tight-and-tested",
+        "name": "Tight and Tested",
+        "note": "A change with a new gasket, a quarter-turn yoke, a clean ammonia test and the valve opened one turn — first time"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "38",
+      "flat": false,
+      "system": "Plant Operations",
+      "currency": "PPM",
+      "ranks": [
+        "Operator-in-Training",
+        "Grade I",
+        "Grade II",
+        "Chief Operator",
+        "Plant Operations Certified"
+      ],
+      "awards": [
+        {
+          "id": "door-discipline",
+          "name": "Door Discipline",
+          "note": "Monitor read and SCBA staged before the first valve, first time"
+        },
+        {
+          "id": "never-reused",
+          "name": "Never Reused",
+          "note": "Never a reused gasket, never water on a leak, never in without air"
+        },
+        {
+          "id": "quarter-turn",
+          "name": "Quarter Turn",
+          "note": "Yoke and feed rate both inside the band"
+        },
+        {
+          "id": "clean-change",
+          "name": "Clean Change",
+          "note": "No corrections anywhere in the change"
+        },
+        {
+          "id": "steady-test",
+          "name": "Steady Test",
+          "note": "Ammonia test held over every joint without a break"
+        },
+        {
+          "id": "change-fast",
+          "name": "Changed In Time",
+          "note": "Cylinder on line inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=chlorine-room"
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock",
+      "name": "Forklift Dock",
+      "title": "SmartCiti.X~ Forklift Dock VR",
+      "tagline": "Dock load-out: pre-shift inspection, belt on, trailer chocked and dock-locked before the plate, load against the capacity plate, forks under and mast back, low and steady, ramp in reverse, rack height, and the trailer that crept",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing & Automation",
+      "trade": "Powered industrial truck operator — warehouse and dock",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes",
+      "accent": "#f2a23b",
+      "parSeconds": 240,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "dock-clean",
+        "name": "Dock Clean",
+        "note": "A load-out with the trailer secured before the plate, the load inside the plate rating, the mast back and low, and the ramp taken in reverse — first time"
+      },
+      "meshes": 161,
+      "lights": 0,
+      "overBudget": false,
+      "index": "39",
+      "flat": false,
+      "system": "Dock Operations",
+      "currency": "LIFT",
+      "ranks": [
+        "Trainee",
+        "Certified Operator",
+        "Lead Operator",
+        "Dock Supervisor",
+        "Dock Operations Certified"
+      ],
+      "awards": [
+        {
+          "id": "secured-first",
+          "name": "Secured First",
+          "note": "Chock and dock lock before the plate, first time"
+        },
+        {
+          "id": "nobody-under",
+          "name": "Nobody Under",
+          "note": "Never a rider, never under a raised load, never forward down a ramp loaded"
+        },
+        {
+          "id": "on-the-plate",
+          "name": "On the Plate",
+          "note": "Load and rack height both inside the band"
+        },
+        {
+          "id": "clean-loadout",
+          "name": "Clean Load-Out",
+          "note": "No corrections anywhere on the dock"
+        },
+        {
+          "id": "steady-travel",
+          "name": "Steady Travel",
+          "note": "Travel speed held the whole run"
+        },
+        {
+          "id": "turn-fast",
+          "name": "Turned In Time",
+          "note": "Trailer loaded inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=forklift-dock"
     },
     {
       "app": "trades",
