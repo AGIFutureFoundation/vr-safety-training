@@ -277,5 +277,33 @@ for (const sim of suite.SIMS) {
   }
 }
 
+// Training programmes (curricula.js) name stations across both apps; a
+// programme that points at a station that does not exist would show a
+// learner a block they can never finish, so it fails the build.
+{
+  const { CURRICULA } = await import("../WebXR/smartcity/js/curricula.js");
+  const { loadTrades } = await import("./lib/headless.mjs");
+  const trades = await loadTrades();
+  const known = {
+    smartcity: new Set(suite.SIMS.map((r) => r.id)),
+    trades: new Set(trades.ROOMS.map((r) => r.id)),
+  };
+  const seen = new Set();
+  for (const c of CURRICULA) {
+    if (seen.has(c.id)) fail("curricula", `duplicate programme id "${c.id}"`);
+    seen.add(c.id);
+    if (!c.stations?.length) fail("curricula", `programme "${c.id}" has no stations`);
+    for (const st of c.stations ?? []) {
+      if (!known[st.app]) { fail("curricula", `programme "${c.id}" names unknown app "${st.app}"`); continue; }
+      if (!known[st.app].has(st.id)) fail("curricula", `programme "${c.id}" names "${st.app}:${st.id}", which does not exist`);
+      if (!st.why || st.why.length < 30) fail("curricula", `programme "${c.id}" station "${st.id}" has no reason for being in the block`);
+    }
+    for (const field of ["name", "union", "certification", "summary"]) {
+      if (!c[field]) fail("curricula", `programme "${c.id}" is missing ${field}`);
+    }
+  }
+  if (!failures) console.log(`  ✓ ${String(CURRICULA.length).padStart(2)} training programmes${" ".repeat(22)} ${CURRICULA.reduce((a, c) => a + c.stations.length, 0)} station entries, all resolved`);
+}
+
 console.log(failures ? `\n${failures} problem(s) found.` : `\nAll ${suite.SIMS.length} simulators pass.`);
 process.exit(failures ? 1 : 0);

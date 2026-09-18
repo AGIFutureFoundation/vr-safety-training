@@ -11,6 +11,7 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT, WEBXR, loadSmartCity, loadTrades } from "./lib/headless.mjs";
+import { CURRICULA } from "../WebXR/smartcity/js/curricula.js";
 
 const OUT = join(WEBXR, "smartcity", "catalog.json");
 const city = await loadSmartCity();
@@ -77,7 +78,12 @@ const catalog = {
   profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },
   records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
   performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station, excluding the shared stage; overBudget stations go first in the headset pass" },
+  curricula: CURRICULA.map((c) => ({
+    id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary,
+    stations: c.stations.map((s) => ({ app: s.app, id: s.id, why: s.why })),
+    completionRule: "every station has a passing attempt (stars >= 2, no unsafe action)",
+  })),
   stations: [...stations, ...rooms],
 };
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
-console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories)`);
+console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);

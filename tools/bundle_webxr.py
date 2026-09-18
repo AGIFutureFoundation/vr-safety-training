@@ -76,6 +76,7 @@ APPS = {
             WEBXR / "smartcity/js/districts.js",
             WEBXR / "smartcity/js/stage.js",
             WEBXR / "smartcity/js/sims-meta.js",
+            WEBXR / "smartcity/js/curricula.js",
             WEBXR / "smartcity/js/scenarios.js",
             WEBXR / "smartcity/js/hub.js",
             WEBXR / "smartcity/js/store.js",

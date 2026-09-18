@@ -174,6 +174,7 @@ export function mountUI(store, actions) {
           h("button", { id: "enter-flat", onClick: actions.enterFlat }, "Free explore"),
           h("button", { id: "view-leaderboard", onClick: actions.viewLeaderboard }, "Leaderboards"),
           h("button", { id: "view-records", onClick: actions.viewRecords }, "Training records"),
+          h("button", { id: "view-programs", onClick: actions.viewPrograms }, "Training programmes"),
           h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
           h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
@@ -255,6 +256,49 @@ export function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { id: "leaderboard-body", dangerouslySetInnerHTML: { __html: lb.html } }),
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
+  }
+
+  /** Training programmes: the ordered blocks a hall runs, with progress read
+   * from the same passing records the certificate claim rests on. Plain data
+   * only — a station name never reaches this as markup. */
+  function ProgramsCard() {
+    const pg = useSlice("programs");
+    if (!pg.visible) return h("div", { className: "overlay", id: "programs", hidden: true });
+    const rows = pg.rows ?? [];
+    const complete = rows.filter((r) => r.complete).length;
+    return h("div", { className: "overlay", id: "programs", role: "dialog", "aria-modal": "true", "aria-label": "Training programmes" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · training programmes"),
+        h("h1", null, "Training Programmes"),
+        h("p", { className: "lead" },
+          `${rows.length} programmes across the network · ${complete} complete. ` +
+          "A station counts toward a programme when it has a passing attempt — two or more stars with no unsafe action. " +
+          "Programmes cross both apps, the way an apprenticeship does."),
+        h("div", { className: "prog-list" }, rows.map((p) => h("section", {
+          key: p.id, className: `prog-card${p.complete ? " done" : ""}`, style: { "--prog": p.accent },
+        },
+          h("header", { className: "prog-head" },
+            h("div", null,
+              h("h2", null, p.name),
+              h("div", { className: "prog-union" }, p.union)),
+            h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
+          h("div", { className: "prog-bar" }, h("span", { style: { width: `${p.pct}%` } })),
+          h("p", { className: "prog-summary" }, p.summary),
+          h("p", { className: "prog-cert" }, p.certification),
+          h("ol", { className: "prog-steps" }, p.stations.map((s) => h("li", {
+            key: `${s.app}:${s.id}`, className: s.done ? "done" : "",
+          },
+            h("b", null, s.id.replace(/-/g, " ")),
+            s.app === "trades" && h("span", { className: "prog-app" }, "Trade Skills"),
+            h("span", { className: "prog-why" }, s.why)))),
+          p.next
+            ? h("button", {
+                className: "primary", id: `prog-start-${p.id}`,
+                onClick: () => actions.programStart(p.next.app, p.next.id),
+              }, `Start ${p.next.id.replace(/-/g, " ")}`)
+            : h("p", { className: "prog-done" }, "Programme complete — every station passed.")))),
+        h("div", { className: "btnrow" },
+          h("button", { id: "prog-close", onClick: actions.closePrograms }, "Close"))));
   }
 
   /** Instructor/compliance view: every attempt with its pass verdict, per
@@ -428,7 +472,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(EditorCard));
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(EditorCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));

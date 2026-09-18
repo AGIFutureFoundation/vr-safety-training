@@ -128,6 +128,31 @@ review, not a stand-in for it. Every Trade Skills room now names its union and t
 certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
 so on), which the preview requires.
 
+## Training programmes
+
+A station teaches one procedure. What a training director runs is a **programme**: an ordered
+block with a reason for each station being in it and a completion rule they can show a
+regulator. `js/curricula.js` holds ten, each naming a real union and the standard the block
+maps to — Inside Wireman first period (IBEW), Confined Space entry and rescue, Working at
+Height, Hazmat and Environmental Response, Rigging and Lifting, Stationary Engineer, Port and
+Terminal Operations, Transit and Ramp Operations, Energy Transition Systems, and Live Events
+Production. Programmes cross both apps, the way an apprenticeship does: the electrical block
+opens on the Trade Skills panel bay and ends in a grid battery yard.
+
+A station counts toward a programme when the shared training record says it was **passed** —
+two or more stars with no unsafe action — which is the same bar the certificate claim rests
+on, so a programme can never show complete on stations that were only played. **Training
+programmes** in the intro menu (or saying "programmes") opens the card: progress per block in
+the programme's own accent, every station with its reason for being there, and a button that
+opens the next unfinished one, in this app or by handing off to Trade Skills. The card
+refreshes after every completed run.
+
+`catalog.json` publishes the programmes with their completion rule so a platform or LMS can
+index them without loading the app, and `tools/check_smartcity.mjs` fails the build if a
+programme names a station that does not exist, omits a union, a certification or a summary, or
+leaves a station without a reason — a block a learner can never finish is a build error, not a
+content bug.
+
 ## Weather: the conditions each procedure is written for
 
 Every station declares the weather its procedure actually assumes, and the stage builds it

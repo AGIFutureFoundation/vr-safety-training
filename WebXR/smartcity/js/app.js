@@ -11,6 +11,7 @@ import { Perf } from "../../shared/perf.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
+import { CURRICULA, allProgress } from "./curricula.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
@@ -194,6 +195,7 @@ const store = createStore({
     visible: false, rows: [], summary: [], total: 0, passes: 0, credentials: [],
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
+  programs: { visible: false, rows: [] },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -594,6 +596,7 @@ function showResults(s, summary) {
   // credential: hand the Open Badges assertion to the host ecosystem too.
   if (attempt.passed && attempt.certification) Identity.emit("smartcitix:credential", { assertion: toOpenBadges([attempt], xapiOpts())[0] });
   shipToLrs([attempt]);
+  renderPrograms();
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
@@ -818,6 +821,33 @@ function viewRecords() {
   store.patch("records", { visible: true });
 }
 function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("records", { visible: false }); }
+
+// ---------------------------------------------------------- programmes
+//
+// The ordered sets of stations a training centre runs as a block (see
+// curricula.js). Progress is read from the same training record the
+// certificate claim rests on — a station counts when it has a passing
+// attempt — so a programme can never show complete on stations that were
+// only played.
+function renderPrograms() {
+  store.patch("programs", { rows: allProgress(TrainingRecords.list()) });
+}
+function viewPrograms() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderPrograms();
+  store.patch("programs", { visible: true });
+}
+function closePrograms() { state.paused = pausedBeforeOverlay; store.patch("programs", { visible: false }); }
+/** Open the next unfinished station in a programme, here or in Trade Skills. */
+function programStart(app, id) {
+  closePrograms();
+  if (app === "trades") { location.href = `../trades/index.html?room=${encodeURIComponent(id)}`; return; }
+  store.patch("intro", { visible: false });
+  pendingEnter = null; deepLink = null;
+  Sfx.ensure();
+  enterSim(id);
+}
 function stamp() { return new Date().toISOString().slice(0, 10); }
 function exportRecordsCsv() {
   download(`smartcitix-training-records-${stamp()}.csv`, toCSV(TrainingRecords.list()), "text/csv");
@@ -1580,7 +1610,7 @@ function speakStatus() {
     `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
-const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "records," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
+const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "records," "programmes," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -1622,6 +1652,7 @@ function parseVoiceCommand(text) {
   if (sim) return { type: "sim", id: sim.id };
   if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
   if (/\bleaderboards?\b/.test(lower)) return { type: "leaderboard" };
+  if (/\b(programme?s?|programs?|curricul(?:um|a)|pathway)\b/.test(lower)) return { type: "programs" };
   if (/\b(records?|training records?|transcript)\b/.test(lower)) return { type: "records" };
   if (/\btour\b/.test(lower)) return { type: "tour" };
   if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
@@ -1639,6 +1670,7 @@ function handleVoiceCommand(text) {
   if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
   if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
   if (cmd.type === "records") { viewRecords(); return; }
+  if (cmd.type === "programs") { viewPrograms(); return; }
   if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
   if (cmd.type === "editor") { openEditor(); return; }
   if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
@@ -1646,13 +1678,14 @@ function handleVoiceCommand(text) {
   if (cmd.type === "hint") { announce(currentHintLine()); return; }
   if (cmd.type === "brief") { announce(speakBrief()); return; }
   if (cmd.type === "status") { announce(speakStatus()); return; }
-  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "tour," "editor," "reset," "hint," "brief," "status," or "help."` });
+  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "programmes," "tour," "editor," "reset," "hint," "brief," "status," or "help."` });
   announce('Didn\'t catch that. Say "help" for commands.');
 }
 
 mountUI(store, {
   viewLeaderboard, closeLeaderboard,
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
+  viewPrograms, closePrograms, programStart,
   prebriefStart, prebriefSkip, prebriefClose,
   lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
