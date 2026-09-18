@@ -346,7 +346,7 @@ is connected — connecting later and pressing **Send all** delivers the local h
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
 `node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
-identity, lrs, orbis-stable — one line each) and a freshness check that regenerates `sims-meta.js`
+identity, lrs, robot, platform, lti, orbis-stable, verify — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
 silent deploy of old code. Run the same command locally before pushing.
 
@@ -369,10 +369,13 @@ platform-side act; (2) subject-matter review of every station by a qualified pra
 that trade, on `REVIEW.md`, before any record is treated as certification evidence — the
 automated preview signature is on all 45 sections; the practitioner signature is on none; (3) a headset
 pass on Meta Quest for frame rate, comfort and in-headset legibility, heaviest stations first per
-`catalog.json`; (4) the remaining stations
-toward 33 per category. Environmental Monitoring is three stations deep today (one flat briefing, two walkable procedures); the Bay restoration sites and their
-trade linkage that the roadmap mentions are not in this repository yet — this is the first, honest
-entry in the category, not that content.
+`catalog.json` — the instrument to record that pass now exists (`?perf=1`, see above), the
+numbers do not; (4) the remaining stations toward 33 per category. Every one of the eleven
+categories is at least four stations deep today. Environmental Monitoring is four (one flat
+briefing, three walkable procedures); the Bay restoration sites and their trade linkage that
+the roadmap mentions are not in this repository yet — these are the first, honest entries in
+the category, not that content. (5) A hall that hosts its Open Badges assertions, so the
+credential verifier can report a hosted match instead of "self-asserted".
 
 ## Running it
 
