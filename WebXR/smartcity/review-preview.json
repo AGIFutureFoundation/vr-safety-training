@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-09-18",
   "meshBudget": 320,
-  "total": 53,
-  "previewPassed": 53,
+  "total": 56,
+  "previewPassed": 56,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -2857,6 +2857,201 @@
           "check": "Every step target exists in the scene",
           "ok": true,
           "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "confined-rescue",
+      "app": "smartcity",
+      "name": "Confined Rescue",
+      "category": "Emergency Services",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Emergency Services"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Technical rescue technician — confined space"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAFF — NFPA 1006 confined-space rescue technician and NFPA 1670 operations level; OSHA 29 CFR 1910.146(k) permit-space rescue and 1910.134(g)(3) two-in two-out; ANSI Z359 fall-arrest and rescue systems"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "154 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "154 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "21 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "airport-ramp",
+      "app": "smartcity",
+      "name": "Airport Ramp",
+      "category": "Mobility & Transit",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Mobility & Transit"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Airline ramp agent / ground handler"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "178 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "178 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "cooling-tower",
+      "app": "smartcity",
+      "name": "Cooling Tower",
+      "category": "Building Systems & Facilities",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Building Systems & Facilities"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Stationary engineer — water treatment and cooling towers"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "167 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "167 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
         }
       ],
       "practitioner": "pending"

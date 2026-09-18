@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 44
+      "stations": 47
     },
     "trades": {
       "entry": "trades/index.html",
@@ -52,7 +52,8 @@
         "signal-cabinet",
         "flight-deck",
         "track-access",
-        "bus-depot-lift"
+        "bus-depot-lift",
+        "airport-ramp"
       ]
     },
     {
@@ -78,7 +79,8 @@
       "stations": [
         "triage-point",
         "decon-line",
-        "aerial-ladder"
+        "aerial-ladder",
+        "confined-rescue"
       ]
     },
     {
@@ -96,7 +98,8 @@
         "chiller-plant",
         "boiler-room",
         "elevator-pit",
-        "fire-pump"
+        "fire-pump",
+        "cooling-tower"
       ]
     },
     {
@@ -3621,6 +3624,235 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=battery-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue",
+      "name": "Confined Rescue",
+      "title": "SmartCiti.X~ Confined Rescue VR",
+      "tagline": "Below-grade rescue: refuse the unprotected entry, isolate and ventilate, monitor top to bottom, tripod and mechanical advantage rigged, air-supplied entrant on a tended line, patient packaged, controlled haul, atmosphere log handed over",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Technical rescue technician — confined space",
+      "union": null,
+      "certification": "IAFF — NFPA 1006 confined-space rescue technician and NFPA 1670 operations level; OSHA 29 CFR 1910.146(k) permit-space rescue and 1910.134(g)(3) two-in two-out; ANSI Z359 fall-arrest and rescue systems",
+      "accent": "#f07a4b",
+      "parSeconds": 290,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "two-came-out",
+        "name": "Two Came Out",
+        "note": "A rescue where the rescuer was on air and on a line, the atmosphere was logged, and both people came up — first time"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "45",
+      "flat": false,
+      "system": "Rescue Company",
+      "currency": "HAUL",
+      "ranks": [
+        "Rescue Recruit",
+        "Rescue Technician",
+        "Rigging Lead",
+        "Rescue Officer",
+        "Rescue Company Certified"
+      ],
+      "awards": [
+        {
+          "id": "held-the-line",
+          "name": "Held the Line",
+          "note": "The unprotected entry was refused and the space isolated first, first time"
+        },
+        {
+          "id": "air-and-line",
+          "name": "Air and a Line",
+          "note": "Never an entrant without air, never a haul without a belay, never an unmonitored space"
+        },
+        {
+          "id": "read-the-space",
+          "name": "Read the Space",
+          "note": "Atmosphere and haul tension both inside the band"
+        },
+        {
+          "id": "clean-rescue",
+          "name": "Clean Rescue",
+          "note": "No corrections anywhere in the operation"
+        },
+        {
+          "id": "smooth-haul",
+          "name": "Smooth Haul",
+          "note": "Haul held steady the whole lift"
+        },
+        {
+          "id": "golden-hour",
+          "name": "Inside the Hour",
+          "note": "Patient at the surface inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=confined-rescue"
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp",
+      "name": "Airport Ramp",
+      "title": "SmartCiti.X~ Airport Ramp VR",
+      "tagline": "Gate turn: FOD walk and equipment restraint line, marshal onto the lead-in, chocks before anything touches it, cones set, ground power and headset to the flight deck, bridge to the door, loader at walking pace, all-clear only when chocks and cones are back",
+      "category": "Mobility & Transit",
+      "domain": "Mobility & Transit",
+      "trade": "Airline ramp agent / ground handler",
+      "union": null,
+      "certification": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
+      "accent": "#63b5f0",
+      "parSeconds": 250,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-turn",
+        "name": "Clean Turn",
+        "note": "Chocks before contact, cones set, headset before pushback and the all-clear given last — first time"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "46",
+      "flat": false,
+      "system": "Ramp Operations",
+      "currency": "TURN",
+      "ranks": [
+        "Ramp Agent",
+        "Lead Agent",
+        "Turn Coordinator",
+        "Ramp Supervisor",
+        "Ramp Operations Certified"
+      ],
+      "awards": [
+        {
+          "id": "fod-free",
+          "name": "FOD Free",
+          "note": "The ramp walked and cleared before the aircraft arrived, first time"
+        },
+        {
+          "id": "envelope-kept",
+          "name": "Envelope Kept",
+          "note": "Never inside the engine arc running, never a vehicle past the line, never a chock pulled early"
+        },
+        {
+          "id": "on-the-line",
+          "name": "On the Line",
+          "note": "Nosewheel stop and bridge alignment both inside the band"
+        },
+        {
+          "id": "clean-ramp",
+          "name": "Clean Ramp",
+          "note": "No corrections anywhere in the turn"
+        },
+        {
+          "id": "steady-approach",
+          "name": "Steady Approach",
+          "note": "Bridge driven in steadily the whole way"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Turn complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "cooling-tower",
+      "name": "Cooling Tower",
+      "title": "SmartCiti.X~ Cooling Tower VR",
+      "tagline": "Quarterly clean and Legionella control: plan and last culture read, tower down and fan locked, respirator before the basin, biofilm physically removed, drift eliminator checked, biocide shock to the label, conductivity and halogen back in range, log signed",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "Stationary engineer — water treatment and cooling towers",
+      "union": null,
+      "certification": "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance",
+      "accent": "#6fc9e8",
+      "parSeconds": 270,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "hold",
+        "find",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "no-aerosol",
+        "name": "No Aerosol",
+        "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
+      },
+      "meshes": 167,
+      "lights": 0,
+      "overBudget": false,
+      "index": "47",
+      "flat": false,
+      "system": "Water Management",
+      "currency": "PPM",
+      "ranks": [
+        "Oiler",
+        "Stationary Engineer",
+        "Water Treatment Lead",
+        "Chief Engineer",
+        "Water Management Certified"
+      ],
+      "awards": [
+        {
+          "id": "fan-locked",
+          "name": "Fan Locked",
+          "note": "Tower down and fan locked out before the basin was disturbed, first time"
+        },
+        {
+          "id": "no-shortcut-clean",
+          "name": "No Shortcut",
+          "note": "Never a hose on dry biofilm, never the basin open with the fan live, never a dose off the label"
+        },
+        {
+          "id": "in-range",
+          "name": "In Range",
+          "note": "Halogen and conductivity both brought inside the band"
+        },
+        {
+          "id": "clean-quarter",
+          "name": "Clean Quarter",
+          "note": "No corrections anywhere in the service"
+        },
+        {
+          "id": "full-contact",
+          "name": "Full Contact Time",
+          "note": "The biocide contact time held for its whole duration"
+        },
+        {
+          "id": "quarter-fast",
+          "name": "Serviced In Time",
+          "note": "Tower back in service inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cooling-tower"
     },
     {
       "app": "trades",

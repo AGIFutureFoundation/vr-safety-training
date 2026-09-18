@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Forty-four stations exist
-today — forty-three walkable AR/VR procedures and one flat briefing station — each a real ordered
+AR/VR training simulators across eleven trade-union categories. Forty-seven stations exist
+today — forty-six walkable AR/VR procedures and one flat briefing station — each a real ordered
 procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade.
@@ -11,13 +11,13 @@ training" wrapper, a specific one per trade.
 | Category | Stations today |
 |---|---|
 | Energy & Power | Charge Point, Solar Deck, Line Truck, Substation Switching, Battery Yard |
-| Mobility & Transit | Signal Cabinet, Flight Deck, Track Access, Bus Depot Lift |
+| Mobility & Transit | Signal Cabinet, Flight Deck, Track Access, Bus Depot Lift, Airport Ramp |
 | Water & Environmental | Valve Vault, Abatement Chamber, Lift Station, Chlorine Room |
 | Connectivity & Telecom | Splice Node, Tower Climb, Cell Site Battery, Microwave Backhaul |
-| Building Systems & Facilities | Chiller Plant, Boiler Room, Elevator Pit, Fire Pump |
+| Building Systems & Facilities | Chiller Plant, Boiler Room, Elevator Pit, Fire Pump, Cooling Tower |
 | Construction & Structural Trades | Steel Erector, Crane Yard, Trench Box, Scaffold Erection |
 | Manufacturing & Automation | Robot Cell, Press Brake, Conveyor Guard, Forklift Dock |
-| Emergency Services | Triage Point, Decon Line, Aerial Ladder |
+| Emergency Services | Triage Point, Decon Line, Aerial Ladder, Confined Rescue |
 | Maritime & Ports | Dock Crane, Container Lashing, Mooring Line, Bunkering Watch |
 | Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist, Fly System |
 | Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well, Stormwater Outfall |
