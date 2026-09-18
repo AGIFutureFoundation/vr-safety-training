@@ -19,6 +19,7 @@ export const SIM_TRENCH_BOX = {
   domain: "Construction",
   trade: "Laborer / excavation and shoring",
   category: "Construction & Structural Trades",
+  weather: "rain",
   certification: "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
   name: "Trench Box",
   title: simTitle("Trench Box"),

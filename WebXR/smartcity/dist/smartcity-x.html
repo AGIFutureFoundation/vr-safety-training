@@ -2568,6 +2568,202 @@ const Perf = {
 };
 
 
+/* ===== shared/weather.js ===== */
+// Weather for the plaza. Every station declares the conditions its procedure
+// is actually written for — a wet-weather stormwater grab happens in rain, a
+// scaffold lift happens in wind, an aerial set happens in the dark — and the
+// stage builds them. `?weather=` overrides for a hall that wants to drill a
+// crew in conditions the station does not default to.
+//
+// Each kind carries an operational note: what the weather means for the work,
+// shown to the learner with the station's tagline. That is the point of the
+// layer. A rain shader is decoration; "the deck is slick and the runoff is
+// the sample" is training.
+//
+// Everything here is a few hundred recycled points and a couple of planes,
+// animated by property writes, so a headset pays almost nothing for it. AR
+// mode gets none of it: the learner's own room is the weather there.
+
+const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm"];
+
+const WEATHER = {
+  clear: {
+    label: "Clear",
+    note: "Clear and still — nothing in the conditions is working against the procedure today.",
+    fog: 1, light: 1, drops: 0, gust: 0, wet: 0, sky: 1,
+  },
+  overcast: {
+    label: "Overcast",
+    note: "Overcast and flat — colour cues and small print are harder to read than the plan assumes.",
+    fog: 0.85, light: 0.8, drops: 0, gust: 0.2, wet: 0.1, sky: 0.9,
+  },
+  rain: {
+    label: "Rain",
+    note: "Steady rain — footing is slick, anything on the deck is going somewhere, and paper gets useless fast.",
+    fog: 0.7, light: 0.72, drops: 900, gust: 0.35, wet: 0.55, sky: 0.8,
+  },
+  fog: {
+    label: "Fog",
+    note: "Thick fog — hand signals stop working at the distance the plan assumes, so everything moves on the radio.",
+    fog: 0.34, light: 0.85, drops: 0, gust: 0.1, wet: 0.25, sky: 1.25,
+  },
+  wind: {
+    label: "High wind",
+    note: "Sustained wind with gusts — load charts derate, anything with a face on it becomes a sail, and dropped objects travel.",
+    fog: 0.95, light: 0.95, drops: 0, gust: 1, wet: 0, sky: 1,
+  },
+  storm: {
+    label: "Storm",
+    note: "Driving rain and gusting wind — this is the condition most procedures say to stop for, so the call to keep going is part of the task.",
+    fog: 0.55, light: 0.62, drops: 1400, gust: 1.2, wet: 0.7, sky: 0.7,
+  },
+};
+
+/** The station's own conditions, unless the URL asks for something else. */
+function weatherFor(stationWeather) {
+  const q = typeof location !== "undefined" ? new URLSearchParams(location.search).get("weather") : null;
+  if (q && WEATHER_KINDS.includes(q)) return q;
+  return WEATHER_KINDS.includes(stationWeather) ? stationWeather : "clear";
+}
+
+/** A falling-and-recycling point cloud over a box around the plaza. */
+function rainfall(parent, count, { spread = 34, height = 16, speed = 22, slant = 0, colour = 0x9fc6e0, size = 0.055 } = {}) {
+  const positions = new Float32Array(count * 3);
+  const fall = new Float32Array(count);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * spread;
+    positions[i * 3 + 1] = Math.random() * height;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+    fall[i] = speed * (0.75 + Math.random() * 0.5);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: colour, size, transparent: true, opacity: 0.62, depthWrite: false, sizeAttenuation: true });
+  mat.userData.ownMaterial = true;
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  parent.add(pts);
+  pts.userData.step = (dt, gust) => {
+    for (let i = 0; i < count; i++) {
+      positions[i * 3 + 1] -= fall[i] * dt;
+      positions[i * 3] += (slant + gust) * dt * 3;
+      if (positions[i * 3 + 1] < 0) {
+        positions[i * 3 + 1] = height;
+        positions[i * 3] = (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+      } else if (Math.abs(positions[i * 3]) > spread / 2) {
+        positions[i * 3] = -Math.sign(positions[i * 3]) * spread / 2;
+      }
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return pts;
+}
+
+/** Wind-borne dust and litter: slow horizontal streaks at working height. */
+function windborne(parent, count = 90, { spread = 26 } = {}) {
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * spread;
+    positions[i * 3 + 1] = 0.2 + Math.random() * 4.5;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: 0xcdbfa6, size: 0.07, transparent: true, opacity: 0.35, depthWrite: false, sizeAttenuation: true });
+  mat.userData.ownMaterial = true;
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  parent.add(pts);
+  pts.userData.step = (dt, gust) => {
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] += (2.2 + gust * 5) * dt;
+      positions[i * 3 + 1] += Math.sin(positions[i * 3] * 0.7 + i) * dt * 0.25;
+      if (positions[i * 3] > spread / 2) { positions[i * 3] = -spread / 2; positions[i * 3 + 2] = (Math.random() - 0.5) * spread; }
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return pts;
+}
+
+/**
+ * Build the weather over a plaza.
+ *   parent  a group inside the stage (freed with it)
+ *   scene   for the fog, which the caller has already set for time of day
+ *   kind    one of WEATHER_KINDS
+ * Returns { animate(t, dt), gustAt(t), label, note, lightScale, kind }.
+ */
+function buildWeather(parent, scene, kind = "clear") {
+  const w = WEATHER[WEATHER_KINDS.includes(kind) ? kind : "clear"];
+  const g = new THREE.Group();
+  parent.add(g);
+
+  if (scene?.fog && w.fog !== 1) {
+    scene.fog.near *= w.fog;
+    scene.fog.far *= w.fog;
+  }
+  if (scene?.background?.isColor && w.sky !== 1) {
+    scene.background.multiplyScalar(w.sky);
+  }
+
+  // Wet deck: a dark, very reflective disc just above the plaza so the lights
+  // and the station's accent smear across it the way they do on a wet apron.
+  let wet = null;
+  if (w.wet > 0) {
+    const geo = new THREE.CircleGeometry(14.8, 48);
+    const mat = new THREE.MeshStandardMaterial({ color: 0x0a1016, roughness: 0.08, metalness: 0.9, transparent: true, opacity: w.wet * 0.75, depthWrite: false });
+    mat.userData.ownMaterial = true;
+    wet = new THREE.Mesh(geo, mat);
+    wet.rotation.x = -Math.PI / 2;
+    wet.position.y = 0.062;
+    g.add(wet);
+  }
+
+  const drops = w.drops > 0 ? rainfall(g, w.drops, { speed: kind === "storm" ? 28 : 20, slant: kind === "storm" ? 1.4 : 0.5, size: kind === "storm" ? 0.075 : 0.062 }) : null;
+  const dust = w.gust >= 0.8 ? windborne(g) : null;
+
+  // A cold overhead fill so a rainy or foggy plaza reads as weather rather
+  // than as an under-lit scene.
+  if (w.light < 0.95) {
+    const damp = new THREE.HemisphereLight(0x9fb4c6, 0x1a222c, (1 - w.light) * 2.4);
+    g.add(damp);
+  }
+  // Lightning on a storm: one shared flash light, dark except when it fires.
+  let flash = null, nextFlash = 3 + Math.random() * 6, flashFor = 0;
+  if (kind === "storm") {
+    flash = new THREE.DirectionalLight(0xdfeaf2, 0);
+    flash.position.set(-6, 14, -10);
+    g.add(flash);
+  }
+
+  const gustAt = (t) => w.gust === 0 ? 0 : w.gust * (0.55 + Math.sin(t * 0.7) * 0.25 + Math.sin(t * 2.3) * 0.2);
+
+  return {
+    kind: WEATHER_KINDS.includes(kind) ? kind : "clear",
+    label: w.label,
+    note: w.note,
+    lightScale: w.light,
+    gustAt,
+    root: g,
+    animate(t, dt) {
+      const gust = gustAt(t);
+      if (drops) drops.userData.step(dt, gust);
+      if (dust) dust.userData.step(dt, gust);
+      if (wet) wet.material.opacity = w.wet * (0.62 + Math.sin(t * 0.8) * 0.08);
+      if (flash) {
+        if (flashFor > 0) {
+          flashFor -= dt;
+          flash.intensity = flashFor > 0 ? 2.2 + Math.random() * 1.6 : 0;
+        } else {
+          nextFlash -= dt;
+          if (nextFlash <= 0) { flashFor = 0.12 + Math.random() * 0.12; nextFlash = 5 + Math.random() * 12; }
+        }
+      }
+    },
+  };
+}
+
+
 /* ===== smartcity/js/citykit.js ===== */
 // SmartCity.X asset kit — the pieces every station is assembled from.
 //
@@ -3534,7 +3730,7 @@ function timeOfDay() {
   return TIMES_OF_DAY.includes(t) ? t : "night";
 }
 
-function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
+function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
@@ -3559,7 +3755,7 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
     const key = new THREE.DirectionalLight(0xffffff, 0.7);
     key.position.set(2.5, 5, 3);
     root.add(key);
-    return { root: g, ar, animate() {} };
+    return { root: g, ar, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
   }
 
   scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);
@@ -3604,10 +3800,13 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
 
   const sky = skyline(g);
   const marquee = buildMarquee(g);
+  // Weather goes on after the sky and fog are set for the hour, because it
+  // scales both; the stage hands its label and note back to the app.
+  const wx = buildWeather(g, scene, weatherFor(weather));
   let districtAnimate = null;
   if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
-  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1]);
+  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -3623,7 +3822,7 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
   // A soft overhead wash in the station's own accent — the one light that
   // changes per sim, so the same plaza reads warm for a boiler room and cool
   // for a chiller plant without rebuilding anything.
-  const wash = new THREE.PointLight(accent, 1.6, 12, 2);
+  const wash = new THREE.PointLight(accent, 1.6 * wx.lightScale, 12, 2);
   wash.position.set(0, 4.2, 0.6);
   g.add(wash);
   // Cool rim from behind the marquee so silhouettes separate from the skyline.
@@ -3633,8 +3832,8 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
 
   const beacons = sky.userData.beacons ?? [];
   return {
-    root: g, ar,
-    animate(t) {
+    root: g, ar, weather: { kind: wx.kind, label: wx.label, note: wx.note },
+    animate(t, dt = 0.016) {
       // Cheap flagship motion: rotate the holo-emblem, pulse its inner ring and the
       // marquee trim, and blink a handful of rooftop beacons — property tweaks on
       // already-built meshes/materials, nothing allocated per frame.
@@ -3645,6 +3844,7 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
       if (districtAnimate) districtAnimate(t);
+      wx.animate(t, dt);
     },
   };
 }
@@ -3670,6 +3870,7 @@ const SIMS_META = [
     "category": "Energy & Power",
     "certification": "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
     "name": "Charge Point",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Charge Point VR",
     "tagline": "DC fast-charger fault isolation, capacitor discharge and busbar torque",
     "accent": 5884283,
@@ -3708,6 +3909,7 @@ const SIMS_META = [
     "category": "Mobility & Transit",
     "certification": "IBEW — IMSA Level II Traffic Signal Technician certified",
     "name": "Signal Cabinet",
+    "weather": "rain",
     "title": "SmartCiti.X~ Signal Cabinet VR",
     "tagline": "Intersection work zone, controller fault diagnosis and conflict monitor integrity",
     "accent": 15909195,
@@ -3746,6 +3948,7 @@ const SIMS_META = [
     "category": "Water & Environmental",
     "certification": "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant",
     "name": "Valve Vault",
+    "weather": "rain",
     "title": "SmartCiti.X~ Valve Vault VR",
     "tagline": "Permit-required confined space entry: isolation, atmosphere, roles and retrieval",
     "accent": 5219327,
@@ -3784,6 +3987,7 @@ const SIMS_META = [
     "category": "Energy & Power",
     "certification": "IBEW — NABCEP PV Installation Professional certified",
     "name": "Solar Deck",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Solar Deck VR",
     "tagline": "Rooftop array and battery commissioning: fall protection, rapid shutdown and string test",
     "accent": 16758344,
@@ -3822,6 +4026,7 @@ const SIMS_META = [
     "category": "Connectivity & Telecom",
     "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
     "name": "Splice Node",
+    "weather": "rain",
     "title": "SmartCiti.X~ Splice Node VR",
     "tagline": "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",
     "accent": 10516991,
@@ -3860,6 +4065,7 @@ const SIMS_META = [
     "category": "Mobility & Transit",
     "certification": "Teamsters — FAA Part 107 remote pilot certificate holder",
     "name": "Flight Deck",
+    "weather": "clear",
     "title": "SmartCiti.X~ Flight Deck VR",
     "tagline": "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",
     "accent": 5231103,
@@ -3898,6 +4104,7 @@ const SIMS_META = [
     "category": "Mobility & Transit",
     "certification": "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
     "name": "Track Access",
+    "weather": "fog",
     "title": "SmartCiti.X~ Track Access VR",
     "tagline": "Track possession, third-rail isolation and lookout protection",
     "accent": 15894859,
@@ -3936,6 +4143,7 @@ const SIMS_META = [
     "category": "Emergency Services",
     "certification": "IAEP — NREMT-Paramedic certified",
     "name": "Triage Point",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Triage Point VR",
     "tagline": "START mass-casualty triage: rapid assessment, tagging and the golden hour",
     "accent": 15754331,
@@ -3974,6 +4182,7 @@ const SIMS_META = [
     "category": "Manufacturing & Automation",
     "certification": "UAW — ANSI/RIA R15.06 robot safety qualified",
     "name": "Robot Cell",
+    "weather": "clear",
     "title": "SmartCiti.X~ Robot Cell VR",
     "tagline": "Six-axis robot cell lockout, light-curtain integrity and teach-pendant pick-and-place programming",
     "accent": 10516991,
@@ -4012,6 +4221,7 @@ const SIMS_META = [
     "category": "Building Systems & Facilities",
     "certification": "UA — EPA Section 608 Universal refrigerant certified",
     "name": "Chiller Plant",
+    "weather": "clear",
     "title": "SmartCiti.X~ Chiller Plant VR",
     "tagline": "District chiller isolation, refrigerant recovery and confined mechanical space entry",
     "accent": 5231103,
@@ -4050,6 +4260,7 @@ const SIMS_META = [
     "category": "Connectivity & Telecom",
     "certification": "CWA — NATE Tower Climber Level II certified",
     "name": "Tower Climb",
+    "weather": "wind",
     "title": "SmartCiti.X~ Tower Climb VR",
     "tagline": "Guyed tower climb: 100% tie-off, RF lockout and a controlled descent",
     "accent": 16742938,
@@ -4088,6 +4299,7 @@ const SIMS_META = [
     "category": "Construction & Structural Trades",
     "certification": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
     "name": "Steel Erector",
+    "weather": "wind",
     "title": "SmartCiti.X~ Steel Erector VR",
     "tagline": "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",
     "accent": 16763904,
@@ -4126,6 +4338,7 @@ const SIMS_META = [
     "category": "Construction & Structural Trades",
     "certification": "IUOE — NCCCO Mobile Crane Operator certified",
     "name": "Crane Yard",
+    "weather": "wind",
     "title": "SmartCiti.X~ Crane Yard VR",
     "tagline": "Mobile crane pick: outrigger setup, load chart verification, anti-collision zone programming and a tag-line controlled lift",
     "accent": 3117019,
@@ -4164,6 +4377,7 @@ const SIMS_META = [
     "category": "Construction & Structural Trades",
     "certification": "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
     "name": "Trench Box",
+    "weather": "rain",
     "title": "SmartCiti.X~ Trench Box VR",
     "tagline": "Excavation shoring: competent-person inspection, atmosphere testing and protective systems",
     "accent": 8311585,
@@ -4202,6 +4416,7 @@ const SIMS_META = [
     "category": "Building Systems & Facilities",
     "certification": "IUOE — state-licensed Stationary Engineer, boiler operation",
     "name": "Boiler Room",
+    "weather": "clear",
     "title": "SmartCiti.X~ Boiler Room VR",
     "tagline": "Boiler lockout, confined-space firebox entry and a controlled re-light",
     "accent": 14170666,
@@ -4240,6 +4455,7 @@ const SIMS_META = [
     "category": "Building Systems & Facilities",
     "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
     "name": "Elevator Pit",
+    "weather": "clear",
     "title": "SmartCiti.X~ Elevator Pit VR",
     "tagline": "Pit and car-top entry: main line lockout, dual stop switches and governor inspection",
     "accent": 3003583,
@@ -4278,6 +4494,7 @@ const SIMS_META = [
     "category": "Water & Environmental",
     "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
     "name": "Abatement Chamber",
+    "weather": "clear",
     "title": "SmartCiti.X~ Abatement Chamber VR",
     "tagline": "Containment integrity, wet-method removal and the three-stage decon airlock",
     "accent": 13230693,
@@ -4316,6 +4533,7 @@ const SIMS_META = [
     "category": "Entertainment & Live Events",
     "certification": "IATSE — ETCP Certified Rigger, Arena",
     "name": "Rigging Loft",
+    "weather": "clear",
     "title": "SmartCiti.X~ Rigging Loft VR",
     "tagline": "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",
     "accent": 16740270,
@@ -4354,6 +4572,7 @@ const SIMS_META = [
     "category": "Energy & Power",
     "certification": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
     "name": "Line Truck",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Line Truck VR",
     "tagline": "Bucket-truck line work: rubber goods testing, isolation and correct grounding order",
     "accent": 16576033,
@@ -4392,6 +4611,7 @@ const SIMS_META = [
     "category": "Maritime & Ports",
     "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
     "name": "Dock Crane",
+    "weather": "wind",
     "title": "SmartCiti.X~ Dock Crane VR",
     "tagline": "Container lift: lashing release order, twist-lock verification and wind-limit discipline",
     "accent": 3832997,
@@ -4430,6 +4650,7 @@ const SIMS_META = [
     "category": "Environmental Monitoring",
     "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
     "name": "Hunters Point Briefing",
+    "weather": "clear",
     "title": "SmartCiti.X~ Hunters Point Briefing VR",
     "tagline": "A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene",
     "accent": 9425291,
@@ -4511,6 +4732,7 @@ const SIMS_META = [
     "category": "Environmental Monitoring",
     "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order",
     "name": "Perimeter Air",
+    "weather": "wind",
     "title": "SmartCiti.X~ Perimeter Air VR",
     "tagline": "Real-time PM10 fence-line monitoring: wind, placement, flow calibration, zero check, and the exceedance response",
     "accent": 10475712,
@@ -4549,6 +4771,7 @@ const SIMS_META = [
     "category": "Environmental Monitoring",
     "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
     "name": "Sampling Well",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Sampling Well VR",
     "tagline": "Low-flow groundwater sampling: water level, pump set, stabilised purge, volatiles first, chain of custody",
     "accent": 7324625,
@@ -4587,6 +4810,7 @@ const SIMS_META = [
     "category": "Manufacturing & Automation",
     "certification": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
     "name": "Press Brake",
+    "weather": "clear",
     "title": "SmartCiti.X~ Press Brake VR",
     "tagline": "Tooling change under lockout, light-curtain proof, back gauge, tonnage, first-article bend",
     "accent": 14263361,
@@ -4625,6 +4849,7 @@ const SIMS_META = [
     "category": "Emergency Services",
     "certification": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
     "name": "Decon Line",
+    "weather": "wind",
     "title": "SmartCiti.X~ Decon Line VR",
     "tagline": "Hazmat decontamination corridor: zones by the wind, pools in order, gross wash, doffing order, runoff contained",
     "accent": 15909195,
@@ -4663,6 +4888,7 @@ const SIMS_META = [
     "category": "Entertainment & Live Events",
     "certification": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
     "name": "Stage Power",
+    "weather": "clear",
     "title": "SmartCiti.X~ Stage Power VR",
     "tagline": "Company switch tie-in: lockout, live-dead-live, cam-locks ground-first, cover and strain relief, energise, phase check, load test",
     "accent": 13073919,
@@ -4701,6 +4927,7 @@ const SIMS_META = [
     "category": "Maritime & Ports",
     "certification": "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges",
     "name": "Container Lashing",
+    "weather": "wind",
     "title": "SmartCiti.X~ Container Lashing VR",
     "tagline": "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
     "accent": 5217758,
@@ -4739,6 +4966,7 @@ const SIMS_META = [
     "category": "Water & Environmental",
     "certification": "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout",
     "name": "Lift Station",
+    "weather": "rain",
     "title": "SmartCiti.X~ Lift Station VR",
     "tagline": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
     "accent": 6009000,
@@ -4777,6 +5005,7 @@ const SIMS_META = [
     "category": "Maritime & Ports",
     "certification": "ILWU / SIU — OSHA 29 CFR 1917 marine terminals (mooring operations); OCIMF Mooring Equipment Guidelines snap-back awareness; port authority line-handling qualification",
     "name": "Mooring Line",
+    "weather": "wind",
     "title": "SmartCiti.X~ Mooring Line VR",
     "tagline": "Taking a ship's lines: snap-back zone, heaving line, eye on the bollard, tension by radio, stopper, and the bight you never stand in",
     "accent": 5223400,
@@ -4815,6 +5044,7 @@ const SIMS_META = [
     "category": "Entertainment & Live Events",
     "certification": "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance",
     "name": "Chain Hoist",
+    "weather": "clear",
     "title": "SmartCiti.X~ Chain Hoist VR",
     "tagline": "Flying a truss: load calc, chain inspection, bridle angle, moused hooks, test lift, deck clear, trim and lock",
     "accent": 16747100,
@@ -4853,6 +5083,7 @@ const SIMS_META = [
     "category": "Manufacturing & Automation",
     "certification": "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding",
     "name": "Conveyor Guard",
+    "weather": "clear",
     "title": "SmartCiti.X~ Conveyor Guard VR",
     "tagline": "Belt jam clearance: e-stop, lockout, stored-energy release, try-start, guard off and back on, pull-cord restored, restart",
     "accent": 9358054,
@@ -4891,6 +5122,7 @@ const SIMS_META = [
     "category": "Connectivity & Telecom",
     "certification": "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work",
     "name": "Cell Site Battery",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Cell Site Battery VR",
     "tagline": "−48 V plant string replacement: ventilate for hydrogen, PPE, isolate the string, insulated tools, terminal covers, cell checks, return to bus",
     "accent": 10980346,
@@ -4929,6 +5161,7 @@ const SIMS_META = [
     "category": "Energy & Power",
     "certification": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
     "name": "Substation Switching",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Substation Switching VR",
     "tagline": "Feeder outage on a written switching order: read-back, breaker open, disconnects open, test dead, grounds on, tag, hand-off",
     "accent": 16758861,
@@ -4967,6 +5200,7 @@ const SIMS_META = [
     "category": "Mobility & Transit",
     "certification": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
     "name": "Bus Depot Lift",
+    "weather": "clear",
     "title": "SmartCiti.X~ Bus Depot Lift VR",
     "tagline": "Electric bus on column lifts: HV disable and prove, chocks, pad placement, synchronised raise, locks down, under-bus work, controlled lower",
     "accent": 8115081,
@@ -5005,6 +5239,7 @@ const SIMS_META = [
     "category": "Building Systems & Facilities",
     "certification": "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems",
     "name": "Fire Pump",
+    "weather": "clear",
     "title": "SmartCiti.X~ Fire Pump VR",
     "tagline": "Annual pump flow test: alarm notification, controller to manual, test header to safe discharge, churn / 100% / 150% points, curve compared, system restored",
     "accent": 14834780,
@@ -5043,6 +5278,7 @@ const SIMS_META = [
     "category": "Construction & Structural Trades",
     "certification": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
     "name": "Scaffold Erection",
+    "weather": "wind",
     "title": "SmartCiti.X~ Scaffold Erection VR",
     "tagline": "Frame scaffold, two lifts: ground and sills, base plates, plumb and level, tie-ins, full planking, guardrails, ladder access, green tag",
     "accent": 15771194,
@@ -5081,6 +5317,7 @@ const SIMS_META = [
     "category": "Emergency Services",
     "certification": "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines",
     "name": "Aerial Ladder",
+    "weather": "wind",
     "title": "SmartCiti.X~ Aerial Ladder VR",
     "tagline": "Aerial apparatus set-up: size-up, spot at the corner outside the collapse zone, chock, stabilizers on pads to level, PTO, raise and rotate clear of the lines, tip above the roofline, lock, belt, report",
     "accent": 13775147,
@@ -5119,6 +5356,7 @@ const SIMS_META = [
     "category": "Water & Environmental",
     "certification": "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage",
     "name": "Chlorine Room",
+    "weather": "clear",
     "title": "SmartCiti.X~ Chlorine Room VR",
     "tagline": "150-lb chlorine cylinder change: room monitor and SCBA before the door, empty isolated and capped, full one on the scale and chained, new gasket, yoke a quarter turn past snug, ammonia leak test, valve one turn, wrench on the stem",
     "accent": 8378536,
@@ -5157,6 +5395,7 @@ const SIMS_META = [
     "category": "Manufacturing & Automation",
     "certification": "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes",
     "name": "Forklift Dock",
+    "weather": "clear",
     "title": "SmartCiti.X~ Forklift Dock VR",
     "tagline": "Dock load-out: pre-shift inspection, belt on, trailer chocked and dock-locked before the plate, load against the capacity plate, forks under and mast back, low and steady, ramp in reverse, rack height, and the trailer that crept",
     "accent": 15901243,
@@ -5195,6 +5434,7 @@ const SIMS_META = [
     "category": "Entertainment & Live Events",
     "certification": "IATSE — ETCP Certified Rigger (Theatre); ANSI E1.4-1 manual counterweight rigging systems; OSHA 29 CFR 1910.28 fall protection on the loading bridge; venue 'heads up' and lineset-tagging procedure",
     "name": "Fly System",
+    "weather": "clear",
     "title": "SmartCiti.X~ Fly System VR",
     "tagline": "Counterweight lineset load: rail locked, deck cleared with a call, batten in, fixtures hung and safetied, loader clipped in on the bridge, bricks to match the pipe with spreaders and a lock ring, balanced test lift, trim, lock, clamp, tag",
     "accent": 10516991,
@@ -5233,6 +5473,7 @@ const SIMS_META = [
     "category": "Maritime & Ports",
     "certification": "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1",
     "name": "Bunkering Watch",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Bunkering Watch VR",
     "tagline": "Fuel-oil transfer: plan and signed DOI, scuppers plugged and drip tray and SOPEP kit set, flange bolted all round, radio and emergency stop tested, line-up tank-first, slow start, soundings, topping off at reduced rate, manifold closed, sample sealed, BDN signed",
     "accent": 4172248,
@@ -5271,6 +5512,7 @@ const SIMS_META = [
     "category": "Connectivity & Telecom",
     "certification": "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging",
     "name": "Microwave Backhaul",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Microwave Backhaul VR",
     "tagline": "Rooftop link re-alignment: RF survey and MPE boundary, far end keyed down and locked out, fall protection before the parapet, dish freed, panned and tilted on receive level, polarisation proven, torqued, weatherproofed, path handed back",
     "accent": 6280136,
@@ -5309,6 +5551,7 @@ const SIMS_META = [
     "category": "Environmental Monitoring",
     "certification": "Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge); 40 CFR 136 approved methods, preservation and hold times; chain-of-custody per EPA SESD; OSHA HAZWOPER awareness and 29 CFR 1910.146 for confined vault access",
     "name": "Stormwater Outfall",
+    "weather": "rain",
     "title": "SmartCiti.X~ Stormwater Outfall VR",
     "tagline": "Wet-weather NPDES grab: permit window, meters calibrated before the rain, bank staged with a buddy and tripod, grab from the flow, bottles in preservation order, field readings logged, custody sealed, sample on ice",
     "accent": 7915680,
@@ -5347,6 +5590,7 @@ const SIMS_META = [
     "category": "Energy & Power",
     "certification": "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data",
     "name": "Battery Yard",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Battery Yard VR",
     "tagline": "Grid battery module swap: gas and vent check from outside, stop from the controller, AC before DC, rack disconnects in order, bleed-down wait, live-dead-live on the DC bus, racks grounded, insulated tools, thermal check before the door",
     "accent": 10475599,
@@ -5385,6 +5629,7 @@ const SIMS_META = [
     "category": "Emergency Services",
     "certification": "IAFF — NFPA 1006 confined-space rescue technician and NFPA 1670 operations level; OSHA 29 CFR 1910.146(k) permit-space rescue and 1910.134(g)(3) two-in two-out; ANSI Z359 fall-arrest and rescue systems",
     "name": "Confined Rescue",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Confined Rescue VR",
     "tagline": "Below-grade rescue: refuse the unprotected entry, isolate and ventilate, monitor top to bottom, tripod and mechanical advantage rigged, air-supplied entrant on a tended line, patient packaged, controlled haul, atmosphere log handed over",
     "accent": 15759947,
@@ -5423,6 +5668,7 @@ const SIMS_META = [
     "category": "Mobility & Transit",
     "certification": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
     "name": "Airport Ramp",
+    "weather": "overcast",
     "title": "SmartCiti.X~ Airport Ramp VR",
     "tagline": "Gate turn: FOD walk and equipment restraint line, marshal onto the lead-in, chocks before anything touches it, cones set, ground power and headset to the flight deck, bridge to the door, loader at walking pace, all-clear only when chocks and cones are back",
     "accent": 6534640,
@@ -5461,6 +5707,7 @@ const SIMS_META = [
     "category": "Building Systems & Facilities",
     "certification": "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance",
     "name": "Cooling Tower",
+    "weather": "wind",
     "title": "SmartCiti.X~ Cooling Tower VR",
     "tagline": "Quarterly clean and Legionella control: plan and last culture read, tower down and fan locked, respirator before the basin, biofilm physically removed, drift eliminator checked, biocide shock to the label, conductivity and halogen back in range, log signed",
     "accent": 7326184,
@@ -6692,7 +6939,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // trainee has no brief to read.
   if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category, room.weather);
   state.stage = stage;
   Perf.reset();
   const root = new THREE.Group();
@@ -6756,7 +7003,11 @@ async function enterSim(id, { briefed = false } = {}) {
   state.session.start();
   if (robot.active) startRobot(room);
   if (!flat) faceFirstTask();
-  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
+  // Conditions are part of the brief: every station declares the weather its
+  // procedure is actually written for, and what that weather means for the work.
+  const wx = state.stage?.weather;
+  const wxLine = wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : "";
+  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}${wxLine}`);
   syncHud();
 }
 

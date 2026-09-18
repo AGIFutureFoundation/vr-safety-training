@@ -18,6 +18,7 @@ export const SIM_CONTAINER_LASHING = {
   domain: "Maritime",
   trade: "Longshore worker — lasher",
   category: "Maritime & Ports",
+  weather: "wind",
   certification: "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges",
   name: "Container Lashing",
   title: simTitle("Container Lashing"),

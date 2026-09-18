@@ -128,6 +128,24 @@ review, not a stand-in for it. Every Trade Skills room now names its union and t
 certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
 so on), which the preview requires.
 
+## Weather: the conditions each procedure is written for
+
+Every station declares the weather its procedure actually assumes, and the stage builds it
+(`shared/weather.js`): the stormwater grab happens in rain because it is a wet-weather sample,
+the scaffold lift and the aerial set happen in wind because wind is what derates them, the
+decon corridor and the fence-line monitor happen in wind because both are laid out by it, and
+track access happens in fog because fog is what stops hand signals working. Six kinds — clear,
+overcast, rain, fog, wind, storm — each with falling or wind-borne particles, a wet-deck sheen,
+scaled fog and light, and, on a storm, lightning. `?weather=<kind>` overrides for a hall that
+wants to drill a crew in conditions a station does not default to.
+
+The point of the layer is the note, not the particles. Each kind carries one line about what
+the weather means for the work ("footing is slick, anything on the deck is going somewhere,
+and paper gets useless fast"), and that line is shown with the station's tagline when the
+learner arrives. `catalog.json` carries each station's `weather` so a platform can index it,
+and the checker rejects any value outside the six. Indoor stations stay clear. AR mode gets
+none of it: the learner's own room is the weather there.
+
 ## Headset-pass instrument
 
 Add `?perf=1` to any SmartCiti.X URL and the app keeps the last three seconds of real frame

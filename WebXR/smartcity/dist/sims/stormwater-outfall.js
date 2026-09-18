@@ -19,6 +19,7 @@ export const SIM_STORMWATER_OUTFALL = {
   domain: "Environmental Monitoring",
   trade: "Environmental sampling technician — stormwater",
   category: "Environmental Monitoring",
+  weather: "rain",
   certification: "Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge); 40 CFR 136 approved methods, preservation and hold times; chain-of-custody per EPA SESD; OSHA HAZWOPER awareness and 29 CFR 1910.146 for confined vault access",
   name: "Stormwater Outfall",
   title: simTitle("Stormwater Outfall"),

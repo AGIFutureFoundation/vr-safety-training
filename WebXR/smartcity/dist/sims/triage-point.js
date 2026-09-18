@@ -18,6 +18,7 @@ export const SIM_TRIAGE_POINT = {
   domain: "Emergency Services",
   trade: "EMT / paramedic",
   category: "Emergency Services",
+  weather: "overcast",
   certification: "IAEP — NREMT-Paramedic certified",
   name: "Triage Point",
   title: simTitle("Triage Point"),

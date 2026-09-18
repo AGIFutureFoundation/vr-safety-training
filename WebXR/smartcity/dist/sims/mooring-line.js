@@ -18,6 +18,7 @@ export const SIM_MOORING_LINE = {
   domain: "Maritime",
   trade: "Line handler / wharf mooring crew",
   category: "Maritime & Ports",
+  weather: "wind",
   certification: "ILWU / SIU — OSHA 29 CFR 1917 marine terminals (mooring operations); OCIMF Mooring Equipment Guidelines snap-back awareness; port authority line-handling qualification",
   name: "Mooring Line",
   title: simTitle("Mooring Line"),

@@ -17,6 +17,7 @@ export const SIM_SOLAR_DECK = {
   domain: "Energy",
   trade: "Solar / BESS technician",
   category: "Energy & Power",
+  weather: "overcast",
   certification: "IBEW — NABCEP PV Installation Professional certified",
   name: "Solar Deck",
   title: simTitle("Solar Deck"),

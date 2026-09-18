@@ -19,6 +19,7 @@ export const SIM_SCAFFOLD_ERECTION = {
   domain: "Construction",
   trade: "Scaffold erector / carpenter",
   category: "Construction & Structural Trades",
+  weather: "wind",
   certification: "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
   name: "Scaffold Erection",
   title: simTitle("Scaffold Erection"),

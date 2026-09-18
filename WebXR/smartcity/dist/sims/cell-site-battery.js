@@ -18,6 +18,7 @@ export const SIM_CELL_SITE_BATTERY = {
   domain: "Telecom",
   trade: "Cell site / DC power technician",
   category: "Connectivity & Telecom",
+  weather: "overcast",
   certification: "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work",
   name: "Cell Site Battery",
   title: simTitle("Cell Site Battery"),

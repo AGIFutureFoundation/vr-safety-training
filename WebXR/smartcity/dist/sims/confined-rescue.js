@@ -19,6 +19,7 @@ export const SIM_CONFINED_RESCUE = {
   domain: "Emergency Services",
   trade: "Technical rescue technician — confined space",
   category: "Emergency Services",
+  weather: "overcast",
   certification: "IAFF — NFPA 1006 confined-space rescue technician and NFPA 1670 operations level; OSHA 29 CFR 1910.146(k) permit-space rescue and 1910.134(g)(3) two-in two-out; ANSI Z359 fall-arrest and rescue systems",
   name: "Confined Rescue",
   title: simTitle("Confined Rescue"),

@@ -20,6 +20,7 @@ export const SIM_SIGNAL_CABINET = {
   domain: "Mobility",
   trade: "Traffic signal technician",
   category: "Mobility & Transit",
+  weather: "rain",
   certification: "IBEW — IMSA Level II Traffic Signal Technician certified",
   name: "Signal Cabinet",
   title: simTitle("Signal Cabinet"),

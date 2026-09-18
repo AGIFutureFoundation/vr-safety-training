@@ -2,6 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
 import { districtFor, selfLight } from "./districts.js";
+import { buildWeather, weatherFor } from "../../shared/weather.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -85,7 +86,7 @@ export function timeOfDay() {
   return TIMES_OF_DAY.includes(t) ? t : "night";
 }
 
-export function buildStage(root, mode, scene, accent = CITY.accent, category = null) {
+export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
@@ -110,7 +111,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     const key = new THREE.DirectionalLight(0xffffff, 0.7);
     key.position.set(2.5, 5, 3);
     root.add(key);
-    return { root: g, ar, animate() {} };
+    return { root: g, ar, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
   }
 
   scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);
@@ -155,10 +156,13 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
 
   const sky = skyline(g);
   const marquee = buildMarquee(g);
+  // Weather goes on after the sky and fog are set for the hour, because it
+  // scales both; the stage hands its label and note back to the app.
+  const wx = buildWeather(g, scene, weatherFor(weather));
   let districtAnimate = null;
   if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
-  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1]);
+  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -174,7 +178,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // A soft overhead wash in the station's own accent — the one light that
   // changes per sim, so the same plaza reads warm for a boiler room and cool
   // for a chiller plant without rebuilding anything.
-  const wash = new THREE.PointLight(accent, 1.6, 12, 2);
+  const wash = new THREE.PointLight(accent, 1.6 * wx.lightScale, 12, 2);
   wash.position.set(0, 4.2, 0.6);
   g.add(wash);
   // Cool rim from behind the marquee so silhouettes separate from the skyline.
@@ -184,8 +188,8 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
 
   const beacons = sky.userData.beacons ?? [];
   return {
-    root: g, ar,
-    animate(t) {
+    root: g, ar, weather: { kind: wx.kind, label: wx.label, note: wx.note },
+    animate(t, dt = 0.016) {
       // Cheap flagship motion: rotate the holo-emblem, pulse its inner ring and the
       // marquee trim, and blink a handful of rooftop beacons — property tweaks on
       // already-built meshes/materials, nothing allocated per frame.
@@ -196,6 +200,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
       if (districtAnimate) districtAnimate(t);
+      wx.animate(t, dt);
     },
   };
 }

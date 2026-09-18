@@ -19,6 +19,7 @@ export const SIM_TOWER_CLIMB = {
   domain: "Telecom",
   trade: "Telecom / broadcast tower technician",
   category: "Connectivity & Telecom",
+  weather: "wind",
   certification: "CWA — NATE Tower Climber Level II certified",
   name: "Tower Climb",
   title: simTitle("Tower Climb"),

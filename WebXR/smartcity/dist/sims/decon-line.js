@@ -17,6 +17,7 @@ export const SIM_DECON_LINE = {
   domain: "Emergency Services",
   trade: "Hazmat firefighter / decon technician",
   category: "Emergency Services",
+  weather: "wind",
   certification: "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
   name: "Decon Line",
   title: simTitle("Decon Line"),

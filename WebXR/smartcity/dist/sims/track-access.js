@@ -18,6 +18,7 @@ export const SIM_TRACK_ACCESS = {
   domain: "Mobility",
   trade: "Rail track worker",
   category: "Mobility & Transit",
+  weather: "fog",
   certification: "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
   name: "Track Access",
   title: simTitle("Track Access"),

@@ -20,6 +20,7 @@ export const SIM_COOLING_TOWER = {
   domain: "Building Systems & Facilities",
   trade: "Stationary engineer — water treatment and cooling towers",
   category: "Building Systems & Facilities",
+  weather: "wind",
   certification: "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance",
   name: "Cooling Tower",
   title: simTitle("Cooling Tower"),

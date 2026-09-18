@@ -197,6 +197,9 @@ for (const sim of suite.SIMS) {
     if (!api.hits[id]) fail(sim.id, `hazard "${id}" has no object in the station`);
     if ((sim.hazards[id] ?? "").length < 40) fail(sim.id, `hazard "${id}" explanation is too thin`);
   }
+  if (sim.weather !== undefined && !["clear", "overcast", "rain", "fog", "wind", "storm"].includes(sim.weather)) {
+    fail(sim.id, `weather "${sim.weather}" is not one of clear/overcast/rain/fog/wind/storm`);
+  }
   for (const [id, note] of Object.entries(sim.lateNotes ?? {})) {
     if (!api.hits[id]) fail(sim.id, `lateNote "${id}" has no object in the station`);
     const owned = sim.steps.some((s) => s.target === id || s.targets?.includes(id));

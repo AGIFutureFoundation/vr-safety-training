@@ -19,6 +19,7 @@ export const SIM_CHARGE_POINT = {
   domain: "Energy",
   trade: "EV service technician",
   category: "Energy & Power",
+  weather: "overcast",
   certification: "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
   name: "Charge Point",
   title: simTitle("Charge Point"),

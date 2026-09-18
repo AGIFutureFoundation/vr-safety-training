@@ -20,6 +20,7 @@ export const SIM_BUNKERING_WATCH = {
   domain: "Maritime & Ports",
   trade: "Marine engineer — person in charge of oil transfer",
   category: "Maritime & Ports",
+  weather: "overcast",
   certification: "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1",
   name: "Bunkering Watch",
   title: simTitle("Bunkering Watch"),

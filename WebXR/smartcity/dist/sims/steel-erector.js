@@ -18,6 +18,7 @@ export const SIM_STEEL_ERECTOR = {
   domain: "Construction",
   trade: "Ironworker / structural steel connector",
   category: "Construction & Structural Trades",
+  weather: "wind",
   certification: "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
   name: "Steel Erector",
   title: simTitle("Steel Erector"),

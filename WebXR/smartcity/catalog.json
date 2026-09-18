@@ -178,6 +178,18 @@
     ],
     "trust": "commands are accepted, and events sent, only to the origin given as learner_home"
   },
+  "weather": {
+    "kinds": [
+      "clear",
+      "overcast",
+      "rain",
+      "fog",
+      "wind",
+      "storm"
+    ],
+    "note": "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour",
+    "override": "?weather=<kind>"
+  },
   "profile": {
     "levels": 33,
     "tiers": [
@@ -223,6 +235,7 @@
       "certification": "IBEW — NFPA 70E arc-flash qualified, EVITP-certified EV infrastructure technician",
       "accent": "#59c97b",
       "parSeconds": 205,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -298,6 +311,7 @@
       "certification": "IBEW — IMSA Level II Traffic Signal Technician certified",
       "accent": "#f2c14b",
       "parSeconds": 215,
+      "weather": "rain",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -373,6 +387,7 @@
       "certification": "LIUNA — OSHA 29 CFR 1910.146 permit-required confined space entrant",
       "accent": "#4fa3ff",
       "parSeconds": 225,
+      "weather": "rain",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -449,6 +464,7 @@
       "certification": "IBEW — NABCEP PV Installation Professional certified",
       "accent": "#ffb648",
       "parSeconds": 215,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -524,6 +540,7 @@
       "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
       "accent": "#a079ff",
       "parSeconds": 200,
+      "weather": "rain",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -597,6 +614,7 @@
       "certification": "Teamsters — FAA Part 107 remote pilot certificate holder",
       "accent": "#4fd1ff",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 14,
       "hazards": 4,
       "stepKinds": [
@@ -679,6 +697,7 @@
       "certification": "BMWED — FRA 49 CFR 214 Roadway Worker Protection qualified",
       "accent": "#f2894b",
       "parSeconds": 220,
+      "weather": "fog",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -753,6 +772,7 @@
       "certification": "IAEP — NREMT-Paramedic certified",
       "accent": "#f0645b",
       "parSeconds": 210,
+      "weather": "overcast",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -827,6 +847,7 @@
       "certification": "UAW — ANSI/RIA R15.06 robot safety qualified",
       "accent": "#a079ff",
       "parSeconds": 260,
+      "weather": "clear",
       "steps": 14,
       "hazards": 4,
       "stepKinds": [
@@ -908,6 +929,7 @@
       "certification": "UA — EPA Section 608 Universal refrigerant certified",
       "accent": "#4fd1ff",
       "parSeconds": 220,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -983,6 +1005,7 @@
       "certification": "CWA — NATE Tower Climber Level II certified",
       "accent": "#ff7a1a",
       "parSeconds": 240,
+      "weather": "wind",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -1059,6 +1082,7 @@
       "certification": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
       "accent": "#ffcc00",
       "parSeconds": 235,
+      "weather": "wind",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -1136,6 +1160,7 @@
       "certification": "IUOE — NCCCO Mobile Crane Operator certified",
       "accent": "#2f8fdb",
       "parSeconds": 275,
+      "weather": "wind",
       "steps": 15,
       "hazards": 4,
       "stepKinds": [
@@ -1217,6 +1242,7 @@
       "certification": "LIUNA — OSHA 29 CFR 1926 Subpart P Competent Person",
       "accent": "#7ed321",
       "parSeconds": 220,
+      "weather": "rain",
       "steps": 15,
       "hazards": 4,
       "stepKinds": [
@@ -1298,6 +1324,7 @@
       "certification": "IUOE — state-licensed Stationary Engineer, boiler operation",
       "accent": "#d83a2a",
       "parSeconds": 245,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -1373,6 +1400,7 @@
       "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
       "accent": "#2dd4bf",
       "parSeconds": 235,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -1449,6 +1477,7 @@
       "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
       "accent": "#c9e265",
       "parSeconds": 245,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -1523,6 +1552,7 @@
       "certification": "IATSE — ETCP Certified Rigger, Arena",
       "accent": "#ff6fae",
       "parSeconds": 265,
+      "weather": "clear",
       "steps": 14,
       "hazards": 4,
       "stepKinds": [
@@ -1604,6 +1634,7 @@
       "certification": "IBEW — OSHA 29 CFR 1910.269 qualified electrical worker",
       "accent": "#fcee21",
       "parSeconds": 250,
+      "weather": "overcast",
       "steps": 15,
       "hazards": 4,
       "stepKinds": [
@@ -1685,6 +1716,7 @@
       "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
       "accent": "#3a7ca5",
       "parSeconds": 240,
+      "weather": "wind",
       "steps": 14,
       "hazards": 4,
       "stepKinds": [
@@ -1766,6 +1798,7 @@
       "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
       "accent": "#8fd18b",
       "parSeconds": 300,
+      "weather": "clear",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -1859,6 +1892,7 @@
       "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order",
       "accent": "#9fd8c0",
       "parSeconds": 235,
+      "weather": "wind",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -1936,6 +1970,7 @@
       "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
       "accent": "#6fc3d1",
       "parSeconds": 245,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2014,6 +2049,7 @@
       "certification": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
       "accent": "#d9a441",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2092,6 +2128,7 @@
       "certification": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
       "accent": "#f2c14b",
       "parSeconds": 250,
+      "weather": "wind",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2170,6 +2207,7 @@
       "certification": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
       "accent": "#c77dff",
       "parSeconds": 235,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2247,6 +2285,7 @@
       "certification": "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges",
       "accent": "#4f9dde",
       "parSeconds": 240,
+      "weather": "wind",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2324,6 +2363,7 @@
       "certification": "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout",
       "accent": "#5bb0a8",
       "parSeconds": 245,
+      "weather": "rain",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -2402,6 +2442,7 @@
       "certification": "ILWU / SIU — OSHA 29 CFR 1917 marine terminals (mooring operations); OCIMF Mooring Equipment Guidelines snap-back awareness; port authority line-handling qualification",
       "accent": "#4fb3e8",
       "parSeconds": 230,
+      "weather": "wind",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -2480,6 +2521,7 @@
       "certification": "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance",
       "accent": "#ff8a5c",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -2557,6 +2599,7 @@
       "certification": "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding",
       "accent": "#8ecae6",
       "parSeconds": 225,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2634,6 +2677,7 @@
       "certification": "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work",
       "accent": "#a78bfa",
       "parSeconds": 240,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2712,6 +2756,7 @@
       "certification": "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
       "accent": "#ffb84d",
       "parSeconds": 245,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -2789,6 +2834,7 @@
       "certification": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
       "accent": "#7bd389",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -2867,6 +2913,7 @@
       "certification": "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems",
       "accent": "#e25c5c",
       "parSeconds": 245,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -2944,6 +2991,7 @@
       "certification": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
       "accent": "#f0a63a",
       "parSeconds": 250,
+      "weather": "wind",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3021,6 +3069,7 @@
       "certification": "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines",
       "accent": "#d2312b",
       "parSeconds": 260,
+      "weather": "wind",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3099,6 +3148,7 @@
       "certification": "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage",
       "accent": "#7fd8a8",
       "parSeconds": 270,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3177,6 +3227,7 @@
       "certification": "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes",
       "accent": "#f2a23b",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3254,6 +3305,7 @@
       "certification": "IATSE — ETCP Certified Rigger (Theatre); ANSI E1.4-1 manual counterweight rigging systems; OSHA 29 CFR 1910.28 fall protection on the loading bridge; venue 'heads up' and lineset-tagging procedure",
       "accent": "#a079ff",
       "parSeconds": 260,
+      "weather": "clear",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3330,6 +3382,7 @@
       "certification": "MEBA / SIU / MM&P — USCG 33 CFR 155.710 person in charge of oil transfer; 33 CFR 156.150 declaration of inspection; MARPOL Annex VI bunker delivery note and sample (Reg. 18); ISGOTT ship/barge bunkering checklist; STCW A-VI/1",
       "accent": "#3fa9d8",
       "parSeconds": 270,
+      "weather": "overcast",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3407,6 +3460,7 @@
       "certification": "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging",
       "accent": "#5fd3c8",
       "parSeconds": 250,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -3484,6 +3538,7 @@
       "certification": "Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge); 40 CFR 136 approved methods, preservation and hold times; chain-of-custody per EPA SESD; OSHA HAZWOPER awareness and 29 CFR 1910.146 for confined vault access",
       "accent": "#78c8a0",
       "parSeconds": 260,
+      "weather": "rain",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -3561,6 +3616,7 @@
       "certification": "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data",
       "accent": "#9fd84f",
       "parSeconds": 280,
+      "weather": "overcast",
       "steps": 12,
       "hazards": 4,
       "stepKinds": [
@@ -3638,6 +3694,7 @@
       "certification": "IAFF — NFPA 1006 confined-space rescue technician and NFPA 1670 operations level; OSHA 29 CFR 1910.146(k) permit-space rescue and 1910.134(g)(3) two-in two-out; ANSI Z359 fall-arrest and rescue systems",
       "accent": "#f07a4b",
       "parSeconds": 290,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -3713,6 +3770,7 @@
       "certification": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
       "accent": "#63b5f0",
       "parSeconds": 250,
+      "weather": "overcast",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -3789,6 +3847,7 @@
       "certification": "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance",
       "accent": "#6fc9e8",
       "parSeconds": 270,
+      "weather": "wind",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -3867,6 +3926,7 @@
       "certification": "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
       "accent": "#5aa9ff",
       "parSeconds": 165,
+      "weather": "clear",
       "steps": 9,
       "hazards": 3,
       "stepKinds": [
@@ -3897,6 +3957,7 @@
       "certification": "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
       "accent": "#e2739b",
       "parSeconds": 185,
+      "weather": "clear",
       "steps": 10,
       "hazards": 3,
       "stepKinds": [
@@ -3927,6 +3988,7 @@
       "certification": "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
       "accent": "#f2894b",
       "parSeconds": 195,
+      "weather": "clear",
       "steps": 10,
       "hazards": 5,
       "stepKinds": [
@@ -3957,6 +4019,7 @@
       "certification": "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
       "accent": "#53c1c9",
       "parSeconds": 200,
+      "weather": "clear",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -3988,6 +4051,7 @@
       "certification": "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
       "accent": "#f2c14b",
       "parSeconds": 210,
+      "weather": "clear",
       "steps": 10,
       "hazards": 5,
       "stepKinds": [
@@ -4019,6 +4083,7 @@
       "certification": "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
       "accent": "#7c6fea",
       "parSeconds": 195,
+      "weather": "clear",
       "steps": 10,
       "hazards": 3,
       "stepKinds": [
@@ -4051,6 +4116,7 @@
       "certification": "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
       "accent": "#cf8b3c",
       "parSeconds": 215,
+      "weather": "clear",
       "steps": 10,
       "hazards": 4,
       "stepKinds": [
@@ -4085,6 +4151,7 @@
       "certification": "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)",
       "accent": "#f2c14b",
       "parSeconds": 230,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [
@@ -4119,6 +4186,7 @@
       "certification": "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews",
       "accent": "#6fb0e6",
       "parSeconds": 240,
+      "weather": "clear",
       "steps": 11,
       "hazards": 4,
       "stepKinds": [

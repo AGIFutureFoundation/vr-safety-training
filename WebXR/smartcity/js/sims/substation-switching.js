@@ -19,6 +19,7 @@ export const SIM_SUBSTATION_SWITCHING = {
   domain: "Energy",
   trade: "Substation electrician / switching operator",
   category: "Energy & Power",
+  weather: "overcast",
   certification: "IBEW — utility switching and tagging authorisation; OSHA 29 CFR 1910.269 (electric power generation, transmission and distribution); NFPA 70E arc-flash PPE for the verification",
   name: "Substation Switching",
   title: simTitle("Substation Switching"),

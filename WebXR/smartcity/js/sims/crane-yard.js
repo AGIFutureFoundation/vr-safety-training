@@ -16,6 +16,7 @@ export const SIM_CRANE_YARD = {
   domain: "Construction",
   trade: "Mobile crane operator / rigger",
   category: "Construction & Structural Trades",
+  weather: "wind",
   certification: "IUOE — NCCCO Mobile Crane Operator certified",
   name: "Crane Yard",
   title: simTitle("Crane Yard"),

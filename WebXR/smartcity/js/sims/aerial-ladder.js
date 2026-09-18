@@ -18,6 +18,7 @@ export const SIM_AERIAL_LADDER = {
   domain: "Emergency Services",
   trade: "Firefighter — aerial apparatus driver/operator",
   category: "Emergency Services",
+  weather: "wind",
   certification: "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines",
   name: "Aerial Ladder",
   title: simTitle("Aerial Ladder"),

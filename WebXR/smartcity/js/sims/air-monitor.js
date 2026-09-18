@@ -24,6 +24,7 @@ export const SIM_AIR_MONITOR = {
   domain: "Environmental",
   trade: "Environmental monitoring technician",
   category: "Environmental Monitoring",
+  weather: "wind",
   certification: "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); perimeter air monitoring under a site-specific Air Monitoring Plan required by the EPA / state cleanup order",
   name: "Perimeter Air",
   title: simTitle("Perimeter Air"),

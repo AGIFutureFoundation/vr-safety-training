@@ -19,6 +19,7 @@ export const SIM_AIRPORT_RAMP = {
   domain: "Mobility & Transit",
   trade: "Airline ramp agent / ground handler",
   category: "Mobility & Transit",
+  weather: "overcast",
   certification: "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
   name: "Airport Ramp",
   title: simTitle("Airport Ramp"),

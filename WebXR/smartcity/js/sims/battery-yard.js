@@ -20,6 +20,7 @@ export const SIM_BATTERY_YARD = {
   domain: "Energy & Power",
   trade: "Battery energy storage technician — grid scale",
   category: "Energy & Power",
+  weather: "overcast",
   certification: "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data",
   name: "Battery Yard",
   title: simTitle("Battery Yard"),

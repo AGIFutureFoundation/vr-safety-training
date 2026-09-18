@@ -23,6 +23,7 @@ export const SIM_SAMPLING_WELL = {
   domain: "Environmental",
   trade: "Environmental sampling technician",
   category: "Environmental Monitoring",
+  weather: "overcast",
   certification: "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
   name: "Sampling Well",
   title: simTitle("Sampling Well"),

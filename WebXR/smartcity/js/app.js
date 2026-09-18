@@ -440,7 +440,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // trainee has no brief to read.
   if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category, room.weather);
   state.stage = stage;
   Perf.reset();
   const root = new THREE.Group();
@@ -504,7 +504,11 @@ async function enterSim(id, { briefed = false } = {}) {
   state.session.start();
   if (robot.active) startRobot(room);
   if (!flat) faceFirstTask();
-  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}`);
+  // Conditions are part of the brief: every station declares the weather its
+  // procedure is actually written for, and what that weather means for the work.
+  const wx = state.stage?.weather;
+  const wxLine = wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : "";
+  setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}${wxLine}`);
   syncHud();
 }
 

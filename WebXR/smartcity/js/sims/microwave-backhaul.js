@@ -19,6 +19,7 @@ export const SIM_MICROWAVE_BACKHAUL = {
   domain: "Connectivity & Telecom",
   trade: "Microwave / RF technician — backhaul",
   category: "Connectivity & Telecom",
+  weather: "overcast",
   certification: "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging",
   name: "Microwave Backhaul",
   title: simTitle("Microwave Backhaul"),
