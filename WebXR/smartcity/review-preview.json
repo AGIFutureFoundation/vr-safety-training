@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-09-18",
   "meshBudget": 320,
-  "total": 56,
-  "previewPassed": 56,
+  "total": 59,
+  "previewPassed": 59,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -3047,6 +3047,201 @@
           "check": "Within headset mesh budget (320)",
           "ok": true,
           "note": "167 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "concrete-pour",
+      "app": "smartcity",
+      "name": "Concrete Pour",
+      "category": "Construction & Structural Trades",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Construction & Structural Trades"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Cement mason / concrete finisher and laborer"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "OPCMIA cement masons and LIUNA laborers; ACI Concrete Field Testing Technician Grade I (slump ASTM C143, air C231, cylinders C31); OSHA 29 CFR 1926 Subpart Q concrete and masonry (1926.701 impalement protection, 1926.703 formwork); ACI 347 formwork pressure and OSHA 1926.1153 respirable crystalline silica"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "172 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "172 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "cnc-cell",
+      "app": "smartcity",
+      "name": "CNC Cell",
+      "category": "Manufacturing & Automation",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Manufacturing & Automation"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "CNC machinist — vertical machining centre"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IAM and USW machinist locals; NIMS Machining Level I CNC Milling (setup, operation, programming); OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout/tagout; ANSI B11.22 safety requirements for turning and milling centres; OSHA 1910.242(b) limiting compressed air for cleaning"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "163 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "163 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "backflow-test",
+      "app": "smartcity",
+      "name": "Backflow Test",
+      "category": "Water & Environmental",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Water & Environmental"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Certified backflow prevention assembly tester"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "UA plumbers and pipefitters; ASSE 5110 Backflow Prevention Assembly Tester certification and ASSE 1013 reduced-pressure principle assemblies; USC FCCCHR field test procedure; state cross-connection control programme and EPA Safe Drinking Water Act obligations on the purveyor"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "162 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "162 meshes"
         },
         {
           "check": "Every step target exists in the scene",

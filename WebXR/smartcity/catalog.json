@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 47
+      "stations": 50
     },
     "trades": {
       "entry": "trades/index.html",
@@ -62,7 +62,8 @@
         "valve-vault",
         "abatement-chamber",
         "lift-station",
-        "chlorine-room"
+        "chlorine-room",
+        "backflow-test"
       ]
     },
     {
@@ -89,7 +90,8 @@
         "robot-cell",
         "press-brake",
         "conveyor-guard",
-        "forklift-dock"
+        "forklift-dock",
+        "cnc-cell"
       ]
     },
     {
@@ -108,7 +110,8 @@
         "steel-erector",
         "crane-yard",
         "trench-box",
-        "scaffold-erection"
+        "scaffold-erection",
+        "concrete-pour"
       ]
     },
     {
@@ -4254,6 +4257,244 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=cooling-tower"
+    },
+    {
+      "app": "smartcity",
+      "id": "concrete-pour",
+      "name": "Concrete Pour",
+      "title": "SmartCiti.X~ Concrete Pour VR",
+      "tagline": "Wall pour from a boom pump: pre-pour walk, rebar capped and forms braced, slump and air tested before the first yard, nobody under the boom, placement rate inside the form pressure, vibrated not segregated, cylinders cast, finish on the clock",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason / concrete finisher and laborer",
+      "union": null,
+      "certification": "OPCMIA cement masons and LIUNA laborers; ACI Concrete Field Testing Technician Grade I (slump ASTM C143, air C231, cylinders C31); OSHA 29 CFR 1926 Subpart Q concrete and masonry (1926.701 impalement protection, 1926.703 formwork); ACI 347 formwork pressure and OSHA 1926.1153 respirable crystalline silica",
+      "accent": "#c9c2b4",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-placement",
+        "name": "Clean Placement",
+        "note": "A pour tested before it started, placed inside the form's rate and consolidated without segregating — first time"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "48",
+      "flat": false,
+      "system": "Placement Crew",
+      "currency": "YARD",
+      "ranks": [
+        "Laborer",
+        "Finisher",
+        "Cement Mason",
+        "Pour Foreman",
+        "Placement Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-it-first",
+          "name": "Walked It First",
+          "note": "The pre-pour walk found the defects before the truck arrived, first time"
+        },
+        {
+          "id": "nobody-under",
+          "name": "Nobody Under the Boom",
+          "note": "Never under the line, never on unbraced form, never a dry cut"
+        },
+        {
+          "id": "to-the-mix",
+          "name": "To the Mix Design",
+          "note": "Slump and placement rate both inside the band"
+        },
+        {
+          "id": "clean-pour",
+          "name": "Clean Pour",
+          "note": "No corrections anywhere in the placement"
+        },
+        {
+          "id": "steady-lift",
+          "name": "Steady Lift",
+          "note": "The placement rate held for the whole lift"
+        },
+        {
+          "id": "before-set",
+          "name": "Ahead of the Set",
+          "note": "Placed and finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "cnc-cell",
+      "name": "CNC Cell",
+      "title": "SmartCiti.X~ CNC Cell VR",
+      "tagline": "Machining centre setup and first part: setup sheet, spindle stopped and locked before the envelope, workholding torqued, tool measured and offset, single-block dry run above the part, door closed, first article measured, chips brushed not blown",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing & Automation",
+      "trade": "CNC machinist — vertical machining centre",
+      "union": null,
+      "certification": "IAM and USW machinist locals; NIMS Machining Level I CNC Milling (setup, operation, programming); OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout/tagout; ANSI B11.22 safety requirements for turning and milling centres; OSHA 1910.242(b) limiting compressed air for cleaning",
+      "accent": "#8fa9c4",
+      "parSeconds": 260,
+      "weather": "clear",
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "turn",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "first-article-good",
+        "name": "First Article Good",
+        "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "49",
+      "flat": false,
+      "system": "Machine Shop",
+      "currency": "THOU",
+      "ranks": [
+        "Apprentice",
+        "Operator",
+        "Setup Machinist",
+        "Lead Machinist",
+        "Machine Shop Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-first",
+          "name": "Locked First",
+          "note": "Spindle stopped and locked before a hand went in the envelope, first time"
+        },
+        {
+          "id": "hands-clear",
+          "name": "Hands Clear",
+          "note": "Never in a live envelope, never a bare hand on chips, never air on a workpiece"
+        },
+        {
+          "id": "on-tolerance",
+          "name": "On Tolerance",
+          "note": "Tool offset and first article both inside the band"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Setup",
+          "note": "No corrections anywhere in the setup"
+        },
+        {
+          "id": "steady-dry-run",
+          "name": "Steady Dry Run",
+          "note": "The single-block dry run held its feed the whole way"
+        },
+        {
+          "id": "setup-fast",
+          "name": "Set In Time",
+          "note": "First article approved inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cnc-cell"
+    },
+    {
+      "app": "smartcity",
+      "id": "backflow-test",
+      "name": "Backflow Test",
+      "title": "SmartCiti.X~ Backflow Test VR",
+      "tagline": "Annual RP assembly test: hazard identified, customer notified before the water goes off, gauge zeroed and hoses bled, check one, check two and the relief opening point each tested in order, assembly restored slowly, report signed and filed",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Certified backflow prevention assembly tester",
+      "union": null,
+      "certification": "UA plumbers and pipefitters; ASSE 5110 Backflow Prevention Assembly Tester certification and ASSE 1013 reduced-pressure principle assemblies; USC FCCCHR field test procedure; state cross-connection control programme and EPA Safe Drinking Water Act obligations on the purveyor",
+      "accent": "#4fb8c9",
+      "parSeconds": 250,
+      "weather": "clear",
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "no-cross-connection",
+        "name": "No Cross Connection",
+        "note": "A test run in order on a bled gauge, with the customer told first and the assembly restored without a hammer — first time"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "50",
+      "flat": false,
+      "system": "Cross-Connection Control",
+      "currency": "PSID",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Certified Tester",
+        "Programme Inspector",
+        "Cross-Connection Certified"
+      ],
+      "awards": [
+        {
+          "id": "told-them-first",
+          "name": "Told Them First",
+          "note": "Hazard identified and the customer notified before a valve moved, first time"
+        },
+        {
+          "id": "never-open",
+          "name": "Never Left Open",
+          "note": "Never a bypass around the assembly, never a test on an unbled gauge, never restored fast"
+        },
+        {
+          "id": "to-the-tenth",
+          "name": "To the Tenth",
+          "note": "Both check readings inside the band"
+        },
+        {
+          "id": "clean-test",
+          "name": "Clean Test",
+          "note": "No corrections anywhere in the test"
+        },
+        {
+          "id": "steady-bleed",
+          "name": "Steady Bleed",
+          "note": "The hoses bled clean without a break"
+        },
+        {
+          "id": "tested-fast",
+          "name": "Tested In Time",
+          "note": "Report signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=backflow-test"
     },
     {
       "app": "trades",
