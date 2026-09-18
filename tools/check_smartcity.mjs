@@ -226,6 +226,14 @@ for (const sim of suite.SIMS) {
   while (!session.finished && guard++ < 500) {
     const step = session.step;
     if (!step) break;
+    // An interruption is part of the assessment, so a perfect run answers it.
+    // Anything scheduled on this step is armed the moment the step is entered,
+    // so wind the clock to its fuse and deal with it before doing the step.
+    for (const it of session.interrupts) {
+      if (it.fired || it.after !== step.id) continue;
+      session.tick((it.delay ?? 3) + 0.1);
+      if (session.activeInterrupt) session.select(it.target);
+    }
     if (step.kind === "select") session.select(step.target);
     else if (step.kind === "sequence" || step.kind === "find") for (const id of step.targets) session.select(id);
     else if (step.kind === "gauge") {

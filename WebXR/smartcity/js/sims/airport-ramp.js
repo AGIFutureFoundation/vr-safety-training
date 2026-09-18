@@ -59,6 +59,35 @@ export const SIM_AIRPORT_RAMP = {
     "allclear-signal": "The all-clear is the last thing that happens, after the chocks and cones are back on the truck.",
   },
 
+
+  // Interruptions: see shared/game.js. A ramp turn is the densest interruption
+  // environment in this whole roster — everything on it moves, most of it is
+  // driven by somebody who cannot see you, and the aircraft is the least of it.
+  interrupts: [
+    {
+      id: "vehicle-inbound",
+      kind: "Ramp traffic",
+      after: "gpu", delay: 4, seconds: 11,
+      alert: "A catering truck is coming up the stand and the equipment line cones are not where they should be.",
+      cue: "Stop it at the line.",
+      target: "cones-set",
+      why: "The equipment restraint line is what stops a vehicle reaching the fuselage. It is reset for every turn because the last crew moved it, and a driver on a stand is steering to the cones, not to the paint.",
+      missNote: "The truck came past the line with nothing marking it and stopped a metre off the fuselage. Ramp vehicle strikes on parked aircraft are the most common ground-damage claim there is, and the cone is the whole defence.",
+      wrongNote: "The vehicle is coming and the line is not set. Nothing else on this turn matters for the next ten seconds.",
+    },
+    {
+      id: "chock-kicked",
+      kind: "Chock displaced",
+      after: "bridge", delay: 5, seconds: 12,
+      alert: "A tug has clipped the nose chock driving past. It is sitting a hand's width clear of the wheel.",
+      cue: "The aircraft is not chocked. Re-set it before the bridge touches.",
+      target: "chock-nose",
+      why: "A chock that is not touching the tyre is not a chock. An aircraft on a sloping stand with the brakes released and the bridge docking against it has nothing holding it.",
+      missNote: "You docked the bridge against an aircraft that was not chocked. If it had rolled, the bridge would have taken the door with it and everything in the jetway would have gone with the door.",
+      wrongNote: "The nose chock is the one that got kicked. Re-set it — the rest of the turn can wait.",
+    },
+  ],
+
   steps: [
     {
       id: "brief", kind: "select", target: "turn-board",

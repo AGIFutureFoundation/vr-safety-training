@@ -52,6 +52,29 @@
     font-variant-numeric:tabular-nums; margin-top:2px; }
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
     margin-top:3px; transition:color .15s, transform .15s; }
+
+  /* Interruption alarm: something is happening to the learner right now and
+     they have to break off and deal with it. Deliberately loud, deliberately
+     not where the step cue is, and it carries its own clock. */
+  #alarm{ position:fixed; left:50%; top:96px; transform:translateX(-50%);
+    width:min(560px,92vw); z-index:60; pointer-events:none;
+    background:linear-gradient(180deg,rgba(60,14,10,.97),rgba(34,10,8,.97));
+    border:2px solid var(--danger); border-radius:14px; padding:14px 18px 12px;
+    box-shadow:0 18px 48px rgba(0,0,0,.55), 0 0 0 4px rgba(240,100,91,.14);
+    animation:alarmIn .18s ease-out; }
+  #alarm[hidden]{ display:none; }
+  #alarm .alarm-head{ display:flex; align-items:baseline; gap:10px;
+    font:700 13px/1 "Barlow Condensed",system-ui,sans-serif; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--danger); }
+  #alarm .alarm-left{ margin-left:auto; font-variant-numeric:tabular-nums; color:#ffd9d4; }
+  #alarm .alarm-body{ margin-top:7px; font-size:15px; line-height:1.4; color:#ffeae7; }
+  #alarm .alarm-cue{ margin-top:6px; font-size:13px; color:#ffbdb5; }
+  #alarm .alarm-bar{ margin-top:10px; height:5px; border-radius:3px;
+    background:rgba(255,255,255,.14); overflow:hidden; }
+  #alarm .alarm-fill{ height:100%; width:100%; background:var(--danger);
+    transition:width .12s linear; }
+  @keyframes alarmIn{ from{ opacity:0; transform:translateX(-50%) translateY(-8px) } to{ opacity:1 } }
+  @media (prefers-reduced-motion:reduce){ #alarm{ animation:none } }
   #hud-combo.hot{ color:var(--warn); }
   #hud-combo.fire{ color:var(--danger); animation:pulse .5s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
@@ -386,6 +409,14 @@
 <body>
 
 <div id="stage"></div>
+
+
+<div id="alarm" hidden role="alert" aria-live="assertive">
+  <div class="alarm-head"><span id="alarm-kind">Interruption</span><span class="alarm-left" id="alarm-left">12s</span></div>
+  <div class="alarm-body" id="alarm-body"></div>
+  <div class="alarm-cue" id="alarm-cue">Deal with it now — the procedure can wait.</div>
+  <div class="alarm-bar"><div class="alarm-fill" id="alarm-fill"></div></div>
+</div>
 
 <div id="react-root"></div>
 

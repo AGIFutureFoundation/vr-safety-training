@@ -58,6 +58,34 @@ export const SIM_SUBSTATION_SWITCHING = {
     "ground-a": "Grounds go on after the bus is proven dead on every phase, never before.",
   },
 
+
+  // Interruptions: see shared/game.js. On a switching job the danger is not
+  // usually the switching — it is somebody arriving in the middle of it.
+  interrupts: [
+    {
+      id: "unescorted-visitor",
+      kind: "Yard breach",
+      after: "test", delay: 5, seconds: 12,
+      alert: "Somebody has walked into the yard behind you in a hard hat and a hi-vis and nothing else. They want a word.",
+      cue: "Stop. Nobody stands here in that.",
+      target: "arc-suit",
+      why: "The boundary is not a courtesy. Anyone inside it while a bus is being proved is inside the arc-flash boundary, and a hi-vis vest is fuel.",
+      missNote: "You carried on testing with an unprotected person standing inside the boundary. If that bus had been live behind the disconnect, the person who did not know what they had walked into would have taken the incident energy with you.",
+      wrongNote: "The person in the yard is the hazard right now. Deal with them before anything else on this order.",
+    },
+    {
+      id: "order-changed",
+      kind: "Control call",
+      after: "grounds", delay: 5, seconds: 14,
+      alert: "Control is calling. They are asking you to leave one set of grounds off because another crew wants the line back early.",
+      cue: "Take the call and read it back before you do anything with it.",
+      target: "radio",
+      why: "A verbal change to a switching order is not a switching order. It gets read back, logged and re-issued, or it did not happen — and the person holding the grounds is the one who wears the consequence of a change nobody wrote down.",
+      missNote: "You ignored control mid-operation. Either the change was real and you are now out of step with the people operating the other end of that line, or it was not and nobody knows which.",
+      wrongNote: "That is not the radio. A call from control during a switching operation is answered and read back, every time.",
+    },
+  ],
+
   steps: [
     {
       id: "order", kind: "select", target: "switching-order",

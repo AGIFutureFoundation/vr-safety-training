@@ -218,6 +218,39 @@ function setRail(kind, html) {
   vrHudDirty = true;
 }
 
+
+// ---------------------------------------------------- interruption alarm
+// An interruption arrives mid-step and runs on its own clock (see the
+// interrupt layer in shared/game.js). It gets its own loud banner rather
+// than the feedback rail, because the whole point is that it is not part of
+// the step the learner is working on.
+const alarmEl = {
+  root: document.getElementById("alarm"),
+  kind: document.getElementById("alarm-kind"),
+  left: document.getElementById("alarm-left"),
+  body: document.getElementById("alarm-body"),
+  cue: document.getElementById("alarm-cue"),
+  fill: document.getElementById("alarm-fill"),
+};
+function showAlarm(it) {
+  if (!alarmEl.root) return;
+  alarmEl.kind.textContent = it.kind ?? "Interruption";
+  alarmEl.body.textContent = it.alert ?? "";
+  alarmEl.cue.textContent = it.cue ?? "Deal with it now — the procedure can wait.";
+  alarmEl.left.textContent = `${Math.ceil(it.seconds ?? 12)}s`;
+  alarmEl.fill.style.width = "100%";
+  alarmEl.root.hidden = false;
+}
+function hideAlarm() { if (alarmEl.root) alarmEl.root.hidden = true; }
+function syncAlarm(s) {
+  const it = s?.activeInterrupt;
+  if (!it || !alarmEl.root || alarmEl.root.hidden) return;
+  const total = it.seconds ?? 12;
+  const left = Math.max(0, it.left ?? total);
+  alarmEl.left.textContent = `${Math.ceil(left)}s`;
+  alarmEl.fill.style.width = `${Math.max(0, (left / total) * 100).toFixed(1)}%`;
+}
+
 function syncHud() {
   const s = state.session;
   if (!s) {
@@ -512,6 +545,15 @@ async function enterSim(id, { briefed = false } = {}) {
       observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
       Platform.progress({ sim: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
+    onInterrupt: (it) => {
+      showAlarm(it);
+      srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      flashDanger();
+      kbCursor.set(targetsForStep({ target: it.target }));
+      observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
+    },
+    onInterruptEnd: () => { hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
@@ -590,9 +632,24 @@ function renderDebrief(s) {
   const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
   const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
   const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  // Interruptions get their own lines: they are the part of the run that was
+  // not on the procedure, and how long you took to notice is the whole score.
+  const iv = d.interrupts;
+  const ivRows = iv ? iv.log.map((l) => {
+    const tone = l.outcome === "answered" ? "ok" : "bad";
+    const label = l.outcome === "answered" ? `caught in ${l.seconds.toFixed(1)}s`
+      : l.outcome === "wrong" ? "wrong response" : "missed it";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">!</span>
+      <span class="db-title">${escapeHtml(l.alert ?? l.id)}</span>
+      <span class="db-note">${label}</span>
+    </li>`;
+  }).join("") : "";
+  const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
+    <ol class="db-list">${ivRows}</ol>` : "";
   return `<details class="debrief" open>
     <summary>Step-by-step debrief — ${head}</summary>
-    <ol class="db-list">${rows}</ol>${slow}${bad}
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}
   </details>`;
 }
 
@@ -1963,6 +2020,7 @@ renderer.setAnimationLoop((_, frame) => {
     if (presenting) xrMove(dt); else desktopMove(dt);
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
+      syncAlarm(state.session);
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
     }
   }

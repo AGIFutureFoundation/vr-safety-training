@@ -167,6 +167,16 @@ export function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.
             [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
               id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
             })),
+            // Interruptions are assessed separately from the procedure: an
+            // LRS should be able to ask "who misses alarms" without unpicking
+            // the step log to find out.
+            ...(r.debrief.interrupts ? {
+              [ext("interrupts-caught")]: r.debrief.interrupts.answered,
+              [ext("interrupts-missed")]: r.debrief.interrupts.missed + r.debrief.interrupts.wrong,
+              [ext("interrupt-log")]: r.debrief.interrupts.log.map((l) => ({
+                id: l.id, outcome: l.outcome, seconds: l.seconds,
+              })),
+            } : {}),
           } : {}),
           [ext("par-seconds")]: r.parSeconds ?? null,
           [ext("badges")]: r.badges ?? [],

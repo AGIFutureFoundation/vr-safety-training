@@ -406,6 +406,57 @@ trajectories are what a model would train on to imitate or grade procedure execu
 they are engine-level (ids, states, rewards), not pixels. `tools/check_robot.mjs` gates
 the layer in CI.
 
+## Interruptions — the part of the job that is not the procedure
+
+Every step kind in this engine asks the same question: **do you know what comes next.** That is
+worth assessing and it is not what gets people hurt. What gets people hurt is the thing that
+happens *while they are busy* — somebody walks into the exclusion zone, a reading drifts out of
+band, a lock comes off a hasp, a tug clips a chock — and the crew is too task-loaded to notice
+for thirty seconds.
+
+So an interruption is not a step. It arrives unannounced partway through a step the learner is
+already working, it runs on its own clock, and the learner has to break off, deal with it and
+come back. The procedure underneath is untouched: the same steps in the same order, scored the
+same way. What changes is whether you were paying attention.
+
+```js
+interrupts: [{
+  id: "extraction-trips", kind: "Plant alarm",
+  after: "amps", delay: 5, seconds: 14,
+  alert: "The fume extraction has tripped out. The hood is dead and the fan noise has stopped.",
+  target: "fume-arm",
+  why: "Extraction goes back on before the arc does...",
+  missNote: "You set the machine and welded with dead extraction...",
+}]
+```
+
+**Scoring is deliberately asymmetric.** Catching one is worth more than a step (120, plus up to
+60 for answering fast) because noticing is the harder thing and the one nobody practises.
+Missing it, or reaching for the wrong control, counts as an **unsafe action** rather than an
+ordinary mistake — in every authored case the thing that went unanswered was a safety condition,
+and that means it lands on `hazardHits`, which is what the pass rule and the badges key off. A
+run can be procedurally perfect and still fail on the alarm it slept through, which is the
+point.
+
+Nine are authored so far across five procedures: the Weld Bay (extraction trips mid-setup, fire
+blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are testing
+dead), Confined Rescue (the meter alarms while you rig, the attendant leaves the hole during the
+haul), Substation Switching (an unescorted visitor in the yard, control calling with a verbal
+change to the order) and the Airport Ramp (a catering truck inbound past an unset equipment
+line, a tug kicks the nose chock before the bridge docks).
+
+Everything downstream already knows about them. They get their own rows in the step debrief with
+how long each took to catch; `toXAPI` exports `interrupts-caught`, `interrupts-missed` and the
+full `interrupt-log`; the instructor console sees them come through as hazards; and the **robot
+trainee** answers them, with noticing-at-all scaling on skill rather than knowing which control
+to reach for — so a novice policy stalls and runs the clock out, which is exactly how it goes on
+a real job.
+
+`tools/check_interrupts.mjs` validates every field and then drives the engine: that an armed
+interruption fires after its delay, times out if unanswered, counts the miss as an unsafe
+action, and scores a correct answer. It also rejects an interruption whose response is the
+control the learner is already holding — that is not an interruption, it is a nudge.
+
 ## Per-step debrief
 
 A score at the end of a run says a learner passed. It does not say where they hesitated, which

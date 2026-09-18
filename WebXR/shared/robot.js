@@ -32,7 +32,14 @@ export function rng(seed = 1) {
  * observation written to the trajectory. */
 export function observe(session) {
   const step = session.step;
-  if (!step) return { stepIndex: session.index, kind: null };
+  // An interruption outranks the step: it is the thing the learner has to
+  // deal with right now, and a policy that cannot see it cannot be assessed
+  // on the skill the interruption exists to test.
+  const it = session.activeInterrupt;
+  const interrupt = it
+    ? { id: it.id, target: it.target, left: +(it.left ?? it.seconds ?? 12).toFixed(2), seconds: it.seconds ?? 12 }
+    : null;
+  if (!step) return { stepIndex: session.index, kind: null, interrupt };
   const targets = step.kind === "sequence" || step.kind === "find" ? step.targets : [step.target];
   return {
     stepIndex: session.index, stepId: step.id, kind: step.kind, targets,
@@ -42,6 +49,7 @@ export function observe(session) {
     track: session.track ? { v: +session.track.v.toFixed(3), green: session.track.green, inBand: +session.track.inBand.toFixed(2), holding: session.holding } : null,
     hold: step.kind === "hold" ? { holdFor: +session.holdFor.toFixed(2), seconds: step.seconds, holding: session.holding } : null,
     turn: session.turn ? { amount: +session.turn.amount.toFixed(3), required: session.turn.required } : null,
+    interrupt,
     score: session.score, streak: session.streak, errors: session.errors, hazardHits: session.hazardHits,
     elapsed: +session.elapsed.toFixed(2),
   };
@@ -78,6 +86,17 @@ export class RobotAgent {
     const step = session.step;
     if (!step || session.finished) return { type: "wait" };
     const lapse = this.random() < this.lapse;
+
+    // A live interruption comes before the step. Skill here is not knowing
+    // which control to reach for — it is noticing at all while task-loaded,
+    // so a low-skill agent stalls on it and often runs the clock out, which
+    // is exactly how it goes on a real job.
+    const alarm = session.activeInterrupt;
+    if (alarm) {
+      if (this.random() > 0.25 + this.skill * 0.75) return { type: "wait" };
+      if (lapse) return { type: "select", id: this.pickWrong([alarm.target]) };
+      return { type: "select", id: alarm.target };
+    }
 
     if (step.kind === "select") {
       return { type: "select", id: lapse ? this.pickWrong([step.target]) : step.target };

@@ -135,6 +135,22 @@ group and baked into a handful of meshes at the end of `build()` (`mergeStatic()
 `shared/kit.js`). The weld bay now draws **167 calls** from 288 meshes, and renders
 pixel-identically.
 
+## Interruptions
+
+Two bays carry interruptions — things that happen *to* the learner mid-procedure and have to be
+noticed and answered on their own clock while they are busy with something else. In the Weld Bay
+the fume extraction trips out while you are setting the machine, and the fire blanket slips off
+the conduit run while you are laying the bead. In the Isolation Bay your lock comes off the hasp
+while your eyes are on the meter.
+
+They are not steps and they do not change the procedure. Catching one is worth more than a step,
+because noticing is the harder thing; missing one counts as an **unsafe action**, because in
+every case the thing that went unanswered was a safety condition. A run can be procedurally
+perfect and still fail on the alarm it slept through.
+
+The engine layer, the scoring and the checker are shared — see the interruptions section of
+[SmartCiti.X's README](../smartcity/README.md).
+
 ## Pre-brief (flipped classroom)
 
 The first time a room is entered on screen it opens as a pre-brief: the room's procedure as

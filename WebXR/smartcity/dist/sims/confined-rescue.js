@@ -59,6 +59,36 @@ export const SIM_CONFINED_RESCUE = {
     "gas-meter": "Monitoring means top, middle and bottom, and it comes after the space is isolated and the fan has run.",
   },
 
+
+  // Interruptions: see the interrupt layer in shared/game.js. A confined-space
+  // rescue is the textbook case for these — the thing that kills the second
+  // person is always something that changed in the space while the team was
+  // heads-down on the rigging.
+  interrupts: [
+    {
+      id: "meter-alarms",
+      kind: "Atmosphere alarm",
+      after: "rig", delay: 6, seconds: 13,
+      alert: "The meter on the tended line is alarming. Oxygen at the bottom of the chamber is falling while you rig.",
+      cue: "Nobody goes in on that reading. Read the space again.",
+      target: "gas-meter",
+      why: "A space that was inside the band twenty minutes ago is not inside it now. The entry decision is made on the current worst reading, and the meter on the line exists so that reading is never more than a few seconds old.",
+      missNote: "You finished rigging and sent an entrant into a space whose oxygen was still falling. The reason the meter is lowered on a line is that the atmosphere in a chamber is not a fact you establish once — it is a thing you watch, and nobody was watching it.",
+      wrongNote: "Read the meter. Nothing else in this rescue is worth doing until you know what the space is doing right now.",
+    },
+    {
+      id: "attendant-pulled",
+      kind: "Attendant gone",
+      after: "haul", delay: 4, seconds: 12,
+      alert: "The attendant has left the opening to help on the rope. There is nobody tending the line or counting who is in the space.",
+      cue: "Get somebody back on the hole.",
+      target: "tender-station",
+      why: "The attendant is not spare labour. They are the only person whose job is the entrant, the only one watching the meter, and the only one who knows how many people are in that space.",
+      missNote: "You hauled with nobody tending. The line fouled on the lip and the entrant was hanging with no one at the opening to see it, which is how a rescue becomes two rescues.",
+      wrongNote: "The hole is unattended. That is the problem, and it is the only problem, until somebody is back on it.",
+    },
+  ],
+
   steps: [
     {
       id: "sizeup", kind: "select", target: "rescue-sizeup",

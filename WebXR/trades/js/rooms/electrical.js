@@ -42,6 +42,24 @@ export const ROOM_ELECTRICAL = {
     "ground-cluster": "Grounds go on after the circuit is proven dead, not before — applying them to a live conductor is a bolted fault.",
   },
 
+
+  // Interruptions: see shared/game.js. The one that matters on a live-dead-live
+  // job is not a step you can get wrong, it is a condition that changes behind
+  // you while your hands and eyes are on the meter.
+  interrupts: [
+    {
+      id: "lock-missing",
+      kind: "Isolation breach",
+      after: "test-dead", delay: 4, seconds: 13,
+      alert: "Your lock is off the handle. Somebody has taken it off the hasp while you were testing.",
+      cue: "Stop testing. That isolation is not yours until your lock is back on it.",
+      target: "lock-station",
+      why: "A personal lock is the one thing between you and somebody else's hand on that handle. It goes back on first, and then you find out who took it off and why.",
+      missNote: "You carried on working inside a panel you no longer had locked out. That is the sequence behind most re-energisation fatalities: the isolation was correct once, and nobody looked at it again.",
+      wrongNote: "The lock is the problem. Nothing else in this room is worth touching while that hasp is open.",
+    },
+  ],
+
   steps: [
     {
       id: "ppe", kind: "select", target: "ppe-cart",

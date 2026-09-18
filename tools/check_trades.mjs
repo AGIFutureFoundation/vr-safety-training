@@ -248,6 +248,15 @@ for (const room of suite.ROOMS) {
   while (!session.finished && guard++ < 400) {
     const step = session.step;
     if (!step) break;
+    // An interruption is part of the assessment, so a perfect run answers it.
+    // Without this the trades loop never ticks far enough for one to fire, so
+    // the room's interruptions were not being exercised at all — which reads
+    // as a pass and is not one.
+    for (const it of session.interrupts) {
+      if (it.fired || it.after !== step.id) continue;
+      session.tick((it.delay ?? 3) + 0.1);
+      if (session.activeInterrupt) session.select(it.target);
+    }
     if (step.kind === "select") {
       session.select(step.target);
     } else if (step.kind === "sequence" || step.kind === "find") {

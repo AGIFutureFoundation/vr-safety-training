@@ -41,6 +41,36 @@ export const ROOM_WELDING = {
     "fire-extinguisher": "The watch starts when the arc stops. There is still work in front of you.",
   },
 
+
+  // Interruptions: things that happen to the welder while they are busy, and
+  // have to be noticed and answered on their own clock. See the interrupt
+  // layer in shared/game.js — they are not steps and they do not change the
+  // procedure, they test whether you were paying attention while running it.
+  interrupts: [
+    {
+      id: "extraction-trips",
+      kind: "Plant alarm",
+      after: "amps", delay: 5, seconds: 14,
+      alert: "The fume extraction has tripped out. The hood is dead and the fan noise has stopped.",
+      cue: "The arc is not lit yet. Put it right before it is.",
+      target: "fume-arm",
+      why: "Extraction goes back on before the arc does. Manganese and hexavalent chromium do their damage over a career and a hood that is off looks exactly like a hood that is on.",
+      missNote: "You set the machine and welded with dead extraction. The fume goes straight up inside your hood for the whole bead, and that is the exposure nobody notices happening.",
+      wrongNote: "That is not what tripped. The extraction is off, and nothing else on this bench matters until the fan is running again.",
+    },
+    {
+      id: "blanket-slipped",
+      kind: "Fire watch",
+      after: "bead", delay: 6, seconds: 12,
+      alert: "The fire blanket has slipped off the conduit run and sparks are landing on bare cable.",
+      cue: "Put the arc down and re-cover it.",
+      target: "fire-blanket",
+      why: "Anything that cannot leave the radius stays covered for the whole job, not just at the start. Re-covering it costs ten seconds.",
+      missNote: "You welded on with the run uncovered. A spark lodged in the insulation and smouldered; the fire started hours after everyone had gone home, which is the exact thing the fire watch exists to prevent.",
+      wrongNote: "The sparks are landing on the conduit run. Cover it — everything else on this job can wait ten seconds.",
+    },
+  ],
+
   steps: [
     {
       id: "permit", kind: "select", target: "permit-board",

@@ -224,6 +224,29 @@
   .db-row.warn .db-bar i{ background:var(--warn) } .db-row.warn .db-note{ color:var(--warn) }
   .db-row.bad .db-bar i{ background:var(--danger) } .db-row.bad .db-note{ color:var(--danger) }
   @media (max-width:560px){ .db-row{ grid-template-columns:18px minmax(0,1fr) 44px; } .db-bar,.db-note{ display:none } }
+
+  /* Interruption alarm: something is happening to the learner right now and
+     they have to break off and deal with it. Deliberately loud, deliberately
+     not where the step cue is, and it carries its own clock. */
+  #alarm{ position:fixed; left:50%; top:96px; transform:translateX(-50%);
+    width:min(560px,92vw); z-index:60; pointer-events:none;
+    background:linear-gradient(180deg,rgba(60,14,10,.97),rgba(34,10,8,.97));
+    border:2px solid var(--danger); border-radius:14px; padding:14px 18px 12px;
+    box-shadow:0 18px 48px rgba(0,0,0,.55), 0 0 0 4px rgba(240,100,91,.14);
+    animation:alarmIn .18s ease-out; }
+  #alarm[hidden]{ display:none; }
+  #alarm .alarm-head{ display:flex; align-items:baseline; gap:10px;
+    font:700 13px/1 "Barlow Condensed",system-ui,sans-serif; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--danger); }
+  #alarm .alarm-left{ margin-left:auto; font-variant-numeric:tabular-nums; color:#ffd9d4; }
+  #alarm .alarm-body{ margin-top:7px; font-size:15px; line-height:1.4; color:#ffeae7; }
+  #alarm .alarm-cue{ margin-top:6px; font-size:13px; color:#ffbdb5; }
+  #alarm .alarm-bar{ margin-top:10px; height:5px; border-radius:3px;
+    background:rgba(255,255,255,.14); overflow:hidden; }
+  #alarm .alarm-fill{ height:100%; width:100%; background:var(--danger);
+    transition:width .12s linear; }
+  @keyframes alarmIn{ from{ opacity:0; transform:translateX(-50%) translateY(-8px) } to{ opacity:1 } }
+  @media (prefers-reduced-motion:reduce){ #alarm{ animation:none } }
 </style>
 </head>
 <body>
@@ -259,6 +282,14 @@
 </div>
 
 <div id="hud-hint">WASD move · drag look · click act · M mute · ESC hub</div>
+
+<div id="alarm" hidden role="alert" aria-live="assertive">
+  <div class="alarm-head"><span id="alarm-kind">Interruption</span><span class="alarm-left" id="alarm-left">12s</span></div>
+  <div class="alarm-body" id="alarm-body"></div>
+  <div class="alarm-cue" id="alarm-cue">Deal with it now — the procedure can wait.</div>
+  <div class="alarm-bar"><div class="alarm-fill" id="alarm-fill"></div></div>
+</div>
+
 <div id="gesture-tip"></div>
 
 <button id="voice-btn" hidden title="Voice — say a room name, &quot;hub,&quot; &quot;reset,&quot; &quot;hint,&quot; &quot;brief,&quot; &quot;status,&quot; or &quot;help&quot;">🎙 Voice</button>
@@ -1271,6 +1302,11 @@ const STEP_POINTS = 100;
 const WRONG_STEP_PENALTY = 25;
 const HAZARD_PENALTY = 50;
 const MAX_COMBO = 2.0;
+// Noticing an interruption while task-loaded is worth more than a step,
+// because it is the harder thing and the one nobody practises. Answering
+// quickly is worth more again — the whole measure is how long you took.
+const INTERRUPT_POINTS = 120;
+const INTERRUPT_SPEED_BONUS = 60;
 
 // Named combo tiers — the HUD shows the label, not just the multiplier, so a
 // hot streak reads as a game feel moment rather than an accounting detail.
@@ -1590,6 +1626,12 @@ class Session {
     this.gaugeScores = [];    // 0..1 accuracy for each graded skill step
     this.holdBreaks = 0;      // timed steps released early
     this.earned = [];         // per-sim badges and challenges cleared this run
+    // Interruptions: things that happen TO the learner mid-procedure and have
+    // to be noticed and answered while they are busy with something else. See
+    // armInterrupt() below for why this is its own layer and not a step.
+    this.interrupts = (room.interrupts ?? []).map((i) => ({ ...i, fired: false, resolved: null }));
+    this.activeInterrupt = null;
+    this.interruptLog = [];
   }
 
   /** Mean accuracy across graded steps, 0 when the run had none. */
@@ -1639,6 +1681,8 @@ class Session {
     this.track = null;
     this.turn = null;
     if (!step) return;
+    // Anything scheduled to interrupt this step starts its fuse now.
+    this.armInterrupt(step.id);
     if (step.kind === "track") {
       const cfg = step.track ?? {};
       this.track = {
@@ -1679,6 +1723,9 @@ class Session {
   /** Player selected an interactable by id. Returns a feedback record. */
   select(hitId) {
     if (this.finished || !this.step) return null;
+    // A live alarm takes the next thing the learner touches. That is the
+    // whole exercise: break off what you are doing and deal with it.
+    if (this.activeInterrupt) return this.resolveInterrupt(hitId);
     const step = this.step;
 
     if (step.kind === "sequence") return this.selectInSequence(hitId, step);
@@ -1883,9 +1930,130 @@ class Session {
     return feedback;
   }
 
+  /**
+   * Interruptions.
+   *
+   * Every step kind in this engine asks the same question: do you know what
+   * comes next. That is worth assessing and it is not what gets people hurt.
+   * What gets people hurt is the thing that happens while they are busy —
+   * somebody walks into the exclusion zone, a reading drifts out of band, the
+   * permit runs out, the radio calls — and the crew is too task-loaded to
+   * notice for thirty seconds.
+   *
+   * So an interruption is not a step. It arrives unannounced partway through
+   * a step the learner is already working, it runs on its own clock, and the
+   * learner has to break off, deal with it, and come back. The procedure
+   * underneath is untouched: the same steps in the same order, still scored
+   * the same way. What changes is whether you were paying attention.
+   *
+   * A station declares them as:
+   *
+   *   interrupts: [{
+   *     id, after: "<stepId>", delay: 4,     // fires 4s into that step
+   *     alert: "...",                        // what the learner sees or hears
+   *     target: "<hitId>",                   // the right response
+   *     seconds: 12,                         // how long they have
+   *     why: "...",                          // why that is the right response
+   *     missNote: "...",                     // the consequence of not acting
+   *     wrongNote: "...",                    // optional, for the wrong control
+   *   }]
+   *
+   * Scoring is deliberately asymmetric. Answering correctly is worth real
+   * points because noticing is the skill. Missing it entirely counts as an
+   * unsafe action, not an ordinary mistake, because in every case the thing
+   * that went unanswered was a safety condition — and that means it lands on
+   * hazardHits, which is what the pass rule and the badges key off.
+   */
+  armInterrupt(stepId) {
+    for (const it of this.interrupts) {
+      if (!it.fired && it.after === stepId) {
+        it.armedAt = this.elapsed + (it.delay ?? 3);
+      }
+    }
+  }
+
+  tickInterrupts(dt) {
+    void dt;
+    // Fire anything whose moment has come, one at a time — two alarms at once
+    // is a different exercise and not one this engine claims to run.
+    if (!this.activeInterrupt) {
+      const due = this.interrupts.find((i) => !i.fired && i.armedAt != null && this.elapsed >= i.armedAt);
+      if (due) {
+        due.fired = true;
+        due.firedAt = this.elapsed;
+        this.activeInterrupt = due;
+        Sfx.alarm();
+        this.hooks.onInterrupt?.(due, this);
+      }
+    }
+    const it = this.activeInterrupt;
+    if (!it) return;
+    it.left = Math.max(0, (it.firedAt + (it.seconds ?? 12)) - this.elapsed);
+    if (it.left <= 0) this.resolveInterrupt(null);
+  }
+
+  /** The learner answered an interruption, or ran out of time (hitId null). */
+  resolveInterrupt(hitId) {
+    const it = this.activeInterrupt;
+    if (!it) return null;
+    this.activeInterrupt = null;
+    const took = Math.round((this.elapsed - it.firedAt) * 10) / 10;
+    const ok = hitId === it.target;
+    it.resolved = ok ? "answered" : hitId ? "wrong" : "missed";
+    this.interruptLog.push({ id: it.id, alert: it.alert, outcome: it.resolved, seconds: took });
+
+    let feedback;
+    if (ok) {
+      // Answering fast is worth more, because the whole point is how long it
+      // took you to notice.
+      const speed = Math.max(0, 1 - took / (it.seconds ?? 12));
+      const points = INTERRUPT_POINTS + Math.round(speed * INTERRUPT_SPEED_BONUS);
+      this.score += points;
+      feedback = { kind: "ok", text: `<b>+${points} — Caught it</b><br>${it.why}`, speech: `Caught it. ${it.why}`, points };
+      Sfx.great();
+    } else {
+      // Both a wrong answer and no answer are unsafe actions: the condition
+      // that raised the alarm is still there either way.
+      this.score = Math.max(0, this.score - HAZARD_PENALTY);
+      this.streak = 0;
+      this.errors += 1;
+      this.stepErrors += 1;
+      this.stepHazards += 1;
+      this.hazardHits += 1;
+      const body = hitId ? (it.wrongNote ?? it.missNote) : it.missNote;
+      const label = hitId ? "Wrong response" : "Missed it";
+      feedback = {
+        kind: "danger",
+        text: `<b>−${HAZARD_PENALTY} — ${label}</b><br>${body}`,
+        speech: `${label}. ${body}`,
+        hazard: true,
+      };
+      Sfx.alarm();
+      this.hooks.onHazard?.(it.target, this);
+    }
+    this.hooks.onInterruptEnd?.(it, this);
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  /** How the run handled its interruptions, for the debrief and the record. */
+  interruptSummary() {
+    const log = this.interruptLog;
+    if (!log.length) return null;
+    return {
+      total: this.interrupts.length,
+      answered: log.filter((l) => l.outcome === "answered").length,
+      wrong: log.filter((l) => l.outcome === "wrong").length,
+      missed: log.filter((l) => l.outcome === "missed").length,
+      slowest: [...log].sort((a, b) => b.seconds - a.seconds)[0] ?? null,
+      log,
+    };
+  }
+
   tick(dt) {
     if (this.finished) return;
     this.elapsed += dt;
+    this.tickInterrupts(dt);
     const step = this.step;
     if (!step) return;
 
@@ -1941,7 +2109,7 @@ class Session {
    */
   debrief() {
     const steps = this.stepLog;
-    if (!steps.length) return { steps: [], cleanSteps: 0, totalSteps: this.steps.length, slowest: null, worst: null, medianSeconds: 0 };
+    if (!steps.length) return { steps: [], cleanSteps: 0, totalSteps: this.steps.length, slowest: null, worst: null, medianSeconds: 0, interrupts: this.interruptSummary() };
     const byTime = [...steps].sort((a, b) => b.seconds - a.seconds);
     const byTrouble = [...steps].sort((a, b) => (b.hazards * 10 + b.corrections) - (a.hazards * 10 + a.corrections));
     const sorted = [...steps].map((s) => s.seconds).sort((a, b) => a - b);
@@ -1950,6 +2118,7 @@ class Session {
       steps,
       totalSteps: this.steps.length,
       cleanSteps: steps.filter((s) => s.clean).length,
+      interrupts: this.interruptSummary(),
       slowest: byTime[0] ?? null,
       worst: byTrouble[0]?.corrections || byTrouble[0]?.hazards ? byTrouble[0] : null,
       medianSeconds: sorted.length % 2 ? sorted[mid] : Math.round(((sorted[mid - 1] + sorted[mid]) / 2) * 10) / 10,
@@ -2202,6 +2371,16 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
             [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
               id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
             })),
+            // Interruptions are assessed separately from the procedure: an
+            // LRS should be able to ask "who misses alarms" without unpicking
+            // the step log to find out.
+            ...(r.debrief.interrupts ? {
+              [ext("interrupts-caught")]: r.debrief.interrupts.answered,
+              [ext("interrupts-missed")]: r.debrief.interrupts.missed + r.debrief.interrupts.wrong,
+              [ext("interrupt-log")]: r.debrief.interrupts.log.map((l) => ({
+                id: l.id, outcome: l.outcome, seconds: l.seconds,
+              })),
+            } : {}),
           } : {}),
           [ext("par-seconds")]: r.parSeconds ?? null,
           [ext("badges")]: r.badges ?? [],
@@ -3353,6 +3532,24 @@ const ROOM_ELECTRICAL = {
     "test-l3": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
     "ground-cluster": "Grounds go on after the circuit is proven dead, not before — applying them to a live conductor is a bolted fault.",
   },
+
+
+  // Interruptions: see shared/game.js. The one that matters on a live-dead-live
+  // job is not a step you can get wrong, it is a condition that changes behind
+  // you while your hands and eyes are on the meter.
+  interrupts: [
+    {
+      id: "lock-missing",
+      kind: "Isolation breach",
+      after: "test-dead", delay: 4, seconds: 13,
+      alert: "Your lock is off the handle. Somebody has taken it off the hasp while you were testing.",
+      cue: "Stop testing. That isolation is not yours until your lock is back on it.",
+      target: "lock-station",
+      why: "A personal lock is the one thing between you and somebody else's hand on that handle. It goes back on first, and then you find out who took it off and why.",
+      missNote: "You carried on working inside a panel you no longer had locked out. That is the sequence behind most re-energisation fatalities: the isolation was correct once, and nobody looked at it again.",
+      wrongNote: "The lock is the problem. Nothing else in this room is worth touching while that hasp is open.",
+    },
+  ],
 
   steps: [
     {
@@ -5119,6 +5316,36 @@ const ROOM_WELDING = {
     "welder-dial": "Set the machine after the work is earthed — a live return path through the bench is not a return path.",
     "fire-extinguisher": "The watch starts when the arc stops. There is still work in front of you.",
   },
+
+
+  // Interruptions: things that happen to the welder while they are busy, and
+  // have to be noticed and answered on their own clock. See the interrupt
+  // layer in shared/game.js — they are not steps and they do not change the
+  // procedure, they test whether you were paying attention while running it.
+  interrupts: [
+    {
+      id: "extraction-trips",
+      kind: "Plant alarm",
+      after: "amps", delay: 5, seconds: 14,
+      alert: "The fume extraction has tripped out. The hood is dead and the fan noise has stopped.",
+      cue: "The arc is not lit yet. Put it right before it is.",
+      target: "fume-arm",
+      why: "Extraction goes back on before the arc does. Manganese and hexavalent chromium do their damage over a career and a hood that is off looks exactly like a hood that is on.",
+      missNote: "You set the machine and welded with dead extraction. The fume goes straight up inside your hood for the whole bead, and that is the exposure nobody notices happening.",
+      wrongNote: "That is not what tripped. The extraction is off, and nothing else on this bench matters until the fan is running again.",
+    },
+    {
+      id: "blanket-slipped",
+      kind: "Fire watch",
+      after: "bead", delay: 6, seconds: 12,
+      alert: "The fire blanket has slipped off the conduit run and sparks are landing on bare cable.",
+      cue: "Put the arc down and re-cover it.",
+      target: "fire-blanket",
+      why: "Anything that cannot leave the radius stays covered for the whole job, not just at the start. Re-covering it costs ten seconds.",
+      missNote: "You welded on with the run uncovered. A spark lodged in the insulation and smouldered; the fire started hours after everyone had gone home, which is the exact thing the fire watch exists to prevent.",
+      wrongNote: "The sparks are landing on the conduit run. Cover it — everything else on this job can wait ten seconds.",
+    },
+  ],
 
   steps: [
     {
@@ -7289,6 +7516,39 @@ function setRail(kind, html) {
   vrHudDirty = true;
 }
 
+
+// ---------------------------------------------------- interruption alarm
+// An interruption arrives mid-step and runs on its own clock (see the
+// interrupt layer in shared/game.js). It gets its own loud banner rather
+// than the feedback rail, because the whole point is that it is not part of
+// the step the learner is working on.
+const alarmEl = {
+  root: document.getElementById("alarm"),
+  kind: document.getElementById("alarm-kind"),
+  left: document.getElementById("alarm-left"),
+  body: document.getElementById("alarm-body"),
+  cue: document.getElementById("alarm-cue"),
+  fill: document.getElementById("alarm-fill"),
+};
+function showAlarm(it) {
+  if (!alarmEl.root) return;
+  alarmEl.kind.textContent = it.kind ?? "Interruption";
+  alarmEl.body.textContent = it.alert ?? "";
+  alarmEl.cue.textContent = it.cue ?? "Deal with it now — the procedure can wait.";
+  alarmEl.left.textContent = `${Math.ceil(it.seconds ?? 12)}s`;
+  alarmEl.fill.style.width = "100%";
+  alarmEl.root.hidden = false;
+}
+function hideAlarm() { if (alarmEl.root) alarmEl.root.hidden = true; }
+function syncAlarm(s) {
+  const it = s?.activeInterrupt;
+  if (!it || !alarmEl.root || alarmEl.root.hidden) return;
+  const total = it.seconds ?? 12;
+  const left = Math.max(0, it.left ?? total);
+  alarmEl.left.textContent = `${Math.ceil(left)}s`;
+  alarmEl.fill.style.width = `${Math.max(0, (left / total) * 100).toFixed(1)}%`;
+}
+
 function syncHud() {
   const s = state.session;
   if (!s) {
@@ -7569,6 +7829,14 @@ function enterRoom(id, { briefed = false } = {}) {
       state.api.onStepComplete?.(step, s);
       Platform.progress({ room: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
+    onInterrupt: (it, s) => {
+      showAlarm(it);
+      srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
+      kbCursor.set(targetsForStep({ target: it.target }));
+      void s;
+    },
+    onInterruptEnd: () => { hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
@@ -7694,9 +7962,24 @@ function renderDebrief(s) {
   const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
   const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
   const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  // Interruptions get their own lines: they are the part of the run that was
+  // not on the procedure, and how long you took to notice is the whole score.
+  const iv = d.interrupts;
+  const ivRows = iv ? iv.log.map((l) => {
+    const tone = l.outcome === "answered" ? "ok" : "bad";
+    const label = l.outcome === "answered" ? `caught in ${l.seconds.toFixed(1)}s`
+      : l.outcome === "wrong" ? "wrong response" : "missed it";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">!</span>
+      <span class="db-title">${escapeHtml(l.alert ?? l.id)}</span>
+      <span class="db-note">${label}</span>
+    </li>`;
+  }).join("") : "";
+  const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
+    <ol class="db-list">${ivRows}</ol>` : "";
   return `<details class="debrief" open>
     <summary>Step-by-step debrief — ${head}</summary>
-    <ol class="db-list">${rows}</ol>${slow}${bad}
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}
   </details>`;
 }
 
@@ -8488,6 +8771,7 @@ renderer.setAnimationLoop(() => {
     else desktopMove(dt);
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
+      syncAlarm(state.session);
       if (state.session.step?.kind === "hold") syncHud();
     }
   }
