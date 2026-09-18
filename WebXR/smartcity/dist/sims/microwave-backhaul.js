@@ -221,7 +221,7 @@ export const SIM_MICROWAVE_BACKHAUL = {
     // Fall protection: anchor, harness on a rail, tool bag.
     const anchor = group(g, 1.0, 0.1, -1.2);
     cyl(anchor, 0.09, 0.11, 0.14, 0, 0.07, 0, 0x59636d, { rough: 0.6, metal: 0.6, seg: 14 });
-    const dRing = cyl(anchor, 0.06, 0.012, 0, 0.18, 0, 0xf2c14b, { rough: 0.4, metal: 0.8, seg: 8 });
+    const dRing = cyl(anchor, 0.06, 0.012, 0.03, 0, 0.18, 0, 0xf2c14b, { rough: 0.4, metal: 0.8, seg: 8 });
     holoTag(anchor, "certified roof anchor", 0, 0.42, 0, { css: "#5fd3c8", w: 0.4 });
     reg(hits, anchor, "anchor-point");
     void dRing;

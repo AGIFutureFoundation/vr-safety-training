@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const CHECKERS = [
   "check_smartcity.mjs", "check_trades.mjs", "check_holodeck.mjs",
-  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_robot.mjs", "check_platform.mjs", "check_lti.mjs", "check_orbis_stable.mjs", "check_verify.mjs", "check_observer.mjs", "check_a11y.mjs", "check_budget.mjs",
+  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_robot.mjs", "check_platform.mjs", "check_lti.mjs", "check_orbis_stable.mjs", "check_verify.mjs", "check_observer.mjs", "check_a11y.mjs", "check_budget.mjs", "check_layout.mjs",
 ];
 
 let failed = 0;

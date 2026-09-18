@@ -263,7 +263,7 @@ export const SIM_CONFINED_RESCUE = {
     const harness = box(kit, 0.24, 0.1, 0.2, -0.2, 0.55, 0, 0xf2c14b, { rough: 0.8 });
     holoTag(kit, "rescue harness", -0.2, 0.75, 0, { css: "#f07a4b", w: 0.3 });
     reg(hits, harness, "rescue-harness");
-    const clip = cyl(kit, 0.05, 0.012, 0.22, 0.55, 0, 0xb9bec4, { rough: 0.4, metal: 0.8, seg: 8 });
+    const clip = cyl(kit, 0.05, 0.012, 0.22, 0.22, 0.55, 0, 0xb9bec4, { rough: 0.4, metal: 0.8, seg: 8 });
     holoTag(kit, "patient clip", 0.22, 0.75, 0, { css: "#f07a4b", w: 0.26 });
     reg(hits, clip, "patient-clip");
     const stretcher = group(g, 2.5, 0.1, 1.5, -0.4);
