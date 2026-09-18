@@ -164,6 +164,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "chain-hoist", why: "Motors: inspection, capacity and never leaving a load hanging on a brake." },
     ],
   },
+  {
+    id: "situational-awareness",
+    name: "Situational Awareness — Interruption Drill",
+    union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
+    certification: "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+    summary: "Nine procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+    accent: "#f0645b",
+    stations: [
+      { app: "trades", id: "electrical", why: "Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again." },
+      { app: "trades", id: "welding", why: "Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead." },
+      { app: "smartcity", id: "trench-box", why: "Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path." },
+      { app: "smartcity", id: "crane-yard", why: "Somebody cutting through the swing radius to save walking round, and a pad settling out of level with the load in the air." },
+      { app: "smartcity", id: "chlorine-room", why: "The room monitor alarming mid-changeout — real until proven otherwise — and an unprotected attendant in an open door during a leak test." },
+      { app: "smartcity", id: "confined-rescue", why: "The atmosphere falling while you rig, and the attendant leaving the hole to help on the rope during the haul." },
+      { app: "smartcity", id: "substation-switching", why: "An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order." },
+      { app: "smartcity", id: "airport-ramp", why: "A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks." },
+      { app: "smartcity", id: "fire-pump", why: "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow." },
+    ],
+  },
 ];
 
 /**
@@ -176,7 +195,23 @@ export function curriculumProgress(curriculum, records = []) {
   const stations = curriculum.stations.map((s) => ({ ...s, done: passed.has(s.id) }));
   const done = stations.filter((s) => s.done).length;
   const next = stations.find((s) => !s.done) ?? null;
+  // How the learner has handled the interruptions in this programme's
+  // stations. A block built on noticing things needs to be reportable on
+  // noticing things, not only on whether the procedure underneath was passed.
+  const ids = new Set(curriculum.stations.map((s) => s.id));
+  let caught = 0, dropped = 0, runs = 0;
+  for (const r of records) {
+    const iv = r.debrief?.interrupts;
+    if (!iv || !ids.has(r.simId)) continue;
+    runs += 1;
+    caught += iv.answered | 0;
+    dropped += (iv.missed | 0) + (iv.wrong | 0);
+  }
+  const attention = runs
+    ? { runs, caught, dropped, pct: caught + dropped ? Math.round((caught / (caught + dropped)) * 100) : null }
+    : null;
   return {
+    attention,
     id: curriculum.id, name: curriculum.name, union: curriculum.union,
     certification: curriculum.certification, summary: curriculum.summary, accent: curriculum.accent,
     stations, done, total: stations.length,

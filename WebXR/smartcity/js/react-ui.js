@@ -284,6 +284,14 @@ export function mountUI(store, actions) {
             h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
           h("div", { className: "prog-bar" }, h("span", { style: { width: `${p.pct}%` } })),
           h("p", { className: "prog-summary" }, p.summary),
+          // A programme whose stations interrupt the learner reports on that
+          // separately: passing the procedure and noticing the alarm are two
+          // different competencies and a training director wants both.
+          p.attention && h("p", { className: "prog-attention" },
+            h("b", null, "Attention: "),
+            p.attention.pct == null
+              ? `${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}, no interruptions reached yet.`
+              : `${p.attention.caught} of ${p.attention.caught + p.attention.dropped} interruptions caught (${p.attention.pct}%) across ${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}.`),
           h("p", { className: "prog-cert" }, p.certification),
           h("ol", { className: "prog-steps" }, p.stations.map((s) => h("li", {
             key: `${s.app}:${s.id}`, className: s.done ? "done" : "",

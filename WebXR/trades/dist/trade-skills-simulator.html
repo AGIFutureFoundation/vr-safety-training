@@ -1189,6 +1189,56 @@ function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 }
 
 /** Seated human stand-in: client in a salon chair, patient in a draw chair. */
+/**
+ * A standing person, with the parts a trade needs to pose them: the head and
+ * both arms are their own groups, so a room can have somebody looking at a
+ * bench, holding a tool, or turning to talk to you.
+ *
+ * Pose first, then call mergeStatic(fig.root, { local: true }) if the figure
+ * only has to move as a whole — that takes it from about twenty meshes to
+ * three and it still walks, turns and bobs.
+ */
+function standingPerson(parent, x, z, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const skin = o.skin ?? 0xc99878;
+  const cloth = o.cloth ?? 0x37505f;
+  const legs = o.legs ?? 0x2f3740;
+  const torso = group(g, 0, 0, 0);
+  box(torso, 0.4, 0.54, 0.24, 0, 1.12, 0, cloth, { rough: 0.9 });
+  box(torso, 0.36, 0.16, 0.24, 0, 0.8, 0, legs, { rough: 0.9 });
+  for (const sx of [-1, 1]) {
+    cyl(torso, 0.07, 0.06, 0.78, sx * 0.11, 0.38, 0, legs, { rough: 0.9, seg: 10 });
+    box(torso, 0.11, 0.07, 0.24, sx * 0.11, 0.035, 0.05, o.boots ?? 0x1b1e22, { rough: 0.85 });
+  }
+  const head = group(torso, 0, 1.52, 0);
+  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 18 });
+  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });
+  cyl(torso, 0.05, 0.055, 0.12, 0, 1.4, 0, skin, { rough: 0.75, seg: 12 });
+  if (o.hat) {
+    // A dome sitting on the top of the head with a brim, not a sphere the
+    // same size as the head — at r=0.135 centred on the skull it swallowed
+    // the face and the figure read as a person with an orange ball for a head.
+    const shell = ball(head, 0.125, 0, 0.055, 0, o.hat, { rough: 0.5, seg: 14 });
+    shell.scale.y = 0.62;
+    cyl(head, 0.175, 0.175, 0.018, 0, 0.022, 0.005, o.hat, { rough: 0.5, seg: 16 });
+  }
+  if (o.hiVis !== false) {
+    // The band that makes somebody visible across a shop, which is the point
+    // of putting them in the room at all.
+    box(torso, 0.42, 0.07, 0.26, 0, 1.2, 0, o.vis ?? 0xd8e33a, { rough: 0.7, emissive: o.vis ?? 0xd8e33a, ei: 0.25 });
+  }
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    const shoulder = group(torso, sx * 0.235, 1.34, 0);
+    cyl(shoulder, 0.05, 0.045, 0.32, 0, -0.16, 0, cloth, { rough: 0.9, seg: 10 });
+    const fore = group(shoulder, 0, -0.32, 0);
+    cyl(fore, 0.042, 0.038, 0.3, 0, -0.14, 0, skin, { rough: 0.75, seg: 10 });
+    ball(fore, 0.045, 0, -0.3, 0, skin, { rough: 0.75, seg: 10 });
+    arms.push({ shoulder, fore });
+  }
+  return { root: g, torso, head, arms };
+}
+
 function seatedFigure(parent, x, y, z, o = {}) {
   const g = group(parent, x, y, z, o.ry ?? 0);
   const skin = o.skin ?? 0xc99878;
@@ -3327,6 +3377,67 @@ function wallReel(parent, x, z, ry, o = {}) {
   return g;
 }
 
+// --------------------------------------------------------------- the crew
+
+/**
+ * Somebody else in the bay.
+ *
+ * The rooms got bigger and got furniture and were still empty of people. A
+ * trade is not a solo activity — there is always somebody at the next bench,
+ * and a learner being assessed on working safely around other people should be
+ * able to see one. None of them is interactive and none is a hazard: the
+ * procedure is unchanged.
+ *
+ * `task` poses the arms for what they are doing. The figure is then baked in
+ * local space, so it is three meshes that still shift their weight and glance
+ * about — see mergeStatic's `local` mode in shared/kit.js.
+ */
+function bayCrew(parent, x, z, ry, o = {}) {
+  const p = standingPerson(parent, x, z, { ry, cloth: o.cloth, legs: o.legs, skin: o.skin, hat: o.hat, vis: o.vis, hiVis: o.hiVis });
+  const [left, right] = p.arms;
+  switch (o.task) {
+    case "bench":       // both hands down at a bench in front of them
+      left.shoulder.rotation.x = -0.85; left.fore.rotation.x = -0.55;
+      right.shoulder.rotation.x = -0.9; right.fore.rotation.x = -0.5;
+      break;
+    case "overhead":    // reaching up at something on a rack or a run
+      right.shoulder.rotation.x = -2.5; right.fore.rotation.x = 0.4;
+      left.shoulder.rotation.x = -0.35;
+      break;
+    case "clipboard":   // holding a board and reading it
+      left.shoulder.rotation.x = -1.2; left.fore.rotation.x = -1.1;
+      right.shoulder.rotation.x = -1.0; right.fore.rotation.x = -1.2;
+      box(p.torso, 0.24, 0.3, 0.02, 0.06, 1.05, 0.3, 0xdfe6ec, { rough: 0.8 });
+      break;
+    case "carry":       // one arm down with weight in it
+      right.shoulder.rotation.z = -0.12;
+      box(p.torso, 0.3, 0.22, 0.2, 0.3, 0.72, 0.02, o.load ?? 0x8a7a5e, { rough: 0.9 });
+      break;
+    default:            // just standing, watching
+      left.shoulder.rotation.x = -0.1; right.shoulder.rotation.x = -0.1;
+  }
+  mergeStatic(p.root, { local: true });
+  // Tagged so tools/check_layout.mjs can insist a person is standing in the
+  // room rather than inside the bench — which is exactly what happened the
+  // first time these were placed by hand.
+  p.root.userData.crew = true;
+  p.root.userData.phase = Math.random() * Math.PI * 2;
+  p.root.userData.home = ry;
+  return p.root;
+}
+
+/**
+ * Give a list of crew the small, constant motion that separates a person from
+ * a mannequin. Drive it from the room's animate().
+ */
+function breatheCrew(list, t) {
+  for (const c of list) {
+    const ph = c.userData.phase ?? 0;
+    c.rotation.y = (c.userData.home ?? 0) + Math.sin(t * 0.3 + ph) * 0.14;
+    c.position.y = Math.sin(t * 1.1 + ph) * 0.011;
+  }
+}
+
 
 /* ===== trades/js/hub.js ===== */
 // The hub: a round atrium with one doorway per trade. Each doorway carries the
@@ -3897,6 +4008,13 @@ const ROOM_ELECTRICAL = {
     spillStation(fixed, W / 2 - 1.3, 4.0, -0.9);
     wasteBin(fixed, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
 
+    // A second sparks at the spares racking and a supervisor holding the
+    // switching order — the person whose lock is the other one on the hasp.
+    const crew = [
+      bayCrew(root, 5.2, -1.2, -1.34, { task: "overhead", cloth: 0x2f4a63, hat: 0xf2f2f2, vis: 0xd8e33a }),
+      bayCrew(root, 4.4, 4.4, -2.36, { task: "clipboard", cloth: 0x37505f, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
@@ -3933,6 +4051,8 @@ const ROOM_ELECTRICAL = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         // Energised bus hums with a faint emissive pulse until it is opened.
         const pulse = energised ? 0.5 + 0.5 * Math.sin(t * 5) : 0;
         stateLamp.material.emissiveIntensity = energised ? 1.6 + pulse * 1.4 : 2.2;
@@ -4345,6 +4465,12 @@ const ROOM_SALON = {
     noticeBoard(fixed, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
     wasteBin(fixed, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
+    // A colleague working the second station and somebody at the back bar.
+    const crew = [
+      bayCrew(root, 4.3, 3.1, -2.19, { task: "bench", cloth: 0x2b2f36, legs: 0x1e2126, hiVis: false, skin: 0xd9a985 }),
+      bayCrew(root, -3.3, -4.9, 0.59, { task: "overhead", cloth: 0x6b4a5e, legs: 0x1e2126, hiVis: false }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
@@ -4379,6 +4505,8 @@ const ROOM_SALON = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         chairSpin.rotation.y = Math.sin(t * 0.22) * 0.12;
         client.head.rotation.y = Math.sin(t * 0.35) * 0.14;
         client.head.rotation.x = Math.sin(t * 0.5) * 0.04;
@@ -4800,6 +4928,13 @@ const ROOM_KITCHEN = {
     wasteBin(fixed, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
     spillStation(fixed, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
 
+    // A second cook on the line and a porter carrying stock through. A
+    // kitchen with one person in it is not a kitchen.
+    const crew = [
+      bayCrew(root, 2.7, 0.7, -1.81, { task: "bench", cloth: 0xf2f2f2, legs: 0x2b3138, hiVis: false, hat: 0xf2f2f2 }),
+      bayCrew(root, -4.1, -2.9, 0.95, { task: "carry", cloth: 0xdfe6ec, legs: 0x2b3138, hiVis: false, load: 0xc9bfa8 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
@@ -4844,6 +4979,8 @@ const ROOM_KITCHEN = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         hoodFan.rotation.y += dt * 5.5;
         // Running water while the learner is actually at the sink scrubbing.
         const washing = session?.step?.id === "handwash" && session.holding;
@@ -5230,6 +5367,12 @@ const ROOM_PHLEBOTOMY = {
     spillStation(fixed, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
     wasteBin(fixed, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
+    // A second phlebotomist at the consumables shelving. The patient is
+    // already in the chair; this is the colleague who checks your labels.
+    const crew = [
+      bayCrew(root, -5.3, 2.7, 2.04, { task: "overhead", cloth: 0x4aa6a0, legs: 0xdfe6ec, hiVis: false, skin: 0xb98a63 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
@@ -5275,6 +5418,8 @@ const ROOM_PHLEBOTOMY = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         patient.head.rotation.y = -0.2 + Math.sin(t * 0.4) * 0.1;
         patient.torso.position.y = Math.sin(t * 1.05) * 0.005;
 
@@ -5752,6 +5897,13 @@ const ROOM_WELDING = {
     noticeBoard(fixed, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
     wallReel(fixed, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
 
+    // Another welder screened off in the next bay, and a fitter at the side
+    // bench. You are not the only person in this shop.
+    const crew = [
+      bayCrew(root, 3.9, -0.5, -1.43, { task: "bench", cloth: 0x3d4a52, hat: 0xf2c14b, vis: 0xd8e33a }),
+      bayCrew(root, 5.1, -3.7, -0.94, { task: "bench", cloth: 0x5a5245, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
@@ -5806,6 +5958,8 @@ const ROOM_WELDING = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         if (extractionOn) fumeFan.rotation.y += dt * 7;
         fumeLamp.material.emissiveIntensity = 1.4 + Math.sin(t * 3) * 0.5;
 
@@ -6145,6 +6299,13 @@ const ROOM_DEVOPS = {
     wasteBin(fixed, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
     shopFan(fixed, -4.0, 0.8, 1.0, { tilt: 0.15 });
 
+    // A second engineer at the console bench and somebody on the crash cart
+    // in the cold aisle. A change window is never one person.
+    const crew = [
+      bayCrew(root, 2.7, -2.9, -0.74, { task: "bench", cloth: 0x2f4a63, legs: 0x252d35, hiVis: false }),
+      bayCrew(root, -5.3, 4.3, 2.25, { task: "clipboard", cloth: 0x39424b, legs: 0x252d35, hiVis: false }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
@@ -6166,6 +6327,8 @@ const ROOM_DEVOPS = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         killButton.material.emissiveIntensity = 1.0 + 0.5 * Math.sin(t * 3);
 
         const g = session?.gauge;
@@ -6515,6 +6678,12 @@ const ROOM_PLUMBING = {
     noticeBoard(fixed, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
     shopFan(fixed, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
+    // A mate on the copper racking and an apprentice at the side bench.
+    const crew = [
+      bayCrew(root, -5.7, 0.4, 1.64, { task: "overhead", cloth: 0x4a6b52, hat: 0xdd7a2f, vis: 0xd8e33a }),
+      bayCrew(root, 3.9, 3.2, -2.26, { task: "bench", cloth: 0x6b6255, hat: 0xf2c14b, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
@@ -6562,6 +6731,8 @@ const ROOM_PLUMBING = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         if (session?.step?.id === "bleed") {
           bleeding = true;
           drip.visible = true;
@@ -6952,6 +7123,13 @@ const ROOM_PRESSURE_WASHER = {
     sideBench(fixed, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
     noticeBoard(fixed, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
+    // A second operative on the reels and a banksman keeping the wash area
+    // clear — containment only works if somebody is holding the line.
+    const crew = [
+      bayCrew(root, -3.7, 3.9, 2.38, { task: "overhead", cloth: 0x2f7fb0, hat: 0xf2c14b, vis: 0xd8e33a }),
+      bayCrew(root, 1.1, -5.7, -0.19, { task: "clipboard", cloth: 0x3d4a52, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
@@ -7000,6 +7178,8 @@ const ROOM_PRESSURE_WASHER = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         const step = session?.step;
         spraying = !!(step && (step.id === "coverage") && session.holding);
         vacRunning = !!(step && step.id === "recovery" && session.holding);
@@ -7397,6 +7577,13 @@ const ROOM_PAINT_SPRAYER = {
     noticeBoard(fixed, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
     shopFan(fixed, -4.4, 1.2, 0.9, { tilt: 0.28 });
 
+    // A masker working the far wall and a mixer at the bench, both in the
+    // same respiratory protection the learner is being assessed on.
+    const crew = [
+      bayCrew(root, -4.9, -3.2, 0.99, { task: "overhead", cloth: 0xd8d0c0, legs: 0x8a7f6a, hiVis: false, hat: 0xf2f2f2 }),
+      bayCrew(root, 5.1, 2.8, -2.07, { task: "bench", cloth: 0xd8d0c0, legs: 0x8a7f6a, hiVis: false, hat: 0xf2f2f2 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
@@ -7438,6 +7625,8 @@ const ROOM_PAINT_SPRAYER = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         const step = session?.step;
         const spraying = !!(step && step.id === "coverage" && session.holding);
         if (spraying) {

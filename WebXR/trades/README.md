@@ -44,6 +44,28 @@ as a full ordered procedure with proving-unit verification.
   flares and is smothered, the bead glows and cools, extraction fans spin up,
   the canary dial and promote lever turn under a live error-rate readout.
 
+## Somebody else in the bay
+
+The rooms got bigger, got furniture, and were still empty of people. A trade is not a solo
+activity — there is always somebody at the next bench — and a learner being assessed on working
+safely around other people was being shown a world with no other people in it.
+
+`bayCrew()` in `js/shopfit.js` puts one or two in each bay, doing what that trade's second pair
+of hands does: another welder screened off in the next bay, a mate up at the copper racking, a
+second cook on the line and a porter carrying stock through, a masker working the far wall, the
+supervisor holding the switching order whose lock is the other one on the hasp. They shift their
+weight and glance about rather than standing like mannequins. None is interactive and none is a
+hazard.
+
+Each is posed, then baked in **local** space — three meshes that still move as a unit, the same
+trick the SmartCiti.X site crew uses. Two things went wrong the first time and are now checked:
+the hard hat was a sphere the same size as the head, so the figure read as a person with an
+orange ball for a face; and half the crew were standing **inside** benches and racks, because
+they were placed by hand against rooms that were already full. `tools/check_layout.mjs` now
+fails if a tagged crew figure is within 1.05m of anything floor-standing, and
+`tools/crew_spots.mjs` computes the spots that are clear enough to stand in but close enough to
+something to be working at it.
+
 ## The bays are big enough to walk across
 
 Every room was laid out inside about eight metres, and the learner was clamped to a

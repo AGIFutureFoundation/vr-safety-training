@@ -425,6 +425,24 @@ trajectories are what a model would train on to imitate or grade procedure execu
 they are engine-level (ids, states, rewards), not pixels. `tools/check_robot.mjs` gates
 the layer in CI.
 
+## Situational Awareness — a programme built on the new dimension
+
+Ten programmes become eleven, and the new one is the first that is not organised around a
+trade. **Situational Awareness — Interruption Drill** is the nine procedures that interrupt you,
+run as a cross-craft refresher block: the Isolation Bay and Weld Bay from Trade Skills, and the
+Trench, Crane Yard, Chlorine Room, Confined Rescue, Substation Switching, Airport Ramp and Fire
+Pump from SmartCiti.X.
+
+Every station in it is one a learner may already know the order of. The block is not testing the
+order. It is testing whether they notice the alarm, the person in the wrong place, or the thing
+that moved while their hands and eyes were somewhere else.
+
+So it is reported on separately. `curriculumProgress()` returns an `attention` figure alongside
+the usual station count — interruptions caught against interruptions dropped, across every run
+of that programme's stations — and the programme card shows it. Passing the procedure and
+noticing the alarm are two different competencies, and a training director wants both on the
+page.
+
 ## Interruptions — the part of the job that is not the procedure
 
 Every step kind in this engine asks the same question: **do you know what comes next.** That is

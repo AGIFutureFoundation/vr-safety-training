@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
-import { bottleRack, noticeBoard, racking, sideBench, spillStation, wallReel } from "../shopfit.js";
+import { bottleRack, noticeBoard, racking, sideBench, spillStation, wallReel , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 08 — Laborer, surface preparation: a pressure-wash of a painted stucco
 // wall and its concrete apron, done the way a union laborers' crew is trained
@@ -353,6 +353,13 @@ export const ROOM_PRESSURE_WASHER = {
     sideBench(fixed, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
     noticeBoard(fixed, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
+    // A second operative on the reels and a banksman keeping the wash area
+    // clear — containment only works if somebody is holding the line.
+    const crew = [
+      bayCrew(root, -3.7, 3.9, 2.38, { task: "overhead", cloth: 0x2f7fb0, hat: 0xf2c14b, vis: 0xd8e33a }),
+      bayCrew(root, 1.1, -5.7, -0.19, { task: "clipboard", cloth: 0x3d4a52, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
@@ -401,6 +408,8 @@ export const ROOM_PRESSURE_WASHER = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         const step = session?.step;
         spraying = !!(step && (step.id === "coverage") && session.holding);
         vacRunning = !!(step && step.id === "recovery" && session.holding);

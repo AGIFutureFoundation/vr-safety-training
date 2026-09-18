@@ -966,6 +966,56 @@ function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 }
 
 /** Seated human stand-in: client in a salon chair, patient in a draw chair. */
+/**
+ * A standing person, with the parts a trade needs to pose them: the head and
+ * both arms are their own groups, so a room can have somebody looking at a
+ * bench, holding a tool, or turning to talk to you.
+ *
+ * Pose first, then call mergeStatic(fig.root, { local: true }) if the figure
+ * only has to move as a whole — that takes it from about twenty meshes to
+ * three and it still walks, turns and bobs.
+ */
+function standingPerson(parent, x, z, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const skin = o.skin ?? 0xc99878;
+  const cloth = o.cloth ?? 0x37505f;
+  const legs = o.legs ?? 0x2f3740;
+  const torso = group(g, 0, 0, 0);
+  box(torso, 0.4, 0.54, 0.24, 0, 1.12, 0, cloth, { rough: 0.9 });
+  box(torso, 0.36, 0.16, 0.24, 0, 0.8, 0, legs, { rough: 0.9 });
+  for (const sx of [-1, 1]) {
+    cyl(torso, 0.07, 0.06, 0.78, sx * 0.11, 0.38, 0, legs, { rough: 0.9, seg: 10 });
+    box(torso, 0.11, 0.07, 0.24, sx * 0.11, 0.035, 0.05, o.boots ?? 0x1b1e22, { rough: 0.85 });
+  }
+  const head = group(torso, 0, 1.52, 0);
+  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 18 });
+  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });
+  cyl(torso, 0.05, 0.055, 0.12, 0, 1.4, 0, skin, { rough: 0.75, seg: 12 });
+  if (o.hat) {
+    // A dome sitting on the top of the head with a brim, not a sphere the
+    // same size as the head — at r=0.135 centred on the skull it swallowed
+    // the face and the figure read as a person with an orange ball for a head.
+    const shell = ball(head, 0.125, 0, 0.055, 0, o.hat, { rough: 0.5, seg: 14 });
+    shell.scale.y = 0.62;
+    cyl(head, 0.175, 0.175, 0.018, 0, 0.022, 0.005, o.hat, { rough: 0.5, seg: 16 });
+  }
+  if (o.hiVis !== false) {
+    // The band that makes somebody visible across a shop, which is the point
+    // of putting them in the room at all.
+    box(torso, 0.42, 0.07, 0.26, 0, 1.2, 0, o.vis ?? 0xd8e33a, { rough: 0.7, emissive: o.vis ?? 0xd8e33a, ei: 0.25 });
+  }
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    const shoulder = group(torso, sx * 0.235, 1.34, 0);
+    cyl(shoulder, 0.05, 0.045, 0.32, 0, -0.16, 0, cloth, { rough: 0.9, seg: 10 });
+    const fore = group(shoulder, 0, -0.32, 0);
+    cyl(fore, 0.042, 0.038, 0.3, 0, -0.14, 0, skin, { rough: 0.75, seg: 10 });
+    ball(fore, 0.045, 0, -0.3, 0, skin, { rough: 0.75, seg: 10 });
+    arms.push({ shoulder, fore });
+  }
+  return { root: g, torso, head, arms };
+}
+
 function seatedFigure(parent, x, y, z, o = {}) {
   const g = group(parent, x, y, z, o.ry ?? 0);
   const skin = o.skin ?? 0xc99878;

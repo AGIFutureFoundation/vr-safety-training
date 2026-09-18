@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
 } from "../../../shared/kit.js";
-import { noticeBoard, racking, wasteBin } from "../shopfit.js";
+import { noticeBoard, racking, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 02 — Hair stylist: oxidative colour service, station sanitation and
 // client protection. The trade content here is the salon's real order of
@@ -387,6 +387,12 @@ export const ROOM_SALON = {
     noticeBoard(fixed, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
     wasteBin(fixed, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
+    // A colleague working the second station and somebody at the back bar.
+    const crew = [
+      bayCrew(root, 4.3, 3.1, -2.19, { task: "bench", cloth: 0x2b2f36, legs: 0x1e2126, hiVis: false, skin: 0xd9a985 }),
+      bayCrew(root, -3.3, -4.9, 0.59, { task: "overhead", cloth: 0x6b4a5e, legs: 0x1e2126, hiVis: false }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
@@ -421,6 +427,8 @@ export const ROOM_SALON = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         chairSpin.rotation.y = Math.sin(t * 0.22) * 0.12;
         client.head.rotation.y = Math.sin(t * 0.35) * 0.14;
         client.head.rotation.x = Math.sin(t * 0.5) * 0.04;

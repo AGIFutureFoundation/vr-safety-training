@@ -111,6 +111,37 @@ function audit(app, r, reachFrom) {
     }
   }
 
+  // A person has to be standing somewhere, not inside a bench. Crew figures
+  // are placed by hand against a room that was already full, and the first
+  // pass put a welder through a side bench and an engineer through a rack.
+  const CREW_CLEAR = 1.05;
+  // Collected mesh by mesh, not group by group: the shop furniture lives
+  // inside one `fixed` group that sits at the origin, so a group-level sweep
+  // skipped the whole lot and found nothing. Only the band a standing person
+  // occupies counts — floor paint and ceiling fittings are not obstructions.
+  const solid = [];
+  const crewRoots = new Set((root.children ?? []).filter((c) => c.userData?.crew));
+  const collect = (node) => {
+    if (crewRoots.has(node)) return;
+    if (node.isMesh) {
+      const p = worldPos(node);
+      if (p.y > 0.3 && p.y < 2.0 && Math.hypot(p.x, p.z) > 0.15) solid.push(p);
+    }
+    for (const c of node.children ?? []) collect(c);
+  };
+  collect(root);
+  for (const child of root.children ?? []) {
+    if (!child.userData?.crew) continue;
+    const p = worldPos(child);
+    for (const q of solid) {
+      const d = Math.hypot(p.x - q.x, p.z - q.z);
+      if (d < CREW_CLEAR) {
+        note(`${app}/${r.id}`, `a crew figure at (${p.x.toFixed(1)}, ${p.z.toFixed(1)}) is ${d.toFixed(1)}m from something floor-standing — they are inside it`);
+        break;
+      }
+    }
+  }
+
   rows.push({ app, id: r.id, named: named.size, far: Math.round(far * 10) / 10, roam: reachFrom });
 }
 

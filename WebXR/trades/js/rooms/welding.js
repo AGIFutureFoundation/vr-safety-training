@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
-import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, wallReel, wasteBin } from "../shopfit.js";
+import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, wallReel, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 05 — Welder / fabricator: hot work permit, fume control, arc-eye
 // protection and a shielded metal arc bead, ending with the fire watch that
@@ -450,6 +450,13 @@ export const ROOM_WELDING = {
     noticeBoard(fixed, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
     wallReel(fixed, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
 
+    // Another welder screened off in the next bay, and a fitter at the side
+    // bench. You are not the only person in this shop.
+    const crew = [
+      bayCrew(root, 3.9, -0.5, -1.43, { task: "bench", cloth: 0x3d4a52, hat: 0xf2c14b, vis: 0xd8e33a }),
+      bayCrew(root, 5.1, -3.7, -0.94, { task: "bench", cloth: 0x5a5245, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
@@ -504,6 +511,8 @@ export const ROOM_WELDING = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         if (extractionOn) fumeFan.rotation.y += dt * 7;
         fumeLamp.material.emissiveIntensity = 1.4 + Math.sin(t * 3) * 0.5;
 

@@ -3,7 +3,7 @@ import {
   box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
-import { bottleRack, noticeBoard, racking, shopFan, sideBench, spillStation, wasteBin } from "../shopfit.js";
+import { bottleRack, noticeBoard, racking, shopFan, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 09 — Painter / coatings applicator: an airless spray of an interior
 // wall in a pre-1978 building, done the way an IUPAT-trained crew and a
@@ -358,6 +358,13 @@ export const ROOM_PAINT_SPRAYER = {
     noticeBoard(fixed, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
     shopFan(fixed, -4.4, 1.2, 0.9, { tilt: 0.28 });
 
+    // A masker working the far wall and a mixer at the bench, both in the
+    // same respiratory protection the learner is being assessed on.
+    const crew = [
+      bayCrew(root, -4.9, -3.2, 0.99, { task: "overhead", cloth: 0xd8d0c0, legs: 0x8a7f6a, hiVis: false, hat: 0xf2f2f2 }),
+      bayCrew(root, 5.1, 2.8, -2.07, { task: "bench", cloth: 0xd8d0c0, legs: 0x8a7f6a, hiVis: false, hat: 0xf2f2f2 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
@@ -399,6 +406,8 @@ export const ROOM_PAINT_SPRAYER = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         const step = session?.step;
         const spraying = !!(step && step.id === "coverage" && session.holding);
         if (spraying) {

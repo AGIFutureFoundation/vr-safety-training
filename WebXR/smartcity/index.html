@@ -56,6 +56,10 @@
   /* Interruption alarm: something is happening to the learner right now and
      they have to break off and deal with it. Deliberately loud, deliberately
      not where the step cue is, and it carries its own clock. */
+  .prog-attention{ margin:8px 0 0; font-size:13px; line-height:1.45; color:#ffd2cc;
+    background:rgba(240,100,91,.10); border-left:3px solid var(--danger);
+    padding:7px 10px; border-radius:0 6px 6px 0; }
+  .prog-attention b{ color:var(--danger); }
   #alarm{ position:fixed; left:50%; top:96px; transform:translateX(-50%);
     width:min(560px,92vw); z-index:60; pointer-events:none;
     background:linear-gradient(180deg,rgba(60,14,10,.97),rgba(34,10,8,.97));

@@ -567,6 +567,61 @@
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "situational-awareness",
+      "name": "Situational Awareness — Interruption Drill",
+      "union": "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
+      "certification": "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+      "summary": "Nine procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+      "stations": [
+        {
+          "app": "trades",
+          "id": "electrical",
+          "why": "Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again."
+        },
+        {
+          "app": "trades",
+          "id": "welding",
+          "why": "Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead."
+        },
+        {
+          "app": "smartcity",
+          "id": "trench-box",
+          "why": "Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path."
+        },
+        {
+          "app": "smartcity",
+          "id": "crane-yard",
+          "why": "Somebody cutting through the swing radius to save walking round, and a pad settling out of level with the load in the air."
+        },
+        {
+          "app": "smartcity",
+          "id": "chlorine-room",
+          "why": "The room monitor alarming mid-changeout — real until proven otherwise — and an unprotected attendant in an open door during a leak test."
+        },
+        {
+          "app": "smartcity",
+          "id": "confined-rescue",
+          "why": "The atmosphere falling while you rig, and the attendant leaving the hole to help on the rope during the haul."
+        },
+        {
+          "app": "smartcity",
+          "id": "substation-switching",
+          "why": "An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order."
+        },
+        {
+          "app": "smartcity",
+          "id": "airport-ramp",
+          "why": "A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks."
+        },
+        {
+          "app": "smartcity",
+          "id": "fire-pump",
+          "why": "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
     }
   ],
   "stations": [
@@ -4576,7 +4631,7 @@
         "name": "Zero Energy Verified",
         "note": "Perfect live-dead-live on the first run"
       },
-      "meshes": 254,
+      "meshes": 291,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=electrical"
@@ -4608,7 +4663,7 @@
         "name": "Clean Chair",
         "note": "Full colour service with no sanitation breach"
       },
-      "meshes": 341,
+      "meshes": 371,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=salon"
@@ -4640,7 +4695,7 @@
         "name": "Clean Line",
         "note": "Full service with no cross-contamination and a controlled flare-up"
       },
-      "meshes": 337,
+      "meshes": 370,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=kitchen"
@@ -4673,7 +4728,7 @@
         "name": "Order of Draw",
         "note": "Correct draw sequence with no additive carryover"
       },
-      "meshes": 206,
+      "meshes": 221,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=phlebotomy"
@@ -4706,7 +4761,7 @@
         "name": "Fire Watch Held",
         "note": "Permit to fire watch with no hot-work shortcut"
       },
-      "meshes": 353,
+      "meshes": 389,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=welding"
@@ -4740,7 +4795,7 @@
         "name": "Clean Promote",
         "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
       },
-      "meshes": 264,
+      "meshes": 295,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=devops"
@@ -4776,7 +4831,7 @@
         "name": "Zero Leaks",
         "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
       },
-      "meshes": 192,
+      "meshes": 228,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=plumbing"
@@ -4812,7 +4867,7 @@
         "name": "Clean Recovery",
         "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
       },
-      "meshes": 186,
+      "meshes": 223,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=pressure-washer"
@@ -4846,7 +4901,7 @@
         "name": "Even Build",
         "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
       },
-      "meshes": 190,
+      "meshes": 224,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=paint-sprayer"

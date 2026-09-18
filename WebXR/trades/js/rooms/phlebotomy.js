@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
-import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
+import { noticeBoard, racking, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 04 — Phlebotomy technician: patient identification, venipuncture and the
 // order of draw. This is the one room where sequence is genuinely non-negotiable:
@@ -353,6 +353,12 @@ export const ROOM_PHLEBOTOMY = {
     spillStation(fixed, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
     wasteBin(fixed, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
+    // A second phlebotomist at the consumables shelving. The patient is
+    // already in the chair; this is the colleague who checks your labels.
+    const crew = [
+      bayCrew(root, -5.3, 2.7, 2.04, { task: "overhead", cloth: 0x4aa6a0, legs: 0xdfe6ec, hiVis: false, skin: 0xb98a63 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
@@ -398,6 +404,8 @@ export const ROOM_PHLEBOTOMY = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         patient.head.rotation.y = -0.2 + Math.sin(t * 0.4) * 0.1;
         patient.torso.position.y = Math.sin(t * 1.05) * 0.005;
 

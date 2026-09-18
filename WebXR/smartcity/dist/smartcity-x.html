@@ -56,6 +56,10 @@
   /* Interruption alarm: something is happening to the learner right now and
      they have to break off and deal with it. Deliberately loud, deliberately
      not where the step cue is, and it carries its own clock. */
+  .prog-attention{ margin:8px 0 0; font-size:13px; line-height:1.45; color:#ffd2cc;
+    background:rgba(240,100,91,.10); border-left:3px solid var(--danger);
+    padding:7px 10px; border-radius:0 6px 6px 0; }
+  .prog-attention b{ color:var(--danger); }
   #alarm{ position:fixed; left:50%; top:96px; transform:translateX(-50%);
     width:min(560px,92vw); z-index:60; pointer-events:none;
     background:linear-gradient(180deg,rgba(60,14,10,.97),rgba(34,10,8,.97));
@@ -1254,6 +1258,56 @@ function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 }
 
 /** Seated human stand-in: client in a salon chair, patient in a draw chair. */
+/**
+ * A standing person, with the parts a trade needs to pose them: the head and
+ * both arms are their own groups, so a room can have somebody looking at a
+ * bench, holding a tool, or turning to talk to you.
+ *
+ * Pose first, then call mergeStatic(fig.root, { local: true }) if the figure
+ * only has to move as a whole — that takes it from about twenty meshes to
+ * three and it still walks, turns and bobs.
+ */
+function standingPerson(parent, x, z, o = {}) {
+  const g = group(parent, x, 0, z, o.ry ?? 0);
+  const skin = o.skin ?? 0xc99878;
+  const cloth = o.cloth ?? 0x37505f;
+  const legs = o.legs ?? 0x2f3740;
+  const torso = group(g, 0, 0, 0);
+  box(torso, 0.4, 0.54, 0.24, 0, 1.12, 0, cloth, { rough: 0.9 });
+  box(torso, 0.36, 0.16, 0.24, 0, 0.8, 0, legs, { rough: 0.9 });
+  for (const sx of [-1, 1]) {
+    cyl(torso, 0.07, 0.06, 0.78, sx * 0.11, 0.38, 0, legs, { rough: 0.9, seg: 10 });
+    box(torso, 0.11, 0.07, 0.24, sx * 0.11, 0.035, 0.05, o.boots ?? 0x1b1e22, { rough: 0.85 });
+  }
+  const head = group(torso, 0, 1.52, 0);
+  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 18 });
+  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });
+  cyl(torso, 0.05, 0.055, 0.12, 0, 1.4, 0, skin, { rough: 0.75, seg: 12 });
+  if (o.hat) {
+    // A dome sitting on the top of the head with a brim, not a sphere the
+    // same size as the head — at r=0.135 centred on the skull it swallowed
+    // the face and the figure read as a person with an orange ball for a head.
+    const shell = ball(head, 0.125, 0, 0.055, 0, o.hat, { rough: 0.5, seg: 14 });
+    shell.scale.y = 0.62;
+    cyl(head, 0.175, 0.175, 0.018, 0, 0.022, 0.005, o.hat, { rough: 0.5, seg: 16 });
+  }
+  if (o.hiVis !== false) {
+    // The band that makes somebody visible across a shop, which is the point
+    // of putting them in the room at all.
+    box(torso, 0.42, 0.07, 0.26, 0, 1.2, 0, o.vis ?? 0xd8e33a, { rough: 0.7, emissive: o.vis ?? 0xd8e33a, ei: 0.25 });
+  }
+  const arms = [];
+  for (const sx of [-1, 1]) {
+    const shoulder = group(torso, sx * 0.235, 1.34, 0);
+    cyl(shoulder, 0.05, 0.045, 0.32, 0, -0.16, 0, cloth, { rough: 0.9, seg: 10 });
+    const fore = group(shoulder, 0, -0.32, 0);
+    cyl(fore, 0.042, 0.038, 0.3, 0, -0.14, 0, skin, { rough: 0.75, seg: 10 });
+    ball(fore, 0.045, 0, -0.3, 0, skin, { rough: 0.75, seg: 10 });
+    arms.push({ shoulder, fore });
+  }
+  return { root: g, torso, head, arms };
+}
+
 function seatedFigure(parent, x, y, z, o = {}) {
   const g = group(parent, x, y, z, o.ry ?? 0);
   const skin = o.skin ?? 0xc99878;
@@ -7672,6 +7726,25 @@ const CURRICULA = [
       { app: "smartcity", id: "chain-hoist", why: "Motors: inspection, capacity and never leaving a load hanging on a brake." },
     ],
   },
+  {
+    id: "situational-awareness",
+    name: "Situational Awareness — Interruption Drill",
+    union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
+    certification: "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+    summary: "Nine procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+    accent: "#f0645b",
+    stations: [
+      { app: "trades", id: "electrical", why: "Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again." },
+      { app: "trades", id: "welding", why: "Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead." },
+      { app: "smartcity", id: "trench-box", why: "Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path." },
+      { app: "smartcity", id: "crane-yard", why: "Somebody cutting through the swing radius to save walking round, and a pad settling out of level with the load in the air." },
+      { app: "smartcity", id: "chlorine-room", why: "The room monitor alarming mid-changeout — real until proven otherwise — and an unprotected attendant in an open door during a leak test." },
+      { app: "smartcity", id: "confined-rescue", why: "The atmosphere falling while you rig, and the attendant leaving the hole to help on the rope during the haul." },
+      { app: "smartcity", id: "substation-switching", why: "An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order." },
+      { app: "smartcity", id: "airport-ramp", why: "A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks." },
+      { app: "smartcity", id: "fire-pump", why: "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow." },
+    ],
+  },
 ];
 
 /**
@@ -7684,7 +7757,23 @@ function curriculumProgress(curriculum, records = []) {
   const stations = curriculum.stations.map((s) => ({ ...s, done: passed.has(s.id) }));
   const done = stations.filter((s) => s.done).length;
   const next = stations.find((s) => !s.done) ?? null;
+  // How the learner has handled the interruptions in this programme's
+  // stations. A block built on noticing things needs to be reportable on
+  // noticing things, not only on whether the procedure underneath was passed.
+  const ids = new Set(curriculum.stations.map((s) => s.id));
+  let caught = 0, dropped = 0, runs = 0;
+  for (const r of records) {
+    const iv = r.debrief?.interrupts;
+    if (!iv || !ids.has(r.simId)) continue;
+    runs += 1;
+    caught += iv.answered | 0;
+    dropped += (iv.missed | 0) + (iv.wrong | 0);
+  }
+  const attention = runs
+    ? { runs, caught, dropped, pct: caught + dropped ? Math.round((caught / (caught + dropped)) * 100) : null }
+    : null;
   return {
+    attention,
     id: curriculum.id, name: curriculum.name, union: curriculum.union,
     certification: curriculum.certification, summary: curriculum.summary, accent: curriculum.accent,
     stations, done, total: stations.length,
@@ -8322,6 +8411,14 @@ function mountUI(store, actions) {
             h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
           h("div", { className: "prog-bar" }, h("span", { style: { width: `${p.pct}%` } })),
           h("p", { className: "prog-summary" }, p.summary),
+          // A programme whose stations interrupt the learner reports on that
+          // separately: passing the procedure and noticing the alarm are two
+          // different competencies and a training director wants both.
+          p.attention && h("p", { className: "prog-attention" },
+            h("b", null, "Attention: "),
+            p.attention.pct == null
+              ? `${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}, no interruptions reached yet.`
+              : `${p.attention.caught} of ${p.attention.caught + p.attention.dropped} interruptions caught (${p.attention.pct}%) across ${p.attention.runs} run${p.attention.runs === 1 ? "" : "s"}.`),
           h("p", { className: "prog-cert" }, p.certification),
           h("ol", { className: "prog-steps" }, p.stations.map((s) => h("li", {
             key: `${s.app}:${s.id}`, className: s.done ? "done" : "",

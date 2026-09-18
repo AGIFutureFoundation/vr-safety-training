@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, cabinet, particles, markInteractive, mat, HUD,
 } from "../../../shared/kit.js";
-import { noticeBoard, racking, shadowBoard, sideBench, spillStation, wasteBin } from "../shopfit.js";
+import { noticeBoard, racking, shadowBoard, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 01 — Electrical worker: energy isolation and absence-of-voltage verification.
 // Upgraded from the Unity project's Electrical Maintenance site (open panel,
@@ -390,6 +390,13 @@ export const ROOM_ELECTRICAL = {
     spillStation(fixed, W / 2 - 1.3, 4.0, -0.9);
     wasteBin(fixed, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
 
+    // A second sparks at the spares racking and a supervisor holding the
+    // switching order — the person whose lock is the other one on the hasp.
+    const crew = [
+      bayCrew(root, 5.2, -1.2, -1.34, { task: "overhead", cloth: 0x2f4a63, hat: 0xf2f2f2, vis: 0xd8e33a }),
+      bayCrew(root, 4.4, 4.4, -2.36, { task: "clipboard", cloth: 0x37505f, hat: 0xdd7a2f, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
@@ -426,6 +433,8 @@ export const ROOM_ELECTRICAL = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         // Energised bus hums with a faint emissive pulse until it is opened.
         const pulse = energised ? 0.5 + 0.5 * Math.sin(t * 5) : 0;
         stateLamp.material.emissiveIntensity = energised ? 1.6 + pulse * 1.4 : 2.2;

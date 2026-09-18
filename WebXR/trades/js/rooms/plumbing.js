@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
-import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, spillStation, wasteBin } from "../shopfit.js";
+import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 07 — Plumber / pipefitter: a DWV rough-in behind open studs, backflow
 // protection on the one fixture that actually needs it, a solvent-welded PVC
@@ -326,6 +326,12 @@ export const ROOM_PLUMBING = {
     noticeBoard(fixed, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
     shopFan(fixed, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
+    // A mate on the copper racking and an apprentice at the side bench.
+    const crew = [
+      bayCrew(root, -5.7, 0.4, 1.64, { task: "overhead", cloth: 0x4a6b52, hat: 0xdd7a2f, vis: 0xd8e33a }),
+      bayCrew(root, 3.9, 3.2, -2.26, { task: "bench", cloth: 0x6b6255, hat: 0xf2c14b, vis: 0xd8e33a }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
@@ -373,6 +379,8 @@ export const ROOM_PLUMBING = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         if (session?.step?.id === "bleed") {
           bleeding = true;
           drip.visible = true;

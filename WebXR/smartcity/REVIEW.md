@@ -3339,8 +3339,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 3 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 4 notes |
-| Scene builds headless | ✅ pass | 254 meshes |
-| Within headset mesh budget (430) | ✅ pass | 254 meshes |
+| Scene builds headless | ✅ pass | 291 meshes |
+| Within headset mesh budget (430) | ✅ pass | 291 meshes |
 | Every step target exists in the scene | ✅ pass | 10 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3401,8 +3401,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 3 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 341 meshes |
-| Within headset mesh budget (430) | ✅ pass | 341 meshes |
+| Scene builds headless | ✅ pass | 371 meshes |
+| Within headset mesh budget (430) | ✅ pass | 371 meshes |
 | Every step target exists in the scene | ✅ pass | 13 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3465,8 +3465,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 5 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 337 meshes |
-| Within headset mesh budget (430) | ✅ pass | 337 meshes |
+| Scene builds headless | ✅ pass | 370 meshes |
+| Within headset mesh budget (430) | ✅ pass | 370 meshes |
 | Every step target exists in the scene | ✅ pass | 10 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3528,8 +3528,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 4 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 206 meshes |
-| Within headset mesh budget (430) | ✅ pass | 206 meshes |
+| Scene builds headless | ✅ pass | 221 meshes |
+| Within headset mesh budget (430) | ✅ pass | 221 meshes |
 | Every step target exists in the scene | ✅ pass | 14 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3592,8 +3592,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 5 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 353 meshes |
-| Within headset mesh budget (430) | ✅ pass | 353 meshes |
+| Scene builds headless | ✅ pass | 389 meshes |
+| Within headset mesh budget (430) | ✅ pass | 389 meshes |
 | Every step target exists in the scene | ✅ pass | 12 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3654,8 +3654,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 3 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 4 notes |
-| Scene builds headless | ✅ pass | 264 meshes |
-| Within headset mesh budget (430) | ✅ pass | 264 meshes |
+| Scene builds headless | ✅ pass | 295 meshes |
+| Within headset mesh budget (430) | ✅ pass | 295 meshes |
 | Every step target exists in the scene | ✅ pass | 12 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3717,8 +3717,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 4 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 192 meshes |
-| Within headset mesh budget (430) | ✅ pass | 192 meshes |
+| Scene builds headless | ✅ pass | 228 meshes |
+| Within headset mesh budget (430) | ✅ pass | 228 meshes |
 | Every step target exists in the scene | ✅ pass | 12 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3782,8 +3782,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 4 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 186 meshes |
-| Within headset mesh budget (430) | ✅ pass | 186 meshes |
+| Scene builds headless | ✅ pass | 223 meshes |
+| Within headset mesh budget (430) | ✅ pass | 223 meshes |
 | Every step target exists in the scene | ✅ pass | 15 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._
@@ -3846,8 +3846,8 @@ _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the 
 | At least one seeded hazard | ✅ pass | 4 hazards |
 | Every hazard has a judgeable consequence | ✅ pass | all ≥ 40 characters |
 | Late notes point at real targets | ✅ pass | 3 notes |
-| Scene builds headless | ✅ pass | 190 meshes |
-| Within headset mesh budget (430) | ✅ pass | 190 meshes |
+| Scene builds headless | ✅ pass | 224 meshes |
+| Within headset mesh budget (430) | ✅ pass | 224 meshes |
 | Every step target exists in the scene | ✅ pass | 14 targets |
 
 _Preview signed by `tools/gen_review_packet.mjs` on 2026-09-18. It confirms the section is complete and consistent enough to review; it says nothing about whether the procedure is right. That is the practitioner's call below._

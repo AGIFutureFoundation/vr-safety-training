@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, slab, group, decal } from "../../shared/kit.js";
+import { box, cyl, slab, group, decal, standingPerson, mergeStatic } from "../../shared/kit.js";
 
 // What is in a bay besides the job.
 //
@@ -193,4 +193,65 @@ export function wallReel(parent, x, z, ry, o = {}) {
   cyl(g, 0.014, 0.014, Math.max(0.5, y - 0.55), 0.2, y - Math.max(0.5, y - 0.55) / 2 - 0.1, 0.18,
     o.hose ?? 0x22282e, { rough: 0.8, seg: 6 });
   return g;
+}
+
+// --------------------------------------------------------------- the crew
+
+/**
+ * Somebody else in the bay.
+ *
+ * The rooms got bigger and got furniture and were still empty of people. A
+ * trade is not a solo activity — there is always somebody at the next bench,
+ * and a learner being assessed on working safely around other people should be
+ * able to see one. None of them is interactive and none is a hazard: the
+ * procedure is unchanged.
+ *
+ * `task` poses the arms for what they are doing. The figure is then baked in
+ * local space, so it is three meshes that still shift their weight and glance
+ * about — see mergeStatic's `local` mode in shared/kit.js.
+ */
+export function bayCrew(parent, x, z, ry, o = {}) {
+  const p = standingPerson(parent, x, z, { ry, cloth: o.cloth, legs: o.legs, skin: o.skin, hat: o.hat, vis: o.vis, hiVis: o.hiVis });
+  const [left, right] = p.arms;
+  switch (o.task) {
+    case "bench":       // both hands down at a bench in front of them
+      left.shoulder.rotation.x = -0.85; left.fore.rotation.x = -0.55;
+      right.shoulder.rotation.x = -0.9; right.fore.rotation.x = -0.5;
+      break;
+    case "overhead":    // reaching up at something on a rack or a run
+      right.shoulder.rotation.x = -2.5; right.fore.rotation.x = 0.4;
+      left.shoulder.rotation.x = -0.35;
+      break;
+    case "clipboard":   // holding a board and reading it
+      left.shoulder.rotation.x = -1.2; left.fore.rotation.x = -1.1;
+      right.shoulder.rotation.x = -1.0; right.fore.rotation.x = -1.2;
+      box(p.torso, 0.24, 0.3, 0.02, 0.06, 1.05, 0.3, 0xdfe6ec, { rough: 0.8 });
+      break;
+    case "carry":       // one arm down with weight in it
+      right.shoulder.rotation.z = -0.12;
+      box(p.torso, 0.3, 0.22, 0.2, 0.3, 0.72, 0.02, o.load ?? 0x8a7a5e, { rough: 0.9 });
+      break;
+    default:            // just standing, watching
+      left.shoulder.rotation.x = -0.1; right.shoulder.rotation.x = -0.1;
+  }
+  mergeStatic(p.root, { local: true });
+  // Tagged so tools/check_layout.mjs can insist a person is standing in the
+  // room rather than inside the bench — which is exactly what happened the
+  // first time these were placed by hand.
+  p.root.userData.crew = true;
+  p.root.userData.phase = Math.random() * Math.PI * 2;
+  p.root.userData.home = ry;
+  return p.root;
+}
+
+/**
+ * Give a list of crew the small, constant motion that separates a person from
+ * a mannequin. Drive it from the room's animate().
+ */
+export function breatheCrew(list, t) {
+  for (const c of list) {
+    const ph = c.userData.phase ?? 0;
+    c.rotation.y = (c.userData.home ?? 0) + Math.sin(t * 0.3 + ph) * 0.14;
+    c.position.y = Math.sin(t * 1.1 + ph) * 0.011;
+  }
 }

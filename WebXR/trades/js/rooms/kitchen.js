@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
-import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
+import { noticeBoard, racking, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 03 — Commercial cook: the hot line. Hand hygiene, colour-coded boards,
 // cook temperature, and the grease flare-up that every kitchen eventually gets.
@@ -400,6 +400,13 @@ export const ROOM_KITCHEN = {
     wasteBin(fixed, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
     spillStation(fixed, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
 
+    // A second cook on the line and a porter carrying stock through. A
+    // kitchen with one person in it is not a kitchen.
+    const crew = [
+      bayCrew(root, 2.7, 0.7, -1.81, { task: "bench", cloth: 0xf2f2f2, legs: 0x2b3138, hiVis: false, hat: 0xf2f2f2 }),
+      bayCrew(root, -4.1, -2.9, 0.95, { task: "carry", cloth: 0xdfe6ec, legs: 0x2b3138, hiVis: false, load: 0xc9bfa8 }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
@@ -444,6 +451,8 @@ export const ROOM_KITCHEN = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         hoodFan.rotation.y += dt * 5.5;
         // Running water while the learner is actually at the sink scrubbing.
         const washing = session?.step?.id === "handwash" && session.holding;

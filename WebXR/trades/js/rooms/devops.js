@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
-import { noticeBoard, racking, shopFan, sideBench, wasteBin } from "../shopfit.js";
+import { noticeBoard, racking, shopFan, sideBench, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
 // Room 06 — Platform engineer / SRE: promoting a build through a real
 // environment pipeline while supervising an automated deploy agent. The
@@ -293,6 +293,13 @@ export const ROOM_DEVOPS = {
     wasteBin(fixed, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
     shopFan(fixed, -4.0, 0.8, 1.0, { tilt: 0.15 });
 
+    // A second engineer at the console bench and somebody on the crash cart
+    // in the cold aisle. A change window is never one person.
+    const crew = [
+      bayCrew(root, 2.7, -2.9, -0.74, { task: "bench", cloth: 0x2f4a63, legs: 0x252d35, hiVis: false }),
+      bayCrew(root, -5.3, 4.3, 2.25, { task: "clipboard", cloth: 0x39424b, legs: 0x252d35, hiVis: false }),
+    ];
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(fixed, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
@@ -314,6 +321,8 @@ export const ROOM_DEVOPS = {
       },
 
       animate(t, dt, session) {
+
+        breatheCrew(crew, t);
         killButton.material.emissiveIntensity = 1.0 + 0.5 * Math.sin(t * 3);
 
         const g = session?.gauge;
