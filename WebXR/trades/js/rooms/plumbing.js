@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
+import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
 // Room 07 — Plumber / pipefitter: a DWV rough-in behind open studs, backflow
 // protection on the one fixture that actually needs it, a solvent-welded PVC
@@ -25,7 +26,7 @@ export const ROOM_PLUMBING = {
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 14.6, d: 13.6 },
-  spawn: { x: 0.0, z: 5.2, ry: 0 },
+  spawn: { x: -1.6, z: 3.5, ry: -0.43 },
   badge: { id: "zero-leaks", name: "Zero Leaks", note: "A pressure-tested rough-in with backflow protection intact and every joint torch-safe" },
 
   hazards: {
@@ -307,6 +308,19 @@ export const ROOM_PLUMBING = {
     // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 14.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A rough-in bay's stock: copper and PVC on racking, fittings on a bench,
+    // the torch bottles chained, the wet-vac and the drain kit.
+    racking(root, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
+    shadowBoard(root, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
+    sideBench(root, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
+    bottleRack(root, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
+    spillStation(root, W / 2 - 1.2, 4.4, -0.8);
+    wasteBin(root, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
+    noticeBoard(root, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    shopFan(root, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

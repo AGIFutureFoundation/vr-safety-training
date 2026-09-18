@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
+import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
 // Room 03 — Commercial cook: the hot line. Hand hygiene, colour-coded boards,
 // cook temperature, and the grease flare-up that every kitchen eventually gets.
@@ -383,6 +384,17 @@ export const ROOM_KITCHEN = {
     // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 14.6, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // Back of house: dry store racking, the chemical station, bins split the
+    // way a health inspector expects, and the board with the rota on it.
+    racking(root, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
+    sideBench(root, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
+    noticeBoard(root, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(root, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
+    wasteBin(root, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
+    spillStation(root, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

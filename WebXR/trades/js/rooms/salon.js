@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
 } from "../../../shared/kit.js";
+import { noticeBoard, racking, wasteBin } from "../shopfit.js";
 
 // Room 02 — Hair stylist: oxidative colour service, station sanitation and
 // client protection. The trade content here is the salon's real order of
@@ -24,7 +25,7 @@ export const ROOM_SALON = {
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 13.9, d: 13.9 },
-  spawn: { x: 3.1, z: 4.1, ry: -0.35 },
+  spawn: { x: -1.2, z: 5.7, ry: -0.21 },
   badge: { id: "clean-chair", name: "Clean Chair", note: "Full colour service with no sanitation breach" },
 
   hazards: {
@@ -372,6 +373,15 @@ export const ROOM_SALON = {
     // The bay is 13.9m by 13.9m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 13.9, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // A colour studio's back bar: stock shelving, the second station nobody
+    // is working at, the towel trolley and the board with the patch-test
+    // policy on it.
+    racking(root, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
+    noticeBoard(root, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
+    wasteBin(root, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

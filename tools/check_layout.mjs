@@ -86,6 +86,31 @@ function audit(app, r, reachFrom) {
       }
     }
   });
+  // Nothing parked on the spot the learner arrives at. Scenery added to fill
+  // a room is exactly the kind of thing that lands in the doorway: you open
+  // the bay and a bench is in your face before you have seen the room.
+  if (r.spawn) {
+    const KEEP_CLEAR = 1.4;
+    const HEAD = 1.95; // anything entirely above this is overhead, not in the way
+    for (const child of root.children ?? []) {
+      const p = worldPos(child);
+      // Things at the origin are the shell and the floor paint, not furniture.
+      if (Math.hypot(p.x, p.z) < 0.15) continue;
+      const d = Math.hypot(p.x - r.spawn.x, p.z - r.spawn.z);
+      if (d >= KEEP_CLEAR) continue;
+      // A ceiling fitting directly over the door is not an obstruction, and
+      // neither is a board mounted at head height — only what a learner can
+      // walk into counts.
+      // Only what occupies the space a standing person does: a floor marking
+      // underfoot and a fitting overhead are both fine to arrive on top of.
+      const SHIN = 0.35;
+      let blocks = false;
+      child.traverse?.((o) => { if (o.isMesh) { const y = worldPos(o).y; if (y > SHIN && y < HEAD) blocks = true; } });
+      if (!blocks) continue;
+      note(`${app}/${r.id}`, `something floor-standing is ${d.toFixed(1)}m from the spawn at (${p.x.toFixed(1)}, ${p.z.toFixed(1)}) — the learner arrives inside it`);
+    }
+  }
+
   rows.push({ app, id: r.id, named: named.size, far: Math.round(far * 10) / 10, roam: reachFrom });
 }
 

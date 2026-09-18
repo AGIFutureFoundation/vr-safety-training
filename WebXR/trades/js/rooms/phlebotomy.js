@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
+import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
 // Room 04 — Phlebotomy technician: patient identification, venipuncture and the
 // order of draw. This is the one room where sequence is genuinely non-negotiable:
@@ -336,6 +337,17 @@ export const ROOM_PHLEBOTOMY = {
     // The bay is 13.0m by 13.0m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 13.0, D = 13.0;
+    // ------------------------------------------------- the rest of the bay
+    // A draw room's stores: consumables on shelving, the notice board with
+    // the competency list, the spill kit for a blood spill, and the sharps
+    // and clinical waste separated the way they have to be.
+    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
+    sideBench(root, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
+    noticeBoard(root, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    spillStation(root, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
+    wasteBin(root, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

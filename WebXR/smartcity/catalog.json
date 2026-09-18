@@ -221,8 +221,11 @@
     "passRule": "stars >= 2 and no unsafe action"
   },
   "performance": {
-    "meshBudget": 320,
-    "note": "meshes counted from a headless build of each station, excluding the shared stage; overBudget stations go first in the headset pass"
+    "meshBudget": {
+      "smartcity": 320,
+      "trades": 430
+    },
+    "note": "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass"
   },
   "curricula": [
     {
@@ -4573,7 +4576,7 @@
         "name": "Zero Energy Verified",
         "note": "Perfect live-dead-live on the first run"
       },
-      "meshes": 206,
+      "meshes": 254,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=electrical"
@@ -4605,7 +4608,7 @@
         "name": "Clean Chair",
         "note": "Full colour service with no sanitation breach"
       },
-      "meshes": 316,
+      "meshes": 341,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=salon"
@@ -4637,7 +4640,7 @@
         "name": "Clean Line",
         "note": "Full service with no cross-contamination and a controlled flare-up"
       },
-      "meshes": 290,
+      "meshes": 337,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=kitchen"
@@ -4670,7 +4673,7 @@
         "name": "Order of Draw",
         "note": "Correct draw sequence with no additive carryover"
       },
-      "meshes": 164,
+      "meshes": 206,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=phlebotomy"
@@ -4703,7 +4706,7 @@
         "name": "Fire Watch Held",
         "note": "Permit to fire watch with no hot-work shortcut"
       },
-      "meshes": 290,
+      "meshes": 353,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=welding"
@@ -4737,7 +4740,7 @@
         "name": "Clean Promote",
         "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
       },
-      "meshes": 223,
+      "meshes": 264,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=devops"
@@ -4773,7 +4776,7 @@
         "name": "Zero Leaks",
         "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
       },
-      "meshes": 130,
+      "meshes": 192,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=plumbing"
@@ -4809,7 +4812,7 @@
         "name": "Clean Recovery",
         "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
       },
-      "meshes": 129,
+      "meshes": 186,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=pressure-washer"
@@ -4843,7 +4846,7 @@
         "name": "Even Build",
         "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
       },
-      "meshes": 132,
+      "meshes": 190,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=paint-sprayer"

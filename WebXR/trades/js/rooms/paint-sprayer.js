@@ -3,6 +3,7 @@ import {
   box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
+import { bottleRack, noticeBoard, racking, shopFan, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
 // Room 09 — Painter / coatings applicator: an airless spray of an interior
 // wall in a pre-1978 building, done the way an IUPAT-trained crew and a
@@ -339,6 +340,19 @@ export const ROOM_PAINT_SPRAYER = {
     // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 14.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A coatings bay keeps its tins, thinners and filters out of the booth,
+    // its mixing bench downwind, and its waste segregated because most of it
+    // is hazardous.
+    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9c7a4a, stock: [0x4f88b8, 0xc9bfa8, 0x8a7a5e, 0x6b7480] });
+    sideBench(root, -3.4, 4.2, 0.2, { w: 2.6, top: 0x8a7f6a });
+    bottleRack(root, W / 2 - 0.9, -3.8, -Math.PI / 2, { count: 4, colors: [0xb0902f, 0x8a3a2f, 0xb0902f, 0x2f4a63] });
+    spillStation(root, W / 2 - 1.2, 3.4, -0.9, { color: 0xc0392b });
+    wasteBin(root, W / 2 - 2.2, 4.4, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Hazardous" });
+    noticeBoard(root, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    shopFan(root, -4.4, 1.2, 0.9, { tilt: 0.28 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

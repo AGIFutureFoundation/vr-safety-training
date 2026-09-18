@@ -153,6 +153,46 @@ programme names a station that does not exist, omits a union, a certification or
 leaves a station without a reason — a block a learner can never finish is a build error, not a
 content bug.
 
+## The site around the work
+
+Every station was authored as a 2-to-2.6 metre work area, and the learner was clamped to a
+circle of `footprint + 2.4m` around the middle of it — about four and a half metres on a
+fifteen-metre plaza. You could turn on the spot and reach everything, you could not walk
+anywhere, and the other ten metres of ground were empty pavement you were not allowed on.
+
+`js/apron.js` fills that ground with what is actually between a gate and a job: the site entry
+with its induction board and its today-on-site board, a marked walkway in with cones down it, a
+**materials laydown** with painted bays, pallets, pipe stock and drums on a bund, the **crew
+truck and welfare cabin**, a **muster point** with the headcount board, and the **waste, spill
+kit and eyewash** station. The learner spawns outside the gate facing the work and walks in past
+all of it, which is how a shift starts. Roam went from about 4.5m to 10.1m.
+
+The apron is **scenery only**. Nothing on it is a step target or a hazard, so no station's
+assessment changed by a single point — what changed is the distance, and therefore whether the
+place reads as somewhere you are standing. It costs 179 meshes for an entire job site: the
+perimeter fence is four meshes a segment (two posts, two rails and one mesh decal) rather than
+the eleven an honestly-drawn Heras panel takes, because at the six metres you ever see it from
+they are the same picture.
+
+Indoor stations get none of it — they get their own room's walls as the roam limit and start at
+the door instead of mid-floor. AR gets none of it either: the learner's own room is the site,
+and a fence line through their furniture helps nobody.
+
+## Two layout checkers
+
+`tools/check_layout.mjs` asks the question the content checkers never did: not *does this
+control exist*, but *can the learner get to it*. It builds all 59 stations and rooms, resolves a
+real world position for every object through the group transforms, and fails on a step target
+outside the walkable circle, anything below -2.4m, anything within 1.4m of where the learner
+arrives, and any coordinate past 60m or non-finite anywhere in the scene.
+
+That last one is the generic form of a real bug: a dropped positional argument slides a colour
+into a position slot, so `0xb9bec4` becomes 12,172,996 metres. It found two — a required target
+in Confined Rescue's sequence step and a D-ring in Microwave Backhaul — both of which had
+registered correctly and passed every other check for months.
+
+`tools/check_budget.mjs` enforces the mesh ceiling that `catalog.json` had only ever reported.
+
 ## Interiors: a room for the stations that are indoors
 
 A chlorine room, a machining cell and a theatre loft do not stand on a plaza under a city

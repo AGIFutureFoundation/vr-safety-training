@@ -29,7 +29,10 @@ function meshCount(suite, r) {
 // A Quest-class headset comfortably draws a few hundred small meshes per
 // station on top of the stage; flag anything past this so the headset pass
 // starts with the heaviest stations.
-const MESH_BUDGET = 320;
+// Two budgets, because they are not the same scene: a SmartCiti.X station
+// sits on the shared stage (plaza, district, skyline, weather, site apron),
+// a Trade Skills room IS the whole scene. Keep in step with check_budget.mjs.
+const MESH_BUDGET = { smartcity: 320, trades: 430 };
 
 const common = (r) => ({
   id: r.id, name: r.name ?? r.title, title: r.title, tagline: r.tagline ?? null,
@@ -42,14 +45,14 @@ const common = (r) => ({
 });
 
 const stations = city.ROOMS.map((r) => ({
-  app: "smartcity", ...common(r), ...meshCount(city, r), overBudget: (meshCount(city, r).meshes ?? 0) > MESH_BUDGET, index: r.index ?? null, flat: !!r.flat,
+  app: "smartcity", ...common(r), ...meshCount(city, r), overBudget: (meshCount(city, r).meshes ?? 0) > MESH_BUDGET.smartcity, index: r.index ?? null, flat: !!r.flat,
   system: r.game?.system ?? null, currency: r.game?.currency ?? null, ranks: r.game?.ranks ?? [],
   awards: [...(r.game?.badges ?? []), ...(r.game?.challenges ?? [])].map((a) => ({ id: a.id, name: a.name, note: a.note })),
   sources: (r.dossier ?? []).flatMap((d) => [d.source, d.source2].filter(Boolean)),
   deepLink: `smartcity/index.html?sim=${r.id}`,
 }));
 const rooms = trades.ROOMS.map((r) => ({
-  app: "trades", ...common(r), ...meshCount(trades, r), overBudget: (meshCount(trades, r).meshes ?? 0) > MESH_BUDGET, category: r.category ?? "Trade Skills Simulator",
+  app: "trades", ...common(r), ...meshCount(trades, r), overBudget: (meshCount(trades, r).meshes ?? 0) > MESH_BUDGET.trades, category: r.category ?? "Trade Skills Simulator",
   deepLink: `trades/index.html?room=${r.id}`,
 }));
 
@@ -77,7 +80,7 @@ const catalog = {
   weather: { kinds: ["clear", "overcast", "rain", "fog", "wind", "storm"], note: "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour", override: "?weather=<kind>" },
   profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },
   records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
-  performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station, excluding the shared stage; overBudget stations go first in the headset pass" },
+  performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass" },
   curricula: CURRICULA.map((c) => ({
     id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary,
     stations: c.stations.map((s) => ({ app: s.app, id: s.id, why: s.why })),

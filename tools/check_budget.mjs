@@ -11,10 +11,16 @@
  */
 import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
 
-// A Quest-class headset comfortably draws a few hundred small meshes per
-// station on top of the shared stage. Keep this in step with gen_catalog.mjs.
-const MESH_BUDGET = 320;
-const LIGHT_BUDGET = 12;
+// What a Quest-class headset has left for content, which is not the same
+// number in both apps because they are not the same scene.
+//
+// A SmartCiti.X station is dropped onto the shared stage - plaza, district,
+// skyline, weather and now the site apron - which is about 480 meshes before
+// the station builds anything. A Trade Skills room IS the whole scene: its
+// shell, its fittings and its props are all there is. So the room may carry
+// what the station's stage is already spending.
+const MESH_BUDGET = { smartcity: 320, trades: 430 };
+const LIGHT_BUDGET = { smartcity: 12, trades: 14 };
 
 const city = await loadSmartCity();
 const trades = await loadTrades();
@@ -41,20 +47,20 @@ for (const [app, suite, list] of [["smartcity", city, city.ROOMS], ["trades", tr
       continue;
     }
     rows.push({ app, id: r.id, ...c });
-    if (c.meshes > MESH_BUDGET) {
-      console.log(`  ✗ ${app}/${r.id}: ${c.meshes} meshes, over the ${MESH_BUDGET} headset budget`);
+    if (c.meshes > MESH_BUDGET[app]) {
+      console.log(`  ✗ ${app}/${r.id}: ${c.meshes} meshes, over the ${MESH_BUDGET[app]} headset budget for ${app}`);
       failures += 1;
     }
-    if (c.lights > LIGHT_BUDGET) {
-      console.log(`  ✗ ${app}/${r.id}: ${c.lights} lights, over the ${LIGHT_BUDGET} budget`);
+    if (c.lights > LIGHT_BUDGET[app]) {
+      console.log(`  ✗ ${app}/${r.id}: ${c.lights} lights, over the ${LIGHT_BUDGET[app]} budget for ${app}`);
       failures += 1;
     }
   }
 }
 
-rows.sort((a, b) => b.meshes - a.meshes);
-const worst = rows.slice(0, 3).map((r) => `${r.id} ${r.meshes}`).join(", ");
+rows.sort((a, b) => b.meshes / MESH_BUDGET[b.app] - a.meshes / MESH_BUDGET[a.app]);
+const worst = rows.slice(0, 3).map((r) => `${r.id} ${r.meshes}/${MESH_BUDGET[r.app]}`).join(", ");
 console.log(failures
   ? `\n${failures} station(s) over budget.`
-  : `\nAll ${rows.length} stations inside the ${MESH_BUDGET}-mesh headset budget. Heaviest: ${worst}.`);
+  : `\nAll ${rows.length} stations inside budget (${MESH_BUDGET.smartcity} meshes on the stage, ${MESH_BUDGET.trades} standalone). Fullest: ${worst}.`);
 process.exit(failures ? 1 : 0);

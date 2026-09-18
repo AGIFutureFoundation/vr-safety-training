@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
+import { bottleRack, noticeBoard, racking, sideBench, spillStation, wallReel } from "../shopfit.js";
 
 // Room 08 — Laborer, surface preparation: a pressure-wash of a painted stucco
 // wall and its concrete apron, done the way a union laborers' crew is trained
@@ -335,6 +336,18 @@ export const ROOM_PRESSURE_WASHER = {
     // The bay is 16.2m by 14.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 16.2, D = 14.6;
+    // ------------------------------------------------- the rest of the bay
+    // A wash-down yard's kit: the hose reels, the chemistry chained upright,
+    // the recovery drums and the spill station that makes containment real.
+    wallReel(root, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
+    wallReel(root, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
+    bottleRack(root, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
+    racking(root, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    spillStation(root, W / 2 - 1.3, 3.6, -0.8);
+    sideBench(root, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
+    noticeBoard(root, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

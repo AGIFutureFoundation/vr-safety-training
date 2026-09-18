@@ -2730,6 +2730,202 @@ function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
 }
 
 
+/* ===== trades/js/shopfit.js ===== */
+// What is in a bay besides the job.
+//
+// The rooms were laid out inside about eight metres and every object in them
+// was load-bearing for the procedure. At 1.62x that, the procedure's own kit
+// is spread across a floor with nothing else on it, and a real bay is never
+// like that: there is a shadow board with the tools outlined on it, racking
+// with stock on it, a notice board somebody actually reads, a bottle rack,
+// a spill station, a fan, a bin, a bench that is not the bench you are
+// working at.
+//
+// None of it is interactive. A bay full of clickable scenery would make every
+// find step a lottery, so these are deliberately not registered: they are what
+// the room looks like, and the procedure stays exactly as authored.
+
+// Namespaced: a trades room already owns the plain names.
+const FIT_STEEL = 0x8b949c, FIT_DARKSTEEL = 0x4a535d;
+
+/** Wall-mounted shadow board: tools outlined where they belong. */
+function shadowBoard(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const w = o.w ?? 2.0, h = o.h ?? 1.3, y = o.y ?? 1.55;
+  box(g, w, h, 0.05, 0, y, 0, o.color ?? 0x2f4a63, { rough: 0.85 });
+  decal(g, w - 0.08, h - 0.08, 0, y, 0.031, (c, cw, ch) => {
+    c.fillStyle = o.css ?? "#2b4459"; c.fillRect(0, 0, cw, ch);
+    // Outlines, not tools: that is the whole point of a shadow board.
+    c.strokeStyle = "rgba(10,16,22,0.7)"; c.lineWidth = Math.max(2, cw * 0.007);
+    for (let i = 0; i < 6; i++) {
+      const bx = cw * (0.07 + i * 0.152);
+      c.strokeRect(bx, ch * 0.12, cw * 0.055, ch * 0.42);
+      c.beginPath(); c.arc(bx + cw * 0.028, ch * 0.7, cw * 0.032, 0, Math.PI * 2); c.stroke();
+    }
+    c.fillStyle = "rgba(233,243,250,0.55)";
+    c.font = `600 ${Math.round(ch * 0.07)}px 'Barlow Condensed', Arial, sans-serif`;
+    c.textAlign = "left"; c.textBaseline = "middle";
+    c.fillText(String(o.label ?? "TOOL BOARD — RETURN EVERY TOOL TO ITS OUTLINE").toUpperCase(), cw * 0.05, ch * 0.93);
+  }, { px: 512, rough: 0.85 });
+  // A few tools actually hanging on it, and a few gaps where they are not.
+  for (const [i, kind] of [[0, "sp"], [1, "sp"], [3, "wr"], [5, "wr"]]) {
+    const bx = -w / 2 + 0.1 + (0.07 + i * 0.152) * (w - 0.08) + 0.03;
+    if (kind === "sp") box(g, 0.05, h * 0.38, 0.03, bx, y + h * 0.16, 0.04, FIT_STEEL, { rough: 0.4, metal: 0.8 });
+    else cyl(g, 0.026, 0.026, h * 0.3, bx, y + h * 0.18, 0.04, FIT_STEEL, { rough: 0.4, metal: 0.8, seg: 8 });
+  }
+  return g;
+}
+
+/** Bolted shelving with stock on it — the wall of every store and bay. */
+function racking(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const w = o.w ?? 2.4, d = o.d ?? 0.6, h = o.h ?? 2.2, shelves = o.shelves ?? 4;
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    box(g, 0.06, h, 0.06, sx * (w / 2 - 0.04), h / 2, sz * (d / 2 - 0.04), o.frame ?? 0x9c5a32, { rough: 0.7, metal: 0.25 });
+  }
+  const tone = o.stock ?? [0x6b7480, 0x8a7a5e, 0x4d6b7a, 0x7a5f4a];
+  for (let i = 0; i < shelves; i++) {
+    // Leave the top shelf's stock room under the uprights: at (h - 0.4) the
+    // boxes on the top shelf stood 0.2m proud of the frame.
+    const y = 0.28 + i * ((h - 0.78) / (shelves - 1));
+    box(g, w, 0.04, d, 0, y, 0, 0x9aa3ab, { rough: 0.6, metal: 0.4, cast: false });
+    // Stock: a couple of boxed items per shelf, never a full one.
+    const n = 2 + (i % 2);
+    for (let k = 0; k < n; k++) {
+      const bw = w / (n + 1.2);
+      box(g, bw * 0.82, 0.3, d * 0.72, -w / 2 + bw * (k + 0.75), y + 0.17, 0,
+        tone[(i + k) % tone.length], { rough: 0.9 });
+    }
+  }
+  return g;
+}
+
+/** The notice board every shop has by the door, with paper actually on it. */
+function noticeBoard(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const w = o.w ?? 1.5, h = o.h ?? 1.0, y = o.y ?? 1.6;
+  box(g, w + 0.06, h + 0.06, 0.04, 0, y, 0, 0x6b5a42, { rough: 0.9 });
+  decal(g, w, h, 0, y, 0.026, (c, cw, ch) => {
+    c.fillStyle = "#4c5a45"; c.fillRect(0, 0, cw, ch);
+    const sheets = o.sheets ?? [
+      [0.05, 0.08, 0.26, 0.4, "#f2efe6"], [0.36, 0.05, 0.3, 0.46, "#eef3f7"],
+      [0.7, 0.1, 0.25, 0.34, "#f7f1de"], [0.08, 0.56, 0.34, 0.36, "#eef3f7"],
+      [0.48, 0.58, 0.22, 0.3, "#f2efe6"], [0.74, 0.5, 0.2, 0.42, "#e9eff4"],
+    ];
+    for (const [sx, sy, sw, sh, col] of sheets) {
+      c.fillStyle = "rgba(0,0,0,0.25)"; c.fillRect(cw * sx + 3, ch * sy + 3, cw * sw, ch * sh);
+      c.fillStyle = col; c.fillRect(cw * sx, ch * sy, cw * sw, ch * sh);
+      c.fillStyle = "rgba(40,50,58,0.5)";
+      const lines = Math.max(3, Math.round(sh * 12));
+      for (let i = 0; i < lines; i++) {
+        c.fillRect(cw * sx + cw * 0.012, ch * sy + ch * sh * (0.14 + i * (0.72 / lines)),
+          cw * sw * (0.55 + ((i * 37) % 40) / 100), Math.max(1.5, ch * 0.008));
+      }
+      c.fillStyle = "#c43a2f";
+      c.beginPath(); c.arc(cw * (sx + sw / 2), ch * sy + ch * 0.012, Math.max(2, cw * 0.007), 0, Math.PI * 2); c.fill();
+    }
+  }, { px: 512, rough: 0.9 });
+  return g;
+}
+
+/** Bottle rack — gas, solvent or chemistry, upright and chained. */
+function bottleRack(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const n = o.count ?? 4, colours = o.colors ?? [0x2f5d3a, 0x8a3a2f, 0x2f4a63, 0xb0902f];
+  box(g, n * 0.32 + 0.2, 0.08, 0.42, 0, 0.04, 0, FIT_DARKSTEEL, { rough: 0.7, metal: 0.4 });
+  for (const sx of [-1, 1]) cyl(g, 0.03, 0.03, 1.5, sx * (n * 0.16 + 0.05), 0.75, -0.16, FIT_DARKSTEEL, { rough: 0.5, metal: 0.6, seg: 8 });
+  box(g, n * 0.32 + 0.2, 0.04, 0.04, 0, 1.15, -0.16, 0xd8a33a, { rough: 0.6 });
+  for (let i = 0; i < n; i++) {
+    const bx = -n * 0.16 + 0.16 + i * 0.32;
+    cyl(g, 0.115, 0.115, 1.18, bx, 0.67, 0, colours[i % colours.length], { rough: 0.6, metal: 0.25, seg: 12 });
+    cyl(g, 0.045, 0.06, 0.16, bx, 1.34, 0, 0xb8bfc6, { rough: 0.45, metal: 0.7, seg: 10 });
+  }
+  return g;
+}
+
+/** Spill station: absorbent, a bin of granules and the sign that names it. */
+function spillStation(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  cyl(g, 0.33, 0.3, 0.86, 0, 0.43, 0, o.color ?? 0xd8a33a, { rough: 0.7, seg: 16 });
+  cyl(g, 0.34, 0.34, 0.06, 0, 0.89, 0, 0x2b323a, { rough: 0.6, seg: 16 });
+  box(g, 0.5, 0.34, 0.03, 0, 1.36, 0, 0x1d2630, { rough: 0.8 });
+  decal(g, 0.46, 0.3, 0, 1.36, 0.018, (c, cw, ch) => {
+    c.fillStyle = "#121a22"; c.fillRect(0, 0, cw, ch);
+    c.fillStyle = "#e8b53c";
+    c.font = `700 ${Math.round(ch * 0.27)}px 'Barlow Condensed', Arial, sans-serif`;
+    c.textAlign = "center"; c.textBaseline = "middle";
+    c.fillText("SPILL", cw / 2, ch * 0.3);
+    c.fillText("STATION", cw / 2, ch * 0.62);
+    c.font = `500 ${Math.round(ch * 0.15)}px 'Barlow Condensed', Arial, sans-serif`;
+    c.fillStyle = "#c9d6de";
+    c.fillText("ABSORBENT · BAGS · SIGNS", cw / 2, ch * 0.87);
+  }, { px: 256, rough: 0.8 });
+  cyl(g, 0.02, 0.02, 1.3, 0, 0.65, -0.02, FIT_DARKSTEEL, { rough: 0.5, metal: 0.6, seg: 6 });
+  return g;
+}
+
+/** A second bench — the one you are not working at, with clutter on it. */
+function sideBench(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const w = o.w ?? 2.2, d = o.d ?? 0.7, h = o.h ?? 0.9;
+  box(g, w, 0.08, d, 0, h, 0, o.top ?? 0x6b6255, { rough: 0.85 });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    box(g, 0.07, h, 0.07, sx * (w / 2 - 0.1), h / 2, sz * (d / 2 - 0.1), FIT_DARKSTEEL, { rough: 0.6, metal: 0.4 });
+  }
+  box(g, w - 0.3, 0.05, d - 0.2, 0, 0.3, 0, FIT_DARKSTEEL, { rough: 0.7, metal: 0.3, cast: false });
+  // Clutter, because an empty bench reads as furniture rather than a shop.
+  box(g, 0.34, 0.14, 0.26, -w * 0.3, h + 0.11, 0.04, 0x8a3a2f, { rough: 0.7 });
+  cyl(g, 0.07, 0.07, 0.19, w * 0.06, h + 0.14, -0.1, 0x3d4a55, { rough: 0.5, metal: 0.4, seg: 10 });
+  box(g, 0.26, 0.03, 0.2, w * 0.3, h + 0.055, 0.08, 0xdfe6ec, { rough: 0.85 });
+  for (let i = 0; i < 3; i++) box(g, 0.4, 0.2, 0.3, -w / 2 + 0.35 + i * 0.5, 0.42, 0, i % 2 ? 0x5f6b74 : 0x7a6a52, { rough: 0.9, cast: false });
+  return g;
+}
+
+/** Pedestal fan — every shop has one, and it is always pointed somewhere. */
+function shopFan(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  cyl(g, 0.3, 0.32, 0.05, 0, 0.025, 0, 0x2b323a, { rough: 0.8, seg: 14 });
+  cyl(g, 0.035, 0.045, 1.05, 0, 0.55, 0, FIT_STEEL, { rough: 0.5, metal: 0.6, seg: 10 });
+  const head = group(g, 0, 1.2, 0, o.tilt ?? 0.3);
+  cyl(head, 0.3, 0.3, 0.1, 0, 0, 0, 0x39424b, { rough: 0.6, metal: 0.4, seg: 18 }).rotation.x = Math.PI / 2;
+  const blades = cyl(head, 0.25, 0.25, 0.03, 0, 0, 0.05, 0x9aa3ab, { rough: 0.5, metal: 0.5, seg: 14 });
+  blades.rotation.x = Math.PI / 2;
+  return { root: g, blades };
+}
+
+/** Wheelie bin with a colour that means something on a real site. */
+function wasteBin(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  slab(g, 0.62, 0.92, 0.55, 0, 0.5, 0, o.color ?? 0x2f5d3a, { radius: 0.04, rough: 0.8 });
+  slab(g, 0.64, 0.07, 0.57, 0, 0.99, 0, o.lid ?? 0x24462c, { radius: 0.03, rough: 0.7 });
+  for (const sx of [-1, 1]) {
+    const wheel = cyl(g, 0.09, 0.09, 0.05, sx * 0.24, 0.09, -0.18, 0x15181c, { rough: 0.95, seg: 10 });
+    wheel.rotation.z = Math.PI / 2;
+  }
+  decal(g, 0.44, 0.22, 0, 0.62, 0.281, (c, cw, ch) => {
+    c.fillStyle = "rgba(240,248,252,0.9)"; c.fillRect(0, 0, cw, ch);
+    c.fillStyle = "#1d2630";
+    c.font = `700 ${Math.round(ch * 0.42)}px 'Barlow Condensed', Arial, sans-serif`;
+    c.textAlign = "center"; c.textBaseline = "middle";
+    c.fillText(String(o.label ?? "GENERAL").toUpperCase(), cw / 2, ch * 0.54);
+  }, { px: 192, rough: 0.85 });
+  return g;
+}
+
+/** Hose or cable reel on the wall — air, water, welding lead, extension. */
+function wallReel(parent, x, z, ry, o = {}) {
+  const g = group(parent, x, 0, z, ry);
+  const y = o.y ?? 2.0;
+  box(g, 0.5, 0.14, 0.14, 0, y, -0.06, FIT_DARKSTEEL, { rough: 0.6, metal: 0.5 });
+  const drum = cyl(g, 0.3, 0.3, 0.22, 0, y, 0.14, o.color ?? 0x8a3a2f, { rough: 0.6, metal: 0.2, seg: 18 });
+  drum.rotation.z = Math.PI / 2;
+  cyl(g, 0.33, 0.33, 0.02, 0, y, 0.25, 0x2b323a, { rough: 0.7, metal: 0.4, seg: 18 }).rotation.z = Math.PI / 2;
+  cyl(g, 0.014, 0.014, Math.max(0.5, y - 0.55), 0.2, y - Math.max(0.5, y - 0.55) / 2 - 0.1, 0.18,
+    o.hose ?? 0x22282e, { rough: 0.8, seg: 6 });
+  return g;
+}
+
+
 /* ===== trades/js/hub.js ===== */
 // The hub: a round atrium with one doorway per trade. Each doorway carries the
 // learner's own record for that room, so progress is legible from the middle of
@@ -3266,6 +3462,17 @@ const ROOM_ELECTRICAL = {
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
 
+    const W = 13.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A switch room's own stores: spares on racking, a tool board, the
+    // insulating mats and rescue hook that live on the wall by the door.
+    shadowBoard(root, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
+    racking(root, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    sideBench(root, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
+    noticeBoard(root, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    spillStation(root, W / 2 - 1.3, 4.0, -0.9);
+    wasteBin(root, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(root, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
@@ -3340,7 +3547,7 @@ const ROOM_SALON = {
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 13.9, d: 13.9 },
-  spawn: { x: 3.1, z: 4.1, ry: -0.35 },
+  spawn: { x: -1.2, z: 5.7, ry: -0.21 },
   badge: { id: "clean-chair", name: "Clean Chair", note: "Full colour service with no sanitation breach" },
 
   hazards: {
@@ -3688,6 +3895,15 @@ const ROOM_SALON = {
     // The bay is 13.9m by 13.9m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 13.9, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // A colour studio's back bar: stock shelving, the second station nobody
+    // is working at, the towel trolley and the board with the patch-test
+    // policy on it.
+    racking(root, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
+    noticeBoard(root, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
+    wasteBin(root, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
@@ -4127,6 +4343,17 @@ const ROOM_KITCHEN = {
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
 
+    const W = 14.6, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // Back of house: dry store racking, the chemical station, bins split the
+    // way a health inspector expects, and the board with the rota on it.
+    racking(root, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
+    sideBench(root, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
+    noticeBoard(root, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(root, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
+    wasteBin(root, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
+    spillStation(root, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(root, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
@@ -4539,6 +4766,17 @@ const ROOM_PHLEBOTOMY = {
     // The bay is 13.0m by 13.0m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 13.0, D = 13.0;
+    // ------------------------------------------------- the rest of the bay
+    // A draw room's stores: consumables on shelving, the notice board with
+    // the competency list, the spill kit for a blood spill, and the sharps
+    // and clinical waste separated the way they have to be.
+    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
+    sideBench(root, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
+    noticeBoard(root, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    spillStation(root, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
+    wasteBin(root, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
@@ -5013,6 +5251,19 @@ const ROOM_WELDING = {
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
 
+    const W = 14.6, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // A weld shop keeps its consumables, its gas and its second bench where
+    // they are not in the arc, and a fan pointed at the welder, not the work.
+    shadowBoard(root, -W / 2 + 0.3, -1.2, Math.PI / 2, { label: "Weld tooling — clamps, chipping, brushes", color: 0x3b4a52 });
+    racking(root, -W / 2 + 0.55, 3.2, Math.PI / 2, { w: 3.0, h: 2.3, frame: 0x7a5a32, stock: [0x6b7480, 0x8a7a5e, 0x57606a] });
+    bottleRack(root, W / 2 - 0.7, -4.6, -Math.PI / 2, { count: 4, colors: [0x2f5d3a, 0x8a3a2f, 0x2f5d3a, 0x4a535d] });
+    sideBench(root, 2.6, 4.4, Math.PI, { w: 2.6, top: 0x5a5245 });
+    shopFan(root, -3.8, 2.6, -0.8, { tilt: 0.25 });
+    wasteBin(root, W / 2 - 1.4, 3.6, -1.2, { color: 0x55606b, lid: 0x424c56, label: "Scrap steel" });
+    noticeBoard(root, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
+    wallReel(root, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
     ceilingGrid(root, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
@@ -5371,9 +5622,20 @@ const ROOM_DEVOPS = {
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
 
+    const W = 14.6, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // A data hall's cold aisle: spares racking, the crash cart and console
+    // bench, the board with the escalation tree on it, and the bin for the
+    // drives that leave in a locked box.
+    racking(root, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
+    sideBench(root, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
+    noticeBoard(root, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(root, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
+    shopFan(root, -4.0, 0.8, 1.0, { tilt: 0.15 });
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.15, lamp: 0.95, y: 4.04 });
+    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
 
     return {
       hits,
@@ -5439,7 +5701,7 @@ const ROOM_PLUMBING = {
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 14.6, d: 13.6 },
-  spawn: { x: 0.0, z: 5.2, ry: 0 },
+  spawn: { x: -1.6, z: 3.5, ry: -0.43 },
   badge: { id: "zero-leaks", name: "Zero Leaks", note: "A pressure-tested rough-in with backflow protection intact and every joint torch-safe" },
 
   hazards: {
@@ -5721,6 +5983,19 @@ const ROOM_PLUMBING = {
     // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 14.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A rough-in bay's stock: copper and PVC on racking, fittings on a bench,
+    // the torch bottles chained, the wet-vac and the drain kit.
+    racking(root, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
+    shadowBoard(root, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
+    sideBench(root, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
+    bottleRack(root, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
+    spillStation(root, W / 2 - 1.2, 4.4, -0.8);
+    wasteBin(root, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
+    noticeBoard(root, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    shopFan(root, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
@@ -6140,6 +6415,18 @@ const ROOM_PRESSURE_WASHER = {
     // The bay is 16.2m by 14.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 16.2, D = 14.6;
+    // ------------------------------------------------- the rest of the bay
+    // A wash-down yard's kit: the hose reels, the chemistry chained upright,
+    // the recovery drums and the spill station that makes containment real.
+    wallReel(root, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
+    wallReel(root, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
+    bottleRack(root, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
+    racking(root, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    spillStation(root, W / 2 - 1.3, 3.6, -0.8);
+    sideBench(root, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
+    noticeBoard(root, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
@@ -6566,6 +6853,19 @@ const ROOM_PAINT_SPRAYER = {
     // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 14.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A coatings bay keeps its tins, thinners and filters out of the booth,
+    // its mixing bench downwind, and its waste segregated because most of it
+    // is hazardous.
+    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9c7a4a, stock: [0x4f88b8, 0xc9bfa8, 0x8a7a5e, 0x6b7480] });
+    sideBench(root, -3.4, 4.2, 0.2, { w: 2.6, top: 0x8a7f6a });
+    bottleRack(root, W / 2 - 0.9, -3.8, -Math.PI / 2, { count: 4, colors: [0xb0902f, 0x8a3a2f, 0xb0902f, 0x2f4a63] });
+    spillStation(root, W / 2 - 1.2, 3.4, -0.9, { color: 0xc0392b });
+    wasteBin(root, W / 2 - 2.2, 4.4, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Hazardous" });
+    noticeBoard(root, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    shopFan(root, -4.4, 1.2, 0.9, { tilt: 0.28 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

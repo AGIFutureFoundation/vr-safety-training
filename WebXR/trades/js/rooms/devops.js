@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
+import { noticeBoard, racking, shopFan, sideBench, wasteBin } from "../shopfit.js";
 
 // Room 06 — Platform engineer / SRE: promoting a build through a real
 // environment pipeline while supervising an automated deploy agent. The
@@ -277,9 +278,20 @@ export const ROOM_DEVOPS = {
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
 
+    const W = 14.6, D = 13.9;
+    // ------------------------------------------------- the rest of the bay
+    // A data hall's cold aisle: spares racking, the crash cart and console
+    // bench, the board with the escalation tree on it, and the bin for the
+    // drives that leave in a locked box.
+    racking(root, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
+    sideBench(root, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
+    noticeBoard(root, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(root, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
+    shopFan(root, -4.0, 0.8, 1.0, { tilt: 0.15 });
+
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.15, lamp: 0.95, y: 4.04 });
+    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
 
     return {
       hits,

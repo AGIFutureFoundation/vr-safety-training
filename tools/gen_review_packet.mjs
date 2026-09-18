@@ -28,7 +28,9 @@ const city = await loadSmartCity();
 const trades = await loadTrades();
 const OUT = join(WEBXR, "smartcity", "REVIEW.md");
 const OUT_JSON = join(WEBXR, "smartcity", "review-preview.json");
-const MESH_BUDGET = 320;
+// See check_budget.mjs: a station is measured against what is left after the
+// shared stage, a standalone room against the whole frame.
+const MESH_BUDGET = { smartcity: 320, trades: 430 };
 const TODAY = new Date().toISOString().slice(0, 10);
 
 const kindWord = { select: "Select", sequence: "Sequence", find: "Find", gauge: "Graded reading", hold: "Timed hold", track: "Tracked hold", turn: "Turn", drag: "Carry and place" };
@@ -67,7 +69,8 @@ function preview(suite, app, r) {
       hits = api?.hits ?? {};
     } catch (e) { err = e; }
     add("Scene builds headless", !err, err ? String(err.message ?? err) : `${meshes} meshes`);
-    add(`Within headset mesh budget (${MESH_BUDGET})`, meshes !== null && meshes <= MESH_BUDGET, meshes === null ? "not built" : `${meshes} meshes`);
+    const budget = MESH_BUDGET[app] ?? MESH_BUDGET.smartcity;
+    add(`Within headset mesh budget (${budget})`, meshes !== null && meshes <= budget, meshes === null ? "not built" : `${meshes} meshes`);
     const missing = hits ? [...owned].filter((id) => !hits[id]) : [...owned];
     add("Every step target exists in the scene", missing.length === 0, missing.length ? `missing: ${missing.join(", ")}` : `${owned.size} targets`);
   }

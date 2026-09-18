@@ -44,6 +44,49 @@ as a full ordered procedure with proving-unit verification.
   flares and is smothered, the bead glows and cools, extraction fans spin up,
   the canary dial and promote lever turn under a live error-rate readout.
 
+## The bays are big enough to walk across
+
+Every room was laid out inside about eight metres, and the learner was clamped to a
+**3.6-metre circle** in the middle of it — a circle in a rectangle, at that. You could see the
+permit board on the far wall and never walk to it. The rooms are 1.62x bigger now, 13 to 16
+metres, and the clamp is the room's own rectangle held 0.85m off the walls.
+
+Making the shell bigger on its own would only have added an empty ring of floor, so
+`spreadLayout()` scales the **position** of everything standing on it and nothing else: a bench
+four metres out goes to six and a half, and the bench itself is untouched because its parts are
+local to it. Par times went up about 10%, because a bay you walk across takes longer and the old
+par never had to cover that.
+
+Two things the bigger rooms exposed and fixed:
+
+- **Light.** A room's only light was three or four hand-placed fittings and no ambient at all.
+  At 2.6x the floor area that left black corners and an unreadable far wall. `ceilingGrid()`
+  lays fittings out on a grid sized to the floor, lights a checker of them with a wider throw
+  rather than every one, and adds the bounce these rooms never had.
+- **Floor markings.** `floorPaint` drew in fractions of the canvas, so on a fourteen-metre floor
+  the hazard border came out as sparse white ticks that read as litter. It is set out in metres
+  now and reads as a painted chevron band at any room size.
+
+## What is in a bay besides the job
+
+Every object in a room used to be load-bearing for the procedure, which is not what a working
+bay looks like. `js/shopfit.js` adds the rest of it: a **shadow board** with the tools outlined
+where they belong, **racking** with stock on it, the **notice board** by the door with paper
+actually pinned to it, a **bottle rack** chained upright, a **spill station**, a **side bench**
+with clutter on it, a **pedestal fan**, colour-coded **wheelie bins**, and **wall reels** for
+air, water or welding lead.
+
+Each bay gets the ones its trade actually keeps: gas bottles and a scrap-steel bin in the weld
+bay, copper and PVC on racking with a torch-bottle rack in the rough-in bay, hazardous-waste
+bins and thinners in the coatings bay, clinical waste and a blood-spill kit in the draw station,
+a locked media bin in the deploy hall.
+
+**None of it is interactive.** A bay full of clickable scenery would turn every `find` step into
+a lottery, so none of it is registered and no room's assessment changed. `tools/check_layout.mjs`
+enforces the other half of that bargain: nothing floor-standing may sit within 1.4m of where the
+learner arrives, because scenery added to fill a room is exactly the kind of thing that ends up
+in the doorway. It caught two bays where it had.
+
 ## The rooms are rooms, not boxes with props in them
 
 Every bay was a shell — a floor, four walls, a flat ceiling and the equipment the

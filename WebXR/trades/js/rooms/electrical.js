@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   shell, ceilingGrid, spreadLayout, counter, cabinet, particles, markInteractive, mat, HUD,
 } from "../../../shared/kit.js";
+import { noticeBoard, racking, shadowBoard, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
 // Room 01 — Electrical worker: energy isolation and absence-of-voltage verification.
 // Upgraded from the Unity project's Electrical Maintenance site (open panel,
@@ -355,6 +356,17 @@ export const ROOM_ELECTRICAL = {
     // The bay is 13.6m by 13.6m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
     spreadLayout(root, 1.62);
+
+    const W = 13.6, D = 13.6;
+    // ------------------------------------------------- the rest of the bay
+    // A switch room's own stores: spares on racking, a tool board, the
+    // insulating mats and rescue hook that live on the wall by the door.
+    shadowBoard(root, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
+    racking(root, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    sideBench(root, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
+    noticeBoard(root, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    spillStation(root, W / 2 - 1.3, 4.0, -0.9);
+    wasteBin(root, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.

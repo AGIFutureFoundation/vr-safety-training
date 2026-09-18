@@ -151,7 +151,8 @@ export async function loadSmartCity() {
   return buildSuite(modules, harness, "smartcity-robot");
 }
 export async function loadTrades() {
-  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", ...TRADES_ROOMS.map((id) => `trades/js/rooms/${id}.js`)];
+  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "trades/js/shopfit.js",
+    ...TRADES_ROOMS.map((id) => `trades/js/rooms/${id}.js`)];
   const harness = `export const ROOMS = [${TRADES_ROOMS.map((id) => `ROOM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };`;
   return buildSuite(modules, harness, "trades-robot");
 }
