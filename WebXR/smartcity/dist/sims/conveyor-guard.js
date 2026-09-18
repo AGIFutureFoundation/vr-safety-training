@@ -17,6 +17,7 @@ export const SIM_CONVEYOR_GUARD = {
   domain: "Manufacturing",
   trade: "Conveyor maintenance technician",
   category: "Manufacturing & Automation",
+  indoor: "shop",
   certification: "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding",
   name: "Conveyor Guard",
   title: simTitle("Conveyor Guard"),

@@ -153,6 +153,30 @@ programme names a station that does not exist, omits a union, a certification or
 leaves a station without a reason — a block a learner can never finish is a build error, not a
 content bug.
 
+## Interiors: a room for the stations that are indoors
+
+A chlorine room, a machining cell and a theatre loft do not stand on a plaza under a city
+skyline, and putting them there was the last obvious lie in the environment. A station declares
+`indoor: "<style>"` and `js/interiors.js` builds a room around it instead: a floor with painted
+walkways and a hazard-edge stripe, walls with a trim stripe in the station's accent, a ceiling
+with real structure, light fittings that each carry a light, and a way out — a roller shutter, a
+personnel door or a dock opening.
+
+Five styles cover the roster. **Plant** and **service** rooms get overhead pipe runs on hangers;
+**shop** and **garage** get roof trusses and deck-plate floors; **theatre** gets a black-walled
+fly tower with a catwalk. Nineteen stations are tagged today: six plant, four shop, four
+theatre, three service, two garage.
+
+The weather does not stop existing indoors — it is what the rooflights are showing. Their
+brightness follows the hour (`?time=`), and in rain or storm they go grey and flicker. The
+station still reports its conditions in the brief, because a technician in a plant room still
+has to know it is blowing outside. The theatre style has no rooflights, which is also true.
+
+An interior is cheaper than the plaza it replaces: 84 meshes and 8 lights for a machine shop,
+38 and 6 for a stage house, against 239 and 16 for the outdoor plaza with its district and
+skyline. `catalog.json` and `sims-meta` carry each station's `indoor` style and the checker
+rejects a style outside the five.
+
 ## Weather: the conditions each procedure is written for
 
 Every station declares the weather its procedure actually assumes, and the stage builds it

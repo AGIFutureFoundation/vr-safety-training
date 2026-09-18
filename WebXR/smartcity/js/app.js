@@ -444,7 +444,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // trainee has no brief to read.
   if (!briefed && !flat && !robot.active && state.mode === "flat" && !Progress.isBriefed(room.id)) { showPreBrief(room); return; }
   clearRoom();
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category, room.weather);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.category, room.weather, room.indoor);
   state.stage = stage;
   Perf.reset();
   const root = new THREE.Group();

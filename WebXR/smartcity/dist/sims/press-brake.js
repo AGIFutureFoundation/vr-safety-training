@@ -18,6 +18,7 @@ export const SIM_PRESS_BRAKE = {
   domain: "Manufacturing",
   trade: "Sheet-metal press brake operator",
   category: "Manufacturing & Automation",
+  indoor: "shop",
   certification: "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
   name: "Press Brake",
   title: simTitle("Press Brake"),

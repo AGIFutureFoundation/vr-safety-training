@@ -18,6 +18,7 @@ export const SIM_FLY_SYSTEM = {
   domain: "Entertainment & Live Events",
   trade: "Theatrical rigger / fly operator",
   category: "Entertainment & Live Events",
+  indoor: "theatre",
   certification: "IATSE — ETCP Certified Rigger (Theatre); ANSI E1.4-1 manual counterweight rigging systems; OSHA 29 CFR 1910.28 fall protection on the loading bridge; venue 'heads up' and lineset-tagging procedure",
   name: "Fly System",
   title: simTitle("Fly System"),

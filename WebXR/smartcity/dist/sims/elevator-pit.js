@@ -18,6 +18,7 @@ export const SIM_ELEVATOR_PIT = {
   domain: "Facilities",
   trade: "Elevator constructor / mechanic",
   category: "Building Systems & Facilities",
+  indoor: "service",
   certification: "IUEC — NAESA QEI-qualified elevator mechanic",
   name: "Elevator Pit",
   title: simTitle("Elevator Pit"),

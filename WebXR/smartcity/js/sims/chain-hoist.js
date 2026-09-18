@@ -18,6 +18,7 @@ export const SIM_CHAIN_HOIST = {
   domain: "Entertainment",
   trade: "Entertainment rigger — chain motors",
   category: "Entertainment & Live Events",
+  indoor: "theatre",
   certification: "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance",
   name: "Chain Hoist",
   title: simTitle("Chain Hoist"),

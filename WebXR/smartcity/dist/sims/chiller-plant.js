@@ -18,6 +18,7 @@ export const SIM_CHILLER_PLANT = {
   domain: "Building Systems",
   trade: "HVAC / refrigeration technician",
   category: "Building Systems & Facilities",
+  indoor: "plant",
   certification: "UA — EPA Section 608 Universal refrigerant certified",
   name: "Chiller Plant",
   title: simTitle("Chiller Plant"),

@@ -18,6 +18,7 @@ export const SIM_FORKLIFT_DOCK = {
   domain: "Manufacturing & Automation",
   trade: "Powered industrial truck operator — warehouse and dock",
   category: "Manufacturing & Automation",
+  indoor: "garage",
   certification: "OSHA 29 CFR 1910.178(l) powered industrial truck operator training and evaluation (three-year re-evaluation); ANSI/ITSDF B56.1 counterbalanced trucks; IBT (Teamsters) and UFCW warehouse locals' PIT programmes",
   name: "Forklift Dock",
   title: simTitle("Forklift Dock"),

@@ -18,6 +18,7 @@ export const SIM_LIFT_STATION = {
   domain: "Water",
   trade: "Wastewater collection system operator",
   category: "Water & Environmental",
+  indoor: "plant",
   weather: "rain",
   certification: "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout",
   name: "Lift Station",

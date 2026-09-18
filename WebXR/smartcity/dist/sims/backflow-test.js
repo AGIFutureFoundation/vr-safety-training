@@ -19,6 +19,7 @@ export const SIM_BACKFLOW_TEST = {
   domain: "Water & Environmental",
   trade: "Certified backflow prevention assembly tester",
   category: "Water & Environmental",
+  indoor: "service",
   certification: "UA plumbers and pipefitters; ASSE 5110 Backflow Prevention Assembly Tester certification and ASSE 1013 reduced-pressure principle assemblies; USC FCCCHR field test procedure; state cross-connection control programme and EPA Safe Drinking Water Act obligations on the purveyor",
   name: "Backflow Test",
   title: simTitle("Backflow Test"),

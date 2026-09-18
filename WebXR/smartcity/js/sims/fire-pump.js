@@ -18,6 +18,7 @@ export const SIM_FIRE_PUMP = {
   domain: "Building Systems",
   trade: "Fire sprinkler fitter / fire pump technician",
   category: "Building Systems & Facilities",
+  indoor: "plant",
   certification: "UA — journeyman sprinkler fitter; NFPA 25 (inspection, testing and maintenance of water-based systems) annual fire pump flow test; NICET Inspection & Testing of Water-Based Systems",
   name: "Fire Pump",
   title: simTitle("Fire Pump"),

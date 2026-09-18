@@ -198,6 +198,9 @@ for (const sim of suite.SIMS) {
     if (!api.hits[id]) fail(sim.id, `hazard "${id}" has no object in the station`);
     if ((sim.hazards[id] ?? "").length < 40) fail(sim.id, `hazard "${id}" explanation is too thin`);
   }
+  if (sim.indoor !== undefined && sim.indoor !== null && !["plant", "shop", "theatre", "service", "garage"].includes(sim.indoor)) {
+    fail(sim.id, `indoor "${sim.indoor}" is not one of plant/shop/theatre/service/garage`);
+  }
   if (sim.weather !== undefined && !["clear", "overcast", "rain", "fog", "wind", "storm"].includes(sim.weather)) {
     fail(sim.id, `weather "${sim.weather}" is not one of clear/overcast/rain/fog/wind/storm`);
   }

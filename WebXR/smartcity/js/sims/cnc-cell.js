@@ -19,6 +19,7 @@ export const SIM_CNC_CELL = {
   domain: "Manufacturing & Automation",
   trade: "CNC machinist — vertical machining centre",
   category: "Manufacturing & Automation",
+  indoor: "shop",
   certification: "IAM and USW machinist locals; NIMS Machining Level I CNC Milling (setup, operation, programming); OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout/tagout; ANSI B11.22 safety requirements for turning and milling centres; OSHA 1910.242(b) limiting compressed air for cleaning",
   name: "CNC Cell",
   title: simTitle("CNC Cell"),

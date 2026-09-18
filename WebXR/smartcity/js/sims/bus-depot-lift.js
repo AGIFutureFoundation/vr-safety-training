@@ -17,6 +17,7 @@ export const SIM_BUS_DEPOT_LIFT = {
   domain: "Mobility",
   trade: "Transit bus technician — electric fleet",
   category: "Mobility & Transit",
+  indoor: "garage",
   certification: "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
   name: "Bus Depot Lift",
   title: simTitle("Bus Depot Lift"),

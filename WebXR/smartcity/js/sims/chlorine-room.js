@@ -18,6 +18,7 @@ export const SIM_CHLORINE_ROOM = {
   domain: "Water & Environmental",
   trade: "Water treatment plant operator",
   category: "Water & Environmental",
+  indoor: "plant",
   certification: "State / AWWA Water Treatment Operator Grade II; Chlorine Institute Pamphlets 1 and 65 (cylinder handling, Emergency Kit A); OSHA 29 CFR 1910.1000 chlorine PEL and 1910.134 respiratory protection; NFPA 55 compressed gas storage",
   name: "Chlorine Room",
   title: simTitle("Chlorine Room"),

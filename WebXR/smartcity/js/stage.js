@@ -4,6 +4,7 @@ import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace }
 import { districtFor, selfLight } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { reducedMotion } from "../../shared/a11y.js";
+import { buildInterior, interiorFor } from "./interiors.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -87,7 +88,7 @@ export function timeOfDay() {
   return TIMES_OF_DAY.includes(t) ? t : "night";
 }
 
-export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null) {
+export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null, indoor = null) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
@@ -113,6 +114,29 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     key.position.set(2.5, 5, 3);
     root.add(key);
     return { root: g, ar, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
+  }
+
+  // A station that is indoors gets a room, not a plaza with a skyline behind
+  // it. The weather still exists — it is what the rooflights are showing —
+  // and the hour still sets how bright they are.
+  const interiorStyle = interiorFor(indoor);
+  if (interiorStyle) {
+    scene.background = new THREE.Color(0x0b0e13);
+    scene.fog = new THREE.Fog(0x0b0e13, 26, 70);
+    const wxIn = buildWeather(g, scene, weatherFor(weather));
+    const daylight = { night: 0.06, dusk: 0.22, day: 0.7 }[timeOfDay()] ?? 0.06;
+    const room = buildInterior(g, indoor, { accent, daylight, weatherKind: wxIn.kind });
+    // Indoors the weather particles belong outside the shell; keep only its
+    // label and note, which are what the learner is actually told.
+    wxIn.root.visible = false;
+    return {
+      root: g, ar, indoor,
+      weather: { kind: wxIn.kind, label: wxIn.label, note: wxIn.note },
+      animate(t, dt = 0.016) {
+        if (reducedMotion()) return;
+        room?.animate(t, dt);
+      },
+    };
   }
 
   scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);

@@ -19,6 +19,7 @@ export const SIM_BOILER_ROOM = {
   domain: "Facilities",
   trade: "Stationary engineer / steamfitter",
   category: "Building Systems & Facilities",
+  indoor: "plant",
   certification: "IUOE — state-licensed Stationary Engineer, boiler operation",
   name: "Boiler Room",
   title: simTitle("Boiler Room"),

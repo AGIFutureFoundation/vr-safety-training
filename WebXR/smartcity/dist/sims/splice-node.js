@@ -17,6 +17,7 @@ export const SIM_SPLICE_NODE = {
   domain: "Connectivity",
   trade: "Fibre optic technician",
   category: "Connectivity & Telecom",
+  indoor: "service",
   weather: "rain",
   certification: "CWA — BICSI Installer 2, Optical Fiber Technician certified",
   name: "Splice Node",

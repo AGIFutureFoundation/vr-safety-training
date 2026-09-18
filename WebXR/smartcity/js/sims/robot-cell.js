@@ -17,6 +17,7 @@ export const SIM_ROBOT_CELL = {
   domain: "Manufacturing",
   trade: "Automation / robotics technician",
   category: "Manufacturing & Automation",
+  indoor: "shop",
   certification: "UAW — ANSI/RIA R15.06 robot safety qualified",
   name: "Robot Cell",
   title: simTitle("Robot Cell"),

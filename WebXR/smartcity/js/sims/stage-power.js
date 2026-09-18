@@ -18,6 +18,7 @@ export const SIM_STAGE_POWER = {
   domain: "Entertainment",
   trade: "Stage / touring electrician",
   category: "Entertainment & Live Events",
+  indoor: "theatre",
   certification: "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
   name: "Stage Power",
   title: simTitle("Stage Power"),
