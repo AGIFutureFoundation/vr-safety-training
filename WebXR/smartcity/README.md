@@ -183,6 +183,32 @@ without the flag and nothing leaves the device unless the log is exported. The s
 `shared/perf.js`; `tools/check_verify.mjs` checks it stays inert without the flag and computes
 sane statistics with it.
 
+## Accessibility
+
+The whole procedure is operable from the keyboard in flat mode, and everything the app says
+aloud is also written to an ARIA live region whether or not the voice is on. `Tab` walks the
+controls this step can act on, in the order the procedure names them; `Enter` takes the one in
+focus; `Space` held is a hold; the arrows work a gauge, a valve or a drifting reading. The
+focused control is highlighted in the scene and read out as a sentence that says what it is,
+where it sits in the list and which key works it. Hazards go to an assertive region because a
+hazard is an interruption. When the system asks for reduced motion the plaza holds still — the
+weather, the district, the beacons and the celebration effects stop — while the station itself
+keeps moving, because a valve that does not turn when you turn it is not a simulator.
+
+`WebXR/ACCESSIBILITY.md` is the conformance statement, written to be read by a procurement
+officer: what conforms against WCAG 2.1 AA and Section 508, the full key map, and a plain list
+of what does **not** conform. The headset modes are not keyboard-operable and are not claimed to
+be; the accessible path is the flat mode, which runs the same procedure, applies the same
+hazards, scores with the same engine and writes the same record, so a learner who cannot use a
+headset is not on a lesser course. No third-party audit has been done and the statement says so.
+
+`tools/check_a11y.mjs` runs on every commit. It checks the plumbing — the live region is a real
+clipped status region, the cursor walks a step's controls in procedure order, every step kind
+names the key that works it — and the content contract across all 56 procedures: every step has
+a title, a cue and a rationale in words; every item in a multi-target step is named in words;
+every graded control prints its value as text rather than relying on a coloured band; and every
+hazard explains itself in a full sentence.
+
 ## Instructor mode
 
 `WebXR/instructor/` is the console for the person running the class: a live view of the
@@ -414,7 +440,7 @@ is connected — connecting later and pressing **Send all** delivers the local h
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
 `node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
-identity, lrs, robot, platform, lti, orbis-stable, verify, observer — one line each) and a freshness check that regenerates `sims-meta.js`
+identity, lrs, robot, platform, lti, orbis-stable, verify, observer, a11y — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
 silent deploy of old code. Run the same command locally before pushing.
 

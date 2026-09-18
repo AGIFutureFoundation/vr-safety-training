@@ -3,6 +3,7 @@ import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } 
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
 import { districtFor, selfLight } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
+import { reducedMotion } from "../../shared/a11y.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -190,6 +191,10 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   return {
     root: g, ar, weather: { kind: wx.kind, label: wx.label, note: wx.note },
     animate(t, dt = 0.016) {
+      // A learner who asked their system for less animation gets a still
+      // plaza: the station itself still moves, because the procedure needs
+      // it, but the scenery, the weather and the beacons hold.
+      if (reducedMotion()) return;
       // Cheap flagship motion: rotate the holo-emblem, pulse its inner ring and the
       // marquee trim, and blink a handful of rooftop beacons — property tweaks on
       // already-built meshes/materials, nothing allocated per frame.

@@ -9,6 +9,7 @@ import { RobotAgent, observe } from "../../shared/robot.js";
 import { Platform } from "../../shared/platform.js";
 import { Perf } from "../../shared/perf.js";
 import { createBroadcaster } from "../../shared/observer.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -479,6 +480,12 @@ async function enterSim(id, { briefed = false } = {}) {
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
+      // A new step means a new set of controls; re-point the keyboard cursor
+      // and read the step out for anyone not watching the screen.
+      kbCursor.set(targetsForStep(step));
+      kbCarrying = null;
+      srAnnouncer.say(`Step ${(s.index | 0) + 1} of ${s.steps.length}. ${step.title}. ${step.cue}`);
+      if (kbActive && kbCursor.current) kbFocus(kbCursor.current, { announceIt: false });
       if (flat) { flatSyncStep(step, s); syncHud(); return; }
       updateHintForStep(step);
       if (step.kind === "gauge") { paintGaugeBand(step); placeGauge(state.hits[step.target]); gauge.visible = true; }
@@ -489,10 +496,10 @@ async function enterSim(id, { briefed = false } = {}) {
     onFeedback: (fb, s) => {
       state.api.onFeedback?.(fb, s);
       setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
-      if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
+      if (fb.kind === "danger") { flashDanger(); srAnnouncer.alert(fb.text); if (fb.speech) announce(fb.speech); }
       if (fb.kind === "ok" && fb.points) {
         scorePop(`+${fb.points}`, fb.combo >= 1.6);
-        if (fb.combo >= 1.6 && !flat) burstAtHit(lastActivatedId);
+        if (fb.combo >= 1.6 && !flat && !reducedMotion()) burstAtHit(lastActivatedId);
       }
       if (flat) store.patch("flat", { feedback: { kind: fb.kind, html: fb.text }, picked: [...s.sequence] });
       syncHud();
@@ -1337,6 +1344,83 @@ function isTypingTarget(e) {
   const tag = e.target?.tagName;
   return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
 }
+// ------------------------------------------------------- keyboard operation
+//
+// The whole procedure is operable without a pointer: Tab walks the controls
+// this step can act on, in the order the procedure names them; Enter takes
+// the one in focus; the arrows work an analogue control; the space bar is the
+// hold. The focused control is tinted the same way a hover tints it, and is
+// read out through the live region. See shared/a11y.js for why the flat mode
+// is the accessible path and the headset modes are not.
+const kbCursor = createTargetCursor();
+let kbActive = false;          // the learner has used the keyboard at least once
+let kbCarrying = null;         // the id picked up by Enter on a drag step
+
+/** The controls this step can act on, in procedure order, plus a drag socket. */
+function targetsForStep(step) {
+  if (!step) return [];
+  const base = step.kind === "sequence" || step.kind === "find"
+    ? [...(step.targets ?? [])]
+    : step.target ? [step.target] : [];
+  if (step.kind === "drag" && step.drag?.to) base.push(step.drag.to);
+  return base.filter((id) => state.hits[id]);
+}
+/** Readable names for the controls, from the step's own item names. */
+function targetNames(step) {
+  return { ...(step?.itemNames ?? {}) };
+}
+function kbFocus(id, { announceIt = true } = {}) {
+  if (!id) return;
+  kbActive = true;
+  kbCursor.focus(id);
+  setHover(id);
+  if (!announceIt) return;
+  const step = state.session?.step;
+  const pos = [kbCursor.index + 1, kbCursor.ids.length];
+  srAnnouncer.say(describeTarget(id, step, { names: targetNames(step), position: pos }));
+}
+function kbStep(dir) {
+  const step = state.session?.step;
+  kbCursor.set(targetsForStep(step));
+  const id = dir > 0 ? kbCursor.next() : kbCursor.prev();
+  kbFocus(id);
+}
+/** Enter: take the focused control the way this step expects. */
+function kbActivate() {
+  const s = state.session;
+  const id = kbCursor.current;
+  if (!s || !s.step || !id) return;
+  const step = s.step;
+  if (step.kind === "drag") {
+    if (!kbCarrying && id === step.target) {
+      kbCarrying = id;
+      srAnnouncer.say(`Picked up. Tab to where it belongs, then press Enter to place it.`);
+      return;
+    }
+    if (kbCarrying) { s.dropAt(id, 0); kbCarrying = null; syncHud(); return; }
+  }
+  lastActivatedId = id;
+  activate(id);
+}
+/** Arrows: work an analogue control — a gauge reading or a valve's turns. */
+function kbAdjust(delta) {
+  const s = state.session;
+  const step = s?.step;
+  if (!step) return false;
+  if (step.kind === "gauge" && s.gauge) {
+    s.gauge.t = Math.max(0, Math.min(1, s.gauge.t + delta * 0.04));
+    s.gauge.dir = 0;  // the arrows take over from the sweep
+    syncHud();
+    return true;
+  }
+  if (step.kind === "track" && s.track) {
+    s.track.v = Math.max(0, Math.min(1, s.track.v + delta * 0.05));
+    return true;
+  }
+  if (step.kind === "turn") { s.rotate(step.target, delta * 0.08); syncHud(); return true; }
+  return false;
+}
+
 addEventListener("keydown", (e) => {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
@@ -1352,8 +1436,28 @@ addEventListener("keydown", (e) => {
     else if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
   }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
+  // --- keyboard operation of the running procedure ---
+  if (!state.session || renderer.xr.isPresenting || store.get().prebrief.visible) return;
+  if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
+  if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
+  if (e.code === "Space") {
+    e.preventDefault();
+    if (!e.repeat && kbCursor.current) pressStart(kbCursor.current);
+    return;
+  }
+  if (e.code === "ArrowUp" || e.code === "ArrowDown") {
+    if (kbAdjust(e.code === "ArrowUp" ? 1 : -1)) { e.preventDefault(); kbActive = true; }
+    return;
+  }
+  if (e.code === "ArrowRight" || e.code === "ArrowLeft") {
+    e.preventDefault(); kbStep(e.code === "ArrowRight" ? 1 : -1);
+  }
 });
-addEventListener("keyup", (e) => { if (!isTypingTarget(e)) keys[e.code] = false; });
+addEventListener("keyup", (e) => {
+  if (isTypingTarget(e)) return;
+  keys[e.code] = false;
+  if (e.code === "Space" && state.session) { e.preventDefault(); pressEnd(); }
+});
 
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
@@ -1637,7 +1741,11 @@ async function enterVr() {
 // ever read something back — they change nothing in the session.
 
 /** Speak a line unless the player has muted the room with M. */
+const srAnnouncer = createAnnouncer();
 function announce(text) {
+  // Everything spoken is also written to the live region, so a screen reader
+  // user gets it whether or not the synthesised voice is on or muted.
+  srAnnouncer.say(text);
   if (!Sfx.muted) speak(text);
 }
 
@@ -1773,6 +1881,9 @@ window.__smartcityTest = {
   camera: () => camera,
   stage: () => state.stage,
   perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
+  // The keyboard cursor, so an accessibility test can assert that Tab walks
+  // the controls the procedure names rather than the scene-graph order.
+  keyboard: () => ({ ids: kbCursor.ids, index: kbCursor.index, current: kbCursor.current, active: kbActive }),
 };
 Perf.mountOverlay();
 
