@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
+  shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
 } from "../../../shared/kit.js";
 
 // Room 02 — Hair stylist: oxidative colour service, station sanitation and
@@ -20,8 +20,11 @@ export const ROOM_SALON = {
   certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
   accent: 0xe2739b,
   accentCss: "#e2739b",
-  parSeconds: 185,
-  spawn: { x: 1.9, z: 2.5, ry: -0.35 },
+  parSeconds: 205,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.9, d: 13.9 },
+  spawn: { x: 3.1, z: 4.1, ry: -0.35 },
   badge: { id: "clean-chair", name: "Clean Chair", note: "Full colour service with no sanitation breach" },
 
   hazards: {
@@ -120,7 +123,7 @@ export const ROOM_SALON = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8.6, d: 8.6, h: 3.05,
+      w: 13.9, d: 13.9, h: 4.0,
       floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
       floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
           trim: 0xa8639c, door: "personnel",
@@ -132,9 +135,6 @@ export const ROOM_SALON = {
         Math.cos(a) * r, 0.003, Math.sin(a) * r,
         [0xb9a389, 0x8d9aa3, 0xd8cfc2][i % 3], { cast: false, receive: false, rough: 0.4 });
     }
-    ceilingPanel(root, -1.6, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
-    ceilingPanel(root, 1.8, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
-    ceilingPanel(root, 0, 2.4, { w: 2.2, color: 0xfff0dc, ei: 1.0 });
 
     // ----------------------------------------------------- mirror station
     const station = group(root, -1.4, 0, -4.1);
@@ -368,6 +368,14 @@ export const ROOM_SALON = {
 
     let rinsing = false;
     let coloured = false;
+
+    // The bay is 13.9m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
 
     return {
       hits,

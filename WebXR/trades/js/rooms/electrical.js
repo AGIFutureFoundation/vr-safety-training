@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, cabinet, particles, markInteractive, mat, HUD,
+  shell, ceilingGrid, spreadLayout, counter, cabinet, particles, markInteractive, mat, HUD,
 } from "../../../shared/kit.js";
 
 // Room 01 — Electrical worker: energy isolation and absence-of-voltage verification.
@@ -21,8 +21,11 @@ export const ROOM_ELECTRICAL = {
   certification: "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
   accent: 0x5aa9ff,
   accentCss: "#5aa9ff",
-  parSeconds: 165,
-  spawn: { x: 0, z: 3.0, ry: 0 },
+  parSeconds: 180,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.6, d: 13.6 },
+  spawn: { x: 0.0, z: 4.9, ry: 0 },
   badge: { id: "zero-energy", name: "Zero Energy Verified", note: "Perfect live-dead-live on the first run" },
 
   hazards: {
@@ -113,7 +116,7 @@ export const ROOM_ELECTRICAL = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8.4, d: 8.4, h: 3.1,
+      w: 13.6, d: 13.6, h: 4.0,
       floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
       floorRough: 0.9, skirtColor: 0x2b3138,
           walkway: { lane: 0xf2c14b, hatch: 0x9aa4ae },
@@ -127,8 +130,6 @@ export const ROOM_ELECTRICAL = {
     decal(root, 1.5, 0.34, 0, 0.006, -1.05, signFace("ARC FLASH BOUNDARY", { bg: "#4a5057", accent: "#f2ae14", scale: 0.5 }))
       .rotation.x = -Math.PI / 2;
 
-    for (const x of [-2.4, 0, 2.4]) ceilingPanel(root, x, -1.4, { w: 1.5, ei: 1.2 });
-    ceilingPanel(root, 0, 1.8, { w: 1.5, ei: 0.9 });
 
     // ------------------------------------------------------------- panel bank
     const bank = group(root, 0, 0, -3.55);
@@ -350,6 +351,14 @@ export const ROOM_ELECTRICAL = {
 
     let energised = true;
     let arcTimer = 0;
+
+    // The bay is 13.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
 
     return {
       hits,

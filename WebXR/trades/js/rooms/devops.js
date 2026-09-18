@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 
 // Room 06 — Platform engineer / SRE: promoting a build through a real
@@ -23,8 +23,11 @@ export const ROOM_DEVOPS = {
   certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
   accent: VIOLET,
   accentCss: "#7c6fea",
-  parSeconds: 195,
-  spawn: { x: 0, z: 3.1, ry: 0 },
+  parSeconds: 215,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.0, z: 5.0, ry: 0 },
   badge: { id: "clean-promote", name: "Clean Promote", note: "Prod promotion with a scoped agent, a healthy canary, and a tested rollback" },
 
   hazards: {
@@ -119,15 +122,13 @@ export const ROOM_DEVOPS = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9.0, d: 8.6, h: 3.2,
+      w: 14.6, d: 13.9, h: 4.2,
       floor: 0x1c2229, wall: 0x232b34, ceiling: 0x171d24,
       floorRough: 0.55, skirtColor: 0x141a20,
           walkway: { lane: 0x3d7fb8, hatch: 0x2a3440, laneFrac: 0.40 },
       trim: 0x2f5f8a, structure: "pipes", structureColor: 0x39434f, door: "personnel",
 });
 
-    for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, -1.6, { w: 1.5, ei: 1.0 });
-    ceilingPanel(root, 0, 2.0, { w: 1.5, ei: 0.8 });
 
     // ------------------------------------------------------- background racks
     const rackRow = group(root, 0, 0, -4.1);
@@ -271,6 +272,14 @@ export const ROOM_DEVOPS = {
     root.add(alertLight);
     const sparks = particles(secretsRack, 40, BAD, { size: 0.02, life: 0.3 });
     let alertTimer = 0;
+
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.15, lamp: 0.95, y: 4.04 });
 
     return {
       hits,

@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 
 // Room 07 — Plumber / pipefitter: a DWV rough-in behind open studs, backflow
@@ -21,8 +21,11 @@ export const ROOM_PLUMBING = {
   certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
-  parSeconds: 215,
-  spawn: { x: 0, z: 3.2, ry: 0 },
+  parSeconds: 235,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.6 },
+  spawn: { x: 0.0, z: 5.2, ry: 0 },
   badge: { id: "zero-leaks", name: "Zero Leaks", note: "A pressure-tested rough-in with backflow protection intact and every joint torch-safe" },
 
   hazards: {
@@ -131,7 +134,7 @@ export const ROOM_PLUMBING = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.4, h: 3.0,
+      w: 14.6, d: 13.6, h: 3.9,
       floor: 0x4a4038, wall: 0xc9c0ac, ceiling: 0x2f2b26,
       floorRough: 0.95, skirtColor: 0x35302a,
           walkway: { lane: 0xe08a2c, hatch: 0x8a8272 },
@@ -142,9 +145,6 @@ export const ROOM_PLUMBING = {
     for (let i = -5; i <= 5; i++) box(studWall, 0.09, 2.9, 0.09, i * 0.7, 1.45, 0.03, WOOD, { rough: 0.92 });
     box(studWall, 7.3, 0.09, 0.09, 0, 0.09, 0.03, WOOD, { rough: 0.92 });
     box(studWall, 7.3, 0.09, 0.09, 0, 2.86, 0.03, WOOD, { rough: 0.92 });
-    ceilingPanel(root, -2.2, 1.4, { w: 1.6, color: 0xfff0dc, ei: 1.3, y: 2.94, lamp: 2.2, range: 11 });
-    ceilingPanel(root, 2.2, 1.4, { w: 1.6, color: 0xfff0dc, ei: 1.3, y: 2.94, lamp: 2.2, range: 11 });
-    ceilingPanel(root, 0, -2.6, { w: 1.6, color: 0xfff0dc, ei: 1.1, y: 2.94, lamp: 2.0, range: 11 });
 
     // ------------------------------------------------------------ work order
     const plans = group(root, -3.9, 0, 1.6, Math.PI / 2 + 0.1);
@@ -303,6 +303,14 @@ export const ROOM_PLUMBING = {
     root.add(new THREE.HemisphereLight(0xd8ccb0, 0x3a342c, 1.25));
 
     let bleeding = false, torchLit = false, pressurized = false;
+
+    // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
 
     return {
       hits,

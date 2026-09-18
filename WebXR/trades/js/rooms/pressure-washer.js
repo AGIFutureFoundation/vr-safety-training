@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 
 // Room 08 — Laborer, surface preparation: a pressure-wash of a painted stucco
@@ -32,8 +32,11 @@ export const ROOM_PRESSURE_WASHER = {
   certification: "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)",
   accent: PW_BRAND,
   accentCss: "#f2c14b",
-  parSeconds: 230,
-  spawn: { x: 0, z: 3.4, ry: 0 },
+  parSeconds: 255,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 16.2, d: 14.6 },
+  spawn: { x: 0.0, z: 5.5, ry: 0 },
   badge: { id: "clean-recovery", name: "Clean Recovery", note: "Every litre of wash water contained and recovered, the substrate cleaned and not cut" },
 
   hazards: {
@@ -150,14 +153,12 @@ export const ROOM_PRESSURE_WASHER = {
     // An open-sided yard: concrete apron, painted stucco wall at the back,
     // daylight from a high roof.
     shell(root, {
-      w: 10, d: 9, h: 3.6,
+      w: 16.2, d: 14.6, h: 4.7,
       floor: PW_CONCRETE, wall: 0x6b6f74, ceiling: 0x3a3f45,
       floorRough: 0.98, skirtColor: 0x4a4e52, backWall: false,
           walkway: { lane: 0x3f9ad0, hatch: 0x9aa0a6 },
       trim: 0x2f7fb0, structure: "trusses", door: "dock", doorDaylight: false,
 });
-    ceilingPanel(root, -2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
-    ceilingPanel(root, 2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
 
     // ------------------------------------------------------- the stucco wall
     const wallGrp = group(root, 0, 0, -4.4);
@@ -330,6 +331,14 @@ export const ROOM_PRESSURE_WASHER = {
     root.add(new THREE.HemisphereLight(0xdfe6ee, 0x4a4e52, 1.2));
 
     let spraying = false, vacRunning = false, tipFitted = false;
+
+    // The bay is 16.2m by 14.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
 
     return {
       hits,

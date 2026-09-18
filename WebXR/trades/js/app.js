@@ -925,7 +925,20 @@ function desktopMove(dt) {
   clampRig();
 }
 
+// A room is a rectangle, so the learner is held inside that rectangle, an
+// arm's length off the walls. It used to be a 3.6m circle in the middle of an
+// 8-to-10m room, which fenced everyone into the centre third of the floor and
+// made every bay a diorama you turned on the spot in — you could not walk to
+// the permit board, only look at it.
+const WALL_GAP = 0.85;
 function clampRig() {
+  const size = state.session ? state.room?.size : null;
+  if (size) {
+    const hx = size.w / 2 - WALL_GAP, hz = size.d / 2 - WALL_GAP;
+    rig.position.x = Math.max(-hx, Math.min(hx, rig.position.x));
+    rig.position.z = Math.max(-hz, Math.min(hz, rig.position.z));
+    return;
+  }
   const limit = state.session ? 3.6 : 6.6;
   const len = Math.hypot(rig.position.x, rig.position.z);
   if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }

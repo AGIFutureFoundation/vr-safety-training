@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
+import { buildApron } from "./apron.js";
 import { districtFor, selfLight } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { reducedMotion } from "../../shared/a11y.js";
@@ -113,7 +114,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     const key = new THREE.DirectionalLight(0xffffff, 0.7);
     key.position.set(2.5, 5, 3);
     root.add(key);
-    return { root: g, ar, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
+    // No apron in AR: the learner's own room is the site, and a fence line
+    // through their furniture helps nobody.
+    return { root: g, ar, roam: null, spawn: null, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
   }
 
   // A station that is indoors gets a room, not a plaza with a skyline behind
@@ -129,8 +132,13 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     // Indoors the weather particles belong outside the shell; keep only its
     // label and note, which are what the learner is actually told.
     wxIn.root.visible = false;
+    // An interior is already a walkable space; the learner may use all of it
+    // up to the walls, and they start at the door rather than mid-floor.
+    const half = Math.min(room?.w ?? 12, room?.d ?? 12) / 2 - 1.1;
     return {
       root: g, ar, indoor,
+      roam: Math.max(3.4, half),
+      spawn: { x: 0, z: Math.max(2.6, (room?.d ?? 12) / 2 - 1.6), ry: 0 },
       weather: { kind: wxIn.kind, label: wxIn.label, note: wxIn.note },
       animate(t, dt = 0.016) {
         if (reducedMotion()) return;
@@ -211,9 +219,15 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   rim.position.set(-3, 4, -8);
   g.add(rim);
 
+  // The site around the work: gate, sign-in, laydown, crew truck, muster point
+  // and waste station, spread across ground that used to be empty pavement the
+  // learner was not allowed to walk on anyway. See apron.js.
+  const apron = buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
+
   const beacons = sky.userData.beacons ?? [];
   return {
-    root: g, ar, weather: { kind: wx.kind, label: wx.label, note: wx.note },
+    root: g, ar, roam: apron.roam, spawn: apron.spawn,
+    weather: { kind: wx.kind, label: wx.label, note: wx.note },
     animate(t, dt = 0.016) {
       // A learner who asked their system for less animation gets a still
       // plaza: the station itself still moves, because the procedure needs
@@ -229,6 +243,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
       if (districtAnimate) districtAnimate(t);
+      apron.animate(t);
       wx.animate(t, dt);
     },
   };

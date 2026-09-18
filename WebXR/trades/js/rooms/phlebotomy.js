@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 
 // Room 04 — Phlebotomy technician: patient identification, venipuncture and the
@@ -19,8 +19,11 @@ export const ROOM_PHLEBOTOMY = {
   certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
-  parSeconds: 200,
-  spawn: { x: 1.6, z: 2.8, ry: -0.3 },
+  parSeconds: 220,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.0, d: 13.0 },
+  spawn: { x: 2.6, z: 4.5, ry: -0.3 },
   badge: { id: "order-of-draw", name: "Order of Draw", note: "Correct draw sequence with no additive carryover" },
 
   hazards: {
@@ -116,7 +119,7 @@ export const ROOM_PHLEBOTOMY = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8, d: 8, h: 2.95,
+      w: 13.0, d: 13.0, h: 3.8,
       floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
       floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
           trim: 0x3d8f8a, door: "personnel",
@@ -129,8 +132,6 @@ export const ROOM_PHLEBOTOMY = {
       const w = group(root, wx, 0, wz, wry);
       box(w, 7.9, 0.05, 0.02, 0, 0.95, 0.06, TRIM, { cast: false, rough: 0.5 });
     }
-    for (const x of [-2, 2]) ceilingPanel(root, x, -1, { w: 1.9, color: 0xf2f8ff, ei: 1.35 });
-    ceilingPanel(root, 0, 2, { w: 1.9, color: 0xf2f8ff, ei: 1.1 });
 
     // ------------------------------------------------------------- draw chair
     const chair = group(root, -1.0, 0, -1.6, 0.35);
@@ -331,6 +332,14 @@ export const ROOM_PHLEBOTOMY = {
     let needleIn = false;
     let dripT = 0;
     const drawnTubes = new Set();
+
+    // The bay is 13.0m by 13.0m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
 
     return {
       hits,

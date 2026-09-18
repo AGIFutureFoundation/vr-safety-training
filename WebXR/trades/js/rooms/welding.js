@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 
 // Room 05 — Welder / fabricator: hot work permit, fume control, arc-eye
@@ -19,8 +19,11 @@ export const ROOM_WELDING = {
   certification: "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
   accent: 0xf2c14b,
   accentCss: "#f2c14b",
-  parSeconds: 210,
-  spawn: { x: 0.4, z: 3.1, ry: -0.1 },
+  parSeconds: 230,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.6, z: 5.0, ry: -0.1 },
   badge: { id: "fire-watch", name: "Fire Watch Held", note: "Permit to fire watch with no hot-work shortcut" },
 
   hazards: {
@@ -124,7 +127,7 @@ export const ROOM_WELDING = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.6, h: 3.4,
+      w: 14.6, d: 13.9, h: 4.4,
       floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
       floorRough: 0.95, skirtColor: 0x353a40,
           walkway: { lane: 0xf2c14b, hatch: 0x9aa2aa },
@@ -139,10 +142,6 @@ export const ROOM_WELDING = {
     }
     // Bay floor marking.
     for (let i = -6; i <= 6; i++) box(root, 0.2, 0.006, 0.08, i * 0.36, 0.005, 0.4, 0xf2c14b, { cast: false, rough: 0.8 });
-    ceilingPanel(root, -2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
-    ceilingPanel(root, 2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
-    ceilingPanel(root, 0, -2.6, { w: 1.8, color: 0xdfe9f4, ei: 1.1, y: 3.3, lamp: 2.2, range: 12 });
-    ceilingPanel(root, -3.0, -3.0, { w: 1.2, color: 0xdfe9f4, ei: 1.0, y: 3.3, lamp: 1.8, range: 9 });
 
     // ------------------------------------------------------- welding screens
     const screens = group(root, -0.6, 0, -2.2);
@@ -398,6 +397,14 @@ export const ROOM_WELDING = {
     let arcOn = false;
     let extractionOn = false;
     let welded = false;
+
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
 
     return {
       hits,

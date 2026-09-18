@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 
 // Room 09 — Painter / coatings applicator: an airless spray of an interior
@@ -33,8 +33,11 @@ export const ROOM_PAINT_SPRAYER = {
   certification: "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews",
   accent: PS_BRAND,
   accentCss: "#6fb0e6",
-  parSeconds: 240,
-  spawn: { x: 0, z: 3.2, ry: 0 },
+  parSeconds: 265,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.6 },
+  spawn: { x: 0.0, z: 5.2, ry: 0 },
   badge: { id: "even-build", name: "Even Build", note: "A contained, lead-safe spray with an even film and no runs, holidays or drift" },
 
   hazards: {
@@ -149,15 +152,12 @@ export const ROOM_PAINT_SPRAYER = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.4, h: 3.0,
+      w: 14.6, d: 13.6, h: 3.9,
       floor: 0x6b5e4d, wall: 0xd8d0c0, ceiling: 0xe8e2d6,
       floorRough: 0.9, skirtColor: 0x4a4038,
           walkway: { lane: 0x4f88b8, hatch: 0x8f8778 },
       trim: 0x3f6f99, structure: "trusses", structureColor: 0x8a8577, door: "shutter",
 });
-    ceilingPanel(root, -2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
-    ceilingPanel(root, 2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
-    ceilingPanel(root, 0, -2.4, { w: 1.6, color: 0xfff6e8, ei: 1.1, y: 2.94, lamp: 1.8, range: 11 });
 
     // -------------------------------------------------------- the old wall
     const wallGrp = group(root, 0, 0, -4.1);
@@ -335,6 +335,14 @@ export const ROOM_PAINT_SPRAYER = {
     key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
     root.add(key);
     root.add(new THREE.HemisphereLight(0xe8e2d6, 0x4a4038, 1.2));
+
+    // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
 
     return {
       hits,

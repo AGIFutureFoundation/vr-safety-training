@@ -771,6 +771,79 @@ function paperFace(title, rows, o = {}) {
  * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
  * Rooms are built around the origin; the learner spawns near +z looking to -z.
  */
+/**
+ * Light a room in proportion to its floor, not to a number somebody typed once.
+ *
+ * Each bay hand-placed three or four ceiling fittings, which was right for an
+ * eight-metre room and leaves a fourteen-metre one with black corners and a
+ * far wall nobody can read. This lays fittings on a grid whose spacing is
+ * fixed, so a bigger floor simply gets more of them, and adds the low
+ * hemisphere fill that stops an unlit corner going to pure black — a real shop
+ * has bounce off the walls and these rooms had none at all.
+ *
+ * Call it after spreadLayout(), so the grid is sized to the room the learner
+ * actually walks into.
+ */
+function ceilingGrid(parent, w, d, o = {}) {
+  const spacing = o.spacing ?? 5.0;
+  const nx = Math.max(2, Math.min(3, Math.round(w / spacing)));
+  const nz = Math.max(2, Math.min(3, Math.round(d / spacing)));
+  const y = o.y ?? 2.94;
+  const cellW = w / nx, cellD = d / nz;
+  const colour = o.color ?? 0xfff4e2;
+  const lamps = [];
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      const x = (i + 0.5) * cellW - w / 2;
+      const z = (j + 0.5) * cellD - d / 2;
+      // One emissive slab per fitting, not a housing plus a lens: at ceiling
+      // height the housing is never seen, and doubling the mesh count of every
+      // fitting in every room to draw it put the colour studio over budget.
+      lamps.push(box(parent, Math.min(cellW * 0.42, 3.4), 0.05, 0.3, x, y, z, colour,
+        { cast: false, emissive: colour, ei: o.ei ?? 1.6, rough: 0.4 }));
+      // Light only a checker of the fittings, with the range to cover their
+      // neighbours. A dozen point lights in one room is a real cost on a
+      // headset and buys nothing a wider-throw half-dozen does not.
+      if ((i + j) % 2 === 0) {
+        const lamp = new THREE.PointLight(colour, o.lamp ?? 2.2, o.range ?? Math.max(14, spacing * 3.2), 2);
+        lamp.position.set(x, y - 0.2, z);
+        parent.add(lamp);
+      }
+    }
+  }
+  // Bounce. Without it a face turned away from every fitting renders black,
+  // which is the one thing a real room never does.
+  parent.add(new THREE.HemisphereLight(o.sky ?? 0xdceaf6, o.groundTone ?? 0x4a535d, o.fill ?? 0.95));
+  return lamps;
+}
+
+/**
+ * Push a room's workstations apart without resizing any of them.
+ *
+ * Every bay was laid out inside about eight metres because that is all the
+ * learner was ever allowed to walk. Making the room bigger on its own just
+ * adds an empty ring of floor: the bench, the machine, the permit board and
+ * the PPE stand all stay huddled in the middle, and the extra space reads as
+ * a mistake rather than a shop.
+ *
+ * This scales the POSITION of each thing standing on the room floor, and
+ * nothing else. A bench four metres out goes to six and a half; the bench
+ * itself, and everything parented to it, is untouched, because a child's
+ * position is local to its group. Anything already at the origin — the shell,
+ * the floor paint — does not move, which is exactly right.
+ *
+ * Call it at the end of build(), before returning, so the room a checker
+ * measures is the room the learner walks into.
+ */
+function spreadLayout(root, k = 1) {
+  if (!(k > 0) || k === 1) return root;
+  for (const child of root.children ?? []) {
+    child.position.x *= k;
+    child.position.z *= k;
+  }
+  return root;
+}
+
 // 0xrrggbb to the "#rrggbb" a canvas context wants.
 function hex(color) {
   return `#${(color & 0xffffff).toString(16).padStart(6, "0")}`;
@@ -807,23 +880,32 @@ function shell(parent, o = {}) {
 // costs a single mesh however detailed the marking is.
 function floorPaint(parent, w, d, o = {}) {
   const lane = o.lane ?? 0xf2c14b, hatch = o.hatch ?? 0xd8dde3, base = o.base ?? null;
+  const px = o.px ?? 1024;
+  // Everything here is set out in metres and converted, not in fractions of
+  // the canvas. Drawn in fractions, the same markings on a fourteen-metre
+  // floor came out as sparse white ticks scattered across it that read as
+  // litter rather than as a hazard border.
+  const perM = px / w;
+  const laneW = o.laneMetres ?? 1.9;     // a walkway you can pass someone in
+  const margin = o.marginMetres ?? 0.85; // the hazard border along the walls
+  const pitch = o.pitchMetres ?? 0.34;   // stripe spacing in that border
   const m = decal(parent, w, d, 0, 0.012, 0, (g, cw, ch) => {
     g.clearRect(0, 0, cw, ch);
     if (base) { g.fillStyle = hex(base); g.fillRect(0, 0, cw, ch); }
-    else { g.fillStyle = "rgba(0,0,0,0)"; g.fillRect(0, 0, cw, ch); }
-    // Walkway: two solid lines, symmetric so the decal reads the same either
-    // way up (a rotated plane can present its canvas mirrored).
-    const laneW = cw * (o.laneFrac ?? 0.34), lx = (cw - laneW) / 2;
-    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, cw * 0.008);
-    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + laneW, 0); g.lineTo(lx + laneW, ch); g.stroke();
-    // Hazard hatch on both outer margins.
-    const marg = cw * 0.075;
-    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, cw * 0.006);
-    for (let i = -ch; i < ch * 2; i += cw * 0.055) {
-      g.beginPath(); g.moveTo(0, i); g.lineTo(marg, i + marg); g.stroke();
-      g.beginPath(); g.moveTo(cw, i); g.lineTo(cw - marg, i + marg); g.stroke();
+    const lw = laneW * perM, lx = (cw - lw) / 2;
+    g.fillStyle = `${hex(lane)}22`;
+    g.fillRect(lx, 0, lw, ch);
+    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, 0.1 * perM);
+    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + lw, 0); g.lineTo(lx + lw, ch); g.stroke();
+    // Hazard border: continuous diagonal stripes at a fixed pitch, so the
+    // band reads as painted-on chevrons at any room size.
+    const marg = margin * perM, step = pitch * perM;
+    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, 0.09 * perM);
+    for (let y = -marg; y < ch + marg; y += step) {
+      g.beginPath(); g.moveTo(0, y); g.lineTo(marg, y + marg); g.stroke();
+      g.beginPath(); g.moveTo(cw, y); g.lineTo(cw - marg, y + marg); g.stroke();
     }
-  }, { px: o.px ?? 1024, transparent: !base, rough: 0.9 });
+  }, { px, transparent: !base, rough: 0.9 });
   m.rotation.x = -Math.PI / 2;
   return m;
 }
@@ -2849,8 +2931,11 @@ const ROOM_ELECTRICAL = {
   certification: "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
   accent: 0x5aa9ff,
   accentCss: "#5aa9ff",
-  parSeconds: 165,
-  spawn: { x: 0, z: 3.0, ry: 0 },
+  parSeconds: 180,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.6, d: 13.6 },
+  spawn: { x: 0.0, z: 4.9, ry: 0 },
   badge: { id: "zero-energy", name: "Zero Energy Verified", note: "Perfect live-dead-live on the first run" },
 
   hazards: {
@@ -2941,7 +3026,7 @@ const ROOM_ELECTRICAL = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8.4, d: 8.4, h: 3.1,
+      w: 13.6, d: 13.6, h: 4.0,
       floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
       floorRough: 0.9, skirtColor: 0x2b3138,
           walkway: { lane: 0xf2c14b, hatch: 0x9aa4ae },
@@ -2955,8 +3040,6 @@ const ROOM_ELECTRICAL = {
     decal(root, 1.5, 0.34, 0, 0.006, -1.05, signFace("ARC FLASH BOUNDARY", { bg: "#4a5057", accent: "#f2ae14", scale: 0.5 }))
       .rotation.x = -Math.PI / 2;
 
-    for (const x of [-2.4, 0, 2.4]) ceilingPanel(root, x, -1.4, { w: 1.5, ei: 1.2 });
-    ceilingPanel(root, 0, 1.8, { w: 1.5, ei: 0.9 });
 
     // ------------------------------------------------------------- panel bank
     const bank = group(root, 0, 0, -3.55);
@@ -3179,6 +3262,14 @@ const ROOM_ELECTRICAL = {
     let energised = true;
     let arcTimer = 0;
 
+    // The bay is 13.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(0, 1.3, -3.4),
@@ -3245,8 +3336,11 @@ const ROOM_SALON = {
   certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
   accent: 0xe2739b,
   accentCss: "#e2739b",
-  parSeconds: 185,
-  spawn: { x: 1.9, z: 2.5, ry: -0.35 },
+  parSeconds: 205,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.9, d: 13.9 },
+  spawn: { x: 3.1, z: 4.1, ry: -0.35 },
   badge: { id: "clean-chair", name: "Clean Chair", note: "Full colour service with no sanitation breach" },
 
   hazards: {
@@ -3345,7 +3439,7 @@ const ROOM_SALON = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8.6, d: 8.6, h: 3.05,
+      w: 13.9, d: 13.9, h: 4.0,
       floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
       floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
           trim: 0xa8639c, door: "personnel",
@@ -3357,9 +3451,6 @@ const ROOM_SALON = {
         Math.cos(a) * r, 0.003, Math.sin(a) * r,
         [0xb9a389, 0x8d9aa3, 0xd8cfc2][i % 3], { cast: false, receive: false, rough: 0.4 });
     }
-    ceilingPanel(root, -1.6, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
-    ceilingPanel(root, 1.8, -1.2, { w: 1.8, color: 0xfff0dc, ei: 1.3 });
-    ceilingPanel(root, 0, 2.4, { w: 2.2, color: 0xfff0dc, ei: 1.0 });
 
     // ----------------------------------------------------- mirror station
     const station = group(root, -1.4, 0, -4.1);
@@ -3594,6 +3685,14 @@ const ROOM_SALON = {
     let rinsing = false;
     let coloured = false;
 
+    // The bay is 13.9m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-1.4, 1.2, -2.6),
@@ -3662,8 +3761,11 @@ const ROOM_KITCHEN = {
   certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
   accent: 0xf2894b,
   accentCss: "#f2894b",
-  parSeconds: 195,
-  spawn: { x: 0, z: 3.0, ry: 0 },
+  parSeconds: 215,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.0, z: 4.9, ry: 0 },
   badge: { id: "clean-line", name: "Clean Line", note: "Full service with no cross-contamination and a controlled flare-up" },
 
   hazards: {
@@ -3759,7 +3861,7 @@ const ROOM_KITCHEN = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.6, h: 3.1,
+      w: 14.6, d: 13.9, h: 4.0,
       floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
       floorRough: 0.7, skirtColor: 0x8d949b,
           walkway: { lane: 0xe0562c, hatch: 0x9aa2a8, laneFrac: 0.38 },
@@ -3775,8 +3877,6 @@ const ROOM_KITCHEN = {
     for (let i = 0; i < 7; i++) for (let j = 0; j < 3; j++) {
       box(root, 0.1, 0.006, 0.1, -2.2 + i * 0.34, 0.024, -2.15 + j * 0.26, 0x14171a, { cast: false, receive: false });
     }
-    for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, 1.4, { w: 1.6, color: 0xf6f9ff, ei: 1.4 });
-    ceilingPanel(root, 2.4, -2.4, { w: 1.6, color: 0xf6f9ff, ei: 1.2 });
 
     // ------------------------------------------------------------- the range
     const range = group(root, -1.4, 0, -3.5);
@@ -4023,6 +4123,14 @@ const ROOM_KITCHEN = {
     let cooking = false;
     let holding = false;
 
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-1.4, 1.2, -3.2),
@@ -4114,8 +4222,11 @@ const ROOM_PHLEBOTOMY = {
   certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
-  parSeconds: 200,
-  spawn: { x: 1.6, z: 2.8, ry: -0.3 },
+  parSeconds: 220,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 13.0, d: 13.0 },
+  spawn: { x: 2.6, z: 4.5, ry: -0.3 },
   badge: { id: "order-of-draw", name: "Order of Draw", note: "Correct draw sequence with no additive carryover" },
 
   hazards: {
@@ -4211,7 +4322,7 @@ const ROOM_PHLEBOTOMY = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 8, d: 8, h: 2.95,
+      w: 13.0, d: 13.0, h: 3.8,
       floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
       floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
           trim: 0x3d8f8a, door: "personnel",
@@ -4224,8 +4335,6 @@ const ROOM_PHLEBOTOMY = {
       const w = group(root, wx, 0, wz, wry);
       box(w, 7.9, 0.05, 0.02, 0, 0.95, 0.06, TRIM, { cast: false, rough: 0.5 });
     }
-    for (const x of [-2, 2]) ceilingPanel(root, x, -1, { w: 1.9, color: 0xf2f8ff, ei: 1.35 });
-    ceilingPanel(root, 0, 2, { w: 1.9, color: 0xf2f8ff, ei: 1.1 });
 
     // ------------------------------------------------------------- draw chair
     const chair = group(root, -1.0, 0, -1.6, 0.35);
@@ -4427,6 +4536,14 @@ const ROOM_PHLEBOTOMY = {
     let dripT = 0;
     const drawnTubes = new Set();
 
+    // The bay is 13.0m by 13.0m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.8, 1.1, -1.6),
@@ -4513,8 +4630,11 @@ const ROOM_WELDING = {
   certification: "AWS D1.1 welder performance qualification; OSHA 29 CFR 1910.252 welding, cutting and brazing; NFPA 51B hot work permit and fire watch; ANSI Z49.1 fume control and lens shade",
   accent: 0xf2c14b,
   accentCss: "#f2c14b",
-  parSeconds: 210,
-  spawn: { x: 0.4, z: 3.1, ry: -0.1 },
+  parSeconds: 230,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.6, z: 5.0, ry: -0.1 },
   badge: { id: "fire-watch", name: "Fire Watch Held", note: "Permit to fire watch with no hot-work shortcut" },
 
   hazards: {
@@ -4618,7 +4738,7 @@ const ROOM_WELDING = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.6, h: 3.4,
+      w: 14.6, d: 13.9, h: 4.4,
       floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
       floorRough: 0.95, skirtColor: 0x353a40,
           walkway: { lane: 0xf2c14b, hatch: 0x9aa2aa },
@@ -4633,10 +4753,6 @@ const ROOM_WELDING = {
     }
     // Bay floor marking.
     for (let i = -6; i <= 6; i++) box(root, 0.2, 0.006, 0.08, i * 0.36, 0.005, 0.4, 0xf2c14b, { cast: false, rough: 0.8 });
-    ceilingPanel(root, -2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
-    ceilingPanel(root, 2.4, 1.6, { w: 1.8, color: 0xdfe9f4, ei: 1.4, y: 3.3, lamp: 2.6, range: 12 });
-    ceilingPanel(root, 0, -2.6, { w: 1.8, color: 0xdfe9f4, ei: 1.1, y: 3.3, lamp: 2.2, range: 12 });
-    ceilingPanel(root, -3.0, -3.0, { w: 1.2, color: 0xdfe9f4, ei: 1.0, y: 3.3, lamp: 1.8, range: 9 });
 
     // ------------------------------------------------------- welding screens
     const screens = group(root, -0.6, 0, -2.2);
@@ -4893,6 +5009,14 @@ const ROOM_WELDING = {
     let extractionOn = false;
     let welded = false;
 
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.6, 1.1, -2.4),
@@ -4993,8 +5117,11 @@ const ROOM_DEVOPS = {
   certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
   accent: VIOLET,
   accentCss: "#7c6fea",
-  parSeconds: 195,
-  spawn: { x: 0, z: 3.1, ry: 0 },
+  parSeconds: 215,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.0, z: 5.0, ry: 0 },
   badge: { id: "clean-promote", name: "Clean Promote", note: "Prod promotion with a scoped agent, a healthy canary, and a tested rollback" },
 
   hazards: {
@@ -5089,15 +5216,13 @@ const ROOM_DEVOPS = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9.0, d: 8.6, h: 3.2,
+      w: 14.6, d: 13.9, h: 4.2,
       floor: 0x1c2229, wall: 0x232b34, ceiling: 0x171d24,
       floorRough: 0.55, skirtColor: 0x141a20,
           walkway: { lane: 0x3d7fb8, hatch: 0x2a3440, laneFrac: 0.40 },
       trim: 0x2f5f8a, structure: "pipes", structureColor: 0x39434f, door: "personnel",
 });
 
-    for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, -1.6, { w: 1.5, ei: 1.0 });
-    ceilingPanel(root, 0, 2.0, { w: 1.5, ei: 0.8 });
 
     // ------------------------------------------------------- background racks
     const rackRow = group(root, 0, 0, -4.1);
@@ -5242,6 +5367,14 @@ const ROOM_DEVOPS = {
     const sparks = particles(secretsRack, 40, BAD, { size: 0.02, life: 0.3 });
     let alertTimer = 0;
 
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.15, lamp: 0.95, y: 4.04 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(0, 1.4, -2.0),
@@ -5302,8 +5435,11 @@ const ROOM_PLUMBING = {
   certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
-  parSeconds: 215,
-  spawn: { x: 0, z: 3.2, ry: 0 },
+  parSeconds: 235,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.6 },
+  spawn: { x: 0.0, z: 5.2, ry: 0 },
   badge: { id: "zero-leaks", name: "Zero Leaks", note: "A pressure-tested rough-in with backflow protection intact and every joint torch-safe" },
 
   hazards: {
@@ -5412,7 +5548,7 @@ const ROOM_PLUMBING = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.4, h: 3.0,
+      w: 14.6, d: 13.6, h: 3.9,
       floor: 0x4a4038, wall: 0xc9c0ac, ceiling: 0x2f2b26,
       floorRough: 0.95, skirtColor: 0x35302a,
           walkway: { lane: 0xe08a2c, hatch: 0x8a8272 },
@@ -5423,9 +5559,6 @@ const ROOM_PLUMBING = {
     for (let i = -5; i <= 5; i++) box(studWall, 0.09, 2.9, 0.09, i * 0.7, 1.45, 0.03, WOOD, { rough: 0.92 });
     box(studWall, 7.3, 0.09, 0.09, 0, 0.09, 0.03, WOOD, { rough: 0.92 });
     box(studWall, 7.3, 0.09, 0.09, 0, 2.86, 0.03, WOOD, { rough: 0.92 });
-    ceilingPanel(root, -2.2, 1.4, { w: 1.6, color: 0xfff0dc, ei: 1.3, y: 2.94, lamp: 2.2, range: 11 });
-    ceilingPanel(root, 2.2, 1.4, { w: 1.6, color: 0xfff0dc, ei: 1.3, y: 2.94, lamp: 2.2, range: 11 });
-    ceilingPanel(root, 0, -2.6, { w: 1.6, color: 0xfff0dc, ei: 1.1, y: 2.94, lamp: 2.0, range: 11 });
 
     // ------------------------------------------------------------ work order
     const plans = group(root, -3.9, 0, 1.6, Math.PI / 2 + 0.1);
@@ -5585,6 +5718,14 @@ const ROOM_PLUMBING = {
 
     let bleeding = false, torchLit = false, pressurized = false;
 
+    // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-1.5, 1.0, -2.5),
@@ -5696,8 +5837,11 @@ const ROOM_PRESSURE_WASHER = {
   certification: "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)",
   accent: PW_BRAND,
   accentCss: "#f2c14b",
-  parSeconds: 230,
-  spawn: { x: 0, z: 3.4, ry: 0 },
+  parSeconds: 255,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 16.2, d: 14.6 },
+  spawn: { x: 0.0, z: 5.5, ry: 0 },
   badge: { id: "clean-recovery", name: "Clean Recovery", note: "Every litre of wash water contained and recovered, the substrate cleaned and not cut" },
 
   hazards: {
@@ -5814,14 +5958,12 @@ const ROOM_PRESSURE_WASHER = {
     // An open-sided yard: concrete apron, painted stucco wall at the back,
     // daylight from a high roof.
     shell(root, {
-      w: 10, d: 9, h: 3.6,
+      w: 16.2, d: 14.6, h: 4.7,
       floor: PW_CONCRETE, wall: 0x6b6f74, ceiling: 0x3a3f45,
       floorRough: 0.98, skirtColor: 0x4a4e52, backWall: false,
           walkway: { lane: 0x3f9ad0, hatch: 0x9aa0a6 },
       trim: 0x2f7fb0, structure: "trusses", door: "dock", doorDaylight: false,
 });
-    ceilingPanel(root, -2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
-    ceilingPanel(root, 2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
 
     // ------------------------------------------------------- the stucco wall
     const wallGrp = group(root, 0, 0, -4.4);
@@ -5995,6 +6137,14 @@ const ROOM_PRESSURE_WASHER = {
 
     let spraying = false, vacRunning = false, tipFitted = false;
 
+    // The bay is 16.2m by 14.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
+
     return {
       hits,
       spawnLook: new THREE.Vector3(0, 1.2, -4.0),
@@ -6110,8 +6260,11 @@ const ROOM_PAINT_SPRAYER = {
   certification: "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews",
   accent: PS_BRAND,
   accentCss: "#6fb0e6",
-  parSeconds: 240,
-  spawn: { x: 0, z: 3.2, ry: 0 },
+  parSeconds: 265,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.6 },
+  spawn: { x: 0.0, z: 5.2, ry: 0 },
   badge: { id: "even-build", name: "Even Build", note: "A contained, lead-safe spray with an even film and no runs, holidays or drift" },
 
   hazards: {
@@ -6226,15 +6379,12 @@ const ROOM_PAINT_SPRAYER = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.4, h: 3.0,
+      w: 14.6, d: 13.6, h: 3.9,
       floor: 0x6b5e4d, wall: 0xd8d0c0, ceiling: 0xe8e2d6,
       floorRough: 0.9, skirtColor: 0x4a4038,
           walkway: { lane: 0x4f88b8, hatch: 0x8f8778 },
       trim: 0x3f6f99, structure: "trusses", structureColor: 0x8a8577, door: "shutter",
 });
-    ceilingPanel(root, -2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
-    ceilingPanel(root, 2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
-    ceilingPanel(root, 0, -2.4, { w: 1.6, color: 0xfff6e8, ei: 1.1, y: 2.94, lamp: 1.8, range: 11 });
 
     // -------------------------------------------------------- the old wall
     const wallGrp = group(root, 0, 0, -4.1);
@@ -6412,6 +6562,14 @@ const ROOM_PAINT_SPRAYER = {
     key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
     root.add(key);
     root.add(new THREE.HemisphereLight(0xe8e2d6, 0x4a4038, 1.2));
+
+    // The bay is 14.6m by 13.6m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
 
     return {
       hits,
@@ -7396,7 +7554,20 @@ function desktopMove(dt) {
   clampRig();
 }
 
+// A room is a rectangle, so the learner is held inside that rectangle, an
+// arm's length off the walls. It used to be a 3.6m circle in the middle of an
+// 8-to-10m room, which fenced everyone into the centre third of the floor and
+// made every bay a diorama you turned on the spot in — you could not walk to
+// the permit board, only look at it.
+const WALL_GAP = 0.85;
 function clampRig() {
+  const size = state.session ? state.room?.size : null;
+  if (size) {
+    const hx = size.w / 2 - WALL_GAP, hz = size.d / 2 - WALL_GAP;
+    rig.position.x = Math.max(-hx, Math.min(hx, rig.position.x));
+    rig.position.z = Math.max(-hz, Math.min(hz, rig.position.z));
+    return;
+  }
   const limit = state.session ? 3.6 : 6.6;
   const len = Math.hypot(rig.position.x, rig.position.z);
   if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }

@@ -465,9 +465,12 @@ async function enterSim(id, { briefed = false } = {}) {
   }
 
   if (state.mode !== "ar") {
-    const spawnR = (room.footprint ?? 2) + 1.4;
-    rig.position.set(0, 0, spawnR);
-    rig.rotation.y = 0;
+    // A shift starts at the gate, not standing on the work. The stage says
+    // where that is — outside the site apron for an outdoor station, at the
+    // door for an indoor one (see apron.js and interiors.js).
+    const spawn = stage.spawn ?? { x: 0, z: (room.footprint ?? 2) + 1.4, ry: 0 };
+    rig.position.set(spawn.x, 0, spawn.z);
+    rig.rotation.y = spawn.ry ?? 0;
   } else {
     rig.position.set(0, 0, 0);
   }
@@ -1547,7 +1550,11 @@ function desktopMove(dt) {
   if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
   if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
   if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
-  const limit = state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5;
+  // How far the learner may walk. The stage owns this now: the site apron's
+  // fence line outdoors, the room's walls indoors. It used to be the station's
+  // own footprint plus 2.4m, which fenced the learner into the middle of a
+  // 15-metre plaza and made every station a diorama you turned on the spot in.
+  const limit = state.stage?.roam ?? (state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5);
   const len = Math.hypot(rig.position.x, rig.position.z);
   if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
 }

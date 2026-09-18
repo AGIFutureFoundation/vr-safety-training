@@ -579,6 +579,79 @@ function paperFace(title, rows, o = {}) {
  * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
  * Rooms are built around the origin; the learner spawns near +z looking to -z.
  */
+/**
+ * Light a room in proportion to its floor, not to a number somebody typed once.
+ *
+ * Each bay hand-placed three or four ceiling fittings, which was right for an
+ * eight-metre room and leaves a fourteen-metre one with black corners and a
+ * far wall nobody can read. This lays fittings on a grid whose spacing is
+ * fixed, so a bigger floor simply gets more of them, and adds the low
+ * hemisphere fill that stops an unlit corner going to pure black — a real shop
+ * has bounce off the walls and these rooms had none at all.
+ *
+ * Call it after spreadLayout(), so the grid is sized to the room the learner
+ * actually walks into.
+ */
+function ceilingGrid(parent, w, d, o = {}) {
+  const spacing = o.spacing ?? 5.0;
+  const nx = Math.max(2, Math.min(3, Math.round(w / spacing)));
+  const nz = Math.max(2, Math.min(3, Math.round(d / spacing)));
+  const y = o.y ?? 2.94;
+  const cellW = w / nx, cellD = d / nz;
+  const colour = o.color ?? 0xfff4e2;
+  const lamps = [];
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      const x = (i + 0.5) * cellW - w / 2;
+      const z = (j + 0.5) * cellD - d / 2;
+      // One emissive slab per fitting, not a housing plus a lens: at ceiling
+      // height the housing is never seen, and doubling the mesh count of every
+      // fitting in every room to draw it put the colour studio over budget.
+      lamps.push(box(parent, Math.min(cellW * 0.42, 3.4), 0.05, 0.3, x, y, z, colour,
+        { cast: false, emissive: colour, ei: o.ei ?? 1.6, rough: 0.4 }));
+      // Light only a checker of the fittings, with the range to cover their
+      // neighbours. A dozen point lights in one room is a real cost on a
+      // headset and buys nothing a wider-throw half-dozen does not.
+      if ((i + j) % 2 === 0) {
+        const lamp = new THREE.PointLight(colour, o.lamp ?? 2.2, o.range ?? Math.max(14, spacing * 3.2), 2);
+        lamp.position.set(x, y - 0.2, z);
+        parent.add(lamp);
+      }
+    }
+  }
+  // Bounce. Without it a face turned away from every fitting renders black,
+  // which is the one thing a real room never does.
+  parent.add(new THREE.HemisphereLight(o.sky ?? 0xdceaf6, o.groundTone ?? 0x4a535d, o.fill ?? 0.95));
+  return lamps;
+}
+
+/**
+ * Push a room's workstations apart without resizing any of them.
+ *
+ * Every bay was laid out inside about eight metres because that is all the
+ * learner was ever allowed to walk. Making the room bigger on its own just
+ * adds an empty ring of floor: the bench, the machine, the permit board and
+ * the PPE stand all stay huddled in the middle, and the extra space reads as
+ * a mistake rather than a shop.
+ *
+ * This scales the POSITION of each thing standing on the room floor, and
+ * nothing else. A bench four metres out goes to six and a half; the bench
+ * itself, and everything parented to it, is untouched, because a child's
+ * position is local to its group. Anything already at the origin — the shell,
+ * the floor paint — does not move, which is exactly right.
+ *
+ * Call it at the end of build(), before returning, so the room a checker
+ * measures is the room the learner walks into.
+ */
+function spreadLayout(root, k = 1) {
+  if (!(k > 0) || k === 1) return root;
+  for (const child of root.children ?? []) {
+    child.position.x *= k;
+    child.position.z *= k;
+  }
+  return root;
+}
+
 // 0xrrggbb to the "#rrggbb" a canvas context wants.
 function hex(color) {
   return `#${(color & 0xffffff).toString(16).padStart(6, "0")}`;
@@ -615,23 +688,32 @@ function shell(parent, o = {}) {
 // costs a single mesh however detailed the marking is.
 function floorPaint(parent, w, d, o = {}) {
   const lane = o.lane ?? 0xf2c14b, hatch = o.hatch ?? 0xd8dde3, base = o.base ?? null;
+  const px = o.px ?? 1024;
+  // Everything here is set out in metres and converted, not in fractions of
+  // the canvas. Drawn in fractions, the same markings on a fourteen-metre
+  // floor came out as sparse white ticks scattered across it that read as
+  // litter rather than as a hazard border.
+  const perM = px / w;
+  const laneW = o.laneMetres ?? 1.9;     // a walkway you can pass someone in
+  const margin = o.marginMetres ?? 0.85; // the hazard border along the walls
+  const pitch = o.pitchMetres ?? 0.34;   // stripe spacing in that border
   const m = decal(parent, w, d, 0, 0.012, 0, (g, cw, ch) => {
     g.clearRect(0, 0, cw, ch);
     if (base) { g.fillStyle = hex(base); g.fillRect(0, 0, cw, ch); }
-    else { g.fillStyle = "rgba(0,0,0,0)"; g.fillRect(0, 0, cw, ch); }
-    // Walkway: two solid lines, symmetric so the decal reads the same either
-    // way up (a rotated plane can present its canvas mirrored).
-    const laneW = cw * (o.laneFrac ?? 0.34), lx = (cw - laneW) / 2;
-    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, cw * 0.008);
-    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + laneW, 0); g.lineTo(lx + laneW, ch); g.stroke();
-    // Hazard hatch on both outer margins.
-    const marg = cw * 0.075;
-    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, cw * 0.006);
-    for (let i = -ch; i < ch * 2; i += cw * 0.055) {
-      g.beginPath(); g.moveTo(0, i); g.lineTo(marg, i + marg); g.stroke();
-      g.beginPath(); g.moveTo(cw, i); g.lineTo(cw - marg, i + marg); g.stroke();
+    const lw = laneW * perM, lx = (cw - lw) / 2;
+    g.fillStyle = `${hex(lane)}22`;
+    g.fillRect(lx, 0, lw, ch);
+    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, 0.1 * perM);
+    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + lw, 0); g.lineTo(lx + lw, ch); g.stroke();
+    // Hazard border: continuous diagonal stripes at a fixed pitch, so the
+    // band reads as painted-on chevrons at any room size.
+    const marg = margin * perM, step = pitch * perM;
+    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, 0.09 * perM);
+    for (let y = -marg; y < ch + marg; y += step) {
+      g.beginPath(); g.moveTo(0, y); g.lineTo(marg, y + marg); g.stroke();
+      g.beginPath(); g.moveTo(cw, y); g.lineTo(cw - marg, y + marg); g.stroke();
     }
-  }, { px: o.px ?? 1024, transparent: !base, rough: 0.9 });
+  }, { px, transparent: !base, rough: 0.9 });
   m.rotation.x = -Math.PI / 2;
   return m;
 }

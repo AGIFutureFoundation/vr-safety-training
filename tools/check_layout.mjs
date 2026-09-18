@@ -91,9 +91,11 @@ function audit(app, r, reachFrom) {
 
 for (const r of city.ROOMS) audit("smartcity", r, CITY_ROAM(r.footprint));
 for (const r of trades.ROOMS) {
-  // A room's walkable area is its shell; take the larger half-span as the
-  // distance a learner can stand from the middle of it.
-  audit("trades", r, (r.roam ?? 4.6));
+  // A room's walkable area is its shell, minus the gap the app holds off the
+  // walls. Take the corner: that is the furthest a learner can actually stand
+  // from the middle of the floor.
+  const w = (r.size?.w ?? 9) / 2 - 0.85, d = (r.size?.d ?? 8.6) / 2 - 0.85;
+  audit("trades", r, Math.hypot(w, d));
 }
 
 rows.sort((a, b) => (b.far - b.roam) - (a.far - a.roam));

@@ -192,6 +192,9 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
   return {
     label: style.label,
     root: g,
+    // The stage needs the room's footprint to decide how far a learner may
+    // walk in it and where the door they start at is.
+    w: style.w, d: style.d,
     animate(t) {
       // Fittings hum rather than sit dead; rooflights breathe with the sky.
       const flicker = 1 + Math.sin(t * 0.9) * 0.02;

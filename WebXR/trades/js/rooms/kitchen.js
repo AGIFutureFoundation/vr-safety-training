@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingPanel, counter, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 
 // Room 03 — Commercial cook: the hot line. Hand hygiene, colour-coded boards,
@@ -18,8 +18,11 @@ export const ROOM_KITCHEN = {
   certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
   accent: 0xf2894b,
   accentCss: "#f2894b",
-  parSeconds: 195,
-  spawn: { x: 0, z: 3.0, ry: 0 },
+  parSeconds: 215,
+  // The shell this room builds, so the app can let the learner walk to the
+  // walls instead of clamping them to a circle in the middle of the floor.
+  size: { w: 14.6, d: 13.9 },
+  spawn: { x: 0.0, z: 4.9, ry: 0 },
   badge: { id: "clean-line", name: "Clean Line", note: "Full service with no cross-contamination and a controlled flare-up" },
 
   hazards: {
@@ -115,7 +118,7 @@ export const ROOM_KITCHEN = {
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     shell(root, {
-      w: 9, d: 8.6, h: 3.1,
+      w: 14.6, d: 13.9, h: 4.0,
       floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
       floorRough: 0.7, skirtColor: 0x8d949b,
           walkway: { lane: 0xe0562c, hatch: 0x9aa2a8, laneFrac: 0.38 },
@@ -131,8 +134,6 @@ export const ROOM_KITCHEN = {
     for (let i = 0; i < 7; i++) for (let j = 0; j < 3; j++) {
       box(root, 0.1, 0.006, 0.1, -2.2 + i * 0.34, 0.024, -2.15 + j * 0.26, 0x14171a, { cast: false, receive: false });
     }
-    for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, 1.4, { w: 1.6, color: 0xf6f9ff, ei: 1.4 });
-    ceilingPanel(root, 2.4, -2.4, { w: 1.6, color: 0xf6f9ff, ei: 1.2 });
 
     // ------------------------------------------------------------- the range
     const range = group(root, -1.4, 0, -3.5);
@@ -378,6 +379,14 @@ export const ROOM_KITCHEN = {
     let flareOn = false;
     let cooking = false;
     let holding = false;
+
+    // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
+    // the extra floor is distance between jobs rather than empty ring.
+    spreadLayout(root, 1.62);
+
+    // Fittings on a grid sized to this floor, plus the bounce a real room
+    // has and this one did not: see ceilingGrid in shared/kit.js.
+    ceilingGrid(root, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
 
     return {
       hits,
