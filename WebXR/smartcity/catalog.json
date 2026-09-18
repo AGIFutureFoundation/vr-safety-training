@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-17",
+  "generatedAt": "2026-09-18",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 41
+      "stations": 44
     },
     "trades": {
       "entry": "trades/index.html",
@@ -42,7 +42,8 @@
         "charge-point",
         "solar-deck",
         "line-truck",
-        "substation-switching"
+        "substation-switching",
+        "battery-yard"
       ]
     },
     {
@@ -68,7 +69,8 @@
       "stations": [
         "splice-node",
         "tower-climb",
-        "cell-site-battery"
+        "cell-site-battery",
+        "microwave-backhaul"
       ]
     },
     {
@@ -129,7 +131,8 @@
       "stations": [
         "hunters-point",
         "air-monitor",
-        "sampling-well"
+        "sampling-well",
+        "stormwater-outfall"
       ]
     },
     {
@@ -3387,6 +3390,237 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=bunkering-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "microwave-backhaul",
+      "name": "Microwave Backhaul",
+      "title": "SmartCiti.X~ Microwave Backhaul VR",
+      "tagline": "Rooftop link re-alignment: RF survey and MPE boundary, far end keyed down and locked out, fall protection before the parapet, dish freed, panned and tilted on receive level, polarisation proven, torqued, weatherproofed, path handed back",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity & Telecom",
+      "trade": "Microwave / RF technician — backhaul",
+      "union": null,
+      "certification": "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging",
+      "accent": "#5fd3c8",
+      "parSeconds": 250,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "path-restored",
+        "name": "Path Restored",
+        "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "42",
+      "flat": false,
+      "system": "Backhaul Ops",
+      "currency": "dBm",
+      "ranks": [
+        "Helper",
+        "RF Technician",
+        "Link Engineer",
+        "Backhaul Lead",
+        "Backhaul Ops Certified"
+      ],
+      "awards": [
+        {
+          "id": "keyed-down",
+          "name": "Keyed Down",
+          "note": "Far end down and locked before anyone went past the sign, first time"
+        },
+        {
+          "id": "boundary-kept",
+          "name": "Boundary Kept",
+          "note": "Never in the beam live, never on the parapet unanchored"
+        },
+        {
+          "id": "on-the-path",
+          "name": "On the Path",
+          "note": "Receive level and azimuth both inside the band"
+        },
+        {
+          "id": "clean-align",
+          "name": "Clean Alignment",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "steady-pan",
+          "name": "Steady Pan",
+          "note": "Pan held steady through the whole sweep"
+        },
+        {
+          "id": "link-fast",
+          "name": "Link Up Fast",
+          "note": "Path restored inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=microwave-backhaul"
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall",
+      "name": "Stormwater Outfall",
+      "title": "SmartCiti.X~ Stormwater Outfall VR",
+      "tagline": "Wet-weather NPDES grab: permit window, meters calibrated before the rain, bank staged with a buddy and tripod, grab from the flow, bottles in preservation order, field readings logged, custody sealed, sample on ice",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "Environmental sampling technician — stormwater",
+      "union": null,
+      "certification": "Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge); 40 CFR 136 approved methods, preservation and hold times; chain-of-custody per EPA SESD; OSHA HAZWOPER awareness and 29 CFR 1910.146 for confined vault access",
+      "accent": "#78c8a0",
+      "parSeconds": 260,
+      "steps": 11,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "first-flush",
+        "name": "First Flush",
+        "note": "A grab inside the permit window, in preservation order, sealed and iced — first time"
+      },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
+      "index": "43",
+      "flat": false,
+      "system": "Field Sampling",
+      "currency": "mL",
+      "ranks": [
+        "Field Assistant",
+        "Sampling Technician",
+        "Field Lead",
+        "QA Officer",
+        "Field Sampling Certified"
+      ],
+      "awards": [
+        {
+          "id": "calibrated",
+          "name": "Calibrated",
+          "note": "Meters calibrated against standards before the first bottle, first time"
+        },
+        {
+          "id": "chain-unbroken",
+          "name": "Chain Unbroken",
+          "note": "Never an unlabelled bottle, never alone on the bank, never a sample left warm"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Field pH and the flow estimate both inside the band"
+        },
+        {
+          "id": "clean-sample",
+          "name": "Clean Sample",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-fill",
+          "name": "Steady Fill",
+          "note": "Bottle filled without a break in the stream"
+        },
+        {
+          "id": "inside-window",
+          "name": "Inside the Window",
+          "note": "Sample sealed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=stormwater-outfall"
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-yard",
+      "name": "Battery Yard",
+      "title": "SmartCiti.X~ Battery Yard VR",
+      "tagline": "Grid battery module swap: gas and vent check from outside, stop from the controller, AC before DC, rack disconnects in order, bleed-down wait, live-dead-live on the DC bus, racks grounded, insulated tools, thermal check before the door",
+      "category": "Energy & Power",
+      "domain": "Energy & Power",
+      "trade": "Battery energy storage technician — grid scale",
+      "union": null,
+      "certification": "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data",
+      "accent": "#9fd84f",
+      "parSeconds": 280,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "bus-proven-dead",
+        "name": "Bus Proven Dead",
+        "note": "AC before DC, the full bleed-down waited out, and live-dead-live on a tested meter — first time"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "44",
+      "flat": false,
+      "system": "Storage Operations",
+      "currency": "kWh",
+      "ranks": [
+        "Apprentice",
+        "Storage Technician",
+        "Commissioning Tech",
+        "Site Lead",
+        "Storage Operations Certified"
+      ],
+      "awards": [
+        {
+          "id": "outside-first",
+          "name": "Outside First",
+          "note": "Gas detection and vents read before the door opened, first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "Never DC before AC, never inside without the meter proven, never metal on a live rack"
+        },
+        {
+          "id": "bled-down",
+          "name": "Bled Down",
+          "note": "Bus voltage and cell temperature both read inside the band"
+        },
+        {
+          "id": "clean-swap",
+          "name": "Clean Swap",
+          "note": "No corrections anywhere in the isolation"
+        },
+        {
+          "id": "full-wait",
+          "name": "Full Wait",
+          "note": "The bleed-down held for its whole duration"
+        },
+        {
+          "id": "swap-fast",
+          "name": "Swapped In Time",
+          "note": "Module out and enclosure closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=battery-yard"
     },
     {
       "app": "trades",

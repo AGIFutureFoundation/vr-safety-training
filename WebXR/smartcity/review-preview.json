@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-17",
+  "generatedAt": "2026-09-18",
   "meshBudget": 320,
-  "total": 50,
-  "previewPassed": 50,
+  "total": 53,
+  "previewPassed": 53,
   "practitionerSigned": 0,
   "note": "preview = automated content checks by tools/gen_review_packet.mjs; practitioner = a named reviewer's verdict recorded in REVIEW.md",
   "stations": [
@@ -2662,6 +2662,201 @@
           "check": "Every step target exists in the scene",
           "ok": true,
           "note": "20 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "microwave-backhaul",
+      "app": "smartcity",
+      "name": "Microwave Backhaul",
+      "category": "Connectivity & Telecom",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Connectivity & Telecom"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Microwave / RF technician — backhaul"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "CWA and IBEW telecom locals; FCC 47 CFR 1.1310 maximum permissible exposure and OSHA 29 CFR 1910.268(p) RF work practices; NATE CTS tower/rooftop climber; TIA-222 structural loading and TIA-1019 rigging"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "150 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "150 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "18 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "stormwater-outfall",
+      "app": "smartcity",
+      "name": "Stormwater Outfall",
+      "category": "Environmental Monitoring",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Environmental Monitoring"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Environmental sampling technician — stormwater"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "Clean Water Act NPDES industrial stormwater permit (first-flush grab within 30 minutes of discharge); 40 CFR 136 approved methods, preservation and hold times; chain-of-custody per EPA SESD; OSHA HAZWOPER awareness and 29 CFR 1910.146 for confined vault access"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "11 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "11 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "128 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
+        }
+      ],
+      "practitioner": "pending"
+    },
+    {
+      "id": "battery-yard",
+      "app": "smartcity",
+      "name": "Battery Yard",
+      "category": "Energy & Power",
+      "preview": "passed",
+      "checks": [
+        {
+          "check": "Category named",
+          "ok": true,
+          "note": "Energy & Power"
+        },
+        {
+          "check": "Trade named",
+          "ok": true,
+          "note": "Battery energy storage technician — grid scale"
+        },
+        {
+          "check": "Certification or standard named",
+          "ok": true,
+          "note": "IBEW outside construction and utility locals; NFPA 855 stationary energy storage installation; NFPA 70E DC arc-flash boundary and shock approach; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 for the utility interconnection; UL 9540A thermal-runaway test data"
+        },
+        {
+          "check": "At least three scored steps",
+          "ok": true,
+          "note": "12 steps"
+        },
+        {
+          "check": "Every step has a rationale",
+          "ok": true,
+          "note": "12 rationales"
+        },
+        {
+          "check": "At least one seeded hazard",
+          "ok": true,
+          "note": "4 hazards"
+        },
+        {
+          "check": "Every hazard has a judgeable consequence",
+          "ok": true,
+          "note": "all ≥ 40 characters"
+        },
+        {
+          "check": "Late notes point at real targets",
+          "ok": true,
+          "note": "3 notes"
+        },
+        {
+          "check": "Scene builds headless",
+          "ok": true,
+          "note": "208 meshes"
+        },
+        {
+          "check": "Within headset mesh budget (320)",
+          "ok": true,
+          "note": "208 meshes"
+        },
+        {
+          "check": "Every step target exists in the scene",
+          "ok": true,
+          "note": "19 targets"
         }
       ],
       "practitioner": "pending"
