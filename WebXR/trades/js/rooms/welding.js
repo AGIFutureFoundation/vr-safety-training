@@ -127,7 +127,9 @@ export const ROOM_WELDING = {
       w: 9, d: 8.6, h: 3.4,
       floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
       floorRough: 0.95, skirtColor: 0x353a40,
-    });
+          walkway: { lane: 0xf2c14b, hatch: 0x9aa2aa },
+      trim: 0xd8a33a, structure: "trusses", door: "shutter",
+});
     // Scorched concrete and spatter around the bay.
     for (let i = 0; i < 60; i++) {
       const a = Math.random() * Math.PI * 2, r = 0.4 + Math.random() * 2.4;

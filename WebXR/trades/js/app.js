@@ -1243,6 +1243,12 @@ window.__tradesTest = {
   press: (id) => pressStart(id),
   release: () => pressEnd(),
   session: () => state.session,
+  // Parity with SmartCiti.X's hook, so one harness can measure either app's
+  // scene: mesh and light counts, the live room, and where the learner stands.
+  scene: () => scene,
+  camera: () => camera,
+  rig: () => rig,
+  room: () => state.room,
 };
 
 // --------------------------------------------------------------- frame loop

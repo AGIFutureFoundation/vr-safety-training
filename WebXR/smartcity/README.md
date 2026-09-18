@@ -299,8 +299,13 @@ the environment there.
 
 `catalog.json` carries a `meshes` and `lights` count for every station, from a headless build,
 and flags `overBudget` past 320 meshes — the working ceiling for a Quest-class headset on top
-of the shared stage. The headset pass starts with the heaviest stations; today none is over
-budget.
+of the shared stage. The headset pass starts with the heaviest stations.
+
+That ceiling is enforced, not just reported: `tools/check_budget.mjs` builds all 59 stations
+and rooms against the headless harness and fails on anything past 320 meshes or 12 lights, so
+a station cannot quietly drift over it between passes. Today none is over budget; the heaviest
+are the colour studio at 313, the line kitchen and the weld bay at 289, and SmartCiti.X's solar
+deck at 227.
 
 ## Robot trainees and synthetic training data
 

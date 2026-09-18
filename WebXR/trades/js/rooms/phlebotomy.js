@@ -119,7 +119,8 @@ export const ROOM_PHLEBOTOMY = {
       w: 8, d: 8, h: 2.95,
       floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
       floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
-    });
+          trim: 0x3d8f8a, door: "personnel",
+});
     // Vinyl sheet floor with a welded-seam grid and a colour band.
     for (let i = -3; i <= 3; i++) box(root, 7.9, 0.003, 0.01, 0, 0.004, i * 1.2, 0x93a0a7, { cast: false, receive: false });
     box(root, 7.9, 0.004, 0.4, 0, 0.005, 1.6, 0x8fc0c9, { cast: false, receive: false });

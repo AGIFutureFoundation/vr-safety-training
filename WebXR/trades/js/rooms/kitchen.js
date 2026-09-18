@@ -118,7 +118,9 @@ export const ROOM_KITCHEN = {
       w: 9, d: 8.6, h: 3.1,
       floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
       floorRough: 0.7, skirtColor: 0x8d949b,
-    });
+          walkway: { lane: 0xe0562c, hatch: 0x9aa2a8, laneFrac: 0.38 },
+      trim: 0xb7431f, structure: "pipes", structureColor: 0x8d959d, door: "personnel",
+});
     // Quarry-tile grid on the floor.
     for (let i = -6; i <= 6; i++) {
       box(root, 8.9, 0.004, 0.018, 0, 0.004, i * 0.62, 0x3c3936, { cast: false, receive: false });

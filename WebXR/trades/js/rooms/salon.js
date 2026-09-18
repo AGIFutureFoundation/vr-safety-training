@@ -123,7 +123,8 @@ export const ROOM_SALON = {
       w: 8.6, d: 8.6, h: 3.05,
       floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
       floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
-    });
+          trim: 0xa8639c, door: "personnel",
+});
     // Warm terrazzo speckle on the polished floor.
     for (let i = 0; i < 90; i++) {
       const a = Math.random() * Math.PI * 2, r = Math.random() * 3.9;

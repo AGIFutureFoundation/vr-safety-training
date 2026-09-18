@@ -44,6 +44,41 @@ as a full ordered procedure with proving-unit verification.
   flares and is smothered, the bead glows and cools, extraction fans spin up,
   the canary dial and promote lever turn under a live error-rate readout.
 
+## The rooms are rooms, not boxes with props in them
+
+Every bay was a shell — a floor, four walls, a flat ceiling and the equipment the
+procedure needs. That is enough to assess a procedure and not enough to believe you are
+standing anywhere. The shell now carries the four things a real working space has, and
+each room chooses its own:
+
+- **Paint on the floor.** A walkway down the middle in the trade's colour with hazard
+  hatching along both outer margins, so there is a marked place to stand and a marked
+  place not to. It is one canvas decal, so the marking costs a single mesh however
+  detailed it is. Seven bays get it; the colour studio and the draw station do not,
+  because a salon and a clinic have plain sheet flooring and hatching there read as
+  litter.
+- **A trim line on the wall.** A painted band at shoulder height in the room's accent —
+  the thing that tells you at a glance whose bay you walked into.
+- **Structure in the ceiling.** Pipe runs on hangers over the isolation bay, the line
+  kitchen, the rough-in bay and the deploy room; roof trusses over the weld bay, the
+  wash-down yard and the coatings bay. The draw station and the colour studio get
+  neither, because a clinic and a salon really do have a flat tile ceiling.
+- **A way out.** A roller shutter, a personnel door with a lit exit sign, or a dock
+  opening with daylight in it. This is not decoration: a room with no visible exit is the
+  first thing a trainee notices as wrong, and in the weld bay the exit is part of the
+  procedure being taught. The wash-down yard's dock is frame-only, because that room is
+  deliberately built without its back wall.
+
+The dressing lives in `shared/kit.js` (`floorPaint`, `wallTrim`, `ceilingStructure`,
+`wayOut`), so a room asks for it in the same `shell()` call that builds its walls, and
+SmartCiti.X's indoor stations can draw on the same vocabulary.
+
+It is not free, so it is now policed. `tools/check_budget.mjs` builds all 59 stations
+headlessly and fails on anything past 320 meshes or 12 lights — the Quest-class ceiling
+`catalog.json` has always reported and nothing previously enforced. The dressing costs
+between 9 and 24 meshes a room; the heaviest room in either app is the colour studio at
+313.
+
 ## Pre-brief (flipped classroom)
 
 The first time a room is entered on screen it opens as a pre-brief: the room's procedure as

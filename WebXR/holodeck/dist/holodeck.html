@@ -579,6 +579,11 @@ function paperFace(title, rows, o = {}) {
  * Enclosed room shell with floor, four walls, ceiling and a skirting rail.
  * Rooms are built around the origin; the learner spawns near +z looking to -z.
  */
+// 0xrrggbb to the "#rrggbb" a canvas context wants.
+function hex(color) {
+  return `#${(color & 0xffffff).toString(16).padStart(6, "0")}`;
+}
+
 function shell(parent, o = {}) {
   const w = o.w ?? 8, d = o.d ?? 8, h = o.h ?? 3.1;
   const g = group(parent);
@@ -594,6 +599,113 @@ function shell(parent, o = {}) {
     box(g, w, 0.1, 0.04, 0, 0.05, -d / 2 + 0.08, o.skirtColor ?? 0x2a3038, { cast: false });
     box(g, 0.04, 0.1, d, -w / 2 + 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
     box(g, 0.04, 0.1, d, w / 2 - 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
+  }
+  // A real shop has paint on the floor, a trim line on the wall, structure in
+  // the ceiling and a way out. A room that has none of those reads as a box
+  // with props in it, so any room can ask for them here.
+  if (o.walkway) floorPaint(g, w, d, o.walkway === true ? {} : o.walkway);
+  if (o.trim) wallTrim(g, w, d, h, o.trim);
+  if (o.structure) ceilingStructure(g, w, d, h, o.structure, o.structureColor);
+  if (o.door) wayOut(g, w, d, h, o.door, o.doorColor, { daylight: o.doorDaylight });
+  return g;
+}
+
+// Floor paint: a walkway down the middle with a hazard-hatched edge either
+// side, the way a shop marks where you are allowed to stand. One decal, so it
+// costs a single mesh however detailed the marking is.
+function floorPaint(parent, w, d, o = {}) {
+  const lane = o.lane ?? 0xf2c14b, hatch = o.hatch ?? 0xd8dde3, base = o.base ?? null;
+  const m = decal(parent, w, d, 0, 0.012, 0, (g, cw, ch) => {
+    g.clearRect(0, 0, cw, ch);
+    if (base) { g.fillStyle = hex(base); g.fillRect(0, 0, cw, ch); }
+    else { g.fillStyle = "rgba(0,0,0,0)"; g.fillRect(0, 0, cw, ch); }
+    // Walkway: two solid lines, symmetric so the decal reads the same either
+    // way up (a rotated plane can present its canvas mirrored).
+    const laneW = cw * (o.laneFrac ?? 0.34), lx = (cw - laneW) / 2;
+    g.strokeStyle = hex(lane); g.lineWidth = Math.max(3, cw * 0.008);
+    g.beginPath(); g.moveTo(lx, 0); g.lineTo(lx, ch); g.moveTo(lx + laneW, 0); g.lineTo(lx + laneW, ch); g.stroke();
+    // Hazard hatch on both outer margins.
+    const marg = cw * 0.075;
+    g.strokeStyle = hex(hatch); g.lineWidth = Math.max(2, cw * 0.006);
+    for (let i = -ch; i < ch * 2; i += cw * 0.055) {
+      g.beginPath(); g.moveTo(0, i); g.lineTo(marg, i + marg); g.stroke();
+      g.beginPath(); g.moveTo(cw, i); g.lineTo(cw - marg, i + marg); g.stroke();
+    }
+  }, { px: o.px ?? 1024, transparent: !base, rough: 0.9 });
+  m.rotation.x = -Math.PI / 2;
+  return m;
+}
+
+// Wall trim: the painted band at shoulder height that tells you at a glance
+// whose bay you are standing in. Three walls, three meshes.
+function wallTrim(parent, w, d, h, color, o = {}) {
+  const y = o.y ?? Math.min(2.1, h - 0.9), t = o.thickness ?? 0.09;
+  const g = group(parent);
+  box(g, w, t, 0.02, 0, y, -d / 2 + 0.07, color, { cast: false, rough: 0.7 });
+  box(g, 0.02, t, d, -w / 2 + 0.07, y, 0, color, { cast: false, rough: 0.7 });
+  box(g, 0.02, t, d, w / 2 - 0.07, y, 0, color, { cast: false, rough: 0.7 });
+  return g;
+}
+
+// Ceiling structure: pipe runs on hangers for a plant or service room, roof
+// trusses for a shop or bay, bare for a clinic or salon that really does have
+// a flat tile ceiling.
+function ceilingStructure(parent, w, d, h, kind, color) {
+  const g = group(parent);
+  const steel = color ?? 0x6b7581;
+  if (kind === "pipes") {
+    const runs = [[-w * 0.26, 0.20], [0, 0.13], [w * 0.24, 0.16]];
+    for (const [x, r] of runs) {
+      const pipe = cyl(g, r, r, d - 0.4, x, h - 0.34, 0, steel, { seg: 12, cast: false, rough: 0.55, metal: 0.6 });
+      pipe.rotation.x = Math.PI / 2;
+      for (const z of [-d * 0.3, 0, d * 0.3]) {
+        box(g, 0.05, 0.3, 0.05, x, h - 0.19, z, 0x4b5460, { cast: false, rough: 0.7, metal: 0.4 });
+      }
+    }
+  } else if (kind === "trusses") {
+    for (const z of [-d * 0.3, 0, d * 0.3]) {
+      box(g, w - 0.3, 0.1, 0.12, 0, h - 0.5, z, steel, { cast: false, rough: 0.6, metal: 0.5 });
+      box(g, w - 0.3, 0.1, 0.12, 0, h - 0.14, z, steel, { cast: false, rough: 0.6, metal: 0.5 });
+      for (let i = -2; i <= 2; i++) {
+        const web = box(g, 0.06, 0.42, 0.06, (i * (w - 0.8)) / 5, h - 0.32, z, steel,
+          { cast: false, rough: 0.6, metal: 0.5 });
+        web.rotation.z = i % 2 ? 0.5 : -0.5;
+      }
+    }
+  }
+  return g;
+}
+
+// A way out. Not decoration: a room with no visible exit is the one thing a
+// trainee notices as wrong, and in a hot-work or confined bay the exit is part
+// of the procedure being taught.
+function wayOut(parent, w, d, h, kind, color, o = {}) {
+  const g = group(parent, 0, 0, d / 2 - 0.08);
+  const frame = color ?? 0x3b434d;
+  if (kind === "shutter") {
+    const dw = Math.min(2.8, w * 0.42), dh = Math.min(2.6, h - 0.25);
+    box(g, dw + 0.2, 0.14, 0.1, 0, dh + 0.08, 0, frame, { cast: false, rough: 0.7, metal: 0.4 });
+    for (let i = 0; i < 9; i++) {
+      box(g, dw, dh / 9 - 0.02, 0.06, 0, 0.08 + (i + 0.5) * (dh / 9), 0, i % 2 ? 0x8a929b : 0x7b838c,
+        { cast: false, rough: 0.6, metal: 0.45 });
+    }
+  } else if (kind === "personnel") {
+    const dw = 0.98, dh = Math.min(2.1, h - 0.4);
+    box(g, dw + 0.12, dh + 0.08, 0.08, 0, dh / 2, 0, frame, { cast: false, rough: 0.8 });
+    box(g, dw, dh, 0.05, 0, dh / 2, 0.03, 0xb8c0c8, { cast: false, rough: 0.55, metal: 0.3 });
+    cyl(g, 0.03, 0.03, 0.26, dw / 2 - 0.16, dh * 0.48, 0.09, 0xd8dde3, { seg: 10, cast: false, metal: 0.7, rough: 0.35 });
+    // Exit sign above it, lit, because that is how you find it in smoke.
+    box(g, 0.44, 0.17, 0.05, 0, dh + 0.22, 0, 0x1d6b3a, { cast: false, emissive: 0x2fbf6a, ei: 1.3, rough: 0.5 });
+  } else if (kind === "dock") {
+    const dw = Math.min(3.2, w * 0.46), dh = Math.min(2.7, h - 0.2);
+    box(g, dw + 0.3, 0.16, 0.12, 0, dh + 0.1, 0, frame, { cast: false, rough: 0.75 });
+    box(g, 0.16, dh, 0.12, -dw / 2 - 0.12, dh / 2, 0, frame, { cast: false, rough: 0.75 });
+    box(g, 0.16, dh, 0.12, dw / 2 + 0.12, dh / 2, 0, frame, { cast: false, rough: 0.75 });
+    // Daylight in the opening, so the room reads as connected to outside. A
+    // room built without that wall is already open, so it skips the pane.
+    if (o.daylight !== false) {
+      box(g, dw, dh, 0.03, 0, dh / 2, 0.02, 0xa8bccd, { cast: false, emissive: 0x8fb0c9, ei: 0.85, rough: 0.9 });
+    }
   }
   return g;
 }

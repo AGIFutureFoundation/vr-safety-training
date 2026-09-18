@@ -153,7 +153,9 @@ export const ROOM_PRESSURE_WASHER = {
       w: 10, d: 9, h: 3.6,
       floor: PW_CONCRETE, wall: 0x6b6f74, ceiling: 0x3a3f45,
       floorRough: 0.98, skirtColor: 0x4a4e52, backWall: false,
-    });
+          walkway: { lane: 0x3f9ad0, hatch: 0x9aa0a6 },
+      trim: 0x2f7fb0, structure: "trusses", door: "dock", doorDaylight: false,
+});
     ceilingPanel(root, -2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
     ceilingPanel(root, 2.6, 0.5, { w: 2.0, color: 0xf4f0e6, ei: 1.35, y: 3.54, lamp: 2.3, range: 13 });
 

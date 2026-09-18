@@ -134,7 +134,9 @@ export const ROOM_PLUMBING = {
       w: 9, d: 8.4, h: 3.0,
       floor: 0x4a4038, wall: 0xc9c0ac, ceiling: 0x2f2b26,
       floorRough: 0.95, skirtColor: 0x35302a,
-    });
+          walkway: { lane: 0xe08a2c, hatch: 0x8a8272 },
+      trim: 0xc4711f, structure: "pipes", structureColor: 0x7d8288, door: "shutter",
+});
     // Bare-stud framing along the back wall — this is a rough-in, no drywall yet.
     const studWall = group(root, 0, 0, -4.15);
     for (let i = -5; i <= 5; i++) box(studWall, 0.09, 2.9, 0.09, i * 0.7, 1.45, 0.03, WOOD, { rough: 0.92 });

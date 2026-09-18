@@ -116,7 +116,9 @@ export const ROOM_ELECTRICAL = {
       w: 8.4, d: 8.4, h: 3.1,
       floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
       floorRough: 0.9, skirtColor: 0x2b3138,
-    });
+          walkway: { lane: 0xf2c14b, hatch: 0x9aa4ae },
+      trim: 0xd8a33a, structure: "pipes", door: "personnel",
+});
 
     // Floor: arc-flash approach boundary painted in front of the panel bank.
     for (let i = -4; i <= 4; i++) {

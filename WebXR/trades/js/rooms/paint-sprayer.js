@@ -152,7 +152,9 @@ export const ROOM_PAINT_SPRAYER = {
       w: 9, d: 8.4, h: 3.0,
       floor: 0x6b5e4d, wall: 0xd8d0c0, ceiling: 0xe8e2d6,
       floorRough: 0.9, skirtColor: 0x4a4038,
-    });
+          walkway: { lane: 0x4f88b8, hatch: 0x8f8778 },
+      trim: 0x3f6f99, structure: "trusses", structureColor: 0x8a8577, door: "shutter",
+});
     ceilingPanel(root, -2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
     ceilingPanel(root, 2.0, 0.8, { w: 1.6, color: 0xfff6e8, ei: 1.25, y: 2.94, lamp: 2.0, range: 11 });
     ceilingPanel(root, 0, -2.4, { w: 1.6, color: 0xfff6e8, ei: 1.1, y: 2.94, lamp: 1.8, range: 11 });

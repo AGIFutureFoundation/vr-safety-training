@@ -122,7 +122,9 @@ export const ROOM_DEVOPS = {
       w: 9.0, d: 8.6, h: 3.2,
       floor: 0x1c2229, wall: 0x232b34, ceiling: 0x171d24,
       floorRough: 0.55, skirtColor: 0x141a20,
-    });
+          walkway: { lane: 0x3d7fb8, hatch: 0x2a3440, laneFrac: 0.40 },
+      trim: 0x2f5f8a, structure: "pipes", structureColor: 0x39434f, door: "personnel",
+});
 
     for (const x of [-2.6, 0, 2.6]) ceilingPanel(root, x, -1.6, { w: 1.5, ei: 1.0 });
     ceilingPanel(root, 0, 2.0, { w: 1.5, ei: 0.8 });
