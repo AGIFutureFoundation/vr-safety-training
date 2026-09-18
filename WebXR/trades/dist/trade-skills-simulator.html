@@ -207,6 +207,23 @@
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
   }
+  /* Step-by-step debrief under the score: a bar per step scaled to the
+     longest one, tinted by whether the step was clean, corrected or unsafe. */
+  .debrief{ margin:14px 0 4px; border:1px solid var(--edge); border-radius:12px; background:var(--raised); padding:10px 12px; text-align:left }
+  .debrief>summary{ cursor:pointer; font-family:var(--cond); font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:12.5px; color:var(--muted) }
+  .debrief>summary::marker{ color:var(--accent) }
+  .db-list{ list-style:none; margin:10px 0 4px; padding:0; display:grid; gap:4px }
+  .db-row{ display:grid; grid-template-columns:20px minmax(0,1fr) 70px 46px 78px; gap:8px; align-items:center; font-size:12px; padding:4px 6px; border-radius:7px; background:var(--panel) }
+  .db-row .db-n{ color:var(--muted); font-variant-numeric:tabular-nums; text-align:right }
+  .db-row .db-title{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .db-bar{ height:6px; border-radius:3px; background:var(--edge); overflow:hidden }
+  .db-bar i{ display:block; height:100%; background:var(--accent) }
+  .db-time{ font-variant-numeric:tabular-nums; text-align:right; color:var(--muted) }
+  .db-note{ font-size:11px; color:var(--muted); text-align:right }
+  .db-row.ok .db-bar i{ background:var(--good) }
+  .db-row.warn .db-bar i{ background:var(--warn) } .db-row.warn .db-note{ color:var(--warn) }
+  .db-row.bad .db-bar i{ background:var(--danger) } .db-row.bad .db-note{ color:var(--danger) }
+  @media (max-width:560px){ .db-row{ grid-template-columns:18px minmax(0,1fr) 44px; } .db-bar,.db-note{ display:none } }
 </style>
 </head>
 <body>
@@ -1263,6 +1280,13 @@ class Session {
     this.stars = 0;
     this.badgeEarned = null;
     this.hazardHits = 0;      // unsafe-action selections in this run
+    // Per-step timing and mistakes, so a run can be reviewed step by step
+    // rather than as one score. This is what the debrief, the instructor's
+    // after-action view and the xAPI statement are all built from.
+    this.stepLog = [];
+    this.stepStartedAt = 0;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     this.gaugeScores = [];    // 0..1 accuracy for each graded skill step
     this.holdBreaks = 0;      // timed steps released early
     this.earned = [];         // per-sim badges and challenges cleared this run
@@ -1287,6 +1311,10 @@ class Session {
 
   start() {
     this.elapsed = 0;
+    this.stepLog = [];
+    this.stepStartedAt = 0;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     // Snapshot rank before this run so finish() can tell whether it moved the
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
@@ -1299,6 +1327,11 @@ class Session {
 
   enterStep() {
     const step = this.step;
+    // A step's clock starts when the learner arrives at it, not at the run's
+    // start, so a slow step is visible even in a fast run.
+    this.stepStartedAt = this.elapsed;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     this.sequence = [];
     this.holdFor = 0;
     this.holding = false;
@@ -1496,6 +1529,13 @@ class Session {
       text: `<b>+${earned} — ${step.title}</b>${this.combo > 1.05 ? ` <span class="mult">×${this.combo.toFixed(1)}</span>` : ""}<br>${extraNote ? extraNote + " " : ""}${step.why}`,
     };
     if (this.combo >= 1.5) Sfx.great(); else Sfx.good();
+    this.stepLog.push({
+      id: step.id, title: step.title, kind: step.kind,
+      seconds: Math.max(0, Math.round((this.elapsed - this.stepStartedAt) * 10) / 10),
+      corrections: this.stepErrors, hazards: this.stepHazards,
+      clean: this.stepErrors === 0 && this.stepHazards === 0,
+      points: earned,
+    });
     this.hooks.onFeedback?.(feedback, this);
     this.hooks.onStepComplete?.(step, this);
     this.index += 1;
@@ -1520,6 +1560,8 @@ class Session {
     this.score = Math.max(0, this.score - penalty);
     this.streak = 0;
     this.errors += 1;
+    this.stepErrors += 1;
+    if (hazard) this.stepHazards += 1;
     this.log.push({ step: this.step?.id, ok: false, hit: hitId });
     const lateNote = later
       ? (this.room.lateNotes?.[hitId] ?? `That control belongs to a later step. ${this.step?.cue ?? ""}`)
@@ -1586,6 +1628,32 @@ class Session {
         this.advance(STEP_POINTS + 25);
       }
     }
+  }
+
+  /**
+   * The after-action review of this run: every step with the time it took
+   * and the mistakes made on it, plus the two questions an instructor asks
+   * first — where did it go slowest, and where did it go wrong.
+   *
+   * Derived from stepLog, so it costs nothing until something asks for it,
+   * and it is the same object the results panel, the training record and
+   * the xAPI statement all use.
+   */
+  debrief() {
+    const steps = this.stepLog;
+    if (!steps.length) return { steps: [], cleanSteps: 0, totalSteps: this.steps.length, slowest: null, worst: null, medianSeconds: 0 };
+    const byTime = [...steps].sort((a, b) => b.seconds - a.seconds);
+    const byTrouble = [...steps].sort((a, b) => (b.hazards * 10 + b.corrections) - (a.hazards * 10 + a.corrections));
+    const sorted = [...steps].map((s) => s.seconds).sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return {
+      steps,
+      totalSteps: this.steps.length,
+      cleanSteps: steps.filter((s) => s.clean).length,
+      slowest: byTime[0] ?? null,
+      worst: byTrouble[0]?.corrections || byTrouble[0]?.hazards ? byTrouble[0] : null,
+      medianSeconds: sorted.length % 2 ? sorted[mid] : Math.round(((sorted[mid - 1] + sorted[mid]) / 2) * 10) / 10,
+    };
   }
 
   finish() {
@@ -1825,6 +1893,16 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
           [ext("corrections")]: r.errors | 0,
           [ext("unsafe-actions")]: r.hazardHits | 0,
           [ext("hold-breaks")]: r.holdBreaks | 0,
+          // The step-by-step review, so an LRS holds where a run went slow
+          // or wrong rather than only what it scored.
+          ...(r.debrief ? {
+            [ext("clean-steps")]: r.debrief.cleanSteps | 0,
+            [ext("median-step-seconds")]: r.debrief.medianSeconds ?? 0,
+            [ext("slowest-step")]: r.debrief.slowest ? `${r.debrief.slowest.title} (${r.debrief.slowest.seconds}s)` : null,
+            [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
+              id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
+            })),
+          } : {}),
           [ext("par-seconds")]: r.parSeconds ?? null,
           [ext("badges")]: r.badges ?? [],
         },
@@ -6744,6 +6822,36 @@ function flashDanger() {
 
 // ------------------------------------------------------------------- results
 
+/** The step-by-step review under the score: where the run went slow, and
+ *  where it went wrong. Built from the session's own step log, so it says
+ *  the same thing the exported record and the xAPI statement say. */
+function renderDebrief(s) {
+  const d = s.debrief();
+  if (!d.steps.length) return "";
+  const worst = d.steps.reduce((m, st) => Math.max(m, st.seconds), 0) || 1;
+  const rows = d.steps.map((st, i) => {
+    const bar = Math.max(4, Math.round((st.seconds / worst) * 100));
+    const tone = st.hazards ? "bad" : st.corrections ? "warn" : "ok";
+    const note = st.hazards
+      ? `${st.hazards} unsafe`
+      : st.corrections ? `${st.corrections} correction${st.corrections === 1 ? "" : "s"}` : "clean";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">${i + 1}</span>
+      <span class="db-title">${escapeHtml(st.title)}</span>
+      <span class="db-bar"><i style="width:${bar}%"></i></span>
+      <span class="db-time">${st.seconds.toFixed(1)}s</span>
+      <span class="db-note">${note}</span>
+    </li>`;
+  }).join("");
+  const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
+  const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
+  const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  return `<details class="debrief" open>
+    <summary>Step-by-step debrief — ${head}</summary>
+    <ol class="db-list">${rows}</ol>${slow}${bad}
+  </details>`;
+}
+
 function showResults(s, summary) {
   const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
@@ -6763,7 +6871,8 @@ function showResults(s, summary) {
     ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
     <p class="res-note">${s.errors === 0
       ? "Clean run: every control taken in order, no unsafe action."
-      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>
+    ${renderDebrief(s)}`;
   ui.results.hidden = false;
   state.paused = true;
   // Same attempt record SmartCiti.X writes. Every room names the union and
@@ -6777,6 +6886,7 @@ function showResults(s, summary) {
     score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
     seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
+    debrief: s.debrief(),
   });
   Identity.emit("smartcitix:record", { record: attempt });
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });

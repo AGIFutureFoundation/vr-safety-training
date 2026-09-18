@@ -319,6 +319,13 @@ export class Session {
     this.stars = 0;
     this.badgeEarned = null;
     this.hazardHits = 0;      // unsafe-action selections in this run
+    // Per-step timing and mistakes, so a run can be reviewed step by step
+    // rather than as one score. This is what the debrief, the instructor's
+    // after-action view and the xAPI statement are all built from.
+    this.stepLog = [];
+    this.stepStartedAt = 0;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     this.gaugeScores = [];    // 0..1 accuracy for each graded skill step
     this.holdBreaks = 0;      // timed steps released early
     this.earned = [];         // per-sim badges and challenges cleared this run
@@ -343,6 +350,10 @@ export class Session {
 
   start() {
     this.elapsed = 0;
+    this.stepLog = [];
+    this.stepStartedAt = 0;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     // Snapshot rank before this run so finish() can tell whether it moved the
     // needle — a rank-up mid-progression is a moment worth celebrating.
     this.rankBefore = this.room.game ? Progress.simRank(this.room.id, this.room.game) : null;
@@ -355,6 +366,11 @@ export class Session {
 
   enterStep() {
     const step = this.step;
+    // A step's clock starts when the learner arrives at it, not at the run's
+    // start, so a slow step is visible even in a fast run.
+    this.stepStartedAt = this.elapsed;
+    this.stepErrors = 0;
+    this.stepHazards = 0;
     this.sequence = [];
     this.holdFor = 0;
     this.holding = false;
@@ -552,6 +568,13 @@ export class Session {
       text: `<b>+${earned} — ${step.title}</b>${this.combo > 1.05 ? ` <span class="mult">×${this.combo.toFixed(1)}</span>` : ""}<br>${extraNote ? extraNote + " " : ""}${step.why}`,
     };
     if (this.combo >= 1.5) Sfx.great(); else Sfx.good();
+    this.stepLog.push({
+      id: step.id, title: step.title, kind: step.kind,
+      seconds: Math.max(0, Math.round((this.elapsed - this.stepStartedAt) * 10) / 10),
+      corrections: this.stepErrors, hazards: this.stepHazards,
+      clean: this.stepErrors === 0 && this.stepHazards === 0,
+      points: earned,
+    });
     this.hooks.onFeedback?.(feedback, this);
     this.hooks.onStepComplete?.(step, this);
     this.index += 1;
@@ -576,6 +599,8 @@ export class Session {
     this.score = Math.max(0, this.score - penalty);
     this.streak = 0;
     this.errors += 1;
+    this.stepErrors += 1;
+    if (hazard) this.stepHazards += 1;
     this.log.push({ step: this.step?.id, ok: false, hit: hitId });
     const lateNote = later
       ? (this.room.lateNotes?.[hitId] ?? `That control belongs to a later step. ${this.step?.cue ?? ""}`)
@@ -642,6 +667,32 @@ export class Session {
         this.advance(STEP_POINTS + 25);
       }
     }
+  }
+
+  /**
+   * The after-action review of this run: every step with the time it took
+   * and the mistakes made on it, plus the two questions an instructor asks
+   * first — where did it go slowest, and where did it go wrong.
+   *
+   * Derived from stepLog, so it costs nothing until something asks for it,
+   * and it is the same object the results panel, the training record and
+   * the xAPI statement all use.
+   */
+  debrief() {
+    const steps = this.stepLog;
+    if (!steps.length) return { steps: [], cleanSteps: 0, totalSteps: this.steps.length, slowest: null, worst: null, medianSeconds: 0 };
+    const byTime = [...steps].sort((a, b) => b.seconds - a.seconds);
+    const byTrouble = [...steps].sort((a, b) => (b.hazards * 10 + b.corrections) - (a.hazards * 10 + a.corrections));
+    const sorted = [...steps].map((s) => s.seconds).sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return {
+      steps,
+      totalSteps: this.steps.length,
+      cleanSteps: steps.filter((s) => s.clean).length,
+      slowest: byTime[0] ?? null,
+      worst: byTrouble[0]?.corrections || byTrouble[0]?.hazards ? byTrouble[0] : null,
+      medianSeconds: sorted.length % 2 ? sorted[mid] : Math.round(((sorted[mid - 1] + sorted[mid]) / 2) * 10) / 10,
+    };
   }
 
   finish() {

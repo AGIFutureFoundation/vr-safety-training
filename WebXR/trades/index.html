@@ -207,6 +207,23 @@
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
   }
+  /* Step-by-step debrief under the score: a bar per step scaled to the
+     longest one, tinted by whether the step was clean, corrected or unsafe. */
+  .debrief{ margin:14px 0 4px; border:1px solid var(--edge); border-radius:12px; background:var(--raised); padding:10px 12px; text-align:left }
+  .debrief>summary{ cursor:pointer; font-family:var(--cond); font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:12.5px; color:var(--muted) }
+  .debrief>summary::marker{ color:var(--accent) }
+  .db-list{ list-style:none; margin:10px 0 4px; padding:0; display:grid; gap:4px }
+  .db-row{ display:grid; grid-template-columns:20px minmax(0,1fr) 70px 46px 78px; gap:8px; align-items:center; font-size:12px; padding:4px 6px; border-radius:7px; background:var(--panel) }
+  .db-row .db-n{ color:var(--muted); font-variant-numeric:tabular-nums; text-align:right }
+  .db-row .db-title{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .db-bar{ height:6px; border-radius:3px; background:var(--edge); overflow:hidden }
+  .db-bar i{ display:block; height:100%; background:var(--accent) }
+  .db-time{ font-variant-numeric:tabular-nums; text-align:right; color:var(--muted) }
+  .db-note{ font-size:11px; color:var(--muted); text-align:right }
+  .db-row.ok .db-bar i{ background:var(--good) }
+  .db-row.warn .db-bar i{ background:var(--warn) } .db-row.warn .db-note{ color:var(--warn) }
+  .db-row.bad .db-bar i{ background:var(--danger) } .db-row.bad .db-note{ color:var(--danger) }
+  @media (max-width:560px){ .db-row{ grid-template-columns:18px minmax(0,1fr) 44px; } .db-bar,.db-note{ display:none } }
 </style>
 </head>
 <body>

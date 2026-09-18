@@ -479,6 +479,36 @@ function flashDanger() {
 
 // ------------------------------------------------------------------- results
 
+/** The step-by-step review under the score: where the run went slow, and
+ *  where it went wrong. Built from the session's own step log, so it says
+ *  the same thing the exported record and the xAPI statement say. */
+function renderDebrief(s) {
+  const d = s.debrief();
+  if (!d.steps.length) return "";
+  const worst = d.steps.reduce((m, st) => Math.max(m, st.seconds), 0) || 1;
+  const rows = d.steps.map((st, i) => {
+    const bar = Math.max(4, Math.round((st.seconds / worst) * 100));
+    const tone = st.hazards ? "bad" : st.corrections ? "warn" : "ok";
+    const note = st.hazards
+      ? `${st.hazards} unsafe`
+      : st.corrections ? `${st.corrections} correction${st.corrections === 1 ? "" : "s"}` : "clean";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">${i + 1}</span>
+      <span class="db-title">${escapeHtml(st.title)}</span>
+      <span class="db-bar"><i style="width:${bar}%"></i></span>
+      <span class="db-time">${st.seconds.toFixed(1)}s</span>
+      <span class="db-note">${note}</span>
+    </li>`;
+  }).join("");
+  const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
+  const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
+  const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  return `<details class="debrief" open>
+    <summary>Step-by-step debrief — ${head}</summary>
+    <ol class="db-list">${rows}</ol>${slow}${bad}
+  </details>`;
+}
+
 function showResults(s, summary) {
   const stars = "★★★".slice(0, s.stars) + "☆☆☆".slice(0, 3 - s.stars);
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
@@ -498,7 +528,8 @@ function showResults(s, summary) {
     ${s.badgeEarned ? `<p class="res-badge">Badge earned — <b>${s.room.badge.name}</b><span>${s.room.badge.note}</span></p>` : ""}
     <p class="res-note">${s.errors === 0
       ? "Clean run: every control taken in order, no unsafe action."
-      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>`;
+      : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>
+    ${renderDebrief(s)}`;
   ui.results.hidden = false;
   state.paused = true;
   // Same attempt record SmartCiti.X writes. Every room names the union and
@@ -512,6 +543,7 @@ function showResults(s, summary) {
     score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
     seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
+    debrief: s.debrief(),
   });
   Identity.emit("smartcitix:record", { record: attempt });
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });

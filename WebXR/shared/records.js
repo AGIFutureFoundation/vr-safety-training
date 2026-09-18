@@ -158,6 +158,16 @@ export function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.
           [ext("corrections")]: r.errors | 0,
           [ext("unsafe-actions")]: r.hazardHits | 0,
           [ext("hold-breaks")]: r.holdBreaks | 0,
+          // The step-by-step review, so an LRS holds where a run went slow
+          // or wrong rather than only what it scored.
+          ...(r.debrief ? {
+            [ext("clean-steps")]: r.debrief.cleanSteps | 0,
+            [ext("median-step-seconds")]: r.debrief.medianSeconds ?? 0,
+            [ext("slowest-step")]: r.debrief.slowest ? `${r.debrief.slowest.title} (${r.debrief.slowest.seconds}s)` : null,
+            [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
+              id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
+            })),
+          } : {}),
           [ext("par-seconds")]: r.parSeconds ?? null,
           [ext("badges")]: r.badges ?? [],
         },

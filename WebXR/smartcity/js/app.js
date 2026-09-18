@@ -563,6 +563,36 @@ function flashDanger() {
 
 // ------------------------------------------------------------------- results
 
+/** The step-by-step review under the score: where the run went slow, and
+ *  where it went wrong. Built from the session's own step log, so it says
+ *  the same thing the exported record and the xAPI statement say. */
+function renderDebrief(s) {
+  const d = s.debrief();
+  if (!d.steps.length) return "";
+  const worst = d.steps.reduce((m, st) => Math.max(m, st.seconds), 0) || 1;
+  const rows = d.steps.map((st, i) => {
+    const bar = Math.max(4, Math.round((st.seconds / worst) * 100));
+    const tone = st.hazards ? "bad" : st.corrections ? "warn" : "ok";
+    const note = st.hazards
+      ? `${st.hazards} unsafe`
+      : st.corrections ? `${st.corrections} correction${st.corrections === 1 ? "" : "s"}` : "clean";
+    return `<li class="db-row ${tone}">
+      <span class="db-n">${i + 1}</span>
+      <span class="db-title">${escapeHtml(st.title)}</span>
+      <span class="db-bar"><i style="width:${bar}%"></i></span>
+      <span class="db-time">${st.seconds.toFixed(1)}s</span>
+      <span class="db-note">${note}</span>
+    </li>`;
+  }).join("");
+  const head = `${d.cleanSteps} of ${d.totalSteps} steps clean · median ${d.medianSeconds.toFixed(1)}s`;
+  const slow = d.slowest ? `<p class="res-note">Longest step: <b>${escapeHtml(d.slowest.title)}</b> at ${d.slowest.seconds.toFixed(1)}s.</p>` : "";
+  const bad = d.worst ? `<p class="res-note">Most trouble: <b>${escapeHtml(d.worst.title)}</b> — ${d.worst.hazards ? `${d.worst.hazards} unsafe action${d.worst.hazards === 1 ? "" : "s"}` : `${d.worst.corrections} correction${d.worst.corrections === 1 ? "" : "s"}`}.</p>` : "";
+  return `<details class="debrief" open>
+    <summary>Step-by-step debrief — ${head}</summary>
+    <ol class="db-list">${rows}</ol>${slow}${bad}
+  </details>`;
+}
+
 function showResults(s, summary) {
   const room = s.room;
   const rank = Progress.simRank(room.id, room.game);
@@ -594,6 +624,7 @@ function showResults(s, summary) {
     ${s.leaderboard?.madeBoard
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
+    ${renderDebrief(s)}
     ${state.tour ? renderTourFooter() : ""}`;
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
@@ -607,6 +638,7 @@ function showResults(s, summary) {
     score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
     seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
     badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
+    debrief: s.debrief(),
   });
   // Hand the attempt to the hosting LMS page, if there is one and it told
   // us who the learner is — only ever to that origin (see identity.js).

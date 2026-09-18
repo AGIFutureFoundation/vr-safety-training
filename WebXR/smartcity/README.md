@@ -336,6 +336,29 @@ trajectories are what a model would train on to imitate or grade procedure execu
 they are engine-level (ids, states, rewards), not pixels. `tools/check_robot.mjs` gates
 the layer in CI.
 
+## Per-step debrief
+
+A score at the end of a run says a learner passed. It does not say where they hesitated, which
+step they had to correct twice, or which one they got through only by luck. The engine now times
+every step as it is worked and keeps a record of it: seconds on the step, corrections made,
+unsafe actions taken, points earned, and whether the step was clean.
+
+The results screen shows that record as a collapsed **Step debrief** panel. Each row is one step
+with a bar scaled to the longest step in the run, so a step that took four times as long as the
+rest is visible at a glance rather than buried in an average. Rows are toned three ways: clean,
+corrected, and unsafe. Under the list, two lines name the step that took longest and the step
+that gave the most trouble, which are usually not the same step and are the two an instructor
+asks about first.
+
+The debrief is what makes a repeat attempt worth something. A learner who passes at 71% learns
+nothing from the number; a learner who can see that eleven of twelve steps were clean and the
+twelfth cost them four corrections knows exactly what to run again.
+
+It persists. The attempt record carries the whole step log, and `toXAPI` maps it into result
+extensions — `clean-steps`, `median-step-seconds`, `slowest-step` and the full `step-log` — so a
+learning record store receives the per-step detail, not just the verdict. Trade Skills carries
+the same panel and the same record shape; the engine is shared, so there is one implementation.
+
 ## Gamification 2.0 — flipped classroom and portable credentials
 
 The first run of any walkable station on screen is preceded by a **pre-brief**: the
