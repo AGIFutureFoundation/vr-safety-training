@@ -8,6 +8,7 @@ import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { Platform } from "../../shared/platform.js";
 import { Perf } from "../../shared/perf.js";
+import { createBroadcaster } from "../../shared/observer.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -498,10 +499,21 @@ async function enterSim(id, { briefed = false } = {}) {
     },
     onStepComplete: (step, s) => {
       state.api.onStepComplete?.(step, s);
+      observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
       Platform.progress({ sim: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
-    onHazard: (hitId, s) => { state.api.onHazard?.(hitId, s); },
-    onFinish: (s, summary) => showResults(s, summary),
+    onHazard: (hitId, s) => {
+      state.api.onHazard?.(hitId, s);
+      observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+    },
+    onFinish: (s, summary) => {
+      observer.finish({
+        passed: s.stars >= 2 && s.hazardHits === 0, stars: s.stars | 0, score: s.score | 0,
+        seconds: Math.round(s.elapsed ?? 0),
+        verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
+      });
+      showResults(s, summary);
+    },
   });
   state.session.start();
   if (robot.active) startRobot(room);
@@ -510,6 +522,7 @@ async function enterSim(id, { briefed = false } = {}) {
   // procedure is actually written for, and what that weather means for the work.
   const wx = state.stage?.weather;
   const wxLine = wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : "";
+  observer.hello({ learner: Progress.playerName, station: room.id, stationName: room.name ?? room.title });
   setRail("neutral", `<b>${escapeHtml(room.title)}</b> — ${escapeHtml(room.tagline)}. ${state.mode === "ar" ? "Tap a surface to place the station." : "Follow the procedure in order."}${wxLine}`);
   syncHud();
 }
@@ -721,6 +734,43 @@ function startRobot(room) {
     robot.log.push({ t: +s.elapsed.toFixed(2), obs, action: a, reward: s.score - before });
   }, 320);
 }
+// ------------------------------------------------- instructor mode
+//
+// A live feed of this session for an instructor console open on the same
+// machine (WebXR/instructor/). Same-origin, same-device, nothing stored:
+// see shared/observer.js for why that is the honest boundary. A note from
+// the instructor lands on the rail; a freeze pauses the session the way an
+// overlay does.
+const observer = createBroadcaster("smartcity", { learner: Progress.playerName });
+let observerFrozen = false;
+observer.onCommand((cmd) => {
+  if (cmd.kind === "note" && cmd.text) {
+    setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+    announce(`Instructor: ${cmd.text}`);
+    return;
+  }
+  if (cmd.kind === "freeze") {
+    observerFrozen = cmd.on;
+    state.paused = cmd.on ? true : pausedBeforeOverlay;
+    setRail(cmd.on ? "warn" : "neutral", cmd.on
+      ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
+      : "<b>Released.</b> Carry on from where you stopped.");
+  }
+});
+addEventListener("pagehide", () => observer.close());
+/** One snapshot of where this learner is, for the console. */
+function observerSnapshot() {
+  const s = state.session;
+  if (!s) return null;
+  return {
+    stepIndex: (s.index | 0) + 1,
+    stepCount: s.steps?.length ?? 0,
+    stepTitle: s.step?.title ?? "",
+    score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
+    hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+  };
+}
+
 window.__smartcityRobot = { get active() { return robot.active; }, get skill() { return robot.skill; }, get log() { return robot.log; }, get running() { return !!robot.timer; } };
 
 // -------------------------------------------------------- platform channel
@@ -1841,6 +1891,7 @@ renderer.setAnimationLoop((_, frame) => {
   burst.update(dt);
 
   if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
+  if (state.session && !state.session.finished) { const snap = observerSnapshot(); if (snap) observer.state(snap); }
   state.stage?.animate?.(elapsedTotal, dt);
 
   if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }

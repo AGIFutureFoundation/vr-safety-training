@@ -183,6 +183,31 @@ without the flag and nothing leaves the device unless the log is exported. The s
 `shared/perf.js`; `tools/check_verify.mjs` checks it stays inert without the flag and computes
 sane statistics with it.
 
+## Instructor mode
+
+`WebXR/instructor/` is the console for the person running the class: a live view of the
+sessions open in other tabs and windows **on this machine**. It shows where each learner is in
+the procedure, their score, corrections and unsafe actions, every hazard as it happens with the
+consequence text the learner saw, and the verdict when they finish. Select a session and you
+can put a line in front of that learner (it lands on their rail and is spoken) or hold their
+clock until you release it. Both simulators publish to it, so one console watches a class
+working across SmartCiti.X and Trade Skills at once.
+
+The transport is a browser `BroadcastChannel` (`shared/observer.js`), which is same-origin and
+same-device by definition. That covers what a hall actually has — a row of laptops, or headsets
+mirrored to one screen — and it is the honest boundary: an instructor watching from another
+machine needs the relay, which is a roadmap item and is not pretended at here. When a simulator
+is embedded in a learning platform the same events already go to the host page through
+`Identity.emit`, which is the other path. Nothing on the console is stored; it shows what is
+happening right now, and the durable record of an attempt is the learner's training record.
+
+`tools/check_observer.mjs` exercises the protocol against a BroadcastChannel stand-in: events
+reach the console with their protocol version, a roll call makes an already-running session
+announce itself, a command addressed to one session is ignored by the others, instructor text
+and hazard notes are clipped so a long message cannot flood a console, state snapshots are
+throttled, the roster reducer folds a stream into what the console renders, and every call is a
+no-op in a browser without BroadcastChannel.
+
 ## Credential verifier
 
 `WebXR/verify/index.html` is the page a training director or employer checks an exported
@@ -389,7 +414,7 @@ is connected — connecting later and pressing **Send all** delivers the local h
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
 `node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
-identity, lrs, robot, platform, lti, orbis-stable, verify — one line each) and a freshness check that regenerates `sims-meta.js`
+identity, lrs, robot, platform, lti, orbis-stable, verify, observer — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
 silent deploy of old code. Run the same command locally before pushing.
 

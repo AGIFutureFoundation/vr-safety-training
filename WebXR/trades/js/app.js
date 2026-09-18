@@ -6,6 +6,7 @@ import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform } from "../../shared/platform.js";
+import { createBroadcaster } from "../../shared/observer.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -296,6 +297,29 @@ function enterHub() {
   syncHud();
 }
 
+// Instructor mode: the same live feed SmartCiti.X publishes, so one console
+// sees a class working across both apps. See shared/observer.js.
+const observer = createBroadcaster("trades", { learner: Progress.playerName });
+addEventListener("pagehide", () => observer.close());
+observer.onCommand((cmd) => {
+  if (cmd.kind === "note" && cmd.text) setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+  if (cmd.kind === "freeze") {
+    state.paused = !!cmd.on;
+    setRail(cmd.on ? "warn" : "neutral", cmd.on
+      ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
+      : "<b>Released.</b> Carry on from where you stopped.");
+  }
+});
+function observerSnapshot() {
+  const s = state.session;
+  if (!s) return null;
+  return {
+    stepIndex: (s.index | 0) + 1, stepCount: s.steps?.length ?? 0, stepTitle: s.step?.title ?? "",
+    score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
+    hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+  };
+}
+
 function enterRoom(id, { briefed = false } = {}) {
   const room = ROOM_BY_ID[id];
   if (!room) return;
@@ -320,6 +344,7 @@ function enterRoom(id, { briefed = false } = {}) {
   scene.fog = new THREE.Fog(0x080d12, 14, 32);
   document.documentElement.style.setProperty("--accent", room.accentCss);
 
+  observer.hello({ learner: Progress.playerName, station: room.id, stationName: room.title });
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
@@ -343,11 +368,22 @@ function enterRoom(id, { briefed = false } = {}) {
       syncHud();
     },
     onStepComplete: (step, s) => {
+      observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
       state.api.onStepComplete?.(step, s);
       Platform.progress({ room: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
-    onHazard: (hitId, s) => { state.api.onHazard?.(hitId, s); },
-    onFinish: (s, summary) => showResults(s, summary),
+    onHazard: (hitId, s) => {
+      state.api.onHazard?.(hitId, s);
+      observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+    },
+    onFinish: (s, summary) => {
+      observer.finish({
+        passed: s.stars >= 2 && s.hazardHits === 0, stars: s.stars | 0, score: s.score | 0,
+        seconds: Math.round(s.elapsed ?? 0),
+        verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
+      });
+      showResults(s, summary);
+    },
   });
   state.session.start();
   faceFirstTask();
