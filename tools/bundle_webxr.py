@@ -46,6 +46,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "observer.js",
+            SHARED / "perf.js",
             WEBXR / "trades/js/shopfit.js",
             WEBXR / "trades/js/hub.js",
             WEBXR / "trades/js/rooms/electrical.js",

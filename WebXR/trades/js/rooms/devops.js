@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 import { noticeBoard, racking, shopFan, sideBench, wasteBin } from "../shopfit.js";
 
@@ -119,10 +119,14 @@ export const ROOM_DEVOPS = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.2,
       floor: 0x1c2229, wall: 0x232b34, ceiling: 0x171d24,
       floorRough: 0.55, skirtColor: 0x141a20,
@@ -283,15 +287,17 @@ export const ROOM_DEVOPS = {
     // A data hall's cold aisle: spares racking, the crash cart and console
     // bench, the board with the escalation tree on it, and the bin for the
     // drives that leave in a locked box.
-    racking(root, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
-    sideBench(root, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
-    noticeBoard(root, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
-    wasteBin(root, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
-    shopFan(root, -4.0, 0.8, 1.0, { tilt: 0.15 });
+    racking(fixed, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
+    sideBench(fixed, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
+    noticeBoard(fixed, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(fixed, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
+    shopFan(fixed, -4.0, 0.8, 1.0, { tilt: 0.15 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

@@ -342,10 +342,35 @@ and flags `overBudget` past 320 meshes — the working ceiling for a Quest-class
 of the shared stage. The headset pass starts with the heaviest stations.
 
 That ceiling is enforced, not just reported: `tools/check_budget.mjs` builds all 59 stations
-and rooms against the headless harness and fails on anything past 320 meshes or 12 lights, so
-a station cannot quietly drift over it between passes. Today none is over budget; the heaviest
-are the colour studio at 313, the line kitchen and the weld bay at 289, and SmartCiti.X's solar
-deck at 227.
+and rooms against the headless harness and fails on anything past its budget — 320 meshes for a
+SmartCiti.X station, which sits on the shared stage, and 430 for a Trade Skills room, which *is*
+the whole scene.
+
+**Draw calls are the number that actually matters, and they were measured, not assumed.** An
+outdoor station was drawing **518 calls** from 652 visible meshes: frustum culling only takes
+about a fifth off, because most of an outdoor scene is the ground and the horizon and those are
+always in shot. Almost all of it is scenery that never moves and is never clicked, and every
+mesh of it already shares a cached material with its neighbours, so `mergeStatic()` bakes each
+material's worth into a single buffer at the end of the build.
+
+| scene | before | after |
+|---|---|---|
+| Solar Deck (outdoor station) | 518 calls, 652 meshes | **403 calls**, 437 meshes |
+| Weld Bay (Trade Skills room) | ~300 calls, 366 meshes | **167 calls**, 288 meshes |
+
+The station's own geometry is never merged — it is the part the procedure touches, and a merged
+mesh has no separate parts to rotate, open or light up. Nor is anything carrying its own
+material: the rooftop beacons and the marquee trim animate `emissiveIntensity`, so they clone
+their material and the merge steps over them.
+
+Finding that turned up a latent bug worth naming. `mat()` returns a material **shared by value**,
+so `mesh.material.emissiveIntensity = x` in an animate loop writes to every other mesh of the
+same colour and finish. The skyline beacons had cloned for exactly this reason; the marquee trim
+and the site gate's beacon had not. `ownMaterial()` is now the named way to do it.
+
+Note that `check_budget` counts what the build *asks for*, before merging — the merge no-ops
+under the headless stub. That is deliberate: merging is not a licence to author without limit,
+because every merged mesh still costs vertices and every unique material still costs a call.
 
 ## Robot trainees and synthetic training data
 

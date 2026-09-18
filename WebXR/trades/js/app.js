@@ -8,6 +8,7 @@ import { Lrs } from "../../shared/lrs.js";
 import { Platform } from "../../shared/platform.js";
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
+import { Perf } from "../../shared/perf.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -335,6 +336,7 @@ function enterRoom(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  Perf.reset();
   collectSelectables();
 
   rig.position.set(room.spawn.x, 0, room.spawn.z);
@@ -535,6 +537,8 @@ function showResults(s, summary) {
   // Same attempt record SmartCiti.X writes. Every room names the union and
   // certification it maps to; the seven original rooms roll up under one
   // category, the surface-prep bays carry their own.
+  Perf.logRun({ app: "trades", simId: state.room?.id, mode: renderer.xr.isPresenting ? "vr" : "flat",
+    presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed ?? 0) });
   const attempt = TrainingRecords.record({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
@@ -1262,6 +1266,7 @@ window.__tradesTest = {
   camera: () => camera,
   rig: () => rig,
   room: () => state.room,
+  perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
 };
 
 // --------------------------------------------------------------- frame loop
@@ -1275,10 +1280,19 @@ addEventListener("resize", () => {
 const clock = new THREE.Clock();
 let elapsedTotal = 0;
 
+Perf.mountOverlay();
+
 renderer.setAnimationLoop(() => {
-  const dt = Math.min(clock.getDelta(), 0.05);
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, 0.05);
   elapsedTotal += dt;
   const presenting = renderer.xr.isPresenting;
+  // Headset-pass instrument (?perf=1): the real frame time, not the clamped
+  // one. SmartCiti.X has had this since the perf pass; a Trade Skills room
+  // could not be measured on a Quest at all, which is the app whose rooms just
+  // got 1.62x bigger.
+  Perf.frame(rawDt);
+  Perf.sample(renderer, elapsedTotal);
 
   if (!state.paused) {
     if (presenting) xrMove(dt);

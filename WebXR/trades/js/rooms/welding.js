@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, wallReel, wasteBin } from "../shopfit.js";
 
@@ -124,10 +124,14 @@ export const ROOM_WELDING = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.4,
       floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
       floorRough: 0.95, skirtColor: 0x353a40,
@@ -407,18 +411,20 @@ export const ROOM_WELDING = {
     // ------------------------------------------------- the rest of the bay
     // A weld shop keeps its consumables, its gas and its second bench where
     // they are not in the arc, and a fan pointed at the welder, not the work.
-    shadowBoard(root, -W / 2 + 0.3, -1.2, Math.PI / 2, { label: "Weld tooling — clamps, chipping, brushes", color: 0x3b4a52 });
-    racking(root, -W / 2 + 0.55, 3.2, Math.PI / 2, { w: 3.0, h: 2.3, frame: 0x7a5a32, stock: [0x6b7480, 0x8a7a5e, 0x57606a] });
-    bottleRack(root, W / 2 - 0.7, -4.6, -Math.PI / 2, { count: 4, colors: [0x2f5d3a, 0x8a3a2f, 0x2f5d3a, 0x4a535d] });
-    sideBench(root, 2.6, 4.4, Math.PI, { w: 2.6, top: 0x5a5245 });
-    shopFan(root, -3.8, 2.6, -0.8, { tilt: 0.25 });
-    wasteBin(root, W / 2 - 1.4, 3.6, -1.2, { color: 0x55606b, lid: 0x424c56, label: "Scrap steel" });
-    noticeBoard(root, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
-    wallReel(root, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
+    shadowBoard(fixed, -W / 2 + 0.3, -1.2, Math.PI / 2, { label: "Weld tooling — clamps, chipping, brushes", color: 0x3b4a52 });
+    racking(fixed, -W / 2 + 0.55, 3.2, Math.PI / 2, { w: 3.0, h: 2.3, frame: 0x7a5a32, stock: [0x6b7480, 0x8a7a5e, 0x57606a] });
+    bottleRack(fixed, W / 2 - 0.7, -4.6, -Math.PI / 2, { count: 4, colors: [0x2f5d3a, 0x8a3a2f, 0x2f5d3a, 0x4a535d] });
+    sideBench(fixed, 2.6, 4.4, Math.PI, { w: 2.6, top: 0x5a5245 });
+    shopFan(fixed, -3.8, 2.6, -0.8, { tilt: 0.25 });
+    wasteBin(fixed, W / 2 - 1.4, 3.6, -1.2, { color: 0x55606b, lid: 0x424c56, label: "Scrap steel" });
+    noticeBoard(fixed, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
+    wallReel(fixed, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
@@ -131,10 +131,14 @@ export const ROOM_PLUMBING = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.6, h: 3.9,
       floor: 0x4a4038, wall: 0xc9c0ac, ceiling: 0x2f2b26,
       floorRough: 0.95, skirtColor: 0x35302a,
@@ -313,18 +317,20 @@ export const ROOM_PLUMBING = {
     // ------------------------------------------------- the rest of the bay
     // A rough-in bay's stock: copper and PVC on racking, fittings on a bench,
     // the torch bottles chained, the wet-vac and the drain kit.
-    racking(root, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
-    shadowBoard(root, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
-    sideBench(root, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
-    bottleRack(root, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
-    spillStation(root, W / 2 - 1.2, 4.4, -0.8);
-    wasteBin(root, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
-    noticeBoard(root, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
-    shopFan(root, 4.2, 1.6, -1.1, { tilt: 0.2 });
+    racking(fixed, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
+    shadowBoard(fixed, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
+    sideBench(fixed, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
+    bottleRack(fixed, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
+    spillStation(fixed, W / 2 - 1.2, 4.4, -0.8);
+    wasteBin(fixed, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
+    noticeBoard(fixed, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    shopFan(fixed, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
+    ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

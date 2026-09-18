@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture } from "../../shared/kit.js";
+import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture, ownMaterial, mergeStatic } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
 import { buildApron } from "./apron.js";
 import { districtFor, selfLight } from "./districts.js";
@@ -50,6 +50,9 @@ function buildMarquee(g) {
   beam.position.set(0, postH - 0.4, 0.4);
   marquee.add(beam);
 
+  // The animate loop writes trim.material.emissiveIntensity every frame, and
+  // mat() hands out shared materials — so this one has to be its own.
+  ownMaterial(trim);
   return { sign, emblem, ring2, trim };
 }
 
@@ -225,8 +228,19 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   const apron = buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
 
   const beacons = sky.userData.beacons ?? [];
+
+  // Collapse the scenery into one mesh per material. An outdoor scene was
+  // measuring 518 draw calls with 652 visible meshes; almost all of that is
+  // the skyline, the district, the masts and the site apron, none of which
+  // moves or is ever clicked. The station itself is never merged — it is the
+  // part the procedure touches. See mergeStatic() in shared/kit.js.
+  //
+  // The beacons and the marquee trim animate their own materials and carry
+  // the ownMaterial flag, so the merge steps over them and they still pulse.
+  const merged = mergeStatic(g);
+
   return {
-    root: g, ar, roam: apron.roam, spawn: apron.spawn,
+    root: g, ar, roam: apron.roam, spawn: apron.spawn, merged,
     weather: { kind: wx.kind, label: wx.label, note: wx.note },
     animate(t, dt = 0.016) {
       // A learner who asked their system for less animation gets a still

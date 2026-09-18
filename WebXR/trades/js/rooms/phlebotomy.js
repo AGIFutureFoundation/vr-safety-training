@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
@@ -116,10 +116,14 @@ export const ROOM_PHLEBOTOMY = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.0, d: 13.0, h: 3.8,
       floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
       floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
@@ -343,15 +347,17 @@ export const ROOM_PHLEBOTOMY = {
     // A draw room's stores: consumables on shelving, the notice board with
     // the competency list, the spill kit for a blood spill, and the sharps
     // and clinical waste separated the way they have to be.
-    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
-    sideBench(root, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
-    noticeBoard(root, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
-    spillStation(root, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
-    wasteBin(root, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
+    racking(fixed, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
+    sideBench(fixed, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
+    noticeBoard(fixed, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    spillStation(fixed, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
+    wasteBin(fixed, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
+    ceilingGrid(fixed, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

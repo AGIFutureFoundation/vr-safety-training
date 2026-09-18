@@ -122,6 +122,19 @@ headlessly and fails on anything past 320 meshes or 12 lights — the Quest-clas
 between 9 and 24 meshes a room; the heaviest room in either app is the colour studio at
 313.
 
+## Headset instrument and draw calls
+
+`?perf=1` keeps the last three seconds of real frame time and samples the renderer's draw calls
+and triangle count, with a corner overlay and a per-run JSON log. SmartCiti.X has had this since
+the perf pass; Trade Skills did not, which meant the app whose rooms just got 1.62x bigger was
+the one that could not be measured on a Quest. It has it now, on the same `shared/perf.js`.
+
+The first thing it said was that a bay was drawing around 300 calls. The shell, the ceiling
+fittings and the shop furniture never move and are never clicked, so they are built into one
+group and baked into a handful of meshes at the end of `build()` (`mergeStatic()` in
+`shared/kit.js`). The weld bay now draws **167 calls** from 288 meshes, and renders
+pixel-identically.
+
 ## Pre-brief (flipped classroom)
 
 The first time a room is entered on screen it opens as a pre-brief: the room's procedure as

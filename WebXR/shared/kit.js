@@ -61,6 +61,112 @@ export function mat(color, o = {}) {
 // instead) — pure dead bookkeeping, removed.
 function track(geometry) { return geometry; }
 
+/**
+ * Give a mesh a material of its own.
+ *
+ * mat() returns a SHARED cached material keyed on its parameters, which is
+ * what keeps draw calls down — but it means `mesh.material.emissiveIntensity =
+ * x` in an animate loop writes to every other mesh built with the same colour
+ * and finish. The skyline beacons already cloned by hand for exactly this
+ * reason; anything else that animates a material has to do the same, and
+ * mergeStatic() reads the ownMaterial flag to know what it must leave alone.
+ */
+export function ownMaterial(mesh) {
+  mesh.material = mesh.material.clone();
+  mesh.material.userData.ownMaterial = true;
+  return mesh;
+}
+
+/**
+ * Collapse static scenery into one mesh per material.
+ *
+ * An outdoor SmartCiti.X scene was measuring 518 draw calls: 652 visible
+ * meshes, and frustum culling only takes about a fifth of those off because
+ * most of the scene is the ground and the horizon, which are always in shot. A
+ * Quest wants that number in the low hundreds.
+ *
+ * Almost all of it is scenery that never moves and is never clicked — the
+ * skyline, the district, the light masts, the site fence, the laydown. Every
+ * one of those meshes already shares a cached material with its neighbours
+ * (see mat()), so they can be baked into a single buffer per material and
+ * drawn in one call. Nothing about how the scenery is authored changes: it is
+ * still written as boxes and cylinders in readable code, and this runs once at
+ * the end of the build.
+ *
+ * What it will NOT touch, and why the caller has to be deliberate:
+ *   - anything interactive: it would lose its own transform and its id
+ *   - anything animated: a merged mesh has no separate parts to move
+ *   - anything with its own material or texture (decals, canvas panels), which
+ *     is one draw call each whatever happens
+ * Pass only subtrees that are none of those.
+ *
+ * Returns { before, after } so a caller can report what it saved. A no-op on
+ * a THREE without the geometry API (the headless checkers' stub), so the same
+ * build runs in both places.
+ */
+export function mergeStatic(root) {
+  const probe = new THREE.BufferGeometry();
+  if (typeof probe.setAttribute !== "function" || typeof probe.applyMatrix4 !== "function") {
+    return { before: 0, after: 0, skipped: "no geometry API" };
+  }
+  root.updateMatrixWorld?.(true);
+  const buckets = new Map();
+  const doomed = [];
+  let before = 0;
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    before += 1;
+    // Leave alone anything that has to stay its own object.
+    if (o.userData?.interactiveId || o.userData?.noMerge || o.userData?.canvas) return;
+    if (!o.geometry?.attributes?.position || o.material?.userData?.ownMaterial) return;
+    if (Array.isArray(o.material)) return;
+    let list = buckets.get(o.material);
+    if (!list) { list = []; buckets.set(o.material, list); }
+    list.push(o);
+    doomed.push(o);
+  });
+
+  for (const [material, meshes] of buckets) {
+    if (meshes.length < 2) continue;
+    const positions = [], normals = [], uvs = [];
+    let ok = true;
+    for (const m of meshes) {
+      let g = m.geometry;
+      if (g.index) g = g.toNonIndexed();
+      else g = g.clone();
+      g.applyMatrix4(m.matrixWorld);
+      const pos = g.getAttribute("position"), nor = g.getAttribute("normal"), uv = g.getAttribute("uv");
+      if (!pos || !nor) { ok = false; g.dispose(); break; }
+      for (let i = 0; i < pos.count; i++) {
+        positions.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+        normals.push(nor.getX(i), nor.getY(i), nor.getZ(i));
+        uvs.push(uv ? uv.getX(i) : 0, uv ? uv.getY(i) : 0);
+      }
+      g.dispose();
+    }
+    if (!ok) continue;
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    merged.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    merged.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    merged.computeBoundingSphere();
+    const one = new THREE.Mesh(merged, material);
+    // The geometry is already in world space, so the holder must not add a
+    // transform of its own on top of it.
+    one.matrixAutoUpdate = false;
+    one.castShadow = meshes.some((m) => m.castShadow);
+    one.receiveShadow = meshes.some((m) => m.receiveShadow);
+    one.userData.merged = meshes.length;
+    root.add(one);
+    for (const m of meshes) { m.geometry.dispose(); m.parent?.remove(m); }
+  }
+
+  let after = 0;
+  root.traverse((o) => { if (o.isMesh) after += 1; });
+  void doomed;
+  return { before, after };
+}
+
 /** Dispose geometry created for a room. Materials stay cached and shared. */
 export function disposeTree(root) {
   root.traverse((o) => {

@@ -14,6 +14,16 @@ import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
 // What a Quest-class headset has left for content, which is not the same
 // number in both apps because they are not the same scene.
 //
+// Read this as AUTHORED complexity, not as draw calls. mergeStatic() bakes the
+// static scenery into one mesh per material at runtime, and it no-ops under
+// this harness's three.js stub (no geometry API), so the counts here are what
+// the build asks for before that happens. The shipped draw-call number is
+// lower and is measured in a browser with ?perf=1 - see the headset budget
+// section of the SmartCiti.X README. The ceiling here is still the right
+// discipline: merging is not a licence to author without limit, because every
+// merged mesh still costs vertices and every unique material still costs a
+// call.
+//
 // A SmartCiti.X station is dropped onto the shared stage - plaza, district,
 // skyline, weather and now the site apron - which is about 480 meshes before
 // the station builds anything. A Trade Skills room IS the whole scene: its

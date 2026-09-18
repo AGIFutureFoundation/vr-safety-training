@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive, mat, clamp,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 import { noticeBoard, racking, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
@@ -115,10 +115,14 @@ export const ROOM_KITCHEN = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.0,
       floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
       floorRough: 0.7, skirtColor: 0x8d949b,
@@ -389,16 +393,18 @@ export const ROOM_KITCHEN = {
     // ------------------------------------------------- the rest of the bay
     // Back of house: dry store racking, the chemical station, bins split the
     // way a health inspector expects, and the board with the rota on it.
-    racking(root, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
-    sideBench(root, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
-    noticeBoard(root, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
-    wasteBin(root, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
-    wasteBin(root, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
-    spillStation(root, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
+    racking(fixed, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
+    sideBench(fixed, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
+    noticeBoard(fixed, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(fixed, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
+    wasteBin(fixed, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
+    spillStation(fixed, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

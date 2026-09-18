@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, cabinet, particles, markInteractive, mat, HUD,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, cabinet, particles, markInteractive, mat, HUD,
 } from "../../../shared/kit.js";
 import { noticeBoard, racking, shadowBoard, sideBench, spillStation, wasteBin } from "../shopfit.js";
 
@@ -113,10 +113,14 @@ export const ROOM_ELECTRICAL = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.6, d: 13.6, h: 4.0,
       floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
       floorRough: 0.9, skirtColor: 0x2b3138,
@@ -361,16 +365,18 @@ export const ROOM_ELECTRICAL = {
     // ------------------------------------------------- the rest of the bay
     // A switch room's own stores: spares on racking, a tool board, the
     // insulating mats and rescue hook that live on the wall by the door.
-    shadowBoard(root, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
-    racking(root, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
-    sideBench(root, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
-    noticeBoard(root, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
-    spillStation(root, W / 2 - 1.3, 4.0, -0.9);
-    wasteBin(root, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
+    shadowBoard(fixed, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
+    racking(fixed, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    sideBench(fixed, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
+    noticeBoard(fixed, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    spillStation(fixed, W / 2 - 1.3, 4.0, -0.9);
+    wasteBin(fixed, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
+    ceilingGrid(fixed, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

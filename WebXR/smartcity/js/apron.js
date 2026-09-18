@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, slab, group, decal } from "../../shared/kit.js";
+import { box, cyl, slab, group, decal, ownMaterial } from "../../shared/kit.js";
 import { CITY, holoTag, cone, toolChest, equipmentCabinet, standingFigure } from "./citykit.js";
 
 // The site around the work.
@@ -286,8 +286,10 @@ export function buildApron(parent, o = {}) {
     }
   }
 
-  const beacon = box(gate, 0.16, 0.1, 0.16, 0, 3.05, 0, 0xf2a03a,
-    { emissive: 0xf2a03a, ei: 1.4, rough: 0.4, cast: false });
+  // Its own material: the animate loop below writes emissiveIntensity, and a
+  // mat() material is shared by value with anything else the same colour.
+  const beacon = ownMaterial(box(gate, 0.16, 0.1, 0.16, 0, 3.05, 0, 0xf2a03a,
+    { emissive: 0xf2a03a, ei: 1.4, rough: 0.4, cast: false }));
   void accent;
 
   return {

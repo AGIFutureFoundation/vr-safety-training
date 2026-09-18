@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, trolley, cabinet, seatedFigure, particles, markInteractive, mat, lerp,
 } from "../../../shared/kit.js";
 import { noticeBoard, racking, wasteBin } from "../shopfit.js";
 
@@ -120,10 +120,14 @@ export const ROOM_SALON = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.9, d: 13.9, h: 4.0,
       floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
       floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
@@ -379,13 +383,15 @@ export const ROOM_SALON = {
     // A colour studio's back bar: stock shelving, the second station nobody
     // is working at, the towel trolley and the board with the patch-test
     // policy on it.
-    racking(root, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
-    noticeBoard(root, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
-    wasteBin(root, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
+    racking(fixed, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
+    noticeBoard(fixed, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
+    wasteBin(fixed, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
+    ceilingGrid(fixed, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,

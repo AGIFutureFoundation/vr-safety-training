@@ -509,6 +509,112 @@ function mat(color, o = {}) {
 // instead) — pure dead bookkeeping, removed.
 function track(geometry) { return geometry; }
 
+/**
+ * Give a mesh a material of its own.
+ *
+ * mat() returns a SHARED cached material keyed on its parameters, which is
+ * what keeps draw calls down — but it means `mesh.material.emissiveIntensity =
+ * x` in an animate loop writes to every other mesh built with the same colour
+ * and finish. The skyline beacons already cloned by hand for exactly this
+ * reason; anything else that animates a material has to do the same, and
+ * mergeStatic() reads the ownMaterial flag to know what it must leave alone.
+ */
+function ownMaterial(mesh) {
+  mesh.material = mesh.material.clone();
+  mesh.material.userData.ownMaterial = true;
+  return mesh;
+}
+
+/**
+ * Collapse static scenery into one mesh per material.
+ *
+ * An outdoor SmartCiti.X scene was measuring 518 draw calls: 652 visible
+ * meshes, and frustum culling only takes about a fifth of those off because
+ * most of the scene is the ground and the horizon, which are always in shot. A
+ * Quest wants that number in the low hundreds.
+ *
+ * Almost all of it is scenery that never moves and is never clicked — the
+ * skyline, the district, the light masts, the site fence, the laydown. Every
+ * one of those meshes already shares a cached material with its neighbours
+ * (see mat()), so they can be baked into a single buffer per material and
+ * drawn in one call. Nothing about how the scenery is authored changes: it is
+ * still written as boxes and cylinders in readable code, and this runs once at
+ * the end of the build.
+ *
+ * What it will NOT touch, and why the caller has to be deliberate:
+ *   - anything interactive: it would lose its own transform and its id
+ *   - anything animated: a merged mesh has no separate parts to move
+ *   - anything with its own material or texture (decals, canvas panels), which
+ *     is one draw call each whatever happens
+ * Pass only subtrees that are none of those.
+ *
+ * Returns { before, after } so a caller can report what it saved. A no-op on
+ * a THREE without the geometry API (the headless checkers' stub), so the same
+ * build runs in both places.
+ */
+function mergeStatic(root) {
+  const probe = new THREE.BufferGeometry();
+  if (typeof probe.setAttribute !== "function" || typeof probe.applyMatrix4 !== "function") {
+    return { before: 0, after: 0, skipped: "no geometry API" };
+  }
+  root.updateMatrixWorld?.(true);
+  const buckets = new Map();
+  const doomed = [];
+  let before = 0;
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    before += 1;
+    // Leave alone anything that has to stay its own object.
+    if (o.userData?.interactiveId || o.userData?.noMerge || o.userData?.canvas) return;
+    if (!o.geometry?.attributes?.position || o.material?.userData?.ownMaterial) return;
+    if (Array.isArray(o.material)) return;
+    let list = buckets.get(o.material);
+    if (!list) { list = []; buckets.set(o.material, list); }
+    list.push(o);
+    doomed.push(o);
+  });
+
+  for (const [material, meshes] of buckets) {
+    if (meshes.length < 2) continue;
+    const positions = [], normals = [], uvs = [];
+    let ok = true;
+    for (const m of meshes) {
+      let g = m.geometry;
+      if (g.index) g = g.toNonIndexed();
+      else g = g.clone();
+      g.applyMatrix4(m.matrixWorld);
+      const pos = g.getAttribute("position"), nor = g.getAttribute("normal"), uv = g.getAttribute("uv");
+      if (!pos || !nor) { ok = false; g.dispose(); break; }
+      for (let i = 0; i < pos.count; i++) {
+        positions.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+        normals.push(nor.getX(i), nor.getY(i), nor.getZ(i));
+        uvs.push(uv ? uv.getX(i) : 0, uv ? uv.getY(i) : 0);
+      }
+      g.dispose();
+    }
+    if (!ok) continue;
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    merged.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    merged.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    merged.computeBoundingSphere();
+    const one = new THREE.Mesh(merged, material);
+    // The geometry is already in world space, so the holder must not add a
+    // transform of its own on top of it.
+    one.matrixAutoUpdate = false;
+    one.castShadow = meshes.some((m) => m.castShadow);
+    one.receiveShadow = meshes.some((m) => m.receiveShadow);
+    one.userData.merged = meshes.length;
+    root.add(one);
+    for (const m of meshes) { m.geometry.dispose(); m.parent?.remove(m); }
+  }
+
+  let after = 0;
+  root.traverse((o) => { if (o.isMesh) after += 1; });
+  void doomed;
+  return { before, after };
+}
+
 /** Dispose geometry created for a room. Materials stay cached and shared. */
 function disposeTree(root) {
   root.traverse((o) => {
@@ -2730,6 +2836,107 @@ function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
 }
 
 
+/* ===== shared/perf.js ===== */
+// Headset-pass instrument. `?perf=1` on any app turns it on: it keeps the
+// last few seconds of frame times, samples the renderer's draw calls and
+// triangles, shows them in a corner overlay (and a line on the VR HUD), and
+// writes one summary per completed run to a local log the headset pass can
+// export. This is the data the ledger's "Quest pass, heaviest stations first"
+// step records: average and 95th-percentile frame time per station per mode,
+// on the device it ran on. Nothing here runs unless perf mode is on, and
+// nothing leaves the device unless the log is exported.
+
+const LOG_KEY = "vr-training-perf-v1";
+const WINDOW = 180; // frames kept (~3 s at 60 Hz, ~2 s at 90 Hz)
+
+const hasDom = typeof document !== "undefined";
+const params = typeof location !== "undefined" ? new URLSearchParams(location.search) : null;
+const enabled = !!params && params.get("perf") !== null && params.get("perf") !== "0";
+
+const frames = new Float32Array(WINDOW);
+let head = 0, filled = 0, worst = 0;
+let calls = 0, triangles = 0, lastSample = 0;
+let overlay = null;
+
+function stats() {
+  const n = filled;
+  if (!n) return { avgMs: 0, p95Ms: 0, worstMs: 0, fps: 0, frames: 0 };
+  const sorted = Array.from(frames.subarray(0, n)).sort((a, b) => a - b);
+  const avg = sorted.reduce((a, b) => a + b, 0) / n;
+  const p95 = sorted[Math.min(n - 1, Math.floor(n * 0.95))];
+  return { avgMs: +(avg * 1000).toFixed(2), p95Ms: +(p95 * 1000).toFixed(2), worstMs: +(worst * 1000).toFixed(2), fps: +(1 / avg).toFixed(1), frames: n };
+}
+
+const Perf = {
+  get enabled() { return enabled; },
+  /** Call once per rendered frame with the frame's delta in seconds. */
+  frame(dt) {
+    if (!enabled || !(dt > 0)) return;
+    frames[head] = dt; head = (head + 1) % WINDOW; if (filled < WINDOW) filled += 1;
+    if (dt > worst) worst = dt;
+  },
+  /** Sample the renderer's counters; cheap, call a few times a second. Returns true when it sampled. */
+  sample(renderer, t) {
+    if (!enabled) return false;
+    if (t !== undefined && t - lastSample < 0.5) return false;
+    lastSample = t ?? 0;
+    const r = renderer?.info?.render;
+    if (r) { calls = r.calls | 0; triangles = r.triangles | 0; }
+    if (overlay) overlay.textContent = Perf.text();
+    return true;
+  },
+  /** Reset the window (e.g. when a new station is built) so its numbers are its own. */
+  reset() { head = 0; filled = 0; worst = 0; },
+  snapshot(extra = {}) {
+    return { ...stats(), calls, triangles, ...extra };
+  },
+  /** One line for a HUD. */
+  text() {
+    const s = stats();
+    return `${s.fps} fps · ${s.avgMs} ms avg · ${s.p95Ms} ms p95 · ${s.worstMs} ms worst · ${calls} calls · ${(triangles / 1000).toFixed(0)}k tris`;
+  },
+  /** Append a run summary to the local log. Returns the entry, or null when perf mode is off. */
+  logRun(meta = {}) {
+    if (!enabled) return null;
+    const entry = { at: new Date().toISOString(), ua: typeof navigator !== "undefined" ? navigator.userAgent : "", ...Perf.snapshot(), ...meta };
+    try {
+      const list = Perf.list();
+      list.push(entry);
+      localStorage.setItem(LOG_KEY, JSON.stringify(list.slice(-500)));
+    } catch (_) { /* private mode or no storage: the overlay still shows live numbers */ }
+    return entry;
+  },
+  list() {
+    try { return JSON.parse(localStorage.getItem(LOG_KEY) || "[]"); } catch (_) { return []; }
+  },
+  clear() { try { localStorage.removeItem(LOG_KEY); } catch (_) {} },
+  /** Fixed corner readout; a click downloads the log as JSON. */
+  mountOverlay() {
+    if (!enabled || !hasDom || overlay) return overlay;
+    overlay = document.createElement("button");
+    overlay.id = "perf-hud";
+    overlay.type = "button";
+    overlay.title = "Headset-pass instrument — click to download the run log (JSON)";
+    overlay.setAttribute("aria-label", "Performance readout; click to download the run log");
+    Object.assign(overlay.style, {
+      position: "fixed", right: "12px", bottom: "12px", zIndex: 60, font: "600 11px/1.4 ui-monospace, Menlo, Consolas, monospace",
+      color: "#dfeaf2", background: "rgba(8,12,18,0.82)", border: "1px solid rgba(223,234,242,0.25)", borderRadius: "8px",
+      padding: "6px 9px", letterSpacing: "0.02em", cursor: "pointer", maxWidth: "70vw", textAlign: "left",
+    });
+    overlay.textContent = "perf: warming up";
+    overlay.addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), runs: Perf.list() }, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob); const a = document.createElement("a");
+      a.href = url; a.download = `perf-log-${new Date().toISOString().slice(0, 10)}.json`; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    document.body.appendChild(overlay);
+    return overlay;
+  },
+  LOG_KEY,
+};
+
+
 /* ===== trades/js/shopfit.js ===== */
 // What is in a bay besides the job.
 //
@@ -3218,10 +3425,14 @@ const ROOM_ELECTRICAL = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.6, d: 13.6, h: 4.0,
       floor: 0x4a5057, wall: 0x6d7681, ceiling: 0x2a3037,
       floorRough: 0.9, skirtColor: 0x2b3138,
@@ -3466,16 +3677,18 @@ const ROOM_ELECTRICAL = {
     // ------------------------------------------------- the rest of the bay
     // A switch room's own stores: spares on racking, a tool board, the
     // insulating mats and rescue hook that live on the wall by the door.
-    shadowBoard(root, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
-    racking(root, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
-    sideBench(root, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
-    noticeBoard(root, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
-    spillStation(root, W / 2 - 1.3, 4.0, -0.9);
-    wasteBin(root, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
+    shadowBoard(fixed, -W / 2 + 0.3, 1.4, Math.PI / 2, { label: "Insulated tools — 1000V rated, inspected", color: 0x2f4a63 });
+    racking(fixed, W / 2 - 0.55, -3.4, -Math.PI / 2, { w: 2.8, h: 2.3, frame: 0x8a6a3a, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    sideBench(fixed, -3.2, 4.2, 0.25, { w: 2.4, top: 0x5f6b74 });
+    noticeBoard(fixed, 2.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    spillStation(fixed, W / 2 - 1.3, 4.0, -0.9);
+    wasteBin(fixed, -W / 2 + 1.3, 4.3, 0.7, { color: 0x2f5d3a, lid: 0x24462c, label: "Cable offcuts" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
+    ceilingGrid(fixed, 13.6, 13.6, { color: 0xeaf2fb, ei: 1.3, lamp: 1.45, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -3642,10 +3855,14 @@ const ROOM_SALON = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.9, d: 13.9, h: 4.0,
       floor: 0x2f3238, wall: 0xe6dfd6, ceiling: 0xf2ece4,
       floorRough: 0.28, floorMetal: 0.12, skirtColor: 0x1e2126,
@@ -3901,13 +4118,15 @@ const ROOM_SALON = {
     // A colour studio's back bar: stock shelving, the second station nobody
     // is working at, the towel trolley and the board with the patch-test
     // policy on it.
-    racking(root, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
-    noticeBoard(root, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
-    wasteBin(root, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
+    racking(fixed, -W / 2 + 0.5, -2.4, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0x8a6a52, stock: [0xc9a0b8, 0xe0d4c4, 0xb08aa0] });
+    noticeBoard(fixed, 1.8, D / 2 - 0.25, Math.PI, { w: 1.5 });
+    wasteBin(fixed, W / 2 - 1.2, 4.0, -1.0, { color: 0x6b4a5e, lid: 0x543a4a, label: "Colour waste" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
+    ceilingGrid(fixed, 13.9, 13.9, { color: 0xfff4ea, ei: 1.3, lamp: 1.4, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -4073,10 +4292,14 @@ const ROOM_KITCHEN = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.0,
       floor: 0x4e4a46, wall: 0xd8dde1, ceiling: 0xc9ced3,
       floorRough: 0.7, skirtColor: 0x8d949b,
@@ -4347,16 +4570,18 @@ const ROOM_KITCHEN = {
     // ------------------------------------------------- the rest of the bay
     // Back of house: dry store racking, the chemical station, bins split the
     // way a health inspector expects, and the board with the rota on it.
-    racking(root, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
-    sideBench(root, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
-    noticeBoard(root, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
-    wasteBin(root, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
-    wasteBin(root, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
-    spillStation(root, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
+    racking(fixed, -W / 2 + 0.55, -2.6, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9aa3ab, stock: [0xc9bfa8, 0x8a7a5e, 0xb0a48c] });
+    sideBench(fixed, -3.4, 4.6, 0.1, { w: 2.6, top: 0xb8c0c8 });
+    noticeBoard(fixed, 1.6, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(fixed, W / 2 - 1.2, 4.2, -0.9, { color: 0x2f5d3a, lid: 0x24462c, label: "Food waste" });
+    wasteBin(fixed, W / 2 - 2.0, 4.5, -0.9, { color: 0x2f4a63, lid: 0x24384a, label: "Dry mixed" });
+    spillStation(fixed, -W / 2 + 1.2, 4.6, 0.8, { color: 0xc0392b });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xf6f9ff, ei: 1.4, lamp: 1.55, y: 3.84 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -4545,10 +4770,14 @@ const ROOM_PHLEBOTOMY = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 13.0, d: 13.0, h: 3.8,
       floor: 0xa8b3b8, wall: CLINIC_WHITE, ceiling: 0xf4f7f9,
       floorRough: 0.5, floorMetal: 0.05, skirtColor: 0x6f7d85,
@@ -4772,15 +5001,17 @@ const ROOM_PHLEBOTOMY = {
     // A draw room's stores: consumables on shelving, the notice board with
     // the competency list, the spill kit for a blood spill, and the sharps
     // and clinical waste separated the way they have to be.
-    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
-    sideBench(root, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
-    noticeBoard(root, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
-    spillStation(root, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
-    wasteBin(root, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
+    racking(fixed, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 2.6, h: 2.0, frame: 0xb8c0c8, stock: [0xdfe6ec, 0xc9d6de, 0xdfe6ec] });
+    sideBench(fixed, -3.2, 4.0, 0.15, { w: 2.2, top: 0xdfe6ec });
+    noticeBoard(fixed, 1.4, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    spillStation(fixed, W / 2 - 1.2, 3.8, -0.9, { color: 0xc0392b });
+    wasteBin(fixed, W / 2 - 2.1, 4.1, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Clinical" });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
+    ceilingGrid(fixed, 13.0, 13.0, { color: 0xf2f8ff, ei: 1.35, lamp: 1.5, y: 3.64 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -4972,10 +5203,14 @@ const ROOM_WELDING = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.4,
       floor: 0x4d5157, wall: 0x6c757e, ceiling: 0x2a2f34,
       floorRough: 0.95, skirtColor: 0x353a40,
@@ -5255,18 +5490,20 @@ const ROOM_WELDING = {
     // ------------------------------------------------- the rest of the bay
     // A weld shop keeps its consumables, its gas and its second bench where
     // they are not in the arc, and a fan pointed at the welder, not the work.
-    shadowBoard(root, -W / 2 + 0.3, -1.2, Math.PI / 2, { label: "Weld tooling — clamps, chipping, brushes", color: 0x3b4a52 });
-    racking(root, -W / 2 + 0.55, 3.2, Math.PI / 2, { w: 3.0, h: 2.3, frame: 0x7a5a32, stock: [0x6b7480, 0x8a7a5e, 0x57606a] });
-    bottleRack(root, W / 2 - 0.7, -4.6, -Math.PI / 2, { count: 4, colors: [0x2f5d3a, 0x8a3a2f, 0x2f5d3a, 0x4a535d] });
-    sideBench(root, 2.6, 4.4, Math.PI, { w: 2.6, top: 0x5a5245 });
-    shopFan(root, -3.8, 2.6, -0.8, { tilt: 0.25 });
-    wasteBin(root, W / 2 - 1.4, 3.6, -1.2, { color: 0x55606b, lid: 0x424c56, label: "Scrap steel" });
-    noticeBoard(root, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
-    wallReel(root, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
+    shadowBoard(fixed, -W / 2 + 0.3, -1.2, Math.PI / 2, { label: "Weld tooling — clamps, chipping, brushes", color: 0x3b4a52 });
+    racking(fixed, -W / 2 + 0.55, 3.2, Math.PI / 2, { w: 3.0, h: 2.3, frame: 0x7a5a32, stock: [0x6b7480, 0x8a7a5e, 0x57606a] });
+    bottleRack(fixed, W / 2 - 0.7, -4.6, -Math.PI / 2, { count: 4, colors: [0x2f5d3a, 0x8a3a2f, 0x2f5d3a, 0x4a535d] });
+    sideBench(fixed, 2.6, 4.4, Math.PI, { w: 2.6, top: 0x5a5245 });
+    shopFan(fixed, -3.8, 2.6, -0.8, { tilt: 0.25 });
+    wasteBin(fixed, W / 2 - 1.4, 3.6, -1.2, { color: 0x55606b, lid: 0x424c56, label: "Scrap steel" });
+    noticeBoard(fixed, 0.4, D / 2 - 0.25, Math.PI, { w: 1.6, sheets: undefined });
+    wallReel(fixed, W / 2 - 0.25, 1.0, -Math.PI / 2, { color: 0x2f5d3a, hose: 0x1d3a26, y: 2.3 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xdfe9f4, ei: 1.25, lamp: 1.45, y: 4.24 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -5463,10 +5700,14 @@ const ROOM_DEVOPS = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.9, h: 4.2,
       floor: 0x1c2229, wall: 0x232b34, ceiling: 0x171d24,
       floorRough: 0.55, skirtColor: 0x141a20,
@@ -5627,15 +5868,17 @@ const ROOM_DEVOPS = {
     // A data hall's cold aisle: spares racking, the crash cart and console
     // bench, the board with the escalation tree on it, and the bin for the
     // drives that leave in a locked box.
-    racking(root, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
-    sideBench(root, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
-    noticeBoard(root, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
-    wasteBin(root, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
-    shopFan(root, -4.0, 0.8, 1.0, { tilt: 0.15 });
+    racking(fixed, -W / 2 + 0.6, 3.4, Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x4a535d, stock: [0x2b333c, 0x39424b, 0x2b333c] });
+    sideBench(fixed, 3.6, 4.6, Math.PI + 0.12, { w: 2.4, top: 0x39424b });
+    noticeBoard(fixed, -1.2, D / 2 - 0.25, Math.PI, { w: 1.8 });
+    wasteBin(fixed, W / 2 - 1.3, 3.8, -1.0, { color: 0x2f4a63, lid: 0x24384a, label: "Media — locked" });
+    shopFan(fixed, -4.0, 0.8, 1.0, { tilt: 0.15 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
+    ceilingGrid(fixed, 14.6, 13.9, { color: 0xbcd4ea, ei: 1.5, lamp: 1.7, y: 4.04, sky: 0xaec6de, groundTone: 0x2b333c, fill: 0.7 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -5806,10 +6049,14 @@ const ROOM_PLUMBING = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.6, h: 3.9,
       floor: 0x4a4038, wall: 0xc9c0ac, ceiling: 0x2f2b26,
       floorRough: 0.95, skirtColor: 0x35302a,
@@ -5988,18 +6235,20 @@ const ROOM_PLUMBING = {
     // ------------------------------------------------- the rest of the bay
     // A rough-in bay's stock: copper and PVC on racking, fittings on a bench,
     // the torch bottles chained, the wet-vac and the drain kit.
-    racking(root, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
-    shadowBoard(root, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
-    sideBench(root, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
-    bottleRack(root, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
-    spillStation(root, W / 2 - 1.2, 4.4, -0.8);
-    wasteBin(root, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
-    noticeBoard(root, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
-    shopFan(root, 4.2, 1.6, -1.1, { tilt: 0.2 });
+    racking(fixed, -W / 2 + 0.55, -2.0, Math.PI / 2, { w: 3.2, h: 2.3, frame: 0x8a6a3a, stock: [0xb0762f, 0xd8dde3, 0x6b7480, 0xb0762f] });
+    shadowBoard(fixed, W / 2 - 0.3, -2.6, -Math.PI / 2, { label: "Press tool · cutters · reamers · gauges", color: 0x3a4a3c });
+    sideBench(fixed, 3.0, 4.4, Math.PI - 0.15, { w: 2.6, top: 0x6b6255 });
+    bottleRack(fixed, -W / 2 + 1.1, 4.6, 0.6, { count: 3, colors: [0x2f5d3a, 0xb0902f, 0x8a3a2f] });
+    spillStation(fixed, W / 2 - 1.2, 4.4, -0.8);
+    wasteBin(fixed, -3.6, 5.0, 0.2, { color: 0x8a6a2f, lid: 0x6d5324, label: "Copper scrap" });
+    noticeBoard(fixed, 0.2, D / 2 - 0.25, Math.PI, { w: 1.6 });
+    shopFan(fixed, 4.2, 1.6, -1.1, { tilt: 0.2 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
+    ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff0dc, ei: 1.3, lamp: 1.5, y: 3.74 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -6227,12 +6476,16 @@ const ROOM_PRESSURE_WASHER = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     // An open-sided yard: concrete apron, painted stucco wall at the back,
     // daylight from a high roof.
-    shell(root, {
+    shell(fixed, {
       w: 16.2, d: 14.6, h: 4.7,
       floor: PW_CONCRETE, wall: 0x6b6f74, ceiling: 0x3a3f45,
       floorRough: 0.98, skirtColor: 0x4a4e52, backWall: false,
@@ -6420,17 +6673,19 @@ const ROOM_PRESSURE_WASHER = {
     // ------------------------------------------------- the rest of the bay
     // A wash-down yard's kit: the hose reels, the chemistry chained upright,
     // the recovery drums and the spill station that makes containment real.
-    wallReel(root, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
-    wallReel(root, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
-    bottleRack(root, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
-    racking(root, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
-    spillStation(root, W / 2 - 1.3, 3.6, -0.8);
-    sideBench(root, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
-    noticeBoard(root, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    wallReel(fixed, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
+    wallReel(fixed, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
+    bottleRack(fixed, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
+    racking(fixed, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    spillStation(fixed, W / 2 - 1.3, 3.6, -0.8);
+    sideBench(fixed, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
+    noticeBoard(fixed, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
+    ceilingGrid(fixed, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -6662,10 +6917,14 @@ const ROOM_PAINT_SPRAYER = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
-    shell(root, {
+    shell(fixed, {
       w: 14.6, d: 13.6, h: 3.9,
       floor: 0x6b5e4d, wall: 0xd8d0c0, ceiling: 0xe8e2d6,
       floorRough: 0.9, skirtColor: 0x4a4038,
@@ -6859,17 +7118,19 @@ const ROOM_PAINT_SPRAYER = {
     // A coatings bay keeps its tins, thinners and filters out of the booth,
     // its mixing bench downwind, and its waste segregated because most of it
     // is hazardous.
-    racking(root, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9c7a4a, stock: [0x4f88b8, 0xc9bfa8, 0x8a7a5e, 0x6b7480] });
-    sideBench(root, -3.4, 4.2, 0.2, { w: 2.6, top: 0x8a7f6a });
-    bottleRack(root, W / 2 - 0.9, -3.8, -Math.PI / 2, { count: 4, colors: [0xb0902f, 0x8a3a2f, 0xb0902f, 0x2f4a63] });
-    spillStation(root, W / 2 - 1.2, 3.4, -0.9, { color: 0xc0392b });
-    wasteBin(root, W / 2 - 2.2, 4.4, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Hazardous" });
-    noticeBoard(root, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
-    shopFan(root, -4.4, 1.2, 0.9, { tilt: 0.28 });
+    racking(fixed, -W / 2 + 0.55, -2.2, Math.PI / 2, { w: 3.0, h: 2.2, frame: 0x9c7a4a, stock: [0x4f88b8, 0xc9bfa8, 0x8a7a5e, 0x6b7480] });
+    sideBench(fixed, -3.4, 4.2, 0.2, { w: 2.6, top: 0x8a7f6a });
+    bottleRack(fixed, W / 2 - 0.9, -3.8, -Math.PI / 2, { count: 4, colors: [0xb0902f, 0x8a3a2f, 0xb0902f, 0x2f4a63] });
+    spillStation(fixed, W / 2 - 1.2, 3.4, -0.9, { color: 0xc0392b });
+    wasteBin(fixed, W / 2 - 2.2, 4.4, -0.7, { color: 0xb03a2f, lid: 0x8c2c22, label: "Hazardous" });
+    noticeBoard(fixed, 1.2, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    shopFan(fixed, -4.4, 1.2, 0.9, { tilt: 0.28 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
+    ceilingGrid(fixed, 14.6, 13.6, { color: 0xfff6e8, ei: 1.25, lamp: 1.45, y: 3.74 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
@@ -7264,6 +7525,7 @@ function enterRoom(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  Perf.reset();
   collectSelectables();
 
   rig.position.set(room.spawn.x, 0, room.spawn.z);
@@ -7464,6 +7726,8 @@ function showResults(s, summary) {
   // Same attempt record SmartCiti.X writes. Every room names the union and
   // certification it maps to; the seven original rooms roll up under one
   // category, the surface-prep bays carry their own.
+  Perf.logRun({ app: "trades", simId: state.room?.id, mode: renderer.xr.isPresenting ? "vr" : "flat",
+    presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed ?? 0) });
   const attempt = TrainingRecords.record({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
@@ -8191,6 +8455,7 @@ window.__tradesTest = {
   camera: () => camera,
   rig: () => rig,
   room: () => state.room,
+  perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
 };
 
 // --------------------------------------------------------------- frame loop
@@ -8204,10 +8469,19 @@ addEventListener("resize", () => {
 const clock = new THREE.Clock();
 let elapsedTotal = 0;
 
+Perf.mountOverlay();
+
 renderer.setAnimationLoop(() => {
-  const dt = Math.min(clock.getDelta(), 0.05);
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, 0.05);
   elapsedTotal += dt;
   const presenting = renderer.xr.isPresenting;
+  // Headset-pass instrument (?perf=1): the real frame time, not the clamped
+  // one. SmartCiti.X has had this since the perf pass; a Trade Skills room
+  // could not be measured on a Quest at all, which is the app whose rooms just
+  // got 1.62x bigger.
+  Perf.frame(rawDt);
+  Perf.sample(renderer, elapsedTotal);
 
   if (!state.paused) {
     if (presenting) xrMove(dt);

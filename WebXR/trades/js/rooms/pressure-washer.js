@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, sideBench, spillStation, wallReel } from "../shopfit.js";
 
@@ -148,12 +148,16 @@ export const ROOM_PRESSURE_WASHER = {
   ],
 
   build(root) {
+    // The shell, the fittings and the shop furniture never move and are
+    // never clicked, so they go in one group that is baked into a handful
+    // of meshes at the end of the build. See mergeStatic in shared/kit.js.
+    const fixed = group(root);
     const hits = {};
     const reg = (obj, id) => { markInteractive(obj, id); hits[id] = obj; return obj; };
 
     // An open-sided yard: concrete apron, painted stucco wall at the back,
     // daylight from a high roof.
-    shell(root, {
+    shell(fixed, {
       w: 16.2, d: 14.6, h: 4.7,
       floor: PW_CONCRETE, wall: 0x6b6f74, ceiling: 0x3a3f45,
       floorRough: 0.98, skirtColor: 0x4a4e52, backWall: false,
@@ -341,17 +345,19 @@ export const ROOM_PRESSURE_WASHER = {
     // ------------------------------------------------- the rest of the bay
     // A wash-down yard's kit: the hose reels, the chemistry chained upright,
     // the recovery drums and the spill station that makes containment real.
-    wallReel(root, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
-    wallReel(root, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
-    bottleRack(root, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
-    racking(root, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
-    spillStation(root, W / 2 - 1.3, 3.6, -0.8);
-    sideBench(root, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
-    noticeBoard(root, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
+    wallReel(fixed, -W / 2 + 0.25, -1.4, Math.PI / 2, { color: 0x2f7fb0, hose: 0x1b2a33, y: 2.4 });
+    wallReel(fixed, -W / 2 + 0.25, 0.4, Math.PI / 2, { color: 0x3f9ad0, hose: 0x1b2a33, y: 2.4 });
+    bottleRack(fixed, -W / 2 + 1.4, 4.6, 0.5, { count: 4, colors: [0x2f7fb0, 0xb0902f, 0x2f5d3a, 0x8a3a2f] });
+    racking(fixed, W / 2 - 0.55, -2.4, -Math.PI / 2, { w: 2.8, h: 2.2, frame: 0x7a848c, stock: [0x4d6b7a, 0x6b7480, 0x8a7a5e] });
+    spillStation(fixed, W / 2 - 1.3, 3.6, -0.8);
+    sideBench(fixed, 3.2, 5.0, Math.PI, { w: 2.4, top: 0x6f7780 });
+    noticeBoard(fixed, -0.6, D / 2 - 0.25, Math.PI, { w: 1.7 });
 
     // Fittings on a grid sized to this floor, plus the bounce a real room
     // has and this one did not: see ceilingGrid in shared/kit.js.
-    ceilingGrid(root, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
+    ceilingGrid(fixed, 16.2, 14.6, { color: 0xf4f0e6, ei: 1.35, lamp: 1.6, y: 4.54 });
+
+    mergeStatic(fixed);
 
     return {
       hits,
