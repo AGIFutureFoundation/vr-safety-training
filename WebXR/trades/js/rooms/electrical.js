@@ -411,6 +411,16 @@ export const ROOM_ELECTRICAL = {
         if (step.id === "ground") installedGrounds.visible = true;
       },
 
+      // An interruption the learner can see: the lock is simply gone off the
+      // hasp. Look up from the meter and the hasp is bare, which is the whole
+      // thing this is teaching you to notice.
+      onInterrupt(it) {
+        if (it.id === "lock-missing") appliedLock.visible = false;
+      },
+      onInterruptEnd(it) {
+        if (it.id === "lock-missing" && it.resolved === "answered") appliedLock.visible = true;
+      },
+
       onHazard(hitId) {
         if (hitId === "live-bus" && energised) arcTimer = 0.55;
       },

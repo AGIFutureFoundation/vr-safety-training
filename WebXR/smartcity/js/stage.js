@@ -257,7 +257,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
       if (districtAnimate) districtAnimate(t);
-      apron.animate(t);
+      apron.animate(t, dt);
       wx.animate(t, dt);
     },
   };

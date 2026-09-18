@@ -674,9 +674,16 @@ export class Session {
    */
   armInterrupt(stepId) {
     for (const it of this.interrupts) {
-      if (!it.fired && it.after === stepId) {
-        it.armedAt = this.elapsed + (it.delay ?? 3);
-      }
+      // Leaving a step disarms anything that was waiting on it. An
+      // interruption is an event DURING a particular task: if the learner got
+      // through that task faster than the fuse, there was no window and it
+      // does not happen. Without this, a stale arm fires several steps later,
+      // where its alert makes no sense ("somebody took your lock off while you
+      // were testing" during the grounding step) and — worse — reaching for
+      // the control the current step actually wants is scored as a wrong
+      // response to an alarm the learner had no reason to expect.
+      if (!it.fired && it.armedAt != null && it.after !== stepId) it.armedAt = null;
+      if (!it.fired && it.after === stepId) it.armedAt = this.elapsed + (it.delay ?? 3);
     }
   }
 

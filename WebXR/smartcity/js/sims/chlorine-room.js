@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, instrument, standingFigure, valveWheel, cylinderTank, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -57,6 +57,35 @@ export const SIM_CHLORINE_ROOM = {
     "feed-rotameter": "Feed rate is set once the cylinder is on line and tested; the rotameter reads nothing until then.",
     "ammonia-bottle": "The leak test comes after the yoke is snugged — there is nothing to test before the joint is made.",
   },
+
+
+  // Interruptions: see shared/game.js. A chlorine room is a space where the
+  // thing that kills you is invisible, so the alarm is the only warning there
+  // is and the whole competency is whether you act on it without arguing.
+  interrupts: [
+    {
+      id: "room-alarm",
+      kind: "Gas alarm",
+      after: "swap", delay: 5, seconds: 12,
+      alert: "The room monitor has gone into alarm. There is chlorine in the air while you have the cylinder off.",
+      cue: "Read it. Do not assume it is the sensor.",
+      target: "room-monitor",
+      why: "A chlorine alarm during a changeout is real until proven otherwise, and what it tells you is whether you are leaving or finishing. The reading decides that, not how inconvenient it is.",
+      missNote: "You carried on changing a cylinder in a room that was alarming. Chlorine at a few parts per million takes your airway before it takes your judgement, and the people who die in these rooms are the ones who assumed the sensor was faulty.",
+      wrongNote: "The monitor is what is alarming. Nothing you do at the manifold means anything until you know what the room is reading.",
+    },
+    {
+      id: "operator-at-door",
+      kind: "Door opened",
+      after: "leaktest", delay: 4, seconds: 12,
+      alert: "The operator outside has opened the door to ask how long you will be. They have no SCBA on.",
+      cue: "That door stays shut while a leak test is running.",
+      target: "outside-operator",
+      why: "The attendant outside is the person who calls it in and keeps everyone else out. Standing in an open doorway during a leak test makes them the second casualty and leaves nobody to raise the alarm.",
+      missNote: "You let an unprotected person stand in the doorway of a room you were pressure-testing chlorine in. If the joint had failed they would have taken the release at face height, and there would have been nobody outside to call it.",
+      wrongNote: "It is the person in the doorway. Get them out and the door shut before you touch anything else.",
+    },
+  ],
 
   steps: [
     {
@@ -279,6 +308,21 @@ export const SIM_CHLORINE_ROOM = {
       hits,
       spawnLook: new THREE.Vector3(-0.3, 1.1, -1.4),
       onStep() {},
+      // The room monitor goes red and the attendant steps into the doorway.
+      // An alarm you can only read is a caption; see shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "room-alarm") {
+          monitor.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.9, rough: 0.5 });
+        }
+        if (it.id === "operator-at-door") { outside.position.z -= 0.9; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "room-alarm") {
+          monitor.material = mat(0x7fd8a8, { emissive: 0x7fd8a8, ei: 1.2, rough: 0.5 });
+        }
+        if (it.id === "operator-at-door") { outside.position.z += 0.9; }
+      },
       onStepComplete(step) {
         if (step.id === "close") emptyValve.rotation.y = 0;
         if (step.id === "capoff") { vacReg.visible = false; cap.visible = true; hood.visible = true; capItem.visible = false; hoodItem.visible = false; }

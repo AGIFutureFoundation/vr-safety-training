@@ -24,8 +24,8 @@ function audit(app, suite, r) {
   if (!list.length) return;
   withAny += 1;
   const root = new suite.THREE.Group();
-  let hits = {};
-  try { hits = r.build(root)?.hits ?? {}; } catch { /* the content checkers own this */ }
+  let hits = {}, api = null;
+  try { api = r.build(root); hits = api?.hits ?? {}; } catch { /* the content checkers own this */ }
   const stepIds = new Set(r.steps.map((s) => s.id));
   const seen = new Set();
 
@@ -55,6 +55,14 @@ function audit(app, suite, r) {
     }
     if (it.wrongNote != null && String(it.wrongNote).trim().length < 40) note(tag, "wrongNote is too short to be worth showing");
     if (typeof it.kind !== "string" || !it.kind.trim()) note(tag, "no kind — the banner needs a word for what this is");
+
+    // A station may make the interruption visible in the world — a fan that
+    // stops, a lock gone off the hasp. Those hooks run inside the frame loop,
+    // so a throw there takes the whole run down.
+    for (const [hook, arg] of [["onInterrupt", it], ["onInterruptEnd", { ...it, resolved: "answered" }], ["onInterruptEnd", { ...it, resolved: "missed" }]]) {
+      try { api?.[hook]?.(arg, null); }
+      catch (e) { note(tag, `${hook}() threw: ${e.message}`); }
+    }
   }
 }
 
@@ -81,6 +89,16 @@ if (withInterrupts) {
     const sum = s.interruptSummary();
     if (!sum || sum.missed !== 1) note(`engine/${withInterrupts.id}`, "the summary did not record the miss");
   }
+  // Leaving the step disarms it. A stale arm fires several steps later, where
+  // the alert makes no sense and reaching for the control the CURRENT step
+  // wants is scored as a wrong response to an alarm nobody could expect.
+  const s3 = new suite.Session(withInterrupts, {});
+  s3.start(); s3.index = at; s3.enterStep();
+  s3.index = at + 1; s3.enterStep();
+  s3.tick((it.delay ?? 3) + (it.seconds ?? 12) + 1);
+  if (s3.activeInterrupt) note(`engine/${withInterrupts.id}`, "an interruption armed on a step the learner had already left still fired");
+  if (s3.hazardHits) note(`engine/${withInterrupts.id}`, "a disarmed interruption was still counted against the learner");
+
   // And answering it scores.
   const s2 = new suite.Session(withInterrupts, {});
   s2.start(); s2.index = at; s2.enterStep(); s2.tick(it.delay + 0.2);
@@ -90,7 +108,19 @@ if (withInterrupts) {
   if (s2.activeInterrupt) note(`engine/${withInterrupts.id}`, "answering did not clear the alarm");
 }
 
+// Every interruption must visibly change the world. A banner on its own is a
+// caption: the skill being taught is noticing something, and there has to be
+// something to notice. tools/interrupt_react.mjs is the detailed report; this
+// is the gate.
+const react = await import("./interrupt_react.mjs").then((m) => m.reactionReport(), (e) => {
+  note("engine/reactions", `could not run the reaction probe: ${e.message}`);
+  return null;
+});
+if (react) {
+  for (const id of react.silent) note(id, "fires without changing anything in the scene — add an onInterrupt hook to the station, or it is a caption rather than something to notice");
+}
+
 console.log(failures
   ? `\n${failures} interruption problem(s) found.`
-  : `\n${total} interruption${total === 1 ? "" : "s"} across ${withAny} procedure${withAny === 1 ? "" : "s"} check out, and the engine fires, times out and scores them.`);
+  : `\n${total} interruption${total === 1 ? "" : "s"} across ${withAny} procedure${withAny === 1 ? "" : "s"} check out: the engine fires, times out and scores them, and all ${react?.reacting ?? 0} visibly change the world.`);
 process.exit(failures ? 1 : 0);

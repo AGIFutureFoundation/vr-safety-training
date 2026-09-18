@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, cone, instrument, standingFigure, barrierPanel, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -321,6 +321,17 @@ export const SIM_CONFINED_RESCUE = {
       hits,
       spawnLook: new THREE.Vector3(-0.4, 0.8, -0.8),
       onStep() {},
+      // The meter on the line goes red, and the attendant leaves the opening.
+      // Both are the thing the alarm is about. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "meter-alarms") { meter.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.9, rough: 0.5 }); }
+        if (it.id === "attendant-pulled") { attendant.position.x += 1.5; attendant.rotation.y += 0.9; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "meter-alarms") { meter.material = mat(0xf07a4b, { emissive: 0xf07a4b, ei: 1.2, rough: 0.5 }); }
+        if (it.id === "attendant-pulled") { attendant.position.x -= 1.5; attendant.rotation.y -= 0.9; }
+      },
       onStepComplete(step) {
         if (step.id === "isolate") { isolated = true; blank.material = blank.material; }
         if (step.id === "rig") { for (const l of legs) l.visible = true; head.visible = true; mainLine.visible = true; headHit.material.opacity = 0.001; }

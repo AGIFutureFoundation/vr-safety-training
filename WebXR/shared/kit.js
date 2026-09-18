@@ -104,12 +104,19 @@ export function ownMaterial(mesh) {
  * a THREE without the geometry API (the headless checkers' stub), so the same
  * build runs in both places.
  */
-export function mergeStatic(root) {
+export function mergeStatic(root, o = {}) {
   const probe = new THREE.BufferGeometry();
   if (typeof probe.setAttribute !== "function" || typeof probe.applyMatrix4 !== "function") {
     return { before: 0, after: 0, skipped: "no geometry API" };
   }
   root.updateMatrixWorld?.(true);
+  // `local` bakes into the subtree's OWN space instead of the world's, so the
+  // subtree keeps its transform and can still be moved, turned or driven as a
+  // unit. That is what makes ambient life affordable: a figure or a vehicle
+  // becomes two or three draw calls that still walk around, instead of twenty
+  // that cannot be merged at all because the thing moves.
+  const local = !!o.local;
+  const inverse = local && root.matrixWorld ? new THREE.Matrix4().copy(root.matrixWorld).invert() : null;
   const buckets = new Map();
   const doomed = [];
   let before = 0;
@@ -135,6 +142,7 @@ export function mergeStatic(root) {
       if (g.index) g = g.toNonIndexed();
       else g = g.clone();
       g.applyMatrix4(m.matrixWorld);
+      if (inverse) g.applyMatrix4(inverse);
       const pos = g.getAttribute("position"), nor = g.getAttribute("normal"), uv = g.getAttribute("uv");
       if (!pos || !nor) { ok = false; g.dispose(); break; }
       for (let i = 0; i < pos.count; i++) {
@@ -151,9 +159,10 @@ export function mergeStatic(root) {
     merged.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
     merged.computeBoundingSphere();
     const one = new THREE.Mesh(merged, material);
-    // The geometry is already in world space, so the holder must not add a
-    // transform of its own on top of it.
-    one.matrixAutoUpdate = false;
+    // In world mode the geometry already carries its world placement, so the
+    // holder must not add a transform on top of it. In local mode the holder
+    // is the thing that moves, so it keeps updating normally.
+    if (!local) one.matrixAutoUpdate = false;
     one.castShadow = meshes.some((m) => m.castShadow);
     one.receiveShadow = meshes.some((m) => m.receiveShadow);
     one.userData.merged = meshes.length;

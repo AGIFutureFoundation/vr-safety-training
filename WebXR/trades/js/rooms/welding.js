@@ -465,6 +465,24 @@ export const ROOM_WELDING = {
         arcFlash.visible = arcOn;
       },
 
+      // An interruption the learner can see: the fan stops, the lamp goes red
+      // and the plume stops being carried off. A banner alone is a caption.
+      onInterrupt(it) {
+        if (it.id === "extraction-trips") {
+          extractionOn = false;
+          fumeLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2 });
+        }
+        if (it.id === "blanket-slipped") { draped.visible = false; }
+      },
+      onInterruptEnd(it) {
+        // Only put it right if it was actually answered.
+        if (it.resolved !== "answered") return;
+        if (it.id === "extraction-trips") {
+          extractionOn = true;
+          fumeLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2 });
+        }
+        if (it.id === "blanket-slipped") { draped.visible = true; }
+      },
       onStepComplete(step) {
         if (step.id === "clear") { combustibles.position.set(3.9, 0, 3.4); }
         if (step.id === "blanket") { draped.visible = true; }

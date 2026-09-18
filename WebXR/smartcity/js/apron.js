@@ -1,6 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, ownMaterial } from "../../shared/kit.js";
 import { CITY, holoTag, cone, toolChest, equipmentCabinet, standingFigure } from "./citykit.js";
+import { buildAmbient } from "./ambient.js";
 
 // The site around the work.
 //
@@ -290,6 +291,10 @@ export function buildApron(parent, o = {}) {
   // mat() material is shared by value with anything else the same colour.
   const beacon = ownMaterial(box(gate, 0.16, 0.1, 0.16, 0, 3.05, 0, 0xf2a03a,
     { emissive: 0xf2a03a, ei: 1.4, rough: 0.4, cast: false }));
+  // The people and the traffic. Built after everything else so the crew can be
+  // placed against the zones they are working, and kept out of the merge in
+  // stage.js because they move. See ambient.js.
+  const life = buildAmbient(g, { radius: R });
   void accent;
 
   return {
@@ -302,8 +307,9 @@ export function buildApron(parent, o = {}) {
     },
     // How far out the learner may walk — just inside the fence line.
     roam: APRON.fence - 0.7,
-    animate(t) {
+    animate(t, dt = 0.016) {
       beacon.material.emissiveIntensity = 1.0 + Math.max(0, Math.sin(t * 2.2)) * 1.3;
+      life.animate(t, dt);
     },
   };
 }

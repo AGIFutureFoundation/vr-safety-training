@@ -153,6 +153,25 @@ programme names a station that does not exist, omits a union, a certification or
 leaves a station without a reason — a block a learner can never finish is a build error, not a
 content bug.
 
+## Life on the site
+
+The apron gave every station a gate, a laydown, a crew truck and a muster point, and it was
+completely deserted. An empty site does not read as a site — it reads as a model of one, and a
+learner being taught to work around other people was being shown a world with no other people in
+it.
+
+`js/ambient.js` puts a crew on it: a supervisor by the gate with a clipboard watching you come
+in, two working stock on the laydown, a banksman on the plant route with his wands down. They
+shift their weight and glance about rather than standing like mannequins. A yard truck runs a
+slow loop outside the fence with its beacon turning, and a vent on the boundary breathes a
+plume. Nobody here is a step target or a hazard; the procedure is unchanged.
+
+It is affordable because of a second mode on `mergeStatic()`. Baking into **local** space instead
+of world space lets a subtree keep its own transform, so a figure or a truck collapses to two or
+three meshes *and still moves as a unit* — the whole ambient layer costs **eight draw calls** for
+seventy-five authored meshes. Without that it would have cost eighty and undone the optimisation
+pass that came before it.
+
 ## The site around the work
 
 Every station was authored as a 2-to-2.6 metre work area, and the learner was clamped to a
@@ -438,12 +457,24 @@ and that means it lands on `hazardHits`, which is what the pass rule and the bad
 run can be procedurally perfect and still fail on the alarm it slept through, which is the
 point.
 
-Nine are authored so far across five procedures: the Weld Bay (extraction trips mid-setup, fire
+Seventeen are authored across nine procedures: the Weld Bay (extraction trips mid-setup, fire
 blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are testing
 dead), Confined Rescue (the meter alarms while you rig, the attendant leaves the hole during the
 haul), Substation Switching (an unescorted visitor in the yard, control calling with a verbal
-change to the order) and the Airport Ramp (a catering truck inbound past an unset equipment
-line, a tug kicks the nose chock before the bridge docks).
+change to the order), the Airport Ramp (a catering truck inbound past an unset equipment line, a
+tug kicks the nose chock before the bridge docks), the Trench (spoil creeping back toward the
+lip above an entrant, the spotter walking off mid-programming), the Crane Yard (somebody cutting
+through the swing radius, an outrigger pad settling with the load up), the Chlorine Room (the
+room monitor alarming during a changeout, the attendant standing in an open door during a leak
+test) and the Fire Pump (hot work opened while the sprinklers are impaired for your test, the
+packing gland going from a drip to a stream).
+
+**Every one of them visibly changes the world.** The fan stops turning and its lamp goes red;
+the lock is simply gone off the hasp; the spoil is closer to the edge than it was; the swing
+radius marker goes hot; the level bubble is off centre; the chock is sitting clear of the tyre.
+A station declares `onInterrupt(it)` and `onInterruptEnd(it)` alongside its `onStepComplete`, and
+puts it back only when `it.resolved === "answered"`. This is not decoration — the skill being
+assessed is *noticing something*, and an alarm you can only read is a caption.
 
 Everything downstream already knows about them. They get their own rows in the step debrief with
 how long each took to catch; `toXAPI` exports `interrupts-caught`, `interrupts-missed` and the
@@ -454,8 +485,16 @@ a real job.
 
 `tools/check_interrupts.mjs` validates every field and then drives the engine: that an armed
 interruption fires after its delay, times out if unanswered, counts the miss as an unsafe
-action, and scores a correct answer. It also rejects an interruption whose response is the
-control the learner is already holding — that is not an interruption, it is a nudge.
+action, scores a correct answer, and is **disarmed when the learner leaves its step**. It also
+rejects an interruption whose response is the control the learner is already holding — that is
+not an interruption, it is a nudge — and, via `tools/interrupt_react.mjs`, one that fires
+without changing anything in the scene.
+
+The disarm rule came out of that probe finding a real bug. An interruption armed on a step the
+learner finished faster than the fuse stayed armed and fired several steps later, where its
+alert made no sense *and* reaching for the control the current step actually wanted was scored
+as a wrong response to an alarm nobody could have expected. An interruption is an event during a
+particular task: get through the task faster than the fuse and there was no window.
 
 ## Per-step debrief
 

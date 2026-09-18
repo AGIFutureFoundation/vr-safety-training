@@ -546,6 +546,9 @@ async function enterSim(id, { briefed = false } = {}) {
       Platform.progress({ sim: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
     onInterrupt: (it) => {
+      // The station makes it visible in the world: a fan that stops, a lock
+      // that is gone off the hasp. An alarm you can only read is a caption.
+      state.api?.onInterrupt?.(it, state.session);
       showAlarm(it);
       srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
       announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
@@ -553,7 +556,7 @@ async function enterSim(id, { briefed = false } = {}) {
       kbCursor.set(targetsForStep({ target: it.target }));
       observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
     },
-    onInterruptEnd: () => { hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
+    onInterruptEnd: (it) => { state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });

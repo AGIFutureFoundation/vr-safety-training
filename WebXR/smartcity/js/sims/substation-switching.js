@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, barrierPanel, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -273,6 +273,17 @@ export const SIM_SUBSTATION_SWITCHING = {
       hits,
       spawnLook: new THREE.Vector3(0, 1.3, -1.6),
       onStep() {},
+      // The visitor arrives in the yard and the radio lights up. Both are
+      // visible from the switching position. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "unescorted-visitor") { suit.position.x += 1.8; suit.position.z += 1.1; }
+        if (it.id === "order-changed") { radio.material = mat(0xf2c14b, { emissive: 0xf2c14b, ei: 1.8, rough: 0.5 }); }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "unescorted-visitor") { suit.position.x -= 1.8; suit.position.z -= 1.1; }
+        if (it.id === "order-changed") { radio.material = mat(0x2b3138, { rough: 0.6, metal: 0.3 }); }
+      },
       onStepComplete(step) {
         if (step.id === "breaker") { energised = false; brkHandle.rotation.z = Math.PI / 2; repaint(brkFace, signFace("OPEN", { bg: "#0d2b22", accent: "#59c97b", scale: 0.55 })); }
         if (step.id === "disconnects") for (const d of Object.values(discFaces)) d.h.rotation.z = Math.PI / 2;

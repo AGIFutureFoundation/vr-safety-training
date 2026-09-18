@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, valveWheel, pipeRun, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -56,6 +56,35 @@ export const SIM_FIRE_PUMP = {
     "controller-start": "The alarm company is told, the discharge is laid and the suction is proven before the pump is called.",
     "restore-auto": "The test points are done and the header closed before the controller goes back to automatic.",
   },
+
+
+  // Interruptions: see shared/game.js. The hazard in an annual fire pump test
+  // is not the pump — it is that the building's fire protection is offline
+  // while you run it, and everybody else has forgotten.
+  interrupts: [
+    {
+      id: "hot-work-started",
+      kind: "System impaired",
+      after: "churn", delay: 5, seconds: 14,
+      alert: "The alarm panel is reporting a hot work permit opened on the third floor. The sprinkler system is still impaired for your test.",
+      cue: "Nobody strikes an arc in a building with the pump on test.",
+      target: "alarm-phone",
+      why: "An impairment is a window during which the building has no fire protection, and the only thing managing that window is the person on the phone to the monitoring company and the permit desk. Hot work inside it is the one combination that has burned buildings down.",
+      missNote: "You ran the test to completion with hot work live in an unprotected building. Impairment plus ignition source is the specific sequence behind most total-loss fires in sprinklered buildings, and it is always two teams who each thought the other knew.",
+      wrongNote: "Get on the phone. The impairment is the emergency, not the pump reading.",
+    },
+    {
+      id: "packing-runaway",
+      kind: "Packing failure",
+      after: "flow100", delay: 5, seconds: 12,
+      alert: "The packing gland has opened up. It has gone from a drip to a stream and the floor drain is not keeping up.",
+      cue: "Look at the gland before the room floods.",
+      target: "packing-leak",
+      why: "Packing is meant to weep — a stream is not weeping, it is a gland that has backed off under vibration, and it will take the shaft sleeve with it if it runs like that at flow.",
+      missNote: "You ran the pump at rated flow with the gland streaming. The sleeve scored, the room took an inch of water, and the pump that is supposed to protect the building is now the thing that is out of service.",
+      wrongNote: "It is the gland. Nothing about the flow test is worth a wrecked shaft sleeve and a flooded pump room.",
+    },
+  ],
 
   steps: [
     {
@@ -242,6 +271,17 @@ export const SIM_FIRE_PUMP = {
       hits,
       spawnLook: new THREE.Vector3(0, 0.9, -0.8),
       onStep() {},
+      // The alarm phone lights up, and the packing gland opens from a drip
+      // into a stream you can see on the floor. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "hot-work-started") { phone.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.9, rough: 0.5 }); }
+        if (it.id === "packing-runaway") { packing.scale.set(1.6, 1, 1.6); packing.material = mat(0x4a7f9c, { rough: 0.2, metal: 0.5 }); }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "hot-work-started") { phone.material = mat(0x2f3740, { rough: 0.6 }); }
+        if (it.id === "packing-runaway") { packing.scale.set(1, 1, 1); packing.material = mat(0x8a949d, { rough: 0.4, metal: 0.7 }); }
+      },
       onStepComplete(step) {
         if (step.id === "manual") selHandle.rotation.z = Math.PI / 2;
         if (step.id === "start") { running = true; repaint(amps, signFace("142 A", { bg: "#12191f", accent: "#e25c5c", fg: "#ffd9d9", scale: 0.55 })); repaint(tach.userData.screen, signFace("1770 rpm", { bg: "#0d1c24", accent: "#e25c5c", fg: "#ffd9d9", scale: 0.55 })); }

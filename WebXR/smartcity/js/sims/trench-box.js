@@ -1,7 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
-  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles,
-} from "../../../shared/kit.js";
+  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles,, mat } from "../../../shared/kit.js";
 import {
   stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument,
   standingFigure, reg,
@@ -57,6 +56,35 @@ export const SIM_TRENCH_BOX = {
     "trench-box": "The box goes in before anyone works below grade, not after the first assessment — it is the physical protection, not a formality that follows it.",
     "ladder": "The ladder is placed before anyone climbs down, because egress needs to already exist for the worst five seconds of the shift, not just the calm ones.",
   },
+
+
+  // Interruptions: see the interrupt layer in shared/game.js. Excavation is the
+  // classic case — the trench that was safe when you inspected it is a
+  // different trench twenty minutes later, and nobody is looking up.
+  interrupts: [
+    {
+      id: "spoil-creeping",
+      kind: "Edge movement",
+      after: "pipe-work", delay: 5, seconds: 13,
+      alert: "The excavator has swung again and spoil is sliding back toward the edge above the entrant.",
+      cue: "Get the spoil back off the lip before it goes in.",
+      target: "spoil-pile",
+      why: "Spoil belongs two feet back from the edge and it does not stay there by itself. Loose material at the lip is both a surcharge on the wall and the thing that falls on whoever is down there.",
+      missNote: "The spoil went over the edge onto the entrant. A person buried to the chest cannot self-rescue and cannot breathe against the weight, and the crew above will spend the next hour digging by hand because a machine cannot be used near a buried worker.",
+      wrongNote: "It is the spoil at the edge. Nothing else in this excavation matters while material is sliding toward a person.",
+    },
+    {
+      id: "spotter-gone",
+      kind: "Spotter gone",
+      after: "gps-teach", delay: 4, seconds: 12,
+      alert: "Your spotter has walked off to take a call. There is nobody between the excavator and the trench.",
+      cue: "You are teaching a machine a path with nobody watching the hole.",
+      target: "spotter",
+      why: "The spotter is the only person whose job is the space between the plant and the people. Programming a machine's path is exactly when you need them most, because the machine is about to move somewhere nobody expects.",
+      missNote: "You taught and ran a machine path with no spotter and a person in the excavation. Struck-by is the leading cause of death in excavation work after collapse, and every one of them happened while somebody was looking at something else.",
+      wrongNote: "The missing spotter is the problem. Get somebody back on the edge before the machine moves again.",
+    },
+  ],
 
   steps: [
     {
@@ -344,6 +372,17 @@ export const SIM_TRENCH_BOX = {
       hits,
       footprint: 2.1,
 
+      // Spoil actually creeps toward the lip, and the spotter walks off. The
+      // learner sees the change if they look up. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "spoil-creeping") { spoil.position.z += 0.42; spoil.position.y += 0.05; }
+        if (it.id === "spotter-gone") { spotter.position.x += 2.4; spotter.rotation.y += 1.4; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "spoil-creeping") { spoil.position.z -= 0.42; spoil.position.y -= 0.05; }
+        if (it.id === "spotter-gone") { spotter.position.x -= 2.4; spotter.rotation.y -= 1.4; }
+      },
       onStepComplete(step) {
         if (step.id === "guard-site") railPanels.forEach((p) => { p.visible = true; });
         if (step.id === "relocate-spoil") { spoil.position.set(1.6, 0, -1.4); }

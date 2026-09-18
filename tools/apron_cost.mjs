@@ -1,7 +1,7 @@
 // What the site apron costs, so the headset-budget claim stays honest.
 import { buildSuite } from "./lib/headless.mjs";
 const suite = await buildSuite(
-  ["shared/kit.js", "smartcity/js/citykit.js", "smartcity/js/apron.js"],
+  ["shared/kit.js", "shared/a11y.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js", "smartcity/js/apron.js"],
   "export { buildApron, THREE };", "apron");
 const root = new suite.THREE.Group();
 const a = suite.buildApron(root, { accent: 0x4fd1ff, accentCss: "#4fd1ff" });

@@ -319,6 +319,17 @@ export const SIM_AIRPORT_RAMP = {
       hits,
       spawnLook: new THREE.Vector3(0, 1.2, -1.2),
       onStep() {},
+      // The cone that is not where it should be, and the chock a tug kicked
+      // clear of the wheel. Both are visible from where the learner stands.
+      onInterrupt(it) {
+        if (it.id === "vehicle-inbound") { conePick.position.x += 0.8; conePick.position.z -= 0.5; }
+        if (it.id === "chock-kicked") for (const c of noseChocks) c.position.z *= 2.2;
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "vehicle-inbound") { conePick.position.x -= 0.8; conePick.position.z += 0.5; }
+        if (it.id === "chock-kicked") for (const c of noseChocks) c.position.z /= 2.2;
+      },
       onStepComplete(step) {
         if (step.id === "fod") { fodBolt.visible = false; fodStrap.visible = false; }
         if (step.id === "stop") { taxi = 0; engineRunning = false; arc.visible = false; }

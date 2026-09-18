@@ -1,6 +1,5 @@
 import {
-  box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace,
-} from "../../../shared/kit.js";
+  box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace,, mat } from "../../../shared/kit.js";
 import {
   CITY, stationPad, holoPanel, holoTag, toolChest, instrument, standingFigure, reg,
 } from "../citykit.js";
@@ -54,6 +53,35 @@ export const SIM_CRANE_YARD = {
     "load-chart": "The chart gets checked against this radius and boom angle before rigging goes near the load, not as a formality once the pick is already hooked up and swinging.",
     "tag-line-crane": "The tag line goes on the load once it is already hooked and lifted clear, guiding it rather than fighting its swing from the ground.",
   },
+
+
+  // Interruptions: see shared/game.js. On a lift the danger is almost never
+  // the crane — it is somebody walking under it, or the ground changing while
+  // the load is up.
+  interrupts: [
+    {
+      id: "under-the-load",
+      kind: "Swing radius",
+      after: "rigging-select", delay: 4, seconds: 11,
+      alert: "Somebody has cut through the swing radius to save walking round. They are under the boom.",
+      cue: "Stop. Nobody crosses that line while the hook is rigged.",
+      target: "swing-radius-stand",
+      why: "The swing radius is barriered because a slewing counterweight does not stop and the person inside it cannot hear it coming. The barrier is the control; it only works if somebody enforces it.",
+      missNote: "You carried on rigging with a person inside the swing radius. Counterweight crush injuries are almost always somebody taking a short cut past a barrier nobody was watching, and they are almost always fatal.",
+      wrongNote: "The person in the radius is the hazard. The rigging can wait the ten seconds it takes to get them out.",
+    },
+    {
+      id: "outrigger-sinking",
+      kind: "Ground failure",
+      after: "hook-load", delay: 5, seconds: 14,
+      alert: "The level bubble has drifted. One outrigger pad is settling into soft ground with the load on the hook.",
+      cue: "Read the level before that load goes anywhere.",
+      target: "level-bubble",
+      why: "A crane out of level loses capacity fast — a couple of degrees is a double-digit percentage off the chart, and the chart was already the limit. Ground under a pad settles hours after it was checked.",
+      missNote: "You slewed a load on a crane that was going out of level. Capacity fell below the load while it was in the air and the first warning anybody got was the machine starting to tip.",
+      wrongNote: "The level is what changed. Everything on this lift is now wrong by whatever that bubble says.",
+    },
+  ],
 
   steps: [
     {
@@ -364,6 +392,22 @@ export const SIM_CRANE_YARD = {
         hookBlock.visible = true;
       },
 
+      // Interruptions the learner can see, not just read. The swing-radius
+      // marker goes hot with a person in it; the level bubble drifts off
+      // centre as the outrigger pad settles. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "under-the-load") {
+          swingShadow.material = mat(0xf0645b, { opacity: 0.34, transparent: true, emissive: 0xf0645b, ei: 0.8 });
+        }
+        if (it.id === "outrigger-sinking") { bubbleHousing.rotation.z = 0.12; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "under-the-load") {
+          swingShadow.material = mat(0x000000, { opacity: 0.16, transparent: true });
+        }
+        if (it.id === "outrigger-sinking") { bubbleHousing.rotation.z = 0; }
+      },
       onStepComplete(step) {
         if (step.id === "outrigger-setup") {
           outriggersDown = true;

@@ -583,12 +583,19 @@ function ownMaterial(mesh) {
  * a THREE without the geometry API (the headless checkers' stub), so the same
  * build runs in both places.
  */
-function mergeStatic(root) {
+function mergeStatic(root, o = {}) {
   const probe = new THREE.BufferGeometry();
   if (typeof probe.setAttribute !== "function" || typeof probe.applyMatrix4 !== "function") {
     return { before: 0, after: 0, skipped: "no geometry API" };
   }
   root.updateMatrixWorld?.(true);
+  // `local` bakes into the subtree's OWN space instead of the world's, so the
+  // subtree keeps its transform and can still be moved, turned or driven as a
+  // unit. That is what makes ambient life affordable: a figure or a vehicle
+  // becomes two or three draw calls that still walk around, instead of twenty
+  // that cannot be merged at all because the thing moves.
+  const local = !!o.local;
+  const inverse = local && root.matrixWorld ? new THREE.Matrix4().copy(root.matrixWorld).invert() : null;
   const buckets = new Map();
   const doomed = [];
   let before = 0;
@@ -614,6 +621,7 @@ function mergeStatic(root) {
       if (g.index) g = g.toNonIndexed();
       else g = g.clone();
       g.applyMatrix4(m.matrixWorld);
+      if (inverse) g.applyMatrix4(inverse);
       const pos = g.getAttribute("position"), nor = g.getAttribute("normal"), uv = g.getAttribute("uv");
       if (!pos || !nor) { ok = false; g.dispose(); break; }
       for (let i = 0; i < pos.count; i++) {
@@ -630,9 +638,10 @@ function mergeStatic(root) {
     merged.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
     merged.computeBoundingSphere();
     const one = new THREE.Mesh(merged, material);
-    // The geometry is already in world space, so the holder must not add a
-    // transform of its own on top of it.
-    one.matrixAutoUpdate = false;
+    // In world mode the geometry already carries its world placement, so the
+    // holder must not add a transform on top of it. In local mode the holder
+    // is the thing that moves, so it keeps updating normally.
+    if (!local) one.matrixAutoUpdate = false;
     one.castShadow = meshes.some((m) => m.castShadow);
     one.receiveShadow = meshes.some((m) => m.receiveShadow);
     one.userData.merged = meshes.length;
@@ -1966,9 +1975,16 @@ class Session {
    */
   armInterrupt(stepId) {
     for (const it of this.interrupts) {
-      if (!it.fired && it.after === stepId) {
-        it.armedAt = this.elapsed + (it.delay ?? 3);
-      }
+      // Leaving a step disarms anything that was waiting on it. An
+      // interruption is an event DURING a particular task: if the learner got
+      // through that task faster than the fuse, there was no window and it
+      // does not happen. Without this, a stale arm fires several steps later,
+      // where its alert makes no sense ("somebody took your lock off while you
+      // were testing" during the grounding step) and — worse — reaching for
+      // the control the current step actually wants is scored as a wrong
+      // response to an alarm the learner had no reason to expect.
+      if (!it.fired && it.armedAt != null && it.after !== stepId) it.armedAt = null;
+      if (!it.fired && it.after === stepId) it.armedAt = this.elapsed + (it.delay ?? 3);
     }
   }
 
@@ -3902,6 +3918,16 @@ const ROOM_ELECTRICAL = {
         if (step.id === "ground") installedGrounds.visible = true;
       },
 
+      // An interruption the learner can see: the lock is simply gone off the
+      // hasp. Look up from the meter and the hasp is bare, which is the whole
+      // thing this is teaching you to notice.
+      onInterrupt(it) {
+        if (it.id === "lock-missing") appliedLock.visible = false;
+      },
+      onInterruptEnd(it) {
+        if (it.id === "lock-missing" && it.resolved === "answered") appliedLock.visible = true;
+      },
+
       onHazard(hitId) {
         if (hitId === "live-bus" && energised) arcTimer = 0.55;
       },
@@ -5741,6 +5767,24 @@ const ROOM_WELDING = {
         arcFlash.visible = arcOn;
       },
 
+      // An interruption the learner can see: the fan stops, the lamp goes red
+      // and the plume stops being carried off. A banner alone is a caption.
+      onInterrupt(it) {
+        if (it.id === "extraction-trips") {
+          extractionOn = false;
+          fumeLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2 });
+        }
+        if (it.id === "blanket-slipped") { draped.visible = false; }
+      },
+      onInterruptEnd(it) {
+        // Only put it right if it was actually answered.
+        if (it.resolved !== "answered") return;
+        if (it.id === "extraction-trips") {
+          extractionOn = true;
+          fumeLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2 });
+        }
+        if (it.id === "blanket-slipped") { draped.visible = true; }
+      },
       onStepComplete(step) {
         if (step.id === "clear") { combustibles.position.set(3.9, 0, 3.4); }
         if (step.id === "blanket") { draped.visible = true; }
@@ -7830,13 +7874,16 @@ function enterRoom(id, { briefed = false } = {}) {
       Platform.progress({ room: room.id, step: step.id, index: s.index + 1, count: s.steps.length, score: s.score, errors: s.errors });
     },
     onInterrupt: (it, s) => {
+      // The station makes it visible in the world: a fan that stops, a lock
+      // that is gone off the hasp. An alarm you can only read is a caption.
+      state.api?.onInterrupt?.(it, state.session);
       showAlarm(it);
       srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert}`);
       announce(`${it.kind ?? "Interruption"}. ${it.alert}`);
       kbCursor.set(targetsForStep({ target: it.target }));
       void s;
     },
-    onInterruptEnd: () => { hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
+    onInterruptEnd: (it) => { state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
