@@ -7,6 +7,7 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform } from "../../shared/platform.js";
 import { createBroadcaster } from "../../shared/observer.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -348,6 +349,10 @@ function enterRoom(id, { briefed = false } = {}) {
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
+      kbCursor.set(targetsForStep(step));
+      kbCarrying = null;
+      srAnnouncer.say(`Step ${(s.index | 0) + 1} of ${s.steps.length}. ${step.title}. ${step.cue}`);
+      if (kbActive && kbCursor.current) kbFocus(kbCursor.current, { announceIt: false });
       updateHintForStep(step);
       if (step.kind === "gauge") {
         paintGaugeBand(step);
@@ -360,6 +365,7 @@ function enterRoom(id, { briefed = false } = {}) {
     onFeedback: (fb, s) => {
       state.api.onFeedback?.(fb, s);
       setRail(fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn", fb.text);
+      if (fb.kind === "danger") srAnnouncer.alert(fb.text);
       if (fb.kind === "danger") { flashDanger(); if (fb.speech) announce(fb.speech); }
       if (fb.kind === "ok" && fb.points) {
         scorePop(`+${fb.points}`, fb.combo >= 1.6);
@@ -754,13 +760,76 @@ function syncTurnVisual() {
 
 let yaw = 0, pitch = 0, dragging = false, lastX = 0, lastY = 0, downAt = 0, downId = null;
 const keys = Object.create(null);
+// ------------------------------------------------------- keyboard operation
+//
+// The same keyboard path SmartCiti.X offers, on the same shared helpers:
+// Tab walks the controls this step can act on in procedure order, Enter
+// takes the focused one, Space held is a hold, the arrows work an analogue
+// control. Every announcement also reaches a live region. See
+// shared/a11y.js and WebXR/ACCESSIBILITY.md.
+const srAnnouncer = createAnnouncer();
+const kbCursor = createTargetCursor();
+let kbActive = false, kbCarrying = null;
+
+function targetsForStep(step) {
+  if (!step) return [];
+  const base = step.kind === "sequence" || step.kind === "find"
+    ? [...(step.targets ?? [])]
+    : step.target ? [step.target] : [];
+  if (step.kind === "drag" && step.drag?.to) base.push(step.drag.to);
+  return base.filter((id) => state.hits[id]);
+}
+function kbFocus(id, { announceIt = true } = {}) {
+  if (!id) return;
+  kbActive = true;
+  kbCursor.focus(id);
+  setHover(id);
+  if (!announceIt) return;
+  const step = state.session?.step;
+  srAnnouncer.say(describeTarget(id, step, { names: { ...(step?.itemNames ?? {}) }, position: [kbCursor.index + 1, kbCursor.ids.length] }));
+}
+function kbStep(dir) {
+  kbCursor.set(targetsForStep(state.session?.step));
+  kbFocus(dir > 0 ? kbCursor.next() : kbCursor.prev());
+}
+function kbActivate() {
+  const s = state.session, id = kbCursor.current;
+  if (!s || !s.step || !id) return;
+  if (s.step.kind === "drag") {
+    if (!kbCarrying && id === s.step.target) { kbCarrying = id; srAnnouncer.say("Picked up. Tab to where it belongs, then press Enter to place it."); return; }
+    if (kbCarrying) { s.dropAt(id, 0); kbCarrying = null; syncHud(); return; }
+  }
+  lastActivatedId = id;
+  activate(id);
+}
+function kbAdjust(delta) {
+  const s = state.session, step = s?.step;
+  if (!step) return false;
+  if (step.kind === "gauge" && s.gauge) { s.gauge.t = Math.max(0, Math.min(1, s.gauge.t + delta * 0.04)); s.gauge.dir = 0; syncHud(); return true; }
+  if (step.kind === "track" && s.track) { s.track.v = Math.max(0, Math.min(1, s.track.v + delta * 0.05)); return true; }
+  if (step.kind === "turn") { s.rotate(step.target, delta * 0.08); syncHud(); return true; }
+  return false;
+}
+
 addEventListener("keydown", (e) => {
   keys[e.code] = true;
   if (e.code === "Escape" && !ui.prebrief.hidden) { pendingBrief = null; hidePreBrief(); return; }
   if (e.code === "Escape" && state.session) { ui.results.hidden = true; enterHub(); }
   if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; ui.hint.textContent = Sfx.muted ? "sound off" : "sound on"; }
+  // --- keyboard operation of the running procedure ---
+  const tag = e.target?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (!state.session || renderer.xr.isPresenting || !ui.prebrief.hidden) return;
+  if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
+  if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
+  if (e.code === "Space") { e.preventDefault(); if (!e.repeat && kbCursor.current) pressStart(kbCursor.current); return; }
+  if (e.code === "ArrowUp" || e.code === "ArrowDown") { if (kbAdjust(e.code === "ArrowUp" ? 1 : -1)) { e.preventDefault(); kbActive = true; } return; }
+  if (e.code === "ArrowRight" || e.code === "ArrowLeft") { e.preventDefault(); kbStep(e.code === "ArrowRight" ? 1 : -1); }
 });
-addEventListener("keyup", (e) => { keys[e.code] = false; });
+addEventListener("keyup", (e) => {
+  keys[e.code] = false;
+  if (e.code === "Space" && state.session) { e.preventDefault(); pressEnd(); }
+});
 
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
@@ -1024,6 +1093,7 @@ function setVoiceHeard(text, isError) {
 
 /** Speak a line unless the player has muted the room with M. */
 function announce(text) {
+  srAnnouncer.say(text);
   if (!Sfx.muted) speak(text);
 }
 

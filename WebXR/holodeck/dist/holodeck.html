@@ -5262,7 +5262,9 @@ function syncTrainingHud() {
 }
 
 /** Speak a line unless the player has muted the room with M. */
+const srAnnouncer = createAnnouncer();
 function announce(text) {
+  srAnnouncer.say(text);
   if (!Sfx.muted) speak(text);
 }
 
@@ -5374,12 +5376,20 @@ function enterTraining(room, buildFn) {
   positionTrainingCamera(room.footprint);
 
   trainingSession = new Session(room, {
-    onStep: (step, s) => { trainingRefs.onStep?.(step, s); maybeShowGestureTip(step.kind); syncTrainingHud(); },
+    onStep: (step, s) => {
+      trainingRefs.onStep?.(step, s);
+      kbCursor.set(targetsForStep(step));
+      kbCarrying = null;
+      srAnnouncer.say(`Step ${(s.index | 0) + 1} of ${s.steps.length}. ${step.title}. ${step.cue}`);
+      if (kbActive && kbCursor.current) kbFocus(kbCursor.current, { announceIt: false });
+      maybeShowGestureTip(step.kind);
+      syncTrainingHud();
+    },
     onFeedback: (fb, s) => {
       trainingRefs.onFeedback?.(fb, s);
       const railState = fb.kind === "ok" ? "ok" : fb.kind === "danger" ? "danger" : fb.kind === "partial" ? "neutral" : "warn";
       store.patch("hud", { feedback: fb.text, railState });
-      if (fb.kind === "danger" && fb.speech) announce(fb.speech);
+      if (fb.kind === "danger") { srAnnouncer.alert(fb.text); if (fb.speech) announce(fb.speech); }
       syncTrainingHud();
     },
     onStepComplete: (step, s) => trainingRefs.onStepComplete?.(step, s),
@@ -5912,11 +5922,66 @@ window.__holodeckTest = {
 // Keyboard parity with the sibling apps: Escape returns to the prompt screen
 // (Holodeck's "hub"), M toggles sound — never while the learner is typing in
 // the prompt box.
+// Keyboard operation of a generated procedure, on the same shared helpers
+// the other two apps use — a Holodeck procedure is the same Session with the
+// same step kinds, so the same keys work. See WebXR/ACCESSIBILITY.md.
+const kbCursor = createTargetCursor();
+let kbActive = false, kbCarrying = null;
+function targetsForStep(step) {
+  if (!step) return [];
+  const base = step.kind === "sequence" || step.kind === "find"
+    ? [...(step.targets ?? [])]
+    : step.target ? [step.target] : [];
+  if (step.kind === "drag" && step.drag?.to) base.push(step.drag.to);
+  return base.filter((id) => hits[id]);
+}
+function kbFocus(id, { announceIt = true } = {}) {
+  if (!id) return;
+  kbActive = true;
+  kbCursor.focus(id);
+  if (!announceIt) return;
+  const step = trainingSession?.step;
+  srAnnouncer.say(describeTarget(id, step, { names: { ...(step?.itemNames ?? {}) }, position: [kbCursor.index + 1, kbCursor.ids.length] }));
+}
+function kbStep(dir) {
+  kbCursor.set(targetsForStep(trainingSession?.step));
+  kbFocus(dir > 0 ? kbCursor.next() : kbCursor.prev());
+}
+function kbActivate() {
+  const s = trainingSession, id = kbCursor.current;
+  if (!s || !s.step || !id) return;
+  if (s.step.kind === "drag") {
+    if (!kbCarrying && id === s.step.target) { kbCarrying = id; srAnnouncer.say("Picked up. Tab to where it belongs, then press Enter to place it."); return; }
+    if (kbCarrying) { s.dropAt(id, 0); kbCarrying = null; return; }
+  }
+  activateTraining(id);
+}
+function kbAdjust(delta) {
+  const s = trainingSession, step = s?.step;
+  if (!step) return false;
+  if (step.kind === "gauge" && s.gauge) { s.gauge.t = Math.max(0, Math.min(1, s.gauge.t + delta * 0.04)); s.gauge.dir = 0; return true; }
+  if (step.kind === "track" && s.track) { s.track.v = Math.max(0, Math.min(1, s.track.v + delta * 0.05)); return true; }
+  if (step.kind === "turn") { s.rotate(step.target, delta * 0.08); return true; }
+  return false;
+}
+
 addEventListener("keydown", (e) => {
   const tag = e.target?.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
   if (e.code === "Escape" && !store.get().intro.visible) newPrompt();
   if (e.code === "KeyM") Sfx.muted = !Sfx.muted;
+  // --- keyboard operation of the running procedure ---
+  if (!trainingSession || renderer.xr.isPresenting) return;
+  if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
+  if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
+  if (e.code === "Space") { e.preventDefault(); if (!e.repeat && kbCursor.current) pressStart(kbCursor.current); return; }
+  if (e.code === "ArrowUp" || e.code === "ArrowDown") { if (kbAdjust(e.code === "ArrowUp" ? 1 : -1)) { e.preventDefault(); kbActive = true; } return; }
+  if (e.code === "ArrowRight" || e.code === "ArrowLeft") { e.preventDefault(); kbStep(e.code === "ArrowRight" ? 1 : -1); }
+});
+addEventListener("keyup", (e) => {
+  const tag = e.target?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (e.code === "Space" && trainingSession) { e.preventDefault(); pressEnd(); }
 });
 
 </script>

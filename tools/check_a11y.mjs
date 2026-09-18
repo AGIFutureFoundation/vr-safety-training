@@ -148,17 +148,23 @@ await check("every hazard explains itself in a full sentence", () => {
   assert(thin.length === 0, thin.slice(0, 5).join(", "));
 });
 
-await check("each app's page honours reduced motion and ships the keyboard path", () => {
+await check("all three simulators ship the keyboard path and a live region", () => {
   for (const app of ["smartcity", "trades"]) {
     const html = readFileSync(join(ROOT, "WebXR", app, "index.html"), "utf8");
     assert(html.includes("prefers-reduced-motion"), `${app}/index.html has no reduced-motion rules`);
   }
-  const src = readFileSync(join(ROOT, "WebXR", "smartcity", "js", "app.js"), "utf8");
-  for (const key of ["Tab", "Enter", "Space", "ArrowUp", "ArrowDown"]) {
-    assert(src.includes(`"${key}"`), `the keyboard path does not handle ${key}`);
+  // The statement claims all three simulators, so all three are checked.
+  for (const app of ["smartcity", "trades", "holodeck"]) {
+    const src = readFileSync(join(ROOT, "WebXR", app, "js", "app.js"), "utf8");
+    for (const key of ["Tab", "Enter", "Space", "ArrowUp", "ArrowDown"]) {
+      assert(src.includes(`"${key}"`), `${app}: the keyboard path does not handle ${key}`);
+    }
+    assert(src.includes("createAnnouncer"), `${app}: never creates a live region`);
+    assert(src.includes("createTargetCursor"), `${app}: never walks a step's controls`);
+    assert(src.includes("describeTarget"), `${app}: never describes the focused control`);
   }
-  assert(src.includes("createAnnouncer"), "the app never creates a live region");
-  assert(src.includes("reducedMotion"), "the app never checks reduced motion");
+  const city = readFileSync(join(ROOT, "WebXR", "smartcity", "js", "app.js"), "utf8");
+  assert(city.includes("reducedMotion"), "smartcity never checks reduced motion");
   const stmt = readFileSync(join(ROOT, "WebXR", "ACCESSIBILITY.md"), "utf8");
   assert(stmt.length > 1500, "the conformance statement is too short to be one");
   for (const heading of ["WCAG", "keyboard", "screen reader", "not conform"]) {
