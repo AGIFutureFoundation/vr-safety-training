@@ -183,16 +183,21 @@ function weatherPanel(parent, w, h, x, y, z, o = {}) {
 export function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   const shell = o.color ?? 0x6f7a83;
-  box(g, w + 0.1, 0.09, d + 0.1, 0, 0.045, 0, 0x2d3339, { rough: 0.85 });          // plinth
-  box(g, w, h, d, 0, 0.09 + h / 2, 0, shell, { rough: o.rough ?? 0.5, metal: o.metal ?? 0.5 });
-  box(g, w + 0.06, 0.04, d + 0.06, 0, 0.09 + h + 0.02, 0, shell, { rough: 0.5, metal: 0.5 }); // rain cap
+  box(g, w + 0.1, 0.09, d + 0.1, 0, 0.045, 0, 0x2d3339, { rough: 0.85, finish: "concrete", tile: 2 }); // plinth
+  // Painted sheet steel, not a flat swatch: the finish gives the body an orange
+  // peel under the key light and a grain on the rain cap. Shared maps, so a
+  // yard full of cabinets is still one draw call per colour. See surface().
+  box(g, w, h, d, 0, 0.09 + h / 2, 0, shell,
+    { rough: o.rough ?? 0.5, metal: o.metal ?? 0.5, finish: o.finish ?? "painted", tile: 2 });
+  box(g, w + 0.06, 0.04, d + 0.06, 0, 0.09 + h + 0.02, 0, shell,
+    { rough: 0.5, metal: 0.5, finish: o.finish ?? "painted", tile: 2 }); // rain cap
   for (let i = 0; i < 4; i++) {                                                     // louvres
     box(g, w * 0.5, 0.014, 0.01, 0, 0.09 + h * 0.28 + i * 0.05, d / 2 + 0.006, shell,
       { rough: 0.6, metal: 0.4 });
   }
   const door = group(g, -w / 2 + 0.01, 0.09 + h / 2, d / 2);
   box(door, w - 0.03, h - 0.06, 0.022, (w - 0.03) / 2, 0, 0.012, o.doorColor ?? shell,
-    { rough: 0.45, metal: 0.55 });
+    { rough: 0.45, metal: 0.55, finish: o.finish ?? "painted", tile: 2 });
   box(door, 0.03, 0.13, 0.03, w - 0.09, 0, 0.03, CITY.steel, { rough: 0.3, metal: 0.9 });
   if (o.weathered !== false) {
     weatherPanel(door, (w - 0.03) * 0.94, (h - 0.06) * 0.94, (w - 0.03) / 2, 0, 0.024,
@@ -273,8 +278,8 @@ export function toolChest(parent, x, z, o = {}) {
 export function cylinderTank(parent, x, z, color, o = {}) {
   const g = group(parent, x, 0, z);
   lathe(g, [[0.001, 0], [0.1, 0.01], [0.105, 0.06], [0.105, 0.86], [0.08, 0.95], [0.042, 0.99],
-    [0.042, 1.06], [0.001, 1.065]], 0, 0, 0, color, { rough: 0.45, metal: 0.5, seg: 20 });
-  cyl(g, 0.05, 0.055, 0.08, 0, 1.11, 0, CITY.steel, { rough: 0.35, metal: 0.85, seg: 14 });
+    [0.042, 1.06], [0.001, 1.065]], 0, 0, 0, color, { rough: 0.45, metal: 0.5, seg: 28, finish: "galvanised" });
+  cyl(g, 0.05, 0.055, 0.08, 0, 1.11, 0, CITY.steel, { rough: 0.35, metal: 0.85, seg: 18, finish: "brushed" });
   if (o.gauge !== false) {
     cyl(g, 0.035, 0.035, 0.014, 0.07, 1.09, 0, 0xdfe4e8, { rough: 0.3, metal: 0.4, seg: 14 })
       .rotation.z = Math.PI / 2;

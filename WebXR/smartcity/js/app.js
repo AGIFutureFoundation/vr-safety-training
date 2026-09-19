@@ -1978,6 +1978,16 @@ window.__smartcityTest = {
   // stage districts, headset-budget spot checks); read-only by convention.
   scene: () => scene,
   camera: () => camera,
+  // What the renderer actually did for the last frame. A visual upgrade that
+  // claims to cost texture memory rather than draw calls has to be checkable,
+  // and renderer.info is the only honest place to check it.
+  renderInfo: () => ({
+    calls: renderer.info.render.calls,
+    triangles: renderer.info.render.triangles,
+    textures: renderer.info.memory.textures,
+    geometries: renderer.info.memory.geometries,
+    programs: renderer.info.programs?.length ?? null,
+  }),
   stage: () => state.stage,
   perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
   // The keyboard cursor, so an accessibility test can assert that Tab walks

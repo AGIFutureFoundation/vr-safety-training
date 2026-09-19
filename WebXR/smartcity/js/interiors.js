@@ -124,14 +124,28 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
   // Walls, with a trim stripe at working height in the station's accent.
   const walls = [[w, h, 0.2, 0, h / 2, -d / 2], [w, h, 0.2, 0, h / 2, d / 2],
     [0.2, h, d, -w / 2, h / 2, 0], [0.2, h, d, w / 2, h / 2, 0]];
-  for (const [ww, hh, dd, x, y, z] of walls) box(g, ww, hh, dd, x, y, z, style.wall, { rough: 0.9, metal: 0.05 });
+  // Painted block, not a flat swatch. The floor has had a texture since the
+  // interiors went in; the walls are the largest surface in the room and were
+  // still one uniform grey, which is most of why these rooms read as diagrams.
+  // The maps are shared per finish, so this is texture memory rather than
+  // draw calls — see surface() in shared/kit.js.
+  // Tiled per axis against each wall's own dimensions, so the grain is the
+  // same physical size on a long wall and a short one.
+  const PER_M = 1 / 2.4;
+  for (const [ww, hh, dd, x, y, z] of walls) {
+    const across = Math.max(2, Math.round(Math.max(ww, dd) * PER_M));
+    box(g, ww, hh, dd, x, y, z, style.wall,
+      { rough: 0.9, metal: 0.05, finish: "painted", tile: [across, Math.max(2, Math.round(hh * PER_M))] });
+  }
   for (const [ww, dd, x, z] of [[w, 0.06, 0, -d / 2 + 0.11], [0.06, d, -w / 2 + 0.11, 0], [0.06, d, w / 2 - 0.11, 0]]) {
     box(g, ww, 0.12, dd, x, 1.15, z, accent, { emissive: accent, ei: 0.35, rough: 0.6, cast: false });
-    box(g, ww, 0.5, dd, x, 0.25, z, style.trim, { rough: 0.85, cast: false });
+    box(g, ww, 0.5, dd, x, 0.25, z, style.trim,
+      { rough: 0.85, cast: false, finish: "concrete", tile: [Math.max(3, Math.round(Math.max(ww, dd) * PER_M)), 1] });
   }
 
   // Ceiling deck and its structure.
-  box(g, w, 0.2, d, 0, h + 0.1, 0, style.ceiling, { rough: 0.9 });
+  box(g, w, 0.2, d, 0, h + 0.1, 0, style.ceiling,
+    { rough: 0.9, finish: "painted", tile: [Math.round(w * PER_M), Math.round(d * PER_M)] });
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);

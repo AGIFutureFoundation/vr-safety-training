@@ -581,11 +581,144 @@ const GESTURE_HINTS = {
 
 const materialCache = new Map();
 
+// ---------------------------------------------------------------- surfaces
+//
+// Every surface in the network used to be one flat colour, which is what made
+// the scenes read as diagrams rather than places: real concrete is blotchy,
+// real steel has a grain direction, real rubber scatters light unevenly. These
+// build that variation procedurally — a roughness map and a normal map per
+// finish, drawn once into a canvas at 256 square and then shared by every
+// material that asks for the same finish.
+//
+// Sharing is the whole point. A map per material would multiply draw calls;
+// one map instance per finish means a hundred concrete surfaces still batch
+// the way they did before, and the cost is a few hundred kilobytes of texture
+// memory rather than anything the frame budget notices.
+const surfaceCache = new Map();
+// `shade` is how much the finish darkens and lightens the base colour. It is
+// the one that actually reads: roughness and normal variation change how a
+// surface catches a moving light, but a still frame of flat-coloured concrete
+// still looks like flat-coloured concrete until the colour itself varies.
+const FINISHES = {
+  // grain: 0 = isotropic speckle, 1 = horizontal brushing, -1 = vertical
+  concrete:   { speckle: 0.34, cell: 3.2, grain: 0, bump: 1.4, shade: 0.26, rough: [0.70, 0.98] },
+  asphalt:    { speckle: 0.46, cell: 2.1, grain: 0, bump: 1.8, shade: 0.30, rough: [0.80, 1.0] },
+  brushed:    { speckle: 0.16, cell: 1.0, grain: 1, bump: 0.7, shade: 0.12, rough: [0.20, 0.46] },
+  painted:    { speckle: 0.14, cell: 5.0, grain: 0, bump: 0.5, shade: 0.10, rough: [0.40, 0.64] },
+  galvanised: { speckle: 0.30, cell: 1.6, grain: 0, bump: 1.0, shade: 0.20, rough: [0.32, 0.68] },
+  rubber:     { speckle: 0.24, cell: 2.6, grain: 0, bump: 1.2, shade: 0.16, rough: [0.86, 1.0] },
+  rust:       { speckle: 0.50, cell: 2.4, grain: 0, bump: 1.9, shade: 0.38, rough: [0.72, 1.0] },
+  grating:    { speckle: 0.20, cell: 1.2, grain: -1, bump: 1.5, shade: 0.18, rough: [0.52, 0.88] },
+};
+
+function noiseCanvas(px, draw) {
+  const c = document.createElement("canvas");
+  c.width = px; c.height = px;
+  const g = c.getContext("2d");
+  draw(g, px);
+  return c;
+}
+
+/**
+ * The shared map set for one finish. Returns null when there is no canvas to
+ * draw on — the headless checkers run without one, and a station has to build
+ * there exactly as it does in a browser.
+ */
+function surface(name) {
+  const f = FINISHES[name];
+  if (!f) return null;
+  if (surfaceCache.has(name)) return surfaceCache.get(name);
+  let set = null;
+  try {
+    const PX = 256;
+    // Value noise at two scales: broad blotches, then fine tooth.
+    const field = new Float32Array(PX * PX);
+    const lattice = (n) => {
+      const g = new Float32Array((n + 1) * (n + 1));
+      for (let i = 0; i < g.length; i++) g[i] = Math.random();
+      return (u, v) => {
+        const x = u * n, y = v * n;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const fx = x - x0, fy = y - y0;
+        const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
+        const at = (i, j) => g[(j % (n + 1)) * (n + 1) + (i % (n + 1))];
+        return (at(x0, y0) * (1 - sx) + at(x0 + 1, y0) * sx) * (1 - sy) +
+               (at(x0, y0 + 1) * (1 - sx) + at(x0 + 1, y0 + 1) * sx) * sy;
+      };
+    };
+    const broad = lattice(Math.max(2, Math.round(8 / f.cell)));
+    const fine = lattice(Math.max(4, Math.round(48 / f.cell)));
+    for (let y = 0; y < PX; y++) {
+      for (let x = 0; x < PX; x++) {
+        // Brushing stretches the sample along one axis, which is what gives
+        // steel its direction under a moving light.
+        const u = f.grain === 1 ? x / PX / 6 : x / PX;
+        const v = f.grain === -1 ? y / PX / 6 : y / PX;
+        field[y * PX + x] = broad(u, v) * 0.6 + fine(u, v) * 0.4;
+      }
+    }
+    const [r0, r1] = f.rough;
+    const roughCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      for (let i = 0; i < PX * PX; i++) {
+        const n = (field[i] - 0.5) * f.speckle * 2;
+        const r = Math.max(0, Math.min(1, (r0 + r1) / 2 + n * (r1 - r0)));
+        const v = Math.round(r * 255);
+        img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+    });
+    // Normals from the height field's own slope, so the bumps line up with the
+    // roughness rather than being an unrelated pattern laid over it.
+    const normCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      const at = (x, y) => field[((y + PX) % PX) * PX + ((x + PX) % PX)];
+      for (let y = 0; y < PX; y++) {
+        for (let x = 0; x < PX; x++) {
+          const dx = (at(x + 1, y) - at(x - 1, y)) * f.bump * 4;
+          const dy = (at(x, y + 1) - at(x, y - 1)) * f.bump * 4;
+          const len = Math.hypot(dx, dy, 1);
+          const i = (y * PX + x) * 4;
+          img.data[i] = Math.round((-dx / len * 0.5 + 0.5) * 255);
+          img.data[i + 1] = Math.round((-dy / len * 0.5 + 0.5) * 255);
+          img.data[i + 2] = Math.round((1 / len * 0.5 + 0.5) * 255);
+          img.data[i + 3] = 255;
+        }
+      }
+      g.putImageData(img, 0, 0);
+    });
+    // Greyscale blotching that multiplies the material's own colour, so one
+    // map serves every colour a finish is ever used in.
+    const shadeCanvas = noiseCanvas(PX, (g) => {
+      const img = g.createImageData(PX, PX);
+      for (let i = 0; i < PX * PX; i++) {
+        const v = Math.round(Math.max(0, Math.min(1, 1 - f.shade / 2 + (field[i] - 0.5) * f.shade)) * 255);
+        img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+    });
+    const wrap = (c) => {
+      const t = new THREE.CanvasTexture(c);
+      t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
+      t.anisotropy = 4;
+      return t;
+    };
+    const shadeMap = wrap(shadeCanvas);
+    shadeMap.colorSpace = THREE.SRGBColorSpace ?? shadeMap.colorSpace;
+    set = { map: shadeMap, roughnessMap: wrap(roughCanvas), normalMap: wrap(normCanvas), bump: f.bump };
+  } catch (e) {
+    set = null;                       // headless: no canvas, so no maps
+  }
+  surfaceCache.set(name, set);
+  return set;
+}
+
 function mat(color, o = {}) {
   const key = [color, o.rough ?? 0.8, o.metal ?? 0, o.emissive ?? 0, o.ei ?? 1,
-    o.opacity ?? 1, o.flat ? 1 : 0, o.side ?? 0].join("|");
+    o.opacity ?? 1, o.flat ? 1 : 0, o.side ?? 0, o.finish ?? "", String(o.tile ?? 1)].join("|");
   let m = materialCache.get(key);
   if (!m) {
+    const skin = o.finish ? surface(o.finish) : null;
     m = new THREE.MeshStandardMaterial({
       color,
       roughness: o.rough ?? 0.8,
@@ -596,7 +729,27 @@ function mat(color, o = {}) {
       opacity: o.opacity ?? 1,
       flatShading: !!o.flat,
       side: o.side === 2 ? THREE.DoubleSide : THREE.FrontSide,
+      ...(skin ? { map: skin.map, roughnessMap: skin.roughnessMap, normalMap: skin.normalMap } : {}),
     });
+    // `tile` may be a number or a [u, v] pair. The pair matters: a kerb is
+    // twelve metres long and half a metre tall, and tiling it equally on both
+    // axes squashes the grain into horizontal stripes that read as a defect
+    // rather than as concrete.
+    const tu = Array.isArray(o.tile) ? o.tile[0] : (o.tile ?? 1);
+    const tv = Array.isArray(o.tile) ? o.tile[1] : (o.tile ?? 1);
+    if (skin && (tu !== 1 || tv !== 1)) {
+      // A tiled material needs its own texture objects, since repeat lives on
+      // the texture rather than the material. Still one set per (finish, tile)
+      // rather than one set per surface in the scene.
+      const rm = skin.roughnessMap.clone(), nm = skin.normalMap.clone(), am = skin.map.clone();
+      rm.needsUpdate = nm.needsUpdate = am.needsUpdate = true;
+      for (const t of [rm, nm, am]) t.repeat.set(tu, tv);
+      m.roughnessMap = rm; m.normalMap = nm; m.map = am;
+    }
+    if (skin) {
+      const b = (o.bump ?? 1) * (skin.bump ?? 1);
+      m.normalScale = new THREE.Vector2(b, b);
+    }
     materialCache.set(key, m);
   }
   return m;
@@ -1067,14 +1220,23 @@ function hex(color) {
 function shell(parent, o = {}) {
   const w = o.w ?? 8, d = o.d ?? 8, h = o.h ?? 3.1;
   const g = group(parent);
+  // Finishes, not flat colour: a shop floor is sealed concrete with a tooth to
+  // it, and block walls are painted rather than poured light. The maps are
+  // shared per finish (see surface()), so this costs texture memory and not
+  // draw calls. Tiling is set against the room's size so the grain stays the
+  // same physical scale whether the bay is six metres or twelve.
+  const FLOOR_TILE = Math.max(2, Math.round(Math.max(w, d) / 2.4));
+  const WALL_TILE = Math.max(2, Math.round(Math.max(w, d) / 3.2));
   const floor = box(g, w, 0.12, d, 0, -0.06, 0, o.floor ?? 0x3a4048,
-    { rough: o.floorRough ?? 0.85, metal: o.floorMetal ?? 0, cast: false });
+    { rough: o.floorRough ?? 0.85, metal: o.floorMetal ?? 0, cast: false,
+      finish: o.floorFinish ?? "concrete", tile: FLOOR_TILE });
   floor.receiveShadow = true;
-  box(g, w, h, 0.12, 0, h / 2, -d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
-  box(g, 0.12, h, d, -w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
-  box(g, 0.12, h, d, w / 2, h / 2, 0, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
-  box(g, w, 0.12, d, 0, h, 0, o.ceiling ?? 0x2b3238, { rough: 0.96, cast: false });
-  if (o.backWall !== false) box(g, w, h, 0.12, 0, h / 2, d / 2, o.wall ?? 0x5b6672, { rough: 0.94, cast: false });
+  const wallOpts = { rough: 0.94, cast: false, finish: o.wallFinish ?? "painted", tile: WALL_TILE };
+  box(g, w, h, 0.12, 0, h / 2, -d / 2, o.wall ?? 0x5b6672, wallOpts);
+  box(g, 0.12, h, d, -w / 2, h / 2, 0, o.wall ?? 0x5b6672, wallOpts);
+  box(g, 0.12, h, d, w / 2, h / 2, 0, o.wall ?? 0x5b6672, wallOpts);
+  box(g, w, 0.12, d, 0, h, 0, o.ceiling ?? 0x2b3238, { rough: 0.96, cast: false, finish: "painted", tile: WALL_TILE });
+  if (o.backWall !== false) box(g, w, h, 0.12, 0, h / 2, d / 2, o.wall ?? 0x5b6672, wallOpts);
   if (o.skirt !== false) {
     box(g, w, 0.1, 0.04, 0, 0.05, -d / 2 + 0.08, o.skirtColor ?? 0x2a3038, { cast: false });
     box(g, 0.04, 0.1, d, -w / 2 + 0.08, 0.05, 0, o.skirtColor ?? 0x2a3038, { cast: false });
@@ -1218,7 +1380,7 @@ function counter(parent, w, d, x, z, color = 0x9aa4ad, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   const hgt = o.height ?? 0.92;
   slab(g, w, 0.05, d, 0, hgt, 0, color, { rough: o.rough ?? 0.34, metal: o.metal ?? 0.72, radius: 0.02 });
-  box(g, w - 0.06, 0.1, 0.03, 0, hgt - 0.08, -d / 2 + 0.03, color, { rough: 0.4, metal: 0.6 });
+  box(g, w - 0.06, 0.1, 0.03, 0, hgt - 0.08, -d / 2 + 0.03, color, { rough: 0.4, metal: 0.6, finish: "brushed", tile: 2 });
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     cyl(g, 0.022, 0.022, hgt - 0.05, sx * (w / 2 - 0.09), (hgt - 0.05) / 2, sz * (d / 2 - 0.09),
       0x7c848c, { rough: 0.35, metal: 0.85, seg: 10 });
@@ -1233,7 +1395,7 @@ function counter(parent, w, d, x, z, color = 0x9aa4ad, o = {}) {
 function trolley(parent, x, z, color = 0x2b3239, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   const w = o.w ?? 0.52, d = o.d ?? 0.4;
-  for (const y of [0.34, 0.6, 0.86]) slab(g, w, 0.028, d, 0, y, 0, color, { rough: 0.42, metal: 0.35, radius: 0.015 });
+  for (const y of [0.34, 0.6, 0.86]) slab(g, w, 0.028, d, 0, y, 0, color, { rough: 0.42, metal: 0.35, finish: "painted", tile: 2, radius: 0.015 });
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     cyl(g, 0.014, 0.014, 0.86, sx * (w / 2 - 0.03), 0.45, sz * (d / 2 - 0.03), 0x8d959d,
       { rough: 0.3, metal: 0.9, seg: 8 });
@@ -1247,7 +1409,7 @@ function trolley(parent, x, z, color = 0x2b3239, o = {}) {
 /** Wall cabinet with doors and handles. */
 function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
   const g = group(parent, x, y, z, o.ry ?? 0);
-  box(g, w, h, d, 0, 0, 0, color, { rough: 0.55, metal: 0.1 });
+  box(g, w, h, d, 0, 0, 0, color, { rough: 0.55, metal: 0.1, finish: "painted", tile: 2 });
   const gap = 0.006;
   for (const sx of [-1, 1]) {
     box(g, w / 2 - gap, h - 0.04, 0.018, sx * (w / 4), 0, d / 2 + 0.01, o.doorColor ?? color,
@@ -3896,16 +4058,21 @@ function weatherPanel(parent, w, h, x, y, z, o = {}) {
 function equipmentCabinet(parent, w, h, d, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   const shell = o.color ?? 0x6f7a83;
-  box(g, w + 0.1, 0.09, d + 0.1, 0, 0.045, 0, 0x2d3339, { rough: 0.85 });          // plinth
-  box(g, w, h, d, 0, 0.09 + h / 2, 0, shell, { rough: o.rough ?? 0.5, metal: o.metal ?? 0.5 });
-  box(g, w + 0.06, 0.04, d + 0.06, 0, 0.09 + h + 0.02, 0, shell, { rough: 0.5, metal: 0.5 }); // rain cap
+  box(g, w + 0.1, 0.09, d + 0.1, 0, 0.045, 0, 0x2d3339, { rough: 0.85, finish: "concrete", tile: 2 }); // plinth
+  // Painted sheet steel, not a flat swatch: the finish gives the body an orange
+  // peel under the key light and a grain on the rain cap. Shared maps, so a
+  // yard full of cabinets is still one draw call per colour. See surface().
+  box(g, w, h, d, 0, 0.09 + h / 2, 0, shell,
+    { rough: o.rough ?? 0.5, metal: o.metal ?? 0.5, finish: o.finish ?? "painted", tile: 2 });
+  box(g, w + 0.06, 0.04, d + 0.06, 0, 0.09 + h + 0.02, 0, shell,
+    { rough: 0.5, metal: 0.5, finish: o.finish ?? "painted", tile: 2 }); // rain cap
   for (let i = 0; i < 4; i++) {                                                     // louvres
     box(g, w * 0.5, 0.014, 0.01, 0, 0.09 + h * 0.28 + i * 0.05, d / 2 + 0.006, shell,
       { rough: 0.6, metal: 0.4 });
   }
   const door = group(g, -w / 2 + 0.01, 0.09 + h / 2, d / 2);
   box(door, w - 0.03, h - 0.06, 0.022, (w - 0.03) / 2, 0, 0.012, o.doorColor ?? shell,
-    { rough: 0.45, metal: 0.55 });
+    { rough: 0.45, metal: 0.55, finish: o.finish ?? "painted", tile: 2 });
   box(door, 0.03, 0.13, 0.03, w - 0.09, 0, 0.03, CITY.steel, { rough: 0.3, metal: 0.9 });
   if (o.weathered !== false) {
     weatherPanel(door, (w - 0.03) * 0.94, (h - 0.06) * 0.94, (w - 0.03) / 2, 0, 0.024,
@@ -3986,8 +4153,8 @@ function toolChest(parent, x, z, o = {}) {
 function cylinderTank(parent, x, z, color, o = {}) {
   const g = group(parent, x, 0, z);
   lathe(g, [[0.001, 0], [0.1, 0.01], [0.105, 0.06], [0.105, 0.86], [0.08, 0.95], [0.042, 0.99],
-    [0.042, 1.06], [0.001, 1.065]], 0, 0, 0, color, { rough: 0.45, metal: 0.5, seg: 20 });
-  cyl(g, 0.05, 0.055, 0.08, 0, 1.11, 0, CITY.steel, { rough: 0.35, metal: 0.85, seg: 14 });
+    [0.042, 1.06], [0.001, 1.065]], 0, 0, 0, color, { rough: 0.45, metal: 0.5, seg: 28, finish: "galvanised" });
+  cyl(g, 0.05, 0.055, 0.08, 0, 1.11, 0, CITY.steel, { rough: 0.35, metal: 0.85, seg: 18, finish: "brushed" });
   if (o.gauge !== false) {
     cyl(g, 0.035, 0.035, 0.014, 0.07, 1.09, 0, 0xdfe4e8, { rough: 0.3, metal: 0.4, seg: 14 })
       .rotation.z = Math.PI / 2;
@@ -4731,14 +4898,28 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
   // Walls, with a trim stripe at working height in the station's accent.
   const walls = [[w, h, 0.2, 0, h / 2, -d / 2], [w, h, 0.2, 0, h / 2, d / 2],
     [0.2, h, d, -w / 2, h / 2, 0], [0.2, h, d, w / 2, h / 2, 0]];
-  for (const [ww, hh, dd, x, y, z] of walls) box(g, ww, hh, dd, x, y, z, style.wall, { rough: 0.9, metal: 0.05 });
+  // Painted block, not a flat swatch. The floor has had a texture since the
+  // interiors went in; the walls are the largest surface in the room and were
+  // still one uniform grey, which is most of why these rooms read as diagrams.
+  // The maps are shared per finish, so this is texture memory rather than
+  // draw calls — see surface() in shared/kit.js.
+  // Tiled per axis against each wall's own dimensions, so the grain is the
+  // same physical size on a long wall and a short one.
+  const PER_M = 1 / 2.4;
+  for (const [ww, hh, dd, x, y, z] of walls) {
+    const across = Math.max(2, Math.round(Math.max(ww, dd) * PER_M));
+    box(g, ww, hh, dd, x, y, z, style.wall,
+      { rough: 0.9, metal: 0.05, finish: "painted", tile: [across, Math.max(2, Math.round(hh * PER_M))] });
+  }
   for (const [ww, dd, x, z] of [[w, 0.06, 0, -d / 2 + 0.11], [0.06, d, -w / 2 + 0.11, 0], [0.06, d, w / 2 - 0.11, 0]]) {
     box(g, ww, 0.12, dd, x, 1.15, z, accent, { emissive: accent, ei: 0.35, rough: 0.6, cast: false });
-    box(g, ww, 0.5, dd, x, 0.25, z, style.trim, { rough: 0.85, cast: false });
+    box(g, ww, 0.5, dd, x, 0.25, z, style.trim,
+      { rough: 0.85, cast: false, finish: "concrete", tile: [Math.max(3, Math.round(Math.max(ww, dd) * PER_M)), 1] });
   }
 
   // Ceiling deck and its structure.
-  box(g, w, 0.2, d, 0, h + 0.1, 0, style.ceiling, { rough: 0.9 });
+  box(g, w, 0.2, d, 0, h + 0.1, 0, style.ceiling,
+    { rough: 0.9, finish: "painted", tile: [Math.round(w * PER_M), Math.round(d * PER_M)] });
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
@@ -10589,6 +10770,16 @@ window.__smartcityTest = {
   // stage districts, headset-budget spot checks); read-only by convention.
   scene: () => scene,
   camera: () => camera,
+  // What the renderer actually did for the last frame. A visual upgrade that
+  // claims to cost texture memory rather than draw calls has to be checkable,
+  // and renderer.info is the only honest place to check it.
+  renderInfo: () => ({
+    calls: renderer.info.render.calls,
+    triangles: renderer.info.render.triangles,
+    textures: renderer.info.memory.textures,
+    geometries: renderer.info.memory.geometries,
+    programs: renderer.info.programs?.length ?? null,
+  }),
   stage: () => state.stage,
   perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
   // The keyboard cursor, so an accessibility test can assert that Tab walks
