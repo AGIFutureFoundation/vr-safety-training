@@ -1,5 +1,5 @@
 import {
-  box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace,, mat } from "../../../shared/kit.js";
+  box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, mat } from "../../../shared/kit.js";
 import {
   CITY, stationPad, holoPanel, holoTag, toolChest, instrument, standingFigure, reg,
 } from "../citykit.js";

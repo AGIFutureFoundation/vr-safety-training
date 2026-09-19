@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
-  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles,, mat } from "../../../shared/kit.js";
+  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
 import {
   stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument,
   standingFigure, reg,
