@@ -173,6 +173,33 @@ export const SIM_DOCK_CRANE = {
     },
   ],
 
+  // Two things that happen on a container berth while the operator's eyes are
+  // on the spreader and the signal person. See shared/game.js.
+  interrupts: [
+    {
+      id: "red-zone-breached",
+      kind: "Person under the load",
+      after: "hoist", delay: 4, seconds: 11,
+      alert: "A lashing hand has cut through the marked zone to get to the next bay. They are under the container.",
+      cue: "Somebody is in the red zone with a box in the air.",
+      target: "red-zone-marker",
+      why: "The red zone exists because a container under a spreader can drop, swing or shed a twist-lock, and none of those give warning. It is re-cleared every time somebody crosses it, not once at the start of the shift.",
+      missNote: "They walked the length of the bay under a suspended box. Nothing came off it. Longshore fatalities are overwhelmingly people being struck by or caught under cargo, and every one of them involved a zone somebody had already cleared once.",
+      wrongNote: "It is the red zone marker. Stop the lift and clear the person before anything else moves.",
+    },
+    {
+      id: "gust-front",
+      kind: "Wind over limit",
+      after: "signal-check", delay: 3, seconds: 11,
+      alert: "A gust front has come across the berth. The box has started to sail on the spreader and the anemometer alarm is sounding.",
+      cue: "The load is sailing.",
+      target: "anemometer",
+      why: "A container is a sail. Above the working wind speed it stops following the spreader and starts swinging the crane, and the limit is a number on the load chart rather than a judgement call from the cab.",
+      missNote: "The lift continued through the gust. The box swung into the cell guides on the way down and the crane took the shock through its boom. Wind limits on container cranes exist because the load is large, light and flat, not because the crane is weak.",
+      wrongNote: "It is the anemometer. When the load starts sailing, the wind speed is the only thing that decides whether this lift continues.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -376,6 +403,17 @@ export const SIM_DOCK_CRANE = {
         if (step.id === "agv-run") {
           repaint(agvConsoleScreen, signFace("VERIFIED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
         }
+      },
+
+      // The lashing hand really walks into the zone, and the box really sails.
+      onInterrupt(it) {
+        if (it.id === "red-zone-breached") { signal.position.x += 1.2; signal.position.z -= 0.8; signal.rotation.y += 1.1; }
+        if (it.id === "gust-front") { spreader.rotation.z = 0.09; spreader.position.x += 0.22; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "red-zone-breached") { signal.position.x -= 1.2; signal.position.z += 0.8; signal.rotation.y -= 1.1; }
+        if (it.id === "gust-front") { spreader.rotation.z = 0; spreader.position.x -= 0.22; }
       },
 
       animate(t, dt, session) {

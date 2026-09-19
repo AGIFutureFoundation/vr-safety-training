@@ -156,6 +156,37 @@ export const SIM_STEEL_ERECTOR = {
     },
   ],
 
+  // Two things that happen to a connector who is two hundred feet up with both
+  // hands on a member and their eyes on the bolt holes. See shared/game.js.
+  interrupts: [
+    {
+      id: "load-drifting",
+      kind: "Load in the path",
+      // Armed on the landing rather than the guide, because the guide step's own
+      // control is the tag line — answering an alarm with the tool already in
+      // your hand is a nudge, not an interruption. The member is landed but
+      // still on the hook here, which is exactly when it drifts.
+      after: "land-member", delay: 4, seconds: 12,
+      alert: "The member is landed but still on the hook, and the crane has swung. It has drifted over the bay you are standing in.",
+      cue: "Get the tag line on it before it finds you.",
+      target: "tag-line",
+      why: "A load under a crane hook is never still — it swings on the boom, it drifts on the wind, and it goes where the last movement sent it. The tag line is how a connector controls a load they cannot see the operator from.",
+      missNote: "The member drifted the length of the bay overhead while you worked. Nothing came down. A load that is moving and unattended is one gust from being a load that is somewhere else, and you were underneath it the whole time.",
+      wrongNote: "It is the tag line. Nothing else on this steel matters while a suspended load is drifting over your head.",
+    },
+    {
+      id: "hole-uncovered",
+      kind: "Floor opening opened",
+      after: "bolt-sequence", delay: 3, seconds: 11,
+      alert: "The deck crew have pulled the cover off the opening behind you to drop a bundle through, and walked away from it.",
+      cue: "There is an uncovered hole in the deck behind you.",
+      target: "hole-cover",
+      why: "Deck openings get covered, secured and marked because on a working floor nobody looks down. A cover that comes off for one lift and does not go back is the single commonest fall through a deck there is.",
+      missNote: "The opening stayed uncovered behind you for the rest of the connection. You knew it was there. The next trade up this deck does not, and they are the reason the rule is about covering it rather than remembering it.",
+      wrongNote: "It is the hole cover. An open deck penetration behind you outranks the bolt-up in front of you.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -349,6 +380,17 @@ export const SIM_STEEL_ERECTOR = {
           repaint(logFace, signFace("CONNECTION\nLOGGED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
           hookCable.visible = false;
         }
+      },
+
+      // The member really drifts overhead, and the cover really comes off.
+      onInterrupt(it) {
+        if (it.id === "load-drifting") { column.position.x -= 0.5; column.position.z += 0.35; column.rotation.z = 0.06; }
+        if (it.id === "hole-uncovered") { unmarkedHole.children[0].visible = true; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "load-drifting") { column.position.x += 0.5; column.position.z -= 0.35; column.rotation.z = 0; }
+        if (it.id === "hole-uncovered") { unmarkedHole.children[0].visible = false; }
       },
 
       onHazard(hitId) {

@@ -451,10 +451,11 @@ the layer in CI.
 ## Situational Awareness — a programme built on the new dimension
 
 Ten programmes become eleven, and the new one is the first that is not organised around a
-trade. **Situational Awareness — Interruption Drill** is the fourteen procedures that interrupt you,
+trade. **Situational Awareness — Interruption Drill** is the twenty-two procedures that interrupt you,
 run as a cross-craft refresher block: the Isolation Bay, Weld Bay and Draw Bay from Trade Skills,
 and the Trench, Crane Yard, Chlorine Room, Confined Rescue, Substation Switching, Airport Ramp,
-Fire Pump, Tower Climb, Elevator Pit, Boiler Room and Forklift Dock from SmartCiti.X.
+Fire Pump, Tower Climb, Elevator Pit, Boiler Room, Forklift Dock, Transformer Vault, Wind Nacelle,
+Digester Gas, Data Hall, Steel Erector, Triage Point, Dock Crane and Press Brake from SmartCiti.X.
 
 Every station in it is one a learner may already know the order of. The block is not testing the
 order. It is testing whether they notice the alarm, the person in the wrong place, or the thing
@@ -498,7 +499,7 @@ and that means it lands on `hazardHits`, which is what the pass rule and the bad
 run can be procedurally perfect and still fail on the alarm it slept through, which is the
 point.
 
-Twenty-seven are authored across fourteen procedures: the Weld Bay (extraction trips mid-setup,
+Forty-three are authored across twenty-two procedures, of which these are representative: the Weld Bay (extraction trips mid-setup,
 fire blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are
 testing dead), the Draw Bay (the patient goes vasovagal while your eyes are on the tube rack,
 somebody offers you a pre-labelled tube set to save time), Confined Rescue (the meter alarms

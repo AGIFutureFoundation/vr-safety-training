@@ -138,6 +138,33 @@ export const SIM_PRESS_BRAKE = {
     },
   ],
 
+  // Two things that happen at a brake while the operator's hands are on the
+  // part and their foot is over the pedal. See shared/game.js.
+  interrupts: [
+    {
+      id: "curtain-muted",
+      kind: "Guard defeated",
+      after: "back-gauge", delay: 4, seconds: 11,
+      alert: "Somebody on the previous shift left the light curtain on bypass, and the bypass lamp has just come on with the ram live.",
+      cue: "The guard is not guarding.",
+      target: "curtain-bypass",
+      why: "A light curtain on bypass is a brake with no guard at all, and the lamp is the only thing that says so. Muting exists for die setting and gets left on, which is why it is checked at every part change rather than at the start of the job.",
+      missNote: "You ran production with the curtain muted. The ram came down on every stroke with nothing watching the die space. Amputations at press brakes are almost never the first stroke — they are the hundredth, when the hand goes somewhere it has gone ninety-nine times safely.",
+      wrongNote: "It is the curtain bypass. The guard being defeated outranks the part in your hands.",
+    },
+    {
+      id: "second-operator",
+      kind: "Second pair of hands",
+      after: "first-article", delay: 3, seconds: 11,
+      alert: "A colleague has come over to help support the long part and reached into the die space from the back of the machine.",
+      cue: "There is a hand in the die space and your foot is on the pedal.",
+      target: "reach-in",
+      why: "One brake, one pedal, one operator. A second person supporting a part is standing in a die space controlled by somebody who cannot see them, and the pedal does not know the difference between a part and a forearm.",
+      missNote: "They kept their hands in the die space while you ran the part. The stroke happened to be clear. A two-person brake operation needs two-hand controls or a second enable — not an agreement about timing.",
+      wrongNote: "It is the die space. Get the hand out of it before you go anywhere near the pedal.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -251,6 +278,17 @@ export const SIM_PRESS_BRAKE = {
         if (step.id === "inspect") gap.material.opacity = 0.7;
       },
       onHazard() {},
+      // The bypass lamp really lights, and the die space really has a hand in it.
+      onInterrupt(it) {
+        if (it.id === "curtain-muted") { bypass.visible = true; bypass.position.y += 0.02; }
+        if (it.id === "second-operator") { dieSpace.visible = true; dieSpace.scale.set(1.3, 1.3, 1.3); }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "curtain-muted") { bypass.position.y -= 0.02; }
+        if (it.id === "second-operator") { dieSpace.scale.set(1, 1, 1); }
+      },
+
       animate(t, dt, session) {
         const step = session?.step;
         bending = !!(step?.id === "production" && session.holding);

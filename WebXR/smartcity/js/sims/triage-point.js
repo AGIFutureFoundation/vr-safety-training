@@ -135,6 +135,33 @@ export const SIM_TRIAGE_POINT = {
     },
   ],
 
+  // Two things that happen on a triage line while the medic's attention is on
+  // the patient in front of them. See shared/game.js.
+  interrupts: [
+    {
+      id: "green-deteriorating",
+      kind: "Patient deteriorating",
+      after: "tag-yellow", delay: 4, seconds: 11,
+      alert: "The walking wounded you tagged green has sat down against the wall and stopped talking.",
+      cue: "Green is a tag, not a diagnosis.",
+      target: "casualty-green",
+      why: "START triage is a snapshot, and people move between categories — a green who sits down and goes quiet has usually just become a red. Re-triage is not a courtesy, it is the part of the method that makes the first pass safe to act on.",
+      missNote: "They were still against the wall at handoff, by then unresponsive. The tag said green, so the transport officer worked down the line to them last — the tag did exactly what tags do, which is why somebody has to keep looking.",
+      wrongNote: "It is the casualty you tagged green. A patient who has changed outranks the one you were about to tag.",
+    },
+    {
+      id: "debris-shifting",
+      kind: "Scene deteriorating",
+      after: "tag-black", delay: 3, seconds: 11,
+      alert: "The beam over the collapsed section has moved. Dust is coming off the debris pile where your next patient is lying.",
+      cue: "The scene has stopped being stable.",
+      target: "unstable-debris",
+      why: "Triage happens inside a scene that is still failing. A medic who keeps working a deteriorating collapse becomes a second casualty in the same pile, and the arriving crew now has two problems and one fewer responder.",
+      missNote: "You kept working under the shifting beam. It held. Scene safety is the first item in every size-up because it is the one that decides whether there is anybody left to do the other items.",
+      wrongNote: "It is the debris. Nothing on this line matters while the thing above your patients is moving.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -277,6 +304,17 @@ export const SIM_TRIAGE_POINT = {
             ctx.fillText("1 red · 1 yellow · 1 green · 1 black", w / 2, h * 0.68);
           });
         }
+      },
+
+      // The green casualty really goes down, and the beam really shifts.
+      onInterrupt(it) {
+        if (it.id === "green-deteriorating") { green.rotation.x = 1.2; green.position.y = -0.35; }
+        if (it.id === "debris-shifting") { beam.rotation.z += 0.12; beam.position.y -= 0.06; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "green-deteriorating") { green.rotation.x = 0; green.position.y = 0; }
+        if (it.id === "debris-shifting") { beam.rotation.z -= 0.12; beam.position.y += 0.06; }
       },
 
       animate(t, dt, session) {
