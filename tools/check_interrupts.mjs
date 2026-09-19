@@ -92,12 +92,19 @@ if (withInterrupts) {
   // Leaving the step disarms it. A stale arm fires several steps later, where
   // the alert makes no sense and reaching for the control the CURRENT step
   // wants is scored as a wrong response to an alarm nobody could expect.
-  const s3 = new suite.Session(withInterrupts, {});
-  s3.start(); s3.index = at; s3.enterStep();
-  s3.index = at + 1; s3.enterStep();
-  s3.tick((it.delay ?? 3) + (it.seconds ?? 12) + 1);
-  if (s3.activeInterrupt) note(`engine/${withInterrupts.id}`, "an interruption armed on a step the learner had already left still fired");
-  if (s3.hazardHits) note(`engine/${withInterrupts.id}`, "a disarmed interruption was still counted against the learner");
+  // Walk onto a step that has no interruption of its own, so anything that
+  // fires can only be the stale one. Landing on a step that does have one was
+  // reported as this bug when the engine was behaving correctly.
+  const armed = new Set(withInterrupts.interrupts.map((i) => i.after));
+  const quiet = withInterrupts.steps.findIndex((st, i) => i > at && !armed.has(st.id));
+  if (quiet !== -1) {
+    const s3 = new suite.Session(withInterrupts, {});
+    s3.start(); s3.index = at; s3.enterStep();
+    s3.index = quiet; s3.enterStep();
+    s3.tick((it.delay ?? 3) + (it.seconds ?? 12) + 1);
+    if (s3.activeInterrupt) note(`engine/${withInterrupts.id}`, "an interruption armed on a step the learner had already left still fired");
+    if (s3.hazardHits) note(`engine/${withInterrupts.id}`, "a disarmed interruption was still counted against the learner");
+  }
 
   // And answering it scores.
   const s2 = new suite.Session(withInterrupts, {});

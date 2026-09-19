@@ -241,7 +241,7 @@ export const SIM_SCAFFOLD_ERECTION = {
     }, { accent: SE_ACCENT });
     const plan = box(chest, 0.6, 0.42, 0.04, -0.6, 1.3, 0.1, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, plan, "scaffold-plan");
-    standingFigure(g, 2.4, 1.8, { ry: -1.0, cloth: 0xe4622a });
+    standingFigure(g, 2.4, 2.4, { ry: -1.0, cloth: 0xe4622a });
     cone(g, -2.8, -1.4);
 
     return {

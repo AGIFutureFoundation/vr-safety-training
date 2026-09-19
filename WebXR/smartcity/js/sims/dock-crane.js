@@ -271,7 +271,7 @@ export const SIM_DOCK_CRANE = {
     holoTag(marker, "Red zone marker", 0, 0.78, 0, { css: "#3a7ca5", w: 0.32 });
     reg(hits, marker, "red-zone-marker");
 
-    const signal = standingFigure(g, 1.7, 0.5, { ry: -2.2, cloth: 0x2b3138, vest: 0xfcee21, helmet: 0x1b1e22 });
+    const signal = standingFigure(g, 0.95, 0.23, { ry: -2.2, cloth: 0x2b3138, vest: 0xfcee21, helmet: 0x1b1e22 });
     holoTag(signal, "Signal person", 0, 1.95, 0.15, { css: "#3a7ca5", w: 0.3 });
     reg(hits, signal, "signal-person");
 

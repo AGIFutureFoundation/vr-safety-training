@@ -316,7 +316,7 @@ export const SIM_CRANE_YARD = {
     reg(hits, angleTool, "sling-angle-check");
 
     // ------------------------------------------------------------------- people
-    const signalPerson = standingFigure(g, 1.6, -0.6, { ry: -1.9, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    const signalPerson = standingFigure(g, 1.28, -0.22, { ry: -1.9, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
     holoTag(signalPerson, "Signal person", 0, 1.95, 0.15, { css: "#2f8fdb", w: 0.3 });
     reg(hits, signalPerson, "signal-person");
 

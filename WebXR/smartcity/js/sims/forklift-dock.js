@@ -148,6 +148,33 @@ export const SIM_FORKLIFT_DOCK = {
     },
   ],
 
+  // Two things that happen on a dock while the operator is looking at a load.
+  // Both are in the mirrors or the aisle, not in a caption — see shared/game.js.
+  interrupts: [
+    {
+      id: "trailer-creeping",
+      kind: "Trailer moving",
+      after: "floor", delay: 4, seconds: 12,
+      alert: "The trailer has walked forward off the plate. There is daylight opening at the dock lip behind you and you are standing in the box.",
+      cue: "Get the trailer locked to the building again.",
+      target: "dock-lock",
+      why: "Trailers creep a few inches with every pass of a truck, and the gap only has to reach the length of the plate. The restraint is what holds the trailer to the building; chocks alone slide on a wet apron.",
+      missNote: "The gap kept opening while you worked. Trailer separation puts the plate into the gap and the truck four feet down onto the yard, upside down, with the operator underneath it — it is the single most common way a dock kills somebody.",
+      wrongNote: "It is the dock lock. A trailer moving away from the building while you are inside it is the only thing happening on this dock.",
+    },
+    {
+      id: "pedestrian-in-aisle",
+      kind: "Pedestrian in path",
+      after: "travel", delay: 3, seconds: 10,
+      alert: "A picker has stepped out of the racking into your aisle, on your blind side behind the load.",
+      cue: "Warn them before you are any closer.",
+      target: "horn-lights",
+      why: "A loaded mast blocks the line of sight in exactly the direction of travel, so the operator is the last person to see a pedestrian and the pedestrian assumes they have been seen. The horn is the only part of the truck that works around a load.",
+      missNote: "You kept travelling with somebody in the aisle behind the load. Pedestrians struck by forklifts are almost never seen first by the operator — that is the point of the horn at every blind corner, not just the ones with a mirror.",
+      wrongNote: "It is the horn. Somebody is in your path on the side you cannot see, and every second of travel closes the distance.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -216,7 +243,7 @@ export const SIM_FORKLIFT_DOCK = {
     holoTag(forks, "forks and heel", 0, -0.1, -0.9, { css: "#f2a23b", w: 0.28 });
     const forkHit = box(forks, 0.9, 0.12, 1.1, 0, 0.02, -0.55, 0xffffff, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, forkHit, "forks");
-    const rider = standingFigure(forks, 0, -0.8, { ry: 0, cloth: 0x37505f });
+    const rider = standingFigure(forks, 0, -0.8, { ry: 0, cloth: 0x37505f, atStation: true });
     rider.scale.setScalar(0.85);
     holoTag(rider, "ride the forks?", 0, 1.9, 0, { css: "#d2312b", w: 0.3 });
     reg(hits, rider, "ride-forks");
@@ -270,7 +297,11 @@ export const SIM_FORKLIFT_DOCK = {
       ["Inspect: tires, forks, chains, horn, lights", "Belt on before the key", "Trailer: chock + dock lock BEFORE plate", "Capacity: 4,000 lb @ 24 in load centre", "Load: forks under, tilt back, 4–6 in travel", "Loaded on a ramp: forward up, reverse down", "Rack: stopped, mast vertical, 2 in over beam"].forEach((l, i) => ctx.fillText(l, w * 0.06, h * (0.28 + i * 0.1)));
     }, { accent: FD_ACCENT });
     reg(hits, board, "preshift-board");
-    const operator = standingFigure(g, 2.2, 0.6, { ry: -0.8, cloth: 0x37505f });
+    const operator = standingFigure(g, 2.6, 0.6, { ry: -0.8, cloth: 0x37505f });
+    // A picker from the next aisle. Out of the way until they are not — see
+    // the interruptions above.
+    const pedestrian = standingFigure(g, -3.21, 1.05, { ry: 1.2, cloth: 0x2b3138 });
+    reg(hits, pedestrian, "pedestrian");
     holoTag(operator, "operator", 0, 1.9, 0, { css: "#f2a23b", w: 0.18 });
 
     let lifted = 0, tilt = 0, travelled = 0, rackLift = 0;
@@ -286,6 +317,18 @@ export const SIM_FORKLIFT_DOCK = {
         if (step.id === "walk") { creepHit.visible = false; creep.visible = false; }
         void seat;
       },
+      // The trailer really walks off the plate, and the picker really steps
+      // into the aisle. Both are visible from the seat.
+      onInterrupt(it) {
+        if (it.id === "trailer-creeping") { trailer.position.z -= 0.16; creep.visible = true; }
+        if (it.id === "pedestrian-in-aisle") { pedestrian.position.set(0.2, pedestrian.position.y, -0.3); pedestrian.rotation.y = -0.4; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "trailer-creeping") { trailer.position.z += 0.16; creep.visible = false; }
+        if (it.id === "pedestrian-in-aisle") { pedestrian.position.set(-2.6, pedestrian.position.y, 1.4); pedestrian.rotation.y = 1.2; }
+      },
+
       onHazard() {},
       animate(t, dt, session) {
         const step = session?.step;

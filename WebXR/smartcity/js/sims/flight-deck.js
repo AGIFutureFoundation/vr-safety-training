@@ -313,7 +313,7 @@ export const SIM_FLIGHT_DECK = {
     reg(hits, barrierPanel(g, 0, 1.9, { ry: 0.05, color: 0x4fd1ff }), "ramp-barrier");
 
     // Bystander crossing behind the boundary — the incursion trap.
-    const bystander = standingFigure(g, 0.4, 2.3, { ry: 3.0, cloth: 0x445566 });
+    const bystander = standingFigure(g, 0.5, 2.58, { ry: 3.0, cloth: 0x445566 });
     reg(hits, bystander, "ramp-incursion");
 
     // Holo NOTAM board and pre-flight tablet.

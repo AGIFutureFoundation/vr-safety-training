@@ -189,7 +189,7 @@ export const SIM_CONFINED_RESCUE = {
     const lid = box(hole, 1.05, 0.06, 1.05, 1.3, 0.06, 0.4, 0x5b5f64, { rough: 0.8, metal: 0.4 });
     holoTag(hole, "valve chamber — permit space", 0, 0.5, 0.75, { css: "#f07a4b", w: 0.5 });
     void shaft; void lid;
-    const patient = standingFigure(hole, 0, 0, { ry: 0.4, cloth: 0xf2c14b });
+    const patient = standingFigure(hole, 0, 0, { ry: 0.4, cloth: 0xf2c14b, atStation: true });
     patient.position.set(0.1, -2.3, 0.1);
     patient.rotation.z = 1.4;
     patient.scale.setScalar(0.95);

@@ -114,13 +114,29 @@ function audit(app, r, reachFrom) {
   // A person has to be standing somewhere, not inside a bench. Crew figures
   // are placed by hand against a room that was already full, and the first
   // pass put a welder through a side bench and an engineer through a rack.
-  const CREW_CLEAR = 1.05;
+  // Two different questions, so two numbers. A trades bay is an eight-metre
+  // room and a figure with less than a metre around them reads as crowded
+  // into the furniture. A SmartCiti.X station is a two-metre working area
+  // where standing beside the cabinet is the whole point, so there the only
+  // question is whether the figure is actually intersecting something: a body
+  // is about 0.3m across, so anything closer than 0.55m to a mesh centre is
+  // inside it.
+  const CREW_CLEAR = app === "trades" ? 1.05 : 0.45;
   // Collected mesh by mesh, not group by group: the shop furniture lives
   // inside one `fixed` group that sits at the origin, so a group-level sweep
   // skipped the whole lot and found nothing. Only the band a standing person
   // occupies counts — floor paint and ceiling fittings are not obstructions.
   const solid = [];
-  const crewRoots = new Set((root.children ?? []).filter((c) => c.userData?.crew));
+  // Found by walking the tree, not by reading root.children. A trades bay adds
+  // its crew at the top level, but a SmartCiti.X station builds everything
+  // inside one group, so a top-level sweep saw no crew at all and this rule
+  // silently did nothing for fifty stations.
+  const crewRoots = new Set();
+  const findCrew = (node) => {
+    if (node.userData?.crew) { crewRoots.add(node); return; }
+    for (const c of node.children ?? []) findCrew(c);
+  };
+  findCrew(root);
   const collect = (node) => {
     if (crewRoots.has(node)) return;
     if (node.isMesh) {
@@ -130,8 +146,7 @@ function audit(app, r, reachFrom) {
     for (const c of node.children ?? []) collect(c);
   };
   collect(root);
-  for (const child of root.children ?? []) {
-    if (!child.userData?.crew) continue;
+  for (const child of crewRoots) {
     const p = worldPos(child);
     for (const q of solid) {
       const d = Math.hypot(p.x - q.x, p.z - q.z);

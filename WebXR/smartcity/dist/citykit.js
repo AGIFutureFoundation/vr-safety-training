@@ -361,6 +361,15 @@ export function instrument(parent, x, y, z, o = {}) {
 /** Standing figure — casualties, bystanders, crew members. */
 export function standingFigure(parent, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
+  // Tag them the way the trades bays tag theirs, so tools/check_layout.mjs
+  // holds a SmartCiti.X figure to the same rule: a person has to be standing
+  // somewhere, not inside a cabinet. A figure that is meant to be lying down,
+  // or riding something, is exempt — that is where it is supposed to be.
+  // `atStation` is for a figure whose position against the equipment is the
+  // content — a casualty down the hole, a coworker riding the forks. Those are
+  // meant to be where they are; everyone else is standing somewhere and has to
+  // be standing somewhere real.
+  if (!o.lying && !o.atStation) g.userData.crew = true;
   const skin = o.skin ?? 0xc99878;
   const cloth = o.cloth ?? 0x37505f;
   const lying = !!o.lying;

@@ -320,7 +320,7 @@ export const SIM_RIGGING_LOFT = {
     reg(hits, shortcut, "shortcut-call");
 
     // Floor watch stagehand.
-    const watch = standingFigure(g, 1.4, -1.0, { ry: 2.6, cloth: 0x2b3138, vest: 0xff6fae, helmet: 0x1b1e22 });
+    const watch = standingFigure(g, 0.93, -0.83, { ry: 2.6, cloth: 0x2b3138, vest: 0xff6fae, helmet: 0x1b1e22 });
     holoTag(watch, "Floor watch", 0, 1.95, 0.15, { css: "#ff6fae", w: 0.28 });
     reg(hits, watch, "floor-watch");
 

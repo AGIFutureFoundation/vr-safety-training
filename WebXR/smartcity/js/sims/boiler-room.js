@@ -146,6 +146,34 @@ export const SIM_BOILER_ROOM = {
     },
   ],
 
+  // Two things that happen to a boiler that somebody else still expects to be
+  // making steam. Both are visible from where the learner is standing — see
+  // shared/game.js.
+  interrupts: [
+    {
+      id: "block-passing",
+      kind: "Isolation failing",
+      after: "atmosphere-test", delay: 4, seconds: 12,
+      alert: "The fuel supply indicator has gone red again and the bleed has stopped venting. The block valve is passing.",
+      cue: "Your isolation is leaking. Open the bleed and prove it.",
+      target: "bleed-valve",
+      why: "A double block and bleed is only an isolation while the bleed is open and venting to atmosphere. A bleed that goes quiet is not good news — it means the vent is blocked or the pressure between the blocks has nowhere to go, and the space you are about to enter is downstream of it.",
+      missNote: "You entered the firebox with fuel passing the block and no open vent between you and it. Gas accumulating in an unfired firebox needs no ignition source until it finds one, and the one it usually finds is the igniter on the relight.",
+      wrongNote: "It is the bleed valve. An isolation that has stopped venting is not an isolation, and nothing else here matters until it is venting again.",
+    },
+    {
+      id: "bms-start-call",
+      kind: "Remote start request",
+      after: "firebox-entry", delay: 5, seconds: 12,
+      alert: "The building management system is calling for steam. The burner control has latched a start request and the panel lamp is lit.",
+      cue: "Something upstairs wants this boiler lit and you are inside it.",
+      target: "lockout-point",
+      why: "A latched start request is the plant telling you that the only thing standing between you and the burner is your lock. That is exactly what it is for — but it is worth being certain it is still on the hasp, because a start request is also the moment somebody goes looking for why the boiler will not run.",
+      missNote: "You stayed in the firebox with a start request latched and never went back to the hasp. The locks happened to still be on. Nothing about the last four minutes made that true — it was true before you got there and you never checked.",
+      wrongNote: "It is the lockout point. With a start request latched, your lock is the control, and a control you have not looked at is an assumption.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -164,6 +192,10 @@ export const SIM_BOILER_ROOM = {
       { glow: true, ei: 0.9, px: 384 });
     hmi.rotation.y = Math.PI / 2;
     reg(hits, hmi, "boiler-hmi");
+    // Dark all run, until the building asks for steam while somebody is inside
+    // the firebox. See the interruptions above.
+    const startLamp = ball(hmi, 0.02, 0.11, 0.09, 0.03, 0xf0645b, { emissive: 0xf0645b, ei: 2.4 });
+    startLamp.visible = false;
     holoTag(boiler, "Boiler 1 · 150 HP", 0, 1.85, 0, { css: "#d83a2a", w: 0.4 });
 
     // Manual igniter switch — the trap for relighting before locks are off and the space is clear.
@@ -304,6 +336,30 @@ export const SIM_BOILER_ROOM = {
         if (step.id === "relight") {
           running = true; fuelIsolated = false; port.rotation.y = 0.6; firing = 1;
           repaint(hmi, signFace("RUNNING\n120 psig", { bg: "#0d1c24", accent: "#d83a2a", fg: "#ffc9bf", scale: 0.26 }));
+        }
+      },
+
+      // The indicator really goes red, the bleed really stops, the start lamp
+      // really lights. Each one is visible from where the learner is working.
+      onInterrupt(it) {
+        if (it.id === "block-passing") {
+          liveFuelIndicator.children[0].material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0 });
+          bleedMist.visible = false;
+        }
+        if (it.id === "bms-start-call") {
+          startLamp.visible = true;
+          repaint(hmi, signFace("START\nREQUEST", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.26 }));
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "block-passing") {
+          liveFuelIndicator.children[0].material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.6 });
+          bleedMist.visible = true;
+        }
+        if (it.id === "bms-start-call") {
+          startLamp.visible = false;
+          repaint(hmi, signFace("LOCKED OUT", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.28 }));
         }
       },
 

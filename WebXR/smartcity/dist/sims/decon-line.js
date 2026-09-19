@@ -218,7 +218,7 @@ export const SIM_DECON_LINE = {
     reg(hits, wand, "wash-wand");
     const spray = particles(g, 70, 0x6fb4d8, { size: 0.02, life: 0.45, additive: false, opacity: 0.7 });
     // Responder in the gross pool; decon crew member; medical station.
-    const responder = standingFigure(g, -0.9, -0.3, { ry: 1.4, cloth: 0xe8b02e });
+    const responder = standingFigure(g, -0.81, -0.79, { ry: 1.4, cloth: 0xe8b02e });
     holoTag(responder, "entry team — contaminated", 0, 1.9, 0, { css: "#d2312b", w: 0.42 });
     const crew = standingFigure(g, -0.6, 0.9, { ry: -0.4, cloth: 0x37505f });
     const ppeKit = group(g, 0.4, 0.1, 1.8, 0.3);

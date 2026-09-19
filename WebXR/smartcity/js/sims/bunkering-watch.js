@@ -283,7 +283,7 @@ export const SIM_BUNKERING_WATCH = {
       ["No. 3 P then No. 3 S; stop at 90 %", "Rate: start 30 t/h, max 150 t/h, top 50 t/h", "Sound every 15 min; every 1 min topping", "Scuppers plugged; tray; SOPEP at manifold", "DOI signed by both PICs before start", "Sample: continuous drip, sealed, 2 signatures", "Emergency stop: radio 'STOP STOP STOP' + horn"].forEach((l, i) => ctx.fillText(l, w * 0.06, h * (0.28 + i * 0.1)));
     }, { accent: BW_ACCENT });
     reg(hits, board, "bunker-plan");
-    const pic = standingFigure(g, 2.4, 1.9, { ry: -2.2, cloth: 0x1f3a52 });
+    const pic = standingFigure(g, 2.8, 1.9, { ry: -2.2, cloth: 0x1f3a52 });
     holoTag(pic, "ship's PIC", 0, 1.9, 0, { css: "#3fa9d8", w: 0.2 });
 
     let flowing = false;

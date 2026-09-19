@@ -278,7 +278,7 @@ export const SIM_AERIAL_LADDER = {
     }, { accent: AL_ACCENT });
     reg(hits, board, "sizeup-board");
     for (const [x, z] of [[-2.6, -1.4], [2.4, -1.4]]) cone(g, x, z);
-    const operator = standingFigure(g, -1.9, 1.9, { ry: 0.4, cloth: 0x2b2f34 });
+    const operator = standingFigure(g, -2.11, 2.46, { ry: 0.4, cloth: 0x2b2f34 });
     holoTag(operator, "driver / operator", 0, 1.9, 0, { css: "#d2312b", w: 0.3 });
 
     let raised = 0, rotated = 0, extended = 0, ptoOn = false;

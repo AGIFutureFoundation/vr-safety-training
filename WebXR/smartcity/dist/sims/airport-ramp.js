@@ -298,7 +298,7 @@ export const SIM_AIRPORT_RAMP = {
     box(rack, 0.18, 0.1, 0.12, 0, 0.7, 0, 0x2b2f34, { rough: 0.7 });
     holoTag(rack, "hi-vis and ear defenders", 0, 1.4, 0, { css: "#63b5f0", w: 0.5 });
     reg(hits, rack, "hi-vis-check");
-    const marshaller = standingFigure(g, 0.9, 2.0, { ry: 3.0, cloth: 0xf2a23b });
+    const marshaller = standingFigure(g, 0.64, 2.15, { ry: 3.0, cloth: 0xf2a23b });
     const wands = group(marshaller, 0, 1.4, 0);
     for (const sx of [-1, 1]) { const wand = cyl(wands, 0.02, 0.02, 0.36, sx * 0.3, 0.1, 0.1, 0xf2703b, { emissive: 0xf2703b, ei: 1.4, rough: 0.4, cast: false, seg: 8 }); wand.rotation.z = sx * 0.5; }
     holoTag(marshaller, "marshaller — wands", 0, 1.95, 0, { css: "#63b5f0", w: 0.4 });

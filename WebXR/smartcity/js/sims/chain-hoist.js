@@ -173,7 +173,7 @@ export const SIM_CHAIN_HOIST = {
     box(shackle, 0.02, 0.02, 0.05, 0.04, 0, 0.02, 0xd2312b, { rough: 0.5 });
     reg(hits, shackle, "shackle-open");
     // Deck: a crew member under the truss (hazard), deck-check marker, controller.
-    const crew = standingFigure(g, 0.3, 0.6, { ry: 0.4, cloth: 0x1b1e22 });
+    const crew = standingFigure(g, 0.35, 0.9, { ry: 0.4, cloth: 0x1b1e22 });
     holoTag(crew, "crew under the truss", 0, 1.9, 0, { css: "#d2312b", w: 0.36 });
     reg(hits, crew, "under-truss");
     const deckCheck = cyl(g, 0.35, 0.35, 0.01, -1.6, 0.105, 1.6, 0x59c97b, { rough: 0.6, opacity: 0.4, transparent: true, cast: false });

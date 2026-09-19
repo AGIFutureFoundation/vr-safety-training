@@ -287,7 +287,7 @@ export const SIM_BATTERY_YARD = {
     reg(hits, board, "work-order");
     barrierPanel(g, 2.0, 2.3, { ry: 0.2 });
     for (const [x, z] of [[-2.8, -0.6], [2.8, -0.6]]) cone(g, x, z);
-    const tech = standingFigure(g, 0.4, 1.7, { ry: 3.0, cloth: 0x5a7a2b });
+    const tech = standingFigure(g, 0.09, 1.44, { ry: 3.0, cloth: 0x5a7a2b });
     holoTag(tech, "storage technician", 0, 1.9, 0, { css: "#9fd84f", w: 0.34 });
     const smoke = particles(g, 40, 0xd8d8d8, { size: 0.03, life: 1.2, additive: false, opacity: 0.22 });
 

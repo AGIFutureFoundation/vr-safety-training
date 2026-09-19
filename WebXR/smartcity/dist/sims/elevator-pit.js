@@ -160,6 +160,34 @@ export const SIM_ELEVATOR_PIT = {
     },
   ],
 
+  // Two things that happen while a mechanic is down a hole or standing on a
+  // car, with their back to the rest of the building. Both are visible from
+  // where the learner is standing — see shared/game.js.
+  interrupts: [
+    {
+      id: "hall-call",
+      kind: "Call registered",
+      after: "buffer-check", delay: 5, seconds: 12,
+      alert: "A hall call has registered upstairs. Somebody is standing at a landing pressing the button, and you are in the pit.",
+      cue: "Prove the switch is still holding the car.",
+      target: "pit-stop-switch",
+      why: "A registered call is the building telling you it still thinks this car is in service. The pit switch is the only thing between that call and the car coming down on top of you, so it gets confirmed, not assumed.",
+      missNote: "You stayed in the runby with a live call registered and an unconfirmed switch. If that switch had been knocked off its detent on the way in — and they do get knocked — the first warning would have been the counterweight passing your head.",
+      wrongNote: "It is the pit stop switch. While you are standing in the runby with a call registered, nothing else in this shaft is worth looking at.",
+    },
+    {
+      id: "lock-tampered",
+      kind: "Lock interfered with",
+      after: "governor-check", delay: 4, seconds: 11,
+      alert: "Somebody at the machine room end has started working your lock off the hasp to run the car for another job.",
+      cue: "That is your lock and your life on the end of it.",
+      target: "lockout-hasp",
+      why: "One lock, one person, one key, removed by the person who fitted it and nobody else. A lock coming off while you are standing on the car is the exact sequence that the whole procedure exists to make impossible.",
+      missNote: "The lock came off while you were on the car top. Everything after that depended on the other mechanic deciding not to press the button — which is not a control, it is a hope.",
+      wrongNote: "It is the hasp with your lock on it. Stop what you are doing and go to the lock.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -283,6 +311,10 @@ export const SIM_ELEVATOR_PIT = {
     const controllerScreen = decal(controller, 0.24, 0.16, 0, 1.05, 0.052,
       signFace("ARMED", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.4 }), { glow: true, ei: 0.85, px: 256 });
     holoTag(controller, "Car controller", 0, 1.2, 0.06, { css: "#2dd4bf", w: 0.3 });
+    // The landing-call lamp. Dark all run, until somebody upstairs presses a
+    // button while the learner is standing in the runby.
+    const callLamp = ball(controller, 0.022, 0.1, 1.16, 0.05, 0xf2c14b, { emissive: 0xf2c14b, ei: 2.4 });
+    callLamp.visible = false;
     reg(hits, controller, "controller-panel");
 
     const pitSwitch = group(g, -0.35, 0, 0.28, 0.2);
@@ -342,6 +374,24 @@ export const SIM_ELEVATOR_PIT = {
           repaint(controllerScreen, signFace("READY", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
         }
         if (step.id === "test-run") repaint(controllerScreen, signFace("TEST\nTRIP OK", { bg: "#0d1c14", accent: "#2dd4bf", fg: "#bfeaf7", scale: 0.32 }));
+      },
+
+      // The call really registers on the controller, and the lock really moves
+      // on the hasp. A learner who looks up sees what the alert describes.
+      onInterrupt(it) {
+        if (it.id === "hall-call") {
+          callLamp.visible = true;
+          repaint(controllerScreen, signFace("HALL CALL\nLANDING 3", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.3 }));
+        }
+        if (it.id === "lock-tampered") { appliedLock.rotation.z += 0.9; appliedLock.position.y += 0.04; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "hall-call") {
+          callLamp.visible = false;
+          repaint(controllerScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
+        }
+        if (it.id === "lock-tampered") { appliedLock.rotation.z -= 0.9; appliedLock.position.y -= 0.04; }
       },
 
       animate(t, dt, session) {

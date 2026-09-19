@@ -267,10 +267,10 @@ export const SIM_VALVE_VAULT = {
     reg(hits, tripodCase, "tripod");
 
     // ------------------------------------------------------------- the crew
-    const attendant = standingFigure(g, 0.95, 0.75, { ry: -2.4, cloth: 0x2f6f8c, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    const attendant = standingFigure(g, 2.23, 0.52, { ry: -2.4, cloth: 0x2f6f8c, vest: 0xf2c14b, helmet: 0xf2f2f2 });
     holoTag(attendant, "Attendant", 0, 1.95, 0.15, { css: "#4fa3ff", w: 0.26 });
     reg(hits, attendant, "attendant");
-    const entrant = standingFigure(g, -1.35, -0.65, { ry: 1.2, cloth: 0x36505e, vest: 0xf2c14b, helmet: 0x4fa3ff });
+    const entrant = standingFigure(g, -1.82, -0.48, { ry: 1.2, cloth: 0x36505e, vest: 0xf2c14b, helmet: 0x4fa3ff });
     holoTag(entrant, "Entrant", 0, 1.95, 0.15, { css: "#4fa3ff", w: 0.24 });
     reg(hits, entrant, "rescue-entry");
 

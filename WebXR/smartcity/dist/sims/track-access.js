@@ -227,7 +227,7 @@ export const SIM_TRACK_ACCESS = {
     const lookout = standingFigure(g, 2.3, 1.5, { ry: -1.5, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
     holoTag(lookout, "Lookout", 0, 1.95, 0.15, { css: "#f2894b", w: 0.24 });
     reg(hits, lookout, "lookout-worker");
-    const solo = standingFigure(g, -2.4, -0.5, { ry: 1.5, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    const solo = standingFigure(g, -2.63, -0.31, { ry: 1.5, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
     reg(hits, solo, "solo-worksite");
 
     // Rail clamp, gauge, fastener, tool tray at the worksite.

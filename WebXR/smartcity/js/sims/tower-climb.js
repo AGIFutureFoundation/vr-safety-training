@@ -159,6 +159,34 @@ export const SIM_TOWER_CLIMB = {
     },
   ],
 
+  // Two things that happen to climbers while their hands are full and their
+  // attention is on the work in front of them. Both are visible from the
+  // platform and both are the climber's to catch — see shared/game.js.
+  interrupts: [
+    {
+      id: "tool-adrift",
+      kind: "Dropped object",
+      after: "work-task", delay: 4, seconds: 12,
+      alert: "The wrench you set down on the grating has worked its way to the edge of the platform. Your ground crew is directly below.",
+      cue: "Get it tethered before it goes over.",
+      target: "tool-lanyards",
+      why: "Every tool above the first level is tethered, and the one that goes over is always the one somebody set down for a moment. A tool leaving this platform reaches the ground faster than anyone below can look up.",
+      missNote: "The wrench went off the platform. A hard hat is rated for a two-kilogram object dropped two metres; this was neither. The ground crew never heard it coming, because it arrives before the sound does.",
+      wrongNote: "It is the tool lanyards. Nothing else on this tower matters while an untethered tool is sliding toward the edge above a person.",
+    },
+    {
+      id: "crew-under-drop",
+      kind: "Drop zone breached",
+      after: "tool-retrieve", delay: 3, seconds: 11,
+      alert: "Your ground crew has wandered in under the mast to look at the guy anchor — into the drop zone — and you are still on the platform.",
+      cue: "Nobody stands under a climber.",
+      target: "ground-crew",
+      why: "The ground under a climber is a closed zone for as long as anyone is above it. It is barriered, and the person who notices the barrier has been walked through is almost always the one up top.",
+      missNote: "They stayed under the mast for the rest of the descent. Nothing fell this time, which is the only reason this is a note and not an incident report — the exposure was identical either way.",
+      wrongNote: "It is the crew member standing under you. Call them out of the drop zone before you touch anything else.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -244,8 +272,12 @@ export const SIM_TOWER_CLIMB = {
     reg(hits, edgeBeam, "unclipped-move");
 
     // ---------------------------------------------------------------- ground crew + hazards
-    const groundCrew = standingFigure(g, 0.9, 1.4, { ry: -1.9, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    const groundCrew = standingFigure(g, 0.67, 1.59, { ry: -1.9, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
     holoTag(groundCrew, "Ground crew", 0, 1.95, 0.15, { css: "#ff7a1a", w: 0.28 });
+    // Selectable, because one of the interruptions is that they walk somewhere
+    // they should not be and the climber is the one who can see it.
+    reg(hits, groundCrew, "ground-crew");
+    const crewHome = groundCrew.position.clone();
 
     // ---------------------------------------------------------------- paperwork + RF gear
     const permit = holoPanel(g, 0.58, 0.4, -1.9, 1.5, 1.1, (ctx, w, h) => {
@@ -360,6 +392,18 @@ export const SIM_TOWER_CLIMB = {
           rfLive = true; rfLock.visible = false;
           antennaGlow.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.2 });
         }
+      },
+
+      // The wrench actually creeps, and the crew actually walk under the mast.
+      // A learner who looks up sees the thing the alert is describing.
+      onInterrupt(it) {
+        if (it.id === "tool-adrift") { looseWrench.position.x += 0.13; looseWrench.position.z -= 0.19; looseWrench.rotation.y += 0.5; }
+        if (it.id === "crew-under-drop") { groundCrew.position.set(0.12, crewHome.y, -0.1); groundCrew.rotation.y = 0.6; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "tool-adrift") { looseWrench.position.x -= 0.13; looseWrench.position.z += 0.19; looseWrench.rotation.y -= 0.5; }
+        if (it.id === "crew-under-drop") { groundCrew.position.copy(crewHome); groundCrew.rotation.y = -1.9; }
       },
 
       onHazard(hitId) {

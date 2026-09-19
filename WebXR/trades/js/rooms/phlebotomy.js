@@ -115,6 +115,33 @@ export const ROOM_PHLEBOTOMY = {
     },
   ],
 
+  // Two things that happen in a draw bay while the tech's eyes are on the
+  // tube rack. One is the patient; one is somebody helping. See shared/game.js.
+  interrupts: [
+    {
+      id: "patient-faint",
+      kind: "Patient reaction",
+      after: "draw", delay: 4, seconds: 11,
+      alert: "The patient has gone quiet and grey and their head has tipped back against the rest.",
+      cue: "Look at your patient, not at the tubes.",
+      target: "patient",
+      why: "Vasovagal reactions are common, they come on in seconds, and the person who catches them is whoever is looking at the patient's face. Everything else in this bay can wait; a patient about to lose consciousness in a chair cannot.",
+      missNote: "You finished the draw and looked up to a patient who had fainted in the chair. Most of them come round with their feet up and no harm done — the ones that do not are the ones who slid out of the chair onto the floor while nobody was watching.",
+      wrongNote: "It is the patient. Nothing on that tray is more urgent than a person going grey in front of you.",
+    },
+    {
+      id: "pre-labelled-offered",
+      kind: "Shortcut offered",
+      after: "pressure", delay: 3, seconds: 11,
+      alert: "Someone has set a pre-labelled tube set down on your tray and told you to save time and use those.",
+      cue: "Those labels were printed somewhere other than here.",
+      target: "label-printer",
+      why: "Tubes are labelled at the bedside, after the draw, with the patient in front of you. A label printed anywhere else has already been separated from the person it belongs to, and no downstream check can put them back together.",
+      missNote: "The pre-labelled tubes went to the lab. If those labels were right, nothing happens. If they were not, a result belonging to somebody else now sits in this patient's chart, and the first sign of it will be a treatment decision.",
+      wrongNote: "It is the label printer. The labels get printed here, at the chair, or the sample is not identified.",
+    },
+  ],
+
   build(root) {
     // The shell, the fittings and the shop furniture never move and are
     // never clicked, so they go in one group that is baked into a handful
@@ -170,6 +197,10 @@ export const ROOM_PHLEBOTOMY = {
     cyl(band, 0.05, 0.05, 0.03, 0, 0, 0, 0xf2f2f2, { rough: 0.6, seg: 16, open: true, side: 2 });
     decal(band, 0.075, 0.03, 0, 0, 0.051, paperFace("", ["MARSH, J.  DOB 14/07/71"], { bg: "#ffffff" }), { px: 256 });
     reg(band, "wristband");
+
+    // The patient's face is selectable, because one of the interruptions is
+    // that they stop being all right and the tech is the only one watching.
+    reg(patient.head, "patient");
 
     // The other arm carries a running infusion — drawing there is the trap.
     const ivArm = patient.arms[0];
@@ -389,6 +420,24 @@ export const ROOM_PHLEBOTOMY = {
         }
         if (step.id === "sharps") { needleIn = false; needle.visible = false; }
         if (step.id === "label") labelStrip.visible = true;
+      },
+
+      // The patient really slumps, and the offered tubes really appear on the
+      // tray. Both are in front of the learner, not in the caption.
+      onInterrupt(it) {
+        if (it.id === "patient-faint") {
+          patient.head.rotation.x = 0.5; patient.head.rotation.z = -0.3;
+          patient.torso.rotation.x = 0.16;
+        }
+        if (it.id === "pre-labelled-offered") { preLab.position.y += 0.26; preLab.rotation.y += 0.7; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "patient-faint") {
+          patient.head.rotation.x = 0; patient.head.rotation.z = 0;
+          patient.torso.rotation.x = 0;
+        }
+        if (it.id === "pre-labelled-offered") { preLab.position.y -= 0.26; preLab.rotation.y -= 0.7; }
       },
 
       onFeedback(feedback, session) {
