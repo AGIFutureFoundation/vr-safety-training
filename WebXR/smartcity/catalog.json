@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 51
+      "stations": 52
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "wind-nacelle",
         "transformer-vault"
       ]
     },
@@ -4629,6 +4630,85 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "wind-nacelle",
+      "name": "Wind Nacelle",
+      "title": "SmartCiti.X~ Wind Nacelle VR",
+      "tagline": "Gearbox service ninety metres up: rotor lock, yaw lock, converter isolation, oil sampled hot, brake pads gauged, hatch closed",
+      "category": "Energy & Power",
+      "domain": "Renewable generation",
+      "trade": "Wind turbine technician",
+      "union": null,
+      "certification": "IBEW / IUOE — utility-scale wind technician; GWO Basic Safety Training (working at height, first aid, manual handling, fire awareness); OSHA 29 CFR 1910.147 for the rotor, yaw and converter locks; 1910.269 for the electrical isolation",
+      "accent": "#6ee7b7",
+      "parSeconds": 270,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 13,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "nacelle-certified",
+        "name": "Nacelle Certified",
+        "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
+      },
+      "meshes": 166,
+      "lights": 0,
+      "overBudget": false,
+      "index": "52",
+      "flat": false,
+      "system": "Nacelle Authority",
+      "currency": "MWH",
+      "ranks": [
+        "Trainee Tech",
+        "Wind Tech",
+        "Lead Tech",
+        "Site Lead",
+        "Nacelle Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "three-locks",
+          "name": "Three Locks",
+          "note": "Rotor, yaw and converter all locked before the hatch opened"
+        },
+        {
+          "id": "always-anchored",
+          "name": "Always Anchored",
+          "note": "Never unclipped inside the nacelle"
+        },
+        {
+          "id": "sampled-hot",
+          "name": "Sampled Hot",
+          "note": "Oil drawn inside the temperature window"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "torque-held",
+          "name": "Torque Held",
+          "note": "Held the drain plug torque the full count"
+        },
+        {
+          "id": "down-before-dark",
+          "name": "Down Before Dark",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wind-nacelle"
     },
     {
       "app": "smartcity",
