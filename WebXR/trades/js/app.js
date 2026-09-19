@@ -7,7 +7,7 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform } from "../../shared/platform.js";
 import { createBroadcaster } from "../../shared/observer.js";
-import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { Perf } from "../../shared/perf.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";

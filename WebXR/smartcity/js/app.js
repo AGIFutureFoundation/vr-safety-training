@@ -9,7 +9,7 @@ import { RobotAgent, observe } from "../../shared/robot.js";
 import { Platform } from "../../shared/platform.js";
 import { Perf } from "../../shared/perf.js";
 import { createBroadcaster } from "../../shared/observer.js";
-import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -31,9 +31,6 @@ const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
 // react-ui.js's dangerouslySetInnerHTML — escape before interpolating so a
 // tag like `<b>` typed as a crew name renders literally instead of as
 // markup on a shared kiosk's next screen.
-function escapeHtml(s) {
-  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
 const AR_DIORAMA_SCALE = 0.34; // tabletop scale so a 2 m station fits on a desk
 
 const simModuleCache = new Map();
