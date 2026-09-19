@@ -139,7 +139,7 @@ export const SMARTCITY_SIMS = [
   "triage-point", "robot-cell", "chiller-plant", "tower-climb", "steel-erector", "crane-yard", "trench-box",
   "boiler-room", "elevator-pit", "abatement-chamber", "rigging-loft", "line-truck", "dock-crane", "hunters-point", "air-monitor", "sampling-well", "press-brake", "decon-line", "stage-power", "container-lashing",
   "lift-station", "mooring-line", "chain-hoist", "conveyor-guard", "cell-site-battery",
-  "substation-switching", "bus-depot-lift", "fire-pump", "scaffold-erection", "aerial-ladder", "chlorine-room", "forklift-dock", "fly-system", "bunkering-watch", "microwave-backhaul", "stormwater-outfall", "battery-yard", "confined-rescue", "airport-ramp", "cooling-tower", "concrete-pour", "cnc-cell", "backflow-test",
+  "substation-switching", "bus-depot-lift", "fire-pump", "scaffold-erection", "aerial-ladder", "chlorine-room", "forklift-dock", "fly-system", "bunkering-watch", "microwave-backhaul", "stormwater-outfall", "battery-yard", "confined-rescue", "airport-ramp", "cooling-tower", "concrete-pour", "cnc-cell", "backflow-test", "transformer-vault",
 ];
 export const TRADES_ROOMS = ["electrical", "salon", "kitchen", "phlebotomy", "welding", "devops", "plumbing", "pressure-washer", "paint-sprayer"];
 const constName = (id) => id.toUpperCase().replace(/-/g, "_");

@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-18",
+  "generatedAt": "2026-09-19",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 50
+      "stations": 51
     },
     "trades": {
       "entry": "trades/index.html",
@@ -43,7 +43,8 @@
         "solar-deck",
         "line-truck",
         "substation-switching",
-        "battery-yard"
+        "battery-yard",
+        "transformer-vault"
       ]
     },
     {
@@ -573,7 +574,7 @@
       "name": "Situational Awareness — Interruption Drill",
       "union": "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
       "certification": "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
-      "summary": "Nine procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+      "summary": "Fourteen procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
       "stations": [
         {
           "app": "trades",
@@ -619,6 +620,31 @@
           "app": "smartcity",
           "id": "fire-pump",
           "why": "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow."
+        },
+        {
+          "app": "smartcity",
+          "id": "tower-climb",
+          "why": "A tool you set down creeping toward the platform edge above your ground crew, and the crew themselves walking into the drop zone."
+        },
+        {
+          "app": "smartcity",
+          "id": "elevator-pit",
+          "why": "A hall call registering upstairs while you stand in the runby, and somebody working your lock off the hasp while you are on the car top."
+        },
+        {
+          "app": "smartcity",
+          "id": "boiler-room",
+          "why": "A block valve passing after you proved the isolation, and the building calling for steam while you are inside the firebox."
+        },
+        {
+          "app": "smartcity",
+          "id": "forklift-dock",
+          "why": "The trailer walking off the plate while you are in the box, and a picker stepping into the aisle on the side the load hides."
+        },
+        {
+          "app": "trades",
+          "id": "phlebotomy",
+          "why": "A patient going vasovagal while your eyes are on the tube rack, and a pre-labelled set offered to you as a time-saver."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -1756,7 +1782,7 @@
         "name": "Steam Certified",
         "note": "Isolated, cooled, tested and relit with nothing skipped"
       },
-      "meshes": 123,
+      "meshes": 124,
       "lights": 0,
       "overBudget": false,
       "index": "15",
@@ -1834,7 +1860,7 @@
         "name": "Pit Certified",
         "note": "Pit and car-top entry with both stop switches confirmed"
       },
-      "meshes": 121,
+      "meshes": 122,
       "lights": 0,
       "overBudget": false,
       "index": "16",
@@ -3685,7 +3711,7 @@
         "name": "Dock Clean",
         "note": "A load-out with the trailer secured before the plate, the load inside the plate rating, the mast back and low, and the ramp taken in reverse — first time"
       },
-      "meshes": 161,
+      "meshes": 174,
       "lights": 0,
       "overBudget": false,
       "index": "39",
@@ -4603,6 +4629,85 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "transformer-vault",
+      "name": "Transformer Vault",
+      "title": "SmartCiti.X~ Transformer Vault VR",
+      "tagline": "Padmount switching under a written order: clearance, hot stick, load-break elbows, grounds applied, oil drawn for DGA",
+      "category": "Energy & Power",
+      "domain": "Utility distribution",
+      "trade": "Substation / underground distribution electrician",
+      "union": null,
+      "certification": "IBEW — underground distribution journeyman; NFPA 70E arc-flash boundary and PPE category; OSHA 29 CFR 1910.269 for the switching, clearance and grounding; ASTM D3612 dissolved-gas sampling",
+      "accent": "#4fd1ff",
+      "parSeconds": 260,
+      "weather": "rain",
+      "indoor": null,
+      "steps": 12,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "vault-clear",
+        "name": "Vault Clear",
+        "note": "A padmount switched and grounded to a written order, with the oil drawn clean and the vault left safe"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "51",
+      "flat": false,
+      "system": "Vault Authority",
+      "currency": "KVA",
+      "ranks": [
+        "Apprentice",
+        "Cable Splicer",
+        "UD Journeyman",
+        "Switching Authority",
+        "Vault Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "order-followed",
+          "name": "Order Followed",
+          "note": "Every switch made in the written order's sequence, first time"
+        },
+        {
+          "id": "grounded-first",
+          "name": "Grounded First",
+          "note": "Never worked a conductor before the grounds were on"
+        },
+        {
+          "id": "sample-clean",
+          "name": "Sample Clean",
+          "note": "Oil drawn inside the temperature and fill band"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "stick-steady",
+          "name": "Stick Steady",
+          "note": "Held the elbow pull for the full count"
+        },
+        {
+          "id": "restored-fast",
+          "name": "Restored Fast",
+          "note": "Vault closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=transformer-vault"
     },
     {
       "app": "trades",
