@@ -80,10 +80,16 @@ export const ROOM_ELECTRICAL = {
       why: "Affected employees must be told before and after isolation. An unannounced outage is how someone re-energises your circuit.",
     },
     {
-      id: "open", kind: "select", target: "disconnect-handle",
+      // A turn, not a click: the cue has always said "rotate the handle", and
+      // every other disconnect in the network is a turn. This one was missed
+      // when the rest were converted, so the canonical isolation action in the
+      // whole curriculum was the one place you isolated a 480 V supply by
+      // tapping it once.
+      id: "open", kind: "turn", target: "disconnect-handle",
       title: "Open the disconnect",
-      cue: "Rotate the disconnect handle to OFF.",
-      why: "Opening the disconnect is the isolation itself. Everything after this verifies and protects it.",
+      cue: "Take the handle and rotate it all the way to OFF.",
+      why: "Opening the disconnect is the isolation itself. Everything after this verifies and protects it. A rotary disconnect that is only part way round has not broken the contacts — it has to go to its stop.",
+      turn: { turns: 0.23, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-station",

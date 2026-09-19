@@ -132,10 +132,11 @@ export const SIM_TRENCH_BOX = {
       drag: { to: "trench-socket", radius: 0.4, missNote: "Not lined up with the excavation — line it up with the marked footprint and lower it in." },
     },
     {
-      id: "place-ladder", kind: "select", target: "ladder",
+      id: "place-ladder", kind: "drag", target: "ladder",
       title: "Place the access ladder",
-      cue: "Set the ladder inside the box, within 25 feet of anyone working.",
-      why: "A ladder within 25 feet means an exit is never more than a few steps away, in the trench or on the surface, in an emergency that gives you no time to walk further.",
+      cue: "Carry the ladder off the spoil side and set it inside the box, within 25 feet of anyone working.",
+      why: "A ladder within 25 feet means an exit is never more than a few steps away, in the trench or on the surface, in an emergency that gives you no time to walk further. Where it ends up is the whole rule, so putting it there is the step.",
+      drag: { to: "ladder-socket", radius: 0.5, missNote: "Not in the box — a ladder lying on the spoil pile is not egress for anybody below grade." },
     },
     {
       id: "spotter-comm", kind: "hold", target: "spotter", seconds: 8,
@@ -231,13 +232,20 @@ export const SIM_TRENCH_BOX = {
     const trenchSocket = group(trench, 0, -trenchD / 2 + 0.06, 0);
     hits["trench-socket"] = trenchSocket;
 
-    const ladder = group(trench, 0.2, -trenchD, trenchL / 2 - 0.3, 0.1);
+    // The ladder starts lying on the spoil side where it was dropped off the
+    // truck, and gets carried into the box. It used to appear in place when
+    // the step was clicked, which taught the rule and skipped the act.
+    const ladder = group(trench, 1.35, 0.06, trenchL / 2 - 0.3, 0.1);
     for (const sx of [-1, 1]) cyl(ladder, 0.012, 0.012, trenchD + 0.4, sx * 0.14, (trenchD + 0.4) / 2, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 });
     for (let i = 0; i < 6; i++) {
       cyl(ladder, 0.01, 0.01, 0.3, 0, 0.15 + i * 0.22, 0, 0xa8b0b8, { rough: 0.5, metal: 0.7, seg: 8 }).rotation.z = Math.PI / 2;
     }
-    ladder.visible = false;
+    ladder.rotation.x = Math.PI / 2;                       // lying flat on the spoil side
     reg(hits, ladder, "ladder");
+    // Where it has to end up: inside the box, at the end the crew works from.
+    const ladderSocket = box(trench, 0.4, 0.1, 0.4, 0.2, -trenchD + 0.05, trenchL / 2 - 0.3,
+      0x000000, { opacity: 0.001, transparent: true, cast: false });
+    hits["ladder-socket"] = ladderSocket;
 
     const utilityLine = group(trench, 0, -trenchD + 0.15, 0);
     cyl(utilityLine, 0.06, 0.06, trenchL - 0.4, 0, 0, 0, 0x2f6f8c, { rough: 0.5, metal: 0.4, seg: 14 }).rotation.x = Math.PI / 2;
@@ -390,7 +398,10 @@ export const SIM_TRENCH_BOX = {
         // itself (app.js snaps it onto the socket on a successful drop) — this
         // just flips the bookkeeping flag.
         if (step.id === "install-box") shored = true;
-        if (step.id === "place-ladder") { ladder.visible = true; }
+        if (step.id === "place-ladder") {
+          ladder.position.set(0.2, -trenchD, trenchL / 2 - 0.3);
+          ladder.rotation.x = 0;
+        }
         if (step.id === "pipe-work") {
           repaint(inspectFace, signFace("SOIL CLASS B\nCONFIRMED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 }));
         }
