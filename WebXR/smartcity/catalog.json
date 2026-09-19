@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 52
+      "stations": 53
     },
     "trades": {
       "entry": "trades/index.html",
@@ -65,7 +65,8 @@
         "abatement-chamber",
         "lift-station",
         "chlorine-room",
-        "backflow-test"
+        "backflow-test",
+        "digester-gas"
       ]
     },
     {
@@ -4633,6 +4634,86 @@
     },
     {
       "app": "smartcity",
+      "id": "digester-gas",
+      "name": "Digester Gas",
+      "title": "SmartCiti.X~ Digester Gas VR",
+      "tagline": "Flame arrester change on a live biogas main: classified-area control, nitrogen purge, LEL and H2S proven, no hot work, bonded and re-leak-tested",
+      "category": "Water & Environmental",
+      "domain": "Wastewater treatment",
+      "trade": "Wastewater plant operator / pipefitter",
+      "union": null,
+      "certification": "UA / AFSCME — wastewater treatment operator and plant pipefitter; OSHA 29 CFR 1910.146 permit-required confined space; NFPA 820 for the classified area; 1910.147 energy control; NFPA 69 explosion prevention by purging",
+      "accent": "#84cc16",
+      "parSeconds": 265,
+      "weather": "fog",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "hold",
+        "gauge",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "gas-free-proven",
+        "name": "Gas Free Proven",
+        "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
+      },
+      "meshes": 228,
+      "lights": 0,
+      "overBudget": false,
+      "index": "53",
+      "flat": false,
+      "system": "Digester Authority",
+      "currency": "SCFM",
+      "ranks": [
+        "Operator I",
+        "Operator II",
+        "Plant Pipefitter",
+        "Shift Supervisor",
+        "Digester Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "purged-first",
+          "name": "Purged First",
+          "note": "Nitrogen in before the flange came apart, first time"
+        },
+        {
+          "id": "no-ignition",
+          "name": "No Ignition Source",
+          "note": "Never brought a spark into the classified area"
+        },
+        {
+          "id": "read-true",
+          "name": "Read True",
+          "note": "LEL and H2S both read inside limits"
+        },
+        {
+          "id": "leak-tight",
+          "name": "Leak Tight",
+          "note": "Passed the leak test first time"
+        },
+        {
+          "id": "bond-held",
+          "name": "Bond Held",
+          "note": "Held the bonding contact the full count"
+        },
+        {
+          "id": "back-on-gas",
+          "name": "Back On Gas",
+          "note": "Main returned to service inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=digester-gas"
+    },
+    {
+      "app": "smartcity",
       "id": "wind-nacelle",
       "name": "Wind Nacelle",
       "title": "SmartCiti.X~ Wind Nacelle VR",
@@ -4661,7 +4742,7 @@
         "name": "Nacelle Certified",
         "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
       },
-      "meshes": 166,
+      "meshes": 167,
       "lights": 0,
       "overBudget": false,
       "index": "52",

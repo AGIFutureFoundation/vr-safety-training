@@ -2131,5 +2131,45 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "digester-gas",
+    "index": "53",
+    "domain": "Wastewater treatment",
+    "trade": "Wastewater plant operator / pipefitter",
+    "category": "Water & Environmental",
+    "certification": "UA / AFSCME — wastewater treatment operator and plant pipefitter; OSHA 29 CFR 1910.146 permit-required confined space; NFPA 820 for the classified area; 1910.147 energy control; NFPA 69 explosion prevention by purging",
+    "name": "Digester Gas",
+    "weather": "fog",
+    "indoor": null,
+    "title": "SmartCiti.X~ Digester Gas VR",
+    "tagline": "Flame arrester change on a live biogas main: classified-area control, nitrogen purge, LEL and H2S proven, no hot work, bonded and re-leak-tested",
+    "accent": 8702998,
+    "accentCss": "#84cc16",
+    "parSeconds": 265,
+    "badge": {
+      "id": "gas-free-proven",
+      "name": "Gas Free Proven",
+      "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
+    },
+    "stepCount": 14,
+    "game": {
+      "system": "Digester Authority",
+      "currency": "SCFM",
+      "ranks": [
+        "Operator I",
+        "Operator II",
+        "Plant Pipefitter",
+        "Shift Supervisor",
+        "Digester Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
