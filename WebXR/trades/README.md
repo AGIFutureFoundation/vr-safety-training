@@ -66,6 +66,11 @@ fails if a tagged crew figure is within 1.05m of anything floor-standing, and
 `tools/crew_spots.mjs` computes the spots that are clear enough to stand in but close enough to
 something to be working at it.
 
+That rule then sat dormant on the other app for fifty stations: it looked for figures in
+`root.children`, which is where a bay puts its crew, but a SmartCiti.X station builds everything
+inside one group — so it found no figures there and passed every one of them without testing
+anything. It walks the tree now. See the SmartCiti.X README for what that turned up.
+
 ## The bays are big enough to walk across
 
 Every room was laid out inside about eight metres, and the learner was clamped to a
@@ -159,11 +164,12 @@ pixel-identically.
 
 ## Interruptions
 
-Two bays carry interruptions — things that happen *to* the learner mid-procedure and have to be
+Three bays carry interruptions — things that happen *to* the learner mid-procedure and have to be
 noticed and answered on their own clock while they are busy with something else. In the Weld Bay
 the fume extraction trips out while you are setting the machine, and the fire blanket slips off
 the conduit run while you are laying the bead. In the Isolation Bay your lock comes off the hasp
-while your eyes are on the meter.
+while your eyes are on the meter. In the Draw Bay the patient goes vasovagal while your eyes are
+on the tube rack, and somebody offers you a pre-labelled tube set to save time.
 
 They are not steps and they do not change the procedure. Catching one is worth more than a step,
 because noticing is the harder thing; missing one counts as an **unsafe action**, because in

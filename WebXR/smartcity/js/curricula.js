@@ -169,7 +169,7 @@ export const CURRICULA = [
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
     certification: "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
-    summary: "Nine procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+    summary: "Fourteen procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
     accent: "#f0645b",
     stations: [
       { app: "trades", id: "electrical", why: "Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again." },
@@ -181,6 +181,11 @@ export const CURRICULA = [
       { app: "smartcity", id: "substation-switching", why: "An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order." },
       { app: "smartcity", id: "airport-ramp", why: "A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks." },
       { app: "smartcity", id: "fire-pump", why: "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow." },
+      { app: "smartcity", id: "tower-climb", why: "A tool you set down creeping toward the platform edge above your ground crew, and the crew themselves walking into the drop zone." },
+      { app: "smartcity", id: "elevator-pit", why: "A hall call registering upstairs while you stand in the runby, and somebody working your lock off the hasp while you are on the car top." },
+      { app: "smartcity", id: "boiler-room", why: "A block valve passing after you proved the isolation, and the building calling for steam while you are inside the firebox." },
+      { app: "smartcity", id: "forklift-dock", why: "The trailer walking off the plate while you are in the box, and a picker stepping into the aisle on the side the load hides." },
+      { app: "trades", id: "phlebotomy", why: "A patient going vasovagal while your eyes are on the tube rack, and a pre-labelled set offered to you as a time-saver." },
     ],
   },
 ];

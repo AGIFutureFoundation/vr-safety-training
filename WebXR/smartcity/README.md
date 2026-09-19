@@ -197,7 +197,7 @@ Indoor stations get none of it — they get their own room's walls as the roam l
 the door instead of mid-floor. AR gets none of it either: the learner's own room is the site,
 and a fence line through their furniture helps nobody.
 
-## Two layout checkers
+## The layout, budget and parse checkers
 
 `tools/check_layout.mjs` asks the question the content checkers never did: not *does this
 control exist*, but *can the learner get to it*. It builds all 59 stations and rooms, resolves a
@@ -209,6 +209,29 @@ That last one is the generic form of a real bug: a dropped positional argument s
 into a position slot, so `0xb9bec4` becomes 12,172,996 metres. It found two — a required target
 in Confined Rescue's sequence step and a D-ring in Microwave Backhaul — both of which had
 registered correctly and passed every other check for months.
+
+It also asks whether the people in the scene are standing anywhere real. That rule was written
+for the trades bays and, for a long time, only ever ran there: it looked for figures among
+`root.children`, and a SmartCiti.X station builds everything inside one group, so it found none
+and passed all fifty stations without testing one of them. Walking the tree instead found
+nineteen figures standing inside equipment — a dock-crane signaller 0.04m from a mesh, a
+scaffold erector at 0.14m.
+
+The threshold differs by app, because the two are not asking the same thing. A metre of
+clearance in an eight-metre bay is a crowding check. A SmartCiti.X station is a two-metre
+working area where standing beside the cabinet is the job, so there the only question is whether
+the figure is intersecting something, which for a body about 0.3m across is anything inside
+0.45m. Two of the nineteen were right as built — a casualty down the hole in Confined Rescue, a
+coworker riding the forks in Forklift Dock — so `standingFigure` takes an `atStation` opt-out for
+a figure whose position against the equipment *is* the content.
+
+`tools/check_parse.mjs` asks the one question the rest of the suite is structurally unable to
+ask: does every shipped module parse. Every other checker loads a simulator by stripping its
+import statements and concatenating what is left, so a malformed import — the one part they
+delete — is invisible to all of them. Two simulators shipped with a doubled comma in their
+import list, threw `SyntaxError` the moment the app lazy-loaded them, and could not be entered
+at all while all sixteen checkers passed. It covers the `dist/` copies too, since those are what
+the browser fetches and a stale copy of a fixed file is a live fault.
 
 `tools/check_budget.mjs` enforces the mesh ceiling that `catalog.json` had only ever reported.
 
@@ -428,10 +451,10 @@ the layer in CI.
 ## Situational Awareness — a programme built on the new dimension
 
 Ten programmes become eleven, and the new one is the first that is not organised around a
-trade. **Situational Awareness — Interruption Drill** is the nine procedures that interrupt you,
-run as a cross-craft refresher block: the Isolation Bay and Weld Bay from Trade Skills, and the
-Trench, Crane Yard, Chlorine Room, Confined Rescue, Substation Switching, Airport Ramp and Fire
-Pump from SmartCiti.X.
+trade. **Situational Awareness — Interruption Drill** is the fourteen procedures that interrupt you,
+run as a cross-craft refresher block: the Isolation Bay, Weld Bay and Draw Bay from Trade Skills,
+and the Trench, Crane Yard, Chlorine Room, Confined Rescue, Substation Switching, Airport Ramp,
+Fire Pump, Tower Climb, Elevator Pit, Boiler Room and Forklift Dock from SmartCiti.X.
 
 Every station in it is one a learner may already know the order of. The block is not testing the
 order. It is testing whether they notice the alarm, the person in the wrong place, or the thing
@@ -475,17 +498,25 @@ and that means it lands on `hazardHits`, which is what the pass rule and the bad
 run can be procedurally perfect and still fail on the alarm it slept through, which is the
 point.
 
-Seventeen are authored across nine procedures: the Weld Bay (extraction trips mid-setup, fire
-blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are testing
-dead), Confined Rescue (the meter alarms while you rig, the attendant leaves the hole during the
-haul), Substation Switching (an unescorted visitor in the yard, control calling with a verbal
-change to the order), the Airport Ramp (a catering truck inbound past an unset equipment line, a
-tug kicks the nose chock before the bridge docks), the Trench (spoil creeping back toward the
-lip above an entrant, the spotter walking off mid-programming), the Crane Yard (somebody cutting
-through the swing radius, an outrigger pad settling with the load up), the Chlorine Room (the
-room monitor alarming during a changeout, the attendant standing in an open door during a leak
-test) and the Fire Pump (hot work opened while the sprinklers are impaired for your test, the
-packing gland going from a drip to a stream).
+Twenty-seven are authored across fourteen procedures: the Weld Bay (extraction trips mid-setup,
+fire blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are
+testing dead), the Draw Bay (the patient goes vasovagal while your eyes are on the tube rack,
+somebody offers you a pre-labelled tube set to save time), Confined Rescue (the meter alarms
+while you rig, the attendant leaves the hole during the haul), Substation Switching (an
+unescorted visitor in the yard, control calling with a verbal change to the order), the Airport
+Ramp (a catering truck inbound past an unset equipment line, a tug kicks the nose chock before
+the bridge docks), the Trench (spoil creeping back toward the lip above an entrant, the spotter
+walking off mid-programming), the Crane Yard (somebody cutting through the swing radius, an
+outrigger pad settling with the load up), the Chlorine Room (the room monitor alarming during a
+changeout, the attendant standing in an open door during a leak test), the Fire Pump (hot work
+opened while the sprinklers are impaired for your test, the packing gland going from a drip to a
+stream), the Tower Climb (an untethered wrench creeping to the platform edge above your ground
+crew, the crew themselves walking into the drop zone), the Elevator Pit (a hall call registering
+while you stand in the runby, somebody working your lock off the hasp while you are on the car
+top), the Boiler Room (the block valve passing after you proved the isolation, the building
+management system calling for steam while you are inside the firebox) and the Forklift Dock (the
+trailer walking off the plate while you are in the box, a picker stepping into the aisle on the
+side the load hides).
 
 **Every one of them visibly changes the world.** The fan stops turning and its lamp goes red;
 the lock is simply gone off the hasp; the spoil is closer to the edge than it was; the swing
