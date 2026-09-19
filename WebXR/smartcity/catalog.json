@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 54
+      "stations": 55
     },
     "trades": {
       "entry": "trades/index.html",
@@ -115,7 +115,8 @@
         "crane-yard",
         "trench-box",
         "scaffold-erection",
-        "concrete-pour"
+        "concrete-pour",
+        "mast-climber"
       ]
     },
     {
@@ -4672,6 +4673,86 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mast-climber",
+      "name": "Mast Climber",
+      "title": "SmartCiti.X~ Mast Climber VR",
+      "tagline": "Adding a mast section and climbing: tie spacing, plumb, rated load and its distribution, overload cut-out proven, emergency descent rehearsed",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction access",
+      "trade": "Mast climber erector / ironworker",
+      "union": null,
+      "certification": "Ironworkers / LIUNA — mast climbing work platform erector; ANSI A92.9 for MCWP design, erection and use; OSHA 29 CFR 1926.451 scaffold general requirements and 1926.502 fall protection",
+      "accent": "#fb923c",
+      "parSeconds": 265,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "mast-certified",
+        "name": "Mast Certified",
+        "note": "A mast section added, tied and plumbed, with the deck loaded inside its distribution chart and the cut-out proven"
+      },
+      "meshes": 259,
+      "lights": 0,
+      "overBudget": false,
+      "index": "55",
+      "flat": false,
+      "system": "Mast Authority",
+      "currency": "TIES",
+      "ranks": [
+        "Apprentice Erector",
+        "Erector",
+        "Lead Erector",
+        "Erection Supervisor",
+        "Mast Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "tied-to-spec",
+          "name": "Tied To Spec",
+          "note": "Tie fitted at the manufacturer's spacing, first time"
+        },
+        {
+          "id": "never-overloaded",
+          "name": "Never Overloaded",
+          "note": "Deck never loaded outside its chart"
+        },
+        {
+          "id": "plumb-true",
+          "name": "Plumb True",
+          "note": "Mast plumbed inside tolerance"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "held-the-bolt",
+          "name": "Held The Bolt",
+          "note": "Held the tie bolt torque the full count"
+        },
+        {
+          "id": "up-before-crew",
+          "name": "Up Before Crew",
+          "note": "Platform ready inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mast-climber"
     },
     {
       "app": "smartcity",
