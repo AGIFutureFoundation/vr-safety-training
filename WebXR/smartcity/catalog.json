@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 58
+      "stations": 59
     },
     "trades": {
       "entry": "trades/index.html",
@@ -118,6 +118,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "post-tension",
         "mast-climber"
       ]
     },
@@ -4733,6 +4734,88 @@
     },
     {
       "app": "smartcity",
+      "id": "post-tension",
+      "name": "Post Tension",
+      "title": "SmartCiti.X~ Post Tension VR",
+      "tagline": "Stressing tendons in a cast-in-place slab: strength proven before transfer, calibrated jack and gauge, both end cones barricaded and nobody behind the ram, force ramped, elongation measured against the record, and nothing cut until the engineer accepts it",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworker — post-tensioning crew",
+      "union": null,
+      "certification": "Ironworkers (IW) reinforcing and post-tensioning crews; PTI Level 1 and Level 2 certification for unbonded post-tensioning field personnel; ACI 318 for the compressive strength the concrete must reach before the tendons are stressed; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction — 1926.701(c) post-tensioning: nobody but the crew essential to the operation behind the jack, and signs and barriers limiting access to the area during tensioning",
+      "accent": "#ef8f4a",
+      "parSeconds": 285,
+      "weather": "clear",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "sequence",
+        "drag",
+        "track",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "tendon-certified",
+        "name": "Tendon Certified",
+        "note": "A tendon stressed with the cone kept empty, the elongation inside tolerance and the tails cut only after acceptance"
+      },
+      "meshes": 253,
+      "lights": 0,
+      "overBudget": false,
+      "index": "58",
+      "flat": false,
+      "system": "Stressing Authority",
+      "currency": "KIP",
+      "ranks": [
+        "Apprentice",
+        "Reinforcing Ironworker",
+        "PT Installer",
+        "Stressing Foreman",
+        "Stressing Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "cone-kept-empty",
+          "name": "Cone Kept Empty",
+          "note": "Nobody ever behind the ram or in line with either end"
+        },
+        {
+          "id": "strength-first",
+          "name": "Strength First",
+          "note": "Stressed on a break result, not on the calendar"
+        },
+        {
+          "id": "elongation-true",
+          "name": "Elongation True",
+          "note": "Measured elongation read inside the tolerance on the record"
+        },
+        {
+          "id": "clean-stress",
+          "name": "Clean Stress",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "held-the-seat",
+          "name": "Held The Seat",
+          "note": "Held the seating pressure the full count"
+        },
+        {
+          "id": "off-the-deck",
+          "name": "Off The Deck",
+          "note": "Tendon stressed, recorded and grouted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=post-tension"
+    },
+    {
+      "app": "smartcity",
       "id": "pyro-cue",
       "name": "Pyro Cue",
       "title": "SmartCiti.X~ Pyro Cue VR",
@@ -4763,7 +4846,7 @@
         "name": "Cue Held",
         "note": "An effect set, tested, armed on the all-clear and fired — and a misfire handled from the panel rather than from the stage"
       },
-      "meshes": 173,
+      "meshes": 172,
       "lights": 0,
       "overBudget": false,
       "index": "61",
