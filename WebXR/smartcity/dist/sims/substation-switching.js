@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, slab, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
-import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, barrierPanel, reg } from "../citykit.js";
+import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, barrierPanel, standingFigure, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Substation Switching VR — Energy & Power, station four.
@@ -67,9 +67,9 @@ export const SIM_SUBSTATION_SWITCHING = {
       kind: "Yard breach",
       after: "test", delay: 5, seconds: 12,
       alert: "Somebody has walked into the yard behind you in a hard hat and a hi-vis and nothing else. They want a word.",
-      cue: "Stop. Nobody stands here in that.",
-      target: "arc-suit",
-      why: "The boundary is not a courtesy. Anyone inside it while a bus is being proved is inside the arc-flash boundary, and a hi-vis vest is fuel.",
+      cue: "Stop. Go to the person and walk them back out of the boundary.",
+      target: "yard-visitor",
+      why: "The boundary is not a courtesy. Anyone inside it while a bus is being proved is inside the arc-flash boundary, and a hi-vis vest is fuel. You do not shout a warning across a yard and carry on — you stop the job and escort them out, because they are the only person here who does not know what they have walked into.",
       missNote: "You carried on testing with an unprotected person standing inside the boundary. If that bus had been live behind the disconnect, the person who did not know what they had walked into would have taken the incident energy with you.",
       wrongNote: "The person in the yard is the hazard right now. Deal with them before anything else on this order.",
     },
@@ -249,6 +249,14 @@ export const SIM_SUBSTATION_SWITCHING = {
     const hood = ball(ppeRack, 0.14, 0, 1.5, 0.2, 0x2f4f8c, { rough: 0.8 });
     holoTag(hood, "hood + gloves", 0, 0.24, 0, { css: "#ffb84d", w: 0.26 });
     reg(hits, hood, "arc-hood");
+    // The unescorted visitor. They stand outside the barrier for the whole
+    // job and walk in during the test step — see the interruption above. The
+    // hard hat and hi-vis are the point: it is the PPE of somebody who
+    // believes they are dressed for this yard.
+    const visitor = standingFigure(g, 2.9, 2.85, { ry: -2.5, cloth: 0x37505f, helmet: 0xf2c14b, vest: 0xe4dc3a });
+    holoTag(visitor, "visitor — hard hat and hi-vis only", 0, 1.95, 0, { css: "#d2312b", w: 0.62 });
+    reg(hits, visitor, "yard-visitor");
+    const visitorHome = visitor.position.clone();
     const noPpe = box(g, 0.4, 0.3, 0.4, 0.9, 0.7, -0.5, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "approach in street clothes?", 0.9, 1.0, -0.5, { css: "#d2312b", w: 0.44 });
     reg(hits, noPpe, "no-arc-ppe");
@@ -276,12 +284,12 @@ export const SIM_SUBSTATION_SWITCHING = {
       // The visitor arrives in the yard and the radio lights up. Both are
       // visible from the switching position. See shared/game.js.
       onInterrupt(it) {
-        if (it.id === "unescorted-visitor") { suit.position.x += 1.8; suit.position.z += 1.1; }
+        if (it.id === "unescorted-visitor") { visitor.position.set(1.15, visitorHome.y, 1.35); visitor.rotation.y = -0.4; }
         if (it.id === "order-changed") { radio.material = mat(0xf2c14b, { emissive: 0xf2c14b, ei: 1.8, rough: 0.5 }); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "unescorted-visitor") { suit.position.x -= 1.8; suit.position.z -= 1.1; }
+        if (it.id === "unescorted-visitor") { visitor.position.copy(visitorHome); visitor.rotation.y = -2.5; }
         if (it.id === "order-changed") { radio.material = mat(0x2b3138, { rough: 0.6, metal: 0.3 }); }
       },
       onStepComplete(step) {

@@ -131,6 +131,12 @@ export const SIM_CHILLER_PLANT = {
       why: "With the circuit fully recovered and pressure at vacuum, the compressor can finally be opened without refrigerant or oil discharge.",
     },
     {
+      id: "unlock", kind: "select", target: "lockout-point",
+      title: "Remove your lock",
+      cue: "Walk the machine, confirm nobody else is in it, then take your lock and tag off the disconnect.",
+      why: "Your lock, your call — it comes off only after you have walked the machine yourself and know whose hands are where. Nothing on this chiller turns again until it is off.",
+    },
+    {
       id: "restore", kind: "select", target: "chiller-hmi",
       title: "Evacuate, recharge and restart",
       cue: "Pull a deep vacuum, recharge to nameplate and restart the chiller.",

@@ -12,8 +12,10 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // Changing a flame arrester on the biogas main of an anaerobic digester. The
 // gas is sixty per cent methane and carries hydrogen sulphide; the line runs
 // at a few inches of water column, so it will not blow the pipe apart, it will
-// simply fill the space around you with something that is explosive, toxic and
-// heavier than air. Nitrogen purge, gas-free proven, hot work never.
+// simply fill the space around you with something that is explosive and toxic.
+// The mixture is marginally lighter than air and warm, so the methane rises and
+// stratifies while the hydrogen sulphide settles low: it has to be sampled at
+// both heights. Nitrogen purge, gas-free proven, hot work never.
 
 const DG_ACCENT = 0x84cc16;
 
@@ -54,7 +56,7 @@ export const SIM_DIGESTER_GAS = {
     "phone-out": "You brought a phone into the classified area. Division 1 means an explosive atmosphere is expected here in normal operation — the phone, the torch and the non-rated meter all stay outside the boundary, because the thing that ignites biogas is not a flame, it is any spark at all.",
     "grinder": "You reached for the grinder to free the flange. Hot work on a biogas main is not something you permit carefully — it is something you do not do. The bolts come off cold, with non-sparking tools, or the line gets gas-freed and certified first.",
     "no-scba": "You opened the flange on air alone. Hydrogen sulphide at the concentrations a digester main carries destroys your sense of smell in seconds and drops you in a couple of breaths — the warning you are relying on stops working before the gas does.",
-    "vent-downwind": "You set the purge vent at grade downwind of the work. Biogas is heavier than air at these temperatures; vented low it pools around the crew's feet and sits there, which is why the vent goes up and away from anywhere anyone stands.",
+    "vent-downwind": "You set the purge vent at grade downwind of the work. A purge discharge at grade puts the whole contents of the main through the breathing zone of everybody standing there — it does not matter that biogas is slightly buoyant, because a few inches of water column pushing it out of a low stack sends it sideways across the crew long before it climbs. The stack goes up and away so the gas has somewhere to go that is not a lung.",
   },
 
   lateNotes: {
@@ -95,7 +97,7 @@ export const SIM_DIGESTER_GAS = {
       id: "vent-set", kind: "drag", target: "purge-vent",
       title: "Set the purge vent high and downwind",
       cue: "Carry the vent stack to the mast and get the discharge above head height, away from the crew.",
-      why: "What comes out of the purge is the whole point. Up and away means it disperses; at grade it pools in the pit you are about to work in, because biogas at digester temperature is heavier than the air around it.",
+      why: "What comes out of the purge is the whole point. Above head height and downwind, it mixes with moving air and is gone. At grade it is released straight into the breathing zone and drifts along the ground into the pit you are about to work in, whatever its density says it should do.",
       drag: { to: "vent-mast", radius: 0.45, missNote: "Not on the mast — at grade and downwind of the pit is exactly where it must not be." },
     },
     {
@@ -108,8 +110,8 @@ export const SIM_DIGESTER_GAS = {
     {
       id: "lel", kind: "gauge", target: "gas-meter",
       title: "Prove it gas-free — LEL",
-      cue: "Sample at the flange and at the bottom of the pit, and commit on the reading.",
-      why: "The reading is taken where the gas would be, which is the bottom of the pit, not at head height. Zero per cent LEL at the lip of a pit means nothing about what is standing in it.",
+      cue: "Sample at the top of the pit, at mid-depth and at the bottom, and commit on the worst reading.",
+      why: "Biogas is about ninety-four per cent the density of air and it leaves the main warm, so the methane rises and collects under the top of the space while the hydrogen sulphide sinks. One reading proves one height. The meter goes down in stages and the number you act on is the worst of them.",
       gauge: { label: "LEL %", speed: 0.75, green: [0.02, 0.14], readout: (t) => `${Math.round(t * 60)} %`, missNote: "Still reading gas — keep purging, and do not put a wrench on that flange." },
     },
     {

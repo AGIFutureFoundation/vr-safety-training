@@ -398,7 +398,7 @@ export const SIMS_META = [
       "name": "Cold Chain Clear",
       "note": "Full isolation and recovery with atmosphere proven safe"
     },
-    "stepCount": 11,
+    "stepCount": 12,
     "interruptCount": 0,
     "game": {
       "system": "Cold Chain Command",
@@ -1015,7 +1015,7 @@ export const SIMS_META = [
       "name": "Curtain Proven",
       "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
     },
-    "stepCount": 11,
+    "stepCount": 12,
     "interruptCount": 2,
     "game": {
       "system": "Bend Authority",
@@ -2040,7 +2040,7 @@ export const SIMS_META = [
       "name": "First Article Good",
       "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
     },
-    "stepCount": 12,
+    "stepCount": 13,
     "interruptCount": 0,
     "game": {
       "system": "Machine Shop",

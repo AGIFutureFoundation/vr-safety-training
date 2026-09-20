@@ -92,12 +92,19 @@ export const SIM_CNC_CELL = {
       gauge: { label: "CLAMP TORQUE", speed: 0.7, green: [0.44, 0.6], readout: (t) => `${Math.round(t * 120)} ft·lb`, missNote: "Off the drawing's torque — a loose part is a projectile and a crushed one is scrap." },
     },
     {
-      id: "tool", kind: "sequence", anyOrder: true,
+      id: "tool", kind: "sequence",
       targets: ["tool-inspect", "tool-load"],
       itemNames: { "tool-inspect": "tool and holder inspected", "tool-load": "tool loaded in the spindle" },
       title: "Inspect and load the tool",
       cue: "Check the insert, the holder and the pull stud, then load the tool into the spindle.",
       why: "A cracked insert or a loose pull stud at spindle speed becomes shrapnel inside a sheet-metal enclosure that was never designed to stop it.",
+      outOfOrderNote: "Inspect first, then load — a cracked insert found after the tool is in the spindle was found one step too late.",
+    },
+    {
+      id: "unlock", kind: "select", target: "spindle-lock",
+      title: "Take your lock off before anything moves",
+      cue: "Get your hands and your tools out of the envelope, then remove your lock and tag.",
+      why: "Your lock, your call — nobody takes it off but you, and it comes off only once the envelope is empty. Everything from the tool setter onwards moves the machine, and none of it happens with a lock hanging on it.",
     },
     {
       id: "offset", kind: "gauge", target: "tool-setter",
