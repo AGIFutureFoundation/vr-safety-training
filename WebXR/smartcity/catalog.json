@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 63
+      "stations": 65
     },
     "trades": {
       "entry": "trades/index.html",
@@ -55,7 +55,8 @@
         "flight-deck",
         "track-access",
         "bus-depot-lift",
-        "airport-ramp"
+        "airport-ramp",
+        "rcl-switching"
       ]
     },
     {
@@ -77,6 +78,7 @@
         "tower-climb",
         "cell-site-battery",
         "microwave-backhaul",
+        "aerial-lashing",
         "data-hall"
       ]
     },
@@ -4738,6 +4740,170 @@
     },
     {
       "app": "smartcity",
+      "id": "aerial-lashing",
+      "name": "Aerial Lashing",
+      "title": "SmartCiti.X~ Aerial Lashing VR",
+      "tagline": "Placing fibre on an existing strand from a bucket over a live road: traffic control first, pole sounded, strand bonded, the supply space kept above you and the sag left where the make-ready put it",
+      "category": "Connectivity & Telecom",
+      "domain": "Telecom",
+      "trade": "Outside plant aerial technician (line and cable placer)",
+      "union": null,
+      "certification": "CWA and IBEW outside-plant locals; OSHA 29 CFR 1910.268 telecommunications; 29 CFR 1926 Subpart V and 1910.269 for the supply space a communications worker is not qualified to enter; ANSI A92 for the vehicle-mounted aerial device; the National Electrical Safety Code for joint-use separations; MUTCD temporary traffic control",
+      "accent": "#3bc9b0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "hold",
+        "sequence",
+        "gauge",
+        "track",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "span-placed",
+        "name": "Span Placed",
+        "note": "A span lashed with the lane closed, the strand bonded and the supply space never entered"
+      },
+      "meshes": 263,
+      "lights": 0,
+      "overBudget": false,
+      "index": "64",
+      "flat": false,
+      "system": "Outside Plant Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Cable Hand",
+        "Aerial Technician",
+        "Line Placer",
+        "OSP Crew Lead",
+        "Outside Plant Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "stayed-low",
+          "name": "Stayed In The Comms Space",
+          "note": "Never let the boom or the body approach the supply conductors"
+        },
+        {
+          "id": "bond-proven",
+          "name": "Bond Proven",
+          "note": "Bonded the strand and proved it before any cable went on it"
+        },
+        {
+          "id": "sag-kept",
+          "name": "Sag Kept",
+          "note": "Paid the reel off inside the tension the make-ready sag allows"
+        },
+        {
+          "id": "clean-span",
+          "name": "Clean Span",
+          "note": "Whole span placed with no corrections"
+        },
+        {
+          "id": "held-the-bond",
+          "name": "Held The Bond",
+          "note": "Held every timed contact for its full count"
+        },
+        {
+          "id": "lane-back",
+          "name": "Lane Back Early",
+          "note": "Bucket stowed and the lane handed back inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=aerial-lashing"
+    },
+    {
+      "app": "smartcity",
+      "id": "rcl-switching",
+      "name": "RCL Switching",
+      "title": "SmartCiti.X~ RCL Switching VR",
+      "tagline": "A remote control shove worked from the ground: point protection on every movement, a blue signal put up and taken down by the one hand it protects, three-step before anybody fouls the equipment, and securement proved by pulling against it",
+      "category": "Mobility & Transit",
+      "domain": "Rail",
+      "trade": "Remote control locomotive operator / switchman",
+      "union": null,
+      "certification": "SMART Transportation Division and BLET — the carrier's remote control locomotive operator certification, over conductor and engineer certification under FRA 49 CFR 242 and 240; 49 CFR 218 Subpart B blue signal protection of workers; 49 CFR 232 brake system standards, including the securement of unattended equipment",
+      "accent": "#4a90e2",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "turn",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "point-protected",
+        "name": "Point Protected",
+        "note": "A cut shoved, coupled, secured and left in the clear with the leading end never once out of sight"
+      },
+      "meshes": 261,
+      "lights": 0,
+      "overBudget": false,
+      "index": "63",
+      "flat": false,
+      "system": "Yard Authority",
+      "currency": "CARS",
+      "ranks": [
+        "Switchman",
+        "RCL Operator",
+        "Yard Foreman",
+        "Yardmaster",
+        "Yard Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "eyes-on-the-point",
+          "name": "Eyes On The Point",
+          "note": "Never let the movement run past what could be seen"
+        },
+        {
+          "id": "blue-is-yours",
+          "name": "Blue Is Yours",
+          "note": "The blue signal went up before anyone went between, and came down by the same hand"
+        },
+        {
+          "id": "speed-true",
+          "name": "Speed True",
+          "note": "Shove speed, coupling speed and the pull test all read inside their bands"
+        },
+        {
+          "id": "clean-list",
+          "name": "Clean List",
+          "note": "Worked the list with no corrections"
+        },
+        {
+          "id": "protection-held",
+          "name": "Protection Held",
+          "note": "Held three-step for the full count, first time"
+        },
+        {
+          "id": "yard-time",
+          "name": "Yard Time",
+          "note": "Cut tied down inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rcl-switching"
+    },
+    {
+      "app": "smartcity",
       "id": "hot-tap",
       "name": "Hot Tap",
       "title": "SmartCiti.X~ Hot Tap VR",
@@ -4769,7 +4935,7 @@
         "name": "Tap Held",
         "note": "A live main tapped and stopped with the pressure test done first, the coupon on the cutter and the section disinfected before it went back"
       },
-      "meshes": 179,
+      "meshes": 188,
       "lights": 0,
       "overBudget": false,
       "index": "66",
