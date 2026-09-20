@@ -184,10 +184,11 @@ export const SIM_TRENCH_BOX = {
       why: "A headcount against the crew list is what confirms the trench is actually empty — not an assumption because the ladder looked clear from the surface.",
     },
     {
-      id: "remove-box", kind: "select", target: "trench-box",
+      id: "remove-box", kind: "drag", target: "trench-box",
       title: "Remove the protective box",
-      cue: "Lift the box clear once the crew is out and the trench is ready to close.",
-      why: "The box comes out only after everyone is confirmed clear of the trench — removing protection with anyone still below grade defeats the entire point of having placed it.",
+      cue: "Lift the box clear of the excavation and set it down on the lay-down mat.",
+      why: "The box comes out only after everyone is confirmed clear of the trench — removing protection with anyone still below grade defeats the entire point of having placed it. It comes out the way it went in, lifted clear and set down where it is not in anybody's road.",
+      drag: { to: "box-laydown", radius: 0.45, missNote: "Not on the mat — a box left half out of the excavation is a hazard to whoever backfills around it." },
     },
     {
       id: "backfill", kind: "select", target: "backfill-panel",
@@ -231,6 +232,15 @@ export const SIM_TRENCH_BOX = {
     // drag step measures against this, never against the box's own footprint.
     const trenchSocket = group(trench, 0, -trenchD / 2 + 0.06, 0);
     hits["trench-socket"] = trenchSocket;
+
+    // Where the box goes when it comes back out. A marked mat rather than the
+    // staging spot it started on: by then the ground it was staged on is part
+    // of the backfill route, which is the reason a lay-down area is marked on
+    // a job in the first place.
+    const layMat = group(trench, -(trenchW / 2 + 0.95), 0.012, 0.35);
+    box(layMat, 1.05, 0.02, 1.9, 0, 0, 0, 0x33404a, { rough: 0.95, cast: false });
+    decal(layMat, 0.95, 0.24, 0, 0.014, -0.55, signFace("LAY-DOWN", { bg: "#1b2a33", accent: "#7ed321", scale: 0.5 }));
+    hits["box-laydown"] = layMat;
 
     // The ladder starts lying on the spoil side where it was dropped off the
     // truck, and gets carried into the box. It used to appear in place when

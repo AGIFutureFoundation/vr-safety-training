@@ -116,10 +116,11 @@ export const SIM_CHARGE_POINT = {
       },
     },
     {
-      id: "swap", kind: "select", target: "power-module",
+      id: "swap", kind: "drag", target: "power-module",
       title: "Withdraw the faulty power module",
-      cue: "Slide the failed module out of the stack.",
-      why: "Modules are hot-swap rated in service, not in fault. With the link proven dead you can handle it without the arc risk.",
+      cue: "Slide the failed module out of the stack and set it on the module cart.",
+      why: "Modules are hot-swap rated in service, not in fault. With the link proven dead you can handle it without the arc risk. It goes straight onto the cart, because a module left on the ground gets stepped on and one left in the van gets fitted to the next job.",
+      drag: { to: "module-cart", radius: 0.45, missNote: "Not on the cart — a failed module put down anywhere else is a module that ends up back in a charger." },
     },
     {
       id: "torque", kind: "gauge", target: "torque-wrench",
@@ -229,6 +230,21 @@ export const SIM_CHARGE_POINT = {
     box(spare, 0.05, 0.02, 0.03, 0.19, 0.08, 0.02, 0xb87333, { rough: 0.35, metal: 0.9 });   // exposed screen
     holoTag(spare, "Spare lead", 0, 0.3, 0, { css: "#f0645b", w: 0.24 });
     reg(hits, spare, "damaged-cable");
+
+    // Somewhere for the failed module to go. A module out of the stack has to
+    // be put down on something, and where it is put down is the difference
+    // between it being scrapped and it being fitted to the next charger.
+    const cart = group(g, -2.05, 0, 0.6, 0.5);
+    box(cart, 0.8, 0.05, 0.5, 0, 0.62, 0, 0x3a4550, { rough: 0.6, metal: 0.4 });
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      cyl(cart, 0.022, 0.022, 0.6, sx * 0.34, 0.31, sz * 0.19, CITY.darkSteel, { rough: 0.5, metal: 0.7, seg: 8 });
+      cyl(cart, 0.05, 0.05, 0.03, sx * 0.34, 0.04, sz * 0.19, 0x15191d, { rough: 0.85, seg: 10 }).rotation.z = Math.PI / 2;
+    }
+    box(cart, 0.04, 0.34, 0.04, -0.38, 0.81, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6 });
+    box(cart, 0.04, 0.04, 0.46, -0.38, 0.98, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6 });
+    decal(cart, 0.5, 0.1, 0.06, 0.651, -0.16, signFace("FAULTY MODULE", { bg: "#2a1a0d", accent: "#f2c14b", scale: 0.5 }));
+    holoTag(cart, "Module cart", 0, 1.16, 0, { css: "#8fa9c4", w: 0.28 });
+    hits["module-cart"] = cart;
 
     // ------------------------------------------------------ supply pillar + LOTO
     const pillar = equipmentCabinet(g, 0.5, 1.15, 0.32, -1.55, 0.35,
