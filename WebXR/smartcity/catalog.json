@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 62
+      "stations": 63
     },
     "trades": {
       "entry": "trades/index.html",
@@ -66,6 +66,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "hot-tap",
         "digester-gas"
       ]
     },
@@ -4734,6 +4735,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hot-tap",
+      "name": "Hot Tap",
+      "title": "SmartCiti.X~ Hot Tap VR",
+      "tagline": "Cutting into a live main: sleeve proven before the valve opens, cutter proven clear before the valve closes, coupon accounted for, and the main disinfected before it serves anybody",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "Pipefitter / water distribution tapping crew",
+      "union": null,
+      "certification": "UA pipefitters and plumbers with LIUNA on the excavation; AWWA C651 disinfecting water mains and the utility's own tapping specification; state water distribution operator certification for the return to service; OSHA 29 CFR 1926 Subpart P excavations for the bell hole; 1926 Subpart O for the equipment working over it",
+      "accent": "#38a3d1",
+      "parSeconds": 300,
+      "weather": "rain",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "gauge",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "tap-held",
+        "name": "Tap Held",
+        "note": "A live main tapped and stopped with the pressure test done first, the coupon on the cutter and the section disinfected before it went back"
+      },
+      "meshes": 179,
+      "lights": 0,
+      "overBudget": false,
+      "index": "66",
+      "flat": false,
+      "system": "Tapping Authority",
+      "currency": "PSI",
+      "ranks": [
+        "Labourer",
+        "Tapping Crew",
+        "Lead Fitter",
+        "Distribution Foreman",
+        "Tapping Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-first",
+          "name": "Proven First",
+          "note": "The sleeve and valve were pressure-tested before the cutter ever turned"
+        },
+        {
+          "id": "coupon-home",
+          "name": "Coupon Home",
+          "note": "The coupon came back on the cutter and was accounted for"
+        },
+        {
+          "id": "read-the-travel",
+          "name": "Read The Travel",
+          "note": "The cutter was proven clear of the gate on the indicator, not by feel"
+        },
+        {
+          "id": "clean-tap",
+          "name": "Clean Tap",
+          "note": "No corrections from the locate to the sample"
+        },
+        {
+          "id": "steady-feed",
+          "name": "Steady Feed",
+          "note": "Held the feed rate through the whole cut"
+        },
+        {
+          "id": "street-back",
+          "name": "Street Back",
+          "note": "Section stopped and the hole handed over inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hot-tap"
     },
     {
       "app": "smartcity",

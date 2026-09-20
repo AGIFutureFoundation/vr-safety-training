@@ -2593,5 +2593,46 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hot-tap",
+    "index": "66",
+    "domain": "Water",
+    "trade": "Pipefitter / water distribution tapping crew",
+    "category": "Water & Environmental",
+    "certification": "UA pipefitters and plumbers with LIUNA on the excavation; AWWA C651 disinfecting water mains and the utility's own tapping specification; state water distribution operator certification for the return to service; OSHA 29 CFR 1926 Subpart P excavations for the bell hole; 1926 Subpart O for the equipment working over it",
+    "name": "Hot Tap",
+    "weather": "rain",
+    "indoor": null,
+    "title": "SmartCiti.X~ Hot Tap VR",
+    "tagline": "Cutting into a live main: sleeve proven before the valve opens, cutter proven clear before the valve closes, coupon accounted for, and the main disinfected before it serves anybody",
+    "accent": 3711953,
+    "accentCss": "#38a3d1",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tap-held",
+      "name": "Tap Held",
+      "note": "A live main tapped and stopped with the pressure test done first, the coupon on the cutter and the section disinfected before it went back"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tapping Authority",
+      "currency": "PSI",
+      "ranks": [
+        "Labourer",
+        "Tapping Crew",
+        "Lead Fitter",
+        "Distribution Foreman",
+        "Tapping Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
