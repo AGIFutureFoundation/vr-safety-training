@@ -27,15 +27,23 @@ const FLOOR_SLACK = -2.4;
 const city = await loadSmartCity();
 const trades = await loadTrades();
 
-// The stub's getWorldPosition only reports local position. Groups in this
-// codebase translate and rotate about y, so accumulate that up the parents.
+// The stub's getWorldPosition only reports local position, so the transform is
+// accumulated up the parents here. It used to handle rotation about y only,
+// which is most of what this codebase does — but a pitched arm, a leaning
+// ladder or a tipped panel is rotated about x or z, and everything hanging off
+// it was being reported at the wrong place. Full scale-then-rotate-then-
+// translate now, in three.js's own default Euler order: R = RX * RY * RZ, so
+// the vector is turned about z first, then y, then x.
 function worldPos(obj) {
   let x = 0, y = 0, z = 0;
   for (let n = obj; n; n = n.parent) {
-    const ry = n.rotation?.y ?? 0;
-    if (ry) {
-      const c = Math.cos(ry), s = Math.sin(ry);
-      [x, z] = [x * c + z * s, -x * s + z * c];
+    const sc = n.scale;
+    if (sc) { x *= sc.x ?? 1; y *= sc.y ?? 1; z *= sc.z ?? 1; }
+    const r = n.rotation;
+    if (r) {
+      if (r.z) { const c = Math.cos(r.z), s = Math.sin(r.z); [x, y] = [x * c - y * s, x * s + y * c]; }
+      if (r.y) { const c = Math.cos(r.y), s = Math.sin(r.y); [x, z] = [x * c + z * s, -x * s + z * c]; }
+      if (r.x) { const c = Math.cos(r.x), s = Math.sin(r.x); [y, z] = [y * c - z * s, y * s + z * c]; }
     }
     x += n.position?.x ?? 0; y += n.position?.y ?? 0; z += n.position?.z ?? 0;
   }
