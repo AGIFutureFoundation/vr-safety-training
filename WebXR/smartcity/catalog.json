@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 69
+      "stations": 70
     },
     "trades": {
       "entry": "trades/index.html",
@@ -145,6 +145,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "pilot-transfer",
         "shipyard-hotwork"
       ]
     },
@@ -4741,6 +4742,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "pilot-transfer",
+      "name": "Pilot Transfer",
+      "title": "SmartCiti.X~ Pilot Transfer VR",
+      "tagline": "Rigging a pilot ladder at sea: certificate and inspection before it goes over the side, the arrangement to the approved drawing, lifebuoy and light and heaving line at the point of transfer first, combination secured to itself, officer in attendance with the bridge, and the ship's lee held",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Deck officer / able seafarer — pilot transfer party",
+      "union": null,
+      "certification": "IOMM&P — International Organization of Masters, Mates & Pilots; ILA / IBU where the boat's crew are covered; SOLAS Chapter V regulation 23 (pilot transfer arrangements); IMO Assembly Resolution A.1045(27) as amended, pilot transfer arrangements; ISO 799 pilot ladders and the manufacturer's certificate; the flag State's requirements and the ship's own SMS procedure for pilot transfer under the ISM Code",
+      "accent": "#ffd166",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "ladder-fit-to-climb",
+        "name": "Fit To Climb",
+        "note": "A pilot ladder rigged to the drawing on a certified ladder, attended from the moment it went over the side"
+      },
+      "meshes": 256,
+      "lights": 0,
+      "overBudget": false,
+      "index": "67",
+      "flat": false,
+      "system": "Deck Department",
+      "currency": "FATHOM",
+      "ranks": [
+        "Ordinary Seafarer",
+        "Able Seafarer",
+        "Third Officer",
+        "Chief Officer",
+        "Deck Department Certified"
+      ],
+      "awards": [
+        {
+          "id": "condemned-it",
+          "name": "Condemned It",
+          "note": "Found every fault in the ladder before it went over the side"
+        },
+        {
+          "id": "never-unattended",
+          "name": "Never Unattended",
+          "note": "The ladder was never over the side without somebody on it"
+        },
+        {
+          "id": "to-the-request",
+          "name": "To The Request",
+          "note": "Ladder height and ship's speed both inside what the pilot asked for"
+        },
+        {
+          "id": "clean-transfer",
+          "name": "Clean Transfer",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "report-held",
+          "name": "Report Held",
+          "note": "Held the transmit key through the whole report to the bridge"
+        },
+        {
+          "id": "boat-away",
+          "name": "Boat Away",
+          "note": "Pilot on the bridge inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pilot-transfer"
     },
     {
       "app": "smartcity",

@@ -158,6 +158,18 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // planar UVs make a repeating texture read as a real slab grid), with a
   // deck-plate walk ring around the perimeter so the edge reads as a
   // different material rather than the same colour to the horizon.
+  //
+  // NOTE FOR STATION AUTHORS: this disc is solid, 15m in radius, and occupies
+  // y from -0.30 to 0. Anything a station builds below that is under a slab
+  // and cannot be seen — though it can still be clicked, because picking
+  // raycasts against state.selectables rather than the scene, so no checker
+  // and no scripted drive will ever tell you. The stations with below-grade
+  // content that read correctly (trench-box, valve-vault, hot-tap) all do the
+  // same thing: raise a local pad or apron above the deck and cut the
+  // excavation into that, so the hole has a visible rim. A station with
+  // nothing to raise — a ship's side, a quay — builds its outboard
+  // arrangement above plaza level instead and accepts the compressed
+  // freeboard. Either way, look at a spawn screenshot before you believe it.
   const pavingTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4 }), { repeat: 7, px: 512 });
   const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 64 });
   deck.material = texturedMat(pavingTex, { rough: 0.9, metal: 0.04, color: 0xd8dde3 });
