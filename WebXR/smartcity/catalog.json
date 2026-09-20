@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 56
+      "stations": 57
     },
     "trades": {
       "entry": "trades/index.html",
@@ -106,7 +106,8 @@
         "boiler-room",
         "elevator-pit",
         "fire-pump",
-        "cooling-tower"
+        "cooling-tower",
+        "ammonia-plant"
       ]
     },
     {
@@ -4728,6 +4729,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ammonia-plant",
+      "name": "Ammonia Plant",
+      "title": "SmartCiti.X~ Ammonia Plant VR",
+      "tagline": "Detection alarm on an arena ice plant: everything decided at the outside panel first, entry on air, circuit pumped down and locked, seal changed, discharge open before suction on the way back",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Industrial refrigeration operator / refrigeration fitter",
+      "union": null,
+      "certification": "RETA CARO / CIRO industrial refrigeration operator; UA refrigeration service technicians and IUOE stationary engineers; IIAR 6 inspection, testing and maintenance and IIAR 2 machinery-room provisions; ASHRAE 15 refrigeration machinery rooms; OSHA 29 CFR 1910.119 process safety management where the charge is 10,000 lb or more; 1910.147 lockout/tagout; 1910.134 respiratory protection",
+      "accent": "#38bdf8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "steps": 16,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "drag",
+        "gauge",
+        "sequence",
+        "find",
+        "track"
+      ],
+      "badge": {
+        "id": "room-held",
+        "name": "Room Held",
+        "note": "An ammonia alarm worked from the outside in: ventilation first, entry on air, circuit pumped down and returned in the right order"
+      },
+      "meshes": 217,
+      "lights": 0,
+      "overBudget": false,
+      "index": "60",
+      "flat": false,
+      "system": "Refrigeration Authority",
+      "currency": "PSIG",
+      "ranks": [
+        "Plant Attendant",
+        "Refrigeration Operator",
+        "Lead Operator",
+        "Chief Engineer",
+        "Refrigeration Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "outside-first",
+          "name": "Outside First",
+          "note": "Ventilation started and the room read from the emergency control station before the door was touched"
+        },
+        {
+          "id": "no-water",
+          "name": "No Water On It",
+          "note": "Never played a hose onto liquid ammonia, never propped the door, never entered an alarmed room without air"
+        },
+        {
+          "id": "stopped-short",
+          "name": "Stopped Short Of Vacuum",
+          "note": "Pumped the low side down and stopped above atmospheric"
+        },
+        {
+          "id": "clean-plant",
+          "name": "Clean Plant",
+          "note": "No corrections through the whole callout"
+        },
+        {
+          "id": "held-the-rate",
+          "name": "Held The Rate",
+          "note": "Held the pump-down rate steady the whole way"
+        },
+        {
+          "id": "ice-back",
+          "name": "Ice Back On",
+          "note": "Plant back on line inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ammonia-plant"
     },
     {
       "app": "smartcity",
