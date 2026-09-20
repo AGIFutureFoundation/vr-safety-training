@@ -2388,5 +2388,46 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "pyro-cue",
+    "index": "61",
+    "domain": "Live events",
+    "trade": "Pyrotechnic operator / stage technician",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE stage locals; NFPA 1126 use of pyrotechnics before a proximate audience; ATF licensing for the acquisition and storage of explosive materials; state or provincial pyrotechnic operator licensing, which varies by jurisdiction; the permit and inspection of the authority having jurisdiction for this venue and this show",
+    "name": "Pyro Cue",
+    "weather": "clear",
+    "indoor": null,
+    "title": "SmartCiti.X~ Pyro Cue VR",
+    "tagline": "A proximate effect set and fired: permit and fallout zone first, device loaded last, line shunted until the panel tests it, armed only on the all-clear, and a misfire nobody walks up to",
+    "accent": 16742972,
+    "accentCss": "#ff7a3c",
+    "parSeconds": 280,
+    "badge": {
+      "id": "cue-held",
+      "name": "Cue Held",
+      "note": "An effect set, tested, armed on the all-clear and fired — and a misfire handled from the panel rather than from the stage"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Firing Authority",
+      "currency": "CUE",
+      "ranks": [
+        "Deck Hand",
+        "Pyro Assistant",
+        "Pyrotechnic Operator",
+        "Effects Lead",
+        "Firing Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

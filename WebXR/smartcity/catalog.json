@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 57
+      "stations": 58
     },
     "trades": {
       "entry": "trades/index.html",
@@ -127,7 +127,8 @@
         "rigging-loft",
         "stage-power",
         "chain-hoist",
-        "fly-system"
+        "fly-system",
+        "pyro-cue"
       ]
     },
     {
@@ -4732,6 +4733,87 @@
     },
     {
       "app": "smartcity",
+      "id": "pyro-cue",
+      "name": "Pyro Cue",
+      "title": "SmartCiti.X~ Pyro Cue VR",
+      "tagline": "A proximate effect set and fired: permit and fallout zone first, device loaded last, line shunted until the panel tests it, armed only on the all-clear, and a misfire nobody walks up to",
+      "category": "Entertainment & Live Events",
+      "domain": "Live events",
+      "trade": "Pyrotechnic operator / stage technician",
+      "union": null,
+      "certification": "IATSE stage locals; NFPA 1126 use of pyrotechnics before a proximate audience; ATF licensing for the acquisition and storage of explosive materials; state or provincial pyrotechnic operator licensing, which varies by jurisdiction; the permit and inspection of the authority having jurisdiction for this venue and this show",
+      "accent": "#ff7a3c",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "drag",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "cue-held",
+        "name": "Cue Held",
+        "note": "An effect set, tested, armed on the all-clear and fired — and a misfire handled from the panel rather than from the stage"
+      },
+      "meshes": 173,
+      "lights": 0,
+      "overBudget": false,
+      "index": "61",
+      "flat": false,
+      "system": "Firing Authority",
+      "currency": "CUE",
+      "ranks": [
+        "Deck Hand",
+        "Pyro Assistant",
+        "Pyrotechnic Operator",
+        "Effects Lead",
+        "Firing Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "key-in-pocket",
+          "name": "Key In Pocket",
+          "note": "The firing key never sat in an unattended panel"
+        },
+        {
+          "id": "nobody-walked-up",
+          "name": "Nobody Walked Up",
+          "note": "Never approached a device on a live circuit, never fired on an unwalked zone"
+        },
+        {
+          "id": "measured-not-guessed",
+          "name": "Measured, Not Guessed",
+          "note": "Fallout distance measured to the device's rating rather than eyeballed"
+        },
+        {
+          "id": "clean-cue",
+          "name": "Clean Cue",
+          "note": "No corrections from load-in to load-out"
+        },
+        {
+          "id": "held-the-watch",
+          "name": "Held The Watch",
+          "note": "Stood the full fire watch after the effect"
+        },
+        {
+          "id": "before-doors",
+          "name": "Before Doors",
+          "note": "Set and proven inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pyro-cue"
+    },
+    {
+      "app": "smartcity",
       "id": "ammonia-plant",
       "name": "Ammonia Plant",
       "title": "SmartCiti.X~ Ammonia Plant VR",
@@ -4762,7 +4844,7 @@
         "name": "Room Held",
         "note": "An ammonia alarm worked from the outside in: ventilation first, entry on air, circuit pumped down and returned in the right order"
       },
-      "meshes": 217,
+      "meshes": 221,
       "lights": 0,
       "overBudget": false,
       "index": "60",
