@@ -2757,5 +2757,46 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "tank-lining",
+    "index": "70",
+    "domain": "Coatings",
+    "trade": "Industrial painter / protective coatings applicator",
+    "category": "Surface Prep & Coatings",
+    "certification": "IUPAT industrial painters and the bridge and tank locals; AMPP (formerly SSPC and NACE) applicator and coating inspector qualification, with the surface preparation standard the specification names; NSF/ANSI 61 certification for a coating in contact with drinking water; AWWA C652 disinfection of water-storage facilities before return to service; OSHA 29 CFR 1910.146 permit-required confined spaces, 1910.134 for the supplied-air respirator and its breathing-air quality, and 1926.1153 respirable crystalline silica",
+    "name": "Tank Lining",
+    "weather": "overcast",
+    "indoor": null,
+    "title": "SmartCiti.X~ Tank Lining VR",
+    "tagline": "Blasting and lining a potable water tank: breathing air proven before the hood goes on, profile and dew point measured before the first coat, film thickness held, holidays found, and the tank disinfected before it holds water again",
+    "accent": 6205636,
+    "accentCss": "#5eb0c4",
+    "parSeconds": 300,
+    "badge": {
+      "id": "lining-held",
+      "name": "Lining Held",
+      "note": "A tank lined on measured numbers — breathing air, profile, dew point, film thickness and a holiday test — and disinfected before it went back"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Coatings Authority",
+      "currency": "MIL",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Applicator",
+        "Coatings Foreman",
+        "Coatings Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

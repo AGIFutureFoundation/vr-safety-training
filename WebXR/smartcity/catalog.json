@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 66
+      "stations": 67
     },
     "trades": {
       "entry": "trades/index.html",
@@ -158,6 +158,14 @@
       ]
     },
     {
+      "name": "Surface Prep & Coatings",
+      "stations": [
+        "tank-lining",
+        "pressure-washer",
+        "paint-sprayer"
+      ]
+    },
+    {
       "name": "Trade Skills Simulator",
       "stations": [
         "electrical",
@@ -167,13 +175,6 @@
         "welding",
         "devops",
         "plumbing"
-      ]
-    },
-    {
-      "name": "Surface Prep & Coatings",
-      "stations": [
-        "pressure-washer",
-        "paint-sprayer"
       ]
     }
   ],
@@ -4738,6 +4739,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "tank-lining",
+      "name": "Tank Lining",
+      "title": "SmartCiti.X~ Tank Lining VR",
+      "tagline": "Blasting and lining a potable water tank: breathing air proven before the hood goes on, profile and dew point measured before the first coat, film thickness held, holidays found, and the tank disinfected before it holds water again",
+      "category": "Surface Prep & Coatings",
+      "domain": "Coatings",
+      "trade": "Industrial painter / protective coatings applicator",
+      "union": null,
+      "certification": "IUPAT industrial painters and the bridge and tank locals; AMPP (formerly SSPC and NACE) applicator and coating inspector qualification, with the surface preparation standard the specification names; NSF/ANSI 61 certification for a coating in contact with drinking water; AWWA C652 disinfection of water-storage facilities before return to service; OSHA 29 CFR 1910.146 permit-required confined spaces, 1910.134 for the supplied-air respirator and its breathing-air quality, and 1926.1153 respirable crystalline silica",
+      "accent": "#5eb0c4",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "lining-held",
+        "name": "Lining Held",
+        "note": "A tank lined on measured numbers — breathing air, profile, dew point, film thickness and a holiday test — and disinfected before it went back"
+      },
+      "meshes": 211,
+      "lights": 0,
+      "overBudget": false,
+      "index": "70",
+      "flat": false,
+      "system": "Coatings Authority",
+      "currency": "MIL",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Applicator",
+        "Coatings Foreman",
+        "Coatings Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "air-proven",
+          "name": "Air Proven",
+          "note": "The breathing air was sited and monitored before anybody put a hood on"
+        },
+        {
+          "id": "nothing-guessed",
+          "name": "Nothing Guessed",
+          "note": "Never coated below the dew point rule, never blasted with silica, never took an unrated light in"
+        },
+        {
+          "id": "film-held",
+          "name": "Film Held",
+          "note": "Wet film inside the specified range across the whole application"
+        },
+        {
+          "id": "clean-tank",
+          "name": "Clean Tank",
+          "note": "No corrections from the permit to the sample"
+        },
+        {
+          "id": "steady-gun",
+          "name": "Steady Gun",
+          "note": "Held the application rate through the whole pass"
+        },
+        {
+          "id": "inside-window",
+          "name": "Inside The Window",
+          "note": "Coated and closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tank-lining"
     },
     {
       "app": "smartcity",
