@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 55
+      "stations": 56
     },
     "trades": {
       "entry": "trades/index.html",
@@ -85,7 +85,8 @@
         "triage-point",
         "decon-line",
         "aerial-ladder",
-        "confined-rescue"
+        "confined-rescue",
+        "hazmat-entry"
       ]
     },
     {
@@ -4723,6 +4724,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hazmat-entry",
+      "name": "Hazmat Entry",
+      "title": "SmartCiti.X~ Hazmat Entry VR",
+      "tagline": "Level A entry on air: zones set, suit checked and pressure-tested, buddy and backup in place, air managed to the rule of thirds, out through decon",
+      "category": "Emergency Services",
+      "domain": "Emergency response",
+      "trade": "Hazardous materials technician",
+      "union": null,
+      "certification": "IAFF / IAEP — hazardous materials technician; OSHA 29 CFR 1910.120(q) HAZWOPER emergency response; NFPA 472/1072 competencies; 1910.134 respiratory protection for the SCBA",
+      "accent": "#fbbf24",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "entry-certified",
+        "name": "Entry Certified",
+        "note": "A Level A entry made and reversed with the air managed, the buddy kept and the decon line walked"
+      },
+      "meshes": 229,
+      "lights": 0,
+      "overBudget": false,
+      "index": "56",
+      "flat": false,
+      "system": "Entry Authority",
+      "currency": "PSI",
+      "ranks": [
+        "Operations",
+        "Technician",
+        "Entry Team Lead",
+        "Hazmat Officer",
+        "Entry Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "air-managed",
+          "name": "Air Managed",
+          "note": "Turned around on the rule of thirds, not on the low-air alarm"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone",
+          "note": "Never separated from the buddy or entered without backup"
+        },
+        {
+          "id": "suit-tight",
+          "name": "Suit Tight",
+          "note": "Suit pressure-tested inside the acceptance band"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Entry",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "held-the-test",
+          "name": "Held The Test",
+          "note": "Held the suit pressure test the full count"
+        },
+        {
+          "id": "out-on-time",
+          "name": "Out On Time",
+          "note": "Back through decon inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hazmat-entry"
     },
     {
       "app": "smartcity",
