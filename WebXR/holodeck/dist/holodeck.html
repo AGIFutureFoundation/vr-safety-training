@@ -3882,7 +3882,7 @@ const ROLES = {
     // of them is by definition not performed by them. Only posts belong here.
     // The coworker trying to climb in is a person in the scene but not a post,
     // so stopping them stays the attendant's own duty.
-    posts: /^(attendant|tender-station|spotter|badge-attendant|badge-supervisor|outside-operator|floor-watch|ground-crew)$/,
+    posts: /^(attendant|tender-station|spotter|badge-attendant|badge-supervisor|outside-operator|floor-watch|ground-crew|observer|observer-post)$/,
   },
   entrant: {
     id: "entrant", name: "Entrant", pair: "permit-space", counterpart: "attendant",
@@ -3936,7 +3936,7 @@ const ROLES = {
 const PAIRS = [
   {
     id: "permit-space", name: "Permit space", roles: ["attendant", "entrant"],
-    evidence: "ids", test: /^(attendant|tender-station|spotter|badge-attendant|outside-operator|floor-watch)$/,
+    evidence: "ids", test: /^(attendant|tender-station|spotter|badge-attendant|outside-operator|floor-watch|observer|observer-post)$/,
     signals: {
       attendant: [
         /\bpermit\b|\bwork order\b|\bsize ?-?up\b/,
