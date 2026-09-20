@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 67
+      "stations": 68
     },
     "trades": {
       "entry": "trades/index.html",
@@ -134,6 +134,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "arena-rigging",
         "pyro-cue"
       ]
     },
@@ -4742,6 +4743,88 @@
     },
     {
       "app": "smartcity",
+      "id": "arena-rigging",
+      "name": "Arena Rigging",
+      "title": "SmartCiti.X~ Arena Rigging VR",
+      "tagline": "Setting a point in the roof steel: the point called and confirmed both ways, the bridle worked out on the plot, the beam checked against the grid drawing, the floor cleared and watched, tied off to structure the whole time",
+      "category": "Entertainment & Live Events",
+      "domain": "Live events",
+      "trade": "Arena rigger — up-rigger / down-rigger",
+      "union": null,
+      "certification": "IATSE stage locals — ETCP Certified Rigger (Arena); the ESTA E1 series for entertainment rigging practice; OSHA 29 CFR 1926 Subpart M fall protection; the venue's rigging grid drawing and the production's rigging plot as the governing documents",
+      "accent": "#22d3ee",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": "theatre",
+      "steps": 14,
+      "hazards": 5,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "point-set",
+        "name": "Point Set",
+        "note": "One point found, calculated, hung and tagged — over a floor nobody was standing on"
+      },
+      "meshes": 274,
+      "lights": 0,
+      "overBudget": false,
+      "index": "69",
+      "flat": false,
+      "system": "High Steel Authority",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Rigger",
+        "Down-Rigger",
+        "Up-Rigger",
+        "Head Rigger",
+        "High Steel Certified"
+      ],
+      "awards": [
+        {
+          "id": "called-and-confirmed",
+          "name": "Called And Confirmed",
+          "note": "Point called off the plot, counted in the steel and confirmed back before anything was hung"
+        },
+        {
+          "id": "nothing-underneath",
+          "name": "Nothing Underneath",
+          "note": "Never dropped anything and never worked over an open floor"
+        },
+        {
+          "id": "arithmetic-not-feeling",
+          "name": "Arithmetic, Not Feeling",
+          "note": "Leg tension and beam side pull both read inside the plot's figures"
+        },
+        {
+          "id": "clean-point",
+          "name": "Clean Point",
+          "note": "The whole point set with no corrections"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every line held for its full count"
+        },
+        {
+          "id": "ahead-of-the-call",
+          "name": "Ahead Of The Call",
+          "note": "Point set and tagged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=arena-rigging"
+    },
+    {
+      "app": "smartcity",
       "id": "tank-lining",
       "name": "Tank Lining",
       "title": "SmartCiti.X~ Tank Lining VR",
@@ -4772,7 +4855,7 @@
         "name": "Lining Held",
         "note": "A tank lined on measured numbers — breathing air, profile, dew point, film thickness and a holiday test — and disinfected before it went back"
       },
-      "meshes": 211,
+      "meshes": 226,
       "lights": 0,
       "overBudget": false,
       "index": "70",
