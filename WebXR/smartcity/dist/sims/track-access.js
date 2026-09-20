@@ -56,6 +56,35 @@ export const SIM_TRACK_ACCESS = {
     "track-gauge": "Track geometry is measured after possession is secured, never while trains could still be moving.",
   },
 
+  // Interruptions: see shared/game.js. On the track, neither of the two things
+  // keeping you alive is a thing you own — the current is off because somebody
+  // else has not closed it, and the line is watched because somebody else is
+  // still watching it.
+  interrupts: [
+    {
+      id: "section-relit",
+      kind: "Section re-energised",
+      after: "clamp", delay: 4, seconds: 12,
+      alert: "The isolator lamp has gone back to red. Traction current is in this section again and your hands are on the bonding clamp.",
+      cue: "Your lever is still off. The current did not come from your lever.",
+      target: "signaller-radio",
+      why: "An isolation is a shared state, not a switch position. Your isolator is one end of a section that can be fed from the other, and the only thing holding the far end open is the signaller knowing there are people between your boards. So when the current comes back with your own lever still off, the answer is not the lever — it is the one voice that can reach whoever closed it. You call, you say where your people are, and nothing touches that rail again until the far end is confirmed open and your own tester says so.",
+      missNote: "You carried on bonding a joint on a re-energised conductor rail. Seven hundred volts DC needs no arc and gives no warning: it is a contact injury, at the hand already on the clamp, and the lookout is the only person who would have seen it happen.",
+      wrongNote: "That is not what gets the current off. Your own isolator is already open — this one has to go to the signaller.",
+    },
+    {
+      id: "lookout-adrift",
+      kind: "Protection lapsed",
+      after: "gauge", delay: 4, seconds: 12,
+      alert: "Your lookout has turned away and started walking up the cess. Nobody is watching the line and you are kneeling between the rails with a gauge in both hands.",
+      cue: "Protection here is a person, and the person has stopped doing it.",
+      target: "lookout-worker",
+      why: "A lookout is not a formality standing near the job — they are the arrangement under which one person is permitted to face away from the line at all. The sighting distance on the briefing sheet is worked back from line speed so that a warning arrives with enough seconds in it to stand, turn and get clear, and every one of those seconds assumes somebody is looking. The moment the protection lapses the work stops. You do not finish the measurement first, because the measurement is exactly how long you would not have seen the train.",
+      missNote: "You finished the gauge measurement with nobody watching the line. In fog, kneeling inside the four foot, every part of that job was resting on a warning that was not coming, and the first thing that would have told you is the one that arrives far too late to use.",
+      wrongNote: "That is not what protects you out here. Stop, and get the lookout back on the line before another reading is taken.",
+    },
+  ],
+
   steps: [
     {
       id: "briefing", kind: "select", target: "briefing-board",
@@ -271,6 +300,28 @@ export const SIM_TRACK_ACCESS = {
     return {
       hits,
       footprint: 2.1,
+
+      // What the worker would actually see from the four foot: the isolator
+      // lamp back on red, or their lookout walking away. See the interrupts
+      // block above.
+      onInterrupt(it) {
+        if (it.id === "section-relit") {
+          currentOn = true;
+          isoLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.4 });
+          repaint(radioScreen, signFace("SECTION\nLIVE", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.3 }));
+        }
+        if (it.id === "lookout-adrift") { lookout.position.set(2.78, 0, 2.2); lookout.rotation.y = 1.15; }
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "section-relit") {
+          currentOn = false;
+          isoLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.4 });
+          repaint(radioScreen, signFace("POSSESSION\nGRANTED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
+        }
+        if (it.id === "lookout-adrift") { lookout.position.set(2.3, 0, 1.5); lookout.rotation.y = -1.5; }
+      },
 
       onStepComplete(step) {
         if (step.id === "possession") repaint(radioScreen, signFace("POSSESSION\nGRANTED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));

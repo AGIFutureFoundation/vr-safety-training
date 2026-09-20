@@ -71,7 +71,7 @@ export const SIMS_META = [
       "note": "Zone, flash, repair and restore with nothing defeated"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Intersection Command",
       "currency": "SIGNAL",
@@ -153,7 +153,7 @@ export const SIMS_META = [
       "note": "Anchored, isolated and commissioned with no shortcut"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Rooftop Authority",
       "currency": "SOLAR",
@@ -194,7 +194,7 @@ export const SIMS_META = [
       "note": "Dark fibre proven, splice inside budget"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Photon Guild",
       "currency": "PHOTON",
@@ -276,7 +276,7 @@ export const SIMS_META = [
       "note": "Full possession taken and handed back with nothing skipped"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Right-of-Way",
       "currency": "TRACK",
@@ -358,7 +358,7 @@ export const SIMS_META = [
       "note": "Full lockout with the light curtain never defeated"
     },
     "stepCount": 14,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Cell Lockout",
       "currency": "CELL",
@@ -399,7 +399,7 @@ export const SIMS_META = [
       "note": "Full isolation and recovery with atmosphere proven safe"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Cold Chain Command",
       "currency": "COLD",

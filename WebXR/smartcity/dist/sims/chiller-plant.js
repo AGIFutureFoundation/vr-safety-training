@@ -55,6 +55,34 @@ export const SIM_CHILLER_PLANT = {
     "gauge-manifold": "The manifold goes on after lockout, not as a way to check whether lockout is needed.",
   },
 
+  // Interruptions: see shared/game.js. Everything dangerous in this room is
+  // invisible, so both of these are the room or the rig telling you something
+  // your own senses never will.
+  interrupts: [
+    {
+      id: "hose-weeping",
+      kind: "Recovery leak",
+      after: "recover", delay: 4, seconds: 12,
+      alert: "The recovery hose has pulled taut across the floor and the coupler at the machine end is frosting over. Something is coming out of it.",
+      cue: "Frost on a fitting means refrigerant is leaving the circuit.",
+      target: "recovery-hose",
+      why: "A recovery rig leaks at its couplers, because those are the parts that get connected and broken a hundred times a year, dragged across a plant-room floor and cracked open under residual pressure. Frost is the tell: liquid flashing off pulls the heat out of the brass and writes you a sign you can see from across the room. What is leaving is R-134a — heavier than air, silent, odourless — and it is heading for the low points of a room with no natural ventilation, where you are standing.",
+      missNote: "The coupler wept for the rest of the recovery. That is charge you were sent here to capture going to atmosphere instead: a reportable release under the refrigerant rules, and a slowly falling oxygen level in a plant room whose only warning is a monitor on the far wall.",
+      wrongNote: "That is not where it is going. The leak is at the recovery hose, and the machine does not run another minute until it is dealt with.",
+    },
+    {
+      id: "o2-alarm",
+      kind: "Atmosphere alarm",
+      after: "repair", delay: 4, seconds: 12,
+      alert: "The fixed oxygen monitor on the far wall has gone to alarm. Its lamp is red, and you are head-down in an open compressor with a valve plate in your hand.",
+      cue: "The room is telling you something you cannot feel.",
+      target: "oxygen-monitor",
+      why: "A circuit pulled to vacuum is not an empty circuit. R-134a dissolves into the compressor oil and comes back out of it the moment the housing is opened to atmosphere, and there is nothing to smell and nothing to see. The first symptom of an oxygen-deficient atmosphere is the loss of exactly the judgement you would need to notice it, which is what the fixed head on that wall is for: the decision to stay or to go is made on the number it is showing, by walking over and reading it, not on how you feel bent over a machine.",
+      missNote: "You went on working at floor level with the room's only warning device in alarm. Refrigerant pools low and you were kneeling in it; oxygen deficiency does not warn you before it drops you, and there is nobody else in this plant room to notice that you have gone quiet.",
+      wrongNote: "That is not what is telling you. The fixed head on the wall has the number on it, and the number is what decides whether anybody stays in this room.",
+    },
+  ],
+
   steps: [
     {
       id: "workorder", kind: "select", target: "work-order",
@@ -231,8 +259,8 @@ export const SIM_CHILLER_PLANT = {
     ball(manifold, 0.02, 0.03, 0.1, 0.016, 0x4fd1ff, { emissive: 0x4fd1ff, ei: 0.3 });
     holoTag(manifold, "Gauge manifold", 0, 0.2, 0, { css: "#4fd1ff", w: 0.3 });
     reg(hits, manifold, "gauge-manifold");
-    reg(hits, hose(g, [[1.5, 0.95, 1.0], [1.0, 0.7, 0.4], [-0.6, 0.6, 0.3]], 0.015, 0xdfe4e8, { steps: 20, rough: 0.5 }),
-      "recovery-hose");
+    const recoveryHose = hose(g, [[1.5, 0.95, 1.0], [1.0, 0.7, 0.4], [-0.6, 0.6, 0.3]], 0.015, 0xdfe4e8, { steps: 20, rough: 0.5 });
+    reg(hits, recoveryHose, "recovery-hose");
 
     const cylinder = cylinderTank(g, 1.8, 1.3, 0xf2c14b, {});
     const cylScale = decal(cylinder, 0.14, 0.06, 0.13, 0.4, 0,
@@ -267,6 +295,32 @@ export const SIM_CHILLER_PLANT = {
     return {
       hits,
       footprint: 2.1,
+
+      // Both interruptions are things the room shows you rather than tells
+      // you: frost creeping along the recovery hose, and the fixed head going
+      // to red across the plant room. See the interrupts block above.
+      onInterrupt(it) {
+        if (it.id === "hose-weeping") {
+          recoveryHose.material = mat(0xbfe4f2, { rough: 0.2, emissive: 0x4fd1ff, ei: 0.8 });
+        }
+        if (it.id === "o2-alarm") {
+          atmosphereOk = false;
+          monitorLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2 });
+          repaint(monitorFace, signFace("17.4%", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 }));
+        }
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "hose-weeping") {
+          recoveryHose.material = mat(0xdfe4e8, { rough: 0.5 });
+        }
+        if (it.id === "o2-alarm") {
+          atmosphereOk = true;
+          monitorLamp.material = mat(CITY.good, { emissive: CITY.good, ei: 2 });
+          repaint(monitorFace, signFace("20.9%", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.5 }));
+        }
+      },
 
       onStepComplete(step) {
         if (step.id === "estop") { running = false; repaint(hmi, signFace("STOPPED\n42°F CHW", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.26 })); }

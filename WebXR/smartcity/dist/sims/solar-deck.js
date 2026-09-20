@@ -55,6 +55,34 @@ export const SIM_SOLAR_DECK = {
     "bess-panel": "The battery comes last — the array side is isolated first so you are not working two live sources at once.",
   },
 
+  // Interruptions: see shared/game.js. Both of the things that kill people on
+  // this roof are states rather than events — attached, and shut down — and a
+  // state is something that can stop being true while your back is turned.
+  interrupts: [
+    {
+      id: "array-relit",
+      kind: "Shutdown reset",
+      after: "voc", delay: 4, seconds: 13,
+      alert: "The inverter display has lit and the module glass has come back up behind you. Somebody has put AC back on the board downstairs and the rapid shutdown has reset.",
+      cue: "The conductors under your feet are at full string voltage again.",
+      target: "rapid-shutdown",
+      why: "Rapid shutdown is a state that has to be held, not an action that stays done. The transmitter needs power to keep telling the module-level devices to stay open, so the moment somebody restores the board below you the array closes back in at full open-circuit voltage. None of that touches your disconnects — they are still open and still locked, and that is precisely why an open disconnect is not what makes a roof safe while the sun is up. The initiator goes back in before a lead is touched.",
+      missNote: "You went on metering a string that had come back to six hundred volts DC. A PV array is a current source with no zero crossing: the first thing that tells you the conductors are live is the arc, and the reflex that follows an arc on a roof puts you somewhere you did not choose to be.",
+      wrongNote: "That is not what brings the array down. The initiator is at the roof access, and it goes in again before anything else happens up here.",
+    },
+    {
+      id: "lanyard-off",
+      kind: "Attachment lost",
+      after: "checks", delay: 4, seconds: 14,
+      alert: "Your lanyard is lying slack across the deck. The hook has come off the anchor eye as you worked along the array and you are attached to nothing.",
+      cue: "You are three paces from an edge with no parapet.",
+      target: "anchor-point",
+      why: "Fall protection fails quietly. A karabiner rolled out against the lip of an anchor eye, a gate nudged open by a module frame, a line paid out past the distance it was rigged for — none of it makes a sound, and every one of them leaves a person working exactly as confidently as they were a minute earlier. The connection is something you check by looking at it, not by feeling the weight of the line, and the work stops the second it is in question rather than at the end of the test you were part way through.",
+      missNote: "You finished the string tests unattached, on a deck with one unprotected edge and no parapet along it. Nothing pulled you over, and that is the only reason this is a note rather than a fatality — the protection was simply absent for the whole of that step and you had no idea.",
+      wrongNote: "That is not what you are attached to. Get back on the certified anchor before you take another reading.",
+    },
+  ],
+
   steps: [
     {
       id: "survey", kind: "select", target: "roof-plan",
@@ -356,6 +384,30 @@ export const SIM_SOLAR_DECK = {
     return {
       hits,
       footprint: 2.05,
+
+      // Both interruptions are visible from where the technician is kneeling:
+      // the array wakes back up, or the lifeline is on the deck. See the
+      // interrupts block above.
+      onInterrupt(it) {
+        if (it.id === "array-relit") {
+          live = true;
+          rsdButton.position.z = 0.08;
+          modules.forEach(({ glass }) => { glass.material = mat(0x152a48, { rough: 0.1, metal: 0.25, opacity: 0.95 }); });
+          repaint(invScreen, signFace("STRINGS\nLIVE", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.3 }));
+        }
+        if (it.id === "lanyard-off") lifeline.visible = false;
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "array-relit") {
+          live = false;
+          rsdButton.position.z = 0.055;
+          modules.forEach(({ glass }) => { glass.material = mat(0x1b3050, { rough: 0.15, metal: 0.2 }); });
+          repaint(invScreen, signFace("RAPID\nSHUTDOWN", { bg: "#2a1a0d", accent: "#f0645b", fg: "#ffd2ce", scale: 0.3 }));
+        }
+        if (it.id === "lanyard-off") lifeline.visible = true;
+      },
 
       onStepComplete(step) {
         if (step.id === "anchor") { anchored = true; lifeline.visible = true; }

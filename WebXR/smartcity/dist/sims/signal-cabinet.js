@@ -58,6 +58,34 @@ export const SIM_SIGNAL_CABINET = {
     "cabinet-lock": "Nobody opens a controller cabinet before the traffic management centre knows and the zone is set.",
   },
 
+  // Interruptions: see shared/game.js. A signal tech spends the whole job with
+  // their head inside a cabinet and their back to a live lane, which is where
+  // both of these arrive from.
+  interrupts: [
+    {
+      id: "cone-down",
+      kind: "Taper broken",
+      after: "diagnose", delay: 4, seconds: 13,
+      alert: "A truck came through the taper wide and put your lead cone down. The lane you closed is open again and your back is to it.",
+      cue: "The zone is the only thing between you and the running lane.",
+      target: "cone-a",
+      why: "A taper is not decoration; it is the instruction that moves a driver out of the lane you are standing in, and it only works if it reads as a continuous line from far enough back to act on. Lose the cone at the head of it and approaching traffic meets the work zone as a surprise instead of a transition — and the first thing it meets is a technician with their head inside a cabinet. A work zone is not set once. It is watched and rebuilt the moment it changes, because the person it protects is the one person who cannot see it.",
+      missNote: "The taper stayed broken for the rest of the fault-finding. Every vehicle on that approach came into the closed lane without ever being told to move over, and the only warning any of them got was the shape of a crew truck and a person standing in the road.",
+      wrongNote: "That is not what a driver reads on the approach. The cone at the head of the taper is what moves them over, and it goes back up now.",
+    },
+    {
+      id: "preempt-call",
+      kind: "TMC on channel 4",
+      after: "timing", delay: 4, seconds: 12,
+      alert: "The centre is calling on channel 4. Dispatch is routing an ambulance through 5th and Canal in the next two minutes and they need to know where you are with this cabinet.",
+      cue: "Their picture of this intersection is the one you gave them.",
+      target: "radio",
+      why: "An intersection in flash has no preemption to give. The centre can hold the ambulance, route it round, or let it come and warn the crew what it will find — but every one of those choices turns on a fact that exists nowhere except in the head of the technician standing in front of the rack. A call from the centre during a fault job is never left ringing, because not answering is itself a decision, made silently, on behalf of people who did not get a say in it.",
+      missNote: "You let the call ring out while you finished setting the clearance interval. The centre made a routing decision for an emergency vehicle without knowing whether this intersection would be flashing or cycling when it arrived, and the thirty seconds it would have taken to tell them was time you had.",
+      wrongNote: "That is not how you reach the centre. The radio is on the tailgate, and a call from the TMC during a fault job gets answered every time.",
+    },
+  ],
+
   steps: [
     {
       id: "notify", kind: "select", target: "radio",
@@ -294,7 +322,8 @@ export const SIM_SIGNAL_CABINET = {
     reg(hits, ladder, "ladder-unsecured");
 
     // --------------------------------------------------------- work zone kit
-    reg(hits, cone(g, -1.55, 1.15), "cone-a");
+    const coneA = cone(g, -1.55, 1.15);
+    reg(hits, coneA, "cone-a");
     reg(hits, cone(g, -0.35, 1.7), "cone-b");
 
     const sign = group(g, -2.05, 0, 0.35, 0.7);
@@ -338,7 +367,7 @@ export const SIM_SIGNAL_CABINET = {
     const radio = group(chest, 0.18, 0.82, 0.1, -0.4);
     slab(radio, 0.07, 0.13, 0.04, 0, 0, 0, 0x22262b, { radius: 0.01, rough: 0.6 });
     cyl(radio, 0.005, 0.005, 0.14, 0.025, 0.12, 0, 0x14171a, { rough: 0.6, seg: 8 });
-    ball(radio, 0.007, -0.02, 0.06, 0.021, CITY.good, { emissive: CITY.good, ei: 2 });
+    const radioLamp = ball(radio, 0.007, -0.02, 0.06, 0.021, CITY.good, { emissive: CITY.good, ei: 2 });
     holoTag(radio, "TMC radio", 0, 0.2, 0, { css: "#f2c14b", w: 0.24 });
     reg(hits, radio, "radio");
 
@@ -367,6 +396,20 @@ export const SIM_SIGNAL_CABINET = {
     return {
       hits,
       footprint: 2.0,
+
+      // Both interruptions come from outside the cabinet, which is the point:
+      // the cone goes over in the road behind them, and the radio lights up on
+      // the tailgate. See the interrupts block above.
+      onInterrupt(it) {
+        if (it.id === "cone-down") { coneA.rotation.x = Math.PI / 2; coneA.position.set(-1.32, 0.14, 1.38); }
+        if (it.id === "preempt-call") radioLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.8 });
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "cone-down") { coneA.rotation.x = 0; coneA.position.set(-1.55, 0, 1.15); }
+        if (it.id === "preempt-call") radioLamp.material = mat(CITY.good, { emissive: CITY.good, ei: 2 });
+      },
 
       onStepComplete(step) {
         if (step.id === "zone") arrowLamps.forEach((l) => { l.material = mat(0xf2c14b, { emissive: 0xf2c14b, ei: 2.4, rough: 0.4 }); });

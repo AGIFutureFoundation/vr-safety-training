@@ -56,6 +56,35 @@ export const SIM_SPLICE_NODE = {
     "splicer": "The splicer only sees what you put in it — cleave quality is set before the arc fires.",
   },
 
+  // Interruptions: see shared/game.js. A splicer works with both hands in a
+  // street cabinet at two in the morning, and the two things that arrive
+  // uninvited are the port somebody else owns and the tray full of services
+  // that are not yours.
+  interrupts: [
+    {
+      id: "port-relit",
+      kind: "Port back up",
+      after: "cleave", delay: 4, seconds: 12,
+      alert: "P3 has come back up on the OLT shelf. Provisioning has re-enabled the port you shut down, and the strand lying open on the bench is live again.",
+      cue: "You made it dark at the source. Go and make it dark again.",
+      target: "olt-port",
+      why: "Disabling a port is a software state, and software states get undone — by a config rollback, by a change window closing, by a technician three exchanges away clearing alarms off a list. That is why the port is tagged and the strand is metered rather than trusted. A transmission wavelength is invisible, your blink reflex never fires for it, and the end face you are about to put under a cleaver sits forty millimetres from your eye.",
+      missNote: "You cleaved and spliced a strand that had gone live behind you. If your face was over the tray when that port came up — and it was, that is where the work happens — the retinal burn is done before anything at all tells you the light is there.",
+      wrongNote: "That is not what brought the light back. The port is on the OLT shelf, and it goes down and stays down before that fibre is touched again.",
+    },
+    {
+      id: "tray-slump",
+      kind: "Tray on the move",
+      after: "loss", delay: 4, seconds: 13,
+      alert: "The tray stack you propped open has settled. Tray 3 has dropped on its hinge and the strands routed out of it are pulling tight across the lip.",
+      cue: "Your strand is not the only one in that tray.",
+      target: "splice-tray",
+      why: "There are twenty-three other strands in tray 3 and every one of them is somebody's live service. Glass does not tell you when you have hurt it: a macro-bend put in tonight passes a trace at bench temperature and shows up as attenuation when the cabinet swings thirty degrees in August. Take the weight off the tray before you finish your own joint, because the fault you cause here gets found by somebody who has no reason to connect it to your ticket.",
+      missNote: "The tray hung on its own strands for the rest of the job. Nothing failed while you were standing there, which is exactly the problem — the bends went into live fibres and the trouble ticket lands months from now, on a circuit nobody has touched since tonight.",
+      wrongNote: "It is the tray. Take the load off those strands before you carry on with the joint.",
+    },
+  ],
+
   steps: [
     {
       id: "ticket", kind: "select", target: "work-ticket",
@@ -342,6 +371,26 @@ export const SIM_SPLICE_NODE = {
     return {
       hits,
       footprint: 1.9,
+
+      // The interruptions land in the scene the splicer can actually see from
+      // the bench: the port lamp comes back up on the shelf behind them, and
+      // the tray stack drops on its hinge. See the interrupts block above.
+      onInterrupt(it) {
+        if (it.id === "port-relit") {
+          portLive = true;
+          ports[2].material = mat(0xa079ff, { emissive: 0xa079ff, ei: 3.2 });
+        }
+        if (it.id === "tray-slump") { trays.rotation.z = 0.16; trays.position.y = 0.38; }
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "port-relit") {
+          portLive = false;
+          ports[2].material = mat(0x3a3350, { emissive: 0x3a3350, ei: 0.6 });
+        }
+        if (it.id === "tray-slump") { trays.rotation.z = 0; trays.position.y = 0.42; }
+      },
 
       onStepComplete(step) {
         if (step.id === "shutdown") {

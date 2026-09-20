@@ -56,6 +56,34 @@ export const SIM_ROBOT_CELL = {
     "teach-pendant": "The pendant does not come off the hook until the cell is confirmed safe to jog.",
   },
 
+  // Interruptions: see shared/game.js. A cell has two energy sources and one
+  // door, and both of them move on their own while a technician is head-down
+  // in the end effector.
+  interrupts: [
+    {
+      id: "air-creeps-back",
+      kind: "Stored energy",
+      after: "verify-zero", delay: 4, seconds: 12,
+      alert: "The plant compressor has cut back in somewhere down the shop. The receiver gauge you bled to zero is reading four bar and still climbing.",
+      cue: "You vented the air. Nothing isolated it.",
+      target: "air-bleed",
+      why: "Bleeding a receiver empties it; it does nothing to stop the shop main filling it again the moment demand comes back on the compressor. Electrical lockout covers one energy source and this cell has two, which is why a bleed valve on a lockout procedure is locked open rather than merely opened. You are two steps from putting a hand between the jaws of a gripper that now has six bar behind it and no controller involved in the decision.",
+      missNote: "You opened the gate and reached into the end effector with the pneumatics back up. A charged actuator closes on a stuck pilot, a leaking solenoid or a knock on the valve body, and the electrics being dead does not enter into it — which is precisely why air carries a lockout of its own.",
+      wrongNote: "That is not where the stored energy is. The receiver is on the bleed valve, and it goes back to zero and stays there.",
+    },
+    {
+      id: "gate-swing",
+      kind: "Guard closing",
+      after: "service", delay: 4, seconds: 14,
+      alert: "The cell gate has swung most of the way shut behind you. A few more degrees and the interlock latches with you standing inside the fence.",
+      cue: "The open gate is the only thing telling this cell that somebody is in it.",
+      target: "cell-gate",
+      why: "An interlock is not a person-detector. It knows one thing — whether the gate is closed — and the reason you left it standing open is that a closed gate plus a reset at the HMI is a cell that believes it is empty. Your lock on the disconnect is the isolation; the open gate is the part of it that anybody walking up can read without going to look for a tag. So it gets chocked or held open, not left to a hinge and a draught.",
+      missNote: "The gate latched while you had both hands in the end effector. Nothing came of it this time because your lock was on the disconnect, and that is the only reason — the cell went back to looking exactly like a cell that is clear, with a technician inside the envelope.",
+      wrongNote: "That is not what is closing on you. It is the gate, and it needs to be back open before your hands go near the arm again.",
+    },
+  ],
+
   steps: [
     {
       id: "workorder", kind: "select", target: "work-order",
@@ -337,6 +365,26 @@ export const SIM_ROBOT_CELL = {
     return {
       hits,
       footprint: 2.0,
+
+      // The interruptions show up on the two things the technician can see
+      // from inside the fence: the air gauge on the receiver and the gate
+      // itself. See the interrupts block above.
+      onInterrupt(it) {
+        if (it.id === "air-creeps-back") {
+          bleedValve.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.2, rough: 0.5 });
+          repaint(airGauge, signFace("4.1 bar", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 }));
+        }
+        if (it.id === "gate-swing") gate.rotation.y = 0.2;
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "air-creeps-back") {
+          bleedValve.material = mat(0xd8232a, { rough: 0.5 });
+          repaint(airGauge, signFace("0.0 bar", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.5 }));
+        }
+        if (it.id === "gate-swing") gate.rotation.y = 1.4;
+      },
 
       onStepComplete(step) {
         if (step.id === "estop") { armMoving = false; repaint(hmiScreen, signFace("E-STOP", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 })); }
