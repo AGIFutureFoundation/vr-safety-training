@@ -2470,5 +2470,46 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "shipyard-hotwork",
+    "index": "57",
+    "domain": "Maritime",
+    "trade": "Shipyard boilermaker / marine welder",
+    "category": "Maritime & Ports",
+    "certification": "IBB — International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers; OSHA 29 CFR 1915 Subpart B confined and enclosed spaces in shipyard employment (1915.12 testing before entry, 1915.14 hot work, 1915.15 maintenance of safe conditions); 1915 Subpart D welding, cutting and heating; 1915.503 precautions for hot work and 1915.504 fire watches; NFPA 306 control of gas hazards on vessels and the Marine Chemist certificate; USCG requirements for hot work aboard inspected tank vessels",
+    "name": "Shipyard Hot Work",
+    "weather": "overcast",
+    "indoor": null,
+    "title": "SmartCiti.X~ Shipyard Hot Work VR",
+    "tagline": "Burning an insert out of a tank boundary on a Marine Chemist's certificate: read the findings space by space, get the void behind the plate certified, ventilate continuously, bottles on deck, fire watch both sides and after",
+    "accent": 16347926,
+    "accentCss": "#f97316",
+    "parSeconds": 310,
+    "badge": {
+      "id": "certificate-read",
+      "name": "Certificate Read",
+      "note": "Hot work done inside the four corners of a Marine Chemist's certificate — the right spaces, the right finding, inside the hours"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Gas Free Engineering",
+      "currency": "AMPS",
+      "ranks": [
+        "Yard Helper",
+        "Fitter",
+        "Boilermaker",
+        "Lead Boilermaker",
+        "Hot Work Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
