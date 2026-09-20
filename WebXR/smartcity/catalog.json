@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 60
+      "stations": 62
     },
     "trades": {
       "entry": "trades/index.html",
@@ -96,7 +96,8 @@
         "press-brake",
         "conveyor-guard",
         "forklift-dock",
-        "cnc-cell"
+        "cnc-cell",
+        "grain-bin"
       ]
     },
     {
@@ -148,7 +149,8 @@
         "hunters-point",
         "air-monitor",
         "sampling-well",
-        "stormwater-outfall"
+        "stormwater-outfall",
+        "landfill-gas"
       ]
     },
     {
@@ -4732,6 +4734,167 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "landfill-gas",
+      "name": "Landfill Gas",
+      "title": "SmartCiti.X~ Landfill Gas VR",
+      "tagline": "Tuning an extraction well: knockout drained, analyser proven, methane and oxygen and temperature read before the valve is touched, and a perimeter probe that decides whether any of it was enough",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Landfill gas technician / wellfield operator",
+      "union": null,
+      "certification": "LIUNA and IUOE landfill and wellfield crews; SWANA Manager of Landfill Operations; 40 CFR 258.23 methane monitoring at the property boundary and in site structures; the NSPS gas collection and control requirements for landfills at 40 CFR 60, including the 55 °C wellhead operating temperature those standards have used; OSHA 29 CFR 1910.146 where a knockout or manhole is entered",
+      "accent": "#a3b83c",
+      "parSeconds": 270,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "field-balanced",
+        "name": "Field Balanced",
+        "note": "A well tuned on what comes out of it rather than on how far the valve was opened"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "62",
+      "flat": false,
+      "system": "Wellfield Authority",
+      "currency": "SCFM",
+      "ranks": [
+        "Field Hand",
+        "Wellfield Technician",
+        "Lead Technician",
+        "Gas System Supervisor",
+        "Wellfield Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-air-in",
+          "name": "No Air Drawn In",
+          "note": "Oxygen held down: the well was never opened past what the gas quality would carry"
+        },
+        {
+          "id": "proven-meter",
+          "name": "Proven Meter",
+          "note": "Never took a reading on an analyser that had not been proven that morning"
+        },
+        {
+          "id": "read-twice",
+          "name": "Read Twice",
+          "note": "Re-read the well after tuning instead of writing down the number they wanted"
+        },
+        {
+          "id": "clean-round",
+          "name": "Clean Round",
+          "note": "No corrections through the whole well round"
+        },
+        {
+          "id": "held-the-vacuum",
+          "name": "Held The Vacuum",
+          "note": "Held the applied vacuum steady while the well settled"
+        },
+        {
+          "id": "round-on-time",
+          "name": "Round On Time",
+          "note": "Well tuned and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=landfill-gas"
+    },
+    {
+      "app": "smartcity",
+      "id": "grain-bin",
+      "name": "Grain Bin",
+      "title": "SmartCiti.X~ Grain Bin VR",
+      "tagline": "Breaking a bridge in a terminal bin: everything that moves grain locked out first, dust down and bonded, atmosphere proved, the crust worked from above on a tight line with an observer who never leaves the hatch",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Grain elevator operator / bin entry crew",
+      "union": null,
+      "certification": "BCTGM — grain miller and terminal elevator operator, with the grain-handling locals; OSHA 29 CFR 1910.272 grain handling facilities, whose entry provisions at 1910.272(g) cover bins, silos and tanks: equipment that presents a danger de-energised, disconnected, locked out and tagged; a body harness with lifeline; an observer stationed outside with communications maintained; rescue equipment suited to the structure; and no entry underneath a bridging condition or where built-up grain on the sides could fall and bury. Walking down grain is prohibited by the same standard. OSHA 1910.147 energy control; 1910.146 permit-required confined spaces where it applies",
+      "accent": "#e0a458",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 6,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "track",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "never-on-the-grain",
+        "name": "Never On The Grain",
+        "note": "A bridge broken from above with the bin locked out, the line tight and the observer still at the hatch"
+      },
+      "meshes": 212,
+      "lights": 0,
+      "overBudget": false,
+      "index": "59",
+      "flat": false,
+      "system": "Bin Entry Authority",
+      "currency": "BUSHEL",
+      "ranks": [
+        "Elevator Hand",
+        "Grain Miller",
+        "Bin Entry Lead",
+        "Elevator Superintendent",
+        "Bin Entry Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-first",
+          "name": "Locked First",
+          "note": "Every motor that moves grain dead and locked before the hatch came off, first time"
+        },
+        {
+          "id": "feet-off-it",
+          "name": "Feet Off It",
+          "note": "Never stood on the grain, never worked under the wall, never gave the bin an ignition source"
+        },
+        {
+          "id": "proved-the-air",
+          "name": "Proved The Air",
+          "note": "Oxygen read inside limits both before the entry and after the bridge went"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Entry",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "worked-it-through",
+          "name": "Worked It Through",
+          "note": "Every timed hold carried the full count"
+        },
+        {
+          "id": "out-before-the-shift",
+          "name": "Out Before The Shift",
+          "note": "Bin cleared and the crew out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=grain-bin"
     },
     {
       "app": "smartcity",
