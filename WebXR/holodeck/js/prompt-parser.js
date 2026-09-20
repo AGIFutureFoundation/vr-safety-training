@@ -22,6 +22,7 @@ import { THEMES, DEFAULT_THEME_ID } from "./themes.js";
 import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from "./training.js";
 import { SIMS_META } from "../../smartcity/js/sims-meta.js";
 import { composeLesson } from "../../shared/lessons.js";
+import { LEVELS } from "../../shared/variants.js";
 
 // The generators that actually exist today. Listed explicitly (rather than
 // inferred from whatever the parser matches) so the UI can be honest about
@@ -66,6 +67,15 @@ const GAME_KEYWORDS = {
   minigolf: ["mini golf", "minigolf", "mini-golf", "golf course", "putt putt", "putt-putt", "golf"],
 };
 
+// Asking to be tested on a station is different from asking to visit it: the
+// same procedure, but with the hint rail off, a tighter clock and the alarms
+// somewhere the learner has not met them. See shared/variants.js.
+const VARIANT_WORDS = {
+  pressure: ["under pressure", "hard mode", "make it hard", "toughest"],
+  assessment: ["assess", "assessment", "test me", "exam", "certify", "certification run", "no hints", "sign me off", "check me out"],
+  practice: ["practice", "practise", "try again", "retake", "another go", "different", "variant", "mix it up"],
+};
+
 export function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
 
@@ -86,6 +96,16 @@ export function localInterpreter(text) {
   // specific, more confident signal, so it decides gameType outright.
   const realSim = REAL_SIMS_BY_LENGTH.find((s) => lower.includes(s.name.toLowerCase()));
   const realSimId = realSim?.id ?? null;
+
+  // "Test me on the trench box" is that station, run as an assessment. Only
+  // meaningful alongside a named station — "test me" on its own has nothing
+  // to be an assessment of.
+  let variantLevel = null;
+  if (realSimId) {
+    for (const [level, words] of Object.entries(VARIANT_WORDS)) {
+      if (words.some((w) => lower.includes(w))) { variantLevel = level; break; }
+    }
+  }
 
   let gameType = realSimId ? "training" : "minigolf"; // the fallback if nothing at all matches
   let matchedGame = !!realSimId;
@@ -116,6 +136,7 @@ export function localInterpreter(text) {
   return {
     gameType, matchedGame,
     realSimId, matchedRealSim: !!realSimId,
+    variantLevel, matchedVariant: !!variantLevel,
     themeId, matchedTheme,
     templateId, matchedTemplate,
     equipmentId, matchedEquipment,

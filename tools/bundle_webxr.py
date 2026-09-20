@@ -128,6 +128,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "lrs.js",
             SHARED / "lessons.js",
+            SHARED / "variants.js",
             WEBXR / "holodeck/js/themes.js",
             WEBXR / "holodeck/js/training.js",
             WEBXR / "smartcity/js/sims-meta.js",

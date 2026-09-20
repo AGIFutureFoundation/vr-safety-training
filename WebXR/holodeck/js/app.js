@@ -10,6 +10,7 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { lessonProgress } from "../../shared/lessons.js";
+import { makeVariant } from "../../shared/variants.js";
 
 // Progress is the profile shared with SmartCiti.X and Trade Skills. It has
 // to be loaded before any Session finishes: Session.finish() calls
@@ -727,8 +728,8 @@ function loadRealSim(id) {
   return promise;
 }
 
-async function enterRealSim(simId) {
-  lastTrainingParams = { kind: "real", simId };
+async function enterRealSim(simId, variantLevel = null) {
+  lastTrainingParams = { kind: "real", simId, variantLevel };
   // Cleared up front, not just on success: a failed reload (Play Again on a
   // finished real-sim run, then the fetch rejects) must not leave the prior
   // run's finished scene/session sitting under the "Could not load" message.
@@ -740,6 +741,16 @@ async function enterRealSim(simId) {
   if (!room) {
     store.patch("hud", { feedback: `<b>Could not load that station.</b> Try describing a generic procedure instead.` });
     return;
+  }
+  // An assessment request runs the same station with the hint rail off, a
+  // tighter clock and the alarms rehung — see shared/variants.js. The seed is
+  // shown, so an instructor can reissue this exact run to a whole class.
+  if (variantLevel) {
+    const v = makeVariant(room, { seed: Math.floor(Math.random() * 1e6), level: variantLevel });
+    if (v) {
+      room = v;
+      store.patch("hud", { feedback: `<b>${escapeHtml(v.name)}</b><br>${escapeHtml(v.variant.differs.join(" · "))} · seed ${v.variant.seed}` });
+    }
   }
   enterTraining(room, (g) => room.build(g));
 }
@@ -788,7 +799,7 @@ async function generate() {
   }
   if (parsed.realSimId) {
     mode = "training";
-    await enterRealSim(parsed.realSimId);
+    await enterRealSim(parsed.realSimId, parsed.variantLevel);
     return;
   }
   if (parsed.gameType === "training") {
