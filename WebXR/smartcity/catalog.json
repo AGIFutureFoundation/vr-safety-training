@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 68
+      "stations": 69
     },
     "trades": {
       "entry": "trades/index.html",
@@ -155,6 +155,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "stack-test",
         "landfill-gas"
       ]
     },
@@ -4740,6 +4741,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "stack-test",
+      "name": "Stack Test",
+      "title": "SmartCiti.X~ Stack Test VR",
+      "tagline": "An isokinetic source test from the sampling platform: traverse points calculated, train leak-checked both ends, the rate held across the traverse, and everything recovered into labelled containers",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Source emissions tester / stack testing technician",
+      "union": null,
+      "certification": "IUOE and USW plant crews working with the testing contractor's source-testing team; the EPA reference methods in 40 CFR Part 60 Appendix A — Method 1 traverse points, Method 2 velocity by pitot, Method 3 gas composition, Method 4 moisture and Method 5 particulate; the facility's operating permit and the test protocol approved under it; OSHA 29 CFR 1910 Subpart D for the sampling platform, its guardrail and its fixed ladder",
+      "accent": "#e07a5f",
+      "parSeconds": 310,
+      "weather": "wind",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "run-stands",
+        "name": "The Run Stands",
+        "note": "A traverse taken isokinetically, bracketed by leak checks that both passed, and recovered so an auditor can follow it"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "68",
+      "flat": false,
+      "system": "Source Test Authority",
+      "currency": "DSCF",
+      "ranks": [
+        "Test Assistant",
+        "Sampling Technician",
+        "Team Leader",
+        "Qualified Source Tester",
+        "Source Test Authority"
+      ],
+      "awards": [
+        {
+          "id": "bracketed",
+          "name": "Bracketed",
+          "note": "Both leak checks carried to full duration, first time"
+        },
+        {
+          "id": "nothing-invented",
+          "name": "Nothing Invented",
+          "note": "Never touched the recorded data and never skipped a check"
+        },
+        {
+          "id": "on-the-nozzle",
+          "name": "On The Nozzle",
+          "note": "Velocity, rate and metered volume all read close to band centre"
+        },
+        {
+          "id": "points-calculated",
+          "name": "Points Calculated",
+          "note": "Surveyed the ports and laid the traverse out without a correction"
+        },
+        {
+          "id": "held-the-traverse",
+          "name": "Held The Traverse",
+          "note": "Kept the sampling rate in band across the whole traverse"
+        },
+        {
+          "id": "off-the-stack",
+          "name": "Off The Stack",
+          "note": "Test run, recovered and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=stack-test"
     },
     {
       "app": "smartcity",
