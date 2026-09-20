@@ -1164,7 +1164,7 @@ for (let i = 0; i < 2; i++) {
 async function enterXR() {
   if (!navigator.xr) return;
   try {
-    const session = await navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor"] });
+    const session = await navigator.xr.requestSession("immersive-vr", { optionalFeatures: ["local-floor", "hand-tracking"] });
     await renderer.xr.setSession(session);
   } catch (err) {
     // err.message is browser/driver text, not ours — escape it before it

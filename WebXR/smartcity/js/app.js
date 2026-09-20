@@ -10,6 +10,7 @@ import { Platform } from "../../shared/platform.js";
 import { Perf } from "../../shared/perf.js";
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
+import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -1649,6 +1650,62 @@ for (let i = 0; i < 2; i++) {
   rig.add(c);
   controllers.push(c);
 }
+// XR hands -------------------------------------------------------------------
+//
+// The same verbs as the controllers, driven by the learner's actual hands on a
+// headset that tracks them. A pinch is the trigger, a fist is the grip, and a
+// wrist roll while gripping turns whatever a turn step is asking for — which
+// is the gesture the real tool needs anyway. Nothing below knows or cares
+// which device produced the verb. See shared/hands.js.
+const handInput = createHandInput(renderer, rig, {
+  decorate(hand) {
+    // Joint spheres, so the learner can see where the runtime thinks their
+    // hand is. Cheap: twenty-five instances of one geometry and one material.
+    const geo = new THREE.SphereGeometry(0.008, 8, 6);
+    const matl = new THREE.MeshBasicMaterial({ color: 0x4fd1ff, transparent: true, opacity: 0.85 });
+    const dots = new THREE.InstancedMesh(geo, matl, 25);
+    dots.frustumCulled = false;
+    dots.userData.handDots = true;
+    hand.add(dots);
+  },
+  onSelectStart(hand) {
+    if (state.mode === "ar" && !state.placed) { placeFromReticle(); return; }
+    const hit = castFromController(hand);
+    hand.userData.downId = hit?.id ?? null;
+    if (hit?.id) pressStart(hit.id);
+  },
+  onSelectEnd(hand) {
+    pressEnd();
+    if (state.mode === "ar" && !state.placed) return;
+    const hit = castFromController(hand);
+    if (hit && hit.id === hand.userData.downId) activate(hit.id);
+    hand.userData.downId = null;
+  },
+  onGrabStart(hand) {
+    const hit = castFromController(hand);
+    if (hit?.id && beginDrag(hit.id, hand)) return;
+    // A fist on a turn step's target takes hold of it; the roll below turns it.
+    if (hit?.id && state.session?.step?.kind === "turn" && state.session.step.target === hit.id) {
+      hand.userData.turning = hit.id;
+    }
+  },
+  onGrabEnd(hand) {
+    if (dragState?.controller === hand) { endDrag(); return; }
+    hand.userData.turning = null;
+  },
+  onRoll(hand, delta) {
+    if (hand.userData.turning) state.session?.rotate(hand.userData.turning, delta / (Math.PI * 2));
+  },
+  onPose(hand, pose) {
+    // Point to aim: the ray only shows when the learner is actually pointing,
+    // so an open hand at rest does not paint a line across the station.
+    const dots = hand.children.find((c) => c.userData?.handDots);
+    if (dots) dots.visible = pose.tracked;
+    hand.userData.pose = pose;
+  },
+});
+void HAND_HINTS;
+
 let snapReady = true;
 function xrMove(dt) {
   if (state.mode === "ar") return; // AR: the learner physically walks
@@ -1700,8 +1757,8 @@ function scaleDown() { placement.scale.multiplyScalar(1 / 1.15); }
 
 async function startXr(mode) {
   const opts = mode === "ar"
-    ? { requiredFeatures: ["hit-test"], optionalFeatures: ["local-floor", "dom-overlay"], domOverlay: { root: document.body } }
-    : { optionalFeatures: ["local-floor", "bounded-floor"] };
+    ? { requiredFeatures: ["hit-test"], optionalFeatures: ["local-floor", "dom-overlay", "hand-tracking"], domOverlay: { root: document.body } }
+    : { optionalFeatures: ["local-floor", "bounded-floor", "hand-tracking"] };
   const session = await navigator.xr.requestSession(mode === "ar" ? "immersive-ar" : "immersive-vr", opts);
   xrSession = session;
   await renderer.xr.setSession(session);
@@ -2027,7 +2084,7 @@ renderer.setAnimationLoop((_, frame) => {
   } else reticle.visible = false;
 
   if (!state.paused) {
-    if (presenting) xrMove(dt); else desktopMove(dt);
+    if (presenting) { xrMove(dt); handInput.update(); } else desktopMove(dt);
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
       syncAlarm(state.session);
