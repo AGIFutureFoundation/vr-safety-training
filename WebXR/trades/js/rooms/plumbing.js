@@ -98,7 +98,7 @@ export const ROOM_PLUMBING = {
       },
     },
     {
-      id: "braze", kind: "gauge", target: "copper-joint",
+      id: "sweat", kind: "gauge", target: "copper-joint",
       title: "Sweat the copper joint",
       cue: "Feed solder into the joint once the flux sizzles and the heat draws it in.",
       why: "Capillary action pulls molten solder through a properly heated joint on its own — chasing it into a cold or overheated fitting is how you get a joint that looks sound and weeps at the first pressure test.",
@@ -344,7 +344,7 @@ export const ROOM_PLUMBING = {
 
       onStep(step) {
         bleeding = false;
-        torchLit = step.id === "torch" || step.id === "braze";
+        torchLit = step.id === "torch" || step.id === "sweat";
       },
 
       onStepComplete(step) {
@@ -362,7 +362,7 @@ export const ROOM_PLUMBING = {
           teeBody.material = teeBody.material.clone();
           teeBody.material.color.set(0xd8d4c4);
         }
-        if (step.id === "braze") {
+        if (step.id === "sweat") {
           torchLit = false;
           copperFitting.material = copperFitting.material.clone();
           copperFitting.material.color.set(0xb87333);

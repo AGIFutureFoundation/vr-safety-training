@@ -125,10 +125,15 @@ export const SIM_DOCK_CRANE = {
       why: "The operator's view of the container is partly blocked from the cab. The signal person is watching the one angle the operator can't.",
     },
     {
-      id: "hoist", kind: "select", target: "hoist-lever",
+      id: "hoist", kind: "track", target: "hoist-lever", seconds: 6,
       title: "Take the lift",
-      cue: "Take up slack smoothly and lift the container clear of the stack.",
-      why: "A smooth take-up lets you feel the load coming on evenly. A snatched lift is how a marginal lock finally lets go.",
+      cue: "Ease the hoist lever up and hold the take-up rate steady while the container comes clear of the stack.",
+      why: "A smooth take-up lets you feel the load coming on evenly, so a lock that is not really made shows itself while the container is still an inch off the stack. A snatched lift is how a marginal lock finally lets go, and by then the container is already in the air.",
+      track: {
+        start: 0.06, green: [0.34, 0.54], rise: 0.55, fall: 0.5, drift: 0.1, label: "HOIST RATE",
+        readout: (v) => (v < 0.34 ? "slack not coming up" : v > 0.54 ? "snatching the load" : "taking the weight evenly"),
+      },
+      holdBreakNote: "Take-up rate out of band — too slow and the slack never comes up, too fast and you snatch it. Bring it back and hold it there.",
     },
     {
       id: "land-release", kind: "sequence",
@@ -417,11 +422,11 @@ export const SIM_DOCK_CRANE = {
       },
 
       animate(t, dt, session) {
-        if (hoisting) {
-          const lift = Math.min(0.6, (t % 3) * 0.3);
-          spreader.position.y = -1.6 + lift;
-          hoistCable.scale.y = 1 - lift / 1.5;
-        }
+        // The container rises with the learner's own take-up rate while the
+        // hoist step is being tracked, then hangs there once it is clear.
+        const setLift = (lift) => { spreader.position.y = -1.6 + lift; hoistCable.scale.y = 1 - lift / 1.5; };
+        if (session?.step?.id === "hoist") setLift(0.6 * Math.min(1, (session.holdFor ?? 0) / (session.step.seconds ?? 6)));
+        else if (hoisting) setLift(0.6 + Math.sin(t * 0.8) * 0.015);
         signal.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
 
         // Dry-run playback: the AGV rides the taught route — pickup to

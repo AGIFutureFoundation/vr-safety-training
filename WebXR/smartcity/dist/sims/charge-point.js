@@ -85,10 +85,11 @@ export const SIM_CHARGE_POINT = {
       why: "Class 0 rubber gloves with leather protectors and a face shield, before the door opens. The DC link does not care that the AC supply is off.",
     },
     {
-      id: "isolate", kind: "select", target: "ac-disconnect",
+      id: "isolate", kind: "turn", target: "ac-disconnect",
       title: "Open the upstream AC disconnect",
-      cue: "Throw the feeder disconnect on the supply pillar.",
-      why: "Isolate at the source, not at the charger's own contactor. A control-level stop is not an isolation.",
+      cue: "Swing the feeder disconnect handle on the supply pillar all the way down to OFF.",
+      why: "Isolate at the source, not at the charger's own contactor. A control-level stop is not an isolation. The handle goes fully over — a disconnect stopped halfway is a disconnect that has not opened.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "FEEDER DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-station",
@@ -340,7 +341,7 @@ export const SIM_CHARGE_POINT = {
         }
         if (step.id === "isolate") {
           energised = false;
-          handlePivot.rotation.z = -Math.PI / 2.2;
+          handlePivot.rotation.z = -Math.PI / 2;
           statusBar.material = mat(0xf2c14b, { emissive: 0xf2c14b, ei: 1.2, rough: 0.4 });
           repaint(hmi, signFace("ISOLATED", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.36 }));
         }

@@ -137,7 +137,7 @@ export const SIM_FLIGHT_DECK = {
       id: "unpin", kind: "select", target: "prop-pins",
       title: "Remove the rotor pins",
       cue: "Pull all four pins once the inspection is complete.",
-      why: "The pins come out last, right before release — never while there is still a reason for a hand to be near the airframe.",
+      why: "The pins are the last thing done at the aircraft. Everything after this — the route, the upload, the verification — happens at the console, so nothing puts a hand near the airframe again between the pins coming out and the release.",
     },
     {
       id: "plan-route", kind: "sequence", targets: ["wp-launch", "wp-relay", "wp-delivery"],

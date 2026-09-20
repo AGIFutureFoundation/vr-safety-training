@@ -70,10 +70,11 @@ export const SIM_TRACK_ACCESS = {
       why: "Until the signaller confirms it, the section is still open to traffic as far as the signalling system is concerned. Possession is a spoken confirmation, not an assumption from the timetable.",
     },
     {
-      id: "isolate", kind: "select", target: "isolation-switch",
+      id: "isolate", kind: "turn", target: "isolation-switch",
       title: "Isolate the traction current",
-      cue: "Open the traction power isolator for this section.",
-      why: "The isolator is what removes the current, but the switch position alone is not proof — that comes next.",
+      cue: "Swing the traction power isolator for this section fully over to OFF.",
+      why: "The isolator is what removes the current, but the switch position alone is not proof — that comes next. It goes fully over, too: a lever left part way is a lever that has not broken the circuit.",
+      turn: { turns: 0.25, axis: "z", reverse: true, label: "TRACTION ISOLATOR" },
     },
     {
       id: "verify", kind: "gauge", target: "rail-tester",
@@ -273,7 +274,7 @@ export const SIM_TRACK_ACCESS = {
 
       onStepComplete(step) {
         if (step.id === "possession") repaint(radioScreen, signFace("POSSESSION\nGRANTED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.3 }));
-        if (step.id === "isolate") { currentOn = false; isoLever.rotation.z = -1.1; }
+        if (step.id === "isolate") { currentOn = false; isoLever.rotation.z = -Math.PI / 2; }
         if (step.id === "verify") isoLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.4 });
         if (step.id === "boundary") { boardA.visible = true; boardB.visible = true; boardCase.visible = false; }
         if (step.id === "gauge") repaint(gaugeReadout, signFace("1435", { bg: "#0d1c24", accent: "#59c97b", scale: 0.6 }), );
