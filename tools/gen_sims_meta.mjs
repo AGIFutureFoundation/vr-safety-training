@@ -105,6 +105,7 @@ const meta = suite.SIMS.map((s) => ({
   category: s.category, certification: s.certification, name: s.name, weather: s.weather ?? "clear", indoor: s.indoor ?? null,
   title: s.title, tagline: s.tagline, accent: s.accent, accentCss: s.accentCss,
   parSeconds: s.parSeconds, badge: s.badge, stepCount: s.steps.length,
+  interruptCount: (s.interrupts ?? []).length,
   ...(s.flat ? { flat: true, dossier: s.dossier ?? [] } : {}),
   game: { system: s.game.system, currency: s.game.currency, ranks: s.game.ranks, rankAt: s.game.rankAt },
 }));

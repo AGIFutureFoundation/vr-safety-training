@@ -40,6 +40,10 @@ const common = (r) => ({
   union: r.union ?? null, certification: r.certification ?? null,
   accent: r.accentCss ?? null, parSeconds: r.parSeconds ?? null, weather: r.weather ?? "clear", indoor: r.indoor ?? null,
   steps: r.steps.length, hazards: Object.keys(r.hazards ?? {}).length,
+  // Interruptions belong on the published record for the same reason steps and
+  // hazards do: a hall choosing a station, or a lesson composed over the
+  // roster, has to be able to see which procedures assess noticing.
+  interrupts: (r.interrupts ?? []).length,
   stepKinds: [...new Set(r.steps.map((s) => s.kind))],
   badge: r.badge ?? null,
 });

@@ -124,6 +124,21 @@
     #hud-score-chip{ right:max(14px, env(safe-area-inset-right)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
   }
+    /* A composed programme reads as a plan: a numbered list of real stations,
+       each one a link into the app that owns it. Wider than the result cards
+       because it is something a learner works down rather than glances at. */
+    .lesson-card { max-width: 640px; text-align: left; }
+    .lesson-card h2 { margin: 0 0 6px; font-size: 22px; }
+    .lesson-meta { margin: 6px 0; font-size: 13px; color: #8fb3c4; }
+    .lesson-list { list-style: none; margin: 14px 0; padding: 0; }
+    .lesson-row { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-top: 1px solid rgba(143,179,196,.18); }
+    .lesson-n { flex: 0 0 26px; height: 26px; border-radius: 13px; background: rgba(79,209,255,.15);
+      color: #4fd1ff; font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+    .lesson-body { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-launch { color: #eaf6fb; font-weight: 700; text-decoration: none; }
+    .lesson-launch:hover, .lesson-launch:focus-visible { text-decoration: underline; }
+    .lesson-body small { color: #8fb3c4; font-size: 12px; }
+
 </style>
 </head>
 <body>

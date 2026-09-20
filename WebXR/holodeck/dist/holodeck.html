@@ -124,6 +124,21 @@
     #hud-score-chip{ right:max(14px, env(safe-area-inset-right)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
   }
+    /* A composed programme reads as a plan: a numbered list of real stations,
+       each one a link into the app that owns it. Wider than the result cards
+       because it is something a learner works down rather than glances at. */
+    .lesson-card { max-width: 640px; text-align: left; }
+    .lesson-card h2 { margin: 0 0 6px; font-size: 22px; }
+    .lesson-meta { margin: 6px 0; font-size: 13px; color: #8fb3c4; }
+    .lesson-list { list-style: none; margin: 14px 0; padding: 0; }
+    .lesson-row { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-top: 1px solid rgba(143,179,196,.18); }
+    .lesson-n { flex: 0 0 26px; height: 26px; border-radius: 13px; background: rgba(79,209,255,.15);
+      color: #4fd1ff; font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+    .lesson-body { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-launch { color: #eaf6fb; font-weight: 700; text-decoration: none; }
+    .lesson-launch:hover, .lesson-launch:focus-visible { text-decoration: underline; }
+    .lesson-body small { color: #8fb3c4; font-size: 12px; }
+
 </style>
 </head>
 <body>
@@ -2800,6 +2815,182 @@ const Lrs = {
 };
 
 
+/* ===== shared/lessons.js ===== */
+/**
+ * Lesson automation: turn a sentence into a runnable programme of real
+ * stations.
+ *
+ * The Holodeck could already summon one authored station by name. This is the
+ * next thing a training director actually asks for — "put me a lockout
+ * refresher together for the third-year apprentices" — which is not one
+ * station, it is a sequence of them with a reason for the order, a points
+ * target and a pass bar.
+ *
+ * Nothing here invents content. A lesson is a selection over the station
+ * roster the two simulators already ship, scored with the points those
+ * stations already award. That matters for a union hall: the certificate at
+ * the end has to name procedures that exist and standards that are real.
+ */
+
+// What a prompt can ask for, and how to recognise it. Each facet reads the
+// station metadata rather than a hand-maintained list, so a station added to
+// either app is selectable the day it lands.
+const FACETS = [
+  { id: "lockout", label: "Energy control and isolation",
+    words: ["lockout", "lock out", "loto", "isolation", "isolate", "energy control", "de-energise", "de-energize", "1910.147"],
+    match: (s) => /lockout|isolat|energy control|1910\.147|70E|de-?energ/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "confined", label: "Permit-required confined space",
+    words: ["confined", "permit space", "vault", "manhole", "1910.146", "entry"],
+    match: (s) => /confined|permit space|1910\.146|vault|wet well|firebox/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "height", label: "Work at height and fall protection",
+    words: ["height", "fall", "climb", "tower", "scaffold", "roof", "1926.502", "harness"],
+    match: (s) => /fall protection|1926\.502|climb|scaffold|mast|tower|aerial|height/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "electrical", label: "Electrical safe work practice",
+    words: ["electrical", "arc flash", "70e", "switching", "busway", "transformer", "volt"],
+    match: (s) => /NFPA 70E|arc.?flash|1910\.269|switching|busway|kV|volt/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "rigging", label: "Rigging, lifting and suspended loads",
+    words: ["rigging", "crane", "hoist", "lift", "load chart", "sling", "1926.1400"],
+    match: (s) => /rigging|crane|hoist|1926\.1400|load chart|lashing|mooring/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "atmosphere", label: "Atmospheric and respiratory hazards",
+    words: ["atmosphere", "gas", "respirator", "scba", "hazmat", "1910.134", "chlorine", "h2s"],
+    match: (s) => /1910\.134|respirat|atmospher|gas|chlorine|hazmat|decon|abatement/i.test(`${s.certification} ${s.tagline}`) },
+  { id: "machine", label: "Machine guarding and automation",
+    words: ["machine", "guard", "robot", "press", "conveyor", "cnc", "automation"],
+    match: (s) => /machine|guard|robot|press brake|conveyor|CNC|automation/i.test(`${s.certification} ${s.tagline} ${s.category}`) },
+  { id: "awareness", label: "Situational awareness under interruption",
+    words: ["awareness", "attention", "interruption", "distraction", "noticing"],
+    match: (s) => (s.interruptCount ?? 0) > 0 },
+];
+
+// Union locals are named on the stations themselves; this pulls the acronym
+// out of whatever prose the certification line uses.
+const UNION_RE = /\b(IBEW|LIUNA|UA\b|CWA|IATSE|ILWU|IUOE|IUEC|IAFF|IAM|SIU|MEBA|MM&P|ATU|AFSCME|UAW|BMWED|IAEP|Ironworkers|Teamsters|IUPAT)\b/g;
+
+function unionsOf(station) {
+  return [...new Set(String(station.certification ?? "").match(UNION_RE) ?? [])];
+}
+
+/** Level of the learner the prompt is asking about, which sets the pass bar. */
+function audienceOf(lower) {
+  if (/apprentice|first year|new hire|intro|basic|onboard/.test(lower)) return { id: "apprentice", label: "Apprentices", pass: 0.6, size: 4 };
+  if (/journey|refresher|recert|annual/.test(lower)) return { id: "journeyman", label: "Journeymen", pass: 0.75, size: 5 };
+  if (/lead|supervis|foreman|competent person|master/.test(lower)) return { id: "lead", label: "Leads and competent persons", pass: 0.85, size: 6 };
+  return { id: "crew", label: "Working crew", pass: 0.7, size: 5 };
+}
+
+/**
+ * Compose a lesson from a sentence.
+ *
+ * `roster` is the station metadata both apps already publish — id, name,
+ * category, certification, tagline, stepCount, parSeconds and (where known)
+ * interruptCount. Returns null when nothing in the sentence names anything
+ * the roster can satisfy, because a lesson of arbitrary stations is worse
+ * than telling the user it did not understand.
+ */
+function composeLesson(text, roster, { max = 6 } = {}) {
+  const lower = String(text ?? "").toLowerCase();
+  const audience = audienceOf(lower);
+
+  const facets = FACETS.filter((f) => f.words.some((w) => lower.includes(w)));
+  const askedUnions = [...new Set(lower.toUpperCase().match(UNION_RE) ?? [])];
+  const askedCategory = [...new Set(roster.map((s) => s.category).filter(Boolean))]
+    .filter((c) => lower.includes(c.toLowerCase().split(" &")[0]));
+
+  if (!facets.length && !askedUnions.length && !askedCategory.length) return null;
+
+  // Score every station against what was asked. Facet match is the strongest
+  // signal, then the union, then the sector.
+  const scored = roster.map((s) => {
+    let score = 0;
+    const why = [];
+    for (const f of facets) {
+      if (f.match(s)) { score += 3; why.push(f.label); }
+    }
+    const us = unionsOf(s);
+    if (askedUnions.length && us.some((u) => askedUnions.includes(u))) { score += 2; why.push(`${us.filter((u) => askedUnions.includes(u)).join(", ")} station`); }
+    if (askedCategory.length && askedCategory.includes(s.category)) { score += 2; why.push(s.category); }
+    // An interrupted procedure is worth more in any block, because noticing is
+    // the part a procedural refresher usually leaves out.
+    if ((s.interruptCount ?? 0) > 0) score += 1;
+    return { station: s, score, why: [...new Set(why)] };
+  }).filter((r) => r.score > 0);
+
+  if (!scored.length) return null;
+
+  // Order by fit, then shortest first, so a block opens with something a
+  // learner can finish and builds toward the long procedures.
+  scored.sort((a, b) => b.score - a.score || (a.station.stepCount ?? 0) - (b.station.stepCount ?? 0));
+  const chosen = scored.slice(0, Math.min(max, audience.size));
+
+  const steps = chosen.reduce((a, r) => a + (r.station.stepCount ?? 0), 0);
+  const interrupts = chosen.reduce((a, r) => a + (r.station.interruptCount ?? 0), 0);
+  const minutes = Math.round(chosen.reduce((a, r) => a + (r.station.parSeconds ?? 240), 0) / 60);
+  // The points a station awards are a hundred per step plus its interruption
+  // value; the target is the pass fraction of a clean run across the block.
+  const perfect = steps * 100 + interrupts * 120;
+  const target = Math.round(perfect * audience.pass);
+
+  const unions = [...new Set(chosen.flatMap((r) => unionsOf(r.station)))];
+  // The code, not the sentence around it. Matching to the next comma dragged
+  // in half a clause — "NFPA 70E arc-flash PPE for the ve" — which is worse
+  // than useless on a certificate.
+  const STANDARD_RE = /\b(?:NFPA\s+\d+[A-Z]?|OSHA\s+29\s+CFR\s+[\d.]+(?:\([a-z0-9)(]+\))?|29\s+CFR\s+[\d.]+|ANSI\s+[A-Z]?[\d.]+[A-Z]?|ASTM\s+[A-Z]\d+|IEEE\s+\d+|1910\.\d+|1926\.\d+)/g;
+  const standards = [...new Set(chosen.flatMap((r) =>
+    (String(r.station.certification ?? "").match(STANDARD_RE) ?? []).map((x) => x.replace(/\s+/g, " ").trim())))]
+    .slice(0, 8);
+
+  const title = facets.length
+    ? `${facets.map((f) => f.label).join(" + ")} — ${audience.label}`
+    : `${(askedCategory[0] ?? unions.join("/"))} block — ${audience.label}`;
+
+  return {
+    id: `lesson-${Date.now().toString(36)}`,
+    title,
+    audience,
+    prompt: text,
+    facets: facets.map((f) => f.id),
+    unions,
+    standards,
+    stations: chosen.map((r, i) => ({
+      order: i + 1,
+      app: r.station.app ?? "smartcity",
+      id: r.station.id,
+      name: r.station.name,
+      steps: r.station.stepCount ?? 0,
+      interrupts: r.station.interruptCount ?? 0,
+      why: r.why.length ? r.why.join(" · ") : "Selected for sector fit",
+    })),
+    points: { perfect, target, pass: audience.pass },
+    estimate: { minutes, steps, interrupts },
+  };
+}
+
+/**
+ * Whether a learner's records clear the lesson.
+ *
+ * Kept here rather than in the UI so the same arithmetic answers the learner's
+ * progress bar, the instructor console and the certificate.
+ */
+function lessonProgress(lesson, records = []) {
+  const best = new Map();
+  for (const rec of records) {
+    const key = rec.simId ?? rec.roomId ?? rec.id;
+    if (!key) continue;
+    if (!best.has(key) || (rec.score ?? 0) > best.get(key)) best.set(key, rec.score ?? 0);
+  }
+  const done = lesson.stations.filter((s) => best.has(s.id));
+  const scored = done.reduce((a, s) => a + (best.get(s.id) ?? 0), 0);
+  return {
+    stationsDone: done.length,
+    stationsTotal: lesson.stations.length,
+    points: scored,
+    target: lesson.points.target,
+    passed: done.length === lesson.stations.length && scored >= lesson.points.target,
+    pct: lesson.points.target ? Math.min(1, scored / lesson.points.target) : 0,
+  };
+}
+
+
 /* ===== holodeck/js/themes.js ===== */
 /**
  * The theme registry — the only thing standing in for "the model understood
@@ -3119,6 +3310,7 @@ const SIMS_META = [
       "note": "Full isolation with the DC link proven dead"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Grid Certification",
       "currency": "GRID",
@@ -3159,6 +3351,7 @@ const SIMS_META = [
       "note": "Zone, flash, repair and restore with nothing defeated"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Intersection Command",
       "currency": "SIGNAL",
@@ -3199,6 +3392,7 @@ const SIMS_META = [
       "note": "Permit to exit with every control in place"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Entry Authority",
       "currency": "PERMIT",
@@ -3239,6 +3433,7 @@ const SIMS_META = [
       "note": "Anchored, isolated and commissioned with no shortcut"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Rooftop Authority",
       "currency": "SOLAR",
@@ -3279,6 +3474,7 @@ const SIMS_META = [
       "note": "Dark fibre proven, splice inside budget"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Photon Guild",
       "currency": "PHOTON",
@@ -3319,6 +3515,7 @@ const SIMS_META = [
       "note": "Full ramp procedure with rotors safed throughout"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Airside Command",
       "currency": "AIRSIDE",
@@ -3359,6 +3556,7 @@ const SIMS_META = [
       "note": "Full possession taken and handed back with nothing skipped"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Right-of-Way",
       "currency": "TRACK",
@@ -3399,6 +3597,7 @@ const SIMS_META = [
       "note": "Every casualty triaged and tagged inside protocol time"
     },
     "stepCount": 10,
+    "interruptCount": 2,
     "game": {
       "system": "Golden Hour",
       "currency": "TRIAGE",
@@ -3439,6 +3638,7 @@ const SIMS_META = [
       "note": "Full lockout with the light curtain never defeated"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Cell Lockout",
       "currency": "CELL",
@@ -3479,6 +3679,7 @@ const SIMS_META = [
       "note": "Full isolation and recovery with atmosphere proven safe"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Cold Chain Command",
       "currency": "COLD",
@@ -3519,6 +3720,7 @@ const SIMS_META = [
       "note": "Every clip made, every tool tethered, no unprotected air"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Summit Authority",
       "currency": "SUMMIT",
@@ -3559,6 +3761,7 @@ const SIMS_META = [
       "note": "Every connection made with fall protection live and the tag line in hand"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Iron Certified",
       "currency": "IRON",
@@ -3599,6 +3802,7 @@ const SIMS_META = [
       "note": "Set, verified against the chart and landed with the swing radius clear"
     },
     "stepCount": 15,
+    "interruptCount": 2,
     "game": {
       "system": "Rigging Command",
       "currency": "RIG",
@@ -3639,6 +3843,7 @@ const SIMS_META = [
       "note": "Trench inspected, tested and protected before anyone steps below grade"
     },
     "stepCount": 15,
+    "interruptCount": 2,
     "game": {
       "system": "Ground Authority",
       "currency": "TRENCH",
@@ -3679,6 +3884,7 @@ const SIMS_META = [
       "note": "Isolated, cooled, tested and relit with nothing skipped"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Steam Certified",
       "currency": "STEAM",
@@ -3719,6 +3925,7 @@ const SIMS_META = [
       "note": "Pit and car-top entry with both stop switches confirmed"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Shaftway Authority",
       "currency": "SHAFT",
@@ -3759,6 +3966,7 @@ const SIMS_META = [
       "note": "Full containment and decon with no shortcut on either"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Containment Command",
       "currency": "ABATE",
@@ -3799,6 +4007,7 @@ const SIMS_META = [
       "note": "Full fly cue with the arbor locked and the deck clear throughout"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Certified",
       "currency": "FLY",
@@ -3839,6 +4048,7 @@ const SIMS_META = [
       "note": "Full de-energized procedure with rubber proven and grounds applied in order"
     },
     "stepCount": 15,
+    "interruptCount": 0,
     "game": {
       "system": "Storm Command",
       "currency": "VOLT",
@@ -3879,6 +4089,7 @@ const SIMS_META = [
       "note": "Full lift cycle with the red zone clear and every lock verified"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Waterfront Authority",
       "currency": "DOCK",
@@ -3919,6 +4130,7 @@ const SIMS_META = [
       "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "flat": true,
     "dossier": [
       {
@@ -4002,6 +4214,7 @@ const SIMS_META = [
       "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Air Watch",
       "currency": "READING",
@@ -4042,6 +4255,7 @@ const SIMS_META = [
       "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Sample Integrity",
       "currency": "ALIQUOT",
@@ -4082,6 +4296,7 @@ const SIMS_META = [
       "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Bend Authority",
       "currency": "STROKE",
@@ -4122,6 +4337,7 @@ const SIMS_META = [
       "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Decon Command",
       "currency": "PASS",
@@ -4162,6 +4378,7 @@ const SIMS_META = [
       "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Tie-In Authority",
       "currency": "AMP",
@@ -4202,6 +4419,7 @@ const SIMS_META = [
       "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Stow Authority",
       "currency": "LASH",
@@ -4242,6 +4460,7 @@ const SIMS_META = [
       "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Collection Command",
       "currency": "LIFT",
@@ -4282,6 +4501,7 @@ const SIMS_META = [
       "note": "Every line taken from outside the snap-back zone, hands clear, tension called by radio, stopper held"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Wharf Authority",
       "currency": "LINE",
@@ -4322,6 +4542,7 @@ const SIMS_META = [
       "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Authority",
       "currency": "POINT",
@@ -4362,6 +4583,7 @@ const SIMS_META = [
       "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Line Guard",
       "currency": "BELT",
@@ -4402,6 +4624,7 @@ const SIMS_META = [
       "note": "A battery string replaced on a live plant with the cabinet ventilated, tools insulated, terminals covered and every cell checked"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Plant Authority",
       "currency": "CELL",
@@ -4442,6 +4665,7 @@ const SIMS_META = [
       "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Switching Authority",
       "currency": "STEP",
@@ -4482,6 +4706,7 @@ const SIMS_META = [
       "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Depot Authority",
       "currency": "RAISE",
@@ -4522,6 +4747,7 @@ const SIMS_META = [
       "note": "A pump flowed at three points, read against its nameplate curve, with the alarm company told and the system restored"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Pump Authority",
       "currency": "GPM",
@@ -4562,6 +4788,7 @@ const SIMS_META = [
       "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Scaffold Authority",
       "currency": "LIFT",
@@ -4602,6 +4829,7 @@ const SIMS_META = [
       "note": "Spotted outside the collapse zone, level on pads, ten feet from the lines, and the tip landed just above the roofline first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Truck Company",
       "currency": "SPOT",
@@ -4642,6 +4870,7 @@ const SIMS_META = [
       "note": "A change with a new gasket, a quarter-turn yoke, a clean ammonia test and the valve opened one turn — first time"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Plant Operations",
       "currency": "PPM",
@@ -4682,6 +4911,7 @@ const SIMS_META = [
       "note": "A load-out with the trailer secured before the plate, the load inside the plate rating, the mast back and low, and the ramp taken in reverse — first time"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Dock Operations",
       "currency": "LIFT",
@@ -4722,6 +4952,7 @@ const SIMS_META = [
       "note": "A lineset loaded to the pipe, spreadered and ringed, test-lifted in balance and tagged — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Crew",
       "currency": "BRICK",
@@ -4762,6 +4993,7 @@ const SIMS_META = [
       "note": "A transfer with the deck contained before the hose, every bolt in, a slow start, and topping off at the reduced rate — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Engine Department",
       "currency": "TONNE",
@@ -4802,6 +5034,7 @@ const SIMS_META = [
       "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Backhaul Ops",
       "currency": "dBm",
@@ -4842,6 +5075,7 @@ const SIMS_META = [
       "note": "A grab inside the permit window, in preservation order, sealed and iced — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Field Sampling",
       "currency": "mL",
@@ -4882,6 +5116,7 @@ const SIMS_META = [
       "note": "AC before DC, the full bleed-down waited out, and live-dead-live on a tested meter — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Storage Operations",
       "currency": "kWh",
@@ -4922,6 +5157,7 @@ const SIMS_META = [
       "note": "A rescue where the rescuer was on air and on a line, the atmosphere was logged, and both people came up — first time"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Rescue Company",
       "currency": "HAUL",
@@ -4962,6 +5198,7 @@ const SIMS_META = [
       "note": "Chocks before contact, cones set, headset before pushback and the all-clear given last — first time"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Ramp Operations",
       "currency": "TURN",
@@ -5002,6 +5239,7 @@ const SIMS_META = [
       "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Water Management",
       "currency": "PPM",
@@ -5042,6 +5280,7 @@ const SIMS_META = [
       "note": "A pour tested before it started, placed inside the form's rate and consolidated without segregating — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Placement Crew",
       "currency": "YARD",
@@ -5082,6 +5321,7 @@ const SIMS_META = [
       "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Machine Shop",
       "currency": "THOU",
@@ -5122,6 +5362,7 @@ const SIMS_META = [
       "note": "A test run in order on a bled gauge, with the customer told first and the assembly restored without a hammer — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Cross-Connection Control",
       "currency": "PSID",
@@ -5162,6 +5403,7 @@ const SIMS_META = [
       "note": "A padmount switched and grounded to a written order, with the oil drawn clean and the vault left safe"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Vault Authority",
       "currency": "KVA",
@@ -5202,6 +5444,7 @@ const SIMS_META = [
       "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
     },
     "stepCount": 13,
+    "interruptCount": 2,
     "game": {
       "system": "Nacelle Authority",
       "currency": "MWH",
@@ -5242,6 +5485,7 @@ const SIMS_META = [
       "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Digester Authority",
       "currency": "SCFM",
@@ -5282,6 +5526,7 @@ const SIMS_META = [
       "note": "A tap-off landed on a live busway with the redundant side proven, the boundary held and nothing dropped"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Hall Authority",
       "currency": "KW",
@@ -5322,6 +5567,7 @@ const SIMS_META = [
       "note": "A mast section added, tied and plumbed, with the deck loaded inside its distribution chart and the cut-out proven"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Mast Authority",
       "currency": "TIES",
@@ -5368,10 +5614,29 @@ const SIMS_META = [
 
 
 
+
 // The generators that actually exist today. Listed explicitly (rather than
 // inferred from whatever the parser matches) so the UI can be honest about
 // what "speaking a simulation into existence" currently covers.
-const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
+const SUPPORTED_GAME_TYPES = ["minigolf", "training", "lesson"];
+
+// A lesson is a programme of real stations rather than a scene — see
+// shared/lessons.js. It is recognised before anything else, because "put me a
+// lockout block together for the apprentices" names a station vocabulary the
+// other generators would happily match one word of and then build a single
+// generic drill from.
+const LESSON_WORDS = ["lesson", "programme", "program", "curriculum", "block",
+  "refresher", "course", "syllabus", "training plan", "recert", "apprentices",
+  "journeymen", "put together", "build me a", "onboarding"];
+
+// The roster a lesson is composed over: every enterable station both apps
+// ship, with the fields shared/lessons.js matches on.
+const LESSON_ROSTER = SIMS_META.filter((s) => !s.flat).map((s) => ({
+  app: "smartcity", id: s.id, name: s.name, category: s.category,
+  certification: s.certification ?? "", tagline: s.tagline ?? "",
+  stepCount: s.stepCount ?? 0, parSeconds: s.parSeconds ?? 240,
+  interruptCount: s.interruptCount ?? 0,
+}));
 
 // Naming one of these directly loads the real SmartCiti.X station instead of
 // building a generic Mad-Libs procedure — see app.js's loadRealSim(). The
@@ -5395,6 +5660,19 @@ const GAME_KEYWORDS = {
 
 function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
+
+  // A programme request first. composeLesson returns null when the sentence
+  // names nothing the roster can satisfy, so a prompt that merely contains
+  // "course" — "a golf course" — falls through to the scene generators
+  // instead of producing an empty syllabus.
+  if (LESSON_WORDS.some((w) => lower.includes(w))) {
+    const lesson = composeLesson(text, LESSON_ROSTER);
+    if (lesson) {
+      return { gameType: "lesson", matchedGame: true, lesson, realSimId: null, matchedRealSim: false,
+        themeId: DEFAULT_THEME_ID, matchedTheme: false, templateId: DEFAULT_TEMPLATE_ID, matchedTemplate: false,
+        equipmentId: DEFAULT_EQUIPMENT_ID, matchedEquipment: false, raw: text };
+    }
+  }
 
   // Naming a real station beats generic keyword matching — it's the more
   // specific, more confident signal, so it decides gameType outright.
@@ -5833,10 +6111,22 @@ function mountUI(store, actions) {
           h("button", { onClick: actions.newPrompt }, "New prompt"))));
   }
 
+  // A lesson is a plan, not a scene, so it renders as a card the learner reads
+  // and launches from rather than a world they stand in. The body is built in
+  // app.js with everything already escaped — see showLesson().
+  function LessonCard() {
+    const lesson = useSlice("lesson");
+    if (!lesson.visible) return null;
+    return h("div", { className: "overlay", role: "dialog", "aria-modal": "true", "aria-label": "Composed lesson" },
+      h("div", { className: "card lesson-card" },
+        h("div", { className: "lesson-html", dangerouslySetInnerHTML: { __html: lesson.html } }),
+        h("button", { onClick: actions.newPrompt }, "New prompt")));
+  }
+
   function App() {
     return h(Fragment, null,
       h(HoleChip), h(ScoreChip), h(Rail), h(GestureTip), h(SpeakButton),
-      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard));
+      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard), h(LessonCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
@@ -5968,6 +6258,9 @@ const store = createStore({
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
   trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "", rankName: "", rankedUp: false, boardRows: [] },
+  // A composed programme rather than a scene: the third thing a prompt can
+  // produce. See shared/lessons.js.
+  lesson: { visible: false, html: "" },
 });
 
 // ----------------------------------------------------------- prop dressing
@@ -6171,6 +6464,7 @@ function playAgain() {
 function newPrompt() {
   store.patch("final", { visible: false });
   store.patch("trainingResult", { visible: false });
+  store.patch("lesson", { visible: false });
   store.patch("hud", { visible: false });
   clearHole();
   clearTraining();
@@ -6572,11 +6866,48 @@ async function enterRealSim(simId) {
   enterTraining(room, (g) => room.build(g));
 }
 
+/**
+ * Render a composed lesson: the stations in order, why each is in the block,
+ * the points target, and a launch link per station. Progress comes from the
+ * learner's own training records, so a station finished in SmartCiti.X or
+ * Trade Skills ticks here without this app having to watch them do it.
+ */
+function showLesson(lesson) {
+  const done = lessonProgress(lesson, TrainingRecords.list?.() ?? []);
+  const rows = lesson.stations.map((st) => `
+    <li class="lesson-row">
+      <span class="lesson-n">${st.order}</span>
+      <span class="lesson-body">
+        <a class="lesson-launch" href="../../smartcity/dist/smartcity-x.html?sim=${encodeURIComponent(st.id)}">${escapeHtml(st.name)}</a>
+        <small>${escapeHtml(st.why)} · ${st.steps} steps${st.interrupts ? ` · ${st.interrupts} interruptions` : ""}</small>
+      </span>
+    </li>`).join("");
+  store.patch("lesson", {
+    visible: true,
+    html: `
+      <h2>${escapeHtml(lesson.title)}</h2>
+      <p class="lesson-meta">${lesson.stations.length} stations · about ${lesson.estimate.minutes} minutes ·
+        ${escapeHtml(lesson.unions.join(", ") || "cross-craft")}</p>
+      <ol class="lesson-list">${rows}</ol>
+      <p class="lesson-meta"><b>${done.points} / ${lesson.points.target} points</b> to pass
+        (${Math.round(lesson.points.pass * 100)}% of a clean run across the block) ·
+        ${done.stationsDone} of ${done.stationsTotal} stations done</p>
+      ${lesson.standards.length ? `<p class="lesson-meta">Standards: ${escapeHtml(lesson.standards.join(" · "))}</p>` : ""}`,
+  });
+}
+
 async function generate() {
   Sfx.ensure();
   const { promptText, themeId, userPickedTheme } = store.get().intro;
   const parsed = await interpretPrompt(promptText);
   store.patch("intro", { visible: false });
+  if (parsed.gameType === "lesson" && parsed.lesson) {
+    // A programme is not a scene. It renders as a plan the learner works
+    // through, each station launching into the app that owns it.
+    mode = "lesson";
+    showLesson(parsed.lesson);
+    return;
+  }
   if (parsed.realSimId) {
     mode = "training";
     await enterRealSim(parsed.realSimId);

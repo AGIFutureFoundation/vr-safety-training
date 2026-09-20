@@ -205,10 +205,22 @@ export function mountUI(store, actions) {
           h("button", { onClick: actions.newPrompt }, "New prompt"))));
   }
 
+  // A lesson is a plan, not a scene, so it renders as a card the learner reads
+  // and launches from rather than a world they stand in. The body is built in
+  // app.js with everything already escaped — see showLesson().
+  function LessonCard() {
+    const lesson = useSlice("lesson");
+    if (!lesson.visible) return null;
+    return h("div", { className: "overlay", role: "dialog", "aria-modal": "true", "aria-label": "Composed lesson" },
+      h("div", { className: "card lesson-card" },
+        h("div", { className: "lesson-html", dangerouslySetInnerHTML: { __html: lesson.html } }),
+        h("button", { onClick: actions.newPrompt }, "New prompt")));
+  }
+
   function App() {
     return h(Fragment, null,
       h(HoleChip), h(ScoreChip), h(Rail), h(GestureTip), h(SpeakButton),
-      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard));
+      h(IntroCard), h(HoleResultCard), h(FinalCard), h(TrainingResultCard), h(LessonCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));

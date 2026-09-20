@@ -8,7 +8,8 @@ import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
-import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion } from "../../shared/a11y.js";
+import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
+import { lessonProgress } from "../../shared/lessons.js";
 
 // Progress is the profile shared with SmartCiti.X and Trade Skills. It has
 // to be loaded before any Session finishes: Session.finish() calls
@@ -135,6 +136,9 @@ const store = createStore({
   holeResult: { visible: false, stars: "", title: "", note: "", isLast: false },
   final: { visible: false, rows: [], totalPar: 0, totalStrokes: 0, summary: "" },
   trainingResult: { visible: false, stars: "", title: "", scoreText: "", note: "", rankName: "", rankedUp: false, boardRows: [] },
+  // A composed programme rather than a scene: the third thing a prompt can
+  // produce. See shared/lessons.js.
+  lesson: { visible: false, html: "" },
 });
 
 // ----------------------------------------------------------- prop dressing
@@ -338,6 +342,7 @@ function playAgain() {
 function newPrompt() {
   store.patch("final", { visible: false });
   store.patch("trainingResult", { visible: false });
+  store.patch("lesson", { visible: false });
   store.patch("hud", { visible: false });
   clearHole();
   clearTraining();
@@ -739,11 +744,48 @@ async function enterRealSim(simId) {
   enterTraining(room, (g) => room.build(g));
 }
 
+/**
+ * Render a composed lesson: the stations in order, why each is in the block,
+ * the points target, and a launch link per station. Progress comes from the
+ * learner's own training records, so a station finished in SmartCiti.X or
+ * Trade Skills ticks here without this app having to watch them do it.
+ */
+function showLesson(lesson) {
+  const done = lessonProgress(lesson, TrainingRecords.list?.() ?? []);
+  const rows = lesson.stations.map((st) => `
+    <li class="lesson-row">
+      <span class="lesson-n">${st.order}</span>
+      <span class="lesson-body">
+        <a class="lesson-launch" href="../../smartcity/dist/smartcity-x.html?sim=${encodeURIComponent(st.id)}">${escapeHtml(st.name)}</a>
+        <small>${escapeHtml(st.why)} · ${st.steps} steps${st.interrupts ? ` · ${st.interrupts} interruptions` : ""}</small>
+      </span>
+    </li>`).join("");
+  store.patch("lesson", {
+    visible: true,
+    html: `
+      <h2>${escapeHtml(lesson.title)}</h2>
+      <p class="lesson-meta">${lesson.stations.length} stations · about ${lesson.estimate.minutes} minutes ·
+        ${escapeHtml(lesson.unions.join(", ") || "cross-craft")}</p>
+      <ol class="lesson-list">${rows}</ol>
+      <p class="lesson-meta"><b>${done.points} / ${lesson.points.target} points</b> to pass
+        (${Math.round(lesson.points.pass * 100)}% of a clean run across the block) ·
+        ${done.stationsDone} of ${done.stationsTotal} stations done</p>
+      ${lesson.standards.length ? `<p class="lesson-meta">Standards: ${escapeHtml(lesson.standards.join(" · "))}</p>` : ""}`,
+  });
+}
+
 async function generate() {
   Sfx.ensure();
   const { promptText, themeId, userPickedTheme } = store.get().intro;
   const parsed = await interpretPrompt(promptText);
   store.patch("intro", { visible: false });
+  if (parsed.gameType === "lesson" && parsed.lesson) {
+    // A programme is not a scene. It renders as a plan the learner works
+    // through, each station launching into the app that owns it.
+    mode = "lesson";
+    showLesson(parsed.lesson);
+    return;
+  }
   if (parsed.realSimId) {
     mode = "training";
     await enterRealSim(parsed.realSimId);

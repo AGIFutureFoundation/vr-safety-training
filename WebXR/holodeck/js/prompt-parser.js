@@ -21,11 +21,30 @@
 import { THEMES, DEFAULT_THEME_ID } from "./themes.js";
 import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from "./training.js";
 import { SIMS_META } from "../../smartcity/js/sims-meta.js";
+import { composeLesson } from "../../shared/lessons.js";
 
 // The generators that actually exist today. Listed explicitly (rather than
 // inferred from whatever the parser matches) so the UI can be honest about
 // what "speaking a simulation into existence" currently covers.
-export const SUPPORTED_GAME_TYPES = ["minigolf", "training"];
+export const SUPPORTED_GAME_TYPES = ["minigolf", "training", "lesson"];
+
+// A lesson is a programme of real stations rather than a scene — see
+// shared/lessons.js. It is recognised before anything else, because "put me a
+// lockout block together for the apprentices" names a station vocabulary the
+// other generators would happily match one word of and then build a single
+// generic drill from.
+const LESSON_WORDS = ["lesson", "programme", "program", "curriculum", "block",
+  "refresher", "course", "syllabus", "training plan", "recert", "apprentices",
+  "journeymen", "put together", "build me a", "onboarding"];
+
+// The roster a lesson is composed over: every enterable station both apps
+// ship, with the fields shared/lessons.js matches on.
+export const LESSON_ROSTER = SIMS_META.filter((s) => !s.flat).map((s) => ({
+  app: "smartcity", id: s.id, name: s.name, category: s.category,
+  certification: s.certification ?? "", tagline: s.tagline ?? "",
+  stepCount: s.stepCount ?? 0, parSeconds: s.parSeconds ?? 240,
+  interruptCount: s.interruptCount ?? 0,
+}));
 
 // Naming one of these directly loads the real SmartCiti.X station instead of
 // building a generic Mad-Libs procedure — see app.js's loadRealSim(). The
@@ -49,6 +68,19 @@ const GAME_KEYWORDS = {
 
 export function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
+
+  // A programme request first. composeLesson returns null when the sentence
+  // names nothing the roster can satisfy, so a prompt that merely contains
+  // "course" — "a golf course" — falls through to the scene generators
+  // instead of producing an empty syllabus.
+  if (LESSON_WORDS.some((w) => lower.includes(w))) {
+    const lesson = composeLesson(text, LESSON_ROSTER);
+    if (lesson) {
+      return { gameType: "lesson", matchedGame: true, lesson, realSimId: null, matchedRealSim: false,
+        themeId: DEFAULT_THEME_ID, matchedTheme: false, templateId: DEFAULT_TEMPLATE_ID, matchedTemplate: false,
+        equipmentId: DEFAULT_EQUIPMENT_ID, matchedEquipment: false, raw: text };
+    }
+  }
 
   // Naming a real station beats generic keyword matching — it's the more
   // specific, more confident signal, so it decides gameType outright.

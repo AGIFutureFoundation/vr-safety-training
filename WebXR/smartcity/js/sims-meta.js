@@ -30,6 +30,7 @@ export const SIMS_META = [
       "note": "Full isolation with the DC link proven dead"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Grid Certification",
       "currency": "GRID",
@@ -70,6 +71,7 @@ export const SIMS_META = [
       "note": "Zone, flash, repair and restore with nothing defeated"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Intersection Command",
       "currency": "SIGNAL",
@@ -110,6 +112,7 @@ export const SIMS_META = [
       "note": "Permit to exit with every control in place"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Entry Authority",
       "currency": "PERMIT",
@@ -150,6 +153,7 @@ export const SIMS_META = [
       "note": "Anchored, isolated and commissioned with no shortcut"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Rooftop Authority",
       "currency": "SOLAR",
@@ -190,6 +194,7 @@ export const SIMS_META = [
       "note": "Dark fibre proven, splice inside budget"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Photon Guild",
       "currency": "PHOTON",
@@ -230,6 +235,7 @@ export const SIMS_META = [
       "note": "Full ramp procedure with rotors safed throughout"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Airside Command",
       "currency": "AIRSIDE",
@@ -270,6 +276,7 @@ export const SIMS_META = [
       "note": "Full possession taken and handed back with nothing skipped"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Right-of-Way",
       "currency": "TRACK",
@@ -310,6 +317,7 @@ export const SIMS_META = [
       "note": "Every casualty triaged and tagged inside protocol time"
     },
     "stepCount": 10,
+    "interruptCount": 2,
     "game": {
       "system": "Golden Hour",
       "currency": "TRIAGE",
@@ -350,6 +358,7 @@ export const SIMS_META = [
       "note": "Full lockout with the light curtain never defeated"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Cell Lockout",
       "currency": "CELL",
@@ -390,6 +399,7 @@ export const SIMS_META = [
       "note": "Full isolation and recovery with atmosphere proven safe"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Cold Chain Command",
       "currency": "COLD",
@@ -430,6 +440,7 @@ export const SIMS_META = [
       "note": "Every clip made, every tool tethered, no unprotected air"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Summit Authority",
       "currency": "SUMMIT",
@@ -470,6 +481,7 @@ export const SIMS_META = [
       "note": "Every connection made with fall protection live and the tag line in hand"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Iron Certified",
       "currency": "IRON",
@@ -510,6 +522,7 @@ export const SIMS_META = [
       "note": "Set, verified against the chart and landed with the swing radius clear"
     },
     "stepCount": 15,
+    "interruptCount": 2,
     "game": {
       "system": "Rigging Command",
       "currency": "RIG",
@@ -550,6 +563,7 @@ export const SIMS_META = [
       "note": "Trench inspected, tested and protected before anyone steps below grade"
     },
     "stepCount": 15,
+    "interruptCount": 2,
     "game": {
       "system": "Ground Authority",
       "currency": "TRENCH",
@@ -590,6 +604,7 @@ export const SIMS_META = [
       "note": "Isolated, cooled, tested and relit with nothing skipped"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Steam Certified",
       "currency": "STEAM",
@@ -630,6 +645,7 @@ export const SIMS_META = [
       "note": "Pit and car-top entry with both stop switches confirmed"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Shaftway Authority",
       "currency": "SHAFT",
@@ -670,6 +686,7 @@ export const SIMS_META = [
       "note": "Full containment and decon with no shortcut on either"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Containment Command",
       "currency": "ABATE",
@@ -710,6 +727,7 @@ export const SIMS_META = [
       "note": "Full fly cue with the arbor locked and the deck clear throughout"
     },
     "stepCount": 14,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Certified",
       "currency": "FLY",
@@ -750,6 +768,7 @@ export const SIMS_META = [
       "note": "Full de-energized procedure with rubber proven and grounds applied in order"
     },
     "stepCount": 15,
+    "interruptCount": 0,
     "game": {
       "system": "Storm Command",
       "currency": "VOLT",
@@ -790,6 +809,7 @@ export const SIMS_META = [
       "note": "Full lift cycle with the red zone clear and every lock verified"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Waterfront Authority",
       "currency": "DOCK",
@@ -830,6 +850,7 @@ export const SIMS_META = [
       "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "flat": true,
     "dossier": [
       {
@@ -913,6 +934,7 @@ export const SIMS_META = [
       "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Air Watch",
       "currency": "READING",
@@ -953,6 +975,7 @@ export const SIMS_META = [
       "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Sample Integrity",
       "currency": "ALIQUOT",
@@ -993,6 +1016,7 @@ export const SIMS_META = [
       "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Bend Authority",
       "currency": "STROKE",
@@ -1033,6 +1057,7 @@ export const SIMS_META = [
       "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Decon Command",
       "currency": "PASS",
@@ -1073,6 +1098,7 @@ export const SIMS_META = [
       "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Tie-In Authority",
       "currency": "AMP",
@@ -1113,6 +1139,7 @@ export const SIMS_META = [
       "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Stow Authority",
       "currency": "LASH",
@@ -1153,6 +1180,7 @@ export const SIMS_META = [
       "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Collection Command",
       "currency": "LIFT",
@@ -1193,6 +1221,7 @@ export const SIMS_META = [
       "note": "Every line taken from outside the snap-back zone, hands clear, tension called by radio, stopper held"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Wharf Authority",
       "currency": "LINE",
@@ -1233,6 +1262,7 @@ export const SIMS_META = [
       "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Authority",
       "currency": "POINT",
@@ -1273,6 +1303,7 @@ export const SIMS_META = [
       "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Line Guard",
       "currency": "BELT",
@@ -1313,6 +1344,7 @@ export const SIMS_META = [
       "note": "A battery string replaced on a live plant with the cabinet ventilated, tools insulated, terminals covered and every cell checked"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Plant Authority",
       "currency": "CELL",
@@ -1353,6 +1385,7 @@ export const SIMS_META = [
       "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Switching Authority",
       "currency": "STEP",
@@ -1393,6 +1426,7 @@ export const SIMS_META = [
       "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
     },
     "stepCount": 10,
+    "interruptCount": 0,
     "game": {
       "system": "Depot Authority",
       "currency": "RAISE",
@@ -1433,6 +1467,7 @@ export const SIMS_META = [
       "note": "A pump flowed at three points, read against its nameplate curve, with the alarm company told and the system restored"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Pump Authority",
       "currency": "GPM",
@@ -1473,6 +1508,7 @@ export const SIMS_META = [
       "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Scaffold Authority",
       "currency": "LIFT",
@@ -1513,6 +1549,7 @@ export const SIMS_META = [
       "note": "Spotted outside the collapse zone, level on pads, ten feet from the lines, and the tip landed just above the roofline first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Truck Company",
       "currency": "SPOT",
@@ -1553,6 +1590,7 @@ export const SIMS_META = [
       "note": "A change with a new gasket, a quarter-turn yoke, a clean ammonia test and the valve opened one turn — first time"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Plant Operations",
       "currency": "PPM",
@@ -1593,6 +1631,7 @@ export const SIMS_META = [
       "note": "A load-out with the trailer secured before the plate, the load inside the plate rating, the mast back and low, and the ramp taken in reverse — first time"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Dock Operations",
       "currency": "LIFT",
@@ -1633,6 +1672,7 @@ export const SIMS_META = [
       "note": "A lineset loaded to the pipe, spreadered and ringed, test-lifted in balance and tagged — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Fly Crew",
       "currency": "BRICK",
@@ -1673,6 +1713,7 @@ export const SIMS_META = [
       "note": "A transfer with the deck contained before the hose, every bolt in, a slow start, and topping off at the reduced rate — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Engine Department",
       "currency": "TONNE",
@@ -1713,6 +1754,7 @@ export const SIMS_META = [
       "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Backhaul Ops",
       "currency": "dBm",
@@ -1753,6 +1795,7 @@ export const SIMS_META = [
       "note": "A grab inside the permit window, in preservation order, sealed and iced — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Field Sampling",
       "currency": "mL",
@@ -1793,6 +1836,7 @@ export const SIMS_META = [
       "note": "AC before DC, the full bleed-down waited out, and live-dead-live on a tested meter — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Storage Operations",
       "currency": "kWh",
@@ -1833,6 +1877,7 @@ export const SIMS_META = [
       "note": "A rescue where the rescuer was on air and on a line, the atmosphere was logged, and both people came up — first time"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Rescue Company",
       "currency": "HAUL",
@@ -1873,6 +1918,7 @@ export const SIMS_META = [
       "note": "Chocks before contact, cones set, headset before pushback and the all-clear given last — first time"
     },
     "stepCount": 11,
+    "interruptCount": 2,
     "game": {
       "system": "Ramp Operations",
       "currency": "TURN",
@@ -1913,6 +1959,7 @@ export const SIMS_META = [
       "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Water Management",
       "currency": "PPM",
@@ -1953,6 +2000,7 @@ export const SIMS_META = [
       "note": "A pour tested before it started, placed inside the form's rate and consolidated without segregating — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Placement Crew",
       "currency": "YARD",
@@ -1993,6 +2041,7 @@ export const SIMS_META = [
       "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
     },
     "stepCount": 12,
+    "interruptCount": 0,
     "game": {
       "system": "Machine Shop",
       "currency": "THOU",
@@ -2033,6 +2082,7 @@ export const SIMS_META = [
       "note": "A test run in order on a bled gauge, with the customer told first and the assembly restored without a hammer — first time"
     },
     "stepCount": 11,
+    "interruptCount": 0,
     "game": {
       "system": "Cross-Connection Control",
       "currency": "PSID",
@@ -2073,6 +2123,7 @@ export const SIMS_META = [
       "note": "A padmount switched and grounded to a written order, with the oil drawn clean and the vault left safe"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Vault Authority",
       "currency": "KVA",
@@ -2113,6 +2164,7 @@ export const SIMS_META = [
       "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
     },
     "stepCount": 13,
+    "interruptCount": 2,
     "game": {
       "system": "Nacelle Authority",
       "currency": "MWH",
@@ -2153,6 +2205,7 @@ export const SIMS_META = [
       "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Digester Authority",
       "currency": "SCFM",
@@ -2193,6 +2246,7 @@ export const SIMS_META = [
       "note": "A tap-off landed on a live busway with the redundant side proven, the boundary held and nothing dropped"
     },
     "stepCount": 12,
+    "interruptCount": 2,
     "game": {
       "system": "Hall Authority",
       "currency": "KW",
@@ -2233,6 +2287,7 @@ export const SIMS_META = [
       "note": "A mast section added, tied and plumbed, with the deck loaded inside its distribution chart and the cut-out proven"
     },
     "stepCount": 14,
+    "interruptCount": 2,
     "game": {
       "system": "Mast Authority",
       "currency": "TIES",

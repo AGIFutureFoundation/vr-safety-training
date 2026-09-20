@@ -17,7 +17,7 @@ const CHECKERS = [
   // run at all, before anything asks whether the content is right.
   "check_imports.mjs",
   "check_smartcity.mjs", "check_trades.mjs", "check_holodeck.mjs",
-  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_robot.mjs", "check_platform.mjs", "check_lti.mjs", "check_orbis_stable.mjs", "check_verify.mjs", "check_observer.mjs", "check_a11y.mjs", "check_budget.mjs", "check_layout.mjs", "check_interrupts.mjs",
+  "check_records.mjs", "check_identity.mjs", "check_lrs.mjs", "check_robot.mjs", "check_platform.mjs", "check_lti.mjs", "check_orbis_stable.mjs", "check_verify.mjs", "check_observer.mjs", "check_a11y.mjs", "check_budget.mjs", "check_layout.mjs", "check_interrupts.mjs", "check_lessons.mjs",
 ];
 
 let failed = 0;
