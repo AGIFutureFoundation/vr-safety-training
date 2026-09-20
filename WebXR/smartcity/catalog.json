@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 65
+      "stations": 66
     },
     "trades": {
       "entry": "trades/index.html",
@@ -89,6 +89,7 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "ev-extrication",
         "hazmat-entry"
       ]
     },
@@ -4737,6 +4738,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ev-extrication",
+      "name": "EV Extrication",
+      "title": "SmartCiti.X~ EV Extrication VR",
+      "tagline": "Trapped occupant in a battery-electric car: chock and crib first, shut the high voltage down off the manufacturer's guide, wait out the stored energy, mark the orange and the undeployed airbags, protect the patient, cut only where the sheet says, and watch the pack",
+      "category": "Emergency Services",
+      "domain": "Emergency response",
+      "trade": "Firefighter — vehicle rescue technician",
+      "union": null,
+      "certification": "IAFF / IAEP — vehicle rescue technician; NFPA 1006 technical rescue vehicle and machinery competencies; NFPA 1670 vehicle and machinery search and rescue; the vehicle manufacturer's Emergency Response Guide for the high-voltage shutdown, the crib points and the cut points",
+      "accent": "#f97316",
+      "parSeconds": 300,
+      "weather": "rain",
+      "indoor": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "turn",
+        "hold",
+        "track",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "ev-rescue",
+        "name": "EV Rescue",
+        "note": "An occupant freed from a battery-electric car with the high voltage down, the wait kept, nothing orange cut, and the pack still being watched when the patient left"
+      },
+      "meshes": 245,
+      "lights": 0,
+      "overBudget": false,
+      "index": "65",
+      "flat": false,
+      "system": "Rescue Group",
+      "currency": "RESCUE",
+      "ranks": [
+        "Firefighter",
+        "Vehicle Rescue Operations",
+        "Vehicle Rescue Technician",
+        "Extrication Officer",
+        "EV Rescue Certified"
+      ],
+      "awards": [
+        {
+          "id": "shut-it-down",
+          "name": "Shut It Down",
+          "note": "High voltage isolated the way the guide said, first time"
+        },
+        {
+          "id": "nothing-orange",
+          "name": "Nothing Orange",
+          "note": "Nothing cut, crushed or leaned into that was not on the sheet"
+        },
+        {
+          "id": "read-the-pack",
+          "name": "Read The Pack",
+          "note": "Thermal read on the pack committed inside the band"
+        },
+        {
+          "id": "clean-extrication",
+          "name": "Clean Extrication",
+          "note": "No corrections anywhere in the job"
+        },
+        {
+          "id": "waited-it-out",
+          "name": "Waited It Out",
+          "note": "Every timed hold carried the full count, bleed-down included"
+        },
+        {
+          "id": "patient-out",
+          "name": "Patient Out",
+          "note": "Occupant freed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ev-extrication"
     },
     {
       "app": "smartcity",

@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, slab, group, decal, ownMaterial } from "../../shared/kit.js";
+import { box, cyl, slab, torus, group, decal, ownMaterial } from "../../shared/kit.js";
 import { CITY, holoTag, cone, toolChest, equipmentCabinet, standingFigure } from "./citykit.js";
 import { buildAmbient } from "./ambient.js";
 
@@ -220,6 +220,20 @@ export function buildApron(parent, o = {}) {
     box(truck, 1.9, 0.06, 2.7, 0, 1.02, 1.0, 0x4a535d, { rough: 0.7, metal: 0.4 });
     for (const sz of [-0.1, 2.2]) for (const sx of [-1, 1]) cyl(truck, 0.07, 0.07, 1.0, sx * 0.9, 1.52, sz, 0x59636d, { rough: 0.5, metal: 0.6, seg: 8 });
     box(truck, 1.8, 0.1, 0.07, 0, 2.02, 1.05, 0x59636d, { rough: 0.5, metal: 0.6 });
+    // Kit on the deck. The comment above has promised it since this was
+    // written and the bed was a bare grey panel — which is what it read as
+    // from the gate, on every station, because the yard is near the approach.
+    box(truck, 0.62, 0.34, 0.46, -0.52, 1.22, 0.35, 0x2f3740, { rough: 0.65, metal: 0.3 });
+    box(truck, 0.5, 0.28, 0.4, -0.5, 1.5, 0.3, 0xe3a534, { rough: 0.7 });
+    box(truck, 0.72, 0.26, 0.5, 0.52, 1.18, 1.45, 0x8a6a3a, { rough: 0.9 });
+    for (const cz of [0.9, 1.55]) {
+      const coil = torus(truck, 0.26, 0.07, 0.48, 1.12, cz, 0x1f2429, { rough: 0.9, seg: 8, seg2: 18 });
+      coil.rotation.x = Math.PI / 2;
+    }
+    for (let i = 0; i < 5; i++) {
+      cyl(truck, 0.045, 0.045, 2.3, -0.72 + i * 0.05, 1.08, 0.1, 0x9aa4ad, { rough: 0.5, metal: 0.65, seg: 8 })
+        .rotation.x = Math.PI / 2;
+    }
     for (const [wx, wz] of [[-0.95, -1.5], [0.95, -1.5], [-0.95, 1.6], [0.95, 1.6]]) {
       const w = cyl(truck, 0.42, 0.42, 0.28, wx, 0.42, wz, 0x15181c, { rough: 0.95, seg: 14 });
       w.rotation.z = Math.PI / 2;
