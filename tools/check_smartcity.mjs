@@ -18,6 +18,14 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
 
+// The interior styles a station may declare. Read out of interiors.js rather
+// than written down here, because a list kept in two places is a list that
+// goes stale — this checker rejected a style that had already shipped.
+const INTERIOR_STYLES = (readFileSync(join(WEBXR, "smartcity/js/interiors.js"), "utf8")
+  .match(/export const INTERIOR_STYLES = \[([^\]]*)\]/)?.[1] ?? "")
+  .split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+if (!INTERIOR_STYLES.length) throw new Error("could not read INTERIOR_STYLES from interiors.js");
+
 const MODULES = [
   "shared/kit.js", "shared/game.js",
   "smartcity/js/citykit.js", "smartcity/js/gamify.js",
@@ -218,8 +226,8 @@ for (const sim of suite.SIMS) {
     if (!api.hits[id]) fail(sim.id, `hazard "${id}" has no object in the station`);
     if ((sim.hazards[id] ?? "").length < 40) fail(sim.id, `hazard "${id}" explanation is too thin`);
   }
-  if (sim.indoor !== undefined && sim.indoor !== null && !["plant", "shop", "theatre", "service", "garage"].includes(sim.indoor)) {
-    fail(sim.id, `indoor "${sim.indoor}" is not one of plant/shop/theatre/service/garage`);
+  if (sim.indoor !== undefined && sim.indoor !== null && !INTERIOR_STYLES.includes(sim.indoor)) {
+    fail(sim.id, `indoor "${sim.indoor}" is not one of ${INTERIOR_STYLES.join("/")}`);
   }
   if (sim.weather !== undefined && !["clear", "overcast", "rain", "fog", "wind", "storm"].includes(sim.weather)) {
     fail(sim.id, `weather "${sim.weather}" is not one of clear/overcast/rain/fog/wind/storm`);

@@ -2043,6 +2043,15 @@ window.__smartcityTest = {
     programs: renderer.info.programs?.length ?? null,
   }),
   stage: () => state.stage,
+  // The station's built controls by id, the group they live in, and the THREE
+  // namespace — so a live probe can raycast from the camera to a control and
+  // see whether anything is in front of it. The headless checkers know where
+  // a control IS; only the renderer knows whether it can be reached. These
+  // were missing, and the probe that wanted them reported "no test hook" and
+  // then printed a clean bill of health, which is the worst of both.
+  hits: () => state.hits,
+  stationRoot: () => state.roomRoot,
+  THREE: () => THREE,
   perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
   // The keyboard cursor, so an accessibility test can assert that Tab walks
   // the controls the procedure names rather than the scene-graph order.

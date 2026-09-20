@@ -11,11 +11,11 @@ import { CITY, surfaceTexture, texturedMat, deckPlateFace, pavingFace } from "./
 // exit, a ceiling with real fittings, and rooflights that let the weather
 // and the hour through so the room still knows what time it is.
 //
-// Five styles, because five is what the roster actually needs. Each is the
+// Six styles, because six is what the roster actually needs. Each is the
 // same shell with different surfaces, dressing and light temperature, so
-// the whole layer is about a hundred meshes rather than five separate rooms.
+// the whole layer is about a hundred meshes rather than six separate rooms.
 
-export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage"];
+export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall"];
 
 const STYLE = {
   plant: {
@@ -47,6 +47,15 @@ const STYLE = {
     wall: 0xb3bcc3, floor: 0x585f66, trim: 0xf2a23b, ceiling: 0x8b959c,
     lamp: 0xeef5fb, lampI: 1.6, ambient: 0.58, w: 18, d: 13, h: 6.2,
     rooflights: 3, door: "roller", grime: 0.45,
+  },
+  // A hall has no windows on purpose — daylight is a heat load and a
+  // security problem — so it is the one style with no rooflights at all,
+  // and the only light in it is the light somebody installed.
+  datahall: {
+    label: "Data hall",
+    wall: 0xdfe4e9, floor: 0x3e4650, trim: 0x2f6f8c, ceiling: 0xc6ccd2,
+    lamp: 0xf4fbff, lampI: 1.7, ambient: 0.5, w: 17, d: 12, h: 4.6,
+    rooflights: 0, door: "personnel", grime: 0.1,
   },
 };
 
@@ -92,6 +101,28 @@ function flyTower(g, style, y, accent) {
   void cat;
 }
 
+/** Ladder tray, dual busway and a fibre run overhead — the data-hall style.
+ *  The A and B busways are the point of the room: two feeds a metre apart in
+ *  identical housings, which is what makes the hall maintainable and what
+ *  makes working in it dangerous. */
+function cableTrays(g, style, y, accent) {
+  for (const z of [-3.9, 3.9]) {
+    for (const dz of [-0.24, 0.24]) box(g, style.w - 1.0, 0.07, 0.05, 0, y, z + dz, 0x8f979e, { rough: 0.6, metal: 0.5, cast: false });
+    for (let x = -style.w / 2 + 1; x < style.w / 2 - 0.6; x += 0.55) box(g, 0.05, 0.04, 0.5, x, y, z, 0x8f979e, { rough: 0.6, metal: 0.5, cast: false });
+    for (let x = -style.w / 2 + 1.6; x < style.w / 2 - 1; x += 2.8) cyl(g, 0.02, 0.02, 0.55, x, y + 0.3, z, 0x6d7379, { rough: 0.6, metal: 0.5, seg: 6, cast: false });
+    const bundle = cyl(g, 0.1, 0.1, style.w - 1.2, 0, y + 0.12, z, 0x2f3a45, { rough: 0.7, seg: 8, cast: false });
+    bundle.rotation.z = Math.PI / 2;
+  }
+  for (const [z, tone] of [[-2.3, 0xb34b3a], [2.3, 0x2f6f8c]]) {
+    box(g, style.w - 1.4, 0.26, 0.26, 0, y - 0.4, z, tone, { rough: 0.5, metal: 0.5, cast: false });
+    for (let x = -style.w / 2 + 2.6; x < style.w / 2 - 1.6; x += 3.4) {
+      box(g, 0.5, 0.42, 0.44, x, y - 0.72, z, 0x2a3138, { rough: 0.6, metal: 0.4, cast: false });
+      ball(g, 0.045, x + 0.18, y - 0.58, z + 0.24, 0x59c97b, { emissive: 0x59c97b, ei: 1.4, cast: false, seg: 8, seg2: 6 });
+    }
+  }
+  box(g, style.w - 1.0, 0.05, 0.3, 0, y + 0.6, 0, accent, { emissive: accent, ei: 0.45, rough: 0.5, cast: false });
+}
+
 /**
  * Build a room around the station.
  *   parent   a group inside the stage
@@ -110,10 +141,10 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
 
   // Floor: sealed concrete in the light styles, deck plate in the shop.
   const floorTex = surfaceTexture(
-    (cx, cw, ch) => (indoor === "shop" || indoor === "garage"
+    (cx, cw, ch) => (indoor === "shop" || indoor === "garage" || indoor === "datahall"
       ? deckPlateFace(cx, cw, ch)
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
-    { repeat: indoor === "shop" ? 10 : 6, px: 512 });
+    { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
   floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.12, color: style.floor });
   floor.receiveShadow = true;
@@ -147,12 +178,13 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
   box(g, w, 0.2, d, 0, h + 0.1, 0, style.ceiling,
     { rough: 0.9, finish: "painted", tile: [Math.round(w * PER_M), Math.round(d * PER_M)] });
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
+  else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
 
   // Light fittings: emissive panels with one point light each.
   const lamps = [];
-  const rows = indoor === "theatre" ? 2 : 3;
+  const rows = indoor === "theatre" ? 2 : indoor === "datahall" ? 4 : 3;
   for (let r = 0; r < rows; r++) {
     for (const sx of [-1, 1]) {
       const x = sx * w * 0.24;

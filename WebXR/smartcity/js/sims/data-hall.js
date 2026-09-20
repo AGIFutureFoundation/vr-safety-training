@@ -24,6 +24,10 @@ export const SIM_DATA_HALL = {
   trade: "Critical facilities electrician",
   category: "Connectivity & Telecom",
   weather: "overcast",
+  // A hall is a sealed white room with no daylight in it; standing this
+  // station on an open plaza under a skyline was the last piece of geography
+  // in the roster that contradicted its own text.
+  indoor: "datahall",
   certification: "IBEW — critical facilities / data centre electrician; NFPA 70E arc-flash risk assessment and energised electrical work permit; OSHA 29 CFR 1910.333 for working on or near live parts; Uptime Institute concurrent maintainability practice",
   name: "Data Hall",
   title: simTitle("Data Hall"),
