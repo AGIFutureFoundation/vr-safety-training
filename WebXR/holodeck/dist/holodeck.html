@@ -7274,34 +7274,62 @@ function showLesson(lesson) {
   });
 }
 
+/**
+ * What a prompt can turn into, in the order the interpretation is trusted.
+ *
+ * This started as a chain of `if (parsed.x)` returns and grew a branch every
+ * time a generator was added — a programme, a named station, an assessment
+ * variant. As a list it stays honest about two things the chain hid: that
+ * order is a decision (a named station beats a keyword match because it is
+ * the more specific signal), and that every generator has to declare what it
+ * sets `mode` to, which is what the HUD and the Escape handler read.
+ *
+ * `when` decides from the parse alone. `run` does the work. Adding a
+ * generator is an entry here plus whatever it needs from the parser.
+ */
+const GENERATORS = [
+  {
+    id: "lesson",
+    mode: "lesson",
+    // A programme is not a scene: it renders as a plan the learner works
+    // through, each station launching into the app that owns it.
+    when: (p) => p.gameType === "lesson" && !!p.lesson,
+    run: (p) => showLesson(p.lesson),
+  },
+  {
+    id: "real-station",
+    mode: "training",
+    when: (p) => !!p.realSimId,
+    run: (p) => enterRealSim(p.realSimId, p.variantLevel),
+  },
+  {
+    id: "generic-training",
+    mode: "training",
+    when: (p) => p.gameType === "training",
+    run: (p) => enterGenericTraining(p.templateId, p.equipmentId),
+  },
+  {
+    id: "minigolf",
+    mode: "golf",
+    // The fallback, so it matches anything that reached it.
+    when: () => true,
+    run: (p, { themeId, userPickedTheme }) => {
+      course = buildCourse(findTheme(userPickedTheme ? themeId : p.themeId));
+      holeIndex = 0;
+      strokesLog = [];
+      enterHole();
+    },
+  },
+];
+
 async function generate() {
   Sfx.ensure();
-  const { promptText, themeId, userPickedTheme } = store.get().intro;
-  const parsed = await interpretPrompt(promptText);
+  const intro = store.get().intro;
+  const parsed = await interpretPrompt(intro.promptText);
   store.patch("intro", { visible: false });
-  if (parsed.gameType === "lesson" && parsed.lesson) {
-    // A programme is not a scene. It renders as a plan the learner works
-    // through, each station launching into the app that owns it.
-    mode = "lesson";
-    showLesson(parsed.lesson);
-    return;
-  }
-  if (parsed.realSimId) {
-    mode = "training";
-    await enterRealSim(parsed.realSimId, parsed.variantLevel);
-    return;
-  }
-  if (parsed.gameType === "training") {
-    mode = "training";
-    enterGenericTraining(parsed.templateId, parsed.equipmentId);
-    return;
-  }
-  mode = "golf";
-  const finalThemeId = userPickedTheme ? themeId : parsed.themeId;
-  course = buildCourse(findTheme(finalThemeId));
-  holeIndex = 0;
-  strokesLog = [];
-  enterHole();
+  const gen = GENERATORS.find((g) => g.when(parsed)) ?? GENERATORS[GENERATORS.length - 1];
+  mode = gen.mode;
+  await gen.run(parsed, intro);
 }
 
 function setPromptText(v) {
