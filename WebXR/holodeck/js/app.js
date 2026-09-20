@@ -11,6 +11,9 @@ import { Lrs } from "../../shared/lrs.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { lessonProgress } from "../../shared/lessons.js";
 import { makeVariant } from "../../shared/variants.js";
+import { buildReplay } from "../../shared/incidents.js";
+import { stageReplay } from "../../shared/incident-stage.js";
+import { splitByRole, roleView, describeSplit } from "../../shared/crew.js";
 
 // Progress is the profile shared with SmartCiti.X and Trade Skills. It has
 // to be loaded before any Session finishes: Session.finish() calls
@@ -330,7 +333,12 @@ function showFinal() {
 function playAgain() {
   if (mode === "training") {
     store.patch("trainingResult", { visible: false });
-    if (lastTrainingParams.kind === "real") enterRealSim(lastTrainingParams.simId);
+    // Play Again re-runs the same thing, not the station underneath it: a
+    // replay of last week's near-miss is the drill the learner asked for, and
+    // a crew view is a different exercise from the whole procedure.
+    if (lastTrainingParams.kind === "incident") enterIncident(lastTrainingParams.incident);
+    else if (lastTrainingParams.kind === "crew") enterCrewRole(lastTrainingParams.simId, lastTrainingParams.roleId);
+    else if (lastTrainingParams.kind === "real") enterRealSim(lastTrainingParams.simId, lastTrainingParams.variantLevel);
     else enterGenericTraining(lastTrainingParams.templateId, lastTrainingParams.equipmentId);
     return;
   }
@@ -728,6 +736,70 @@ function loadRealSim(id) {
   return promise;
 }
 
+/**
+ * Run a station with one reported event added — see shared/incidents.js.
+ *
+ * The report is the crew's own sentence; nothing about it is rewritten, and
+ * buildReplay refuses rather than inventing a control when the station has
+ * nothing that would answer the event. A refusal loads the plain station and
+ * says why, because a near-miss report that produced silence would look like
+ * the app had simply not understood it.
+ */
+async function enterIncident(incident) {
+  const simId = incident.stationId;
+  lastTrainingParams = { kind: "incident", simId, incident };
+  clearTraining();
+  store.patch("hud", { visible: true, mode: "training", feedback: "<b>Building the replay…</b>" });
+  let base;
+  try { base = await loadRealSim(simId); }
+  catch (err) { base = null; }
+  if (!base) {
+    store.patch("hud", { feedback: "<b>Could not load that station.</b> Try describing a generic procedure instead." });
+    return;
+  }
+  // stageReplay is what puts the event in the room rather than only in the
+  // banner — see shared/incident-stage.js.
+  const replay = buildReplay(base, incident, { stage: stageReplay });
+  if (!replay) {
+    store.patch("hud", { feedback: `<b>${escapeHtml(base.name ?? simId)}</b><br>Nothing in this station answers that kind of event, so it runs as authored rather than as a drill built on a guess.` });
+    enterTraining(base, (g) => base.build(g));
+    return;
+  }
+  const r = replay.replay;
+  const placed = r.placement === "unplaced" ? "the report did not say where in the job" : `at "${r.stepTitle}"`;
+  store.patch("hud", { feedback: `<b>Incident replay · ${escapeHtml(r.baseName)}</b><br>${escapeHtml(r.eventLabel)} ${escapeHtml(placed)} · ${escapeHtml(r.placement)} placement${r.grounded ? "" : " · the station never explains this control, so the reason is the report's own words"}` });
+  enterTraining(replay, (g) => replay.build(g));
+}
+
+/**
+ * Run a station from one post of a two-person crew — see shared/crew.js.
+ *
+ * Most stations decline: they are written from one point of view and the
+ * second person is scenery. A decline loads the whole procedure and says so,
+ * rather than pretending a role exists.
+ */
+async function enterCrewRole(simId, roleId) {
+  lastTrainingParams = { kind: "crew", simId, roleId };
+  clearTraining();
+  store.patch("hud", { visible: true, mode: "training", feedback: "<b>Loading station…</b>" });
+  let base;
+  try { base = await loadRealSim(simId); }
+  catch (err) { base = null; }
+  if (!base) {
+    store.patch("hud", { feedback: "<b>Could not load that station.</b> Try describing a generic procedure instead." });
+    return;
+  }
+  const split = splitByRole(base);
+  const view = split.split ? roleView(base, roleId, split) : null;
+  if (!view) {
+    store.patch("hud", { feedback: `<b>${escapeHtml(base.name ?? simId)}</b><br>${escapeHtml(describeSplit(base, split))}. Running the whole procedure instead.` });
+    enterTraining(base, (g) => base.build(g));
+    return;
+  }
+  store.patch("hud", { feedback: `<b>${escapeHtml(view.name)}</b><br>${escapeHtml(view.tagline ?? "")}<br>You perform ${view.crew.owns} of ${view.steps.length} steps; the other ${view.crew.watches} belong to the ${escapeHtml(view.crew.counterpartName.toLowerCase())} and you confirm them.` });
+  enterTraining(view, (g) => view.build(g));
+}
+
 async function enterRealSim(simId, variantLevel = null) {
   lastTrainingParams = { kind: "real", simId, variantLevel };
   // Cleared up front, not just on success: a failed reload (Play Again on a
@@ -806,6 +878,20 @@ const GENERATORS = [
     // through, each station launching into the app that owns it.
     when: (p) => p.gameType === "lesson" && !!p.lesson,
     run: (p) => showLesson(p.lesson),
+  },
+  {
+    id: "incident",
+    mode: "training",
+    // Checked before the plain station: an incident prompt names a station
+    // too, and loading it as an ordinary visit would drop the report.
+    when: (p) => p.gameType === "incident" && !!p.incident,
+    run: (p) => enterIncident(p.incident),
+  },
+  {
+    id: "crew-role",
+    mode: "training",
+    when: (p) => !!p.realSimId && !!p.crewRole,
+    run: (p) => enterCrewRole(p.realSimId, p.crewRole),
   },
   {
     id: "real-station",

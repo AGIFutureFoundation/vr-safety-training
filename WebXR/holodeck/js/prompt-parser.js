@@ -23,11 +23,36 @@ import { EQUIPMENT, TEMPLATES, DEFAULT_EQUIPMENT_ID, DEFAULT_TEMPLATE_ID } from 
 import { SIMS_META } from "../../smartcity/js/sims-meta.js";
 import { composeLesson } from "../../shared/lessons.js";
 import { LEVELS } from "../../shared/variants.js";
+import { parseIncident } from "../../shared/incidents.js";
+import { ROLES } from "../../shared/crew.js";
 
 // The generators that actually exist today. Listed explicitly (rather than
 // inferred from whatever the parser matches) so the UI can be honest about
 // what "speaking a simulation into existence" currently covers.
-export const SUPPORTED_GAME_TYPES = ["minigolf", "training", "lesson"];
+export const SUPPORTED_GAME_TYPES = ["minigolf", "training", "lesson", "incident"];
+
+// A near-miss report is recognised before everything else, because it is the
+// one prompt that is a piece of prose rather than a request. "Last week on the
+// trench box a spoil pile started moving while the box was going in" names a
+// station and would otherwise load that station as an ordinary visit, losing
+// the whole point of the report. parseIncident() is what decides whether the
+// text is really a report — the words below only say it is worth asking.
+const INCIDENT_WORDS = ["near miss", "near-miss", "nearmiss", "close call", "incident",
+  "last week", "last month", "yesterday", "last shift", "toolbox talk", "tailgate",
+  "what happened", "report says", "reported", "wrote up", "write-up", "accident",
+  "almost", "nearly"];
+
+// Asking to run a station as one member of a crew. Only meaningful alongside a
+// named station, the same way an assessment request is — "as the signaller" on
+// its own has no procedure to be a signaller on. See shared/crew.js, which
+// refuses to split a station whose second person has no duties.
+const CREW_WORDS = Object.values(ROLES)
+  .filter((r) => r.id !== "solo")
+  .flatMap((r) => {
+    const n = r.name.toLowerCase();
+    const short = n.split(" / ")[0];
+    return [`as the ${n}`, `as the ${short}`, `as a ${short}`, `${short} role`, `i am the ${short}`, `my role is ${short}`];
+  });
 
 // A lesson is a programme of real stations rather than a scene — see
 // shared/lessons.js. It is recognised before anything else, because "put me a
@@ -76,8 +101,26 @@ const VARIANT_WORDS = {
   practice: ["practice", "practise", "try again", "retake", "another go", "different", "variant", "mix it up"],
 };
 
+const BLANK = {
+  lesson: null, realSimId: null, matchedRealSim: false, variantLevel: null, matchedVariant: false,
+  crewRole: null, matchedCrew: false, incident: null, matchedIncident: false,
+  themeId: DEFAULT_THEME_ID, matchedTheme: false, templateId: DEFAULT_TEMPLATE_ID, matchedTemplate: false,
+  equipmentId: DEFAULT_EQUIPMENT_ID, matchedEquipment: false,
+};
+
 export function localInterpreter(text) {
   const lower = String(text ?? "").toLowerCase();
+
+  // An incident report first. parseIncident() returns null unless the text
+  // actually names a station, so a prompt that merely says "almost" falls
+  // through to everything below rather than producing a drill about nothing.
+  if (INCIDENT_WORDS.some((w) => lower.includes(w))) {
+    const incident = parseIncident(text, LESSON_ROSTER);
+    if (incident) {
+      return { ...BLANK, gameType: "incident", matchedGame: true, incident, matchedIncident: true,
+        realSimId: incident.stationId, matchedRealSim: true, raw: text };
+    }
+  }
 
   // A programme request first. composeLesson returns null when the sentence
   // names nothing the roster can satisfy, so a prompt that merely contains
@@ -86,9 +129,7 @@ export function localInterpreter(text) {
   if (LESSON_WORDS.some((w) => lower.includes(w))) {
     const lesson = composeLesson(text, LESSON_ROSTER);
     if (lesson) {
-      return { gameType: "lesson", matchedGame: true, lesson, realSimId: null, matchedRealSim: false,
-        themeId: DEFAULT_THEME_ID, matchedTheme: false, templateId: DEFAULT_TEMPLATE_ID, matchedTemplate: false,
-        equipmentId: DEFAULT_EQUIPMENT_ID, matchedEquipment: false, raw: text };
+      return { ...BLANK, gameType: "lesson", matchedGame: true, lesson, raw: text };
     }
   }
 
@@ -104,6 +145,18 @@ export function localInterpreter(text) {
   if (realSimId) {
     for (const [level, words] of Object.entries(VARIANT_WORDS)) {
       if (words.some((w) => lower.includes(w))) { variantLevel = level; break; }
+    }
+  }
+
+  // "Run the crane yard as the signaller" is that station seen from one post.
+  // Like an assessment, it needs a station to be a role on.
+  let crewRole = null;
+  if (realSimId) {
+    const hit = CREW_WORDS.find((w) => lower.includes(w));
+    if (hit) {
+      const said = hit.replace(/^(as the |as a |i am the |my role is )/, "").replace(/ role$/, "");
+      crewRole = Object.values(ROLES).find((r) => r.id !== "solo"
+        && (r.id === said || r.name.toLowerCase() === said || r.name.toLowerCase().split(" / ")[0] === said))?.id ?? null;
     }
   }
 
@@ -137,6 +190,8 @@ export function localInterpreter(text) {
     gameType, matchedGame,
     realSimId, matchedRealSim: !!realSimId,
     variantLevel, matchedVariant: !!variantLevel,
+    crewRole, matchedCrew: !!crewRole,
+    incident: null, matchedIncident: false,
     themeId, matchedTheme,
     templateId, matchedTemplate,
     equipmentId, matchedEquipment,

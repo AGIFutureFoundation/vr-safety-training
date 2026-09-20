@@ -99,11 +99,13 @@ export function mountUI(store, actions) {
         h("div", { className: "eyebrow" }, "Speak a simulation into existence"),
         h("h1", null, "Holodeck"),
         h("p", { className: "lead" },
-          "Describe it out loud or type it, and it renders and plays for real. Two generators " +
-          "exist today: a 3-hole mini-golf course (pick a theme below with your words), and a " +
-          "real scored safety-training procedure — the same engine every union-trade simulator " +
-          "in this project runs on. There is no live AI model reading arbitrary prompts yet; " +
-          "the words below are the whole vocabulary for both."),
+          "Describe it out loud or type it, and it renders and plays for real. What exists " +
+          "today: a 3-hole mini-golf course (pick a theme below with your words), a real scored " +
+          "safety-training procedure on the same engine every union-trade simulator in this " +
+          "project runs on, a programme of stations put together as a lesson, last week's " +
+          "near-miss replayed on the station it happened on, and a station run from one post of " +
+          "a two-person crew. There is no live AI model reading arbitrary prompts yet; the words " +
+          "below are the whole vocabulary."),
         h("div", { id: "prompt-row" },
           h("label", { className: "eyebrow", htmlFor: "prompt-input" },
             "Try: “make a mini golf game with an alaskan theme” or “run a lockout training on a forklift”"),
@@ -138,6 +140,19 @@ export function mountUI(store, actions) {
           `compressor.” Or name one of ${REAL_SIMS.length} real SmartCiti.X stations directly — e.g. “run the robot cell ` +
           "simulation” or “practice the dock crane drill” — and it loads that actual station, hazards and all, " +
           "not a generated stand-in."),
+        h("p", { className: "fineprint" },
+          "Read out a near-miss and it becomes a drill on the station it names — e.g. “last week " +
+          "on the trench box the spoil pile started moving while we were setting the box.” The " +
+          "report is quoted as written and the event is added to the station as authored; where " +
+          "nothing in that station would answer that kind of event, it says so and runs the " +
+          "procedure plainly rather than inventing an answer."),
+        h("p", { className: "fineprint" },
+          "Three of the stations reachable here are written for two people and can be run from " +
+          "one post — “run the crane yard as the signaller”, “confined rescue as the attendant”, " +
+          "“trench box as the entrant.” You perform your own duties and confirm the other " +
+          "person's. Ask for a role on any other station and it says the station is single-post " +
+          "and runs the whole procedure. (Weld Bay splits welder/fire-watch too, but it is a " +
+          "Trade Skills room rather than a SmartCiti.X station, so it is not loadable from here.)"),
         h("p", { className: "fineprint" },
           "Nothing you say or type is sent anywhere — the prompt match runs entirely in this browser."),
         h("p", { className: "fineprint" },

@@ -150,6 +150,16 @@ export async function loadSmartCity() {
   const harness = `export const ROOMS = [${SMARTCITY_SIMS.map((id) => `SIM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };`;
   return buildSuite(modules, harness, "smartcity-robot");
 }
+/**
+ * The scene half of incident replay, behind the stub three.js. It lives here
+ * rather than being imported directly because it reaches kit.js and through
+ * it the CDN three.js a Node import cannot resolve. shared/incidents.js
+ * itself is pure and imports fine. See WebXR/shared/incident-stage.js.
+ */
+export async function loadIncidentStage() {
+  return buildSuite(["shared/kit.js", "shared/incident-stage.js"],
+    `export { stageReplay };`, "incident-stage");
+}
 export async function loadTrades() {
   const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "trades/js/shopfit.js",
     ...TRADES_ROOMS.map((id) => `trades/js/rooms/${id}.js`)];

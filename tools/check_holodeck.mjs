@@ -11,6 +11,7 @@
  *     node tools/check_holodeck.mjs
  */
 
+import { readFileSync } from "node:fs";
 import { THEMES, findTheme, DEFAULT_THEME_ID } from "../WebXR/holodeck/js/themes.js";
 import { localInterpreter, interpretPrompt, SUPPORTED_GAME_TYPES } from "../WebXR/holodeck/js/prompt-parser.js";
 import { HOLE_LAYOUTS, buildCourse, createBall, putt, stepBall } from "../WebXR/holodeck/js/minigolf.js";
@@ -211,6 +212,61 @@ check("every template x equipment combination generates a well-formed, playable 
       if (!(session.score > 0)) throw new Error(`${room.id}: perfect run scored ${session.score}`);
     }
   }
+});
+
+// ------------------------------------------------- incident and crew routing
+// Two prompts that name a station but must not load it as an ordinary visit:
+// a near-miss report (shared/incidents.js) and a request to run one post of a
+// two-person crew (shared/crew.js). What those modules then do with it is
+// gated by check_incidents.mjs and check_crew.mjs; this covers the routing.
+
+check("a near-miss report routes to an incident replay, not a plain visit", () => {
+  const r = localInterpreter("last week on the trench box the spoil pile started moving while we were setting the box");
+  if (r.gameType !== "incident") throw new Error(`gameType ${r.gameType}`);
+  if (!r.incident) throw new Error("no incident parsed");
+  if (r.incident.stationId !== "trench-box") throw new Error(`station ${r.incident.stationId}`);
+  if (!r.incident.summary) throw new Error("no summary carried through");
+});
+
+check("a report that names no station is not turned into a drill", () => {
+  for (const text of ["we had a near miss in the car park yesterday", "I almost forgot to build me a golf course"]) {
+    const r = localInterpreter(text);
+    if (r.gameType === "incident") throw new Error(`"${text}" became an incident on ${r.incident?.stationId}`);
+  }
+});
+
+check("asking for a crew post on a named station routes to the crew view", () => {
+  for (const [text, sim, role] of [
+    ["run the crane yard as the signaller", "crane-yard", "signaller"],
+    ["I want the confined rescue as the attendant", "confined-rescue", "attendant"],
+    ["trench box as the entrant", "trench-box", "entrant"],
+  ]) {
+    const r = localInterpreter(text);
+    if (r.realSimId !== sim) throw new Error(`"${text}" matched station ${r.realSimId}`);
+    if (r.crewRole !== role) throw new Error(`"${text}" matched role ${r.crewRole}`);
+  }
+});
+
+check("a crew word with no station named stays a crew-less request", () => {
+  const r = localInterpreter("I want to work as the attendant");
+  if (r.crewRole) throw new Error(`matched role ${r.crewRole} with no station`);
+});
+
+check("naming a station without a role or a report is still a plain visit", () => {
+  const r = localInterpreter("take me to the crane yard");
+  if (r.gameType !== "training" || r.crewRole || r.incident) throw new Error(`${r.gameType}/${r.crewRole}/${!!r.incident}`);
+});
+
+check("the app routes incident and crew prompts to their own generators", () => {
+  const app = readFileSync(new URL("../WebXR/holodeck/js/app.js", import.meta.url), "utf8");
+  const ids = [...app.matchAll(/^\s{4}id: "([a-z-]+)",$/gm)].map((m) => m[1]);
+  for (const want of ["incident", "crew-role", "real-station"]) {
+    if (!ids.includes(want)) throw new Error(`no "${want}" generator registered`);
+  }
+  // Order matters: an incident prompt and a crew prompt both name a station,
+  // so a "real-station" generator ahead of them would swallow both.
+  if (ids.indexOf("real-station") < ids.indexOf("incident")) throw new Error("real-station is matched before incident");
+  if (ids.indexOf("real-station") < ids.indexOf("crew-role")) throw new Error("real-station is matched before crew-role");
 });
 
 console.log(failures === 0 ? "\nAll Holodeck checks pass." : `\n${failures} check(s) failed.`);

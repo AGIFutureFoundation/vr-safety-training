@@ -108,7 +108,15 @@ const deslug = (id) => String(id ?? "").replace(/[-_]/g, " ").trim();
 
 /** One sentence in the reporter's own words, which is the only text a replay can honestly quote. */
 function summarise(raw) {
-  const clean = String(raw).replace(/\s+/g, " ").trim();
+  // Angle brackets are dropped rather than escaped. This text is quoted
+  // verbatim into an interruption's alert, and the HUDs that render an alert
+  // put it into the page as markup (react-ui.js uses dangerouslySetInnerHTML,
+  // so the shared engine's feedback string is trusted by the time it gets
+  // there). A crew's report never needs a tag; escaping would put "&lt;" in
+  // front of a class, and leaving them in would put whatever was typed into
+  // the page. Stripping is the only one of the three that is both safe and
+  // readable, and it is done here so every caller gets it.
+  const clean = String(raw).replace(/[<>]/g, " ").replace(/\s+/g, " ").trim();
   const cut = clean.length > 220 ? `${clean.slice(0, 217).replace(/\s+\S*$/, "")}…` : clean;
   const cased = cut.charAt(0).toUpperCase() + cut.slice(1);
   return /[.!?…]$/.test(cased) ? cased : `${cased}.`;
@@ -297,8 +305,10 @@ function labelFor(steps, id) {
     const named = step.itemNames?.[id];
     if (named) return named;
   }
+  // An id like "zone-pt-a" means nothing read out on its own, so the step it
+  // belongs to says what it is — the station's words again, not this file's.
   const step = steps.find((s) => s.target === id);
-  if (step?.title) return `${deslug(id)} — ${step.title.toLowerCase()}`;
+  if (step?.title) return `${deslug(id)} (${step.title.toLowerCase()})`;
   return deslug(id);
 }
 
@@ -314,7 +324,7 @@ function labelFor(steps, id) {
  * Returns null when the incident belongs to a different station, or when no
  * control in the scene can be defended as the answer to this event.
  */
-export function buildReplay(base, incident, { seconds = 12, delay = 3 } = {}) {
+export function buildReplay(base, incident, { seconds = 12, delay = 3, stage = null } = {}) {
   if (!base?.steps?.length || !incident?.summary) return null;
   // A replay is a claim about a specific job. Building one from an incident
   // parsed against another station would put a real crew's event on the wrong
@@ -336,6 +346,11 @@ export function buildReplay(base, incident, { seconds = 12, delay = 3 } = {}) {
   // reported the incident, and it is quoted rather than paraphrased.
   const stationWhy = target.step && target.step !== host ? target.step.why : "";
 
+  // An event on a step that already has one of the station's own alarms is
+  // not a conflict — it is what a busy step is like — but the two should not
+  // be racing for the same window, so the reported one arrives first.
+  const sharesStep = (base.interrupts ?? []).some((i) => i.after === host.id);
+
   const taken = new Set((base.interrupts ?? []).map((i) => i.id));
   let id = `incident-${incident.eventKind}`;
   for (let n = 2; taken.has(id); n++) id = `incident-${incident.eventKind}-${n}`;
@@ -344,10 +359,8 @@ export function buildReplay(base, incident, { seconds = 12, delay = 3 } = {}) {
     id,
     kind: event?.label ?? "Reported incident",
     after: host.id,
-    // Two seconds is the engine's floor for "the learner is busy by now"; an
-    // event sharing a step with one of the station's own alarms goes first so
-    // the two are not racing for the same window.
-    delay: Math.max(2, (base.interrupts ?? []).some((i) => i.after === host.id) ? 2 : delay),
+    // Two seconds is the engine's floor for "the learner is busy by now".
+    delay: sharesStep ? 2 : Math.max(2, Math.round(delay)),
     // Six seconds is the floor below which this stops measuring noticing and
     // starts measuring reflexes.
     seconds: Math.min(30, Math.max(6, Math.round(seconds))),
@@ -394,13 +407,24 @@ export function buildReplay(base, incident, { seconds = 12, delay = 3 } = {}) {
       target: target.id,
       targetLabel: label,
       seconds: injected.seconds,
+      sharesStep,
       // Whether the teaching text leans on the station's own words or only on
       // the report. An instructor reviewing a drill should be able to see
       // which, because "grounded: false" means the answer is defensible but
       // the station never explained that control.
       grounded: !!stationWhy,
+      // False means the event will fire with a banner and an unchanged room.
+      // A caller that leaves this false is shipping a caption.
+      staged: !!stage,
     },
-    build: (root) => base.build(root),
+    // `stage` is what makes the event something to notice rather than a
+    // caption — see shared/incident-stage.js. It is injected rather than
+    // imported so this module stays free of three.js, which is what lets the
+    // prompt parser reach parseIncident() without dragging a renderer in.
+    build: (root) => {
+      const scene = base.build(root);
+      return stage ? stage(scene, root, id) : scene;
+    },
   };
 }
 
