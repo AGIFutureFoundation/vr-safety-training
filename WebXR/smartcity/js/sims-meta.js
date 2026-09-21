@@ -1098,7 +1098,7 @@ export const SIMS_META = [
       "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Tie-In Authority",
       "currency": "AMP",
@@ -1139,7 +1139,7 @@ export const SIMS_META = [
       "note": "Every twist-lock proven, every rod to the pattern, the bridge worked tied off, the crane held until clear"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Stow Authority",
       "currency": "LASH",
@@ -1262,7 +1262,7 @@ export const SIMS_META = [
       "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
     },
     "stepCount": 10,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Fly Authority",
       "currency": "POINT",
@@ -1426,7 +1426,7 @@ export const SIMS_META = [
       "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
     },
     "stepCount": 10,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Depot Authority",
       "currency": "RAISE",
@@ -1713,7 +1713,7 @@ export const SIMS_META = [
       "note": "A transfer with the deck contained before the hose, every bolt in, a slow start, and topping off at the reduced rate — first time"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Engine Department",
       "currency": "TONNE",

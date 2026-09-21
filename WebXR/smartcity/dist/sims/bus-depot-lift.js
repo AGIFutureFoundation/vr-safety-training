@@ -61,7 +61,7 @@ export const SIM_BUS_DEPOT_LIFT = {
       id: "ro", kind: "select", target: "repair-order",
       title: "Read the repair order and the lift points",
       cue: "Check the job, the bus's lift-point diagram, its weight and the HV disable procedure for this model.",
-      why: "Every model lifts at different frame points and disables HV a different way. The diagram and the procedure are read before anything is touched.",
+      why: "Every model lifts at different frame points and disables its high-voltage system a different way — a point that is correct on a diesel cousin can be sheet metal on this one. The diagram and the disable procedure for this specific bus are read before anything is touched.",
     },
     {
       id: "hv-disable", kind: "sequence",
@@ -69,14 +69,14 @@ export const SIM_BUS_DEPOT_LIFT = {
       itemNames: { "master-switch": "master switch", "hv-service-plug": "HV service disconnect" },
       title: "Disable the high-voltage system",
       cue: "Master switch off, then pull the HV service disconnect and pocket it.",
-      why: "The service disconnect opens the traction battery circuit. It is pulled after the master switch, and it stays in your pocket so no one can reinsert it while you are under the bus.",
+      why: "The service disconnect opens the traction battery circuit itself, not just the low-voltage control loop the master switch runs. It is pulled after the master switch, in that order, and it stays in your pocket so nobody can reinsert it while you are underneath a bus you believe is de-energised.",
       outOfOrderNote: "Master switch first, then the service disconnect — pulling it under load arcs the contacts.",
     },
     {
       id: "hv-verify", kind: "gauge", target: "hv-meter",
       title: "Prove the HV bus is de-energised",
       cue: "Wait the discharge time, then read the HV bus at the test point with the CAT III meter and commit inside the safe band.",
-      why: "The capacitors hold charge after the disconnect is pulled. The meter, after the wait, is the proof the orange cables are safe.",
+      why: "The traction battery's capacitors hold a lethal charge for a period after the disconnect is pulled, following the same live-dead-live discipline NFPA 70E requires of any electrical energy source. The meter, read only after the full wait, is the actual proof the orange cables are safe to touch.",
       gauge: { label: "HV BUS", speed: 0.75, green: [0.0, 0.1], readout: (t) => `${Math.round(t * 600)} V`, missNote: "Still charged — wait the full discharge time and read it again." },
     },
     {
@@ -85,20 +85,20 @@ export const SIM_BUS_DEPOT_LIFT = {
       itemNames: { "chock-front": "front chocks", "chock-rear": "rear chocks" },
       title: "Chock the wheels",
       cue: "Chocks both sides of a wheel at each axle, parking brake set.",
-      why: "The bus must not roll on the pads during the first inches of lift. Chocks at both axles and the brake set before a column moves.",
+      why: "The bus must not roll on the lift pads during the first few inches of travel, when the columns have barely started to take the load and the pads have the least purchase on the frame. Chocks at both axles and the parking brake set before any column moves at all.",
     },
     {
       id: "pads", kind: "drag", target: "lift-pad",
       title: "Place the lift pads on the frame points",
       cue: "Roll each column in and set the pad under the frame lift point from the diagram.",
-      why: "The frame lift point is engineered to carry the bus; nothing else under there is. The pad goes exactly there, on every column.",
+      why: "The frame lift point is engineered by the manufacturer to carry the full weight of an 18-tonne bus; nothing else along that frame or body is. The pad goes exactly on the marked point, on every column, with no column left to guesswork.",
       drag: { to: "lift-point-socket", radius: 0.4, missNote: "Not on the frame point — line the pad up with the marked lift point." },
     },
     {
       id: "raise", kind: "track", target: "column-raise", seconds: 7,
       title: "Raise in sync",
       cue: "Raise all columns together, watching the level — stop and correct if one column leads.",
-      why: "Four columns raising unevenly twist the frame and shift the load onto two pads. The controller syncs them; the technician watches the level and stops the raise if it drifts.",
+      why: "Four columns raising even slightly unevenly twist the bus's frame and shift its whole load onto only two of the four pads. The controller works to sync them, but the technician watches the level readout the entire climb and stops the raise the moment one column leads.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "LEVEL", readout: (v) => (v < 0.4 ? "rear high" : v > 0.6 ? "front high" : "level") },
       holdBreakNote: "Columns out of sync — stop, level, and raise again.",
     },
@@ -106,14 +106,14 @@ export const SIM_BUS_DEPOT_LIFT = {
       id: "locks", kind: "hold", target: "lock-lever", seconds: 3,
       title: "Lower onto the mechanical locks",
       cue: "Engage the locks on every column and lower the bus onto them until the hydraulics are unloaded.",
-      why: "The bus is worked under on its locks. Lowering onto them takes the load off the hydraulics, so a hydraulic failure cannot drop it.",
+      why: "The bus is worked under only once it is resting on its mechanical locks, not on the columns' hydraulic rams. Lowering onto the locks takes the load off the hydraulics entirely, so a seal or a hose failure afterward has nothing left under it to drop.",
       holdBreakNote: "Not down on the locks yet — hold the lower until every column is seated.",
     },
     {
       id: "work", kind: "select", target: "drive-motor",
       title: "Work under the bus",
       cue: "With the bus on its locks and HV proven off, disconnect the drive motor.",
-      why: "Everything before this step is what makes this step ordinary. The motor comes out from under an 18-tonne bus resting on steel.",
+      why: "Everything before this step — HV proven dead, chocks set, pads on the frame, locks engaged — is what turns pulling a drive motor from underneath an 18-tonne bus into an ordinary task instead of a gamble.",
     },
     {
       id: "walk", kind: "find", noHint: true,
@@ -122,13 +122,38 @@ export const SIM_BUS_DEPOT_LIFT = {
       itemNotes: { "cracked-hose": "The orange HV cable to the rear motor is chafed through its jacket where it crosses the frame — an insulation fault waiting for the next wet day. It is written up before the bus goes back on the road." },
       title: "Inspect under the bus while it is up",
       cue: "Look over the HV harness, the air lines and the frame while you have the access, and click the defect.",
-      why: "A bus is up on locks for an hour a month. What is seen under it now is what keeps it out of the shop next month.",
+      why: "A bus sits up on locks with clear access underneath for maybe an hour a month, and that hour is the only chance anyone gets to actually see the underside. What gets caught now is what keeps this bus out of the shop again next month.",
     },
     {
       id: "lower", kind: "select", target: "column-lower",
       title: "Clear the bay and lower",
       cue: "Everyone and everything out from under, locks released together, lower to the floor, reinsert the service disconnect last.",
-      why: "The lower is called by the person who has looked under the bus. The service disconnect goes back in only when the bus is on the ground and the job is closed.",
+      why: "The lower is called only by the person who has personally looked underneath the bus and confirmed the bay is clear of hands, tools and feet. The service disconnect goes back in only once the bus is back down on the ground and the job is fully closed.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "coworker-reaches-for-master",
+      kind: "Another tech reaches for the master switch",
+      after: "chock", delay: 3, seconds: 12,
+      alert: "A tech from the next bay has walked up with a diagnostic scanner, doesn't see your lock and tag, and is reaching for the master switch to bring the bus back up.",
+      cue: "Stop them before that switch moves — this bus is not back together yet.",
+      target: "master-switch",
+      why: "A lockout only works if everyone who could re-energise the system knows it is there, and a tech from another bay who has not read your tag has no reason to expect a live traction battery behind a switch that looks like any other. The switch is guarded in person until your own lock is the only thing on it.",
+      missNote: "The other tech flipped the master switch while you were reaching for a chock. It did not re-energise the HV bus by itself — the service disconnect was already pulled — but it proved the lock and tag alone were not stopping anyone's hand.",
+      wrongNote: "It is the master switch. Someone else's hand on it means your lockout was not actually protecting anyone from finding out the hard way.",
+    },
+    {
+      id: "pad-slip-warning",
+      kind: "A lift pad starting to slide",
+      after: "raise", delay: 3, seconds: 12,
+      alert: "Column 3's pad has started to walk outward on the frame rail as the load comes on — old grease at that lift point is letting it slide instead of sitting still.",
+      cue: "Stop the raise and reseat that pad before it climbs any further off the marked point.",
+      target: "lift-pad",
+      why: "A pad that is drifting off the marked lift point at a few inches of travel is a pad that will be further off it at full height, and a column carrying an 18-tonne bus on a pad that is no longer under the engineered lift point is carrying it on sheet metal instead of frame. It gets caught and reseated at a few inches, not discovered at six feet.",
+      missNote: "The raise continued while column 3's pad kept walking off the lift point. By the time the bus reached working height, that corner was resting on the edge of the frame rail rather than square on the point it was engineered for.",
+      wrongNote: "It is the lift pad. A pad that is sliding under load gets stopped and reseated now, not watched to see how far it goes.",
     },
   ],
 
@@ -233,6 +258,17 @@ export const SIM_BUS_DEPOT_LIFT = {
         if (step.id === "lower") { height = 0; locked = false; plug.visible = true; }
       },
       onHazard() {},
+      // The other tech's hand really moves the switch, and the pad really
+      // slides on the rail, the instant each interruption fires.
+      onInterrupt(it) {
+        if (it.id === "coworker-reaches-for-master") masterHandle.rotation.z = Math.PI / 4;
+        if (it.id === "pad-slip-warning") pad.position.x = -1.75;
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "coworker-reaches-for-master") masterHandle.rotation.z = Math.PI / 2;
+        if (it.id === "pad-slip-warning") pad.position.x = -1.9;
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "raise" && session.track) height = Math.min(1, session.track.inBand / 7) * 1.6;

@@ -62,20 +62,20 @@ export const SIM_STAGE_POWER = {
       id: "plot", kind: "select", target: "power-plot",
       title: "Read the power plot",
       cue: "Check the service size, the phase colours for this venue, and the load the tour brings.",
-      why: "The plot says what the venue can give and what the rig needs. A 400 A switch feeding a 600 A rig is a decision made here, not when the breaker trips at the top of the show.",
+      why: "The plot says what the venue can give and what the rig needs, in amps, before any cam goes on. A 400 A switch feeding a 600 A rig is a decision made here at the plot, not discovered when the breaker trips at the top of the show.",
     },
     {
       id: "lockout", kind: "turn", target: "switch-handle",
       title: "Open and lock the company switch",
       cue: "Throw the switch off and hang your lock and tag.",
-      why: "The switch is opened and locked before the door comes off. Your lock is the only thing that stops the house electrician energising it while your hands are on the lugs.",
+      why: "The switch is opened and locked before the tap cover comes off. Your lock is the only thing standing between the house electrician's hand on the same switch and your own hands still on the lugs behind it.",
       turn: { turns: 0.5, axis: "z", label: "SWITCH" },
     },
     {
       id: "ppe", kind: "select", target: "arc-ppe",
       title: "Arc-rated PPE for the verification",
       cue: "Gloves and face shield on before the meter goes near the switch.",
-      why: "Proving it dead is the one moment you are working on something that might be live. The label on the switch says what to wear; the meter goes nowhere without it.",
+      why: "Proving it dead is the one moment in this whole tie-in where you are working on something that might still be live. OSHA's electrical rules point straight at NFPA 70E for the PPE category; the meter goes nowhere near the lugs without that gear on first.",
     },
     {
       id: "verify", kind: "sequence",
@@ -83,7 +83,7 @@ export const SIM_STAGE_POWER = {
       itemNames: { "meter-live": "known live source", "meter-switch": "switch lugs", "meter-live-again": "known live source again" },
       title: "Live-dead-live",
       cue: "Prove the meter on a known live source, test every lug of the switch, prove the meter again.",
-      why: "A meter that reads zero can be a dead switch or a dead meter. Testing it on a known source before and after is the only way the zero means anything.",
+      why: "A meter that reads zero can mean a dead switch or a meter with a dead battery, a blown fuse, or a broken lead. Testing it on a known live source before and after the reading is the only way that zero actually means something.",
       outOfOrderNote: "Live, then dead, then live — the meter is proven before and after the reading you are relying on.",
     },
     {
@@ -92,40 +92,40 @@ export const SIM_STAGE_POWER = {
       itemNames: { "cam-ground": "ground (green)", "cam-neutral": "neutral (white)", "cam-l1": "phase A", "cam-l2": "phase B", "cam-l3": "phase C" },
       title: "Make the cams ground-first",
       cue: "Ground, then neutral, then the three phases — in that order, latched.",
-      why: "Ground first so the frame is bonded before any conductor could be hot; neutral before phases so a load never sees a floating neutral. Off is the reverse: phases, neutral, ground last.",
+      why: "Ground first so the distro frame is bonded before any conductor could be hot; neutral before phases so a load never sees a floating neutral even for an instant. Off reverses the whole order: phases first, ground last.",
       outOfOrderNote: "Ground, neutral, then phases. A phase first is the one order the code forbids.",
     },
     {
       id: "strain", kind: "select", target: "strain-relief",
       title: "Strain-relieve the feeder",
       cue: "Secure the feeder to the frame so no pull reaches the connectors.",
-      why: "Feeder is heavy and the crew walks on it. The strain relief takes the pull so the cams never do.",
+      why: "The feeder is heavy and the whole load-in crew walks and rolls cases over it for the next several hours. The strain relief takes that pull at the frame so the cam connectors themselves never do.",
     },
     {
       id: "cover", kind: "select", target: "switch-cover",
       title: "Cover the taps",
       cue: "Close the switch's tap cover so no lug is exposed.",
-      why: "Nothing is energised with a bare lug exposed. The cover goes on before the switch goes on, every time.",
+      why: "Nothing gets energised with a bare lug sitting exposed behind an open tap cover. The cover goes back on before the switch goes on, every single time, with no exception for a quick test.",
     },
     {
       id: "switch-on", kind: "turn", target: "switch-on",
       title: "Remove the lock and energise",
       cue: "Take your lock off, clear the area, throw the switch on.",
-      why: "Your lock, your key, your call. The area is clear because the first energisation is the moment a fault shows itself.",
+      why: "Your lock, your key, your call to re-energise. The area is cleared first because the first energisation after a tie-in is exactly the moment a wiring fault, if there is one, finally shows itself.",
       turn: { turns: 0.5, axis: "z", label: "SWITCH" },
     },
     {
       id: "phases", kind: "gauge", target: "distro-meter",
       title: "Read the phases at the distro",
       cue: "Read phase-to-neutral on each phase and commit inside the nominal band.",
-      why: "Three phases that read right at the distro is the proof the tie-in is correct. A lost neutral shows here first — as one phase high and one low — before it shows as a rack of dead dimmers.",
+      why: "Three phases reading right at the distro, phase to neutral, is the actual proof the tie-in was made correctly. A lost or reversed neutral shows up here first — as one phase reading high and one low — long before it shows as a rack of dead dimmers onstage.",
       gauge: { label: "VOLTS", speed: 0.75, green: [0.46, 0.6], readout: (t) => `${Math.round(100 + t * 40)} V`, missNote: "Off nominal — do not load it. Recheck neutral and the cam order." },
     },
     {
       id: "load", kind: "hold", target: "dimmer-test", seconds: 4,
       title: "Load test",
       cue: "Bring a test load up on the dimmer and hold it while the phases stay balanced.",
-      why: "Balanced under load is the last proof. A tie-in that reads right unloaded and sags under the first cue was never right.",
+      why: "Balanced under an actual load is the last proof a tie-in can give. A connection that reads perfectly with nothing drawing current and then sags the moment the first cue calls for power was never actually right.",
       holdBreakNote: "Load dropped early — the balance was never proven. Bring it up and hold.",
     },
     {
@@ -135,7 +135,32 @@ export const SIM_STAGE_POWER = {
       itemNotes: { "damaged-jacket": "The feeder jacket is cut through to the insulation where a road case rolled over it. That run gets replaced before the house opens." },
       title: "Walk the feeder run",
       cue: "Inspect the feeder from the switch to the distro and click the damage.",
-      why: "Feeder lives on the floor with the whole load-in walking over it. The walk is what finds the cut that becomes a fault at the top of the show.",
+      why: "The feeder lives on the floor for the rest of the load-in with every road case and every foot in the building walking over it. This walk is what finds the cut in the jacket before it becomes a fault at the top of the show.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "board-op-early-power",
+      kind: "Board op wants power early",
+      after: "cams", delay: 3, seconds: 12,
+      alert: "The lighting board operator is on comms from out front: they saw the cams go in and think the tie-in is finished, and they're bringing the follow spots up right now.",
+      cue: "The taps are still open behind an uncovered switch. Nobody flips anything until that's closed.",
+      target: "switch-cover",
+      why: "A cam going in ground-first is only half the tie-in — the lugs behind an open tap cover are still exposed conductors, and 'the cams are in' is not the same fact as 'this is safe to energise.' The cover goes on before anyone anywhere touches that switch again.",
+      missNote: "The board operator brought the spots up on their own timeline while the tap cover was still open on an unenergised switch. Nothing arced this time only because the switch itself was still locked off — the exposed lugs were sitting there regardless.",
+      wrongNote: "It is the tap cover. An open switch with bare lugs behind it does not wait for someone out front to guess the tie-in is done.",
+    },
+    {
+      id: "phase-sag-generator",
+      kind: "Voltage sag on the feed",
+      after: "load", delay: 3, seconds: 13,
+      alert: "Another company switch on the same house feeder just came up hard — a hydraulic lift motor starting — and the whole building's voltage sagged for a few seconds.",
+      cue: "Recheck the phase reading before you bring the load any higher.",
+      target: "distro-meter",
+      why: "A shared house feeder means a large inrush anywhere on it can pull every phase down at once, and a tie-in that was balanced a minute ago is not proven balanced through someone else's motor starting. The reading is taken again rather than assumed still good from before the sag.",
+      missNote: "The load test kept climbing through the sag without anyone looking at the distro meter again. If that dip had come with an uneven return to normal, one phase could have settled high with nobody watching for it.",
+      wrongNote: "It is the distro meter. A sag on a shared feeder is a reason to read the phases again, not a reason to keep pushing the load up.",
     },
   ],
 
@@ -246,6 +271,23 @@ export const SIM_STAGE_POWER = {
         if (step.id === "inspect") damage.visible = false;
       },
       onHazard() {},
+      // The follow spot really flares on its own, and the meter really shows
+      // the sag, the instant each interruption fires.
+      onInterrupt(it) {
+        if (it.id === "board-op-early-power") lamp.material.emissiveIntensity = 2.4;
+        if (it.id === "phase-sag-generator") {
+          repaint(distroMeter.userData.screen, signFace("88 V", { bg: "#2a0d0d", accent: "#f0645b", fg: "#ffd9d9", scale: 0.62 }));
+          distro.position.y -= 0.03;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "board-op-early-power") lamp.material.emissiveIntensity = 0.1;
+        if (it.id === "phase-sag-generator") {
+          repaint(distroMeter.userData.screen, signFace("148 V", { bg: "#0d1c24", accent: "#59c97b", fg: "#f3e6ff", scale: 0.62 }));
+          distro.position.y += 0.03;
+        }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (session?.turn && (step?.id === "lockout" || step?.id === "switch-on")) handle.rotation.z = step.id === "lockout" ? -session.turn.amount / session.turn.required * 1.2 : -1.2 + session.turn.amount / session.turn.required * 1.2;

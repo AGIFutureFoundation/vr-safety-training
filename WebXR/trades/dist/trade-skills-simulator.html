@@ -7556,7 +7556,7 @@ const ROOM_PRESSURE_WASHER = {
       itemNames: { "face-shield": "face shield", "rubber-boots": "rubber boots" },
       title: "Put on face shield and boots",
       cue: "Face shield against blow-back, non-slip boots for a wet apron.",
-      why: "Blow-back off stucco carries grit and paint flake at eye height, and the apron is going to be a sheet of water. Both are on before the pump is, every time.",
+      why: "Blow-back off stucco carries grit and paint flake at eye height, which is exactly the exposure OSHA 1910.133 requires an ANSI-rated face shield for, and the apron is going to be a sheet of water. Both are on before the pump is, every time.",
     },
     {
       id: "walkaround", kind: "sequence",
@@ -7571,7 +7571,7 @@ const ROOM_PRESSURE_WASHER = {
       id: "nozzle", kind: "select", target: "nozzle-25",
       title: "Fit the green 25° tip",
       cue: "Take the 25° fan tip for stucco and painted trim.",
-      why: "A 25° fan spreads the same flow across a stripe wide enough to clean without cutting. The 15° yellow is for bare concrete; the 0° red is on the rack as a trap, and it stays there.",
+      why: "A 25° fan spreads the same flow across a stripe wide enough to clean without cutting the trim the IUPAT painters are recoating once this wall is dry. The 15° yellow is for bare concrete; the 0° red is on the rack as a trap, and it stays there.",
     },
     {
       id: "pressure", kind: "gauge", target: "unloader-valve",
@@ -7618,6 +7618,31 @@ const ROOM_PRESSURE_WASHER = {
       title: "Walk the berms before sign-off",
       cue: "Check the containment line and click where it failed.",
       why: "A dry apron inside the box doesn't prove the box held. You walk the berms and look for the track where water got out — that's what's on the discharge log, not what you assumed.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "coupling-loosening",
+      kind: "Coupling working loose under pressure",
+      after: "coverage", delay: 4, seconds: 12,
+      alert: "Vibration from the pump has walked the hose coupling half a turn loose. There's a hiss starting at the fitting every time the unloader spikes.",
+      cue: "Stop the pass and reseat that coupling before it goes any further.",
+      target: "hose-couplings",
+      why: "A coupling that lets go at three thousand psi does not leak politely — it whips the hose end hard enough to break skin or teeth, and the ten-second check from the walk-around is not a one-time check, it is a check that has to hold for the whole job while the machine is actually running.",
+      missNote: "The pass kept going while the coupling walked another quarter turn loose. It held for this job, but a coupling that starts loosening under vibration does not stop on its own — it lets go on whichever pass finally shakes it the rest of the way.",
+      wrongNote: "It is the hose coupling. A hiss at a fitting under this kind of pressure gets checked immediately, not logged for later.",
+    },
+    {
+      id: "drain-mat-lifted",
+      kind: "Wind lifts the drain mat",
+      after: "berms", delay: 3, seconds: 12,
+      alert: "A gust off the open bay door just flipped up the downstream corner of the storm drain mat you sealed a few minutes ago.",
+      cue: "Reseat the mat before the wash pass sends any water its way.",
+      target: "storm-drain",
+      why: "A drain mat only seals the grate while it is actually sitting flat and square on it — a lifted corner is an open drain again, and the whole point of sealing it before the first drop of water hit the wall was to not find out about a gap once the apron is already running.",
+      missNote: "The wash pass went ahead with the drain mat's corner still lifted. Wash water carrying paint chips and detergent found that gap and went straight to the storm drain the mat was there to seal in the first place.",
+      wrongNote: "It is the storm drain. A mat that has lifted at the corner is not sealing anything until it is reseated.",
     },
   ],
 
@@ -7868,6 +7893,18 @@ const ROOM_PRESSURE_WASHER = {
         if (step.id === "coverage") { paintGrime(1); pool.visible = true; }
         if (step.id === "recovery") { pool.visible = false; leakTrack.visible = true; }
         if (step.id === "berm-check") { leakTrack.visible = false; }
+      },
+
+      // The coupling really cants under vibration, and the mat's corner
+      // really lifts, the instant each interruption fires.
+      onInterrupt(it) {
+        if (it.id === "coupling-loosening") couplings.rotation.x = 0.32;
+        if (it.id === "drain-mat-lifted") drainMat.rotation.z = 0.4;
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "coupling-loosening") couplings.rotation.x = 0;
+        if (it.id === "drain-mat-lifted") drainMat.rotation.z = 0;
       },
 
       onHazard(hitId) {

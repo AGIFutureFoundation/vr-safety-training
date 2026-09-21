@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, instrument, standingFigure, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -62,13 +62,13 @@ export const SIM_CHAIN_HOIST = {
       id: "plot", kind: "select", target: "rig-plot",
       title: "Read the rigging plot",
       cue: "Check the points, the truss weight with fixtures and cable, and the motor rating at each point.",
-      why: "The plot is the load, the points and the beams they hang from. Every number on it is checked before a rigger goes up.",
+      why: "The plot is the load, the points and the beams they hang from, with the dynamic factor already worked into the numbers. Every figure on it is checked against the venue's structure before a rigger clips onto anything and goes up.",
     },
     {
       id: "loadcalc", kind: "gauge", target: "load-calc",
       title: "Calculate the point load",
       cue: "Enter truss, fixtures, cable and the dynamic factor; commit the point load inside the motor's rating with margin.",
-      why: "The point load is the truss plus everything on it, divided across the points, with the bridle multiplying it. It is calculated, written down, and compared to the rating — not estimated.",
+      why: "The point load is the truss plus every fixture and every foot of cable on it, divided across the points, with the bridle angle multiplying whatever each leg actually carries. It is calculated and written down against ASME B30.16's own margins — not estimated by eye from the deck.",
       gauge: { label: "POINT LOAD", speed: 0.75, green: [0.4, 0.56], readout: (t) => `${Math.round(200 + t * 1000)} kg`, missNote: "Over the working margin, or under the real load — recalculate with everything on the truss." },
     },
     {
@@ -77,13 +77,13 @@ export const SIM_CHAIN_HOIST = {
       itemNames: { "chain-a": "motor 1 chain", "chain-b": "motor 2 chain" },
       title: "Inspect each motor's load chain",
       cue: "Run each chain through your hands: no twists, no stretched links, no rust, the chain bag clear.",
-      why: "The chain is the only thing between the beam and the truss. A twist or a stretched link is found by hand, before the motor is under load.",
+      why: "The chain is the only thing between the beam and the truss once the motor takes weight. A twist or a stretched link is found by hand, before the motor is under load, using the same rejection criteria ASME B30.16 sets for load chain.",
     },
     {
       id: "bridle", kind: "gauge", target: "bridle-angle",
       title: "Set the bridle angle",
       cue: "Adjust the bridle legs until the included angle is inside the plot's limit.",
-      why: "A wide bridle multiplies the load in each leg. At 120° each leg carries the full point load; the plot's angle is the one the legs were rated for.",
+      why: "A wide bridle multiplies the load in each leg rather than sharing it evenly. At a 120-degree included angle, each leg is already carrying the full point load on its own; the plot's angle limit is the one the sling legs were actually rated for.",
       gauge: { label: "BRIDLE", speed: 0.7, green: [0.4, 0.58], readout: (t) => `${Math.round(30 + t * 100)}°`, missNote: "Angle outside the plot's limit — the legs are overloaded. Shorten the legs." },
     },
     {
@@ -92,26 +92,26 @@ export const SIM_CHAIN_HOIST = {
       itemNames: { "hook-a": "motor 1 hook", "hook-b": "motor 2 hook" },
       title: "Mouse the hooks",
       cue: "Close and mouse every hook on the truss slings.",
-      why: "Mousing keeps the sling in the hook through a bounce or a swing. It costs thirty seconds; a hook that walks off costs the truss.",
+      why: "Mousing keeps the sling captured in the hook's throat through a bounce or a swing during the show, when nobody is standing under the point to watch it. It costs thirty seconds to close; a hook that walks off under load costs the whole truss.",
     },
     {
       id: "test", kind: "hold", target: "motor-up", seconds: 4,
       title: "Test lift",
       cue: "Bump the motors up a few inches and hold — watch every point take the load.",
-      why: "The test lift proves the points, the slings and the chain under the real load while the truss is still a few inches off the deck, where a failure is a bang, not a casualty.",
+      why: "The test lift proves the points, the slings and the chain under the real, calculated load while the truss is still a few inches off the deck, where a failure drops a few inches onto an empty floor instead of a rigger's head.",
       holdBreakNote: "Dropped it before the points proved — bump it up and hold it.",
     },
     {
       id: "clear", kind: "select", target: "deck-check",
       title: "Clear the deck",
       cue: "Look under the whole truss, call it clear, and get a clear back from the deck.",
-      why: "The go is called by the person who has looked under the truss and heard clear from the deck. Not assumed, not from across the room.",
+      why: "The go is called only by the person who has personally looked under the whole length of the truss and heard clear back from the deck crew — never assumed from across the room, and never called from memory of the last cue.",
     },
     {
       id: "fly", kind: "track", target: "motor-run", seconds: 7,
       title: "Fly the truss to trim",
       cue: "Run the motors together, watching the truss stay level, all the way to trim height.",
-      why: "Motors that run at different speeds tilt the truss and shift load onto one point. The rigger watches the level and stops the fast one.",
+      why: "Motors that run at even slightly different speeds tilt the truss and shift its load onto whichever point is still carrying the higher end. The rigger watches the level indicator the whole climb and stops the faster motor the moment it drifts.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "LEVEL", readout: (v) => (v < 0.4 ? "SL low" : v > 0.6 ? "SR low" : "level") },
       holdBreakNote: "Truss tilted out of level — stop, correct, and run again.",
     },
@@ -119,7 +119,7 @@ export const SIM_CHAIN_HOIST = {
       id: "trim", kind: "select", target: "trim-mark",
       title: "Mark the trim and lock the motors",
       cue: "Truss at trim height: mark it, and lock out the motor controller.",
-      why: "A locked controller cannot be bumped by a foot or a curious hand during the show. The trim mark is what the next call is checked against.",
+      why: "A locked controller cannot be bumped by a stray foot or a curious hand once the show is running under that truss. The trim mark is the reference every later call — bump-in, cue, strike — gets checked against for the rest of the run.",
     },
     {
       id: "walk", kind: "find", noHint: true,
@@ -128,7 +128,32 @@ export const SIM_CHAIN_HOIST = {
       itemNotes: { "shackle-open": "The shackle on motor 2's bridle has its pin backed out two turns — it was never moused. Under a show's worth of bounce it walks out." },
       title: "Walk the points before the house opens",
       cue: "Inspect every hardware connection from beam to truss and click what is wrong.",
-      why: "Hardware is checked by eye and by hand after the fly, because the lift is what moves it. The walk is the last look before there are people underneath.",
+      why: "Hardware is checked again by eye and by hand after the fly itself, because the act of lifting is exactly what moves a hardware connection that looked fine sitting still on the deck. This walk is the last look before a house full of people sits underneath it.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "walk-under-truss-flying",
+      kind: "Someone crosses under the flying truss",
+      after: "fly", delay: 3, seconds: 12,
+      alert: "A stagehand pushing a road case has just walked under the leading edge of the truss while it's still climbing toward trim, headphones on, looking at the case and not up.",
+      cue: "Stop the climb and call the deck clear again before another inch of travel.",
+      target: "deck-check",
+      why: "A truss under motor power keeps climbing at whatever rate the controller is set to whether or not the deck below it is still the deck you checked a minute ago — people move, cases get pushed, and the clear you called before the fly started is not a clear that lasts for the whole climb on its own.",
+      missNote: "The truss kept climbing over the stagehand with the case, who never looked up and never heard the motors over their own headphones. A dropped point at that moment lands on someone who had no idea they were under it.",
+      wrongNote: "It is the deck check. Somebody under a truss that is still moving is a reason to stop the motors, not a reason to finish the climb faster.",
+    },
+    {
+      id: "motor-chain-jam-warning",
+      kind: "Motor 2 chain sounding wrong",
+      after: "mouse", delay: 3, seconds: 12,
+      alert: "A rigger up in the grid radios down that motor 2's chain has started grinding on the way through the guide, and the chain bag underneath is filling faster than it should be for the travel so far.",
+      cue: "That chain gets a second look before this motor takes any load.",
+      target: "chain-b",
+      why: "A chain that grinds through its own feed guide is already fouling on something — a burr, a kink starting to form, a link that has begun to stretch — and a chain hoist under a load calculated for a healthy chain does not know the chain in front of it is not the one the rating assumes.",
+      missNote: "The test lift went ahead on a chain that had already started grinding through the guide. A fouling chain under load is exactly the failure mode a pre-lift inspection exists to catch before the motor, not the truss, finds out the hard way.",
+      wrongNote: "It is motor 2's chain. A chain that sounds wrong before it has even taken weight does not get a pass because the schedule is tight.",
     },
   ],
 
@@ -219,6 +244,17 @@ export const SIM_CHAIN_HOIST = {
         if (step.id === "walk") shackle.children[1].position.x = 0;
       },
       onHazard() {},
+      // The stagehand really steps back under the truss, and motor 2's chain
+      // really flags red, the instant each interruption fires.
+      onInterrupt(it) {
+        if (it.id === "walk-under-truss-flying") crew.position.set(0.35, 0, 0);
+        if (it.id === "motor-chain-jam-warning") motors.b.chain.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.2, rough: 0.5, metal: 0.6 });
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "walk-under-truss-flying") crew.position.set(-1.6, 0, 1.6);
+        if (it.id === "motor-chain-jam-warning") motors.b.chain.material = mat(0x8a949d, { rough: 0.5, metal: 0.6 });
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "test" && session.holding) height = Math.min(0.1, session.holdFor * 0.03);

@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, slab, hose, group, decal, repaint, signFace, paperFace } from "../../../shared/kit.js";
+import { box, cyl, slab, hose, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, instrument, standingFigure, valveWheel, pipeRun, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -51,7 +51,7 @@ export const SIM_BUNKERING_WATCH = {
     "start-uncontained": "You started the transfer with a scupper open. The first thing a hose does when a flange weeps is put oil on the deck, and an open scupper puts that oil in the harbour: a reportable spill, a detained ship and a cleanup bill by the tonne.",
     "no-doi": "You started pumping because the barge said 'go'. The declaration of inspection is the two persons in charge agreeing on the tanks, the quantity, the rate, the signals and the stop — without it, nobody has agreed on anything.",
     "topping-full-rate": "You topped off at full rate. A tank that is 90 percent full takes two minutes to overflow at the transfer rate; the vent goes first, then the deck, then the water. Topping off is done slow, sounding every minute.",
-    "phone-on-deck": "You used a phone on the tank deck during transfer. Vents are breathing fuel vapour a few metres from you; only intrinsically safe equipment is allowed in the hazardous zone while bunkering.",
+    "phone-on-deck": "You used a phone on the tank deck during transfer. Vents are breathing fuel vapour a few metres from you, and SOLAS's own restrictions on ignition sources in a hazardous zone are why only intrinsically safe equipment — nothing else — is allowed there while bunkering.",
   },
 
   lateNotes: {
@@ -142,7 +142,7 @@ export const SIM_BUNKERING_WATCH = {
       itemNames: { "drip-sample": "continuous drip sample", "seal-sample": "sample sealed and labelled", "sign-bdn": "bunker delivery note signed" },
       title: "Seal the sample and sign the BDN",
       cue: "Take the continuous drip sample from the manifold cock, seal and label it with both signatures, then sign the bunker delivery note.",
-      why: "The MARPOL sample is the ship's evidence of what it was sold; the BDN is the receipt. Both are kept aboard for a year and inspected at the next port.",
+      why: "The MARPOL sample — required under an IMO convention every flag state has signed onto — is the ship's evidence of what it was sold; the BDN is the receipt. Both are kept aboard for a year and inspected at the next port.",
       outOfOrderNote: "Sample, then seal, then sign — the sample is secured before the paperwork closes the transfer.",
     },
     {
@@ -153,6 +153,31 @@ export const SIM_BUNKERING_WATCH = {
       title: "Walk the deck before the hose comes off",
       cue: "Check every scupper, the tray and the flange, and click what is not as it was set.",
       why: "The disconnection is the last chance to spill. The deck is walked again before the flange is broken, because a plug that walked out during the transfer is found now or on the water.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "wake-surge",
+      kind: "Vessel wake against the barge",
+      after: "start", delay: 3, seconds: 12,
+      alert: "A passing tug's wake has rolled the barge against its fenders and snapped the hose taut. The flange took a lateral jolt hard enough to feel through the deck.",
+      cue: "Recheck the flange before the rate comes up any further.",
+      target: "hose-flange",
+      why: "A bolted flange holding steady at rest can still shift under a sudden lateral load, and a joint that was dry a minute ago can start weeping the moment the gasket takes an uneven bite. This is exactly what the slow-rate walk-round exists to catch, and a surge is a reason to look again, not a reason to keep walking past it.",
+      missNote: "The rate came up on schedule without anyone laying a hand back on the flange after the surge. It had started weeping at the six o'clock bolt, low and slow, right where the tray does not quite reach.",
+      wrongNote: "It is the hose flange. A jolt like that is checked by hand before the rate goes any higher, not assumed fine because nothing sprayed.",
+    },
+    {
+      id: "lightning-approach",
+      kind: "Electrical storm approaching",
+      after: "topping", delay: 3, seconds: 13,
+      alert: "The bridge is on the radio: lightning has been sighted closing on the anchorage, inside the distance ISGOTT and the vessel's own SOLAS-based procedures call a stop at.",
+      cue: "Fuel vapour is venting a few metres from you. Hit the stop before the storm is overhead, not after.",
+      target: "estop-test",
+      why: "A near strike does not have to hit the ship to ignite vapour venting off an open tank during transfer — induced static in the rigging and the ullage gear is enough, and ISGOTT's stop distance exists because that risk starts well before the first bolt of lightning is actually overhead.",
+      missNote: "The transfer kept running through the approaching storm with vapour still venting off the ullage. Static discharge from a near strike is exactly the ignition source a fuel transfer cannot absorb, and nobody had a hand near the stop when it mattered.",
+      wrongNote: "It is the emergency stop. A storm inside the ISGOTT distance stops the transfer first and asks questions once it has passed.",
     },
   ],
 
@@ -287,6 +312,12 @@ export const SIM_BUNKERING_WATCH = {
     holoTag(pic, "ship's PIC", 0, 1.9, 0, { css: "#3fa9d8", w: 0.2 });
 
     let flowing = false;
+    const flangeHomeMat = flange.material;
+    const flangeAlertMat = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.3, rough: 0.4, metal: 0.7 });
+    const estopHomeMat = estop.children[1].material;
+    const estopAlertMat = mat(0xffee55, { emissive: 0xffee55, ei: 1.6, rough: 0.4 });
+    const bargeHomeZ = barge.position.z;
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.2, 0.9, -1.4),
@@ -300,6 +331,28 @@ export const SIM_BUNKERING_WATCH = {
         if (step.id === "walk") { scuppers[3].visible = true; openHit.visible = false; }
       },
       onHazard() {},
+      // Both interruptions change something visible the instant they fire —
+      // the barge really surges and the flange really shows the strain, the
+      // stop button really lights up — not only once animate() next ticks.
+      onInterrupt(it) {
+        if (it.id === "wake-surge") {
+          barge.position.z = bargeHomeZ + 0.22;
+          flange.material = flangeAlertMat;
+        }
+        if (it.id === "lightning-approach") {
+          estop.children[1].material = estopAlertMat;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "wake-surge") {
+          barge.position.z = bargeHomeZ;
+          flange.material = flangeHomeMat;
+        }
+        if (it.id === "lightning-approach") {
+          estop.children[1].material = estopHomeMat;
+        }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "containment") { if (session.sequence.includes("scupper-plugs")) for (const p of scuppers) p.visible = true; if (session.sequence.includes("drip-tray")) { tray.visible = true; trayPick.visible = false; } }

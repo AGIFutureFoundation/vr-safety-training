@@ -62,13 +62,13 @@ export const SIM_CONTAINER_LASHING = {
       id: "plan", kind: "select", target: "bay-plan",
       title: "Read the bay plan and securing pattern",
       cue: "Check the tier heights, the weights and the rod pattern the Cargo Securing Manual calls for on this bay.",
-      why: "The pattern depends on the stack: how many tiers, how heavy, where on deck. The manual decides which castings get rods — not whichever rods are closest.",
+      why: "The pattern depends on the stack: how many tiers, how heavy, where on deck. The Cargo Securing Manual decides which castings get rods and at what tension — not whichever rods and turnbuckles happen to be closest to hand.",
     },
     {
       id: "crane-hold", kind: "select", target: "crane-radio",
       title: "Hold the crane off the bay",
       cue: "Radio the crane: lashers entering the bay, hold all lifts until the all-clear.",
-      why: "The crane and the lashers never share a bay. The hold goes on the radio before the first lasher steps onto the deck, and comes off from the same radio when the last one is out.",
+      why: "The crane and the lashers never share a bay — OSHA 1918 treats a suspended container over a person as a struck-by hazard whether the gang is ILWU on one coast or ILA on the other. The hold goes on the radio before the first lasher's boot hits the deck.",
     },
     {
       id: "harness", kind: "sequence", anyOrder: true,
@@ -76,7 +76,7 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "harness-on": "harness", "lanyard-clip": "lanyard clipped to the bridge line" },
       title: "Harness on, clipped to the bridge line",
       cue: "Harness worn and the lanyard clipped before a foot goes on the lashing bridge.",
-      why: "The bridge is the workplace three tiers up. Clipped in, a slip is a scare; unclipped, it is a fall onto steel or into the bay.",
+      why: "The bridge is the workplace three tiers up with open deck on both sides. Clipped to the lifeline, a slip on wet steel is a scare; unclipped, the same slip is a fall onto steel plating or into the open bay below.",
     },
     {
       id: "locks", kind: "sequence", anyOrder: true,
@@ -84,7 +84,7 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "lock-a": "fore-port lock", "lock-b": "fore-starboard lock", "lock-c": "aft-port lock", "lock-d": "aft-starboard lock" },
       title: "Prove every twist-lock",
       cue: "Check each twist-lock's handle is in the locked position — all four corners, every tier.",
-      why: "A twist-lock in the unlocked position looks exactly like a locked one from the bridge. Four corners, by hand, is the only proof — and the reason the lashers are here at all.",
+      why: "A twist-lock in the unlocked position looks exactly like a locked one from the bridge, and the indicator on the handle can be wrong. Four corners, checked by hand, every tier, is the only proof — and the reason the lashers are here at all.",
     },
     {
       id: "rods", kind: "sequence",
@@ -92,14 +92,14 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "rod-port": "port lashing rod", "rod-starboard": "starboard lashing rod" },
       title: "Fit the lashing rods to the pattern",
       cue: "Hook the port rod into the casting, then the starboard rod, crossing as the pattern shows.",
-      why: "Rods take the racking load when the ship rolls. Crossed, port and starboard, they hold the stack against both directions; one side alone holds against one.",
+      why: "Rods take the racking load when the ship rolls in a seaway. Crossed, port and starboard, they hold the stack against both directions of roll; one side fitted alone only holds against roll toward that side.",
       outOfOrderNote: "Port then starboard — the pattern is worked one side, then crossed.",
     },
     {
       id: "seat", kind: "hold", target: "rod-seat", seconds: 4,
       title: "Seat the rod in the casting",
       cue: "Hold the rod head in the corner casting until it drops fully home.",
-      why: "A rod that is hooked but not seated pulls out on the first roll. It is held in until it seats — you feel it drop.",
+      why: "A rod that is hooked into the casting but not fully seated pulls free on the first hard roll at sea, well after anyone can get back up to the bridge to fix it. It is held under load until it drops home — you feel the seat.",
       holdBreakNote: "Let go before it seated — the rod head is sitting on the lip. Hold it until it drops home.",
     },
     {
@@ -108,21 +108,21 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "turnbuckle-a": "port turnbuckle", "turnbuckle-b": "starboard turnbuckle" },
       title: "Hand-tighten the turnbuckles",
       cue: "Take up the slack on each turnbuckle by hand, port then starboard, evenly.",
-      why: "Even take-up on both sides keeps the stack square. One side cranked tight before the other pulls the stack over toward it.",
+      why: "Even take-up on both sides keeps the stack square in the casting. One side cranked tight before the other pulls the whole stack over toward it, pre-loading the rod on that side before tension is even set.",
       outOfOrderNote: "Port then starboard, evenly — one side over-tight pulls the stack.",
     },
     {
       id: "torque", kind: "gauge", target: "torque-gauge",
       title: "Set the turnbuckle tension",
       cue: "Tension each turnbuckle to the manual's figure and commit inside the band.",
-      why: "Under-tensioned lashings go slack on the first roll; over-tensioned ones pre-load the castings. The manual's figure is the figure.",
+      why: "Under-tensioned lashings go slack on the first roll and let the stack work; over-tensioned ones pre-load the castings past what the Cargo Securing Manual assumes. The manual's kN figure is the figure, not a range to eyeball.",
       gauge: { label: "TENSION", speed: 0.75, green: [0.45, 0.6], readout: (t) => `${Math.round(10 + t * 40)} kN`, missNote: "Off the manual's tension — reset and tension it to the figure." },
     },
     {
       id: "lock-turnbuckle", kind: "turn", target: "lock-nut",
       title: "Lock the turnbuckles",
       cue: "Run the lock nut down against the body so the tension cannot back off.",
-      why: "A turnbuckle without its lock nut works loose with every roll. The nut is what keeps the tension you just set.",
+      why: "A turnbuckle without its lock nut run down against the body backs off a fraction of a turn with every roll of the ship, and a lashing that has backed off is a lashing nobody notices has gone slack until the next inspection.",
       turn: { turns: 0.75, axis: "y", label: "LOCK NUT" },
     },
     {
@@ -132,13 +132,38 @@ export const SIM_CONTAINER_LASHING = {
       itemNotes: { "unlocked-lock": "The aft-starboard lock on the upper tier is still in the unlocked position — its handle was never thrown. That box would have gone over at sea." },
       title: "Walk the bay before the all-clear",
       cue: "Check every lock and lashing on the way out and click what was missed.",
-      why: "The walk-out is the last time anyone sees this bay before the ship sails. What you do not catch here, the sea does.",
+      why: "The walk-out is the last time anyone sees this bay before the ship sails into open water. A lock or a rod that is not caught here does not get a second look until cargo has already shifted at sea.",
     },
     {
       id: "all-clear", kind: "select", target: "crane-radio-clear",
       title: "Give the crane the all-clear",
       cue: "Radio the crane: lashers out of the bay, lifts may resume.",
-      why: "The hold comes off from the same radio it went on, by the person who put it on, when every lasher is out. Never assumed, never relayed.",
+      why: "The hold comes off from the same radio it went on, by the person who put it on, only once every lasher is confirmed out of the bay — never assumed from a headcount, never relayed through a third radio.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "gust-lifeline-check",
+      kind: "Wind gust on the bridge",
+      after: "locks", delay: 4, seconds: 12,
+      alert: "A gust has come across the deck and caught the lashing bridge. The lifeline is swinging on its brackets and your lanyard has ridden up the line toward the last stanchion.",
+      cue: "You're still three tiers up. Confirm the clip before you move another casting.",
+      target: "lanyard-clip",
+      why: "A moving lifeline can walk a snap hook toward a stanchion bracket or a kink, and a clip riding against either one is not carrying a fall the way it is rated to. It is checked the moment the line has moved, not assumed good because it was good when you first clipped in.",
+      missNote: "You kept working the corner locks with the clip sitting against the stanchion bracket instead of running free on the line. A fall onto that bracket loads the lanyard sideways, which is not the direction the hardware is rated for.",
+      wrongNote: "It is the lanyard clip on the lifeline. A gust that can move the line can move where your clip sits on it — check it before the next casting.",
+    },
+    {
+      id: "shift-change-lift",
+      kind: "Crane resuming without the hold",
+      after: "turnbuckles", delay: 3, seconds: 13,
+      alert: "Radio traffic: the relief crane operator is coming on shift early and is asking dispatch which bays are clear for the next lift. Bay 22 is not on their hold list.",
+      cue: "Your hold was called to the last operator, not this one.",
+      target: "crane-radio",
+      why: "A hold called to one operator does not carry itself across a shift change — the next operator only knows what is on their own list, and a bay with lashers still in it that never made that list looks clear from the cab. The hold is called again, to whoever has the crane now.",
+      missNote: "The relief operator picked up a container over bay 22 believing it was clear, because nobody had called the hold to them directly. The gang was still on the deck when the spreader came over the stack.",
+      wrongNote: "It is the crane radio. A hold that only reached the last operator has not reached this one — call it again before anything else moves.",
     },
   ],
 
@@ -244,6 +269,10 @@ export const SIM_CONTAINER_LASHING = {
     standingFigure(g, -1.0, 1.6, { ry: 0.6, cloth: 0xe4622a });
     cone(g, 2.4, -1.8); cone(g, -2.4, -1.9);
 
+    const lifelineHomeRot = lifeline.rotation.z;
+    const lifelineHomeY = lifeline.position.y;
+    const spreaderHomeX = spreader.position.x;
+
     return {
       hits,
       spawnLook: new THREE.Vector3(0, 1.2, -0.9),
@@ -256,6 +285,29 @@ export const SIM_CONTAINER_LASHING = {
         if (step.id === "all-clear") repaint(radioClear.userData.screen, signFace("CLEAR ✓", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.6 }));
       },
       onHazard() {},
+      // The lifeline really swings and the crane really creeps toward the bay
+      // the moment each interruption fires — not only once animate() next ticks.
+      onInterrupt(it) {
+        if (it.id === "gust-lifeline-check") {
+          lifeline.rotation.z = lifelineHomeRot + 0.15;
+          lifeline.position.y = lifelineHomeY + 0.08;
+        }
+        if (it.id === "shift-change-lift") {
+          spreader.position.x = spreaderHomeX + 0.6;
+          repaint(radio.userData.screen, signFace("NO HOLD?", { bg: "#2a0d0d", accent: "#f0645b", fg: "#ffd9d9", scale: 0.55 }));
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "gust-lifeline-check") {
+          lifeline.rotation.z = lifelineHomeRot;
+          lifeline.position.y = lifelineHomeY;
+        }
+        if (it.id === "shift-change-lift") {
+          spreader.position.x = spreaderHomeX;
+          repaint(radio.userData.screen, signFace("HOLD ✓", { bg: "#0d1c24", accent: "#f2c14b", fg: "#ffe9b0", scale: 0.6 }));
+        }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         spreader.position.y = 0.12 + Math.sin(t * 0.8) * 0.05;
