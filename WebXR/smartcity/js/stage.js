@@ -26,20 +26,42 @@ function buildMarquee(g) {
   const trim = box(marquee, spanW + 0.3, 0.03, 0.05, 0, postH - 0.22, 0.21, CITY.accent,
     { emissive: CITY.accent, ei: 1.6, rough: 0.4, cast: false });
 
+  // The sign is a 3.7:1 panel; the canvas takes that aspect, so nothing here
+  // is drawn at a size it cannot fit. Every line is measured and shrunk to the
+  // panel's width before it is drawn — the wordmark used to be set at a fixed
+  // size that was wider than its canvas, and read "RTCITI.X ~VR SIMULA" from
+  // every spawn point in the roster.
+  const FAM_C = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const FAM = "'Barlow', Arial, sans-serif";
   const sign = decal(marquee, spanW - 0.4, 1.55, 0, postH - 1.0, 0.22, (cx, cw, ch) => {
     gradientFill(cx, cw, ch, [[0, "#04141c"], [1, "#0b2733"]]);
     noiseTexture(cx, cw, ch, { density: 260, alpha: 0.03, tone: "255,255,255" });
-    cx.fillStyle = "#8fd8ff";
-    cx.font = `600 ${Math.round(ch * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
+    const hair = Math.max(2, Math.round(ch * 0.012));
+    cx.strokeStyle = "rgba(143,216,255,0.32)"; cx.lineWidth = hair;
+    cx.strokeRect(hair * 1.5, hair * 1.5, cw - hair * 3, ch - hair * 3);
+    const maxW = cw * 0.88;
+    const fit = (text, weight, family, px) => {
+      cx.font = `${weight} ${px}px ${family}`;
+      const w = cx.measureText?.(text)?.width;
+      const fitted = w && w > maxW ? Math.floor(px * maxW / w) : px;
+      cx.font = `${weight} ${fitted}px ${family}`;
+    };
     cx.textAlign = "center"; cx.textBaseline = "middle";
-    cx.fillText(MARQUEE_SUB, cw / 2, ch * 0.18);
-    cx.fillStyle = "#eaf6fb";
-    cx.font = `700 ${Math.round(ch * 0.36)}px 'Barlow Condensed', Arial, sans-serif`;
-    cx.fillText(MARQUEE_LINE, cw / 2, ch * 0.55);
+    try { cx.letterSpacing = "0.14em"; } catch { /* older canvas */ }
+    fit(MARQUEE_SUB, 600, FAM_C, Math.round(ch * 0.115));
+    cx.fillStyle = "#8fd8ff";
+    cx.fillText(MARQUEE_SUB, cw / 2, ch * 0.165);
+    try { cx.letterSpacing = "0.02em"; } catch { /* older canvas */ }
+    fit(MARQUEE_LINE, 800, FAM_C, Math.round(ch * 0.40));
+    cx.fillStyle = "#f4fbff";
+    cx.fillText(MARQUEE_LINE, cw / 2, ch * 0.50);
     cx.fillStyle = CITY.accentCss;
-    cx.font = `500 ${Math.round(ch * 0.11)}px 'Barlow', Arial, sans-serif`;
-    cx.fillText("FLAGSHIP AR / VR TRAINING SIMULATORS", cw / 2, ch * 0.85);
-  }, { px: 1024, glow: true, ei: 0.85 });
+    cx.fillRect(cw * 0.22, ch * 0.72, cw * 0.56, Math.max(2, Math.round(ch * 0.009)));
+    try { cx.letterSpacing = "0.12em"; } catch { /* older canvas */ }
+    fit("FLAGSHIP AR / VR TRAINING SIMULATORS", 500, FAM, Math.round(ch * 0.095));
+    cx.fillStyle = CITY.accentCss;
+    cx.fillText("FLAGSHIP AR / VR TRAINING SIMULATORS", cw / 2, ch * 0.86);
+  }, { px: 2048, glow: true, ei: 0.85 });
 
   const emblem = group(marquee, 0, postH + 0.85, 0);
   torus(emblem, 0.4, 0.03, 0, 0, 0, CITY.accent, { emissive: CITY.accent, ei: 2, rough: 0.4, cast: false, seg: 8, seg2: 40 });
