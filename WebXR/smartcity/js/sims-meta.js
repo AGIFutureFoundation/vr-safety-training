@@ -3243,5 +3243,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "living-shoreline",
+    "index": "77",
+    "domain": "Environmental",
+    "trade": "Marine construction laborer / living shoreline crew",
+    "category": "Water & Environmental",
+    "certification": "Pile Drivers Local 34 (United Brotherhood of Carpenters) marine construction; LIUNA laborers; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Conservation and Development Commission (BCDC) permit; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; seasonal in-water work window for fish protection; OSHA 29 CFR 1926 waterfront construction",
+    "name": "Living Shoreline",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Living Shoreline VR",
+    "tagline": "Building a living shoreline on a falling tide: curtain set and tensioned, coir and oyster shell to the stakes, cordgrass at grade, silt fence at the edge, and the reach walked before the flood takes anything back",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "reach-secured",
+      "name": "Reach Secured",
+      "note": "The whole reach placed to grade, curtain tight, and nothing left for the flood to take — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shoreline Crew",
+      "currency": "TIDE",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Shoreline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dredge-barge",
+    "index": "78",
+    "domain": "Maritime",
+    "trade": "Dredge deck lead / marine construction crew",
+    "category": "Maritime & Ports",
+    "certification": "IUOE Local 3 operating engineers (dredge crane operator); Inlandboatmen's Union of the Pacific (IBU, ILWU marine division) — tug and scow crew; U.S. Army Corps of Engineers dredging permit conditions; San Francisco Bay Dredged Material Management Office (DMMO) sediment testing; OSHA 29 CFR 1926 Subpart CC cranes and derricks; USCG barge and towing regulations",
+    "name": "Dredge Barge",
+    "weather": "fog",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dredge Barge VR",
+    "tagline": "Environmental dredging of contaminated bay sediment: baseline turbidity read, curtain and anchors checked, the closed bucket over the open one, a controlled cycle with no overflow, the scow to the freeboard line, decant tested before discharge, and the tug called before the scow moves",
+    "accent": 8164261,
+    "accentCss": "#7c93a5",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-cut",
+      "name": "Clean Cut",
+      "note": "A load dredged, tested and moved without a reading over limit or a line unaccounted for"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dredge Deck",
+      "currency": "CY",
+      "ranks": [
+        "Deckhand",
+        "Dredge Deck Lead",
+        "Scow Boss",
+        "Dredging Foreman",
+        "Dredge Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rad-survey",
+    "index": "75",
+    "domain": "Environmental",
+    "trade": "Radiation control technician",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); NRC 10 CFR 20 occupational dose limits; EPA MARSSIM (Multi-Agency Radiation Survey and Site Investigation Manual) walkover and static-count methodology; the site's radiological work plan and QAPP chain of custody",
+    "name": "Rad Survey",
+    "weather": "fog",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Rad Survey VR",
+    "tagline": "Gamma walkover and static count on a shoreline parcel: instrument bracketed by a check source, a gridded scan, GPS-tagged flags and a split sample under chain of custody",
+    "accent": 13582254,
+    "accentCss": "#cf3fae",
+    "parSeconds": 280,
+    "badge": {
+      "id": "bracketed-day",
+      "name": "Bracketed Day",
+      "note": "Instrument proven against the check source before the grid and after it, every flagged reading GPS-logged, and the independent lab's split never touched"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Survey Integrity",
+      "currency": "COUNT",
+      "ranks": [
+        "Field Tech",
+        "Grid Walker",
+        "Static Counter",
+        "QA Verifier",
+        "Survey Integrity Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "soil-loadout",
+    "index": "76",
+    "domain": "Environmental",
+    "trade": "Excavation & haul-out crew — IUOE operator, LIUNA hazmat laborer directing, Teamsters driver",
+    "category": "Environmental Monitoring",
+    "certification": "IUOE Local 3 operating engineers on the excavator; LIUNA hazmat laborers under OSHA HAZWOPER 40-hour (29 CFR 1910.120) directing the load from the ground; Teamsters drivers with DOT hazmat endorsements hauling it; EPA RCRA hazardous-waste manifest (40 CFR 262); the site's Air Monitoring Plan",
+    "name": "Soil Loadout",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Soil Loadout VR",
+    "tagline": "Excavation and haul-out from a remediation cell: zones set from the wind, dust read clean before the first bucket, a lined and tarped load under a hazardous-waste manifest, and the perimeter alarm that stops everything",
+    "accent": 15774761,
+    "accentCss": "#f0b429",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-load",
+      "name": "Clean Load",
+      "note": "Zones set from the wind, dust read clean before the first bucket, the load lined, tarped and manifested, and the alarm answered the instant it sounded"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Load Control",
+      "currency": "MANIFEST",
+      "ranks": [
+        "Ground Guide",
+        "Loadout Hand",
+        "Manifest Lead",
+        "Zone Authority",
+        "Load Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
