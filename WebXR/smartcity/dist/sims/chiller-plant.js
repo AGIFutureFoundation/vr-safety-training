@@ -88,13 +88,13 @@ export const SIM_CHILLER_PLANT = {
       id: "workorder", kind: "select", target: "work-order",
       title: "Read the work order",
       cue: "Confirm the chiller, the refrigerant type and the scope of work.",
-      why: "Different refrigerants have different recovery procedures and pressure ranges. Working from memory on the wrong type is how recovery cylinders get over-pressurised.",
+      why: "Different refrigerants recover at different pressures and need different cylinder headroom under EPA Section 608's recovery requirements. Working from memory on the wrong type is exactly how a recovery cylinder ends up filled past what its rating and the regulation both allow.",
     },
     {
       id: "atmosphere", kind: "gauge", target: "oxygen-monitor",
       title: "Check the plant room atmosphere",
       cue: "Read the fixed oxygen monitor and commit only if it is in the safe range.",
-      why: "This is checked before you do anything else in the room, every single time you enter — not just when something smells wrong, because a refrigerant leak does not smell like anything.",
+      why: "This is checked before you do anything else in the room, every single time you enter — not just when something smells wrong, because a refrigerant leak displacing breathable air has no smell, no colour, and follows the ASHRAE 15 machinery-room ventilation logic this plant was built around.",
       gauge: {
         label: "PLANT ROOM OXYGEN", speed: 0.6, green: [0.46, 0.6],
         readout: (t) => `${(15 + t * 12).toFixed(1)} % O₂`,
@@ -105,20 +105,20 @@ export const SIM_CHILLER_PLANT = {
       id: "estop", kind: "select", target: "chiller-hmi",
       title: "Shut down the chiller from the HMI",
       cue: "Stop the chiller and confirm the compressor has come to a stand.",
-      why: "A controlled shutdown lets refrigerant equalise and the compressor spin down safely, instead of isolating a running machine under load.",
+      why: "A controlled shutdown lets refrigerant pressures equalise across the circuit and the compressor spin down under its own control, instead of you isolating a machine that is still under load and expecting the mechanics to sort themselves out afterward.",
     },
     {
       id: "isolate", kind: "turn", target: "disconnect",
       title: "Isolate electrical power",
       cue: "Grab the chiller's main disconnect handle and pull it open.",
-      why: "A stopped compressor can restart on a call for cooling if the electrics are still live. Isolation is what makes 'stopped' permanent for the duration of your work.",
+      why: "A stopped compressor can restart on a call for cooling the instant the electrics are still live — building automation does not know a technician is standing in front of it. OSHA's lockout/tagout standard exists because isolation is what makes 'stopped' permanent for as long as your work takes.",
       turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-point",
       title: "Lock the disconnect",
       cue: "Apply your lock and tag to the disconnect.",
-      why: "Your lock, your control. A chiller that gets re-energised by a building management system override is still your problem if your hands are inside it.",
+      why: "Your lock, your control, the same rule any UA-trained mechanic works to on any machine. A chiller that gets re-energised by a building management system override chasing a cooling call is still your problem if your hands are inside the compressor when it happens.",
     },
     {
       id: "close-valves", kind: "sequence",
@@ -126,20 +126,20 @@ export const SIM_CHILLER_PLANT = {
       itemNames: { "valve-liquid": "liquid line service valve", "valve-suction": "suction line service valve" },
       title: "Close the service valves",
       cue: "Close liquid line first, then suction line.",
-      why: "Closing liquid first traps the charge on the high side where the recovery machine can pull it efficiently, rather than pushing it all to one side at once.",
+      why: "Closing liquid first traps the bulk of the charge on the high side where the recovery machine can pull it efficiently, rather than closing suction first and pushing the whole charge to one side of the circuit before the recovery machine is even connected.",
       outOfOrderNote: "Wrong order — liquid line closes before suction, so the charge is where recovery expects it.",
     },
     {
       id: "manifold", kind: "select", target: "gauge-manifold",
       title: "Connect the gauge manifold",
       cue: "Attach the manifold hoses to the service ports.",
-      why: "The manifold is how you actually see high-side and low-side pressure through the recovery, instead of guessing when it is done.",
+      why: "The manifold is how you actually see high-side and low-side pressure through the entire recovery, instead of guessing when it is done from how the hose feels or how long the machine has been running.",
     },
     {
       id: "recover", kind: "gauge", target: "recovery-machine",
       title: "Recover the refrigerant",
       cue: "Run the recovery machine and commit once the system reaches vacuum.",
-      why: "Recovery to the certified vacuum level is what the regulations require and what actually gets the charge safely into the cylinder instead of into the room.",
+      why: "Recovery to the vacuum level EPA Section 608 requires for this refrigerant type and equipment class is what actually gets the charge safely into the cylinder instead of venting it to atmosphere, which is both a reportable violation and a plant-room asphyxiation hazard.",
       gauge: {
         label: "SYSTEM PRESSURE DURING RECOVERY", speed: 0.55, green: [0.0, 0.12],
         readout: (t) => `${(t * 30 - 5).toFixed(1)} psig`,
@@ -150,25 +150,25 @@ export const SIM_CHILLER_PLANT = {
       id: "weigh", kind: "select", target: "recovery-cylinder",
       title: "Verify the recovery cylinder",
       cue: "Check the cylinder's fill weight against its rated capacity.",
-      why: "A recovery cylinder filled past its rated capacity has no vapour space left to absorb pressure change — it becomes a hydraulic hazard as ambient temperature rises.",
+      why: "A recovery cylinder filled past the 80% limit this work order sets has no vapour space left to absorb pressure change, and it becomes a hydraulic hazard as ambient temperature rises — this is checked against the number on the scale, not against how much room looks left inside.",
     },
     {
       id: "repair", kind: "select", target: "compressor",
       title: "Complete the compressor repair",
       cue: "Replace the failed compressor valve plate.",
-      why: "With the circuit fully recovered and pressure at vacuum, the compressor can finally be opened without refrigerant or oil discharge.",
+      why: "With the circuit fully recovered and pressure at vacuum rather than just low, the compressor can finally be opened without a refrigerant or oil discharge across whoever is holding the valve plate.",
     },
     {
       id: "unlock", kind: "select", target: "lockout-point",
       title: "Remove your lock",
       cue: "Walk the machine, confirm nobody else is in it, then take your lock and tag off the disconnect.",
-      why: "Your lock, your call — it comes off only after you have walked the machine yourself and know whose hands are where. Nothing on this chiller turns again until it is off.",
+      why: "Your lock, your call — it comes off only after you have walked the machine yourself and know whose hands are where, the same personal-lock discipline OSHA's lockout standard and every UA apprenticeship program teach as non-negotiable. Nothing on this chiller turns again until it is off.",
     },
     {
       id: "restore", kind: "select", target: "chiller-hmi",
       title: "Evacuate, recharge and restart",
       cue: "Pull a deep vacuum, recharge to nameplate and restart the chiller.",
-      why: "A system with damp air pulled in during the repair will not perform and will corrode from the inside — the vacuum step is not optional even when you are in a hurry.",
+      why: "A system with moist air pulled in during the repair will not perform to spec and will corrode from the inside over months, one drop of acid at a time — the deep-vacuum step is not optional even when the building is calling for cooling and you are in a hurry.",
     },
   ],
 
@@ -264,7 +264,7 @@ export const SIM_CHILLER_PLANT = {
 
     const cylinder = cylinderTank(g, 1.8, 1.3, 0xf2c14b, {});
     const cylScale = decal(cylinder, 0.14, 0.06, 0.13, 0.4, 0,
-      signFace("42 / 50 lb", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }), { px: 192, glow: true, ei: 0.7 });
+      signFace("6 / 50 lb", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }), { px: 192, glow: true, ei: 0.7 });
     holoTag(cylinder, "Recovery cylinder", 0, 1.3, 0, { css: "#4fd1ff", w: 0.36 });
     reg(hits, cylinder, "recovery-cylinder");
     reg(hits, cylScale, "recovery-cylinder");
@@ -332,7 +332,7 @@ export const SIM_CHILLER_PLANT = {
           suctionValve.userData.wheel.rotation.z += 1.6;
         }
         if (step.id === "recover") { recovering = true; repaint(recoveryScreen, signFace("RECOVERING", { bg: "#0d1c24", accent: "#4fd1ff", fg: "#bfeaf7", scale: 0.36 })); }
-        if (step.id === "weigh") repaint(cylScale, signFace("48 / 50 lb", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }));
+        if (step.id === "weigh") repaint(cylScale, signFace("38 / 50 lb", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }));
         if (step.id === "restore") {
           running = true; recovering = false; appliedLock.visible = false; discHandle.rotation.z = 0;
           repaint(hmi, signFace("RUNNING\n42°F CHW", { bg: "#0d1c24", accent: "#4fd1ff", fg: "#bfeaf7", scale: 0.26 }));

@@ -48,9 +48,9 @@ export const SIM_SIGNAL_CABINET = {
 
   hazards: {
     "conflict-bypass": "That jumper defeats the conflict monitor. The monitor is the only thing that stops the controller showing green to crossing traffic at the same time. Defeating it is how intersections kill people.",
-    "live-terminals": "You are across the 120 V field terminals with the cabinet live. Those feed the heads outside; the cabinet is powered even in flash.",
+    "live-terminals": "You are across the 120 V field terminals with the cabinet live. Those feed the heads outside; the cabinet stays powered even in flash, which is exactly the kind of exposure NFPA 70E's electrical safe work practices are written to control.",
     "step-into-road": "You stepped into the running lane. Your work zone exists so you never have to — stay behind the cones and let traffic pass.",
-    "ladder-unsecured": "That ladder is footed on a kerb, unsecured, beside a live lane. Signal heads get accessed from a properly set ladder or not at all.",
+    "ladder-unsecured": "That ladder is footed on a kerb, unsecured, beside a live lane. OSHA's ladder-use rules require it tied off or footed by a second person before anyone climbs it — signal heads get accessed from a properly set ladder or not at all.",
   },
 
   lateNotes: {
@@ -91,7 +91,7 @@ export const SIM_SIGNAL_CABINET = {
       id: "notify", kind: "select", target: "radio",
       title: "Notify the traffic management centre",
       cue: "Call the TMC: intersection, fault, expected duration.",
-      why: "The centre is watching this intersection remotely. If they see it drop without warning, they dispatch a second crew into your work zone.",
+      why: "The centre is watching this intersection remotely through the same detector loops you are about to work on. If they see it drop without warning, dispatch reads it as an outage rather than a scheduled repair and sends a second crew straight into the work zone you have not set up yet.",
     },
     {
       id: "zone", kind: "sequence", anyOrder: true,
@@ -102,26 +102,26 @@ export const SIM_SIGNAL_CABINET = {
       },
       title: "Set the work zone",
       cue: "Advance warning, taper cones and the arrow board — all four before you open anything.",
-      why: "Traffic needs to be told what is happening far enough back to react. The taper is what moves them over; the buffer is what absorbs the one who does not.",
+      why: "Traffic needs to be told what is happening far enough back to react to it, which is exactly what the temporary-traffic-control layouts in Part 6 of the MUTCD are built around. The advance sign gives a driver time to notice, the taper is what actually moves them over, and the buffer is what absorbs the one who does not.",
       outOfOrderNote: "The zone is incomplete — every device goes out before work starts.",
     },
     {
       id: "vest", kind: "select", target: "hi-vis",
       title: "High-visibility clothing",
       cue: "Put on the class 3 vest before you leave the vehicle.",
-      why: "You are a pedestrian in a roadway. Conspicuity is the only protection you have against a driver who is looking at their phone.",
+      why: "You are a pedestrian in a roadway with a controller cabinet between you and oncoming traffic. Conspicuity, the class-3 garment rated for this kind of exposure, is the only protection you have against a driver who is looking at their phone instead of the cones.",
     },
     {
       id: "open", kind: "select", target: "cabinet-lock",
       title: "Open the controller cabinet",
       cue: "Unlock and open the cabinet door.",
-      why: "Now that the zone is up and the centre knows, the cabinet can come open — with the door swung to shield you from the lane.",
+      why: "Now that the zone is up and the centre knows, the cabinet can come open — with the door swung out to put steel between you and the lane, not to make the rack easier to reach.",
     },
     {
       id: "flash", kind: "select", target: "flash-switch",
       title: "Put the intersection into flash",
       cue: "Throw the flash transfer switch before touching the rack.",
-      why: "Flash puts the intersection into a known, fail-safe state that drivers understand. Working a running controller means one wrong card pull changes a phase under a moving car.",
+      why: "Flash puts the intersection into a known, fail-safe state every driver recognises on sight. Working a running controller means one wrong card pull changes a phase under a car that is already committed to the intersection at 50 km/h.",
     },
     {
       id: "diagnose", kind: "find", noHint: true,
@@ -142,19 +142,19 @@ export const SIM_SIGNAL_CABINET = {
       },
       title: "Find the cabinet faults",
       cue: "Inspect the rack and terminals. Three things are wrong — the hints will not show you which.",
-      why: "Fault-finding is looking, not swapping. Scorching, corrosion and a backed-out conductor each tell you a different part of the story.",
+      why: "Fault-finding is looking, not swapping — an IBEW-trained signal tech reads the rack the way NECA apprenticeship training teaches it: scorching, corrosion and a backed-out conductor each tell you a different part of the story, and none of them is fixed by trading a healthy part for another healthy part.",
     },
     {
       id: "replace", kind: "select", target: "fault-loadswitch",
       title: "Replace the failed load switch",
       cue: "Pull the scorched switch and fit the replacement.",
-      why: "A welded load switch can hold an output on regardless of what the controller commands. It is replaced, never reset.",
+      why: "A welded load switch can hold an output on regardless of what the controller commands it to do. Contacts that have arced together do not get reset back into service — they get replaced, because the next command they ignore could be the one that drops a conflicting phase.",
     },
     {
       id: "monitor", kind: "gauge", target: "monitor-unit",
       title: "Test the conflict monitor",
       cue: "Run the monitor self-test and confirm it trips at the right threshold.",
-      why: "The monitor watches for conflicting greens and forces flash. Proving it trips is the whole reason the intersection is allowed back in service.",
+      why: "The malfunction monitoring unit watches for conflicting greens on the same intersection and forces the whole thing to flash the instant it sees one. Proving it trips inside its rated window, not just that it powers up, is the entire reason the intersection is allowed back in normal service today.",
       gauge: {
         label: "CONFLICT MONITOR — TRIP TEST", speed: 0.7, green: [0.5, 0.66],
         readout: (t) => `${(t * 1.2).toFixed(2)} s to trip`,
@@ -165,7 +165,7 @@ export const SIM_SIGNAL_CABINET = {
       id: "timing", kind: "gauge", target: "controller-face",
       title: "Set the clearance interval",
       cue: "Set the yellow change interval for this approach speed.",
-      why: "Clearance timing comes from approach speed and intersection width. Shaving it to improve throughput is how you create the dilemma zone.",
+      why: "Clearance timing is calculated from this approach's posted speed and the intersection's width, not chosen by feel. Shave it to improve throughput and you build a dilemma zone: a band of distance where a driver can neither stop in time nor clear the box before opposing traffic gets its green.",
       gauge: {
         label: "YELLOW CHANGE INTERVAL", speed: 0.62, green: [0.42, 0.58],
         readout: (t) => `${(2 + t * 4).toFixed(1)} s`,
@@ -176,13 +176,13 @@ export const SIM_SIGNAL_CABINET = {
       id: "restore", kind: "select", target: "flash-switch",
       title: "Return the intersection to normal",
       cue: "Take the intersection out of flash and watch a full cycle.",
-      why: "You watch it cycle before you pack up. A controller that comes back with the wrong phase order is your fault until you have seen it run.",
+      why: "You watch it cycle before you pack up, start to finish, phase by phase. A controller that comes back with the wrong phase order or a stuck call is your fault until you have personally seen it run a complete, correct cycle with your own eyes.",
     },
     {
       id: "clear", kind: "select", target: "arrow-board",
       title: "Recover the work zone",
       cue: "Pick the zone up in reverse order, arrow board last out of the lane.",
-      why: "The zone comes down from the traffic side inward, so you are never the first thing an approaching driver meets unprotected.",
+      why: "The zone comes down from the traffic side inward — arrow board last, not first — so at every point in the teardown you are never the first unprotected thing an approaching driver meets, the way you were on the way in.",
     },
   ],
 
