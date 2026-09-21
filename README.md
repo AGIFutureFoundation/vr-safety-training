@@ -67,11 +67,14 @@ contract: **Isolation Bay** (electrical lockout/tagout and live-dead-live),
 **Draw Station** (phlebotomy two-identifier check and order of draw),
 **Weld Bay** (hot work permit, lens shade, bead control, fire watch),
 **Deploy Bay** (platform engineer / SRE: environment promotion, agent
-permission scoping, canary-gated rollout), and **Rough-In Bay** (plumber /
-pipefitter: DWV rough-in, backflow prevention, torch brazing, pressure test).
-Each room is a distinct 3D environment with animated equipment, seeded hazard
-traps, graded skill gauges, timed holds, combo scoring, stars, badges and
-persistent XP.
+permission scoping, canary-gated rollout), **Rough-In Bay** (plumber /
+pipefitter: DWV rough-in, backflow prevention, torch brazing, pressure test),
+**Wash-Down Yard** (laborer surface prep: pressure-washer coverage pass,
+stormwater containment, berm inspection), and **Coatings Bay** (painter /
+coatings applicator: lead-paint test, room containment, spray coverage pass,
+wet-film check). Each room is a distinct 3D environment with animated
+equipment, seeded hazard traps, graded skill gauges, timed holds, combo
+scoring, stars, badges and persistent XP.
 
 Run the modular source over HTTP from `WebXR/trades/`, or deploy the generated
 single file `WebXR/trades/dist/trade-skills-simulator.html`. `?room=<id>` deep
@@ -84,8 +87,8 @@ that README's "One profile, two apps" section.
 ## WebXR training network
 
 Trade Skills Simulator is one of four independent WebXR apps under `WebXR/`. The other
-three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 20 more union-trade
-AR/VR simulators across 10 categories growing toward 33 each — crane operator, tower climber,
+three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 80 more union-trade
+AR/VR simulators across 12 categories growing toward 33 each — crane operator, tower climber,
 lineworker and more, each naming a real union and certification requirement — sharing the same
 apprentice profile as Trade Skills Simulator), **Holodeck** (`WebXR/holodeck/`, a
 prompt-driven generator that builds a scored safety-training procedure from a spoken or typed

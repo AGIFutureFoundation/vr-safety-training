@@ -1,37 +1,45 @@
 # SmartCiti.X
 
-AR/VR training simulators across eleven trade-union categories. Fifty stations exist
-today — forty-nine walkable AR/VR procedures and one flat briefing station — each a real ordered
-procedure with real hazards, its own gamified rank ladder, and the real
+AR/VR training simulators across twelve SmartCiti.X trade-union categories. Eighty stations
+exist today — seventy-nine walkable AR/VR procedures and one flat briefing station — each a
+real ordered procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
-training" wrapper, a specific one per trade.
+training" wrapper, a specific one per trade. Trade Skills Simulator, `WebXR/trades/`'s own nine
+rooms, makes a thirteenth category on the shared catalog; see that app's own README.
 
-## The eleven categories
+## The thirteen categories
 
-| Category | Stations today |
-|---|---|
-| Energy & Power | Charge Point, Solar Deck, Line Truck, Substation Switching, Battery Yard |
-| Mobility & Transit | Signal Cabinet, Flight Deck, Track Access, Bus Depot Lift, Airport Ramp |
-| Water & Environmental | Valve Vault, Abatement Chamber, Lift Station, Chlorine Room, Backflow Test |
-| Connectivity & Telecom | Splice Node, Tower Climb, Cell Site Battery, Microwave Backhaul |
-| Building Systems & Facilities | Chiller Plant, Boiler Room, Elevator Pit, Fire Pump, Cooling Tower |
-| Construction & Structural Trades | Steel Erector, Crane Yard, Trench Box, Scaffold Erection, Concrete Pour |
-| Manufacturing & Automation | Robot Cell, Press Brake, Conveyor Guard, Forklift Dock, CNC Cell |
-| Emergency Services | Triage Point, Decon Line, Aerial Ladder, Confined Rescue |
-| Maritime & Ports | Dock Crane, Container Lashing, Mooring Line, Bunkering Watch |
-| Entertainment & Live Events | Rigging Loft, Stage Power, Chain Hoist, Fly System |
-| Environmental Monitoring | Hunters Point Briefing (flat — see below), Perimeter Air, Sampling Well, Stormwater Outfall |
+| Category | SmartCiti.X app | Stations today |
+|---|---|---|
+| Energy & Power | smartcity | 8 |
+| Mobility & Transit | smartcity | 6 |
+| Water & Environmental | smartcity | 10 |
+| Connectivity & Telecom | smartcity | 6 |
+| Emergency Services | smartcity | 6 |
+| Manufacturing & Automation | smartcity | 6 |
+| Building Systems & Facilities | smartcity | 7 |
+| Construction & Structural Trades | smartcity | 7 |
+| Entertainment & Live Events | smartcity | 7 |
+| Maritime & Ports | smartcity | 7 |
+| Environmental Monitoring | smartcity | 8 |
+| Surface Prep & Coatings | smartcity + trades | 4 (Bridge Blast and Tank Lining, plus the Trade Skills rooms Wash-Down Yard and Coatings Bay) |
+| Trade Skills Simulator | trades | 7 (the rest of `WebXR/trades/`'s rooms) |
 
-This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category (330
-total) — enough for every category to eventually cover a whole family of real, distinct
-trades rather than one representative example. The 20 stations above were categorized by
-consolidating the 13 ad-hoc `domain` values each sim already carried (Energy, Mobility,
-Water, Connectivity, Aviation, Emergency Services, Manufacturing, Building Systems, Telecom,
-Construction, Facilities, Environmental, Entertainment, Maritime) down into the first 10;
-Environmental Monitoring was added as the eleventh for sites that need a documentary rather
-than a walkable treatment; a new
-sim declares both `domain` (its specific field) and `category` (which of the 11 it belongs
-to) in its own module — see `js/sims/*.js` and `tools/gen_sims_meta.mjs`.
+`catalog.json` is the merged roster for both apps and is the place to read the current
+station list per category; this table counts it rather than naming all eighty.
+
+This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category — enough
+for every category to eventually cover a whole family of real, distinct trades rather than one
+representative example. The stations above were categorized by consolidating the 13 ad-hoc
+`domain` values each sim already carried (Energy, Mobility, Water, Connectivity, Aviation,
+Emergency Services, Manufacturing, Building Systems, Telecom, Construction, Facilities,
+Environmental, Entertainment, Maritime) down into the first 10; Environmental Monitoring was
+added as the eleventh for sites that need a documentary rather than a walkable treatment;
+Surface Prep & Coatings followed as the twelfth, shared from the start with the Trade Skills
+rooms sited there; and Trade Skills Simulator itself is the thirteenth, entirely
+`WebXR/trades/`'s own app. A new sim declares both `domain` (its specific field) and
+`category` (which of the thirteen it belongs to) in its own module — see `js/sims/*.js` and
+`tools/gen_sims_meta.mjs`.
 
 ## Environmental Monitoring and flat briefing stations
 
@@ -122,7 +130,7 @@ certification named; a rationale on every step; a judgeable consequence (40+ cha
 every hazard; late notes on real targets; the scene builds inside the 320-mesh headset budget;
 every dossier statement sourced. The generator exits non-zero if any section fails, and writes
 the same verdicts to `review-preview.json` so a portal can show "preview passed, sign-off
-pending" per station. All 45 sections pass preview today. The second signature is the
+pending" per station. All 89 sections pass preview today. The second signature is the
 practitioner's, blank until a named person signs it; a preview pass is the entry ticket to
 review, not a stand-in for it. Every Trade Skills room now names its union and the real
 certification or standard it maps to (NFPA 70E, ServSafe, CLSI GP41, AWS D1.1, ASSE 5110 and
@@ -132,12 +140,27 @@ so on), which the preview requires.
 
 A station teaches one procedure. What a training director runs is a **programme**: an ordered
 block with a reason for each station being in it and a completion rule they can show a
-regulator. `js/curricula.js` holds ten, each naming a real union and the standard the block
+regulator. `js/curricula.js` holds twelve, each naming a real union and the standard the block
 maps to — Inside Wireman first period (IBEW), Confined Space entry and rescue, Working at
 Height, Hazmat and Environmental Response, Rigging and Lifting, Stationary Engineer, Port and
-Terminal Operations, Transit and Ramp Operations, Energy Transition Systems, and Live Events
-Production. Programmes cross both apps, the way an apprenticeship does: the electrical block
-opens on the Trade Skills panel bay and ends in a grid battery yard.
+Terminal Operations, Transit and Ramp Operations, Energy Transition Systems, Live Events
+Production, Hunters Point Clean-up and Bay Restoration, and Situational Awareness —
+Interruption Drill. Programmes cross both apps, the way an apprenticeship does: the electrical
+block opens on the Trade Skills panel bay and ends in a grid battery yard.
+
+Hunters Point Clean-up and Bay Restoration is the one built on a single real site, worked in
+the order a cleanup actually runs. It opens with the flat, sourced Hunters Point briefing
+station and runs eleven stations in cleanup order: the record itself, the radiological survey,
+fence-line air monitoring, excavation and haul-out, the decon corridor, groundwater sampling,
+the pump-and-treat system left running behind it, the wet-weather outfall grab, sediment
+dredged from the bay, the tide let back through a rebuilt gate, and the shoreline replanted
+last. The real site is not rendered as a walkable scene — the briefing is a flat dossier
+because turning an active Superfund shoreline into a stroll would misrepresent the place and
+the people who live next to it — and the trade stations that follow it are sited generically
+rather than claiming to be the shipyard itself. The programme names the unions that would
+actually do this work: LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3
+operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA
+Local 38 plumbers and pipefitters, and the Inlandboatmen's Union of the Pacific.
 
 A station counts toward a programme when the shared training record says it was **passed** —
 two or more stars with no unsafe action — which is the same bar the certificate claim rests
@@ -200,7 +223,7 @@ and a fence line through their furniture helps nobody.
 ## The layout, budget and parse checkers
 
 `tools/check_layout.mjs` asks the question the content checkers never did: not *does this
-control exist*, but *can the learner get to it*. It builds all 59 stations and rooms, resolves a
+control exist*, but *can the learner get to it*. It builds all 89 stations and rooms, resolves a
 real world position for every object through the group transforms, and fails on a step target
 outside the walkable circle, anything below -2.4m, anything within 1.4m of where the learner
 arrives, and any coordinate past 60m or non-finite anywhere in the scene.
@@ -244,10 +267,14 @@ walkways and a hazard-edge stripe, walls with a trim stripe in the station's acc
 with real structure, light fittings that each carry a light, and a way out — a roller shutter, a
 personnel door or a dock opening.
 
-Five styles cover the roster. **Plant** and **service** rooms get overhead pipe runs on hangers;
+Six styles cover the roster. **Plant** and **service** rooms get overhead pipe runs on hangers;
 **shop** and **garage** get roof trusses and deck-plate floors; **theatre** gets a black-walled
-fly tower with a catwalk. Nineteen stations are tagged today: six plant, four shop, four
-theatre, three service, two garage.
+fly tower with a catwalk. **Datahall**, the sixth, shares the shop and garage's deck-plate
+floor but trades the trusses for overhead cable trays, has no rooflights at all — daylight is a
+heat load and a security problem in a hall, so the only light in it is the light somebody
+installed — and runs four rows of ceiling fittings instead of three for the even light a row of
+racks needs. Twenty-one stations are tagged today: six plant, five theatre, four shop, three
+service, two garage, one datahall.
 
 The weather does not stop existing indoors — it is what the rooflights are showing. Their
 brightness follows the hour (`?time=`), and in rain or storm they go grey and flicker. The
@@ -257,7 +284,7 @@ has to know it is blowing outside. The theatre style has no rooflights, which is
 An interior is cheaper than the plaza it replaces: 84 meshes and 8 lights for a machine shop,
 38 and 6 for a stage house, against 239 and 16 for the outdoor plaza with its district and
 skyline. `catalog.json` and `sims-meta` carry each station's `indoor` style and the checker
-rejects a style outside the five.
+rejects a style outside the six.
 
 ## Weather: the conditions each procedure is written for
 
@@ -310,7 +337,7 @@ headset is not on a lesser course. No third-party audit has been done and the st
 
 `tools/check_a11y.mjs` runs on every commit. It checks the plumbing — the live region is a real
 clipped status region, the cursor walks a step's controls in procedure order, every step kind
-names the key that works it — and the content contract across all 56 procedures: every step has
+names the key that works it — and the content contract across all 89 procedures: every step has
 a title, a cue and a rationale in words; every item in a multi-target step is named in words;
 every graded control prints its value as text rather than relying on a coloured band; and every
 hazard explains itself in a full sentence.
@@ -365,8 +392,10 @@ with a passing train and signal heads for Mobility & Transit; clarifier tanks ov
 for Water & Environmental; a lattice tower with dishes for Connectivity & Telecom; a fire
 engine and an ambulance with light bars for Emergency Services; saw-tooth sheds and stacks for
 Manufacturing & Automation; a rooftop plant with a turning cooling-tower fan for Building
-Systems & Facilities; and low hills over the bay with monitoring masts and a windsock for
-Environmental Monitoring. Each district also sets the sky, fog, hemisphere and light-mast
+Systems & Facilities; a containment shroud with an abrasive silo, a coatings store and a
+dehumidifier skid for Surface Prep & Coatings; and low hills over the bay with monitoring
+masts and a windsock for Environmental Monitoring. Each district also sets the sky, fog,
+hemisphere and light-mast
 tint, so a substation reads sodium-warm and a company switch reads violet without any station
 code changing. The districts are authored for night, and night is lit to read: a lifted sky and fog, a
 strong hemisphere and key, an ambient fill so no face of a station goes to black, and a
@@ -377,13 +406,29 @@ physically-based falloff is black twenty metres out), and animated by property t
 already-built materials. The hub keeps the default sky. AR mode is unchanged: passthrough is
 the environment there.
 
+A station stands in front of its own category's district by default, but can name a different
+one: `district: "<name>"` on the sim's header sends it to another district's horizon instead,
+for a station whose category is administrative but whose real backdrop is somewhere else.
+Living Shoreline and Tide Gate are both filed under Water & Environmental for their trade, but
+stand in front of the Environmental Monitoring district because the work happens on the bay,
+not at a treatment works. `tools/check_smartcity.mjs` rejects a `district` that names anything
+other than one of the districts actually built in `js/districts.js`.
+
+A district can also open a gap in the skyline ring behind it: `skylineGap: [from, to]`
+(radians) removes the city skyline across that arc instead of ringing a shoreline with towers
+that have no business there. Environmental Monitoring is the one that uses it — no skyline on
+the water side, replaced with far-shore hills, a tidal flat with cordgrass coming back along
+it, a perimeter fence carrying the site's own dust monitors, and a clamshell dredge working a
+bucket cycle offshore, so a learner standing at the bay sees a shoreline instead of a city
+across the water.
+
 ## Headset budget
 
 `catalog.json` carries a `meshes` and `lights` count for every station, from a headless build,
 and flags `overBudget` past 320 meshes — the working ceiling for a Quest-class headset on top
 of the shared stage. The headset pass starts with the heaviest stations.
 
-That ceiling is enforced, not just reported: `tools/check_budget.mjs` builds all 59 stations
+That ceiling is enforced, not just reported: `tools/check_budget.mjs` builds all 89 stations
 and rooms against the headless harness and fails on anything past its budget — 320 meshes for a
 SmartCiti.X station, which sits on the shared stage, and 430 for a Trade Skills room, which *is*
 the whole scene.
@@ -499,7 +544,7 @@ and that means it lands on `hazardHits`, which is what the pass rule and the bad
 run can be procedurally perfect and still fail on the alarm it slept through, which is the
 point.
 
-Forty-three are authored across twenty-two procedures, of which these are representative: the Weld Bay (extraction trips mid-setup,
+139 are authored across 70 procedures, of which these are representative: the Weld Bay (extraction trips mid-setup,
 fire blanket slips mid-bead), the Isolation Bay (your lock comes off the hasp while you are
 testing dead), the Draw Bay (the patient goes vasovagal while your eyes are on the tube rack,
 somebody offers you a pre-labelled tube set to save time), Confined Rescue (the meter alarms
@@ -696,8 +741,9 @@ is connected — connecting later and pressing **Send all** delivers the local h
 ## Quality gate
 
 `.github/workflows/webxr-checks.yml` runs on every push/PR touching `WebXR/` or `tools/`:
-`node tools/check_all.mjs` (every headless checker — smartcity, trades, holodeck, records,
-identity, lrs, robot, platform, lti, orbis-stable, verify, observer, a11y — one line each) and a freshness check that regenerates `sims-meta.js`
+`node tools/check_all.mjs` (all twenty-three headless checkers — parse, imports, smartcity,
+trades, holodeck, records, identity, lrs, robot, platform, lti, orbis-stable, verify, observer,
+a11y, budget, layout, interrupts, lessons, hands, variants, incidents, crew — one line each) and a freshness check that regenerates `sims-meta.js`
 and every `dist/` bundle and fails if the committed copies differ — a stale bundle is a
 silent deploy of old code. Run the same command locally before pushing.
 
@@ -721,12 +767,12 @@ that trade, on `REVIEW.md`, before any record is treated as certification eviden
 automated preview signature is on all 45 sections; the practitioner signature is on none; (3) a headset
 pass on Meta Quest for frame rate, comfort and in-headset legibility, heaviest stations first per
 `catalog.json` — the instrument to record that pass now exists (`?perf=1`, see above), the
-numbers do not; (4) the remaining stations toward 33 per category. Every one of the eleven
-categories is at least four stations deep today. Environmental Monitoring is four (one flat
-briefing, three walkable procedures); the Bay restoration sites and their trade linkage that
-the roadmap mentions are not in this repository yet — these are the first, honest entries in
-the category, not that content. (5) A hall that hosts its Open Badges assertions, so the
-credential verifier can report a hosted match instead of "self-asserted".
+numbers do not; (4) the remaining stations toward 33 per category. Every one of the thirteen
+categories is at least four stations deep today. Environmental Monitoring is eight (one flat
+briefing, seven walkable procedures) now that the Hunters Point Clean-up and Bay Restoration
+programme has landed the survey, excavation, groundwater and shoreline-restoration stations an
+earlier version of this note said were still missing. (5) A hall that hosts its Open Badges
+assertions, so the credential verifier can report a hosted match instead of "self-asserted".
 
 ## Running it
 
@@ -746,3 +792,14 @@ scripted perfect run through the real engine — same guarantees as `tools/check
 whenever a sim's header fields (name, tagline, category, certification, badge, ranks, etc.)
 change; the intro screen's roster renders directly from that file, so it can't drift from the
 real content the way a hand-copied list could.
+
+`node tools/add_station.mjs <station-id>` registers a new SmartCiti.X station everywhere the
+tooling has to be told about it — the module list and harness array in both
+`check_smartcity.mjs` and `gen_sims_meta.mjs`, and the id list in `lib/headless.mjs` — instead
+of five hand-edits that fail in five different, unhelpful ways if one is missed.
+
+`node tools/eval_content.mjs` is a graded ranking of every authored procedure across seven
+weighted dimensions (variety, decisions, explanation, grounding, feedback, scene, originality),
+worst-first, so authoring effort goes where it is worth most. It is deliberately not part of
+`check_all.mjs`: the checkers answer whether a station is broken, and a score wired into a build
+is a score people start writing content to satisfy. It prints and ranks; a person decides.

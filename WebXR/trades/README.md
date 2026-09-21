@@ -143,8 +143,8 @@ The dressing lives in `shared/kit.js` (`floorPaint`, `wallTrim`, `ceilingStructu
 `wayOut`), so a room asks for it in the same `shell()` call that builds its walls, and
 SmartCiti.X's indoor stations can draw on the same vocabulary.
 
-It is not free, so it is now policed. `tools/check_budget.mjs` builds all 59 stations
-headlessly and fails on anything past 320 meshes or 12 lights — the Quest-class ceiling
+It is not free, so it is now policed. `tools/check_budget.mjs` builds all 89 stations
+and rooms headlessly and fails on anything past 320 meshes or 12 lights — the Quest-class ceiling
 `catalog.json` has always reported and nothing previously enforced. The dressing costs
 between 9 and 24 meshes a room; the heaviest room in either app is the colour studio at
 313.
