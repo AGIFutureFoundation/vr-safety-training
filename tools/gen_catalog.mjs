@@ -38,7 +38,7 @@ const common = (r) => ({
   id: r.id, name: r.name ?? r.title, title: r.title, tagline: r.tagline ?? null,
   category: r.category ?? null, domain: r.domain ?? null, trade: r.trade ?? null,
   union: r.union ?? null, certification: r.certification ?? null,
-  accent: r.accentCss ?? null, parSeconds: r.parSeconds ?? null, weather: r.weather ?? "clear", indoor: r.indoor ?? null,
+  accent: r.accentCss ?? null, parSeconds: r.parSeconds ?? null, weather: r.weather ?? "clear", indoor: r.indoor ?? null, district: r.district ?? null,
   steps: r.steps.length, hazards: Object.keys(r.hazards ?? {}).length,
   // Interruptions belong on the published record for the same reason steps and
   // hazards do: a hall choosing a station, or a lesson composed over the

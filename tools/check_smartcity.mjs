@@ -25,6 +25,9 @@ const INTERIOR_STYLES = (readFileSync(join(WEBXR, "smartcity/js/interiors.js"), 
   .match(/export const INTERIOR_STYLES = \[([^\]]*)\]/)?.[1] ?? "")
   .split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
 if (!INTERIOR_STYLES.length) throw new Error("could not read INTERIOR_STYLES from interiors.js");
+// The districts a station may stand in front of, read the same way.
+const DISTRICT_NAMES = [...readFileSync(join(WEBXR, "smartcity/js/districts.js"), "utf8").matchAll(/^  "([A-Za-z &]+)": \{/gm)].map((m) => m[1]);
+if (!DISTRICT_NAMES.length) throw new Error("could not read DISTRICTS from districts.js");
 
 const MODULES = [
   "shared/kit.js", "shared/game.js",
@@ -229,6 +232,9 @@ for (const sim of suite.SIMS) {
   for (const id of Object.keys(sim.hazards ?? {})) {
     if (!api.hits[id]) fail(sim.id, `hazard "${id}" has no object in the station`);
     if ((sim.hazards[id] ?? "").length < 40) fail(sim.id, `hazard "${id}" explanation is too thin`);
+  }
+  if (sim.district !== undefined && sim.district !== null && !DISTRICT_NAMES.includes(sim.district)) {
+    fail(sim.id, `district "${sim.district}" is not one of ${DISTRICT_NAMES.join(" / ")}`);
   }
   if (sim.indoor !== undefined && sim.indoor !== null && !INTERIOR_STYLES.includes(sim.indoor)) {
     fail(sim.id, `indoor "${sim.indoor}" is not one of ${INTERIOR_STYLES.join("/")}`);
