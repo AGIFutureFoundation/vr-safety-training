@@ -3159,5 +3159,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "pump-and-treat",
+    "index": "79",
+    "domain": "Water",
+    "trade": "Pipefitter / groundwater pump-and-treat plant operator",
+    "category": "Water & Environmental",
+    "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); IUOE stationary engineers on the treatment plant; NPDES discharge permit under the Clean Water Act; EPA RCRA hazardous-waste generator standards (40 CFR 262) for spent carbon; the site O&M manual under its Record of Decision",
+    "name": "Pump and Treat",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Pump and Treat VR",
+    "tagline": "Groundwater treatment O&M: well flow and drawdown against design, blower and off-gas carbon checked, a GAC vessel isolated, bled and changed out, lead/lag swapped, and a compliance sample sealed under chain of custody",
+    "accent": 3131862,
+    "accentCss": "#2fc9d6",
+    "parSeconds": 290,
+    "badge": {
+      "id": "carbon-clean",
+      "name": "Carbon Clean",
+      "note": "A GAC vessel isolated, bled to zero, drummed as hazardous waste and lead/lag swapped, with the compliance sample sealed under chain of custody"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Treatment Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Operator I",
+        "Operator II",
+        "Lead Operator",
+        "Plant Supervisor",
+        "Treatment Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tide-gate",
+    "index": "80",
+    "domain": "Water",
+    "trade": "Operating engineer / laborer — tidal wetland restoration crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineers on the plant; LIUNA laborers on the cofferdam and gate work; Pile Drivers Local 34 (Carpenters) on the culvert carpentry; a U.S. Army Corps of Engineers Section 404 permit and the Regional Water Board's Clean Water Act (CWA) Section 401 certification; the San Francisco Bay Conservation and Development Commission (BCDC); OSHA 29 CFR 1926.106 for work near water; the fish-window restriction on in-water work",
+    "name": "Tide Gate",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Tide Gate VR",
+    "tagline": "Tide-window gate swap: levels read before the cofferdam goes in, a failed flap gate backed out and replaced, the new gate levelled to design elevation, and the cofferdam pulled in order before the first flood",
+    "accent": 9083722,
+    "accentCss": "#8a9b4a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gate-holds",
+      "name": "Gate Holds",
+      "note": "A tide gate swapped inside the low-water window, levelled to design and proven on the first flood"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tidal Works Authority",
+      "currency": "TIDE",
+      "ranks": [
+        "Laborer",
+        "Wetland Hand",
+        "Crew Lead",
+        "Restoration Foreman",
+        "Tidal Works Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

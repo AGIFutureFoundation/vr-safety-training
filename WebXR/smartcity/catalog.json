@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 74
+      "stations": 76
     },
     "trades": {
       "entry": "trades/index.html",
@@ -68,6 +68,8 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "tide-gate",
+        "pump-and-treat",
         "hot-tap",
         "digester-gas"
       ]
@@ -4814,6 +4816,171 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "tide-gate",
+      "name": "Tide Gate",
+      "title": "SmartCiti.X~ Tide Gate VR",
+      "tagline": "Tide-window gate swap: levels read before the cofferdam goes in, a failed flap gate backed out and replaced, the new gate levelled to design elevation, and the cofferdam pulled in order before the first flood",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "Operating engineer / laborer — tidal wetland restoration crew",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineers on the plant; LIUNA laborers on the cofferdam and gate work; Pile Drivers Local 34 (Carpenters) on the culvert carpentry; a U.S. Army Corps of Engineers Section 404 permit and the Regional Water Board's Clean Water Act (CWA) Section 401 certification; the San Francisco Bay Conservation and Development Commission (BCDC); OSHA 29 CFR 1926.106 for work near water; the fish-window restriction on in-water work",
+      "accent": "#8a9b4a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "find",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "gate-holds",
+        "name": "Gate Holds",
+        "note": "A tide gate swapped inside the low-water window, levelled to design and proven on the first flood"
+      },
+      "meshes": 189,
+      "lights": 0,
+      "overBudget": false,
+      "index": "80",
+      "flat": false,
+      "system": "Tidal Works Authority",
+      "currency": "TIDE",
+      "ranks": [
+        "Laborer",
+        "Wetland Hand",
+        "Crew Lead",
+        "Restoration Foreman",
+        "Tidal Works Certified"
+      ],
+      "awards": [
+        {
+          "id": "window-read",
+          "name": "Window Read",
+          "note": "Both water levels read against the tide table before the cofferdam went in"
+        },
+        {
+          "id": "never-flooded",
+          "name": "Never Flooded",
+          "note": "The culvert was never entered open and the cofferdam never pulled early"
+        },
+        {
+          "id": "true-elevation",
+          "name": "True Elevation",
+          "note": "Held the float-arm level and the tide readings near band centre"
+        },
+        {
+          "id": "clean-swap",
+          "name": "Clean Swap",
+          "note": "No corrections through the whole gate swap"
+        },
+        {
+          "id": "steady-level",
+          "name": "Steady Level",
+          "note": "Held the float-arm adjustment in band without a break"
+        },
+        {
+          "id": "beat-the-tide",
+          "name": "Beat The Tide",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tide-gate"
+    },
+    {
+      "app": "smartcity",
+      "id": "pump-and-treat",
+      "name": "Pump and Treat",
+      "title": "SmartCiti.X~ Pump and Treat VR",
+      "tagline": "Groundwater treatment O&M: well flow and drawdown against design, blower and off-gas carbon checked, a GAC vessel isolated, bled and changed out, lead/lag swapped, and a compliance sample sealed under chain of custody",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "Pipefitter / groundwater pump-and-treat plant operator",
+      "union": null,
+      "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); IUOE stationary engineers on the treatment plant; NPDES discharge permit under the Clean Water Act; EPA RCRA hazardous-waste generator standards (40 CFR 262) for spent carbon; the site O&M manual under its Record of Decision",
+      "accent": "#2fc9d6",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "sequence",
+        "turn",
+        "track",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "carbon-clean",
+        "name": "Carbon Clean",
+        "note": "A GAC vessel isolated, bled to zero, drummed as hazardous waste and lead/lag swapped, with the compliance sample sealed under chain of custody"
+      },
+      "meshes": 232,
+      "lights": 0,
+      "overBudget": false,
+      "index": "79",
+      "flat": false,
+      "system": "Treatment Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Operator I",
+        "Operator II",
+        "Lead Operator",
+        "Plant Supervisor",
+        "Treatment Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "design-flow",
+          "name": "Design Flow",
+          "note": "Well flow and drawdown both read against design before anything else moved"
+        },
+        {
+          "id": "never-under-pressure",
+          "name": "Never Under Pressure",
+          "note": "The vessel was never opened, entered or dumped except the safe way"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Held the vent rate and the field readings near band centre"
+        },
+        {
+          "id": "clean-changeout",
+          "name": "Clean Changeout",
+          "note": "No corrections through the whole vessel change"
+        },
+        {
+          "id": "steady-bleed",
+          "name": "Steady Bleed",
+          "note": "Held the bleed-down in band without a dropout"
+        },
+        {
+          "id": "compound-clear",
+          "name": "Compound Clear",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pump-and-treat"
     },
     {
       "app": "smartcity",
