@@ -113,6 +113,61 @@ export function deckPlateFace(g, w, h, o = {}) {
   }
 }
 
+/**
+ * Bay water for the shoreline districts: a deep teal base that lightens toward
+ * one edge the way water does under a low sky, a fine grain, and two scales of
+ * ripple — long low strokes for the swell and short bright flecks where the
+ * light catches a crest. Tiled and drifted by the district's animate, so a
+ * still disc reads as moving water without a shader.
+ */
+export function waterFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#0c2531"], [0.55, o.mid ?? "#0f2e3a"], [1, o.base2 ?? "#0a1f29"]]);
+  noiseTexture(g, w, h, { density: 2200, alpha: 0.05, tone: "0,0,0" });
+  const swell = o.swell ?? 46, crest = o.crest ?? 260;
+  for (let i = 0; i < swell; i++) {
+    const y = Math.random() * h, x = Math.random() * w, len = 60 + Math.random() * 180;
+    g.fillStyle = `rgba(120,170,185,${(0.05 + Math.random() * 0.06).toFixed(3)})`;
+    g.fillRect(x, y, len, 1.5);
+    g.fillStyle = "rgba(0,0,0,0.10)";
+    g.fillRect(x + 6, y + 3, len * 0.7, 1);
+  }
+  for (let i = 0; i < crest; i++) {
+    const y = Math.random() * h, x = Math.random() * w, len = 6 + Math.random() * 22;
+    g.fillStyle = `rgba(190,225,235,${(0.08 + Math.random() * 0.14).toFixed(3)})`;
+    g.fillRect(x, y, len, 1);
+  }
+}
+
+/**
+ * Tidal mudflat for the marsh edge: a grey-brown base darker where it is
+ * still wet, a fine grain, desiccation cracks as short jointed dark strokes,
+ * and a few shallow pools that catch the sky. Reads as the ground a living
+ * shoreline is built on rather than a lawn.
+ */
+export function mudflatFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#3a3630"], [1, o.base2 ?? "#2c2a26"]], { radial: true });
+  noiseTexture(g, w, h, { density: 3200, alpha: 0.10, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 900, alpha: 0.05, tone: "170,160,140" });
+  const cracks = o.cracks ?? 70;
+  for (let i = 0; i < cracks; i++) {
+    let x = Math.random() * w, y = Math.random() * h;
+    const steps = 4 + Math.floor(Math.random() * 6);
+    for (let k = 0; k < steps; k++) {
+      const dx = (Math.random() - 0.5) * 34, dy = (Math.random() - 0.5) * 34;
+      const nx = x + dx, ny = y + dy, len = Math.hypot(dx, dy);
+      g.fillStyle = "rgba(0,0,0,0.42)";
+      for (let t = 0; t < len; t += 2) g.fillRect(x + (dx * t) / len, y + (dy * t) / len, 1.6, 1.6);
+      x = nx; y = ny;
+    }
+  }
+  const pools = o.pools ?? 5;
+  for (let i = 0; i < pools; i++) {
+    const cx = Math.random() * w, cy = Math.random() * h, r = 14 + Math.random() * 30;
+    g.fillStyle = "rgba(70,95,105,0.35)";
+    try { g.beginPath(); g.ellipse(cx, cy, r, r * 0.55, Math.random() * Math.PI, 0, Math.PI * 2); g.fill(); } catch { g.fillRect(cx - r, cy - r * 0.55, r * 2, r * 1.1); }
+  }
+}
+
 /** The station footprint: a holographic pad the equipment stands on. */
 export function stationPad(parent, radius = 1.75, accent = CITY.accent) {
   const g = group(parent);
@@ -419,8 +474,15 @@ export function skyline(parent, o = {}) {
   const g = group(parent);
   const count = o.count ?? 54;
   const beacons = [];
+  // A district on a shoreline opens the ring toward the water: `gap` is the
+  // [from, to] bearing (radians, 0 = +z, π = the side the learner faces) in
+  // which no tower is built, so the horizon there is whatever the district
+  // puts across the bay instead of a wall of city.
+  const gap = o.gap ?? null;
+  const inGap = (a) => { if (!gap) return false; const n = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2); return n >= gap[0] && n <= gap[1]; };
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2 + Math.random() * 0.05;
+    if (inGap(a)) continue;
     const r = 34 + Math.random() * 16;
     const h = 5 + Math.random() * 24;
     const w = 3 + Math.random() * 5;

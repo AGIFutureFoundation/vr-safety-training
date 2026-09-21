@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group } from "../../shared/kit.js";
-import { CITY } from "./citykit.js";
+import { CITY, surfaceTexture, texturedMat, waterFace, mudflatFace } from "./citykit.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -321,6 +321,90 @@ function dehuSkid(g, x, z, ry = 0) {
   return lamp;
 }
 
+/** Bay water to the horizon, textured and drifting: the shoreline districts'
+ *  version of water(). Returns the texture so animate can slide it. */
+function bayWater(g, o = {}) {
+  const tex = surfaceTexture((cx, w, h) => waterFace(cx, w, h, o), { repeat: 14, px: 512 });
+  const w = cyl(g, 66, 66, 0.1, 0, -0.56, 0, 0x0f2e3a, { rough: 0.25, metal: 0.55, seg: 56, cast: false });
+  w.material = texturedMat(tex, { rough: 0.28, metal: 0.5, color: 0xa8c4cc });
+  w.receiveShadow = false;
+  return tex;
+}
+
+/** The tidal flat between the plaza edge and the water. */
+function mudflat(g, r = 26) {
+  const tex = surfaceTexture((cx, w, h) => mudflatFace(cx, w, h), { repeat: 9, px: 512 });
+  const m = cyl(g, r, r + 1.5, 0.12, 0, -0.5, 0, 0x3a3630, { rough: 0.95, seg: 48, cast: false });
+  m.material = texturedMat(tex, { rough: 0.95, metal: 0.02, color: 0xc9bfae });
+  m.receiveShadow = false;
+  return m;
+}
+
+/** A clump of cordgrass on the flat: a dozen thin blades leaning off vertical
+ *  so a cluster reads as a plant and not a picket. */
+function cordgrass(g, x, z, n = 12, tone = 0x5d7a3a) {
+  const c = group(g, x, -0.45, z, Math.random() * Math.PI);
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2, r = 0.12 + Math.random() * 0.35, hh = 0.7 + Math.random() * 0.6;
+    const b = box(c, 0.035, hh, 0.012, Math.cos(a) * r, hh / 2, Math.sin(a) * r, i % 3 ? tone : 0x8a8f4a, { rough: 0.9, cast: false, receive: false });
+    b.rotation.z = (Math.random() - 0.5) * 0.5; b.rotation.x = (Math.random() - 0.5) * 0.4;
+  }
+  return c;
+}
+
+/** Site perimeter: chain-link between posts along an arc, with a dust
+ *  monitor and its beacon every few bays — the fence the neighbourhood is on
+ *  the other side of. Returns the beacons. */
+function perimeter(g, r = 20, a0 = -1.9, a1 = -1.2, bays = 7) {
+  const beacons = [];
+  for (let i = 0; i <= bays; i++) {
+    const a = a0 + (a1 - a0) * (i / bays);
+    const x = Math.sin(a) * r, z = Math.cos(a) * r;
+    cyl(g, 0.04, 0.04, 2.4, x, -0.3, z, 0x8b949d, { rough: 0.5, metal: 0.6, seg: 6, cast: false, receive: false });
+    if (i < bays) {
+      const na = a0 + (a1 - a0) * ((i + 1) / bays);
+      const mx = (x + Math.sin(na) * r) / 2, mz = (z + Math.cos(na) * r) / 2;
+      const len = Math.hypot(Math.sin(na) * r - x, Math.cos(na) * r - z);
+      const panel = box(g, len, 2.2, 0.02, mx, -0.4, mz, 0xb8c1c9, { rough: 0.6, metal: 0.4, opacity: 0.35, cast: false, receive: false });
+      panel.rotation.y = -((a + na) / 2);
+    }
+    if (i % 3 === 1) {
+      box(g, 0.34, 0.5, 0.28, x, 0.75, z, 0xe6ecf1, { rough: 0.5, cast: false, receive: false });
+      cyl(g, 0.05, 0.05, 0.3, x, 1.15, z, 0x4a5561, { rough: 0.5, seg: 6, cast: false, receive: false });
+      beacons.push(own(ball(g, 0.08, x, 1.36, z, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.6, cast: false, seg: 8, seg2: 6 })));
+    }
+  }
+  return beacons;
+}
+
+/** A clamshell dredge on a spud barge, a scow alongside and the turbidity
+ *  curtain's float line around the work — environmental dredging seen from
+ *  the shore. Returns the parts that move. */
+function dredge(g, x, z, ry = 0) {
+  const d = group(g, x, -0.5, z, ry);
+  box(d, 18, 1.6, 9, 0, 0.8, 0, 0x3c4a58, { rough: 0.7, metal: 0.3, cast: false, receive: false });
+  for (const sx of [-1, 1]) cyl(d, 0.22, 0.22, 9, sx * 8.2, 4.5, -3.6, 0x4a5561, { rough: 0.6, metal: 0.4, seg: 8, cast: false, receive: false });
+  box(d, 4.2, 2.6, 4.2, -4, 2.9, 0, 0xdfe6ec, { rough: 0.5, cast: false, receive: false });
+  box(d, 3.8, 0.6, 4.3, -4, 3.4, 0, 0xffe9a8, { emissive: 0xffe9a8, ei: 0.9, rough: 0.4, cast: false, receive: false });
+  const slew = group(d, 2, 1.6, 0);
+  box(slew, 3.4, 2.6, 3.4, 0, 1.3, 0, 0xf2c14b, { rough: 0.6, metal: 0.3, cast: false, receive: false });
+  box(slew, 2.2, 1.2, 2.0, 0.4, 3.2, 0.6, 0x2a3138, { rough: 0.5, metal: 0.4, cast: false, receive: false });
+  // Boom raised toward -z: a positive tilt about x lifts the far end.
+  const boom = box(slew, 0.5, 0.5, 16, 0, 2.8, -7, 0xf2c14b, { rough: 0.6, metal: 0.3, cast: false, receive: false });
+  boom.rotation.x = 0.6;
+  const line = box(slew, 0.03, 6, 0.03, 0, 4.0, -13.6, 0x1a1e23, { rough: 0.5, cast: false, receive: false });
+  const bucket = box(slew, 1.4, 1.1, 1.2, 0, 0.6, -13.6, 0x2a3138, { rough: 0.7, metal: 0.5, cast: false, receive: false });
+  own(ball(slew, 0.16, 0, 7.4, -13.9, 0xff5f5f, { emissive: 0xff5f5f, ei: 1.5, cast: false, seg: 8, seg2: 6 }));
+  const scow = group(d, 0, 0, 8.5);
+  box(scow, 22, 1.3, 6, 0, 0.65, 0, 0x2f3a45, { rough: 0.75, metal: 0.3, cast: false, receive: false });
+  box(scow, 20, 0.5, 4.6, 0, 1.4, 0, 0x4a3f3a, { rough: 0.95, cast: false, receive: false });
+  for (let i = 0; i < 14; i++) {
+    const a = -0.5 + (i / 13) * 2.6, rr = 17;
+    ball(d, 0.28, Math.cos(a) * rr, 0.18, -Math.sin(a) * rr - 8, i % 2 ? 0xff7a3b : 0xf2c14b, { rough: 0.8, cast: false, seg: 6, seg2: 5 });
+  }
+  return { d, slew, line, bucket };
+}
+
 // ------------------------------------------------------------------ table
 
 const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
@@ -436,17 +520,44 @@ export const DISTRICTS = {
     },
   },
   "Environmental Monitoring": {
-    sky: 0x080d0e, fog: 0x0c1416, hemi: [0x7a9a8a, 0x121a14], mast: 0xe6f2ea,
+    // A bay shoreline under a cleanup order: fog off the water, a tidal flat
+    // with cordgrass coming back along it, the site fence with its dust
+    // monitors, and a clamshell dredge working sediment inside a turbidity
+    // curtain offshore. The hills are the neighbourhood above the fence.
+    sky: 0x0a1014, fog: 0x141d22, hemi: [0x8aa0a4, 0x121a16], mast: 0xe6f2ea,
+    // No city between the learner and the water: the ring opens across the
+    // side they face, and the far shore's hills stand across the bay instead.
+    skylineGap: [Math.PI - 1.15, Math.PI + 1.15],
     build(g) {
-      flood(g, 0, 10, -22, 0xe6f2ea);
-      water(g, 0x0b1c22);
-      hill(g, -22, -40, 26, 7, 12); hill(g, 18, -44, 30, 9, 14, 0x1a2620); hill(g, 42, -18, 18, 5, 10);
-      const leds = [monitorMast(g, -17, -19, 6), monitorMast(g, 19, -18, 7), monitorMast(g, 4, -24, 6.5)];
-      const sock = group(g, -21, -1.5, -21);
+      flood(g, 0, 12, -24, 0xe6f2ea, 1.2);
+      const waterTex = bayWater(g);
+      mudflat(g, 26);
+      hill(g, -34, -56, 30, 8, 14, 0x232c22); hill(g, 8, -62, 36, 10, 16, 0x1f281f); hill(g, 46, -44, 26, 7, 12, 0x232c22);
+      hill(g, 40, 18, 22, 6, 12, 0x2a3222);
+      for (let i = 0; i < 14; i++) {
+        const a = -2.6 + i * 0.27, r = 17.5 + (i % 3) * 1.6;
+        cordgrass(g, Math.sin(a) * r, Math.cos(a) * r, 10 + (i % 4) * 2);
+      }
+      const beacons = perimeter(g, 20, -1.0, -0.25, 8);
+      const leds = [monitorMast(g, -18, -18, 6), monitorMast(g, 21, -12, 7)];
+      const dr = dredge(g, 19, -27, -0.45);
+      const sock = group(g, -14, -0.5, -20);
       cyl(sock, 0.05, 0.05, 6, 0, 3, 0, 0xb8c1c9, { rough: 0.5, seg: 6, cast: false, receive: false });
       const cone = cyl(sock, 0.28, 0.14, 1.6, 0.9, 5.9, 0, 0xff7a3b, { rough: 0.9, seg: 10, open: true, cast: false, receive: false });
       cone.rotation.z = Math.PI / 2;
-      return (t) => { for (let i = 0; i < leds.length; i++) leds[i].material.emissiveIntensity = ((Math.floor(t * 1.5 + i * 0.7)) % 3 === 0) ? 2.2 : 0.4; cone.rotation.y = Math.sin(t * 0.5) * 0.5; };
+      return (t) => {
+        waterTex.offset.x = t * 0.004; waterTex.offset.y = Math.sin(t * 0.05) * 0.02;
+        for (let i = 0; i < leds.length; i++) leds[i].material.emissiveIntensity = ((Math.floor(t * 1.5 + i * 0.7)) % 3 === 0) ? 2.2 : 0.4;
+        for (let i = 0; i < beacons.length; i++) beacons[i].material.emissiveIntensity = Math.sin(t * 2.4 + i) > 0.6 ? 2.4 : 0.5;
+        cone.rotation.y = Math.sin(t * 0.5) * 0.5;
+        dr.d.position.y = -0.5 + Math.sin(t * 0.6) * 0.06; dr.d.rotation.z = Math.sin(t * 0.45) * 0.008;
+        // The bucket cycle: down, dwell, up and slew to the scow, back.
+        const c = (t * 0.18) % 1;
+        const drop = c < 0.3 ? c / 0.3 : c < 0.5 ? 1 : c < 0.8 ? 1 - (c - 0.5) / 0.3 : 0;
+        dr.line.scale.y = 1 + drop * 0.3; dr.line.position.y = 4.0 - drop * 0.9;
+        dr.bucket.position.y = 0.6 - drop * 1.8;
+        dr.slew.rotation.y = c >= 0.8 ? Math.sin((c - 0.8) / 0.2 * Math.PI) * 1.2 : 0;
+      };
     },
   },
   "Surface Prep & Coatings": {

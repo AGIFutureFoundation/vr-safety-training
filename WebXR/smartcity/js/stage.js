@@ -202,7 +202,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     g.add(light);
   }
 
-  const sky = skyline(g);
+  const sky = skyline(g, { gap: district.skylineGap ?? null });
   const marquee = buildMarquee(g);
   // Weather goes on after the sky and fog are set for the hour, because it
   // scales both; the stage hands its label and note back to the app.
