@@ -9830,6 +9830,90 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "pcb-equipment-removal",
+    "index": "87",
+    "domain": "Energy",
+    "trade": "Electrician and rigger's helper — IBEW Local 6 electrician, LIUNA hazmat laborer, IUOE Local 3 hoist operator",
+    "category": "Energy & Power",
+    "certification": "IBEW Local 6 electricians and LIUNA hazmat laborers; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 electrical safety-related work practices; EPA TSCA 40 CFR 761 PCB marking, storage and disposal; OSHA HAZWOPER 40-hour for anyone working the exclusion zone; DOT 49 CFR 172 hazardous-materials shipping papers",
+    "name": "PCB Equipment Removal",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ PCB Equipment Removal VR",
+    "tagline": "A derelict switch room's PCB transformer, taken down as a regulated shipment: nameplate against the inventory, the circuit proven dead and locked out, the unit lifted onto a lined pallet, sealed, labelled and manifested",
+    "accent": 15778841,
+    "accentCss": "#f0c419",
+    "parSeconds": 310,
+    "badge": {
+      "id": "pcb-shipment",
+      "name": "PCB Shipment",
+      "note": "A PCB transformer isolated, rigged and manifested with no shortcut on the lockout, the oil or the paperwork"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "PCB Custody",
+      "currency": "MICROGRAM",
+      "ranks": [
+        "Helper",
+        "Rigger's Hand",
+        "Lead Rigger",
+        "Isolation Authority",
+        "PCB Custody Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "transite-pipe-removal",
+    "index": "88",
+    "domain": "Environmental",
+    "trade": "Asbestos abatement laborer and pipefitter — LIUNA asbestos laborer, UA Local 38 pipefitter, IUOE Local 3 excavation operator",
+    "category": "Water & Environmental",
+    "certification": "LIUNA asbestos and hazmat laborers, Cal/OSHA-registered for asbestos work, with UA Local 38 on the pipe and IUOE Local 3 on the excavation; OSHA 29 CFR 1926.1101 Class II asbestos work; EPA NESHAP 40 CFR 61 Subpart M; the local air district's asbestos notification; OSHA 29 CFR 1926 Subpart P excavations",
+    "name": "Transite Pipe Removal",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Transite Pipe Removal VR",
+    "tagline": "Asbestos-cement water pipe out of an excavation as Class II work: wetted and kept wet, cut with a snap cutter — never a power saw — double-bagged at the point of removal, and the air sampling pump running the whole time",
+    "accent": 14164778,
+    "accentCss": "#d8232a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "pipe-out-clean",
+      "name": "Pipe Out Clean",
+      "note": "A transite run removed wet, hand-cut, bagged at the point of removal and manifested, with the sampling pump running the whole job"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fibre Control",
+      "currency": "FIBRE",
+      "ranks": [
+        "Ground Hand",
+        "Wet-Method Crew",
+        "Lead Laborer",
+        "Regulated-Area Authority",
+        "Fibre Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -10013,6 +10097,8 @@ const CURRICULA = [
       { app: "smartcity", id: "rad-survey", why: "The gamma walkover done so its numbers can be trusted: source-check, background, grid speed, a static count over the investigation level, a split sample under chain of custody." },
       { app: "smartcity", id: "air-monitor", why: "Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now." },
       { app: "smartcity", id: "soil-loadout", why: "Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator." },
+      { app: "smartcity", id: "pcb-equipment-removal", why: "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate." },
+      { app: "smartcity", id: "transite-pipe-removal", why: "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time." },
       { app: "smartcity", id: "decon-line", why: "The corridor everyone and everything leaves the exclusion zone through." },
       { app: "smartcity", id: "sampling-well", why: "Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle." },
       { app: "smartcity", id: "well-install", why: "The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it." },

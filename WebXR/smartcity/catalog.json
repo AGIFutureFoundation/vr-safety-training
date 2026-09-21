@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 84
+      "stations": 86
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "pcb-equipment-removal",
         "gas-leak-survey",
         "wind-nacelle",
         "transformer-vault"
@@ -68,6 +69,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "transite-pipe-removal",
         "eelgrass-transplant",
         "living-shoreline",
         "tide-gate",
@@ -628,6 +630,16 @@
           "app": "smartcity",
           "id": "soil-loadout",
           "why": "Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator."
+        },
+        {
+          "app": "smartcity",
+          "id": "pcb-equipment-removal",
+          "why": "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate."
+        },
+        {
+          "app": "smartcity",
+          "id": "transite-pipe-removal",
+          "why": "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time."
         },
         {
           "app": "smartcity",
@@ -4909,6 +4921,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "transite-pipe-removal",
+      "name": "Transite Pipe Removal",
+      "title": "SmartCiti.X~ Transite Pipe Removal VR",
+      "tagline": "Asbestos-cement water pipe out of an excavation as Class II work: wetted and kept wet, cut with a snap cutter — never a power saw — double-bagged at the point of removal, and the air sampling pump running the whole time",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Asbestos abatement laborer and pipefitter — LIUNA asbestos laborer, UA Local 38 pipefitter, IUOE Local 3 excavation operator",
+      "union": null,
+      "certification": "LIUNA asbestos and hazmat laborers, Cal/OSHA-registered for asbestos work, with UA Local 38 on the pipe and IUOE Local 3 on the excavation; OSHA 29 CFR 1926.1101 Class II asbestos work; EPA NESHAP 40 CFR 61 Subpart M; the local air district's asbestos notification; OSHA 29 CFR 1926 Subpart P excavations",
+      "accent": "#d8232a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "sequence",
+        "find",
+        "gauge",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "pipe-out-clean",
+        "name": "Pipe Out Clean",
+        "note": "A transite run removed wet, hand-cut, bagged at the point of removal and manifested, with the sampling pump running the whole job"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "88",
+      "flat": false,
+      "system": "Fibre Control",
+      "currency": "FIBRE",
+      "ranks": [
+        "Ground Hand",
+        "Wet-Method Crew",
+        "Lead Laborer",
+        "Regulated-Area Authority",
+        "Fibre Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-dry",
+          "name": "Never Dry",
+          "note": "The pipe face was wet through every cut, first time"
+        },
+        {
+          "id": "hand-tools-only",
+          "name": "Hand Tools Only",
+          "note": "Never reached for a power tool on this pipe"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "Held the cutter's feed inside the safe band the whole cut"
+        },
+        {
+          "id": "clean-pull",
+          "name": "Clean Pull",
+          "note": "No corrections anywhere in the removal"
+        },
+        {
+          "id": "unbroken-wet",
+          "name": "Unbroken Wet",
+          "note": "Never broke the wet-method hold"
+        },
+        {
+          "id": "bagged-fast",
+          "name": "Bagged Fast",
+          "note": "Section bagged and the manifest signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=transite-pipe-removal"
+    },
+    {
+      "app": "smartcity",
+      "id": "pcb-equipment-removal",
+      "name": "PCB Equipment Removal",
+      "title": "SmartCiti.X~ PCB Equipment Removal VR",
+      "tagline": "A derelict switch room's PCB transformer, taken down as a regulated shipment: nameplate against the inventory, the circuit proven dead and locked out, the unit lifted onto a lined pallet, sealed, labelled and manifested",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Electrician and rigger's helper — IBEW Local 6 electrician, LIUNA hazmat laborer, IUOE Local 3 hoist operator",
+      "union": null,
+      "certification": "IBEW Local 6 electricians and LIUNA hazmat laborers; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 electrical safety-related work practices; EPA TSCA 40 CFR 761 PCB marking, storage and disposal; OSHA HAZWOPER 40-hour for anyone working the exclusion zone; DOT 49 CFR 172 hazardous-materials shipping papers",
+      "accent": "#f0c419",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "gauge",
+        "find",
+        "turn",
+        "select",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "pcb-shipment",
+        "name": "PCB Shipment",
+        "note": "A PCB transformer isolated, rigged and manifested with no shortcut on the lockout, the oil or the paperwork"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "87",
+      "flat": false,
+      "system": "PCB Custody",
+      "currency": "MICROGRAM",
+      "ranks": [
+        "Helper",
+        "Rigger's Hand",
+        "Lead Rigger",
+        "Isolation Authority",
+        "PCB Custody Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-dead",
+          "name": "Proven Dead",
+          "note": "The circuit isolated, locked, tagged and tested before any tool touched the unit"
+        },
+        {
+          "id": "no-release",
+          "name": "No Release",
+          "note": "Never let oil, a live conductor or an unlabelled load leave the room"
+        },
+        {
+          "id": "clean-swing",
+          "name": "Clean Swing",
+          "note": "Held the tag line inside the safe path for the whole lift"
+        },
+        {
+          "id": "clean-shipment",
+          "name": "Clean Shipment",
+          "note": "No corrections anywhere in the removal"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Never broke the tag-line signal"
+        },
+        {
+          "id": "room-cleared",
+          "name": "Room Cleared",
+          "note": "Swabbed and closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pcb-equipment-removal"
     },
     {
       "app": "smartcity",
