@@ -19,7 +19,7 @@ export const ROOM_PLUMBING = {
   title: "Rough-In Bay",
   tagline: "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
   union: "UA — United Association of Plumbers, Pipefitters and Service Technicians",
-  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
+  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ANSI/ASSE 5110 backflow prevention assembly tester and ANSI/ASSE 1020 pressure vacuum breakers; NSF/ANSI 61 and 372 for wetted drinking-water components; ASME B31.9 building services piping; OSHA 29 CFR 1910.252 welding, cutting and brazing with NFPA 51B hot work",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
   parSeconds: 235,
@@ -47,20 +47,20 @@ export const ROOM_PLUMBING = {
       id: "workorder", kind: "select", target: "work-order",
       title: "Read the rough-in work order",
       cue: "Check the plans: fixture count, vent sizing, and the DWV layout.",
-      why: "You confirm what's supposed to be behind this wall before you cut into it — a vent sized wrong is a sewer-gas complaint six months from now, not something you catch by eye today.",
+      why: "Fixture units, vent size and where the wet vent picks up all get confirmed before a saw touches the framing. An undersized vent shows up as a trap siphoning itself dry six months later, venting sewer gas into a finished bathroom through a wall that is by then boarded and tiled.",
     },
     {
       id: "shutoff", kind: "turn", target: "main-shutoff",
       title: "Close the main shutoff",
       cue: "Turn the main off before opening any line downstream.",
-      why: "Every fixture on this run can still be under pressure. The main goes off first — not just the branch you think you're isolating.",
+      why: "Assume street pressure on every fixture downstream. The branch valve you believe isolates this run may be a fifteen-year-old gate that no longer seats, and you would only learn that at the first cut. Take the main round to its stop instead of trusting a valve nobody has ever proved.",
       turn: { turns: 0.75, axis: "y", label: "MAIN SUPPLY" },
     },
     {
       id: "bleed", kind: "hold", target: "bleed-valve", seconds: 5,
       title: "Bleed the line",
       cue: "Hold the bleeder open until the line runs dry.",
-      why: "Closing the main doesn't empty the pipe. Whatever's still standing in the line comes out at the first cut unless you bleed it here.",
+      why: "A closed main does not empty a riser. The column hangs on its own vacuum until something admits air, so the first fitting cracked becomes the vent and the whole standing head lands at once — on the floor, the tools and anything open below. Bleed it down and watch the flow die.",
       holdBreakNote: "Let go too soon — there's still water standing in the line. Hold the bleeder open the full run.",
     },
     {
@@ -69,28 +69,28 @@ export const ROOM_PLUMBING = {
       itemNames: { "stack-vent": "vent stack", "closet-bend": "closet bend", "p-trap": "P-trap" },
       title: "Dry-fit the DWV run",
       cue: "Set the vent stack, then the closet bend, then the trap — in that order.",
-      why: "DWV assembles top-down: the vent connection and slope have to be right before you commit a trap that depends on both.",
+      why: "Drain, waste and vent assembles top down: the vent tie-in and the fall are the datum everything under them is set from. The trap goes last because its weir height and arm slope decide whether the seal holds or siphons out, and neither can be adjusted once the stack and bend are welded in.",
       outOfOrderNote: "Wrong order — the stack and bend are what the trap's slope depends on. Set them first.",
     },
     {
       id: "backflow", kind: "drag", target: "backflow-preventer",
       title: "Fit the backflow preventer",
       cue: "Carry the backflow preventer from the bench to the hose bib supply.",
-      why: "A hose bib is exactly the connection code requires backflow protection on — anything that could ever sit in a bucket needs an assembly that stops the flow from reversing.",
+      why: "A hose bib is the classic cross-connection — the one outlet a garden hose, a bucket and a momentary pressure drop can turn into a feed running backwards into potable supply. A vacuum breaker severs that path mechanically, which is why code names this fitting specifically rather than trusting the pressure.",
       drag: { to: "hose-bib-socket", radius: 0.35, missNote: "Not lined up with the bib — set it square onto the supply fitting." },
     },
     {
       id: "cement", kind: "hold", target: "pvc-joint", seconds: 4,
       title: "Solvent-weld the PVC joint",
       cue: "Prime, cement, then hold the joint together while it sets.",
-      why: "The solvent weld needs sustained pressure to fuse. Let go early and the pipe's own spring-back opens a gap the cement never fills.",
+      why: "Solvent cement does not glue PVC — it softens both faces so they fuse as the solvent flashes off. Hold the joint bottomed out while that happens, because the pipe's own spring-back backs it a few millimetres out of the socket and leaves a void the cement never closes. That is the joint that tests fine and weeps in service.",
       holdBreakNote: "Released early — the joint pulled apart microscopically before the weld set. Hold the full cure.",
     },
     {
       id: "torch", kind: "gauge", target: "torch-valve",
       title: "Dial a neutral flame",
       cue: "Adjust the oxy-acetylene mix until the flame reads neutral.",
-      why: "A neutral flame gives a clean, even heat for sweating copper — too rich soots the joint, too lean burns the flux before the solder can wet the fitting.",
+      why: "Neutral means exactly enough oxygen to consume the fuel, with nothing spare at the tip. Carburising soots the fitting so flux cannot wet it; oxidising strips the flux ahead of the solder and grows an oxide film that solder simply refuses to bond to.",
       gauge: {
         label: "FLAME MIX", speed: 0.8, green: [0.44, 0.6],
         readout: (t) => (t < 0.44 ? "carburizing" : t > 0.6 ? "oxidizing" : "neutral"),
@@ -101,7 +101,7 @@ export const ROOM_PLUMBING = {
       id: "sweat", kind: "gauge", target: "copper-joint",
       title: "Sweat the copper joint",
       cue: "Feed solder into the joint once the flux sizzles and the heat draws it in.",
-      why: "Capillary action pulls molten solder through a properly heated joint on its own — chasing it into a cold or overheated fitting is how you get a joint that looks sound and weeps at the first pressure test.",
+      why: "Capillary action drags molten solder right round a properly heated fitting unaided — heat the copper, not the solder, and the joint draws when it is ready. Chase it with the flame and you get a tidy fillet at the mouth, voids behind it, and a weep that surfaces either at test or inside a finished wall.",
       gauge: {
         label: "JOINT TEMP", speed: 1.0, green: [0.5, 0.68],
         readout: (t) => `${Math.round(250 + t * 500)}°F`,
@@ -112,7 +112,7 @@ export const ROOM_PLUMBING = {
       id: "pressuretest", kind: "gauge", target: "test-gauge",
       title: "Hold the test pressure",
       cue: "Pump to test pressure and hold inside the band for the full test.",
-      why: "Code requires the system to hold a defined test pressure for a set duration — a slow bleed that isn't caught here becomes a warranty callback after the drywall's up.",
+      why: "Code names a test pressure and a duration, and the duration is the half that catches anything — everything looks tight for ten seconds. A fitting shedding a pound over fifteen minutes will drip for years behind drywall, and the callback to chase it costs more than this rough-in earned.",
       gauge: {
         label: "TEST PRESSURE", speed: 0.6, green: [0.55, 0.72],
         readout: (t) => `${Math.round(t * 150)} psi`,
@@ -126,7 +126,35 @@ export const ROOM_PLUMBING = {
       itemNotes: { "leaking-joint": "That joint is weeping under test pressure — a slow leak here is exactly what the test exists to catch before the wall closes over it." },
       title: "Find the weeping joint",
       cue: "Look over every joint under pressure and click the one that's failing.",
-      why: "A pressure drop tells you something's wrong somewhere on the run — it doesn't tell you which joint. That's still a visual check, every time.",
+      why: "A falling needle says the system is shedding air and says nothing whatever about where. Locating it stays a fitting-by-fitting visual, and this is the last opportunity anyone has: after the board goes up, the same defect is diagnosed from a stain on a ceiling below, through somebody else's finishes.",
+    },
+  ],
+
+  // Two things that happen behind a plumber's back on a live rough-in: the
+  // isolation being undone by somebody else, and hot work that did not stop
+  // when the torch did. See shared/game.js.
+  interrupts: [
+    {
+      id: "main-reopened",
+      kind: "Isolation breach",
+      after: "backflow", delay: 3, seconds: 12,
+      alert: "The main wheel has turned. Somebody down the floor has cracked your supply back open to fill a bucket and walked off.",
+      cue: "You are across the bay with both hands full and the system behind you is live.",
+      target: "main-shutoff",
+      why: "An isolation nobody can see is not an isolation. The main goes back off before anything else happens and then you find out who opened it, because the next thing this job has is an open pipe end — and there is no warning between street pressure arriving and it arriving everywhere at once.",
+      missNote: "The main stayed open while you worked. Pressure came back up behind a rough-in that is not made up yet, and the first open fitting anyone touches becomes the outlet — on a three-quarter-inch service that is roughly ten gallons a minute into an unfinished floor before somebody gets back to the valve.",
+      wrongNote: "It is the main shutoff. Nothing else on this job is worth a second while the supply is live behind an open pipe end.",
+    },
+    {
+      id: "hot-work-smoulder",
+      kind: "Hot work fire",
+      after: "sweat", delay: 4, seconds: 13,
+      alert: "A thread of smoke is rising out of the stud bay behind the fitting you just sweated. There was no heat shield in there.",
+      cue: "That is inside the wall now, not on the face of it.",
+      target: "fire-extinguisher",
+      why: "NFPA 51B requires extinguishing equipment within reach and a fire watch kept through the work and well after it, precisely because torch heat conducts along a fitting into framing and starts a smoulder that shows nothing for hours. You put it out now, while it is still a thread of smoke and still somewhere you can reach.",
+      missNote: "Nobody went back to it. Hot work fires are almost always found long after the crew has packed up: that smoulder had the rest of the afternoon inside a closed stud bay with insulation for fuel, and the first anybody knew of it was the building alarm that night.",
+      wrongNote: "It is the extinguisher racked on the stud wall. NFPA 51B puts one within reach of hot work so that the answer is three steps away and not down in the truck.",
     },
   ],
 
@@ -171,6 +199,11 @@ export const ROOM_PLUMBING = {
       spoke.rotation.y = (i * Math.PI) / 4;
     }
     decal(supply, 0.2, 0.07, 0, 1.15, 0.06, signFace("MAIN SUPPLY", { bg: "#2f2b26", accent: "#cf8b3c", scale: 0.55 }));
+    // Hung on the valve the moment it is closed, and gone again the moment
+    // somebody else opens it — the one readable sign that the isolation holds.
+    const supplyOffTag = decal(supply, 0.2, 0.07, 0, 1.06, 0.06,
+      signFace("SUPPLY OFF", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.55 }));
+    supplyOffTag.visible = false;
     reg(wheelGrp, "main-shutoff");
 
     // Bleed valve just downstream of the main.
@@ -261,6 +294,23 @@ export const ROOM_PLUMBING = {
     // Bare stud directly behind the torch work — no heat shield.
     const bareStud = box(root, 0.09, 2.6, 0.09, -1.9, 1.3, -2.7, WOOD, { rough: 0.92 });
     reg(bareStud, "torch-stud");
+    // What NFPA 51B calls extinguishing equipment within reach: an ABC unit
+    // bracketed to the framing a few steps from where the torch is lit.
+    const ext = group(root, -2.7, 0, -3.95);
+    cyl(ext, 0.075, 0.075, 0.42, 0, 0.95, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 16 });
+    cyl(ext, 0.05, 0.075, 0.08, 0, 1.2, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 16 });
+    box(ext, 0.12, 0.035, 0.045, 0, 1.26, 0, 0x2b2f34, { rough: 0.5 });
+    hose(ext, [[0.04, 1.23, 0], [0.13, 1.06, 0.05], [0.08, 0.86, 0.02]], 0.011, 0x1b1e22, { steps: 10 });
+    box(ext, 0.14, 0.03, 0.09, 0, 0.78, 0.01, 0x8a949d, { rough: 0.45, metal: 0.6 });
+    decal(ext, 0.13, 0.1, 0, 0.99, 0.079, signFace("ABC", { bg: "#f2c14b", fg: "#1b1e22", accent: "#b81410", scale: 0.7 }));
+    decal(ext, 0.36, 0.09, 0, 1.46, 0.02, signFace("HOT WORK — FIRE WATCH", { bg: "#2f2b26", accent: "#f2c14b", scale: 0.45 }));
+    reg(ext, "fire-extinguisher");
+    // The stud bay that catches, once the heat has had time to travel.
+    const smoulder = group(root, -1.9, 0, -2.78);
+    const char = box(smoulder, 0.11, 0.34, 0.02, 0, 1.0, 0.04, 0x231a12, { rough: 0.95 });
+    char.visible = false;
+    const smoulderSmoke = particles(smoulder, 34, 0x9aa0a6,
+      { size: 0.035, life: 1.5, additive: false, opacity: 0.4 });
 
     // --------------------------------------------------------- test manifold
     const manifold = group(root, 0.4, 0, 2.6);
@@ -348,9 +398,7 @@ export const ROOM_PLUMBING = {
       },
 
       onStepComplete(step) {
-        if (step.id === "shutoff") {
-          decal(supply, 0.2, 0.07, 0, 1.15, 0.06, signFace("SUPPLY OFF", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.55 }));
-        }
+        if (step.id === "shutoff") supplyOffTag.visible = true;
         if (step.id === "backflow") {
           backflowGrp.position.set(0, 0, 0);
           backflowGrp.parent.remove(backflowGrp);
@@ -370,6 +418,30 @@ export const ROOM_PLUMBING = {
         }
         if (step.id === "pressuretest") { pressurized = true; weep.visible = true; }
         if (step.id === "leakcheck") { weep.visible = false; }
+      },
+
+      // Both of these are visible from where the learner is standing the
+      // moment they fire: a valve wheel that has moved with its tag gone, and
+      // smoke coming out of a stud bay that was fine a minute ago.
+      onInterrupt(it) {
+        if (it.id === "main-reopened") {
+          supplyOffTag.visible = false;
+          wheelGrp.rotation.y = 1.9;
+          drip.visible = true;
+        }
+        if (it.id === "hot-work-smoulder") {
+          char.visible = true;
+          smoulderSmoke.visible = true;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "main-reopened") {
+          supplyOffTag.visible = true;
+          wheelGrp.rotation.y = 0;
+          drip.visible = false;
+        }
+        if (it.id === "hot-work-smoulder") smoulderSmoke.visible = false;
       },
 
       onHazard(hitId) {
@@ -398,6 +470,10 @@ export const ROOM_PLUMBING = {
 
         if (weep.visible) {
           weep.userData.step(dt, new THREE.Vector3(1.7, 0.68, 2.2), 0.02, 0.35, -2.8);
+        }
+
+        if (smoulderSmoke.visible) {
+          smoulderSmoke.userData.step(dt, new THREE.Vector3(0, 1.18, 0.04), 0.06, 0.3, 0.1);
         }
 
         const g = session?.gauge;

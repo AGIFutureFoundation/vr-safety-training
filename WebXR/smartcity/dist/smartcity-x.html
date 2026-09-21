@@ -6086,7 +6086,7 @@ const SIMS_META = [
       "note": "Full isolation with the DC link proven dead"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Grid Certification",
       "currency": "GRID",
@@ -6168,7 +6168,7 @@ const SIMS_META = [
       "note": "Permit to exit with every control in place"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Entry Authority",
       "currency": "PERMIT",
@@ -6235,7 +6235,7 @@ const SIMS_META = [
     "domain": "Connectivity",
     "trade": "Fibre optic technician",
     "category": "Connectivity & Telecom",
-    "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
+    "certification": "CWA and IBEW outside-plant technicians; OSHA 29 CFR 1910.268, the telecommunications standard, for work in and around a street node; the ANSI Z136 laser safety series for optical-fibre communication systems; NFPA 70E for the -48 V power plant in the cabinet; BICSI Installer 2, Optical Fiber, and the carrier's own loss budget and port tag-out procedure",
     "name": "Splice Node",
     "weather": "rain",
     "indoor": "service",
@@ -6249,7 +6249,7 @@ const SIMS_META = [
       "name": "Photon Guild",
       "note": "Dark fibre proven, splice inside budget"
     },
-    "stepCount": 12,
+    "stepCount": 14,
     "interruptCount": 2,
     "game": {
       "system": "Photon Guild",
@@ -6291,7 +6291,7 @@ const SIMS_META = [
       "note": "Full ramp procedure with rotors safed throughout"
     },
     "stepCount": 14,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Airside Command",
       "currency": "AIRSIDE",
@@ -6358,7 +6358,7 @@ const SIMS_META = [
     "domain": "Emergency Services",
     "trade": "EMT / paramedic",
     "category": "Emergency Services",
-    "certification": "IAEP — NREMT-Paramedic certified",
+    "certification": "IAFF and IAEP fire-based EMS crews; state paramedic licence at the NREMT level; START triage as the regional mass-casualty protocol adopts it, worked inside a NIMS incident command structure; the NFPA 1006 job performance requirements for technical rescue personnel on the collapse; OSHA 29 CFR 1910.1030 bloodborne pathogens for every patient contact",
     "name": "Triage Point",
     "weather": "overcast",
     "indoor": null,
@@ -6686,7 +6686,7 @@ const SIMS_META = [
     "domain": "Facilities",
     "trade": "Elevator constructor / mechanic",
     "category": "Building Systems & Facilities",
-    "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
+    "certification": "IUEC elevator constructors; ASME A17.1 / CSA B44, the safety code for elevators and escalators, and its A17.2 inspection guide; OSHA 29 CFR 1910.147, the control of hazardous energy, for the machine room isolation; NFPA 70 Article 620 for the elevator supply and NFPA 70E for proving it dead; NAESA-accredited QEI inspection",
     "name": "Elevator Pit",
     "weather": "clear",
     "indoor": "service",
@@ -6700,7 +6700,7 @@ const SIMS_META = [
       "name": "Pit Certified",
       "note": "Pit and car-top entry with both stop switches confirmed"
     },
-    "stepCount": 12,
+    "stepCount": 13,
     "interruptCount": 2,
     "game": {
       "system": "Shaftway Authority",
@@ -6727,7 +6727,7 @@ const SIMS_META = [
     "domain": "Environmental",
     "trade": "Asbestos / lead abatement worker",
     "category": "Water & Environmental",
-    "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
+    "certification": "LIUNA abatement workers; OSHA 29 CFR 1926.1101, the asbestos standard for construction, and 29 CFR 1910.134 respiratory protection; EPA AHERA worker accreditation and the EPA asbestos NESHAP for the waste; the project design and clearance criteria in the containment plan",
     "name": "Abatement Chamber",
     "weather": "clear",
     "indoor": "plant",
@@ -6783,7 +6783,7 @@ const SIMS_META = [
       "note": "Full fly cue with the arbor locked and the deck clear throughout"
     },
     "stepCount": 14,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Fly Certified",
       "currency": "FLY",
@@ -6824,7 +6824,7 @@ const SIMS_META = [
       "note": "Full de-energized procedure with rubber proven and grounds applied in order"
     },
     "stepCount": 15,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Storm Command",
       "currency": "VOLT",
@@ -7236,7 +7236,7 @@ const SIMS_META = [
       "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
     },
     "stepCount": 10,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Collection Command",
       "currency": "LIFT",
@@ -7277,7 +7277,7 @@ const SIMS_META = [
       "note": "Every line taken from outside the snap-back zone, hands clear, tension called by radio, stopper held"
     },
     "stepCount": 10,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Wharf Authority",
       "currency": "LINE",
@@ -7564,7 +7564,7 @@ const SIMS_META = [
       "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Scaffold Authority",
       "currency": "LIFT",
@@ -8968,6 +8968,88 @@ const SIMS_META = [
         "Third Officer",
         "Chief Officer",
         "Deck Department Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gas-leak-survey",
+    "index": "71",
+    "domain": "Energy",
+    "trade": "Gas distribution serviceperson / leak survey technician",
+    "category": "Energy & Power",
+    "certification": "UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation; 49 CFR Part 192 (PHMSA minimum safety standards for gas distribution pipelines, including its leakage-survey, investigation and repair requirements) and the operator's own written leak-grading and re-check procedure made under it; NFPA 54 for the customer fuel-gas piping downstream of the meter; OSHA 29 CFR 1910.146 where migrated gas puts a manhole or a vault into the survey",
+    "name": "Gas Leak Survey",
+    "weather": "overcast",
+    "indoor": null,
+    "title": "SmartCiti.X~ Gas Leak Survey VR",
+    "tagline": "Reported odour over a distribution main: instrument zeroed in clean air, ignition sources controlled, bar-holed outward along the trench and the utilities, graded on where the gas is, inside readings evacuated rather than investigated",
+    "accent": 16164387,
+    "accentCss": "#f6a623",
+    "parSeconds": 310,
+    "badge": {
+      "id": "leak-graded",
+      "name": "Leak Graded",
+      "note": "An odour call worked out to its edges and graded on where the gas was, with nothing on the street left able to light it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Leak Survey Authority",
+      "currency": "SCALE",
+      "ranks": [
+        "Serviceperson",
+        "Leak Investigator",
+        "Survey Technician",
+        "Survey Crew Leader",
+        "Leak Survey Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cath-lab",
+    "index": "72",
+    "domain": "Facilities",
+    "trade": "Hospital facilities electrician / health care building engineer",
+    "category": "Building Systems & Facilities",
+    "certification": "IBEW and IUOE hospital locals — health care facility maintenance; NFPA 99 health care facilities code for patient care space categories and the essential electrical system; NFPA 70 Article 517 for health care facility wiring, isolated power systems and the reference grounding point; NFPA 70E for the risk assessment at the panel; OSHA 29 CFR 1910.147 control of hazardous energy; the hospital's own interim life safety measures and its written clinical authorisation to take the room down",
+    "name": "Cath Lab",
+    "weather": "clear",
+    "indoor": null,
+    "title": "SmartCiti.X~ Cath Lab VR",
+    "tagline": "Planned outage on a cath lab branch panel: clinical authorisation and a window with nobody on the table, the life-safety branch left alone, isolated power read rather than silenced, grounding tested rather than assumed, room confirmed by the clinical team before hand-back",
+    "accent": 3003583,
+    "accentCss": "#2dd4bf",
+    "parSeconds": 320,
+    "badge": {
+      "id": "room-returned",
+      "name": "Room Returned",
+      "note": "A patient care space taken down inside an agreed window and handed back by the people who own it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Health Care Facility Authority",
+      "currency": "mA",
+      "ranks": [
+        "Building Mechanic",
+        "Hospital Electrician",
+        "Lead Electrician",
+        "Facilities Engineer",
+        "Health Care Facility Authority Certified"
       ],
       "rankAt": [
         0,

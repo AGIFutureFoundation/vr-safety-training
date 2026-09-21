@@ -19,7 +19,7 @@ export const SIM_SPLICE_NODE = {
   category: "Connectivity & Telecom",
   indoor: "service",
   weather: "rain",
-  certification: "CWA — BICSI Installer 2, Optical Fiber Technician certified",
+  certification: "CWA and IBEW outside-plant technicians; OSHA 29 CFR 1910.268, the telecommunications standard, for work in and around a street node; the ANSI Z136 laser safety series for optical-fibre communication systems; NFPA 70E for the -48 V power plant in the cabinet; BICSI Installer 2, Optical Fiber, and the carrier's own loss budget and port tag-out procedure",
   name: "Splice Node",
   title: simTitle("Splice Node"),
   tagline: "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",
@@ -49,6 +49,7 @@ export const SIM_SPLICE_NODE = {
     "fibre-scraps": "Those are cleaved fibre offcuts on the bench. Bare glass shards work into skin and cannot be seen on an X-ray. They go in the sharps tube, immediately, every time.",
     "alcohol-heat": "Isopropyl beside a running heat oven. The cleaning solvent is flammable and the oven cycles to 200 °C — one goes away before the other is switched on.",
     "unlabelled-port": "That port has no label and no lockout. Working an unidentified port means the service you take down belongs to somebody who did not know it was coming.",
+    "power-shelf": "That is the -48 V battery plant, not a fibre shelf. Telecom DC power will put thousands of amps into a dropped spanner without tripping anything, and the arc takes the tool, the busbar and the hand holding it. Nothing in that shelf is part of a splice — it is worked on isolated, by the power technician, under NFPA 70E.",
   },
 
   lateNotes: {
@@ -90,19 +91,33 @@ export const SIM_SPLICE_NODE = {
       id: "ticket", kind: "select", target: "work-ticket",
       title: "Read the ticket and circuit ID",
       cue: "Confirm the circuit, the port, and that the shutdown window is approved.",
-      why: "One fibre in that tray carries a hospital's imaging link. The ticket is what tells you which strand is yours and when you are allowed to break it.",
+      why: "One strand in that tray is a hospital's imaging link and another is the backhaul for half the traffic signals north of the river. The ticket is what says which of the twelve is yours, which port feeds it, and which four hours the carrier has agreed you may break it in. Cutting the wrong strand is not a splice error — it is an outage somebody else has to explain.",
+    },
+    {
+      id: "open-cabinet", kind: "turn", target: "cabinet-handle",
+      title: "Unlock and open the node cabinet",
+      cue: "Turn the latch and swing the door back onto its stop, clear of the footway.",
+      why: "The door goes back against its stop and stays there. A street cabinet door loose in the wind takes the splicer's head or a passer-by's, and keeping the work off the footway is the part of OSHA's telecommunications standard that applies before any of the fibre content does. It is opened once, worked from, and shut — not propped half open for an hour.",
+      turn: { turns: 0.5, axis: "z", label: "CABINET LATCH" },
     },
     {
       id: "shutdown", kind: "select", target: "olt-port",
       title: "Shut down the transmitter",
-      cue: "Disable the OLT port feeding this strand and tag it.",
-      why: "You make the fibre dark at the source. Assuming it is dark because the ticket says so is how technicians meet a live 1550 nm carrier.",
+      cue: "Disable the OLT port feeding this strand at the shelf.",
+      why: "You make the strand dark at the source, on the shelf in front of you, not at the far end where you cannot see who else has their hands in the rack. A 1550 nm carrier is outside the visible band and the blink reflex never fires for it, which is why the ANSI Z136 guidance for fibre communication systems is built around the strand being proven dark before an end face is ever exposed.",
+    },
+    {
+      id: "tag-port", kind: "drag", target: "port-tag",
+      title: "Tag the port out",
+      cue: "Take the tag-out card off the bench and hang it on the port you just disabled.",
+      why: "A disabled port with nothing hanging on it is a port the network operations centre re-enables the moment a customer rings about the service you just took down. The tag carries your name and your window, and in a cabinet nobody else is standing in it is the only thing that speaks for you to somebody two hundred miles away looking at the same alarm.",
+      drag: { to: "olt-port", radius: 0.45, missNote: "Not on the port. A tag hung on the wrong shelf tells the NOC the wrong strand is down and leaves yours free to be turned straight back up." },
     },
     {
       id: "power-check", kind: "gauge", target: "power-meter",
       title: "Prove the fibre is dark",
       cue: "Meter the strand and commit when the received power is safely dark.",
-      why: "Dark is a measurement in dBm, not a belief. Anything above the safe threshold means something is still transmitting into that strand.",
+      why: "Dark is a number in dBm, not an opinion. You shut one end down; the strand still runs miles to a node where a second technician may be doing exactly what you are doing, and the meter is the only thing that proves no light is arriving from their end. Anything above the threshold on the ticket means the end face stays capped until you know where the light is coming from.",
       gauge: {
         label: "OPTICAL POWER — RECEIVED", speed: 0.62, green: [0.0, 0.12],
         readout: (t) => `${(-62 + t * 66).toFixed(1)} dBm`,
@@ -113,31 +128,52 @@ export const SIM_SPLICE_NODE = {
       id: "eyewear", kind: "select", target: "laser-glasses",
       title: "Put on the laser eyewear",
       cue: "Take the wavelength-rated glasses from the case.",
-      why: "Rated for the wavelengths in this node, not generic safety glasses. They are the backstop for the port somebody else brings back up while you are working.",
+      why: "Rated for the wavelengths carried in this node, not the safety glasses out of the van door. They are not there for the strand you have just proven dark — they are there for the port somebody else brings back up while your eye is six inches from an open tray, which is the only way anybody has ever been hurt by a fibre.",
     },
     {
-      id: "open", kind: "select", target: "splice-tray",
+      id: "open-tray", kind: "select", target: "splice-tray",
       title: "Open the splice tray",
-      cue: "Unclip the tray and route the strand out to the bench.",
-      why: "Trays are opened gently and one at a time. Every fibre in there is somebody's service, and macro-bends you introduce today become faults next month.",
+      cue: "Unclip the tray and bring it out flat before you route anything to the bench.",
+      why: "Trays come out one at a time and they come out flat. Every other strand in there is a live service belonging to somebody who has not been told anything is happening tonight, and a fibre levered against the edge of a tray takes a bend it never recovers from. That loss turns up weeks later as a link that fails on the cold nights and comes back by lunchtime.",
     },
     {
-      id: "strip", kind: "select", target: "stripper",
-      title: "Strip the buffer coating",
-      cue: "Strip back the 250 µm coating cleanly.",
-      why: "A clean strip with no nicks. A scratched cladding will pass a visual check and then break in the tray under thermal cycling.",
+      id: "inspect", kind: "find", noHint: true,
+      targets: ["tight-bend", "slipped-sleeve", "short-slack"],
+      itemNames: {
+        "tight-bend": "the strand pulled round the post",
+        "slipped-sleeve": "the splice sleeve out of its holder",
+        "short-slack": "the strand with no service loop",
+      },
+      itemNotes: {
+        "tight-bend": "That strand is routed inside its minimum bend radius. A macro-bend leaks light straight out of the core — it is adding loss to a live service right now, and glass held at that radius cracks eventually.",
+        "slipped-sleeve": "The protection sleeve has come out of its holder, so the joint is carrying the strain instead of the sleeve. A fusion splice is butt-welded glass with no mechanical strength of its own; the sleeve is all it has.",
+        "short-slack": "No service loop left on that strand. The next technician who has to re-splice it has nothing to pull into the tray and ends up jointing in new cable to buy the slack you could have left tonight.",
+      },
+      decoyNotes: {
+        "sound-strand": "That one is routed correctly — sleeve seated in its holder, full service loop, no bend anywhere near the limit. Leave it alone.",
+      },
+      title: "Read the tray before you touch it",
+      cue: "Three things in this tray are already wrong. Find them by looking.",
+      why: "Whatever is wrong in a tray gets blamed on the last technician who opened it, and more to the point it is the thing that fails next. A bend inside the minimum radius, a sleeve out of its holder and a strand with no slack all pass a glance and fail a winter, and every one of them is cheaper to put right now, with the tray already open and the truck already here.",
     },
     {
-      id: "clean", kind: "select", target: "cleaning-kit",
-      title: "Clean the bare fibre",
-      cue: "Wipe the stripped section with lint-free and solvent.",
-      why: "Contamination is the single largest cause of high-loss splices. The cleave and the arc both assume a clean surface.",
+      id: "prep", kind: "sequence",
+      targets: ["protection-sleeve", "stripper", "cleaning-kit"],
+      itemNames: {
+        "protection-sleeve": "thread the protection sleeve on",
+        "stripper": "strip the 250 µm buffer",
+        "cleaning-kit": "clean the bare fibre",
+      },
+      title: "Sleeve on first, then strip and clean",
+      cue: "Thread the protection sleeve onto the strand, then strip the coating, then clean the bare fibre.",
+      why: "The sleeve goes on before anything else, because there is no way to thread it over a finished joint — forget it and the only remedy is to cut out the splice you just made and prepare both ends again. Then a clean strip with no nick in the cladding, then lint-free and solvent, because contamination is the largest single cause of a high-loss splice and both the cleaver and the arc assume a surface nothing has touched.",
+      outOfOrderNote: "Sleeve first. Strip and cleave with no sleeve on the strand and the only way to protect the joint afterwards is to cut it out and start the preparation again.",
     },
     {
       id: "cleave", kind: "gauge", target: "cleaver",
       title: "Cleave to angle",
       cue: "Set the cleaver and commit inside the acceptable cleave angle.",
-      why: "The end face has to be perpendicular. Half a degree of angle scatters light at the joint and no amount of arc power recovers it.",
+      why: "The end face has to be square to the axis of the core. Half a degree of angle and the two cores meet across a wedge of air instead of face to face; the arc fuses them anyway, the splicer reports a tidy-looking joint, and the loss stays in that link for the life of the cable. No amount of arc power recovers a bad cleave, so it gets a fresh blade position rather than one more go.",
       gauge: {
         label: "CLEAVE ANGLE", speed: 0.95, green: [0.0, 0.16],
         readout: (t) => `${(t * 3.2).toFixed(2)}°`,
@@ -148,13 +184,13 @@ export const SIM_SPLICE_NODE = {
       id: "splice", kind: "select", target: "splicer",
       title: "Fusion splice the joint",
       cue: "Load both ends, align and fire the arc.",
-      why: "The splicer aligns the cores and fuses them. What you control is everything that happened before this button.",
+      why: "The splicer aligns the cores, burns off what is left on the faces and fuses the glass, and it will do that just as confidently to a dirty fibre with a two-degree cleave as to a good one. Everything you control happened before this button; the estimate it puts on the screen afterwards measures your preparation, not the machine.",
     },
     {
       id: "loss", kind: "gauge", target: "otdr",
       title: "Verify the splice loss",
       cue: "Shoot the OTDR and commit when the splice loss is inside budget.",
-      why: "The link has a loss budget and every joint spends part of it. A splice outside budget gets cut out and redone now, not explained later.",
+      why: "Every joint in the link spends part of a loss budget that was set when the route was designed, and that budget is what decides whether the far end still has enough light in three years, after the cable has been dug up and re-jointed twice by somebody else. A joint outside budget is cut out and redone now, while the tray is open and the window is still yours.",
       gauge: {
         label: "SPLICE LOSS", speed: 0.72, green: [0.0, 0.14],
         readout: (t) => `${(t * 0.6).toFixed(3)} dB`,
@@ -162,16 +198,17 @@ export const SIM_SPLICE_NODE = {
       },
     },
     {
-      id: "protect", kind: "select", target: "heat-oven",
-      title: "Shrink the protection sleeve",
-      cue: "Slide the sleeve over the joint and run the oven cycle.",
-      why: "The sleeve is the joint's only mechanical strength. An unprotected fusion splice survives the bench and fails in the tray.",
+      id: "protect", kind: "hold", target: "heat-oven", seconds: 6,
+      title: "Run the full oven cycle on the sleeve",
+      cue: "Slide the sleeve over the joint and hold it in the oven for the whole cycle.",
+      why: "That sleeve is the only mechanical strength a fusion splice has — the glass is butt-welded and snaps at the joint the first time anything pulls on it. A cycle cut short leaves the shrink incomplete and the strength member loose inside, which survives the bench, survives the tray, and lets go on the first hot afternoon the cabinet has.",
+      holdBreakNote: "You lifted it out early. A part-shrunk sleeve looks finished and holds nothing — run the full cycle.",
     },
     {
       id: "document", kind: "select", target: "label-tag",
       title: "Label and document",
       cue: "Label the strand, record the loss and restore the port.",
-      why: "The record is what the next technician trusts at 3 am. An unlabelled tray costs somebody an outage window to re-identify.",
+      why: "The record is what the next technician trusts at three in the morning with no light in the cabinet and a customer on the phone: strand, port, measured loss, date, your name. Then the port comes back up and the tag comes off, in that order, because a service restored before it is written down is a service nobody can find again when it fails.",
     },
   ],
 
@@ -190,6 +227,13 @@ export const SIM_SPLICE_NODE = {
     cabDoor.rotation.y = 1.25;
     decal(cabDoor, 0.34, 0.12, 0.44, 0.6, 0.014,
       signFace("FIBRE NODE 7C", { bg: "#251c3d", accent: "#a079ff", scale: 0.5 }));
+    // Security latch on the closing edge of the door — the first thing turned
+    // and the last thing turned back.
+    const latch = group(cabDoor, 0.82, -0.1, 0.02);
+    cyl(latch, 0.022, 0.022, 0.05, 0, 0, 0, CITY.steel, { rough: 0.3, metal: 0.9, seg: 12 }).rotation.x = Math.PI / 2;
+    box(latch, 0.028, 0.14, 0.018, 0, 0, 0.035, 0xa8b0b8, { rough: 0.4, metal: 0.7 });
+    holoTag(latch, "Cabinet latch", 0, 0.18, 0.04, { css: "#a079ff", w: 0.3 });
+    reg(hits, latch, "cabinet-handle");
     holoTag(cabinet, "Street node 7C", 0, 2.02, 0.1, { css: "#a079ff", w: 0.34 });
 
     // OLT shelf with ports; one is unlabelled.
@@ -210,7 +254,9 @@ export const SIM_SPLICE_NODE = {
       if (i === 5) reg(hits, p, "unlabelled-port");
     }
     rackUnit(shelf, 0.98, "TRANSPORT · 400G", { css: "#4fd1ff", glow: true });
-    rackUnit(shelf, 0.8, "POWER · -48 V", { css: "#59c97b", lampColor: 0x59c97b });
+    const powerShelf = rackUnit(shelf, 0.8, "POWER · -48 V", { css: "#59c97b", lampColor: 0x59c97b });
+    holoTag(powerShelf, "-48 V plant — not yours", 0, 0.16, 0.02, { css: "#f0645b", w: 0.44 });
+    reg(hits, powerShelf, "power-shelf");
 
     // Splice tray stack.
     const trays = group(cabinet, 0, 0.42, 0.06);
@@ -222,7 +268,29 @@ export const SIM_SPLICE_NODE = {
         hose(tray, [[-0.26, 0.02, -0.1 + f * 0.03], [0, 0.02, 0.12 - f * 0.02], [0.26, 0.02, -0.1 + f * 0.03]],
           0.003, [0x4fd1ff, 0xf2c14b, 0x59c97b, 0xf0645b, 0xffffff, 0xa079ff][f], { steps: 14, rough: 0.4 });
       }
-      if (i === 2) reg(hits, tray, "splice-tray");
+      if (i === 2) {
+        reg(hits, tray, "splice-tray");
+        // Three faults already in this tray, and one strand routed properly.
+        const bend = group(tray, -0.2, 0.03, 0.1);
+        torus(bend, 0.016, 0.003, 0, 0, 0, 0xf0645b, { emissive: 0xf0645b, ei: 0.9, rough: 0.4, seg: 6, seg2: 20 })
+          .rotation.x = Math.PI / 2;
+        holoTag(bend, "Tight bend", 0, 0.1, 0, { css: "#f0645b", w: 0.24 });
+        reg(hits, bend, "tight-bend");
+
+        const slipped = group(tray, 0.03, 0.03, 0.13);
+        cyl(slipped, 0.005, 0.005, 0.055, 0, 0, 0, 0x8b929a, { rough: 0.5, seg: 8 }).rotation.z = Math.PI / 2.6;
+        holoTag(slipped, "Sleeve adrift", 0, 0.08, 0, { css: "#f0645b", w: 0.28 });
+        reg(hits, slipped, "slipped-sleeve");
+
+        const slack = group(tray, 0.23, 0.03, 0.08);
+        box(slack, 0.022, 0.004, 0.022, 0, 0, 0, 0xf2c14b, { rough: 0.5 });
+        holoTag(slack, "No service loop", 0, 0.08, 0, { css: "#f0645b", w: 0.32 });
+        reg(hits, slack, "short-slack");
+
+        const sound = group(tray, -0.06, 0.03, -0.12);
+        cyl(sound, 0.005, 0.005, 0.055, 0, 0, 0, 0x59c97b, { rough: 0.5, seg: 8 }).rotation.z = Math.PI / 2;
+        reg(hits, sound, "sound-strand");
+      }
     }
     holoTag(trays, "Tray 3 · strand 14", 0.05, 0.44, 0.1, { css: "#a079ff", w: 0.36 });
 
@@ -289,6 +357,25 @@ export const SIM_SPLICE_NODE = {
     decal(alcohol, 0.05, 0.03, 0, 0.07, 0.033, signFace("IPA", { bg: "#dfe4e8", fg: "#1b1e22", accent: "#f0645b", scale: 0.7 }), { px: 96 });
     holoTag(alcohol, "Isopropyl", 0, 0.22, 0, { css: "#f0645b", w: 0.22 });
     reg(hits, alcohol, "alcohol-heat");
+
+    // The tag-out card that gets carried to the port, and the sleeve rack the
+    // preparation sequence starts at.
+    const portTag = group(bench, 0.54, 0.98, -0.12);
+    box(portTag, 0.06, 0.002, 0.09, 0, 0, 0, 0xf2c14b, { rough: 0.7 });
+    decal(portTag, 0.055, 0.08, 0, 0.003, 0,
+      signFace("DO NOT ENABLE", { bg: "#f2c14b", fg: "#2a1a0d", accent: "#b8402f", scale: 0.35 }), { px: 128 })
+      .rotation.x = -Math.PI / 2;
+    holoTag(portTag, "Port tag-out", 0, 0.16, 0, { css: "#f2c14b", w: 0.3 });
+    reg(hits, portTag, "port-tag");
+
+    const sleeveRack = group(bench, 0.5, 0.95, 0.24);
+    box(sleeveRack, 0.11, 0.012, 0.06, 0, 0.006, 0, 0x2b3138, { rough: 0.6 });
+    for (let i = 0; i < 4; i++) {
+      cyl(sleeveRack, 0.004, 0.004, 0.05, -0.033 + i * 0.022, 0.016, 0, 0x14181d, { rough: 0.5, seg: 8 })
+        .rotation.z = Math.PI / 2;
+    }
+    holoTag(sleeveRack, "Protection sleeves", 0, 0.14, 0, { css: "#a079ff", w: 0.38 });
+    reg(hits, sleeveRack, "protection-sleeve");
 
     const scraps = group(bench, -0.5, 0.95, 0.2);
     for (let i = 0; i < 7; i++) {
@@ -398,7 +485,9 @@ export const SIM_SPLICE_NODE = {
           ports[2].material = mat(0x3a3350, { emissive: 0x3a3350, ei: 0.6 });
         }
         if (step.id === "eyewear") lens.material = mat(0xd8a53a, { rough: 0.15, opacity: 0.75, emissive: 0x7a5a12, ei: 0.7 });
-        if (step.id === "open") trays.position.z = 0.24;
+        if (step.id === "open-cabinet") cabDoor.rotation.y = 2.1;
+        if (step.id === "tag-port") portTag.rotation.z = 1.2;
+        if (step.id === "open-tray") trays.position.z = 0.24;
         if (step.id === "splice") { arcTimer = 0.6; repaint(splicerScreen, signFace("FUSING", { bg: "#1a1030", accent: "#a079ff", fg: "#dccdff", scale: 0.55 })); }
         if (step.id === "loss") repaint(splicerScreen, signFace("0.041 dB", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.48 }));
         if (step.id === "protect") { ovenRunning = true; sleeve.visible = true; }

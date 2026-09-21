@@ -19,7 +19,7 @@ export const SIM_TRIAGE_POINT = {
   trade: "EMT / paramedic",
   category: "Emergency Services",
   weather: "overcast",
-  certification: "IAEP — NREMT-Paramedic certified",
+  certification: "IAFF and IAEP fire-based EMS crews; state paramedic licence at the NREMT level; START triage as the regional mass-casualty protocol adopts it, worked inside a NIMS incident command structure; the NFPA 1006 job performance requirements for technical rescue personnel on the collapse; OSHA 29 CFR 1910.1030 bloodborne pathogens for every patient contact",
   name: "Triage Point",
   title: simTitle("Triage Point"),
   tagline: "START mass-casualty triage: rapid assessment, tagging and the golden hour",
@@ -60,13 +60,13 @@ export const SIM_TRIAGE_POINT = {
       id: "sizeup", kind: "select", target: "scene-board",
       title: "Scene size-up",
       cue: "Read the incident board: casualty count, hazards, resources inbound.",
-      why: "You triage differently for four casualties than for forty. The size-up is what calibrates your pace before you touch anyone.",
+      why: "You triage four casualties differently from forty. The size-up fixes your pace, tells you how long you are on your own before the next unit arrives, and — because this is a structure collapse — tells you which part of the scene is still moving. It is also the first report into the incident command structure everyone arriving after you will be working inside.",
     },
     {
       id: "ppe", kind: "select", target: "ppe-station",
       title: "Glove and mask before contact",
       cue: "Take gloves and a mask from the station before approaching any casualty.",
-      why: "Universal precautions apply to every casualty at every scene. This is the one thing you do before the clock on triage even starts.",
+      why: "Universal precautions apply to every casualty at every scene, and at a collapse you are going to have both hands on people whose injuries you cannot see yet, in dust, with no sink for the next hour. Gloves go on before the clock on triage starts, because the one moment nobody ever goes back for them is the moment they first see a patient.",
     },
     {
       id: "sweep", kind: "find", noHint: true,
@@ -88,50 +88,58 @@ export const SIM_TRIAGE_POINT = {
       },
       title: "Sweep and assess every casualty",
       cue: "Move through the scene once. Assess breathing, pulse, mental status for each casualty you find.",
-      why: "START triage is a single, fast pass through everyone before you commit to treating anyone. The whole method exists to answer 'who needs me most' before you run out of time to ask.",
+      why: "START is a single fast pass over everybody before you commit to treating anybody, and the discipline is in not stopping. Breathing, perfusion, mental status, move on — thirty seconds a patient. Every minute you spend doing a proper assessment on the first casualty is a minute the fourth one spends bleeding out behind a wall you have not reached yet.",
     },
     {
       id: "airway-check", kind: "hold", target: "casualty-red", seconds: 8,
       title: "Open the airway and reassess",
       cue: "Hold the head-tilt chin-lift and check for breathing.",
-      why: "A casualty who is not breathing until the airway is opened is not the same as one who is not breathing at all. The full assessment window is what tells them apart.",
+      why: "Opening the airway is the only treatment START allows you during the sweep, and it is allowed because it is the one that decides a category. A casualty who is not breathing until the airway is opened, and then breathes, is an immediate; one who still does not breathe is expectant. Held for a moment, that distinction is a guess; held for the full window, it is an assessment.",
       holdBreakNote: "You released before confirming the reassessment — hold the airway open for the full check.",
     },
     {
-      id: "tag-red", kind: "select", target: "casualty-red",
+      id: "tag-red", kind: "drag", target: "red-tag",
       title: "Tag immediate",
-      cue: "Apply the red tag to the immediate casualty.",
-      why: "Red means treat now, transport first. This casualty gets the next available resource the moment one exists.",
+      cue: "Take a red tag from the pack and attach it to the immediate casualty.",
+      why: "The tag goes on the patient, not in your pocket and not in your head, because within ten minutes there will be four crews on this scene and none of them were here when you made the decision. Red means treat now and transport first, and it is the tag that carries that decision forward when you have moved on and cannot be asked.",
+      drag: { to: "casualty-red", radius: 0.5, missNote: "Not on the patient. A tag that is not physically attached to a casualty is a decision that only exists inside your own head." },
     },
     {
       id: "tag-yellow", kind: "select", target: "casualty-yellow",
       title: "Tag delayed",
       cue: "Apply the yellow tag to the delayed casualty.",
-      why: "Stable enough to wait, not stable enough to walk. Yellow is reassessed continuously in case their status changes.",
+      why: "Stable enough to wait, not stable enough to walk. Yellow is the category that moves: a delayed patient with an internal bleed becomes an immediate somewhere between now and transport, and the only thing that catches that is somebody going back round the yellows while the reds are being loaded.",
     },
     {
       id: "tag-green", kind: "select", target: "casualty-green",
       title: "Tag minor",
       cue: "Apply the green tag to the walking wounded.",
-      why: "Green still needs tracking. An uncounted casualty who walks off is one the scene commander has to account for later, usually at the worst time.",
+      why: "Green is a tag and a count, not a discharge. Walking wounded who are never tagged walk off the scene, turn up at three different hospitals under their own steam, and leave the incident commander with a casualty count that will not reconcile — which means hours spent searching a collapsed building for somebody who is already at home.",
     },
     {
       id: "tag-black", kind: "select", target: "casualty-black",
       title: "Tag deceased / expectant",
       cue: "Apply the black tag once the airway has been opened and there is still no breathing.",
-      why: "This tag is only applied after the airway manoeuvre, not on first sight. It redirects effort to casualties who can still be saved with the resources on scene.",
+      why: "This tag is applied after the airway manoeuvre and never on first sight, because the manoeuvre is what separates an obstructed airway from an arrest. It is also the hardest thing this method asks of anybody: the resources that would go into one resuscitation here are the resources that keep three salvageable casualties alive, and that arithmetic is made now, by protocol, so that nobody has to make it alone.",
     },
     {
-      id: "shore", kind: "select", target: "debris-beam",
+      id: "shore", kind: "turn", target: "shore-strut",
       title: "Shore the unstable debris",
-      cue: "Stabilise the beam before anyone works underneath it.",
-      why: "The rescuer becomes a second casualty the moment the thing that caused the first collapse moves again.",
+      cue: "Wind the strut up under the beam until it takes load, before anybody works underneath it.",
+      why: "The strut is wound up until it is snug and carrying, not hammered in and not left finger-tight — a shore that is not in contact does nothing, and one driven too hard lifts the very thing you are trying to stop moving. Until it takes load, everyone under that beam is relying on the collapse having finished, and the second collapse is the one that takes the rescuers.",
+      turn: { turns: 1.25, axis: "y", label: "SHORE STRUT" },
     },
     {
-      id: "handoff", kind: "select", target: "transport-board",
-      title: "Hand off to transport",
-      cue: "Call the tag counts and priority order to the transport officer.",
-      why: "Triage only works if the count reaches whoever is deciding transport order. A tag with nobody told about it is a casualty who waits for the next crew to notice them.",
+      id: "handoff", kind: "sequence",
+      targets: ["count-immediate", "count-delayed", "count-minor", "count-deceased"],
+      itemNames: {
+        "count-immediate": "immediate count", "count-delayed": "delayed count",
+        "count-minor": "minor count", "count-deceased": "deceased / expectant count",
+      },
+      title: "Hand off the counts in priority order",
+      cue: "Call the counts to the transport officer: immediate first, then delayed, then minor, then deceased.",
+      why: "The counts go over in the order they will be moved, because the transport officer is writing them down and allocating ambulances as you speak, and the first number they hear is the one they build the plan around. Reverse the order and the first thing the receiving hospital hears about is your dead. Triage only works if the count reaches whoever is deciding transport, in a shape they can act on.",
+      outOfOrderNote: "Priority order — immediate, delayed, minor, then deceased. The transport officer is allocating units as you talk, so the order you say them in is the order they get planned for.",
     },
   ],
 
@@ -180,6 +188,14 @@ export const SIM_TRIAGE_POINT = {
     const beam = box(debris, 1.3, 0.16, 0.16, 0, 0.45, 0, 0x6d5a42, { rough: 0.85 });
     beam.rotation.z = 0.12;
     holoTag(debris, "Unstable beam", 0, 0.7, 0.1, { css: "#f0645b", w: 0.28 });
+    // A screw-jack shore stood under the beam, wound up until it takes load.
+    const strut = group(g, -0.42, 0, -0.34);
+    box(strut, 0.18, 0.03, 0.18, 0, 0.015, 0, 0x545e67, { rough: 0.6, metal: 0.4 });
+    const strutLeg = cyl(strut, 0.03, 0.03, 0.34, 0, 0.2, 0, CITY.hiVis, { rough: 0.5, metal: 0.4, seg: 14 });
+    const strutCollar = cyl(strut, 0.055, 0.055, 0.045, 0, 0.16, 0, 0xd8b23a, { rough: 0.4, metal: 0.7, seg: 16 });
+    box(strut, 0.14, 0.02, 0.14, 0, 0.37, 0, 0x545e67, { rough: 0.6, metal: 0.4 });
+    holoTag(strut, "Shore strut", 0, 0.5, 0, { css: "#f0645b", w: 0.28 });
+    reg(hits, strut, "shore-strut");
     reg(hits, beam, "unstable-debris");
     reg(hits, beam, "debris-beam");
     reg(hits, box(g, 0.3, 0.1, 0.3, -1.4, 0.05, 0.8, 0x5d5850, { rough: 0.95 }), "debris-pile");
@@ -251,6 +267,14 @@ export const SIM_TRIAGE_POINT = {
     reg(hits, sceneBoard, "scene-board");
 
     const ppe = toolChest(g, 1.7, 1.4, { ry: -0.7, color: 0xf0645b });
+    // The tag pack. A triage tag is a physical thing that gets attached to a
+    // physical person, which is the whole reason the method works.
+    const redTag = group(ppe, -0.3, 0.8, 0.06, 0.2);
+    box(redTag, 0.09, 0.004, 0.14, 0, 0, 0, 0xf0645b, { rough: 0.7 });
+    decal(redTag, 0.08, 0.12, 0, 0.004, 0, signFace("IMMEDIATE", { bg: "#f0645b", fg: "#2a0c0a", scale: 0.4 }), { px: 128 })
+      .rotation.x = -Math.PI / 2;
+    holoTag(redTag, "Triage tags", 0, 0.18, 0, { css: "#f0645b", w: 0.3 });
+    reg(hits, redTag, "red-tag");
     const gloveBox = group(ppe, -0.1, 0.79, 0, 0.3);
     box(gloveBox, 0.14, 0.07, 0.1, 0, 0, 0, 0xf0f4f6, { rough: 0.5 });
     holoTag(gloveBox, "Gloves + mask", 0, 0.14, 0, { css: "#f0645b", w: 0.3 });
@@ -276,6 +300,20 @@ export const SIM_TRIAGE_POINT = {
     }, { ry: -0.6, accent: 0xf0645b });
     reg(hits, transport, "transport-board");
 
+    // The four counts, called across in priority order.
+    const tally = group(g, 1.86, 0, -0.42, -0.6);
+    const tallySpec = [
+      ["count-immediate", "IMM", "#f0645b", -0.21], ["count-delayed", "DEL", "#f2c14b", -0.07],
+      ["count-minor", "MIN", "#59c97b", 0.07], ["count-deceased", "DEC", "#8a8f94", 0.21],
+    ];
+    for (const [tid, label, css, tx] of tallySpec) {
+      const tile = group(tally, tx, 1.1, 0);
+      box(tile, 0.12, 0.12, 0.02, 0, 0, 0, 0x1a0c0d, { rough: 0.6 });
+      decal(tile, 0.1, 0.1, 0, 0, 0.012, signFace(label, { bg: "#1a0c0d", accent: css, scale: 0.5 }), { px: 96 });
+      reg(hits, tile, tid);
+    }
+    holoTag(tally, "Tag counts", 0, 1.28, 0, { css: "#f0645b", w: 0.28 });
+
     let sceneSize01 = 0;
 
     return {
@@ -287,9 +325,12 @@ export const SIM_TRIAGE_POINT = {
         if (step.id === "tag-yellow") yellowFlag.visible = true;
         if (step.id === "tag-green") greenFlag.visible = true;
         if (step.id === "tag-black") blackFlag.visible = true;
+        if (step.id === "tag-red") redTag.visible = false;
         if (step.id === "shore") {
           beam.rotation.z = 0;
           beam.position.y = 0.16;
+          strutLeg.scale.y = 1.18;
+          strutCollar.position.y = 0.24;
         }
         if (step.id === "handoff") {
           repaint(transport.userData.face, (ctx, w, h) => {

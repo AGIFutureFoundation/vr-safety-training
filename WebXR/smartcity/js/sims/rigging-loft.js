@@ -46,10 +46,10 @@ export const SIM_RIGGING_LOFT = {
   }),
 
   hazards: {
-    "standing-under-load": "You are standing directly beneath a loaded batten and arbor. A parted rope or a dropped counterweight brick falls fast and gives no warning — nobody works or walks under a flown line while it can still move.",
-    "unlocked-rail": "That arbor's locking rail pin is out and the line set is not secured. An unlocked arbor can run away the moment the rope weight shifts, and it takes whatever is in its path with it.",
-    "shortcut-call": "That is an override call button that skips the clearance check. Calling 'moving' before the deck confirms clear is how a batten comes down on someone who never heard the cue.",
-    "excess-bricks": "That stack adds weight past the batten's rated capacity. An overloaded line set can overhaul the operator at the rail, part a rope, or bring the batten down out of control.",
+    "standing-under-load": "You are standing directly beneath a loaded batten and arbor. A counterweight brick dropped from a loading gallery forty feet up arrives at around thirty miles an hour and gives no warning worth the name — which is why every ETCP rigging practice and OSHA's overhead-load rules come down to the same sentence: nobody works or walks under a flown line while it can still move.",
+    "unlocked-rail": "That arbor's locking rail pin is out and the line set is not secured. A rope lock is designed to hold a balanced set, not to arrest an unbalanced one — an arbor that starts to run with weight on it will burn straight through the lock's jaws and take whatever is in its path with it.",
+    "shortcut-call": "That is an override call button that skips the clearance check. 'Clear' is a question and 'moving' is a commitment, and calling the second before the first has come back is how a batten comes down on someone who never heard the cue. Skipping the call-and-answer is the one thing no house rigging protocol allows.",
+    "excess-bricks": "That stack puts the arbor past the batten's rated capacity. Overloading a line set overhauls the operator at the rail, takes the rope out of its rated range, and loads the grid steel and the head block past what the ANSI-accredited entertainment rigging standards assumed when the house was built.",
   },
 
   lateNotes: {
@@ -57,12 +57,40 @@ export const SIM_RIGGING_LOFT = {
     "trim-lock-pin": "The trim pin only goes in once the fly cue has actually brought the batten to its final position.",
   },
 
+  // Interruptions: see shared/game.js. On a fly rail the danger is never the
+  // set you are working — it is the deck walking under a moving batten, and
+  // the line set nobody is watching deciding to move on its own.
+  interrupts: [
+    {
+      id: "deck-under-batten",
+      kind: "Deck breached",
+      after: "lower-batten", delay: 3, seconds: 11,
+      alert: "Two hands have walked on under line 4 to strike the last scene. The batten is still coming in over their heads.",
+      cue: "Stop the move. Nothing comes in over people.",
+      target: "call-stopped",
+      why: "Stopped is the one call anybody can give and everybody has to obey, and the operator gives it the instant the deck stops being clear — not after finishing the move that was already underway. Getting the batten dead is the whole answer; sorting out who walked on can happen afterwards.",
+      missNote: "You brought the batten the rest of the way in over two people who never looked up. Nothing touched them this time, which changes nothing about the exposure — a house rigger's own clearance call is the only control between a moving batten and a deck that has stopped watching it.",
+      wrongNote: "Call stopped. Every other decision on this rail can wait the two seconds it takes to get a moving batten dead with people underneath it.",
+    },
+    {
+      id: "arbor-creeping",
+      kind: "Line set running",
+      after: "auto-teach", delay: 4, seconds: 13,
+      alert: "Behind you on the rail, line 3's arbor has started to creep — the pin you flagged on the walk-through is still out and somebody has hung a practical on that batten.",
+      cue: "That set is coming out of balance with no lock in it.",
+      target: "unlocked-rail",
+      why: "An unbalanced set with its pin out does not creep for long — it accelerates, and a rope lock will not stop it once it is running. Getting the pin in while it is still only creeping is the difference between securing a line set and watching an arbor come down the rail with nothing to catch it.",
+      missNote: "Line 3 ran. An arbor with weight on it and no pin overhauls, and the batten it is attached to goes to the grid as fast as the arbor comes to the deck — over a stage you had just spent ten minutes proving was clear for a different line set entirely.",
+      wrongNote: "It is the unlocked rail on line 3. Nothing at the automation console matters while a loaded arbor is moving on its own two metres behind you.",
+    },
+  ],
+
   steps: [
     {
       id: "plot", kind: "select", target: "rigging-plot",
       title: "Read the rigging plot",
       cue: "Confirm the batten's rated capacity, planned load and trim height on the plot.",
-      why: "The plot is the plan for this line set specifically — capacity, load and trim height are not the same from one batten to the next.",
+      why: "The plot is the plan for this line set specifically. Capacity, load and trim are not the same from one batten to the next — the house was built with different rope sets, different head blocks and different grid steel over each one, and an ETCP rigger's first move is always to read which of those is above them today.",
     },
     {
       id: "inspect", kind: "find", noHint: true,
@@ -81,37 +109,43 @@ export const SIM_RIGGING_LOFT = {
       },
       title: "Walk the counterweight system",
       cue: "Check the arbors, ropes and locking rails. Three things are wrong — find them by looking.",
-      why: "A pre-show rigging check is a search across every line set on the rail, not a glance at the one you're about to fly.",
+      why: "A pre-show rigging check is a search across every line set on the rail, not a glance at the one you are about to fly. The set that hurts somebody tonight is almost never the one in the cue sheet — it is the one nobody was working, left unlocked or half-loaded by the crew before you, with its faults sitting in plain sight all afternoon.",
     },
     {
       id: "comms-check", kind: "select", target: "headset",
       title: "Check comms with the fly floor",
       cue: "Put on the headset and confirm a clear channel with the deck.",
-      why: "Every cue on this rail runs over that channel. If it isn't clear before you start, nobody downstairs hears 'clear' or 'moving' when it matters.",
+      why: "Every cue on this rail runs over that channel, and a headset that has gone one-way sounds exactly like a deck that is not answering. Check it before the first move, because the failure you are guarding against is calling 'clear', hearing nothing, and reading the silence as agreement.",
     },
     {
       id: "clear-floor", kind: "select", target: "floor-watch",
       title: "Post a floor watch",
       cue: "Post someone to keep the deck clear under the batten before it moves.",
-      why: "The floor watch is a second set of eyes on the one place a rigger at the rail cannot see — directly beneath the load.",
+      why: "A rigger at the pin rail is looking at a rope and an arbor, not at the stage. The floor watch covers the one place the operator physically cannot see — directly beneath the load — and they hold that job for the whole move, not until they get bored of it.",
     },
     {
-      id: "lower-batten", kind: "select", target: "batten-line",
-      title: "Lower the batten to load position",
-      cue: "Bring the empty batten down to the deck at the pin rail.",
-      why: "Counterweight goes on at the deck, not at height. The batten comes down to a working position before anything is loaded onto it.",
+      id: "lower-batten", kind: "track", target: "batten-line", seconds: 5,
+      title: "Bring the batten in to load position",
+      cue: "Haul the operating line hand over hand and keep the empty batten coming in at a steady, controlled speed.",
+      why: "Counterweight goes on at the deck, not at height, so the batten comes to a working position first. An empty batten is arbor-heavy — it wants to run up, not down — so the whole way in is the operator holding a set that is trying to get away from them, at a speed the deck can watch.",
+      track: {
+        start: 0.12, green: [0.4, 0.6], rise: 0.58, fall: 0.48, drift: 0.11,
+        label: "BATTEN IN — LINE SPEED",
+        readout: (v) => (v < 0.4 ? "stalled — arbor overhauling" : v > 0.6 ? "coming in too fast" : "steady"),
+      },
+      holdBreakNote: "Lost the line and the arbor started to overhaul. Take it back hand over hand and bring the batten in at a speed the deck can react to.",
     },
     {
       id: "capacity-check", kind: "select", target: "capacity-plate",
       title: "Check the batten's rated capacity",
       cue: "Read the capacity plate and confirm the planned load is inside it.",
-      why: "The plate is the hard limit for this specific batten and its rope set. The plot's planned load is checked against it before a single brick goes in.",
+      why: "The plate is the hard limit for this batten, its rope set, its head block and the grid steel above it — 220 lb here against 190 lb planned. A line set is rated as a whole system, so the weakest component in that chain is the number on the plate, and nothing about the plot overrides it.",
     },
     {
       id: "load-weights", kind: "gauge", target: "arbor",
       title: "Load the arbor to balance",
       cue: "Add counterweight and commit once the arbor balances the batten's load.",
-      why: "A balanced arbor is what lets one person hold a loaded line at the rail. Under- or over-loaded, the rope does the deciding instead of the operator.",
+      why: "A balanced arbor is what lets one person hold two hundred pounds of scenery on a rope. Out of balance, the difference is what the operator's hands are carrying: twenty pounds out is a set that drifts, sixty pounds out is a set that runs, and at that point the rope is deciding where the batten goes instead of the rigger.",
       gauge: {
         label: "ARBOR — COUNTERWEIGHT BALANCE", speed: 0.6, green: [0.42, 0.58],
         readout: (t) => `${Math.round(160 + t * 60)} lb`,
@@ -122,7 +156,7 @@ export const SIM_RIGGING_LOFT = {
       id: "lock-arbor", kind: "select", target: "locking-rail",
       title: "Lock the arbor rail",
       cue: "Engage the locking rail pin now that the arbor is balanced.",
-      why: "The lock is what keeps a balanced arbor from drifting the moment you step away from the rail.",
+      why: "The rope lock is what keeps a balanced arbor where you left it when you step away from the rail. It is worth knowing what it is not: it holds a set that is already in balance, and it is not rated to stop one that is running — which is why it goes on after the arbor balances, never instead of balancing it.",
     },
     {
       id: "fly-cue", kind: "sequence",
@@ -130,20 +164,20 @@ export const SIM_RIGGING_LOFT = {
       itemNames: { "call-clear": "call clear", "call-moving": "call moving", "call-stopped": "call stopped" },
       title: "Call the fly cue",
       cue: "Call clear, wait for confirmation, call moving, then call stopped at trim.",
-      why: "Clear has to come back before moving is ever called — moving is a commitment that the deck is not still checking under the line.",
+      why: "The three calls are a protocol, not a courtesy. 'Clear' is a question the deck answers; 'moving' is a commitment that the answer came back; 'stopped' releases everyone from watching. IATSE houses run this call-and-answer on every move because the alternative is an operator deciding on their own that silence meant yes.",
       outOfOrderNote: "Wrong order — clear is called and confirmed first, then moving, then stopped once the batten is in position.",
     },
     {
       id: "trim-lock", kind: "select", target: "trim-lock-pin",
       title: "Lock off at trim height",
       cue: "Pin the arbor at trim now that the batten is in its final position.",
-      why: "The trim pin is the second, physical lock that holds the line set exactly where the cue left it, independent of the rail lock.",
+      why: "The trim pin is a second, physical lock that holds the set exactly where the cue left it, independent of the rope lock at the rail. Two independent means of securing a load overhead is the same redundancy principle OSHA applies to anything suspended over people: one of them is allowed to fail.",
     },
     {
       id: "auto-teach", kind: "sequence", targets: ["auto-park", "auto-mid", "auto-out"],
       title: "Teach the automation winch's cue positions",
       cue: "Record line 6's park, mid-show and full-out positions in the order the cue actually runs.",
-      why: "A motorized automation line plays back a taught cue exactly as recorded — teach full-out before mid-show and the batten runs straight past the position an actor is expecting it to stop at, on stage, live.",
+      why: "A motorised line plays back a taught cue exactly as recorded and has no opinion about what is underneath it. Teach full-out before mid-show and the batten runs straight past the position an actor has been blocked to stand at — on stage, live, at cue speed, with the console operator's hand nowhere near it. The order you teach is the order it runs.",
       itemNames: { "auto-park": "park position", "auto-mid": "mid-show position", "auto-out": "full-out position" },
       itemNotes: {
         "auto-park": "Clear of the grid, out of the way between cues.",
@@ -156,20 +190,20 @@ export const SIM_RIGGING_LOFT = {
       id: "auto-save", kind: "select", target: "auto-save-btn",
       title: "Save the automation cue",
       cue: "Commit the three taught positions to the automation controller as one cue.",
-      why: "An untaught position list is just where the winch happened to stop. Saving it as a cue is what lets the board operator fire it with one button during the actual show.",
+      why: "An unsaved position list is just where the winch happened to stop, and it is gone when the console is powered down between the tech and the house opening. Saving it as a numbered cue is what lets the board operator fire it on one button in a blackout, which is the only way it will ever actually be run.",
     },
     {
       id: "auto-run", kind: "hold", target: "auto-run-btn", seconds: 2.5,
       title: "Run the cue at rehearsal speed and verify the deck",
       cue: "Hold RUN CUE and confirm the automated line clears the deck through every position.",
-      why: "You run a brand-new automation cue at rehearsal speed with your hand on the console before it ever fires at full speed during a live show with the cast on stage.",
+      why: "A powered hoist over a stage is proved at rehearsal speed with a hand on the console and a clear deck, the way the ANSI-accredited entertainment rigging standards ask any powered system to be proved before it carries a show. The first full-speed run of a new cue should never be the first time anyone finds out where it goes.",
       holdBreakNote: "Released before the cue finished running — hold it through the whole sequence, that's the only way to catch a position that fouls the deck.",
     },
     {
       id: "log", kind: "select", target: "rigging-plot",
       title: "Sign the rigging log",
       cue: "Record the load, trim height and lock status, and sign the plot closed.",
-      why: "The log is what the next call tells the next operator — load, trim and lock status, not a memory of how the show went.",
+      why: "The next operator on this rail is a different person on a different call, and what they inherit is whatever the log says: load on the batten, trim height, which locks are on. A set left loaded and unrecorded is the one somebody unlocks in the dark expecting it to be empty.",
     },
   ],
 
@@ -348,10 +382,34 @@ export const SIM_RIGGING_LOFT = {
 
     let batOnRail = false;
     let flying = false;
+    const faultCageHome = faultCage.position.y;
 
     return {
       hits,
       footprint: 2.05,
+
+      // Both interruptions are things to see, not captions. The deck zone goes
+      // hot with people standing in it, and line 3's arbor actually starts
+      // down the rail with its pin hanging out. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "deck-under-batten") {
+          dangerZone.material = mat(0xf0645b, { opacity: 0.5, transparent: true, emissive: 0xf0645b, ei: 1.2, cast: false });
+        }
+        if (it.id === "arbor-creeping") {
+          faultCage.position.y = faultCageHome - 0.22;
+          looseRail.children[0].material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.5 });
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "deck-under-batten") {
+          dangerZone.material = mat(0xf0645b, { opacity: 0.16, transparent: true, cast: false });
+        }
+        if (it.id === "arbor-creeping") {
+          faultCage.position.y = faultCageHome;
+          looseRail.children[0].material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.4, rough: 0.5 });
+        }
+      },
 
       onStepComplete(step) {
         if (step.id === "load-weights") bricks.forEach((b, i) => { b.material = mat(0xff9dc4, { rough: 0.5, metal: 0.3 }); });
@@ -372,6 +430,12 @@ export const SIM_RIGGING_LOFT = {
 
       animate(t, dt, session) {
         if (flying) batten.position.y = 1.9 - Math.min(0.5, (t % 4) * 0.15);
+        // The batten actually comes in while the operator holds the line, at
+        // the speed they are holding it at.
+        if (session?.step?.id === "lower-batten" && session.track) {
+          const p = Math.min(1, session.track.inBand / session.step.seconds);
+          batten.position.y = 1.9 - p * 0.45;
+        }
         watch.userData.head.rotation.y = Math.sin(t * 0.6) * 0.3;
 
         const gg = session?.gauge;

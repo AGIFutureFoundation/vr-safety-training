@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-20",
+  "generatedAt": "2026-09-21",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 70
+      "stations": 72
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "gas-leak-survey",
         "wind-nacelle",
         "transformer-vault"
       ]
@@ -112,6 +113,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "cath-lab",
         "ammonia-plant"
       ]
     },
@@ -727,7 +729,7 @@
       "indoor": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -885,7 +887,7 @@
       "indoor": null,
       "steps": 12,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -898,7 +900,7 @@
         "name": "Entry Authority",
         "note": "Permit to exit with every control in place"
       },
-      "meshes": 195,
+      "meshes": 197,
       "lights": 0,
       "overBudget": false,
       "index": "03",
@@ -1035,24 +1037,29 @@
       "domain": "Connectivity",
       "trade": "Fibre optic technician",
       "union": null,
-      "certification": "CWA — BICSI Installer 2, Optical Fiber Technician certified",
+      "certification": "CWA and IBEW outside-plant technicians; OSHA 29 CFR 1910.268, the telecommunications standard, for work in and around a street node; the ANSI Z136 laser safety series for optical-fibre communication systems; NFPA 70E for the -48 V power plant in the cabinet; BICSI Installer 2, Optical Fiber, and the carrier's own loss budget and port tag-out procedure",
       "accent": "#a079ff",
       "parSeconds": 200,
       "weather": "rain",
       "indoor": "service",
-      "steps": 12,
-      "hazards": 4,
+      "steps": 14,
+      "hazards": 5,
       "interrupts": 2,
       "stepKinds": [
         "select",
-        "gauge"
+        "turn",
+        "drag",
+        "gauge",
+        "find",
+        "sequence",
+        "hold"
       ],
       "badge": {
         "id": "photon-guild",
         "name": "Photon Guild",
         "note": "Dark fibre proven, splice inside budget"
       },
-      "meshes": 175,
+      "meshes": 195,
       "lights": 0,
       "overBudget": false,
       "index": "05",
@@ -1118,7 +1125,7 @@
       "indoor": null,
       "steps": 14,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -1132,7 +1139,7 @@
         "name": "Airside Clear",
         "note": "Full ramp procedure with rotors safed throughout"
       },
-      "meshes": 144,
+      "meshes": 145,
       "lights": 0,
       "overBudget": false,
       "index": "06",
@@ -1274,7 +1281,7 @@
       "domain": "Emergency Services",
       "trade": "EMT / paramedic",
       "union": null,
-      "certification": "IAEP — NREMT-Paramedic certified",
+      "certification": "IAFF and IAEP fire-based EMS crews; state paramedic licence at the NREMT level; START triage as the regional mass-casualty protocol adopts it, worked inside a NIMS incident command structure; the NFPA 1006 job performance requirements for technical rescue personnel on the collapse; OSHA 29 CFR 1910.1030 bloodborne pathogens for every patient contact",
       "accent": "#f0645b",
       "parSeconds": 210,
       "weather": "overcast",
@@ -1285,14 +1292,17 @@
       "stepKinds": [
         "select",
         "find",
-        "hold"
+        "hold",
+        "drag",
+        "turn",
+        "sequence"
       ],
       "badge": {
         "id": "golden-hour",
         "name": "Golden Hour",
         "note": "Every casualty triaged and tagged inside protocol time"
       },
-      "meshes": 125,
+      "meshes": 142,
       "lights": 0,
       "overBudget": false,
       "index": "08",
@@ -1526,6 +1536,7 @@
         "gauge",
         "sequence",
         "find",
+        "turn",
         "hold"
       ],
       "badge": {
@@ -1685,6 +1696,7 @@
         "sequence",
         "gauge",
         "hold",
+        "track",
         "drag"
       ],
       "badge": {
@@ -1852,7 +1864,9 @@
         "select",
         "gauge",
         "sequence",
-        "turn"
+        "turn",
+        "hold",
+        "track"
       ],
       "badge": {
         "id": "steam-certified",
@@ -1918,12 +1932,12 @@
       "domain": "Facilities",
       "trade": "Elevator constructor / mechanic",
       "union": null,
-      "certification": "IUEC — NAESA QEI-qualified elevator mechanic",
+      "certification": "IUEC elevator constructors; ASME A17.1 / CSA B44, the safety code for elevators and escalators, and its A17.2 inspection guide; OSHA 29 CFR 1910.147, the control of hazardous energy, for the machine room isolation; NFPA 70 Article 620 for the elevator supply and NFPA 70E for proving it dead; NAESA-accredited QEI inspection",
       "accent": "#2dd4bf",
       "parSeconds": 235,
       "weather": "clear",
       "indoor": "service",
-      "steps": 12,
+      "steps": 13,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
@@ -1931,6 +1945,7 @@
         "turn",
         "gauge",
         "find",
+        "hold",
         "sequence"
       ],
       "badge": {
@@ -1938,7 +1953,7 @@
         "name": "Pit Certified",
         "note": "Pit and car-top entry with both stop switches confirmed"
       },
-      "meshes": 122,
+      "meshes": 127,
       "lights": 0,
       "overBudget": false,
       "index": "16",
@@ -1997,25 +2012,29 @@
       "domain": "Environmental",
       "trade": "Asbestos / lead abatement worker",
       "union": null,
-      "certification": "LIUNA — EPA AHERA-certified asbestos abatement worker",
+      "certification": "LIUNA abatement workers; OSHA 29 CFR 1926.1101, the asbestos standard for construction, and 29 CFR 1910.134 respiratory protection; EPA AHERA worker accreditation and the EPA asbestos NESHAP for the waste; the project design and clearance criteria in the containment plan",
       "accent": "#c9e265",
       "parSeconds": 245,
       "weather": "clear",
       "indoor": "plant",
       "steps": 12,
-      "hazards": 4,
+      "hazards": 5,
       "interrupts": 0,
       "stepKinds": [
         "select",
+        "find",
         "gauge",
-        "sequence"
+        "sequence",
+        "hold",
+        "track",
+        "drag"
       ],
       "badge": {
         "id": "containment-sealed",
         "name": "Containment Sealed",
         "note": "Full containment and decon with no shortcut on either"
       },
-      "meshes": 96,
+      "meshes": 113,
       "lights": 0,
       "overBudget": false,
       "index": "17",
@@ -2081,10 +2100,11 @@
       "indoor": "theatre",
       "steps": 14,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "find",
+        "track",
         "gauge",
         "sequence",
         "hold"
@@ -2165,7 +2185,7 @@
       "indoor": null,
       "steps": 15,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "gauge",
@@ -2913,7 +2933,7 @@
       "indoor": "plant",
       "steps": 10,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -2928,7 +2948,7 @@
         "name": "Well Never Entered",
         "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
       },
-      "meshes": 90,
+      "meshes": 92,
       "lights": 0,
       "overBudget": false,
       "index": "28",
@@ -2994,7 +3014,7 @@
       "indoor": null,
       "steps": 10,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -3557,7 +3577,7 @@
       "indoor": null,
       "steps": 12,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -3571,7 +3591,7 @@
         "name": "Green Tagged",
         "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
       },
-      "meshes": 108,
+      "meshes": 109,
       "lights": 0,
       "overBudget": false,
       "index": "36",
@@ -4742,6 +4762,170 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cath-lab",
+      "name": "Cath Lab",
+      "title": "SmartCiti.X~ Cath Lab VR",
+      "tagline": "Planned outage on a cath lab branch panel: clinical authorisation and a window with nobody on the table, the life-safety branch left alone, isolated power read rather than silenced, grounding tested rather than assumed, room confirmed by the clinical team before hand-back",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Hospital facilities electrician / health care building engineer",
+      "union": null,
+      "certification": "IBEW and IUOE hospital locals — health care facility maintenance; NFPA 99 health care facilities code for patient care space categories and the essential electrical system; NFPA 70 Article 517 for health care facility wiring, isolated power systems and the reference grounding point; NFPA 70E for the risk assessment at the panel; OSHA 29 CFR 1910.147 control of hazardous energy; the hospital's own interim life safety measures and its written clinical authorisation to take the room down",
+      "accent": "#2dd4bf",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "turn",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "room-returned",
+        "name": "Room Returned",
+        "note": "A patient care space taken down inside an agreed window and handed back by the people who own it"
+      },
+      "meshes": 267,
+      "lights": 0,
+      "overBudget": false,
+      "index": "72",
+      "flat": false,
+      "system": "Health Care Facility Authority",
+      "currency": "mA",
+      "ranks": [
+        "Building Mechanic",
+        "Hospital Electrician",
+        "Lead Electrician",
+        "Facilities Engineer",
+        "Health Care Facility Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "window-kept",
+          "name": "Window Kept",
+          "note": "Nothing started until the room was released in writing by the people using it"
+        },
+        {
+          "id": "branch-discipline",
+          "name": "Branch Discipline",
+          "note": "Only the branch on the permit was touched, and the monitor was never silenced"
+        },
+        {
+          "id": "grounding-proven",
+          "name": "Grounding Proven",
+          "note": "The equipment grounding and the reference point measured rather than assumed"
+        },
+        {
+          "id": "clean-outage",
+          "name": "Clean Outage",
+          "note": "Whole outage run with no corrections"
+        },
+        {
+          "id": "held-the-test",
+          "name": "Held The Test",
+          "note": "Every timed test carried to its full count first time"
+        },
+        {
+          "id": "back-early",
+          "name": "Back Early",
+          "note": "Room handed back inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cath-lab"
+    },
+    {
+      "app": "smartcity",
+      "id": "gas-leak-survey",
+      "name": "Gas Leak Survey",
+      "title": "SmartCiti.X~ Gas Leak Survey VR",
+      "tagline": "Reported odour over a distribution main: instrument zeroed in clean air, ignition sources controlled, bar-holed outward along the trench and the utilities, graded on where the gas is, inside readings evacuated rather than investigated",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Gas distribution serviceperson / leak survey technician",
+      "union": null,
+      "certification": "UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation; 49 CFR Part 192 (PHMSA minimum safety standards for gas distribution pipelines, including its leakage-survey, investigation and repair requirements) and the operator's own written leak-grading and re-check procedure made under it; NFPA 54 for the customer fuel-gas piping downstream of the meter; OSHA 29 CFR 1910.146 where migrated gas puts a manhole or a vault into the survey",
+      "accent": "#f6a623",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "leak-graded",
+        "name": "Leak Graded",
+        "note": "An odour call worked out to its edges and graded on where the gas was, with nothing on the street left able to light it"
+      },
+      "meshes": 263,
+      "lights": 0,
+      "overBudget": false,
+      "index": "71",
+      "flat": false,
+      "system": "Leak Survey Authority",
+      "currency": "SCALE",
+      "ranks": [
+        "Serviceperson",
+        "Leak Investigator",
+        "Survey Technician",
+        "Survey Crew Leader",
+        "Leak Survey Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-zero",
+          "name": "Zeroed Clean",
+          "note": "Instrument zeroed in air that was actually clean, upwind of the call"
+        },
+        {
+          "id": "nothing-to-light-it",
+          "name": "Nothing To Light It",
+          "note": "No vehicle, no bell push and no curiosity put an ignition source over the gas"
+        },
+        {
+          "id": "read-the-hole",
+          "name": "Read The Hole",
+          "note": "Every bar hole read on a settled sample rather than on the first swing"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "Whole call worked with no corrections"
+        },
+        {
+          "id": "held-the-draw",
+          "name": "Held The Draw",
+          "note": "Every timed draw carried through without letting go"
+        },
+        {
+          "id": "graded-early",
+          "name": "Graded Early",
+          "note": "Grade called and passed on inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gas-leak-survey"
     },
     {
       "app": "smartcity",
@@ -6413,25 +6597,28 @@
       "domain": null,
       "trade": "Hair stylist / colourist",
       "union": "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
-      "certification": "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
+      "certification": "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then immersed in an EPA-registered hospital-grade disinfectant for the full contact time, single-use items discarded after one client; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets, labelling and glove selection on colour and developer; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
       "accent": "#e2739b",
       "parSeconds": 205,
       "weather": "clear",
       "indoor": null,
       "steps": 10,
-      "hazards": 3,
+      "hazards": 5,
       "interrupts": 0,
       "stepKinds": [
         "select",
+        "hold",
+        "drag",
         "gauge",
-        "sequence"
+        "sequence",
+        "track"
       ],
       "badge": {
         "id": "clean-chair",
         "name": "Clean Chair",
         "note": "Full colour service with no sanitation breach"
       },
-      "meshes": 371,
+      "meshes": 374,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=salon"
@@ -6446,25 +6633,28 @@
       "domain": null,
       "trade": "Commercial cook",
       "union": "UNITE HERE — hospitality and food service workers",
-      "certification": "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
+      "certification": "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures, three-compartment warewashing); NSF/ANSI 2 food equipment and NSF/ANSI 7 refrigerated storage; NFPA 96 ventilation control and fire protection of commercial cooking operations; OSHA 29 CFR 1910.157 portable extinguishers (Class K) and 1910.22 walking-working surfaces",
       "accent": "#f2894b",
-      "parSeconds": 215,
+      "parSeconds": 235,
       "weather": "clear",
       "indoor": null,
-      "steps": 10,
+      "steps": 11,
       "hazards": 5,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "hold",
         "select",
-        "gauge"
+        "gauge",
+        "drag",
+        "turn",
+        "sequence"
       ],
       "badge": {
         "id": "clean-line",
         "name": "Clean Line",
         "note": "Full service with no cross-contamination and a controlled flare-up"
       },
-      "meshes": 370,
+      "meshes": 390,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=kitchen"
@@ -6479,7 +6669,7 @@
       "domain": null,
       "trade": "Phlebotomy technician",
       "union": "SEIU / NUHW — healthcare workers (hospital and laboratory locals)",
-      "certification": "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
+      "certification": "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41, the ANSI-approved American National Standard for collection of diagnostic venous blood specimens (two-identifier check, order of draw); ISO 6710 single-use evacuated blood collection tubes; OSHA Bloodborne Pathogens (29 CFR 1910.1030) and the Needlestick Safety and Prevention Act",
       "accent": "#53c1c9",
       "parSeconds": 220,
       "weather": "clear",
@@ -6546,18 +6736,20 @@
       "category": "Trade Skills Simulator",
       "domain": null,
       "trade": "Platform engineer / SRE",
-      "union": "Non-union profession (CWA and the Alphabet Workers Union organise some technology workplaces)",
-      "certification": "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
+      "union": "Non-union profession (CWA, through CODE-CWA and the Alphabet Workers Union, organises some technology workplaces)",
+      "certification": "No licensing body governs a production deploy and nobody should pretend otherwise. What governs it is the site's own change-management procedure — the approved change window, the named approver, the recorded rollback — and the control frameworks that procedure is audited against: ISO/IEC 27001 for access control and change management, the SOC 2 change-management criteria, and NIST SP 800-53 AC-6 least privilege for automation identities. CWA organises some technology workplaces but certifies nobody for this. Vendor credentials (CNCF CKA, AWS DevOps Engineer) prove tool knowledge, not authority to ship.",
       "accent": "#7c6fea",
       "parSeconds": 215,
       "weather": "clear",
       "indoor": null,
-      "steps": 10,
-      "hazards": 3,
+      "steps": 11,
+      "hazards": 5,
       "interrupts": 0,
       "stepKinds": [
         "select",
+        "find",
         "sequence",
+        "drag",
         "turn",
         "gauge",
         "hold"
@@ -6567,7 +6759,7 @@
         "name": "Clean Promote",
         "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
       },
-      "meshes": 295,
+      "meshes": 313,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=devops"
@@ -6582,14 +6774,14 @@
       "domain": null,
       "trade": "Plumber / Pipefitter",
       "union": "UA — United Association of Plumbers, Pipefitters and Service Technicians",
-      "certification": "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
+      "certification": "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ANSI/ASSE 5110 backflow prevention assembly tester and ANSI/ASSE 1020 pressure vacuum breakers; NSF/ANSI 61 and 372 for wetted drinking-water components; ASME B31.9 building services piping; OSHA 29 CFR 1910.252 welding, cutting and brazing with NFPA 51B hot work",
       "accent": "#cf8b3c",
       "parSeconds": 235,
       "weather": "clear",
       "indoor": null,
       "steps": 10,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "turn",
@@ -6604,7 +6796,7 @@
         "name": "Zero Leaks",
         "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
       },
-      "meshes": 228,
+      "meshes": 238,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=plumbing"

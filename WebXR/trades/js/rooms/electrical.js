@@ -65,19 +65,19 @@ export const ROOM_ELECTRICAL = {
       id: "ppe", kind: "select", target: "ppe-cart",
       title: "Don arc-rated PPE",
       cue: "Take arc-rated PPE from the cart before you approach the panel.",
-      why: "Shock and arc-flash protection go on before you enter the approach boundary, not once the door is open.",
+      why: "Arc-rated clothing goes on outside the boundary, before anything is opened. NFPA 70E rates it against incident energy in calories per square centimetre, and the boundary is simply where an arc would deliver about 1.2 cal/cm² — the onset of a second-degree burn on bare skin. Synthetics worn underneath melt into that burn.",
     },
     {
       id: "schedule", kind: "select", target: "panel-schedule",
       title: "Identify the circuit",
       cue: "Read the panel schedule and confirm which circuit you are isolating.",
-      why: "The schedule tells you what the breaker feeds — and what else goes dark when you open it.",
+      why: "The schedule names what this breaker feeds and what else drops with it — the sump pump, the lab freezer, the fire pump controller. Pull the wrong feeder and somebody two floors away starts hunting for whatever just died on them, and the only handle they find in the off position is yours.",
     },
     {
       id: "notify", kind: "select", target: "notice-board",
       title: "Notify affected workers",
       cue: "Post the work notice so everyone downstream knows the feeder is coming out.",
-      why: "Affected employees must be told before and after isolation. An unannounced outage is how someone re-energises your circuit.",
+      why: "OSHA 1910.147 requires affected employees to be told before the lockout goes on and again after it comes off. An unannounced outage is an invitation: a handle sitting off with no name against it and nothing to say whether the work is done reads, to somebody under pressure, as a thing to put back.",
     },
     {
       // A turn, not a click: the cue has always said "rotate the handle", and
@@ -88,20 +88,20 @@ export const ROOM_ELECTRICAL = {
       id: "open", kind: "turn", target: "disconnect-handle",
       title: "Open the disconnect",
       cue: "Take the handle and rotate it all the way to OFF.",
-      why: "Opening the disconnect is the isolation itself. Everything after this verifies and protects it. A rotary disconnect that is only part way round has not broken the contacts — it has to go to its stop.",
+      why: "Opening the disconnect is the isolation itself; everything after this only verifies and protects it. A rotary handle stopped part way has not broken the contacts — it can leave one phase made up, or the mechanism parked between positions where a knock drops it back in. Drive it to its stop and watch the indicator flip.",
       turn: { turns: 0.23, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-station",
       title: "Apply your lock and tag",
       cue: "Take your personal padlock and tag from the station and apply them to the hasp.",
-      why: "Your lock, your key, your control. The tag names who applied it and why, so nobody guesses.",
+      why: "Your lock, your key, nobody else's. One worker one lock is what turns lockout from paperwork into a personal guarantee, and the tag beside it carries the name, the time and the work — so nobody else has to decide on their own whether this is finished or the fitter is simply at lunch.",
     },
     {
       id: "prove-live", kind: "gauge", target: "proving-unit",
       title: "Prove the meter — live",
       cue: "Test the meter on the known-live proving unit. Commit inside the nominal band.",
-      why: "A meter that reads zero because it is broken looks exactly like a dead circuit. Prove it works first.",
+      why: "A meter reading zero on a blown fuse, an open lead or a flat battery looks precisely like a dead circuit. Proving it against a known live source is the only thing that separates the two, and it is the half of live-dead-live people skip because the instrument was fine this morning.",
       gauge: {
         label: "PROVING UNIT — LINE VOLTAGE", unit: "V", speed: 0.75, green: [0.46, 0.64],
         readout: (t) => `${Math.round(t * 720)} V`,
@@ -114,14 +114,14 @@ export const ROOM_ELECTRICAL = {
       itemNames: { "test-l1": "L1 phase conductor", "test-l2": "L2 phase conductor", "test-l3": "L3 phase conductor" },
       title: "Test for absence of voltage",
       cue: "Test every phase conductor at the work point — all three, in any order.",
-      why: "Absence of voltage means every conductor you could contact, not the one you expect to be dead.",
+      why: "Absence of voltage means every conductor a hand could reach, phase to phase and phase to ground — not only the one you expect to be dead. A backfeed from a UPS, a control transformer or a mis-landed neighbour sits at 277 V to earth inside a panel already called safe, and says nothing about it.",
       outOfOrderNote: "Test each conductor once; you still have phases left to verify.",
     },
     {
       id: "prove-again", kind: "gauge", target: "proving-unit",
       title: "Re-prove the meter — live",
       cue: "Return to the proving unit and confirm the meter still reads correctly.",
-      why: "The meter can fail between the dead test and now. Live-dead-live is one instrument check, not two halves.",
+      why: "The instrument can die between the dead test and this moment — a lead works half out of its socket, a fuse opens on a transient. Live-dead-live is one continuous instrument check with the dead reading in the middle, so a meter that can no longer read a known source has just voided everything you measured in that enclosure.",
       gauge: {
         label: "PROVING UNIT — CONFIRM", unit: "V", speed: 0.95, green: [0.46, 0.64],
         readout: (t) => `${Math.round(t * 720)} V`,
@@ -132,7 +132,7 @@ export const ROOM_ELECTRICAL = {
       id: "ground", kind: "select", target: "ground-cluster",
       title: "Apply temporary protective grounds",
       cue: "Install the grounding cluster on the isolated conductors.",
-      why: "Grounds hold the conductors at earth potential if the circuit is ever back-fed while you are inside it.",
+      why: "Temporary protective grounds bond the conductors to earth, so a back-feed arriving while your hands are inside goes down the cluster and trips the source rather than through you. They also bleed off the capacitive charge a long feeder keeps after opening — easily enough to put somebody off a ladder.",
     },
   ],
 

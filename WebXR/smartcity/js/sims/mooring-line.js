@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, instrument, standingFigure, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -46,10 +46,10 @@ export const SIM_MOORING_LINE = {
   }),
 
   hazards: {
-    "in-bight": "You stood inside the bight of the line on the wharf. When the winch takes up, the bight closes on whatever is inside it — a leg, at a speed no one steps out of.",
-    "snap-back-zone": "You stood in line with the tensioned mooring line. When a line parts, it whips back through that zone faster than you can see it; the zone is painted on the wharf so nobody has to guess where not to stand.",
-    "hand-on-bollard": "You put your hand on the bollard while the eye was being slacked. Fingers between the eye and the bollard are gone the moment the ship takes up.",
-    "heaving-line-catch": "You went to catch the heaving line's monkey's fist in the air. It is weighted; you let it land, then pick it up — a caught fist is a broken hand.",
+    "in-bight": "You stood inside the bight of the line on the wharf. When the winch takes up, the bight closes on whatever is inside it at the speed of the drum — a leg, at a rate no one steps out of. Standing outside every loop the line makes on the deck is the first thing an ILA or ILWU line gang teaches a new hand.",
+    "snap-back-zone": "You stood in line with a tensioned mooring line. A parted synthetic line releases the energy stored in its stretch and whips back at well over a hundred miles an hour — the OCIMF Mooring Equipment Guidelines are why that zone is painted on the wharf, so nobody has to work out where not to stand while it is happening.",
+    "hand-on-bollard": "You put your hand on the bollard while the eye was being slacked. Fingers between the eye and the post are gone the moment the ship takes up, and nobody on the wharf controls when that happens — the winch is on the ship and the only warning is a radio call you were not listening to.",
+    "heaving-line-catch": "You went to catch the heaving line's monkey's fist in the air. It is weighted to carry a hundred metres and it arrives with all of that energy; SOLAS and the IMO's own guidance on heaving-line construction exist because of what people used to put inside them. You let it land, then pick it up.",
   },
 
   lateNotes: {
@@ -57,12 +57,40 @@ export const SIM_MOORING_LINE = {
     "stopper": "Nothing to stopper until the line is on the bollard and taking tension.",
   },
 
+  // Interruptions: see shared/game.js. On a mooring deck the thing that hurts
+  // somebody is never the line you are holding — it is the ship moving when
+  // nobody asked her to, and somebody walking into a loop on the concrete.
+  interrupts: [
+    {
+      id: "passing-vessel-surge",
+      kind: "Ship ranging",
+      after: "haul", delay: 4, seconds: 12,
+      alert: "A loaded box ship is coming down the channel and her wake has set your ship ranging along the berth. The forward spring has gone bar-taut.",
+      cue: "She is surging. Get the ship to check the winches before something parts.",
+      target: "radio",
+      why: "A passing vessel's wake and suction move a moored ship bodily along the wharf, and the lines already on take the whole of it. Only the bridge can slack a winch or put it on render, so the radio is the control — and the call has to go before the line reaches its breaking strain, not after you hear it go.",
+      missNote: "The spring took the full surge and let go. A parted line releases everything stored in its stretch back along its own length, and you were on the wharf beside it — the snap-back zone that line swept through is the one you identified and then stood in while you were busy with something else.",
+      wrongNote: "It is the radio. Nothing on the wharf can take load off a line under surge — only the ship's winch can, and only if somebody up there is told to do it.",
+    },
+    {
+      id: "hand-in-the-bight",
+      kind: "Bight occupied",
+      after: "tension", delay: 4, seconds: 12,
+      alert: "A deckhand has cut across the line to reach the next bollard and is standing inside the bight lying on the concrete — with the ship still heaving.",
+      cue: "Get them out of the loop before the winch takes up the slack.",
+      target: "in-bight",
+      why: "A bight on the deck closes at drum speed the moment the slack comes out of it, and it closes on whatever is inside. A person standing in one has no warning and no time; the only control is somebody else seeing it and clearing them out while there is still slack in the line.",
+      missNote: "The winch took up with a man's leg inside the bight. A closing bight does not catch and hold — it cuts, and it does it at the speed the drum is turning. Nothing about being experienced on a wharf makes a loop of rope on the ground visible while you are looking at a tension readout.",
+      wrongNote: "It is the bight he is standing in. Everything else on this mooring can wait until there is nobody inside a loop of line that is about to come tight.",
+    },
+  ],
+
   steps: [
     {
       id: "plan", kind: "select", target: "mooring-plan",
       title: "Read the mooring plan",
       cue: "Check the berth, the line plan — head, breast, spring — and which bollards take which lines.",
-      why: "The plan is the ship's, agreed with the wharf. It says where each line goes and in what order, so the handlers are at the right bollard before the line arrives.",
+      why: "The plan is the ship's, agreed with the terminal. Head, breast and spring lines each take a different direction of load — springs hold her against ranging fore and aft, breasts hold her off the fenders — so the mooring only works as a pattern. It says which bollard takes which line, in what order, so the gang is standing in the right place before anything arrives.",
     },
     {
       id: "ppe", kind: "sequence", anyOrder: true,
@@ -70,31 +98,31 @@ export const SIM_MOORING_LINE = {
       itemNames: { "hi-vis": "hi-vis", "life-vest": "life vest", "gloves-boots": "gloves and boots" },
       title: "Hi-vis, life vest, gloves and boots",
       cue: "Visible to the ship, buoyant if you go over the edge, hands and feet protected.",
-      why: "A line handler works at the wharf edge, at night, under a ship's lights. Seen, floating and gripping is the minimum.",
+      why: "A line handler works at an unguarded wharf edge, at night, under a ship's lights, with a bridge team eighty feet up trying to pick them out against the deck. OSHA's marine terminals rule at 29 CFR 1917 puts the life vest on the list for exactly this position: seen, buoyant if you go over, and gripping.",
     },
     {
       id: "zone", kind: "select", target: "zone-marking",
       title: "Identify the snap-back zone",
       cue: "Read the painted zone at the bollard and stand outside it before the line comes.",
-      why: "The zone is where a parted line goes. It is marked so the decision is made before the line is under load, not during.",
+      why: "The zone is the ground a parted line sweeps, and it is not a neat cone — a line through a fairlead or round a bollard snaps back on both sides of the turn. OCIMF's guidance is to paint it on the deck so the decision about where to stand is made in daylight, before anything is under load, rather than worked out while it is.",
     },
     {
       id: "radio", kind: "select", target: "radio",
       title: "Establish comms with the ship",
       cue: "Radio check with the mooring officer: which line, which bollard, when to take up.",
-      why: "The winch is on the ship and the bollard is on the wharf. Everything between them is a radio call — nobody on the wharf guesses when the ship will heave.",
+      why: "The winch is on the ship and the bollard is on the wharf, and the two cannot see each other's hands. Everything between them is a radio call on an agreed channel, with the mooring officer named: nobody down here guesses when the drum will turn, and nobody up there heaves on silence.",
     },
     {
       id: "heaving", kind: "select", target: "heaving-line",
       title: "Take the heaving line",
       cue: "Let the monkey's fist land on the wharf, then pick up the heaving line and haul.",
-      why: "The heaving line is how a hundred metres of mooring line crosses the gap. The fist is weighted to fly; it is picked up off the deck, never caught.",
+      why: "A mooring line is too heavy to throw, so a light heaving line is thrown first and the mooring line is hauled across on it. The monkey's fist on the end is weighted to carry that distance — which is the same reason it is picked up off the deck after it lands and never taken out of the air.",
     },
     {
       id: "haul", kind: "track", target: "haul-line", seconds: 7,
       title: "Haul the mooring line ashore",
       cue: "Haul hand over hand, steady, keeping the line moving and your body out of the bight.",
-      why: "Steady hauling keeps the eye coming; stopping lets the line drop into the water and drift under the ship. Hands stay on the line, feet stay out of every loop it makes on the wharf.",
+      why: "Steady hauling keeps the eye coming. Stop and the bight sags into the water, where the current sets it under the hull and the ship's own propeller wash can take it into the screw — which ends with a diver, a delayed sailing, and a line nobody can recover by hand. Hands stay on the line, feet stay out of every loop it lays on the wharf.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "HAUL", readout: (v) => (v < 0.4 ? "line dropping" : v > 0.6 ? "too fast" : "steady") },
       holdBreakNote: "Haul fell off — the eye dropped into the water. Bring it back steady.",
     },
@@ -102,21 +130,21 @@ export const SIM_MOORING_LINE = {
       id: "eye", kind: "drag", target: "line-eye",
       title: "Drop the eye on the bollard",
       cue: "Carry the eye to the bollard and drop it over — hands on the outside of the eye.",
-      why: "The eye goes over the bollard from the outside, and the hands come off before the ship takes any weight.",
+      why: "The eye goes over the post from the outside, so your hands are never between the rope and the steel. Where two eyes share a bollard the second one is dipped up through the first, so either line can be let go on its own — a detail that decides whether the ship can single up in a hurry or has to wait for the bottom line to slack.",
       drag: { to: "bollard-socket", radius: 0.4, missNote: "Not over the bollard — drop the eye square over the post." },
     },
     {
       id: "tension", kind: "gauge", target: "tension-call",
       title: "Call the tension",
       cue: "Watch the line take up and call the ship to stop heaving inside the working tension.",
-      why: "The ship cannot see the line at the bollard. The handler calls when it is fair and tight — before it is bar-taut, which is the tension a line parts at.",
+      why: "The ship cannot see what the line is doing at the bollard, and a winch will keep heaving until somebody tells it not to. The handler calls it fair and tight inside the ship's own working figure — 26 to 36 tonnes here — because past that you are spending the line's breaking strength rather than using its holding power.",
       gauge: { label: "TENSION", speed: 0.75, green: [0.44, 0.6], readout: (t) => `${Math.round(t * 60)} t`, missNote: "Called it wrong — slack or bar-taut. Watch the line and call it inside the working range." },
     },
     {
       id: "stopper", kind: "hold", target: "stopper", seconds: 4,
       title: "Hold the stopper for the transfer",
       cue: "Hold the stopper on the line while the ship transfers it from winch drum to bitts.",
-      why: "The stopper holds the load while the ship makes the line fast on board. Let it go early and the line runs — with your hands near it.",
+      why: "A stopper takes the load for the few seconds it takes the ship to turn the line off the drum and onto the bitts. It is a chain or a rope taking the full tension against your hands: let it go before the ship calls made fast and the whole load comes back onto a line that is attached to nothing, with you holding the end of it.",
       holdBreakNote: "Stopper released before the transfer — the line surged. Hold it until the ship calls made fast.",
     },
     {
@@ -126,7 +154,7 @@ export const SIM_MOORING_LINE = {
       itemNotes: { "chafed-line": "The spring line is chafed through half its strands where it crosses the wharf edge with no chafe guard. That line parts on the next surge — it gets reported to the ship now." },
       title: "Walk the lines before all fast",
       cue: "Look at every line from bollard to fairlead and click the one that will not hold.",
-      why: "A line parts where it is weakest, and the wharf handler is the only one who sees the wharf end. The walk is the last look before the ship is all fast.",
+      why: "A line parts where it is weakest, and with no chafe guard at the wharf edge that is wherever it crosses concrete. Half the strands gone is most of the strength gone, and the ship's deck cannot see any of it from eighty feet up — the wharf handler's walk is the last look anybody gets before all fast, and the USCG and terminal both expect the finding to reach the ship, not the next shift.",
     },
   ],
 
@@ -216,7 +244,8 @@ export const SIM_MOORING_LINE = {
     cyl(chafe, 0.03, 0.03, 0.5, 0, 0, 0, 0xd9cbb2, { rough: 0.9, seg: 10 }).rotation.x = Math.PI / 2;
     box(chafe, 0.1, 0.05, 0.06, 0, 0.02, 0, 0x8a6a4a, { rough: 0.95 });
     reg(hits, chafe, "chafed-line");
-    standingFigure(g, -2.3, -0.2, { ry: 1.0, cloth: 0xe4622a });
+    const deckhand = standingFigure(g, -2.3, -0.2, { ry: 1.0, cloth: 0xe4622a });
+    const deckhandHome = deckhand.position.clone();
     cone(g, 2.5, -0.5);
     const spray = particles(g, 30, 0xbfe6f5, { size: 0.02, life: 0.8, additive: false, opacity: 0.4 });
 
@@ -227,6 +256,33 @@ export const SIM_MOORING_LINE = {
       onStepComplete(step) {
         if (step.id === "eye") { eye.parent.remove(eye); bollard.add(eye); eye.position.set(0, 0.56, 0); eye.rotation.set(0, 0, 0); }
         if (step.id === "walk") chafe.visible = false;
+      },
+
+      // Both of these are visible from where the handler is standing: the line
+      // comes up hard and straight under the surge, and the deckhand is
+      // actually inside the painted bight. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "passing-vessel-surge") {
+          lineRun.material = mat(0xe4622a, { rough: 0.6, emissive: 0xe4622a, ei: 0.9 });
+          lineRun.position.y += 0.06;
+        }
+        if (it.id === "hand-in-the-bight") {
+          deckhand.position.set(1.6, deckhandHome.y, 1.5);
+          deckhand.rotation.y = -1.4;
+          bight.material = mat(0xd2312b, { rough: 0.6, opacity: 0.62, emissive: 0xd2312b, ei: 1.3, cast: false });
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "passing-vessel-surge") {
+          lineRun.material = mat(0xd9cbb2, { rough: 0.8 });
+          lineRun.position.y -= 0.06;
+        }
+        if (it.id === "hand-in-the-bight") {
+          deckhand.position.copy(deckhandHome);
+          deckhand.rotation.y = 1.0;
+          bight.material = mat(0xd2312b, { rough: 0.6, opacity: 0.25, cast: false });
+        }
       },
       onHazard() {},
       animate(t, dt, session) {

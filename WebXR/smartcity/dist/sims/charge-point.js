@@ -141,6 +141,31 @@ export const SIM_CHARGE_POINT = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "bay-encroached",
+      kind: "Bay incursion",
+      after: "discharge", delay: 3, seconds: 14,
+      alert: "A car has come round the cones and nosed into the bay behind you. The driver is out, the barrier is shoved over against the kerb and he is looking for the other gun.",
+      cue: "You are stood still at a timer for ten minutes. That is the whole window.",
+      target: "barrier-rail",
+      why: "A charge point is not a plant room; it is a parking space on a forecourt with a queue behind it, and the people in that queue have no idea what a technician standing still for ten minutes is doing. The discharge wait is the longest stretch of this job where nothing appears to be happening, which makes it the stretch in which the work zone gets taken apart by strangers. The zone goes back up before anything else, because what comes next is a cabinet open onto an eight-hundred-volt link at about the height of a child.",
+      missNote: "The bay stayed open with a car and a member of the public inside it. The service door is swung wide onto the module stack, the DC link sits behind a guard anybody can lift, and the only thing keeping a stranger out of it was luck.",
+      wrongNote: "It is the barrier. The work zone is what makes the rest of this procedure safe, and somebody has just taken it apart.",
+    },
+    {
+      id: "handle-moved",
+      kind: "Isolation disturbed",
+      after: "swap", delay: 3, seconds: 12,
+      alert: "Over at the supply pillar your padlock is lying on the top cap and the feeder handle has been swung part of the way back. The site's duty electrician is stood at it chasing a trip on the next bay.",
+      cue: "You have a module in your hands and somebody else has your isolation.",
+      target: "ac-disconnect",
+      why: "A lock is a claim on a piece of equipment, and it only works if the person who finds it can read whose it is and get hold of them. Feeder pillars on retail sites are shared between the chargers, the lighting and the wash, and a tag gone soft in the rain is a tag nobody will honour at seven in the evening with a queue building. Get the handle back over to OFF first: the argument about the lock can wait, because the handle is the part that decides whether the busbar in front of you is live.",
+      missNote: "The handle went the rest of the way over with the guard off and a module out of the stack. Four hundred volts came back into a cabinet that had a person inside it, and the first anybody knew about it was the unit booting.",
+      wrongNote: "The handle is the thing that has moved. Put the isolation back where you left it before you deal with anything else on that pillar.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -294,9 +319,12 @@ export const SIM_CHARGE_POINT = {
     reg(hits, wrench, "torque-wrench");
 
     // --------------------------------------------------------- work zone hardware
-    reg(hits, cone(g, -0.2, 1.5), "cone-a");
+    const coneA = cone(g, -0.2, 1.5);
+    reg(hits, coneA, "cone-a");
     reg(hits, cone(g, 1.9, 0.45), "cone-b");
-    reg(hits, barrierPanel(g, 0.7, 1.75, { ry: 0.1 }), "barrier-rail");
+    const barrier = barrierPanel(g, 0.7, 1.75, { ry: 0.1 });
+    reg(hits, barrier, "barrier-rail");
+    const barrierHome = { x: barrier.position.x, z: barrier.position.z, ry: barrier.rotation.y };
 
     // ------------------------------------------------------------- holo paperwork
     const order = holoPanel(g, 0.56, 0.4, -1.6, 1.5, -1.35, (ctx, w, h) => {
@@ -375,6 +403,33 @@ export const SIM_CHARGE_POINT = {
       },
 
       onHazard(hitId) { if (hitId === "dc-busbar" && dcVolts > 60) arcTimer = 0.5; },
+
+      // The bay really gets opened up, and the isolation really moves.
+      onInterrupt(it) {
+        if (it.id === "bay-encroached") {
+          barrier.position.x = barrierHome.x + 0.62;
+          barrier.position.z = barrierHome.z - 0.3;
+          barrier.rotation.y = barrierHome.ry + 0.7;
+          coneA.rotation.z = 1.35;
+        }
+        if (it.id === "handle-moved") {
+          appliedLock.visible = false;
+          handlePivot.rotation.z = -0.5;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "bay-encroached") {
+          barrier.position.x = barrierHome.x;
+          barrier.position.z = barrierHome.z;
+          barrier.rotation.y = barrierHome.ry;
+          coneA.rotation.z = 0;
+        }
+        if (it.id === "handle-moved") {
+          appliedLock.visible = true;
+          handlePivot.rotation.z = -Math.PI / 2;
+        }
+      },
 
       animate(t, dt, session) {
         statusBar.material.emissiveIntensity = 1.5 + Math.sin(t * 2.2) * 0.5;

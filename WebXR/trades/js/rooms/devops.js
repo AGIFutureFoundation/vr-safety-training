@@ -20,8 +20,8 @@ export const ROOM_DEVOPS = {
   trade: "Platform engineer / SRE",
   title: "Deploy Bay",
   tagline: "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
-  union: "Non-union profession (CWA and the Alphabet Workers Union organise some technology workplaces)",
-  certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
+  union: "Non-union profession (CWA, through CODE-CWA and the Alphabet Workers Union, organises some technology workplaces)",
+  certification: "No licensing body governs a production deploy and nobody should pretend otherwise. What governs it is the site's own change-management procedure — the approved change window, the named approver, the recorded rollback — and the control frameworks that procedure is audited against: ISO/IEC 27001 for access control and change management, the SOC 2 change-management criteria, and NIST SP 800-53 AC-6 least privilege for automation identities. CWA organises some technology workplaces but certifies nobody for this. Vendor credentials (CNCF CKA, AWS DevOps Engineer) prove tool knowledge, not authority to ship.",
   accent: VIOLET,
   accentCss: "#7c6fea",
   parSeconds: 215,
@@ -35,6 +35,8 @@ export const ROOM_DEVOPS = {
     "prod-console": "That tab is the production console, not staging — it renders identically at a glance, which is exactly how a 2 a.m. mistake happens. Close it and confirm you're back in staging before touching anything.",
     "prod-db-secret": "That credential is scoped to production, not staging. Handing an automated job a secret for the wrong environment lets a test run read or write real customer data.",
     "admin-token": "That's a standing admin credential, not a scoped token for this job. An automation only needs the access this run requires — a broad, long-lived key turns any bug in its logic into an account-wide blast radius.",
+    "break-glass": "That is the break-glass override, which ships a change without an approver and without a window. It exists for an incident already in progress, it pages the whole on-call chain when it is used, and every audit of this pipeline starts by asking who pulled it and why. Using it to save four minutes on a routine promote is a control failure whether or not the deploy works.",
+    "mute-alerts": "Muting alerting for the deploy window turns the canary into a decoration. The entire reason you route a sliver of traffic at a new build is so the paging system tells you it is broken before the rest of the traffic finds out — silence it and you have kept the ceremony and thrown away the signal.",
   },
 
   lateNotes: {
@@ -49,13 +51,30 @@ export const ROOM_DEVOPS = {
       id: "runbook", kind: "select", target: "deploy-ticket",
       title: "Read the deploy ticket",
       cue: "Open the change ticket and confirm what the automation is about to do.",
-      why: "An agent runs exactly what it's told. You're the one who has to know what that is before it starts.",
+      why: "An agent runs exactly what it is told, at machine speed, and it will not stop halfway through to wonder whether this was a good idea. The ticket is where somebody wrote down what good looks like: the build, the scope, the approver and the rollback. If those four things are not on it, there is nothing here to supervise — only something to watch happen.",
+    },
+    {
+      id: "preflight", kind: "find", noHint: true,
+      targets: ["incident-board", "freeze-calendar", "dep-queue"],
+      itemNames: {
+        "incident-board": "the live incident board",
+        "freeze-calendar": "the change calendar",
+        "dep-queue": "the upstream deploy queue",
+      },
+      itemNotes: {
+        "incident-board": "No open incident on this service. Deploying into a live incident means the next graph anybody looks at has two causes in it, and the team spends the outage arguing about which one.",
+        "freeze-calendar": "No freeze on the calendar for this window. Freezes exist because somebody downstream — finance close, a launch, an on-call handover — cannot absorb a surprise today.",
+        "dep-queue": "Nothing upstream mid-deploy. Shipping on top of a dependency that is half rolled out means your canary is measuring their rollout, and it will look fine right up until theirs finishes.",
+      },
+      title: "Clear the window before you start",
+      cue: "Three things on the status wall decide whether this is a safe window. Check all three.",
+      why: "Most bad deploys are not bad code, they are good code shipped into a bad moment. An open incident, a change freeze or a dependency mid-rollout each make the canary unreadable, because you can no longer tell whether what you are seeing is your change or somebody else's. These take fifteen seconds to check now and hours to untangle afterwards.",
     },
     {
       id: "env-check", kind: "select", target: "env-label",
       title: "Confirm the target environment",
       cue: "Check the environment label on the console before touching anything.",
-      why: "Staging and production share the same tooling and look the same on a bad night. The label is the only thing standing between a test and an outage.",
+      why: "Staging and production run the same tooling, the same dashboards and very nearly the same hostnames, and at two in the morning they look identical. The label is the only thing standing between a test and an outage, which is why it gets read deliberately rather than assumed from which tab was open when you sat down.",
     },
     {
       id: "secrets-sweep", kind: "sequence", target: null, anyOrder: true,
@@ -63,33 +82,34 @@ export const ROOM_DEVOPS = {
       itemNames: { "staging-db-secret": "database credential", "staging-api-key": "API key", "staging-webhook": "webhook secret" },
       title: "Verify environment-scoped secrets",
       cue: "Confirm every secret this run will use is scoped to staging — all three, in any order.",
-      why: "A secret scoped to the wrong environment isn't a mistake you notice — it's a live production credential sitting somewhere it can leak.",
+      why: "A secret scoped to the wrong environment is not an error anybody sees: the job runs, the tests pass, and a staging pipeline has just read or written real customer data with a production credential. All three get checked because it is always the third one — the webhook nobody thinks of as a secret — that is still pointing at prod.",
       outOfOrderNote: "Already checked — you still have secrets left to verify.",
     },
     {
-      id: "scope-token", kind: "select", target: "scoped-token",
+      id: "scope-token", kind: "drag", target: "scoped-token",
       title: "Issue a least-privilege token",
-      cue: "Take the scoped, single-purpose token for this run — not the standing admin key.",
-      why: "Least privilege isn't paperwork. It's the difference between a bad deploy and a bad deploy that could also read every customer record.",
+      cue: "Take the scoped, single-purpose token and put it in the agent's credential slot.",
+      why: "Least privilege is not paperwork, it is the size of the hole in the wall when something goes wrong. A token scoped to this service, this action and this window means the worst a confused agent can do is break this deploy; a standing admin key means the worst it can do is anything the account can do, for as long as the key lives. The admin key beside it will work perfectly, which is the problem with it.",
+      drag: { to: "agent-slot", radius: 0.45, missNote: "Not in the slot. A credential left on the bench is not scoped to anything — it is just lying around where the next run can pick it up." },
     },
     {
       id: "review-diff", kind: "select", target: "agent-diff",
       title: "Review the agent's proposed change",
       cue: "Open the diff the agent generated and read it before approving.",
-      why: "Approving automation output you haven't read is how a bad change ships with a human's name on the approval.",
+      why: "Approving automation output you have not read is how a bad change ships with a human's name on the approval and nobody able to say what it did. Read the diff for what it removes as much as what it adds — a dropped feature flag or a halved timeout is one line, does not look like anything, and is the change that takes the service down at peak.",
     },
     {
       id: "canary-open", kind: "turn", target: "canary-dial",
       title: "Open the canary to 10%",
       cue: "Turn the traffic dial to route a small slice of real traffic to the new build.",
-      why: "You test a rollout on a fraction of traffic before betting all of it. The canary is what tells you whether this build is safe.",
+      why: "A canary works because real traffic is the only load test that is actually representative, and ten per cent of it is small enough that the failure you are looking for is survivable. It also has to be big enough to see: a canary at a fraction of a per cent produces error rates that are statistically indistinguishable from nothing, which reads as success.",
       turn: { turns: 0.28, axis: "z", reverse: true, label: "CANARY TRAFFIC" },
     },
     {
       id: "watch-canary", kind: "gauge", target: "canary-monitor",
       title: "Watch the canary error rate",
       cue: "Watch the live error-rate needle and commit only while it reads healthy.",
-      why: "A canary that's already unhealthy at 10% traffic is a full outage at 100%. This is the checkpoint that catches it first.",
+      why: "This is the only checkpoint in the whole pipeline where the new build has met real users and the blast radius is still one in ten. A canary that is already unhealthy here is a full outage at a hundred per cent, and the number does not settle instantly — give it long enough to be a reading rather than the first spike of a cold cache, then commit on what it actually says.",
       gauge: {
         label: "CANARY — ERROR RATE", speed: 0.7, green: [0.02, 0.24],
         readout: (t) => `${(t * 6.2).toFixed(1)}%`,
@@ -100,21 +120,21 @@ export const ROOM_DEVOPS = {
       id: "promote", kind: "turn", target: "promote-lever",
       title: "Promote to full traffic",
       cue: "Throw the promote lever to send the build the rest of the way to 100%.",
-      why: "Promotion is a deliberate act, separate from opening the canary — the two decisions shouldn't share one motion.",
+      why: "Promotion is a separate, deliberate act from opening the canary, on a separate control, because the two decisions are different: one says let us find out, the other says I have looked and I am satisfied. Wire them into a single motion and the canary becomes a delay rather than a gate — which is exactly what it turns into on the deploys nobody remembers going wrong.",
       turn: { turns: 0.32, axis: "z", reverse: true, label: "PROMOTE" },
     },
     {
       id: "killswitch", kind: "hold", target: "kill-switch", seconds: 4,
       title: "Arm and test the rollback",
       cue: "Hold the rollback switch to confirm it actually fires before you rely on it.",
-      why: "A kill switch you haven't tested isn't a kill switch — it's a hope. Confirm it works while you don't yet need it for real.",
+      why: "A rollback nobody has exercised is a hope with a button on it. Test it now, while the service is healthy and you have all the time in the world, because the alternative is finding out that the previous build's image was garbage-collected at the one moment you needed it — at which point the only way out is forward, through a fix written by somebody who has been awake for nineteen hours.",
       holdBreakNote: "Released too early. A rollback test that doesn't run its full course hasn't tested anything.",
     },
     {
       id: "audit-log", kind: "select", target: "audit-terminal",
       title: "Log the change and the agent's actions",
       cue: "Write the promotion, the token scope, and the canary result to the audit trail.",
-      why: "Months from now, someone will need to know exactly what an automation did here and who authorised it. This is that line.",
+      why: "Months from now somebody will be reading this line to answer a question nobody has asked yet: which build introduced the regression, what did the automation have access to, who decided it was fine. Written at the end it records what actually happened, including the parts that did not go to plan — which is the only version worth keeping.",
     },
   ],
 
@@ -204,6 +224,43 @@ export const ROOM_DEVOPS = {
     decal(admin, 0.1, 0.1, 0, 0.16, 0.062, signFace("ADMIN", { bg: "#3a2c12", accent: "#f2ae14", fg: "#ffe6a8", scale: 0.5 }))
       .rotation.x = -Math.PI / 2;
     reg(admin, "admin-token");
+
+    // Agent credential slot on the end of the token rack: where a scoped token
+    // is actually handed to the automation.
+    const agentSlot = group(desk, 0.15, 0.94, 0.3, -0.15);
+    slab(agentSlot, 0.2, 0.05, 0.16, 0, 0.025, 0, 0x22262b, { rough: 0.5, radius: 0.012 });
+    box(agentSlot, 0.11, 0.012, 0.07, 0, 0.052, 0, 0x11151a, { rough: 0.7 });
+    decal(agentSlot, 0.17, 0.05, 0, 0.056, -0.06, signFace("AGENT SLOT", { bg: "#221b3a", accent: "#a89bff", scale: 0.45 }))
+      .rotation.x = -Math.PI / 2;
+    reg(agentSlot, "agent-slot");
+
+    // ------------------------------------------------------------- status wall
+    // The three things that say whether this is a safe window, and the two
+    // controls that look like shortcuts through them.
+    const statusWall = group(root, -1.4, 0, -3.9);
+    box(statusWall, 2.6, 0.06, 0.08, 0, 1.9, 0, OPS_DARKSTEEL, { rough: 0.6, metal: 0.4 });
+    const boardSpec = [
+      ["incident-board", "INCIDENTS", ["web-api: none open", "checkout: none open", "last closed 6d ago"], GOOD, -0.88],
+      ["freeze-calendar", "CHANGE CALENDAR", ["today: open window", "freeze: 24-27 Dec", "approver on shift"], GOOD, 0.0],
+      ["dep-queue", "UPSTREAM DEPLOYS", ["auth-svc: idle", "ledger: idle", "queue empty"], GOOD, 0.88],
+    ];
+    for (const [bid, head, lines, tone, bx] of boardSpec) {
+      const b = group(statusWall, bx, 1.35, 0.02);
+      box(b, 0.8, 0.5, 0.04, 0, 0, 0, 0x11151a, { rough: 0.5 });
+      decal(b, 0.74, 0.44, 0, 0, 0.026, paperFace(head, lines), { glow: true, ei: 0.45 });
+      ball(b, 0.018, 0.33, 0.2, 0.03, tone, { emissive: tone, ei: 1.8, rough: 0.4 });
+      reg(b, bid);
+    }
+
+    // Break-glass override under a guard, and the alert mute beside it.
+    const overrides = group(statusWall, 1.4, 1.0, 0.04);
+    box(overrides, 0.34, 0.26, 0.06, 0, 0, 0, 0x22262b, { rough: 0.5, metal: 0.4 });
+    const glass = box(overrides, 0.13, 0.13, 0.03, -0.08, 0.01, 0.045, BAD, { emissive: BAD, ei: 1.1, rough: 0.35 });
+    decal(overrides, 0.15, 0.05, -0.08, -0.09, 0.04, signFace("BREAK GLASS", { bg: "#3a1214", accent: "#f0645b", scale: 0.4 }), { px: 128 });
+    reg(glass, "break-glass");
+    const mute = box(overrides, 0.11, 0.11, 0.03, 0.09, 0.01, 0.045, WARN, { emissive: WARN, ei: 0.9, rough: 0.35 });
+    decal(overrides, 0.14, 0.05, 0.09, -0.09, 0.04, signFace("MUTE ALERTS", { bg: "#3a2c12", accent: "#f2ae14", scale: 0.4 }), { px: 128 });
+    reg(mute, "mute-alerts");
 
     // -------------------------------------------------------------- diff screen
     const diffPost = group(root, -2.9, 0, -1.9, 0.35);
@@ -312,6 +369,7 @@ export const ROOM_DEVOPS = {
 
       onHazard(hitId) {
         if (hitId === "prod-db-secret" || hitId === "admin-token" || hitId === "prod-console") alertTimer = 0.5;
+        if (hitId === "break-glass" || hitId === "mute-alerts") alertTimer = 0.5;
       },
 
       onStepComplete(step) {

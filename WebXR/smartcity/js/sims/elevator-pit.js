@@ -19,7 +19,7 @@ export const SIM_ELEVATOR_PIT = {
   trade: "Elevator constructor / mechanic",
   category: "Building Systems & Facilities",
   indoor: "service",
-  certification: "IUEC — NAESA QEI-qualified elevator mechanic",
+  certification: "IUEC elevator constructors; ASME A17.1 / CSA B44, the safety code for elevators and escalators, and its A17.2 inspection guide; OSHA 29 CFR 1910.147, the control of hazardous energy, for the machine room isolation; NFPA 70 Article 620 for the elevator supply and NFPA 70E for proving it dead; NAESA-accredited QEI inspection",
   name: "Elevator Pit",
   title: simTitle("Elevator Pit"),
   tagline: "Pit and car-top entry: main line lockout, dual stop switches and governor inspection",
@@ -61,26 +61,26 @@ export const SIM_ELEVATOR_PIT = {
       id: "permit", kind: "select", target: "work-order",
       title: "Open the work permit and post out-of-service",
       cue: "Read the permit and confirm the car-out-of-service signage is posted at every landing.",
-      why: "The signage is what keeps a passenger from calling a car that a mechanic is standing inside. It goes up before the disconnect comes down.",
+      why: "Signage goes up at every landing before the disconnect comes down, because the thing that kills elevator mechanics is not the machinery, it is a passenger on the fourth floor who had no way of knowing anybody was in the shaft. A barricaded landing is also the only warning to the next person that the doors may open onto a hoistway with no car behind them.",
     },
     {
       id: "disconnect", kind: "turn", target: "main-disconnect",
       title: "Open the main line disconnect",
       cue: "Grab the machine room's main line disconnect handle and pull it open.",
-      why: "The disconnect is the isolation. Nothing in the pit or on the car top is approached before the drive has no source of power.",
+      why: "The main line disconnect is the isolation for this car and nothing in the pit or on the car top is approached until it is open. It is pulled firmly to its stop rather than eased over, because a switch left between positions can leave one phase made — which is how a drive that is supposed to be dead turns a motor far enough to move a car.",
       turn: { turns: 0.2, axis: "z", reverse: true, label: "MAIN LINE DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lockout-hasp",
       title: "Lock and tag the disconnect",
       cue: "Apply your padlock and tag to the disconnect.",
-      why: "Your lock says the isolation belongs to you specifically. Nobody re-energises this car while your lock is still on the switch.",
+      why: "One lock, one key, one person, and the key stays in your pocket for the whole job. The lock is what turns an open switch into a legal isolation under the control of hazardous energy standard, and the tag is what tells the building engineer whose car this is and when it will be back. Without the lock the switch is only a switch, and switches get closed by people who are sure nobody is in there.",
     },
     {
       id: "verify-zero", kind: "gauge", target: "panel-meter",
       title: "Verify zero energy at the controller",
       cue: "Meter the drive input and commit when it reads dead.",
-      why: "The disconnect being open is not proof by itself. You confirm zero energy the same way for every isolation, every time, before anyone goes near the shaft.",
+      why: "An open disconnect is a claim; the meter is the proof, and it is taken at the drive input where the work is, not at the switch. Prove the instrument live on a known source, take your reading, prove it live again — the live-dead-live sequence is there because a meter with a blown fuse reads zero volts on every busbar in the building, and it reads zero very convincingly.",
       gauge: {
         label: "DRIVE INPUT — VOLTAGE", speed: 0.65, green: [0.0, 0.08],
         readout: (t) => `${Math.round(t * 480)} V`,
@@ -91,13 +91,13 @@ export const SIM_ELEVATOR_PIT = {
       id: "pit-switch", kind: "select", target: "pit-stop-switch",
       title: "Engage the pit stop switch",
       cue: "Confirm the pit stop switch is ON before you set foot on the ladder.",
-      why: "The machine room disconnect and the pit switch are two independent controls. The pit switch is the one you can see holding from inside the pit itself.",
+      why: "The pit switch is a second, independent way of stopping this car, and the reason the code insists on it is that isolation in a machine room two floors away cannot be seen from the bottom of a hoistway. Reaching in from the landing and throwing it before you commit your weight to the ladder means the thing holding the car is something you can watch while you are underneath it.",
     },
     {
       id: "pit-entry", kind: "select", target: "pit-ladder",
       title: "Descend into the pit",
       cue: "Climb down the fixed pit ladder now that the switch is confirmed.",
-      why: "Entry happens after the switch is confirmed engaged, never on the assumption that the machine room disconnect alone is enough.",
+      why: "Down the ladder, facing it, with the light on — not stepped down onto the buffer or dropped the last part of the way. A pit is a hole with a counterweight runby down one side of it, standing water at the bottom of many of them, and no room to move once you are in, so the way in is the way the code provides and not the short way.",
     },
     {
       id: "buffer-check", kind: "find", noHint: true,
@@ -116,25 +116,32 @@ export const SIM_ELEVATOR_PIT = {
       },
       title: "Inspect the buffers and pit ladder",
       cue: "Walk the pit. Three things are wrong — find them by looking.",
-      why: "A pit inspection is a search for what has quietly failed since the last visit, not a checklist tick from the doorway.",
+      why: "A pit inspection is a search for what has quietly failed since the last visit, not a checklist ticked from the doorway. Everything down here only matters on the day something else has already gone wrong: the buffer is for an over-travel that should never happen, and the ladder is for the climb out you will be making in a hurry when it does.",
     },
     {
       id: "cartop-switch", kind: "select", target: "cartop-stop-switch",
       title: "Engage the car-top stop switch",
       cue: "Climb to the car top and confirm the car-top stop switch is ON.",
-      why: "This is the second independent switch. The pit switch protects the pit; this one protects whoever is standing on the car itself.",
+      why: "This is the second independent switch and it protects a different person from the first one. The pit switch protects whoever is in the pit; it does nothing at all for somebody standing on the car, which can still be called away under them by the machine above. The switch goes on before you get on the car, reached from the landing, not once you are already up there.",
     },
     {
       id: "cartop-access", kind: "select", target: "car-top-hatch",
       title: "Open the car-top access and enter inspection mode",
       cue: "Open the hatch and set the car to car-top inspection mode.",
-      why: "Inspection mode caps the car's speed and puts operation under your hand at the car-top station, not under a passenger call.",
+      why: "Inspection mode caps the car's speed, cuts out the door operator and the automatic calls, and moves control to the station under your own hand. It is what turns a passenger lift into a work platform. Without it, everything about this car is still being decided by whoever presses a button in the lobby.",
+    },
+    {
+      id: "inspect-run", kind: "hold", target: "cartop-run-button", seconds: 6,
+      title: "Run the car on constant pressure",
+      cue: "Hold the enable and the run button together and take the car to the next working position.",
+      why: "Inspection operation is constant pressure by design: let go of either button and the car stops within its own length. That is not an inconvenience, it is the safety device — the one thing standing between a mechanic who trips, faints or is struck by something and a car that carries on to the overhead with them on top of it. Riding the car top with anything jammed, taped or wedged on that button is how people are crushed at the top of the shaft.",
+      holdBreakNote: "You let go and the car stopped, which is exactly what constant pressure is for. Take it again and hold both controls for the whole move.",
     },
     {
       id: "governor-check", kind: "gauge", target: "governor-instrument",
       title: "Check the governor rope tension",
       cue: "Read the governor rope tension and commit inside the rated band.",
-      why: "A governor that cannot pull free at the right tension will not trip the safeties at overspeed — this is checked on its own, not assumed from the rope looking fine.",
+      why: "The governor is the device that notices an overspeed and pulls the safeties into the rails, and it can only pull them if the rope is tensioned to grip in the sheave. Slack and it slips, so the safeties never set; over-tensioned and the tension sheave bottoms out in the pit and the rope starts wearing. Both faults look like a rope hanging there perfectly normally, which is why this is read off an instrument.",
       gauge: {
         label: "GOVERNOR ROPE — TENSION", speed: 0.6, green: [0.42, 0.58],
         readout: (t) => `${Math.round(t * 220)} N`,
@@ -149,14 +156,14 @@ export const SIM_ELEVATOR_PIT = {
       },
       title: "Restore in the correct order",
       cue: "Release the car-top switch, then the pit switch, then take your lock off the hasp, then close the main disconnect.",
-      why: "Release from the top down: the car top clear before the pit, the pit clear before your lock comes off, and your lock off before power goes back to the drive. Nobody closes a disconnect that still carries a lock — not even the person whose lock it is.",
+      why: "Restore from the inside out, so that the last protection removed is the one furthest from where people were. Car top clear before the pit, pit clear before the lock, lock off before power. Each release is also a headcount — you cannot reset the pit switch without being in the pit to see it is empty. Nobody closes a disconnect that still carries a lock, and that includes the person whose lock it is.",
       outOfOrderNote: "Wrong order — car-top switch, then pit switch, then your lock, and the main disconnect last. The lock is the last thing off and the disconnect the last thing closed.",
     },
     {
       id: "test-run", kind: "select", target: "controller-panel",
       title: "Run a test operation before release",
       cue: "With power back on, run the car on a test trip before you hand it over.",
-      why: "The car is not returned to service on the assumption the work went well — it is proven with an actual run first.",
+      why: "The car is not returned to service on the strength of the work having gone well; it is proven with a run, in normal operation, through the floors it serves. A stop switch left half made, a hatch not latched or a safety knocked out of adjustment all behave perfectly until the car actually moves, and the person who should discover that is you, standing at the controller, not the first passenger through the doors.",
     },
   ],
 
@@ -260,6 +267,21 @@ export const SIM_ELEVATOR_PIT = {
     box(hatch, 0.06, 0.03, 0.02, 0.12, 0.02, 0.16, CITY.steel, { rough: 0.35, metal: 0.85 });
     holoTag(hatch, "Car-top hatch", 0, 0.12, 0, { css: "#2dd4bf", w: 0.3 });
     reg(hits, hatch, "car-top-hatch");
+
+    // Car-top inspection station: enable and run, both held together, both
+    // released the instant anything goes wrong.
+    const inspStation = group(carTop, -0.3, 0.02, -0.3, 0.25);
+    box(inspStation, 0.22, 0.1, 0.12, 0, 0.05, 0, 0x2b3339, { rough: 0.5, metal: 0.4 });
+    decal(inspStation, 0.18, 0.04, 0, 0.101, 0, signFace("INSPECTION", { accent: "#2dd4bf", scale: 0.42 }), { px: 128 })
+      .rotation.x = -Math.PI / 2;
+    const runButton = cyl(inspStation, 0.026, 0.026, 0.02, 0.05, 0.105, 0.02, 0x2dd4bf,
+      { emissive: 0x2dd4bf, ei: 1.1, rough: 0.4, seg: 14 });
+    runButton.rotation.x = Math.PI / 2;
+    const enableButton = cyl(inspStation, 0.026, 0.026, 0.02, -0.05, 0.105, 0.02, 0xd8b23a,
+      { emissive: 0xd8b23a, ei: 0.8, rough: 0.4, seg: 14 });
+    enableButton.rotation.x = Math.PI / 2;
+    holoTag(inspStation, "Inspection run — constant pressure", 0, 0.24, 0, { css: "#2dd4bf", w: 0.56 });
+    reg(hits, inspStation, "cartop-run-button");
 
     const cartopSwitch = group(carTop, 0.24, 0.02, -0.28, -0.3);
     box(cartopSwitch, 0.12, 0.14, 0.06, 0, 0.07, 0, 0x22272c, { rough: 0.5, metal: 0.4 });
@@ -365,6 +387,10 @@ export const SIM_ELEVATOR_PIT = {
         if (step.id === "pit-switch") { pitOn = true; pitLever.rotation.x = -1.0; pitLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.8 }); }
         if (step.id === "cartop-switch") { cartopOn = true; cartopLever.rotation.x = -1.0; cartopLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.8 }); }
         if (step.id === "cartop-access") hatch.rotation.x = -1.1;
+        if (step.id === "inspect-run") {
+          car.position.y += 0.12;
+          repaint(controllerScreen, signFace("INSPECTION", { bg: "#0d1c24", accent: "#2dd4bf", fg: "#bfeaf7", scale: 0.34 }));
+        }
         if (step.id === "restore") {
           pitOn = false; cartopOn = false;
           pitLever.rotation.x = 0; cartopLever.rotation.x = 0;

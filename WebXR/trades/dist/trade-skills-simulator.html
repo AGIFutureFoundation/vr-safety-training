@@ -4051,19 +4051,19 @@ const ROOM_ELECTRICAL = {
       id: "ppe", kind: "select", target: "ppe-cart",
       title: "Don arc-rated PPE",
       cue: "Take arc-rated PPE from the cart before you approach the panel.",
-      why: "Shock and arc-flash protection go on before you enter the approach boundary, not once the door is open.",
+      why: "Arc-rated clothing goes on outside the boundary, before anything is opened. NFPA 70E rates it against incident energy in calories per square centimetre, and the boundary is simply where an arc would deliver about 1.2 cal/cm² — the onset of a second-degree burn on bare skin. Synthetics worn underneath melt into that burn.",
     },
     {
       id: "schedule", kind: "select", target: "panel-schedule",
       title: "Identify the circuit",
       cue: "Read the panel schedule and confirm which circuit you are isolating.",
-      why: "The schedule tells you what the breaker feeds — and what else goes dark when you open it.",
+      why: "The schedule names what this breaker feeds and what else drops with it — the sump pump, the lab freezer, the fire pump controller. Pull the wrong feeder and somebody two floors away starts hunting for whatever just died on them, and the only handle they find in the off position is yours.",
     },
     {
       id: "notify", kind: "select", target: "notice-board",
       title: "Notify affected workers",
       cue: "Post the work notice so everyone downstream knows the feeder is coming out.",
-      why: "Affected employees must be told before and after isolation. An unannounced outage is how someone re-energises your circuit.",
+      why: "OSHA 1910.147 requires affected employees to be told before the lockout goes on and again after it comes off. An unannounced outage is an invitation: a handle sitting off with no name against it and nothing to say whether the work is done reads, to somebody under pressure, as a thing to put back.",
     },
     {
       // A turn, not a click: the cue has always said "rotate the handle", and
@@ -4074,20 +4074,20 @@ const ROOM_ELECTRICAL = {
       id: "open", kind: "turn", target: "disconnect-handle",
       title: "Open the disconnect",
       cue: "Take the handle and rotate it all the way to OFF.",
-      why: "Opening the disconnect is the isolation itself. Everything after this verifies and protects it. A rotary disconnect that is only part way round has not broken the contacts — it has to go to its stop.",
+      why: "Opening the disconnect is the isolation itself; everything after this only verifies and protects it. A rotary handle stopped part way has not broken the contacts — it can leave one phase made up, or the mechanism parked between positions where a knock drops it back in. Drive it to its stop and watch the indicator flip.",
       turn: { turns: 0.23, axis: "z", reverse: true, label: "MAIN DISCONNECT" },
     },
     {
       id: "lock", kind: "select", target: "lock-station",
       title: "Apply your lock and tag",
       cue: "Take your personal padlock and tag from the station and apply them to the hasp.",
-      why: "Your lock, your key, your control. The tag names who applied it and why, so nobody guesses.",
+      why: "Your lock, your key, nobody else's. One worker one lock is what turns lockout from paperwork into a personal guarantee, and the tag beside it carries the name, the time and the work — so nobody else has to decide on their own whether this is finished or the fitter is simply at lunch.",
     },
     {
       id: "prove-live", kind: "gauge", target: "proving-unit",
       title: "Prove the meter — live",
       cue: "Test the meter on the known-live proving unit. Commit inside the nominal band.",
-      why: "A meter that reads zero because it is broken looks exactly like a dead circuit. Prove it works first.",
+      why: "A meter reading zero on a blown fuse, an open lead or a flat battery looks precisely like a dead circuit. Proving it against a known live source is the only thing that separates the two, and it is the half of live-dead-live people skip because the instrument was fine this morning.",
       gauge: {
         label: "PROVING UNIT — LINE VOLTAGE", unit: "V", speed: 0.75, green: [0.46, 0.64],
         readout: (t) => `${Math.round(t * 720)} V`,
@@ -4100,14 +4100,14 @@ const ROOM_ELECTRICAL = {
       itemNames: { "test-l1": "L1 phase conductor", "test-l2": "L2 phase conductor", "test-l3": "L3 phase conductor" },
       title: "Test for absence of voltage",
       cue: "Test every phase conductor at the work point — all three, in any order.",
-      why: "Absence of voltage means every conductor you could contact, not the one you expect to be dead.",
+      why: "Absence of voltage means every conductor a hand could reach, phase to phase and phase to ground — not only the one you expect to be dead. A backfeed from a UPS, a control transformer or a mis-landed neighbour sits at 277 V to earth inside a panel already called safe, and says nothing about it.",
       outOfOrderNote: "Test each conductor once; you still have phases left to verify.",
     },
     {
       id: "prove-again", kind: "gauge", target: "proving-unit",
       title: "Re-prove the meter — live",
       cue: "Return to the proving unit and confirm the meter still reads correctly.",
-      why: "The meter can fail between the dead test and now. Live-dead-live is one instrument check, not two halves.",
+      why: "The instrument can die between the dead test and this moment — a lead works half out of its socket, a fuse opens on a transient. Live-dead-live is one continuous instrument check with the dead reading in the middle, so a meter that can no longer read a known source has just voided everything you measured in that enclosure.",
       gauge: {
         label: "PROVING UNIT — CONFIRM", unit: "V", speed: 0.95, green: [0.46, 0.64],
         readout: (t) => `${Math.round(t * 720)} V`,
@@ -4118,7 +4118,7 @@ const ROOM_ELECTRICAL = {
       id: "ground", kind: "select", target: "ground-cluster",
       title: "Apply temporary protective grounds",
       cue: "Install the grounding cluster on the isolated conductors.",
-      why: "Grounds hold the conductors at earth potential if the circuit is ever back-fed while you are inside it.",
+      why: "Temporary protective grounds bond the conductors to earth, so a back-feed arriving while your hands are inside goes down the cluster and trips the source rather than through you. They also bleed off the capacitive charge a long feeder keeps after opening — easily enough to put somebody off a ladder.",
     },
   ],
 
@@ -4470,7 +4470,7 @@ const ROOM_SALON = {
   title: "Colour Studio",
   tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
   union: "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
-  certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
+  certification: "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then immersed in an EPA-registered hospital-grade disinfectant for the full contact time, single-use items discarded after one client; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets, labelling and glove selection on colour and developer; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
   accent: 0xe2739b,
   accentCss: "#e2739b",
   parSeconds: 205,
@@ -4484,6 +4484,8 @@ const ROOM_SALON = {
     "metal-bowl": "That is a metal mixing bowl. Metal reacts with peroxide developer — it degrades the oxidant and can turn the formula. Colour is mixed in a non-metallic bowl, every time.",
     "dirty-shears": "Those shears came straight off the last client. Tools are cleaned and immersed in disinfectant between every client — a nicked scalp turns cross-contamination into a blood-borne exposure.",
     "flat-iron": "The iron is at 200 °C and the hair is saturated with product. Thermal styling on wet, chemically processed hair boils water inside the strand and snaps it.",
+    "dev-40": "That is 40 volume. The service on the card is two levels of lift on scalp, and 40 vol against a scalp is a chemical burn rather than a faster appointment — the manufacturer's own directions restrict it to off-scalp work for exactly that reason. It does not save time either: over-processed hair has to be toned, treated and then explained.",
+    "used-towel": "That towel came off the last client's neck. Linens are one client each and then they go to the wash, because a towel that has had colour, scalp oil and possibly blood on it is the shortest route there is between two people's heads — and it is the item state board inspectors look at first.",
   },
 
   lateNotes: {
@@ -4497,31 +4499,33 @@ const ROOM_SALON = {
       id: "consult", kind: "select", target: "consult-card",
       title: "Consult and check the patch test",
       cue: "Read the client record: allergy history, patch test date, previous chemical services.",
-      why: "The patch test is done 48 hours ahead and the record proves it. No record, no oxidative colour — and previous services decide whether the hair can take this one.",
+      why: "The patch test goes on 48 hours ahead and the record is what proves it happened, because a PPD reaction is not a rash — it is a face that closes up in a chair on a Saturday afternoon. No record, no oxidative colour, however well you know the client. The previous services matter just as much: box colour or henna at home can react with peroxide in the strand, and the client will not volunteer it unless you ask.",
     },
     {
-      id: "sanitize", kind: "select", target: "disinfect-jar",
-      title: "Disinfect the tools",
-      cue: "Immerse combs and shears in the disinfectant jar before the service.",
-      why: "Tools are cleaned then fully immersed in an approved disinfectant between clients. Contact time is what does the work, so they go in before you need them.",
+      id: "sanitize", kind: "hold", target: "disinfect-jar", seconds: 6,
+      title: "Disinfect the tools for the full contact time",
+      cue: "Clean the combs and shears, immerse them, and leave them under for the whole contact time.",
+      why: "Cleaning and disinfecting are two separate jobs: visible debris comes off first, because a disinfectant cannot reach through hair and product, and then the implement is fully immersed for the contact time printed on the concentrate. That time is the whole mechanism — a quick dip wets the steel and kills nothing, and it is the sanitation failure that actually shows up on state board inspections.",
+      holdBreakNote: "You lifted them out early. Contact time is the part that does the work — a dip that does not last it has cleaned the tools and disinfected nothing.",
     },
     {
-      id: "cape", kind: "select", target: "cape",
+      id: "cape", kind: "drag", target: "cape",
       title: "Drape the client",
-      cue: "Cape the client and set the towel at the neckline.",
-      why: "The drape protects skin and clothing, and the towel stops dye running onto the neck where it stains and sensitises.",
+      cue: "Take the cape from the chair and settle it over the client's shoulders, then set the towel at the neckline.",
+      why: "The cape protects clothing, but the towel at the neckline is the part that matters: oxidative dye running onto the neck stains for days and sensitises skin that has no business meeting PPD at all. Settle it so there is no gap at the nape, because that is where the colour runs when the head goes forward at the backwash.",
+      drag: { to: "client-shoulders", radius: 0.38, missNote: "Not settled on the shoulders. A cape hanging off one side leaves the neckline open, which is where the dye runs." },
     },
     {
       id: "gloves", kind: "select", target: "glove-box",
       title: "Glove up",
       cue: "Take gloves before you touch any product.",
-      why: "Gloves go on before mixing, not before applying. The bowl is the first point of contact.",
+      why: "Gloves go on before mixing, not before applying, because the first skin contact of the whole service is with the tint in the bowl. PPD sensitisation is cumulative and permanent — it builds through years of small unprotected exposures and then ends a career in a single reaction, and stylists are far more likely to develop it than clients are.",
     },
     {
       id: "mix", kind: "gauge", target: "mix-bowl",
       title: "Mix to the right developer volume",
       cue: "Select the developer for two levels of lift and commit inside the band.",
-      why: "Developer volume sets the lift: 20 vol gives roughly two levels and grey coverage. Reaching for a higher volume to go faster buys damage, not time.",
+      why: "Developer volume is the whole chemistry: it sets how far the cuticle opens and how much natural pigment is lifted before the new colour deposits. Twenty volume is roughly two levels and full grey coverage, which is what the card asks for. Reaching for a higher volume to get there faster does not buy speed, it buys a swollen cuticle, a porous mid-length and a colour that washes out in three weeks.",
       gauge: {
         label: "DEVELOPER — VOLUME", speed: 0.7, green: [0.44, 0.58],
         readout: (t) => `${Math.round(10 + t * 30)} vol`,
@@ -4537,20 +4541,20 @@ const ROOM_SALON = {
       },
       title: "Section into four quadrants",
       cue: "Part the hair into four clean quadrants — all four before you apply.",
-      why: "Four quadrants give you control of saturation and timing. Applying into unsectioned hair is how you get patchy roots and missed grey.",
+      why: "Four quadrants turn a whole head into four small, controlled applications, each one worked from a clean parting where you can actually see the scalp. Apply into unsectioned hair and you are guessing at coverage: the grey at the crown gets missed, the nape gets double product, and the timing runs from four different start times you never wrote down.",
       outOfOrderNote: "One or more quadrants are still unparted — every quadrant gets clipped before application starts.",
     },
     {
       id: "apply", kind: "select", target: "tint-brush",
       title: "Apply root to mid-length",
       cue: "Take the tint brush and apply through the sectioned hair.",
-      why: "Regrowth first: the root is warmest from scalp heat and processes fastest, so it gets product first and the mid-lengths follow.",
+      why: "Regrowth first, because the root sits against a scalp at body heat and processes noticeably faster than the rest of the head. Put product on the mid-lengths at the same time and by the time the root is where you want it the mid-lengths have gone past it — the hot-root band that comes out of doing this in the wrong order is visible in daylight for months.",
     },
     {
       id: "process", kind: "gauge", target: "timer",
       title: "Process and pull on time",
       cue: "Watch the development and pull the colour inside the window.",
-      why: "Development is a chemical clock. Pulled early the colour is under-deposited; left long the cuticle keeps swelling and the hair goes porous.",
+      why: "Development is a chemical clock that started at the first quadrant, not when you finished the last one. Pull it early and the dye has not fully oxidised inside the strand, so it deposits weakly and fades fast; leave it long and the cuticle keeps swelling after the colour has finished developing, which is damage bought for nothing. The strand test is what tells you which end of the window you are at.",
       gauge: {
         label: "PROCESSING TIMER", speed: 0.5, green: [0.62, 0.8],
         readout: (t) => `${Math.round(t * 55)} min`,
@@ -4558,16 +4562,21 @@ const ROOM_SALON = {
       },
     },
     {
-      id: "rinse", kind: "select", target: "backwash",
+      id: "rinse", kind: "track", target: "backwash", seconds: 6,
       title: "Rinse and neutralise",
-      cue: "Take the client to the backwash bowl and rinse until the water runs clear.",
-      why: "Rinsing stops the reaction. Residual oxidant keeps working in the strand and irritates the scalp long after the client leaves.",
+      cue: "Hold the water tepid and steady, and rinse until it runs clear.",
+      why: "Rinsing is what stops the reaction, so it goes on until the water runs genuinely clear rather than nearly clear — residual oxidant keeps working in the strand and keeps irritating a scalp that has just had peroxide sitting on it for half an hour. The temperature is part of the job: hot water on a freshly processed scalp opens the cuticle further and stings on skin the colour has already sensitised.",
+      track: {
+        start: 0.14, green: [0.38, 0.58], rise: 0.5, fall: 0.45, drift: 0.1, label: "RINSE TEMPERATURE",
+        readout: (v) => (v < 0.38 ? "too cold — colour not shifting" : v > 0.58 ? "too hot for a processed scalp" : "tepid — running clear"),
+      },
+      holdBreakNote: "Temperature off band — too hot stings a sensitised scalp and swells the cuticle, too cold leaves emulsified colour in the hair. Bring it back and hold it.",
     },
     {
       id: "dispose", kind: "select", target: "waste-bin",
       title: "Strip down the station",
       cue: "Bin the gloves and leftover product, then reset the station.",
-      why: "Mixed colour is chemical waste and gloves are contaminated. The next client's service starts with a clean station or it starts compromised.",
+      why: "Leftover oxidative colour is chemical waste, not rubbish: it goes in the bin for it rather than down the backwash, and the gloves go with it. Then the station is wiped and reset, because the next client's service starts from whatever state you left this one in — and a colourist is judged on the chair they hand over as much as the head they finish.",
     },
   ],
 
@@ -4692,7 +4701,12 @@ const ROOM_SALON = {
     cyl(cape, 0.13, 0.13, 0.06, 0, 0.28, 0, 0xe8e2d6, { rough: 0.9, seg: 18 });        // neck towel
     cape.visible = false;
     // A folded cape waiting on the chair arm is what the learner actually picks up.
-    const capeFolded = group(chairSpin, 0.3, 0.3, 0.14);
+    // Where the cape has to end up: across the shoulders, closed at the nape.
+    const shoulders = group(client.torso, 0, 0.6, 0.03);
+    box(shoulders, 0.3, 0.02, 0.18, 0, 0, 0, 0xe2739b, { rough: 0.6, opacity: 0.25, cast: false });
+    reg(shoulders, "client-shoulders");
+
+    const capeFolded = group(console_, 0.06, 0.88, 0.16);
     slab(capeFolded, 0.22, 0.06, 0.16, 0, 0, 0, 0x1f2a44, { radius: 0.02, rough: 0.8 });
     slab(capeFolded, 0.2, 0.03, 0.14, 0, 0.045, 0, 0xe8e2d6, { radius: 0.02, rough: 0.9 });
     reg(capeFolded, "cape");
@@ -4745,6 +4759,8 @@ const ROOM_SALON = {
       lathe(b, devProfile, 0, 0, 0, 0xf0ece4, { rough: 0.35, seg: 18 });
       cyl(b, 0.019, 0.019, 0.02, 0, 0.255, 0, [0x6cc6f0, 0x59c97b, 0xf2ae14, 0xf0645b][i], { rough: 0.5, seg: 14 });
       decal(b, 0.06, 0.05, 0, 0.11, 0.043, signFace(`${vol} VOL`, { bg: "#f0ece4", fg: "#2b2e33", accent: "#e2739b", scale: 0.55 }));
+      // The 40 vol standing on the bar beside the one the card calls for.
+      if (vol === "40") reg(b, "dev-40");
     });
     // Colour tubes in a tray.
     for (let i = 0; i < 5; i++) {
@@ -4812,6 +4828,11 @@ const ROOM_SALON = {
     // Towel stack and a stool for dressing.
     const towels = group(root, 2.0, 0, 2.9);
     for (let i = 0; i < 4; i++) slab(towels, 0.3, 0.06, 0.22, 0, 0.9 + i * 0.065, 0, [0xe8e2d6, 0xdcd4c6][i % 2], { radius: 0.02, rough: 0.95 });
+    // The towel off the last client, folded back onto the clean stack.
+    const usedTowel = group(towels, 0.02, 1.18, 0.02);
+    slab(usedTowel, 0.3, 0.06, 0.22, 0, 0, 0, 0xcfc0b4, { radius: 0.02, rough: 0.95 });
+    box(usedTowel, 0.1, 0.004, 0.08, 0.04, 0.032, 0.03, 0x8c5a3c, { rough: 0.6 });
+    reg(usedTowel, "used-towel");
     counter(towels, 0.42, 0.34, 0, 0, 0xe4ded4, { height: 0.88, rough: 0.5, metal: 0.05 });
 
     const dirLight = new THREE.DirectionalLight(0xfff0dd, 0.85);
@@ -4918,10 +4939,10 @@ const ROOM_KITCHEN = {
   title: "Hot Line",
   tagline: "Hand hygiene, cross-contamination control, cook temperature and a grease flare-up",
   union: "UNITE HERE — hospitality and food service workers",
-  certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures); OSHA 29 CFR 1910.157 portable extinguishers (Class K) for grease fires",
+  certification: "ANSI-accredited food handler card and ServSafe Food Protection Manager (FDA Food Code: hand hygiene, cross-contamination, cook temperatures, three-compartment warewashing); NSF/ANSI 2 food equipment and NSF/ANSI 7 refrigerated storage; NFPA 96 ventilation control and fire protection of commercial cooking operations; OSHA 29 CFR 1910.157 portable extinguishers (Class K) and 1910.22 walking-working surfaces",
   accent: 0xf2894b,
   accentCss: "#f2894b",
-  parSeconds: 215,
+  parSeconds: 235,
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 14.6, d: 13.9 },
@@ -4930,16 +4951,16 @@ const ROOM_KITCHEN = {
 
   hazards: {
     "green-board": "That is the produce board. Raw poultry on a board that goes back to salad is textbook cross-contamination — the pathogen does not care that you rinsed it.",
-    "water-jug": "Never water on a grease fire. Water flashes to steam under burning oil and throws the whole pan across the line. Cut the heat and smother it.",
-    "sink-knife": "There is a knife under the water in that sink. Blades never go into a full sink — the next person reaching in finds it with their hand.",
-    "salad-station": "Those are ready-to-eat greens and you still have raw chicken on your hands. Change gloves and wash before you cross from raw to ready.",
-    "extinguisher-a": "That is a water-based extinguisher. On burning oil it does exactly what the water jug does. The kitchen unit is the wet chemical Class K on the other wall.",
+    "water-jug": "Never water on a grease fire. Cooking oil burns far above the boiling point of water, so a jug of it flashes to steam underneath the surface and throws burning oil across the line. Cut the gas and smother it.",
+    "sink-knife": "There is a blade under the water in that soak tub. Knives never go into cloudy water — the next person plunging a hand in to fish out a whisk finds the edge before they ever see it.",
+    "salad-station": "Those are ready-to-eat greens and you still have raw chicken on your hands. Ready-to-eat food gets no further kill step, so whatever you carry across from the raw side reaches the customer alive.",
+    "extinguisher-a": "That is a water-based Class A extinguisher. On burning oil it does exactly what the water jug does. The kitchen unit is the wet chemical Class K by the range, which saponifies the oil instead of splashing it.",
   },
 
   lateNotes: {
-    "chef-knife": "Board and sanitiser first. A knife in your hand over an unsanitised surface is a shortcut you cannot take back.",
-    "flat-top": "Nothing hits the heat before it is portioned — uneven pieces cook to different internal temperatures.",
-    "hot-well": "Hot holding is for cooked product that has passed its temperature check.",
+    "chef-knife": "Board and sanitiser first. A knife in your hand over a surface that has not had its sanitiser contact time is a shortcut you cannot take back.",
+    "raw-tray": "Nothing goes near the heat before it is portioned — uneven pieces reach different internal temperatures, and the probe reading you take will only be true for the piece you probed.",
+    "hot-well": "Hot holding is for cooked product that has already passed its temperature check. Putting undercooked product in a well only holds it in the danger zone for longer.",
   },
 
   steps: [
@@ -4947,72 +4968,115 @@ const ROOM_KITCHEN = {
       id: "handwash", kind: "hold", target: "hand-sink", seconds: 20,
       title: "Wash hands — full 20 seconds",
       cue: "Hold at the hand sink and scrub for the full twenty seconds.",
-      why: "Twenty seconds of friction is the whole point; a three-second rinse moves contamination around instead of removing it.",
-      holdBreakNote: "You stopped short. Restart the full twenty seconds — a partial wash does not count.",
+      why: "The twenty seconds is friction time, not rinse time: soap lifts the soil and the scrubbing physically carries organisms off the skin and down the drain. Norovirus, which causes more restaurant outbreaks than every other pathogen combined, is untouched by hand gel and survives a three-second rinse intact.",
+      holdBreakNote: "You stopped short. Restart the full twenty seconds — a partial wash moves contamination around your hands instead of removing it.",
     },
     {
       id: "board", kind: "select", target: "red-board",
       title: "Take the raw-poultry board",
       cue: "Pull the correct colour-coded board for raw chicken.",
-      why: "Red is raw meat and poultry. Colour coding exists so the decision is visible from across the line, not remembered.",
+      why: "Red is raw meat and poultry. Colour coding exists so the decision stays visible from across the line under service pressure rather than remembered — and so the board that carried salmonella never turns up under a salad, where nothing downstream will ever kill it again.",
     },
     {
-      id: "sanitize-board", kind: "select", target: "sani-spray",
-      title: "Sanitise the board and surface",
-      cue: "Spray and wipe the board before the protein touches it.",
-      why: "Clean removes soil, sanitise reduces pathogens. A board that looks clean has not been sanitised.",
+      id: "sanitize-board", kind: "hold", target: "sani-spray", seconds: 8,
+      title: "Sanitise the board and let it stand",
+      cue: "Spray the board and hold while the sanitiser stands for its contact time.",
+      why: "Cleaning removes soil and sanitising reduces what survived it — two separate actions the Food Code treats separately. A sanitiser only earns its kill claim at label concentration for the full wet contact time, so spraying and immediately wiping it dry takes the chemical away before it has done anything at all.",
+      holdBreakNote: "Wiped off early. The surface went dry before the sanitiser reached its contact time, so that board is clean and not sanitised — spray it again and let it stand.",
     },
     {
       id: "knife", kind: "select", target: "chef-knife",
       title: "Draw a knife from the rack",
       cue: "Take the chef knife off the magnetic strip.",
-      why: "Knives live on the rack or in your hand — never loose in a sink or under a towel where somebody finds the edge.",
+      why: "Knives live on the rack or in your hand and nowhere else. Lacerations are the most common injury on a hot line and most of them land on the second person — whoever reached into a sink, under a towel or across a cluttered board for something else and found an edge nobody had told them was there.",
     },
     {
       id: "cut", kind: "gauge", target: "cut-board",
       title: "Portion to an even thickness",
       cue: "Slice to the target portion thickness and commit inside the band.",
-      why: "Even portions cook evenly. Ragged thickness means the thin end is dry before the thick end is safe.",
+      why: "Even portions reach temperature together. Ragged thickness leaves the thin end dry and stringy while the thick end is still under 165 °F, and because you only ever probe one piece, the reading you write down is true for that piece and a guess for the rest of the tray.",
       gauge: {
         label: "PORTION THICKNESS", speed: 0.9, green: [0.42, 0.56],
         readout: (t) => `${(6 + t * 30).toFixed(1)} mm`,
-        missNote: "Off the spec portion. Reset your claw grip, guide with the knuckles and cut again.",
+        missNote: "Off the spec portion. Reset your claw grip, guide the blade with your knuckles and cut again.",
       },
     },
     {
-      id: "cook", kind: "select", target: "flat-top",
-      title: "Cook on the flat top",
-      cue: "Move the portioned chicken onto the flat top.",
-      why: "The protein goes straight from board to heat — nothing sits at room temperature in the danger zone waiting for a burner.",
+      id: "cook", kind: "drag", target: "raw-tray",
+      title: "Carry the portions to the flat top",
+      cue: "Pick up the tray of portioned chicken and set it down on the flat top.",
+      why: "Product goes straight from board to heat. 41 °F to 135 °F is the temperature danger zone, and on raw poultry sitting in it the bacterial load can double roughly every twenty minutes — the tray parked on the bench while a burner comes up to heat is the delay that spends your margin before cooking has even started.",
+      drag: { to: "flat-top", radius: 0.5, missNote: "Not on the griddle — carry the tray right onto the flat top surface, not the rail beside it." },
     },
     {
       id: "temp", kind: "gauge", target: "probe",
       title: "Probe the internal temperature",
       cue: "Probe the thickest part and commit when the reading is safe for poultry.",
-      why: "Poultry is done at 74 °C / 165 °F in the thickest part. Colour is not a doneness test — the probe is.",
+      why: "Poultry is done at 165 °F in the thickest part, the point where the required lethality is reached essentially on contact. Colour, firmness and clear juices all turn well before that and all three of them lie, which is why the Food Code names a temperature and a calibrated thermometer rather than an appearance.",
       gauge: {
         label: "PROBE — INTERNAL TEMP", speed: 0.6, green: [0.72, 0.86],
         readout: (t) => `${Math.round(40 + t * 160)} °F`,
-        missNote: "Not there yet — or well past it. Poultry needs 165 °F in the thickest part, held for the required time.",
+        missNote: "Not there yet — or well past it. Poultry needs 165 °F at the thickest part; probe the centre, not the edge that cooked first.",
       },
     },
     {
-      id: "kill-heat", kind: "select", target: "burner-knob",
+      id: "kill-heat", kind: "turn", target: "burner-knob",
       title: "Cut the heat",
-      cue: "The pan behind you has flared. Shut the gas off first.",
-      why: "Fuel first. Smothering a burner that is still firing just feeds the flame from underneath.",
+      cue: "The pan behind you has flared. Turn the burner valve all the way to OFF.",
+      why: "Fuel first. A burner still firing under a pan of burning oil feeds the flame faster than any lid can starve it, and it relights the instant the cover shifts. Take the valve all the way round to its stop — a gas cock left part way round is still passing gas into the fire.",
+      turn: { turns: 0.35, axis: "z", label: "BURNER 2 — GAS VALVE" },
     },
     {
       id: "smother", kind: "select", target: "pan-lid",
       title: "Smother the flare-up",
       cue: "Cover the pan with the lid and leave it covered.",
-      why: "Starve it of oxygen and leave the lid on until it cools. Lifting the lid to look re-ignites it.",
+      why: "A tight lid starves the fire of oxygen and keeps the burning oil inside the pan, which is the other half of the job. Leave it on until the pan is cool to the hand: oil still above its autoignition point relights on its own the second air reaches it, and it does that into the face of whoever lifted the lid to look.",
     },
     {
       id: "hot-hold", kind: "select", target: "hot-well",
       title: "Move to hot holding",
       cue: "Transfer the cooked portions into the hot well.",
-      why: "Hot holding stays at or above 135 °F. Below that you are incubating what the cook step just killed.",
+      why: "Hot holding is 135 °F or above, continuously, and it holds food rather than cooking it. Let the well drop below that and you have stopped killing and started incubating, with a four-hour discard clock running from the moment the product fell out of temperature and a bin at the end of it.",
+    },
+    {
+      id: "warewash", kind: "sequence",
+      targets: ["sink-wash", "sink-rinse", "sink-sani"],
+      itemNames: { "sink-wash": "wash — detergent", "sink-rinse": "rinse — clear water", "sink-sani": "sanitise — final soak" },
+      itemNotes: {
+        "sink-wash": "Detergent and friction take the fat and protein off. No sanitiser works through a film of chicken fat.",
+        "sink-rinse": "Clear water carries the detergent away. Detergent dragged into the third sink neutralises the sanitiser sitting in it.",
+      },
+      title: "Run the board through the three-compartment sink",
+      cue: "Wash, rinse, then sanitise — the raw-poultry board goes through all three, in that order.",
+      why: "Three compartments in a fixed order, because each one undoes the last if you swap them: detergent carried into the sanitiser neutralises it, and a board rinsed after sanitising has had the sanitiser washed straight back off. This is the board that held raw chicken, and it is the last thing standing between that and tomorrow's prep.",
+      outOfOrderNote: "Wrong compartment for this point in the sequence. Wash, rinse, sanitise — the order is the control, and taking them out of order quietly cancels the compartment before it.",
+    },
+  ],
+
+  // Two things that arrive while the cook's hands are already full. One is
+  // the building; one is another person. See shared/game.js.
+  interrupts: [
+    {
+      id: "oil-spill",
+      kind: "Floor hazard",
+      after: "cut", delay: 4, seconds: 13,
+      alert: "A porter has just tipped a tray of fryer oil across the walkway behind you and carried straight on to the walk-in.",
+      cue: "That slick is between you and the range, and you are about to walk it carrying hot product.",
+      target: "spill-kit",
+      why: "Slips and falls are the largest single source of lost-time injury in commercial kitchens, and OSHA 1910.22 puts the duty on keeping the walking surface clean and dry rather than on telling people to watch their step. The spill gets coned and mopped before anybody crosses it — starting with you, thirty seconds from now, with a pan in both hands.",
+      missNote: "The oil stayed where it was. You crossed it carrying a sauté pan and the second cook crossed it behind you; a film of fryer oil on quarry tile has about the grip of wet ice, and the fall that follows normally puts whatever was in your hands onto whoever tried to catch you.",
+      wrongNote: "It is the wet-floor kit by the pass. Cone the slick and mop it before anyone else takes that route across the line.",
+    },
+    {
+      id: "hood-down",
+      kind: "Ventilation failure",
+      after: "temp", delay: 3, seconds: 12,
+      alert: "The canopy has gone quiet. The hood lamp is red and smoke off the flat top is rolling out over the pass instead of going up the duct.",
+      cue: "Nothing cooks under a dead hood. Find the control, not the pan.",
+      target: "hood-switch",
+      why: "NFPA 96 requires the exhaust system to be running whenever the cooking appliances under it are operating. The canopy is not only there for smoke: it is the capture path the wet chemical system discharges into, so with the fan stopped a flare-up spreads sideways along the ceiling instead of being drawn up and away from the line.",
+      missNote: "You finished the cook under a dead canopy. Grease-laden vapour that should have gone up the duct condensed across the ceiling and the light fittings over the pass, and the flare-up that arrives one step from now had nothing pulling it away from you.",
+      wrongNote: "It is the hood control hanging off the end of the canopy. Until that fan is running again, nothing on this line should be lit.",
     },
   ],
 
@@ -5075,14 +5139,17 @@ const ROOM_KITCHEN = {
     reg(flatTop, "flat-top");
     const griddleSteam = particles(flatTop, 60, 0xdfe8ee, { size: 0.05, life: 1.1, additive: false, opacity: 0.28 });
 
-    // Burner control knobs along the front rail.
+    // Burner control knobs along the front rail. Burner 2's valve is its own
+    // group so the turn step can spin that one knob and leave the rest alone.
     const knobRow = group(range, 0, 0.78, 0.45);
+    let burnerKnob = null;
     for (let i = 0; i < 4; i++) {
-      const k = cyl(knobRow, 0.036, 0.04, 0.05, -0.86 + i * 0.38, 0, 0, 0x1b1e22, { rough: 0.55, seg: 16 });
-      k.rotation.x = Math.PI / 2;
-      box(knobRow, 0.008, 0.03, 0.052, -0.86 + i * 0.38, 0.018, 0.001, 0xf2ae14, { rough: 0.5 });
+      const knob = group(knobRow, -0.86 + i * 0.38, 0, 0);
+      cyl(knob, 0.036, 0.04, 0.05, 0, 0, 0, 0x1b1e22, { rough: 0.55, seg: 16 }).rotation.x = Math.PI / 2;
+      box(knob, 0.008, 0.03, 0.052, 0, 0.018, 0.001, 0xf2ae14, { rough: 0.5 });
+      if (i === 1) burnerKnob = knob;
     }
-    reg(knobRow, "burner-knob");
+    reg(burnerKnob, "burner-knob");
 
     // Sauté pan on burner 2 — this is what flares up.
     const pan = group(range, -0.3, 0.99, 0.22);
@@ -5120,6 +5187,19 @@ const ROOM_KITCHEN = {
       blade.rotation.z = 0.4;
     }
     decal(hood, 0.9, 0.16, 0, 2.5, 0.6, signFace("HOOD ON", { bg: "#1f2429", accent: "#f2894b", scale: 0.55 }));
+    // Run/stop station hanging off the end of the canopy, with the status lamp
+    // that goes red when the fan drops out from under the cook.
+    const hoodPanel = group(hood, 1.25, 1.85, 0.5);
+    box(hoodPanel, 0.26, 0.2, 0.07, 0, 0, 0, SS, { rough: 0.3, metal: 0.8 });
+    cyl(hoodPanel, 0.012, 0.012, 0.24, 0, 0.22, -0.02, SS, { rough: 0.3, metal: 0.8, seg: 8 });
+    const hoodLamp = ball(hoodPanel, 0.022, -0.07, 0.035, 0.04, 0x59c97b,
+      { emissive: 0x59c97b, ei: 2.2, rough: 0.3 });
+    box(hoodPanel, 0.03, 0.05, 0.03, 0.06, 0.03, 0.045, 0x22262b, { rough: 0.5 });
+    decal(hoodPanel, 0.2, 0.05, 0, -0.06, 0.037,
+      signFace("HOOD RUN / STOP", { bg: "#1f2429", accent: "#f2894b", scale: 0.42 }));
+    reg(hoodPanel, "hood-switch");
+    // Grease-laden vapour spilling out under the canopy lip once the fan stops.
+    const hoodRollout = particles(hood, 70, 0xb8bfc6, { size: 0.11, life: 1.6, additive: false, opacity: 0.3 });
 
     // ------------------------------------------------------------ prep table
     const prep = counter(root, 2.4, 0.85, 1.9, -1.0, SS, { height: 0.92, metal: 0.8, rough: 0.28, ry: -Math.PI / 2 });
@@ -5140,9 +5220,17 @@ const ROOM_KITCHEN = {
     const cutBoard = slab(prep, 0.46, 0.016, 0.32, 0, 0.935, 0.1, 0xc0392b, { radius: 0.01, rough: 0.6 });
     cutBoard.visible = false;
     reg(cutBoard, "cut-board");
+    // The sheet pan the portions are carried to the heat on. Empty and dull
+    // until the cutting is done; it is the thing the cook picks up and walks.
+    const rawTray = group(prep, 0.78, 0.95, 0.1);
+    slab(rawTray, 0.34, 0.02, 0.26, 0, 0, 0, SS_DARK, { radius: 0.01, rough: 0.35, metal: 0.75 });
+    for (const [tw, td, tx, tz] of [[0.34, 0.03, 0, -0.13], [0.34, 0.03, 0, 0.13]]) {
+      box(rawTray, tw, 0.035, td, tx, 0.025, tz, SS_DARK, { rough: 0.35, metal: 0.75 });
+    }
+    reg(rawTray, "raw-tray");
     const rawPortions = [];
     for (let i = 0; i < 3; i++) {
-      const p = slab(prep, 0.13, 0.03, 0.1, -0.14 + i * 0.14, 0.955, 0.1, 0xe9bfa8, { radius: 0.03, rough: 0.8 });
+      const p = slab(rawTray, 0.09, 0.03, 0.14, -0.11 + i * 0.11, 0.03, 0, 0xe9bfa8, { radius: 0.03, rough: 0.8 });
       p.visible = false;
       rawPortions.push(p);
     }
@@ -5192,20 +5280,30 @@ const ROOM_KITCHEN = {
     const washWater = particles(handSink, 60, 0xbfe0f2, { size: 0.011, life: 0.3, additive: false, opacity: 0.65 });
     reg(handSink, "hand-sink");
 
-    // Three-compartment sink with a knife hidden under the water — the trap.
+    // Three-compartment sink — wash, rinse, sanitise, in that order — with a
+    // soak tub on the drainboard and a blade under its cloudy water.
     const bigSink = group(root, -4.2, 0, 1.8, Math.PI / 2);
-    counter(bigSink, 1.7, 0.6, 0, 0, SS, { height: 0.9, metal: 0.8, rough: 0.28, undershelf: false });
-    for (let i = 0; i < 3; i++) {
-      const basin = box(bigSink, 0.48, 0.26, 0.44, -0.55 + i * 0.55, 0.79, 0, 0x8d959d, { rough: 0.25, metal: 0.85 });
-      const water = box(bigSink, 0.44, 0.02, 0.4, -0.55 + i * 0.55, 0.9, 0, 0x2f6f8a,
-        { rough: 0.12, metal: 0.2, opacity: 0.78 });
-      if (i === 1) {
-        const submerged = box(bigSink, 0.026, 0.004, 0.17, -0.02, 0.885, 0.03, 0xdfe4e8, { rough: 0.2, metal: 0.9 });
-        submerged.rotation.y = 0.3;
-        reg(basin, "sink-knife");
-      }
-    }
-    decal(bigSink, 1.4, 0.12, 0, 1.4, 0.02, signFace("WASH   RINSE   SANITISE", { scale: 0.45 }));
+    counter(bigSink, 2.4, 0.6, 0, 0, SS, { height: 0.9, metal: 0.8, rough: 0.28, undershelf: false });
+    const compartments = [
+      { id: "sink-wash", water: 0x38708a },
+      { id: "sink-rinse", water: 0x2f6f8a },
+      { id: "sink-sani", water: 0x2f8a7a },
+    ];
+    compartments.forEach((c, i) => {
+      const bx = -0.9 + i * 0.55;
+      const basin = box(bigSink, 0.48, 0.26, 0.44, bx, 0.79, 0, 0x8d959d, { rough: 0.25, metal: 0.85 });
+      box(bigSink, 0.44, 0.02, 0.4, bx, 0.9, 0, c.water, { rough: 0.12, metal: 0.2, opacity: 0.78 });
+      reg(basin, c.id);
+    });
+    decal(bigSink, 1.5, 0.12, -0.35, 1.4, 0.02, signFace("WASH   RINSE   SANITISE", { scale: 0.45 }));
+    // Utensils left soaking on the drainboard, with a boning knife in the tub.
+    const soakTub = box(bigSink, 0.5, 0.22, 0.44, 0.82, 1.03, 0, 0x8d959d, { rough: 0.3, metal: 0.8 });
+    box(bigSink, 0.46, 0.02, 0.4, 0.82, 1.11, 0, 0x5b6f72, { rough: 0.2, metal: 0.15, opacity: 0.82 });
+    const soakBlade = box(bigSink, 0.026, 0.004, 0.19, 0.78, 1.095, 0.04, 0xdfe4e8, { rough: 0.2, metal: 0.9 });
+    soakBlade.rotation.y = 0.3;
+    cyl(bigSink, 0.012, 0.012, 0.2, 0.92, 1.12, -0.06, 0xc9a86a, { rough: 0.6, seg: 8 }).rotation.z = 1.2;
+    decal(bigSink, 0.4, 0.09, 0.82, 1.28, 0.02, signFace("SOAK", { bg: "#1f2429", accent: "#6cc6f0", scale: 0.5 }));
+    reg(soakTub, "sink-knife");
 
     // ------------------------------------------------- hot well & ready side
     const pass = group(root, 2.6, 0, 1.4);
@@ -5231,6 +5329,25 @@ const ROOM_KITCHEN = {
     }
     decal(salad, 0.4, 0.08, 0, 0.2, 0.22, signFace("READY TO EAT", { bg: "#1c3320", accent: "#59c97b", scale: 0.5 }));
     reg(salad, "salad-station");
+
+    // Wet-floor kit parked out of the traffic lane by the pass, and the slick
+    // it exists for — invisible until somebody puts it on the floor.
+    const spillKit = group(root, 3.3, 0, 1.0, -0.35);
+    box(spillKit, 0.34, 0.02, 0.3, 0, 0.02, 0, 0xf2c14b, { rough: 0.6 });
+    for (const sgn of [-1, 1]) {
+      const leaf = box(spillKit, 0.3, 0.62, 0.02, 0, 0.33, sgn * 0.06, 0xf2c14b, { rough: 0.6 });
+      leaf.rotation.x = sgn * 0.17;
+    }
+    decal(spillKit, 0.24, 0.16, 0, 0.38, 0.1,
+      signFace("WET FLOOR", { bg: "#f2c14b", fg: "#1b1e22", accent: "#b81410", scale: 0.5 }));
+    cyl(spillKit, 0.15, 0.12, 0.32, 0.36, 0.16, 0, 0x2f5d3a, { rough: 0.6, seg: 14 });
+    cyl(spillKit, 0.014, 0.014, 1.15, 0.36, 0.72, -0.07, 0xa9814f, { rough: 0.8, seg: 8 }).rotation.x = 0.18;
+    reg(spillKit, "spill-kit");
+
+    const spill = group(root, -0.9, 0, -1.1);
+    const slick = slab(spill, 1.5, 0.006, 0.95, 0, 0.009, 0, 0x6e5a28,
+      { radius: 0.32, rough: 0.1, metal: 0.3, cast: false });
+    slick.visible = false;
 
     // Ticket rail with service dockets.
     const rail = group(root, 2.6, 0, -0.4);
@@ -5286,6 +5403,7 @@ const ROOM_KITCHEN = {
     let flareOn = false;
     let cooking = false;
     let holding = false;
+    let hoodRunning = true;
 
     // The bay is 14.6m by 13.9m now. Push the workstations out to match, so
     // the extra floor is distance between jobs rather than empty ring.
@@ -5333,6 +5451,7 @@ const ROOM_KITCHEN = {
         if (step.id === "cut") rawPortions.forEach((p) => { p.visible = true; });
         if (step.id === "cook") {
           cooking = true;
+          rawTray.visible = false;
           rawPortions.forEach((p) => { p.visible = false; });
           chicken.forEach((c) => { c.visible = true; });
         }
@@ -5350,12 +5469,40 @@ const ROOM_KITCHEN = {
           holding = true;
           chicken.forEach((c) => { c.visible = false; });
         }
+        if (step.id === "warewash") cutBoard.visible = false;
+      },
+
+      // Both interruptions put something on the floor or on the wall the
+      // moment they fire, not in the caption: a slick across the walkway, and
+      // a canopy that has stopped with its lamp gone red.
+      onInterrupt(it) {
+        if (it.id === "oil-spill") slick.visible = true;
+        if (it.id === "hood-down") {
+          hoodRunning = false;
+          hoodLamp.material = mat(0xb81410, { emissive: 0xb81410, ei: 2.6, rough: 0.3 });
+          hoodRollout.visible = true;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "oil-spill") {
+          slick.visible = false;
+          spillKit.position.set(-1.46, 0, -1.05);
+        }
+        if (it.id === "hood-down") {
+          hoodRunning = true;
+          hoodLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.2, rough: 0.3 });
+          hoodRollout.visible = false;
+        }
       },
 
       animate(t, dt, session) {
 
         breatheCrew(crew, t);
-        hoodFan.rotation.y += dt * 5.5;
+        if (hoodRunning) hoodFan.rotation.y += dt * 5.5;
+        if (hoodRollout.visible) {
+          hoodRollout.userData.step(dt, new THREE.Vector3(0, 2.0, 0.55), 0.9, 0.3, 0.12);
+        }
         // Running water while the learner is actually at the sink scrubbing.
         const washing = session?.step?.id === "handwash" && session.holding;
         washWater.visible = washing;
@@ -5405,7 +5552,7 @@ const ROOM_PHLEBOTOMY = {
   title: "Draw Station",
   tagline: "Two-identifier check, venipuncture technique and the order of draw",
   union: "SEIU / NUHW — healthcare workers (hospital and laboratory locals)",
-  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41 venipuncture standard (two-identifier check, order of draw); OSHA Bloodborne Pathogens (29 CFR 1910.1030)",
+  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41, the ANSI-approved American National Standard for collection of diagnostic venous blood specimens (two-identifier check, order of draw); ISO 6710 single-use evacuated blood collection tubes; OSHA Bloodborne Pathogens (29 CFR 1910.1030) and the Needlestick Safety and Prevention Act",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
   parSeconds: 220,
@@ -5433,31 +5580,31 @@ const ROOM_PHLEBOTOMY = {
       id: "identify", kind: "select", target: "wristband",
       title: "Verify two patient identifiers",
       cue: "Check the wristband against the requisition — name and date of birth.",
-      why: "Two identifiers, actively confirmed. Room number and 'the patient said yes' are not identifiers.",
+      why: "Two identifiers, actively confirmed against the requisition in front of you — full name and date of birth, read off the band. Bed number is not one, and neither is a patient answering yes to a name called across the bay: someone drowsy, hard of hearing or confused will answer to anything, and GP41 puts the matching on you rather than on them.",
     },
     {
       id: "gloves", kind: "select", target: "glove-box",
       title: "Hand hygiene and gloves",
       cue: "Sanitise and glove before you touch the patient or the tray.",
-      why: "Gloves protect both directions. They go on after hand hygiene, not instead of it.",
+      why: "Gloves go on after hand hygiene, never instead of it — OSHA's bloodborne pathogens standard treats them as the last barrier, not the only one. They work in both directions: your hands away from this patient's blood, and the next patient away from whatever your hands picked up in the bay before this one.",
     },
     {
       id: "tourniquet", kind: "select", target: "tourniquet",
       title: "Apply the tourniquet",
       cue: "Apply the tourniquet three to four inches above the site.",
-      why: "It stays on for no more than a minute. Longer and you get haemoconcentration — the results shift before the needle is even in.",
+      why: "The tourniquet comes off inside a minute. Past that, trapped blood loses plasma water through the vessel wall and everything measured as a concentration climbs with it — potassium, calcium, total protein, packed cell volume. The result has already shifted before the needle goes in, and no one downstream can tell that from real disease.",
     },
     {
       id: "clean", kind: "select", target: "alcohol-pad",
       title: "Clean the site and let it dry",
       cue: "Prep the site with alcohol and let it air dry.",
-      why: "Wet alcohol stings on entry and haemolyses the sample. Drying time is part of the antisepsis, not a delay.",
+      why: "Seventy per cent alcohol needs its contact time and then needs to air dry; the drying is part of the antisepsis and not a pause before it. Wet alcohol carried into the vein stings sharply and haemolyses the sample, and haemolysis releases potassium from the cells — enough to have a perfectly well patient treated for hyperkalaemia.",
     },
     {
       id: "insert", kind: "gauge", target: "needle",
       title: "Insert bevel up at the right angle",
       cue: "Set the insertion angle and commit inside the band.",
-      why: "Fifteen to thirty degrees, bevel up. Too shallow and you skate off the vein; too steep and you go straight through it.",
+      why: "Fifteen to thirty degrees, bevel up, with the vein anchored by your thumb below the site. Too shallow and the bevel skates over a vein that rolls away from it; too steep and you go through the back wall into tissue — or, working the medial side of the antecubital fossa, into the brachial artery and the median nerve lying alongside it.",
       gauge: {
         label: "INSERTION ANGLE", speed: 0.8, green: [0.3, 0.6],
         readout: (t) => `${Math.round(t * 50)}°`,
@@ -5473,33 +5620,33 @@ const ROOM_PHLEBOTOMY = {
       },
       title: "Fill tubes in the order of draw",
       cue: "Blood culture, light blue, gold, green, lavender, grey — in that order.",
-      why: "Additive carries over from tube to tube. EDTA before a chemistry tube throws potassium and calcium; citrate ratios break if the blue tube is not early and full.",
+      why: "Additive carries over on the needle from one tube to the next, which is why the order is the control and why ISO 6710 colour-codes the closures at all. EDTA dragged into a chemistry tube chelates the calcium and sends potassium through the roof; a citrate tube drawn late or left short breaks the 9:1 blood-to-anticoagulant ratio every clotting result is calculated from.",
       outOfOrderNote: "Wrong tube for this point in the sequence. Additive carryover contaminates every tube after it — the order is the control.",
     },
     {
       id: "release", kind: "select", target: "tourniquet",
       title: "Release the tourniquet",
       cue: "Release the tourniquet before you withdraw the needle.",
-      why: "Withdrawing under pressure forces a haematoma. The tourniquet comes off first, then the needle.",
+      why: "The tourniquet comes off before the needle does. Pull out while the vein is still distended and the pressure behind it pushes blood into the surrounding tissue at the puncture site — that is the haematoma the patient shows everybody for a fortnight, and the reason they insist on the other arm next time.",
     },
     {
       id: "sharps", kind: "select", target: "sharps-container",
       title: "Activate the safety device and dispose",
       cue: "Engage the needle guard and drop it into the sharps container.",
-      why: "The device is activated before your hand leaves the needle, and it goes into sharps immediately — never onto the tray.",
+      why: "The safety device is engaged before your hand leaves the needle, and the needle goes straight into sharps — not onto the tray, not into a pocket, and never recapped. Almost every needlestick happens in the few seconds between the vein and the container, to a device nobody armed, which is exactly the gap engineered sharps protection was made law to close.",
     },
     {
       id: "pressure", kind: "hold", target: "gauze", seconds: 10,
       title: "Hold pressure on the site",
       cue: "Hold gauze on the site with the arm straight.",
-      why: "Direct pressure until bleeding stops. Bending the elbow over the gauze is what produces the bruise the patient remembers you by.",
+      why: "Direct pressure with the arm held straight until the bleeding has actually stopped — longer again if the patient is on warfarin or a direct oral anticoagulant. Bending the elbow over the gauze feels like pressure and is not: it holds the puncture open inside a fold of skin and fills the fossa with blood.",
       holdBreakNote: "You let go early — the site is still bleeding. Reapply and hold the full time.",
     },
     {
       id: "label", kind: "select", target: "label-printer",
       title: "Label the tubes at the bedside",
       cue: "Print and apply the labels here, in front of the patient.",
-      why: "Labelling happens at the bedside with the patient present. Every step away from the chair is a chance for the sample to become someone else's.",
+      why: "Labelling happens here, at the chair, after the draw, with the patient still in front of you and the band still readable. Every metre between the tube and the person is a chance for it to become somebody else's sample, and a mislabelled tube arrives at the lab indistinguishable from a correct one — the error surfaces in the treatment it causes.",
     },
   ],
 
@@ -6449,8 +6596,8 @@ const ROOM_DEVOPS = {
   trade: "Platform engineer / SRE",
   title: "Deploy Bay",
   tagline: "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
-  union: "Non-union profession (CWA and the Alphabet Workers Union organise some technology workplaces)",
-  certification: "CNCF Certified Kubernetes Administrator (CKA) and AWS Certified DevOps Engineer; NIST SP 800-53 AC-6 least privilege for automation identities; SRE progressive-delivery and rollback practice",
+  union: "Non-union profession (CWA, through CODE-CWA and the Alphabet Workers Union, organises some technology workplaces)",
+  certification: "No licensing body governs a production deploy and nobody should pretend otherwise. What governs it is the site's own change-management procedure — the approved change window, the named approver, the recorded rollback — and the control frameworks that procedure is audited against: ISO/IEC 27001 for access control and change management, the SOC 2 change-management criteria, and NIST SP 800-53 AC-6 least privilege for automation identities. CWA organises some technology workplaces but certifies nobody for this. Vendor credentials (CNCF CKA, AWS DevOps Engineer) prove tool knowledge, not authority to ship.",
   accent: VIOLET,
   accentCss: "#7c6fea",
   parSeconds: 215,
@@ -6464,6 +6611,8 @@ const ROOM_DEVOPS = {
     "prod-console": "That tab is the production console, not staging — it renders identically at a glance, which is exactly how a 2 a.m. mistake happens. Close it and confirm you're back in staging before touching anything.",
     "prod-db-secret": "That credential is scoped to production, not staging. Handing an automated job a secret for the wrong environment lets a test run read or write real customer data.",
     "admin-token": "That's a standing admin credential, not a scoped token for this job. An automation only needs the access this run requires — a broad, long-lived key turns any bug in its logic into an account-wide blast radius.",
+    "break-glass": "That is the break-glass override, which ships a change without an approver and without a window. It exists for an incident already in progress, it pages the whole on-call chain when it is used, and every audit of this pipeline starts by asking who pulled it and why. Using it to save four minutes on a routine promote is a control failure whether or not the deploy works.",
+    "mute-alerts": "Muting alerting for the deploy window turns the canary into a decoration. The entire reason you route a sliver of traffic at a new build is so the paging system tells you it is broken before the rest of the traffic finds out — silence it and you have kept the ceremony and thrown away the signal.",
   },
 
   lateNotes: {
@@ -6478,13 +6627,30 @@ const ROOM_DEVOPS = {
       id: "runbook", kind: "select", target: "deploy-ticket",
       title: "Read the deploy ticket",
       cue: "Open the change ticket and confirm what the automation is about to do.",
-      why: "An agent runs exactly what it's told. You're the one who has to know what that is before it starts.",
+      why: "An agent runs exactly what it is told, at machine speed, and it will not stop halfway through to wonder whether this was a good idea. The ticket is where somebody wrote down what good looks like: the build, the scope, the approver and the rollback. If those four things are not on it, there is nothing here to supervise — only something to watch happen.",
+    },
+    {
+      id: "preflight", kind: "find", noHint: true,
+      targets: ["incident-board", "freeze-calendar", "dep-queue"],
+      itemNames: {
+        "incident-board": "the live incident board",
+        "freeze-calendar": "the change calendar",
+        "dep-queue": "the upstream deploy queue",
+      },
+      itemNotes: {
+        "incident-board": "No open incident on this service. Deploying into a live incident means the next graph anybody looks at has two causes in it, and the team spends the outage arguing about which one.",
+        "freeze-calendar": "No freeze on the calendar for this window. Freezes exist because somebody downstream — finance close, a launch, an on-call handover — cannot absorb a surprise today.",
+        "dep-queue": "Nothing upstream mid-deploy. Shipping on top of a dependency that is half rolled out means your canary is measuring their rollout, and it will look fine right up until theirs finishes.",
+      },
+      title: "Clear the window before you start",
+      cue: "Three things on the status wall decide whether this is a safe window. Check all three.",
+      why: "Most bad deploys are not bad code, they are good code shipped into a bad moment. An open incident, a change freeze or a dependency mid-rollout each make the canary unreadable, because you can no longer tell whether what you are seeing is your change or somebody else's. These take fifteen seconds to check now and hours to untangle afterwards.",
     },
     {
       id: "env-check", kind: "select", target: "env-label",
       title: "Confirm the target environment",
       cue: "Check the environment label on the console before touching anything.",
-      why: "Staging and production share the same tooling and look the same on a bad night. The label is the only thing standing between a test and an outage.",
+      why: "Staging and production run the same tooling, the same dashboards and very nearly the same hostnames, and at two in the morning they look identical. The label is the only thing standing between a test and an outage, which is why it gets read deliberately rather than assumed from which tab was open when you sat down.",
     },
     {
       id: "secrets-sweep", kind: "sequence", target: null, anyOrder: true,
@@ -6492,33 +6658,34 @@ const ROOM_DEVOPS = {
       itemNames: { "staging-db-secret": "database credential", "staging-api-key": "API key", "staging-webhook": "webhook secret" },
       title: "Verify environment-scoped secrets",
       cue: "Confirm every secret this run will use is scoped to staging — all three, in any order.",
-      why: "A secret scoped to the wrong environment isn't a mistake you notice — it's a live production credential sitting somewhere it can leak.",
+      why: "A secret scoped to the wrong environment is not an error anybody sees: the job runs, the tests pass, and a staging pipeline has just read or written real customer data with a production credential. All three get checked because it is always the third one — the webhook nobody thinks of as a secret — that is still pointing at prod.",
       outOfOrderNote: "Already checked — you still have secrets left to verify.",
     },
     {
-      id: "scope-token", kind: "select", target: "scoped-token",
+      id: "scope-token", kind: "drag", target: "scoped-token",
       title: "Issue a least-privilege token",
-      cue: "Take the scoped, single-purpose token for this run — not the standing admin key.",
-      why: "Least privilege isn't paperwork. It's the difference between a bad deploy and a bad deploy that could also read every customer record.",
+      cue: "Take the scoped, single-purpose token and put it in the agent's credential slot.",
+      why: "Least privilege is not paperwork, it is the size of the hole in the wall when something goes wrong. A token scoped to this service, this action and this window means the worst a confused agent can do is break this deploy; a standing admin key means the worst it can do is anything the account can do, for as long as the key lives. The admin key beside it will work perfectly, which is the problem with it.",
+      drag: { to: "agent-slot", radius: 0.45, missNote: "Not in the slot. A credential left on the bench is not scoped to anything — it is just lying around where the next run can pick it up." },
     },
     {
       id: "review-diff", kind: "select", target: "agent-diff",
       title: "Review the agent's proposed change",
       cue: "Open the diff the agent generated and read it before approving.",
-      why: "Approving automation output you haven't read is how a bad change ships with a human's name on the approval.",
+      why: "Approving automation output you have not read is how a bad change ships with a human's name on the approval and nobody able to say what it did. Read the diff for what it removes as much as what it adds — a dropped feature flag or a halved timeout is one line, does not look like anything, and is the change that takes the service down at peak.",
     },
     {
       id: "canary-open", kind: "turn", target: "canary-dial",
       title: "Open the canary to 10%",
       cue: "Turn the traffic dial to route a small slice of real traffic to the new build.",
-      why: "You test a rollout on a fraction of traffic before betting all of it. The canary is what tells you whether this build is safe.",
+      why: "A canary works because real traffic is the only load test that is actually representative, and ten per cent of it is small enough that the failure you are looking for is survivable. It also has to be big enough to see: a canary at a fraction of a per cent produces error rates that are statistically indistinguishable from nothing, which reads as success.",
       turn: { turns: 0.28, axis: "z", reverse: true, label: "CANARY TRAFFIC" },
     },
     {
       id: "watch-canary", kind: "gauge", target: "canary-monitor",
       title: "Watch the canary error rate",
       cue: "Watch the live error-rate needle and commit only while it reads healthy.",
-      why: "A canary that's already unhealthy at 10% traffic is a full outage at 100%. This is the checkpoint that catches it first.",
+      why: "This is the only checkpoint in the whole pipeline where the new build has met real users and the blast radius is still one in ten. A canary that is already unhealthy here is a full outage at a hundred per cent, and the number does not settle instantly — give it long enough to be a reading rather than the first spike of a cold cache, then commit on what it actually says.",
       gauge: {
         label: "CANARY — ERROR RATE", speed: 0.7, green: [0.02, 0.24],
         readout: (t) => `${(t * 6.2).toFixed(1)}%`,
@@ -6529,21 +6696,21 @@ const ROOM_DEVOPS = {
       id: "promote", kind: "turn", target: "promote-lever",
       title: "Promote to full traffic",
       cue: "Throw the promote lever to send the build the rest of the way to 100%.",
-      why: "Promotion is a deliberate act, separate from opening the canary — the two decisions shouldn't share one motion.",
+      why: "Promotion is a separate, deliberate act from opening the canary, on a separate control, because the two decisions are different: one says let us find out, the other says I have looked and I am satisfied. Wire them into a single motion and the canary becomes a delay rather than a gate — which is exactly what it turns into on the deploys nobody remembers going wrong.",
       turn: { turns: 0.32, axis: "z", reverse: true, label: "PROMOTE" },
     },
     {
       id: "killswitch", kind: "hold", target: "kill-switch", seconds: 4,
       title: "Arm and test the rollback",
       cue: "Hold the rollback switch to confirm it actually fires before you rely on it.",
-      why: "A kill switch you haven't tested isn't a kill switch — it's a hope. Confirm it works while you don't yet need it for real.",
+      why: "A rollback nobody has exercised is a hope with a button on it. Test it now, while the service is healthy and you have all the time in the world, because the alternative is finding out that the previous build's image was garbage-collected at the one moment you needed it — at which point the only way out is forward, through a fix written by somebody who has been awake for nineteen hours.",
       holdBreakNote: "Released too early. A rollback test that doesn't run its full course hasn't tested anything.",
     },
     {
       id: "audit-log", kind: "select", target: "audit-terminal",
       title: "Log the change and the agent's actions",
       cue: "Write the promotion, the token scope, and the canary result to the audit trail.",
-      why: "Months from now, someone will need to know exactly what an automation did here and who authorised it. This is that line.",
+      why: "Months from now somebody will be reading this line to answer a question nobody has asked yet: which build introduced the regression, what did the automation have access to, who decided it was fine. Written at the end it records what actually happened, including the parts that did not go to plan — which is the only version worth keeping.",
     },
   ],
 
@@ -6633,6 +6800,43 @@ const ROOM_DEVOPS = {
     decal(admin, 0.1, 0.1, 0, 0.16, 0.062, signFace("ADMIN", { bg: "#3a2c12", accent: "#f2ae14", fg: "#ffe6a8", scale: 0.5 }))
       .rotation.x = -Math.PI / 2;
     reg(admin, "admin-token");
+
+    // Agent credential slot on the end of the token rack: where a scoped token
+    // is actually handed to the automation.
+    const agentSlot = group(desk, 0.15, 0.94, 0.3, -0.15);
+    slab(agentSlot, 0.2, 0.05, 0.16, 0, 0.025, 0, 0x22262b, { rough: 0.5, radius: 0.012 });
+    box(agentSlot, 0.11, 0.012, 0.07, 0, 0.052, 0, 0x11151a, { rough: 0.7 });
+    decal(agentSlot, 0.17, 0.05, 0, 0.056, -0.06, signFace("AGENT SLOT", { bg: "#221b3a", accent: "#a89bff", scale: 0.45 }))
+      .rotation.x = -Math.PI / 2;
+    reg(agentSlot, "agent-slot");
+
+    // ------------------------------------------------------------- status wall
+    // The three things that say whether this is a safe window, and the two
+    // controls that look like shortcuts through them.
+    const statusWall = group(root, -1.4, 0, -3.9);
+    box(statusWall, 2.6, 0.06, 0.08, 0, 1.9, 0, OPS_DARKSTEEL, { rough: 0.6, metal: 0.4 });
+    const boardSpec = [
+      ["incident-board", "INCIDENTS", ["web-api: none open", "checkout: none open", "last closed 6d ago"], GOOD, -0.88],
+      ["freeze-calendar", "CHANGE CALENDAR", ["today: open window", "freeze: 24-27 Dec", "approver on shift"], GOOD, 0.0],
+      ["dep-queue", "UPSTREAM DEPLOYS", ["auth-svc: idle", "ledger: idle", "queue empty"], GOOD, 0.88],
+    ];
+    for (const [bid, head, lines, tone, bx] of boardSpec) {
+      const b = group(statusWall, bx, 1.35, 0.02);
+      box(b, 0.8, 0.5, 0.04, 0, 0, 0, 0x11151a, { rough: 0.5 });
+      decal(b, 0.74, 0.44, 0, 0, 0.026, paperFace(head, lines), { glow: true, ei: 0.45 });
+      ball(b, 0.018, 0.33, 0.2, 0.03, tone, { emissive: tone, ei: 1.8, rough: 0.4 });
+      reg(b, bid);
+    }
+
+    // Break-glass override under a guard, and the alert mute beside it.
+    const overrides = group(statusWall, 1.4, 1.0, 0.04);
+    box(overrides, 0.34, 0.26, 0.06, 0, 0, 0, 0x22262b, { rough: 0.5, metal: 0.4 });
+    const glass = box(overrides, 0.13, 0.13, 0.03, -0.08, 0.01, 0.045, BAD, { emissive: BAD, ei: 1.1, rough: 0.35 });
+    decal(overrides, 0.15, 0.05, -0.08, -0.09, 0.04, signFace("BREAK GLASS", { bg: "#3a1214", accent: "#f0645b", scale: 0.4 }), { px: 128 });
+    reg(glass, "break-glass");
+    const mute = box(overrides, 0.11, 0.11, 0.03, 0.09, 0.01, 0.045, WARN, { emissive: WARN, ei: 0.9, rough: 0.35 });
+    decal(overrides, 0.14, 0.05, 0.09, -0.09, 0.04, signFace("MUTE ALERTS", { bg: "#3a2c12", accent: "#f2ae14", scale: 0.4 }), { px: 128 });
+    reg(mute, "mute-alerts");
 
     // -------------------------------------------------------------- diff screen
     const diffPost = group(root, -2.9, 0, -1.9, 0.35);
@@ -6741,6 +6945,7 @@ const ROOM_DEVOPS = {
 
       onHazard(hitId) {
         if (hitId === "prod-db-secret" || hitId === "admin-token" || hitId === "prod-console") alertTimer = 0.5;
+        if (hitId === "break-glass" || hitId === "mute-alerts") alertTimer = 0.5;
       },
 
       onStepComplete(step) {
@@ -6794,7 +6999,7 @@ const ROOM_PLUMBING = {
   title: "Rough-In Bay",
   tagline: "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
   union: "UA — United Association of Plumbers, Pipefitters and Service Technicians",
-  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ASSE 5110 backflow prevention assembly tester; NFPA 51B hot work for torch brazing",
+  certification: "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ANSI/ASSE 5110 backflow prevention assembly tester and ANSI/ASSE 1020 pressure vacuum breakers; NSF/ANSI 61 and 372 for wetted drinking-water components; ASME B31.9 building services piping; OSHA 29 CFR 1910.252 welding, cutting and brazing with NFPA 51B hot work",
   accent: PIPE_COPPER,
   accentCss: "#cf8b3c",
   parSeconds: 235,
@@ -6822,20 +7027,20 @@ const ROOM_PLUMBING = {
       id: "workorder", kind: "select", target: "work-order",
       title: "Read the rough-in work order",
       cue: "Check the plans: fixture count, vent sizing, and the DWV layout.",
-      why: "You confirm what's supposed to be behind this wall before you cut into it — a vent sized wrong is a sewer-gas complaint six months from now, not something you catch by eye today.",
+      why: "Fixture units, vent size and where the wet vent picks up all get confirmed before a saw touches the framing. An undersized vent shows up as a trap siphoning itself dry six months later, venting sewer gas into a finished bathroom through a wall that is by then boarded and tiled.",
     },
     {
       id: "shutoff", kind: "turn", target: "main-shutoff",
       title: "Close the main shutoff",
       cue: "Turn the main off before opening any line downstream.",
-      why: "Every fixture on this run can still be under pressure. The main goes off first — not just the branch you think you're isolating.",
+      why: "Assume street pressure on every fixture downstream. The branch valve you believe isolates this run may be a fifteen-year-old gate that no longer seats, and you would only learn that at the first cut. Take the main round to its stop instead of trusting a valve nobody has ever proved.",
       turn: { turns: 0.75, axis: "y", label: "MAIN SUPPLY" },
     },
     {
       id: "bleed", kind: "hold", target: "bleed-valve", seconds: 5,
       title: "Bleed the line",
       cue: "Hold the bleeder open until the line runs dry.",
-      why: "Closing the main doesn't empty the pipe. Whatever's still standing in the line comes out at the first cut unless you bleed it here.",
+      why: "A closed main does not empty a riser. The column hangs on its own vacuum until something admits air, so the first fitting cracked becomes the vent and the whole standing head lands at once — on the floor, the tools and anything open below. Bleed it down and watch the flow die.",
       holdBreakNote: "Let go too soon — there's still water standing in the line. Hold the bleeder open the full run.",
     },
     {
@@ -6844,28 +7049,28 @@ const ROOM_PLUMBING = {
       itemNames: { "stack-vent": "vent stack", "closet-bend": "closet bend", "p-trap": "P-trap" },
       title: "Dry-fit the DWV run",
       cue: "Set the vent stack, then the closet bend, then the trap — in that order.",
-      why: "DWV assembles top-down: the vent connection and slope have to be right before you commit a trap that depends on both.",
+      why: "Drain, waste and vent assembles top down: the vent tie-in and the fall are the datum everything under them is set from. The trap goes last because its weir height and arm slope decide whether the seal holds or siphons out, and neither can be adjusted once the stack and bend are welded in.",
       outOfOrderNote: "Wrong order — the stack and bend are what the trap's slope depends on. Set them first.",
     },
     {
       id: "backflow", kind: "drag", target: "backflow-preventer",
       title: "Fit the backflow preventer",
       cue: "Carry the backflow preventer from the bench to the hose bib supply.",
-      why: "A hose bib is exactly the connection code requires backflow protection on — anything that could ever sit in a bucket needs an assembly that stops the flow from reversing.",
+      why: "A hose bib is the classic cross-connection — the one outlet a garden hose, a bucket and a momentary pressure drop can turn into a feed running backwards into potable supply. A vacuum breaker severs that path mechanically, which is why code names this fitting specifically rather than trusting the pressure.",
       drag: { to: "hose-bib-socket", radius: 0.35, missNote: "Not lined up with the bib — set it square onto the supply fitting." },
     },
     {
       id: "cement", kind: "hold", target: "pvc-joint", seconds: 4,
       title: "Solvent-weld the PVC joint",
       cue: "Prime, cement, then hold the joint together while it sets.",
-      why: "The solvent weld needs sustained pressure to fuse. Let go early and the pipe's own spring-back opens a gap the cement never fills.",
+      why: "Solvent cement does not glue PVC — it softens both faces so they fuse as the solvent flashes off. Hold the joint bottomed out while that happens, because the pipe's own spring-back backs it a few millimetres out of the socket and leaves a void the cement never closes. That is the joint that tests fine and weeps in service.",
       holdBreakNote: "Released early — the joint pulled apart microscopically before the weld set. Hold the full cure.",
     },
     {
       id: "torch", kind: "gauge", target: "torch-valve",
       title: "Dial a neutral flame",
       cue: "Adjust the oxy-acetylene mix until the flame reads neutral.",
-      why: "A neutral flame gives a clean, even heat for sweating copper — too rich soots the joint, too lean burns the flux before the solder can wet the fitting.",
+      why: "Neutral means exactly enough oxygen to consume the fuel, with nothing spare at the tip. Carburising soots the fitting so flux cannot wet it; oxidising strips the flux ahead of the solder and grows an oxide film that solder simply refuses to bond to.",
       gauge: {
         label: "FLAME MIX", speed: 0.8, green: [0.44, 0.6],
         readout: (t) => (t < 0.44 ? "carburizing" : t > 0.6 ? "oxidizing" : "neutral"),
@@ -6876,7 +7081,7 @@ const ROOM_PLUMBING = {
       id: "sweat", kind: "gauge", target: "copper-joint",
       title: "Sweat the copper joint",
       cue: "Feed solder into the joint once the flux sizzles and the heat draws it in.",
-      why: "Capillary action pulls molten solder through a properly heated joint on its own — chasing it into a cold or overheated fitting is how you get a joint that looks sound and weeps at the first pressure test.",
+      why: "Capillary action drags molten solder right round a properly heated fitting unaided — heat the copper, not the solder, and the joint draws when it is ready. Chase it with the flame and you get a tidy fillet at the mouth, voids behind it, and a weep that surfaces either at test or inside a finished wall.",
       gauge: {
         label: "JOINT TEMP", speed: 1.0, green: [0.5, 0.68],
         readout: (t) => `${Math.round(250 + t * 500)}°F`,
@@ -6887,7 +7092,7 @@ const ROOM_PLUMBING = {
       id: "pressuretest", kind: "gauge", target: "test-gauge",
       title: "Hold the test pressure",
       cue: "Pump to test pressure and hold inside the band for the full test.",
-      why: "Code requires the system to hold a defined test pressure for a set duration — a slow bleed that isn't caught here becomes a warranty callback after the drywall's up.",
+      why: "Code names a test pressure and a duration, and the duration is the half that catches anything — everything looks tight for ten seconds. A fitting shedding a pound over fifteen minutes will drip for years behind drywall, and the callback to chase it costs more than this rough-in earned.",
       gauge: {
         label: "TEST PRESSURE", speed: 0.6, green: [0.55, 0.72],
         readout: (t) => `${Math.round(t * 150)} psi`,
@@ -6901,7 +7106,35 @@ const ROOM_PLUMBING = {
       itemNotes: { "leaking-joint": "That joint is weeping under test pressure — a slow leak here is exactly what the test exists to catch before the wall closes over it." },
       title: "Find the weeping joint",
       cue: "Look over every joint under pressure and click the one that's failing.",
-      why: "A pressure drop tells you something's wrong somewhere on the run — it doesn't tell you which joint. That's still a visual check, every time.",
+      why: "A falling needle says the system is shedding air and says nothing whatever about where. Locating it stays a fitting-by-fitting visual, and this is the last opportunity anyone has: after the board goes up, the same defect is diagnosed from a stain on a ceiling below, through somebody else's finishes.",
+    },
+  ],
+
+  // Two things that happen behind a plumber's back on a live rough-in: the
+  // isolation being undone by somebody else, and hot work that did not stop
+  // when the torch did. See shared/game.js.
+  interrupts: [
+    {
+      id: "main-reopened",
+      kind: "Isolation breach",
+      after: "backflow", delay: 3, seconds: 12,
+      alert: "The main wheel has turned. Somebody down the floor has cracked your supply back open to fill a bucket and walked off.",
+      cue: "You are across the bay with both hands full and the system behind you is live.",
+      target: "main-shutoff",
+      why: "An isolation nobody can see is not an isolation. The main goes back off before anything else happens and then you find out who opened it, because the next thing this job has is an open pipe end — and there is no warning between street pressure arriving and it arriving everywhere at once.",
+      missNote: "The main stayed open while you worked. Pressure came back up behind a rough-in that is not made up yet, and the first open fitting anyone touches becomes the outlet — on a three-quarter-inch service that is roughly ten gallons a minute into an unfinished floor before somebody gets back to the valve.",
+      wrongNote: "It is the main shutoff. Nothing else on this job is worth a second while the supply is live behind an open pipe end.",
+    },
+    {
+      id: "hot-work-smoulder",
+      kind: "Hot work fire",
+      after: "sweat", delay: 4, seconds: 13,
+      alert: "A thread of smoke is rising out of the stud bay behind the fitting you just sweated. There was no heat shield in there.",
+      cue: "That is inside the wall now, not on the face of it.",
+      target: "fire-extinguisher",
+      why: "NFPA 51B requires extinguishing equipment within reach and a fire watch kept through the work and well after it, precisely because torch heat conducts along a fitting into framing and starts a smoulder that shows nothing for hours. You put it out now, while it is still a thread of smoke and still somewhere you can reach.",
+      missNote: "Nobody went back to it. Hot work fires are almost always found long after the crew has packed up: that smoulder had the rest of the afternoon inside a closed stud bay with insulation for fuel, and the first anybody knew of it was the building alarm that night.",
+      wrongNote: "It is the extinguisher racked on the stud wall. NFPA 51B puts one within reach of hot work so that the answer is three steps away and not down in the truck.",
     },
   ],
 
@@ -6946,6 +7179,11 @@ const ROOM_PLUMBING = {
       spoke.rotation.y = (i * Math.PI) / 4;
     }
     decal(supply, 0.2, 0.07, 0, 1.15, 0.06, signFace("MAIN SUPPLY", { bg: "#2f2b26", accent: "#cf8b3c", scale: 0.55 }));
+    // Hung on the valve the moment it is closed, and gone again the moment
+    // somebody else opens it — the one readable sign that the isolation holds.
+    const supplyOffTag = decal(supply, 0.2, 0.07, 0, 1.06, 0.06,
+      signFace("SUPPLY OFF", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.55 }));
+    supplyOffTag.visible = false;
     reg(wheelGrp, "main-shutoff");
 
     // Bleed valve just downstream of the main.
@@ -7036,6 +7274,23 @@ const ROOM_PLUMBING = {
     // Bare stud directly behind the torch work — no heat shield.
     const bareStud = box(root, 0.09, 2.6, 0.09, -1.9, 1.3, -2.7, WOOD, { rough: 0.92 });
     reg(bareStud, "torch-stud");
+    // What NFPA 51B calls extinguishing equipment within reach: an ABC unit
+    // bracketed to the framing a few steps from where the torch is lit.
+    const ext = group(root, -2.7, 0, -3.95);
+    cyl(ext, 0.075, 0.075, 0.42, 0, 0.95, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 16 });
+    cyl(ext, 0.05, 0.075, 0.08, 0, 1.2, 0, 0xb81410, { rough: 0.4, metal: 0.3, seg: 16 });
+    box(ext, 0.12, 0.035, 0.045, 0, 1.26, 0, 0x2b2f34, { rough: 0.5 });
+    hose(ext, [[0.04, 1.23, 0], [0.13, 1.06, 0.05], [0.08, 0.86, 0.02]], 0.011, 0x1b1e22, { steps: 10 });
+    box(ext, 0.14, 0.03, 0.09, 0, 0.78, 0.01, 0x8a949d, { rough: 0.45, metal: 0.6 });
+    decal(ext, 0.13, 0.1, 0, 0.99, 0.079, signFace("ABC", { bg: "#f2c14b", fg: "#1b1e22", accent: "#b81410", scale: 0.7 }));
+    decal(ext, 0.36, 0.09, 0, 1.46, 0.02, signFace("HOT WORK — FIRE WATCH", { bg: "#2f2b26", accent: "#f2c14b", scale: 0.45 }));
+    reg(ext, "fire-extinguisher");
+    // The stud bay that catches, once the heat has had time to travel.
+    const smoulder = group(root, -1.9, 0, -2.78);
+    const char = box(smoulder, 0.11, 0.34, 0.02, 0, 1.0, 0.04, 0x231a12, { rough: 0.95 });
+    char.visible = false;
+    const smoulderSmoke = particles(smoulder, 34, 0x9aa0a6,
+      { size: 0.035, life: 1.5, additive: false, opacity: 0.4 });
 
     // --------------------------------------------------------- test manifold
     const manifold = group(root, 0.4, 0, 2.6);
@@ -7123,9 +7378,7 @@ const ROOM_PLUMBING = {
       },
 
       onStepComplete(step) {
-        if (step.id === "shutoff") {
-          decal(supply, 0.2, 0.07, 0, 1.15, 0.06, signFace("SUPPLY OFF", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.55 }));
-        }
+        if (step.id === "shutoff") supplyOffTag.visible = true;
         if (step.id === "backflow") {
           backflowGrp.position.set(0, 0, 0);
           backflowGrp.parent.remove(backflowGrp);
@@ -7145,6 +7398,30 @@ const ROOM_PLUMBING = {
         }
         if (step.id === "pressuretest") { pressurized = true; weep.visible = true; }
         if (step.id === "leakcheck") { weep.visible = false; }
+      },
+
+      // Both of these are visible from where the learner is standing the
+      // moment they fire: a valve wheel that has moved with its tag gone, and
+      // smoke coming out of a stud bay that was fine a minute ago.
+      onInterrupt(it) {
+        if (it.id === "main-reopened") {
+          supplyOffTag.visible = false;
+          wheelGrp.rotation.y = 1.9;
+          drip.visible = true;
+        }
+        if (it.id === "hot-work-smoulder") {
+          char.visible = true;
+          smoulderSmoke.visible = true;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "main-reopened") {
+          supplyOffTag.visible = true;
+          wheelGrp.rotation.y = 0;
+          drip.visible = false;
+        }
+        if (it.id === "hot-work-smoulder") smoulderSmoke.visible = false;
       },
 
       onHazard(hitId) {
@@ -7173,6 +7450,10 @@ const ROOM_PLUMBING = {
 
         if (weep.visible) {
           weep.userData.step(dt, new THREE.Vector3(1.7, 0.68, 2.2), 0.02, 0.35, -2.8);
+        }
+
+        if (smoulderSmoke.visible) {
+          smoulderSmoke.userData.step(dt, new THREE.Vector3(0, 1.18, 0.04), 0.06, 0.3, 0.1);
         }
 
         const g = session?.gauge;

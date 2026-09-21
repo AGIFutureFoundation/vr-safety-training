@@ -46,10 +46,10 @@ export const SIM_BOILER_ROOM = {
   }),
 
   hazards: {
-    "hot-inspection-port": "You are opening the inspection port before pressure and temperature are confirmed safe. Flash steam and superheated water erupting from a pressurised drum cause burns before you can pull your hand back.",
-    "live-fuel-valve": "That fuel valve is not actually isolated. Working on the burner train with a live gas or oil supply behind it means one dropped spark or one hot surface away from an explosion.",
-    "firebox-no-test": "You are entering the firebox before the atmosphere has been tested. Residual combustion gases in an unventilated firebox displace oxygen with no smell to warn you before you are already affected.",
-    "relight-not-clear": "You are relighting the burner without confirming the isolation locks are removed and everyone is clear. A relight with a lock still in place or a person still inside the firebox can ignite trapped fuel or catch someone in the burner path.",
+    "hot-inspection-port": "You are opening the inspection port before pressure and temperature are confirmed safe. Water at 300°F flashes to roughly sixteen hundred times its volume the instant the drum is opened to atmosphere, and it scalds through clothing before you can pull your hand back. ASME Section VII exists to make that sequence a procedure rather than a judgement call.",
+    "live-fuel-valve": "That fuel valve is not actually isolated. Working the burner train with a live gas supply behind it is one dropped spark or one hot refractory face away from an explosion, and it is the failure NFPA 85 was written around after a run of furnace explosions that all started with an isolation somebody believed in.",
+    "firebox-no-test": "You are entering the firebox before the atmosphere has been tested. Residual combustion gases displace oxygen with nothing to smell, and OSHA's permit-required confined space rule counts an oxygen-deficient space as immediately dangerous to life — most confined-space deaths are the second person going in after the first.",
+    "relight-not-clear": "You are relighting the burner without confirming the isolation locks are off and everyone is clear. A light-off with somebody still inside the firebox, or with fuel that leaked in during the work and no purge to carry it out, is the exact ignition NFPA 85's pre-ignition purge requirement is there to prevent.",
   },
 
   lateNotes: {
@@ -62,19 +62,19 @@ export const SIM_BOILER_ROOM = {
       id: "workorder", kind: "select", target: "work-order",
       title: "Read the work order",
       cue: "Confirm the boiler, the refractory repair task and the required isolations.",
-      why: "The work order names exactly which fuel and steam lines this repair needs isolated. Working from memory on a multi-boiler plant is how the wrong line gets left live.",
+      why: "The work order names exactly which fuel and steam lines this repair needs isolated, and on a header shared by three boilers the wrong stop valve looks identical to the right one. Working from memory in a multi-boiler plant is how a line gets left live behind a lock that was hung on the wrong valve.",
     },
     {
       id: "shutdown", kind: "select", target: "boiler-hmi",
       title: "Shut the boiler down",
       cue: "Stop the burner from the control panel and confirm flame-out.",
-      why: "A controlled shutdown lets the burner cycle down cleanly instead of isolating fuel and steam lines on a boiler that is still firing.",
+      why: "A controlled shutdown lets the burner management system run its own post-firing purge and prove flame-out before anything is isolated. Chopping the fuel on a boiler that is still firing leaves unburned fuel in a hot furnace, which is the condition NFPA 85 spends most of its length trying to prevent.",
     },
     {
       id: "cooldown", kind: "gauge", target: "pressure-gauge",
       title: "Confirm the drum has cooled and depressurised",
       cue: "Watch the drum pressure and temperature fall, and commit once it is inside the safe band.",
-      why: "A boiler drum holds stored heat and pressure long after the burner stops. The safe band is what actually makes the inspection port and the firebox approachable, not the elapsed time since shutdown.",
+      why: "A boiler drum holds stored heat and pressure long after the burner stops, and thick steel gives it up slowly — a 150 HP boiler can still be above 200°F hours after flame-out. ASME Section VII's cooling guidance is about the metal as much as the operator: the safe band on the gauge is what makes the port approachable, not the clock.",
       gauge: {
         label: "DRUM PRESSURE / TEMPERATURE", speed: 0.5, green: [0.0, 0.15],
         readout: (t) => `${Math.round(t * 180)} psig · ${Math.round(100 + t * 280)}°F`,
@@ -87,27 +87,27 @@ export const SIM_BOILER_ROOM = {
       itemNames: { "fuel-valve": "upstream fuel block valve", "fuel-block-valve": "downstream fuel block valve", "bleed-valve": "bleed valve" },
       title: "Isolate the fuel train — double block and bleed",
       cue: "Close the upstream block, close the downstream block, then open the bleed valve between them.",
-      why: "Two closed valves with a vented bleed point between them is what proves the fuel train is actually isolated — the bleed valve venting nothing is your confirmation, not a guess based on two closed handles.",
+      why: "Two closed valves with an open vent between them is the only arrangement that proves isolation rather than asserting it: anything passing the upstream block goes out of the bleed instead of building up behind the downstream one. A vent that stays quiet is the confirmation — two closed handles are just two closed handles.",
       outOfOrderNote: "Wrong order — both blocks close before the bleed valve opens, so the vent is confirming isolation rather than releasing line pressure.",
     },
     {
       id: "isolate-steam", kind: "turn", target: "steam-valve",
       title: "Isolate the main steam stop valve",
       cue: "Grab the handwheel and turn it closed — a full turn and a half.",
-      why: "The steam side gets isolated independently of the fuel side — a firebox repair with the steam header still connected leaves a pressurised path back into the drum you are working next to.",
+      why: "The steam side is isolated independently of the fuel side. Two other boilers are still making steam into the same header, so leaving the main stop open leaves a live path back into the drum you are about to climb inside — and a non-return valve is a check on flow direction, not an isolation anybody is allowed to work behind.",
       turn: { turns: 1.5, axis: "z", label: "MAIN STEAM STOP", readout: (t) => `${Math.round(t * 100)}% CLOSED` },
     },
     {
       id: "lock-all", kind: "select", target: "lockout-point",
       title: "Lock out the isolation points",
       cue: "Apply lockout tags to the fuel train and the steam stop valve.",
-      why: "The locks are what stop the fuel or steam isolation from being reversed by someone else on shift while you are standing in the firebox.",
+      why: "OSHA's control-of-hazardous-energy rule at 29 CFR 1910.147 is built on one idea: the only person who can restore an isolation is the person who locked it. Your own lock on both hasps is what stops the next shift, who did not see you go in, from reversing the fuel or steam isolation while you are inside the firebox.",
     },
     {
       id: "atmosphere-test", kind: "gauge", target: "gas-meter",
       title: "Test the firebox atmosphere",
       cue: "Sample the firebox air and commit only inside the safe oxygen range.",
-      why: "A firebox that has just been fired holds residual combustion gases that do not clear on their own timeline you can guess at — the meter is what actually proves it is breathable.",
+      why: "A firebox that has just been fired holds combustion gases that settle and linger, and they clear on the ventilation's timetable rather than one you can guess at. The safe band on this meter is 19.5 to 23.5 percent oxygen — the same figures OSHA's confined-space rule uses — and the meter is the only thing that proves it.",
       gauge: {
         label: "FIREBOX ATMOSPHERE — OXYGEN", speed: 0.6, green: [0.46, 0.6],
         readout: (t) => `${(15 + t * 12).toFixed(1)} % O₂`,
@@ -118,31 +118,38 @@ export const SIM_BOILER_ROOM = {
       id: "entry-permit", kind: "select", target: "csp-permit",
       title: "Open the confined-space entry permit",
       cue: "Sign the permit for firebox entry: attendant posted, retrieval plan named.",
-      why: "The firebox is a confined space in its own right, separate from the boiler lockout. It gets its own permit and its own attendant before anyone's shoulders go through that port.",
+      why: "The firebox is a permit-required confined space in its own right, separate from the boiler lockout: limited entry, poor ventilation, not built for people to work in. OSHA's rule wants an attendant outside who never goes in after you and a retrieval plan named in advance — signed before anyone's shoulders go through that port.",
     },
     {
       id: "open-port", kind: "select", target: "inspection-port",
       title: "Open the inspection port",
       cue: "Unbolt and swing open the inspection port now that pressure and atmosphere are confirmed safe.",
-      why: "This is the point where every control before it pays off — cooled, depressurised, isolated, tested. Open it any earlier and at least one of those is still unresolved.",
+      why: "This is where every control ahead of it pays off — cooled, depressurised, double-block-and-bleed isolated, locked, tested, permitted. Open the port any earlier and at least one of those is still an assumption, and the port is the last physical thing between an assumption and a person's face.",
     },
     {
-      id: "firebox-entry", kind: "select", target: "firebox-repair",
-      title: "Complete the refractory repair",
-      cue: "Enter the firebox and repair the damaged refractory lining.",
-      why: "The repair only happens once the space is confirmed cold, isolated and breathable — that is the entire reason the steps ahead of this one exist.",
+      id: "firebox-entry", kind: "hold", target: "firebox-repair", seconds: 5,
+      title: "Ram the refractory patch home",
+      cue: "Work the plastic refractory into the damaged lining and hold it under pressure until it is rammed solid.",
+      why: "Plastic refractory only develops its strength if it is rammed tight against the old face with no voids behind it. A patch pressed in and let go traps air, and on the next firing that pocket flashes to steam and blows the patch off the wall — straight into the burner throat. IBB refractory crews ram it in one pass for that reason.",
+      holdBreakNote: "Let go part way. A patch rammed in two goes, with the first lift already skinning over, does not bond to itself — start the lift again and drive it home in one.",
     },
     {
       id: "remove-locks", kind: "select", target: "lockout-point",
       title: "Remove the isolation locks",
       cue: "Confirm the repair is complete and everyone is clear, then remove the fuel and steam locks.",
-      why: "Locks come off only once the firebox is confirmed empty and the port is closed — removing isolation while anyone could still be inside defeats the reason the locks went on.",
+      why: "Locks come off in the reverse order they went on, and only once the firebox is confirmed empty, the port is closed and every tool is accounted for. Under 29 CFR 1910.147 a lock is removed by the person who applied it — the count of people out has to match the count of people in before anyone touches a hasp.",
     },
     {
-      id: "relight", kind: "select", target: "boiler-hmi",
-      title: "Run the controlled re-light",
-      cue: "Purge the firebox, then ignite the burner and bring the boiler back to pressure.",
-      why: "A purge cycle clears any fuel vapour that collected during the work before the igniter ever fires — skipping straight to ignition is how a re-light becomes a firebox explosion.",
+      id: "relight", kind: "track", target: "boiler-hmi", seconds: 5,
+      title: "Purge, light off and raise steam",
+      cue: "Run the pre-ignition purge, light the burner, then hold the firing rate so the drum comes up inside the warm-up band.",
+      why: "NFPA 85 requires a pre-ignition purge of several furnace volumes before the igniter is ever energised, to sweep out anything that leaked in during the work. After light-off the rate matters too: raising steam faster than the drum can equalise puts a temperature difference across thick steel, and thermal shock cracks tubes and rolls seats.",
+      track: {
+        start: 0.08, green: [0.38, 0.58], rise: 0.5, fall: 0.42, drift: 0.1,
+        label: "WARM-UP RATE — DRUM PRESSURE RISE",
+        readout: (v) => (v < 0.38 ? "burner starving — unstable flame" : v > 0.58 ? "raising steam too fast" : "steady rise"),
+      },
+      holdBreakNote: "Firing rate fell away and the flame went unstable at the bottom of the range. Bring it back up and hold a steady rise the whole way.",
     },
   ],
 
@@ -370,6 +377,11 @@ export const SIM_BOILER_ROOM = {
 
       animate(t, dt, session) {
         burnGlow.material.emissiveIntensity = running ? 1.6 + Math.sin(t * 6) * 0.6 : 0.1;
+        // Light-off: the flame comes up with the firing rate the learner is
+        // holding, so the warm-up band is something to watch rather than read.
+        if (session?.step?.id === "relight" && session.track) {
+          burnGlow.material.emissiveIntensity = 0.15 + session.track.v * 2.6;
+        }
         if (flashSteam.visible) flashSteam.userData.step(dt, new THREE.Vector3(0, 0, 0), 0.05, 0.5, 0.3);
         if (bleedMist.visible) bleedMist.userData.step(dt, new THREE.Vector3(0, 0, 0), 0.03, 0.2, 0.2);
         if (firing > 0) firing -= dt;

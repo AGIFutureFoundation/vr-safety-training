@@ -179,6 +179,31 @@ export const SIM_LINE_TRUCK = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "outrigger-sunk",
+      kind: "Truck setting",
+      after: "glove-test", delay: 3, seconds: 12,
+      alert: "The truck has just settled. The kerb-side outrigger has taken a bite out of the shoulder and the whole body is sitting over at an angle it was not sitting at five minutes ago.",
+      cue: "You set those pads on ground that has had a night of rain on it.",
+      target: "outriggers",
+      why: "Outriggers are set against the ground as it is when you set them, and a saturated shoulder keeps consolidating under thirty thousand pounds for as long as it is loaded. A pad that has sunk is no longer sharing the load with the other three, so the truck's stability triangle has quietly got smaller while nobody was watching it, and the first thing that tells you is the boom going over the side with somebody in the bucket. Re-set the pads on cribbing before anything goes up.",
+      missNote: "The pad kept sinking with the truck loaded. By the time the boom went out over the side the vehicle was working outside the stability envelope its chart was written for, and a bucket truck that goes over goes over all at once.",
+      wrongNote: "It is the outriggers. The truck has moved, and nothing goes up on a base that is still settling.",
+    },
+    {
+      id: "customer-backfeed",
+      kind: "Backfeed reported",
+      after: "apply-grounds", delay: 3, seconds: 13,
+      alert: "Dispatch on the radio: a customer on this circuit has a standby generator running and the utility has had a report that its transfer switch is not interlocking.",
+      cue: "You have the ground and the neutral on. The phase clamp is the one still in your hand.",
+      target: "hotstick-meter",
+      why: "A generator behind a failed transfer switch feeds the customer's service, and the service transformer works perfectly well backwards — two hundred and forty volts on the secondary comes back out of the primary at full line voltage on a conductor your switching order says is dead. Your test was true when you took it, and it stopped being a statement about now the moment somebody told you the source might have changed. The phase clamp is the last connection and the one that puts you across the gap, so the proof gets taken again before it goes on.",
+      missNote: "The phase clamp went onto a conductor nobody had re-tested against a source that had just been reported. If the generator was feeding it, that clamp bolted a fault on with a hand still on the stick, and the flash is at the conductor, not at the substation.",
+      wrongNote: "Nothing gets clamped on a report like that. The hot stick tester is what turns a rumour about the source back into a fact about this conductor.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -362,6 +387,13 @@ export const SIM_LINE_TRUCK = {
 
     let energized = true;
     let grounded = false;
+    let backfed = false;
+    // Kept as named materials so the backfeed interruption can put the phases
+    // visibly back to live and the answer can put them back to dead.
+    const deadPhaseMat = mat(0x53585e, { rough: 0.6 });
+    const livePhaseMat = mat(0xb8402f, { emissive: 0xb8402f, ei: 1.5, rough: 0.5 });
+    const truckHomeRoll = truck.rotation.z;
+    const padHomeY = outriggerPads.map((p) => p.position.y);
 
     return {
       hits,
@@ -371,7 +403,7 @@ export const SIM_LINE_TRUCK = {
         if (step.id === "outrigger") outriggerPads.forEach((p) => { p.position.y = -0.15; });
         // switchHandle is turned live by the player's drag while this step is active.
         if (step.id === "isolate") energized = false;
-        if (step.id === "verify-dead") phases.forEach((p) => { p.material = mat(0x53585e, { rough: 0.6 }); });
+        if (step.id === "verify-dead") phases.forEach((p) => { p.material = deadPhaseMat; });
         if (step.id === "apply-grounds") { grounded = true; }
         if (step.id === "crawler-save") {
           repaint(crawlerConsoleScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.4 }));
@@ -382,8 +414,35 @@ export const SIM_LINE_TRUCK = {
         if (step.id === "rescue-ready") holoTag(g, "Ready", -1.7, 1.5, 1.4, { css: "#59c97b", w: 0.2 });
       },
 
+      // Both of these are visible from the ground: the truck really lists, and
+      // the phases really come back up red.
+      onInterrupt(it) {
+        if (it.id === "outrigger-sunk") {
+          outriggerPads[0].position.y = padHomeY[0] - 0.11;
+          truck.rotation.z = truckHomeRoll + 0.055;
+        }
+        if (it.id === "customer-backfeed") {
+          backfed = true;
+          phases.forEach((p) => { p.material = livePhaseMat; });
+          madRing.material.emissiveIntensity = 3.4;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "outrigger-sunk") {
+          outriggerPads[0].position.y = padHomeY[0];
+          truck.rotation.z = truckHomeRoll;
+        }
+        if (it.id === "customer-backfeed") {
+          backfed = false;
+          phases.forEach((p) => { p.material = deadPhaseMat; });
+          madRing.material.emissiveIntensity = 1.2;
+        }
+      },
+
       animate(t, dt, session) {
         boomLever.rotation.x = Math.sin(t * 0.6) * 0.1;
+        if (backfed) madRing.material.emissiveIntensity = 2.4 + Math.sin(t * 8) * 1.2;
 
         // Dry-run playback: the crawler rides the taught span — start to mid
         // to end — in step with the RUN/VERIFY hold progress.

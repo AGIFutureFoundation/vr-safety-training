@@ -18,7 +18,7 @@ export const ROOM_SALON = {
   title: "Colour Studio",
   tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
   union: "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
-  certification: "State cosmetology licence; state board sanitation and disinfection rules (EPA-registered hospital-grade disinfectant, one-use implements); OSHA Hazard Communication (29 CFR 1910.1200) for colour and developer SDS",
+  certification: "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then immersed in an EPA-registered hospital-grade disinfectant for the full contact time, single-use items discarded after one client; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets, labelling and glove selection on colour and developer; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
   accent: 0xe2739b,
   accentCss: "#e2739b",
   parSeconds: 205,
@@ -32,6 +32,8 @@ export const ROOM_SALON = {
     "metal-bowl": "That is a metal mixing bowl. Metal reacts with peroxide developer — it degrades the oxidant and can turn the formula. Colour is mixed in a non-metallic bowl, every time.",
     "dirty-shears": "Those shears came straight off the last client. Tools are cleaned and immersed in disinfectant between every client — a nicked scalp turns cross-contamination into a blood-borne exposure.",
     "flat-iron": "The iron is at 200 °C and the hair is saturated with product. Thermal styling on wet, chemically processed hair boils water inside the strand and snaps it.",
+    "dev-40": "That is 40 volume. The service on the card is two levels of lift on scalp, and 40 vol against a scalp is a chemical burn rather than a faster appointment — the manufacturer's own directions restrict it to off-scalp work for exactly that reason. It does not save time either: over-processed hair has to be toned, treated and then explained.",
+    "used-towel": "That towel came off the last client's neck. Linens are one client each and then they go to the wash, because a towel that has had colour, scalp oil and possibly blood on it is the shortest route there is between two people's heads — and it is the item state board inspectors look at first.",
   },
 
   lateNotes: {
@@ -45,31 +47,33 @@ export const ROOM_SALON = {
       id: "consult", kind: "select", target: "consult-card",
       title: "Consult and check the patch test",
       cue: "Read the client record: allergy history, patch test date, previous chemical services.",
-      why: "The patch test is done 48 hours ahead and the record proves it. No record, no oxidative colour — and previous services decide whether the hair can take this one.",
+      why: "The patch test goes on 48 hours ahead and the record is what proves it happened, because a PPD reaction is not a rash — it is a face that closes up in a chair on a Saturday afternoon. No record, no oxidative colour, however well you know the client. The previous services matter just as much: box colour or henna at home can react with peroxide in the strand, and the client will not volunteer it unless you ask.",
     },
     {
-      id: "sanitize", kind: "select", target: "disinfect-jar",
-      title: "Disinfect the tools",
-      cue: "Immerse combs and shears in the disinfectant jar before the service.",
-      why: "Tools are cleaned then fully immersed in an approved disinfectant between clients. Contact time is what does the work, so they go in before you need them.",
+      id: "sanitize", kind: "hold", target: "disinfect-jar", seconds: 6,
+      title: "Disinfect the tools for the full contact time",
+      cue: "Clean the combs and shears, immerse them, and leave them under for the whole contact time.",
+      why: "Cleaning and disinfecting are two separate jobs: visible debris comes off first, because a disinfectant cannot reach through hair and product, and then the implement is fully immersed for the contact time printed on the concentrate. That time is the whole mechanism — a quick dip wets the steel and kills nothing, and it is the sanitation failure that actually shows up on state board inspections.",
+      holdBreakNote: "You lifted them out early. Contact time is the part that does the work — a dip that does not last it has cleaned the tools and disinfected nothing.",
     },
     {
-      id: "cape", kind: "select", target: "cape",
+      id: "cape", kind: "drag", target: "cape",
       title: "Drape the client",
-      cue: "Cape the client and set the towel at the neckline.",
-      why: "The drape protects skin and clothing, and the towel stops dye running onto the neck where it stains and sensitises.",
+      cue: "Take the cape from the chair and settle it over the client's shoulders, then set the towel at the neckline.",
+      why: "The cape protects clothing, but the towel at the neckline is the part that matters: oxidative dye running onto the neck stains for days and sensitises skin that has no business meeting PPD at all. Settle it so there is no gap at the nape, because that is where the colour runs when the head goes forward at the backwash.",
+      drag: { to: "client-shoulders", radius: 0.38, missNote: "Not settled on the shoulders. A cape hanging off one side leaves the neckline open, which is where the dye runs." },
     },
     {
       id: "gloves", kind: "select", target: "glove-box",
       title: "Glove up",
       cue: "Take gloves before you touch any product.",
-      why: "Gloves go on before mixing, not before applying. The bowl is the first point of contact.",
+      why: "Gloves go on before mixing, not before applying, because the first skin contact of the whole service is with the tint in the bowl. PPD sensitisation is cumulative and permanent — it builds through years of small unprotected exposures and then ends a career in a single reaction, and stylists are far more likely to develop it than clients are.",
     },
     {
       id: "mix", kind: "gauge", target: "mix-bowl",
       title: "Mix to the right developer volume",
       cue: "Select the developer for two levels of lift and commit inside the band.",
-      why: "Developer volume sets the lift: 20 vol gives roughly two levels and grey coverage. Reaching for a higher volume to go faster buys damage, not time.",
+      why: "Developer volume is the whole chemistry: it sets how far the cuticle opens and how much natural pigment is lifted before the new colour deposits. Twenty volume is roughly two levels and full grey coverage, which is what the card asks for. Reaching for a higher volume to get there faster does not buy speed, it buys a swollen cuticle, a porous mid-length and a colour that washes out in three weeks.",
       gauge: {
         label: "DEVELOPER — VOLUME", speed: 0.7, green: [0.44, 0.58],
         readout: (t) => `${Math.round(10 + t * 30)} vol`,
@@ -85,20 +89,20 @@ export const ROOM_SALON = {
       },
       title: "Section into four quadrants",
       cue: "Part the hair into four clean quadrants — all four before you apply.",
-      why: "Four quadrants give you control of saturation and timing. Applying into unsectioned hair is how you get patchy roots and missed grey.",
+      why: "Four quadrants turn a whole head into four small, controlled applications, each one worked from a clean parting where you can actually see the scalp. Apply into unsectioned hair and you are guessing at coverage: the grey at the crown gets missed, the nape gets double product, and the timing runs from four different start times you never wrote down.",
       outOfOrderNote: "One or more quadrants are still unparted — every quadrant gets clipped before application starts.",
     },
     {
       id: "apply", kind: "select", target: "tint-brush",
       title: "Apply root to mid-length",
       cue: "Take the tint brush and apply through the sectioned hair.",
-      why: "Regrowth first: the root is warmest from scalp heat and processes fastest, so it gets product first and the mid-lengths follow.",
+      why: "Regrowth first, because the root sits against a scalp at body heat and processes noticeably faster than the rest of the head. Put product on the mid-lengths at the same time and by the time the root is where you want it the mid-lengths have gone past it — the hot-root band that comes out of doing this in the wrong order is visible in daylight for months.",
     },
     {
       id: "process", kind: "gauge", target: "timer",
       title: "Process and pull on time",
       cue: "Watch the development and pull the colour inside the window.",
-      why: "Development is a chemical clock. Pulled early the colour is under-deposited; left long the cuticle keeps swelling and the hair goes porous.",
+      why: "Development is a chemical clock that started at the first quadrant, not when you finished the last one. Pull it early and the dye has not fully oxidised inside the strand, so it deposits weakly and fades fast; leave it long and the cuticle keeps swelling after the colour has finished developing, which is damage bought for nothing. The strand test is what tells you which end of the window you are at.",
       gauge: {
         label: "PROCESSING TIMER", speed: 0.5, green: [0.62, 0.8],
         readout: (t) => `${Math.round(t * 55)} min`,
@@ -106,16 +110,21 @@ export const ROOM_SALON = {
       },
     },
     {
-      id: "rinse", kind: "select", target: "backwash",
+      id: "rinse", kind: "track", target: "backwash", seconds: 6,
       title: "Rinse and neutralise",
-      cue: "Take the client to the backwash bowl and rinse until the water runs clear.",
-      why: "Rinsing stops the reaction. Residual oxidant keeps working in the strand and irritates the scalp long after the client leaves.",
+      cue: "Hold the water tepid and steady, and rinse until it runs clear.",
+      why: "Rinsing is what stops the reaction, so it goes on until the water runs genuinely clear rather than nearly clear — residual oxidant keeps working in the strand and keeps irritating a scalp that has just had peroxide sitting on it for half an hour. The temperature is part of the job: hot water on a freshly processed scalp opens the cuticle further and stings on skin the colour has already sensitised.",
+      track: {
+        start: 0.14, green: [0.38, 0.58], rise: 0.5, fall: 0.45, drift: 0.1, label: "RINSE TEMPERATURE",
+        readout: (v) => (v < 0.38 ? "too cold — colour not shifting" : v > 0.58 ? "too hot for a processed scalp" : "tepid — running clear"),
+      },
+      holdBreakNote: "Temperature off band — too hot stings a sensitised scalp and swells the cuticle, too cold leaves emulsified colour in the hair. Bring it back and hold it.",
     },
     {
       id: "dispose", kind: "select", target: "waste-bin",
       title: "Strip down the station",
       cue: "Bin the gloves and leftover product, then reset the station.",
-      why: "Mixed colour is chemical waste and gloves are contaminated. The next client's service starts with a clean station or it starts compromised.",
+      why: "Leftover oxidative colour is chemical waste, not rubbish: it goes in the bin for it rather than down the backwash, and the gloves go with it. Then the station is wiped and reset, because the next client's service starts from whatever state you left this one in — and a colourist is judged on the chair they hand over as much as the head they finish.",
     },
   ],
 
@@ -240,7 +249,12 @@ export const ROOM_SALON = {
     cyl(cape, 0.13, 0.13, 0.06, 0, 0.28, 0, 0xe8e2d6, { rough: 0.9, seg: 18 });        // neck towel
     cape.visible = false;
     // A folded cape waiting on the chair arm is what the learner actually picks up.
-    const capeFolded = group(chairSpin, 0.3, 0.3, 0.14);
+    // Where the cape has to end up: across the shoulders, closed at the nape.
+    const shoulders = group(client.torso, 0, 0.6, 0.03);
+    box(shoulders, 0.3, 0.02, 0.18, 0, 0, 0, 0xe2739b, { rough: 0.6, opacity: 0.25, cast: false });
+    reg(shoulders, "client-shoulders");
+
+    const capeFolded = group(console_, 0.06, 0.88, 0.16);
     slab(capeFolded, 0.22, 0.06, 0.16, 0, 0, 0, 0x1f2a44, { radius: 0.02, rough: 0.8 });
     slab(capeFolded, 0.2, 0.03, 0.14, 0, 0.045, 0, 0xe8e2d6, { radius: 0.02, rough: 0.9 });
     reg(capeFolded, "cape");
@@ -293,6 +307,8 @@ export const ROOM_SALON = {
       lathe(b, devProfile, 0, 0, 0, 0xf0ece4, { rough: 0.35, seg: 18 });
       cyl(b, 0.019, 0.019, 0.02, 0, 0.255, 0, [0x6cc6f0, 0x59c97b, 0xf2ae14, 0xf0645b][i], { rough: 0.5, seg: 14 });
       decal(b, 0.06, 0.05, 0, 0.11, 0.043, signFace(`${vol} VOL`, { bg: "#f0ece4", fg: "#2b2e33", accent: "#e2739b", scale: 0.55 }));
+      // The 40 vol standing on the bar beside the one the card calls for.
+      if (vol === "40") reg(b, "dev-40");
     });
     // Colour tubes in a tray.
     for (let i = 0; i < 5; i++) {
@@ -360,6 +376,11 @@ export const ROOM_SALON = {
     // Towel stack and a stool for dressing.
     const towels = group(root, 2.0, 0, 2.9);
     for (let i = 0; i < 4; i++) slab(towels, 0.3, 0.06, 0.22, 0, 0.9 + i * 0.065, 0, [0xe8e2d6, 0xdcd4c6][i % 2], { radius: 0.02, rough: 0.95 });
+    // The towel off the last client, folded back onto the clean stack.
+    const usedTowel = group(towels, 0.02, 1.18, 0.02);
+    slab(usedTowel, 0.3, 0.06, 0.22, 0, 0, 0, 0xcfc0b4, { radius: 0.02, rough: 0.95 });
+    box(usedTowel, 0.1, 0.004, 0.08, 0.04, 0.032, 0.03, 0x8c5a3c, { rough: 0.6 });
+    reg(usedTowel, "used-towel");
     counter(towels, 0.42, 0.34, 0, 0, 0xe4ded4, { height: 0.88, rough: 0.5, metal: 0.05 });
 
     const dirLight = new THREE.DirectionalLight(0xfff0dd, 0.85);

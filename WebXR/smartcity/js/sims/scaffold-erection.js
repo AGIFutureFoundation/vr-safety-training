@@ -148,6 +148,31 @@ export const SIM_SCAFFOLD_ERECTION = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "gust-on-the-lift",
+      kind: "Wind",
+      after: "planking", delay: 3, seconds: 12,
+      alert: "A gust has come round the corner of the building and the whole second lift has moved with it. You can hear the tie tube working in its coupler down at lift one.",
+      cue: "You are stood on the one thing making this a scaffold and not a tower.",
+      target: "wall-tie",
+      why: "Planking is the moment a scaffold stops being an open frame and turns into a sail: the boards close the elevation off, the wind can no longer go through it, and every gust from there on is a lever with the whole height of the frame behind it. A tie coupler that was torqued yesterday works loose under that cycling, and a tie that is finger-tight is a tie that is not there. Go down and put the tie back to torque before another board goes on, because the scaffold that fails is not the one that was never checked — it is the one that was checked once.",
+      missNote: "The planking went on over a slack tie. Two lifts of frame with the elevation closed and nothing holding it to the wall is a free-standing tower well outside its height-to-base ratio, and it does not come down slowly or give anybody a warning first.",
+      wrongNote: "It is the tie. Everything about this scaffold standing up in wind comes back to whether it is fastened to the building.",
+    },
+    {
+      id: "ground-soaked",
+      kind: "Foundation",
+      after: "guardrails", delay: 3, seconds: 13,
+      alert: "There is water running across the footprint. Somebody has left a hose going at the wall and it is ponding under the right-hand sill line, which has started to bed in.",
+      cue: "You signed off that ground first thing this morning.",
+      target: "ground-check",
+      why: "The competent person's inspection of the ground is not a thing that happens once at seven and then stays true all day. Saturate the fill under one mudsill and its bearing capacity falls away, the sill beds in, and the leg on it stops carrying its share — so the load redistributes onto three legs and the frame racks toward the low corner while everyone above is looking at guardrails. More scaffolds come down through their foundations than through their members, and almost every one of those had a ground condition that changed after somebody approved it.",
+      missNote: "The footprint kept taking water with the scaffold loaded. The sill bedded in far enough to take the leg out of plumb, and an out-of-plumb frame with a working platform and a crew on it is carrying its load through connections that were never designed to take it sideways.",
+      wrongNote: "The problem is under the scaffold, not on it. That footprint needs looking at again before anything else happens up top.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -168,6 +193,12 @@ export const SIM_SCAFFOLD_ERECTION = {
       const s = box(g, 0.3, 0.05, 1.8, x, 0.125, -1.0, 0x8b6a42, { rough: 0.9 });
       reg(hits, s, id); sills[id] = s;
     }
+    const sillHomeY = sills["mudsill-b"].position.y;
+    // Standing water under the right-hand sill line — dry until the ground
+    // interruption puts it there.
+    const puddle = cyl(g, 0.55, 0.55, 0.008, 1.0, 0.108, -1.0, 0x2b3a44, { rough: 0.15, metal: 0.2, seg: 20, cast: false });
+    puddle.scale.set(1, 1, 1.7);
+    puddle.visible = false;
     const plates = group(g, 0, 0.15, -1.0);
     for (const [x, z] of [[-1.0, -0.7], [1.0, -0.7], [-1.0, 0.7], [1.0, 0.7]]) box(plates, 0.15, 0.02, 0.15, x, 0, z, 0x8a949d, { rough: 0.5, metal: 0.6 });
     reg(hits, plates, "base-plate");
@@ -256,6 +287,25 @@ export const SIM_SCAFFOLD_ERECTION = {
         if (step.id === "inspect") pinMissing.visible = false;
       },
       onHazard() {},
+      // Both of these are visible from the platform: the lift leans off the
+      // wall, and the right-hand sill goes under water and beds in.
+      onInterrupt(it) {
+        if (it.id === "gust-on-the-lift") { f2.rotation.z = 0.04; platform.rotation.z = 0.035; }
+        if (it.id === "ground-soaked") {
+          puddle.visible = true;
+          sills["mudsill-b"].position.y = sillHomeY - 0.032;
+          plates.rotation.z = -0.02;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "gust-on-the-lift") { f2.rotation.z = 0; platform.rotation.z = 0; }
+        if (it.id === "ground-soaked") {
+          puddle.visible = false;
+          sills["mudsill-b"].position.y = sillHomeY;
+          plates.rotation.z = 0;
+        }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "planking") for (const id of Object.keys(planks)) planks[id].material.opacity = session.sequence.includes(id) ? 1 : 0.25;

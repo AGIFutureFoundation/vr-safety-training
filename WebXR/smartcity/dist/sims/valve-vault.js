@@ -147,6 +147,31 @@ export const SIM_VALVE_VAULT = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "meter-on-the-chest",
+      kind: "Monitoring gap",
+      after: "retrieval", delay: 3, seconds: 12,
+      alert: "The four-gas meter has gone into alarm — and it is still lying on the tool chest where you took the pre-entry readings from.",
+      cue: "The reading that authorised this entry was taken twenty minutes ago, from up here.",
+      target: "gas-meter",
+      why: "A pre-entry test is a photograph of an atmosphere, and a valve vault does not hold still for it. There is standing water at the bottom of that shaft, the sewer connection breathes with the mains, and the ventilation only suppresses what the space is producing for as long as the fan runs. That is why the regulation asks for continuous monitoring in a space where conditions can change, and why the meter belongs clipped at the entrant's collar, in their breathing zone, going down with them — not sat on a box at street level telling nobody anything.",
+      missNote: "The entrant went down on a twenty-minute-old reading with the meter still on the chest. If the atmosphere had moved while they were on the ladder, the first indication anybody topside would have had is the attendant noticing they had stopped answering.",
+      wrongNote: "It is the meter. It is alarming where it sits, and where it sits is the wrong place for it — it goes on the entrant before the entrant goes anywhere.",
+    },
+    {
+      id: "blower-stopped",
+      kind: "Ventilation lost",
+      after: "comms", delay: 4, seconds: 13,
+      alert: "The blower has gone quiet behind you. Somebody moving a barrow across the footway has dragged the lead out of the wagon, and your entrant is at the bottom of the shaft.",
+      cue: "The only thing holding that atmosphere down was the fan.",
+      target: "blower",
+      why: "Ventilation in a vault like this is not a pre-entry measure that can be called done — it is a continuous control, and the space starts going back to what it wants to be the second the air stops moving. Hydrogen sulphide comes off standing water steadily and it sits low, which means it reaches the entrant at the bottom long before anything changes for the attendant at the top. You do not leave the opening, you do not shout down for a report: the fan goes back on, because the entrant cannot fix this and everything else is downstream of it.",
+      missNote: "The fan stayed off with somebody in the space. The attendant kept hold of the conversation right up until the entrant stopped making sense, which is what oxygen deficiency and H2S both sound like from the top of a shaft.",
+      wrongNote: "It is the blower. There is a person breathing the air that fan was moving, and nothing else on this job outranks getting it running again.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -231,6 +256,12 @@ export const SIM_VALVE_VAULT = {
       0.085, 0xf2c14b, { steps: 26, rough: 0.8 });
     holoTag(blower, "Electric blower", 0, 0.6, 0.2, { css: "#4fa3ff", w: 0.32 });
     reg(hits, blower, "blower");
+    // Run lamp on the blower case: green while it is moving air, red the
+    // moment it is not. This is what the ventilation interruption changes.
+    const runLampGood = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.0, rough: 0.4 });
+    const runLampBad = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.8, rough: 0.4 });
+    const blowerLamp = ball(blower, 0.028, -0.14, 0.44, 0.16, 0x59c97b, { emissive: 0x59c97b, ei: 2.0, rough: 0.4 });
+    blowerLamp.material = runLampGood;
 
     // Petrol blower sitting beside it — the trap.
     const petrol = group(g, 1.75, 0, -0.2, 0.3);
@@ -315,6 +346,9 @@ export const SIM_VALVE_VAULT = {
     const meter = instrument(chest, -0.08, 0.79, 0, { ry: 0.3, idle: "-- %", color: 0x4fa3ff, w: 0.12, d: 0.19 });
     holoTag(meter, "4-gas meter", 0, 0.16, 0, { css: "#4fa3ff", w: 0.26 });
     reg(hits, meter, "gas-meter");
+    // Alarm bezel on the meter — dark until it goes off where it was left.
+    const meterAlarm = ball(meter, 0.022, 0, 0.1, 0, 0xf0645b, { emissive: 0xf0645b, ei: 3.0, rough: 0.4 });
+    meterAlarm.visible = false;
     // Sample points at three depths — the reason the test is a sequence.
     const depths = [
       { id: "test-oxygen", y: -0.3, label: "TOP" },
@@ -358,6 +392,7 @@ export const SIM_VALVE_VAULT = {
     let ventilating = false;
     let engineRunning = true;
     let commsActive = false;
+    let meterAlarming = false;
 
     return {
       hits,
@@ -395,8 +430,22 @@ export const SIM_VALVE_VAULT = {
         }
       },
 
+      // Both of these are visible from where the attendant stands: the fan
+      // stops turning and its lamp goes red, and the meter lights up on the
+      // chest instead of on the entrant.
+      onInterrupt(it) {
+        if (it.id === "meter-on-the-chest") { meterAlarm.visible = true; meterAlarming = true; }
+        if (it.id === "blower-stopped") { ventilating = false; blowerLamp.material = runLampBad; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "meter-on-the-chest") { meterAlarm.visible = false; meterAlarming = false; }
+        if (it.id === "blower-stopped") { ventilating = true; blowerLamp.material = runLampGood; }
+      },
+
       animate(t, dt, session) {
         if (ventilating) fanBlades.rotation.z += dt * 12;
+        if (meterAlarming) meterAlarm.material.emissiveIntensity = 1.6 + Math.sin(t * 11) * 1.4;
         waterDrip.visible = true;
         waterDrip.userData.step(dt, new THREE.Vector3(0.28, 0.06, 0), 0.05, 0.06, -1.6);
         if (engineRunning) {

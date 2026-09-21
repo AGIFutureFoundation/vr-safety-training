@@ -134,6 +134,31 @@ export const SIM_LIFT_STATION = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "bypass-died",
+      kind: "Bypass lost",
+      after: "lift", delay: 3, seconds: 12,
+      alert: "The bypass has stopped. The six-inch pump has gone quiet behind you and the duty pump is halfway up the rail on the chain.",
+      cue: "Nothing has stopped arriving at this station.",
+      target: "bypass-start",
+      why: "A lift station is the bottom of a catchment and the catchment does not know you are working. Inflow keeps arriving at whatever the morning is sending — and with the duty pump off its discharge elbow and hanging in the shaft, the bypass is the only thing moving any of it. Bypass pumps lose prime, run their tanks down and trip on their own overload, which is why the bypass is watched rather than started and forgotten. You have minutes at most: the well fills to the overflow and from there it goes to the street and into the lowest basements on the collection system.",
+      missNote: "The well came up with the bypass dead and the duty pump in the air. That is a sanitary sewer overflow with your name on the shift log — a reportable discharge, a street closed, and somebody else cleaning out the basements it reached first.",
+      wrongNote: "It is the bypass pump. Everything else on this job assumes something is still moving the flow, and right now nothing is.",
+    },
+    {
+      id: "h2s-at-the-opening",
+      kind: "Gas at the hatch",
+      after: "inspect", delay: 3, seconds: 12,
+      alert: "Your personal monitor has gone off. You are crouched over the impeller at knee height and the open hatch is a metre behind you.",
+      cue: "Something came out of that well when the pump came out of it.",
+      target: "hatch",
+      why: "Pulling four hundred kilos of pump out of a wet well displaces its headspace, and the level swinging behind the bypass keeps pushing that headspace out through the only opening it has. Hydrogen sulphide is heavier than air, so what comes over the coaming does not rise and disperse — it runs across the slab at knee and ankle height, which is exactly where you are while you are picking rag off an impeller. The grate keeps a person out of the shaft; it does nothing at all about gas. Close the hatch. You will open it again to rail the pump back, and you will do that standing up and upwind.",
+      missNote: "The hatch stayed open and the monitor kept alarming while you worked at knee height in the layer the gas was sitting in. H2S kills the sense of smell before it kills anything else, so the alarm was the only warning available and it was ignored.",
+      wrongNote: "The gas is coming out of the well, and the well has one opening. Shut the hatch before you do anything else with that pump.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -152,6 +177,10 @@ export const SIM_LIFT_STATION = {
     reg(hits, ladder, "well-ladder");
     const hatchNoGas = box(well, 1.0, 0.1, 1.0, 0, 0.15, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, hatchNoGas, "hatch-no-gas");
+    // Personal monitor beacon clipped at the coaming — dark until the gas
+    // coming out of the opening sets it off.
+    const gasAlarm = ball(well, 0.045, 0.55, 0.22, 0.42, 0xd2312b, { emissive: 0xd2312b, ei: 3.0, rough: 0.4 });
+    gasAlarm.visible = false;
     const vent = cyl(well, 0.06, 0.06, 0.3, 0.7, 0.15, -0.4, 0x8a949d, { rough: 0.5, metal: 0.6, seg: 12 });
     holoTag(well, "vent port — gas test here", 0.7, 0.5, -0.4, { css: "#5bb0a8", w: 0.4 });
     const gasFaces = {};
@@ -215,6 +244,9 @@ export const SIM_LIFT_STATION = {
     box(bypass, 0.8, 0.6, 0.6, 0, 0.3, 0, 0xe8b02e, { rough: 0.55, metal: 0.3 });
     const bypassStart = box(bypass, 0.12, 0.06, 0.03, 0.2, 0.5, 0.31, 0x59c97b, { rough: 0.5 });
     reg(hits, bypassStart, "bypass-start");
+    // Fault lamp on the bypass set: lit when the six-inch has dropped out.
+    const bypassFault = ball(bypass, 0.05, -0.2, 0.52, 0.31, 0xd2312b, { emissive: 0xd2312b, ei: 3.0, rough: 0.4 });
+    bypassFault.visible = false;
     holoTag(bypass, "bypass pump", 0, 0.75, 0, { css: "#5bb0a8", w: 0.26 });
     const suction = group(bypass, -0.5, 0.2, 0.2);
     cyl(suction, 0.06, 0.06, 0.2, 0, 0, 0, 0x2b2f34, { rough: 0.6, seg: 12 }).rotation.z = Math.PI / 2;
@@ -232,6 +264,8 @@ export const SIM_LIFT_STATION = {
     cone(g, 2.4, -1.8); barrierPanel(g, 0.4, 1.9, { color: 0xe4622a });
 
     let lifted = 0;
+    let bypassDown = false;
+    let gasAlarming = false;
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.4, 0.9, -0.6),
@@ -245,7 +279,23 @@ export const SIM_LIFT_STATION = {
         if (step.id === "restart") { lock.visible = false; discHandle.rotation.z = 0; grate.visible = false; hatch.position.set(0, 0.03, 0); repaint(level, signFace("1.6 m · AUTO", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.55 })); }
       },
       onHazard() {},
+      // Both of these are things you can see from where you are standing: the
+      // bypass set goes into fault, and the monitor at the coaming lights up.
+      onInterrupt(it) {
+        if (it.id === "bypass-died") { bypassFault.visible = true; bypassStart.position.y -= 0.02; bypassDown = true; }
+        if (it.id === "h2s-at-the-opening") { gasAlarm.visible = true; gasAlarming = true; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "bypass-died") { bypassFault.visible = false; bypassStart.position.y += 0.02; bypassDown = false; }
+        if (it.id === "h2s-at-the-opening") {
+          gasAlarm.visible = false; gasAlarming = false;
+          hatch.position.set(0, 0.03, 0); grate.visible = false;
+        }
+      },
       animate(t, dt, session) {
+        if (bypassDown) bypassFault.material.emissiveIntensity = 1.8 + Math.sin(t * 9) * 1.4;
+        if (gasAlarming) gasAlarm.material.emissiveIntensity = 1.8 + Math.sin(t * 13) * 1.4;
         const step = session?.step;
         fumes.visible = true; fumes.userData.step(dt, new THREE.Vector3(0.7, 0.3, -0.4), 0.05, 0.3, 0.15);
         if (step?.id === "lift" && session.holding) { lifted = Math.min(1, session.holdFor / 6); pump.position.y = -1.8 + lifted * 2.3; chain.scale.y = 1 - lifted * 0.6; chain.position.y = 1.2 + lifted * 0.6; }

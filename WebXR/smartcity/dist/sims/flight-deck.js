@@ -173,6 +173,31 @@ export const SIM_FLIGHT_DECK = {
     },
   ],
 
+  interrupts: [
+    {
+      id: "link-rearmed",
+      kind: "Airframe re-armed",
+      after: "inspect", delay: 4, seconds: 13,
+      alert: "The controller link has gone back to ARMED on its own. The fleet scheduler has handed UAS-14 the 14:20 run and the airframe is counting itself down to launch under your hands.",
+      cue: "Nobody touched a stick. Something upstream did.",
+      target: "flight-controller",
+      why: "Disarmed is a state held in software, and software on a fleet aircraft is written to by a dispatcher in an office who cannot see the ramp. A scheduled mission, a fleet firmware push or an operator picking the wrong tail number all put the motors back under command, and none of them ask whether somebody is leaning over the airframe. The pins are the reason your hands are still attached; taking the aircraft off the schedule at the controller is how it stops happening again in ninety seconds.",
+      missNote: "The mission stayed queued and the airframe stayed armed. It ran its launch sequence into four pinned rotors — four stalled motors, four cooked speed controllers, and a medical delivery that is now an aircraft-on-ground report instead of a flight.",
+      wrongNote: "It is the controller link. The aircraft was re-armed from the ground station, and the ground station is the only place it can be taken back.",
+    },
+    {
+      id: "cell-hot",
+      kind: "Pack thermal event",
+      after: "plan-route", delay: 3, seconds: 12,
+      alert: "Telemetry from the airframe: one cell in the fitted pack is running away from the other five and the bay temperature is climbing with it.",
+      cue: "That pack passed its spread check. It is not on the bench any more.",
+      target: "battery-bay",
+      why: "A balance check is a snapshot of a pack at rest, and an internal short does not show up as a spread until the damaged cell starts making its own heat. From the first divergence to a vent is minutes, and once one cell in a six-series pack goes the rest follow it through the plastic. The pack comes out of the aircraft now, while it is still something a person can pick up and carry to the bag, because there is no stage after that where anything you own makes a difference.",
+      missNote: "The pack stayed in the bay and went into runaway inside the airframe. A lithium polymer fire on a composite aircraft takes the aircraft, and on a vertiport pad it takes the pad out of service until the deck is surveyed — all of it downstream of a cell that told you twelve seconds early.",
+      wrongNote: "The heat is in the pack that is already fitted. Open the battery bay and get it out of the aircraft.",
+    },
+  ],
+
   build(root) {
     const hits = {};
     const g = group(root);
@@ -235,6 +260,10 @@ export const SIM_FLIGHT_DECK = {
     const battDoor = box(battBay, 0.18, 0.02, 0.14, 0, 0, 0, 0x2b3138, { rough: 0.4, metal: 0.4 });
     holoTag(battBay, "Battery bay", 0, 0.1, 0, { css: "#4fd1ff", w: 0.26 });
     reg(hits, battBay, "battery-bay");
+    // Cell-temperature warning inside the bay — dark until the pack starts
+    // making its own heat, which is what the thermal interruption is.
+    const bayHeat = ball(battBay, 0.026, 0, 0.04, 0, 0xf0645b, { emissive: 0xf0645b, ei: 2.6, rough: 0.4 });
+    bayHeat.visible = false;
 
     // Flight controller / link status on the ramp side.
     const controller = group(g, 1.1, 0, -1.35, -0.4);
@@ -351,6 +380,7 @@ export const SIM_FLIGHT_DECK = {
 
     let armed = true;
     let pinned = false;
+    let cellHot = false;
 
     return {
       hits,
@@ -379,8 +409,30 @@ export const SIM_FLIGHT_DECK = {
         }
       },
 
+      // The ramp really changes: the aircraft comes back under command, and
+      // the pack in the bay really starts to glow.
+      onInterrupt(it) {
+        if (it.id === "link-rearmed") {
+          armed = true;
+          rotors.forEach((r) => { r.rotation.y += 0.55; });
+          controllerScreen.material.emissiveIntensity = 2.8;
+          repaint(controllerScreen, signFace("ARMED", { bg: "#2a1416", accent: "#f0645b", fg: "#ffd2ce", scale: 0.5 }));
+        }
+        if (it.id === "cell-hot") { bayHeat.visible = true; cellHot = true; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "link-rearmed") {
+          armed = false;
+          controllerScreen.material.emissiveIntensity = 0.85;
+          repaint(controllerScreen, signFace("DISARMED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.42 }));
+        }
+        if (it.id === "cell-hot") { bayHeat.visible = false; cellHot = false; }
+      },
+
       animate(t, dt, session) {
         if (armed && !pinned) rotors.forEach((r) => { r.rotation.y += dt * 26; });
+        if (cellHot) bayHeat.material.emissiveIntensity = 2.0 + Math.sin(t * 9) * 1.4;
         bystander.userData.head.rotation.y = Math.sin(t * 0.5) * 0.4;
 
         const gg = session?.gauge;
