@@ -3003,5 +3003,87 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bridge-blast",
+    "index": "73",
+    "domain": "Coatings",
+    "trade": "Abrasive blaster / lead-paint removal technician",
+    "category": "Surface Prep & Coatings",
+    "certification": "IUPAT industrial painters; SSPC-QP 2 certified lead-paint removal contractor and the SSPC-SP 10 near-white blast standard the specification names; OSHA 29 CFR 1926.62 lead in construction, including baseline and periodic blood-lead surveillance; 1926.103 / 1910.134 supplied-air respiratory protection and Grade D breathing air; 40 CFR 261 (RCRA) characteristic hazardous waste D008 for lead debris",
+    "name": "Bridge Blast",
+    "weather": "overcast",
+    "indoor": null,
+    "title": "SmartCiti.X~ Bridge Blast VR",
+    "tagline": "Full containment on a highway girder: breathing air proven, negative pressure held, blasted to near-white, and the lead waste labelled and staged before it ever reaches the road",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 320,
+    "badge": {
+      "id": "containment-held",
+      "name": "Containment Held",
+      "note": "A lead-paint containment worked start to finish on measured numbers — breathing air, negative pressure, profile and the waste manifest — with no breach"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Coatings Authority",
+      "currency": "MIL",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Competent Person",
+        "Coatings Foreman",
+        "Coatings Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "broadcast-truck",
+    "index": "74",
+    "domain": "Entertainment",
+    "trade": "Outside-broadcast / utility electrician",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE broadcast and IBEW utility electricians; NEC Article 525 (carnivals, fairs and similar events) and Article 530 (motion picture and television studios); NFPA 70E qualified for the lockout/verification; OSHA 29 CFR 1910.147 lockout/tagout on the generator breaker; NEC 250.6 and 702 on generator neutral-ground bonding and objectionable current",
+    "name": "Broadcast Truck",
+    "weather": "clear",
+    "indoor": null,
+    "title": "SmartCiti.X~ Broadcast Truck VR",
+    "tagline": "Generator power to an outside-broadcast truck: neutral-ground bond checked, camloks landed ground-first, GFCI proven, and the transfer to shore power held clean without dropping the truck's UPS",
+    "accent": 3133856,
+    "accentCss": "#2fd1a0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-transfer",
+      "name": "Clean Transfer",
+      "note": "A generator tie-in bonded, cammed ground-first and GFCI-proven, with the transfer to shore power held clean and the UPS never dropped"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tie-In Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Deck Electrician",
+        "Distro Tech",
+        "Utility Electrician",
+        "Production Electrician",
+        "Tie-In Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
