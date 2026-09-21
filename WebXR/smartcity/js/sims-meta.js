@@ -3411,5 +3411,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "vapor-mitigation",
+    "index": "83",
+    "domain": "Building Systems",
+    "trade": "Sub-slab depressurisation system installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; IBEW Local 6 electricians on the fan circuit under OSHA 29 CFR 1910.147 control of hazardous energy; LIUNA hazmat laborers on cuttings and waste handling; system design and commissioning per ASTM E2121 sub-slab depressurisation practice, the EPA OSWER vapor intrusion technical guide, and California DTSC's vapor intrusion guidance",
+    "name": "Vapor Mitigation",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Vapor Mitigation VR",
+    "tagline": "Commissioning a sub-slab depressurisation system: communication proven at every test point, the fan circuit proven dead before the housing opens, the fan hung and vented clear of any intake, the vacuum verified against design, and an indoor-air sample sealed under chain of custody",
+    "accent": 10518271,
+    "accentCss": "#a07eff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "field-proven",
+      "name": "Field Proven",
+      "note": "A communication test, a proven-dead fan circuit, a vacuum verified at every point against design, and an indoor-air sample sealed under chain of custody — all clean"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Vapor Intrusion Control",
+      "currency": "IN.WC",
+      "ranks": [
+        "Installer I",
+        "Installer II",
+        "Lead Installer",
+        "System Commissioner",
+        "Vapor Intrusion Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "well-install",
+    "index": "84",
+    "domain": "Environmental",
+    "trade": "Environmental geologist — field lead",
+    "category": "Environmental Monitoring",
+    "certification": "IUOE Local 3 drillers and rig operators; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); ASTM D5092 standard practice for monitoring well design and installation; California well construction standards (DWR Bulletin 74); the county well permit and the site's quality assurance project plan (QAPP)",
+    "name": "Well Install",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Well Install VR",
+    "tagline": "Hollow-stem auger monitoring well: locate and permit checked, the mast raised inside its clearance, cuttings screened and drummed, screen and casing set, filter pack and seal placed and hydrated before the grout, the well developed clear, the survey point logged",
+    "accent": 9083503,
+    "accentCss": "#8a9a6f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "well-of-record",
+      "name": "Well of Record",
+      "note": "A boring drilled inside its clearance and exclusion zone, cuttings drummed as IDW, a seal hydrated before the grout, and a survey point logged — nothing free-fallen, nothing on the ground"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boring Log Authority",
+      "currency": "FT-BGS",
+      "ranks": [
+        "Field Assistant",
+        "Field Geologist",
+        "Field Lead",
+        "Senior Field Lead",
+        "Boring Log Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

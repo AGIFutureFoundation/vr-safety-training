@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 80
+      "stations": 82
     },
     "trades": {
       "entry": "trades/index.html",
@@ -116,6 +116,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "vapor-mitigation",
         "cath-lab",
         "ammonia-plant"
       ]
@@ -163,6 +164,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "well-install",
         "soil-loadout",
         "rad-survey",
         "stack-test",
@@ -637,8 +639,18 @@
         },
         {
           "app": "smartcity",
+          "id": "well-install",
+          "why": "The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it."
+        },
+        {
+          "app": "smartcity",
           "id": "pump-and-treat",
           "why": "The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept."
+        },
+        {
+          "app": "smartcity",
+          "id": "vapor-mitigation",
+          "why": "The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard."
         },
         {
           "app": "smartcity",
@@ -4885,6 +4897,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "well-install",
+      "name": "Well Install",
+      "title": "SmartCiti.X~ Well Install VR",
+      "tagline": "Hollow-stem auger monitoring well: locate and permit checked, the mast raised inside its clearance, cuttings screened and drummed, screen and casing set, filter pack and seal placed and hydrated before the grout, the well developed clear, the survey point logged",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Environmental geologist — field lead",
+      "union": null,
+      "certification": "IUOE Local 3 drillers and rig operators; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); ASTM D5092 standard practice for monitoring well design and installation; California well construction standards (DWR Bulletin 74); the county well permit and the site's quality assurance project plan (QAPP)",
+      "accent": "#8a9a6f",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "gauge",
+        "drag",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "well-of-record",
+        "name": "Well of Record",
+        "note": "A boring drilled inside its clearance and exclusion zone, cuttings drummed as IDW, a seal hydrated before the grout, and a survey point logged — nothing free-fallen, nothing on the ground"
+      },
+      "meshes": 223,
+      "lights": 0,
+      "overBudget": false,
+      "index": "84",
+      "flat": false,
+      "system": "Boring Log Authority",
+      "currency": "FT-BGS",
+      "ranks": [
+        "Field Assistant",
+        "Field Geologist",
+        "Field Lead",
+        "Senior Field Lead",
+        "Boring Log Certified"
+      ],
+      "awards": [
+        {
+          "id": "cleared-before-up",
+          "name": "Cleared Before Up",
+          "note": "The overhead clearance and exclusion zone were set before the mast ever came up"
+        },
+        {
+          "id": "never-under-it",
+          "name": "Never Under It",
+          "note": "Never under the mast, never a hand near the flights, never a free-fallen seal"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Held the mast and the auger advance near band centre"
+        },
+        {
+          "id": "clean-boring",
+          "name": "Clean Boring",
+          "note": "No corrections anywhere in the installation"
+        },
+        {
+          "id": "steady-advance",
+          "name": "Steady Advance",
+          "note": "Held the auger advance in band without a dropout"
+        },
+        {
+          "id": "well-logged-fast",
+          "name": "Well Logged",
+          "note": "Survey point logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=well-install"
+    },
+    {
+      "app": "smartcity",
+      "id": "vapor-mitigation",
+      "name": "Vapor Mitigation",
+      "title": "SmartCiti.X~ Vapor Mitigation VR",
+      "tagline": "Commissioning a sub-slab depressurisation system: communication proven at every test point, the fan circuit proven dead before the housing opens, the fan hung and vented clear of any intake, the vacuum verified against design, and an indoor-air sample sealed under chain of custody",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems",
+      "trade": "Sub-slab depressurisation system installer",
+      "union": null,
+      "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; IBEW Local 6 electricians on the fan circuit under OSHA 29 CFR 1910.147 control of hazardous energy; LIUNA hazmat laborers on cuttings and waste handling; system design and commissioning per ASTM E2121 sub-slab depressurisation practice, the EPA OSWER vapor intrusion technical guide, and California DTSC's vapor intrusion guidance",
+      "accent": "#a07eff",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "track",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "field-proven",
+        "name": "Field Proven",
+        "note": "A communication test, a proven-dead fan circuit, a vacuum verified at every point against design, and an indoor-air sample sealed under chain of custody — all clean"
+      },
+      "meshes": 173,
+      "lights": 0,
+      "overBudget": false,
+      "index": "83",
+      "flat": false,
+      "system": "Vapor Intrusion Control",
+      "currency": "IN.WC",
+      "ranks": [
+        "Installer I",
+        "Installer II",
+        "Lead Installer",
+        "System Commissioner",
+        "Vapor Intrusion Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-dead-first",
+          "name": "Proven Dead First",
+          "note": "The fan circuit was locked, tagged and proven dead before the housing was ever touched"
+        },
+        {
+          "id": "never-in-live",
+          "name": "Never In Live",
+          "note": "The housing was never opened live and the discharge never landed near an intake"
+        },
+        {
+          "id": "vacuum-true",
+          "name": "Vacuum True",
+          "note": "Held the manometer and vacuum readings near band centre"
+        },
+        {
+          "id": "clean-commission",
+          "name": "Clean Commission",
+          "note": "No corrections anywhere in the commissioning run"
+        },
+        {
+          "id": "steady-field",
+          "name": "Steady Field",
+          "note": "Held the communication test in band without a dropout"
+        },
+        {
+          "id": "system-live-fast",
+          "name": "System Live",
+          "note": "Placard signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=vapor-mitigation"
     },
     {
       "app": "smartcity",
