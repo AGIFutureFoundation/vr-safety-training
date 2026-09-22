@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 205
+      "stations": 208
     },
     "trades": {
       "entry": "trades/index.html",
@@ -103,6 +103,9 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "traffic-incident-management",
+        "critical-incident-debrief",
+        "crisis-intervention-call",
         "home-visit-safety",
         "crisis-line-shift",
         "trauma-informed-intake",
@@ -1490,6 +1493,21 @@
           "app": "smartcity",
           "id": "wildland-urban-interface",
           "why": "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so."
+        },
+        {
+          "app": "smartcity",
+          "id": "crisis-intervention-call",
+          "why": "The call where the words are the tactic: the approach slowed, one speaker, the gap held, time given, and a stabilisation unit at the end of it instead of a cell."
+        },
+        {
+          "app": "smartcity",
+          "id": "critical-incident-debrief",
+          "why": "What the shift costs, four hours later: the signs named, the confidentiality rule said out loud with its limits, and the duty question kept out of the room."
+        },
+        {
+          "app": "smartcity",
+          "id": "traffic-incident-management",
+          "why": "Three services under one plan on a wet shoulder: the block upstream, the taper to the posted speed, a driver in shock kept out of the live lane, and the lane given back."
         },
         {
           "app": "smartcity",
@@ -5862,6 +5880,255 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "traffic-incident-management",
+      "name": "Traffic Incident Management",
+      "title": "SmartCiti.X~ Traffic Incident Management VR",
+      "tagline": "Wet shoulder, live lane: the block set upstream, the taper built for the posted speed, the engine shielding, the driver kept out of the lane — and the lane given back",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Police officer with fire and DOT under the traffic incident management plan",
+      "union": null,
+      "certification": "The MUTCD's temporary traffic control for incident management — the advance warning area, a merging taper computed from the lane width and the posted speed, and a buffer space nobody works inside; the national Traffic Incident Management responder training the Federal Highway Administration sponsors, which is where the quick-clearance and unified-command language in this station comes from; ANSI/ISEA 107 high-visibility safety apparel, worn by every responder in the right-of-way; NFPA 1500 for fire-apparatus positioning and member safety on a roadway incident; OSHA 29 CFR 1910.132 for the hazard assessment behind that vest; NIMS/ICS through FEMA IS-100 and IS-700 for the unified command police, fire, EMS and the state transportation department actually work inside; the state transportation department's own open-roads policy on clearance times",
+      "accent": "#f2a23b",
+      "parSeconds": 375,
+      "weather": "rain",
+      "indoor": null,
+      "district": "Emergency Services",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "drag",
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "lane-given-back",
+        "name": "Lane Given Back",
+        "note": "Blocked, tapered, shielded and cleared — nobody in the buffer, and the lane reopened on the plan's clock"
+      },
+      "meshes": 241,
+      "lights": 0,
+      "overBudget": false,
+      "index": "205",
+      "flat": false,
+      "system": "Open Roads",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Patrol Officer",
+        "TIM Trained",
+        "Scene Commander",
+        "Unified Command",
+        "TIM Instructor"
+      ],
+      "awards": [
+        {
+          "id": "geometry-first",
+          "name": "Geometry First",
+          "note": "The block, the taper and the shield all set before anybody worked in the open"
+        },
+        {
+          "id": "nobody-struck",
+          "name": "Nobody In The Lane",
+          "note": "No unsafe action anywhere on the scene"
+        },
+        {
+          "id": "eyes-upstream",
+          "name": "Eyes Upstream",
+          "note": "Both timed periods carried the full count"
+        },
+        {
+          "id": "clean-scene",
+          "name": "Clean Scene",
+          "note": "No corrections anywhere on the scene"
+        },
+        {
+          "id": "taper-to-spec",
+          "name": "Taper To Spec",
+          "note": "Taper length and upstream watch both inside their bands"
+        },
+        {
+          "id": "quick-clearance",
+          "name": "Quick Clearance",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=traffic-incident-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "critical-incident-debrief",
+      "name": "Critical Incident Debrief",
+      "title": "SmartCiti.X~ Critical Incident Debrief VR",
+      "tagline": "The quiet room four hours after: the signs named, the door closed, the rule said out loud, three questions in order — and the fitness-for-duty question kept out of it",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Police officer — crisis intervention team",
+      "union": null,
+      "certification": "NFPA 1500's member assistance and behavioural-health programme requirement, applied the way a police or fire department applies it to critical-incident stress; the critical incident stress management model published by the International Critical Incident Stress Foundation — peer support as the first contact, a defusing inside the first hours, a formal debriefing a day to three days out; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO); the Americans with Disabilities Act (ADA) rule that keeps an employer's fitness-for-duty medical inquiry separate from, and confidential from, an employee's support conversation; HIPAA for the records the employee assistance programme's clinician keeps, which the department does not get to read; OSHA's General Duty Clause as the only federal hook a department has on a psychological hazard; NIMS/ICS through FEMA IS-100 for the incident this shift has just come off; the officers' association and FOP contract language establishing the peer-support team and the chaplaincy",
+      "accent": "#8fb8d8",
+      "parSeconds": 345,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "select",
+        "sequence",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "same-side-of-the-table",
+        "name": "Same Side of the Table",
+        "note": "A defusing run as a defusing — confidentiality stated, nothing promised that could not be kept, and a follow-up on the calendar"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "204",
+      "flat": false,
+      "system": "Peer Contact",
+      "currency": "TRUST",
+      "ranks": [
+        "Officer",
+        "Peer Support Trained",
+        "Peer Team Member",
+        "Team Coordinator",
+        "CISM Instructor"
+      ],
+      "awards": [
+        {
+          "id": "saw-it-first",
+          "name": "Saw It First",
+          "note": "Every stress sign named before the conversation started"
+        },
+        {
+          "id": "nothing-pushed",
+          "name": "Nothing Pushed",
+          "note": "No unsafe action anywhere in the contact"
+        },
+        {
+          "id": "silence-held",
+          "name": "Silence Held",
+          "note": "The pace and the pause both carried their full count"
+        },
+        {
+          "id": "no-corrections",
+          "name": "No Corrections",
+          "note": "No corrections anywhere in the contact"
+        },
+        {
+          "id": "right-window",
+          "name": "Right Window",
+          "note": "The defusing window read inside the band"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=critical-incident-debrief"
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-intervention-call",
+      "name": "Crisis Intervention Call",
+      "title": "SmartCiti.X~ Crisis Intervention Call VR",
+      "tagline": "A porch, a person in crisis and twenty minutes: the approach slowed, one voice, the gap held, time given, choices offered — and a stabilisation unit instead of a booking cell",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Police officer — crisis intervention team",
+      "union": null,
+      "certification": "CIT International's crisis intervention team model — the forty-hour curriculum, the co-responder clinician, and a crisis stabilisation unit as a destination that is not a jail; the Americans with Disabilities Act (ADA) title II duty to accommodate a person's disability, mental illness included, during a police contact; the state's emergency psychiatric hold as the county behavioural health authority that runs the stabilisation unit administers it — named as the body rather than as a section quoted from memory; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO) for what is actually said on the step; NIMS/ICS through FEMA IS-100 for the unified command a police and clinician co-response works inside; OSHA 29 CFR 1910.1030 for the moment any contact breaks skin; the police officers' association and FOP contract language that puts peer support after a call like this one",
+      "accent": "#5aa9e6",
+      "parSeconds": 360,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Emergency Services",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "gauge",
+        "turn",
+        "select",
+        "track",
+        "sequence",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "one-voice-held",
+        "name": "One Voice",
+        "note": "The whole call run at walking pace and speaking volume, with a voluntary transport at the end of it"
+      },
+      "meshes": 264,
+      "lights": 0,
+      "overBudget": false,
+      "index": "203",
+      "flat": false,
+      "system": "Slow Is Fast",
+      "currency": "RAPPORT",
+      "ranks": [
+        "Patrol Officer",
+        "CIT Trained",
+        "Crisis Team Officer",
+        "Co-Response Lead",
+        "CIT Instructor"
+      ],
+      "awards": [
+        {
+          "id": "read-before-moving",
+          "name": "Read Before Moving",
+          "note": "Every pre-contact cue picked up before a single step was taken"
+        },
+        {
+          "id": "nothing-forced",
+          "name": "Nothing Forced",
+          "note": "No unsafe action anywhere in the call"
+        },
+        {
+          "id": "silence-kept",
+          "name": "Silence Kept",
+          "note": "Both timed periods — the gap and the silence — carried the full count"
+        },
+        {
+          "id": "level-voice",
+          "name": "Level Voice",
+          "note": "No corrections anywhere in the call"
+        },
+        {
+          "id": "measured-approach",
+          "name": "Measured Approach",
+          "note": "Approach pace and gap both read inside their bands"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=crisis-intervention-call"
     },
     {
       "app": "smartcity",
@@ -14209,7 +14476,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -14868,7 +15135,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 252,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

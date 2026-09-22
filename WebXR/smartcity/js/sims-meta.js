@@ -8720,5 +8720,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "crisis-intervention-call",
+    "index": "203",
+    "domain": "Emergency Services",
+    "trade": "Police officer — crisis intervention team",
+    "category": "Emergency Services",
+    "certification": "CIT International's crisis intervention team model — the forty-hour curriculum, the co-responder clinician, and a crisis stabilisation unit as a destination that is not a jail; the Americans with Disabilities Act (ADA) title II duty to accommodate a person's disability, mental illness included, during a police contact; the state's emergency psychiatric hold as the county behavioural health authority that runs the stabilisation unit administers it — named as the body rather than as a section quoted from memory; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO) for what is actually said on the step; NIMS/ICS through FEMA IS-100 for the unified command a police and clinician co-response works inside; OSHA 29 CFR 1910.1030 for the moment any contact breaks skin; the police officers' association and FOP contract language that puts peer support after a call like this one",
+    "name": "Crisis Intervention Call",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Emergency Services",
+    "title": "SmartCiti.X~ Crisis Intervention Call VR",
+    "tagline": "A porch, a person in crisis and twenty minutes: the approach slowed, one voice, the gap held, time given, choices offered — and a stabilisation unit instead of a booking cell",
+    "accent": 5941734,
+    "accentCss": "#5aa9e6",
+    "parSeconds": 360,
+    "badge": {
+      "id": "one-voice-held",
+      "name": "One Voice",
+      "note": "The whole call run at walking pace and speaking volume, with a voluntary transport at the end of it"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Slow Is Fast",
+      "currency": "RAPPORT",
+      "ranks": [
+        "Patrol Officer",
+        "CIT Trained",
+        "Crisis Team Officer",
+        "Co-Response Lead",
+        "CIT Instructor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "critical-incident-debrief",
+    "index": "204",
+    "domain": "Emergency Services",
+    "trade": "Police officer — crisis intervention team",
+    "category": "Emergency Services",
+    "certification": "NFPA 1500's member assistance and behavioural-health programme requirement, applied the way a police or fire department applies it to critical-incident stress; the critical incident stress management model published by the International Critical Incident Stress Foundation — peer support as the first contact, a defusing inside the first hours, a formal debriefing a day to three days out; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO); the Americans with Disabilities Act (ADA) rule that keeps an employer's fitness-for-duty medical inquiry separate from, and confidential from, an employee's support conversation; HIPAA for the records the employee assistance programme's clinician keeps, which the department does not get to read; OSHA's General Duty Clause as the only federal hook a department has on a psychological hazard; NIMS/ICS through FEMA IS-100 for the incident this shift has just come off; the officers' association and FOP contract language establishing the peer-support team and the chaplaincy",
+    "name": "Critical Incident Debrief",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Critical Incident Debrief VR",
+    "tagline": "The quiet room four hours after: the signs named, the door closed, the rule said out loud, three questions in order — and the fitness-for-duty question kept out of it",
+    "accent": 9418968,
+    "accentCss": "#8fb8d8",
+    "parSeconds": 345,
+    "badge": {
+      "id": "same-side-of-the-table",
+      "name": "Same Side of the Table",
+      "note": "A defusing run as a defusing — confidentiality stated, nothing promised that could not be kept, and a follow-up on the calendar"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Peer Contact",
+      "currency": "TRUST",
+      "ranks": [
+        "Officer",
+        "Peer Support Trained",
+        "Peer Team Member",
+        "Team Coordinator",
+        "CISM Instructor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "traffic-incident-management",
+    "index": "205",
+    "domain": "Emergency Services",
+    "trade": "Police officer with fire and DOT under the traffic incident management plan",
+    "category": "Emergency Services",
+    "certification": "The MUTCD's temporary traffic control for incident management — the advance warning area, a merging taper computed from the lane width and the posted speed, and a buffer space nobody works inside; the national Traffic Incident Management responder training the Federal Highway Administration sponsors, which is where the quick-clearance and unified-command language in this station comes from; ANSI/ISEA 107 high-visibility safety apparel, worn by every responder in the right-of-way; NFPA 1500 for fire-apparatus positioning and member safety on a roadway incident; OSHA 29 CFR 1910.132 for the hazard assessment behind that vest; NIMS/ICS through FEMA IS-100 and IS-700 for the unified command police, fire, EMS and the state transportation department actually work inside; the state transportation department's own open-roads policy on clearance times",
+    "name": "Traffic Incident Management",
+    "weather": "rain",
+    "indoor": null,
+    "district": "Emergency Services",
+    "title": "SmartCiti.X~ Traffic Incident Management VR",
+    "tagline": "Wet shoulder, live lane: the block set upstream, the taper built for the posted speed, the engine shielding, the driver kept out of the lane — and the lane given back",
+    "accent": 15901243,
+    "accentCss": "#f2a23b",
+    "parSeconds": 375,
+    "badge": {
+      "id": "lane-given-back",
+      "name": "Lane Given Back",
+      "note": "Blocked, tapered, shielded and cleared — nobody in the buffer, and the lane reopened on the plan's clock"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Roads",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Patrol Officer",
+        "TIM Trained",
+        "Scene Commander",
+        "Unified Command",
+        "TIM Instructor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

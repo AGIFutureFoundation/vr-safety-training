@@ -42,6 +42,12 @@ const GENERIC = new Set([
   "pour", "air", "lift", "chamber", "box", "truck", "site", "dock", "depot", "back",
   "fly", "stage", "data", "field", "job", "work", "crew", "shift", "area", "floor",
   "build", "machine",
+  // "incident" is what every report in this feature is about, so it cannot be
+  // what tells two of them apart. It only became reachable when the first
+  // station ids carrying it shipped (critical-incident-debrief,
+  // traffic-incident-management), and without it here "summarise last month's
+  // incidents" scored as a report against one of them.
+  "incident",
 ]);
 
 const STOP = new Set([
