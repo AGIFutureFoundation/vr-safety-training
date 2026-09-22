@@ -3663,5 +3663,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "creosote-pile-removal",
+    "index": "85",
+    "domain": "Maritime",
+    "trade": "Pile removal deck lead / rigger — marine construction crew",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 (United Brotherhood of Carpenters) marine construction; IUOE Local 3 operating engineers (crane); Inlandboatmen's Union of the Pacific (IBU, ILWU marine division) — barge and tug crew; U.S. Army Corps of Engineers Section 404 permit conditions; San Francisco Bay Conservation and Development Commission (BCDC) permit; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; State Coastal Conservancy creosote pile removal program testing and disposal practice; OSHA 29 CFR 1926 Subpart CC cranes and derricks in construction",
+    "name": "Creosote Pile Removal",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Creosote Pile Removal VR",
+    "tagline": "Pulling a derelict creosote pile clean: the removal plan and work window read, a turbidity curtain anchored, the choker rigged to the pile head, a steady vertical pull with no stub left below the mudline, the pile drained over the barge, cut and binned, and the sediment settled before the curtain comes up",
+    "accent": 3812902,
+    "accentCss": "#3a2e26",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-pull",
+      "name": "Clean Pull",
+      "note": "A pile pulled whole, or its stub marked and logged, drained over the barge, and no reading over the curtain's limit"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Deck",
+      "currency": "FT",
+      "ranks": [
+        "Deckhand",
+        "Pile Deck Lead",
+        "Rigging Boss",
+        "Removal Foreman",
+        "Pile Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bioswale-build",
+    "index": "86",
+    "domain": "Environmental",
+    "trade": "Laborer / stormwater bioswale construction crew",
+    "category": "Water & Environmental",
+    "certification": "LIUNA laborers; IUOE Local 3 operating engineers (grading and compaction equipment); San Francisco Bay Regional Water Quality Control Board municipal stormwater (NPDES) permit; San Francisco Stormwater Management Requirements and Design Guidelines; Clean Water Act Section 402 municipal separate storm sewer system (MS4) practice; OSHA 29 CFR 1926 Subpart P excavations for the underdrain trench",
+    "name": "Bioswale Build",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Bioswale Build VR",
+    "tagline": "Building a stormwater bioswale to grade: the design read against the survey stakes, subgrade compaction checked and the underdrain laid to fall, engineered soil placed loose to depth, check dams and the overflow riser set to the design numbers, plants set to the plan, and the first inflow watched to see the swale actually work",
+    "accent": 5929530,
+    "accentCss": "#5a7a3a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "swale-to-grade",
+      "name": "Swale To Grade",
+      "note": "A bioswale built to the design grade, with a clean subgrade, an unpacked soil mix, and the first inflow disperses across the dams"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Swale Crew",
+      "currency": "IN/HR",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Grade Lead",
+        "Site Steward",
+        "Swale Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

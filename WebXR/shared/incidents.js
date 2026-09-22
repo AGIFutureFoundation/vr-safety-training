@@ -41,6 +41,7 @@ const GENERIC = new Set([
   "station", "plant", "node", "hall", "pit", "ramp", "loft", "guard", "test", "power",
   "pour", "air", "lift", "chamber", "box", "truck", "site", "dock", "depot", "back",
   "fly", "stage", "data", "field", "job", "work", "crew", "shift", "area", "floor",
+  "build",
 ]);
 
 const STOP = new Set([

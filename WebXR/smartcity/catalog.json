@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-21",
+  "generatedAt": "2026-09-22",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 86
+      "stations": 88
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "bioswale-build",
         "transite-pipe-removal",
         "eelgrass-transplant",
         "living-shoreline",
@@ -155,6 +156,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "creosote-pile-removal",
         "sediment-cap",
         "dredge-barge",
         "pilot-transfer",
@@ -673,6 +675,11 @@
         },
         {
           "app": "smartcity",
+          "id": "bioswale-build",
+          "why": "What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived."
+        },
+        {
+          "app": "smartcity",
           "id": "dredge-barge",
           "why": "Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere."
         },
@@ -680,6 +687,11 @@
           "app": "smartcity",
           "id": "sediment-cap",
           "why": "The sediment that stays behind: an engineered cap placed in thin lifts to a design grid, proven by core rather than by eye, and stopped the moment turbidity or a short reading says so."
+        },
+        {
+          "app": "smartcity",
+          "id": "creosote-pile-removal",
+          "why": "The derelict structures still standing in the mud: a century-old creosote pile pulled whole inside a curtain of its own, drained over the barge rather than the bay, and any stub it leaves behind marked before the barge moves on."
         },
         {
           "app": "smartcity",
@@ -4921,6 +4933,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bioswale-build",
+      "name": "Bioswale Build",
+      "title": "SmartCiti.X~ Bioswale Build VR",
+      "tagline": "Building a stormwater bioswale to grade: the design read against the survey stakes, subgrade compaction checked and the underdrain laid to fall, engineered soil placed loose to depth, check dams and the overflow riser set to the design numbers, plants set to the plan, and the first inflow watched to see the swale actually work",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Laborer / stormwater bioswale construction crew",
+      "union": null,
+      "certification": "LIUNA laborers; IUOE Local 3 operating engineers (grading and compaction equipment); San Francisco Bay Regional Water Quality Control Board municipal stormwater (NPDES) permit; San Francisco Stormwater Management Requirements and Design Guidelines; Clean Water Act Section 402 municipal separate storm sewer system (MS4) practice; OSHA 29 CFR 1926 Subpart P excavations for the underdrain trench",
+      "accent": "#5a7a3a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "turn",
+        "hold"
+      ],
+      "badge": {
+        "id": "swale-to-grade",
+        "name": "Swale To Grade",
+        "note": "A bioswale built to the design grade, with a clean subgrade, an unpacked soil mix, and the first inflow disperses across the dams"
+      },
+      "meshes": 247,
+      "lights": 0,
+      "overBudget": false,
+      "index": "86",
+      "flat": false,
+      "system": "Swale Crew",
+      "currency": "IN/HR",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Grade Lead",
+        "Site Steward",
+        "Swale Certified"
+      ],
+      "awards": [
+        {
+          "id": "grade-honest",
+          "name": "Grade Honest",
+          "note": "Read the design plan and the stakes clean before the first cut"
+        },
+        {
+          "id": "nothing-compacted",
+          "name": "Nothing Compacted",
+          "note": "Never a hazard, never a reading called outside its band"
+        },
+        {
+          "id": "true-grade",
+          "name": "True Grade",
+          "note": "Soil depth and riser elevation both read inside the working band"
+        },
+        {
+          "id": "clean-swale",
+          "name": "Clean Swale",
+          "note": "No corrections across the whole build"
+        },
+        {
+          "id": "steady-place",
+          "name": "Steady Place",
+          "note": "Held the soil placement rate in band the whole load"
+        },
+        {
+          "id": "swale-ready",
+          "name": "Swale Ready",
+          "note": "Swale built and the first inflow watched inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bioswale-build"
+    },
+    {
+      "app": "smartcity",
+      "id": "creosote-pile-removal",
+      "name": "Creosote Pile Removal",
+      "title": "SmartCiti.X~ Creosote Pile Removal VR",
+      "tagline": "Pulling a derelict creosote pile clean: the removal plan and work window read, a turbidity curtain anchored, the choker rigged to the pile head, a steady vertical pull with no stub left below the mudline, the pile drained over the barge, cut and binned, and the sediment settled before the curtain comes up",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Pile removal deck lead / rigger — marine construction crew",
+      "union": null,
+      "certification": "Pile Drivers Local 34 (United Brotherhood of Carpenters) marine construction; IUOE Local 3 operating engineers (crane); Inlandboatmen's Union of the Pacific (IBU, ILWU marine division) — barge and tug crew; U.S. Army Corps of Engineers Section 404 permit conditions; San Francisco Bay Conservation and Development Commission (BCDC) permit; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; State Coastal Conservancy creosote pile removal program testing and disposal practice; OSHA 29 CFR 1926 Subpart CC cranes and derricks in construction",
+      "accent": "#3a2e26",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "turn",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "clean-pull",
+        "name": "Clean Pull",
+        "note": "A pile pulled whole, or its stub marked and logged, drained over the barge, and no reading over the curtain's limit"
+      },
+      "meshes": 242,
+      "lights": 0,
+      "overBudget": false,
+      "index": "85",
+      "flat": false,
+      "system": "Pile Deck",
+      "currency": "FT",
+      "ranks": [
+        "Deckhand",
+        "Pile Deck Lead",
+        "Rigging Boss",
+        "Removal Foreman",
+        "Pile Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-honest",
+          "name": "Plan Honest",
+          "note": "Read the removal plan and confirmed every curtain anchor clean before the first pull"
+        },
+        {
+          "id": "nothing-adrift",
+          "name": "Nothing Adrift",
+          "note": "Never a hazard, never a reading called outside its band"
+        },
+        {
+          "id": "true-pull",
+          "name": "True Pull",
+          "note": "Pull length and settle reading both read inside the working band"
+        },
+        {
+          "id": "clean-pull-run",
+          "name": "Clean Pull",
+          "note": "No corrections across the whole pile"
+        },
+        {
+          "id": "steady-hoist",
+          "name": "Steady Hoist",
+          "note": "Held the pull rate in band the whole way up"
+        },
+        {
+          "id": "pile-away",
+          "name": "Pile Away",
+          "note": "Pile pulled, drained and binned inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=creosote-pile-removal"
     },
     {
       "app": "smartcity",
