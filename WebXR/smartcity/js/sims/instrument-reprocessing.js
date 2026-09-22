@@ -25,7 +25,7 @@ export const SIM_INSTRUMENT_REPROCESSING = {
   trade: "Dental hygienist",
   category: "Dental & Oral Health",
   indoor: "clinic",
-  certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA's reprocessing requirements for reusable medical devices; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
+  certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA-cleared reprocessing instructions that ship with a reusable dental device; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
   name: "Instrument Reprocessing",
   title: simTitle("Instrument Reprocessing"),
   tagline: "Sterilization centre: mechanical cleaning, inspection, chemical-indicator packaging, an autoclave cycle read from its own printout, and the weekly spore test that proves it worked",
@@ -34,6 +34,10 @@ export const SIM_INSTRUMENT_REPROCESSING = {
   parSeconds: 260,
   footprint: 2.2,
   badge: { id: "cycle-verified", name: "Cycle Verified", note: "A load cleaned, packaged, run and biologically verified end to end with no shortcut" },
+
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "the ADHA's member resources, or your employer's employee assistance program if a failed load has you doubting every tray you packaged this month",
 
   game: system({
     name: "Sterile Processing",
@@ -69,7 +73,7 @@ export const SIM_INSTRUMENT_REPROCESSING = {
       id: "don-gloves", kind: "select", target: "utility-gloves-repro",
       title: "Don utility gloves for the dirty zone",
       cue: "Heavy utility gloves before you touch anything that came off a patient.",
-      why: "The dirty side of this room handles instruments that have not been cleaned yet, sharp edges included — utility gloves are rated for that in a way exam gloves are not, and OSHA's bloodborne pathogens standard treats reprocessing staff as exposed the same as chairside staff.",
+      why: "The dirty side of this room handles instruments that have not been cleaned yet, sharp edges included — a utility glove is bought to a cut level under ANSI/ISEA 105 in a way an exam glove never is, and OSHA 29 CFR 1910.1030 treats reprocessing staff as exposed the same as chairside staff. The glove that is thin enough to feel a calculus ledge through is the wrong glove for a tray of used curettes.",
     },
     {
       id: "receive-dirty", kind: "select", target: "dirty-intake",
@@ -156,7 +160,7 @@ export const SIM_INSTRUMENT_REPROCESSING = {
       id: "log-result", kind: "select", target: "sterilization-log",
       title: "Log the cycle and the spore test result",
       cue: "Record the cycle parameters and the biological indicator result in the sterilization log.",
-      why: "The log is what lets this exact load be traced to this exact cycle and this exact spore test months later — a record with a gap in it is indistinguishable from a load that was never verified at all.",
+      why: "The log is what lets this exact load be traced back to this exact cycle and this exact spore test months later, which is the only way a recall can name the patients a failed load reached instead of every patient seen that week. A record with a gap in it is indistinguishable from a load that was never verified at all.",
     },
     {
       id: "storage-fifo", kind: "select", target: "sterile-storage",

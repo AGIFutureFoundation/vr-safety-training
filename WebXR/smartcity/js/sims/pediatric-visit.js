@@ -33,6 +33,10 @@ export const SIM_PEDIATRIC_VISIT = {
   footprint: 2.0,
   badge: { id: "first-smiles", name: "First Smiles", note: "A first visit run without forcing the plan past what the child could actually tolerate" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources — a visit that went badly for a five-year-old goes home with the hygienist too",
+
   game: system({
     name: "First Smiles",
     currency: "STAR",

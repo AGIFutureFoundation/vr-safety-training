@@ -36,6 +36,10 @@ export const SIM_AMALGAM_WASTE_HANDLING = {
   footprint: 2.2,
   badge: { id: "closed-loop", name: "Closed Loop", note: "Every gram of scrap into the amalgam stream — nothing to the trash, the sharps or the drain" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources if a mercury question about your own exposure is what stayed with you",
+
   game: system({
     name: "Mercury Handling",
     currency: "HG",
@@ -148,6 +152,23 @@ export const SIM_AMALGAM_WASTE_HANDLING = {
       title: "Seal the container lid",
       cue: "Close and seal the amalgam waste container.",
       why: "A sealed lid is what keeps mercury vapour out of the room air between now and pickup — an open or loosely set lid on a container that has been accumulating scrap for weeks is a slow, continuous source nobody is measuring.",
+    },
+    {
+      id: "sweep-the-bay", kind: "find", noHint: true,
+      targets: ["extracted-tooth-amalgam", "spent-capsule", "bagged-trap-screen"],
+      itemNames: {
+        "extracted-tooth-amalgam": "the extracted tooth with an amalgam restoration",
+        "spent-capsule": "the spent amalgam capsule",
+        "bagged-trap-screen": "the bagged trap screen from operatory two",
+      },
+      itemNotes: {
+        "extracted-tooth-amalgam": "An extracted tooth still carrying an amalgam restoration is amalgam waste, not a specimen and not biohazard — it is one of the streams the recycler expects and the one most often thrown out with the tooth.",
+        "spent-capsule": "A triturated capsule still holds a measurable residue of amalgam in both halves. Spent capsules are a named amalgam waste stream precisely because they look empty.",
+        "bagged-trap-screen": "Somebody pulled this trap screen in the next room and left it bagged on the counter instead of walking it here. A bagged screen on a counter is amalgam waste in the wrong room, and it is what the next person mistakes for rubbish.",
+      },
+      title: "Sweep the bay for amalgam that never got routed",
+      cue: "Three things in this bay still carry amalgam and are not in the container. Find them before you sign anything.",
+      why: "The separator only catches what reaches the vacuum line, so 40 CFR 441 and the state's mercury waste rules are only satisfied if the solid streams are collected by hand as well — spent capsules, extracted teeth with restorations in them, and trap screens pulled in other operatories. Every one of those looks like ordinary rubbish, and each one that ends up in the trash or the sharps bin is mercury the office has sent somewhere it cannot account for.",
     },
     {
       id: "cleaner-check", kind: "select", target: "compatible-cleaner",
@@ -326,6 +347,29 @@ export const SIM_AMALGAM_WASTE_HANDLING = {
     const autoclaveDoor = cyl(autoclave, 0.15, 0.15, 0.02, 0, 0.5, 0.19, 0x8b929a, { rough: 0.4, metal: 0.5, seg: 20 });
     holoTag(autoclave, "Autoclave", 0, 0.74, 0, { css: "#f0645b", w: 0.3 });
     reg(hits, autoclaveDoor, "autoclave-heat");
+
+    // Amalgam-bearing waste that never got routed: an extracted tooth with a
+    // restoration still in it, a spent capsule, and a trap screen somebody
+    // bagged in the next operatory and left on this counter.
+    const strayWaste = group(g, 0.85, 0, -1.72, 0.2);
+    const extractedTooth = group(strayWaste, -0.26, 0.97, 0);
+    cyl(extractedTooth, 0.035, 0.035, 0.05, 0, 0, 0, 0xdfe8ee, { rough: 0.2, opacity: 0.45, transparent: true, seg: 14 });
+    box(extractedTooth, 0.022, 0.024, 0.02, 0, 0.012, 0, 0xf4f0e2, { rough: 0.6 });
+    box(extractedTooth, 0.012, 0.006, 0.012, 0, 0.026, 0, 0x8b929a, { rough: 0.3, metal: 0.8 });
+    holoTag(extractedTooth, "Extracted tooth", 0, 0.1, 0, { css: "#f2c14b", w: 0.36 });
+    reg(hits, extractedTooth, "extracted-tooth-amalgam");
+
+    const spentCapsule = group(strayWaste, 0, 0.965, 0.04);
+    cyl(spentCapsule, 0.011, 0.011, 0.034, 0, 0, 0, 0xc9ccd1, { rough: 0.4, metal: 0.4, seg: 10 }).rotation.z = Math.PI / 2;
+    cyl(spentCapsule, 0.012, 0.012, 0.008, -0.02, 0, 0, 0xf0645b, { rough: 0.5, seg: 10 }).rotation.z = Math.PI / 2;
+    holoTag(spentCapsule, "Spent capsule", 0, 0.09, 0, { css: "#f2c14b", w: 0.34 });
+    reg(hits, spentCapsule, "spent-capsule");
+
+    const bagged = group(strayWaste, 0.26, 0.96, 0);
+    slab(bagged, 0.11, 0.035, 0.09, 0, 0, 0, 0xdfe8ee, { radius: 0.02, rough: 0.35, opacity: 0.5, transparent: true });
+    cyl(bagged, 0.025, 0.025, 0.012, 0, 0.012, 0, 0x8b929a, { rough: 0.45, metal: 0.5, seg: 12 });
+    holoTag(bagged, "Bagged trap screen", 0, 0.09, 0, { css: "#f2c14b", w: 0.42 });
+    reg(hits, bagged, "bagged-trap-screen");
 
     // Mercury spill kit on the wall, and a new assistant near the traps.
     const spillKit = group(g, 0.6, 0, 1.5, -0.4);

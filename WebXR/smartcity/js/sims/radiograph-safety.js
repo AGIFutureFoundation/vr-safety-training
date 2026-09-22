@@ -34,6 +34,10 @@ export const SIM_RADIOGRAPH_SAFETY = {
   footprint: 2.3,
   badge: { id: "alara-certified", name: "ALARA Certified", note: "A full bitewing series taken with the selection criteria checked, the patient shielded, every exposure made from behind the barrier, and the log complete" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "the ADHA's member resources, or your employer's employee assistance program if the dose questions are following you home",
+
   game: system({
     name: "Beam Discipline",
     currency: "mAs",

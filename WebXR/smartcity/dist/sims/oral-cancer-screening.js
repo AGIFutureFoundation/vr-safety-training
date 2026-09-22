@@ -34,6 +34,10 @@ export const SIM_ORAL_CANCER_SCREENING = {
   footprint: 2.0,
   badge: { id: "early-look", name: "Early Look", note: "A full screening run in order with a finding fully described and referred inside the two-week rule" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources, because being the one who found it is its own weight",
+
   game: system({
     name: "Early Look",
     currency: "SCAN",

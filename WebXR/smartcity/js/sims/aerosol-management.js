@@ -38,6 +38,10 @@ export const SIM_AEROSOL_MANAGEMENT = {
   footprint: 2.4,
   badge: { id: "operatory-cleared", name: "Operatory Cleared", note: "A full aerosol-generating appointment set up, worked and turned over on the room's own fallow time" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources if the exposure worry outlasts the fallow time",
+
   game: system({
     name: "Air Control",
     currency: "CADR",
@@ -141,11 +145,12 @@ export const SIM_AEROSOL_MANAGEMENT = {
       holdBreakNote: "You released before the check was over. A facepiece that leaks slowly passes a rushed check and fails when it actually matters — hold the full count.",
     },
     {
-      id: "dam-placement", kind: "select", target: "rubber-dam",
+      id: "dam-placement", kind: "drag", target: "rubber-dam",
       noRobot: true, forceClass: "light",
       robotNote: "A dam is placed on the tooth and clamped: intraoral.",
       title: "Place the dam where this procedure calls for one",
-      cue: "Place the dam — this procedure is one where it is indicated.",
+      cue: "Carry the dam from the bracket table to the field and seat it — this procedure is one where it is indicated.",
+      drag: { to: "isolation-field", radius: 0.4, missNote: "Not seated on the field. A dam has to be carried to the tooth and sealed around it; set down anywhere short of that it is still a sheet of latex on a tray." },
       why: "A rubber dam isolates the field and is one of the single largest aerosol reductions available for the procedures it fits, but it is not universal — indicated here because the planned work calls for isolation, not reached for by habit. Placing it where it belongs is what actually earns the reduction; a dam is not doing anything from the drawer.",
     },
     {
@@ -268,6 +273,12 @@ export const SIM_AEROSOL_MANAGEMENT = {
     torus(damKit, 0.045, 0.008, 0, 0, 0, 0x3a4048, { rough: 0.5, metal: 0.4 });
     box(damKit, 0.09, 0.005, 0.09, 0.08, 0, 0, 0xe6d9c3, { rough: 0.7, opacity: 0.85 });
     reg2(damKit, "rubber-dam");
+    // The field the dam is carried to: an invisible marker at the isolated
+    // tooth, so the drop lands on the mouth rather than on the bracket table.
+    const fieldDrop = box(chairSeatGroup, 0.16, 0.1, 0.14, 0, 0.94, 0.26, 0xffffff,
+      { opacity: 0.001, transparent: true, cast: false });
+    hits["isolation-field"] = fieldDrop;
+
     const scaler = group(bracket, 0.14, 0.735, -0.06);
     cyl(scaler, 0.004, 0.001, 0.12, 0, 0, 0, AER_STEEL, { rough: 0.15, metal: 0.9, seg: 8 });
     cyl(scaler, 0.006, 0.006, 0.09, 0, -0.1, 0, 0x2b3138, { rough: 0.5, seg: 8 });
@@ -445,7 +456,13 @@ export const SIM_AEROSOL_MANAGEMENT = {
 
       onStepComplete(step) {
         if (step.id === "hepa-power") repaint(hepaDial.userData.screen, signFace("SET", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.6 }));
-        if (step.id === "dam-placement") damKit.children[1].material = mat(0xf2e6cf, { rough: 0.6 });
+        if (step.id === "dam-placement") {
+          damKit.children[1].material = mat(0xf2e6cf, { rough: 0.6 });
+          damKit.parent.remove(damKit);
+          chairSeatGroup.add(damKit);
+          damKit.position.set(0, 0.93, 0.26);
+          damKit.rotation.set(-0.5, 0, 0);
+        }
         if (step.id === "hve-ready") capturing = true;
         if (step.id === "fallow-time") repaint(clockPanel.userData.screen, signFace("READY", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.55 }));
       },

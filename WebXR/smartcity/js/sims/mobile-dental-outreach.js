@@ -37,6 +37,10 @@ export const SIM_MOBILE_DENTAL_OUTREACH = {
   footprint: 2.7,
   badge: { id: "outreach-clean-day", name: "Clean Day", note: "A full outreach day run with nothing reprocessed in the field and every child's paperwork matched before the chair" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "the ADHA's member resources, or your employer's employee assistance program, both of which reach you in the van as well as in the clinic",
+
   game: system({
     name: "Outreach Command",
     currency: "SMILE",
@@ -134,7 +138,7 @@ export const SIM_MOBILE_DENTAL_OUTREACH = {
       id: "surface-disinfect", kind: "hold", target: "disinfectant-wipe", seconds: 8,
       title: "Hold the surface disinfectant for its wet-contact time",
       cue: "Wipe the chair and tray, then hold the surface wet for the full contact time before it dries.",
-      why: "An EPA-registered surface disinfectant only kills what its label says it kills if the surface stays visibly wet for the full contact time printed on that label — wiping it on and immediately wiping it off again is application, not disinfection, and between every child on a school day is exactly when that shortcut is tempting.",
+      why: "A registered hospital-grade surface disinfectant of the tier the CDC's dental infection-control guidelines call for only kills what its label says it kills if the surface stays visibly wet for the full contact time printed on that label — wiping it on and immediately wiping it off again is application, not disinfection, and between every child on a school day is exactly when that shortcut is tempting.",
       holdBreakNote: "Wiped dry before the contact time was up. That surface is disinfected on the label's terms or it is not disinfected at all — hold it wet the full count.",
     },
     {

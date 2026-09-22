@@ -38,6 +38,10 @@ export const SIM_NITROUS_OXIDE_MONITORING = {
   footprint: 2.3,
   badge: { id: "clean-titration", name: "Clean Titration", note: "Permit verified, screening clean, and the whole sedation held inside the permit's ceiling" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, which is also where an occupational exposure concern of your own belongs, with the ADHA's member resources behind it",
+
   game: system({
     name: "Sedation Practice",
     currency: "N2O",

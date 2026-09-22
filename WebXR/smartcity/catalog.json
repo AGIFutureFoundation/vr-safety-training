@@ -13112,8 +13112,8 @@
         "select",
         "gauge",
         "sequence",
-        "hold",
         "track",
+        "hold",
         "find"
       ],
       "badge": {
@@ -13195,6 +13195,7 @@
         "gauge",
         "sequence",
         "hold",
+        "drag",
         "track"
       ],
       "badge": {
@@ -13202,7 +13203,7 @@
         "name": "Operatory Cleared",
         "note": "A full aerosol-generating appointment set up, worked and turned over on the room's own fallow time"
       },
-      "meshes": 161,
+      "meshes": 162,
       "lights": 1,
       "overBudget": false,
       "index": "123",
@@ -14339,6 +14340,7 @@
       "interrupts": 2,
       "stepKinds": [
         "select",
+        "track",
         "hold",
         "sequence",
         "gauge",
@@ -14408,7 +14410,7 @@
       "domain": "Dental Hygiene",
       "trade": "Dental hygienist",
       "union": null,
-      "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA's reprocessing requirements for reusable medical devices; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
+      "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA-cleared reprocessing instructions that ship with a reusable dental device; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
       "accent": "#6fc9a0",
       "parSeconds": 260,
       "weather": "clear",
@@ -14495,11 +14497,12 @@
       "weather": "clear",
       "indoor": "clinic",
       "district": null,
-      "steps": 12,
+      "steps": 13,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
         "sequence",
+        "find",
         "select",
         "track",
         "hold",
@@ -14510,7 +14513,7 @@
         "name": "Turnover Clean",
         "note": "A full dirty-to-clean turnover with every contact time honoured and nothing left for the next patient to find"
       },
-      "meshes": 156,
+      "meshes": 165,
       "lights": 0,
       "overBudget": false,
       "index": "116",
@@ -15153,7 +15156,7 @@
       "weather": "clear",
       "indoor": "clinic",
       "district": null,
-      "steps": 14,
+      "steps": 15,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
@@ -15163,6 +15166,7 @@
         "gauge",
         "sequence",
         "drag",
+        "find",
         "hold"
       ],
       "badge": {
@@ -15170,7 +15174,7 @@
         "name": "Closed Loop",
         "note": "Every gram of scrap into the amalgam stream — nothing to the trash, the sharps or the drain"
       },
-      "meshes": 152,
+      "meshes": 162,
       "lights": 0,
       "overBudget": false,
       "index": "127",
@@ -15229,7 +15233,7 @@
       "domain": "Dental & Oral Health",
       "trade": "Dental hygienist",
       "union": null,
-      "certification": "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
+      "certification": "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the ADHA's Standards for Clinical Dental Hygiene Practice, which put recognising and responding to a medical emergency inside the hygienist's own assessment duty; NFPA 99 for the office's medical gas and emergency oxygen; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
       "accent": "#f0a35b",
       "parSeconds": 270,
       "weather": "clear",
@@ -15417,7 +15421,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

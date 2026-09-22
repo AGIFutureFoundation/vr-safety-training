@@ -39,6 +39,10 @@ export const SIM_ULTRASONIC_SCALING = {
   footprint: 2.4,
   badge: { id: "srp-clean-run", name: "Clean Debridement", note: "A full scaling and root planing appointment with the waterline verified, the insert adapted correctly and posture held neutral throughout" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "the ADHA's member resources on hygienist ergonomics and career longevity, or your employer's employee assistance program",
+
   game: system({
     name: "Operatory Standard",
     currency: "CALC",
@@ -102,7 +106,7 @@ export const SIM_ULTRASONIC_SCALING = {
       id: "waterline-check", kind: "select", target: "waterline-log",
       title: "Confirm today's shock-and-test result",
       cue: "Check the line has been shocked and tested to schedule, not just plumbed in.",
-      why: "The CDC holds dental unit water to the same ceiling the EPA sets for public drinking water — no more than 500 CFU/mL of heterotrophic bacteria — and biofilm inside these narrow lines builds toward that limit on its own schedule whether or not anyone remembers to shock and test the system. A log with no recent result is not evidence the water is safe; it is evidence nobody looked.",
+      why: "The CDC holds dental unit water for non-surgical procedures to the same 500 CFU/mL heterotrophic-plate-count ceiling that public drinking water is held to — and biofilm inside these narrow lines builds toward that limit on its own schedule whether or not anyone remembers to shock and test the system. A log with no recent result is not evidence the water is safe; it is evidence nobody looked.",
     },
     {
       id: "waterline-flush", kind: "hold", target: "waterline-valve", seconds: 8,
@@ -174,9 +178,14 @@ export const SIM_ULTRASONIC_SCALING = {
       holdBreakNote: "The adaptation drifted out of the window. Bring it back and keep moving — dwelling here at any angle risks the root surface or the pulp underneath it.",
     },
     {
-      id: "water-flow-check", kind: "select", target: "flow-dial",
+      id: "water-flow-check", kind: "gauge", target: "flow-dial",
       title: "Confirm the spray at the tip",
-      cue: "Confirm a fine mist at the tip — not a drip, and not a jet.",
+      cue: "Dial the lavage to a fine halo of mist at the tip — not a drip, not a jet — then commit the reading.",
+      gauge: {
+        label: "LAVAGE FLOW", speed: 0.7, green: [0.4, 0.68],
+        readout: (t) => (t < 0.4 ? "dripping — tip will heat" : t > 0.68 ? "flooding the field" : "fine halo of mist"),
+        missNote: "Off the band. A drip cannot carry the heat off an insert vibrating this fast, and a jet floods the field so you cannot see the surface you are instrumenting — bring it back to a visible halo of mist at the working end.",
+      },
       why: "The water is not there for comfort — it is what carries heat away from a tip vibrating tens of thousands of times a second, and a dry or under-irrigated insert sends that heat straight into the tooth and, in a deep pocket, toward the pulp. A visible fan of fine spray at the working end is the check; the flow rate is not something you can judge by ear over suction alone.",
     },
     {

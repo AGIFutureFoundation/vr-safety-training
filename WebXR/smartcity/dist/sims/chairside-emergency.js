@@ -26,7 +26,7 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
   trade: "Dental hygienist",
   category: "Dental & Oral Health",
   indoor: "clinic",
-  certification: "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
+  certification: "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the ADHA's Standards for Clinical Dental Hygiene Practice, which put recognising and responding to a medical emergency inside the hygienist's own assessment duty; NFPA 99 for the office's medical gas and emergency oxygen; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
   name: "Chairside Emergency",
   title: simTitle("Chairside Emergency"),
   tagline: "Syncope, escalating to anaphylaxis and a pulseless patient — the office emergency kit, BLS and the AED",
@@ -35,6 +35,10 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
   parSeconds: 270,
   footprint: 2.3,
   badge: { id: "chair-to-code", name: "Chair to Code", note: "The full escalation answered clean — syncope, anaphylaxis and the AED" },
+
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, and the ADHA's member resources — an emergency in your own chair is exactly the run people carry home",
 
   game: system({
     name: "Emergency Response",
@@ -83,7 +87,7 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
       },
       title: "Know the emergency kit before you need it",
       cue: "Open the kit and confirm each item is present and in date.",
-      why: "The ADA's guidance on office emergencies names this exact list — oxygen, an epinephrine auto-injector, glucose, aspirin, nitroglycerin and an AED — because a kit checked cold, during an actual emergency, costs the minutes that decide the outcome. Knowing it before the chair needs it is the whole point of keeping one.",
+      why: "The ADA's guidance on office emergencies names this exact list — oxygen, an epinephrine auto-injector, glucose, aspirin, nitroglycerin and an AED — because a kit checked cold, during an actual emergency, costs the minutes that decide the outcome. The ADHA's practice standards put that check on the hygienist rather than on whoever happens to be free: knowing the kit before the chair needs it is the whole point of keeping one.",
     },
     {
       id: "recognize", kind: "find", noHint: true,
@@ -124,7 +128,7 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
       id: "o2-valve", kind: "turn", target: "o2-valve",
       title: "Open the emergency oxygen cylinder",
       cue: "Turn the cylinder valve open before reaching for the mask.",
-      why: "The valve opens first because a mask placed on a closed line delivers nothing and costs the seconds it takes someone to notice. Confirming flow at the cylinder is the difference between administering oxygen and going through the motions of administering oxygen.",
+      why: "The valve opens first because a mask placed on a closed line delivers nothing and costs the seconds it takes someone to notice. Confirming flow at the cylinder is the difference between administering oxygen and going through the motions of administering oxygen — and it is the reason NFPA 99 has the office check and secure this cylinder on a schedule rather than the morning it is finally needed.",
       turn: { turns: 1, axis: "y", label: "O2 CYLINDER" },
     },
     {

@@ -35,6 +35,10 @@ export const SIM_PERIODONTAL_CHARTING = {
   footprint: 2.3,
   badge: { id: "chart-complete", name: "Chart Complete", note: "A full six-site chart, correctly graded and staged, with every change from the last visit caught" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources for the clinical side of what you are carrying",
+
   game: system({
     name: "Attachment Watch",
     currency: "SITE",

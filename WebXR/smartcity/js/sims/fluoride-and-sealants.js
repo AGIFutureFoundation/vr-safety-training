@@ -38,6 +38,10 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
   footprint: 2.4,
   badge: { id: "prevention-recorded", name: "Prevention Recorded", note: "A varnish and sealant visit completed with the dose right for the age and every sealant retained at recall" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "the ADHA's member resources, or your employer's employee assistance program — a hard morning with a child is still a hard morning",
+
   game: system({
     name: "Prevention Rounds",
     currency: "SEAL",
@@ -111,12 +115,17 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
       why: "Varnish needs to stay on the teeth to keep releasing fluoride, and the instructions are what tell a parent to hold off on hard or crunchy food and on brushing for the rest of the day. Skipping this step hands back a child who brushes the varnish off on the ride home.",
     },
     {
-      id: "tooth-clean", kind: "select", target: "prophy-cup",
+      id: "tooth-clean", kind: "track", target: "prophy-cup", seconds: 8,
       noRobot: true, forceClass: "light",
       robotNote: "A prophy cup on a tooth, in the mouth.",
       title: "Clean the sealant tooth",
-      cue: "Clean the pits and fissures with plain, non-fluoridated pumice.",
-      why: "The molar getting a sealant is cleaned with plain pumice, not the fluoridated paste used everywhere else in a routine cleaning, because a fluoridated paste leaves a film that gets in the way of the etch. This is the one surface in the whole visit where the usual paste is the wrong choice.",
+      cue: "Work plain, non-fluoridated pumice into the pits and fissures — steady pressure, cup flexed into the grooves, not skating over them.",
+      why: "The molar getting a sealant is cleaned with plain pumice, not the fluoridated paste used everywhere else in a routine cleaning, because a fluoridated paste leaves a film that gets in the way of the etch. The pressure matters as much as the paste: a cup skated across the occlusal table polishes the cusp tips and never reaches into the fissure where the caries actually starts, and a cup leaned on hard enough to stall throws paste and heats the tooth.",
+      track: {
+        start: 0.15, green: [0.32, 0.6], rise: 0.5, fall: 0.45, drift: 0.13, label: "CUP PRESSURE",
+        readout: (v) => (v < 0.32 ? "skating — flex the cup into the fissures" : v > 0.6 ? "stalling the cup — ease off" : "cup flexed, paste in the grooves"),
+      },
+      holdBreakNote: "Pressure dropped out of band — the cup came up off the fissures, and a fissure that was never reached still has plaque in it when the etchant goes on.",
     },
     {
       id: "seal-isolate", kind: "select", target: "isolation-shield",

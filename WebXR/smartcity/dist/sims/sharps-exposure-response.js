@@ -36,6 +36,10 @@ export const SIM_SHARPS_EXPOSURE_RESPONSE = {
   footprint: 2.0,
   badge: { id: "exposure-managed", name: "Exposure Managed", note: "A needlestick handled start to finish inside the hours that make post-exposure prophylaxis meaningful" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program — the same plan that covers the exposure follow-up covers the waiting — with the ADHA's member resources behind it",
+
   game: system({
     name: "Exposure Response",
     currency: "HOUR",
@@ -81,13 +85,17 @@ export const SIM_SHARPS_EXPOSURE_RESPONSE = {
       why: "The patient just watched you flinch and stop mid-procedure with no explanation — a short, calm statement of what happened keeps them from imagining something worse than a stick, and keeps the room controlled while you deal with it.",
     },
     {
-      id: "wash-wound", kind: "hold", target: "wound-site", seconds: 6,
+      id: "wash-wound", kind: "track", target: "wound-site", seconds: 6,
       noRobot: true, forceClass: "light",
       robotNote: "The wound is a person's hand. First aid on anybody, staff included, is not the robot's to give.",
       title: "Wash the wound with soap and water",
-      cue: "Hold the puncture under running water with soap for the full wash — no squeezing.",
-      why: "Soap and running water is the CDC's own guidance for a percutaneous exposure — plain, unhurried, and long enough to matter. Squeezing the site to force blood out is not recommended and does not reduce exposure; running water does the actual work.",
-      holdBreakNote: "You pulled your hand out early. A wash cut short is a wash that did not run long enough to do what it's actually for.",
+      cue: "Keep the puncture under running water with soap for the full wash — enough pressure to rinse it, not enough to milk it.",
+      why: "Soap and running water is the CDC's own guidance for a percutaneous exposure — plain, unhurried, and long enough to matter. Squeezing or milking the site to force blood out is not recommended and does not reduce the exposure; what it does do is traumatise the tissue around the puncture, which is why the band you are holding has a top end as well as a bottom one. Running water does the actual work.",
+      track: {
+        start: 0.1, green: [0.3, 0.62], rise: 0.5, fall: 0.4, drift: 0.12, label: "WASH PRESSURE",
+        readout: (v) => (v < 0.3 ? "barely rinsing" : v > 0.62 ? "you are milking it — ease off" : "rinsing under running water"),
+      },
+      holdBreakNote: "You came off the band. A wash that stops short has not run long enough to do what it is for, and a wash squeezed hard enough to bleed the site is not a better one.",
     },
     {
       id: "reglove", kind: "select", target: "fresh-gloves",

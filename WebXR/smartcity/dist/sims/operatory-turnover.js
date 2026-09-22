@@ -35,6 +35,10 @@ export const SIM_OPERATORY_TURNOVER = {
   footprint: 2.0,
   badge: { id: "turnover-clean", name: "Turnover Clean", note: "A full dirty-to-clean turnover with every contact time honoured and nothing left for the next patient to find" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the member resources the ADHA keeps for hygienists between appointments like that one",
+
   game: system({
     name: "Chairside Standard",
     currency: "SEAL",
@@ -53,7 +57,7 @@ export const SIM_OPERATORY_TURNOVER = {
 
   hazards: {
     "uncapped-needle": "That local anesthetic needle is still uncapped on the tray from the last patient. Two-handed recapping is the classic needlestick; the safety shield gets activated with one hand, or it goes straight into sharps unrecapped — never picked up bare across the point.",
-    "early-wipe": "That towel dried the counter down right after the spray went on. An EPA-registered intermediate-level disinfectant only kills what its label claims if the surface stays visibly wet for the full contact time printed on that label — wiped dry early, it has disinfected nothing and looks identical to a surface that has.",
+    "early-wipe": "That towel dried the counter down right after the spray went on. A registered intermediate-level hospital disinfectant — the tuberculocidal tier the CDC's dental infection-control guidelines call for on a contaminated clinical surface — only kills what its label claims if that surface stays visibly wet for the full contact time printed on the label — wiped dry early, it has disinfected nothing and looks identical to a surface that has.",
     "torn-barrier": "That barrier sleeve on the light handle is split at the seam. A torn barrier is not a barrier — bare plastic film is showing through, and the handle underneath it has been touched with the same gloves that just handled this patient's mouth.",
     "no-indicator-cassette": "That pouch has no indicator strip printed on it at all. Every sterile package needs an internal and external chemical indicator so a colour change proves the load actually saw sterilizing conditions before anyone trusts what's inside — a pouch with no way to check that is not verified sterile, it is unverified.",
   },
@@ -82,10 +86,23 @@ export const SIM_OPERATORY_TURNOVER = {
       why: "A closed cassette carries the instruments from this tray to reprocessing without another hand touching a blade or a probe in between, and OSHA's bloodborne pathogens standard puts sharps disposal as close to the point of use as it can be engineered — every step a used sharp travels in someone's hand is another chance for it to find someone's hand by accident.",
     },
     {
+      id: "clear-disposables", kind: "find", noHint: true,
+      targets: ["used-bib", "used-ejector-tip", "used-prophy-angle"],
+      itemNames: { "used-bib": "the used patient bib", "used-ejector-tip": "the used saliva ejector tip", "used-prophy-angle": "the used prophy angle" },
+      itemNotes: {
+        "used-bib": "The bib and its chain cover come off with the patient. A paper bib cannot be disinfected — spraying around one only wets the counter it is hiding.",
+        "used-ejector-tip": "This ejector tip is single-use and it has been in a mouth. Left on the holder it looks like clean stock to whoever sets this room up next.",
+        "used-prophy-angle": "The prophy angle is disposable and it is loaded with the last patient's biofilm. It goes to waste now, not into the tub of angles on the cart.",
+      },
+      title: "Clear the single-use items off the chair",
+      cue: "Three things in this room are disposable and have already been used. Find them before the spray comes out.",
+      why: "Disinfectant cannot reach a surface a disposable is lying on, and a used single-use item is the one thing in the room that no contact time will ever make safe — it is designed to be thrown away, so the CDC's dental guidelines put removal of disposables ahead of surface disinfection rather than around it. Leave one behind and it reads as clean stock to the next person who sets this room up.",
+    },
+    {
       id: "read-label", kind: "select", target: "disinfectant-bottle",
       title: "Read the disinfectant's contact time",
       cue: "Check the label on the intermediate-level disinfectant before you spray.",
-      why: "An EPA-registered surface disinfectant's kill claim is only true for the wet contact time printed on its own label — two minutes for one product, ten for another. The bottle in your hand decides how long the next step actually has to last, not a number remembered from a different brand.",
+      why: "A registered hospital-grade surface disinfectant's kill claim is only true for the wet contact time printed on its own label, which is why the CDC's dental guidelines send you to the bottle rather than to a house rule — two minutes for one product, ten for another. The bottle in your hand decides how long the next step actually has to last, not a number remembered from a different brand.",
     },
     {
       id: "apply-disinfectant", kind: "track", target: "spray-wand", seconds: 6,
@@ -130,13 +147,13 @@ export const SIM_OPERATORY_TURNOVER = {
       id: "restock-check", kind: "select", target: "supply-cart",
       title: "Restock consumables for the next patient",
       cue: "Check the cart has bibs, cotton rolls and saliva ejector tips before the setup goes down.",
-      why: "A turnover that ends with the room clean but the cart empty just moves the interruption to the middle of the next appointment, with gloves already on and the patient already seated.",
+      why: "A turnover that ends with the room clean but the cart empty just moves the interruption into the middle of the next appointment, with gloves already on and the patient already reclined — and the hygienist who leaves the chair to fetch a bib either breaks her own asepsis or touches a drawer handle with contaminated gloves. Restocking is part of the turnover, not a favour to the next shift.",
     },
     {
       id: "setup-tray", kind: "drag", target: "sterile-cassette",
       title: "Bring the sterile cassette to the tray",
       cue: "Carry the wrapped, sterile cassette from storage and set it on the cleaned tray.",
-      why: "The sterile setup only belongs on this tray once the tray itself is the clean side of the room — bringing it in earlier puts a sterile package down on a surface that has not finished being disinfected.",
+      why: "The sterile setup only belongs on this tray once the tray itself is the clean side of the room. Bringing it in earlier puts a wrapped package down on a surface still working its contact time, so the wrap wicks disinfectant or picks up spatter and the pouch stops being a barrier between the load and the room — and nothing about the package afterward shows that it happened.",
       drag: { to: "tray-slot", radius: 0.4, missNote: "Not on the tray — set the cassette down square on the disinfected surface, not balanced on the edge." },
     },
     {
@@ -243,6 +260,27 @@ export const SIM_OPERATORY_TURNOVER = {
     cyl(needle, 0.0015, 0.0015, 0.03, 0.055, 0, 0, CITY.steel, { rough: 0.1, metal: 0.9, seg: 6 }).rotation.z = Math.PI / 2;
     holoTag(needleTray, "Uncapped", 0, 0.08, 0, { css: "#f0645b", w: 0.28 });
     reg(hits, needle, "uncapped-needle");
+
+    // Single-use items the last appointment left behind: the paper bib still
+    // on the patient's chest, the ejector tip on its holder and the prophy
+    // angle on the bracket tray. None of them can be disinfected.
+    const usedBib = group(chair, 0, 0.62, 0.05);
+    slab(usedBib, 0.38, 0.008, 0.3, 0, 0, 0, 0xbfe4f2, { radius: 0.02, rough: 0.85 });
+    box(usedBib, 0.06, 0.012, 0.04, 0, 0.01, -0.16, 0xdfe4e8, { rough: 0.6, metal: 0.3 });
+    holoTag(usedBib, "Used bib", 0, 0.12, 0, { css: "#f2c14b", w: 0.28 });
+    reg(hits, usedBib, "used-bib");
+
+    const usedEjector = group(chair, 0.42, 0.66, 0.2);
+    cyl(usedEjector, 0.006, 0.006, 0.12, 0, 0, 0, 0xf4a0b4, { rough: 0.5, seg: 8 }).rotation.z = 0.35;
+    cyl(usedEjector, 0.012, 0.012, 0.02, 0.022, 0.058, 0, 0xf4f8fa, { rough: 0.5, seg: 8 });
+    holoTag(usedEjector, "Used ejector tip", 0, 0.12, 0, { css: "#f2c14b", w: 0.38 });
+    reg(hits, usedEjector, "used-ejector-tip");
+
+    const usedProphy = group(chair, -0.3, 0.61, 0.32);
+    cyl(usedProphy, 0.011, 0.014, 0.07, 0, 0, 0, 0xdfe4e8, { rough: 0.45, metal: 0.2, seg: 10 }).rotation.z = Math.PI / 2;
+    cyl(usedProphy, 0.016, 0.016, 0.014, 0.044, 0.006, 0, 0x8fbf6b, { rough: 0.7, seg: 10 }).rotation.z = Math.PI / 2;
+    holoTag(usedProphy, "Used prophy angle", 0, 0.1, 0, { css: "#f2c14b", w: 0.4 });
+    reg(hits, usedProphy, "used-prophy-angle");
 
     // Dirty cassette waiting to be closed and moved off.
     const dirtyCassette = group(chair, -0.16, 0.58, 0.5);
@@ -427,6 +465,9 @@ export const SIM_OPERATORY_TURNOVER = {
         if (step.id === "apply-disinfectant") { wetSurface.material.emissiveIntensity = 0.9; wetT = 1; }
         if (step.id === "contact-time") { wetSurface.material.emissiveIntensity = 0.15; earlyWipe.visible = false; }
         if (step.id === "contain-hazards") { needle.visible = false; dirtyCassette.visible = false; }
+        if (step.id === "clear-disposables") {
+          usedBib.visible = false; usedEjector.visible = false; usedProphy.visible = false;
+        }
         if (step.id === "barriers") {
           handleBarrier.material = mat(0xf9fcfc, { rough: 0.5, opacity: 0.9 });
           tornBarrier.visible = false;

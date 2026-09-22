@@ -33,6 +33,10 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
   footprint: 2.3,
   badge: { id: "cleared-to-treat", name: "Cleared to Treat", note: "History read and flagged, vitals in range, a complete exam charted, and consent signed before anything else began" },
 
+  // Named for the guide's end-of-run check-in card (shared/ei-guide.js):
+  // the profession's own support resource, not an invented hotline.
+  supportLine: "your employer's employee assistance program, or the ADHA's member resources, whichever you would actually pick up the phone to",
+
   game: system({
     name: "Chairside Readiness",
     currency: "INTAKE",
