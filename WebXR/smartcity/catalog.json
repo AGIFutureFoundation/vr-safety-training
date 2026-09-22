@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 99
+      "stations": 106
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "oyster-reef-monitoring",
         "spartina-removal",
         "isco-injection",
         "bioswale-build",
@@ -175,6 +176,9 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "mobile-air-lab",
+        "opacity-reading",
+        "marsh-transect-survey",
         "haul-road-dust",
         "building-rad-scan",
         "ust-removal",
@@ -183,6 +187,14 @@
         "rad-survey",
         "stack-test",
         "landfill-gas"
+      ]
+    },
+    {
+      "name": "Culinary & Hospitality",
+      "stations": [
+        "grill-line-burns",
+        "cafeteria-serving",
+        "banquet-hot-hold"
       ]
     },
     {
@@ -722,6 +734,16 @@
         },
         {
           "app": "smartcity",
+          "id": "oyster-reef-monitoring",
+          "why": "The reef that shoreline built, checked on afterward: fixed quadrats found by tag and GPS, density logged before the frame moves, and the sonde read against the Water Board's own flag level before the flood takes the reef back."
+        },
+        {
+          "app": "smartcity",
+          "id": "marsh-transect-survey",
+          "why": "The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the control crew, and the transect stopped cold the moment a listed bird flushes near it."
+        },
+        {
+          "app": "smartcity",
           "id": "sediment-cap",
           "why": "The sediment that stays behind: an engineered cap placed in thin lifts to a design grid, proven by core rather than by eye, and stopped the moment turbidity or a short reading says so."
         },
@@ -764,6 +786,21 @@
           "app": "trades",
           "id": "kitchen",
           "why": "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own."
+        },
+        {
+          "app": "smartcity",
+          "id": "banquet-hot-hold",
+          "why": "The banquet line: hot boxes probed before they're loaded, chafers lit lid-open, the buffet walked before doors, and a pull-down cooled or discarded to the rule."
+        },
+        {
+          "app": "smartcity",
+          "id": "cafeteria-serving",
+          "why": "The school lunch line under the National School Lunch Program: the meal pattern's five components, offer versus serve, the wells probed and the count reconciled for the reimbursement claim."
+        },
+        {
+          "app": "smartcity",
+          "id": "grill-line-burns",
+          "why": "The grill and sauté station's own hazard, worked as a drill: handles in, a dry pan, a flambé cleared of the filters, and cool water run the full twenty minutes."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -979,6 +1016,46 @@
           "app": "smartcity",
           "id": "mooring-line",
           "why": "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "air-quality-monitoring",
+      "name": "Air Quality — Monitoring and Control",
+      "union": "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews",
+      "certification": "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
+      "summary": "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "air-monitor",
+          "why": "The fence line itself: monitors sited by the wind, proven at zero and flow, with an exceedance answered by the plan rather than muted."
+        },
+        {
+          "app": "smartcity",
+          "id": "mobile-air-lab",
+          "why": "The same discipline out of a van: sited fresh on the day's wind, every channel zeroed and spanned, and a reference sample running for the neighbourhood's own check."
+        },
+        {
+          "app": "smartcity",
+          "id": "opacity-reading",
+          "why": "What a certified eye adds to what the instruments read: a stack's plume by EPA Method 9, with the geometry proven before the six-minute clock starts."
+        },
+        {
+          "app": "smartcity",
+          "id": "stack-test",
+          "why": "The number that goes in the permit file: an isokinetic source test, bracketed by leak checks that both have to pass or the run does not count."
+        },
+        {
+          "app": "smartcity",
+          "id": "landfill-gas",
+          "why": "Gas held underground instead of vented from a stack, tuned by what the well is actually giving up rather than by how far the valve is opened."
+        },
+        {
+          "app": "smartcity",
+          "id": "soil-loadout",
+          "why": "Where the dust a monitor reads can start: an excavation zoned by the wind, wetted at the face, and stopped the moment its own alarm says so."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5085,6 +5162,584 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-air-lab",
+      "name": "Mobile Air Lab",
+      "title": "SmartCiti.X~ Mobile Air Lab VR",
+      "tagline": "A monitoring van sited by the wind, its instruments proven at zero and span, a reference sample running for the community's own check, and the first hour read against the action level",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Community air-monitoring van technician",
+      "union": null,
+      "certification": "AFSCME air-district technicians and LIUNA environmental laborers under OSHA HAZWOPER 40-hour (29 CFR 1910.120); Bay Area Air Quality Management District community monitoring practice; EPA 40 CFR Part 58 ambient air quality monitoring and Appendix A quality assurance; the site's Air Monitoring Plan under the cleanup order; California AB 617 community air monitoring",
+      "accent": "#2fd7c4",
+      "parSeconds": 265,
+      "weather": "smoke",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "van-proven",
+        "name": "Van Proven",
+        "note": "A deployment sited on the wind rather than on convenience, with instruments proven and a reference sample running before the first hour is trusted"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "96",
+      "flat": false,
+      "system": "Mobile Air Authority",
+      "currency": "MICROGRAM",
+      "ranks": [
+        "Van Trainee",
+        "Field Technician",
+        "Deployment Lead",
+        "QA Technician",
+        "Mobile Air Authority"
+      ],
+      "awards": [
+        {
+          "id": "sited-on-the-wind",
+          "name": "Sited On The Wind",
+          "note": "Re-sited the van the moment the forecast stopped matching the wind"
+        },
+        {
+          "id": "never-unposted",
+          "name": "Never Unposted",
+          "note": "Never left the van running without its community notice up"
+        },
+        {
+          "id": "span-true",
+          "name": "Span True",
+          "note": "Held every zero and span check inside its band"
+        },
+        {
+          "id": "clean-deployment",
+          "name": "Clean Deployment",
+          "note": "No corrections through the whole deployment"
+        },
+        {
+          "id": "reference-running",
+          "name": "Reference Running",
+          "note": "Never let the co-located reference sample lapse once started"
+        },
+        {
+          "id": "van-ready",
+          "name": "Van Ready",
+          "note": "Fully deployed and the first hour reviewed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mobile-air-lab"
+    },
+    {
+      "app": "smartcity",
+      "id": "opacity-reading",
+      "name": "Opacity Reading",
+      "title": "SmartCiti.X~ Opacity Reading VR",
+      "tagline": "EPA Method 9 by the book: certification checked, the sun kept at your back, the plume's densest point read for six minutes, and the average carried against the permit",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Visible emissions observer / certified Method 9 reader",
+      "union": null,
+      "certification": "AFSCME air-district inspector — certified under EPA Method 9 (40 CFR 60 Appendix A), recertified every six months by reading a smoke generator against a panel of known opacities; Bay Area Air Quality Management District Regulation 6 (particulate matter) as enforced against the plant's Title V permit; IUOE stationary engineers and USW plant crews who run the boiler this observation is taken on; OSHA 29 CFR 1910 Subpart D fall protection where the observation point is elevated",
+      "accent": "#9fc6e0",
+      "parSeconds": 260,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "drag",
+        "find",
+        "track",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "smoke-school-certified",
+        "name": "Smoke School Certified",
+        "note": "A Method 9 observation taken from the right ground, read past the steam, and averaged honestly against the permit"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "95",
+      "flat": false,
+      "system": "Visible Emissions Authority",
+      "currency": "OPACITY",
+      "ranks": [
+        "Trainee Observer",
+        "Field Observer",
+        "Certified Reader",
+        "Lead Observer",
+        "Visible Emissions Authority"
+      ],
+      "awards": [
+        {
+          "id": "sun-at-your-back",
+          "name": "Sun At Your Back",
+          "note": "Took the observation point with the sun in the 140-degree sector behind, first time"
+        },
+        {
+          "id": "read-past-the-steam",
+          "name": "Read Past The Steam",
+          "note": "Never logged a reading taken inside the condensed steam"
+        },
+        {
+          "id": "twenty-four-clean",
+          "name": "Twenty-Four Clean",
+          "note": "Held every 15-second reading close to true across the set"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections anywhere in the six-minute set"
+        },
+        {
+          "id": "held-the-sightline",
+          "name": "Held The Sightline",
+          "note": "Never lost the plume's densest point during the read"
+        },
+        {
+          "id": "off-the-clock",
+          "name": "Off The Clock",
+          "note": "Full observation, logged and signed, inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=opacity-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "marsh-transect-survey",
+      "name": "Marsh Transect Survey",
+      "title": "SmartCiti.X~ Marsh Transect Survey VR",
+      "tagline": "Vegetation survey on a fixed transect: bearing set from the start stake, tape run taut to the end stake, percent cover read to protocol class at every quadrat, elevation shot against the benchmark, the invasive hybrid Spartina flagged for the control crew, and the channel edge's erosion pins read before the tide takes the low transect",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Environmental monitoring technician / vegetation survey crew",
+      "union": null,
+      "certification": "Environmental monitoring technicians (AFSCME in public agencies); LIUNA laborers on the Invasive Spartina Project control crew; U.S. Fish and Wildlife Service Endangered Species Act consultation — Ridgway's rail and salt marsh harvest mouse; Invasive Spartina Project treatment protocols; San Francisco Bay Conservation and Development Commission (BCDC) permit; San Francisco Bay Regional Water Quality Control Board monitoring conditions",
+      "accent": "#748a3c",
+      "parSeconds": 295,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "transect-closed",
+        "name": "Transect Closed",
+        "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
+      },
+      "meshes": 268,
+      "lights": 0,
+      "overBudget": false,
+      "index": "92",
+      "flat": false,
+      "system": "Survey Crew",
+      "currency": "COVER",
+      "ranks": [
+        "Field Tech",
+        "Transect Tech",
+        "Lead Tech",
+        "Survey Steward",
+        "Transect Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-bearing",
+          "name": "Clean Bearing",
+          "note": "The compass set to the recorded bearing clean, first time"
+        },
+        {
+          "id": "no-flush",
+          "name": "No Flush",
+          "note": "Never a hazard, never a bird approached, never a habitat shortcut"
+        },
+        {
+          "id": "true-shot",
+          "name": "True Shot",
+          "note": "The elevation shot and the erosion-pin reading both read inside the working band"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections across the whole transect"
+        },
+        {
+          "id": "steady-flag",
+          "name": "Steady Flag",
+          "note": "Held the flag and the channel-edge footing steady the whole way"
+        },
+        {
+          "id": "off-before-tide",
+          "name": "Off Before The Tide",
+          "note": "Transect closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=marsh-transect-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "oyster-reef-monitoring",
+      "name": "Oyster Reef Monitoring",
+      "title": "SmartCiti.X~ Oyster Reef Monitoring VR",
+      "tagline": "Quarterly reef monitoring on a falling tide: fixed quadrats found by tag and GPS, density counted and logged before the frame moves, tiles turned back to their mark, the sonde read against the permit's own flag level, the drill counted, and the sheet reconciled with the photos before the flood",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Environmental monitoring technician / restoration monitoring crew",
+      "union": null,
+      "certification": "Environmental monitoring technicians; LIUNA laborers (reef construction and habitat crews); California State Coastal Conservancy Living Shorelines Program grant monitoring conditions; San Francisco Bay Regional Water Quality Control Board permit monitoring conditions; NOAA Fisheries; San Francisco Bay Conservation and Development Commission (BCDC) permit; seasonal in-water work window for fish protection",
+      "accent": "#d3ccb8",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "drag",
+        "turn",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "reef-reconciled",
+        "name": "Reef Reconciled",
+        "note": "Every fixed quadrat, tile and pin read to the plan and the sheet squared with the photos before the flood — first time"
+      },
+      "meshes": 250,
+      "lights": 0,
+      "overBudget": false,
+      "index": "91",
+      "flat": false,
+      "system": "Monitoring Crew",
+      "currency": "SPAT",
+      "ranks": [
+        "Field Tech",
+        "Reef Tech",
+        "Lead Tech",
+        "Monitoring Steward",
+        "Reef Certified"
+      ],
+      "awards": [
+        {
+          "id": "baseline-tagged",
+          "name": "Baseline Tagged",
+          "note": "Every fixed quadrat relocated by its own tag and GPS, first time"
+        },
+        {
+          "id": "reef-undisturbed",
+          "name": "Reef Undisturbed",
+          "note": "Never a hazard, never a shell broken that didn't need to be"
+        },
+        {
+          "id": "true-reading",
+          "name": "True Reading",
+          "note": "The sonde's stabilised reading and the dissolved oxygen gauge both read inside the working band"
+        },
+        {
+          "id": "clean-count",
+          "name": "Clean Count",
+          "note": "No corrections across the whole visit"
+        },
+        {
+          "id": "steady-frame",
+          "name": "Steady Frame",
+          "note": "Held the quadrat frame and the sonde readout steady the whole way"
+        },
+        {
+          "id": "off-before-flood",
+          "name": "Off Before The Flood",
+          "note": "Reef reconciled and cleared inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=oyster-reef-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "grill-line-burns",
+      "name": "Grill Line Burns",
+      "title": "SmartCiti.X~ Grill Line Burns VR",
+      "tagline": "The grill and sauté line: handles in, a dry pan, calls through the aisle, a flambé clear of the filters, and the burn drill run cold",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Line cook — grill / sauté",
+      "union": null,
+      "certification": "UNITE HERE Local 2 line cooks; OSHA 29 CFR 1910.151 medical services and first aid; Cal/OSHA's general industry safety orders; NFPA 96 ventilation control and fire protection of commercial cooking operations, especially the grease baffle filters a flambé never gets lit near; NSF/ANSI 4 commercial cooking equipment; the American Burn Association's first-aid guidance for thermal burns",
+      "accent": "#e8542f",
+      "parSeconds": 245,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "cool-under-fire",
+        "name": "Cool Under Fire",
+        "note": "A clean line walk and a burn drill run to the full twenty minutes"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "115",
+      "flat": false,
+      "system": "Cool Under Fire",
+      "currency": "SEARS",
+      "ranks": [
+        "Line Trainee",
+        "Line Cook",
+        "Sauté Station",
+        "Line Lead",
+        "Cool Under Fire Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-ice-butter",
+          "name": "Never Ice, Never Butter",
+          "note": "Never reached for either on a burn"
+        },
+        {
+          "id": "clean-line-walk",
+          "name": "Clean Line Walk",
+          "note": "No corrections anywhere on the line"
+        },
+        {
+          "id": "full-twenty",
+          "name": "The Full Twenty",
+          "note": "Held the cool-water drill for the full count"
+        },
+        {
+          "id": "line-ready-fast",
+          "name": "Line Ready Fast",
+          "note": "Set up inside 80% of par"
+        },
+        {
+          "id": "one-pass-line",
+          "name": "One-Pass Line",
+          "note": "Line walk clean on the first pass"
+        },
+        {
+          "id": "seven-straight-line",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=grill-line-burns"
+    },
+    {
+      "app": "smartcity",
+      "id": "cafeteria-serving",
+      "name": "Cafeteria Serving",
+      "title": "SmartCiti.X~ Cafeteria Serving VR",
+      "tagline": "The school lunch line: meal pattern, offer versus serve, wells probed and logged, and the count for the reimbursement claim",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "School nutrition service worker",
+      "union": null,
+      "certification": "AFSCME and SEIU school and hospital food service workers; the USDA National School Lunch Program meal pattern and offer-versus-serve rules under 7 CFR Part 210; the California Retail Food Code (the FDA Food Code as adopted) on hot and cold holding; the ANSI-accredited California Food Handler card and ServSafe Manager certification; NSF/ANSI 7 commercial refrigeration for the milk cooler; Cal/OSHA's general industry safety orders",
+      "accent": "#4fb0c9",
+      "parSeconds": 250,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "find",
+        "sequence",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "reimbursable-meal",
+        "name": "Reimbursable Meal",
+        "note": "Every tray to the meal pattern, every well in temperature, the count reconciled"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "114",
+      "flat": false,
+      "system": "Reimbursable Meal",
+      "currency": "TRAYS",
+      "ranks": [
+        "Cafeteria Aide",
+        "Line Server",
+        "Kitchen Lead",
+        "Nutrition Manager",
+        "Reimbursable Meal Certified"
+      ],
+      "awards": [
+        {
+          "id": "in-temp-all-shift",
+          "name": "In Temp All Shift",
+          "note": "Never served from a well out of range"
+        },
+        {
+          "id": "clean-count",
+          "name": "Clean Count",
+          "note": "No corrections across the whole line"
+        },
+        {
+          "id": "steady-line",
+          "name": "Steady Line",
+          "note": "Held the serving pace inside band without a break"
+        },
+        {
+          "id": "line-open-on-time",
+          "name": "Line Open on Time",
+          "note": "Ready inside 80% of par"
+        },
+        {
+          "id": "one-pass-walk",
+          "name": "One-Pass Walk",
+          "note": "Line walk clean on the first pass"
+        },
+        {
+          "id": "seven-in-a-row",
+          "name": "Seven in a Row",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cafeteria-serving"
+    },
+    {
+      "app": "smartcity",
+      "id": "banquet-hot-hold",
+      "name": "Banquet Hot Hold",
+      "title": "SmartCiti.X~ Banquet Hot Hold VR",
+      "tagline": "Banquet hot line: hot boxes probed, chafers lit lid-open, the buffet walked, time tags honoured, and the pull-down done to the rule",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Banquet cook",
+      "union": null,
+      "certification": "UNITE HERE Local 2 banquet and culinary staff; the California Retail Food Code (the FDA Food Code as adopted) on hot holding at 135°F or above and Time as a Public Health Control; the ANSI-accredited California Food Handler card and ServSafe Manager certification; NSF/ANSI 4 commercial cooking and hot-holding equipment; OSHA 29 CFR 1910.157 portable fire extinguishers for the open flame at every chafer; Cal/OSHA's general industry safety orders",
+      "accent": "#e0972e",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "drag",
+        "sequence",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "service-standard",
+        "name": "Service Standard",
+        "note": "Every pan probed, every chafer lit correctly, and a clean pull-down"
+      },
+      "meshes": 211,
+      "lights": 0,
+      "overBudget": false,
+      "index": "113",
+      "flat": false,
+      "system": "Service Standard",
+      "currency": "COVERS",
+      "ranks": [
+        "Banquet Runner",
+        "Line Cook",
+        "Chef de Partie",
+        "Banquet Captain",
+        "Service Standard Certified"
+      ],
+      "awards": [
+        {
+          "id": "hundred-thirty-five",
+          "name": "135 or Above",
+          "note": "Never sent out a pan under temperature"
+        },
+        {
+          "id": "clean-line-service",
+          "name": "Clean Service",
+          "note": "No corrections across the whole line"
+        },
+        {
+          "id": "quarter-hour",
+          "name": "On the Quarter Hour",
+          "note": "The 2-hour recheck held for the full count"
+        },
+        {
+          "id": "on-time-service",
+          "name": "On Time",
+          "note": "Line open inside 80% of par"
+        },
+        {
+          "id": "no-second-pass",
+          "name": "No Second Pass",
+          "note": "Buffet walk clean on the first pass"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=banquet-hot-hold"
     },
     {
       "app": "smartcity",

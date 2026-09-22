@@ -190,6 +190,8 @@ export const CURRICULA = [
       { app: "smartcity", id: "stormwater-outfall", why: "The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains." },
       { app: "smartcity", id: "bioswale-build", why: "What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived." },
       { app: "smartcity", id: "dredge-barge", why: "Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere." },
+      { app: "smartcity", id: "oyster-reef-monitoring", why: "The reef that shoreline built, checked on afterward: fixed quadrats found by tag and GPS, density logged before the frame moves, and the sonde read against the Water Board's own flag level before the flood takes the reef back." },
+      { app: "smartcity", id: "marsh-transect-survey", why: "The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the control crew, and the transect stopped cold the moment a listed bird flushes near it." },
       { app: "smartcity", id: "sediment-cap", why: "The sediment that stays behind: an engineered cap placed in thin lifts to a design grid, proven by core rather than by eye, and stopped the moment turbidity or a short reading says so." },
       { app: "smartcity", id: "creosote-pile-removal", why: "The derelict structures still standing in the mud: a century-old creosote pile pulled whole inside a curtain of its own, drained over the barge rather than the bay, and any stub it leaves behind marked before the barge moves on." },
       { app: "smartcity", id: "tide-gate", why: "The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee." },
@@ -211,7 +213,9 @@ export const CURRICULA = [
       // slot-culinary-2
       // slot-culinary-3
       // slot-culinary-4
-      // slot-culinary-5
+      { app: "smartcity", id: "banquet-hot-hold", why: "The banquet line: hot boxes probed before they're loaded, chafers lit lid-open, the buffet walked before doors, and a pull-down cooled or discarded to the rule." },
+      { app: "smartcity", id: "cafeteria-serving", why: "The school lunch line under the National School Lunch Program: the meal pattern's five components, offer versus serve, the wells probed and the count reconciled for the reimbursement claim." },
+      { app: "smartcity", id: "grill-line-burns", why: "The grill and sauté station's own hazard, worked as a drill: handles in, a dry pan, a flambé cleared of the filters, and cool water run the full twenty minutes." },
     ],
   },
   {
@@ -296,6 +300,22 @@ export const CURRICULA = [
       { app: "smartcity", id: "spill-boom-deploy", why: "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it." },
       { app: "smartcity", id: "pilot-transfer", why: "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call." },
       { app: "smartcity", id: "mooring-line", why: "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in." },
+    ],
+  },
+  {
+    id: "air-quality-monitoring",
+    name: "Air Quality — Monitoring and Control",
+    union: "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews",
+    certification: "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
+    summary: "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
+    accent: "#9fd8ff",
+    stations: [
+      { app: "smartcity", id: "air-monitor", why: "The fence line itself: monitors sited by the wind, proven at zero and flow, with an exceedance answered by the plan rather than muted." },
+      { app: "smartcity", id: "mobile-air-lab", why: "The same discipline out of a van: sited fresh on the day's wind, every channel zeroed and spanned, and a reference sample running for the neighbourhood's own check." },
+      { app: "smartcity", id: "opacity-reading", why: "What a certified eye adds to what the instruments read: a stack's plume by EPA Method 9, with the geometry proven before the six-minute clock starts." },
+      { app: "smartcity", id: "stack-test", why: "The number that goes in the permit file: an isokinetic source test, bracketed by leak checks that both have to pass or the run does not count." },
+      { app: "smartcity", id: "landfill-gas", why: "Gas held underground instead of vented from a stack, tuned by what the well is actually giving up rather than by how far the valve is opened." },
+      { app: "smartcity", id: "soil-loadout", why: "Where the dust a monitor reads can start: an excavation zoned by the wind, wetted at the face, and stopped the moment its own alarm says so." },
     ],
   },
 ];
