@@ -18,9 +18,15 @@ import { CURRICULA, allProgress } from "./curricula.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
 import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice } from "../../shared/devices.js";
 import { eiLine, CHECKIN_OPTIONS, checkInPrompt, recordCheckIn } from "../../shared/ei-guide.js";
+import {
+  createGamepad, describeGamepadMap, describeBindings, describeInputs,
+  loadBindings, saveBindings, resetBindings, remapAction, actionForKey, keyToken, prettyKey,
+  parseVoice, matchTargetName, INPUT_ACTIONS, KEYBOARD_PRESETS, PRESET_IDS, PAD_LABELS,
+  VOICE_GRAMMAR, VOICE_HELP_LINE, CHECKIN_QUESTION, CHECKIN_REPLIES,
+} from "../../shared/input.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
-import { mountUI, stripHtml } from "./react-ui.js";
+import { mountUI, stripHtml, introMenu } from "./react-ui.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
 // small, always-available metadata every display surface (hub kiosks,
@@ -216,6 +222,20 @@ const store = createStore({
   },
   resetProgressText: "Reset progress",
   voice: { supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition), listening: false, heard: "", error: "" },
+  // The controls panel (shared/input.js): which tabs this device is offered,
+  // the live keyboard bindings, whatever pad is plugged in, and the grammar.
+  // `numbers` puts an index badge on every hub card and panel button, which a
+  // voice-first monocular profile turns on by itself.
+  controls: {
+    visible: false, tab: "keyboard", tabs: ["keyboard", "gamepad", "voice"],
+    deviceLine: "", inputSource: "profile", hands: false, voiceFirst: false,
+    preset: "standard", presets: [], rows: [], remapping: null, remapNote: "",
+    gamepad: { connected: false, id: "", vendor: "generic", vendorName: "Generic", mapping: "", buttons: [], axes: [] },
+    padMap: [], grammar: [], heard: "",
+    // A voice-first monocular display gets the numbers without being asked:
+    // reading a number off a card is the only quick way to choose one there.
+    numbers: PROFILE.id === "assisted",
+  },
 });
 let vrHudDirty = true;
 
@@ -1587,43 +1607,270 @@ function kbAdjust(delta) {
   return false;
 }
 
-addEventListener("keydown", (e) => {
+/** Put the cursor somewhere sensible before acting on it. A pad's A button
+ * and a "hold" key with nothing yet focused used to do nothing at all; now
+ * they take the first control the step names, which is what a learner means. */
+function ensureFocus() {
+  if (kbCursor.current) return kbCursor.current;
+  kbCursor.set(targetsForStep(state.session?.step));
+  const id = kbCursor.current;
+  if (id) kbFocus(id);
+  return id;
+}
+
+/** A turn step, from a key or a bumper: the same rotate() a mouse arc or a
+ * wrist roll calls, in fixed increments. */
+function kbTurn(dir, scale = 1) {
+  const s = state.session;
+  if (s?.step?.kind !== "turn") return false;
+  lastActivatedId = s.step.target;
+  s.rotate(s.step.target, dir * 0.08 * Math.max(0.25, scale));
+  syncHud();
+  return true;
+}
+
+// -------------------------------------------- bindings, the pad, one router
+//
+// Every device that is not a hand speaks through runAction(): a key resolved
+// through the saved bindings, a gamepad button edge-detected by
+// shared/input.js, or a voice command that only ever navigates. One router is
+// what makes the interface brief's fallback rule structural rather than
+// aspirational — an action a pad can reach is an action a key can reach,
+// because they are the same action.
+
+let bindings = loadBindings();
+let remapping = null;         // the action the panel is waiting for a key for
+let lastSpoken = "";          // what "repeat" says again
+let hudZoom = 1;              // what "bigger"/"smaller" set outside AR
+
+/** True while the flat-mode step actions should reach the procedure. Anything
+ * that pauses the world — an overlay, the pre-brief, the instructor's freeze,
+ * the results card — also parks the input, so a key press cannot work a
+ * control the learner cannot see. */
+function canOperate() {
+  const ui = store.get();
+  return !!state.session && !renderer.xr.isPresenting && !state.paused
+    && !ui.prebrief.visible && !ui.controls.visible;
+}
+
+/** The Escape path: topmost overlay first, so an overlay opened mid-run
+ * closes rather than ejecting the learner to the hub underneath it. */
+function backAction() {
+  const ui = store.get();
+  if (ui.controls.visible) { closeControls(); return true; }
+  if (ui.prebrief.visible) { prebriefClose(); return true; }
+  if (ui.records.visible) { closeRecords(); return true; }
+  if (ui.leaderboard.visible) { closeLeaderboard(); return true; }
+  if (ui.programs.visible) { closePrograms(); return true; }
+  if (ui.editor.visible) { closeEditor(); return true; }
+  if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); return true; }
+  return false;
+}
+
+/**
+ * One action, whatever produced it. Returns true when it did something, which
+ * is what tells the keyboard handler whether to swallow the key.
+ * `info` carries a pad's `{ value, phase, repeat, analog }`.
+ */
+function runAction(action, info = {}) {
+  switch (action) {
+    case "controls": toggleControls(); return true;
+    case "back": return backAction();
+    case "mute":
+      Sfx.muted = !Sfx.muted;
+      srAnnouncer.say(Sfx.muted ? "Muted." : "Sound on.");
+      return true;
+    case "voice": toggleVoice(); return true;
+    case "speakHint": Sfx.ensure(); announce(currentHintLine()); return true;
+    default: break;
+  }
+  if (!canOperate()) return false;
+  switch (action) {
+    case "focusNext": kbStep(1); return true;
+    case "focusPrev": kbStep(-1); return true;
+    case "activate": ensureFocus(); kbActivate(); return true;
+    case "hold": {
+      if (info.phase === "end") { pressEnd(); return true; }
+      if (info.repeat) return true;   // a held key repeats; the hold is already on
+      const id = ensureFocus();
+      if (id) pressStart(id);
+      return true;
+    }
+    case "adjustUp":
+    case "adjustDown": {
+      const magnitude = info.analog ? Math.max(0.3, Math.min(1, info.value ?? 1)) : 1;
+      const dir = action === "adjustUp" ? 1 : -1;
+      if (state.session?.step?.kind === "turn") return kbTurn(dir, magnitude);
+      const did = kbAdjust(dir * magnitude);
+      if (did) kbActive = true;
+      return did;
+    }
+    case "turnLeft": return kbTurn(-1, info.analog ? info.value : 1);
+    case "turnRight": return kbTurn(1, info.analog ? info.value : 1);
+    default: return false;
+  }
+}
+
+function onKeyDown(e) {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
-  if (e.code === "Escape") {
-    // Topmost overlay first: an overlay opened by voice mid-run (records,
-    // leaderboards, editor) should close on Escape, not eject the learner to
-    // the hub underneath it.
-    const ui = store.get();
-    if (ui.prebrief.visible) { prebriefClose(); return; }
-    if (ui.records.visible) closeRecords();
-    else if (ui.leaderboard.visible) closeLeaderboard();
-    else if (ui.editor.visible) closeEditor();
-    else if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); }
-  }
-  if (e.code === "KeyM") { Sfx.muted = !Sfx.muted; }
-  // --- keyboard operation of the running procedure ---
-  if (!state.session || renderer.xr.isPresenting || store.get().prebrief.visible) return;
-  if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
-  if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
-  if (e.code === "Space") {
-    e.preventDefault();
-    if (!e.repeat && kbCursor.current) pressStart(kbCursor.current);
+  const token = keyToken(e);
+  // Click-to-remap: while the panel is waiting, this press is data, not a
+  // command, so nothing it happens to be bound to runs.
+  if (remapping) {
+    e.preventDefault?.();
+    if (/^(Shift|Control|Alt|Meta)(Left|Right)$/.test(e.code)) return;
+    if (e.code === "Escape") { remapping = null; syncControlsPanel({ remapNote: "Remap cancelled — nothing changed." }); return; }
+    const action = remapping;
+    remapping = null;
+    bindings = saveBindings(remapAction(bindings, action, token));
+    syncControlsPanel({ remapNote: `${prettyKey(token)} now runs “${ACTION_LABELS[action] ?? action}”.` });
     return;
   }
-  if (e.code === "ArrowUp" || e.code === "ArrowDown") {
-    if (kbAdjust(e.code === "ArrowUp" ? 1 : -1)) { e.preventDefault(); kbActive = true; }
-    return;
-  }
-  if (e.code === "ArrowRight" || e.code === "ArrowLeft") {
-    e.preventDefault(); kbStep(e.code === "ArrowRight" ? 1 : -1);
-  }
-});
-addEventListener("keyup", (e) => {
+  const action = actionForKey(bindings, token);
+  if (!action) return;
+  // Tab must not walk the browser's own focus while it is walking the step's
+  // controls, and the space bar must not scroll the page — but a key that did
+  // nothing (Tab at the hub, with no station running) is left to the browser.
+  if (runAction(action, { source: "key", repeat: !!e.repeat })) e.preventDefault?.();
+}
+
+function onKeyUp(e) {
   if (isTypingTarget(e)) return;
   keys[e.code] = false;
-  if (e.code === "Space" && state.session) { e.preventDefault(); pressEnd(); }
+  if (actionForKey(bindings, keyToken(e)) === "hold" && state.session) { e.preventDefault?.(); pressEnd(); }
+}
+
+addEventListener("keydown", onKeyDown);
+addEventListener("keyup", onKeyUp);
+
+// ------------------------------------------------------- the controls panel
+//
+// Opened from the toolbar button, the bound key (`/` or F1 by default), a
+// pad's Start button, or the voice command "controls". It is an overlay like
+// the others, so it pauses the world and Escape closes it topmost-first.
+
+const ACTION_LABELS = Object.fromEntries(INPUT_ACTIONS.map((a) => [a.id, a.label]));
+let tabPicked = false;   // has the learner chosen a tab, or is the device choosing
+
+function syncControlsPanel(extra = {}) {
+  store.patch("controls", {
+    preset: bindings.preset,
+    presets: PRESET_IDS.map((id) => ({ id, label: KEYBOARD_PRESETS[id].label, note: KEYBOARD_PRESETS[id].note })),
+    rows: describeBindings(bindings),
+    remapping,
+    ...extra,
+  });
+}
+
+function openControls() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  // Which tabs this device is offered, and in what order: a DEVICES entry's
+  // own `input` object when it has one, the run profile otherwise. The app
+  // never sniffs the hardware itself (shared/devices.js owns that).
+  const io = describeInputs(DEVICE, PROFILE);
+  // Until the learner picks a tab themselves, the panel opens on the one the
+  // device leads with: a voice-first monocular should not open on a keyboard
+  // page nobody on that device can read comfortably.
+  const held = tabPicked ? store.get().controls.tab : null;
+  store.patch("controls", {
+    visible: true,
+    tabs: io.tabs,
+    tab: io.tabs.includes(held) ? held : io.tabs[0],
+    inputSource: io.source, hands: io.hands, voiceFirst: io.voiceFirst,
+    deviceLine: describeDevice(DEVICE, PROFILE),
+    padMap: describeGamepadMap(gamepad.vendor),
+    grammar: VOICE_GRAMMAR.map((g) => ({ type: g.type, say: g.phrases, what: g.what, scope: g.scope })),
+    heard: store.get().voice.heard,
+    remapNote: "",
+  });
+  syncControlsPanel();
+  srAnnouncer.say("Controls. Keyboard, gamepad and voice.");
+}
+function closeControls() {
+  remapping = null;
+  state.paused = pausedBeforeOverlay;
+  store.patch("controls", { visible: false, remapping: null, remapNote: "" });
+}
+function toggleControls() { if (store.get().controls.visible) closeControls(); else openControls(); }
+function controlsTab(tab) { tabPicked = true; store.patch("controls", { tab }); }
+function controlsPreset(id) {
+  bindings = saveBindings({ preset: id, keys: KEYBOARD_PRESETS[id]?.keys });
+  remapping = null;
+  syncControlsPanel({ remapNote: `${KEYBOARD_PRESETS[bindings.preset].label} preset loaded.` });
+}
+function controlsRemap(action) {
+  remapping = remapping === action ? null : action;
+  syncControlsPanel({ remapNote: remapping ? `Press the key for “${ACTION_LABELS[action] ?? action}”. Esc cancels.` : "" });
+}
+function controlsResetBindings() {
+  bindings = resetBindings(bindings.preset);
+  remapping = null;
+  syncControlsPanel({ remapNote: "Back to this preset's own keys." });
+}
+function controlsNumbers(on) {
+  store.patch("controls", { numbers: !!on });
+  srAnnouncer.say(on ? "Numbers shown." : "Numbers hidden.");
+}
+
+// ----------------------------------------------------------- the gamepad
+//
+// Flat/desktop mode only: inside an immersive session the controllers arrive
+// as XRInputSource.gamepad and xrMove() below already reads those. The
+// mapping, the deadzone and the edge detection are all in shared/input.js so
+// tools/check_input.mjs can drive them with a fake pad.
+
+let fakePads = null;            // set only by the headless test hook
+let padReadoutAt = 0;
+
+function padLook({ dx = 0, dy = 0, dt = 1 / 60 } = {}) {
+  if (renderer.xr.isPresenting) return;
+  yaw -= dx * 2.6 * dt;
+  pitch = clamp(pitch - dy * 2.0 * dt, -1.2, 1.2);
+  camera.rotation.set(pitch, yaw, 0);
+}
+function padWalk({ dx = 0, dy = 0, dt = 1 / 60 } = {}) {
+  if (renderer.xr.isPresenting || state.mode === "ar") return;
+  const speed = 2.6 * dt;
+  const f = _scratchV1.set(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = _scratchV2.set(-f.z, 0, f.x);
+  rig.position.addScaledVector(f, -dy * speed);
+  rig.position.addScaledVector(r, dx * speed);
+  clampRoam();
+}
+
+const gamepad = createGamepad({
+  getGamepads: () => fakePads ?? (navigator.getGamepads ? navigator.getGamepads() : []),
+  shouldPoll: () => !renderer.xr.isPresenting,
+  onAction: (action, info) => {
+    if (action === "look") { padLook(info); return; }
+    if (action === "walk") { padWalk(info); return; }
+    runAction(action, info);
+  },
+  onConnect: (snap) => {
+    store.patch("controls", {
+      gamepad: { ...snap, vendorName: PAD_LABELS[snap.vendor]?.name ?? "Generic" },
+      padMap: describeGamepadMap(snap.vendor),
+    });
+    if (snap.connected) srAnnouncer.say(`${PAD_LABELS[snap.vendor]?.name ?? "A"} gamepad connected. Start opens the controls panel.`);
+  },
 });
+
+function pollGamepad(dt) {
+  const snap = gamepad.poll(dt);
+  // The live readout only matters while the panel is open, and a React render
+  // per frame for a button nobody is watching is pure waste.
+  if (!snap || !store.get().controls.visible) return;
+  if (elapsedTotal - padReadoutAt < 0.08) return;
+  padReadoutAt = elapsedTotal;
+  store.patch("controls", { gamepad: { ...snap, vendorName: PAD_LABELS[snap.vendor]?.name ?? "Generic" } });
+}
+
+// Publish the bindings once at start-up, not only when the panel opens: the
+// HUD's crib line in the corner names the live keys, and on a saved non-default
+// preset the defaults would be a lie.
+syncControlsPanel({ padMap: describeGamepadMap(gamepad.vendor) });
 
 const canvas = renderer.domElement;
 canvas.addEventListener("pointerdown", (e) => {
@@ -1681,10 +1928,14 @@ function desktopMove(dt) {
   if (keys.KeyS || keys.ArrowDown) rig.position.addScaledVector(f, -speed);
   if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r, speed);
   if (keys.KeyA || keys.ArrowLeft) rig.position.addScaledVector(r, -speed);
-  // How far the learner may walk. The stage owns this now: the site apron's
-  // fence line outdoors, the room's walls indoors. It used to be the station's
-  // own footprint plus 2.4m, which fenced the learner into the middle of a
-  // 15-metre plaza and made every station a diorama you turned on the spot in.
+  clampRoam();
+}
+// How far the learner may walk. The stage owns this now: the site apron's
+// fence line outdoors, the room's walls indoors. It used to be the station's
+// own footprint plus 2.4m, which fenced the learner into the middle of a
+// 15-metre plaza and made every station a diorama you turned on the spot in.
+// Shared with the gamepad's right stick, which walks the same rig.
+function clampRoam() {
   const limit = state.stage?.roam ?? (state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5);
   const len = Math.hypot(rig.position.x, rig.position.z);
   if (len > limit) { rig.position.x *= limit / len; rig.position.z *= limit / len; }
@@ -1971,6 +2222,7 @@ const srAnnouncer = createAnnouncer();
 function announce(text) {
   // Everything spoken is also written to the live region, so a screen reader
   // user gets it whether or not the synthesised voice is on or muted.
+  lastSpoken = text;   // what the voice command "repeat" says again
   srAnnouncer.say(text);
   if (!Sfx.muted) speak(text);
 }
@@ -1994,7 +2246,67 @@ function speakStatus() {
     `Level ${Progress.level}, ${Progress.levelName}.`;
 }
 
-const VOICE_HELP = 'Say a station name, "hub," "leaderboards," "records," "programmes," "tour," "editor," "reset," "hint," "brief," "status," or "help."';
+/** The live step read back in full: where the learner is in the procedure,
+ * what the step is called and what it asks for. "read step", and the F-key
+ * or the pad's Y button, all land here. */
+function currentStepLine() {
+  const s = state.session;
+  if (!s?.step) return currentHintLine();
+  const names = targetNames(s.step);
+  const focused = kbCursor.current ? ` Focused: ${names[kbCursor.current] ?? String(kbCursor.current).replace(/[-_]/g, " ")}.` : "";
+  return `Step ${Math.min(s.index + 1, s.steps.length)} of ${s.steps.length}. ${s.step.title}. ${s.step.cue}.${focused}`;
+}
+
+/** The controls the live step names, as `{ id, name }` — what "focus the tag
+ * bag" and "where is the gauge" are matched against. */
+function stepTargets() {
+  const step = state.session?.step;
+  if (!step) return [];
+  const names = targetNames(step);
+  return targetsForStep(step).map((id) => ({ id, name: names[id] ?? String(id).replace(/[-_]/g, " ") }));
+}
+
+/** Where a control is from where the learner is standing and looking. This
+ * only describes; the hands still have to go there. */
+function describeWhere(id, name) {
+  const obj = state.hits[id];
+  if (!obj) return `I cannot see the ${name} from here.`;
+  const there = obj.getWorldPosition(new THREE.Vector3());
+  const here = camera.getWorldPosition(new THREE.Vector3());
+  const look = camera.getWorldDirection(new THREE.Vector3());
+  look.y = 0;
+  const to = there.clone().sub(here);
+  const metres = Math.hypot(to.x, to.z);
+  to.y = 0;
+  let side = "straight ahead";
+  if (look.lengthSq() > 1e-6 && to.lengthSq() > 1e-6) {
+    look.normalize(); to.normalize();
+    const dot = look.x * to.x + look.z * to.z;
+    const cross = look.z * to.x - look.x * to.z;
+    const angle = Math.atan2(cross, dot) * (180 / Math.PI);
+    if (Math.abs(angle) > 140) side = "behind you";
+    else if (angle > 35) side = "to your right";
+    else if (angle < -35) side = "to your left";
+    else if (Math.abs(angle) > 12) side = angle > 0 ? "slightly right" : "slightly left";
+  }
+  const height = there.y - here.y;
+  const level = height > 0.5 ? ", above head height" : height < -0.6 ? ", down at your feet" : "";
+  return `The ${name} is about ${metres < 1 ? "a metre" : `${metres.toFixed(1)} metres`} away, ${side}${level}.`;
+}
+
+/** Bigger / smaller: the diorama in AR, the 2D chrome everywhere else. On a
+ * monocular hardhat display this is the command a learner reaches for most. */
+function scaleView(dir) {
+  if (state.mode === "ar" && state.placed) {
+    if (dir > 0) scaleUp(); else scaleDown();
+    return dir > 0 ? "Larger." : "Smaller.";
+  }
+  hudZoom = clamp(hudZoom + dir * 0.15, 0.8, 2.2);
+  const root = document.documentElement;
+  root.dataset.hudZoom = "1";
+  root.style.setProperty("--hud-scale", String((PROFILE.hudScale ?? 1) * hudZoom));
+  return `Display at ${Math.round(hudZoom * 100)} per cent.`;
+}
 
 const VoiceSR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
@@ -2030,43 +2342,94 @@ function toggleVoice() {
  * phrase that happens to contain it as a substring. */
 const VOICE_SIMS = [...SIMS_META].sort((a, b) => b.name.length - a.name.length);
 
+/** The numbered menu "select item N" resolves against: the intro panel's own
+ * buttons first, then every station card, in exactly the order react-ui.js
+ * badges them (introMenu() is the single source of that order, so the badge a
+ * learner reads and the number this resolves can never drift apart). */
+function voiceMenu() {
+  return introMenu().map((entry) => ({
+    ...entry,
+    run: entry.kind === "sim"
+      ? () => { pendingEnter = entry.id; begin(); announce(`Entering ${SIMS_META_BY_ID[entry.id]?.name ?? entry.label}.`); }
+      : () => { const fn = uiActions[entry.action]; if (fn) { fn(); announce(`${entry.label}.`); } },
+  }));
+}
+
+/** Station names stay here — this module owns the roster (the built-ins plus
+ * the learner's own custom drills) — and everything else is delegated to the
+ * grammar in shared/input.js. */
 function parseVoiceCommand(text) {
-  const lower = text.toLowerCase();
+  const lower = String(text ?? "").toLowerCase();
   const sim = VOICE_SIMS.find((s) => lower.includes(s.name.toLowerCase()));
   if (sim) return { type: "sim", id: sim.id };
-  if (/\b(hub|campus|home|back)\b/.test(lower)) return { type: "hub" };
-  if (/\bleaderboards?\b/.test(lower)) return { type: "leaderboard" };
-  if (/\b(programme?s?|programs?|curricul(?:um|a)|pathway)\b/.test(lower)) return { type: "programs" };
-  if (/\b(records?|training records?|transcript)\b/.test(lower)) return { type: "records" };
-  if (/\btour\b/.test(lower)) return { type: "tour" };
-  if (/\b(scenario|editor)\b/.test(lower)) return { type: "editor" };
-  if (/\breset\b/.test(lower)) return { type: "reset" };
-  if (/\b(help|commands|what can i say)\b/.test(lower)) return { type: "help" };
-  if (/\b(hint|what now|what next|current step|repeat)\b/.test(lower)) return { type: "hint" };
-  if (/\b(brief|briefing|about this station)\b/.test(lower)) return { type: "brief" };
-  if (/\b(status|progress|score)\b/.test(lower)) return { type: "status" };
-  return { type: "unknown" };
+  return parseVoice(text, { menu: voiceMenu(), targets: stepTargets() });
 }
 
 function handleVoiceCommand(text) {
   const cmd = parseVoiceCommand(text);
-  if (cmd.type === "sim") { pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return; }
-  if (cmd.type === "hub") { if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return; }
-  if (cmd.type === "leaderboard") { viewLeaderboard(); return; }
-  if (cmd.type === "records") { viewRecords(); return; }
-  if (cmd.type === "programs") { viewPrograms(); return; }
-  if (cmd.type === "tour") { startTour(); announce("Starting the guided tour."); return; }
-  if (cmd.type === "editor") { openEditor(); return; }
-  if (cmd.type === "reset") { resetProgress(); announce("Progress cleared."); return; }
-  if (cmd.type === "help") { announce(VOICE_HELP); return; }
-  if (cmd.type === "hint") { announce(currentHintLine()); return; }
-  if (cmd.type === "brief") { announce(speakBrief()); return; }
-  if (cmd.type === "status") { announce(speakStatus()); return; }
-  store.patch("voice", { error: `Didn't recognize "${text}" — try a station name, "hub," "leaderboards," "programmes," "tour," "editor," "reset," "hint," "brief," "status," or "help."` });
+  store.patch("controls", { heard: String(text ?? "") });
+  switch (cmd.type) {
+    case "sim": pendingEnter = cmd.id; begin(); announce(`Entering ${SIMS_META_BY_ID[cmd.id]?.name ?? "station"}.`); return;
+    case "hub": if (state.session) backToHub(); else enterFlat(); announce("Back at the campus."); return;
+    case "leaderboard": viewLeaderboard(); return;
+    case "records": viewRecords(); return;
+    case "programs": viewPrograms(); return;
+    case "tour": startTour(); announce("Starting the guided tour."); return;
+    case "editor": openEditor(); return;
+    case "reset": resetProgress(); announce("Progress cleared."); return;
+    case "help": announce(VOICE_HELP_LINE); return;
+    case "hint": announce(currentHintLine()); return;
+    case "brief": announce(speakBrief()); return;
+    case "status": announce(speakStatus()); return;
+    case "controls": openControls(); announce("Controls panel open."); return;
+    case "readStep": announce(currentStepLine()); return;
+    case "repeat": announce(lastSpoken || currentHintLine()); return;
+    case "mute": Sfx.muted = true; srAnnouncer.say("Muted."); return;
+    case "unmute": Sfx.muted = false; announce("Sound on."); return;
+    case "bigger": announce(scaleView(1)); return;
+    case "smaller": announce(scaleView(-1)); return;
+    case "showNumbers": controlsNumbers(cmd.on); return;
+    case "checkIn": announce(CHECKIN_QUESTION); return;
+    case "checkInAnswer": announce(CHECKIN_REPLIES[cmd.answer] ?? CHECKIN_REPLIES.steady); return;
+    case "selectItem": {
+      const item = cmd.item;
+      if (!item) { announce(`There is no item ${cmd.index} on this screen. Say "show numbers" to see them.`); return; }
+      item.run();
+      return;
+    }
+    // Focus and "where is" are the whole of what voice may do to a procedure:
+    // they move the keyboard cursor and describe. Taking the control is a
+    // hand's job — see the interface brief.
+    case "next": case "previous": {
+      if (!canOperate()) { announce("No station is running. Say a station name to begin."); return; }
+      kbStep(cmd.type === "next" ? 1 : -1);
+      return;
+    }
+    case "focus": {
+      if (!canOperate()) { announce("No station is running yet."); return; }
+      const hit = matchTargetName(cmd.name, stepTargets());
+      if (!hit) { announce(`This step does not name a ${cmd.name}. Say "read step" for what it asks for.`); return; }
+      kbCursor.set(targetsForStep(state.session?.step));
+      kbFocus(hit.id);
+      lastSpoken = `Focused ${hit.name}.`;
+      return;
+    }
+    case "whereIs": {
+      const hit = matchTargetName(cmd.name, stepTargets());
+      if (!hit) { announce(`I cannot place a ${cmd.name} in this step.`); return; }
+      announce(describeWhere(hit.id, hit.name));
+      return;
+    }
+    default: break;
+  }
+  store.patch("voice", { error: `Didn't recognize "${text}" — say "help" for the full list, or "controls" for the panel.` });
   announce('Didn\'t catch that. Say "help" for commands.');
 }
 
-mountUI(store, {
+// Hoisted rather than passed inline: voiceMenu() runs the same handlers by
+// name when a learner says "select item 4", so the panel's buttons and the
+// voice path cannot diverge.
+const uiActions = {
   viewLeaderboard, closeLeaderboard,
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
   viewPrograms, closePrograms, programStart,
@@ -2080,7 +2443,9 @@ mountUI(store, {
   enterAr, enterVr, enterFlat, resetProgress,
   scaleUp, scaleDown, toggleVoice,
   speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
-});
+  openControls, closeControls, controlsTab, controlsPreset, controlsRemap, controlsResetBindings,
+};
+mountUI(store, uiActions);
 
 // Test-only hook: headless test runners can't grant microphone permission
 // or produce a real SpeechRecognition result, but the interesting logic is
@@ -2088,6 +2453,39 @@ mountUI(store, {
 // recognizer — so expose that directly, the same pattern as Holodeck's
 // window.__holodeckTest.
 window.__smartcityVoiceTest = { simulate: (text) => handleVoiceCommand(text) };
+
+// Test-only hook for the deep input layer: a headless runner cannot plug in a
+// gamepad or hold a key down, but it can hand the poller a fake Standard
+// Gamepad and push synthetic key events through the very same handlers a real
+// press reaches. Nothing here is a shortcut past the bindings or the edge
+// detection — `gamepad()` calls the real poll, `key()` calls the real keydown
+// handler — so a passing drive proves the wiring, not a stub.
+window.__smartcityInputTest = {
+  /** Feed one fake pad (or an array, nulls allowed) and poll it. */
+  gamepad: (fakePad, { polls = 1, dt = 1 / 60 } = {}) => {
+    fakePads = fakePad == null ? null : (Array.isArray(fakePad) ? fakePad : [fakePad]);
+    let snap = null;
+    for (let i = 0; i < polls; i++) snap = pollGamepad(dt) ?? gamepad.snapshot();
+    return { snapshot: gamepad.snapshot(), focus: kbCursor.current, snap };
+  },
+  /** "Tab", "Shift+Tab", "KeyM"… down then up, unless `up: false`. */
+  key: (code, { up = true, repeat = false } = {}) => {
+    const raw = String(code ?? "");
+    const shifted = raw.startsWith("Shift+");
+    const event = { code: shifted ? raw.slice(6) : raw, shiftKey: shifted, repeat, target: document.body, preventDefault() {} };
+    onKeyDown(event);
+    if (up) onKeyUp(event);
+    return { action: actionForKey(bindings, keyToken(event)), focus: kbCursor.current };
+  },
+  voice: (text) => handleVoiceCommand(text),
+  bindings: () => bindings,
+  preset: (id) => { controlsPreset(id); return bindings.preset; },
+  pad: () => gamepad.snapshot(),
+  action: (name, info) => runAction(name, info ?? {}),
+  focus: () => ({ ids: kbCursor.ids, index: kbCursor.index, current: kbCursor.current, active: kbActive }),
+  controls: () => store.get().controls,
+  menu: () => voiceMenu().map((m, i) => ({ index: i + 1, kind: m.kind, id: m.id, label: m.label })),
+};
 
 // Test-only hook: precisely clicking a 3D object's exact screen position
 // from an automated browser test is brittle, but the click/turn handlers
@@ -2164,6 +2562,12 @@ renderer.setAnimationLoop((_, frame) => {
       }
     } else reticle.visible = false;
   } else reticle.visible = false;
+
+  // The pad is polled every frame, paused or not: Start has to be able to open
+  // the controls panel from the intro card, and Back has to close it again.
+  // Inside an immersive session the poller stands down (the XR input sources
+  // own the controllers) — see createGamepad's `shouldPoll`.
+  if (!presenting) pollGamepad(dt);
 
   if (!state.paused) {
     if (presenting) { xrMove(dt); handInput.update(); } else desktopMove(dt);

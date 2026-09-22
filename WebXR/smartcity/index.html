@@ -164,6 +164,78 @@
 
   #speak-btn{ position:fixed; right:14px; bottom:60px; z-index:11; display:flex; align-items:center;
     justify-content:center; width:40px; height:40px; border-radius:50%; font-size:16px; padding:0; }
+  #controls-btn{ position:fixed; right:14px; bottom:106px; z-index:11; display:flex; align-items:center;
+    justify-content:center; width:40px; height:40px; border-radius:50%; font-size:17px; padding:0; }
+
+  /* ----------------------------------------------- controls panel (input.js)
+     Three tabs over one action table: the keys, the pad and the grammar. The
+     pad diagram is plain DOM shapes — no image, no canvas, nothing to load. */
+  .tabrow{ display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 10px; border-bottom:1px solid var(--edge); padding-bottom:10px }
+  .ctl-tab{ padding:8px 16px; font-size:13px; min-height:38px }
+  .ctl-pane{ margin:2px 0 4px }
+  .ctl-presetrow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:2px 0 8px }
+  .ctl-presetrow select{ background:var(--raised); border:1px solid var(--edge-strong); border-radius:var(--r-sm);
+    color:var(--text); font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.06em; padding:9px 10px; min-height:40px }
+  .ctl-presetrow button{ padding:8px 14px; font-size:12px; min-height:40px }
+  .ctl-note{ font-size:12.5px; color:var(--accent); margin:0 0 8px; min-height:1.2em }
+  .ctl-table{ width:100%; border-collapse:collapse; font-size:13px; margin:2px 0 10px }
+  .ctl-table th{ text-align:left; font-family:var(--cond); font-weight:600; letter-spacing:.1em; font-size:11px;
+    color:var(--muted); text-transform:uppercase; padding:5px 8px; border-bottom:1px solid var(--edge-strong) }
+  .ctl-table td{ padding:6px 8px; border-bottom:1px solid var(--edge); vertical-align:top }
+  .ctl-table tbody tr:nth-child(even) td{ background:rgba(255,255,255,.02) }
+  .ctl-table td.ctl-what{ color:var(--muted); font-size:12.5px; line-height:1.45 }
+  .ctl-table tr.ctl-unbound td{ color:var(--warn) }
+  .ctl-key{ padding:5px 10px; min-height:34px; font-size:12px; letter-spacing:.04em; text-transform:none;
+    display:inline-flex; align-items:center; gap:6px }
+  .ctl-key.arming{ border-color:var(--accent); color:var(--accent); box-shadow:var(--ring) }
+  .ctl-key.custom kbd{ border-color:var(--accent); color:var(--accent) }
+  .ctl-or{ font-size:10px; color:var(--dim); text-transform:uppercase; letter-spacing:.1em }
+  .ctl-table kbd{ white-space:nowrap; display:inline-block; margin:1px 0 }
+
+  .pad-diagram{ position:relative; height:172px; margin:6px 0 10px; background:var(--surface-raised);
+    border:1px solid var(--edge); border-radius:14px }
+  .pad-shoulder{ position:absolute; top:10px; width:64px; height:22px; border-radius:8px; border:1px solid var(--edge-strong);
+    background:var(--panel-2); font-family:var(--cond); font-size:11px; letter-spacing:.06em; color:var(--muted);
+    display:flex; align-items:center; justify-content:center }
+  .pad-lt{ left:18px } .pad-lb{ left:18px; top:38px } .pad-rt{ right:18px } .pad-rb{ right:18px; top:38px }
+  .pad-shoulder.on{ border-color:var(--accent); color:var(--accent-ink); background:var(--accent) }
+  .pad-body{ position:absolute; inset:66px 16px 12px; display:flex; align-items:center; justify-content:space-between }
+  .pad-dpad{ position:relative; width:74px; height:74px }
+  .pad-dbtn{ position:absolute; width:24px; height:24px; border:1px solid var(--edge-strong); background:var(--panel-2); border-radius:5px }
+  .pad-dup{ left:25px; top:0 } .pad-ddown{ left:25px; bottom:0 } .pad-dleft{ left:0; top:25px } .pad-dright{ right:0; top:25px }
+  .pad-dbtn.on{ background:var(--accent); border-color:var(--accent) }
+  .pad-middle{ display:flex; gap:8px }
+  .pad-pill{ border:1px solid var(--edge-strong); background:var(--panel-2); border-radius:999px; padding:4px 12px;
+    font-family:var(--cond); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted) }
+  .pad-pill.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink) }
+  .pad-faces{ position:relative; width:84px; height:84px }
+  .pad-face{ position:absolute; width:28px; height:28px; border-radius:50%; border:1px solid var(--edge-strong);
+    background:var(--panel-2); font-family:var(--cond); font-size:10.5px; color:var(--muted);
+    display:flex; align-items:center; justify-content:center; overflow:hidden }
+  .pad-y{ left:28px; top:0 } .pad-x{ left:0; top:28px } .pad-b{ right:0; top:28px } .pad-a{ left:28px; bottom:0 }
+  .pad-face.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink) }
+  .pad-stick{ position:absolute; bottom:14px; width:52px; height:52px; border-radius:50%;
+    border:1px dashed var(--edge-strong); display:flex; align-items:center; justify-content:center }
+  .pad-ls{ left:104px } .pad-rs{ right:104px }
+  .pad-stick-dot{ width:18px; height:18px; border-radius:50%; background:var(--raised-2);
+    border:1px solid var(--edge-strong); transition:transform .06s linear }
+  .pad-stick-dot.on{ background:var(--accent); border-color:var(--accent) }
+  .pad-readout{ display:grid; gap:4px; margin:0 0 10px }
+  .pad-readout-row{ display:flex; gap:6px; flex-wrap:wrap }
+  .pad-live{ font-family:ui-monospace, Menlo, Consolas, monospace; font-size:11px; color:var(--muted);
+    border:1px solid var(--edge); border-radius:4px; padding:2px 6px }
+  .pad-live.on{ color:var(--accent); border-color:rgba(79,209,255,.5) }
+  .pad-idle{ font-size:11px; color:var(--dim) }
+
+  /* Index badges: the voice-first path on a monocular display, where "select
+     item 4" is quicker than reading a whole card out loud. */
+  .idx-badge{ display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px;
+    padding:0 4px; margin-right:6px; border-radius:5px; background:var(--accent); color:var(--accent-ink);
+    font-family:var(--cond); font-weight:700; font-size:11px; letter-spacing:.02em; vertical-align:middle }
+  .sim .idx-badge{ float:right; margin:0 0 0 6px }
+  /* "bigger"/"smaller" outside AR: the headset profiles already zoom the
+     chrome, this lets a desktop or tablet learner do the same on request. */
+  html[data-hud-zoom="1"] #react-root{ zoom: var(--hud-scale, 1) }
 
   #ar-prompt{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
     background:var(--surface-chip); border:1px solid rgba(79,209,255,.55); border-radius:var(--r-md);
@@ -426,6 +498,7 @@
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(60px, calc(env(safe-area-inset-bottom) + 46px)) }
+    #controls-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(106px, calc(env(safe-area-inset-bottom) + 92px)) }
   }
 </style>
 </head>

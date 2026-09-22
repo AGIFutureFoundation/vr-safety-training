@@ -27,6 +27,8 @@ globalThis.document = {
 globalThis.window = { matchMedia: (q) => ({ matches: q.includes("reduce") && window.__reduce === true }) };
 
 const { reducedMotion, createAnnouncer, createTargetCursor, describeTarget } = await import("../WebXR/shared/a11y.js");
+// The keyboard bindings an app may read instead of hard-coding the keys.
+const { KEYBOARD_PRESETS, actionForKey } = await import("../WebXR/shared/input.js");
 const { ROOT, loadSmartCity, loadTrades } = await import("./lib/headless.mjs");
 
 await check("the live region is a clipped status region a screen reader reads", () => {
@@ -154,10 +156,17 @@ await check("all three simulators ship the keyboard path and a live region", () 
     assert(html.includes("prefers-reduced-motion"), `${app}/index.html has no reduced-motion rules`);
   }
   // The statement claims all three simulators, so all three are checked.
+  // An app may hard-code the keys, or read them from the shared binding table
+  // (WebXR/shared/input.js) — SmartCiti.X does the latter since the controls
+  // panel let a learner remap them. Either way the five keys have to reach an
+  // action, which is stronger than finding the string in the file.
   for (const app of ["smartcity", "trades", "holodeck"]) {
     const src = readFileSync(join(ROOT, "WebXR", app, "js", "app.js"), "utf8");
+    const bound = src.includes("shared/input.js");
     for (const key of ["Tab", "Enter", "Space", "ArrowUp", "ArrowDown"]) {
-      assert(src.includes(`"${key}"`), `${app}: the keyboard path does not handle ${key}`);
+      const reached = src.includes(`"${key}"`)
+        || (bound && !!actionForKey(KEYBOARD_PRESETS.standard, key));
+      assert(reached, `${app}: the keyboard path does not handle ${key}`);
     }
     assert(src.includes("createAnnouncer"), `${app}: never creates a live region`);
     assert(src.includes("createTargetCursor"), `${app}: never walks a step's controls`);

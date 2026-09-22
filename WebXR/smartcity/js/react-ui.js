@@ -8,6 +8,7 @@
  */
 
 import { SIMS_META } from "./sims-meta.js";
+import { prettyKey } from "../../shared/input.js";
 
 const h = React.createElement;
 const { Fragment, useSyncExternalStore } = React;
@@ -63,6 +64,52 @@ function stripHtml(html) {
   return String(html ?? "").replace(/<[^>]*>/g, "");
 }
 
+// The intro card's buttons, as data rather than ten hand-written elements:
+// the same list numbers them for "select item N" (app.js's voiceMenu()) and
+// renders them, so the badge a learner reads and the number voice resolves
+// are the same number by construction. `action` is a key in the actions
+// object app.js hands mountUI.
+const INTRO_BUTTONS = [
+  { id: "start-tour", label: "Start guided tour", action: "startTour", primary: true },
+  { id: "enter-ar", label: "Enter AR", action: "enterAr", textFrom: "arText", disabledFrom: "arDisabled" },
+  { id: "enter-vr", label: "Enter VR", action: "enterVr", textFrom: "vrText", disabledFrom: "vrDisabled" },
+  { id: "enter-flat", label: "Free explore", action: "enterFlat" },
+  { id: "view-leaderboard", label: "Leaderboards", action: "viewLeaderboard" },
+  { id: "view-records", label: "Training records", action: "viewRecords" },
+  { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
+  { id: "open-editor", label: "Create a scenario", action: "openEditor" },
+  { id: "open-controls", label: "Controls", action: "openControls" },
+  { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
+];
+
+/** The station cards in the order the grid draws them: grouped by category in
+ *  CATEGORY_ORDER, then by each sim's own catalog index. */
+function orderedSims() {
+  const byCategory = new Map();
+  for (const sim of SIMS_META) {
+    const cat = sim.category ?? "Uncategorized";
+    if (!byCategory.has(cat)) byCategory.set(cat, []);
+    byCategory.get(cat).push(sim);
+  }
+  const categories = [...byCategory.keys()].sort(
+    (a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b));
+  return categories.map((cat) => [cat, byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index))]);
+}
+
+/**
+ * The numbered menu, in badge order: the panel's buttons, then every station
+ * card. app.js maps each entry onto the handler a click would run, and the
+ * voice command "select item N" takes the Nth.
+ */
+export function introMenu() {
+  const rows = INTRO_BUTTONS.map((b) => ({ kind: "button", id: b.id, label: b.label, action: b.action }));
+  for (const [, sims] of orderedSims()) {
+    for (const sim of sims) rows.push({ kind: "sim", id: sim.id, label: sim.name });
+  }
+  return rows;
+}
+const SIM_BADGE_BASE = INTRO_BUTTONS.length;
+
 export function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -102,8 +149,15 @@ export function mountUI(store, actions) {
         h("div", { id: "hud-timer" }, hud.timer)));
   }
 
+  /** The corner crib line. It reads the live bindings rather than three
+   * hard-coded letters, so a learner on the numpad or one-hand preset is not
+   * told to press a key that no longer does anything. */
   function HudHint() {
-    return h("div", { id: "hud-hint" }, "Drag to look · Click to act · M mute · Esc campus");
+    const rows = useSlice("controls").rows;
+    const keyFor = (action, fallback) => rows.find((r) => r.action === action)?.pretty?.[0] ?? fallback;
+    return h("div", { id: "hud-hint" },
+      `Drag to look · Click to act · ${keyFor("controls", prettyKey("Slash"))} controls · `
+      + `${keyFor("mute", "M")} mute · ${keyFor("back", "Esc")} campus`);
   }
 
   function GestureTip() {
@@ -132,22 +186,35 @@ export function mountUI(store, actions) {
    * (see tools/gen_sims_meta.mjs) instead of a hand-copied HTML list, so
    * it can never silently drift from the actual sim roster. */
   function SimsGrid() {
-    const byCategory = new Map();
-    for (const sim of SIMS_META) {
-      const cat = sim.category ?? "Uncategorized";
-      if (!byCategory.has(cat)) byCategory.set(cat, []);
-      byCategory.get(cat).push(sim);
-    }
-    const categories = [...byCategory.keys()].sort(
-      (a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b));
-    return h(Fragment, null, categories.map((cat) => h(Fragment, { key: cat },
+    const numbers = useSlice("controls").numbers;
+    let n = SIM_BADGE_BASE;
+    return h(Fragment, null, orderedSims().map(([cat, sims]) => h(Fragment, { key: cat },
       h("div", { className: "sim-category" }, cat),
       h("div", { className: "sims" },
-        byCategory.get(cat).sort((a, b) => a.index.localeCompare(b.index)).map((sim) =>
-          h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
+        sims.map((sim) => {
+          n += 1;
+          return h("div", { className: "sim", style: { "--tint": sim.accentCss }, key: sim.id },
+            numbers && h("span", { className: "idx-badge", "aria-hidden": "true" }, n),
             h("b", null, sim.name, sim.flat && h("em", { className: "sim-flat" }, "flat briefing")),
             h("span", null, `${sim.trade} · ${sim.game.system}`),
-            h("span", { className: "sim-cert" }, sim.certification)))))));
+            h("span", { className: "sim-cert" }, sim.certification));
+        })))));
+  }
+
+  /** The panel's buttons, rendered from INTRO_BUTTONS so the badge numbers and
+   * the voice menu's numbers are the same list. */
+  function IntroButtons() {
+    const intro = useSlice("intro");
+    const resetText = useSlice("resetProgressText");
+    const numbers = useSlice("controls").numbers;
+    return h("div", { className: "btnrow" }, INTRO_BUTTONS.map((b, i) => h("button", {
+      key: b.id, id: b.id, type: "button",
+      className: b.primary ? "primary" : "",
+      disabled: b.disabledFrom ? !!intro[b.disabledFrom] : false,
+      onClick: actions[b.action],
+    },
+    numbers && h("span", { className: "idx-badge", "aria-hidden": "true" }, i + 1),
+    b.textFromSlice ? resetText : (b.textFrom ? intro[b.textFrom] : b.label))));
   }
 
   function IntroCard() {
@@ -168,16 +235,7 @@ export function mountUI(store, actions) {
             onBlur: actions.commitPlayerName,
           }),
           intro.identityLocked && h("p", { id: "identity-note", className: "fineprint identity-note" }, intro.identityLabel)),
-        h("div", { className: "btnrow" },
-          h("button", { className: "primary", id: "start-tour", onClick: actions.startTour }, "Start guided tour"),
-          h("button", { id: "enter-ar", disabled: intro.arDisabled, onClick: actions.enterAr }, intro.arText),
-          h("button", { id: "enter-vr", disabled: intro.vrDisabled, onClick: actions.enterVr }, intro.vrText),
-          h("button", { id: "enter-flat", onClick: actions.enterFlat }, "Free explore"),
-          h("button", { id: "view-leaderboard", onClick: actions.viewLeaderboard }, "Leaderboards"),
-          h("button", { id: "view-records", onClick: actions.viewRecords }, "Training records"),
-          h("button", { id: "view-programs", onClick: actions.viewPrograms }, "Training programmes"),
-          h("button", { id: "open-editor", onClick: actions.openEditor }, "Create a scenario"),
-          h("button", { id: "reset-progress", onClick: actions.resetProgress }, useSlice("resetProgressText"))),
+        h(IntroButtons),
         h("div", { dangerouslySetInnerHTML: { __html: INTRO_FOOT_HTML } })));
   }
 
@@ -467,6 +525,162 @@ export function mountUI(store, actions) {
         voice.error || `Heard: “${voice.heard}”`));
   }
 
+  // ------------------------------------------------------ the controls panel
+  //
+  // Three tabs over one action table (shared/input.js): the keys, the pad and
+  // the grammar. Which tabs appear and in what order is decided by the device
+  // profile — a monocular hardhat display is never offered a gamepad tab.
+
+  const TAB_LABELS = { keyboard: "Keyboard", gamepad: "Gamepad", voice: "Voice" };
+
+  function KeyboardTab() {
+    const c = useSlice("controls");
+    const preset = c.presets.find((p) => p.id === c.preset);
+    return h("div", { className: "ctl-pane", id: "controls-keyboard" },
+      h("div", { className: "ctl-presetrow" },
+        h("label", { className: "eyebrow", htmlFor: "ctl-preset" }, "Preset"),
+        h("select", {
+          id: "ctl-preset", value: c.preset,
+          onChange: (e) => actions.controlsPreset(e.target.value),
+        }, c.presets.map((p) => h("option", { key: p.id, value: p.id }, p.label))),
+        h("button", { id: "ctl-reset-keys", type: "button", onClick: actions.controlsResetBindings }, "Reset keys")),
+      preset && h("p", { className: "fineprint" }, preset.note),
+      h("p", { className: "ctl-note", "aria-live": "polite" }, c.remapNote || "Click a key to rebind it, then press the key you want."),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null,
+          h("th", null, "Action"), h("th", null, "Key"), h("th", null, "What it does"))),
+        h("tbody", null, c.rows.map((row) => h("tr", { key: row.action, className: row.unbound ? "ctl-unbound" : "" },
+          h("td", null, row.label),
+          h("td", null, h("button", {
+            type: "button",
+            className: "ctl-key" + (c.remapping === row.action ? " arming" : "") + (row.custom ? " custom" : ""),
+            "aria-label": `Rebind ${row.label}`,
+            onClick: () => actions.controlsRemap(row.action),
+          }, c.remapping === row.action
+            ? "press a key…"
+            : row.pretty.map((k, i) => h(Fragment, { key: k + i }, i > 0 && h("span", { className: "ctl-or" }, "or"), h("kbd", null, k))))),
+          h("td", { className: "ctl-what" }, row.what))))));
+  }
+
+  /** The pad, drawn out of plain DOM shapes: two sticks with a live dot, a
+   * d-pad cross, four face buttons, the bumpers and the triggers. Whatever is
+   * pressed lights up, which is how a learner checks a suspect pad. */
+  function PadDiagram({ pad }) {
+    const byIndex = new Map((pad.buttons ?? []).map((b) => [b.index, b]));
+    const on = (i) => (byIndex.get(i)?.pressed ? " on" : "");
+    const analog = (i) => ({ opacity: 0.35 + 0.65 * Math.min(1, byIndex.get(i)?.value ?? 0) });
+    const axis = (i) => pad.axes?.[i]?.value ?? 0;
+    const stick = (xi, yi, cls) => h("div", { className: `pad-stick ${cls}` },
+      h("div", {
+        className: "pad-stick-dot" + (pad.axes?.[xi]?.live || pad.axes?.[yi]?.live ? " on" : ""),
+        style: { transform: `translate(${axis(xi) * 16}px, ${axis(yi) * 16}px)` },
+      }));
+    const label = (i) => byIndex.get(i)?.label ?? "";
+    return h("div", { className: "pad-diagram", id: "controls-pad-diagram", role: "img", "aria-label": "Gamepad layout with the pressed buttons highlighted" },
+      h("div", { className: "pad-shoulder pad-lt" + on(6), style: analog(6) }, label(6) || "LT"),
+      h("div", { className: "pad-shoulder pad-rt" + on(7), style: analog(7) }, label(7) || "RT"),
+      h("div", { className: "pad-shoulder pad-lb" + on(4) }, label(4) || "LB"),
+      h("div", { className: "pad-shoulder pad-rb" + on(5) }, label(5) || "RB"),
+      h("div", { className: "pad-body" },
+        h("div", { className: "pad-dpad" },
+          h("div", { className: "pad-dbtn pad-dup" + on(12) }),
+          h("div", { className: "pad-dbtn pad-ddown" + on(13) }),
+          h("div", { className: "pad-dbtn pad-dleft" + on(14) }),
+          h("div", { className: "pad-dbtn pad-dright" + on(15) })),
+        h("div", { className: "pad-middle" },
+          h("div", { className: "pad-pill" + on(8) }, "Back"),
+          h("div", { className: "pad-pill" + on(9) }, "Start")),
+        h("div", { className: "pad-faces" },
+          h("div", { className: "pad-face pad-y" + on(3) }, label(3) || "Y"),
+          h("div", { className: "pad-face pad-x" + on(2) }, label(2) || "X"),
+          h("div", { className: "pad-face pad-b" + on(1) }, label(1) || "B"),
+          h("div", { className: "pad-face pad-a" + on(0) }, label(0) || "A"))),
+      stick(0, 1, "pad-ls"),
+      stick(2, 3, "pad-rs"));
+  }
+
+  function GamepadTab() {
+    const c = useSlice("controls");
+    const pad = c.gamepad;
+    return h("div", { className: "ctl-pane", id: "controls-gamepad" },
+      h("p", { className: "ctl-note", id: "pad-state", "aria-live": "polite" },
+        pad.connected
+          ? `${pad.vendorName} layout · ${pad.id}${pad.mapping ? ` · ${pad.mapping} mapping` : ""}`
+          : "No gamepad seen yet. Plug one in and press a button — a browser only reports a pad once it is used."),
+      h(PadDiagram, { pad }),
+      pad.connected && h("div", { className: "pad-readout" },
+        h("div", { className: "pad-readout-row" }, (pad.buttons ?? []).filter((b) => b.pressed || b.value > 0.05)
+          .map((b) => h("span", { key: b.index, className: "pad-live" }, `${b.label} ${b.value.toFixed(2)}`)),
+        !(pad.buttons ?? []).some((b) => b.pressed || b.value > 0.05) && h("span", { className: "pad-idle" }, "nothing pressed")),
+        h("div", { className: "pad-readout-row" }, (pad.axes ?? []).map((a) =>
+          h("span", { key: a.index, className: "pad-live" + (a.live ? " on" : "") }, `${a.label} ${a.value.toFixed(2)}`)))),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null, h("th", null, "Control"), h("th", null, "Action"), h("th", null, "What it does"))),
+        h("tbody", null, c.padMap.map((row, i) => h("tr", { key: `${row.index ?? "axis"}-${i}` },
+          h("td", null, h("kbd", null, row.label)),
+          h("td", null, row.actionLabel),
+          h("td", { className: "ctl-what" }, row.note))))),
+      h("p", { className: "fineprint" },
+        "Mapped by index, not by brand: an Xbox, PlayStation or unbranded pad in the W3C Standard Gamepad mapping " +
+        "all behave the same, and only the printed names change. In a headset the pad is left alone — the controllers " +
+        "there are XR input sources with their own ray, trigger and grip."));
+  }
+
+  function VoiceTab() {
+    const c = useSlice("controls");
+    const voice = useSlice("voice");
+    return h("div", { className: "ctl-pane", id: "controls-voice" },
+      h("p", { className: "ctl-note", "aria-live": "polite", id: "voice-last" },
+        c.heard || voice.heard ? `Last heard: “${c.heard || voice.heard}”` : "Nothing heard yet. Press the microphone button, or say a command while it is listening."),
+      !voice.supported && h("p", { className: "fineprint" }, "This browser offers no speech recognition, so the grammar below is only reachable from the keyboard and the pad."),
+      h("table", { className: "ctl-table" },
+        h("thead", null, h("tr", null, h("th", null, "Say"), h("th", null, "What happens"))),
+        h("tbody", null, c.grammar.map((row) => h("tr", { key: row.type },
+          h("td", null, row.say.map((s, i) => h(Fragment, { key: s },
+            i > 0 && h("span", { className: "ctl-or" }, "or"), h("kbd", null, `“${s}”`)))),
+          h("td", { className: "ctl-what" }, row.what))))),
+      h("p", { className: "fineprint" },
+        "Voice navigates, focuses, describes, reads back and answers the check-in. It never completes a step: " +
+        "selecting, pressing, dragging and turning stay with the hands, which is the point of a hands-on trainer. " +
+        "Station names work too — say the name on a kiosk to enter it."));
+  }
+
+  function ControlsCard() {
+    const c = useSlice("controls");
+    if (!c.visible) return null;
+    const tabs = c.tabs.length ? c.tabs : ["keyboard"];
+    const tab = tabs.includes(c.tab) ? c.tab : tabs[0];
+    return h("div", { className: "overlay", id: "controls", role: "dialog", "aria-modal": "true", "aria-label": "Controls" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, c.deviceLine || "This device"),
+        h("h1", null, "Controls"),
+        h("p", { className: "lead" },
+          `Tabs are ordered for this device (${c.inputSource === "device" ? "from its own input record" : "from its run profile"})`
+          + `${c.voiceFirst ? ", voice first" : ""}${c.hands ? "; hands do the work in the headset" : ""}.`
+          + " Every action here is reachable from the keyboard as well, and the bindings live in this browser only."),
+        h("div", { className: "tabrow", role: "tablist", "aria-label": "Control surfaces" },
+          tabs.map((id) => h("button", {
+            key: id, type: "button", id: `ctl-tab-${id}`, role: "tab",
+            "aria-selected": tab === id ? "true" : "false",
+            className: "ctl-tab" + (tab === id ? " primary" : ""),
+            onClick: () => actions.controlsTab(id),
+          }, TAB_LABELS[id] ?? id))),
+        tab === "keyboard" && h(KeyboardTab),
+        tab === "gamepad" && h(GamepadTab),
+        tab === "voice" && h(VoiceTab),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "controls-close", type: "button", onClick: actions.closeControls }, "Close"))));
+  }
+
+  function ControlsButton() {
+    return h("button", {
+      id: "controls-btn", type: "button",
+      onClick: actions.openControls,
+      title: "Controls — keyboard, gamepad and voice (? or F1)",
+      "aria-label": "Controls: keyboard, gamepad and voice",
+    }, "⌨");
+  }
+
   function SpeakButton() {
     if (!actions.speechSupported) return null;
     return h("button", {
@@ -480,8 +694,9 @@ export function mountUI(store, actions) {
   function App() {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
-      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(EditorCard));
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(EditorCard),
+      h(ControlsCard));
   }
 
   ReactDOM.createRoot(document.getElementById("react-root")).render(h(App));
