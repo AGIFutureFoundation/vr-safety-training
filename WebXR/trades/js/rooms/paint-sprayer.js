@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
   box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace,
-  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
+  shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, shopFan, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
 
@@ -54,18 +54,47 @@ export const ROOM_PAINT_SPRAYER = {
     "mil-gauge": "Nothing to measure yet. Make the pass first, then check the wet film.",
   },
 
+  // Two things that happen while the applicator's hands are already full: the
+  // building's own ventilation, and the atmosphere the spray itself creates.
+  // See the interrupt layer in shared/game.js — they are not steps and they
+  // do not change the procedure, they test whether you noticed while running it.
+  interrupts: [
+    {
+      id: "negair-trips",
+      kind: "Ventilation failure",
+      after: "containment", delay: 4, seconds: 13,
+      alert: "The negative-air machine at the door has tripped off. Air just stopped moving through the containment.",
+      cue: "Get it running again before anything is mixed or opened.",
+      target: "airscrubber-switch",
+      why: "EPA RRP requires directional airflow that pulls air — and any lead dust or overspray riding in it — into the containment rather than pushing it out, and that only happens with the negative-air machine running. A dead unit turns a sealed room into an ordinary one that happens to have plastic on the walls, with nothing left keeping dust or overspray from finding the gap in the seal.",
+      missNote: "You went on mixing material with the scrubber dead. For however long that ran, the containment did nothing — it was a room with plastic on it, and lead dust and overspray had exactly as much chance of drifting out as if the tarps had never gone up.",
+      wrongNote: "That's not the scrubber. It's the boxy unit by the door with the intake grille — the fan that actually stopped is on it.",
+    },
+    {
+      id: "vapor-heater",
+      kind: "Atmosphere alarm",
+      after: "coverage", delay: 3, seconds: 12,
+      alert: "The combustible-gas monitor by the door just alarmed — solvent vapour from the spray is building up faster than the scrubber is clearing it, and the space heater is still lit in the same room.",
+      cue: "Kill the heater before that reading climbs any further.",
+      target: "heater-cutoff",
+      why: "HAZWOPER awareness training exists for exactly this: an atomised solvent-borne coating raises vapour concentration inside a sealed room fast, and an open flame or a glowing element is the one thing that turns that cloud into a flash fire. The alarm buys you the seconds it takes to remove the ignition source — it does not buy you time to keep spraying first.",
+      missNote: "You kept spraying with a live heater in a room the gas monitor had already flagged. Solvent vapour looking for somewhere to ignite found the element still glowing in the corner, and that is the difference between a bad smell and a flash fire.",
+      wrongNote: "That's not the heater switch. It's on the base of the red cylindrical unit against the wall, and it needs to go off, not the pump.",
+    },
+  ],
+
   steps: [
     {
       id: "workorder", kind: "select", target: "spec-sheet",
       title: "Read the coating spec",
       cue: "Check the build year, the product, the tip size and the film thickness the spec calls for.",
-      why: "The spec says 1962 building, waterborne acrylic, a 517 tip and 4–6 mils wet. The build year alone changes the whole first hour of the job — you read it before you touch the wall.",
+      why: "The spec says 1962 construction, waterborne acrylic, a 517 tip and four to six mils wet, and every one of those numbers changes how the first hour of the job goes. A pre-1978 building triggers EPA RRP before a drop cloth is even down, so the spec gets read in full before anything touches the wall.",
     },
     {
       id: "leadtest", kind: "select", target: "lead-swab",
       title: "Test the old paint for lead",
       cue: "Swab the existing paint before any surface is sanded or scraped.",
-      why: "Pre-1978 means presumed lead until tested. The swab result decides whether this is a paint job or a lead-safe job with containment, HEPA and a cleaning verification — you can't decide that after the dust is already in the air.",
+      why: "Pre-1978 means presumed lead until a swab says otherwise, and EPA RRP treats that presumption as binding: a positive result turns this from an ordinary paint job into a lead-safe job with containment, HEPA vacuuming and a cleaning verification before anyone signs off. That decision has to happen before the first surface is disturbed, because once dust is airborne it cannot be un-released.",
     },
     {
       id: "containment", kind: "sequence",
@@ -73,7 +102,7 @@ export const ROOM_PAINT_SPRAYER = {
       itemNames: { "drop-cloth": "drop cloth", "masking-film": "masking film", "door-seal": "door seal" },
       title: "Contain the room",
       cue: "Drop cloth down first, then mask the fixtures and window, then seal the door.",
-      why: "Floor first, because everything else sheds onto it. Masking next while you can still walk on a clean floor. The door seal last, because it's what turns a masked room into a contained one — sealing it first means walking film in and out through it.",
+      why: "Floor first, because everything else in the room sheds onto it. Masking next, while you can still walk on a clean floor without tracking dust into it. The door seal comes last, because it's what turns a masked room into a contained one — sealing it first means carrying film in and out through the one gap you were trying to close.",
       outOfOrderNote: "Wrong order — floor, then masking, then the door seal that closes the containment.",
     },
     {
@@ -82,25 +111,25 @@ export const ROOM_PAINT_SPRAYER = {
       itemNames: { "respirator": "half-mask respirator", "coveralls": "disposable coveralls" },
       title: "Respirator and coveralls",
       cue: "P100 half-mask and coveralls on before the pump is primed.",
-      why: "Airless atomises the coating into a mist you breathe, and in a lead-safe job the coveralls are what keep the dust from leaving the room on your clothes. Both go on before pressure does.",
+      why: "Airless atomises coating into a respirable mist immediately, and on a lead-safe job the coveralls are what keep dust from riding out of the room on your clothes and into your car, your kitchen, or anywhere else you sit down. Both go on before the pump has pressure in it — putting them on afterward means you already breathed the first several seconds of spray.",
     },
     {
       id: "strain", kind: "select", target: "strainer",
       title: "Strain the material",
       cue: "Pour the coating through the strainer into the pump bucket.",
-      why: "A skin or a dried lump in the can is the tip clog you'll be tempted to clear with a finger ten minutes from now. Straining is how you never get there.",
+      why: "A skin or a dried lump left in the can becomes the clogged tip you'll be tempted to clear with a bare finger ten minutes into the job — and at working pressure that isn't a paint mess, it's an injection injury. Straining the material now removes the debris before the pump ever has the chance to force it through the orifice.",
     },
     {
       id: "tip", kind: "select", target: "tip-517",
       title: "Fit the 517 tip",
       cue: "Take the 517 — a 10-inch fan at a 0.017 orifice — for a broad wall with this product.",
-      why: "The first digit is half the fan width, the last two the orifice. A 211 is a trim tip that'd take all day and stripe; a 619 floods this coating on. The spec named 517 for a reason.",
+      why: "The first digit of a spray tip number is roughly half the fan width in inches, and the last two are the orifice in thousandths — a 211 is a narrow trim tip that would take all day on this wall and stripe every pass, and a 619 floods this coating on thick enough to sag before it flashes. The spec called out 517 for this product and this wall for a reason.",
     },
     {
       id: "pressure", kind: "gauge", target: "pressure-dial",
       title: "Set the fluid pressure",
       cue: "Dial the pump until the pattern atomises fully without tails.",
-      why: "Pressure is the lowest setting that gives a clean, tail-free pattern. Too low and the edges finger; too high and you're making more overspray than film. The gauge band is that window.",
+      why: "Fluid pressure is set to the lowest reading that still atomises the coating cleanly, not to whatever feels forceful on the trigger. Run it too low and the pattern fingers at the edges instead of laying flat; run it too high and the gun turns more of the can into airborne overspray than it does into film on the wall, which is also more solvent vapour loose inside a sealed room.",
       gauge: {
         label: "FLUID PSI", speed: 0.75, green: [0.5, 0.66],
         readout: (t) => `${Math.round(800 + t * 2400)} psi`,
@@ -111,7 +140,7 @@ export const ROOM_PAINT_SPRAYER = {
       id: "pattern", kind: "gauge", target: "test-card",
       title: "Shoot a test pattern",
       cue: "Spray the card at working distance and commit when the pattern is even edge to edge.",
-      why: "The card tells you what the wall would have. An hourglass pattern means tails; a heavy centre means too close. You fix it on a piece of cardboard, not on the client's wall.",
+      why: "The test card shows exactly what the wall is about to get, before it gets it: an hourglass shape means the tails aren't atomising and will show up as light stripes, and a heavy centre means the gun is too close and will lay the coat on thick enough to sag. Fixing the distance and pressure on a piece of cardboard costs nothing; fixing the same fault on the client's wall means resanding and respraying.",
       gauge: {
         label: "PATTERN", speed: 0.7, green: [0.42, 0.6],
         readout: (t) => (t < 0.42 ? "tails" : t > 0.6 ? "heavy centre" : "even"),
@@ -122,7 +151,7 @@ export const ROOM_PAINT_SPRAYER = {
       id: "coverage", kind: "track", target: "spray-pass", seconds: 8,
       title: "Spray the wall",
       cue: "Hold the trigger, keep the gun square, and hold a steady 50% overlap at gun speed for the whole pass.",
-      why: "Coverage is overlap and speed together: each pass half over the last, at the speed the tip lays 4–6 mils. Slow down and it sags; speed up and it goes thin and dry. The gauge reads your overlap — hold it in the band.",
+      why: "Coverage is overlap and gun speed acting together, not either one alone: each pass needs to fall half over the last, at the speed that lays four to six wet mils. Slow the pass down at that overlap and the film sags before it flashes; speed it up at the same overlap and it goes on thin enough to leave holidays the primer shows straight through. The overlap gauge is the only way to hold both at once.",
       track: { start: 0.1, green: [0.42, 0.62], rise: 0.6, fall: 0.5, drift: 0.12, label: "OVERLAP", readout: (v) => `${Math.round(v * 100)}%` },
       holdBreakNote: "Trigger let go mid-pass — the lap line shows and you'll be feathering it. Pick the pass back up.",
     },
@@ -130,7 +159,7 @@ export const ROOM_PAINT_SPRAYER = {
       id: "film", kind: "gauge", target: "mil-gauge",
       title: "Check the wet film",
       cue: "Set the wet-film gauge on the fresh coat and commit inside the spec band.",
-      why: "Four to six mils wet is what the spec calls for. Under it, the coat won't hide and won't last; over it, it runs before it flashes. The gauge is the only honest answer — not how it looks under the work light.",
+      why: "Four to six mils wet is the spec, and the gauge is the only honest reading of it — not how the coat looks under the work light, which flatters a film that's already too thin. Come in under that band and the coat won't hide the substrate or hold up over time; go over it and gravity wins before the coating flashes, sagging in exactly the runs a wet-film check would have caught first.",
       gauge: {
         label: "WET PS_FILM", speed: 0.7, green: [0.4, 0.6],
         readout: (t) => `${(t * 10).toFixed(1)} mils`,
@@ -144,7 +173,7 @@ export const ROOM_PAINT_SPRAYER = {
       itemNotes: { "film-gap": "The masking lifted at the window frame and there's a fog of overspray on the glass and the sill outside it. That's the drift the walk-down exists to catch — and on a lead-safe job, it's what the cleaning verification would fail on." },
       title: "Walk down the containment",
       cue: "Check the masking line and click where overspray got past it.",
-      why: "A wall that looks right doesn't prove the containment held. You walk the masking edge and look for drift — that's what's on the job log and the RRP checklist, not what you assumed from inside the mist.",
+      why: "A wall that looks even doesn't prove the containment held — overspray finds the smallest gap in the masking and rides straight through it, silently, while you're still inside looking at the wall you just finished. Walking the masking edge and finding that gap is what goes on the RRP cleaning verification, not an assumption made from inside the mist.",
     },
   ],
 
@@ -219,6 +248,22 @@ export const ROOM_PAINT_SPRAYER = {
     doorSeal.visible = false;
     const doorZone = box(doorGrp, 1.1, 2.25, 0.12, 0, 1.12, 0.06, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(doorZone, "door-seal");
+
+    // Negative-air machine beside the doorway — the unit that keeps the
+    // containment's airflow pulling in rather than pushing out. Its switch is
+    // a separate control from the body of the unit, the same split welding
+    // uses between a hazard/interrupt target and the step's own control.
+    const scrubber = group(root, -3.5, 0, 2.35, 0.35);
+    box(scrubber, 0.5, 0.85, 0.42, 0, 0.42, 0, 0x2b2f34, { rough: 0.55, metal: 0.35 });
+    for (let i = 0; i < 5; i++) box(scrubber, 0.38, 0.02, 0.01, 0, 0.24 + i * 0.08, 0.22, 0x14171a, { rough: 0.6, cast: false });
+    const scrubFanBlades = group(scrubber, 0, 0.5, 0.2);
+    for (let i = 0; i < 4; i++) { const b = box(scrubFanBlades, 0.14, 0.006, 0.05, 0, 0, 0, 0x6f767d, { rough: 0.4, metal: 0.7, cast: false }); b.rotation.z = (i * Math.PI) / 2; }
+    const scrubLamp = ball(scrubber, 0.02, 0.16, 0.78, 0.22, 0x59c97b, { emissive: 0x59c97b, ei: 2 });
+    decal(scrubber, 0.4, 0.09, 0, 0.9, 0.22, signFace("NEGATIVE AIR", { bg: "#1f2429", accent: "#6fb0e6", scale: 0.42 }));
+    const scrubSwitchBox = group(scrubber, 0.28, 0.55, 0.2);
+    box(scrubSwitchBox, 0.07, 0.1, 0.03, 0, 0, 0, 0x1b1e22, { rough: 0.5 });
+    const scrubSwitchLever = box(scrubSwitchBox, 0.02, 0.06, 0.015, 0, -0.01, 0.02, 0xf2ae14, { rough: 0.4, metal: 0.3 });
+    reg(scrubSwitchLever, "airscrubber-switch");
 
     // ------------------------------------------------------------ spec board
     // Beside the work wall, so facing the first task also shows the wall the job is about.
@@ -331,6 +376,11 @@ export const ROOM_PAINT_SPRAYER = {
     cyl(heater, 0.14, 0.14, 0.06, 0, 0.58, 0, 0x2b2f34, { rough: 0.6, seg: 16 });
     const glow = ball(heater, 0.08, 0, 0.3, 0.16, 0xff7a2a, { emissive: 0xff7a2a, ei: 1.6, rough: 0.5 });
     reg(heater, "space-heater");
+    // The heater's own cutoff, a separate control from the body of the unit —
+    // the object the vapor-heater interrupt actually wants, so answering it
+    // is not the same click that a hazard pick on the heater itself would be.
+    const heaterCutoff = box(heater, 0.05, 0.03, 0.02, 0.15, 0.32, 0.12, 0xf2ae14, { rough: 0.4, metal: 0.3 });
+    reg(heaterCutoff, "heater-cutoff");
 
     const key = new THREE.DirectionalLight(0xfff2dc, 0.95);
     key.position.set(2, 5.5, 3);
@@ -371,6 +421,9 @@ export const ROOM_PAINT_SPRAYER = {
 
     mergeStatic(fixed);
 
+    let airscrubberOn = false;
+    let heaterOn = true;
+
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.4, 1.3, -4.0),
@@ -385,6 +438,10 @@ export const ROOM_PAINT_SPRAYER = {
           clothRoll.visible = false; clothFlat.visible = true;
           maskFilm.visible = true; doorSeal.visible = true;
           filmGap.visible = true; driftFog.visible = true;
+          // The scrubber comes on with the rest of containment — a sealed
+          // room with no negative air running is just a room with plastic on it.
+          airscrubberOn = true;
+          scrubLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2 });
         }
         if (step.id === "tip") {
           const tip = tipMeshes["tip-517"];
@@ -405,9 +462,37 @@ export const ROOM_PAINT_SPRAYER = {
         }
       },
 
+      // An interruption the learner can see, not just read: the scrubber fan
+      // visibly stops and its lamp goes red, or the heater's glow keeps
+      // burning red instead of the cutoff switching it dark.
+      onInterrupt(it) {
+        if (it.id === "negair-trips") {
+          airscrubberOn = false;
+          scrubLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2 });
+        }
+        if (it.id === "vapor-heater") {
+          glow.material = mat(0xff2a2a, { emissive: 0xff2a2a, ei: 2.2, rough: 0.5 });
+        }
+      },
+      onInterruptEnd(it) {
+        // Only put it right if it was actually answered.
+        if (it.resolved !== "answered") return;
+        if (it.id === "negair-trips") {
+          airscrubberOn = true;
+          scrubLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2 });
+        }
+        if (it.id === "vapor-heater") {
+          heaterOn = false;
+          glow.visible = false;
+        }
+      },
+
       animate(t, dt, session) {
 
         breatheCrew(crew, t);
+        if (airscrubberOn) scrubFanBlades.rotation.z += dt * 9;
+        scrubLamp.material.emissiveIntensity = 1.4 + Math.sin(t * 3) * 0.5;
+        if (heaterOn) glow.material.emissiveIntensity = 1.3 + Math.sin(t * 9) * 0.4;
         const step = session?.step;
         const spraying = !!(step && step.id === "coverage" && session.holding);
         if (spraying) {
@@ -422,7 +507,6 @@ export const ROOM_PAINT_SPRAYER = {
           mist.visible = false;
         }
         fanBlades.rotation.z += dt * 12;
-        glow.material.emissiveIntensity = 1.3 + Math.sin(t * 9) * 0.4;
 
         const g = session?.gauge;
         if (g && !g.committed) {

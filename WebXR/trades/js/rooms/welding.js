@@ -76,25 +76,27 @@ export const ROOM_WELDING = {
       id: "permit", kind: "select", target: "permit-board",
       title: "Check the hot work permit",
       cue: "Read the permit: area, time window and who holds the fire watch.",
-      why: "The permit is the agreement that this area was surveyed and someone owns the watch. No permit, no arc.",
+      why: "The permit is what turns a hot-work area from 'nobody checked' into 'somebody signed for it' — NFPA 51B requires the fire-watch assignment and the time window in writing before the first arc, because the person who surveyed the floor and the person swinging the stinger are rarely the same set of eyes.",
     },
     {
-      id: "clear", kind: "select", target: "combustibles",
+      id: "clear", kind: "drag", target: "combustibles",
       title: "Clear combustibles from the radius",
-      cue: "Move the stacked packaging out of the hot work area.",
-      why: "Combustibles go out to the required radius, or get covered. Sparks roll a long way across a shop floor.",
+      cue: "Pick up the stacked packaging and carry it onto the marked clear zone.",
+      why: "Sparks and slag routinely travel well past where they look like they should stop, so NFPA 51B sets a minimum clear radius around hot work rather than trusting a guess. Packaging left inside that radius is exactly the kind of smoulder that goes unnoticed until the shift is over and the building is empty.",
+      drag: { to: "clear-zone", radius: 0.75, missNote: "Not clear of the radius — carry it all the way onto the marked zone, not just off to the side of the bench." },
     },
     {
       id: "blanket", kind: "select", target: "fire-blanket",
       title: "Cover what cannot be moved",
       cue: "Drape the fire blanket over the fixed conduit run.",
-      why: "Anything that cannot leave gets shielded. A blanket over the run is what stops a spark lodging in it unnoticed.",
+      why: "A conduit run bolted to the wall cannot be carried out to the clear radius, so it gets shielded instead. A single spark lodging unnoticed in the insulation and smouldering for hours is the classic hot-work fire — it starts long after the welder has clocked out, which is exactly why the blanket goes on before the arc, not after it.",
     },
     {
-      id: "vent", kind: "select", target: "fume-arm",
-      title: "Position the fume extraction",
-      cue: "Bring the extraction hood over the weld and switch it on.",
-      why: "Extraction is positioned at the fume, not near it. Manganese and hexavalent chromium do their damage over a career, quietly.",
+      id: "vent", kind: "turn", target: "fume-switch",
+      title: "Switch on the fume extraction",
+      cue: "Turn the extraction fan switch to ON before the hood comes over the weld.",
+      why: "Manganese and hexavalent chromium in welding fume do their damage slowly, well below the level that makes anyone cough, which is why ANSI Z49.1 calls for capture at the arc rather than general room ventilation. Running the fan before the arc is struck means every breath from the first spark onward is already headed up the duct instead of into your lungs.",
+      turn: { turns: 0.4, axis: "x", label: "EXTRACTION FAN" },
     },
     {
       id: "ppe", kind: "sequence", anyOrder: true,
@@ -102,14 +104,14 @@ export const ROOM_WELDING = {
       itemNames: { helmet: "welding helmet", jacket: "leather jacket", gloves: "welding gloves" },
       title: "Put on the full kit",
       cue: "Helmet, leathers and gloves — all three before the arc.",
-      why: "Arc burns skin like sun at close range and spatter goes everywhere. Partial PPE is the burn you explain later.",
+      why: "An open arc puts out ultraviolet intense enough to sunburn exposed skin in minutes and throws spatter that finds any gap in the leathers. OSHA 29 CFR 1910.252 treats helmet, jacket and gloves as one kit for exactly this reason — leaving off any single piece just relocates the burn to whichever patch of skin was left uncovered.",
       outOfOrderNote: "Still missing a piece of kit — every item goes on before you strike.",
     },
     {
       id: "lens", kind: "gauge", target: "helmet-lens",
       title: "Set the lens shade",
       cue: "Dial the auto-darkening lens to the right shade for this process and current.",
-      why: "Too light and the arc reaches your eyes; too dark and you cannot see the puddle, so you chase it and ruin the bead.",
+      why: "Shade is matched to process and amperage from the ANSI Z49.1 tables, not picked by feel: too light and ultraviolet from the arc still reaches the cornea, producing arc eye that shows up hours later; too dark and the puddle disappears, so you chase a bead you cannot see and lay a poor one.",
       gauge: {
         label: "LENS SHADE", speed: 0.75, green: [0.5, 0.68],
         readout: (t) => `shade ${Math.round(5 + t * 10)}`,
@@ -120,13 +122,13 @@ export const ROOM_WELDING = {
       id: "ground", kind: "select", target: "work-clamp",
       title: "Attach the work clamp",
       cue: "Clamp the return lead directly to the workpiece.",
-      why: "The return path goes on the work, close to the weld. Letting the current find its own way through the bench and the building is how bearings and hinges get destroyed.",
+      why: "The return lead clamps directly to the workpiece, close to the joint, so the welding current has one clean path back to the machine. Let it find its own way through the bench, the building steel or a nearby bearing race instead, and stray current pits and destroys whatever conductive part it passed through on its way home.",
     },
     {
       id: "amps", kind: "gauge", target: "welder-dial",
       title: "Set the amperage",
       cue: "Set current for a 3.2 mm electrode on 6 mm plate.",
-      why: "Amperage follows electrode diameter and plate thickness. Too low and it sticks; too high and you burn through and undercut the toes.",
+      why: "Amperage is set from electrode diameter and plate thickness, not guessed at the dial: too low and the rod sticks and stubs out instead of striking cleanly; too high and it burns through the plate and undercuts the toes of the weld, leaving a groove that becomes the crack that fails the joint under load.",
       gauge: {
         label: "WELDING CURRENT", speed: 0.7, green: [0.44, 0.6],
         readout: (t) => `${Math.round(40 + t * 220)} A`,
@@ -137,7 +139,7 @@ export const ROOM_WELDING = {
       id: "bead", kind: "gauge", target: "stinger",
       title: "Run the bead",
       cue: "Strike the arc and hold your travel speed inside the band.",
-      why: "Steady travel and a short arc length build an even bead. Racing gives you a thin ropey cap; crawling piles it up and traps slag.",
+      why: "A steady travel speed and a consistent arc length are what actually build a sound bead under AWS D1.1. Move too fast and the pool never fully wets the joint, leaving a thin ropey cap with poor fusion; crawl too slow and filler piles up over trapped slag that becomes a void the next pass welds straight over.",
       gauge: {
         label: "TRAVEL SPEED", speed: 1.15, green: [0.4, 0.56],
         readout: (t) => `${(1.5 + t * 5).toFixed(1)} mm/s`,
@@ -148,7 +150,7 @@ export const ROOM_WELDING = {
       id: "firewatch", kind: "hold", target: "fire-extinguisher", seconds: 14,
       title: "Hold the fire watch",
       cue: "Stay on the fire watch with the extinguisher until the timer clears.",
-      why: "The watch continues after the arc stops, because that is when smouldering finds its way into something. Walking away at the last bead is how a shop burns down at 2 am.",
+      why: "NFPA 51B requires the fire watch to continue after the arc goes out, because smouldering slag and hot spatter can take far longer than the weld itself to find something combustible to ignite. Walking off at the last bead instead of holding the full watch is exactly how a shop that looked fine at five o'clock is on fire by two in the morning.",
       holdBreakNote: "You broke the watch early. Smouldering takes time to show — hold the full period.",
     },
   ],
@@ -285,6 +287,14 @@ export const ROOM_WELDING = {
     const fumeLamp = ball(fume, 0.02, 0.09, 1.5, 0.02, 0xf0645b, { emissive: 0xf0645b, ei: 2 });
     decal(fume, 0.3, 0.09, 0, 1.32, 0.115, signFace("EXTRACTION", { bg: "#1f2429", accent: "#f2c14b", scale: 0.5 }));
     reg(fume, "fume-arm");
+    // The fan switch — a separate control from the arm/hood assembly above,
+    // so the "vent" step turns this while the "extraction-trips" interrupt
+    // (armed later, on the amps step) still answers on the assembly itself.
+    const fumeSwitchBox = group(fume, 0, 0.85, 0.12);
+    box(fumeSwitchBox, 0.09, 0.14, 0.05, 0, 0, 0, 0x1b1e22, { rough: 0.5, metal: 0.3 });
+    const fumeSwitchLever = box(fumeSwitchBox, 0.03, 0.09, 0.02, 0, -0.02, 0.03, 0xd8562a, { rough: 0.4, metal: 0.3 });
+    decal(fumeSwitchBox, 0.08, 0.04, 0, 0.08, 0.026, signFace("FAN", { bg: "#1f2429", accent: "#f2c14b", scale: 0.6 }));
+    reg(fumeSwitchLever, "fume-switch");
     const fumeSmoke = particles(root, 60, 0xb8bec4, { size: 0.06, life: 1.3, additive: false, opacity: 0.24 });
 
     // ------------------------------------------------------------- PPE stand
@@ -412,6 +422,16 @@ export const ROOM_WELDING = {
     box(combustibles, 0.62, 0.1, 0.52, 0, 0.05, 0, 0x8a6244, { rough: 0.95 });
     decal(combustibles, 0.34, 0.1, 0, 0.5, 0.205, signFace("PACKAGING", { bg: "#7a5c38", accent: "#f2c14b", scale: 0.5 }));
     reg(combustibles, "combustibles");
+
+    // Marked clear zone outside the hot-work radius — where the combustibles
+    // get dragged to. A painted floor square, not a prop, so it reads at a
+    // glance as "outside the radius" from across the bay.
+    const clearZone = group(root, 3.9, 0, 3.4);
+    box(clearZone, 1.1, 0.006, 0.9, 0, 0.004, 0, 0xf2c14b, { cast: false, receive: false, rough: 0.85 });
+    box(clearZone, 1.0, 0.007, 0.8, 0, 0.005, 0, 0x2a2e1a, { cast: false, receive: false, rough: 0.9 });
+    const clearZoneSign = decal(clearZone, 0.7, 0.16, 0, 0.008, 0, signFace("CLEAR ZONE", { bg: "#2a2e1a", accent: "#f2c14b", scale: 0.5 }));
+    clearZoneSign.rotation.x = -Math.PI / 2;
+    reg(clearZone, "clear-zone");
 
     // Chipping hammer and brush on the table edge.
     const tools = group(table, -0.6, 0.93, 0.28, 0.4);
