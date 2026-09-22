@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across fifteen SmartCiti.X trade-union categories. 145 stations
-exist today — 144 walkable AR/VR procedures and one flat briefing station — each a
+AR/VR training simulators across seventeen SmartCiti.X trade-union categories. 181 stations
+exist today — 179 walkable AR/VR procedures and two flat briefing stations — each a
 real ordered procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade. Trade Skills Simulator, `WebXR/trades/`'s own nine
@@ -140,14 +140,16 @@ so on), which the preview requires.
 
 A station teaches one procedure. What a training director runs is a **programme**: an ordered
 block with a reason for each station being in it and a completion rule they can show a
-regulator. `js/curricula.js` holds seventeen, each naming a real union and the standard the block
+regulator. `js/curricula.js` holds twenty-two, each naming a real union and the standard the block
 maps to — Inside Wireman first period (IBEW), Confined Space entry and rescue, Working at
 Height, Hazmat and Environmental Response, Rigging and Lifting, Stationary Engineer, Port and
 Terminal Operations, Transit and Ramp Operations, Energy Transition Systems, Live Events
 Production, Hunters Point Clean-up and Bay Restoration, Ports, Maritime and Bay Ecology, Air
 Quality Monitoring and Control, Culinary — The Working Kitchen (UNITE HERE Local 2), Dental
-Hygiene — Unspoken Smiles, Bartending — Behind the Bar, and Situational Awareness —
-Interruption Drill. [`docs/wiki/SmartCitiX-Training-Series.md`](../../docs/wiki/SmartCitiX-Training-Series.md)
+Hygiene — Unspoken Smiles, Bartending — Behind the Bar, the Hunters Point Edition — Can We
+Live? (a twenty-five-station flagship built to be offered to the Marie Harrison Community
+Foundation), Sewing and Garment Trades, Bridge and Structural Trades, Hotel Workers, Builders,
+and Situational Awareness — Interruption Drill. [`docs/wiki/SmartCitiX-Training-Series.md`](../../docs/wiki/SmartCitiX-Training-Series.md)
 is the generated series page: every programme with its stations, conditions, eval score and a
 spawn screenshot (`node tools/gen_wiki.mjs` regenerates it). Programmes cross both apps, the way an apprenticeship does: the electrical
 block opens on the Trade Skills panel bay and ends in a grid battery yard.

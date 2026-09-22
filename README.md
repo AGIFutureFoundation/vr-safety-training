@@ -93,7 +93,8 @@ restoration crews, kitchen workers, dental hygienists and more, each naming a re
 certification requirement — sharing the same apprentice profile as Trade Skills Simulator; the
 training programmes they form, with screenshots, are on the generated
 [series page](docs/wiki/SmartCitiX-Training-Series.md), and the standards each one cites are on the generated
-[compliance matrix](docs/compliance/compliance-matrix.md)), **Holodeck** (`WebXR/holodeck/`, a
+[compliance matrix](docs/compliance/compliance-matrix.md); how they run on hardhat-mounted
+AR glasses and MR headsets is in the [device guide](docs/devices.md)), **Holodeck** (`WebXR/holodeck/`, a
 prompt-driven generator that builds a scored safety-training procedure from a spoken or typed
 description, or loads any real SmartCiti.X station by name), and the **Safety Campus** WebXR
 companion described below.
