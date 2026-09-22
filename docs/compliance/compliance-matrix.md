@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 169 procedures, 166 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 183 procedures, 169 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -10,22 +10,23 @@ Every station names the union and the certification a worker in that role holds,
 
 | Standard | Stations |
 |---|---|
+| 29 CFR 1910.120 | 29: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
 | 29 CFR 1910.147 | 26: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, PCB Equipment Removal, Press Brake, Robot Cell, Serger and Overlock, Slicer Lockout, Tower Climb, Vapor Mitigation, Wind Nacelle |
 | 29 CFR 1910.1030 | 22: Allergens & Honest Drinks, Chairside Emergency, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Ice Well Breakage, Instrument Reprocessing, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Spiked Drink Response, Triage Point, Ultrasonic Scaling |
-| 29 CFR 1910.120 | 21: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Decon Line, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install |
+| NIOSH | 18: Alteration Repair Ticket, Garment Inspection & Finish, HAZWOPER Site Orientation, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
 | NFPA 70E | 17: Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Elevator Pit, Isolation Bay, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
+| 29 CFR 1926 | 15: Aerial Lashing, Arena Rigging, Bioswale Build, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Hot Tap, Living Shoreline, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
 | California Retail Food Code | 15: Allergen Control, Allergens & Honest Drinks, Banquet Hot Hold, Cafeteria Serving, Cut-Off / Overservice, Dish Pit, Fryer Oil Change, Ice Well Breakage, Knife Skills, Opening the Well, Pouring to Spec, Prep Cooling, RBS Service Capstone, Receiving Dock Food, Walk-In Cooler |
-| 29 CFR 1926 | 14: Aerial Lashing, Arena Rigging, Bioswale Build, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Hot Tap, Living Shoreline, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
-| NIOSH | 13: Alteration Repair Ticket, Garment Inspection & Finish, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Nitrous Oxide Monitoring, Scaffold Erection, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault |
+| 29 CFR 1910.134 | 13: Abatement Chamber, Abatement Perimeter Awareness, Aerosol Management, Ammonia Plant, Bridge Blast, Chlorine Room, Confined Rescue, Cooling Tower, Decon Support Laborer, HAZWOPER Site Orientation, Hazmat Entry, Smoke Day Outreach, Tank Lining |
 | 29 CFR 1910.1200 | 10: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dish Pit, Garment Inspection & Finish, Grease Trap, Keg Cellar CO2, Opening the Well, Operatory Turnover, Spartina Removal |
-| 29 CFR 1910.134 | 10: Abatement Chamber, Aerosol Management, Ammonia Plant, Bridge Blast, Chlorine Room, Confined Rescue, Cooling Tower, Hazmat Entry, Smoke Day Outreach, Tank Lining |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
 | 29 CFR 1910.212 | 9: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
 | 29 CFR 1910.269 | 8: Aerial Ladder, Aerial Lashing, Battery Yard, Line Truck, PCB Equipment Removal, Substation Switching, Transformer Vault, Wind Nacelle |
+| EPA Method 40 | 7: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Sensor Co-Location Check |
 | 29 CFR 1910.132 | 6: Cutting Table and Rotary Knife, Fryer Oil Change, Garment Inspection & Finish, Marsh Transect Survey, Oyster Reef Monitoring, Prep Cooling |
-| 8 CCR 3203 | 5: Ice Well Breakage, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
+| 8 CCR 3203 | 6: HAZWOPER Site Orientation, Ice Well Breakage, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
+| 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
 | 8 CCR 3342 | 5: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, WVPP & Panic Button |
-| 45 CFR 46 | 4: Biomonitoring Consent, Can We Live? — The Story, Results Return Visit, Sample Kit Shipping |
 | Cal. Labor Code §351 | 4: Opening the Well, Pouring to Spec, Till Drop & Robbery Response, Tip Pool & Labor |
 | NSF/ANSI 7 | 4: Cafeteria Serving, Hot Line, Prep Cooling, Walk-In Cooler |
 | 29 CFR 1910 | 3: Eelgrass Transplant, Opacity Reading, Stack Test |
@@ -33,9 +34,10 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.22 | 3: Fryer Oil Change, Hot Line, Receiving Dock Food |
 | 29 CFR 1910.268 | 3: Aerial Lashing, Microwave Backhaul, Splice Node |
 | 29 CFR 1910.333 | 3: Charge Point, Data Hall, Isolation Bay |
+| 29 CFR 1926.1101 | 3: Abatement Chamber, Abatement Perimeter Awareness, Transite Pipe Removal |
+| 40 CFR 262 | 3: Haul Route Observation, Pump and Treat, Soil Loadout |
 | ANSI Z359 | 3: Confined Rescue, Steel Erector, Tower Climb |
 | Cal. Bus. & Prof. Code §25602 | 3: Cut-Off / Overservice, Last Call & Lockup, Pouring to Spec |
-| EPA Method 40 | 3: Amalgam Waste Handling, Haul Road Dust, Mobile Air Lab |
 | IMO SOLAS | 3: Bunkering Watch, Mooring Line, Pilot Transfer |
 | MUTCD | 3: Aerial Lashing, Signal Cabinet, Trench Box |
 | NFPA 1006 | 3: Confined Rescue, EV Extrication, Triage Point |
@@ -51,11 +53,10 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.252 | 2: Rough-In Bay, Weld Bay |
 | 29 CFR 1915 | 2: Ballast Water Sampling, Shipyard Hot Work |
 | 29 CFR 1917 | 2: Dock Crane, Mooring Line |
-| 29 CFR 1926.1101 | 2: Abatement Chamber, Transite Pipe Removal |
 | 29 CFR 1926.1153 | 2: Concrete Pour, Tank Lining |
 | 29 CFR 1926.451 | 2: Mast Climber, Scaffold Erection |
 | 29 CFR 1926.701 | 2: Concrete Pour, Post Tension |
-| 40 CFR 262 | 2: Pump and Treat, Soil Loadout |
+| 40 CFR 300 | 2: Dust Plan Review, Spill Boom Deploy |
 | 8 CCR 5194 | 2: Draught Line Cleaning, Opening the Well |
 | ANSI A4 | 2: Knife Skills, Slicer Lockout |
 | ASHRAE 15 | 2: Ammonia Plant, Chiller Plant |
@@ -74,6 +75,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.109 | 1: Pyro Cue |
 | 29 CFR 1910.119 | 1: Ammonia Plant |
 | 29 CFR 1910.151 | 1: Grill Line Burns |
+| 29 CFR 1910.23 | 1: Neighbourhood Air Sensor |
 | 29 CFR 1910.242 | 1: CNC Cell |
 | 29 CFR 1910.272 | 1: Grain Bin |
 | 29 CFR 1910.28 | 1: Fly System |
@@ -104,7 +106,6 @@ Every station names the union and the certification a worker in that role holds,
 | 40 CFR 258.23 | 1: Landfill Gas |
 | 40 CFR 261 | 1: Bridge Blast |
 | 40 CFR 280 | 1: UST Removal |
-| 40 CFR 300 | 1: Spill Boom Deploy |
 | 40 CFR 441 | 1: Amalgam Waste Handling |
 | 40 CFR 745 | 1: Coatings Bay |
 | 40 CFR 761 | 1: PCB Equipment Removal |
@@ -115,6 +116,7 @@ Every station names the union and the certification a worker in that role holds,
 | 49 CFR 232 | 1: RCL Switching |
 | 49 CFR 242 | 1: RCL Switching |
 | 8 CCR 5110 | 1: Sewing Ergonomics |
+| 8 CCR 5141 | 1: Network Data Review |
 | ANSI A10.8 | 1: Scaffold Erection |
 | ANSI A92 | 1: Aerial Lashing |
 | ANSI A92.9 | 1: Mast Climber |
@@ -171,6 +173,7 @@ Every station names the union and the certification a worker in that role holds,
 | NFPA 472 | 1: Hazmat Entry |
 | NFPA 55 | 1: Chlorine Room |
 | NFPA 69 | 1: Digester Gas |
+| NFPA 780 | 1: Met Station Siting |
 | NFPA 820 | 1: Digester Gas |
 | NFPA 85 | 1: Boiler Room |
 | NFPA 855 | 1: Battery Yard |
@@ -406,13 +409,27 @@ Every station names the union and the certification a worker in that role holds,
 | Station | Trade | Standards cited |
 |---|---|---|
 | Can We Live? — The Story | Community environmental monitor | 29 CFR 1910.120, 45 CFR 46 |
+| Neighbourhood Air Sensor | Community environmental monitor | 29 CFR 1910.23, 45 CFR 46, NIOSH |
+| Sensor Co-Location Check | Community environmental monitor | EPA Method 40, NIOSH |
+| Network Data Review | Community environmental monitor | 8 CCR 5141, EPA Method 40, NIOSH |
+| Pollution Patrol | Community environmental monitor | 29 CFR 1910.120 |
 | Biomonitoring Consent | Biomonitoring field coordinator | 45 CFR 46 |
 | Sample Kit Shipping | Biomonitoring field coordinator | 29 CFR 1910.1030, 45 CFR 46 |
 | Results Return Visit | Biomonitoring field coordinator | 45 CFR 46 |
 | Smoke Day Outreach | Community pollution patrol lead | 29 CFR 1910.134, NIOSH |
+| Fenceline Dust Monitor | Community environmental monitor | 29 CFR 1910.120, EPA Method 40 |
+| Haul Route Observation | Community environmental monitor | 29 CFR 1910.120, 40 CFR 262 |
+| Met Station Siting | Community environmental monitor | 29 CFR 1926, EPA Method 40, NFPA 780 |
+| Dust Plan Review | Community environmental monitor | 29 CFR 1910.120, 40 CFR 300 |
 | Rad Meter Basics | Community environmental monitor | 29 CFR 1910.120 |
 | Parcel Status Walk | Community environmental monitor | 29 CFR 1910.120 |
 | Retest Witnessing | Community environmental monitor | 29 CFR 1910.120 |
+| Abatement Perimeter Awareness | Hazmat and environmental laborer — LIUNA | 29 CFR 1910.134, 29 CFR 1926.1101 |
+| HAZWOPER Site Orientation | Hazmat and environmental laborer — LIUNA | 29 CFR 1910.120, 29 CFR 1910.134, 8 CCR 3203, NIOSH |
+| Decon Support Laborer | Hazmat and environmental laborer — LIUNA | 29 CFR 1910.120, 29 CFR 1910.134 |
+| Public Comment Prep | Community pollution patrol lead | 29 CFR 1910.120 |
+| Youth Patrol Training | Youth patrol member | 29 CFR 1910.120, NIOSH |
+| Shelter-in-Place Drill | Community pollution patrol lead | — |
 
 ### Sewing and Garment Trades
 
@@ -524,6 +541,9 @@ Every station names the union and the certification a worker in that role holds,
 - Stage Power (smartcity): NFPA 70E
 - Container Lashing (smartcity): 29 CFR 1918
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Shelter-in-Place Drill (smartcity): none
+- Public Comment Prep (smartcity): 29 CFR 1910.120
+- Pollution Patrol (smartcity): 29 CFR 1910.120
 - Retest Witnessing (smartcity): 29 CFR 1910.120
 - Parcel Status Walk (smartcity): 29 CFR 1910.120
 - Rad Meter Basics (smartcity): 29 CFR 1910.120

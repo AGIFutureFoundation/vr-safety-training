@@ -9,6 +9,7 @@ import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
+import { detectDevice, applyProfile } from "../../shared/devices.js";
 import { lessonProgress } from "../../shared/lessons.js";
 import { makeVariant } from "../../shared/variants.js";
 import { buildReplay } from "../../shared/incidents.js";
@@ -47,6 +48,7 @@ import { mountUI } from "./react-ui.js";
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+const DEVICE_PROFILE = applyProfile(detectDevice(), { renderer });
 // Every prop's mesh already defaults to castShadow/receiveShadow (see
 // shared/kit.js) — shadows were simply never turned on at the renderer, so
 // nothing has ever actually cast one. Filmic tone mapping + correct sRGB

@@ -28,6 +28,16 @@
     --surface-card:linear-gradient(180deg, var(--panel-2), var(--panel));
     --surface-raised:linear-gradient(180deg, var(--raised-2), var(--raised));
   }
+  /* Device profiles (shared/devices.js): a monocular hardhat display or a
+     see-through visor gets a larger, higher-contrast HUD; see-through sits
+     on black so the real site shows through. */
+  html[data-profile="assisted"] #react-root, html[data-profile="seethrough"] #react-root, html[data-profile="mr"] #react-root,
+  html[data-profile="assisted"] #alarm, html[data-profile="seethrough"] #alarm { zoom: var(--hud-scale, 1); }
+  html[data-profile="assisted"], html[data-profile="seethrough"] {
+    --panel: rgba(0,0,0,.94); --panel-2: rgba(0,0,0,.94); --raised: rgba(6,10,16,.98); --raised-2: rgba(6,10,16,.98);
+    --edge: rgba(255,255,255,.55); --edge-strong: rgba(255,255,255,.8); --text: #ffffff; --muted: #e6eef5;
+  }
+  html[data-profile="seethrough"] body, html[data-profile="seethrough"] #stage { background: #000; }
   *{box-sizing:border-box}
   [hidden]{display:none !important}
   html,body{height:100%;margin:0;overscroll-behavior:none}

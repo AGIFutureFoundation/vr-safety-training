@@ -38,6 +38,7 @@ APPS = {
         "out": "trade-skills-simulator.html",
         "modules": [
             SHARED / "a11y.js",
+            SHARED / "devices.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",
@@ -67,6 +68,7 @@ APPS = {
         "out": "smartcity-x.html",
         "modules": [
             SHARED / "a11y.js",
+            SHARED / "devices.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",
@@ -121,6 +123,7 @@ APPS = {
         "out": "holodeck.html",
         "modules": [
             SHARED / "a11y.js",
+            SHARED / "devices.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",

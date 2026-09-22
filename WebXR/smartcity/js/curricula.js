@@ -288,12 +288,18 @@ export const CURRICULA = [
     accent: "#f2c14b",
     stations: [
       { app: "smartcity", id: "can-we-live-story", why: "The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not." },
-      // slot-hp-1
+      { app: "smartcity", id: "air-sensor-install", why: "The network starts on a resident's own wall: siting by the rules, a weatherproof mount, and a first reading proven against a handheld before it ever reports for the block." },
+      { app: "smartcity", id: "sensor-colocation-check", why: "A week beside the Air District's own reference monitor is what earns the correction factor every sensor this network installs actually relies on." },
+      { app: "smartcity", id: "air-network-data-qa", why: "The map only means what it says if somebody reads it honestly every week — a smoke day told from a local source, a stuck sensor caught, and a real finding reported rather than sat on." },
+      { app: "smartcity", id: "odor-complaint-log", why: "The patrol that turns a smell into a record: logged completely, filed with the Air District, and walked from the public side of the fence every time." },
       { app: "smartcity", id: "biomonitoring-consent", why: "Before any tube is opened: the study explained, the consent form's rights read aloud, the signature witnessed, and a participant ID assigned so no sample ever carries a name." },
       { app: "smartcity", id: "sample-kit-shipping", why: "What consent buys the sample: labels matched to IDs, the cold chain running, UN3373 packing, and the chain of custody signed before a courier ever touches the box." },
       { app: "smartcity", id: "results-return-visit", why: "The other half of the promise 45 CFR 46 makes: a result explained against reference ranges, without alarm or dismissal, to the participant it actually belongs to." },
       { app: "smartcity", id: "smoke-day-outreach", why: "The patrol network on the day the air itself is the hazard: the vulnerable list worked first, N95s actually fit, and the patrol's own masks on when the AQI says so." },
-      // slot-hp-3
+      { app: "smartcity", id: "fenceline-dust-monitor", why: "The instrument the patrol reads: a PM10 monitor sited downwind, levelled and guyed, proven at zero and flow, alarmed to the site's own action level, and an exceedance reported without ever crossing the fence." },
+      { app: "smartcity", id: "haul-route-observation", why: "The sidewalk's own record of what leaves the gate: the tarp, the wheel wash, the manifest placard and the residential speed limit, each truck logged with a plate, a time and a photo for the Air District and the site's own line." },
+      { app: "smartcity", id: "met-station-siting", why: "The instrument every other reading on this list leans on: the network's own weather station, sited clear of obstructions, turned to true north and checked against the airport before anyone trusts a wind direction off it." },
+      { app: "smartcity", id: "dust-plan-review", why: "The desk work behind the patrol: a contractor's own dust control plan held against what the patrol actually saw, and the gaps written into a comment letter the regulator has to answer." },
       // slot-hp-4
       { app: "smartcity", id: "rad-meter-basics", why: "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep." },
       { app: "smartcity", id: "parcel-status-walk", why: "The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done." },
@@ -301,7 +307,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "abatement-perimeter-awareness", why: "The first rung of the trained-worker pathway: a new laborer's fence-line watch on a demolition perimeter, reading the postings and the controls without ever crossing the tape." },
       { app: "smartcity", id: "hazwoper-site-orientation", why: "The gate itself, walked through in full: the plan signed, the zones and the PPE level confirmed, and a buddy assigned before a HAZWOPER-trained laborer's first shift on the parcel begins." },
       { app: "smartcity", id: "decon-support-laborer", why: "The corridor from the clean side: a laborer stocking it, containing the water, washing entrants and tools in order, and drumming the wastewater so the line's own record holds up." },
-      // slot-hp-7
+      { app: "smartcity", id: "public-comment-prep", why: "A month of patrol logs and monitor data turned into testimony a regulator's hearing can actually use: every claim tied to a dated record, the chart pulled from the network's own numbers, a three-minute statement timed to the clock, a written comment filed with its exhibits, a speaker card at registration, and nothing said that the record cannot back up." },
+      { app: "smartcity", id: "youth-patrol-training", why: "A youth patrol team's first shift on the public sidewalk beside a fenced parcel: roles assigned, the route and the fence line's boundary walked, the buddy rule kept, sun and smoke gear staged, a real observation logged, the calm answer at the fence, and a debrief that closes the shift out loud." },
+      { app: "smartcity", id: "shelter-in-place-drill", why: "A community centre's own drill for a dust or fire event next door: the alert taken seriously, every door and window closed, the HVAC to recirculate, the air cleaner on high, a real headcount, the hotline and the Air District both called, residents with respiratory needs checked by name, and the all-clear recorded rather than assumed." },
     ],
   },
   {

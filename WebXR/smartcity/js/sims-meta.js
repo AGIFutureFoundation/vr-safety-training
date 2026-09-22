@@ -6956,5 +6956,467 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "air-sensor-install",
+    "index": "147",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "Community science under the network's own siting and QA practice, drawn from EPA's low-cost air sensor siting guidance; OSHA 29 CFR 1910.23 ladder safety and NIOSH's ladder-safety guidance for the physical install; the Bay Area Air Quality Management District's Community Advisory Council process; consent for anything logged to a resident's home modelled on the standard in 45 CFR 46",
+    "name": "Neighbourhood Air Sensor",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Neighbourhood Air Sensor VR",
+    "tagline": "A resident's own PM2.5 sensor: sited by the network's rules, mounted, wired, paired, proven against a handheld before it counts, logged with photo and GPS, and handed back to the resident who owns it",
+    "accent": 7328906,
+    "accentCss": "#6fd48a",
+    "parSeconds": 260,
+    "badge": {
+      "id": "network-node-proven",
+      "name": "Network Node Proven",
+      "note": "A sensor sited by the rules, consented to by the resident who hosts it, and proven against a handheld before it ever reports a number"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Neighbourhood Network",
+      "currency": "READING",
+      "ranks": [
+        "Trainee Installer",
+        "Network Installer",
+        "Site Steward",
+        "QA Lead",
+        "Neighbourhood Network Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sensor-colocation-check",
+    "index": "148",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "AFSCME air-district technicians who run the reference monitor this co-location is checked against; EPA 40 CFR Part 58 Appendix A quality assurance and its co-location siting criteria; the Bay Area Air Quality Management District's community sensor verification practice; NIOSH guidance on humidity artifacts in optical particle counters",
+    "name": "Sensor Co-Location Check",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Sensor Co-Location Check VR",
+    "tagline": "A week beside the Air District's reference monitor: hourly comparisons, a correction factor earned honestly, a drifting sensor caught and flagged, and humidity's own bias on an optical counter told apart from a real event",
+    "accent": 5223385,
+    "accentCss": "#4fb3d9",
+    "parSeconds": 270,
+    "badge": {
+      "id": "correction-earned",
+      "name": "Correction Earned",
+      "note": "A correction factor derived from a full week against a proven reference, with the drifting sensor caught before it shipped back to the network"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reference Bench",
+      "currency": "MICROGRAM",
+      "ranks": [
+        "Bench Trainee",
+        "Co-Location Technician",
+        "QA Lead",
+        "Reference Steward",
+        "Reference Bench Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "air-network-data-qa",
+    "index": "149",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "EPA 40 CFR Part 58 Appendix A data quality objectives and Air Quality Index reporting guidance; Cal/OSHA's wildfire smoke rule (8 CCR 5141.1) for telling a smoke day from a local event; the Bay Area Air Quality Management District's complaint and Community Advisory Council process; NIOSH guidance on separating regional smoke episodes from local point sources in a community monitoring network",
+    "name": "Network Data Review",
+    "weather": "smoke",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Network Data Review VR",
+    "tagline": "A week of the ten-monitor network read honestly: a smoke day told from a local source by the pattern across the map, a stuck sensor caught, a real outlier confirmed and reported, and the public note that says what the numbers actually mean",
+    "accent": 14257999,
+    "accentCss": "#d98f4f",
+    "parSeconds": 255,
+    "badge": {
+      "id": "map-read-honestly",
+      "name": "Map Read Honestly",
+      "note": "A smoke day and a local source told apart by the pattern, a stuck sensor caught, and the real outlier reported before the note went public"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Weekly Review",
+      "currency": "DATAPOINT",
+      "ranks": [
+        "Review Trainee",
+        "Data Reviewer",
+        "QA Lead",
+        "Network Steward",
+        "Weekly Review Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "odor-complaint-log",
+    "index": "150",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "Community Pollution Patrol Network practice; the Bay Area Air Quality Management District's complaint and Community Advisory Council process; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the fence, which a patrol member never does; EPA Superfund community involvement guidance for a parcel under a federal cleanup order",
+    "name": "Pollution Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Pollution Patrol VR",
+    "tagline": "A patrol shift worked from the public side of the fence: the route in order, the wind off a handheld meter, an event logged with time, place, photo and description, and the complaint filed with the fields the Air District needs",
+    "accent": 14967338,
+    "accentCss": "#e4622a",
+    "parSeconds": 250,
+    "badge": {
+      "id": "fence-line-record",
+      "name": "Fence-Line Record",
+      "note": "A route walked in order, an event logged completely, and a complaint filed without ever stepping past the fence"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Log",
+      "currency": "OBSERVATION",
+      "ranks": [
+        "Patrol Trainee",
+        "Patrol Member",
+        "Route Lead",
+        "Complaint Steward",
+        "Patrol Log Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "fenceline-dust-monitor",
+    "index": "155",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "BAAQMD complaint line and Regulation 6 particulate rules; EPA 40 CFR Part 58 ambient monitor siting, zero and flow QA; the site's own Dust Control Plan and posted action level under DTSC and Regional Water Board oversight; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the fence — not required here, because this monitor stands on the public side of it",
+    "name": "Fenceline Dust Monitor",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Fenceline Dust Monitor VR",
+    "tagline": "Deploying a community PM10 monitor on the public side of a cleanup fence: sited by the wind, levelled and guyed, zeroed and flow-checked, alarmed to the site's own action level, logged, and an exceedance reported without ever crossing the fence",
+    "accent": 14257215,
+    "accentCss": "#d98c3f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "fenceline-true",
+      "name": "Fenceline True",
+      "note": "Sited downwind, level and guyed, proven at zero and flow, alarmed to the plan, and an exceedance reported without setting foot past the fence"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fenceline Watch",
+      "currency": "PM10",
+      "ranks": [
+        "Sidewalk Hand",
+        "Siting Lead",
+        "Zero Proven",
+        "Watch Authority",
+        "Fenceline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "haul-route-observation",
+    "index": "156",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "BAAQMD complaint line and Regulation 6 track-out and dust rules; EPA RCRA hazardous-waste manifest placarding (40 CFR 262); the site's own Dust Control Plan requiring a tarped, washed load at every gate; the California Vehicle Code's posted residential speed limit; CARB's 13 CCR 2485 five-minute diesel idling limit; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the gate — not required here, because this patrol never does",
+    "name": "Haul Route Observation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Haul Route Observation VR",
+    "tagline": "Watching a cleanup parcel's gate from the public sidewalk: the tarp, the wheel wash, track-out onto the street, the manifest placard and the residential speed limit, each observation logged with a plate, a time and a photo for the Air District and the site's own complaint line",
+    "accent": 6210262,
+    "accentCss": "#5ec2d6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gate-watched",
+      "name": "Gate Watched",
+      "note": "Every check made from the sidewalk, every observation logged with a plate, a time and a photo, and never once through the gate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Watch",
+      "currency": "PLATE",
+      "ranks": [
+        "Sidewalk Observer",
+        "Log Keeper",
+        "Route Lead",
+        "Complaint Authority",
+        "Route Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "met-station-siting",
+    "index": "157",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "The community air network's own siting protocol, drawn from WMO and NOAA/NWS surface-observation siting standards; NFPA 780 lightning protection for the mast's own ground rod; OSHA 29 CFR 1926 fall protection if a tilt-up mast is ever climbed instead of lowered; EPA 40 CFR Part 58 meteorological support requirements for a network whose readings get compared against a federal cleanup order's own air data",
+    "name": "Met Station Siting",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Met Station Siting VR",
+    "tagline": "Siting the community's own weather station: exposure clear of buildings, a tilt-up mast raised and guyed, the datalogger wired and grounded, the mast turned to true north, the rain gauge levelled, and the first day's data checked against the airport's own record",
+    "accent": 8370400,
+    "accentCss": "#7fb8e0",
+    "parSeconds": 310,
+    "badge": {
+      "id": "true-north-set",
+      "name": "True North Set",
+      "note": "Sited clear of every obstruction, aligned to true north, levelled, grounded, and the first day's data checked against the airport's before anyone trusts a wind direction off it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Station Siting",
+      "currency": "SITING",
+      "ranks": [
+        "Yard Hand",
+        "Mast Rigger",
+        "Siting Lead",
+        "Network Authority",
+        "Siting Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dust-plan-review",
+    "index": "158",
+    "domain": "Environmental",
+    "trade": "Community environmental monitor",
+    "category": "Community Environmental Justice",
+    "certification": "BAAQMD Regulation 6 and its public comment process on a site's own dust control plan; EPA's Superfund community involvement requirements under the National Contingency Plan (40 CFR Part 300); California DTSC and the Regional Water Board's oversight of the plan itself; OSHA 29 CFR 1910.120 HAZWOPER for anyone who inspects a fenceline monitor in person — not required for this desk review of the plan and the patrol's own record",
+    "name": "Dust Plan Review",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Dust Plan Review VR",
+    "tagline": "Reading a contractor's dust control plan against what the patrol actually saw: the water truck frequency, the action levels, the monitor locations on the map, the notification list, and the gaps written into a comment letter for the regulator",
+    "accent": 10125270,
+    "accentCss": "#9a7fd6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "gap-named",
+      "name": "Gap Named",
+      "note": "Every claim in the plan checked against the patrol's own record, every gap cited to a real authority, and the letter filed before the deadline moved"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Plan Review",
+      "currency": "COMMENT",
+      "ranks": [
+        "Reader",
+        "Cross-Checker",
+        "Comment Drafter",
+        "Review Lead",
+        "Plan Review Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "public-comment-prep",
+    "index": "169",
+    "domain": "Environmental",
+    "trade": "Community pollution patrol lead",
+    "category": "Community Environmental Justice",
+    "certification": "The foundation's own patrol protocol for logging and reviewing observations; the Bay Area Air Quality Management District's (BAAQMD) complaint process and Community Advisory Council public-comment procedure; EPA quality-assurance project plan (QAPP) and chain-of-custody guidance for using monitor data as evidence; the U.S. EPA's Superfund Community Involvement Handbook on public participation in cleanup oversight",
+    "name": "Public Comment Prep",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Public Comment Prep VR",
+    "tagline": "A month of patrol logs and monitor data turned into testimony: every claim tied to a dated record, the chart built from the network's own numbers, a three-minute statement timed and paced, a written comment filed with its exhibits, a speaker card submitted, and nothing said that cannot be sourced",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "record-backed",
+      "name": "Record Backed",
+      "note": "Every claim tied to a dated log or monitor record, the chart correct, the statement timed clean, and nothing said that the record does not back up"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Testimony Desk",
+      "currency": "COMMENT",
+      "ranks": [
+        "New Voice",
+        "Prepared Speaker",
+        "Testimony Lead",
+        "Data Steward",
+        "Certified Public Witness"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "youth-patrol-training",
+    "index": "170",
+    "domain": "Environmental",
+    "trade": "Youth patrol member",
+    "category": "Community Environmental Justice",
+    "certification": "The foundation's own youth patrol training protocol, run under adult supervision; BAAQMD's complaint process for what a filed observation is used for; NIOSH heat-stress guidance and the same shade-and-water trigger the state's heat-illness prevention standard sets for outdoor workers, adopted here as the patrol's own rule; EPA Air Quality Index guidance for reading a smoke or particulate reading before a shift; the patrol's own rule that members work the public side of a fence line, never inside it",
+    "name": "Youth Patrol Training",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Youth Patrol Training VR",
+    "tagline": "A youth patrol team's first shift: roles assigned, the route and the fence-line boundary walked, the buddy rule kept, sun and smoke gear staged, an observation logged the way the network can use it, the calm answer at the fence, and a debrief that closes the shift",
+    "accent": 5884283,
+    "accentCss": "#59c97b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "first-shift-clean",
+      "name": "First Shift Clean",
+      "note": "Roles held, the buddy rule never broken, the boundary respected, and a real observation logged and handed off"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Roster",
+      "currency": "SHIFT",
+      "ranks": [
+        "Trainee Patroller",
+        "Patrol Member",
+        "Route Lead",
+        "Team Recorder",
+        "First-Shift Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "shelter-in-place-drill",
+    "index": "171",
+    "domain": "Environmental",
+    "trade": "Community pollution patrol lead",
+    "category": "Community Environmental Justice",
+    "certification": "The community centre's own shelter-in-place plan, run under the patrol lead's direction; BAAQMD's complaint and public-alert line for reporting the event that triggered the drill; EPA guidance on using a portable air cleaner's clean-air delivery rate (CADR) to actually reduce indoor particulate during a dust or smoke event; the same shade-and-smoke thresholds Cal/OSHA's wildfire-smoke rule sets for outdoor exposure, adopted here as the trigger for sheltering indoors; accommodation practice consistent with the ADA for residents with respiratory needs during an emergency",
+    "name": "Shelter-in-Place Drill",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Shelter-in-Place Drill VR",
+    "tagline": "A community centre's shelter-in-place drill for a dust or fire event at a fenced parcel: the alert taken seriously, doors and windows closed, HVAC to recirculate, the air cleaner on high, a real headcount, the hotline and the Air District called, residents with respiratory needs checked by name, and the all-clear recorded",
+    "accent": 8376777,
+    "accentCss": "#7fd1c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "building-held",
+      "name": "Building Held",
+      "note": "Every opening closed, the air handled correctly, every room counted, both calls made, every resident checked, and the all-clear recorded rather than assumed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shelter Watch",
+      "currency": "COUNT",
+      "ranks": [
+        "Drill Trainee",
+        "Floor Monitor",
+        "Shelter Lead",
+        "Building Steward",
+        "Shelter Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

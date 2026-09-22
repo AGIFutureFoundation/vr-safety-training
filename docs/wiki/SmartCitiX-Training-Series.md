@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-22. 145 SmartCiti.X stations across 14 categories and 17 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-22. 174 SmartCiti.X stations across 16 categories and 22 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass twenty-three checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -22,6 +22,11 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Transit and Ramp Operations](#transit-ramp)
 - [Energy Transition Systems](#energy-transition)
 - [Live Events Production](#live-events)
+- [Hunters Point Edition — Can We Live?](#hunters-point-can-we-live)
+- [Sewing and Garment Trades](#sewing-garment-trades)
+- [Bridge and Structural Trades](#bridge-and-structural)
+- [Hotel Workers — Back of House](#hotel-workers)
+- [Builders — Carpenters, Laborers and Masons](#builders-trades)
 - [Situational Awareness — Interruption Drill](#situational-awareness)
 
 <a id="hunters-point-bay-restoration"></a>
@@ -411,6 +416,103 @@ A load-in from the truck to the house lights, in the order a call actually runs,
 | 40 | [Fly System](../../WebXR/smartcity/index.html?sim=fly-system) | Theatrical rigger / fly operator | indoor (theatre) | 12 | 2 | 95 | Loading a lineset, where an unbalanced arbor is a runaway with a person on the rope. |
 | 18 | [Rigging Loft](../../WebXR/smartcity/index.html?sim=rigging-loft) | Theatrical rigger (IATSE) | indoor (theatre) | 14 | 2 | 96 | Points overhead, with automation cues proven before the house is let in. |
 | 30 | [Chain Hoist](../../WebXR/smartcity/index.html?sim=chain-hoist) | Entertainment rigger — chain motors | indoor (theatre) | 10 | 2 | 94 | Motors: inspection, capacity and never leaving a load hanging on a brake. |
+
+<a id="hunters-point-can-we-live"></a>
+## Hunters Point Edition — Can We Live?
+
+**Union:** Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway
+
+**Certifications and standards:** EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule
+
+A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 146 | [Can We Live? — The Story](../../WebXR/smartcity/index.html?sim=can-we-live-story) | Community environmental monitor | clear | 10 | 0 | — | The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not. |
+| 147 | [Neighbourhood Air Sensor](../../WebXR/smartcity/index.html?sim=air-sensor-install) | Community environmental monitor | wind, Environmental Monitoring | 14 | 2 | — | The network starts on a resident's own wall: siting by the rules, a weatherproof mount, and a first reading proven against a handheld before it ever reports for the block. |
+| 148 | [Sensor Co-Location Check](../../WebXR/smartcity/index.html?sim=sensor-colocation-check) | Community environmental monitor | fog, Environmental Monitoring | 13 | 2 | — | A week beside the Air District's own reference monitor is what earns the correction factor every sensor this network installs actually relies on. |
+| 149 | [Network Data Review](../../WebXR/smartcity/index.html?sim=air-network-data-qa) | Community environmental monitor | indoor (service) | 13 | 2 | — | The map only means what it says if somebody reads it honestly every week — a smoke day told from a local source, a stuck sensor caught, and a real finding reported rather than sat on. |
+| 150 | [Pollution Patrol](../../WebXR/smartcity/index.html?sim=odor-complaint-log) | Community environmental monitor | wind, Environmental Monitoring | 12 | 2 | — | The patrol that turns a smell into a record: logged completely, filed with the Air District, and walked from the public side of the fence every time. |
+| 151 | [Biomonitoring Consent](../../WebXR/smartcity/index.html?sim=biomonitoring-consent) | Biomonitoring field coordinator | indoor (clinic) | 13 | 2 | — | Before any tube is opened: the study explained, the consent form's rights read aloud, the signature witnessed, and a participant ID assigned so no sample ever carries a name. |
+| 152 | [Sample Kit Shipping](../../WebXR/smartcity/index.html?sim=sample-kit-shipping) | Biomonitoring field coordinator | indoor (service) | 13 | 2 | — | What consent buys the sample: labels matched to IDs, the cold chain running, UN3373 packing, and the chain of custody signed before a courier ever touches the box. |
+| 153 | [Results Return Visit](../../WebXR/smartcity/index.html?sim=results-return-visit) | Biomonitoring field coordinator | indoor (clinic) | 13 | 2 | — | The other half of the promise 45 CFR 46 makes: a result explained against reference ranges, without alarm or dismissal, to the participant it actually belongs to. |
+| 154 | [Smoke Day Outreach](../../WebXR/smartcity/index.html?sim=smoke-day-outreach) | Community pollution patrol lead | smoke, Environmental Monitoring | 13 | 2 | — | The patrol network on the day the air itself is the hazard: the vulnerable list worked first, N95s actually fit, and the patrol's own masks on when the AQI says so. |
+| 155 | [Fenceline Dust Monitor](../../WebXR/smartcity/index.html?sim=fenceline-dust-monitor) | Community environmental monitor | wind, Environmental Monitoring | 14 | 2 | — | The instrument the patrol reads: a PM10 monitor sited downwind, levelled and guyed, proven at zero and flow, alarmed to the site's own action level, and an exceedance reported without ever crossing the fence. |
+| 156 | [Haul Route Observation](../../WebXR/smartcity/index.html?sim=haul-route-observation) | Community environmental monitor | overcast, Environmental Monitoring | 13 | 2 | — | The sidewalk's own record of what leaves the gate: the tarp, the wheel wash, the manifest placard and the residential speed limit, each truck logged with a plate, a time and a photo for the Air District and the site's own line. |
+| 157 | [Met Station Siting](../../WebXR/smartcity/index.html?sim=met-station-siting) | Community environmental monitor | wind, Environmental Monitoring | 14 | 2 | — | The instrument every other reading on this list leans on: the network's own weather station, sited clear of obstructions, turned to true north and checked against the airport before anyone trusts a wind direction off it. |
+| 158 | [Dust Plan Review](../../WebXR/smartcity/index.html?sim=dust-plan-review) | Community environmental monitor | indoor (service) | 15 | 2 | — | The desk work behind the patrol: a contractor's own dust control plan held against what the patrol actually saw, and the gaps written into a comment letter the regulator has to answer. |
+| 163 | [Rad Meter Basics](../../WebXR/smartcity/index.html?sim=rad-meter-basics) | Community environmental monitor | overcast, Environmental Monitoring | 13 | 2 | — | The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep. |
+| 164 | [Parcel Status Walk](../../WebXR/smartcity/index.html?sim=parcel-status-walk) | Community environmental monitor | overcast, Environmental Monitoring | 13 | 2 | — | The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done. |
+| 165 | [Retest Witnessing](../../WebXR/smartcity/index.html?sim=retest-witnessing) | Community environmental monitor | overcast, Environmental Monitoring | 13 | 2 | — | Standing at the fence for someone else's retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it's still exact. |
+| 166 | [Abatement Perimeter Awareness](../../WebXR/smartcity/index.html?sim=abatement-perimeter-awareness) | Hazmat and environmental laborer — LIUNA | wind, Environmental Monitoring | 14 | 2 | — | The first rung of the trained-worker pathway: a new laborer's fence-line watch on a demolition perimeter, reading the postings and the controls without ever crossing the tape. |
+| 167 | [HAZWOPER Site Orientation](../../WebXR/smartcity/index.html?sim=hazwoper-site-orientation) | Hazmat and environmental laborer — LIUNA | indoor (service) | 13 | 2 | — | The gate itself, walked through in full: the plan signed, the zones and the PPE level confirmed, and a buddy assigned before a HAZWOPER-trained laborer's first shift on the parcel begins. |
+| 168 | [Decon Support Laborer](../../WebXR/smartcity/index.html?sim=decon-support-laborer) | Hazmat and environmental laborer — LIUNA | clear, Environmental Monitoring | 12 | 2 | — | The corridor from the clean side: a laborer stocking it, containing the water, washing entrants and tools in order, and drumming the wastewater so the line's own record holds up. |
+| 169 | [Public Comment Prep](../../WebXR/smartcity/index.html?sim=public-comment-prep) | Community pollution patrol lead | indoor (service) | 13 | 2 | — | A month of patrol logs and monitor data turned into testimony a regulator's hearing can actually use: every claim tied to a dated record, the chart pulled from the network's own numbers, a three-minute statement timed to the clock, a written comment filed with its exhibits, a speaker card at registration, and nothing said that the record cannot back up. |
+| 170 | [Youth Patrol Training](../../WebXR/smartcity/index.html?sim=youth-patrol-training) | Youth patrol member | clear, Environmental Monitoring | 12 | 2 | — | A youth patrol team's first shift on the public sidewalk beside a fenced parcel: roles assigned, the route and the fence line's boundary walked, the buddy rule kept, sun and smoke gear staged, a real observation logged, the calm answer at the fence, and a debrief that closes the shift out loud. |
+| 171 | [Shelter-in-Place Drill](../../WebXR/smartcity/index.html?sim=shelter-in-place-drill) | Community pollution patrol lead | indoor (service) | 14 | 2 | — | A community centre's own drill for a dust or fire event next door: the alert taken seriously, every door and window closed, the HVAC to recirculate, the air cleaner on high, a real headcount, the hotline and the Air District both called, residents with respiratory needs checked by name, and the all-clear recorded rather than assumed. |
+
+<a id="sewing-garment-trades"></a>
+## Sewing and Garment Trades
+
+**Union:** Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service
+
+**Certifications and standards:** OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators
+
+A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| — | Trade Skills: salon | — | — | — | — | 93 | The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for. |
+| 172 | [Machine Threading and Needle](../../WebXR/smartcity/index.html?sim=machine-threading-needle) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 14 | 2 | — | The lockstitch head from a cold start: the needle changed with the scarf right, threaded in its one path, the bobbin wound and cased, tension proven on scrap, and the guard down before the first seam. |
+| 173 | [Lockstitch Seam Behind the Guard](../../WebXR/smartcity/index.html?sim=lockstitch-seam-guard) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 13 | 2 | — | The same head at production speed: a straight seam and a curve run behind the guard, bundle chained to bundle, and a needle break accounted for down to the broken tip. |
+| 174 | [Serger and Overlock](../../WebXR/smartcity/index.html?sim=serger-overlock) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 13 | 2 | — | The overlock next to it: four threads by colour, the cutting width set to the ticket, and the one rule that never bends — the knife gets cleaned only after it is locked out. |
+| 175 | [Cutting Table and Rotary Knife](../../WebXR/smartcity/index.html?sim=cutting-table-rotary) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 13 | 2 | — | Where the bundle started: the spread cut to the marker on two blades with the glove on the guiding hand, and the blade itself changed the same way — locked out first. |
+| 179 | [Sewing Ergonomics](../../WebXR/smartcity/index.html?sim=sewing-ergonomics-shift) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 13 | 2 | — | The bench set up to the operator before the first seam: chair, table, pedal and light, the bundle in reach, and a symptom logged early instead of shrugged off. |
+| 180 | [Alteration Repair Ticket](../../WebXR/smartcity/index.html?sim=alteration-repair-ticket) | Alterations tailor — Workers United | indoor (shop) | 13 | 2 | — | The alterations tailor's own ticket, worked to the customer's pinned fit rather than a guess — the ripper, the hem, and the zipper closed out with a price and a time. |
+| 181 | [Garment Inspection & Finish](../../WebXR/smartcity/index.html?sim=garment-inspection-finish) | Industrial sewing machine operator — Workers United (SEIU) | indoor (shop) | 13 | 2 | — | The last bench a piece crosses: the light box and the spec sheet catch what a bare eye and a tape alone would miss before it ever reaches the box. |
+
+<a id="bridge-and-structural"></a>
+## Bridge and Structural Trades
+
+**Union:** Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck
+
+**Certifications and standards:** OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan
+
+The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 12 | [Steel Erector](../../WebXR/smartcity/index.html?sim=steel-erector) | Ironworker / structural steel connector | wind | 12 | 2 | 94 | The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go. |
+
+<a id="hotel-workers"></a>
+## Hotel Workers — Back of House
+
+**Union:** UNITE HERE hotel housekeepers, laundry and banquet staff
+
+**Certifications and standards:** Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant
+
+The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 113 | [Banquet Hot Hold](../../WebXR/smartcity/index.html?sim=banquet-hot-hold) | Banquet cook | indoor (kitchen) | 14 | 2 | 96 | The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open. |
+
+<table>
+<tr><td width="50%"><img src="../screenshots/smartcity/banquet-hot-hold_spawn.png" alt="Banquet Hot Hold from the learner's spawn point" width="100%"><br><b>Banquet Hot Hold</b> — Banquet hot line: hot boxes probed, chafers lit lid-open, the buffet walked, time tags honoured, and the pull-down done to the rule</td></tr>
+</table>
+
+<a id="builders-trades"></a>
+## Builders — Carpenters, Laborers and Masons
+
+**Union:** UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators
+
+**Certifications and standards:** OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings
+
+The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 48 | [Concrete Pour](../../WebXR/smartcity/index.html?sim=concrete-pour) | Cement mason / concrete finisher and laborer | overcast | 12 | 2 | 98 | The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real. |
 
 <a id="situational-awareness"></a>
 ## Situational Awareness — Interruption Drill

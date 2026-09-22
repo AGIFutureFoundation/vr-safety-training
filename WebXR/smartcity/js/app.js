@@ -16,6 +16,7 @@ import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
 import { CURRICULA, allProgress } from "./curricula.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
+import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice } from "../../shared/devices.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
@@ -129,6 +130,11 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// The device in front of the learner's eye decides pixel ratio, shadows,
+// weather, skyline, HUD scale and background: a monocular hardhat display
+// and a see-through visor get a different run from a desktop (shared/devices.js).
+const DEVICE = detectDevice();
+const PROFILE = applyProfile(DEVICE, { renderer });
 // Filmic tone mapping + correct sRGB output is a post-process color-grading
 // step, not a lighting change — every prop's existing MeshStandardMaterial
 // and every scene's existing light intensities stay exactly as tuned, but
@@ -450,7 +456,7 @@ function enterHub() {
   camera.rotation.set(0, 0, 0);
   store.patch("arPrompt", { visible: state.mode === "ar" });
   store.patch("scaleRow", { visible: state.mode === "ar" });
-  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.`);
+  setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.${PROFILE.id === "desktop" ? "" : ` <span class="muted">Device: ${escapeHtml(describeDevice(DEVICE, PROFILE))}</span>`}`);
   syncHud();
 }
 
@@ -479,8 +485,9 @@ async function enterSim(id, { briefed = false } = {}) {
   // A station stands in its category's district unless it names another:
   // a marsh crew is filed under Water & Environmental, whose horizon is a
   // treatment works, and belongs in front of the bay instead.
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, room.weather, room.indoor);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, room.weather), room.indoor);
   state.stage = stage;
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
   // A licensed real-world model around the station, when the station (or the
   // URL, for a preview) asks for one. It arrives after the station is
   // playable; a failure is reported on the rail and the station plays on.

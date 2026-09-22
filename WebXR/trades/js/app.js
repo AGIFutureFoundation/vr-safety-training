@@ -9,6 +9,7 @@ import { Platform } from "../../shared/platform.js";
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { Perf } from "../../shared/perf.js";
+import { detectDevice, applyProfile } from "../../shared/devices.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
 import { ROOM_SALON } from "./rooms/salon.js";
@@ -44,6 +45,7 @@ if (Lrs.pending()) Lrs.flush();
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+const DEVICE_PROFILE = applyProfile(detectDevice(), { renderer });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // Filmic tone mapping + correct sRGB output is a post-process color-grading
