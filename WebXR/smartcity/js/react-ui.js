@@ -42,7 +42,7 @@ const CATEGORY_ORDER = [
   "Construction & Structural Trades", "Manufacturing & Automation",
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
   "Environmental Monitoring", "Surface Prep & Coatings", "Culinary & Hospitality",
-  "Dental & Oral Health",
+  "Dental & Oral Health", "Community Environmental Justice", "Sewing & Garment Trades",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all

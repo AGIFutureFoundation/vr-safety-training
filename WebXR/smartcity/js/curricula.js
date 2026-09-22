@@ -29,6 +29,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "substation-switching", why: "Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building." },
       { app: "smartcity", id: "line-truck", why: "Overhead: the same sequence with cover-up, an approach boundary and a bucket." },
       { app: "smartcity", id: "battery-yard", why: "Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline." },
+      // slot-ibew-1
     ],
   },
   {
@@ -279,6 +280,74 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "hunters-point-can-we-live",
+    name: "Hunters Point Edition — Can We Live?",
+    union: "Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway",
+    certification: "EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule",
+    summary: "A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "can-we-live-story", why: "The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not." },
+      // slot-hp-1
+      // slot-hp-2
+      // slot-hp-3
+      // slot-hp-4
+      // slot-hp-5
+      // slot-hp-6
+      // slot-hp-7
+    ],
+  },
+  {
+    id: "sewing-garment-trades",
+    name: "Sewing and Garment Trades",
+    union: "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service",
+    certification: "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
+    summary: "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
+    accent: "#b86bd6",
+    stations: [
+      { app: "trades", id: "salon", why: "The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for." },
+      // slot-sew-1
+      // slot-sew-2
+      // slot-sew-3
+    ],
+  },
+  {
+    id: "bridge-and-structural",
+    name: "Bridge and Structural Trades",
+    union: "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck",
+    certification: "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
+    accent: "#8a9bb0",
+    summary: "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
+    stations: [
+      { app: "smartcity", id: "steel-erector", why: "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go." },
+      // slot-bridge-1
+    ],
+  },
+  {
+    id: "hotel-workers",
+    name: "Hotel Workers — Back of House",
+    union: "UNITE HERE hotel housekeepers, laundry and banquet staff",
+    certification: "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant",
+    accent: "#d67b6b",
+    summary: "The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.",
+    stations: [
+      { app: "smartcity", id: "banquet-hot-hold", why: "The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open." },
+      // slot-hotel-1
+    ],
+  },
+  {
+    id: "builders-trades",
+    name: "Builders — Carpenters, Laborers and Masons",
+    union: "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators",
+    certification: "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
+    accent: "#c9a36b",
+    summary: "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
+    stations: [
+      { app: "smartcity", id: "concrete-pour", why: "The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real." },
+      // slot-builders-1
+    ],
+  },
+  {
     id: "situational-awareness",
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
@@ -326,6 +395,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "spill-boom-deploy", why: "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it." },
       { app: "smartcity", id: "pilot-transfer", why: "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call." },
       { app: "smartcity", id: "mooring-line", why: "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in." },
+      // slot-ports-1
     ],
   },
   {
