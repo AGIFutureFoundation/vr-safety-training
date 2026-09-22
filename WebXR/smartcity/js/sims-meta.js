@@ -5259,5 +5259,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "patient-intake-screening",
+    "index": "119",
+    "domain": "Dental",
+    "trade": "Dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic support staff; the ADHA's standards for clinical dental hygiene practice; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California and the state's dental practice act; the ADA's Health History form",
+    "name": "Patient Intake Screening",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Patient Intake Screening VR",
+    "tagline": "History reviewed and flagged, vitals read against the deferral threshold, a systematic exam, findings charted, and today's consent explained and signed",
+    "accent": 6273248,
+    "accentCss": "#5fb8e0",
+    "parSeconds": 260,
+    "badge": {
+      "id": "cleared-to-treat",
+      "name": "Cleared to Treat",
+      "note": "History read and flagged, vitals in range, a complete exam charted, and consent signed before anything else began"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chairside Readiness",
+      "currency": "INTAKE",
+      "ranks": [
+        "Intake Trainee",
+        "Screening Assistant",
+        "Registered Hygienist",
+        "Lead Hygienist",
+        "Chairside Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "radiograph-safety",
+    "index": "120",
+    "domain": "Dental",
+    "trade": "Dental hygienist — radiographer",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the ADA/FDA's Dental Radiographic Examinations recommendations (selection criteria); the ALARA principle and California's Title 17 radiation control regulations; the Dental Hygiene Board of California's radiography permit; OSHA 29 CFR 1910.1030 and the CDC's Guidelines for Infection Control in Dental Health-Care Settings for the sensor barrier",
+    "name": "Radiograph Safety",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Radiograph Safety VR",
+    "tagline": "A bitewing series under ALARA: selection criteria, shielding, positioning, the operator behind the barrier, exposure only with the room clear, and every image logged",
+    "accent": 15905610,
+    "accentCss": "#f2b34a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "alara-certified",
+      "name": "ALARA Certified",
+      "note": "A full bitewing series taken with the selection criteria checked, the patient shielded, every exposure made from behind the barrier, and the log complete"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Beam Discipline",
+      "currency": "mAs",
+      "ranks": [
+        "Radiography Trainee",
+        "Registered Operator",
+        "Series Lead",
+        "Radiation Safety Officer",
+        "Beam Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "periodontal-charting",
+    "index": "121",
+    "domain": "Dental",
+    "trade": "Dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the American Academy of Periodontology's 2017 classification of periodontal diseases (staging and grading); the Dental Hygiene Board of California and the state's dental practice act; OSHA 29 CFR 1910.1030 bloodborne pathogens for every bleeding site this chart records",
+    "name": "Periodontal Charting",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Periodontal Charting VR",
+    "tagline": "Six sites a tooth probed and walked, depths charted, bleeding and suppuration recorded, recession and attachment loss calculated, and the case staged and graded to the 2017 classification",
+    "accent": 7326112,
+    "accentCss": "#6fc9a0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "chart-complete",
+      "name": "Chart Complete",
+      "note": "A full six-site chart, correctly graded and staged, with every change from the last visit caught"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Attachment Watch",
+      "currency": "SITE",
+      "ranks": [
+        "Charting Trainee",
+        "Registered Prober",
+        "Full-Mouth Charter",
+        "Periodontal Lead",
+        "Attachment Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

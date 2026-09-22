@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 124
+      "stations": 127
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "periodontal-charting",
+        "radiograph-safety",
+        "patient-intake-screening",
         "fluoride-and-sealants",
         "aerosol-management",
         "ultrasonic-scaling",
@@ -909,6 +912,21 @@
           "app": "smartcity",
           "id": "sharps-exposure-response",
           "why": "The needlestick this whole chain exists to prevent: washed, reported at once, and into evaluation inside the hours that make post-exposure prophylaxis worth anything."
+        },
+        {
+          "app": "smartcity",
+          "id": "patient-intake-screening",
+          "why": "The first ten minutes with any patient: the history read and flagged, vitals taken, an exam done in order, and consent signed before a single instrument is picked up."
+        },
+        {
+          "app": "smartcity",
+          "id": "radiograph-safety",
+          "why": "A bitewing series taken under ALARA, so every exposure this programme's stations show is one the selection criteria actually called for."
+        },
+        {
+          "app": "smartcity",
+          "id": "periodontal-charting",
+          "why": "The full periodontal chart that a cleaning is planned around, staged and graded to the 2017 classification rather than read off a single deep number."
         },
         {
           "app": "smartcity",
@@ -5273,6 +5291,253 @@
     },
     {
       "app": "smartcity",
+      "id": "periodontal-charting",
+      "name": "Periodontal Charting",
+      "title": "SmartCiti.X~ Periodontal Charting VR",
+      "tagline": "Six sites a tooth probed and walked, depths charted, bleeding and suppuration recorded, recession and attachment loss calculated, and the case staged and graded to the 2017 classification",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the American Academy of Periodontology's 2017 classification of periodontal diseases (staging and grading); the Dental Hygiene Board of California and the state's dental practice act; OSHA 29 CFR 1910.1030 bloodborne pathogens for every bleeding site this chart records",
+      "accent": "#6fc9a0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "turn",
+        "select",
+        "drag",
+        "track",
+        "sequence",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "chart-complete",
+        "name": "Chart Complete",
+        "note": "A full six-site chart, correctly graded and staged, with every change from the last visit caught"
+      },
+      "meshes": 133,
+      "lights": 0,
+      "overBudget": false,
+      "index": "121",
+      "flat": false,
+      "system": "Attachment Watch",
+      "currency": "SITE",
+      "ranks": [
+        "Charting Trainee",
+        "Registered Prober",
+        "Full-Mouth Charter",
+        "Periodontal Lead",
+        "Attachment Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "six-sites",
+          "name": "Six Sites",
+          "note": "Every site walked in the taught order, first time"
+        },
+        {
+          "id": "no-guessed-numbers",
+          "name": "No Guessed Numbers",
+          "note": "Never charted a number the probe didn't actually read"
+        },
+        {
+          "id": "staged-right",
+          "name": "Staged Right",
+          "note": "Stage and grade matched to the findings without correction"
+        },
+        {
+          "id": "clean-chart",
+          "name": "Clean Chart",
+          "note": "No corrections anywhere in the chart"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "Both timed steps held clean without a break"
+        },
+        {
+          "id": "chart-on-time",
+          "name": "Chart on Time",
+          "note": "Full chart complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=periodontal-charting"
+    },
+    {
+      "app": "smartcity",
+      "id": "radiograph-safety",
+      "name": "Radiograph Safety",
+      "title": "SmartCiti.X~ Radiograph Safety VR",
+      "tagline": "A bitewing series under ALARA: selection criteria, shielding, positioning, the operator behind the barrier, exposure only with the room clear, and every image logged",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental hygienist — radiographer",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the ADA/FDA's Dental Radiographic Examinations recommendations (selection criteria); the ALARA principle and California's Title 17 radiation control regulations; the Dental Hygiene Board of California's radiography permit; OSHA 29 CFR 1910.1030 and the CDC's Guidelines for Infection Control in Dental Health-Care Settings for the sensor barrier",
+      "accent": "#f2b34a",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "alara-certified",
+        "name": "ALARA Certified",
+        "note": "A full bitewing series taken with the selection criteria checked, the patient shielded, every exposure made from behind the barrier, and the log complete"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "120",
+      "flat": false,
+      "system": "Beam Discipline",
+      "currency": "mAs",
+      "ranks": [
+        "Radiography Trainee",
+        "Registered Operator",
+        "Series Lead",
+        "Radiation Safety Officer",
+        "Beam Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "criteria-first",
+          "name": "Criteria First",
+          "note": "Selection criteria and the pregnancy question both answered clean"
+        },
+        {
+          "id": "never-in-the-beam",
+          "name": "Never in the Beam",
+          "note": "Every exposure made from behind the barrier, nothing skipped"
+        },
+        {
+          "id": "diagnostic-first-try",
+          "name": "Diagnostic First Try",
+          "note": "Exposure settings inside the tight band every time"
+        },
+        {
+          "id": "clean-series",
+          "name": "Clean Series",
+          "note": "No corrections anywhere in the series"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Both timed holds carried clean without a break"
+        },
+        {
+          "id": "series-in-time",
+          "name": "Series in Time",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=radiograph-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "patient-intake-screening",
+      "name": "Patient Intake Screening",
+      "title": "SmartCiti.X~ Patient Intake Screening VR",
+      "tagline": "History reviewed and flagged, vitals read against the deferral threshold, a systematic exam, findings charted, and today's consent explained and signed",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic support staff; the ADHA's standards for clinical dental hygiene practice; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California and the state's dental practice act; the ADA's Health History form",
+      "accent": "#5fb8e0",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "sequence",
+        "hold"
+      ],
+      "badge": {
+        "id": "cleared-to-treat",
+        "name": "Cleared to Treat",
+        "note": "History read and flagged, vitals in range, a complete exam charted, and consent signed before anything else began"
+      },
+      "meshes": 134,
+      "lights": 0,
+      "overBudget": false,
+      "index": "119",
+      "flat": false,
+      "system": "Chairside Readiness",
+      "currency": "INTAKE",
+      "ranks": [
+        "Intake Trainee",
+        "Screening Assistant",
+        "Registered Hygienist",
+        "Lead Hygienist",
+        "Chairside Certified"
+      ],
+      "awards": [
+        {
+          "id": "history-first",
+          "name": "History First",
+          "note": "Every plan-changing flag caught before the chair reclined"
+        },
+        {
+          "id": "never-unread",
+          "name": "Never Unread",
+          "note": "No shortcut past the history, the vitals or the consent"
+        },
+        {
+          "id": "systematic-exam",
+          "name": "Systematic Exam",
+          "note": "Extraoral and intraoral exam completed in the taught order"
+        },
+        {
+          "id": "clean-intake",
+          "name": "Clean Intake",
+          "note": "No corrections anywhere in the visit"
+        },
+        {
+          "id": "steady-scan",
+          "name": "Steady Scan",
+          "note": "The intraoral scan held clean without a break"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Intake complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=patient-intake-screening"
+    },
+    {
+      "app": "smartcity",
       "id": "fluoride-and-sealants",
       "name": "Fluoride and Sealants",
       "title": "SmartCiti.X~ Fluoride and Sealants VR",
@@ -6940,7 +7205,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -7599,7 +7864,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
