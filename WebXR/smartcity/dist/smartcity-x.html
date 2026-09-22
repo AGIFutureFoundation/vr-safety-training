@@ -14472,6 +14472,132 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "motor-control-center",
+    "index": "188",
+    "domain": "Energy",
+    "trade": "Inside wireman — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW inside wireman; NFPA 70E arc-flash risk assessment and PPE category; OSHA 29 CFR 1910.147 control of hazardous energy and 1910.333 electrical safe work practices",
+    "name": "Motor Control Center",
+    "weather": "overcast",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Motor Control Center VR",
+    "tagline": "Racking a bucket out of a live motor control centre: label, PPE, disconnect, remote rack, proven dead, inspected, racked back in",
+    "accent": 15901243,
+    "accentCss": "#f2a23b",
+    "parSeconds": 255,
+    "badge": {
+      "id": "bucket-cleared",
+      "name": "Bucket Cleared",
+      "note": "A bucket racked out with the remote tool, proven dead, inspected and racked back in with nothing skipped"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Panel Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Panel Technician",
+        "Panel Lead",
+        "Panel Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "arc-flash-label-study",
+    "index": "189",
+    "domain": "Energy",
+    "trade": "Inside wireman — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW inside wireman; NFPA 70E-2021 arc-flash risk assessment and hazard labeling; NFPA 70 (National Electrical Code); ANSI Z535.4 safety sign and label format; OSHA 29 CFR 1910.132/.335 for the field verification",
+    "name": "Arc-Flash Label Study",
+    "weather": "overcast",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Arc-Flash Label Study VR",
+    "tagline": "One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted",
+    "accent": 8316671,
+    "accentCss": "#7ee6ff",
+    "parSeconds": 260,
+    "badge": {
+      "id": "label-issued",
+      "name": "Label Issued",
+      "note": "A label built from the actual study data, printed and placed on the panel it was calculated for"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Study Authority",
+      "currency": "CAL",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Field Data Tech",
+        "Study Lead",
+        "Study Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "temporary-site-power",
+    "index": "190",
+    "domain": "Energy",
+    "trade": "Inside wireman — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW inside wireman; OSHA 29 CFR 1926.404 (wiring design and protection) and 1926.405 (wiring methods, temporary wiring); NFPA 70 Article 590 temporary installations",
+    "name": "Temporary Site Power",
+    "weather": "rain",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Temporary Site Power VR",
+    "tagline": "Standing up construction power: panel grounded, GFCI on every receptacle, the AEGCP schedule, cords clear of traffic and water",
+    "accent": 5884283,
+    "accentCss": "#59c97b",
+    "parSeconds": 250,
+    "badge": {
+      "id": "site-power-certified",
+      "name": "Site Power Certified",
+      "note": "A temporary service grounded, GFCI-protected, AEGCP-current and walked clean at the end of the shift"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Power Authority",
+      "currency": "VOLT",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Site Electrician",
+        "Site Lead",
+        "Site Power Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -14508,7 +14634,9 @@ const CURRICULA = [
       { app: "smartcity", id: "substation-switching", why: "Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building." },
       { app: "smartcity", id: "line-truck", why: "Overhead: the same sequence with cover-up, an approach boundary and a bucket." },
       { app: "smartcity", id: "battery-yard", why: "Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline." },
-      // slot-ibew-1
+      { app: "smartcity", id: "motor-control-center", why: "Isolation inside the building again, but now the disconnect is not the whole story — the bucket still has to be racked off a bus that stays live for everyone else on the section." },
+      { app: "smartcity", id: "arc-flash-label-study", why: "Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this block has been working to." },
+      { app: "smartcity", id: "temporary-site-power", why: "The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it." },
     ],
   },
   {

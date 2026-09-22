@@ -29,7 +29,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "substation-switching", why: "Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building." },
       { app: "smartcity", id: "line-truck", why: "Overhead: the same sequence with cover-up, an approach boundary and a bucket." },
       { app: "smartcity", id: "battery-yard", why: "Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline." },
-      // slot-ibew-1
+      { app: "smartcity", id: "motor-control-center", why: "Isolation inside the building again, but now the disconnect is not the whole story — the bucket still has to be racked off a bus that stays live for everyone else on the section." },
+      { app: "smartcity", id: "arc-flash-label-study", why: "Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this block has been working to." },
+      { app: "smartcity", id: "temporary-site-power", why: "The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it." },
     ],
   },
   {

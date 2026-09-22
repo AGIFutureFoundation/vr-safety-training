@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 181
+      "stations": 184
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,9 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "temporary-site-power",
+        "arc-flash-label-study",
+        "motor-control-center",
         "pcb-equipment-removal",
         "gas-leak-survey",
         "wind-nacelle",
@@ -411,6 +414,21 @@
           "app": "smartcity",
           "id": "battery-yard",
           "why": "Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline."
+        },
+        {
+          "app": "smartcity",
+          "id": "motor-control-center",
+          "why": "Isolation inside the building again, but now the disconnect is not the whole story — the bucket still has to be racked off a bus that stays live for everyone else on the section."
+        },
+        {
+          "app": "smartcity",
+          "id": "arc-flash-label-study",
+          "why": "Where the label the first four stations all trusted actually comes from — the study, not a guess, behind every incident-energy number this block has been working to."
+        },
+        {
+          "app": "smartcity",
+          "id": "temporary-site-power",
+          "why": "The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5703,6 +5721,248 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "temporary-site-power",
+      "name": "Temporary Site Power",
+      "title": "SmartCiti.X~ Temporary Site Power VR",
+      "tagline": "Standing up construction power: panel grounded, GFCI on every receptacle, the AEGCP schedule, cords clear of traffic and water",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Inside wireman — IBEW",
+      "union": null,
+      "certification": "IBEW inside wireman; OSHA 29 CFR 1926.404 (wiring design and protection) and 1926.405 (wiring methods, temporary wiring); NFPA 70 Article 590 temporary installations",
+      "accent": "#59c97b",
+      "parSeconds": 250,
+      "weather": "rain",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "site-power-certified",
+        "name": "Site Power Certified",
+        "note": "A temporary service grounded, GFCI-protected, AEGCP-current and walked clean at the end of the shift"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "190",
+      "flat": false,
+      "system": "Site Power Authority",
+      "currency": "VOLT",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Site Electrician",
+        "Site Lead",
+        "Site Power Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "grounded-first",
+          "name": "Grounded First",
+          "note": "Never energised the panel before the grounding electrode was proven"
+        },
+        {
+          "id": "gfci-everywhere",
+          "name": "GFCI Everywhere",
+          "note": "Every receptacle tripped and reset clean, no exceptions"
+        },
+        {
+          "id": "quarter-precise",
+          "name": "Quarter Precise",
+          "note": "Held every test reading inside its band"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "test-held",
+          "name": "Test Held",
+          "note": "Never let a splice test drop before it read good"
+        },
+        {
+          "id": "service-up",
+          "name": "Service Up",
+          "note": "Panel energised and walked inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=temporary-site-power"
+    },
+    {
+      "app": "smartcity",
+      "id": "arc-flash-label-study",
+      "name": "Arc-Flash Label Study",
+      "title": "SmartCiti.X~ Arc-Flash Label Study VR",
+      "tagline": "One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Inside wireman — IBEW",
+      "union": null,
+      "certification": "IBEW inside wireman; NFPA 70E-2021 arc-flash risk assessment and hazard labeling; NFPA 70 (National Electrical Code); ANSI Z535.4 safety sign and label format; OSHA 29 CFR 1910.132/.335 for the field verification",
+      "accent": "#7ee6ff",
+      "parSeconds": 260,
+      "weather": "overcast",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "label-issued",
+        "name": "Label Issued",
+        "note": "A label built from the actual study data, printed and placed on the panel it was calculated for"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "189",
+      "flat": false,
+      "system": "Study Authority",
+      "currency": "CAL",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Field Data Tech",
+        "Study Lead",
+        "Study Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "traced-not-guessed",
+          "name": "Traced, Not Guessed",
+          "note": "Every number on the label traced to its own source document"
+        },
+        {
+          "id": "boundary-honest",
+          "name": "Boundary Honest",
+          "note": "Never approached inside a boundary the study had not yet set"
+        },
+        {
+          "id": "energy-precise",
+          "name": "Energy Precise",
+          "note": "Held the incident-energy calculation inside the study's band"
+        },
+        {
+          "id": "no-rework",
+          "name": "No Rework",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "reading-held",
+          "name": "Reading Held",
+          "note": "Never let a live reading drop before it was recorded"
+        },
+        {
+          "id": "study-closed",
+          "name": "Study Closed",
+          "note": "Label issued inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=arc-flash-label-study"
+    },
+    {
+      "app": "smartcity",
+      "id": "motor-control-center",
+      "name": "Motor Control Center",
+      "title": "SmartCiti.X~ Motor Control Center VR",
+      "tagline": "Racking a bucket out of a live motor control centre: label, PPE, disconnect, remote rack, proven dead, inspected, racked back in",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Inside wireman — IBEW",
+      "union": null,
+      "certification": "IBEW inside wireman; NFPA 70E arc-flash risk assessment and PPE category; OSHA 29 CFR 1910.147 control of hazardous energy and 1910.333 electrical safe work practices",
+      "accent": "#f2a23b",
+      "parSeconds": 255,
+      "weather": "overcast",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "hold",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "bucket-cleared",
+        "name": "Bucket Cleared",
+        "note": "A bucket racked out with the remote tool, proven dead, inspected and racked back in with nothing skipped"
+      },
+      "meshes": 181,
+      "lights": 0,
+      "overBudget": false,
+      "index": "188",
+      "flat": false,
+      "system": "Panel Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Apprentice Wireman",
+        "Journeyman Wireman",
+        "Panel Technician",
+        "Panel Lead",
+        "Panel Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "label-read",
+          "name": "Label Read",
+          "note": "PPE selected from the bucket's own arc-flash label, every time"
+        },
+        {
+          "id": "hands-clear",
+          "name": "Hands Clear",
+          "note": "Never reached into a bucket that was not proven dead"
+        },
+        {
+          "id": "torque-steady",
+          "name": "Torque Steady",
+          "note": "Held the racking crank smooth through the full travel"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "crank-held",
+          "name": "Crank Held",
+          "note": "Never let the racking tool slip mid-travel"
+        },
+        {
+          "id": "section-back",
+          "name": "Section Back",
+          "note": "Bucket restored inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=motor-control-center"
     },
     {
       "app": "smartcity",
@@ -12081,7 +12341,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "92",
