@@ -285,6 +285,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "patient-intake-screening", why: "The shared first ten minutes: every dental career starts by reading the history and taking the vitals the same way." },
       // slot-dc-1
       // slot-dc-2
+      // slot-dc-3
     ],
   },
   {
