@@ -2,6 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   mat, HUD, markInteractive, gradientFill, noiseTexture, grimeOverlay,
+  figureLook, personHead, personTorso, personLegs, personArm,
 } from "../../shared/kit.js";
 
 // SmartCity.X asset kit — the pieces every station is assembled from.
@@ -418,7 +419,18 @@ export function instrument(parent, x, y, z, o = {}) {
   return g;
 }
 
-/** Standing figure — casualties, bystanders, crew members. */
+/**
+ * Standing figure — casualties, bystanders, crew members.
+ *
+ * Built from the shared figure parts in shared/kit.js, so a SmartCiti.X crew
+ * member and a Trade Skills bay hand are the same person in different work
+ * dress. Thirteen meshes bare, which is what the old block-and-ball stand-in
+ * cost: see the people section of kit.js for where each one goes.
+ *
+ * `skin` and `seed` are optional — left alone, the figure takes a skin tone,
+ * a hair colour and one of six faces from its own position, so a crew of six
+ * is six people rather than one person six times.
+ */
 export function standingFigure(parent, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   // Tag them the way the trades bays tag theirs, so tools/check_layout.mjs
@@ -430,29 +442,27 @@ export function standingFigure(parent, x, z, o = {}) {
   // meant to be where they are; everyone else is standing somewhere and has to
   // be standing somewhere real.
   if (!o.lying && !o.atStation) g.userData.crew = true;
-  const skin = o.skin ?? 0xc99878;
+  const look = figureLook(o, x, z);
   const cloth = o.cloth ?? 0x37505f;
+  const trousers = o.trousers ?? 0x2f3740;
   const lying = !!o.lying;
   const body = group(g, 0, 0, 0);
   if (lying) { body.rotation.x = -Math.PI / 2; body.position.set(0, 0.16, 0); }
-  box(body, 0.36, 0.52, 0.22, 0, 1.05, 0, cloth, { rough: 0.9 });
-  box(body, 0.32, 0.14, 0.22, 0, 0.75, 0, cloth, { rough: 0.9 });
-  for (const sx of [-1, 1]) {
-    cyl(body, 0.065, 0.06, 0.7, sx * 0.1, 0.35, 0, o.trousers ?? 0x2f3740, { rough: 0.9, seg: 10 });
-    box(body, 0.1, 0.06, 0.2, sx * 0.1, 0.03, 0.05, 0x1b1e22, { rough: 0.85 });
-    cyl(body, 0.05, 0.045, 0.55, sx * 0.24, 1.02, 0, cloth, { rough: 0.9, seg: 10 });
-    ball(body, 0.045, sx * 0.24, 0.73, 0.02, skin, { rough: 0.75, seg: 12 });
-  }
-  cyl(body, 0.05, 0.055, 0.1, 0, 1.36, 0, skin, { rough: 0.75, seg: 12 });
+  personTorso(body, {
+    cloth, trousers, harness: o.harness,
+    // A hi-vis vest is the garment worn over the shirt, so it takes the
+    // torso's colour instead of costing a second shell around it, and the two
+    // reflective bands across it are the one mesh that is added.
+    jacket: o.vest ?? cloth,
+    vis: o.vest ? (o.bands ?? 0xdfe8ee) : null,
+    ei: 0.45,
+  });
+  personLegs(body, { trousers });
   const head = group(body, 0, 1.5, 0);
-  ball(head, 0.115, 0, 0, 0, skin, { rough: 0.75, seg: 18 });
-  box(head, 0.16, 0.1, 0.1, 0, -0.05, 0.05, skin, { rough: 0.75 });
-  if (o.helmet) {
-    lathe(head, [[0.001, 0.05], [0.09, 0.06], [0.125, 0.02], [0.13, 0.0], [0.001, 0.0]], 0, 0.05, 0,
-      o.helmet, { rough: 0.4, seg: 16 });
-    box(head, 0.2, 0.02, 0.1, 0, 0.05, 0.09, o.helmet, { rough: 0.4 });
+  personHead(head, { look, k: 0.9, helmet: o.helmet, respirator: o.respirator });
+  for (const sx of [-1, 1]) {
+    personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves });
   }
-  if (o.vest) box(body, 0.38, 0.46, 0.24, 0, 1.05, 0, o.vest, { rough: 0.85 });
   g.userData.head = head;
   g.userData.body = body;
   return g;
