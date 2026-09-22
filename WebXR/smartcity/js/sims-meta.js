@@ -4881,5 +4881,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "knife-skills",
+    "index": "101",
+    "domain": "Food service",
+    "trade": "Prep cook",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 — hospitality and food service; the FDA Food Code as adopted in the California Retail Food Code; California Food Handler card and ServSafe Food Protection Manager; Cal/OSHA General Industry Safety Orders; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 2 food-contact equipment for the boards and prep surfaces",
+    "name": "Knife Skills",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Knife Skills VR",
+    "tagline": "Board anchored, edge honed, claw grip, the cut-resistant glove on the mandoline, and a clean sanitised close",
+    "accent": 15249454,
+    "accentCss": "#e8b02e",
+    "parSeconds": 230,
+    "badge": {
+      "id": "clean-board",
+      "name": "Clean Board",
+      "note": "A full prep run with the edge honed, the glove on for the mandoline, and nothing left in the sink"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Board Authority",
+      "currency": "DICE",
+      "ranks": [
+        "Dish Hand",
+        "Prep Cook",
+        "Line Cook",
+        "Lead Prep",
+        "Board Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "slicer-lockout",
+    "index": "102",
+    "domain": "Food service",
+    "trade": "Deli / prep cook",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 — hospitality and food service; Cal/OSHA General Industry Safety Orders; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 8 commercial food slicer sanitation",
+    "name": "Slicer Lockout",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Slicer Lockout VR",
+    "tagline": "Cord locked before the guard comes off, the blade cleaned gloved and edge-away, sanitiser contact time, and the interlock proven before the plug goes back in",
+    "accent": 14242378,
+    "accentCss": "#d9524a",
+    "parSeconds": 235,
+    "badge": {
+      "id": "blade-secured",
+      "name": "Blade Secured",
+      "note": "A full changeover clean with the cord locked out first and the interlock proven before power came back"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lockout Authority",
+      "currency": "AMP",
+      "ranks": [
+        "Dish Hand",
+        "Deli Cook",
+        "Line Lead",
+        "Kitchen Supervisor",
+        "Lockout Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bakery-mixer",
+    "index": "103",
+    "domain": "Food service",
+    "trade": "Baker",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 — hospitality and food service; AFSCME and SEIU school and hospital food service; Cal/OSHA General Industry Safety Orders; OSHA 29 CFR 1910.212 machine guarding; OSHA 29 CFR 1910.147 control of hazardous energy; NSF/ANSI 8 commercial mixer sanitation",
+    "name": "Bakery Mixer",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Bakery Mixer VR",
+    "tagline": "Bowl guard proven, the lift locked, the attachment pinned, ingredients through the chute, and the mixer stopped before anything comes near the bowl",
+    "accent": 13209946,
+    "accentCss": "#c9915a",
+    "parSeconds": 240,
+    "badge": {
+      "id": "guard-proven",
+      "name": "Guard Proven",
+      "note": "A full batch with the guard interlock proven, the lift locked, and every scrape done on a stopped machine"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Mixer Authority",
+      "currency": "BATCH",
+      "ranks": [
+        "Dish Hand",
+        "Baker's Helper",
+        "Mixer Operator",
+        "Lead Baker",
+        "Mixer Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -41,7 +41,8 @@ const CATEGORY_ORDER = [
   "Connectivity & Telecom", "Building Systems & Facilities",
   "Construction & Structural Trades", "Manufacturing & Automation",
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
-  "Environmental Monitoring",
+  "Environmental Monitoring", "Surface Prep & Coatings", "Culinary & Hospitality",
+  "Dental & Oral Health",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all

@@ -405,6 +405,53 @@ function dredge(g, x, z, ry = 0) {
   return { d, slew, line, bucket };
 }
 
+
+/** A restaurant row for the hospitality horizon: a low brick block with lit
+ *  awnings and a kitchen exhaust fan, and a loading yard with a reefer van
+ *  backed to the dock — the back-of-house side of the trade, where deliveries
+ *  are received and the grease interceptor is pumped. */
+function restaurantRow(g, x, z, ry = 0) {
+  const s = group(g, x, -1.5, z, ry);
+  box(s, 22, 7, 9, 0, 3.5, 0, 0x5a4034, { rough: 0.9, metal: 0.05, cast: false, receive: false });
+  for (let i = 0; i < 4; i++) {
+    const ax = -8 + i * 5.3;
+    const awn = box(s, 4.2, 0.12, 1.6, ax, 3.1, -5.2, i % 2 ? 0xb8862b : 0x8a2b2b, { emissive: i % 2 ? 0xb8862b : 0x8a2b2b, ei: 0.35, rough: 0.8, cast: false, receive: false });
+    awn.rotation.x = 0.28;
+    box(s, 3.6, 2.1, 0.08, ax, 1.55, -4.55, 0xffd9a0, { emissive: 0xffd9a0, ei: 0.9, rough: 0.3, cast: false, receive: false });
+  }
+  cyl(s, 0.9, 0.9, 1.2, 6, 7.6, 1.5, 0x8b98a5, { rough: 0.6, metal: 0.5, cast: false, receive: false });
+  const fan = cyl(s, 0.7, 0.7, 0.1, 6, 8.25, 1.5, 0x3a434d, { rough: 0.5, metal: 0.6, cast: false, receive: false });
+  // Loading yard: dock, reefer van, crates.
+  box(s, 8, 1.1, 3, 14.5, 0.55, 1.5, 0x4a5561, { rough: 0.85, cast: false, receive: false });
+  box(s, 6.2, 2.6, 2.5, 15.5, 2.4, 4.6, 0xdfe6ea, { rough: 0.5, metal: 0.3, cast: false, receive: false });
+  box(s, 1.8, 1.9, 2.3, 19.6, 2.0, 4.6, 0x2b3542, { rough: 0.5, metal: 0.4, cast: false, receive: false });
+  for (let i = 0; i < 3; i++) box(s, 0.9, 0.7, 0.9, 11.6 + i * 1.1, 1.45, 0.9, 0x3b7bbf, { rough: 0.9, cast: false, receive: false });
+  return { s, fan };
+}
+
+/** A community clinic block for the dental horizon: a pale two-storey
+ *  building with a lit cross and ribbon windows, a covered entrance, and the
+ *  outreach van parked beside it with its awning out. */
+function clinicBlock(g, x, z, ry = 0) {
+  const s = group(g, x, -1.5, z, ry);
+  box(s, 20, 9, 10, 0, 4.5, 0, 0xcfd6dc, { rough: 0.8, metal: 0.05, cast: false, receive: false });
+  for (let f = 0; f < 2; f++) box(s, 17, 1.3, 0.08, 0, 2.6 + f * 3.6, -5.05, 0x9fd8ff, { emissive: 0x9fd8ff, ei: 0.55, rough: 0.3, cast: false, receive: false });
+  box(s, 6, 0.2, 3.2, -4, 3.1, -6.4, 0x8b98a5, { rough: 0.6, metal: 0.4, cast: false, receive: false });
+  cyl(s, 0.12, 0.12, 3.0, -6.6, 1.55, -7.7, 0x8b98a5, { rough: 0.6, metal: 0.5, cast: false, receive: false });
+  cyl(s, 0.12, 0.12, 3.0, -1.4, 1.55, -7.7, 0x8b98a5, { rough: 0.6, metal: 0.5, cast: false, receive: false });
+  const cross = group(s, 6, 8.2, -5.15);
+  const a = box(cross, 1.6, 0.5, 0.1, 0, 0, 0, 0x4fd6a5, { emissive: 0x4fd6a5, ei: 1.6, rough: 0.3, cast: false, receive: false });
+  const b = box(cross, 0.5, 1.6, 0.1, 0, 0, 0, 0x4fd6a5, { emissive: 0x4fd6a5, ei: 1.6, rough: 0.3, cast: false, receive: false });
+  own(a); own(b);
+  // Outreach van with its awning out.
+  box(s, 6.4, 2.7, 2.4, 14.5, 1.9, -2, 0xf2f4f6, { rough: 0.45, metal: 0.3, cast: false, receive: false });
+  box(s, 1.7, 1.6, 2.3, 18.5, 1.35, -2, 0x2b3542, { rough: 0.5, metal: 0.4, cast: false, receive: false });
+  box(s, 5.6, 0.5, 0.06, 14.5, 2.4, -3.22, 0x4fd6a5, { rough: 0.7, cast: false, receive: false });
+  const awn = box(s, 5.8, 0.08, 2.4, 14.5, 3.1, -4.4, 0xdfe6ea, { rough: 0.8, cast: false, receive: false });
+  awn.rotation.x = 0.12;
+  return { s, cross: [a, b] };
+}
+
 // ------------------------------------------------------------------ table
 
 const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
@@ -581,6 +628,27 @@ export const DISTRICTS = {
         const reg = Math.sin(t * 0.22) > 0.7;
         dehu.material.emissive.setHex(reg ? 0xf2c14b : 0x59c97b);
         dehu.material.emissiveIntensity = reg ? 2.0 : 1.4;
+      };
+    },
+  },
+  "Culinary & Hospitality": {
+    sky: 0x0d0906, fog: 0x14100c, hemi: [0x9a8770, 0x1c1410], mast: 0xffd9a0,
+    build(g) {
+      flood(g, 0, 12, -22, 0xffd9a0, 1.2);
+      const row = restaurantRow(g, -4, -27, 0.05);
+      shed(g, 26, -24, 10, 8, -0.4, 2);
+      return (t) => { row.fan.rotation.y = t * 6; };
+    },
+  },
+  "Dental & Oral Health": {
+    sky: 0x070c10, fog: 0x0b1116, hemi: [0x7f9aa6, 0x141c20], mast: 0xe6f4f0,
+    build(g) {
+      flood(g, 0, 12, -22, 0xe6f4f0, 1.1);
+      const clinic = clinicBlock(g, -2, -28, -0.04);
+      monopole(g, 24, -26, 10);
+      return (t) => {
+        const ei = 1.3 + Math.sin(t * 1.6) * 0.35;
+        for (const m of clinic.cross) m.material.emissiveIntensity = ei;
       };
     },
   },
