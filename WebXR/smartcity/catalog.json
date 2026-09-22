@@ -1806,14 +1806,16 @@
         "select",
         "turn",
         "gauge",
-        "sequence"
+        "sequence",
+        "drag",
+        "find"
       ],
       "badge": {
         "id": "possession-clear",
         "name": "Possession Clear",
         "note": "Full possession taken and handed back with nothing skipped"
       },
-      "meshes": 135,
+      "meshes": 139,
       "lights": 0,
       "overBudget": false,
       "index": "07",
@@ -2045,21 +2047,23 @@
       "weather": "clear",
       "indoor": "plant",
       "district": null,
-      "steps": 12,
+      "steps": 13,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
         "select",
         "gauge",
         "turn",
-        "sequence"
+        "sequence",
+        "drag",
+        "find"
       ],
       "badge": {
         "id": "cold-chain-clear",
         "name": "Cold Chain Clear",
         "note": "Full isolation and recovery with atmosphere proven safe"
       },
-      "meshes": 93,
+      "meshes": 126,
       "lights": 0,
       "overBudget": false,
       "index": "10",
@@ -2788,11 +2792,13 @@
       "weather": "overcast",
       "indoor": null,
       "district": null,
-      "steps": 15,
+      "steps": 16,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
         "select",
+        "drag",
+        "find",
         "gauge",
         "turn",
         "sequence",
@@ -2803,7 +2809,7 @@
         "name": "Storm Ready",
         "note": "Full de-energized procedure with rubber proven and grounds applied in order"
       },
-      "meshes": 128,
+      "meshes": 131,
       "lights": 0,
       "overBudget": false,
       "index": "19",
@@ -8795,7 +8801,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -13237,21 +13243,24 @@
       "weather": "clear",
       "indoor": null,
       "district": null,
-      "steps": 9,
-      "hazards": 3,
-      "interrupts": 1,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
       "stepKinds": [
         "select",
+        "find",
+        "drag",
         "turn",
         "gauge",
-        "sequence"
+        "sequence",
+        "hold"
       ],
       "badge": {
         "id": "zero-energy",
         "name": "Zero Energy Verified",
         "note": "Perfect live-dead-live on the first run"
       },
-      "meshes": 291,
+      "meshes": 305,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=electrical"

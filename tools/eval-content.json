@@ -50,888 +50,8 @@
         },
         "originality": {
           "score": 1,
-          "nearest": "building-rad-scan",
-          "similarity": 0.1355421686746988
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "stormwater-outfall",
-      "name": "Stormwater Outfall",
-      "steps": 11,
-      "score": 84,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.7363636363636363,
-          "hazards": 4,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 0.575,
-          "medianWhy": 165,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 8,
-          "got": 8
-        },
-        "scene": {
-          "score": 0.8675,
-          "meshes": 127,
-          "materials": 70,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.7396039603960397,
-          "nearest": "sampling-well",
-          "similarity": 0.19207920792079208
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "battery-yard",
-      "name": "Battery Yard",
-      "steps": 12,
-      "score": 85,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.6833333333333333,
-          "hazards": 4,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 0.605,
-          "medianWhy": 171,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 8,
-          "got": 8
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 207,
-          "materials": 85,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.7281030444964872,
-          "nearest": "substation-switching",
-          "similarity": 0.19437939110070257
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "confined-rescue",
-      "name": "Confined Rescue",
-      "steps": 11,
-      "score": 85,
-      "d": {
-        "variety": {
-          "score": 0.7,
-          "distinct": 4,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9863636363636363,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.6200000000000001,
-          "medianWhy": 174,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.9349999999999999,
-          "meshes": 154,
-          "materials": 72,
-          "interactables": 25
-        },
-        "originality": {
-          "score": 0.6810426540284361,
-          "nearest": "valve-vault",
-          "similarity": 0.2037914691943128
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "airport-ramp",
-      "name": "Airport Ramp",
-      "steps": 11,
-      "score": 85,
-      "d": {
-        "variety": {
-          "score": 0.8500000000000001,
-          "distinct": 5,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.515,
-          "medianWhy": 153,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.75,
-          "authorities": 3
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.9925,
-          "meshes": 177,
-          "materials": 64,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.9434782608695653,
-          "nearest": "rcl-switching",
-          "similarity": 0.15130434782608695
-        }
-      }
-    },
-    {
-      "app": "trades",
-      "id": "electrical",
-      "name": "Isolation Bay",
-      "steps": 9,
-      "score": 85,
-      "d": {
-        "variety": {
-          "score": 0.6375,
-          "distinct": 4,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.7583333333333333,
-          "hazards": 3,
-          "interrupts": 1
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 297,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 4,
-          "got": 4
-        },
-        "scene": {
-          "score": 0.8568181818181818,
-          "meshes": 290,
-          "materials": 121,
-          "interactables": 13
-        },
-        "originality": {
-          "score": 0.6509306260575296,
-          "nearest": "elevator-pit",
-          "similarity": 0.2098138747884941
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "track-access",
-      "name": "Track Access",
-      "steps": 12,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 0.575,
-          "distinct": 4,
-          "longestRun": 4
-        },
-        "decisions": {
-          "score": 0.9333333333333333,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9550000000000001,
-          "medianWhy": 241,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 6,
-          "got": 6
-        },
-        "scene": {
-          "score": 0.7920454545454546,
-          "meshes": 135,
-          "materials": 51,
-          "interactables": 16
-        },
-        "originality": {
-          "score": 0.5879736408566723,
-          "nearest": "rcl-switching",
-          "similarity": 0.22240527182866557
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "chiller-plant",
-      "name": "Chiller Plant",
-      "steps": 12,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 0.575,
-          "distinct": 4,
-          "longestRun": 4
-        },
-        "decisions": {
-          "score": 0.9333333333333333,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 269,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 7,
-          "got": 7
-        },
-        "scene": {
-          "score": 0.6820454545454545,
-          "meshes": 91,
-          "materials": 51,
-          "interactables": 16
-        },
-        "originality": {
-          "score": 0.5972809667673717,
-          "nearest": "ammonia-plant",
-          "similarity": 0.22054380664652568
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "line-truck",
-      "name": "Line Truck",
-      "steps": 15,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 0.7875000000000001,
-          "distinct": 5,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.8166666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.8049999999999999,
-          "medianWhy": 211,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.87,
-          "meshes": 128,
-          "materials": 67,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.6225352112676058,
-          "nearest": "aerial-lashing",
-          "similarity": 0.21549295774647886
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "air-monitor",
-      "name": "Perimeter Air",
-      "steps": 10,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.7999999999999999,
-          "hazards": 4,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 0.5700000000000001,
-          "medianWhy": 164,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "feedback": {
-          "score": 1,
-          "want": 5,
-          "got": 5
-        },
-        "scene": {
-          "score": 0.8979545454545454,
-          "meshes": 171,
-          "materials": 66,
-          "interactables": 17
-        },
-        "originality": {
-          "score": 0.6665354330708663,
-          "nearest": "mobile-air-lab",
-          "similarity": 0.20669291338582677
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "press-brake",
-      "name": "Press Brake",
-      "steps": 12,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.45,
-          "medianWhy": 140,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.7088636363636364,
-          "meshes": 89,
-          "materials": 49,
-          "interactables": 18
-        },
-        "originality": {
-          "score": 0.7744101633393831,
-          "nearest": "rcl-switching",
-          "similarity": 0.1851179673321234
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "lift-station",
-      "name": "Lift Station",
-      "steps": 10,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.43,
-          "medianWhy": 136,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.7297727272727272,
-          "meshes": 91,
-          "materials": 52,
-          "interactables": 19
-        },
-        "originality": {
-          "score": 0.7104166666666668,
-          "nearest": "ammonia-plant",
-          "similarity": 0.19791666666666666
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "concrete-pour",
-      "name": "Concrete Pour",
-      "steps": 12,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.6833333333333333,
-          "hazards": 4,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 0.635,
-          "medianWhy": 177,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 8,
-          "got": 8
-        },
-        "scene": {
-          "score": 0.975,
-          "meshes": 170,
-          "materials": 77,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.8711229946524065,
-          "nearest": "post-tension",
-          "similarity": 0.1657754010695187
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "pyro-cue",
-      "name": "Pyro Cue",
-      "steps": 15,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.895,
-          "medianWhy": 229,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 0.9230769230769231,
-          "want": 13,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9774999999999999,
-          "meshes": 171,
-          "materials": 80,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.5625204582651392,
-          "nearest": "arena-rigging",
-          "similarity": 0.22749590834697217
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "substation-switching",
-      "name": "Substation Switching",
-      "steps": 11,
-      "score": 87,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.45,
-          "medianWhy": 140,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.8881818181818182,
-          "meshes": 148,
-          "materials": 62,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.6761431411530816,
-          "nearest": "track-access",
-          "similarity": 0.2047713717693837
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "cooling-tower",
-      "name": "Cooling Tower",
-      "steps": 11,
-      "score": 87,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.7363636363636363,
-          "hazards": 4,
-          "interrupts": 0
-        },
-        "explanation": {
-          "score": 0.595,
-          "medianWhy": 169,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "feedback": {
-          "score": 1,
-          "want": 7,
-          "got": 7
-        },
-        "scene": {
-          "score": 0.9625,
-          "meshes": 165,
-          "materials": 83,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.9616822429906543,
-          "nearest": "isco-injection",
-          "similarity": 0.14766355140186915
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "wvpp-panic-button",
-      "name": "WVPP & Panic Button",
-      "steps": 13,
-      "score": 87,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.875,
-          "medianWhy": 225,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9249999999999999,
-          "meshes": 150,
-          "materials": 63,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6481946624803769,
-          "nearest": "patron-deescalation",
-          "similarity": 0.21036106750392464
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hazmat-entry",
-      "name": "Hazmat Entry",
-      "steps": 14,
-      "score": 87,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.675,
-          "medianWhy": 185,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "feedback": {
-          "score": 0.7142857142857143,
-          "want": 14,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 227,
-          "materials": 78,
-          "interactables": 25
-        },
-        "originality": {
-          "score": 0.5667820069204152,
-          "nearest": "decon-line",
-          "similarity": 0.22664359861591696
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "robot-cell",
-      "name": "Robot Cell",
-      "steps": 14,
-      "score": 89,
-      "d": {
-        "variety": {
-          "score": 0.7875000000000001,
-          "distinct": 5,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.85,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 299,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 8,
-          "got": 8
-        },
-        "scene": {
-          "score": 0.7713636363636364,
-          "meshes": 114,
-          "materials": 55,
-          "interactables": 18
-        },
-        "originality": {
-          "score": 0.5712121212121213,
-          "nearest": "elevator-pit",
-          "similarity": 0.22575757575757577
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "chlorine-room",
-      "name": "Chlorine Room",
-      "steps": 12,
-      "score": 89,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.545,
-          "medianWhy": 159,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.8965909090909091,
-          "meshes": 145,
-          "materials": 71,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.6528795811518325,
-          "nearest": "keg-cellar-co2",
-          "similarity": 0.2094240837696335
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "tip-pool-labor",
-      "name": "Tip Pool & Labor",
-      "steps": 14,
-      "score": 89,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 255,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 212,
-          "materials": 72,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.6031339031339031,
-          "nearest": "till-drop-robbery",
-          "similarity": 0.21937321937321938
+          "nearest": "air-monitor",
+          "similarity": 0.13761467889908258
         }
       }
     },
@@ -973,9 +93,9 @@
           "interactables": 17
         },
         "originality": {
-          "score": 0.7902872777017784,
-          "nearest": "grain-bin",
-          "similarity": 0.18194254445964433
+          "score": 0.737433155080214,
+          "nearest": "line-truck",
+          "similarity": 0.1925133689839572
         }
       }
     },
@@ -1149,9 +269,9 @@
           "interactables": 19
         },
         "originality": {
-          "score": 0.7175953079178887,
-          "nearest": "elevator-pit",
-          "similarity": 0.19648093841642228
+          "score": 0.7056818181818183,
+          "nearest": "electrical",
+          "similarity": 0.19886363636363635
         }
       }
     },
@@ -1457,9 +577,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6753320683111955,
-          "nearest": "electrical",
-          "similarity": 0.2049335863377609
+          "score": 0.6858906525573194,
+          "nearest": "substation-switching",
+          "similarity": 0.20282186948853614
         }
       }
     },
@@ -1589,9 +709,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.6031339031339031,
+          "score": 0.6175977653631285,
           "nearest": "tip-pool-labor",
-          "similarity": 0.21937321937321938
+          "similarity": 0.2164804469273743
         }
       }
     },
@@ -1981,7 +1101,7 @@
         "scene": {
           "score": 0.9249999999999999,
           "meshes": 150,
-          "materials": 75,
+          "materials": 74,
           "interactables": 22
         },
         "originality": {
@@ -2212,6 +1332,50 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "rcl-switching",
+      "name": "RCL Switching",
+      "steps": 15,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 0.8333333333333334,
+          "want": 12,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 260,
+          "materials": 102,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5114104595879557,
+          "nearest": "track-access",
+          "similarity": 0.23771790808240886
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "salon",
       "name": "Colour Studio",
@@ -2301,6 +1465,94 @@
     },
     {
       "app": "smartcity",
+      "id": "boiler-room",
+      "name": "Boiler Room",
+      "steps": 12,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9333333333333333,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 322,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7595454545454546,
+          "meshes": 122,
+          "materials": 54,
+          "interactables": 16
+        },
+        "originality": {
+          "score": 0.6183381088825215,
+          "nearest": "chiller-plant",
+          "similarity": 0.2163323782234957
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "line-truck",
+      "name": "Line Truck",
+      "steps": 16,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.8875,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 362,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.8775000000000001,
+          "meshes": 131,
+          "materials": 70,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5639281129653403,
+          "nearest": "aerial-lashing",
+          "similarity": 0.22721437740693196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "chain-hoist",
       "name": "Chain Hoist",
       "steps": 10,
@@ -2340,6 +1592,50 @@
           "score": 0.5648180242634316,
           "nearest": "arena-rigging",
           "similarity": 0.2270363951473137
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "wvpp-panic-button",
+      "name": "WVPP & Panic Button",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.875,
+          "medianWhy": 225,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9249999999999999,
+          "meshes": 150,
+          "materials": 63,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6457364341085272,
+          "nearest": "patron-deescalation",
+          "similarity": 0.21085271317829457
         }
       }
     },
@@ -2741,50 +2037,6 @@
     },
     {
       "app": "smartcity",
-      "id": "rcl-switching",
-      "name": "RCL Switching",
-      "steps": 15,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 280,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 0.8333333333333334,
-          "want": 12,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 260,
-          "materials": 102,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.5879736408566723,
-          "nearest": "track-access",
-          "similarity": 0.22240527182866557
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "hot-tap",
       "name": "Hot Tap",
       "steps": 15,
@@ -2873,6 +2125,50 @@
     },
     {
       "app": "smartcity",
+      "id": "pyro-cue",
+      "name": "Pyro Cue",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9299999999999999,
+          "medianWhy": 236,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 0.9230769230769231,
+          "want": 13,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9774999999999999,
+          "meshes": 171,
+          "materials": 80,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6723926380368098,
+          "nearest": "ust-removal",
+          "similarity": 0.20552147239263804
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "data-hall",
       "name": "Data Hall",
       "steps": 12,
@@ -2909,17 +2205,17 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.7393700787401576,
-          "nearest": "charge-point",
-          "similarity": 0.1921259842519685
+          "score": 0.6842381786339755,
+          "nearest": "substation-switching",
+          "similarity": 0.2031523642732049
         }
       }
     },
     {
       "app": "smartcity",
-      "id": "boiler-room",
-      "name": "Boiler Room",
-      "steps": 12,
+      "id": "robot-cell",
+      "name": "Robot Cell",
+      "steps": 14,
       "score": 95,
       "d": {
         "variety": {
@@ -2928,18 +2224,18 @@
           "longestRun": 2
         },
         "decisions": {
-          "score": 0.9333333333333333,
+          "score": 0.85,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 322,
+          "medianWhy": 299,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 4
         },
         "feedback": {
           "score": 1,
@@ -2947,15 +2243,103 @@
           "got": 9
         },
         "scene": {
-          "score": 0.7595454545454546,
-          "meshes": 122,
-          "materials": 54,
-          "interactables": 16
+          "score": 0.9681818181818183,
+          "meshes": 198,
+          "materials": 84,
+          "interactables": 20
         },
         "originality": {
-          "score": 0.6562043795620439,
-          "nearest": "kitchen-gas-shutoff",
-          "similarity": 0.20875912408759123
+          "score": 0.5780120481927712,
+          "nearest": "elevator-pit",
+          "similarity": 0.22439759036144577
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "chiller-plant",
+      "name": "Chiller Plant",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 277,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.7963636363636364,
+          "meshes": 124,
+          "materials": 65,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.5243831640058056,
+          "nearest": "ammonia-plant",
+          "similarity": 0.2351233671988389
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-line",
+      "name": "Decon Line",
+      "steps": 11,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 388,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.895,
+          "meshes": 138,
+          "materials": 69,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.48157503714710265,
+          "nearest": "hazmat-entry",
+          "similarity": 0.2436849925705795
         }
       }
     },
@@ -3613,9 +2997,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.5625204582651392,
-          "nearest": "pyro-cue",
-          "similarity": 0.22749590834697217
+          "score": 0.5648180242634316,
+          "nearest": "chain-hoist",
+          "similarity": 0.2270363951473137
         }
       }
     },
@@ -3789,9 +3173,53 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.5730569948186529,
-          "nearest": "gas-leak-survey",
-          "similarity": 0.22538860103626943
+          "score": 0.5243831640058056,
+          "nearest": "chiller-plant",
+          "similarity": 0.2351233671988389
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access",
+      "name": "Track Access",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 290,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.8338636363636365,
+          "meshes": 139,
+          "materials": 54,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.5114104595879557,
+          "nearest": "rcl-switching",
+          "similarity": 0.23771790808240886
         }
       }
     },
@@ -3877,9 +3305,9 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.6252948885976409,
-          "nearest": "grain-bin",
-          "similarity": 0.21494102228047182
+          "score": 0.5703465982028242,
+          "nearest": "line-truck",
+          "similarity": 0.22593068035943517
         }
       }
     },
@@ -3921,9 +3349,9 @@
           "interactables": 18
         },
         "originality": {
-          "score": 0.5712121212121213,
-          "nearest": "robot-cell",
-          "similarity": 0.22575757575757577
+          "score": 0.5639652677279307,
+          "nearest": "electrical",
+          "similarity": 0.2272069464544139
         }
       }
     },
@@ -3973,50 +3401,6 @@
     },
     {
       "app": "smartcity",
-      "id": "decon-line",
-      "name": "Decon Line",
-      "steps": 11,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 388,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.895,
-          "meshes": 138,
-          "materials": 69,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.5667820069204152,
-          "nearest": "hazmat-entry",
-          "similarity": 0.22664359861591696
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "bus-depot-lift",
       "name": "Bus Depot Lift",
       "steps": 10,
@@ -4053,9 +3437,9 @@
           "interactables": 17
         },
         "originality": {
-          "score": 0.7309446254071662,
-          "nearest": "elevator-pit",
-          "similarity": 0.19381107491856678
+          "score": 0.6951377633711509,
+          "nearest": "battery-yard",
+          "similarity": 0.20097244732576985
         }
       }
     },
@@ -4144,6 +3528,50 @@
           "score": 0.6673913043478261,
           "nearest": "dredge-barge",
           "similarity": 0.20652173913043478
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tip-pool-labor",
+      "name": "Tip Pool & Labor",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 212,
+          "materials": 72,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6175977653631285,
+          "nearest": "till-drop-robbery",
+          "similarity": 0.2164804469273743
         }
       }
     },
@@ -4677,6 +4105,50 @@
     },
     {
       "app": "smartcity",
+      "id": "mobile-air-lab",
+      "name": "Mobile Air Lab",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 197,
+          "materials": 83,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4645107794361526,
+          "nearest": "air-monitor",
+          "similarity": 0.2470978441127695
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "grill-line-burns",
       "name": "Grill Line Burns",
       "steps": 13,
@@ -4940,6 +4412,50 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "hazmat-entry",
+      "name": "Hazmat Entry",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 259,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 227,
+          "materials": 78,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.48157503714710265,
+          "nearest": "decon-line",
+          "similarity": 0.2436849925705795
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -5021,9 +4537,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.765620542082739,
-          "nearest": "fly-system",
-          "similarity": 0.18687589158345222
+          "score": 0.7652173913043478,
+          "nearest": "pyro-cue",
+          "similarity": 0.18695652173913044
         }
       }
     },
@@ -5073,6 +4589,138 @@
     },
     {
       "app": "smartcity",
+      "id": "air-monitor",
+      "name": "Perimeter Air",
+      "steps": 10,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 318,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9522727272727273,
+          "meshes": 202,
+          "materials": 71,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.4645107794361526,
+          "nearest": "mobile-air-lab",
+          "similarity": 0.2470978441127695
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake",
+      "name": "Press Brake",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 313,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8738636363636364,
+          "meshes": 155,
+          "materials": 81,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.6482200647249192,
+          "nearest": "cnc-cell",
+          "similarity": 0.21035598705501618
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lift-station",
+      "name": "Lift Station",
+      "steps": 10,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 312,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8872727272727272,
+          "meshes": 154,
+          "materials": 79,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.5924558587479937,
+          "nearest": "ammonia-plant",
+          "similarity": 0.22150882825040127
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "conveyor-guard",
       "name": "Conveyor Guard",
       "steps": 11,
@@ -5109,9 +4757,53 @@
           "interactables": 16
         },
         "originality": {
-          "score": 0.6303079416531605,
+          "score": 0.6176090468497577,
           "nearest": "robot-cell",
-          "similarity": 0.21393841166936792
+          "similarity": 0.21647819063004847
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "substation-switching",
+      "name": "Substation Switching",
+      "steps": 11,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 382,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9456818181818181,
+          "meshes": 171,
+          "materials": 69,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.4598736176935231,
+          "nearest": "electrical",
+          "similarity": 0.2480252764612954
         }
       }
     },
@@ -5156,6 +4848,94 @@
           "score": 0.736050156739812,
           "nearest": "backflow-test",
           "similarity": 0.19278996865203762
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room",
+      "name": "Chlorine Room",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 432,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8965909090909091,
+          "meshes": 145,
+          "materials": 71,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5382352941176471,
+          "nearest": "keg-cellar-co2",
+          "similarity": 0.2323529411764706
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue",
+      "name": "Confined Rescue",
+      "steps": 11,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9863636363636363,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 362,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 72,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5163558106169298,
+          "nearest": "valve-vault",
+          "similarity": 0.23672883787661406
         }
       }
     },
@@ -5425,50 +5205,6 @@
     },
     {
       "app": "smartcity",
-      "id": "mobile-air-lab",
-      "name": "Mobile Air Lab",
-      "steps": 14,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 267,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 197,
-          "materials": 83,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.6665354330708663,
-          "nearest": "air-monitor",
-          "similarity": 0.20669291338582677
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "marsh-transect-survey",
       "name": "Marsh Transect Survey",
       "steps": 13,
@@ -5500,7 +5236,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 258,
+          "meshes": 252,
           "materials": 88,
           "interactables": 29
         },
@@ -5632,7 +5368,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 79,
           "interactables": 28
         },
@@ -5865,6 +5601,50 @@
     },
     {
       "app": "trades",
+      "id": "electrical",
+      "name": "Isolation Bay",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 320,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9363636363636364,
+          "meshes": 304,
+          "materials": 132,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.4598736176935231,
+          "nearest": "substation-switching",
+          "similarity": 0.2480252764612954
+        }
+      }
+    },
+    {
+      "app": "trades",
       "id": "plumbing",
       "name": "Rough-In Bay",
       "steps": 10,
@@ -5945,9 +5725,9 @@
           "interactables": 18
         },
         "originality": {
-          "score": 0.6886039886039886,
-          "nearest": "cell-site-battery",
-          "similarity": 0.2022792022792023
+          "score": 0.6868804664723033,
+          "nearest": "robot-cell",
+          "similarity": 0.20262390670553937
         }
       }
     },
@@ -6041,6 +5821,50 @@
     },
     {
       "app": "smartcity",
+      "id": "sampling-well",
+      "name": "Sampling Well",
+      "steps": 11,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 276,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 83,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.67456279809221,
+          "nearest": "stormwater-outfall",
+          "similarity": 0.20508744038155802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cell-site-battery",
       "name": "Cell Site Battery",
       "steps": 11,
@@ -6077,9 +5901,141 @@
           "interactables": 20
         },
         "originality": {
-          "score": 0.6886039886039886,
-          "nearest": "charge-point",
-          "similarity": 0.2022792022792023
+          "score": 0.6218523878437049,
+          "nearest": "battery-yard",
+          "similarity": 0.21562952243125905
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall",
+      "name": "Stormwater Outfall",
+      "steps": 11,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.965,
+          "meshes": 166,
+          "materials": 82,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.67456279809221,
+          "nearest": "sampling-well",
+          "similarity": 0.20508744038155802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-yard",
+      "name": "Battery Yard",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 371,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 207,
+          "materials": 85,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6031339031339031,
+          "nearest": "electrical",
+          "similarity": 0.21937321937321938
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "concrete-pour",
+      "name": "Concrete Pour",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 330,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 187,
+          "materials": 85,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6743589743589745,
+          "nearest": "dredge-barge",
+          "similarity": 0.20512820512820512
         }
       }
     },
@@ -6121,9 +6077,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.7366972477064221,
-          "nearest": "slicer-lockout",
-          "similarity": 0.1926605504587156
+          "score": 0.6482200647249192,
+          "nearest": "press-brake",
+          "similarity": 0.21035598705501618
         }
       }
     },
@@ -6165,9 +6121,9 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.6031770045385779,
-          "nearest": "walk-in-cooler",
-          "similarity": 0.21936459909228442
+          "score": 0.5382352941176471,
+          "nearest": "chlorine-room",
+          "similarity": 0.2323529411764706
         }
       }
     },
@@ -6385,9 +6341,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.680213089802131,
-          "nearest": "broadcast-truck",
-          "similarity": 0.2039573820395738
+          "score": 0.6705882352941178,
+          "nearest": "substation-switching",
+          "similarity": 0.20588235294117646
         }
       }
     },
@@ -6561,9 +6517,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.6473684210526317,
-          "nearest": "post-tension",
-          "similarity": 0.21052631578947367
+          "score": 0.5220858895705522,
+          "nearest": "electrical",
+          "similarity": 0.23558282208588957
         }
       }
     },
@@ -6745,8 +6701,52 @@
     },
     {
       "app": "smartcity",
-      "id": "sampling-well",
-      "name": "Sampling Well",
+      "id": "airport-ramp",
+      "name": "Airport Ramp",
+      "steps": 11,
+      "score": 99,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 372,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 64,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.8185647425897037,
+          "nearest": "track-access",
+          "similarity": 0.17628705148205928
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cooling-tower",
+      "name": "Cooling Tower",
       "steps": 11,
       "score": 99,
       "d": {
@@ -6762,28 +6762,28 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 276,
+          "medianWhy": 365,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
-          "want": 10,
-          "got": 10
+          "want": 11,
+          "got": 11
         },
         "scene": {
           "score": 1,
-          "meshes": 184,
-          "materials": 83,
-          "interactables": 22
+          "meshes": 181,
+          "materials": 86,
+          "interactables": 23
         },
         "originality": {
-          "score": 0.7109890109890111,
-          "nearest": "ust-removal",
-          "similarity": 0.1978021978021978
+          "score": 0.782089552238806,
+          "nearest": "isco-injection",
+          "similarity": 0.18358208955223881
         }
       }
     }

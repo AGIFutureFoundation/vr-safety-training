@@ -4019,6 +4019,7 @@ const ROOM_ELECTRICAL = {
     "live-bus": "You reached into an energised enclosure. Exposed bus at 480 V will not warn you first — nothing enters that cabinet until the disconnect is open, locked, and proven dead.",
     "foreign-lock": "That padlock belongs to another worker. You never remove someone else's lock or tag: their life is on the other end of it. Each worker applies and removes their own.",
     "damaged-leads": "Those test leads have cracked insulation at the strain relief. Damaged leads put your hand at line potential — bin them and draw a rated set.",
+    "meter-cat2": "That handheld is a CAT II instrument — its 300 V transient rating was set for testing at a branch-circuit outlet, not for standing in front of an open 480 V service panel. IEC 61010 grades a meter by where a fault can actually reach it, and a CAT II case and lead set have no fusing or arc rating for a bolted fault behind that deadfront. Draw the CAT III/CAT IV meter instead; the wrong instrument here fails the same way a bad breaker does, in your hand.",
   },
 
   lateNotes: {
@@ -4026,13 +4027,28 @@ const ROOM_ELECTRICAL = {
     "test-l2": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
     "test-l3": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
     "ground-cluster": "Grounds go on after the circuit is proven dead, not before — applying them to a live conductor is a bolted fault.",
+    "meter-cat3": "You already have the right meter staged — check the circuit before you go drawing another instrument.",
+    "boundary-cone": "The boundary goes down before the panel is opened, not after.",
+    "continuity-tester": "Nothing to bond yet — the grounding cluster goes on before you prove the bond.",
   },
 
 
-  // Interruptions: see shared/game.js. The one that matters on a live-dead-live
-  // job is not a step you can get wrong, it is a condition that changes behind
-  // you while your hands and eyes are on the meter.
+  // Interruptions: see shared/game.js. Neither of these is a step you can get
+  // wrong on your own — one is a condition that changes behind you while your
+  // hands and eyes are on the meter, the other is somebody else's hand
+  // reaching for a handle they have no way of knowing is locked for a reason.
   interrupts: [
+    {
+      id: "reclose-attempt",
+      kind: "Reclose attempt",
+      after: "lock", delay: 4, seconds: 13,
+      alert: "The clipboard supervisor from the spares racking is walking straight for the disconnect. They think Feeder 3B tripped on its own and are about to close it back in.",
+      cue: "Stop them before that handle moves. Your lock does not mean anything if somebody closes the disconnect around it.",
+      target: "disconnect-handle",
+      why: "A hasp with your lock on it stops the handle from moving, but nothing stops a hand from reaching for it before somebody has actually looked at what is hanging there. The notice board and the tag on the hasp exist so that anyone tempted to restore power reads whose name is on the isolation first — but a supervisor mid-stride toward a tripped-looking breaker is exactly the moment that reading does not happen. You get there and stop the attempt before the mechanism, not the paperwork, is what is tested.",
+      missNote: "Somebody else's hand reached the handle before you did. Whether the lock actually held the mechanism open under that kind of force was never the plan — the plan was that nobody with a reason to close it ever got the chance to try, and that depended on you being between them and the panel, not on the hardware.",
+      wrongNote: "That is not what stops them. The supervisor is headed for the disconnect handle — get between them and it.",
+    },
     {
       id: "lock-missing",
       kind: "Isolation breach",
@@ -4054,6 +4070,15 @@ const ROOM_ELECTRICAL = {
       why: "Arc-rated clothing goes on outside the boundary, before anything is opened. NFPA 70E rates it against incident energy in calories per square centimetre, and the boundary is simply where an arc would deliver about 1.2 cal/cm² — the onset of a second-degree burn on bare skin. Synthetics worn underneath melt into that burn.",
     },
     {
+      id: "meter-check", kind: "find", noHint: true,
+      targets: ["meter-cat3"],
+      itemNames: { "meter-cat3": "CAT III/IV rated meter" },
+      itemNotes: { "meter-cat3": "This is the rated instrument for a 480 V panel — draw it, not the one sitting next to it." },
+      title: "Draw a correctly rated meter",
+      cue: "Two meters are staged on the bench. Take the one actually rated for this panel.",
+      why: "IEC 61010's measurement categories are not a quality grade, they are a statement about where in the system a fault can reach the meter and what the instrument is built to survive when it does. A meter bought for a branch-circuit outlet at home is a CAT II instrument; a 480 V service panel with unlimited available fault current behind the bus needs CAT III or CAT IV. Picking up the wrong one because it was closer is exactly the decision this room is built to catch before you learn it the hard way.",
+    },
+    {
       id: "schedule", kind: "select", target: "panel-schedule",
       title: "Identify the circuit",
       cue: "Read the panel schedule and confirm which circuit you are isolating.",
@@ -4064,6 +4089,13 @@ const ROOM_ELECTRICAL = {
       title: "Notify affected workers",
       cue: "Post the work notice so everyone downstream knows the feeder is coming out.",
       why: "OSHA 1910.147 requires affected employees to be told before the lockout goes on and again after it comes off. An unannounced outage is an invitation: a handle sitting off with no name against it and nothing to say whether the work is done reads, to somebody under pressure, as a thing to put back.",
+    },
+    {
+      id: "boundary", kind: "drag", target: "boundary-cone",
+      title: "Set the arc-flash boundary",
+      cue: "Carry a boundary cone out to the marked line before the panel comes open.",
+      why: "The restricted approach boundary is not a courtesy line — NFPA 70E draws it at the distance an unqualified bystander has to stay outside of while the enclosure in front of you is open and could still fault. It goes down before the door swings open, because the whole point is that anyone walking the aisle sees the line before they see a reason to ignore it, and a boundary set after the fact has already failed at the one moment it existed to cover.",
+      drag: { to: "boundary-spot", radius: 0.4, missNote: "Short of the marked line — carry it out to the boundary and set it square on the mark." },
     },
     {
       // A turn, not a click: the cue has always said "rotate the handle", and
@@ -4120,6 +4152,13 @@ const ROOM_ELECTRICAL = {
       cue: "Install the grounding cluster on the isolated conductors.",
       why: "Temporary protective grounds bond the conductors to earth, so a back-feed arriving while your hands are inside goes down the cluster and trips the source rather than through you. They also bleed off the capacitive charge a long feeder keeps after opening — easily enough to put somebody off a ladder.",
     },
+    {
+      id: "bond-check", kind: "hold", target: "continuity-tester", seconds: 4,
+      title: "Prove the grounds are bonded",
+      cue: "Hold the continuity tester on the cluster until it confirms a solid bond to earth.",
+      why: "A clamp that looks seated is not the same thing as a clamp that is actually making metal-to-metal contact — paint, corrosion or a burr under the jaw can leave a ground cluster sitting on the conductor rather than bonded to it, and that failure is invisible until fault current needs the path and does not find one. Proving continuity at every clamp is the last check standing between a ground set that protects you and one that only looks like it does.",
+      holdBreakNote: "Released before the tester confirmed the bond. Hold it on the clamp the full duration — a bond you didn't stay to prove is a bond you're assuming.",
+    },
   ],
 
   build(root) {
@@ -4145,6 +4184,19 @@ const ROOM_ELECTRICAL = {
     decal(root, 1.5, 0.34, 0, 0.006, -1.05, signFace("ARC FLASH BOUNDARY", { bg: "#4a5057", accent: "#f2ae14", scale: 0.5 }))
       .rotation.x = -Math.PI / 2;
 
+    // Boundary marker post — where the cone actually has to land, at the end
+    // of the painted line, and invisible so it never competes with the cone
+    // itself for the learner's eye.
+    const boundarySpot = box(root, 0.02, 0.02, 0.02, 2.35, 0.01, -1.5, 0x000000,
+      { opacity: 0.001, transparent: true, cast: false, receive: false });
+    reg(boundarySpot, "boundary-spot");
+
+    // Boundary cone, staged by the PPE cart until it is carried out to the line.
+    const boundaryCone = group(root, -1.95, 0, 1.45, 0.6);
+    box(boundaryCone, 0.28, 0.02, 0.28, 0, 0.01, 0, 0x22262b, { rough: 0.9 });
+    cyl(boundaryCone, 0.03, 0.12, 0.5, 0, 0.26, 0, HAZARD, { rough: 0.75, seg: 14 });
+    cyl(boundaryCone, 0.07, 0.09, 0.06, 0, 0.3, 0, 0xe8eef2, { rough: 0.5, seg: 14 });
+    reg(boundaryCone, "boundary-cone");
 
     // ------------------------------------------------------------- panel bank
     const bank = group(root, 0, 0, -3.55);
@@ -4312,6 +4364,20 @@ const ROOM_ELECTRICAL = {
     cyl(dmmRoot, 0.024, 0.024, 0.006, 0, 0.048, 0.05, 0x22262b, { rough: 0.5, seg: 14 });
     hose(dmmRoot, [[-0.04, 0.03, 0.1], [-0.2, 0.02, 0.22], [-0.34, 0.01, 0.1]], 0.006, 0x1b1e22, { steps: 14 });
     hose(dmmRoot, [[0.04, 0.03, 0.1], [0.22, 0.02, 0.24], [0.36, 0.01, 0.12]], 0.006, 0xb81410, { steps: 14 });
+    decal(dmmRoot, 0.1, 0.03, 0, 0.024, 0.09, signFace("CAT III 600V", { bg: "#f2ae14", scale: 0.55 }));
+    reg(dmmRoot, "meter-cat3");
+
+    // A second, smaller meter beside it — a consumer-grade CAT II unit
+    // somebody left in the same drawer. Nothing marks it as wrong from across
+    // the room; the category rating is the only thing that does.
+    const cheapMeter = group(bench, -0.72, 0.93, 0.14, -0.2);
+    slab(cheapMeter, 0.1, 0.03, 0.16, 0, 0.015, 0, 0x2b2f33, { rough: 0.7, radius: 0.008 });
+    decal(cheapMeter, 0.07, 0.03, 0, 0.031, -0.03,
+      signFace("300V", { bg: "#1b1e22", accent: "#8a949d", fg: "#c7ccd1", scale: 0.6 }), { px: 96 });
+    cyl(cheapMeter, 0.014, 0.014, 0.004, 0, 0.032, 0.03, 0x14171a, { rough: 0.6, seg: 10 });
+    hose(cheapMeter, [[-0.02, 0.02, 0.06], [-0.1, 0.01, 0.12], [-0.16, 0.0, 0.06]], 0.004, 0x1b1e22, { steps: 10 });
+    hose(cheapMeter, [[0.02, 0.02, 0.06], [0.1, 0.01, 0.12], [0.16, 0.0, 0.06]], 0.004, 0xb81410, { steps: 10 });
+    reg(cheapMeter, "meter-cat2");
 
     // Damaged leads coiled at the far end — the trap.
     const damaged = group(bench, 0.62, 0.93, 0.06);
@@ -4332,6 +4398,15 @@ const ROOM_ELECTRICAL = {
       { steps: 20, rough: 0.8 });
     decal(grounds, 0.2, 0.05, 0, 0.02, -0.14, signFace("TEMPORARY GROUNDS", { accent: "#59c97b", scale: 0.5 }));
     reg(grounds, "ground-cluster");
+
+    // Continuity tester — proves each clamp is actually bonded, not just seated.
+    const contTester = group(bench, 0.42, 0.94, -0.16, -0.15);
+    slab(contTester, 0.1, 0.035, 0.15, 0, 0.018, 0, 0x2c3238, { rough: 0.55, radius: 0.01 });
+    const contLamp = ball(contTester, 0.012, 0.03, 0.036, 0.04, 0x59c97b, { emissive: 0x59c97b, ei: 0.5 });
+    decal(contTester, 0.07, 0.024, 0, 0.037, -0.02,
+      signFace("CONTINUITY", { bg: "#0d2b22", accent: "#59c97b", fg: "#8ef0c0", scale: 0.55 }), { px: 96 });
+    hose(contTester, [[-0.03, 0.02, 0.05], [-0.09, 0.0, 0.09], [-0.13, 0.0, 0.04]], 0.005, 0x1b1e22, { steps: 10 });
+    reg(contTester, "continuity-tester");
 
     // Installed grounds — revealed on the final step.
     const installedGrounds = group(interior, 0, -0.55, 0.06);
@@ -4412,12 +4487,17 @@ const ROOM_ELECTRICAL = {
 
       // An interruption the learner can see: the lock is simply gone off the
       // hasp. Look up from the meter and the hasp is bare, which is the whole
-      // thing this is teaching you to notice.
+      // thing this is teaching you to notice. The other one is a person
+      // visibly closing distance on the disconnect.
       onInterrupt(it) {
         if (it.id === "lock-missing") appliedLock.visible = false;
+        if (it.id === "reclose-attempt") { crew[1].position.set(1.6, 0, -3.6); crew[1].userData.home = 2.4; }
       },
       onInterruptEnd(it) {
         if (it.id === "lock-missing" && it.resolved === "answered") appliedLock.visible = true;
+        if (it.id === "reclose-attempt" && it.resolved === "answered") {
+          crew[1].position.set(4.4, 0, 4.4); crew[1].userData.home = -2.36;
+        }
       },
 
       onHazard(hitId) {
@@ -4449,6 +4529,16 @@ const ROOM_ELECTRICAL = {
           repaint(dmmScreen, signFace(`${v} V`, {
             bg: "#0d2b22", accent: v > 330 && v < 460 ? "#59c97b" : "#f2ae14", fg: "#8ef0c0", scale: 0.6,
           }));
+        }
+
+        // Continuity tester lamp climbs steadily while it is held on the
+        // clamp, so the learner watches the bond being proven rather than
+        // just waiting out a timer.
+        if (session?.step?.id === "bond-check" && session.holding) {
+          const p = Math.min(1, session.holdFor / (session.step.seconds ?? 4));
+          contLamp.material.emissiveIntensity = 0.5 + p * 2.2;
+        } else {
+          contLamp.material.emissiveIntensity = 0.5;
         }
       },
     };

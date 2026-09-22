@@ -55,6 +55,7 @@ export const SIM_LINE_TRUCK = {
   lateNotes: {
     "hotstick-meter": "Zero energy is confirmed with the tester after the switch is open — the switch position alone is never treated as proof by itself.",
     "ground-electrode-clamp": "Grounds go on only after the line has tested dead on the meter — never on the strength of the switch position alone.",
+    "spare-ground-rod": "The chassis gets bonded before the boom does anything else — that's what this rod is for.",
   },
 
   steps: [
@@ -71,10 +72,20 @@ export const SIM_LINE_TRUCK = {
       why: "A boom worked from an unstabilized truck can shift the whole vehicle under a lateral load of only a few hundred pounds at full extension — the outriggers are what turn a fifteen-ton truck into a fixed base rather than a pivot point.",
     },
     {
-      id: "truck-ground", kind: "select", target: "truck-ground-rod",
+      id: "truck-ground", kind: "drag", target: "spare-ground-rod",
       title: "Bond and ground the truck",
-      cue: "Drive the ground rod and bond the chassis before any boom work begins.",
-      why: "If the boom ever contacts an energized conductor, the bond is what keeps the truck body from becoming the fastest path to ground through a person standing on the frame or the step — without it, fault current looks for any path it can find.",
+      cue: "Carry the spare ground rod from the truck bed to the driving point and set it.",
+      why: "If the boom ever contacts an energized conductor, the bond is what keeps the truck body from becoming the fastest path to ground through a person standing on the frame or the step — without it, fault current looks for any path it can find. The rod has to actually be carried out and driven at the marked point before any of that protection exists; a chassis ground is not the truck's factory earth strap, it is a connection this crew makes fresh at every job.",
+      drag: { to: "truck-ground-rod", radius: 0.35, missNote: "Not on the driving point — carry the rod over to the marked spot and set it there." },
+    },
+    {
+      id: "glove-inspect", kind: "find", noHint: true,
+      targets: ["damaged-glove"],
+      itemNames: { "damaged-glove": "punctured glove" },
+      itemNotes: { "damaged-glove": "Caught before the air test even started — a visible puncture like this one is pulled from service on sight, not waved through to see if the inflator agrees." },
+      title: "Inspect gloves before the air test",
+      cue: "Look over every pair in the kit and pull the one that's compromised before you inflate any of them.",
+      why: "The air test catches a pinhole that eyesight alone would miss, but it is not a substitute for looking the gloves over first — a visible cut, an embedded sliver of strand or a chewed cuff is exactly as disqualifying as a failed pressure reading, and finding it now costs nothing next to finding it with a hand inside the glove at the boom.",
     },
     {
       id: "glove-test", kind: "gauge", target: "glove-inflator",
@@ -91,7 +102,7 @@ export const SIM_LINE_TRUCK = {
       id: "sleeve-check", kind: "select", target: "sleeves",
       title: "Inspect the rubber sleeves",
       cue: "Check the sleeves for cuts, ozone cracking or embedded debris.",
-      why: "Sleeves cover the reach between the glove cuff and the shoulder — a cut, an ozone crack or embedded debris there is just as live a path to a phase conductor as the same defect would be in the glove itself.",
+      why: "Sleeves cover the reach between the glove cuff and the shoulder — a cut, an ozone crack or embedded debris there is just as live a path to a phase conductor as the same defect would be in the glove itself. Ozone from the arc environment attacks rubber from the surface in, so a crack that looks cosmetic today is the leading edge of a failure that will not announce itself before it lets current through.",
     },
     {
       id: "liner-check", kind: "select", target: "bucket-liner",
@@ -103,7 +114,7 @@ export const SIM_LINE_TRUCK = {
       id: "boom-test", kind: "gauge", target: "boom-tester",
       title: "Dielectric-test the boom",
       cue: "Run the insulation test on the boom and commit inside the passing range.",
-      why: "The boom's fibreglass insulation degrades with UV exposure and contamination and is tested on its own megohm schedule, not assumed sound because it looked fine yesterday or held up on the last job.",
+      why: "The boom's fibreglass insulation degrades with UV exposure and contamination and is tested on its own megohm schedule, not assumed sound because it looked fine yesterday or held up on the last job. A resistance reading falling toward the fail side of the band is the boom telling you it is drying out or tracking internally long before that shows up as a visible crack, and it is the whole reason the truck can be worked as insulated equipment in the first place.",
       gauge: {
         label: "BOOM DIELECTRIC TEST — INSULATION", speed: 0.65, green: [0.55, 0.75],
         readout: (t) => `${Math.round(t * 150)} MΩ`,
@@ -120,14 +131,14 @@ export const SIM_LINE_TRUCK = {
       id: "isolate", kind: "turn", target: "line-switch",
       title: "Open the line switch",
       cue: "Grab the switch handle and pull the upstream switch open.",
-      why: "This is the isolation, and everything from here on is checked against the assumption that a switch position can still be wrong — a stuck contact or a mis-wired indicator reads open long before it actually is.",
+      why: "This is the isolation, and everything from here on is checked against the assumption that a switch position can still be wrong — a stuck contact or a mis-wired indicator reads open long before it actually is. Treating the handle as proof rather than as the first half of a two-part check is exactly how a crew ends up working a line that never actually came off.",
       turn: { turns: 0.16, axis: "z", reverse: true, label: "LINE SWITCH" },
     },
     {
       id: "verify-dead", kind: "gauge", target: "hotstick-meter",
       title: "Test the line dead with a hot stick",
       cue: "Phase the line with the hot stick tester and commit when it reads dead.",
-      why: "The switch tells you what should be true. The hot stick tester tells you what is actually true on this specific conductor, right now, which is the only reading OSHA 1910.269 accepts before a ground goes on.",
+      why: "The switch tells you what should be true. The hot stick tester tells you what is actually true on this specific conductor, right now, which is the only reading OSHA 1910.269 accepts before a ground goes on. A backfeed from a customer generator, a mis-tagged phase or a control error upstream all leave the switch handle looking exactly the same — the tester is what actually reaches the conductor and reports on it directly.",
       gauge: {
         label: "PHASING TESTER — LINE VOLTAGE", speed: 0.6, green: [0.0, 0.08],
         readout: (t) => `${Math.round(t * 14400)} V`,
@@ -150,7 +161,7 @@ export const SIM_LINE_TRUCK = {
       itemNames: { "crawler-wp-start": "Start waypoint", "crawler-wp-mid": "Mid waypoint", "crawler-wp-end": "End waypoint" },
       title: "Teach the line-crawler waypoints",
       cue: "Record the start, mid and end inspection points along the de-energized span, in that order.",
-      why: "The crawler drives this span exactly in the order the waypoints were recorded — teach start to end, matching the direction it will actually travel along the now de-energized and grounded conductor.",
+      why: "The crawler drives this span exactly in the order the waypoints were recorded — teach start to end, matching the direction it will actually travel along the now de-energized and grounded conductor. A path recorded out of sequence does not fail to save, it saves as a route that reverses direction partway across a span the crew is standing under, which is discovered at run time rather than at the console.",
       itemNotes: {
         "crawler-wp-start": "Recorded at the near end, by the truck-side pole.",
         "crawler-wp-mid": "Recorded at the midspan sag point.",
@@ -162,20 +173,20 @@ export const SIM_LINE_TRUCK = {
       id: "crawler-save", kind: "select", target: "crawler-console-save",
       title: "Save the crawler path",
       cue: "Commit the three waypoints to the crawler's controller as one path.",
-      why: "An untaught point list is just three recorded positions sitting in memory. Saving it is what turns those waypoints into a path the crawler controller can actually queue and run over live grounds.",
+      why: "An untaught point list is just three recorded positions sitting in memory. Saving it is what turns those waypoints into a path the crawler controller can actually queue and run — over grounds a crew just spent the last several steps applying in a specific order, on a conductor that stays exactly as dead as those grounds keep it.",
     },
     {
       id: "crawler-run", kind: "hold", target: "crawler-console-run", seconds: 2.5,
       title: "Dry-run the line-crawler path",
       cue: "Hold RUN/VERIFY and watch the crawler's path clear the grounds and the crew before it runs the span.",
-      why: "A brand-new path is verified at walking pace with a hand on the controller, watching the whole span, before the crawler ever runs it unattended over grounds a crew just applied minutes earlier.",
+      why: "A brand-new path is verified at walking pace with a hand on the controller, watching the whole span, before the crawler ever runs it unattended over grounds a crew just applied minutes earlier. Releasing the hold partway through is what catches a waypoint that would otherwise swing the crawler into a clamp, a jumper or a person standing on the span — while there is still a thumb on the control to stop it.",
       holdBreakNote: "Released before the dry-run finished. Hold it through the whole path — that's how you catch a bad waypoint before the crawler runs it for real.",
     },
     {
       id: "rescue-ready", kind: "select", target: "rescue-hook",
       title: "Confirm rescue readiness",
       cue: "Check the pole-top and bucket rescue hook and line are staged and ready.",
-      why: "Rescue equipment staged and checked before work starts is the only version that is actually usable in the first thirty seconds of an emergency — a hook still in its case on the truck bed helps nobody up the pole.",
+      why: "Rescue equipment staged and checked before work starts is the only version that is actually usable in the first thirty seconds of an emergency — a hook still in its case on the truck bed helps nobody up the pole. A downed lineman has minutes, not the time it takes a second person to find, unpack and rig gear that should already have been within reach before the boom went up.",
     },
   ],
 
@@ -250,6 +261,14 @@ export const SIM_LINE_TRUCK = {
     hose(truck, [[-0.9, 0.0, 0.5], [-0.7, 0.1, 0.3], [-0.5, 0.5, 0]], 0.008, 0x2b3138, { steps: 12, rough: 0.6 });
     holoTag(groundRod, "Chassis ground", 0, 0.55, 0, { css: "#fcee21", w: 0.3 });
     reg(hits, groundRod, "truck-ground-rod");
+    groundRod.visible = false; // the driving point is bare until the spare rod is carried to it
+
+    // Spare ground rod racked on the truck bed — carried to the driving point above.
+    const spareRod = group(truck, 0.55, 0.85, -0.35, 0.2);
+    cyl(spareRod, 0.014, 0.014, 0.55, 0, 0, 0, 0x8b5a2b, { rough: 0.55, seg: 10 }).rotation.z = Math.PI / 2;
+    cyl(spareRod, 0.02, 0.02, 0.03, -0.26, 0, 0, CITY.steel, { rough: 0.4, metal: 0.75, seg: 10 }).rotation.z = Math.PI / 2;
+    holoTag(spareRod, "Spare ground rod", 0, 0.08, 0, { css: "#fcee21", w: 0.32 });
+    reg(hits, spareRod, "spare-ground-rod");
 
     // -------------------------------------------------------------------------- pole
     const pole = group(g, 1.1, 0, -0.9);
@@ -401,6 +420,7 @@ export const SIM_LINE_TRUCK = {
 
       onStepComplete(step) {
         if (step.id === "outrigger") outriggerPads.forEach((p) => { p.position.y = -0.15; });
+        if (step.id === "truck-ground") { groundRod.visible = true; spareRod.visible = false; }
         // switchHandle is turned live by the player's drag while this step is active.
         if (step.id === "isolate") energized = false;
         if (step.id === "verify-dead") phases.forEach((p) => { p.material = deadPhaseMat; });

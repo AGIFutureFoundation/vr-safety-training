@@ -53,6 +53,8 @@ export const SIM_CHILLER_PLANT = {
 
   lateNotes: {
     "gauge-manifold": "The manifold goes on after lockout, not as a way to check whether lockout is needed.",
+    "new-valve-plate": "Nothing gets fitted until the failed plate is off and the gasket face is clean.",
+    "left-panel": "That gets caught on the walk-down before your lock comes off, not before.",
   },
 
   // Interruptions: see shared/game.js. Everything dangerous in this room is
@@ -147,21 +149,36 @@ export const SIM_CHILLER_PLANT = {
       },
     },
     {
-      id: "weigh", kind: "select", target: "recovery-cylinder",
+      id: "weigh", kind: "gauge", target: "recovery-cylinder",
       title: "Verify the recovery cylinder",
-      cue: "Check the cylinder's fill weight against its rated capacity.",
-      why: "A recovery cylinder filled past the 80% limit this work order sets has no vapour space left to absorb pressure change, and it becomes a hydraulic hazard as ambient temperature rises — this is checked against the number on the scale, not against how much room looks left inside.",
+      cue: "Read the cylinder's fill scale and commit only inside the rated fill limit.",
+      why: "A recovery cylinder filled past the 80% limit this work order sets has no vapour space left to absorb pressure change, and it becomes a hydraulic hazard as ambient temperature rises — this is read straight off the number on the scale, not judged by how much room looks left inside, because a cylinder that looks half empty from outside can already be at its rated stop.",
+      gauge: {
+        label: "CYLINDER FILL — 50 lb RATED", speed: 0.7, green: [0.0, 0.8],
+        readout: (t) => `${Math.round(t * 62)} / 50 lb`,
+        missNote: "Over the 80% rated fill. Stop the transfer and stage a second cylinder rather than push past the limit.",
+      },
     },
     {
-      id: "repair", kind: "select", target: "compressor",
+      id: "repair", kind: "drag", target: "new-valve-plate",
       title: "Complete the compressor repair",
-      cue: "Replace the failed compressor valve plate.",
-      why: "With the circuit fully recovered and pressure at vacuum rather than just low, the compressor can finally be opened without a refrigerant or oil discharge across whoever is holding the valve plate.",
+      cue: "Carry the new valve plate from the tool chest to the compressor and seat it.",
+      why: "With the circuit fully recovered and pressure at vacuum rather than just low, the compressor can finally be opened without a refrigerant or oil discharge across whoever is holding the valve plate. The new plate has to be carried across and seated square on a gasket face that was just cleaned — set it crooked and the compressor comes back on the machine leaking at the exact joint the repair was supposed to fix.",
+      drag: { to: "compressor", radius: 0.3, missNote: "Not seated on the compressor housing — carry it over and set it square on the gasket face." },
+    },
+    {
+      id: "walkdown", kind: "find", noHint: true,
+      targets: ["left-panel"],
+      itemNames: { "left-panel": "access panel not reinstalled" },
+      itemNotes: { "left-panel": "Caught on the walk-down — an access panel left off is an open guard and a path for the next leak nobody is watching for." },
+      title: "Walk the machine before your lock comes off",
+      cue: "Look the chiller over and find anything that didn't get put back before the lock comes off.",
+      why: "Removing your lock is also the point where you are telling everyone else this machine is finished and safe to run — that claim is only as good as the walk-around you actually did before making it. A panel left off, a tool left on the frame or a hose still connected are the kind of thing a rushed unlock misses and the next operator finds the hard way, often with the compressor already running.",
     },
     {
       id: "unlock", kind: "select", target: "lockout-point",
       title: "Remove your lock",
-      cue: "Walk the machine, confirm nobody else is in it, then take your lock and tag off the disconnect.",
+      cue: "Confirm nobody else is in the machine, then take your lock and tag off the disconnect.",
       why: "Your lock, your call — it comes off only after you have walked the machine yourself and know whose hands are where, the same personal-lock discipline OSHA's lockout standard and every UA apprenticeship program teach as non-negotiable. Nothing on this chiller turns again until it is off.",
     },
     {
@@ -216,6 +233,13 @@ export const SIM_CHILLER_PLANT = {
     holoTag(fitting, "High side — 280 psi", 0, 0.14, 0, { css: "#f0645b", w: 0.36 });
     reg(hits, fitting, "pressurized-fitting");
 
+    // A service access panel leant against the skid instead of being
+    // reinstalled — the thing the walk-down before unlock exists to catch.
+    const leftPanel = group(chiller, -0.85, 0.1, 0.42, 0.15);
+    box(leftPanel, 0.34, 0.5, 0.02, 0, 0.25, 0, 0x6b747c, { rough: 0.45, metal: 0.5 });
+    holoTag(leftPanel, "Access panel — not reinstalled", 0, 0.55, 0, { css: "#f0645b", w: 0.44 });
+    reg(hits, leftPanel, "left-panel");
+
     // Vent point where a shortcut would show up.
     const ventPoint = group(chiller, 0.7, 0.9, 0.37);
     cyl(ventPoint, 0.015, 0.015, 0.06, 0, 0, 0, 0x8b929a, { rough: 0.4, metal: 0.6, seg: 10 });
@@ -258,6 +282,12 @@ export const SIM_CHILLER_PLANT = {
     ball(manifold, 0.02, -0.03, 0.1, 0.016, 0xf2c14b, { emissive: 0xf2c14b, ei: 0.3 });
     ball(manifold, 0.02, 0.03, 0.1, 0.016, 0x4fd1ff, { emissive: 0x4fd1ff, ei: 0.3 });
     holoTag(manifold, "Gauge manifold", 0, 0.2, 0, { css: "#4fd1ff", w: 0.3 });
+
+    // Replacement valve plate, staged in the chest until it is carried to the compressor.
+    const newValvePlate = group(chest, -0.05, 0.79, 0.17, 0.2);
+    box(newValvePlate, 0.11, 0.11, 0.018, 0, 0, 0, 0xc7cdd2, { rough: 0.3, metal: 0.7 });
+    holoTag(newValvePlate, "New valve plate", 0, 0.13, 0, { css: "#4fd1ff", w: 0.3 });
+    reg(hits, newValvePlate, "new-valve-plate");
     reg(hits, manifold, "gauge-manifold");
     const recoveryHose = hose(g, [[1.5, 0.95, 1.0], [1.0, 0.7, 0.4], [-0.6, 0.6, 0.3]], 0.015, 0xdfe4e8, { steps: 20, rough: 0.5 });
     reg(hits, recoveryHose, "recovery-hose");
@@ -287,6 +317,36 @@ export const SIM_CHILLER_PLANT = {
        "Isolation: disconnect DS-2"].forEach((line, i) => ctx.fillText(line, w * 0.06, h * (0.5 + i * 0.11)));
     }, { ry: 0.7, accent: 0x4fd1ff });
     reg(hits, order, "work-order");
+
+    // --------------------------------------------------------- plant dressing
+    // A district plant is not just the chiller skid: the chilled-water header
+    // running to the building loop, a house panel for the plant's own loads,
+    // an overhead cable tray, and a floor drain under the low point where a
+    // recovery hose would actually weep. None of it is a hazard or a step
+    // target — it is the room a technician like this one actually works in.
+    pipeRun(g, [[-0.5, 1.1, -1.0], [-1.6, 1.1, -1.0], [-1.6, 1.1, 1.9], [-2.15, 1.1, 1.9]], 0.05, 0x4fd1ff,
+      { flanges: [[-1.6, 1.1, -1.0], [-1.6, 1.1, 1.9]], flangeAxis: "z", metal: 0.6 });
+    pipeRun(g, [[-0.5, 0.95, -1.0], [-1.75, 0.95, -1.0], [-1.75, 0.95, 1.9], [-2.15, 0.95, 1.9]], 0.045, 0xb87333,
+      { flanges: [[-1.75, 0.95, -1.0], [-1.75, 0.95, 1.9]], flangeAxis: "z", metal: 0.7 });
+
+    const housePanel = group(g, -2.15, 0, 1.9, Math.PI / 2);
+    box(housePanel, 0.5, 0.7, 0.18, 0, 1.2, 0, 0x3a424a, { rough: 0.5, metal: 0.5 });
+    box(housePanel, 0.52, 0.04, 0.2, 0, 1.56, 0, 0x2b3138, { rough: 0.55 });
+    for (let i = 0; i < 4; i++) {
+      box(housePanel, 0.4, 0.03, 0.01, 0, 1.42 - i * 0.09, 0.1, 0x22272c, { rough: 0.6 });
+    }
+    holoTag(housePanel, "Plant house panel", 0, 1.6, 0.1, { css: "#4fd1ff", w: 0.34 });
+
+    const trayRun = group(g, 0, 2.55, 0);
+    for (let i = -2; i <= 2; i++) box(trayRun, 0.06, 0.05, 4.4, i * 0.13, 0, 0, 0x6a737b, { rough: 0.5, metal: 0.65, cast: false });
+    for (const z of [-1.8, 0, 1.8]) box(trayRun, 0.7, 0.09, 0.05, 0, 0.07, z, 0x6a737b, { rough: 0.5, metal: 0.65, cast: false });
+    for (const [cx, cz] of [[-1.5, -1.9], [1.5, -1.9]]) {
+      hose(g, [[cx, 2.52, cz], [cx, 2.1, cz + 0.1], [cx * 0.9, 1.55, -1.1]], 0.03, 0x5b636b, { steps: 10, rough: 0.6 });
+    }
+
+    const drain = group(g, 0.4, 0, 0.75);
+    cyl(drain, 0.14, 0.14, 0.02, 0, 0.075, 0, 0x2b3138, { rough: 0.6, metal: 0.4, seg: 16 });
+    for (let i = -2; i <= 2; i++) box(drain, 0.02, 0.01, 0.24, i * 0.045, 0.083, 0, 0x14171a, { rough: 0.5, metal: 0.5 });
 
     let running = true;
     let recovering = false;
@@ -333,6 +393,8 @@ export const SIM_CHILLER_PLANT = {
         }
         if (step.id === "recover") { recovering = true; repaint(recoveryScreen, signFace("RECOVERING", { bg: "#0d1c24", accent: "#4fd1ff", fg: "#bfeaf7", scale: 0.36 })); }
         if (step.id === "weigh") repaint(cylScale, signFace("38 / 50 lb", { bg: "#2a1a0d", accent: "#f2c14b", fg: "#ffe3ac", scale: 0.4 }));
+        if (step.id === "repair") valvePlate.visible = false;
+        if (step.id === "walkdown") leftPanel.visible = false;
         if (step.id === "restore") {
           running = true; recovering = false; appliedLock.visible = false; discHandle.rotation.z = 0;
           repaint(hmi, signFace("RUNNING\n42°F CHW", { bg: "#0d1c24", accent: "#4fd1ff", fg: "#bfeaf7", scale: 0.26 }));
@@ -357,6 +419,11 @@ export const SIM_CHILLER_PLANT = {
             const o2 = (15 + gg.t * 12).toFixed(1);
             repaint(monitorFace, signFace(`${o2}%`, {
               bg: "#0d1c14", accent: gg.t > 0.46 && gg.t < 0.6 ? "#59c97b" : "#f0645b", fg: "#bff7d4", scale: 0.5,
+            }));
+          }
+          if (session.step?.id === "weigh") {
+            repaint(cylScale, signFace(`${Math.round(gg.t * 62)} / 50 lb`, {
+              bg: "#0d1c24", accent: gg.t <= 0.8 ? "#59c97b" : "#f0645b", fg: "#ffe3ac", scale: 0.4,
             }));
           }
           if (session.step?.id === "recover") {

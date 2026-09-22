@@ -54,6 +54,8 @@ export const SIM_TRACK_ACCESS = {
   lateNotes: {
     "rail-clamp": "Nothing gets clamped to the rail before possession is confirmed and the current is proven off.",
     "track-gauge": "Track geometry is measured after possession is secured, never while trains could still be moving.",
+    "new-fastener": "That fastener doesn't get swapped in until the defective one is off and the seat is clean.",
+    "left-tool": "Nothing gets tallied against a list until the pack-up walk is actually done.",
   },
 
   // Interruptions: see shared/game.js. On the track, neither of the two things
@@ -148,16 +150,20 @@ export const SIM_TRACK_ACCESS = {
       },
     },
     {
-      id: "repair", kind: "select", target: "fastener",
+      id: "repair", kind: "drag", target: "new-fastener",
       title: "Replace the defective fastener",
-      cue: "Swap the worn rail fastener for a new one.",
-      why: "A loose fastener lets the rail move under load. Fixed now, it is a five-minute job; missed, it is a derailment risk.",
+      cue: "Carry the new fastener from the tool chest to the worn one and set it in place.",
+      why: "A loose fastener lets the rail move under load, and the failure is progressive: a little play becomes a lot of play as every axle passing over it works the hole a fraction wider. Fixed now, with the seat clean and the new fastener carried across and seated square, it is a five-minute job. Missed, or set crooked because it was rushed, it is a derailment risk that starts as a barely audible click under a slow-moving inspection car.",
+      drag: { to: "fastener", radius: 0.3, missNote: "Not seated on the sleeper — carry it over to the worn fastener and set it square." },
     },
     {
-      id: "clear-tools", kind: "select", target: "tool-tally",
-      title: "Complete the tool tally",
-      cue: "Count every tool back against the list before anything is packed.",
-      why: "A tool left on the track is a foreign object under the next train. The tally is counted out and counted back, every time.",
+      id: "clear-tools", kind: "find", noHint: true,
+      targets: ["left-tool"],
+      itemNames: { "left-tool": "wrench left on the ballast" },
+      itemNotes: { "left-tool": "Caught before pack-up closed out — a wrench left in the four foot is exactly the kind of foreign object the tally exists to catch." },
+      title: "Walk the site for anything left behind",
+      cue: "Scan the worksite and pick out anything that didn't make it back into the kit before the tally is called complete.",
+      why: "A tool left on the track is a foreign object under the next train — caught in a set of points it derails a movement, and lying on the running rail it becomes a projectile under a wheel at line speed. The tally is counted out and counted back against the list every time, but the list only catches what somebody actually walked the site to find; it does not walk itself.",
     },
     {
       id: "restore", kind: "select", target: "isolation-switch",
@@ -274,10 +280,24 @@ export const SIM_TRACK_ACCESS = {
     holoTag(gaugeTool, "Track gauge", 0, 0.1, 0, { css: "#f2894b", w: 0.28 });
     reg(hits, gaugeTool, "track-gauge");
 
-    const fastener = group(chest, 0, 0.8, -0.14);
-    box(fastener, 0.06, 0.02, 0.03, 0, 0, 0, 0x8b929a, { rough: 0.4, metal: 0.6 });
-    holoTag(fastener, "Rail fastener", 0, 0.1, 0, { css: "#f2894b", w: 0.26 });
-    reg(hits, fastener, "fastener");
+    const newFastener = group(chest, 0, 0.8, -0.14);
+    box(newFastener, 0.06, 0.02, 0.03, 0, 0, 0, 0x8b929a, { rough: 0.4, metal: 0.6 });
+    holoTag(newFastener, "Spare fastener", 0, 0.1, 0, { css: "#f2894b", w: 0.28 });
+    reg(hits, newFastener, "new-fastener");
+
+    // The worn fastener itself, on a sleeper at the worksite — the socket the
+    // new one gets carried to.
+    const wornFastener = group(g, 0.52, 0.13, 0.3);
+    box(wornFastener, 0.06, 0.02, 0.03, 0, 0, 0, 0x8a5a3a, { rough: 0.7 });
+    holoTag(wornFastener, "Worn fastener", 0, 0.1, 0, { css: "#f0645b", w: 0.28 });
+    reg(hits, wornFastener, "fastener");
+
+    // A wrench somebody set down and didn't pick back up — the trap the
+    // pack-up walk is supposed to catch.
+    const leftTool = group(g, 1.05, 0.13, -0.25, 0.4);
+    box(leftTool, 0.16, 0.018, 0.03, 0, 0, 0, 0x53585e, { rough: 0.45, metal: 0.6 });
+    cyl(leftTool, 0.024, 0.024, 0.018, -0.075, 0, 0, 0xdfe4e8, { rough: 0.4, metal: 0.5, seg: 10 }).rotation.z = Math.PI / 2;
+    reg(hits, leftTool, "left-tool");
 
     const tally = holoPanel(g, 0.4, 0.26, 1.65, 1.35, 1.3, (ctx, w, h) => {
       ctx.fillStyle = "rgba(6,16,22,0.9)"; ctx.fillRect(0, 0, w, h);
@@ -329,6 +349,8 @@ export const SIM_TRACK_ACCESS = {
         if (step.id === "verify") isoLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 2.4 });
         if (step.id === "boundary") { boardA.visible = true; boardB.visible = true; boardCase.visible = false; }
         if (step.id === "gauge") repaint(gaugeReadout, signFace("1435", { bg: "#0d1c24", accent: "#59c97b", scale: 0.6 }), );
+        if (step.id === "repair") wornFastener.visible = false;
+        if (step.id === "clear-tools") leftTool.visible = false;
         if (step.id === "restore") { currentOn = true; isoLever.rotation.z = 0; isoLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.4 }); }
         if (step.id === "handback") repaint(radioScreen, signFace("POSSESSION\nCLOSED", { bg: "#0d1c14", accent: "#f2894b", fg: "#ffd9b0", scale: 0.3 }));
       },
