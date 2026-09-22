@@ -30,8 +30,9 @@
   }
   /* Device profiles (shared/devices.js): a monocular hardhat display or a
      see-through visor gets a larger, higher-contrast HUD; see-through sits
-     on black so the real site shows through. */
-  html[data-profile="assisted"] #react-root, html[data-profile="seethrough"] #react-root, html[data-profile="mr"] #react-root,
+     on black so the real site shows through; a hand-tracked headset gets
+     a slightly larger HUD for pinch targets. */
+  html[data-profile="assisted"] #react-root, html[data-profile="seethrough"] #react-root, html[data-profile="mr"] #react-root, html[data-profile="hands"] #react-root,
   html[data-profile="assisted"] #alarm, html[data-profile="seethrough"] #alarm { zoom: var(--hud-scale, 1); }
   html[data-profile="assisted"], html[data-profile="seethrough"] {
     --panel: rgba(0,0,0,.94); --panel-2: rgba(0,0,0,.94); --raised: rgba(6,10,16,.98); --raised-2: rgba(6,10,16,.98);
