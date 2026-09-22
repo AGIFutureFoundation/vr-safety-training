@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 139
+      "stations": 142
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "draught-line-cleaning",
+        "ice-well-breakage",
+        "keg-cellar-co2",
         "last-call-lockup",
         "allergen-cocktail",
         "till-drop-robbery",
@@ -1029,6 +1032,21 @@
           "app": "smartcity",
           "id": "patron-deescalation",
           "why": "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind."
+        },
+        {
+          "app": "smartcity",
+          "id": "keg-cellar-co2",
+          "why": "The barback's own cellar: CO2 and nitrogen chained upright, the room monitor read before the door ever opens, and the change worked coupler off, coupler on, leak-checked at the gauge."
+        },
+        {
+          "app": "smartcity",
+          "id": "ice-well-breakage",
+          "why": "A glass breaks into the well mid-service: the well stopped and marked, the ice burned down rather than picked through, and the cut it leaves you treated to the same bloodborne-pathogens plan as any other bar-top spill."
+        },
+        {
+          "app": "smartcity",
+          "id": "draught-line-cleaning",
+          "why": "The lines cleaned to the cleaner's own SDS: taps tagged before the chemical goes in, contact time held, and nothing reconnected until the strip reads a neutral pH."
         },
         {
           "app": "smartcity",
@@ -5363,6 +5381,251 @@
     },
     {
       "app": "smartcity",
+      "id": "draught-line-cleaning",
+      "name": "Draught Line Cleaning",
+      "title": "SmartCiti.X~ Draught Line Cleaning VR",
+      "tagline": "Beer lines cleaned to the SDS: goggles and gloves, taps tagged, solution pumped and given its contact time, flushed to a neutral pH, kegs back on and the first pour thrown away",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "UNITE HERE Local 2 bartenders; Cal/OSHA 8 CCR §5194 Hazard Communication for the line cleaner's own safety data sheet and label; OSHA's eye and skin protection requirements (29 CFR 1910.133) behind the goggles-and-gloves rule; NSF/ANSI 18-listed draught dispensing equipment and tubing; the ANSI-accredited California Food Handler card every bartender on this line also holds; the Brewers Association's draught quality guidance on contact time and neutral-pH flushing",
+      "accent": "#9fc94f",
+      "parSeconds": 275,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "neutral-and-clean",
+        "name": "Neutral and Clean",
+        "note": "A full line clean read neutral on the strip with every tap tagged and nobody poured from it — first time"
+      },
+      "meshes": 199,
+      "lights": 0,
+      "overBudget": false,
+      "index": "139",
+      "flat": false,
+      "system": "Draught Quality",
+      "currency": "PH",
+      "ranks": [
+        "New Bartender",
+        "Line Certified",
+        "Lead Bartender",
+        "Bar Manager",
+        "Draught Quality Certified"
+      ],
+      "awards": [
+        {
+          "id": "sds-first",
+          "name": "SDS First",
+          "note": "Read the SDS before the bottle was ever opened"
+        },
+        {
+          "id": "never-crossed",
+          "name": "Never Crossed",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "reads-neutral",
+          "name": "Reads Neutral",
+          "note": "pH strip and the whole run inside band"
+        },
+        {
+          "id": "clean-cycle",
+          "name": "Clean Cycle",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-contact",
+          "name": "Steady Contact",
+          "note": "Held contact time the full count without a break"
+        },
+        {
+          "id": "lines-back-fast",
+          "name": "Lines Back Fast",
+          "note": "Kegs reconnected inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=draught-line-cleaning"
+    },
+    {
+      "app": "smartcity",
+      "id": "ice-well-breakage",
+      "name": "Ice Well Breakage",
+      "title": "SmartCiti.X~ Ice Well Breakage VR",
+      "tagline": "A glass breaks into the well: stop the well, mark it, burn the ice, sanitise and refill — and the cut it leaves you treated the same way the exposure plan requires",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Barback — UNITE HERE Local 2",
+      "union": null,
+      "certification": "UNITE HERE Local 2 barbacks; the California Retail Food Code (the ANSI-accredited FDA Food Code as adopted) on ice as a food and the equipment that touches it; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for the cut and the clean-up; Cal/OSHA's Injury and Illness Prevention Program (8 CCR §3203) requiring the incident to be logged; NSF-listed ice bins and scoops",
+      "accent": "#5fb0c9",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "drag"
+      ],
+      "badge": {
+        "id": "well-cleared",
+        "name": "Well Cleared",
+        "note": "A contaminated well stopped, burned, sanitised and back on line — and a cut treated clean, first time"
+      },
+      "meshes": 189,
+      "lights": 0,
+      "overBudget": false,
+      "index": "138",
+      "flat": false,
+      "system": "Service Recovery",
+      "currency": "POUR",
+      "ranks": [
+        "New Barback",
+        "Well Runner",
+        "Lead Barback",
+        "Service Captain",
+        "Service Recovery Certified"
+      ],
+      "awards": [
+        {
+          "id": "stopped-first",
+          "name": "Stopped It First",
+          "note": "Took the well out of service before touching anything else"
+        },
+        {
+          "id": "no-bare-hands",
+          "name": "No Bare Hands",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "reads-clean",
+          "name": "Reads Clean",
+          "note": "Sanitiser strip and the whole run inside band"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-pressure",
+          "name": "Steady Pressure",
+          "note": "Held bleed control the full count without a break"
+        },
+        {
+          "id": "well-back-fast",
+          "name": "Well Back Fast",
+          "note": "Well back in service inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ice-well-breakage"
+    },
+    {
+      "app": "smartcity",
+      "id": "keg-cellar-co2",
+      "name": "Keg Cellar CO2",
+      "title": "SmartCiti.X~ Keg Cellar CO2 VR",
+      "tagline": "A keg change in the cellar: cylinders chained, the monitor read before entry, coupler off then on, a leak checked at the gauge, the line purged, and the door left open",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Barback — UNITE HERE Local 2",
+      "union": null,
+      "certification": "UNITE HERE Local 2 barbacks; NIOSH guidance on carbon dioxide hazards in beverage cellars; OSHA's Hazard Communication standard (29 CFR 1910.1200), carried locally by Cal/OSHA's own §5194 and §3203 Injury and Illness Prevention Program; the ANSI-accredited California Food Handler card every barback on this line also holds; NSF-listed keg couplers and gas-line assemblies; the Compressed Gas Association's cylinder-handling practice",
+      "accent": "#d99a4e",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "drag",
+        "select",
+        "find"
+      ],
+      "badge": {
+        "id": "cellar-clean-change",
+        "name": "Cellar Clean Change",
+        "note": "A keg change with the monitor read, both bottles verified, no leak and the door left open — first time"
+      },
+      "meshes": 199,
+      "lights": 0,
+      "overBudget": false,
+      "index": "137",
+      "flat": false,
+      "system": "Cellar Operations",
+      "currency": "PSI",
+      "ranks": [
+        "New Barback",
+        "Cellar Hand",
+        "Lead Barback",
+        "Cellar Steward",
+        "Cellar Operations Certified"
+      ],
+      "awards": [
+        {
+          "id": "monitor-first",
+          "name": "Monitor First",
+          "note": "Read the cellar monitor clean before touching a valve"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone With A Leak",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "quarter-turn",
+          "name": "Quarter Turn",
+          "note": "Both couplers and the leak check inside the band"
+        },
+        {
+          "id": "clean-change",
+          "name": "Clean Change",
+          "note": "No corrections anywhere in the change"
+        },
+        {
+          "id": "steady-brace",
+          "name": "Steady Brace",
+          "note": "Held the lift brace the full count without a break"
+        },
+        {
+          "id": "changed-fast",
+          "name": "Changed In Time",
+          "note": "Keg on line inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=keg-cellar-co2"
+    },
+    {
+      "app": "smartcity",
       "id": "last-call-lockup",
       "name": "Last Call & Lockup",
       "title": "SmartCiti.X~ Last Call & Lockup VR",
@@ -8262,7 +8525,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 268,
       "lights": 0,
       "overBudget": false,
       "index": "92",

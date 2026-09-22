@@ -5889,5 +5889,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "keg-cellar-co2",
+    "index": "137",
+    "domain": "Culinary & Hospitality",
+    "trade": "Barback — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 barbacks; NIOSH guidance on carbon dioxide hazards in beverage cellars; OSHA's Hazard Communication standard (29 CFR 1910.1200), carried locally by Cal/OSHA's own §5194 and §3203 Injury and Illness Prevention Program; the ANSI-accredited California Food Handler card every barback on this line also holds; NSF-listed keg couplers and gas-line assemblies; the Compressed Gas Association's cylinder-handling practice",
+    "name": "Keg Cellar CO2",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Keg Cellar CO2 VR",
+    "tagline": "A keg change in the cellar: cylinders chained, the monitor read before entry, coupler off then on, a leak checked at the gauge, the line purged, and the door left open",
+    "accent": 14260814,
+    "accentCss": "#d99a4e",
+    "parSeconds": 265,
+    "badge": {
+      "id": "cellar-clean-change",
+      "name": "Cellar Clean Change",
+      "note": "A keg change with the monitor read, both bottles verified, no leak and the door left open — first time"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cellar Operations",
+      "currency": "PSI",
+      "ranks": [
+        "New Barback",
+        "Cellar Hand",
+        "Lead Barback",
+        "Cellar Steward",
+        "Cellar Operations Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ice-well-breakage",
+    "index": "138",
+    "domain": "Culinary & Hospitality",
+    "trade": "Barback — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 barbacks; the California Retail Food Code (the ANSI-accredited FDA Food Code as adopted) on ice as a food and the equipment that touches it; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for the cut and the clean-up; Cal/OSHA's Injury and Illness Prevention Program (8 CCR §3203) requiring the incident to be logged; NSF-listed ice bins and scoops",
+    "name": "Ice Well Breakage",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Ice Well Breakage VR",
+    "tagline": "A glass breaks into the well: stop the well, mark it, burn the ice, sanitise and refill — and the cut it leaves you treated the same way the exposure plan requires",
+    "accent": 6271177,
+    "accentCss": "#5fb0c9",
+    "parSeconds": 260,
+    "badge": {
+      "id": "well-cleared",
+      "name": "Well Cleared",
+      "note": "A contaminated well stopped, burned, sanitised and back on line — and a cut treated clean, first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Service Recovery",
+      "currency": "POUR",
+      "ranks": [
+        "New Barback",
+        "Well Runner",
+        "Lead Barback",
+        "Service Captain",
+        "Service Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "draught-line-cleaning",
+    "index": "139",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 bartenders; Cal/OSHA 8 CCR §5194 Hazard Communication for the line cleaner's own safety data sheet and label; OSHA's eye and skin protection requirements (29 CFR 1910.133) behind the goggles-and-gloves rule; NSF/ANSI 18-listed draught dispensing equipment and tubing; the ANSI-accredited California Food Handler card every bartender on this line also holds; the Brewers Association's draught quality guidance on contact time and neutral-pH flushing",
+    "name": "Draught Line Cleaning",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Draught Line Cleaning VR",
+    "tagline": "Beer lines cleaned to the SDS: goggles and gloves, taps tagged, solution pumped and given its contact time, flushed to a neutral pH, kegs back on and the first pour thrown away",
+    "accent": 10471759,
+    "accentCss": "#9fc94f",
+    "parSeconds": 275,
+    "badge": {
+      "id": "neutral-and-clean",
+      "name": "Neutral and Clean",
+      "note": "A full line clean read neutral on the strip with every tap tagged and nobody poured from it — first time"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Draught Quality",
+      "currency": "PH",
+      "ranks": [
+        "New Bartender",
+        "Line Certified",
+        "Lead Bartender",
+        "Bar Manager",
+        "Draught Quality Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
