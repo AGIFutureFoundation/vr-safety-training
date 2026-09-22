@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 94
+      "stations": 99
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "spartina-removal",
         "isco-injection",
         "bioswale-build",
         "transite-pipe-removal",
@@ -157,6 +158,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "ballast-water-sampling",
         "spill-boom-deploy",
         "shore-power-hookup",
         "creosote-pile-removal",
@@ -181,6 +183,14 @@
         "rad-survey",
         "stack-test",
         "landfill-gas"
+      ]
+    },
+    {
+      "name": "Dental & Oral Health",
+      "stations": [
+        "amalgam-waste-handling",
+        "chairside-emergency",
+        "nitrous-oxide-monitoring"
       ]
     },
     {
@@ -732,6 +742,11 @@
         },
         {
           "app": "smartcity",
+          "id": "spartina-removal",
+          "why": "The planted marsh defended from the cordgrass that would take it over: the treatment map read instead of the eye, a buffer held around a nesting endangered rail no label rate excuses crossing, and the herbicide mixed off the marsh and applied under the wind limit."
+        },
+        {
+          "app": "smartcity",
           "id": "eelgrass-transplant",
           "why": "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water."
         }
@@ -764,6 +779,21 @@
           "app": "trades",
           "id": "phlebotomy",
           "why": "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up."
+        },
+        {
+          "app": "smartcity",
+          "id": "nitrous-oxide-monitoring",
+          "why": "The hygienist's own separate permit at work: screening, the fail-safe, scavenging and a titration held inside NIOSH's exposure limit and the board's ceiling on the concentration itself."
+        },
+        {
+          "app": "smartcity",
+          "id": "chairside-emergency",
+          "why": "The chair's worst afternoon: a syncope that will not resolve, an anaphylaxis to the local anaesthetic, and the office emergency kit and the AED carrying the response from there."
+        },
+        {
+          "app": "smartcity",
+          "id": "amalgam-waste-handling",
+          "why": "The mercury side of the same clinic: a certified separator, scrap routed to one labelled stream instead of the trash or the sharps, and a manifest to the recycler at the end of it."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -929,6 +959,11 @@
           "app": "smartcity",
           "id": "bunkering-watch",
           "why": "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to."
+        },
+        {
+          "app": "smartcity",
+          "id": "ballast-water-sampling",
+          "why": "The inspection that happens before that same ship ever reaches a working berth: record book and treatment certificate checked, a sample drawn under chain of custody, and the discharge held until the number comes back."
         },
         {
           "app": "smartcity",
@@ -5050,6 +5085,418 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "amalgam-waste-handling",
+      "name": "Amalgam Waste Handling",
+      "title": "SmartCiti.X~ Amalgam Waste Handling VR",
+      "tagline": "Separator certification and canister change, scrap routed to the amalgam waste stream, the recycler's manifest and a mercury spill kit",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "The EPA's amalgam separator rule (40 CFR 441) and its 95 percent removal standard for dental offices that place or remove amalgam; the state's mercury and hazardous dental waste rules; OSHA 29 CFR 1910.1000 air contaminants for mercury vapour and 1910.1200 hazard communication; the ADA's best management practices for amalgam waste",
+      "accent": "#c9a24a",
+      "parSeconds": 255,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "turn",
+        "track",
+        "select",
+        "gauge",
+        "sequence",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "closed-loop",
+        "name": "Closed Loop",
+        "note": "Every gram of scrap into the amalgam stream — nothing to the trash, the sharps or the drain"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "127",
+      "flat": false,
+      "system": "Mercury Handling",
+      "currency": "HG",
+      "ranks": [
+        "Waste Handler",
+        "Separator Trained",
+        "Compliance Lead",
+        "Environmental Officer",
+        "Mercury Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-mixed",
+          "name": "Never Mixed",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "logged-clean",
+          "name": "Logged Clean",
+          "note": "The separator log touched without a single correction"
+        },
+        {
+          "id": "steady-flush",
+          "name": "Steady Flush",
+          "note": "Line flush held in band the whole way"
+        },
+        {
+          "id": "shift-time",
+          "name": "Shift Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-handling",
+          "name": "Clean Handling",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=amalgam-waste-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "chairside-emergency",
+      "name": "Chairside Emergency",
+      "title": "SmartCiti.X~ Chairside Emergency VR",
+      "tagline": "Syncope, escalating to anaphylaxis and a pulseless patient — the office emergency kit, BLS and the AED",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
+      "accent": "#f0a35b",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "select",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "chair-to-code",
+        "name": "Chair to Code",
+        "note": "The full escalation answered clean — syncope, anaphylaxis and the AED"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "126",
+      "flat": false,
+      "system": "Emergency Response",
+      "currency": "BLS",
+      "ranks": [
+        "First on Scene",
+        "Kit Trained",
+        "Code Lead",
+        "Team Captain",
+        "Response Certified"
+      ],
+      "awards": [
+        {
+          "id": "kit-known",
+          "name": "Kit Known",
+          "note": "Every item in the emergency kit identified before it is needed"
+        },
+        {
+          "id": "no-hesitation",
+          "name": "No Hesitation",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "steady-compressions",
+          "name": "Steady Compressions",
+          "note": "Held compression depth in band the whole cycle"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-code",
+          "name": "Clean Code",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=chairside-emergency"
+    },
+    {
+      "app": "smartcity",
+      "id": "nitrous-oxide-monitoring",
+      "name": "Nitrous Oxide Monitoring",
+      "title": "SmartCiti.X~ Nitrous Oxide Monitoring VR",
+      "tagline": "Permit, patient screening, fail-safe and scavenging checks, titration and monitored recovery on a nitrous oxide-oxygen sedation",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "The Dental Hygiene Board of California's nitrous oxide-oxygen sedation permit for hygienists, held separately from the hygiene licence, and the scope the state dental practice act sets for it; NIOSH's recommended exposure limit for nitrous oxide of 25 ppm during administration and its scavenging-system guidance; the ADA's guidelines for the use of sedation and general anesthesia; OSHA 29 CFR 1910.1030 bloodborne pathogens for patient contact",
+      "accent": "#8fd6c9",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "gauge",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "clean-titration",
+        "name": "Clean Titration",
+        "note": "Permit verified, screening clean, and the whole sedation held inside the permit's ceiling"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "125",
+      "flat": false,
+      "system": "Sedation Practice",
+      "currency": "N2O",
+      "ranks": [
+        "Permit Candidate",
+        "Permitted Hygienist",
+        "Sedation Lead",
+        "Board Reviewer",
+        "Sedation Certified"
+      ],
+      "awards": [
+        {
+          "id": "screened-clean",
+          "name": "Screened Clean",
+          "note": "Every contraindication caught before the mask goes on"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Titration held close to the plan's target"
+        },
+        {
+          "id": "on-permit-time",
+          "name": "On Permit Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-sedation",
+          "name": "Clean Sedation",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "five-straight",
+          "name": "Five Straight",
+          "note": "Five correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=nitrous-oxide-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "spartina-removal",
+      "name": "Spartina Removal",
+      "title": "SmartCiti.X~ Spartina Removal VR",
+      "tagline": "Invasive hybrid cordgrass control on a restored marsh: treatment map and tide window read, boundary and rail buffer set out, imazapyr mixed off the marsh to the label rate, sprayer calibrated, applied under the wind limit with the drift card checked, clumps flagged for follow-up, containers triple-rinsed, and the treatment logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Invasive species control laborer — Spartina crew",
+      "union": null,
+      "certification": "LIUNA laborers — control crew; California Department of Pesticide Regulation (DPR) qualified applicator license for imazapyr, an EPA-registered aquatic herbicide; OSHA 29 CFR 1910.1200 Hazard Communication for the concentrate's SDS and label; Invasive Spartina Project treatment protocol and reporting; U.S. Fish and Wildlife Service — Endangered Species Act, Ridgway's rail buffer; San Francisco Bay Regional Water Quality Control Board Clean Water Act (CWA) NPDES aquatic pesticide permit; San Francisco Bay Conservation and Development Commission (BCDC) permit",
+      "accent": "#c9a227",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "buffer-held",
+        "name": "Buffer Held",
+        "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
+      },
+      "meshes": 267,
+      "lights": 0,
+      "overBudget": false,
+      "index": "100",
+      "flat": false,
+      "system": "Spartina Crew",
+      "currency": "CLUMP",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Applicator",
+        "Crew Steward",
+        "Spartina Certified"
+      ],
+      "awards": [
+        {
+          "id": "map-true",
+          "name": "Map True",
+          "note": "Boundary and buffer both set out clean before the first clump was sprayed"
+        },
+        {
+          "id": "buffer-clean",
+          "name": "Buffer Clean",
+          "note": "Never a hazard, never a drop past the rail's buffer"
+        },
+        {
+          "id": "rate-true",
+          "name": "Rate True",
+          "note": "Mixing ratio and drift card both read inside the working band"
+        },
+        {
+          "id": "clean-treatment",
+          "name": "Clean Treatment",
+          "note": "No corrections across the whole treatment"
+        },
+        {
+          "id": "sweep-held",
+          "name": "Sweep Held Steady",
+          "note": "Held the sprayer sweep the whole application"
+        },
+        {
+          "id": "marsh-cleared",
+          "name": "Marsh Cleared Fast",
+          "note": "Treatment closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=spartina-removal"
+    },
+    {
+      "app": "smartcity",
+      "id": "ballast-water-sampling",
+      "name": "Ballast Water Sampling",
+      "title": "SmartCiti.X~ Ballast Water Sampling VR",
+      "tagline": "Port state inspection of a ship's ballast water: record book and management plan against the voyage, the treatment system's certificate checked, the sampling point isolated and flushed, a representative sample under chain of custody, the indicative analysis run, discharge held on the port's order, the officer's signature, and enclosed-space rules observed at the sounding pipe",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Ship's engineer / port state control inspector — ballast water compliance",
+      "union": null,
+      "certification": "Inlandboatmen's Union of the Pacific (IBU) and SIU — ship's side; ILWU marine clerks and AFSCME port state inspectors — the boarding team; IMO International Convention for the Control and Management of Ships' Ballast Water and Sediments (BWM Convention); U.S. Coast Guard ballast water management regulations, 33 CFR Part 151 Subpart D; California State Lands Commission's Marine Invasive Species Program (MISP); OSHA 29 CFR 1915 Subpart B enclosed and confined spaces",
+      "accent": "#3c7ea8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "track",
+        "drag",
+        "hold",
+        "sequence",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-hold",
+        "name": "Clean Hold",
+        "note": "A sample drawn to protocol, chain of custody unbroken, and the discharge held until the number came back — first time"
+      },
+      "meshes": 213,
+      "lights": 0,
+      "overBudget": false,
+      "index": "99",
+      "flat": false,
+      "system": "Boarding Team",
+      "currency": "TANK",
+      "ranks": [
+        "Cadet",
+        "Third Engineer",
+        "Second Engineer",
+        "Chief Engineer",
+        "Port State Certified"
+      ],
+      "awards": [
+        {
+          "id": "line-clean",
+          "name": "Line Clean",
+          "note": "Flushed and drew the sample without a single contaminated draw"
+        },
+        {
+          "id": "hold-kept",
+          "name": "Hold Kept",
+          "note": "Discharge never moved before the result was in, chain of custody never broken"
+        },
+        {
+          "id": "count-true",
+          "name": "Count True",
+          "note": "Indicative analysis and the flush both read inside the working band"
+        },
+        {
+          "id": "clean-boarding",
+          "name": "Clean Boarding",
+          "note": "No corrections across the whole inspection"
+        },
+        {
+          "id": "hold-steady",
+          "name": "Hold Held Steady",
+          "note": "Discharge rate held at zero the whole wait"
+        },
+        {
+          "id": "cleared-fast",
+          "name": "Cleared Fast",
+          "note": "Boarding closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ballast-water-sampling"
     },
     {
       "app": "smartcity",

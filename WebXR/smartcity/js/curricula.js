@@ -194,6 +194,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "creosote-pile-removal", why: "The derelict structures still standing in the mud: a century-old creosote pile pulled whole inside a curtain of its own, drained over the barge rather than the bay, and any stub it leaves behind marked before the barge moves on." },
       { app: "smartcity", id: "tide-gate", why: "The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee." },
       { app: "smartcity", id: "living-shoreline", why: "The water's edge rebuilt as habitat — coir, oyster shell, cordgrass at the design elevation — inside the tide window and the fish window." },
+      { app: "smartcity", id: "spartina-removal", why: "The planted marsh defended from the cordgrass that would take it over: the treatment map read instead of the eye, a buffer held around a nesting endangered rail no label rate excuses crossing, and the herbicide mixed off the marsh and applied under the wind limit." },
       { app: "smartcity", id: "eelgrass-transplant", why: "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water." },
     ],
   },
@@ -225,7 +226,9 @@ export const CURRICULA = [
       // slot-dental-1
       // slot-dental-2
       // slot-dental-3
-      // slot-dental-4
+      { app: "smartcity", id: "nitrous-oxide-monitoring", why: "The hygienist's own separate permit at work: screening, the fail-safe, scavenging and a titration held inside NIOSH's exposure limit and the board's ceiling on the concentration itself." },
+      { app: "smartcity", id: "chairside-emergency", why: "The chair's worst afternoon: a syncope that will not resolve, an anaphylaxis to the local anaesthetic, and the office emergency kit and the AED carrying the response from there." },
+      { app: "smartcity", id: "amalgam-waste-handling", why: "The mercury side of the same clinic: a certified separator, scrap routed to one labelled stream instead of the trash or the sharps, and a manifest to the recycler at the end of it." },
       // slot-dental-5
     ],
   },
@@ -289,6 +292,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "container-lashing", why: "Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear." },
       { app: "smartcity", id: "shore-power-hookup", why: "Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists." },
       { app: "smartcity", id: "bunkering-watch", why: "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to." },
+      { app: "smartcity", id: "ballast-water-sampling", why: "The inspection that happens before that same ship ever reaches a working berth: record book and treatment certificate checked, a sample drawn under chain of custody, and the discharge held until the number comes back." },
       { app: "smartcity", id: "spill-boom-deploy", why: "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it." },
       { app: "smartcity", id: "pilot-transfer", why: "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call." },
       { app: "smartcity", id: "mooring-line", why: "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in." },
