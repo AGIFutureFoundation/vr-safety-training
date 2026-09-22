@@ -87,6 +87,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "recognize", kind: "find", noHint: true,
+      noRobot: true, forceClass: "light",
+      robotNote: "Reading pallor, sweat and a pulse is hands on a collapsing patient.",
       targets: ["sign-pallor", "sign-sweat", "sign-pulse"],
       itemNames: { "sign-pallor": "pale skin", "sign-sweat": "cold sweat", "sign-pulse": "weak, slow pulse" },
       itemNotes: {
@@ -100,6 +102,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "position", kind: "sequence",
+      noRobot: true, forceClass: "firm",
+      robotNote: "Reclining the chair and raising the legs of somebody who has just lost consciousness.",
       targets: ["chair-supine", "legs-raised"],
       itemNames: { "chair-supine": "chair to supine", "legs-raised": "legs raised" },
       title: "Recline the chair and raise the legs",
@@ -109,6 +113,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "airway", kind: "hold", target: "patient-airway", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "The airway. Never the robot's, at any skill.",
       title: "Open the airway and check breathing",
       cue: "Hold the head-tilt chin-lift and confirm breathing.",
       why: "An unconscious or semi-conscious patient's own tongue is the most common airway obstruction in the chair, and the head-tilt chin-lift clears it in the same motion that lets you watch for breathing. This is checked before oxygen goes on, because oxygen delivered to a closed airway does not reach anywhere that matters.",
@@ -123,12 +129,16 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "o2-mask", kind: "select", target: "o2-mask",
+      noRobot: true, forceClass: "light",
+      robotNote: "Oxygen onto a patient's face.",
       title: "Apply oxygen",
       cue: "Place the mask once flow is confirmed.",
       why: "Oxygen is the single item in this kit that helps almost every emergency it might be reached for, which is why it is applied early and kept running rather than held back to see whether the patient needs it after all.",
     },
     {
       id: "vitals", kind: "sequence",
+      forceClass: "light",
+      robotNote: "Cuff and oximeter placement is assistant work the robot may do while the clinician holds the airway.",
       targets: ["bp-cuff", "pulse-ox", "vitals-record"],
       itemNames: { "bp-cuff": "blood pressure", "pulse-ox": "pulse oximeter", "vitals-record": "record vitals" },
       title: "Take and record vitals",
@@ -138,6 +148,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "anaphylaxis", kind: "sequence",
+      noRobot: true, forceClass: "firm",
+      robotNote: "An injection into a patient's thigh, and the call that has to follow it.",
       targets: ["epi-autoinjector", "call-911"],
       itemNames: { "epi-autoinjector": "epinephrine auto-injector", "call-911": "call 911" },
       title: "Anaphylaxis to the local anaesthetic — epinephrine, then the call",
@@ -147,6 +159,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "cpr", kind: "track", target: "cpr-point", seconds: 8,
+      noRobot: true, forceClass: "firm",
+      robotNote: "Compressions on a human chest.",
       title: "Start chest compressions — no pulse",
       cue: "Compress at the correct depth and hold it steady — too shallow does nothing, too hard risks injury.",
       why: "The American Heart Association's Basic Life Support sequence calls for compressions the instant a pulse cannot be found, at a depth and rate that actually generates circulation — a compression that never reaches full depth moves no blood, and this is the one part of the whole response where doing it approximately is the same as not doing it.",
@@ -158,6 +172,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "aed-pads", kind: "drag", target: "backup-pads",
+      noRobot: true, forceClass: "light",
+      robotNote: "Pads onto a bare chest, positioned by eye.",
       title: "Attach the AED pads",
       cue: "Place the pads on the bare chest, upper right and lower left, without stopping compressions longer than necessary.",
       why: "Pad placement follows the diagram on the pack — upper right of the sternum, lower left ribs — because a pad placed by guesswork can read the rhythm wrong or fail to deliver a shock through the heart at all. Compressions pause only for the seconds the AED actually needs to analyse.",
@@ -165,6 +181,8 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     },
     {
       id: "aed-shock", kind: "select", target: "aed-analyze",
+      noRobot: true, forceClass: "none",
+      robotNote: "The decision to shock a person stays with the person who can be held to it.",
       title: "Analyse and shock as prompted",
       cue: "Stand clear and follow the AED's voice prompts.",
       why: "The AED decides whether a shock is indicated from the rhythm it reads — the operator's job is staying clear during analysis and delivering the shock the device calls for, not second-guessing the prompt. Voice-prompted devices exist so that this step needs no judgement call under pressure.",
@@ -228,6 +246,11 @@ export const SIM_CHAIRSIDE_EMERGENCY = {
     ball(opLightArm, 0.02, 0, 1.56, 0.48, 0xfff6dc, { emissive: 0xfff6dc, ei: 1.0 });
 
     const patient = seatedFigure(chair, 0, 1.02, -0.42, { skin: 0xd9a985, cloth: 0x6b7f8c, ry: -0.15 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.torso.rotation.x = -0.6;
     patient.head.rotation.set(0.4, 0, -0.15);
     reg(hits, patient.head, "patient-airway");

@@ -71,6 +71,8 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "knee-to-knee", kind: "drag", target: "child",
+      noRobot: true, forceClass: "firm",
+      robotNote: "Positioning a child across a parent's lap.",
       title: "Position the child knee-to-knee with the parent",
       cue: "Bring the child across from the parent's lap into the knee-to-knee position facing you.",
       why: "Knee-to-knee puts the child's head in your lap and their body across the parent's, with your knees and the parent's touching — the parent stays in physical contact the whole visit, which is most of what makes a first exam tolerable for a child this age, and it gives you the light and the angle a full-size chair cannot at this size.",
@@ -78,6 +80,8 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "light-aim", kind: "select", target: "exam-light",
+      forceClass: "light",
+      robotNote: "The light swings over the child's face.",
       title: "Aim the light for the knee-to-knee height",
       cue: "Bring the exam light down to the working height of the knee-to-knee position.",
       why: "The light is set for an adult in a reclined chair by default, and a child's mouth at knee-to-knee height is a foot lower and a different angle entirely — aimed wrong, you are working half-blind into your own shadow for the whole exam.",
@@ -93,6 +97,8 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "read-cooperation", kind: "find", noHint: true,
+      forceClass: "none",
+      robotNote: "Fists, a turned head and a grip on a parent are read by looking: the robot may be in the volume and may not touch.",
       targets: ["clenched-fists", "turned-away", "gripping-parent"],
       itemNames: { "clenched-fists": "clenched fists", "turned-away": "head turned away", "gripping-parent": "gripping the parent's sleeve" },
       itemNotes: {
@@ -106,6 +112,8 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "toothbrush-prophy", kind: "gauge", target: "prophy-handpiece",
+      noRobot: true, forceClass: "light",
+      robotNote: "A slow-speed cup polishing a child's teeth.",
       title: "Set the slow-speed polishing cup",
       cue: "Bring the prophy cup up to speed and commit inside the comfortable band.",
       why: "A five-year-old's enamel is thinner than an adult's and a five-year-old's nerves are a lot closer to a spinning cup than an adult's are — too slow and the polish does nothing, too fast and the vibration and the noise alone can undo everything tell-show-do just built.",
@@ -113,6 +121,8 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "intraoral-exam", kind: "track", target: "mirror", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "Retraction and a tooth count, inside the mouth.",
       title: "Hold gentle retraction while you count the teeth",
       cue: "Keep the mirror's retraction light and steady while you look, tooth by tooth.",
       why: "Retraction only has to be firm enough to hold the cheek clear of the view, and on a child that band is narrower than on an adult — too light and the cheek falls back across the teeth you are trying to see, too firm and the discomfort alone can end the exam faster than anything you actually find in the mouth.",
@@ -133,12 +143,16 @@ export const SIM_PEDIATRIC_VISIT = {
     },
     {
       id: "varnish-apply", kind: "select", target: "fluoride-varnish",
+      noRobot: true, forceClass: "light",
+      robotNote: "Varnish onto a child's teeth.",
       title: "Apply the fluoride varnish",
       cue: "Paint the child's unit-dose varnish onto the dried teeth.",
       why: "Varnish sets on contact with saliva, which is exactly why the teeth are dried first and why the dose comes pre-measured for this child's size in its own single-use packet — there is no field mixing and no adult-sized applicator anywhere near this part of the visit.",
     },
     {
       id: "varnish-set", kind: "hold", target: "cotton-rolls", seconds: 5,
+      noRobot: true, forceClass: "light",
+      robotNote: "Cotton rolls held in the mouth while the varnish sets.",
       title: "Hold the cotton rolls while the varnish sets",
       cue: "Keep the cotton rolls in place so the varnish sets without saliva contact.",
       why: "The varnish needs a few minutes of true isolation to bond to the enamel, and the cotton rolls are the only thing holding saliva off it during that window — pull them early and the varnish that just went on can wash straight back off before it has set at all.",
@@ -218,6 +232,11 @@ export const SIM_PEDIATRIC_VISIT = {
     // Built lying, so check_layout's crew rule (which only holds a standing
     // figure to a clearance test) does not apply to a five-year-old on a lap.
     const child = standingFigure(g, -0.55, 0.0, { lying: true, ry: -0.05, skin: 0xe0b183, cloth: 0xf2e0a0, vest: null });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    child.userData.patient = { part: "torso", radius: 0.24 };
+    child.userData.head.userData.patient = { part: "head", radius: 0.16 };
     child.scale.setScalar(0.8);
     child.position.set(-0.55, 0.68, -0.15);
     // The "lying" transform lays the body out along local Z; a knee-to-knee

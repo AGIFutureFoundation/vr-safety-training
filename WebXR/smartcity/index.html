@@ -382,6 +382,25 @@
   .prog-app{ display:inline-block; margin-left:7px; padding:1px 6px; border-radius:5px; background:var(--edge); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase }
   .prog-why{ display:block; color:var(--muted); margin-top:2px }
   .prog-done{ color:var(--good); font-size:13px; font-weight:600; margin:0 }
+  /* Robot training on a programme: the calibration control and the difficulty
+     curve it fills in, a bar per rung of the policy's skill ladder. */
+  .robot-card{ border:1px solid var(--edge); border-radius:10px; background:var(--surface); padding:10px 12px; margin:0 0 12px }
+  .robot-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px }
+  .robot-head h3{ font-family:var(--cond); font-weight:600; font-size:15px; margin:0 }
+  .robot-sub{ color:var(--muted); font-size:12px; line-height:1.5; margin-top:2px; max-width:52ch }
+  .robot-head button{ white-space:nowrap }
+  .robot-progress{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted); margin-top:8px }
+  .robot-spin{ width:10px; height:10px; border-radius:50%; background:var(--prog, var(--accent)); animation:robotpulse 1s ease-in-out infinite }
+  @keyframes robotpulse{ 0%,100%{ opacity:.25 } 50%{ opacity:1 } }
+  .robot-curve{ display:flex; align-items:flex-end; gap:8px; margin:10px 0 6px; height:92px }
+  .robot-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px }
+  .robot-bar{ width:100%; height:64px; display:flex; align-items:flex-end; background:var(--surface-raised); border-radius:4px; overflow:hidden }
+  .robot-bar span{ display:block; width:100%; background:var(--prog, var(--accent)); border-radius:4px 4px 0 0; transition:height .3s ease; min-height:2px }
+  .robot-pct{ font-family:var(--cond); font-size:11.5px; font-weight:600 }
+  .robot-skill{ color:var(--muted); font-size:10.5px; letter-spacing:.03em }
+  .robot-legend{ color:var(--muted); font-size:11.5px; line-height:1.5 }
+  .robot-note{ font-size:12px; margin-top:6px; color:var(--text) }
+  @media (prefers-reduced-motion: reduce){ .robot-spin{ animation:none } .robot-bar span{ transition:none } }
   /* Step-by-step debrief under the score: a bar per step scaled to the
      longest one, tinted by whether the step was clean, corrected or unsafe. */
   .debrief{ margin:14px 0 4px; border:1px solid var(--edge); border-radius:12px; background:var(--surface-raised); padding:10px 12px; text-align:left }

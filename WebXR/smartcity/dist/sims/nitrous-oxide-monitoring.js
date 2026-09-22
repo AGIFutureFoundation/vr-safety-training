@@ -114,6 +114,8 @@ export const SIM_NITROUS_OXIDE_MONITORING = {
     },
     {
       id: "mask-fit", kind: "drag", target: "nasal-mask",
+      noRobot: true, forceClass: "light",
+      robotNote: "A mask on a patient's face is airway equipment; fitting it belongs to the clinician.",
       title: "Fit the nasal mask",
       cue: "Fit the nasal hood to the patient and seat it against the face.",
       why: "A mask that is not sealed against the face leaks nitrous oxide into the room instead of delivering it to the patient — the patient gets an under-dose and the room gets the difference. A proper seal is what makes every reading after this one mean what it says.",
@@ -132,6 +134,8 @@ export const SIM_NITROUS_OXIDE_MONITORING = {
     },
     {
       id: "monitor-hold", kind: "hold", target: "patient-face", seconds: 9,
+      noRobot: true, forceClass: "none",
+      robotNote: "Staying with a sedated patient is a duty of care, not a task to delegate.",
       title: "Stay with the patient and watch for response",
       cue: "Hold your attention on the patient's face and breathing — do not leave them.",
       why: "A sedated patient is monitored continuously, not glanced at between other tasks, because the signs that a sedation has gone too deep — slowed breathing, a patient who stops answering you — develop over seconds and are missed by anyone who looked away. This permit exists on the premise that somebody is watching the whole time.",
@@ -228,6 +232,11 @@ export const SIM_NITROUS_OXIDE_MONITORING = {
     ball(opLightArm, 0.02, 0, 1.56, 0.48, 0xfff6dc, { emissive: 0xfff6dc, ei: 1.0 });
 
     const patient = seatedFigure(chair, 0, 1.02, -0.42, { skin: 0xc99878, cloth: 0x6b7f8c, ry: -0.15 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.torso.rotation.x = -0.55;
     patient.head.rotation.x = 0.5;
     reg(hits, patient.head, "patient-face");

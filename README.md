@@ -94,7 +94,9 @@ certification requirement — sharing the same apprentice profile as Trade Skill
 training programmes they form, with screenshots, are on the generated
 [series page](docs/wiki/SmartCitiX-Training-Series.md), and the standards each one cites are on the generated
 [compliance matrix](docs/compliance/compliance-matrix.md); how they run on hardhat-mounted
-AR glasses and MR headsets is in the [device guide](docs/devices.md)), **Holodeck** (`WebXR/holodeck/`, a
+AR glasses and MR headsets is in the [device guide](docs/devices.md); the dental block doubles as a
+robot training simulator — poses, grasps, force ceilings and patient keep-out volumes — described in
+the [robot training guide](docs/robot-training.md)), **Holodeck** (`WebXR/holodeck/`, a
 prompt-driven generator that builds a scored safety-training procedure from a spoken or typed
 description, or loads any real SmartCiti.X station by name), and the **Safety Campus** WebXR
 companion described below.

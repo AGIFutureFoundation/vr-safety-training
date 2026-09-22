@@ -191,6 +191,10 @@ export const SIM_OPERATORY_TURNOVER = {
 
     // -------------------------------------------------------------- dental chair
     const chair = group(g, 0, 0, -1.0);
+    // Robot training: nobody is in this chair right now and somebody will be
+    // in a minute, so the headrest carries a default head keep-out volume an
+    // embodied trainee treats as occupied. See shared/robot-embodiment.js.
+    chair.userData.patientChair = { offset: [0, 1.34, -0.92], radius: 0.22 };
     slab(chair, 0.62, 0.14, 1.5, 0, 0.5, 0, 0x3a4a52, { radius: 0.08, rough: 0.55 });
     const back = slab(chair, 0.58, 0.9, 0.6, 0, 0.86, -0.55, 0x3a4a52, { radius: 0.08, rough: 0.55 });
     back.rotation.x = -0.35;

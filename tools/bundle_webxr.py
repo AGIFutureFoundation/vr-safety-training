@@ -84,6 +84,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "robot.js",
+            SHARED / "robot-embodiment.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
             SHARED / "environment.js",

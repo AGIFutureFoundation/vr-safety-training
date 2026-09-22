@@ -145,9 +145,9 @@ export const TRADES_ROOMS = ["electrical", "salon", "kitchen", "phlebotomy", "we
 const constName = (id) => id.toUpperCase().replace(/-/g, "_");
 
 export async function loadSmartCity() {
-  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js",
+  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js",
     ...SMARTCITY_SIMS.map((id) => `smartcity/js/sims/${id}.js`)];
-  const harness = `export const ROOMS = [${SMARTCITY_SIMS.map((id) => `SIM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };`;
+  const harness = `export const ROOMS = [${SMARTCITY_SIMS.map((id) => `SIM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };\nexport { buildEmbodiment, observeEmbodied, runEmbodiedEpisode, probeSkill, calibrateEmbodied, keepOutZones, stationPoses, stepEmbodiment, poseFor, worldPlacement, actionSpace, observationSchema, DIFFICULTY_LADDER, LICENCE_NOTE, FORCE_CLASSES, isPersonId };`;
   return buildSuite(modules, harness, "smartcity-robot");
 }
 /**
@@ -161,8 +161,8 @@ export async function loadIncidentStage() {
     `export { stageReplay };`, "incident-stage");
 }
 export async function loadTrades() {
-  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "trades/js/shopfit.js",
+  const modules = ["shared/kit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "trades/js/shopfit.js",
     ...TRADES_ROOMS.map((id) => `trades/js/rooms/${id}.js`)];
-  const harness = `export const ROOMS = [${TRADES_ROOMS.map((id) => `ROOM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };`;
+  const harness = `export const ROOMS = [${TRADES_ROOMS.map((id) => `ROOM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction };\nexport { buildEmbodiment, observeEmbodied, runEmbodiedEpisode, probeSkill, calibrateEmbodied, keepOutZones, stationPoses, stepEmbodiment, poseFor, worldPlacement, actionSpace, observationSchema, DIFFICULTY_LADDER, LICENCE_NOTE, FORCE_CLASSES, isPersonId };`;
   return buildSuite(modules, harness, "trades-robot");
 }

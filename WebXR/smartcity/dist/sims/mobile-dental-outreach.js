@@ -117,6 +117,8 @@ export const SIM_MOBILE_DENTAL_OUTREACH = {
     },
     {
       id: "barrier-placement", kind: "find", noHint: true,
+      forceClass: "light",
+      robotNote: "The headrest barrier goes exactly where the child's head will be.",
       targets: ["light-handle-bare", "headrest-bare", "tray-bare"],
       itemNames: { "light-handle-bare": "the bare light handle", "headrest-bare": "the bare headrest", "tray-bare": "the bare instrument tray" },
       itemNotes: {
@@ -149,6 +151,8 @@ export const SIM_MOBILE_DENTAL_OUTREACH = {
     },
     {
       id: "sealant-cure", kind: "hold", target: "curing-light", seconds: 4,
+      noRobot: true, forceClass: "light",
+      robotNote: "The curing light is in a child's mouth, in a van, off-site.",
       title: "Cure the sealant with the LED light",
       cue: "Hold the curing light steady on the sealant for the full cure time.",
       why: "A sealant that has not fully polymerised is soft enough to shear off the first time this molar meets a cracker, which defeats the entire point of a sealant day — the light has to sit still on the tooth for its full rated time, not waved across it while the next child is already climbing into the chair.",
@@ -344,6 +348,10 @@ export const SIM_MOBILE_DENTAL_OUTREACH = {
 
     // ------------------------------------------------------------ screening chair
     const chairCart = group(canopy, -0.2, 0, 0.75, -0.1);
+    // Robot training: nobody is in this chair right now and somebody will be
+    // in a minute, so the headrest carries a default head keep-out volume an
+    // embodied trainee treats as occupied. See shared/robot-embodiment.js.
+    chairCart.userData.patientChair = { offset: [0, 1.16, -0.38], radius: 0.2 };
     slab(chairCart, 0.6, 0.5, 0.42, 0, 0.35, 0, 0x3f6f86, { radius: 0.05, rough: 0.6 });
     const chairSeat = slab(chairCart, 0.55, 0.1, 0.5, 0, 0.62, 0, 0x2f5768, { radius: 0.04, rough: 0.7 });
     void chairSeat;

@@ -110,12 +110,16 @@ export const SIM_AEROSOL_MANAGEMENT = {
     },
     {
       id: "rinse", kind: "select", target: "prerinse-cup",
+      forceClass: "light",
+      robotNote: "Handing the rinse cup up to the patient: contact with the person, no force in it.",
       title: "Give the pre-procedural rinse",
       cue: "Have the patient rinse with the antimicrobial pre-procedural rinse.",
       why: "An antimicrobial pre-procedural rinse cuts the microbial load in the mouth before the aerosol-generating instrument ever starts, which is the one control in this whole setup that acts on the aerosol at its source rather than after it is already in the air.",
     },
     {
       id: "hve-ready", kind: "select", target: "hve-mount",
+      forceClass: "light",
+      robotNote: "The evacuator is seated at the mouth's edge, outside it — assistant work a robot may do.",
       title: "Seat the evacuator at the site",
       cue: "Seat the high-volume evacuator at the site before anything aerosol-generating starts.",
       why: "High-volume evacuation captures aerosol at the point it is created, which is a fundamentally different job from a HEPA unit clearing whatever escaped capture — one is source control, the other is cleanup. Skipping straight to the room's ventilation and treating it as sufficient on its own is how a well-ventilated room still has a contaminated chair.",
@@ -138,12 +142,16 @@ export const SIM_AEROSOL_MANAGEMENT = {
     },
     {
       id: "dam-placement", kind: "select", target: "rubber-dam",
+      noRobot: true, forceClass: "light",
+      robotNote: "A dam is placed on the tooth and clamped: intraoral.",
       title: "Place the dam where this procedure calls for one",
       cue: "Place the dam — this procedure is one where it is indicated.",
       why: "A rubber dam isolates the field and is one of the single largest aerosol reductions available for the procedures it fits, but it is not universal — indicated here because the planned work calls for isolation, not reached for by habit. Placing it where it belongs is what actually earns the reduction; a dam is not doing anything from the drawer.",
     },
     {
       id: "surface-barriers", kind: "select", target: "barrier-covers",
+      forceClass: "light",
+      robotNote: "The chair-control cover goes on a pad beside the patient's hip — inside the keep-out volume, laid on rather than pressed.",
       title: "Cover the surfaces inside the splash zone",
       cue: "Cover the light handle, chair controls and tubing runs before the handpiece starts.",
       why: "Everything within reach of the spray gets a barrier that comes off and gets thrown away rather than wiped and reused, because aerosol settles on switches and handles exactly as readily as it settles on the tray, and those are the surfaces a gloved hand returns to mid-procedure without thinking about it.",
@@ -156,6 +164,8 @@ export const SIM_AEROSOL_MANAGEMENT = {
     },
     {
       id: "procedure-monitor", kind: "track", target: "hve-mount", seconds: 10,
+      forceClass: "light",
+      robotNote: "Holding capture distance keeps the tip beside the patient's face for the whole procedure.",
       title: "Hold the evacuator's capture distance",
       cue: "Keep the evacuator close enough to the site to actually capture the spray, and hold it there.",
       why: "High-volume evacuation only captures what stays inside its zone, and that zone is a few centimetres wide — set the tip back to keep it out of the way and the aerosol simply passes it on the way to the room instead of into it. The whole point of positioning it earlier was to hold it here, not to have positioned it once and moved on.",
@@ -235,6 +245,11 @@ export const SIM_AEROSOL_MANAGEMENT = {
       slab(chairSeatGroup, 0.1, 0.06, 0.62, sx * 0.34, 0.09, 0.28, AER_STEEL, { radius: 0.02, rough: 0.4, metal: 0.6 });
     }
     const patient = seatedFigure(chairSeatGroup, 0, 0.08, 0.42, { skin: 0xb98a63, cloth: 0x8fa3ad });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.root.rotation.x = 0.42;
     patient.torso.rotation.x = -0.02;
 

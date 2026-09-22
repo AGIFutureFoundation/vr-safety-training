@@ -102,6 +102,8 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
     },
     {
       id: "chair-lever", kind: "turn", target: "chair-lever",
+      forceClass: "firm",
+      robotNote: "The chair carries the patient's weight, so the robot may drive it — firm ceiling, reclining speed.",
       title: "Recline the chair for the exam",
       cue: "Bring the chair back to a clear working position.",
       turn: { turns: 0.4, axis: "y", label: "CHAIR RECLINE" },
@@ -109,6 +111,8 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
     },
     {
       id: "bp-cuff", kind: "drag", target: "bp-cuff",
+      forceClass: "firm",
+      robotNote: "A cuff has to sit snug on the arm: the one place on this patient a robot is allowed to press.",
       title: "Wrap the cuff on the patient's arm",
       cue: "Position the blood pressure cuff on the upper arm before you read it.",
       drag: { to: "cuff-arm", radius: 0.4, missNote: "Not seated on the arm — the cuff has to sit above the elbow, snug, before the reading means anything." },
@@ -123,6 +127,8 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
     },
     {
       id: "extraoral", kind: "sequence",
+      noRobot: true, forceClass: "light",
+      robotNote: "Palpating nodes, the TMJ and the lips is an examination of a person, done by the hygienist's hands.",
       targets: ["nodes", "tmj", "lips"],
       itemNames: { nodes: "lymph nodes", tmj: "TMJ", lips: "lips" },
       title: "Extraoral exam, in order",
@@ -132,6 +138,8 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
     },
     {
       id: "intraoral-scan", kind: "hold", target: "mirror-retractor", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "Intraoral. Nothing the robot holds goes into a live patient's mouth.",
       title: "Systematic intraoral scan",
       cue: "Hold the mirror and retraction steady while you scan mucosa, tongue, floor of the mouth and palate.",
       why: "A systematic path — buccal mucosa, tongue, floor of the mouth, palate, in the same order every time — is how a hygienist finds the lesion that a quick look around would miss. It is held steady rather than rushed because a retractor that keeps slipping is a exam that keeps restarting from wherever it slipped.",
@@ -231,6 +239,11 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
     // the whole rigid figure pivoting, which would swing the legs up off the
     // footrest and read as a cross rather than a reclined person.
     const patient = seatedFigure(chair, 0, 0.6, -0.36, { skin: 0xd9a985, cloth: 0x8fb9c9 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.head.rotation.x = -0.34;
     patient.arms[0].shoulder.rotation.set(-0.18, 0, -0.16);
     // Nodes, TMJ and lips markers for the extraoral exam.

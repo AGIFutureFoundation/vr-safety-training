@@ -84,6 +84,8 @@ export const SIM_RADIOGRAPH_SAFETY = {
     },
     {
       id: "shielding", kind: "sequence", anyOrder: true,
+      forceClass: "light",
+      robotNote: "The apron and collar are laid on the patient rather than pressed, which is contact a robot may make.",
       targets: ["lead-apron", "thyroid-collar"],
       itemNames: { "lead-apron": "lead apron", "thyroid-collar": "thyroid collar" },
       title: "Shield the patient",
@@ -99,6 +101,8 @@ export const SIM_RADIOGRAPH_SAFETY = {
     },
     {
       id: "tube-head-align", kind: "turn", target: "tube-head-align",
+      forceClass: "light",
+      robotNote: "The tubehead swings past the patient's face — inside the keep-out volume, under a light ceiling.",
       title: "Align the tubehead to the aiming ring",
       cue: "Bring the cone square onto the positioning device's aiming ring.",
       turn: { turns: 0.3, axis: "y", label: "TUBEHEAD ANGLE" },
@@ -126,6 +130,8 @@ export const SIM_RADIOGRAPH_SAFETY = {
     },
     {
       id: "remaining-views", kind: "sequence", anyOrder: true,
+      noRobot: true, forceClass: "light",
+      robotNote: "Every further view means the sensor was moved inside the mouth again.",
       targets: ["view-molar-r", "view-pm-l", "view-molar-l"],
       itemNames: { "view-molar-r": "right molar bitewing", "view-pm-l": "left premolar bitewing", "view-molar-l": "left molar bitewing" },
       title: "Complete the remaining views",
@@ -134,6 +140,8 @@ export const SIM_RADIOGRAPH_SAFETY = {
     },
     {
       id: "reseat-sensor", kind: "hold", target: "reseat-sensor", seconds: 5,
+      noRobot: true, forceClass: "light",
+      robotNote: "Intraoral: the sensor is seated in the mouth, between the teeth and the tongue.",
       title: "Reposition the sensor for the next view",
       cue: "Hold the holder steady while you reseat the sensor against the next arch.",
       why: "A sensor that moves while it is being reseated is a retake in the making — holding the holder steady until it is genuinely seated is what keeps the next exposure diagnostic on the first try instead of the second.",
@@ -147,6 +155,8 @@ export const SIM_RADIOGRAPH_SAFETY = {
     },
     {
       id: "close-out", kind: "find", noHint: true,
+      forceClass: "light",
+      robotNote: "Lifting the apron back off the patient is the last contact of the appointment.",
       targets: ["apron-removed", "sensor-removed", "tube-parked"],
       itemNames: { "apron-removed": "lead apron and collar off and hung", "sensor-removed": "sensor out of the patient's mouth", "tube-parked": "tubehead returned to its parked position" },
       itemNotes: {
@@ -212,6 +222,11 @@ export const SIM_RADIOGRAPH_SAFETY = {
     // rest angled in rather than straight down at the sides, which is what
     // was reading as a stark cross against the pale gown fabric.
     const patient = seatedFigure(chair, 0, 0.6, -0.36, { skin: 0xc99878, cloth: 0xb9c4c9 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.head.rotation.x = -0.34;
     for (const [arm, sx] of [[patient.arms[0], -1], [patient.arms[1], 1]]) {
       arm.shoulder.rotation.set(-0.18, 0, sx * 0.16);

@@ -74,12 +74,16 @@ export const SIM_SHARPS_EXPOSURE_RESPONSE = {
     },
     {
       id: "reassure-patient", kind: "select", target: "patient",
+      noRobot: true, forceClass: "none",
+      robotNote: "Comfort and explanation are the clinician's; a robot does not reassure the patient it was standing beside.",
       title: "Reassure the patient",
       cue: "Tell the patient what happened and that you're stepping out briefly.",
       why: "The patient just watched you flinch and stop mid-procedure with no explanation — a short, calm statement of what happened keeps them from imagining something worse than a stick, and keeps the room controlled while you deal with it.",
     },
     {
       id: "wash-wound", kind: "hold", target: "wound-site", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "The wound is a person's hand. First aid on anybody, staff included, is not the robot's to give.",
       title: "Wash the wound with soap and water",
       cue: "Hold the puncture under running water with soap for the full wash — no squeezing.",
       why: "Soap and running water is the CDC's own guidance for a percutaneous exposure — plain, unhurried, and long enough to matter. Squeezing the site to force blood out is not recommended and does not reduce exposure; running water does the actual work.",
@@ -191,6 +195,11 @@ export const SIM_SHARPS_EXPOSURE_RESPONSE = {
     cyl(chair, 0.05, 0.05, 0.7, 0, 0.25, 0, CITY.darkSteel, { rough: 0.3, metal: 0.85, seg: 14 });
 
     const patient = seatedFigure(chair, 0, 0.86, -0.15, { skin: 0xd9a985, cloth: 0x6b7f8c });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     reg(hits, patient.head, "patient");
 
     // The scaler, dropped safely onto the tray rather than left in the air.

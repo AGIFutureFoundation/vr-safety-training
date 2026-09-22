@@ -317,6 +317,45 @@ export function mountUI(store, actions) {
         h("div", { className: "btnrow" }, h("button", { className: "primary", id: "lb-close", onClick: actions.closeLeaderboard }, "Close"))));
   }
 
+  /** Robot training on a programme: a headless calibration of every station in
+   * the block, and the difficulty curve it produces, as a chart of the success
+   * rate at each rung of the skill ladder. Plain data from the store — the
+   * numbers come from shared/robot-embodiment.js, which is also what the
+   * headless tools/robot_train.mjs writes into a dataset. */
+  function RobotTrainingCard() {
+    const rt = useSlice("robotTraining");
+    const curve = rt.curve ?? [];
+    const stations = rt.stations ?? [];
+    const offLimits = stations.reduce((n, st) => n + (st.noRobot | 0), 0);
+    const violations = stations.reduce((n, st) => n + (st.violations | 0), 0);
+    return h("section", { className: "robot-card" },
+      h("div", { className: "robot-head" },
+        h("div", null,
+          h("h3", null, "Robot training"),
+          h("div", { className: "robot-sub" },
+            "The same procedures, run by an embodied trainee: a target pose for every control, " +
+            "a force ceiling for every step, keep-out volumes around the patient, and the steps " +
+            "a robot hands back to the clinician.")),
+        h("button", {
+          className: rt.running ? "" : "primary", id: "robot-train-start",
+          onClick: rt.running ? actions.stopRobotTraining : actions.startRobotTraining,
+        }, rt.running ? "Stop" : curve.length ? "Run it again" : "Calibrate the block")),
+      rt.running && h("div", { className: "robot-progress" },
+        h("span", { className: "robot-spin" }),
+        `Station ${Math.min(rt.done + 1, rt.total)} of ${rt.total}${rt.station ? ` — ${rt.station}` : ""}`),
+      curve.length > 0 && h("div", { className: "robot-curve", role: "img",
+        "aria-label": `Difficulty curve: ${curve.map((c) => `skill ${c.skill.toFixed(2)}, ${c.pct}% pass`).join("; ")}`,
+      }, curve.map((c) => h("div", { key: c.skill, className: "robot-col" },
+        h("div", { className: "robot-bar" }, h("span", { style: { height: `${c.pct}%` } })),
+        h("div", { className: "robot-pct" }, `${c.pct}%`),
+        h("div", { className: "robot-skill" }, c.skill.toFixed(2))))),
+      curve.length > 0 && h("div", { className: "robot-legend" },
+        `Pass rate against policy skill, averaged over ${rt.done} station${rt.done === 1 ? "" : "s"}. ` +
+        `A run that entered a keep-out volume is not a pass. ${offLimits} step${offLimits === 1 ? "" : "s"} off-limits, ` +
+        `${violations} keep-out violation${violations === 1 ? "" : "s"} across the whole ladder.`),
+      rt.note && h("div", { className: "robot-note" }, rt.note));
+  }
+
   /** Training programmes: the ordered blocks a hall runs, with progress read
    * from the same passing records the certificate claim rests on. Plain data
    * only — a station name never reaches this as markup. */
@@ -359,6 +398,7 @@ export function mountUI(store, actions) {
             h("b", null, s.id.replace(/-/g, " ")),
             s.app === "trades" && h("span", { className: "prog-app" }, "Trade Skills"),
             h("span", { className: "prog-why" }, s.why)))),
+          p.robot && h(RobotTrainingCard, null),
           p.next
             ? h("button", {
                 className: "primary", id: `prog-start-${p.id}`,

@@ -78,6 +78,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "light-aim", kind: "turn", target: "exam-light",
+      forceClass: "light",
+      robotNote: "The light is aimed across the patient's face to open up the oropharynx.",
       title: "Aim the light for a clear view of the oropharynx",
       cue: "Bring the overhead light down onto the back of the mouth.",
       why: "Half of this screening happens at the very back of the mouth — the oropharynx, the tonsillar pillars, the base of the tongue — and none of it is visible without a light actually aimed there rather than left at whatever angle the last patient's cleaning needed.",
@@ -85,6 +87,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "extraoral-exam", kind: "sequence",
+      noRobot: true, forceClass: "light",
+      robotNote: "The face, the lips and the cervical nodes, palpated.",
       targets: ["face-inspect", "lips-extraoral", "neck-nodes"],
       itemNames: { "face-inspect": "the face", "lips-extraoral": "the lips, from outside", "neck-nodes": "the neck nodes, bimanually" },
       title: "Run the extraoral exam in order",
@@ -94,6 +98,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "intraoral-visual", kind: "sequence",
+      noRobot: true, forceClass: "light",
+      robotNote: "Five intraoral sites, inspected in order.",
       targets: ["lips-intraoral", "buccal-mucosa", "gingiva", "palate", "oropharynx"],
       itemNames: { "lips-intraoral": "the lips, inside", "buccal-mucosa": "the buccal mucosa", "gingiva": "the gingiva", "palate": "the palate", "oropharynx": "the oropharynx" },
       title: "Run the intraoral visual exam in order",
@@ -103,6 +109,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "tongue-exam", kind: "hold", target: "tongue-gauze", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "The tongue is retracted with gauze and turned to see all three surfaces.",
       title: "Retract the tongue with gauze and inspect all three surfaces",
       cue: "Wrap the tongue in gauze, extend it gently, and hold while you check dorsal, lateral and ventral.",
       why: "The lateral border and the ventral surface of the tongue are where a disproportionate share of oral cancers are actually found, and neither one is visible with the tongue resting still in the mouth — the gauze is what lets you extend it far enough, and holding it steady is what lets you actually look at all three surfaces instead of one.",
@@ -110,6 +118,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "floor-of-mouth", kind: "track", target: "floor-of-mouth", seconds: 5,
+      noRobot: true, forceClass: "light",
+      robotNote: "Bimanual palpation: one hand inside the mouth, one under the jaw.",
       title: "Palpate the floor of the mouth bimanually",
       cue: "One finger inside, one hand under the chin, and keep the pressure gentle and steady.",
       why: "The floor of the mouth cannot be fully assessed by looking alone — a firm area under otherwise normal-looking mucosa is exactly what bimanual palpation is built to catch, and the pressure has to stay in a narrow gentle band: too light and you feel nothing through the tissue, too firm and you cannot tell the patient's own guarding from an actual finding.",
@@ -121,6 +131,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "differential-check", kind: "find", noHint: true,
+      noRobot: true, forceClass: "none",
+      robotNote: "Telling a lesion from a normal variant is a judgement made looking into somebody's mouth.",
       targets: ["true-lesion"],
       itemNames: { "true-lesion": "the finding that is not a normal variant" },
       itemNotes: {
@@ -145,6 +157,8 @@ export const SIM_ORAL_CANCER_SCREENING = {
     },
     {
       id: "photograph-finding", kind: "select", target: "intraoral-camera",
+      noRobot: true, forceClass: "light",
+      robotNote: "The camera head goes in the mouth to frame the finding.",
       title: "Photograph the finding",
       cue: "Capture the finding on the practice's own intraoral camera.",
       why: "A description is one hygienist's words; a photograph is something the referring surgeon, and this same chart a year from now, can compare directly against what is actually there — taken on the practice's own camera, so the image is a HIPAA-covered record from the moment the shutter closes, not a file sitting on somebody's phone.",
@@ -214,6 +228,11 @@ export const SIM_ORAL_CANCER_SCREENING = {
 
     // The patient, reclined against the raked back.
     const patient = seatedFigure(chair, 0, 0.55, 0.02, { skin: 0xcf9e78, cloth: 0x8b98a0, ry: 0 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.torso.rotation.x = -0.55;
     patient.head.rotation.x = 0.35;
     holoTag(chair, "patient", 0, 1.9, 0, { css: "#4fb8c9", w: 0.24 });

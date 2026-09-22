@@ -63,6 +63,8 @@ export const SIM_PERIODONTAL_CHARTING = {
   steps: [
     {
       id: "position-light", kind: "turn", target: "position-light",
+      forceClass: "light",
+      robotNote: "The light arm crosses over the patient's face to reach the posterior quadrant.",
       title: "Position the light for the posterior quadrant",
       cue: "Bring the operatory light onto the quadrant you're about to probe.",
       turn: { turns: 0.3, axis: "y", label: "LIGHT POSITION" },
@@ -83,6 +85,8 @@ export const SIM_PERIODONTAL_CHARTING = {
     },
     {
       id: "probe-walk", kind: "track", target: "probe-walk", seconds: 6,
+      noRobot: true, forceClass: "light",
+      robotNote: "Intraoral: a probe walked against attachment, by feel, on a live patient.",
       title: "Walk and angle the probe",
       cue: "Hold light, steady pressure and keep the probe walking in small steps, parallel to the tooth's long axis.",
       track: {
@@ -94,6 +98,8 @@ export const SIM_PERIODONTAL_CHARTING = {
     },
     {
       id: "site-order", kind: "sequence",
+      noRobot: true, forceClass: "light",
+      robotNote: "Six intraoral sites, probed to bone level.",
       targets: ["site-db", "site-b", "site-mb", "site-ml", "site-l", "site-dl"],
       itemNames: {
         "site-db": "distobuccal", "site-b": "buccal", "site-mb": "mesiobuccal",
@@ -125,6 +131,8 @@ export const SIM_PERIODONTAL_CHARTING = {
     },
     {
       id: "grade-involvement", kind: "sequence", anyOrder: true,
+      noRobot: true, forceClass: "light",
+      robotNote: "Furcation and mobility are both read with the probe in the mouth.",
       targets: ["furcation-ii", "mobility-1"],
       itemNames: { "furcation-ii": "furcation, Class II", "mobility-1": "mobility, Class I" },
       decoyNotes: {
@@ -228,6 +236,11 @@ export const SIM_PERIODONTAL_CHARTING = {
     // rest angled in rather than straight down at the sides, which is what
     // was reading as a stark cross against the pale gown fabric.
     const patient = seatedFigure(chair, 0, 0.6, -0.36, { skin: 0xc99878, cloth: 0xb9c4c9 });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.head.rotation.x = -0.34;
     for (const [arm, sx] of [[patient.arms[0], -1], [patient.arms[1], 1]]) {
       arm.shoulder.rotation.set(-0.18, 0, sx * 0.16);

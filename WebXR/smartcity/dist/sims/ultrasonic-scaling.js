@@ -113,6 +113,8 @@ export const SIM_ULTRASONIC_SCALING = {
     },
     {
       id: "rinse", kind: "select", target: "prerinse-cup",
+      forceClass: "light",
+      robotNote: "Handing the rinse cup up to the patient: contact with the person, no force in it.",
       title: "Give the patient the pre-procedural rinse",
       cue: "Have the patient rinse with the antimicrobial pre-procedural rinse before you start.",
       why: "A pre-procedural antimicrobial rinse is standard CDC infection-control practice before an aerosol-generating instrument goes to work, because it cuts the microbial load in the spray before that spray ever leaves the mouth. It is protecting you and whoever else is in the room, not the patient's teeth.",
@@ -151,6 +153,8 @@ export const SIM_ULTRASONIC_SCALING = {
     },
     {
       id: "retraction", kind: "hold", target: "mouth-mirror", seconds: 8,
+      noRobot: true, forceClass: "light",
+      robotNote: "The mirror is inside the mouth, holding tissue off the working field.",
       title: "Hold the mirror for retraction and visibility",
       cue: "Hold the mirror steady for retraction and visibility on the posterior surface.",
       why: "The mirror is doing two things at once here: retracting the cheek or tongue clear of a moving tip, and giving you the only view you have of a posterior lingual surface you cannot see directly. Let it drift and the tissue it was holding back falls against an instrument that has no way of telling calculus from a cheek.",
@@ -158,6 +162,8 @@ export const SIM_ULTRASONIC_SCALING = {
     },
     {
       id: "adapt-tip", kind: "track", target: "scaler-handpiece", seconds: 10,
+      noRobot: true, forceClass: "light",
+      robotNote: "An ultrasonic tip on a root surface is the exact reason a robot does not do this step.",
       title: "Adapt the tip and keep it moving",
       cue: "Keep the lateral surface adapted at the manufacturer's angle, and keep it moving.",
       why: "The manufacturer's angle for these inserts is a narrow window either side of parallel to the tooth surface. Lay the tip flatter and it burnishes deposit smooth instead of removing it; tip it steeper and the point starts gouging cementum and root surface that has no enamel left to protect it. A tip held still at any angle overheats a spot it was designed never to sit on.",
@@ -175,12 +181,16 @@ export const SIM_ULTRASONIC_SCALING = {
     },
     {
       id: "explorer-verify", kind: "select", target: "explorer",
+      noRobot: true, forceClass: "light",
+      robotNote: "The explorer is intraoral, and it is sharp.",
       title: "Verify the surface with the explorer",
       cue: "Verify the root surface is smooth with the explorer before moving on.",
       why: "An ultrasonic tip tells you what it removed by sound and feel; the explorer is what actually confirms the root surface underneath is smooth rather than still catching on a burnished ledge of calculus. Evidence-based root debridement calls for a tactile check, not a visual one — subgingival calculus rarely shows and almost always feels.",
     },
     {
       id: "comfort-check", kind: "select", target: "patient-signal",
+      noRobot: true, forceClass: "none",
+      robotNote: "Checking in with the patient is a conversation, not a reach.",
       title: "Check in with the patient",
       cue: "Check in with the patient and confirm the anesthesia plan is within your scope here.",
       why: "Whether you can administer local anesthesia at all, and under what supervision, is set by the Dental Hygiene Board of California and this state's dental practice act, not by what would be convenient in the chair — some settings require additional certification and a supervision level this operatory may or may not have on hand. Checking that before instrumenting a sensitive area is what keeps the appointment inside your actual scope of practice.",
@@ -235,6 +245,11 @@ export const SIM_ULTRASONIC_SCALING = {
     // Reclined patient, lying back into the chair with the mouth toward the
     // operator's side of the headrest.
     const patient = seatedFigure(chairSeatGroup, 0, 0.08, 0.42, { skin: 0xcd9a72, cloth: 0x8fa3ad });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.3 };
+    patient.head.userData.patient = { part: "head", radius: 0.2 };
     patient.root.rotation.x = 0.42;
     patient.torso.rotation.x = -0.02;
     reg2(patient.head, "patient-signal");

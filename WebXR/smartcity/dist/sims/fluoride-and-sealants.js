@@ -87,6 +87,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "varnish-isolate", kind: "sequence",
+      noRobot: true, forceClass: "light",
+      robotNote: "Cotton rolls and a dry angle go in the child's mouth.",
       targets: ["cotton-rolls", "dry-angle"],
       itemNames: { "cotton-rolls": "cotton rolls", "dry-angle": "dry-angle" },
       title: "Isolate and dry for the varnish",
@@ -96,6 +98,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "varnish-paint", kind: "select", target: "varnish-brush",
+      noRobot: true, forceClass: "light",
+      robotNote: "Intraoral: varnish painted onto every surface.",
       title: "Paint the varnish on all surfaces",
       cue: "Paint the measured dose across all tooth surfaces with the brush.",
       why: "An even, thin coat across every surface is what the ADA's evidence base for varnish is actually built on — patchy coverage on a few teeth is not the same intervention as the trials that showed a caries reduction, whatever dose was measured out for it.",
@@ -108,18 +112,24 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "tooth-clean", kind: "select", target: "prophy-cup",
+      noRobot: true, forceClass: "light",
+      robotNote: "A prophy cup on a tooth, in the mouth.",
       title: "Clean the sealant tooth",
       cue: "Clean the pits and fissures with plain, non-fluoridated pumice.",
       why: "The molar getting a sealant is cleaned with plain pumice, not the fluoridated paste used everywhere else in a routine cleaning, because a fluoridated paste leaves a film that gets in the way of the etch. This is the one surface in the whole visit where the usual paste is the wrong choice.",
     },
     {
       id: "seal-isolate", kind: "select", target: "isolation-shield",
+      noRobot: true, forceClass: "light",
+      robotNote: "Isolation is placed intraorally, around the tooth being sealed.",
       title: "Isolate the tooth for bonding",
       cue: "Isolate the tooth completely before any etchant goes on.",
       why: "A sealant's whole bond depends on an etched surface that stays completely dry until the resin is cured, which is a stricter standard than the varnish needed a few minutes ago — a dam or an isolation shield, not cotton rolls alone. Placing a sealant at all is also inside this hygienist's scope only under the state's practice act and the programme's standing order from a supervising dentist, which is confirmed before this tooth is touched, not after.",
     },
     {
       id: "etch-apply", kind: "hold", target: "etchant-gel", seconds: 8,
+      noRobot: true, forceClass: "light",
+      robotNote: "Etchant on enamel, inside the mouth, on a clock.",
       title: "Etch to the time on the label",
       cue: "Apply the etchant and hold it on the surface for exactly the time the label states.",
       why: "The etch time on the label is not a suggestion in either direction — short it and the enamel has too little micro-porosity for the resin tags that actually hold a sealant on; run it needlessly long and the tooth sits exposed for no gain while the field's isolation is what is really being risked the longer it goes.",
@@ -127,6 +137,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "rinse-dry", kind: "track", target: "air-water-syringe", seconds: 9,
+      noRobot: true, forceClass: "light",
+      robotNote: "The air-water syringe works inside the mouth.",
       title: "Rinse and dry to the frosted look",
       cue: "Rinse thoroughly, then dry until the enamel looks frosted and chalky, not wet.",
       why: "A properly etched surface dries to a dull, frosted, chalk-white look — anything glossy is still wet, and anything that stays glossy after real drying effort was not etched enough to begin with. The frosted appearance is the visual proof the bond has something to hold onto; it is not a formality before the next step.",
@@ -138,6 +150,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "sealant-place", kind: "select", target: "sealant-resin",
+      noRobot: true, forceClass: "light",
+      robotNote: "Resin placed on the occlusal surface.",
       title: "Place the sealant material",
       cue: "Flow the sealant into the pits and fissures without trapping air.",
       why: "Sealant material is worked into the pits and fissures deliberately, because a bubble trapped under the resin is a void the cure light cannot reach and the tooth cannot self-repair — it is a gap in a surface that was supposed to be sealed shut.",
@@ -150,6 +164,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "cure-light", kind: "hold", target: "curing-light", seconds: 8,
+      noRobot: true, forceClass: "light",
+      robotNote: "The curing light is held in the mouth for the full cure.",
       title: "Cure the sealant the full time",
       cue: "Hold the light steady over the sealant for the manufacturer's full cure time.",
       why: "The cure time on the light and the material's instructions assumes the tip stays aimed at the surface for the whole count — wave it off early and the resin under the surface, away from the light, stays soft long after the top looks set. A sealant that looks cured and is not wears through in weeks instead of years.",
@@ -157,6 +173,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "occlusion-check", kind: "find", noHint: true,
+      noRobot: true, forceClass: "light",
+      robotNote: "Finding the high spots means feeling the bite on a live child.",
       targets: ["high-spot-mesial", "high-spot-distal"],
       itemNames: { "high-spot-mesial": "the mesial high spot", "high-spot-distal": "the distal high spot" },
       itemNotes: {
@@ -169,6 +187,8 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
     },
     {
       id: "excess-removed", kind: "select", target: "finishing-bur",
+      noRobot: true, forceClass: "firm",
+      robotNote: "A rotary finishing bur in a child's mouth.",
       title: "Remove the excess and adjust",
       cue: "Adjust the high spots with the finishing bur until the bite is even.",
       why: "The finishing bur takes down exactly the marked high spots and nothing else, because over-adjusting a sealant that is otherwise sitting correctly just opens new margins for the next meal's debris and the next recall's decay risk to start at.",
@@ -232,6 +252,11 @@ export const SIM_FLUORIDE_AND_SEALANTS = {
 
     // Child-scaled reclined patient.
     const patient = seatedFigure(chairSeatGroup, 0, 0.07, 0.34, { skin: 0xcd9a72, cloth: 0xe8c15a });
+    // Robot training: this is a person, so the head and the torso are
+    // keep-out volumes an embodied trainee never enters unless the step it
+    // is working declares patient contact. See shared/robot-embodiment.js.
+    patient.root.userData.patient = { part: "torso", radius: 0.22 };
+    patient.head.userData.patient = { part: "head", radius: 0.15 };
     patient.root.scale.setScalar(0.72);
     patient.root.rotation.x = 0.44;
     patient.torso.rotation.x = -0.02;

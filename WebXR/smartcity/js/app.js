@@ -10,6 +10,7 @@ import {
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
+import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
 import { Platform } from "../../shared/platform.js";
 import { Perf } from "../../shared/perf.js";
 import { createBroadcaster } from "../../shared/observer.js";
@@ -41,6 +42,10 @@ import { mountUI, stripHtml, introMenu } from "./react-ui.js";
 // dist/smartcity-x.html ships as a folder (index.html + sims/ + citykit.js +
 // gamify.js) rather than one self-contained file: see tools/bundle_webxr.py.
 const SIMS_META_BY_ID = Object.fromEntries(SIMS_META.map((s) => [s.id, s]));
+// The programme whose stations carry robot-training metadata — patient
+// keep-out volumes, per-step force classes and the steps a robot must never
+// perform. See WebXR/shared/robot-embodiment.js and docs/robot-training.md.
+const ROBOT_PROGRAMME = "dental-hygiene-unspoken-smiles";
 // Crew tags and custom-scenario names are learner-typed text that ends up
 // inside HTML template strings (results card, leaderboards) rendered via
 // react-ui.js's dangerouslySetInnerHTML — escape before interpolating so a
@@ -225,6 +230,13 @@ const store = createStore({
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
   programs: { visible: false, rows: [], assigned: null },
+  // The dental programme's robot-training card: a headless calibration of
+  // every station in the block, run in slices on this thread so the panel can
+  // show the difficulty curve filling in rather than freezing until it is done.
+  robotTraining: {
+    programme: ROBOT_PROGRAMME, running: false, done: 0, total: 0, station: "", note: "",
+    ladder: DIFFICULTY_LADDER, curve: [], stations: [],
+  },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -951,10 +963,11 @@ function flatSelect(id) { if (state.session && !state.paused) activate(id); }
 
 const robotParam = new URLSearchParams(location.search).get("robot");
 const robot = { active: robotParam != null, skill: Math.max(0, Math.min(1, parseFloat(robotParam) || 0.85)), timer: null, agent: null, log: [], seed: 1 };
-function stopRobot() { if (robot.timer) { clearInterval(robot.timer); robot.timer = null; } robot.agent = null; }
+function stopRobot() { if (robot.timer) { clearInterval(robot.timer); robot.timer = null; } robot.agent = null; clearRobotOverlay(); }
 function startRobot(room) {
   stopRobot();
   const session = state.session;
+  buildRobotOverlay(room);
   robot.agent = new RobotAgent({
     skill: robot.skill, seed: robot.seed++,
     hitIds: Object.keys(state.hits), hazardIds: Object.keys(room.hazards ?? {}).filter((id) => state.hits[id]),
@@ -965,7 +978,10 @@ function startRobot(room) {
     const s = state.session;
     if (!s || s !== session || s.finished || state.paused) { if (!s || s.finished) stopRobot(); return; }
     const before = s.score;
-    const obs = observe(s);
+    // The embodied observation when the overlay is up (it carries the pose the
+    // marker draws), the plain one otherwise — same policy either way.
+    const obs = robotOverlay ? observeEmbodied(s, state.api, { room }) : observe(s);
+    if (robotOverlay) showRobotPose(obs.pose);
     const a = robot.agent.act(s);
     if (a.type === "wait") return;
     if (a.type === "select") activate(a.id);
@@ -977,6 +993,147 @@ function startRobot(room) {
     robot.log.push({ t: +s.elapsed.toFixed(2), obs, action: a, reward: s.score - before });
   }, 320);
 }
+
+// ------------------------------------------------- the robot's own view
+//
+// Two things a person watching a robot episode has to be able to see, because
+// they are the two things that decide whether the run was acceptable: where the
+// robot must not go, and where it is about to put its hand. The keep-out volumes
+// are drawn as translucent spheres around the people in the room, and the
+// current step's target pose as a marker on the contact point with a stalk along
+// the approach normal — the same numbers shared/robot-embodiment.js writes into
+// a trajectory, drawn rather than logged.
+let robotOverlay = null;
+function clearRobotOverlay() {
+  if (!robotOverlay) return;
+  robotOverlay.root.parent?.remove(robotOverlay.root);
+  disposeTree(robotOverlay.root);
+  robotOverlay = null;
+}
+function buildRobotOverlay(room) {
+  clearRobotOverlay();
+  if (!state.roomRoot || !state.api) return null;
+  let emb;
+  try { emb = buildEmbodiment(room, state.api, { root: state.roomRoot }); }
+  catch (err) { console.warn("[robot] embodiment", err); return null; }
+  const root = new THREE.Group();
+  root.renderOrder = 4;
+  state.roomRoot.add(root);
+  for (const zone of emb.keepOut) {
+    // Warmer for the patient, cooler for anyone else at work in the room: the
+    // boundary is the same, the reason for it is not.
+    const colour = zone.source === "userData.crew" ? 0x7ee6ff : 0xff7a4d;
+    const shell = new THREE.Mesh(
+      new THREE.SphereGeometry(zone.radius, 18, 14),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.22, depthWrite: false, side: THREE.DoubleSide }));
+    shell.position.set(...zone.center);
+    root.add(shell);
+    const edge = new THREE.Mesh(
+      new THREE.TorusGeometry(zone.radius, 0.005, 6, 40),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.75, depthWrite: false }));
+    edge.rotation.x = -Math.PI / 2;
+    edge.position.set(...zone.center);
+    root.add(edge);
+  }
+  const marker = new THREE.Group();
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(0.075, 0.009, 6, 28),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, transparent: true, opacity: 0.95, depthWrite: false }));
+  const pip = new THREE.Mesh(new THREE.OctahedronGeometry(0.026),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, depthWrite: false }));
+  const stalk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.005, 0.005, 1, 6),
+    new THREE.MeshBasicMaterial({ color: 0x9dff8f, transparent: true, opacity: 0.6, depthWrite: false }));
+  marker.add(ring, pip, stalk);
+  marker.visible = false;
+  root.add(marker);
+  robotOverlay = { root, marker, ring, pip, stalk, emb };
+  return robotOverlay;
+}
+/** Put the marker on the pose the robot is working, pointing the way in. */
+function showRobotPose(pose) {
+  if (!robotOverlay) return;
+  const { marker, ring, stalk } = robotOverlay;
+  if (!pose) { marker.visible = false; return; }
+  marker.visible = true;
+  marker.position.set(...pose.position);
+  const n = new THREE.Vector3(...pose.normal);
+  // The ring lies on the surface (its own axis is the approach normal) and the
+  // stalk runs from the contact point out to the standoff the robot stages at.
+  ring.lookAt(n.clone().add(ring.position));
+  const len = Math.max(0.02, pose.standoff ?? 0.12);
+  stalk.scale.set(1, len, 1);
+  stalk.position.copy(n.clone().multiplyScalar(len / 2));
+  stalk.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n.clone().normalize());
+}
+
+// ------------------------------------------- robot training on a programme
+//
+// A headless calibration of a whole programme, run from the programme panel:
+// every station built off-screen, played by the policy at each rung of the
+// difficulty ladder, and the success rate at each rung drawn as a small chart.
+// It runs on this thread in slices — one probe per animation frame — rather
+// than in a Worker, because a Worker cannot import the station modules (they
+// reach three.js through the same CDN URL the page does) and a progress line
+// the panel keeps updating is the honest version of the same thing.
+const robotTraining = { cancel: false, running: false };
+function robotProgramme() { return CURRICULA.find((c) => c.id === ROBOT_PROGRAMME) ?? null; }
+function robotCurveFrom(stations) {
+  return DIFFICULTY_LADDER.map((skill) => {
+    const rows = stations.map((st) => st.probes.find((p) => p.skill === skill)).filter(Boolean);
+    const rate = rows.length ? rows.reduce((n, r) => n + r.successRate, 0) / rows.length : 0;
+    const violations = rows.reduce((n, r) => n + r.keepOutViolations, 0);
+    return { skill, pct: Math.round(rate * 100), stations: rows.length, keepOutViolations: violations };
+  });
+}
+const nextFrame = () => new Promise((done) => requestAnimationFrame(() => done()));
+async function startRobotTraining() {
+  const programme = robotProgramme();
+  if (!programme || robotTraining.running) return;
+  const ids = programme.stations.filter((st) => st.app === "smartcity").map((st) => st.id);
+  robotTraining.running = true; robotTraining.cancel = false;
+  store.patch("robotTraining", { running: true, done: 0, total: ids.length, station: "", curve: [], stations: [], note: "" });
+  const stations = [];
+  for (const id of ids) {
+    if (robotTraining.cancel) break;
+    const room = await loadSim(id).catch(() => null);
+    if (!room) continue;
+    store.patch("robotTraining", { station: room.name ?? room.title });
+    await nextFrame();
+    const root = new THREE.Group();
+    let api;
+    try { api = room.build(root); } catch (err) { console.warn("[robot training]", id, err); disposeTree(root); continue; }
+    const probes = [];
+    for (const skill of DIFFICULTY_LADDER) {
+      if (robotTraining.cancel) break;
+      probes.push(probeSkill(room, api, { skill, episodes: 3, seed: 11, SessionClass: Session, root }));
+      // One probe per frame: the panel stays live and the chart fills in.
+      await nextFrame();
+    }
+    disposeTree(root);
+    const noRobot = room.steps.filter((st) => st.noRobot).length;
+    stations.push({ id, name: room.name ?? room.title, probes, steps: room.steps.length, noRobot });
+    store.patch("robotTraining", { done: stations.length, stations: stations.map((st) => ({
+      id: st.id, name: st.name, steps: st.steps, noRobot: st.noRobot,
+      best: st.probes.reduce((a, b) => (b.successRate > a.successRate ? b : a), st.probes[0] ?? { skill: 0, successRate: 0 }),
+      violations: st.probes.reduce((n, pr) => n + pr.keepOutViolations, 0),
+    })), curve: robotCurveFrom(stations) });
+  }
+  const offLimits = stations.reduce((n, st) => n + st.noRobot, 0);
+  const violations = stations.reduce((n, st) => n + st.probes.reduce((m, pr) => m + pr.keepOutViolations, 0), 0);
+  const violations1 = stations.map((st) => st.probes.find((pr) => pr.skill === 1)).filter(Boolean);
+  const expertViolations = violations1.reduce((n, pr) => n + pr.keepOutViolations, 0);
+  robotTraining.running = false;
+  store.patch("robotTraining", {
+    running: false, station: "",
+    note: robotTraining.cancel
+      ? `Stopped after ${stations.length} of ${ids.length} stations.`
+      : `${stations.length} stations calibrated · ${offLimits} steps a robot must never perform · ` +
+        `${violations} keep-out violation${violations === 1 ? "" : "s"}` +
+        (violations === 0 ? "." : expertViolations === 0 ? ", none of them at expert skill." : `, ${expertViolations} of them at expert skill — that is a station to fix.`),
+  });
+}
+function stopRobotTraining() { robotTraining.cancel = true; }
 // ------------------------------------------------- instructor mode
 //
 // A live feed of this session for an instructor console (WebXR/instructor/),
@@ -1162,7 +1319,13 @@ function observerSnapshot() {
   };
 }
 
-window.__smartcityRobot = { get active() { return robot.active; }, get skill() { return robot.skill; }, get log() { return robot.log; }, get running() { return !!robot.timer; } };
+window.__smartcityRobot = {
+  get active() { return robot.active; }, get skill() { return robot.skill; },
+  get log() { return robot.log; }, get running() { return !!robot.timer; },
+  get keepOut() { return robotOverlay?.emb.keepOut ?? null; },
+  get marker() { return robotOverlay ? { visible: robotOverlay.marker.visible, position: robotOverlay.marker.position.toArray() } : null; },
+  training: { start: startRobotTraining, stop: stopRobotTraining, get state() { return store.get().robotTraining; } },
+};
 
 // -------------------------------------------------------- platform channel
 //
@@ -1358,8 +1521,10 @@ function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("recor
 function renderPrograms() {
   // A programme an instructor assigned (CMD_ASSIGN) is pinned: marked as
   // assigned and sorted to the top, so the learner opens the panel and sees
-  // the block they were put on rather than hunting for it among 23.
-  const rows = allProgress(TrainingRecords.list()).map((r) => ({ ...r, assigned: r.id === assignedProgram }));
+  // the block they were put on rather than hunting for it among 23. The
+  // dental block is the one with a robot-training card: its stations are
+  // the ones annotated for an embodied trainee (see docs/robot-training.md).
+  const rows = allProgress(TrainingRecords.list()).map((r) => ({ ...r, assigned: r.id === assignedProgram, robot: r.id === ROBOT_PROGRAMME }));
   rows.sort((a, b) => (a.assigned === b.assigned ? 0 : a.assigned ? -1 : 1));
   store.patch("programs", { rows, assigned: assignedProgram });
 }
@@ -2829,6 +2994,7 @@ const uiActions = {
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart,
+  startRobotTraining, stopRobotTraining,
   prebriefStart, prebriefSkip, prebriefClose,
   lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
