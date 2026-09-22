@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 187
+      "stations": 189
     },
     "trades": {
       "entry": "trades/index.html",
@@ -139,6 +139,8 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "mass-timber-panel-set",
+        "formwork-shoring",
         "post-tension",
         "mast-climber"
       ]
@@ -1397,6 +1399,21 @@
           "app": "smartcity",
           "id": "concrete-pour",
           "why": "The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real."
+        },
+        {
+          "app": "smartcity",
+          "id": "formwork-shoring",
+          "why": "The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip."
+        },
+        {
+          "app": "smartcity",
+          "id": "mass-timber-panel-set",
+          "why": "The carpenters' own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go."
+        },
+        {
+          "app": "smartcity",
+          "id": "masonry-silica-scaffold",
+          "why": "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5739,6 +5756,170 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set",
+      "name": "Mass Timber Panel Set",
+      "title": "SmartCiti.X~ Mass Timber Panel Set VR",
+      "tagline": "Setting a CLT panel: the pick plan and rigging inspected, tag lines on both ends, the panel flown and landed on its bearing, temporary bracing before the hook comes off, the connection schedule driven, and the deck kept clear under the load the whole time",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Carpenter — UBC, with the IUOE crane operator",
+      "union": null,
+      "certification": "UBC carpenters — mass timber erection crew; IUOE mobile crane operators, NCCCO certified; OSHA 29 CFR 1926 Subpart CC cranes and derricks — 1926.1425 keeping employees clear of suspended loads; OSHA 29 CFR 1926 Subpart M fall protection — 1926.501; ASME B30.9 slings; APA and WoodWorks mass timber erection guidance on temporary bracing before the crane releases the panel",
+      "accent": "#4fa8d8",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "drag",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "panel-set",
+        "name": "Panel Set",
+        "note": "A CLT panel picked, flown, landed and braced before the hook came off, with nobody ever under the load"
+      },
+      "meshes": 186,
+      "lights": 0,
+      "overBudget": false,
+      "index": "192",
+      "flat": false,
+      "system": "Panel Set Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Apprentice",
+        "Carpenter",
+        "Lead Setter",
+        "Panel Foreman",
+        "Panel Set Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "rigging-sound",
+          "name": "Rigging Sound",
+          "note": "Bridle and tag lines inspected and rigged clean, first time"
+        },
+        {
+          "id": "deck-never-under",
+          "name": "Deck Never Under the Load",
+          "note": "Nobody, including you, ever stood under the suspended panel"
+        },
+        {
+          "id": "landed-true",
+          "name": "Landed True",
+          "note": "Panel plumb inside tolerance on its bearing"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections through the whole pick"
+        },
+        {
+          "id": "held-the-line",
+          "name": "Held the Line",
+          "note": "Held the tag line steady through the whole flight"
+        },
+        {
+          "id": "braced-by-break",
+          "name": "Braced By Break",
+          "note": "Landed, braced and fastened inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mass-timber-panel-set"
+    },
+    {
+      "app": "smartcity",
+      "id": "formwork-shoring",
+      "name": "Formwork Shoring",
+      "title": "SmartCiti.X~ Formwork Shoring VR",
+      "tagline": "Shoring a slab to the engineer's drawings: mudsills and post shores to the layout, stringers and joists, every shore plumbed and pinned, the reshoring plan read, the pour held for sign-off, and stripping in the sequence the drawing sets",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Carpenter — UBC",
+      "union": null,
+      "certification": "United Brotherhood of Carpenters shoring and forming standards; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction — 1926.703 requirements for formwork and shoring; ACI 347 Guide to Formwork for Concrete; ANSI A10.9 concrete and masonry construction safety; the engineer of record's shoring and reshoring drawings",
+      "accent": "#c9a36b",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "find",
+        "track"
+      ],
+      "badge": {
+        "id": "deck-certified",
+        "name": "Deck Certified",
+        "note": "A shoring bay built to the drawing, plumbed, pinned and reshored on the engineer's own sequence — signed off before the first yard went in"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "191",
+      "flat": false,
+      "system": "Shoring Authority",
+      "currency": "PROP",
+      "ranks": [
+        "Apprentice",
+        "Formsetter",
+        "Journeyman Carpenter",
+        "Shoring Foreman",
+        "Shoring Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "sound-bearing",
+          "name": "Sound Bearing",
+          "note": "Every shore landed on a mudsill, never a block, first time"
+        },
+        {
+          "id": "never-skipped",
+          "name": "Never Skipped a Reshore",
+          "note": "Never pulled a shore before the plan and the sign-off allowed it"
+        },
+        {
+          "id": "plumb-and-pinned",
+          "name": "Plumb and Pinned",
+          "note": "Every shore read plumb inside tolerance"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections through the whole shoring bay"
+        },
+        {
+          "id": "held-the-line",
+          "name": "Held The Line",
+          "note": "Watched the deck through the whole load without a break"
+        },
+        {
+          "id": "signed-by-lunch",
+          "name": "Signed By Lunch",
+          "note": "Shored, plumbed and signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=formwork-shoring"
     },
     {
       "app": "smartcity",
@@ -12605,7 +12786,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -13264,7 +13445,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

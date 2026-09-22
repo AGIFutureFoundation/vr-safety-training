@@ -371,7 +371,9 @@ export const CURRICULA = [
     summary: "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
     stations: [
       { app: "smartcity", id: "concrete-pour", why: "The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real." },
-      // slot-builders-1
+      { app: "smartcity", id: "formwork-shoring", why: "The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip." },
+      { app: "smartcity", id: "mass-timber-panel-set", why: "The carpenters' own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go." },
+      { app: "smartcity", id: "masonry-silica-scaffold", why: "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1." },
     ],
   },
   {
