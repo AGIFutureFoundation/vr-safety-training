@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 202
+      "stations": 205
     },
     "trades": {
       "entry": "trades/index.html",
@@ -103,6 +103,9 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "home-visit-safety",
+        "crisis-line-shift",
+        "trauma-informed-intake",
         "wildland-urban-interface",
         "firefighter-rehab-sector",
         "structure-fire-sizeup",
@@ -1487,6 +1490,21 @@
           "app": "smartcity",
           "id": "wildland-urban-interface",
           "why": "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so."
+        },
+        {
+          "app": "smartcity",
+          "id": "trauma-informed-intake",
+          "why": "A first intake where the room, the permission and the pace all belong to the client, and the reporting limits are said plainly before a disclosure makes them urgent."
+        },
+        {
+          "app": "smartcity",
+          "id": "crisis-line-shift",
+          "why": "One call worked all the way through: asked directly, reflected back, planned together, the dispatch decision said out loud to the caller, and taken to a supervisor afterwards."
+        },
+        {
+          "app": "smartcity",
+          "id": "home-visit-safety",
+          "why": "The unaccompanied visit, where the address, the check-in times and the word for send help are agreed before the car moves and the exit is taken on the plan rather than on the atmosphere."
         },
         {
           "app": "smartcity",
@@ -5844,6 +5862,254 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "home-visit-safety",
+      "name": "Home Visit Safety",
+      "title": "SmartCiti.X~ Home Visit Safety VR",
+      "tagline": "One unaccompanied home visit: the address, the check-in times and the word for send help agreed first, the dog and the way out read on the approach, asked in rather than walked in, the child at eye level, the home observed not inspected, anger met with calm and choices, out when the plan says, and the loop closed from the car",
+      "category": "Emergency Services",
+      "domain": "Emergency response",
+      "trade": "Social worker — NASW / SEIU 1021",
+      "union": null,
+      "certification": "The NASW Code of Ethics on self-determination, informed consent and the worker's duty to their own safety; NASW's own guidance on safety in the field for social workers making unaccompanied visits; SAMHSA's trauma-informed principles applied to a family's own home, where the worker is the visitor; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act; the HIPAA Privacy Rule, which is what governs how much of a family's information may be said out loud in front of a neighbour, a landlord or a second adult who walks in, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2 where that is part of the file; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which a county's lone-worker and check-in procedure sits, together with the workplace violence prevention duties added by SB 553; CIT International's crisis intervention model for the point where a visit becomes a call for help; SEIU 1021 social services practice standards, including the local's field-safety and check-in language",
+      "accent": "#e0a86a",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 5,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "drag",
+        "select",
+        "find",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "loop-closed",
+        "name": "Loop Closed",
+        "note": "A visit somebody else always knew the shape of: planned, checked in, ended on the plan's terms, and closed out from the car"
+      },
+      "meshes": 216,
+      "lights": 0,
+      "overBudget": false,
+      "index": "208",
+      "flat": false,
+      "system": "Field Visit",
+      "currency": "FIELD",
+      "ranks": [
+        "Field Trainee",
+        "Case Aide",
+        "Social Worker",
+        "Field Supervisor",
+        "Home Visit Certified"
+      ],
+      "awards": [
+        {
+          "id": "somebody-knew",
+          "name": "Somebody Knew",
+          "note": "Address, times and the code word all agreed with the office before the car moved"
+        },
+        {
+          "id": "guest-not-inspector",
+          "name": "Guest, Not Inspector",
+          "note": "Asked in, spoken to at the child's height, and nothing opened that was not offered"
+        },
+        {
+          "id": "left-on-the-plan",
+          "name": "Left On The Plan",
+          "note": "The exit was taken when the plan said, read off the clock rather than off the atmosphere"
+        },
+        {
+          "id": "clean-visit",
+          "name": "Clean Visit",
+          "note": "No corrections anywhere in the visit"
+        },
+        {
+          "id": "steady-voice",
+          "name": "Steady Voice",
+          "note": "The time with the child and the calm through the anger both held without a break"
+        },
+        {
+          "id": "on-the-hour",
+          "name": "On The Hour",
+          "note": "Complete inside 80% of par with every check-in still made"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=home-visit-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-line-shift",
+      "name": "Crisis Line Shift",
+      "title": "SmartCiti.X~ Crisis Line Shift VR",
+      "tagline": "One call on a crisis line: the opening then off the script, the risk questions asked directly, reflective listening, a safety plan built with the caller, means safety and the silence after it, the dispatch decision said out loud before it happens, the record, and the consult afterwards",
+      "category": "Emergency Services",
+      "domain": "Emergency response",
+      "trade": "Crisis counsellor",
+      "union": null,
+      "certification": "CIT International's crisis intervention team model for the collaboration between a crisis line and responding officers; SAMHSA's principles of a trauma-informed approach and its national guidelines for behavioral health crisis care; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the 988 Suicide and Crisis Lifeline's own standards for risk assessment, collaborative safety planning, means safety and imminent-risk intervention; the CDC's technical package for suicide prevention, which is where means safety as a population measure comes from; the NASW Code of Ethics; the HIPAA Privacy Rule and, where substance use is part of the call, 42 CFR Part 2; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which the centre's own fatigue and debrief rules sit; SEIU 1021 crisis-worker practice standards",
+      "accent": "#8f9ae8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 5,
+      "interrupts": 2,
+      "stepKinds": [
+        "drag",
+        "find",
+        "select",
+        "sequence",
+        "track",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "stayed-on-the-line",
+        "name": "Stayed On The Line",
+        "note": "A hard call worked all the way through — asked directly, planned together, said out loud, written down, and taken to a supervisor afterwards"
+      },
+      "meshes": 183,
+      "lights": 2,
+      "overBudget": false,
+      "index": "207",
+      "flat": false,
+      "system": "Line Watch",
+      "currency": "CALLS",
+      "ranks": [
+        "Line Trainee",
+        "Crisis Counsellor",
+        "Senior Counsellor",
+        "Shift Lead",
+        "Crisis Line Certified"
+      ],
+      "awards": [
+        {
+          "id": "asked-directly",
+          "name": "Asked Directly",
+          "note": "The risk questions asked in order, in plain words, with nothing softened into uselessness"
+        },
+        {
+          "id": "nothing-hidden",
+          "name": "Nothing Hidden",
+          "note": "No promise that could not be kept and nothing done to the caller without telling them"
+        },
+        {
+          "id": "threshold-read",
+          "name": "Threshold Read",
+          "note": "The dispatch decision made against the threshold rather than on instinct"
+        },
+        {
+          "id": "clean-call",
+          "name": "Clean Call",
+          "note": "No corrections anywhere in the call"
+        },
+        {
+          "id": "held-the-silence",
+          "name": "Held The Silence",
+          "note": "The pacing and the silence after the means question both held without a break"
+        },
+        {
+          "id": "no-clock-watching",
+          "name": "No Clock-Watching",
+          "note": "Complete inside 80% of par without hurrying the caller"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=crisis-line-shift"
+    },
+    {
+      "app": "smartcity",
+      "id": "trauma-informed-intake",
+      "name": "Trauma-Informed Intake",
+      "title": "SmartCiti.X~ Trauma-Informed Intake VR",
+      "tagline": "A first intake done as procedure: the room set so the client can see the door, permission asked before the questions, the screening paced at their pace, the reporting limits said plainly, a safety plan in their own words, a warm handoff, and the worker's own grounding after",
+      "category": "Emergency Services",
+      "domain": "Emergency response",
+      "trade": "Social worker — NASW / SEIU 1021",
+      "union": null,
+      "certification": "The NASW Code of Ethics on self-determination, informed consent and confidentiality; SAMHSA's six principles of a trauma-informed approach — safety, trustworthiness and transparency, peer support, collaboration and mutuality, empowerment and choice, and cultural, historical and gender issues; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the HIPAA Privacy Rule, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act and the Elder and Dependent Adult Civil Protection Act; Cal/OSHA's workplace violence prevention in health care standard, 8 CCR §3342; SEIU 1021 social services practice standards and the local's own critical-incident and peer-support language",
+      "accent": "#6fbfa0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 5,
+      "interrupts": 2,
+      "stepKinds": [
+        "drag",
+        "turn",
+        "find",
+        "select",
+        "hold",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "first-hour-held",
+        "name": "First Hour Held",
+        "note": "A first intake where the room, the words and the pace all belonged to the client, and the worker checked in on themselves before the next one"
+      },
+      "meshes": 189,
+      "lights": 2,
+      "overBudget": false,
+      "index": "206",
+      "flat": false,
+      "system": "First Contact",
+      "currency": "TRUST",
+      "ranks": [
+        "Intake Trainee",
+        "Case Aide",
+        "Social Worker",
+        "Lead Clinician Partner",
+        "Trauma-Informed Certified"
+      ],
+      "awards": [
+        {
+          "id": "door-in-view",
+          "name": "Door In View",
+          "note": "The room was arranged before the client walked into it, not after"
+        },
+        {
+          "id": "nothing-forced",
+          "name": "Nothing Forced",
+          "note": "No detail pressed for, no promise made that could not be kept"
+        },
+        {
+          "id": "their-own-words",
+          "name": "Their Own Words",
+          "note": "The safety plan came out of the client's sentences, not the worker's"
+        },
+        {
+          "id": "clean-first-hour",
+          "name": "Clean First Hour",
+          "note": "No corrections anywhere in the intake"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "The screening and the safety plan both held without a break"
+        },
+        {
+          "id": "unhurried",
+          "name": "Unhurried",
+          "note": "Complete inside 80% of par without rushing a single answer"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=trauma-informed-intake"
     },
     {
       "app": "smartcity",
@@ -13943,7 +14209,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -14602,7 +14868,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "100",

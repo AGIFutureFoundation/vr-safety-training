@@ -394,7 +394,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "wildland-urban-interface", why: "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so." },
       // slot-fr-2
       // slot-fr-3
-      // slot-fr-4
+      { app: "smartcity", id: "trauma-informed-intake", why: "A first intake where the room, the permission and the pace all belong to the client, and the reporting limits are said plainly before a disclosure makes them urgent." },
+      { app: "smartcity", id: "crisis-line-shift", why: "One call worked all the way through: asked directly, reflected back, planned together, the dispatch decision said out loud to the caller, and taken to a supervisor afterwards." },
+      { app: "smartcity", id: "home-visit-safety", why: "The unaccompanied visit, where the address, the check-in times and the word for send help are agreed before the car moves and the exit is taken on the plan rather than on the atmosphere." },
       { app: "smartcity", id: "shelter-intake-operations", why: "The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real." },
       { app: "smartcity", id: "damage-assessment-team", why: "The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it." },
       { app: "smartcity", id: "psychological-first-aid", why: "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted." },

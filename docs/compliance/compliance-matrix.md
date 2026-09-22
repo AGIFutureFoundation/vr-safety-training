@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 211 procedures, 186 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 214 procedures, 186 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -22,11 +22,11 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.212 | 11: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Hem & Buttonhole, Industrial Press & Steam, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
 | 29 CFR 1910.132 | 10: Arc-Flash Label Study, Cutting Table and Rotary Knife, Discharge Photo Doc, Fryer Oil Change, Garment Inspection & Finish, Hem & Buttonhole, Marsh Transect Survey, Oyster Reef Monitoring, Pattern Marking & Layout, Prep Cooling |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
+| 8 CCR 3203 | 10: Banquet Setup Lift, Crisis Line Shift, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | 29 CFR 1910.269 | 8: Aerial Ladder, Aerial Lashing, Battery Yard, Line Truck, PCB Equipment Removal, Substation Switching, Transformer Vault, Wind Nacelle |
-| 8 CCR 3203 | 8: Banquet Setup Lift, HAZWOPER Site Orientation, Ice Well Breakage, Laundry Plant Chemicals, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | EPA Method 40 | 7: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Sensor Co-Location Check |
+| 8 CCR 3342 | 6: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, Trauma-Informed Intake, WVPP & Panic Button |
 | 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
-| 8 CCR 3342 | 5: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, WVPP & Panic Button |
 | NFPA 70 | 5: Arc-Flash Label Study, Cath Lab, Elevator Pit, Industrial Press & Steam, Temporary Site Power |
 | 29 CFR 1910.22 | 4: Banquet Setup Lift, Fryer Oil Change, Hot Line, Receiving Dock Food |
 | 29 CFR 1910.333 | 4: Charge Point, Data Hall, Isolation Bay, Motor Control Center |
@@ -516,6 +516,9 @@ Every station names the union and the certification a worker in that role holds,
 | Structure Fire Size-Up | Firefighter — IAFF | 29 CFR 1910.134, NFPA 1001, NFPA 1500, NFPA 1710 |
 | Firefighter Rehab Sector | Firefighter — IAFF | 29 CFR 1910.134, NFPA 1500, NFPA 1584, NIOSH |
 | Wildland-Urban Interface | Firefighter — IAFF | 29 CFR 1910.156, NFPA 1140, NFPA 1500, NFPA 1977 |
+| Trauma-Informed Intake | Social worker — NASW / SEIU 1021 | 8 CCR 3342 |
+| Crisis Line Shift | Crisis counsellor | 8 CCR 3203 |
+| Home Visit Safety | Social worker — NASW / SEIU 1021 | 8 CCR 3203 |
 | Shelter Intake Operations | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | 29 CFR 1910.1030 |
 | Damage Assessment Team | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | 29 CFR 1926.416 |
 | Psychological First Aid | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | — |
@@ -594,6 +597,9 @@ Every station names the union and the certification a worker in that role holds,
 - Stage Power (smartcity): NFPA 70E
 - Container Lashing (smartcity): 29 CFR 1918
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Home Visit Safety (smartcity): 8 CCR 3203
+- Crisis Line Shift (smartcity): 8 CCR 3203
+- Trauma-Informed Intake (smartcity): 8 CCR 3342
 - Psychological First Aid (smartcity): none
 - Damage Assessment Team (smartcity): 29 CFR 1926.416
 - Shelter Intake Operations (smartcity): 29 CFR 1910.1030

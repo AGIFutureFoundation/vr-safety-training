@@ -8594,5 +8594,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "trauma-informed-intake",
+    "index": "206",
+    "domain": "Emergency response",
+    "trade": "Social worker — NASW / SEIU 1021",
+    "category": "Emergency Services",
+    "certification": "The NASW Code of Ethics on self-determination, informed consent and confidentiality; SAMHSA's six principles of a trauma-informed approach — safety, trustworthiness and transparency, peer support, collaboration and mutuality, empowerment and choice, and cultural, historical and gender issues; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the HIPAA Privacy Rule, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act and the Elder and Dependent Adult Civil Protection Act; Cal/OSHA's workplace violence prevention in health care standard, 8 CCR §3342; SEIU 1021 social services practice standards and the local's own critical-incident and peer-support language",
+    "name": "Trauma-Informed Intake",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Trauma-Informed Intake VR",
+    "tagline": "A first intake done as procedure: the room set so the client can see the door, permission asked before the questions, the screening paced at their pace, the reporting limits said plainly, a safety plan in their own words, a warm handoff, and the worker's own grounding after",
+    "accent": 7323552,
+    "accentCss": "#6fbfa0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "first-hour-held",
+      "name": "First Hour Held",
+      "note": "A first intake where the room, the words and the pace all belonged to the client, and the worker checked in on themselves before the next one"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "First Contact",
+      "currency": "TRUST",
+      "ranks": [
+        "Intake Trainee",
+        "Case Aide",
+        "Social Worker",
+        "Lead Clinician Partner",
+        "Trauma-Informed Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "crisis-line-shift",
+    "index": "207",
+    "domain": "Emergency response",
+    "trade": "Crisis counsellor",
+    "category": "Emergency Services",
+    "certification": "CIT International's crisis intervention team model for the collaboration between a crisis line and responding officers; SAMHSA's principles of a trauma-informed approach and its national guidelines for behavioral health crisis care; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the 988 Suicide and Crisis Lifeline's own standards for risk assessment, collaborative safety planning, means safety and imminent-risk intervention; the CDC's technical package for suicide prevention, which is where means safety as a population measure comes from; the NASW Code of Ethics; the HIPAA Privacy Rule and, where substance use is part of the call, 42 CFR Part 2; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which the centre's own fatigue and debrief rules sit; SEIU 1021 crisis-worker practice standards",
+    "name": "Crisis Line Shift",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Crisis Line Shift VR",
+    "tagline": "One call on a crisis line: the opening then off the script, the risk questions asked directly, reflective listening, a safety plan built with the caller, means safety and the silence after it, the dispatch decision said out loud before it happens, the record, and the consult afterwards",
+    "accent": 9411304,
+    "accentCss": "#8f9ae8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "stayed-on-the-line",
+      "name": "Stayed On The Line",
+      "note": "A hard call worked all the way through — asked directly, planned together, said out loud, written down, and taken to a supervisor afterwards"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Watch",
+      "currency": "CALLS",
+      "ranks": [
+        "Line Trainee",
+        "Crisis Counsellor",
+        "Senior Counsellor",
+        "Shift Lead",
+        "Crisis Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "home-visit-safety",
+    "index": "208",
+    "domain": "Emergency response",
+    "trade": "Social worker — NASW / SEIU 1021",
+    "category": "Emergency Services",
+    "certification": "The NASW Code of Ethics on self-determination, informed consent and the worker's duty to their own safety; NASW's own guidance on safety in the field for social workers making unaccompanied visits; SAMHSA's trauma-informed principles applied to a family's own home, where the worker is the visitor; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act; the HIPAA Privacy Rule, which is what governs how much of a family's information may be said out loud in front of a neighbour, a landlord or a second adult who walks in, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2 where that is part of the file; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which a county's lone-worker and check-in procedure sits, together with the workplace violence prevention duties added by SB 553; CIT International's crisis intervention model for the point where a visit becomes a call for help; SEIU 1021 social services practice standards, including the local's field-safety and check-in language",
+    "name": "Home Visit Safety",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Home Visit Safety VR",
+    "tagline": "One unaccompanied home visit: the address, the check-in times and the word for send help agreed first, the dog and the way out read on the approach, asked in rather than walked in, the child at eye level, the home observed not inspected, anger met with calm and choices, out when the plan says, and the loop closed from the car",
+    "accent": 14723178,
+    "accentCss": "#e0a86a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "loop-closed",
+      "name": "Loop Closed",
+      "note": "A visit somebody else always knew the shape of: planned, checked in, ended on the plan's terms, and closed out from the car"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Field Visit",
+      "currency": "FIELD",
+      "ranks": [
+        "Field Trainee",
+        "Case Aide",
+        "Social Worker",
+        "Field Supervisor",
+        "Home Visit Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
