@@ -256,6 +256,19 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "dental-careers-unspoken-smiles",
+    name: "Dental Careers — Unspoken Smiles",
+    union: "SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential",
+    certification: "The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance",
+    summary: "The careers a student can step into from the Unspoken Smiles clinic: dental assisting at the chair, sterilisation and instrument processing, radiography, the laboratory bench, orthodontic and surgical assisting, the front office and treatment coordination, and community outreach — with the ladder from assistant to hygienist to dentist laid out as a station of its own.",
+    accent: "#f0b86e",
+    stations: [
+      { app: "smartcity", id: "patient-intake-screening", why: "The shared first ten minutes: every dental career starts by reading the history and taking the vitals the same way." },
+      // slot-dc-1
+      // slot-dc-2
+    ],
+  },
+  {
     id: "bartending-course",
     name: "Bartending — Behind the Bar",
     union: "UNITE HERE Local 2 bartenders and barbacks",
