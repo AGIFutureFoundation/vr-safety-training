@@ -264,7 +264,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "bar-well-setup", why: "Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in." },
       { app: "smartcity", id: "id-check-underage", why: "The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar." },
       { app: "smartcity", id: "jigger-pour-spec", why: "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects." },
-      // slot-bar-2
+      { app: "smartcity", id: "cutoff-overservice", why: "The RBS cues read in a real guest, the pour slowed before it is refused outright, and the cutoff itself said quietly once, backed by §25602 and the dram-shop exposure it carries for the licence." },
+      { app: "smartcity", id: "spiked-drink-response", why: "Patron safety when the cues are somebody else's drink, not his own tab: the rail watched, the safe-word scheme posted, and a suspect glass retained rather than rinsed the moment a guest is not the person her count says she should be." },
+      { app: "smartcity", id: "patron-deescalation", why: "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind." },
       // slot-bar-3
       // slot-bar-4
       // slot-bar-5

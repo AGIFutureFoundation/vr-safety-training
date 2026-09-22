@@ -5637,5 +5637,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cutoff-overservice",
+    "index": "134",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act; California Business and Professions Code §25602 — sale to an obviously intoxicated person — and the dram-shop civil liability it carries for the licence; NSF-certified ice and glassware equipment kept out of hand contact under the California Retail Food Code; OSHA 29 CFR 1910.1030 bloodborne pathogens for the glass that breaks the moment a cutoff turns physical; UNITE HERE Local 2's contract language on staffing a bar so one bartender is never alone with a cutoff",
+    "name": "Cut-Off / Overservice",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Cut-Off / Overservice VR",
+    "tagline": "The RBS cues, the slower pour, the quiet cutoff, the ride home and the log entry that closes it out",
+    "accent": 15901243,
+    "accentCss": "#f2a23b",
+    "parSeconds": 260,
+    "badge": {
+      "id": "clean-cutoff",
+      "name": "Clean Cutoff",
+      "note": "Recognised, slowed, cut off quietly, and sent home safe — nobody argued and nobody drove"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Service Standard",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "spiked-drink-response",
+    "index": "135",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act's guidance on patron safety; the county Environmental Health department's food-contact standards for glassware a suspect drink is decanted into (NSF-certified, sealed, and never poured out); OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with an unconscious or vomiting patron; the local police non-emergency line and UNITE HERE Local 2's own guidance on staff never escorting a patron alone",
+    "name": "Spiked Drink Response",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Spiked Drink Response VR",
+    "tagline": "Watching the rail, the safe-word scheme, and the response once a drink is actually suspect — remove it, retain it, stay with her, call it in",
+    "accent": 3127459,
+    "accentCss": "#2fb8a3",
+    "parSeconds": 280,
+    "badge": {
+      "id": "never-alone",
+      "name": "Never Alone",
+      "note": "The drink retained, the patron never left with a stranger, and the report written before the shift ended"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patron Safety",
+      "currency": "WATCH",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "patron-deescalation",
+    "index": "136",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "Cal/OSHA's workplace violence prevention plan requirement, 8 CCR §3342 under SB 553, including the incident log every bar now has to keep; OSHA 29 CFR 1910.1030 bloodborne pathogens for the moment contact actually breaks skin; NFPA 101's life-safety requirement that the path to the door stays clear of exactly the kind of crowd this scenario draws; the local police non-emergency line as the standing call for a patron who will not leave; UNITE HERE Local 2's own language on never sending one bartender into a confrontation alone",
+    "name": "Patron De-escalation",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Patron De-escalation VR",
+    "tagline": "Distance, the bar as a barrier, naming it once, backup, refusal — and the panic button the instant a hand crosses the bar",
+    "accent": 15225903,
+    "accentCss": "#e8542f",
+    "parSeconds": 270,
+    "badge": {
+      "id": "held-the-line",
+      "name": "Held the Line",
+      "note": "De-escalated without raising a voice, hit the alarm the instant it went physical, and got the guest clear of the crowd"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Floor Command",
+      "currency": "CALM",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

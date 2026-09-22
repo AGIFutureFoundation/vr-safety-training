@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 133
+      "stations": 136
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "patron-deescalation",
+        "spiked-drink-response",
+        "cutoff-overservice",
         "jigger-pour-spec",
         "id-check-underage",
         "bar-well-setup",
@@ -1008,6 +1011,21 @@
           "app": "smartcity",
           "id": "jigger-pour-spec",
           "why": "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects."
+        },
+        {
+          "app": "smartcity",
+          "id": "cutoff-overservice",
+          "why": "The RBS cues read in a real guest, the pour slowed before it is refused outright, and the cutoff itself said quietly once, backed by §25602 and the dram-shop exposure it carries for the licence."
+        },
+        {
+          "app": "smartcity",
+          "id": "spiked-drink-response",
+          "why": "Patron safety when the cues are somebody else's drink, not his own tab: the rail watched, the safe-word scheme posted, and a suspect glass retained rather than rinsed the moment a guest is not the person her count says she should be."
+        },
+        {
+          "app": "smartcity",
+          "id": "patron-deescalation",
+          "why": "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5327,6 +5345,254 @@
     },
     {
       "app": "smartcity",
+      "id": "patron-deescalation",
+      "name": "Patron De-escalation",
+      "title": "SmartCiti.X~ Patron De-escalation VR",
+      "tagline": "Distance, the bar as a barrier, naming it once, backup, refusal — and the panic button the instant a hand crosses the bar",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention plan requirement, 8 CCR §3342 under SB 553, including the incident log every bar now has to keep; OSHA 29 CFR 1910.1030 bloodborne pathogens for the moment contact actually breaks skin; NFPA 101's life-safety requirement that the path to the door stays clear of exactly the kind of crowd this scenario draws; the local police non-emergency line as the standing call for a patron who will not leave; UNITE HERE Local 2's own language on never sending one bartender into a confrontation alone",
+      "accent": "#e8542f",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "hold",
+        "turn",
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "held-the-line",
+        "name": "Held the Line",
+        "note": "De-escalated without raising a voice, hit the alarm the instant it went physical, and got the guest clear of the crowd"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "136",
+      "flat": false,
+      "system": "Floor Command",
+      "currency": "CALM",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "Every harassment cue spotted before naming the behaviour"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone in It",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "held-position",
+          "name": "Held Position",
+          "note": "Both watch periods held the full count"
+        },
+        {
+          "id": "calm-and-fast",
+          "name": "Calm and Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-corrections",
+          "name": "No Corrections",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=patron-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "spiked-drink-response",
+      "name": "Spiked Drink Response",
+      "title": "SmartCiti.X~ Spiked Drink Response VR",
+      "tagline": "Watching the rail, the safe-word scheme, and the response once a drink is actually suspect — remove it, retain it, stay with her, call it in",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act's guidance on patron safety; the county Environmental Health department's food-contact standards for glassware a suspect drink is decanted into (NSF-certified, sealed, and never poured out); OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with an unconscious or vomiting patron; the local police non-emergency line and UNITE HERE Local 2's own guidance on staff never escorting a patron alone",
+      "accent": "#2fb8a3",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "never-alone",
+        "name": "Never Alone",
+        "note": "The drink retained, the patron never left with a stranger, and the report written before the shift ended"
+      },
+      "meshes": 167,
+      "lights": 0,
+      "overBudget": false,
+      "index": "135",
+      "flat": false,
+      "system": "Patron Safety",
+      "currency": "WATCH",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "rail-clean",
+          "name": "Rail Clean",
+          "note": "Every unattended drink on the rail caught in one pass"
+        },
+        {
+          "id": "stayed-with-her",
+          "name": "Stayed With Her",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "held-the-watch",
+          "name": "Held the Watch",
+          "note": "Both watch periods held the full count"
+        },
+        {
+          "id": "fast-and-calm",
+          "name": "Fast and Calm",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-corrections",
+          "name": "No Corrections",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=spiked-drink-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "cutoff-overservice",
+      "name": "Cut-Off / Overservice",
+      "title": "SmartCiti.X~ Cut-Off / Overservice VR",
+      "tagline": "The RBS cues, the slower pour, the quiet cutoff, the ride home and the log entry that closes it out",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act; California Business and Professions Code §25602 — sale to an obviously intoxicated person — and the dram-shop civil liability it carries for the licence; NSF-certified ice and glassware equipment kept out of hand contact under the California Retail Food Code; OSHA 29 CFR 1910.1030 bloodborne pathogens for the glass that breaks the moment a cutoff turns physical; UNITE HERE Local 2's contract language on staffing a bar so one bartender is never alone with a cutoff",
+      "accent": "#f2a23b",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "sequence",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-cutoff",
+        "name": "Clean Cutoff",
+        "note": "Recognised, slowed, cut off quietly, and sent home safe — nobody argued and nobody drove"
+      },
+      "meshes": 176,
+      "lights": 0,
+      "overBudget": false,
+      "index": "134",
+      "flat": false,
+      "system": "Service Standard",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Service Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "read-the-room",
+          "name": "Read the Room",
+          "note": "Every RBS cue spotted before the pour changed"
+        },
+        {
+          "id": "no-argument",
+          "name": "No Argument",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "steady-through-it",
+          "name": "Steady Through It",
+          "note": "Held both watch periods the full count"
+        },
+        {
+          "id": "quiet-and-fast",
+          "name": "Quiet and Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-corrections",
+          "name": "No Corrections",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cutoff-overservice"
+    },
+    {
+      "app": "smartcity",
       "id": "jigger-pour-spec",
       "name": "Pouring to Spec",
       "title": "SmartCiti.X~ Pouring to Spec VR",
@@ -7732,7 +7998,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 270,
       "lights": 0,
       "overBudget": false,
       "index": "92",
