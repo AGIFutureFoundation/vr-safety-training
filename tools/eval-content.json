@@ -12,10 +12,55 @@
   "results": [
     {
       "app": "smartcity",
+      "id": "can-we-live-story",
+      "name": "Can We Live? — The Story",
+      "steps": 10,
+      "score": 74,
+      "d": {
+        "variety": {
+          "score": 0.15000000000000002,
+          "distinct": 2,
+          "longestRun": 7
+        },
+        "decisions": {
+          "score": 0.7,
+          "hazards": 4,
+          "interrupts": 0
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 260,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 0,
+          "got": 0
+        },
+        "scene": {
+          "score": null,
+          "meshes": 0,
+          "materials": 0,
+          "interactables": 0,
+          "flat": true
+        },
+        "originality": {
+          "score": 0.6573991031390136,
+          "nearest": "hunters-point",
+          "similarity": 0.2085201793721973
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "hunters-point",
       "name": "Hunters Point Briefing",
       "steps": 10,
-      "score": 76,
+      "score": 75,
       "d": {
         "variety": {
           "score": 0.275,
@@ -49,9 +94,9 @@
           "flat": true
         },
         "originality": {
-          "score": 1,
-          "nearest": "air-monitor",
-          "similarity": 0.13761467889908258
+          "score": 0.6573991031390136,
+          "nearest": "can-we-live-story",
+          "similarity": 0.2085201793721973
         }
       }
     },
@@ -937,6 +982,50 @@
     },
     {
       "app": "smartcity",
+      "id": "retest-witnessing",
+      "name": "Retest Witnessing",
+      "steps": 13,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.8884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 222,
+          "materials": 86,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.10000000000000009,
+          "nearest": "parcel-status-walk",
+          "similarity": 0.32
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "id-check-underage",
       "name": "Checking ID",
       "steps": 14,
@@ -1101,7 +1190,7 @@
         "scene": {
           "score": 0.9249999999999999,
           "meshes": 150,
-          "materials": 74,
+          "materials": 75,
           "interactables": 22
         },
         "originality": {
@@ -1592,6 +1681,94 @@
           "score": 0.5648180242634316,
           "nearest": "arena-rigging",
           "similarity": 0.2270363951473137
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "shoreline-sediment-grab",
+      "name": "Shoreline Sediment Grab",
+      "steps": 12,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 245,
+          "materials": 67,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.42212692967409954,
+          "nearest": "discharge-photo-doc",
+          "similarity": 0.2555746140651801
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lockstitch-seam-guard",
+      "name": "Lockstitch Seam Behind the Guard",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 287,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.8731818181818181,
+          "meshes": 142,
+          "materials": 67,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.25403348554033506,
+          "nearest": "hem-and-buttonhole",
+          "similarity": 0.289193302891933
         }
       }
     },
@@ -2301,6 +2478,50 @@
     },
     {
       "app": "smartcity",
+      "id": "air-monitor",
+      "name": "Perimeter Air",
+      "steps": 10,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 318,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9522727272727273,
+          "meshes": 202,
+          "materials": 71,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.16875,
+          "nearest": "fenceline-dust-monitor",
+          "similarity": 0.30625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "decon-line",
       "name": "Decon Line",
       "steps": 11,
@@ -2428,6 +2649,358 @@
           "score": 0.5694992412746587,
           "nearest": "rigging-loft",
           "similarity": 0.22610015174506828
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "fenceline-dust-monitor",
+      "name": "Fenceline Dust Monitor",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 382,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 211,
+          "materials": 84,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.16875,
+          "nearest": "air-monitor",
+          "similarity": 0.30625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "odor-complaint-log",
+      "name": "Pollution Patrol",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 310,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 246,
+          "materials": 78,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.25740181268882195,
+          "nearest": "haul-route-observation",
+          "similarity": 0.28851963746223563
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "air-sensor-install",
+      "name": "Neighbourhood Air Sensor",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 373,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 210,
+          "materials": 80,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5026315789473685,
+          "nearest": "sensor-colocation-check",
+          "similarity": 0.2394736842105263
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "garment-inspection-finish",
+      "name": "Garment Inspection & Finish",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 301,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9015909090909091,
+          "meshes": 147,
+          "materials": 76,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5109756097560977,
+          "nearest": "lockstitch-seam-guard",
+          "similarity": 0.23780487804878048
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "machine-threading-needle",
+      "name": "Machine Threading and Needle",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 76,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.32307692307692315,
+          "nearest": "lockstitch-seam-guard",
+          "similarity": 0.2753846153846154
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "parcel-status-walk",
+      "name": "Parcel Status Walk",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 193,
+          "materials": 80,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.10000000000000009,
+          "nearest": "retest-witnessing",
+          "similarity": 0.32
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rad-meter-basics",
+      "name": "Rad Meter Basics",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 332,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 248,
+          "materials": 98,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "rad-survey",
+          "similarity": 0.3550387596899225
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "smoke-day-outreach",
+      "name": "Smoke Day Outreach",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.8884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 292,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9225,
+          "meshes": 149,
+          "materials": 62,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.5063063063063064,
+          "nearest": "shelter-in-place-drill",
+          "similarity": 0.23873873873873874
         }
       }
     },
@@ -3533,6 +4106,578 @@
     },
     {
       "app": "smartcity",
+      "id": "discharge-photo-doc",
+      "name": "Discharge Photo Doc",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9925,
+          "meshes": 177,
+          "materials": 85,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.42212692967409954,
+          "nearest": "shoreline-sediment-grab",
+          "similarity": 0.2555746140651801
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hem-and-buttonhole",
+      "name": "Hem & Buttonhole",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 371,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9631818181818181,
+          "meshes": 178,
+          "materials": 84,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.25403348554033506,
+          "nearest": "lockstitch-seam-guard",
+          "similarity": 0.289193302891933
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "shelter-in-place-drill",
+      "name": "Shelter-in-Place Drill",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 287,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.9825,
+          "meshes": 173,
+          "materials": 74,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5063063063063064,
+          "nearest": "smoke-day-outreach",
+          "similarity": 0.23873873873873874
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "youth-patrol-training",
+      "name": "Youth Patrol Training",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 330,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 246,
+          "materials": 90,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5139534883720931,
+          "nearest": "odor-complaint-log",
+          "similarity": 0.2372093023255814
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "public-comment-prep",
+      "name": "Public Comment Prep",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 352,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 267,
+          "materials": 95,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4600536193029492,
+          "nearest": "dust-plan-review",
+          "similarity": 0.2479892761394102
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dust-plan-review",
+      "name": "Dust Plan Review",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 331,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9925,
+          "meshes": 177,
+          "materials": 85,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.4600536193029492,
+          "nearest": "public-comment-prep",
+          "similarity": 0.2479892761394102
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "met-station-siting",
+      "name": "Met Station Siting",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 325,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 180,
+          "materials": 69,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.3979166666666667,
+          "nearest": "fenceline-dust-monitor",
+          "similarity": 0.2604166666666667
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "haul-route-observation",
+      "name": "Haul Route Observation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 329,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 199,
+          "materials": 88,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.25740181268882195,
+          "nearest": "odor-complaint-log",
+          "similarity": 0.28851963746223563
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "alteration-repair-ticket",
+      "name": "Alteration Repair Ticket",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 286,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9249999999999999,
+          "meshes": 150,
+          "materials": 62,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.4339055793991417,
+          "nearest": "hem-and-buttonhole",
+          "similarity": 0.2532188841201717
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cutting-table-rotary",
+      "name": "Cutting Table and Rotary Knife",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 307,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8825,
+          "meshes": 133,
+          "materials": 63,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.39462025316455707,
+          "nearest": "lockstitch-seam-guard",
+          "similarity": 0.2610759493670886
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "serger-overlock",
+      "name": "Serger and Overlock",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 290,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.89,
+          "meshes": 136,
+          "materials": 68,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3717557251908399,
+          "nearest": "machine-threading-needle",
+          "similarity": 0.26564885496183205
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "results-return-visit",
+      "name": "Results Return Visit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 265,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 51,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.48812199036918147,
+          "nearest": "biomonitoring-consent",
+          "similarity": 0.24237560192616373
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "sample-kit-shipping",
+      "name": "Sample Kit Shipping",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 76,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5975155279503106,
+          "nearest": "biomonitoring-consent",
+          "similarity": 0.2204968944099379
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "tip-pool-labor",
       "name": "Tip Pool & Labor",
       "steps": 14,
@@ -3833,9 +4978,9 @@
           "interactables": 27
         },
         "originality": {
-          "score": 0.7563380281690142,
-          "nearest": "oral-cancer-screening",
-          "similarity": 0.18873239436619718
+          "score": 0.7425531914893618,
+          "nearest": "abatement-perimeter-awareness",
+          "similarity": 0.19148936170212766
         }
       }
     },
@@ -4141,9 +5286,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.4645107794361526,
-          "nearest": "air-monitor",
-          "similarity": 0.2470978441127695
+          "score": 0.32068965517241393,
+          "nearest": "fenceline-dust-monitor",
+          "similarity": 0.27586206896551724
         }
       }
     },
@@ -4273,9 +5418,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.619631093544137,
-          "nearest": "sediment-cap",
-          "similarity": 0.2160737812911726
+          "score": 0.6111389236545683,
+          "nearest": "abatement-perimeter-awareness",
+          "similarity": 0.21777221526908636
         }
       }
     },
@@ -4589,50 +5734,6 @@
     },
     {
       "app": "smartcity",
-      "id": "air-monitor",
-      "name": "Perimeter Air",
-      "steps": 10,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 318,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9522727272727273,
-          "meshes": 202,
-          "materials": 71,
-          "interactables": 19
-        },
-        "originality": {
-          "score": 0.4645107794361526,
-          "nearest": "mobile-air-lab",
-          "similarity": 0.2470978441127695
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "press-brake",
       "name": "Press Brake",
       "steps": 12,
@@ -4669,9 +5770,9 @@
           "interactables": 18
         },
         "originality": {
-          "score": 0.6482200647249192,
-          "nearest": "cnc-cell",
-          "similarity": 0.21035598705501618
+          "score": 0.5853503184713377,
+          "nearest": "cutting-table-rotary",
+          "similarity": 0.2229299363057325
         }
       }
     },
@@ -4985,6 +6086,402 @@
     },
     {
       "app": "smartcity",
+      "id": "community-soil-split",
+      "name": "Community Soil Split",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 308,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.985,
+          "meshes": 174,
+          "materials": 82,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.523529411764706,
+          "nearest": "rad-survey",
+          "similarity": 0.23529411764705882
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "industrial-press-steam",
+      "name": "Industrial Press & Steam",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 397,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 74,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.4951807228915664,
+          "nearest": "hem-and-buttonhole",
+          "similarity": 0.24096385542168675
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pattern-marking-layout",
+      "name": "Pattern Marking & Layout",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 442,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9522727272727273,
+          "meshes": 204,
+          "materials": 93,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.5770053475935829,
+          "nearest": "hem-and-buttonhole",
+          "similarity": 0.22459893048128343
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "air-network-data-qa",
+      "name": "Network Data Review",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 288,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9475,
+          "meshes": 159,
+          "materials": 71,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.49113018597997143,
+          "nearest": "sensor-colocation-check",
+          "similarity": 0.24177396280400573
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "sensor-colocation-check",
+      "name": "Sensor Co-Location Check",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 196,
+          "materials": 71,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.49113018597997143,
+          "nearest": "air-network-data-qa",
+          "similarity": 0.24177396280400573
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-support-laborer",
+      "name": "Decon Support Laborer",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 344,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 78,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5157894736842107,
+          "nearest": "decon-line",
+          "similarity": 0.23684210526315788
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "abatement-perimeter-awareness",
+      "name": "Abatement Perimeter Awareness",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 400,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 181,
+          "materials": 90,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.3897001303780967,
+          "nearest": "haul-route-observation",
+          "similarity": 0.2620599739243807
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "sewing-ergonomics-shift",
+      "name": "Sewing Ergonomics",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 341,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9715909090909091,
+          "meshes": 175,
+          "materials": 82,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5471502590673577,
+          "nearest": "hem-and-buttonhole",
+          "similarity": 0.23056994818652848
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "biomonitoring-consent",
+      "name": "Biomonitoring Consent",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 274,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 73,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.48812199036918147,
+          "nearest": "results-return-visit",
+          "similarity": 0.24237560192616373
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "oral-cancer-screening",
       "name": "Oral Cancer Screening",
       "steps": 13,
@@ -5205,6 +6702,50 @@
     },
     {
       "app": "smartcity",
+      "id": "opacity-reading",
+      "name": "Opacity Reading",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9256818181818183,
+          "meshes": 163,
+          "materials": 76,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.6072327044025158,
+          "nearest": "retest-witnessing",
+          "similarity": 0.21855345911949686
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "marsh-transect-survey",
       "name": "Marsh Transect Survey",
       "steps": 13,
@@ -5236,7 +6777,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 252,
+          "meshes": 264,
           "materials": 88,
           "interactables": 29
         },
@@ -5329,9 +6870,9 @@
           "interactables": 19
         },
         "originality": {
-          "score": 0.7310650887573966,
-          "nearest": "isco-injection",
-          "similarity": 0.1937869822485207
+          "score": 0.6824304538799415,
+          "nearest": "shelter-in-place-drill",
+          "similarity": 0.20351390922401172
         }
       }
     },
@@ -5945,9 +7486,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.67456279809221,
-          "nearest": "sampling-well",
-          "similarity": 0.20508744038155802
+          "score": 0.6580093312597202,
+          "nearest": "shoreline-sediment-grab",
+          "similarity": 0.208398133748056
         }
       }
     },
@@ -6085,6 +7626,94 @@
     },
     {
       "app": "smartcity",
+      "id": "garden-soil-screen",
+      "name": "Garden Soil Screen",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 262,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 77,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6253731343283583,
+          "nearest": "rad-survey",
+          "similarity": 0.21492537313432836
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hazwoper-site-orientation",
+      "name": "HAZWOPER Site Orientation",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 356,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9874999999999999,
+          "meshes": 175,
+          "materials": 77,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6182389937106919,
+          "nearest": "abatement-perimeter-awareness",
+          "similarity": 0.21635220125786164
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "keg-cellar-co2",
       "name": "Keg Cellar CO2",
       "steps": 12,
@@ -6168,50 +7797,6 @@
           "score": 0.6694148936170213,
           "nearest": "oral-cancer-screening",
           "similarity": 0.20611702127659576
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "opacity-reading",
-      "name": "Opacity Reading",
-      "steps": 12,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 295,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9256818181818183,
-          "meshes": 163,
-          "materials": 76,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.7142857142857143,
-          "nearest": "creosote-pile-removal",
-          "similarity": 0.19714285714285715
         }
       }
     },
