@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 174
+      "stations": 181
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,10 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "discharge-photo-doc",
+        "shoreline-sediment-grab",
+        "garden-soil-screen",
+        "community-soil-split",
         "shelter-in-place-drill",
         "youth-patrol-training",
         "public-comment-prep",
@@ -219,6 +223,9 @@
     {
       "name": "Sewing & Garment Trades",
       "stations": [
+        "industrial-press-steam",
+        "hem-and-buttonhole",
+        "pattern-marking-layout",
         "garment-inspection-finish",
         "alteration-repair-ticket",
         "sewing-ergonomics-shift",
@@ -1197,6 +1204,26 @@
         },
         {
           "app": "smartcity",
+          "id": "community-soil-split",
+          "why": "The split sample is community science's founding move: the same core an agency cuts, witnessed and divided in front of both parties, so the neighbourhood's own answer never depends on trusting the agency's lab alone."
+        },
+        {
+          "app": "smartcity",
+          "id": "garden-soil-screen",
+          "why": "The patrol network's other daily work: a handheld XRF, a proven check standard and an honest action-level call turn a family's garden bed from a guess into a result they can act on."
+        },
+        {
+          "app": "smartcity",
+          "id": "shoreline-sediment-grab",
+          "why": "The bay's edge gets the same discipline as the fenced parcel: a tide window read like a clock, a grab from the top two centimetres, and a transect that moves the moment a listed bird says it should."
+        },
+        {
+          "app": "smartcity",
+          "id": "discharge-photo-doc",
+          "why": "A patrol's whole job in one station: dry boots, the right bottle, a photo an inspector can actually use, and both hotlines called before the sheen has washed out on the next tide."
+        },
+        {
+          "app": "smartcity",
           "id": "rad-meter-basics",
           "why": "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep."
         },
@@ -1274,6 +1301,21 @@
           "app": "smartcity",
           "id": "cutting-table-rotary",
           "why": "Where the bundle started: the spread cut to the marker on two blades with the glove on the guiding hand, and the blade itself changed the same way — locked out first."
+        },
+        {
+          "app": "smartcity",
+          "id": "pattern-marking-layout",
+          "why": "Before a blade ever touches cloth: grain and nap held true, notches and drill holes struck, and the marker counted back against the cut ticket."
+        },
+        {
+          "app": "smartcity",
+          "id": "hem-and-buttonhole",
+          "why": "Finishing behind the guard: a blind hem, a buttonhole cut and sewn on its own cutter guard, and bar tacks at the points a garment actually tears first."
+        },
+        {
+          "app": "smartcity",
+          "id": "industrial-press-steam",
+          "why": "The one machine on this floor with a boiler of its own: two-hand control, steam and vacuum, and a head locked open before anyone reaches into it."
         },
         {
           "app": "smartcity",
@@ -5661,6 +5703,576 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "discharge-photo-doc",
+      "name": "Discharge Photo Doc",
+      "title": "SmartCiti.X~ Discharge Photo Doc VR",
+      "tagline": "Documenting a discharge from a storm drain: sheen, colour and flow noted, a grab taken from the bank in the right preserved bottle, GPS and time logged, a photo taken with a scale in frame, the Regional Water Board and the city hotline both notified — and the patrol never once in the water",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "CWA (Clean Water Act) NPDES illicit-discharge reporting to the Regional Water Quality Control Board (RWQCB); the city's pollution-reporting hotline; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for any grab sample relied on in public; OSHA 29 CFR 1910.132 general PPE for the patrol's own gear; the Community Pollution Patrol Network's discharge documentation protocol",
+      "accent": "#d2745b",
+      "parSeconds": 270,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "record-that-holds",
+        "name": "Record That Holds",
+        "note": "A dry-boots documentation an inspector can act on — the right bottle, a scaled photo, both hotlines called"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "162",
+      "flat": false,
+      "system": "Patrol Record",
+      "currency": "REPORT",
+      "ranks": [
+        "Patrol Member",
+        "Documentation Lead",
+        "Patrol Coordinator",
+        "Complaint Steward",
+        "Patrol Record Certified"
+      ],
+      "awards": [
+        {
+          "id": "dry-boots",
+          "name": "Dry Boots",
+          "note": "Never a hazard — the water, the bottle, the photo or the sample stayed clean"
+        },
+        {
+          "id": "both-called",
+          "name": "Both Called",
+          "note": "Water Board and city hotline both notified, first time"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "The flow estimate read inside spec"
+        },
+        {
+          "id": "clean-record",
+          "name": "Clean Record",
+          "note": "No corrections across the whole documentation"
+        },
+        {
+          "id": "steady-grab",
+          "name": "Steady Grab",
+          "note": "Held the pole sampler through the full grab"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Sample, photo and both calls done inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=discharge-photo-doc"
+    },
+    {
+      "app": "smartcity",
+      "id": "shoreline-sediment-grab",
+      "name": "Shoreline Sediment Grab",
+      "title": "SmartCiti.X~ Shoreline Sediment Grab VR",
+      "tagline": "A shoreline sediment grab on a falling tide: the tide window read, the grab sampler used on the top two centimetres, pH and odour logged, the jar iced, custody signed, and the eelgrass and cordgrass kept off the whole time",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "NOAA tide table and predicted low-water window; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for sediment samples relied on in public; U.S. Fish and Wildlife Service — Endangered Species Act protection for Ridgway's rail; San Francisco Bay Conservation and Development Commission (BCDC) shoreline access rules; the Community Pollution Patrol Network's shoreline sampling protocol",
+      "accent": "#5a9fc9",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "window-held",
+        "name": "Window Held",
+        "note": "A clean grab from the top two centimetres, taken and iced inside the tide window, without a boot in the eelgrass or the cordgrass"
+      },
+      "meshes": 246,
+      "lights": 0,
+      "overBudget": false,
+      "index": "161",
+      "flat": false,
+      "system": "Shoreline Grab",
+      "currency": "GRAB",
+      "ranks": [
+        "Shoreline Watcher",
+        "Field Monitor",
+        "Transect Lead",
+        "Patrol Coordinator",
+        "Shoreline Grab Certified"
+      ],
+      "awards": [
+        {
+          "id": "tide-read",
+          "name": "Tide Read",
+          "note": "Checked the tide window clean before a boot touched the mud"
+        },
+        {
+          "id": "habitat-clear",
+          "name": "Habitat Clear",
+          "note": "Never a hazard — the eelgrass and cordgrass stayed untouched"
+        },
+        {
+          "id": "layer-true",
+          "name": "Layer True",
+          "note": "Grab depth and field pH both read inside spec"
+        },
+        {
+          "id": "clean-grab",
+          "name": "Clean Grab",
+          "note": "No corrections across the whole grab"
+        },
+        {
+          "id": "steady-scoop",
+          "name": "Steady Scoop",
+          "note": "Held the grab sampler through the full scoop"
+        },
+        {
+          "id": "beat-the-tide",
+          "name": "Beat the Tide",
+          "note": "Jar iced and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=shoreline-sediment-grab"
+    },
+    {
+      "app": "smartcity",
+      "id": "garden-soil-screen",
+      "name": "Garden Soil Screen",
+      "title": "SmartCiti.X~ Garden Soil Screen VR",
+      "tagline": "Screening a community garden bed with a handheld XRF: the check standard proven first, the grid laid out, readings taken at depth, the action levels read straight, the bed that fails flagged and raised with clean fill, and a results sheet the gardeners can actually read",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "California Department of Public Health Radiologic Health Branch registration for the XRF analyser's sealed source under OSHA 29 CFR 1910.1096 ionizing radiation; NIOSH field-portable XRF guidance for lead and arsenic screening; ASTM D6288 field portable XRF method; DTSC / OEHHA California Human Health Screening Levels for lead and arsenic in residential soil; EPA guidance on gardening in urban soils; the Hunters Point Biomonitoring Initiative's community garden screening protocol",
+      "accent": "#7fbf6a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "bed-honest",
+        "name": "Bed Honest",
+        "note": "A proven instrument, a real grid, an honest action-level call, and a failed bed raised with clean fill — not planted in"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "160",
+      "flat": false,
+      "system": "Garden Screen",
+      "currency": "READING",
+      "ranks": [
+        "Volunteer",
+        "Garden Screener",
+        "Bed Lead",
+        "Screening Coordinator",
+        "Garden Screen Certified"
+      ],
+      "awards": [
+        {
+          "id": "standard-first",
+          "name": "Standard First",
+          "note": "Never took a reading before the check standard proved the instrument"
+        },
+        {
+          "id": "no-exposure",
+          "name": "No Exposure",
+          "note": "Never a hazard — instrument, bed or fill"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "The XRF reading and the depth hold both inside spec"
+        },
+        {
+          "id": "clean-screen",
+          "name": "Clean Screen",
+          "note": "No corrections across the whole screening event"
+        },
+        {
+          "id": "depth-held",
+          "name": "Depth Held",
+          "note": "Held the probe steady for the full reading"
+        },
+        {
+          "id": "bed-flagged-fast",
+          "name": "Bed Flagged Fast",
+          "note": "Failed bed flagged and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=garden-soil-screen"
+    },
+    {
+      "app": "smartcity",
+      "id": "community-soil-split",
+      "name": "Community Soil Split",
+      "title": "SmartCiti.X~ Community Soil Split VR",
+      "tagline": "Witnessing an agency soil sample and taking the community's own split of it: the grid point, the decontaminated trowel, one core homogenised and divided into two jars, both labelled and sealed, custody signed by both parties, and the community jar carried to an independent lab",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for any split sample relied on in public; California DTSC and EPA Superfund community-involvement oversight of the parcel; OSHA 29 CFR 1910.120 HAZWOPER for anyone who steps inside the fence — the monitor does not; California's Environmental Laboratory Accreditation Program (ELAP), which is what makes a lab \"independent\" of the agency's own contractor mean something; the Community Pollution Patrol Network's split-sample protocol",
+      "accent": "#d88a4a",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "split-clean",
+        "name": "Split Clean",
+        "note": "A witnessed core, decontaminated tools, both jars sealed and signed for, and the community jar on its way to an independent lab"
+      },
+      "meshes": 174,
+      "lights": 0,
+      "overBudget": false,
+      "index": "159",
+      "flat": false,
+      "system": "Split Sample",
+      "currency": "CORE",
+      "ranks": [
+        "Witness",
+        "Field Monitor",
+        "Custody Holder",
+        "Patrol Lead",
+        "Split Sample Certified"
+      ],
+      "awards": [
+        {
+          "id": "point-honest",
+          "name": "Point Honest",
+          "note": "Never traded the plan's grid point for a different spot"
+        },
+        {
+          "id": "chain-unbroken",
+          "name": "Chain Unbroken",
+          "note": "Never a hazard — decon, an independent lab and two signatures, every time"
+        },
+        {
+          "id": "custody-true",
+          "name": "Custody True",
+          "note": "Both signatures on before the cooler ever left the table"
+        },
+        {
+          "id": "clean-witness",
+          "name": "Clean Witness",
+          "note": "No corrections across the whole witnessed sample"
+        },
+        {
+          "id": "steady-mix",
+          "name": "Steady Mix",
+          "note": "Held the homogenising bowl through the full mix"
+        },
+        {
+          "id": "split-fast",
+          "name": "Split Away",
+          "note": "Jar sealed and signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=community-soil-split"
+    },
+    {
+      "app": "smartcity",
+      "id": "industrial-press-steam",
+      "name": "Industrial Press & Steam",
+      "title": "SmartCiti.X~ Industrial Press & Steam VR",
+      "tagline": "Boiler pressure checked, the head run on two-hand control, steam and vacuum by fabric, a scorch caught, and the press shut down clean",
+      "category": "Sewing & Garment Trades",
+      "domain": "Manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the press head's two-hand control; OSHA 29 CFR 1910.147 lockout before the head is opened for cleaning; ASME Boiler and Pressure Vessel Code requirements for the boiler's safety relief valve; NFPA 70 for the press's electrical supply",
+      "accent": "#d9703a",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "find",
+        "sequence"
+      ],
+      "badge": {
+        "id": "press-certified",
+        "name": "Press Certified",
+        "note": "Boiler checked, every cycle run two-handed, a scorch caught, and the press shut down to the end of a real shift"
+      },
+      "meshes": 160,
+      "lights": 0,
+      "overBudget": false,
+      "index": "178",
+      "flat": false,
+      "system": "Press Standard",
+      "currency": "STEAM",
+      "ranks": [
+        "Press Helper",
+        "Press Operator",
+        "Lead Presser",
+        "Finishing Supervisor",
+        "Press Standard Certified"
+      ],
+      "awards": [
+        {
+          "id": "two-hands-every-time",
+          "name": "Two Hands Every Time",
+          "note": "Never ran the head one-handed or with the guard bypassed"
+        },
+        {
+          "id": "hands-clear-press",
+          "name": "Hands Clear",
+          "note": "Never reached under the head or into a live steam leak"
+        },
+        {
+          "id": "boiler-precise",
+          "name": "Boiler Precise",
+          "note": "Held the boiler pressure reading near band centre"
+        },
+        {
+          "id": "clean-press-run",
+          "name": "Clean Run",
+          "note": "No corrections across the whole shift"
+        },
+        {
+          "id": "steady-checks",
+          "name": "Steady Checks",
+          "note": "Held every reading without a break"
+        },
+        {
+          "id": "press-fast",
+          "name": "Press Fast",
+          "note": "Shift closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=industrial-press-steam"
+    },
+    {
+      "app": "smartcity",
+      "id": "hem-and-buttonhole",
+      "name": "Hem & Buttonhole",
+      "title": "SmartCiti.X~ Hem & Buttonhole VR",
+      "tagline": "Blind hem, a guarded buttonhole cut and sew, buttons to spacing, bar tacks at the stress points, and a piece checked against spec",
+      "category": "Sewing & Garment Trades",
+      "domain": "Manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the buttonhole cutter and bar tack machine; OSHA 29 CFR 1910.147 lockout before clearing a jam; OSHA 1910.132 PPE; NIOSH ergonomics guidance for the seated, repetitive reach these machines ask for all shift",
+      "accent": "#9a5cc4",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "track",
+        "gauge",
+        "hold",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "finish-line",
+        "name": "Finish Line",
+        "note": "A hem, a buttonhole, buttons and bar tacks all sewn true, guard down every time, and the piece passed against spec"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "177",
+      "flat": false,
+      "system": "Finishing Standard",
+      "currency": "STITCH",
+      "ranks": [
+        "Trimmer",
+        "Finisher",
+        "Lead Finisher",
+        "Bench Lead",
+        "Finishing Standard Certified"
+      ],
+      "awards": [
+        {
+          "id": "guard-down-first",
+          "name": "Guard Down First",
+          "note": "Never cycled the buttonhole cutter with the guard up"
+        },
+        {
+          "id": "hands-clear-finish",
+          "name": "Hands Clear",
+          "note": "Never reached toward a running head or a live jam"
+        },
+        {
+          "id": "on-spec-finish",
+          "name": "On Spec",
+          "note": "Hem depth held close to the spec's target"
+        },
+        {
+          "id": "clean-finish",
+          "name": "Clean Finish",
+          "note": "No corrections across the whole piece"
+        },
+        {
+          "id": "steady-feed",
+          "name": "Steady Feed",
+          "note": "Held the blind hem's feed rate without a break"
+        },
+        {
+          "id": "finish-fast",
+          "name": "Finish Fast",
+          "note": "Piece finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hem-and-buttonhole"
+    },
+    {
+      "app": "smartcity",
+      "id": "pattern-marking-layout",
+      "name": "Pattern Marking & Layout",
+      "title": "SmartCiti.X~ Pattern Marking & Layout VR",
+      "tagline": "Grain line to selvedge, nap held one way, notches and drill holes struck, and the marker counted back against the cut ticket",
+      "category": "Sewing & Garment Trades",
+      "domain": "Manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.132 hand protection around the awl, notcher and rotary cutter at the marking table; NIOSH ergonomics guidance for the prolonged standing, reaching and bent-over work a marking table asks for",
+      "accent": "#c77bd9",
+      "parSeconds": 250,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "drag",
+        "track",
+        "find",
+        "gauge",
+        "sequence"
+      ],
+      "badge": {
+        "id": "marker-true",
+        "name": "Marker True",
+        "note": "A layout on grain, on nap, notched, tagged and counted clean against the cut ticket"
+      },
+      "meshes": 204,
+      "lights": 0,
+      "overBudget": false,
+      "index": "176",
+      "flat": false,
+      "system": "Marker Authority",
+      "currency": "YARD",
+      "ranks": [
+        "Bundle Runner",
+        "Marker Helper",
+        "Marker Maker",
+        "Lead Marker Maker",
+        "Marker Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "on-grain",
+          "name": "On Grain",
+          "note": "Never let a piece go down off its own grain line"
+        },
+        {
+          "id": "table-clear",
+          "name": "Table Clear",
+          "note": "Never left a sharp exposed on the table"
+        },
+        {
+          "id": "efficient-marker",
+          "name": "Efficient Marker",
+          "note": "Held the marker's efficiency near the target band"
+        },
+        {
+          "id": "clean-marker",
+          "name": "Clean Marker",
+          "note": "No corrections through the whole layout"
+        },
+        {
+          "id": "steady-wheel",
+          "name": "Steady Wheel",
+          "note": "Held the tracing wheel's pressure without a break"
+        },
+        {
+          "id": "marker-fast",
+          "name": "Marker Fast",
+          "note": "Layout complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pattern-marking-layout"
     },
     {
       "app": "smartcity",
@@ -11469,7 +12081,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 253,
       "lights": 0,
       "overBudget": false,
       "index": "92",

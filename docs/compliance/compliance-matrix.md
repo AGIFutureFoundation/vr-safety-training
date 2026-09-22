@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 183 procedures, 169 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 190 procedures, 170 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -10,20 +10,20 @@ Every station names the union and the certification a worker in that role holds,
 
 | Standard | Stations |
 |---|---|
-| 29 CFR 1910.120 | 29: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
-| 29 CFR 1910.147 | 26: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, PCB Equipment Removal, Press Brake, Robot Cell, Serger and Overlock, Slicer Lockout, Tower Climb, Vapor Mitigation, Wind Nacelle |
+| 29 CFR 1910.120 | 30: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Community Soil Split, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
+| 29 CFR 1910.147 | 28: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, PCB Equipment Removal, Press Brake, Robot Cell, Serger and Overlock, Slicer Lockout, Tower Climb, Vapor Mitigation, Wind Nacelle |
 | 29 CFR 1910.1030 | 22: Allergens & Honest Drinks, Chairside Emergency, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Ice Well Breakage, Instrument Reprocessing, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Spiked Drink Response, Triage Point, Ultrasonic Scaling |
-| NIOSH | 18: Alteration Repair Ticket, Garment Inspection & Finish, HAZWOPER Site Orientation, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
+| NIOSH | 21: Alteration Repair Ticket, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
 | NFPA 70E | 17: Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Elevator Pit, Isolation Bay, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
 | 29 CFR 1926 | 15: Aerial Lashing, Arena Rigging, Bioswale Build, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Hot Tap, Living Shoreline, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
 | California Retail Food Code | 15: Allergen Control, Allergens & Honest Drinks, Banquet Hot Hold, Cafeteria Serving, Cut-Off / Overservice, Dish Pit, Fryer Oil Change, Ice Well Breakage, Knife Skills, Opening the Well, Pouring to Spec, Prep Cooling, RBS Service Capstone, Receiving Dock Food, Walk-In Cooler |
 | 29 CFR 1910.134 | 13: Abatement Chamber, Abatement Perimeter Awareness, Aerosol Management, Ammonia Plant, Bridge Blast, Chlorine Room, Confined Rescue, Cooling Tower, Decon Support Laborer, HAZWOPER Site Orientation, Hazmat Entry, Smoke Day Outreach, Tank Lining |
+| 29 CFR 1910.212 | 11: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Hem & Buttonhole, Industrial Press & Steam, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
 | 29 CFR 1910.1200 | 10: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dish Pit, Garment Inspection & Finish, Grease Trap, Keg Cellar CO2, Opening the Well, Operatory Turnover, Spartina Removal |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
-| 29 CFR 1910.212 | 9: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
+| 29 CFR 1910.132 | 9: Cutting Table and Rotary Knife, Discharge Photo Doc, Fryer Oil Change, Garment Inspection & Finish, Hem & Buttonhole, Marsh Transect Survey, Oyster Reef Monitoring, Pattern Marking & Layout, Prep Cooling |
 | 29 CFR 1910.269 | 8: Aerial Ladder, Aerial Lashing, Battery Yard, Line Truck, PCB Equipment Removal, Substation Switching, Transformer Vault, Wind Nacelle |
 | EPA Method 40 | 7: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Sensor Co-Location Check |
-| 29 CFR 1910.132 | 6: Cutting Table and Rotary Knife, Fryer Oil Change, Garment Inspection & Finish, Marsh Transect Survey, Oyster Reef Monitoring, Prep Cooling |
 | 8 CCR 3203 | 6: HAZWOPER Site Orientation, Ice Well Breakage, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
 | 8 CCR 3342 | 5: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, WVPP & Panic Button |
@@ -41,6 +41,7 @@ Every station names the union and the certification a worker in that role holds,
 | IMO SOLAS | 3: Bunkering Watch, Mooring Line, Pilot Transfer |
 | MUTCD | 3: Aerial Lashing, Signal Cabinet, Trench Box |
 | NFPA 1006 | 3: Confined Rescue, EV Extrication, Triage Point |
+| NFPA 70 | 3: Cath Lab, Elevator Pit, Industrial Press & Steam |
 | NFPA 96 | 3: Grill Line Burns, Hood Suppression, Hot Line |
 | NSF/ANSI 2 | 3: Hot Line, Knife Skills, Receiving Dock Food |
 | NSF/ANSI 4 | 3: Banquet Hot Hold, Fryer Oil Change, Grill Line Burns |
@@ -66,13 +67,13 @@ Every station names the union and the certification a worker in that role holds,
 | NFPA 1670 | 2: Confined Rescue, EV Extrication |
 | NFPA 51B | 2: Rough-In Bay, Weld Bay |
 | NFPA 54 | 2: Gas Leak Survey, Kitchen Gas Shutoff |
-| NFPA 70 | 2: Cath Lab, Elevator Pit |
 | NSF/ANSI 8 | 2: Bakery Mixer, Slicer Lockout |
 | 14 CFR 107 | 1: Flight Deck |
 | 14 CFR 139.303 | 1: Airport Ramp |
 | 21 CFR 101 | 1: Allergens & Honest Drinks |
 | 27 CFR 555 | 1: Pyro Cue |
 | 29 CFR 1910.109 | 1: Pyro Cue |
+| 29 CFR 1910.1096 | 1: Garden Soil Screen |
 | 29 CFR 1910.119 | 1: Ammonia Plant |
 | 29 CFR 1910.151 | 1: Grill Line Burns |
 | 29 CFR 1910.23 | 1: Neighbourhood Air Sensor |
@@ -421,6 +422,10 @@ Every station names the union and the certification a worker in that role holds,
 | Haul Route Observation | Community environmental monitor | 29 CFR 1910.120, 40 CFR 262 |
 | Met Station Siting | Community environmental monitor | 29 CFR 1926, EPA Method 40, NFPA 780 |
 | Dust Plan Review | Community environmental monitor | 29 CFR 1910.120, 40 CFR 300 |
+| Community Soil Split | Community environmental monitor | 29 CFR 1910.120 |
+| Garden Soil Screen | Community environmental monitor | 29 CFR 1910.1096, NIOSH |
+| Shoreline Sediment Grab | Community environmental monitor | — |
+| Discharge Photo Doc | Community environmental monitor | 29 CFR 1910.132 |
 | Rad Meter Basics | Community environmental monitor | 29 CFR 1910.120 |
 | Parcel Status Walk | Community environmental monitor | 29 CFR 1910.120 |
 | Retest Witnessing | Community environmental monitor | 29 CFR 1910.120 |
@@ -442,6 +447,9 @@ Every station names the union and the certification a worker in that role holds,
 | Lockstitch Seam Behind the Guard | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.147, 29 CFR 1910.212, NIOSH |
 | Serger and Overlock | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.147, 29 CFR 1910.212, NIOSH |
 | Cutting Table and Rotary Knife | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.132, 29 CFR 1910.147, 29 CFR 1910.212, ANSI B11 |
+| Pattern Marking & Layout | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.132, NIOSH |
+| Hem & Buttonhole | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.132, 29 CFR 1910.147, 29 CFR 1910.212, NIOSH |
+| Industrial Press & Steam | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.147, 29 CFR 1910.212, NFPA 70 |
 | Sewing Ergonomics | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.212, 8 CCR 5110, NIOSH |
 | Alteration Repair Ticket | Alterations tailor — Workers United | 29 CFR 1910.1200, 29 CFR 1910.212, NIOSH |
 | Garment Inspection & Finish | Industrial sewing machine operator — Workers United (SEIU) | 29 CFR 1910.1200, 29 CFR 1910.132, NIOSH |
@@ -541,6 +549,9 @@ Every station names the union and the certification a worker in that role holds,
 - Stage Power (smartcity): NFPA 70E
 - Container Lashing (smartcity): 29 CFR 1918
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Discharge Photo Doc (smartcity): 29 CFR 1910.132
+- Shoreline Sediment Grab (smartcity): none
+- Community Soil Split (smartcity): 29 CFR 1910.120
 - Shelter-in-Place Drill (smartcity): none
 - Public Comment Prep (smartcity): 29 CFR 1910.120
 - Pollution Patrol (smartcity): 29 CFR 1910.120
