@@ -16,6 +16,11 @@ Detection: `?device=<id>` on the URL wins (pin a kiosk or a device fleet that wa
 
 On a monocular hardhat display the learner sees one large step card at a time; voice commands ("next", "hint", "brief", "status", the step's own words) run the procedure, and drag steps can be completed by naming the target. On optical see-through glasses the scene is drawn on black so the real site shows through the display; the HUD uses the high-contrast theme.
 
+<table><tr>
+<td width="50%"><img src="screenshots/devices/trench-box_seethrough_epson-bt-45cs.png" width="100%" alt="Trench Box under the see-through profile: the station on black with no horizon"><br><b>See-through profile</b> (<code>?device=epson-bt-45cs</code>): the station on black, no skyline or weather, HUD at 1.3×.</td>
+<td width="50%"><img src="screenshots/devices/trench-box_assisted_realwear-navigator-520.png" width="100%" alt="Trench Box under the assisted-reality profile: flat dark scene with a large HUD"><br><b>Assisted profile</b> (<code>?device=realwear-navigator-520</code>): flat dark scene, HUD at 1.5×, voice prompted.</td>
+</tr></table>
+
 ## The fifteen devices reviewed
 
 | Device | Kind | Profile | WebXR | How it runs | Verify before procurement |

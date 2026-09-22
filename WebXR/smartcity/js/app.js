@@ -485,13 +485,16 @@ async function enterSim(id, { briefed = false } = {}) {
   // A station stands in its category's district unless it names another:
   // a marsh crew is filed under Water & Environmental, whose horizon is a
   // treatment works, and belongs in front of the bay instead.
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, room.weather), room.indoor);
+  // A licensed real-world model around the station, when the station (or the
+  // URL, for a preview) asks for one, replaces the generated horizon; a
+  // device profile that cannot carry the horizon leaves it out too.
+  const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
+  const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, room.weather), room.indoor, horizon);
   state.stage = stage;
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
-  // A licensed real-world model around the station, when the station (or the
-  // URL, for a preview) asks for one. It arrives after the station is
-  // playable; a failure is reported on the rail and the station plays on.
-  const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
+  // The model arrives after the station is playable; a failure is reported
+  // on the rail and the station plays on.
   if (envSpec) {
     loadEnvironment(stage.root, envSpec, stage)
       .then(() => setRail("ok", `Environment loaded: <b>${escapeHtml(envSpec.url)}</b>`))

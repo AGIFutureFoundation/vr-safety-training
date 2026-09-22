@@ -114,7 +114,13 @@ export function timeOfDay() {
   return TIMES_OF_DAY.includes(t) ? t : "night";
 }
 
-export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null, indoor = null) {
+// `opts.skyline` / `opts.district` false leave the horizon unbuilt: a device
+// profile that cannot carry it (shared/devices.js) or a real-world
+// environment that replaces it (shared/environment.js). They are skipped
+// here rather than hidden afterwards because mergeStatic() folds the
+// scenery into shared meshes, after which hiding the source groups does
+// nothing.
+export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null, indoor = null, opts = {}) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
@@ -224,14 +230,14 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     g.add(light);
   }
 
-  const sky = skyline(g, { gap: district.skylineGap ?? null });
-  sky.name = "skyline";
+  const sky = opts.skyline === false ? null : skyline(g, { gap: district.skylineGap ?? null });
+  if (sky) sky.name = "skyline";
   const marquee = buildMarquee(g);
   // Weather goes on after the sky and fog are set for the hour, because it
   // scales both; the stage hands its label and note back to the app.
   const wx = buildWeather(g, scene, weatherFor(weather));
   let districtAnimate = null;
-  if (district.build) { const dg = group(g); dg.name = "district"; districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
+  if (district.build && opts.district !== false) { const dg = group(g); dg.name = "district"; districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
   const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);
@@ -262,7 +268,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // learner was not allowed to walk on anyway. See apron.js.
   const apron = buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
 
-  const beacons = sky.userData.beacons ?? [];
+  const beacons = sky?.userData.beacons ?? [];
 
   // Collapse the scenery into one mesh per material. An outdoor scene was
   // measuring 518 draw calls with 652 visible meshes; almost all of that is
