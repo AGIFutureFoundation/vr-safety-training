@@ -5531,7 +5531,7 @@ function districtFor(category) {
 // same shell with different surfaces, dressing and light temperature, so
 // the whole layer is about a hundred meshes rather than six separate rooms.
 
-const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar"];
+const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar", "hotel"];
 
 const STYLE = {
   plant: {
@@ -5590,6 +5590,15 @@ const STYLE = {
     wall: 0x4a3a30, floor: 0x2e2622, trim: 0xb8862b, ceiling: 0x2a2320,
     lamp: 0xffd9a0, lampI: 0.9, ambient: 0.36, w: 14, d: 10, h: 3.6,
     rooflights: 0, door: "personnel", grime: 0.25,
+  },
+  // A hotel floor: carpet, warm wall, the corridor's acoustic ceiling and the
+  // soft light of a guest floor — where a housekeeping cart, a laundry plant
+  // or a banquet set-up is worked.
+  hotel: {
+    label: "Hotel floor",
+    wall: 0xe9e2d6, floor: 0x6b4a3f, trim: 0xb08a5a, ceiling: 0xf1ede6,
+    lamp: 0xffe6c0, lampI: 1.2, ambient: 0.55, w: 15, d: 11, h: 3.0,
+    rooflights: 0, door: "personnel", grime: 0.05,
   },
   datahall: {
     label: "Data hall",
@@ -5727,6 +5736,7 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
       : indoor === "kitchen" ? pavingFace(cx, cw, ch, { tiles: 6, base: "#7a5a48", base2: "#6b4e3e", seam: "rgba(240,230,215,0.55)" })
       : indoor === "clinic" ? pavingFace(cx, cw, ch, { tiles: 2, base: "#b9c4c9", base2: "#aeb9bf", seam: "rgba(0,0,0,0.12)" })
       : indoor === "bar" ? pavingFace(cx, cw, ch, { tiles: 8, base: "#3a2f28", base2: "#2b221d", seam: "rgba(0,0,0,0.5)" })
+      : indoor === "hotel" ? pavingFace(cx, cw, ch, { tiles: 16, base: "#6b4a3f", base2: "#5e4037", seam: "rgba(0,0,0,0.06)" })
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
     { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : indoor === "kitchen" ? 12 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
@@ -5764,7 +5774,7 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
   else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
   else if (indoor === "kitchen") hoodLine(g, style, h - 0.3, accent);
-  else if (indoor === "clinic") tileCeiling(g, style, h - 0.02);
+  else if (indoor === "clinic" || indoor === "hotel") tileCeiling(g, style, h - 0.02);
   else if (indoor === "bar") backBar(g, style, h, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
@@ -13418,6 +13428,132 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "abatement-perimeter-awareness",
+    "index": "166",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA hazmat and environmental laborer entry-level and asbestos-awareness training; OSHA 29 CFR 1926.1101 asbestos in construction (awareness-level duties and the site's competent person); 29 CFR 1910.134 respiratory protection for the entrants the standard actually covers; EPA NESHAP 40 CFR 61 Subpart M for demolition asbestos waste; the local air district's demolition and asbestos notification rules",
+    "name": "Abatement Perimeter Awareness",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Abatement Perimeter Awareness VR",
+    "tagline": "A new laborer's fence-line watch on a demolition perimeter: the postings, the negative-air units, the wet method, the waste labels, and the line between watching and calling it in",
+    "accent": 15251018,
+    "accentCss": "#e8b64a",
+    "parSeconds": 260,
+    "badge": {
+      "id": "perimeter-held",
+      "name": "Perimeter Held",
+      "note": "The watch kept clean: nothing crossed, nothing touched, the competent person called the moment it mattered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Perimeter Watch",
+      "currency": "WATCH",
+      "ranks": [
+        "New Hire",
+        "Perimeter Hand",
+        "Fence-Line Lead",
+        "Awareness Authority",
+        "Perimeter Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hazwoper-site-orientation",
+    "index": "167",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA HAZWOPER-trained hazmat and environmental laborer; OSHA 29 CFR 1910.120(e) HAZWOPER 40-hour training and the site-specific orientation it requires before work begins; 29 CFR 1910.134 respiratory protection and the user seal check; NIOSH exposure guidance behind the site's action levels; Cal/OSHA's injury and illness prevention program (8 CCR 3203) for the site health and safety plan",
+    "name": "HAZWOPER Site Orientation",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ HAZWOPER Site Orientation VR",
+    "tagline": "A HAZWOPER-trained laborer's first-day orientation: the site plan signed, the zones on the map, today's PPE level, the action levels, the buddy system, the muster point and the card that says you're cleared",
+    "accent": 6080736,
+    "accentCss": "#5cc8e0",
+    "parSeconds": 255,
+    "badge": {
+      "id": "orientation-complete",
+      "name": "Orientation Complete",
+      "note": "Every part of the orientation finished in order, with nothing skipped for the sake of starting sooner"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Clearance",
+      "currency": "CLEAR",
+      "ranks": [
+        "Trainee",
+        "Site Hand",
+        "Crew Laborer",
+        "Site Orientation Lead",
+        "Site Clearance Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "decon-support-laborer",
+    "index": "168",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA hazmat and environmental laborer, decon-line support role; OSHA 29 CFR 1910.120 HAZWOPER decontamination procedures; 29 CFR 1910.134 respiratory and PPE selection for the decon crew's own protection; EPA hazardous-waste labeling and manifesting requirements for drummed wastewater; the Regional Water Quality Control Board's (RWQCB) discharge prohibitions on containment water leaving the corridor",
+    "name": "Decon Support Laborer",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Decon Support Laborer VR",
+    "tagline": "Working the decon corridor from the clean side: stations stocked, the pool contained, entrants washed and tools wiped in order, suits bagged, wastewater drummed and labelled, the corridor logged",
+    "accent": 8377520,
+    "accentCss": "#7fd4b0",
+    "parSeconds": 270,
+    "badge": {
+      "id": "corridor-supported",
+      "name": "Corridor Supported",
+      "note": "The line stocked, contained and logged, with every entrant washed clean and every drum labelled before it moved"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decon Support",
+      "currency": "RINSE",
+      "ranks": [
+        "Ground Hand",
+        "Wash Station Hand",
+        "Corridor Support Lead",
+        "Decon Support Authority",
+        "Decon Support Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -13723,7 +13859,9 @@ const CURRICULA = [
       { app: "smartcity", id: "rad-meter-basics", why: "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep." },
       { app: "smartcity", id: "parcel-status-walk", why: "The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done." },
       { app: "smartcity", id: "retest-witnessing", why: "Standing at the fence for someone else's retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it's still exact." },
-      // slot-hp-6
+      { app: "smartcity", id: "abatement-perimeter-awareness", why: "The first rung of the trained-worker pathway: a new laborer's fence-line watch on a demolition perimeter, reading the postings and the controls without ever crossing the tape." },
+      { app: "smartcity", id: "hazwoper-site-orientation", why: "The gate itself, walked through in full: the plan signed, the zones and the PPE level confirmed, and a buddy assigned before a HAZWOPER-trained laborer's first shift on the parcel begins." },
+      { app: "smartcity", id: "decon-support-laborer", why: "The corridor from the clean side: a laborer stocking it, containing the water, washing entrants and tools in order, and drumming the wastewater so the line's own record holds up." },
       // slot-hp-7
     ],
   },

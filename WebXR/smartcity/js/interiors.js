@@ -15,7 +15,7 @@ import { CITY, surfaceTexture, texturedMat, deckPlateFace, pavingFace } from "./
 // same shell with different surfaces, dressing and light temperature, so
 // the whole layer is about a hundred meshes rather than six separate rooms.
 
-export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar"];
+export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar", "hotel"];
 
 const STYLE = {
   plant: {
@@ -74,6 +74,15 @@ const STYLE = {
     wall: 0x4a3a30, floor: 0x2e2622, trim: 0xb8862b, ceiling: 0x2a2320,
     lamp: 0xffd9a0, lampI: 0.9, ambient: 0.36, w: 14, d: 10, h: 3.6,
     rooflights: 0, door: "personnel", grime: 0.25,
+  },
+  // A hotel floor: carpet, warm wall, the corridor's acoustic ceiling and the
+  // soft light of a guest floor — where a housekeeping cart, a laundry plant
+  // or a banquet set-up is worked.
+  hotel: {
+    label: "Hotel floor",
+    wall: 0xe9e2d6, floor: 0x6b4a3f, trim: 0xb08a5a, ceiling: 0xf1ede6,
+    lamp: 0xffe6c0, lampI: 1.2, ambient: 0.55, w: 15, d: 11, h: 3.0,
+    rooflights: 0, door: "personnel", grime: 0.05,
   },
   datahall: {
     label: "Data hall",
@@ -211,6 +220,7 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
       : indoor === "kitchen" ? pavingFace(cx, cw, ch, { tiles: 6, base: "#7a5a48", base2: "#6b4e3e", seam: "rgba(240,230,215,0.55)" })
       : indoor === "clinic" ? pavingFace(cx, cw, ch, { tiles: 2, base: "#b9c4c9", base2: "#aeb9bf", seam: "rgba(0,0,0,0.12)" })
       : indoor === "bar" ? pavingFace(cx, cw, ch, { tiles: 8, base: "#3a2f28", base2: "#2b221d", seam: "rgba(0,0,0,0.5)" })
+      : indoor === "hotel" ? pavingFace(cx, cw, ch, { tiles: 16, base: "#6b4a3f", base2: "#5e4037", seam: "rgba(0,0,0,0.06)" })
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
     { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : indoor === "kitchen" ? 12 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
@@ -248,7 +258,7 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
   else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
   else if (indoor === "kitchen") hoodLine(g, style, h - 0.3, accent);
-  else if (indoor === "clinic") tileCeiling(g, style, h - 0.02);
+  else if (indoor === "clinic" || indoor === "hotel") tileCeiling(g, style, h - 0.02);
   else if (indoor === "bar") backBar(g, style, h, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);

@@ -298,7 +298,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "rad-meter-basics", why: "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep." },
       { app: "smartcity", id: "parcel-status-walk", why: "The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done." },
       { app: "smartcity", id: "retest-witnessing", why: "Standing at the fence for someone else's retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it's still exact." },
-      // slot-hp-6
+      { app: "smartcity", id: "abatement-perimeter-awareness", why: "The first rung of the trained-worker pathway: a new laborer's fence-line watch on a demolition perimeter, reading the postings and the controls without ever crossing the tape." },
+      { app: "smartcity", id: "hazwoper-site-orientation", why: "The gate itself, walked through in full: the plan signed, the zones and the PPE level confirmed, and a buddy assigned before a HAZWOPER-trained laborer's first shift on the parcel begins." },
+      { app: "smartcity", id: "decon-support-laborer", why: "The corridor from the clean side: a laborer stocking it, containing the water, washing entrants and tools in order, and drumming the wastewater so the line's own record holds up." },
       // slot-hp-7
     ],
   },

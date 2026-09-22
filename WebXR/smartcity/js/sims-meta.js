@@ -6830,5 +6830,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "abatement-perimeter-awareness",
+    "index": "166",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA hazmat and environmental laborer entry-level and asbestos-awareness training; OSHA 29 CFR 1926.1101 asbestos in construction (awareness-level duties and the site's competent person); 29 CFR 1910.134 respiratory protection for the entrants the standard actually covers; EPA NESHAP 40 CFR 61 Subpart M for demolition asbestos waste; the local air district's demolition and asbestos notification rules",
+    "name": "Abatement Perimeter Awareness",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Abatement Perimeter Awareness VR",
+    "tagline": "A new laborer's fence-line watch on a demolition perimeter: the postings, the negative-air units, the wet method, the waste labels, and the line between watching and calling it in",
+    "accent": 15251018,
+    "accentCss": "#e8b64a",
+    "parSeconds": 260,
+    "badge": {
+      "id": "perimeter-held",
+      "name": "Perimeter Held",
+      "note": "The watch kept clean: nothing crossed, nothing touched, the competent person called the moment it mattered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Perimeter Watch",
+      "currency": "WATCH",
+      "ranks": [
+        "New Hire",
+        "Perimeter Hand",
+        "Fence-Line Lead",
+        "Awareness Authority",
+        "Perimeter Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hazwoper-site-orientation",
+    "index": "167",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA HAZWOPER-trained hazmat and environmental laborer; OSHA 29 CFR 1910.120(e) HAZWOPER 40-hour training and the site-specific orientation it requires before work begins; 29 CFR 1910.134 respiratory protection and the user seal check; NIOSH exposure guidance behind the site's action levels; Cal/OSHA's injury and illness prevention program (8 CCR 3203) for the site health and safety plan",
+    "name": "HAZWOPER Site Orientation",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ HAZWOPER Site Orientation VR",
+    "tagline": "A HAZWOPER-trained laborer's first-day orientation: the site plan signed, the zones on the map, today's PPE level, the action levels, the buddy system, the muster point and the card that says you're cleared",
+    "accent": 6080736,
+    "accentCss": "#5cc8e0",
+    "parSeconds": 255,
+    "badge": {
+      "id": "orientation-complete",
+      "name": "Orientation Complete",
+      "note": "Every part of the orientation finished in order, with nothing skipped for the sake of starting sooner"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Clearance",
+      "currency": "CLEAR",
+      "ranks": [
+        "Trainee",
+        "Site Hand",
+        "Crew Laborer",
+        "Site Orientation Lead",
+        "Site Clearance Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "decon-support-laborer",
+    "index": "168",
+    "domain": "Environmental",
+    "trade": "Hazmat and environmental laborer — LIUNA",
+    "category": "Community Environmental Justice",
+    "certification": "LIUNA hazmat and environmental laborer, decon-line support role; OSHA 29 CFR 1910.120 HAZWOPER decontamination procedures; 29 CFR 1910.134 respiratory and PPE selection for the decon crew's own protection; EPA hazardous-waste labeling and manifesting requirements for drummed wastewater; the Regional Water Quality Control Board's (RWQCB) discharge prohibitions on containment water leaving the corridor",
+    "name": "Decon Support Laborer",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Decon Support Laborer VR",
+    "tagline": "Working the decon corridor from the clean side: stations stocked, the pool contained, entrants washed and tools wiped in order, suits bagged, wastewater drummed and labelled, the corridor logged",
+    "accent": 8377520,
+    "accentCss": "#7fd4b0",
+    "parSeconds": 270,
+    "badge": {
+      "id": "corridor-supported",
+      "name": "Corridor Supported",
+      "note": "The line stocked, contained and logged, with every entrant washed clean and every drum labelled before it moved"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decon Support",
+      "currency": "RINSE",
+      "ranks": [
+        "Ground Hand",
+        "Wash Station Hand",
+        "Corridor Support Lead",
+        "Decon Support Authority",
+        "Decon Support Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
