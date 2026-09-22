@@ -3,7 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, particles, mat,
 } from "../../../shared/kit.js";
 import {
-  CITY, stationPad, holoPanel, holoTag, toolChest, instrument, standingFigure, reg,
+  CITY, stationPad, holoPanel, holoTag, toolChest, instrument, standingFigure, cone, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -19,7 +19,7 @@ export const SIM_DOCK_CRANE = {
   trade: "Longshoreman / container-crane operator",
   category: "Maritime & Ports",
   weather: "wind",
-  certification: "ILWU — OSHA 29 CFR 1917 qualified crane operator",
+  certification: "ILWU — OSHA 29 CFR 1917 qualified crane operator; ASME B30.4 portal, tower and pillar crane standard",
   name: "Dock Crane",
   title: simTitle("Dock Crane"),
   tagline: "Container lift: lashing release order, twist-lock verification and wind-limit discipline",
@@ -62,19 +62,19 @@ export const SIM_DOCK_CRANE = {
       id: "briefing", kind: "select", target: "lift-plan",
       title: "Hold the pre-lift briefing",
       cue: "Confirm the container weight, lift plan and the lashing gang's positions.",
-      why: "The lashing gang and the crane operator are working the same box from two different places — the briefing is what keeps their timing matched.",
+      why: "The lashing gang and the crane operator are working the same box from two different places, each blind to most of what the other can see. The briefing is what keeps their timing matched — it fixes the container's weight, the pick points and where every hand on deck will be standing before the hook ever takes a strain.",
     },
     {
       id: "load-chart", kind: "select", target: "load-chart-board",
       title: "Check the load chart",
       cue: "Confirm the container's weight is inside the crane's rated capacity at this radius.",
-      why: "Rated capacity falls as boom radius increases. The chart is checked for this specific lift, not assumed from a similar box lifted yesterday.",
+      why: "Rated capacity falls sharply as boom radius increases — a crane good for twenty-eight tonnes at thirty metres of reach is not good for it at forty. The chart is read for this exact lift, at this exact radius, every time, never assumed from a similar box that came off cleanly yesterday.",
     },
     {
       id: "wind-check", kind: "gauge", target: "anemometer",
       title: "Check wind speed against the rated limit",
       cue: "Read the anemometer and commit while it holds inside the crane's operating limit.",
-      why: "A container is a sail once it leaves the stack. Wind speed against the crane's rated limit is checked before the box is off the chassis, not discovered mid-swing.",
+      why: "A container is a sail the moment it clears the stack — forty feet of flat steel with nothing to break the wind's grip on it. Wind speed against the crane's rated limit is checked and committed to before the box is off the chassis, not discovered for the first time with a load already swinging.",
       gauge: {
         label: "ANEMOMETER — WIND SPEED", speed: 0.55, green: [0.0, 0.42],
         readout: (t) => `${Math.round(t * 48)} mph`,
@@ -85,7 +85,7 @@ export const SIM_DOCK_CRANE = {
       id: "red-zone-clear", kind: "select", target: "red-zone-marker",
       title: "Confirm the red zone is clear",
       cue: "Check and flag the red zone beneath the lift path clear of the lashing gang.",
-      why: "This is confirmed before the box leaves the stack — once it's swinging, the red zone is not a place anyone can duck into or out of safely.",
+      why: "This is confirmed before the box leaves the stack, because once it is swinging on the hook the red zone stops being a place anyone can duck into or out of safely — a dropped container or a parted sling gives a person underneath it no warning and no time to move clear.",
     },
     {
       id: "lashing-release", kind: "sequence",
@@ -93,14 +93,14 @@ export const SIM_DOCK_CRANE = {
       itemNames: { "lash-top": "top-tier lashing rods", "lash-mid": "mid-tier lashing rods", "lash-bottom": "bottom-tier lashing rods" },
       title: "Release the lashings top-down",
       cue: "Unwind and free the lashing rods from the top tier down to the bottom.",
-      why: "A stack is only stable while the tiers above are still tied. Releasing bottom-up leaves an upper tier held by nothing while someone is still standing among the containers.",
+      why: "A container stack is only stable while the tiers above it are still tied down. Releasing bottom-up leaves an upper tier held by nothing while someone is still standing among the containers to unwind it — which is how a top box ends up coming off the stack onto the person underneath.",
       outOfOrderNote: "Wrong order — lashings release top-tier first, then mid, then bottom. Bottom-up leaves an upper tier unsupported.",
     },
     {
       id: "spreader-position", kind: "select", target: "spreader-bar",
       title: "Position the spreader over the container",
       cue: "Land the spreader bar squarely on the container's corner castings.",
-      why: "A spreader set even slightly off the castings will not seat the twist-locks properly no matter how solid they look going in.",
+      why: "A spreader set even slightly off the corner castings will not seat every twist-lock properly, no matter how solid all four corners look going in — the pin only closes fully when it lines up dead centre in the casting, and a couple of centimetres of drift is enough to leave one open.",
     },
     {
       id: "twist-lock-check", kind: "find", noHint: true,
@@ -116,13 +116,13 @@ export const SIM_DOCK_CRANE = {
       },
       title: "Verify all four twist-locks",
       cue: "Check each corner by hand. Two of the four don't match what the panel shows.",
-      why: "The panel tells you what the sensors think happened. Checking the handles is how you find out what actually happened.",
+      why: "The panel only reports what the sensor thinks happened, and a sensor that reads locked because a lock swung most of the way shut is reporting something that never actually occurred. Checking each handle by hand is how you find out what the corner is really doing before the container's weight goes onto it.",
     },
     {
       id: "signal-check", kind: "select", target: "signal-person",
       title: "Confirm with the signal person",
       cue: "Get a clear signal from the deck before taking any weight on the hook.",
-      why: "The operator's view of the container is partly blocked from the cab. The signal person is watching the one angle the operator can't.",
+      why: "The operator's view of the container is partly blocked from the cab at this angle, especially the far corners and anything moving behind the spreader. The signal person is watching the one side the operator physically can't, and nothing takes weight on the hook until that person has confirmed it's clear.",
     },
     {
       id: "hoist", kind: "track", target: "hoist-lever", seconds: 6,
@@ -141,7 +141,7 @@ export const SIM_DOCK_CRANE = {
       itemNames: { "lower-container": "lower onto the chassis", "release-twist-locks": "release the twist-locks", "retract-spreader": "retract the spreader" },
       title: "Land and release in order",
       cue: "Lower fully onto the chassis, confirm the hook is slack, then release the locks and retract.",
-      why: "The locks only release once the container's full weight is back on the chassis — releasing early hands the load's weight to whatever is left holding it, which may be nothing.",
+      why: "The locks only release once the container's full weight is settled back on the chassis and the hook has gone slack. Releasing early hands the box's weight to whatever twist-locks are still holding it — which, on a stack where the corners don't all seat exactly the same way, can be nothing at all.",
       outOfOrderNote: "Wrong order — the container lands and takes its own weight first, then the locks release, then the spreader retracts.",
     },
     {
@@ -149,7 +149,7 @@ export const SIM_DOCK_CRANE = {
       itemNames: { "agv-wp-pickup": "Pickup waypoint", "agv-wp-transit": "Transit waypoint", "agv-wp-stack": "Stack waypoint" },
       title: "Teach the AGV route waypoints",
       cue: "Record the pickup, transit and stack points for the yard AGV, in that order.",
-      why: "The AGV drives this route exactly in the order it was recorded — teach pickup, then transit, then stack, matching the path the container actually needs to travel.",
+      why: "The AGV drives this route exactly in the order it was recorded, with no judgement of its own about what actually lies between two points. Recording pickup, then transit, then stack in that order is what makes the taught path match the path the container needs to travel through a working yard.",
       itemNotes: {
         "agv-wp-pickup": "Recorded at the chassis where the container just landed.",
         "agv-wp-transit": "Recorded clear of the crane's swing radius and the lashing gang.",
@@ -161,20 +161,20 @@ export const SIM_DOCK_CRANE = {
       id: "agv-save", kind: "select", target: "agv-console-save",
       title: "Save the AGV route",
       cue: "Commit the three waypoints to the yard's AGV coordination system.",
-      why: "An untaught point list is just recorded positions. Saving it is what turns three waypoints into a route the AGV can actually dispatch on.",
+      why: "An untaught point list is just three positions sitting in memory — nothing in the yard dispatches on it. Saving the route is what turns those recorded waypoints into a path the coordination system can actually assign to the AGV and send it driving.",
     },
     {
       id: "agv-run", kind: "hold", target: "agv-console-run", seconds: 2.5,
       title: "Dry-run the AGV route",
       cue: "Hold RUN/VERIFY and watch the route clear the swing radius and the gang before dispatch.",
-      why: "A brand-new route is verified at walking pace with a hand on the console, watching the whole path, before an unmanned AGV ever drives it at full speed through a working yard.",
+      why: "A brand-new route has never been driven by anything before this. It is verified at walking pace with a hand on the console, watching the whole path clear the swing radius and the gang, before an unmanned vehicle is ever trusted to drive it for real at full speed.",
       holdBreakNote: "Released before the dry-run finished. Hold it through the whole route — that's how you catch a bad waypoint before the AGV drives it for real.",
     },
     {
       id: "log", kind: "select", target: "lift-plan",
       title: "Close the lift log",
       cue: "Record the lift weight, wind reading and lock verification, and sign the plan closed.",
-      why: "The log is the record a surveyor or the next shift reads — what was lifted, in what wind, with which corners verified.",
+      why: "The log is the record a surveyor, the next shift or an investigator reads afterward — what was lifted, in what wind, with which corners verified and by whom. A lift with nothing logged behind it leaves nobody able to say afterward that any of this actually happened as described.",
     },
   ],
 
@@ -354,6 +354,42 @@ export const SIM_DOCK_CRANE = {
     agvRunBtn.rotation.x = Math.PI / 2;
     reg(hits, agvRunBtn, "agv-console-run");
     holoTag(agvConsole, "Save · Run", 0, 0.7, 0, { css: "#3a7ca5", w: 0.26 });
+
+    // ------------------------------------------------------------------- yard dressing
+    // A second, background container stack — dressed with corner posts so the
+    // berth reads as a working terminal rather than one crane and one box.
+    const stack2 = group(g, -1.75, 0, -1.15, 0.5);
+    for (let tier = 0; tier < 2; tier++) {
+      box(stack2, 1.0, 0.4, 0.46, 0, 0.22 + tier * 0.42, 0, tierColors[(tier + 1) % 3], { rough: 0.65, metal: 0.1 });
+    }
+    for (const [cx, cz] of [[-0.46, -0.2], [0.46, -0.2], [-0.46, 0.2], [0.46, 0.2]]) {
+      box(stack2, 0.03, 0.86, 0.03, cx, 0.44, cz, 0x2b3138, { rough: 0.6, metal: 0.4 });
+    }
+    const stack3 = group(g, -1.9, 0, 0.75, -0.3);
+    box(stack3, 0.95, 0.4, 0.44, 0, 0.22, 0, tierColors[1], { rough: 0.65, metal: 0.1 });
+    box(stack3, 0.95, 0.4, 0.44, 0, 0.62, 0, tierColors[2], { rough: 0.65, metal: 0.1 });
+
+    // Rail ties under the crane's gantry track.
+    for (let i = -3; i <= 3; i++) {
+      box(g, 0.4, 0.03, 0.14, 0.6, 0.015, -0.6 + i * 0.28, 0x3e434a, { rough: 0.9, cast: false });
+    }
+    cyl(g, 0.03, 0.03, 3.2, 0.6, 0.04, -0.6, 0x8b929a, { rough: 0.4, metal: 0.7, seg: 8 }).rotation.x = Math.PI / 2;
+
+    // Traffic cones ringing the red zone, and quay bollards along the water side.
+    cone(g, 1.15, -0.85, { color: 0xd8232a });
+    cone(g, 0.05, -0.85, { color: 0xd8232a });
+    cone(g, 1.15, -1.95, { color: 0xd8232a });
+    cone(g, 0.05, -1.95, { color: 0xd8232a });
+    for (const [bx, bz] of [[-2.15, -1.0], [-2.15, 0.4], [-2.15, 1.6]]) {
+      cyl(g, 0.05, 0.06, 0.28, bx, 0.14, bz, CITY.darkSteel, { rough: 0.55, metal: 0.5, seg: 12 });
+      cyl(g, 0.065, 0.065, 0.03, bx, 0.29, bz, 0x22262b, { rough: 0.5, seg: 12 });
+    }
+
+    // A warning beacon on the cab roof — a second lashing hand, clear of every control.
+    ball(cab, 0.03, 0, 0.2, 0, 0xf0645b, { emissive: 0xf0645b, ei: 1.2, seg: 10, seg2: 8 });
+    cyl(cab, 0.012, 0.012, 0.06, 0, 0.16, 0, 0x22272c, { rough: 0.5, seg: 8 });
+    const gangHand = standingFigure(g, -2.05, -1.75, { ry: 0.9, cloth: 0x2b3138, vest: 0xfcee21, helmet: 0x1b1e22 });
+    holoTag(gangHand, "Lashing hand", 0, 1.95, 0.15, { css: "#3a7ca5", w: 0.32 });
 
     // ------------------------------------------------------------------------- paperwork
     const chest = toolChest(g, 1.8, 1.3, { ry: -0.7, color: 0x3a7ca5 });

@@ -2866,7 +2866,7 @@
       "domain": "Maritime",
       "trade": "Longshoreman / container-crane operator",
       "union": null,
-      "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
+      "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator; ASME B30.4 portal, tower and pillar crane standard",
       "accent": "#3a7ca5",
       "parSeconds": 240,
       "weather": "wind",
@@ -2888,7 +2888,7 @@
         "name": "Waterfront Certified",
         "note": "Full lift cycle with the red zone clear and every lock verified"
       },
-      "meshes": 131,
+      "meshes": 184,
       "lights": 0,
       "overBudget": false,
       "index": "20",
@@ -3138,7 +3138,7 @@
       "district": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -3153,7 +3153,7 @@
         "name": "Chain Unbroken",
         "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
       },
-      "meshes": 115,
+      "meshes": 185,
       "lights": 0,
       "overBudget": false,
       "index": "23",
@@ -4685,7 +4685,7 @@
       "district": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -4699,7 +4699,7 @@
         "name": "Path Restored",
         "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
       },
-      "meshes": 150,
+      "meshes": 151,
       "lights": 0,
       "overBudget": false,
       "index": "42",
@@ -5252,7 +5252,7 @@
       "district": null,
       "steps": 13,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -5267,7 +5267,7 @@
         "name": "First Article Good",
         "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
       },
-      "meshes": 163,
+      "meshes": 176,
       "lights": 0,
       "overBudget": false,
       "index": "49",
@@ -8791,7 +8791,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 271,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -9450,7 +9450,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

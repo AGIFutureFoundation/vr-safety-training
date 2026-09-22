@@ -46,13 +46,13 @@ A Superfund shoreline and the bay beside it, worked in the order a cleanup actua
 | 87 | [PCB Equipment Removal](../../WebXR/smartcity/index.html?sim=pcb-equipment-removal) | Electrician and rigger's helper — IBEW Local 6 electrician, LIUNA hazmat laborer, IUOE Local 3 hoist operator | indoor (plant) | 15 | 2 | 97 | A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate. |
 | 88 | [Transite Pipe Removal](../../WebXR/smartcity/index.html?sim=transite-pipe-removal) | Asbestos abatement laborer and pipefitter — LIUNA asbestos laborer, UA Local 38 pipefitter, IUOE Local 3 excavation operator | wind | 12 | 2 | 97 | Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time. |
 | 93 | [UST Removal](../../WebXR/smartcity/index.html?sim=ust-removal) | Excavation & UST closure crew — LIUNA hazmat laborer directing, IUOE Local 3 operating engineer, UA Local 38 pipefitter | overcast | 14 | 2 | 97 | What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves. |
-| 25 | [Decon Line](../../WebXR/smartcity/index.html?sim=decon-line) | Hazmat firefighter / decon technician | wind | 11 | 0 | 82 | The corridor everyone and everything leaves the exclusion zone through. |
-| 23 | [Sampling Well](../../WebXR/smartcity/index.html?sim=sampling-well) | Environmental sampling technician | overcast | 11 | 0 | 84 | Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle. |
+| 25 | [Decon Line](../../WebXR/smartcity/index.html?sim=decon-line) | Hazmat firefighter / decon technician | wind | 11 | 2 | 96 | The corridor everyone and everything leaves the exclusion zone through. |
+| 23 | [Sampling Well](../../WebXR/smartcity/index.html?sim=sampling-well) | Environmental sampling technician | overcast | 11 | 2 | 99 | Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle. |
 | 84 | [Well Install](../../WebXR/smartcity/index.html?sim=well-install) | Environmental geologist — field lead | overcast | 15 | 2 | 96 | The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it. |
 | 79 | [Pump and Treat](../../WebXR/smartcity/index.html?sim=pump-and-treat) | Pipefitter / groundwater pump-and-treat plant operator | overcast | 14 | 2 | 98 | The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept. |
 | 83 | [Vapor Mitigation](../../WebXR/smartcity/index.html?sim=vapor-mitigation) | Sub-slab depressurisation system installer | indoor (service) | 15 | 2 | 96 | The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard. |
 | 94 | [ISCO Injection](../../WebXR/smartcity/index.html?sim=isco-injection) | In-situ chemical oxidation crew — LIUNA hazmat laborers, UA Local 38 pipefitters, IUOE stationary engineers | overcast | 14 | 2 | 94 | Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface. |
-| 43 | [Stormwater Outfall](../../WebXR/smartcity/index.html?sim=stormwater-outfall) | Environmental sampling technician — stormwater | rain | 11 | 0 | 85 | The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains. |
+| 43 | [Stormwater Outfall](../../WebXR/smartcity/index.html?sim=stormwater-outfall) | Environmental sampling technician — stormwater | rain | 11 | 0 | 84 | The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains. |
 | 86 | [Bioswale Build](../../WebXR/smartcity/index.html?sim=bioswale-build) | Laborer / stormwater bioswale construction crew | overcast, Environmental Monitoring | 13 | 2 | 98 | What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived. |
 | 78 | [Dredge Barge](../../WebXR/smartcity/index.html?sim=dredge-barge) | Dredge deck lead / marine construction crew | fog | 13 | 2 | 95 | Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere. |
 | 91 | [Oyster Reef Monitoring](../../WebXR/smartcity/index.html?sim=oyster-reef-monitoring) | Environmental monitoring technician / restoration monitoring crew | fog, Environmental Monitoring | 13 | 2 | 97 | The reef that shoreline built, checked on afterward: fixed quadrats found by tag and GPS, density logged before the frame moves, and the sonde read against the Water Board's own flag level before the flood takes the reef back. |
@@ -83,7 +83,7 @@ A working port and the bay it sits on, worked by the trades that share the same 
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
-| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 83 | The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift. |
+| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 97 | The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift. |
 | 27 | [Container Lashing](../../WebXR/smartcity/index.html?sim=container-lashing) | Longshore worker — lasher | wind | 11 | 2 | 93 | Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear. |
 | 89 | [Shore Power Hookup](../../WebXR/smartcity/index.html?sim=shore-power-hookup) | Port electrician — shore power (cold ironing) | overcast | 13 | 2 | 98 | Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists. |
 | 41 | [Bunkering Watch](../../WebXR/smartcity/index.html?sim=bunkering-watch) | Marine engineer — person in charge of oil transfer | overcast | 12 | 2 | 90 | Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to. |
@@ -256,7 +256,7 @@ The isolation habit, built four ways: a panel, a substation feeder, an overhead 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
 | — | Trade Skills: electrical | — | — | — | — | 85 | The bench case: lockout, tagout and live-dead-live on a 480 V panel, with nothing else going on. |
-| 01 | [Charge Point](../../WebXR/smartcity/index.html?sim=charge-point) | EV service technician | overcast | 11 | 2 | 80 | The same habit under a live utility service, where the load is a vehicle and the public is a metre away. |
+| 01 | [Charge Point](../../WebXR/smartcity/index.html?sim=charge-point) | EV service technician | overcast | 11 | 2 | 98 | The same habit under a live utility service, where the load is a vehicle and the public is a metre away. |
 | 33 | [Substation Switching](../../WebXR/smartcity/index.html?sim=substation-switching) | Substation electrician / switching operator | overcast | 11 | 2 | 87 | Isolation as a written switching order with a read-back, which is how it is done once the circuit leaves the building. |
 | 19 | [Line Truck](../../WebXR/smartcity/index.html?sim=line-truck) | Outside / overhead lineworker (IBEW) | overcast | 15 | 2 | 86 | Overhead: the same sequence with cover-up, an approach boundary and a bucket. |
 | 44 | [Battery Yard](../../WebXR/smartcity/index.html?sim=battery-yard) | Battery energy storage technician — grid scale | overcast | 12 | 0 | 85 | Direct current, where the arc does not self-extinguish and the bleed-down wait is the whole discipline. |
@@ -272,8 +272,8 @@ Four spaces and the rescue. The first three build the permit, the atmosphere and
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
-| 03 | [Valve Vault](../../WebXR/smartcity/index.html?sim=valve-vault) | Water utility operator | rain | 12 | 2 | 81 | The permit itself: testing in order, a guarded opening and an attendant who never leaves. |
-| 28 | [Lift Station](../../WebXR/smartcity/index.html?sim=lift-station) | Wastewater collection system operator | indoor (plant) | 10 | 2 | 85 | A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard. |
+| 03 | [Valve Vault](../../WebXR/smartcity/index.html?sim=valve-vault) | Water utility operator | rain | 12 | 2 | 93 | The permit itself: testing in order, a guarded opening and an attendant who never leaves. |
+| 28 | [Lift Station](../../WebXR/smartcity/index.html?sim=lift-station) | Wastewater collection system operator | indoor (plant) | 10 | 2 | 86 | A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard. |
 | 38 | [Chlorine Room](../../WebXR/smartcity/index.html?sim=chlorine-room) | Water treatment plant operator | indoor (plant) | 12 | 2 | 89 | A space you do not enter blind: the monitor and the air pack are read and staged from outside the door. |
 | 45 | [Confined Rescue](../../WebXR/smartcity/index.html?sim=confined-rescue) | Technical rescue technician — confined space | overcast | 11 | 2 | 85 | The rescue, including the part where the first job is stopping a coworker from becoming the second patient. |
 
@@ -288,11 +288,11 @@ Anchor, connect, and the thing you are standing on. Four heights, four different
 
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
-| 36 | [Scaffold Erection](../../WebXR/smartcity/index.html?sim=scaffold-erection) | Scaffold erector / carpenter | wind | 12 | 2 | 80 | Building the platform: the order in which a scaffold becomes safe to stand on, and the green tag that says so. |
-| 12 | [Steel Erector](../../WebXR/smartcity/index.html?sim=steel-erector) | Ironworker / structural steel connector | wind | 12 | 2 | 79 | Connecting steel, where the anchor moves with the work and the decking is not yet there. |
+| 36 | [Scaffold Erection](../../WebXR/smartcity/index.html?sim=scaffold-erection) | Scaffold erector / carpenter | wind | 12 | 2 | 96 | Building the platform: the order in which a scaffold becomes safe to stand on, and the green tag that says so. |
+| 12 | [Steel Erector](../../WebXR/smartcity/index.html?sim=steel-erector) | Ironworker / structural steel connector | wind | 12 | 2 | 94 | Connecting steel, where the anchor moves with the work and the decking is not yet there. |
 | 11 | [Tower Climb](../../WebXR/smartcity/index.html?sim=tower-climb) | Telecom / broadcast tower technician | wind | 12 | 2 | 98 | A climb with a hundred metres under it: the transitions are where people fall. |
-| 42 | [Microwave Backhaul](../../WebXR/smartcity/index.html?sim=microwave-backhaul) | Microwave / RF technician — backhaul | overcast | 11 | 0 | 84 | A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath. |
-| 37 | [Aerial Ladder](../../WebXR/smartcity/index.html?sim=aerial-ladder) | Firefighter — aerial apparatus driver/operator | wind | 12 | 0 | 79 | An aerial device, where the platform is the thing that has to be set level before anyone is on it. |
+| 42 | [Microwave Backhaul](../../WebXR/smartcity/index.html?sim=microwave-backhaul) | Microwave / RF technician — backhaul | overcast | 11 | 2 | 96 | A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath. |
+| 37 | [Aerial Ladder](../../WebXR/smartcity/index.html?sim=aerial-ladder) | Firefighter — aerial apparatus driver/operator | wind | 12 | 2 | 93 | An aerial device, where the platform is the thing that has to be set level before anyone is on it. |
 
 <a id="hazmat-environmental"></a>
 ## Hazmat and Environmental Response
@@ -307,9 +307,9 @@ Containment, decontamination and the numbers a neighbourhood relies on. This blo
 |---|---|---|---|---|---|---|---|
 | 21 | [Hunters Point Briefing](../../WebXR/smartcity/index.html?sim=hunters-point) | Environmental monitoring technician | clear | 10 | 0 | 76 | A sourced briefing on a real Superfund shipyard cleanup and the community monitoring around it, before any simulated work. |
 | 17 | [Abatement Chamber](../../WebXR/smartcity/index.html?sim=abatement-chamber) | Asbestos / lead abatement worker | indoor (plant) | 12 | 0 | 92 | Containment done properly: negative pressure, a clean room, and a decon order that keeps the fibre inside. |
-| 25 | [Decon Line](../../WebXR/smartcity/index.html?sim=decon-line) | Hazmat firefighter / decon technician | wind | 11 | 0 | 82 | The corridor: zones set by the wind, pools in order, and runoff that stays in the berm. |
+| 25 | [Decon Line](../../WebXR/smartcity/index.html?sim=decon-line) | Hazmat firefighter / decon technician | wind | 11 | 2 | 96 | The corridor: zones set by the wind, pools in order, and runoff that stays in the berm. |
 | 22 | [Perimeter Air](../../WebXR/smartcity/index.html?sim=air-monitor) | Environmental monitoring technician | wind | 10 | 0 | 86 | Fence-line monitoring: placement, calibration and an exceedance response that happens now. |
-| 43 | [Stormwater Outfall](../../WebXR/smartcity/index.html?sim=stormwater-outfall) | Environmental sampling technician — stormwater | rain | 11 | 0 | 85 | The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence. |
+| 43 | [Stormwater Outfall](../../WebXR/smartcity/index.html?sim=stormwater-outfall) | Environmental sampling technician — stormwater | rain | 11 | 0 | 84 | The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence. |
 | — | Trade Skills: pressure-washer | — | — | — | — | 92 | Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment. |
 
 <a id="rigging-lifting"></a>
@@ -324,10 +324,10 @@ Load, radius, chart, and what is under the load. Five lifts in five industries t
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
 | 13 | [Crane Yard](../../WebXR/smartcity/index.html?sim=crane-yard) | Mobile crane operator / rigger | wind | 15 | 2 | 93 | The load chart and the pick plan, plus programming the anti-collision zone the yard actually needs. |
-| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 83 | Container work at height and speed, where the wind limit is a hard stop. |
+| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 97 | Container work at height and speed, where the wind limit is a hard stop. |
 | 30 | [Chain Hoist](../../WebXR/smartcity/index.html?sim=chain-hoist) | Entertainment rigger — chain motors | indoor (theatre) | 10 | 2 | 94 | Manual lifting hardware: inspection, capacity and the load path through a structure that was not designed for it. |
 | 18 | [Rigging Loft](../../WebXR/smartcity/index.html?sim=rigging-loft) | Theatrical rigger (IATSE) | indoor (theatre) | 14 | 2 | 96 | Overhead rigging above people, with automation cues that have to be proven before the house opens. |
-| 40 | [Fly System](../../WebXR/smartcity/index.html?sim=fly-system) | Theatrical rigger / fly operator | indoor (theatre) | 12 | 0 | 80 | Counterweight: the one rigging system where the operator is holding the other half of the load in their hands. |
+| 40 | [Fly System](../../WebXR/smartcity/index.html?sim=fly-system) | Theatrical rigger / fly operator | indoor (theatre) | 12 | 2 | 95 | Counterweight: the one rigging system where the operator is holding the other half of the load in their hands. |
 
 <a id="stationary-engineer"></a>
 ## Stationary Engineer — Building Plant
@@ -343,7 +343,7 @@ The four plants a building engineer is responsible for at two in the morning, an
 | 15 | [Boiler Room](../../WebXR/smartcity/index.html?sim=boiler-room) | Stationary engineer / steamfitter | indoor (plant) | 12 | 2 | 95 | Start-up and purge: the sequence that stops a furnace explosion. |
 | 10 | [Chiller Plant](../../WebXR/smartcity/index.html?sim=chiller-plant) | HVAC / refrigeration technician | indoor (plant) | 12 | 2 | 86 | Refrigerant, isolation and the machine that is the building's whole cooling capacity. |
 | 47 | [Cooling Tower](../../WebXR/smartcity/index.html?sim=cooling-tower) | Stationary engineer — water treatment and cooling towers | wind | 11 | 0 | 87 | The Legionella task: the tower is the one plant that can make the neighbourhood sick. |
-| 35 | [Fire Pump](../../WebXR/smartcity/index.html?sim=fire-pump) | Fire sprinkler fitter / fire pump technician | indoor (plant) | 12 | 2 | 80 | The annual flow test, where the curve either matches the nameplate or the building has no fire protection. |
+| 35 | [Fire Pump](../../WebXR/smartcity/index.html?sim=fire-pump) | Fire sprinkler fitter / fire pump technician | indoor (plant) | 12 | 2 | 97 | The annual flow test, where the curve either matches the nameplate or the building has no fire protection. |
 | 16 | [Elevator Pit](../../WebXR/smartcity/index.html?sim=elevator-pit) | Elevator constructor / mechanic | indoor (service) | 13 | 2 | 96 | The pit: a confined space with a moving car above it, entered by the person who maintains it. |
 
 <a id="port-operations"></a>
@@ -360,7 +360,7 @@ A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stati
 | 29 | [Mooring Line](../../WebXR/smartcity/index.html?sim=mooring-line) | Line handler / wharf mooring crew | wind | 10 | 2 | 95 | Taking the lines: snap-back zones and the bight nobody stands in. |
 | 41 | [Bunkering Watch](../../WebXR/smartcity/index.html?sim=bunkering-watch) | Marine engineer — person in charge of oil transfer | overcast | 12 | 2 | 90 | Fuel transfer as person in charge, with the deck contained before the hose comes aboard. |
 | 27 | [Container Lashing](../../WebXR/smartcity/index.html?sim=container-lashing) | Longshore worker — lasher | wind | 11 | 2 | 93 | Deck stow: every twist-lock proven and the rods to the pattern the manual calls for. |
-| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 83 | The crane over all of it, with the lashing gang's positions as the constraint. |
+| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 97 | The crane over all of it, with the lashing gang's positions as the constraint. |
 
 <a id="transit-ramp"></a>
 ## Transit and Ramp Operations
@@ -392,9 +392,9 @@ The plant a utility is building now: solar, storage, charging and the substation
 |---|---|---|---|---|---|---|---|
 | 04 | [Solar Deck](../../WebXR/smartcity/index.html?sim=solar-deck) | Solar / BESS technician | overcast | 11 | 2 | 90 | A photovoltaic array that is energised whenever the sun is up and cannot be switched off at the panel. |
 | 44 | [Battery Yard](../../WebXR/smartcity/index.html?sim=battery-yard) | Battery energy storage technician — grid scale | overcast | 12 | 0 | 85 | Grid storage: AC before DC, the bleed-down and the thermal event you are trying not to start. |
-| 01 | [Charge Point](../../WebXR/smartcity/index.html?sim=charge-point) | EV service technician | overcast | 11 | 2 | 80 | The load end: high-current DC in a public place. |
+| 01 | [Charge Point](../../WebXR/smartcity/index.html?sim=charge-point) | EV service technician | overcast | 11 | 2 | 98 | The load end: high-current DC in a public place. |
 | 33 | [Substation Switching](../../WebXR/smartcity/index.html?sim=substation-switching) | Substation electrician / switching operator | overcast | 11 | 2 | 87 | The interconnection, switched on a written order with grounds proven on. |
-| 32 | [Cell Site Battery](../../WebXR/smartcity/index.html?sim=cell-site-battery) | Cell site / DC power technician | overcast | 11 | 0 | 82 | A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night. |
+| 32 | [Cell Site Battery](../../WebXR/smartcity/index.html?sim=cell-site-battery) | Cell site / DC power technician | overcast | 11 | 2 | 98 | A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night. |
 
 <a id="live-events"></a>
 ## Live Events Production
@@ -408,7 +408,7 @@ A load-in from the truck to the house lights, in the order a call actually runs,
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
 | 26 | [Stage Power](../../WebXR/smartcity/index.html?sim=stage-power) | Stage / touring electrician | indoor (theatre) | 11 | 2 | 90 | The company switch tie-in: cam-locks ground first, and the phase check before anything is energised. |
-| 40 | [Fly System](../../WebXR/smartcity/index.html?sim=fly-system) | Theatrical rigger / fly operator | indoor (theatre) | 12 | 0 | 80 | Loading a lineset, where an unbalanced arbor is a runaway with a person on the rope. |
+| 40 | [Fly System](../../WebXR/smartcity/index.html?sim=fly-system) | Theatrical rigger / fly operator | indoor (theatre) | 12 | 2 | 95 | Loading a lineset, where an unbalanced arbor is a runaway with a person on the rope. |
 | 18 | [Rigging Loft](../../WebXR/smartcity/index.html?sim=rigging-loft) | Theatrical rigger (IATSE) | indoor (theatre) | 14 | 2 | 96 | Points overhead, with automation cues proven before the house is let in. |
 | 30 | [Chain Hoist](../../WebXR/smartcity/index.html?sim=chain-hoist) | Entertainment rigger — chain motors | indoor (theatre) | 10 | 2 | 94 | Motors: inspection, capacity and never leaving a load hanging on a brake. |
 
@@ -424,14 +424,14 @@ Twenty-two procedures that interrupt you while you work. Every station in this b
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
 | — | Trade Skills: electrical | — | — | — | — | 85 | Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again. |
-| — | Trade Skills: welding | — | — | — | — | 80 | Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead. |
-| 14 | [Trench Box](../../WebXR/smartcity/index.html?sim=trench-box) | Laborer / excavation and shoring | rain | 15 | 2 | 79 | Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path. |
+| — | Trade Skills: welding | — | — | — | — | 98 | Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead. |
+| 14 | [Trench Box](../../WebXR/smartcity/index.html?sim=trench-box) | Laborer / excavation and shoring | rain | 15 | 2 | 96 | Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path. |
 | 13 | [Crane Yard](../../WebXR/smartcity/index.html?sim=crane-yard) | Mobile crane operator / rigger | wind | 15 | 2 | 93 | Somebody cutting through the swing radius to save walking round, and a pad settling out of level with the load in the air. |
 | 38 | [Chlorine Room](../../WebXR/smartcity/index.html?sim=chlorine-room) | Water treatment plant operator | indoor (plant) | 12 | 2 | 89 | The room monitor alarming mid-changeout — real until proven otherwise — and an unprotected attendant in an open door during a leak test. |
 | 45 | [Confined Rescue](../../WebXR/smartcity/index.html?sim=confined-rescue) | Technical rescue technician — confined space | overcast | 11 | 2 | 85 | The atmosphere falling while you rig, and the attendant leaving the hole to help on the rope during the haul. |
 | 33 | [Substation Switching](../../WebXR/smartcity/index.html?sim=substation-switching) | Substation electrician / switching operator | overcast | 11 | 2 | 87 | An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order. |
 | 46 | [Airport Ramp](../../WebXR/smartcity/index.html?sim=airport-ramp) | Airline ramp agent / ground handler | overcast | 11 | 2 | 85 | A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks. |
-| 35 | [Fire Pump](../../WebXR/smartcity/index.html?sim=fire-pump) | Fire sprinkler fitter / fire pump technician | indoor (plant) | 12 | 2 | 80 | Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow. |
+| 35 | [Fire Pump](../../WebXR/smartcity/index.html?sim=fire-pump) | Fire sprinkler fitter / fire pump technician | indoor (plant) | 12 | 2 | 97 | Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow. |
 | 11 | [Tower Climb](../../WebXR/smartcity/index.html?sim=tower-climb) | Telecom / broadcast tower technician | wind | 12 | 2 | 98 | A tool you set down creeping toward the platform edge above your ground crew, and the crew themselves walking into the drop zone. |
 | 16 | [Elevator Pit](../../WebXR/smartcity/index.html?sim=elevator-pit) | Elevator constructor / mechanic | indoor (service) | 13 | 2 | 96 | A hall call registering upstairs while you stand in the runby, and somebody working your lock off the hasp while you are on the car top. |
 | 15 | [Boiler Room](../../WebXR/smartcity/index.html?sim=boiler-room) | Stationary engineer / steamfitter | indoor (plant) | 12 | 2 | 95 | A block valve passing after you proved the isolation, and the building calling for steam while you are inside the firebox. |
@@ -441,9 +441,9 @@ Twenty-two procedures that interrupt you while you work. Every station in this b
 | 52 | [Wind Nacelle](../../WebXR/smartcity/index.html?sim=wind-nacelle) | Wind turbine technician | wind | 13 | 2 | 91 | The wind freshening ninety metres up with the hoist hatch open, and the hatch guard knocked off its catch behind you. |
 | 53 | [Digester Gas](../../WebXR/smartcity/index.html?sim=digester-gas) | Wastewater plant operator / pipefitter | fog | 14 | 2 | 91 | The dome rising because the digester did not stop making gas, and the wind putting your own purge vent over the pit you are reading. |
 | 54 | [Data Hall](../../WebXR/smartcity/index.html?sim=data-hall) | Critical facilities electrician | indoor (datahall) | 12 | 2 | 94 | The panel schedule contradicting the busway label, and somebody moving your floor-void barrier to get a cart past. |
-| 12 | [Steel Erector](../../WebXR/smartcity/index.html?sim=steel-erector) | Ironworker / structural steel connector | wind | 12 | 2 | 79 | A landed member still on the hook drifting over the bay you are standing in, and a deck opening uncovered behind you. |
+| 12 | [Steel Erector](../../WebXR/smartcity/index.html?sim=steel-erector) | Ironworker / structural steel connector | wind | 12 | 2 | 94 | A landed member still on the hook drifting over the bay you are standing in, and a deck opening uncovered behind you. |
 | 08 | [Triage Point](../../WebXR/smartcity/index.html?sim=triage-point) | EMT / paramedic | overcast | 10 | 2 | 96 | A casualty you tagged green sitting down and going quiet, and the beam over the collapse starting to move. |
-| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 83 | A lashing hand cutting through the red zone under a suspended box, and a gust front putting the load on the sail. |
+| 20 | [Dock Crane](../../WebXR/smartcity/index.html?sim=dock-crane) | Longshoreman / container-crane operator | wind | 14 | 2 | 97 | A lashing hand cutting through the red zone under a suspended box, and a gust front putting the load on the sail. |
 | 24 | [Press Brake](../../WebXR/smartcity/index.html?sim=press-brake) | Sheet-metal press brake operator | indoor (shop) | 12 | 2 | 86 | The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help. |
 
 ## Real-world environments

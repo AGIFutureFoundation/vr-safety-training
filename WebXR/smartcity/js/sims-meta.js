@@ -813,7 +813,7 @@ export const SIMS_META = [
     "domain": "Maritime",
     "trade": "Longshoreman / container-crane operator",
     "category": "Maritime & Ports",
-    "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator",
+    "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator; ASME B30.4 portal, tower and pillar crane standard",
     "name": "Dock Crane",
     "weather": "wind",
     "indoor": null,
@@ -998,7 +998,7 @@ export const SIMS_META = [
       "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Sample Integrity",
       "currency": "ALIQUOT",
@@ -1796,7 +1796,7 @@ export const SIMS_META = [
       "note": "A link re-aligned with the far end locked out, the boundary respected and the receive level inside spec — first time"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Backhaul Ops",
       "currency": "dBm",
@@ -2090,7 +2090,7 @@ export const SIMS_META = [
       "note": "A setup proven by a dry run and a first article inside tolerance, with nothing reaching into a live envelope — first time"
     },
     "stepCount": 13,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Machine Shop",
       "currency": "THOU",

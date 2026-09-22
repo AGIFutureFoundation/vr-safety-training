@@ -59,12 +59,39 @@ export const SIM_CNC_CELL = {
     "micrometer": "The first article is measured after the first part is cut, not before.",
   },
 
+  // Two things that happen while the machinist is task-loaded and looking
+  // somewhere else. See shared/game.js.
+  interrupts: [
+    {
+      id: "door-reach-midry",
+      kind: "Hand near the envelope",
+      after: "dryrun", delay: 3, seconds: 12,
+      alert: "A coworker leans in through the open door to point at something on the print, well inside the tool's swept path while the dry run is still moving.",
+      cue: "Somebody's leaning into the envelope while the tool is still sweeping.",
+      target: "spindle-stop",
+      why: "The dry run moves the real toolpath, just without the feed engaged into stock — the spindle is live and the head is travelling exactly where it will travel under program. A body inside that swept path while nobody has stopped the motion is one function key away from being where the tool goes next.",
+      missNote: "Nobody froze it. The head kept travelling its programmed path a foot from a coworker leaning into the envelope to talk — a dry run only proves the program, it does not guarantee the tool stays clear of a person standing where it happens to swing.",
+      wrongNote: "That doesn't stop the head from moving — hit the spindle stop before anyone reaches in any further.",
+    },
+    {
+      id: "sheet-adrift-dryrun",
+      kind: "Setup sheet adrift",
+      after: "dryrun", delay: 4.5, seconds: 10,
+      alert: "The enclosure's air curtain catches the setup sheet and slides it off the bench toward the chip pan, right as you're watching the dry run instead of the bench.",
+      cue: "The setup sheet just blew off the bench.",
+      target: "setup-sheet",
+      why: "The whole dry run is being checked against numbers on that sheet — the offset, the tolerance, the fixture callouts. Face-down in a chip pan, it stops being something anyone can actually re-check, and the next number pulled from memory instead of the page is exactly how a setup drifts off the print without anyone deciding it should.",
+      missNote: "The sheet sat in the chip pan through the rest of the setup. The first article got measured against a tolerance recalled from memory, and it was the band for the previous revision of this print, not the current one.",
+      wrongNote: "That's not the sheet — it's down by the chip pan, not still on the bench.",
+    },
+  ],
+
   steps: [
     {
       id: "sheet", kind: "select", target: "setup-sheet",
       title: "Read the setup sheet",
       cue: "Check the part, the fixture, the tool list, the work offset and the first-article dimensions.",
-      why: "The setup sheet is the contract between the programmer and the machinist. Everything measured, torqued or offset in this job is measured against a number on it.",
+      why: "The setup sheet is the contract between the programmer and the machinist, written by someone who is not standing at this machine. Everything measured, torqued or offset in this job — the fixture, the tool list, the work offset, the tolerance band — is checked against a number on this sheet, not against what looks right.",
     },
     {
       id: "lockout", kind: "sequence",
@@ -72,7 +99,7 @@ export const SIM_CNC_CELL = {
       itemNames: { "spindle-stop": "spindle stopped", "mode-manual": "mode to manual", "spindle-lock": "lock and tag" },
       title: "Make the machine safe to approach",
       cue: "Stop the spindle, take the machine out of auto to manual, then lock and tag.",
-      why: "A stopped spindle is not a safe spindle while the control can still run a queued program. Manual mode and the lock are what make the envelope somewhere a hand can go.",
+      why: "A stopped spindle is not a safe spindle while the control can still run a queued program off a cycle-start signal from anywhere on the network. Manual mode takes that queued program out of play, and the lock is what stops a second person from putting it back while a hand is in the envelope.",
       outOfOrderNote: "Stop, then manual, then lock — the motion stops before the mode changes, and the lock goes on last.",
     },
     {
@@ -81,14 +108,14 @@ export const SIM_CNC_CELL = {
       itemNames: { "fixture-seat": "fixture seated on the table", "fixture-bolts": "fixture bolted and located", "part-load": "part loaded in the vise" },
       title: "Set the fixture and load the part",
       cue: "Seat the fixture on a clean table, bolt and locate it, then load the part in the vise.",
-      why: "Everything downstream assumes the fixture has not moved. A chip under a fixture is a tenth of an inch of error on every part in the run.",
+      why: "Everything downstream — the tool offset, the first article, every part after it — assumes the fixture has not moved since it was located and bolted down. A single chip trapped under a fixture face is a tenth of an inch of tilt that shows up as the same error on every part cut in this run, not just the first one.",
       outOfOrderNote: "Seat, then bolt, then load — the fixture is fixed before the part goes in it.",
     },
     {
       id: "torque", kind: "gauge", target: "torque-wrench",
       title: "Torque the workholding",
       cue: "Bring the vise to the torque on the fixture drawing and commit inside the band.",
-      why: "Under-clamped, the part comes out of the vise at cutting speed. Over-clamped, thin-wall stock distorts and every dimension is wrong once the clamp is released.",
+      why: "Under-clamped, the part rides up under cutting load and comes out of the vise at cutting speed, taking the tool with it. Over-clamped, thin-wall stock distorts under the jaw pressure and springs back the moment the clamp is released, so a part that measured perfectly in the vise is out of tolerance the second it's free.",
       gauge: { label: "CLAMP TORQUE", speed: 0.7, green: [0.44, 0.6], readout: (t) => `${Math.round(t * 120)} ft·lb`, missNote: "Off the drawing's torque — a loose part is a projectile and a crushed one is scrap." },
     },
     {
@@ -97,7 +124,7 @@ export const SIM_CNC_CELL = {
       itemNames: { "tool-inspect": "tool and holder inspected", "tool-load": "tool loaded in the spindle" },
       title: "Inspect and load the tool",
       cue: "Check the insert, the holder and the pull stud, then load the tool into the spindle.",
-      why: "A cracked insert or a loose pull stud at spindle speed becomes shrapnel inside a sheet-metal enclosure that was never designed to stop it.",
+      why: "A cracked insert or a loose pull stud is invisible once the tool is buried in the holder and turning at spindle speed. At that speed either one becomes shrapnel inside a sheet-metal enclosure built to contain chips and coolant, not a piece of tooling that has come apart under load.",
       outOfOrderNote: "Inspect first, then load — a cracked insert found after the tool is in the spindle was found one step too late.",
     },
     {
@@ -110,7 +137,7 @@ export const SIM_CNC_CELL = {
       id: "offset", kind: "gauge", target: "tool-setter",
       title: "Measure the tool and set the offset",
       cue: "Touch the tool off on the setter and commit the length offset inside the band.",
-      why: "The length offset is what tells the control where the tip of this tool is. Wrong by a tenth and the first move either cuts air or drives the tool through the fixture.",
+      why: "The length offset is the one number that tells the control exactly where the tip of this specific tool sits relative to the part zero. Wrong by a tenth of an inch and the very first programmed move either cuts nothing but air or drives the tool straight through the fixture before anyone can react.",
       gauge: { label: "TOOL LENGTH", speed: 0.75, green: [0.46, 0.58], readout: (t) => `${(4 + t * 2).toFixed(4)} in`, missNote: "Offset outside the expected range — re-touch it off before anything moves under program." },
     },
     {
@@ -125,13 +152,13 @@ export const SIM_CNC_CELL = {
       id: "door", kind: "select", target: "machine-door",
       title: "Close the door",
       cue: "Close the enclosure door and confirm the interlock is made before cycle start.",
-      why: "The enclosure is the guard. Closed and interlocked, it contains a part that comes loose; open, it is a window a part leaves through at the speed it was spinning.",
+      why: "The enclosure is the guard, not decoration around the machine. Closed and interlocked, it contains a part or a broken tool that comes loose under cutting load; left open, it is simply a window a piece of metal leaves through at whatever speed the spindle was turning when it let go.",
     },
     {
       id: "cycle", kind: "turn", target: "cycle-start",
       title: "Run the first part",
       cue: "Turn the control to auto and start the cycle, staying at the panel through the first part.",
-      why: "The operator stays at the panel with a hand near the feed hold for the whole first part, because the first part is the one that finds the mistake the dry run missed.",
+      why: "The operator stays at the panel with a hand near feed hold for the whole first part, watching the cut and listening to it, because the first part is the one that finds whatever mistake the dry run couldn't — a clamp that was fine in the air but not under load, an offset that was close enough to pass the touch-off but not the cut.",
       turn: { turns: 0.5, axis: "z", label: "CYCLE START" },
     },
     {
@@ -145,7 +172,7 @@ export const SIM_CNC_CELL = {
       id: "chips", kind: "drag", target: "chip-brush",
       title: "Clear the chips properly",
       cue: "Take the brush and the chip vacuum to the nest on the table.",
-      why: "A brush and a vacuum, never air and never a hand. That single habit is most of what separates a machinist with ten fingers from one without.",
+      why: "A brush and a vacuum, never air and never a bare hand — chips off a machine still carry the heat of the cut and a stringer wraps around whatever touches it. That single habit, repeated every time without exception, is most of what separates a machinist who keeps all ten fingers from one who doesn't.",
       drag: { to: "chip-nest-socket", radius: 0.4, missNote: "Not on the nest — bring the brush down onto the chips on the table." },
     },
     {
@@ -158,7 +185,7 @@ export const SIM_CNC_CELL = {
       },
       title: "Walk the machine before the run",
       cue: "Check the coolant, the covers and the panel, and click anything that will not survive a full run.",
-      why: "A production run is hours of unattended cutting. What is marginal at the first part is a failure by the hundredth.",
+      why: "A production run is hours of largely unattended cutting once it's turned loose. Coolant that's marginal now runs dry by the fiftieth part, and a way cover that's split now is packed with swarf and scoring the ways by the hundredth — walked and caught here, either one is a five-minute fix instead of a ruined slide.",
     },
   ],
 
@@ -306,6 +333,11 @@ export const SIM_CNC_CELL = {
     reg(hits, board, "job-board");
     const machinist = standingFigure(g, 1.1, 1.4, { ry: 2.7, cloth: 0x37505f });
     holoTag(machinist, "machinist", 0, 1.9, 0, { css: "#8fa9c4", w: 0.2 });
+    // A second machinist, parked clear of the cell until the dry-run interrupt
+    // calls them in toward the open door.
+    const coworkerRest = { x: 1.8, z: -2.1 };
+    const coworkerNear = { x: 0.55, z: 0.55 };
+    const coworker = standingFigure(g, coworkerRest.x, coworkerRest.z, { ry: -0.6, cloth: 0x506070 });
 
     let running = false, doorShut = false;
     return {
@@ -321,6 +353,17 @@ export const SIM_CNC_CELL = {
         if (step.id === "walk") tear.visible = false;
       },
       onHazard() {},
+      // A coworker really walks in toward the open door, and the coolant
+      // level really drops in the sight glass.
+      onInterrupt(it) {
+        if (it.id === "door-reach-midry") coworker.position.set(coworkerNear.x, 0, coworkerNear.z);
+        if (it.id === "sheet-adrift-dryrun") { sheet.position.set(0.05, 0.68, 0.32); sheet.rotation.set(0.3, 0, 0.4); }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "door-reach-midry") coworker.position.set(coworkerRest.x, 0, coworkerRest.z);
+        if (it.id === "sheet-adrift-dryrun") { sheet.position.set(-0.45, 0.815, 0); sheet.rotation.set(-Math.PI / 2, 0, 0); }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "fixture") { if (session.sequence.includes("fixture-seat")) { fixture.visible = true; fixturePick.visible = false; } if (session.sequence.includes("fixture-bolts")) { for (const b of bolts) b.visible = true; boltPick.visible = false; } }

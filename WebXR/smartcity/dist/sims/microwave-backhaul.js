@@ -59,24 +59,51 @@ export const SIM_MICROWAVE_BACKHAUL = {
     "rsl-meter": "Receive level means nothing until the far end is keyed back up on the test carrier.",
   },
 
+  // Two things that happen while the technician is head-down on a fine
+  // adjustment, hands full, near the parapet edge. See shared/game.js.
+  interrupts: [
+    {
+      id: "noc-recheck-pan",
+      kind: "NOC calls mid-sweep",
+      after: "pan", delay: 3, seconds: 12,
+      alert: "The radio keys up mid-sweep — NOC wants a live confirmation that the far end is still down before you swing the dish any closer to its old bearing.",
+      cue: "NOC's calling for a lockout confirmation.",
+      target: "radio-far-end",
+      why: "A remote keydown is a status in somebody else's equipment log, not a fact visible from this roof, and the whole reason the far end came down by ticket instead of a phone call is so that status has an answer on demand. Confirming it again mid-sweep costs ten seconds and closes the gap between what the ticket says and what could have changed at the far site since.",
+      missNote: "The call went unanswered and the sweep continued across the beam's centreline on a lockout that was three steps old. NOC logged the ticket unconfirmed, and the far end could just as easily have been re-keyed by a second crew working the same site that morning.",
+      wrongNote: "That's not what NOC is asking about — key the radio and confirm the far end's status before the sweep goes any further.",
+    },
+    {
+      id: "gust-drift-pan",
+      kind: "Gust drift at the parapet",
+      after: "pan", delay: 5, seconds: 12,
+      alert: "A gust catches you leaning into the sweep and the lanyard snaps taut — you've drifted further from the anchor than you meant to.",
+      cue: "You've drifted off your anchor line.",
+      target: "anchor-point",
+      why: "A rooftop anchor only protects the radius the lanyard actually reaches, and a slow sweep across the dish face naturally walks a technician sideways along the mast while chasing the bearing. Checking back in at the anchor mid-sweep is what keeps the fall-arrest distance short enough to matter if the parapet edge turns out closer than it felt a minute ago.",
+      missNote: "The drift went unnoticed through the rest of the sweep, well past the radius the anchor was rated to catch cleanly. Nothing happened this time, which is exactly how a rooftop crew stops checking the one thing that was never actually tested.",
+      wrongNote: "That's not the anchor — go back to the certified roof anchor and confirm you're still within its reach before sweeping any further.",
+    },
+  ],
+
   steps: [
     {
       id: "survey", kind: "select", target: "rf-survey",
       title: "Read the RF site survey",
       cue: "Check the rooftop's emitters, the MPE boundary and which links are live.",
-      why: "A rooftop carries other people's antennas. The survey says which are transmitting, where the boundary is and who has to be called before you cross it.",
+      why: "A shared rooftop carries other tenants' antennas, most of them still live while you work. The survey is what says which of those are transmitting right now, where the exposure boundary actually sits in front of each one and who on the NOC has to sign off before this specific link comes down.",
     },
     {
       id: "boundary", kind: "select", target: "mpe-sign",
       title: "Find the MPE boundary",
       cue: "Locate the RF notice and the marked boundary in front of the dish face.",
-      why: "The boundary is where the field exceeds the exposure limit for an occupational worker. It is marked so the crew knows what 'stand clear' means in metres, not in feel.",
+      why: "The boundary marks where the field strength in front of the dish exceeds the maximum permissible exposure limit for an occupational worker under FCC 47 CFR 1.1310. It's painted and signed so 'stand clear of the beam' is a distance in metres the crew can check against the deck, not a feeling about how close feels too close.",
     },
     {
       id: "callfar", kind: "select", target: "radio-far-end",
       title: "Call the far end",
       cue: "Raise the far site on the radio and get the link scheduled down with the network operations centre.",
-      why: "The other end of a link is a radio somewhere else that nobody on this roof controls. It comes down by agreement, logged, before a hand touches the dish.",
+      why: "The other end of a link is a radio at a site nobody on this roof can see or control. It comes down by a logged agreement with the network operations centre, not by an assumption that the far end is idle — because the only thing worse than a live beam is one that came down on a guess and got put back up on a schedule nobody here knew about.",
     },
     {
       id: "lockout", kind: "sequence",
@@ -84,7 +111,7 @@ export const SIM_MICROWAVE_BACKHAUL = {
       itemNames: { "tx-key-down": "transmitter keyed down", "tx-breaker": "transmit breaker open", "tx-lock": "lock and tag" },
       title: "Key down and lock out the transmitter",
       cue: "Key the local transmitter down, open its breaker, then lock and tag it.",
-      why: "Keyed down is a software state and software states come back. The breaker and the lock are what stop the radio re-keying on a timer or a remote hand while you are in front of the dish.",
+      why: "Keyed down is a software state, and software states come back on their own — a watchdog timer, a remote command, a firmware reset can all put the transmitter back on the air with nobody at this end touching anything. The breaker and the lock are what actually remove the power the software would need to do that while you're standing in front of the dish.",
       outOfOrderNote: "Key down, then breaker, then lock — the radio is quiet before the power is removed, and the lock goes on last.",
     },
     {
@@ -93,7 +120,7 @@ export const SIM_MICROWAVE_BACKHAUL = {
       itemNames: { "anchor-point": "roof anchor", "harness-lanyard": "harness and lanyard", "tool-tether": "tools tethered" },
       title: "Set up for the parapet",
       cue: "Clip the lanyard to the certified roof anchor, check the harness, tether every tool.",
-      why: "The dish is at the edge. The anchor holds the technician, the tether holds everything else, and the pavement below is a public sidewalk.",
+      why: "The dish sits right at the parapet, which means every task on it happens at the edge of a fall. The anchor holds the technician, the tether holds every tool and every piece of hardware, and the pavement below this particular roof is a public sidewalk — anything dropped from here lands where people are walking.",
     },
     {
       id: "inspect", kind: "find", noHint: true,
@@ -105,13 +132,13 @@ export const SIM_MICROWAVE_BACKHAUL = {
       },
       title: "Inspect the mount and radome",
       cue: "Look over the whole assembly and click the storm damage you find.",
-      why: "A link that drifted did not drift on its own. The damage is found and recorded before the alignment, or the alignment walks off again in the next wind.",
+      why: "A link that drifted in a storm did not drift on its own — something on the mount or the radome gave way and let the wind move it. That damage is found and recorded before the alignment starts, because a fresh alignment on a cracked mount or a torn radome just walks off again in the next wind that comes through.",
     },
     {
       id: "unclamp", kind: "turn", target: "azimuth-clamp",
       title: "Free the azimuth clamp",
       cue: "Back the azimuth clamp off far enough for the dish to swing under hand pressure.",
-      why: "The clamp holds the dish against wind load. It is loosened, not removed, so the dish is always held enough to stop it running away when the wind takes the face.",
+      why: "The clamp is what holds a couple of square feet of dish face steady against wind load, and it is loosened rather than removed for exactly that reason — even mid-adjustment, the dish stays held enough to stop it running away and swinging on the mast the moment a gust catches the face.",
       turn: { turns: 1, axis: "y", label: "AZ CLAMP" },
     },
     {
@@ -126,14 +153,14 @@ export const SIM_MICROWAVE_BACKHAUL = {
       id: "tilt", kind: "gauge", target: "tilt-control",
       title: "Set the elevation",
       cue: "Walk the tilt through the peak and commit at the highest receive level.",
-      why: "Elevation is the other half of the beam. The peak is a single point in two axes, and the number on the meter is the only honest way to find it.",
+      why: "Elevation is the other half of aiming the beam, and the true peak is one specific point across two axes at once — pan and tilt together, not either one alone. The eye can't judge a couple of degrees of elevation on a dish this size; the number climbing on the receive-level meter is the only honest way to know the peak has actually been found.",
       gauge: { label: "ELEVATION", speed: 0.7, green: [0.46, 0.6], readout: (t) => `${((t - 0.5) * 12).toFixed(1)}°`, missNote: "Off the peak — walk the tilt back through and watch the level." },
     },
     {
       id: "rsl", kind: "gauge", target: "rsl-meter",
       title: "Confirm the receive level",
       cue: "With the far end on the test carrier, commit when the receive level is inside the design figure.",
-      why: "The design receive level is what the path was engineered for. A link three decibels low works on a clear day and fails in the rain fade it was built to survive.",
+      why: "The design receive level is the number this path was engineered around, with a margin built in specifically for weather. A link accepted three decibels low still works fine on a clear day and drops out in exactly the rain fade the fade margin existed to survive, so an underpowered path fails the day it's actually needed.",
       gauge: { label: "RSL", speed: 0.75, green: [0.5, 0.64], readout: (t) => `${Math.round(-80 + t * 50)} dBm`, missNote: "Below the design figure — re-peak the pan and tilt before you accept the path." },
     },
     {
@@ -142,7 +169,7 @@ export const SIM_MICROWAVE_BACKHAUL = {
       itemNames: { "torque-clamp": "clamps torqued", "weatherproof": "connectors weatherproofed", handback: "path handed back" },
       title: "Torque, weatherproof and hand back",
       cue: "Torque the azimuth and elevation clamps to spec, re-tape the connectors, then hand the path back to the operations centre.",
-      why: "The alignment lasts exactly as long as the clamp torque and the weatherproofing. The hand-back is what tells the network the link is carrying traffic again.",
+      why: "The alignment just proven on the meter lasts exactly as long as the clamp torque holding it and the weatherproofing keeping water out of the connectors — loose either one and the path drifts or corrodes out from under a peak that was perfect an hour ago. The hand-back is the one thing that tells the network this link is carrying live traffic again.",
       outOfOrderNote: "Torque, then weatherproof, then hand back — the link is mechanically and physically sound before it carries traffic.",
     },
   ],
@@ -255,6 +282,8 @@ export const SIM_MICROWAVE_BACKHAUL = {
     const radio = box(g, 0.07, 0.16, 0.04, 2.35, 0.95, 1.5, 0x1b1e23, { rough: 0.6 });
     holoTag(g, "radio — far end / NOC", 2.35, 1.18, 1.5, { css: "#5fd3c8", w: 0.4 });
     reg(hits, radio, "radio-far-end");
+    const radioCallLamp = ball(g, 0.014, 2.35, 1.045, 1.53, 0xf2c14b, { emissive: 0xf2c14b, ei: 1.6, seg: 10, seg2: 8 });
+    radioCallLamp.visible = false;
     const torque = box(g, 0.28, 0.04, 0.05, 1.5, 0.45, 0.9, 0xb9bec4, { rough: 0.4, metal: 0.8 });
     holoTag(g, "torque wrench", 1.5, 0.62, 0.9, { css: "#5fd3c8", w: 0.26 });
     reg(hits, torque, "torque-clamp");
@@ -284,6 +313,17 @@ export const SIM_MICROWAVE_BACKHAUL = {
         if (step.id === "rsl") repaint(handback.userData.screen, signFace("PATH UP", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.62 }));
       },
       onHazard() {},
+      // The NOC call really lights the radio panel up, and the technician
+      // really drifts off the anchor and back.
+      onInterrupt(it) {
+        if (it.id === "noc-recheck-pan") { repaint(handback.userData.screen, signFace("NOC CALL", { bg: "#241c06", accent: "#f2c14b", fg: "#ffe9b0", scale: 0.55 })); radioCallLamp.visible = true; }
+        if (it.id === "gust-drift-pan") { tech.position.x += 0.25; tech.position.z -= 0.15; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "noc-recheck-pan") { repaint(handback.userData.screen, signFace("PATH DOWN", { bg: "#08201e", accent: "#5fd3c8", fg: "#d3f6f1", scale: 0.62 })); radioCallLamp.visible = false; }
+        if (it.id === "gust-drift-pan") { tech.position.x -= 0.25; tech.position.z += 0.15; }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         farLamp.material.emissiveIntensity = 1.0 + Math.max(0, Math.sin(t * 1.2)) * 1.4;
