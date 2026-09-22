@@ -8846,5 +8846,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cardiac-arrest-pit-crew",
+    "index": "200",
+    "domain": "Emergency Services",
+    "trade": "Paramedic — IAFF EMS",
+    "category": "Emergency Services",
+    "certification": "The American Heart Association's high-performance pit-crew CPR model and its Basic and Advanced Life Support sequence; NFPA 1584 on rehabilitation and the scheduled physical rotation it is built to protect against; the county EMS agency's medical control protocol governing drug timing and the termination-of-resuscitation call, following the National Association of EMS Physicians' position statement on the subject; OSHA 29 CFR 1910.1030 bloodborne pathogens for every hands-on contact and every used sharp; IAFF and IAEP fire-based EMS crews as the workforce; NIMS/ICS through FEMA IS-100 for the incident structure a second-arriving unit steps into.",
+    "name": "Cardiac Arrest — Pit Crew",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Cardiac Arrest — Pit Crew VR",
+    "tagline": "High-performance pit-crew CPR: roles on arrival, compressions that never stop, the swap called on time, and the family met at the door",
+    "accent": 14701130,
+    "accentCss": "#e0524a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "pit-crew-clean",
+      "name": "Pit Crew Clean",
+      "note": "A full arrest run with the roles held, the depth never allowed to drift uncaught, and the family met calmly at the door"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Resuscitation Command",
+      "currency": "ROSC",
+      "ranks": [
+        "EMT Basic",
+        "Paramedic Trainee",
+        "Pit Crew Certified",
+        "Code Commander",
+        "ROSC Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "overdose-response-naloxone",
+    "index": "201",
+    "domain": "Emergency Services",
+    "trade": "EMT — NAGE/AFSCME EMS local",
+    "category": "Emergency Services",
+    "certification": "The FDA-approved naloxone product labeling for intranasal dosing, onset and repeat-dose timing; the CDC's guidance on opioid overdose response and take-home naloxone programmes; the NHTSA National EMS Scope of Practice for EMT-level naloxone administration and rescue breathing; OSHA 29 CFR 1910.1030 bloodborne pathogens for every sharps and body-fluid exposure on scene; NAGE and AFSCME EMS locals as the workforce's unions; SAMHSA's overdose-prevention and harm-reduction guidance for the referral this call closes on.",
+    "name": "Overdose Response — Naloxone",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Overdose Response — Naloxone VR",
+    "tagline": "An opioid overdose reversed in a restroom stall: the sharps check, rescue breaths, naloxone timed against renarcotization, and the harm-reduction handoff",
+    "accent": 5941472,
+    "accentCss": "#5aa8e0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "reversal-clean",
+      "name": "Reversal Clean",
+      "note": "A full reversal run with the sharps cleared, the second stop in breathing caught, and the referral actually handed over"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Overdose Response",
+      "currency": "NARCAN",
+      "ranks": [
+        "EMT Basic",
+        "Reversal Trained",
+        "Field Certified",
+        "Crew Lead",
+        "Harm Reduction Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ambulance-scene-safety",
+    "index": "202",
+    "domain": "Emergency Services",
+    "trade": "EMT — NAGE/AFSCME EMS local",
+    "category": "Emergency Services",
+    "certification": "NFPA 1500 and 1917 for emergency vehicle operations and ambulance design standards; the Manual on Uniform Traffic Control Devices (MUTCD) for the cone taper and the block position on the shoulder; ANSI/ISEA 207 high-visibility apparel for emergency responders working roadside; OSHA 29 CFR 1910.132 personal protective equipment and 1910.1030 bloodborne pathogens; NAGE and AFSCME EMS locals as the workforce's unions; the department's own fatigue and duty-hour policy for the fitness-to-drive check at the end of a 24-hour shift.",
+    "name": "Ambulance Scene Safety",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Ambulance Scene Safety VR",
+    "tagline": "A night roadside call: the ambulance as the block, the light pattern, the cone taper, an agitated occupant approached from the protected side, and the fatigue check at the end of a 24-hour shift",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "shoulder-safe",
+      "name": "Shoulder Safe",
+      "note": "A full roadside call worked with the block, the taper and the approach all held, and the crew fit to drive home"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scene Command",
+      "currency": "BLOCK",
+      "ranks": [
+        "EMT Basic",
+        "Field Trained",
+        "Scene Safety Certified",
+        "Field Training Officer",
+        "Struck-By Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
