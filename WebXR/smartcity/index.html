@@ -411,6 +411,60 @@
   .rec-verdict{ font-family:var(--cond); font-weight:700; font-size:11px; letter-spacing:.12em; border-radius:999px; padding:2px 9px }
   .rec-verdict.pass{ color:#0c2a17; background:var(--good) }
   .rec-verdict.fail{ color:#2a0c0c; background:var(--danger) }
+  /* ------------------------------------------ records tabs and the proof tier */
+  .rec-tabs{ display:flex; gap:6px; margin:10px 0 12px; border-bottom:1px solid var(--edge) }
+  .rec-tab{ font-size:13px; letter-spacing:.1em; padding:8px 16px; min-height:40px; border-radius:var(--r-sm) var(--r-sm) 0 0;
+    border:1px solid var(--edge); border-bottom:none; background:transparent; color:var(--muted); box-shadow:none }
+  .rec-tab:hover{ transform:none; color:var(--text) }
+  .rec-tab.on{ background:var(--surface-raised); color:var(--accent); border-color:var(--edge-strong); box-shadow:inset 0 2px 0 var(--accent) }
+  .proof-rule{ background:rgba(79,209,255,.07); border:1px solid var(--edge); border-left:3px solid var(--accent);
+    border-radius:var(--r-sm); padding:9px 12px; font-size:12.5px !important; margin:0 0 12px !important; max-width:none !important }
+  .proof-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:8px; margin:0 0 12px }
+  .proof-card{ background:var(--surface-raised); border:1px solid var(--edge); border-left:3px solid var(--dim); border-radius:10px; padding:12px 14px }
+  .proof-card.demonstrated{ border-left-color:var(--good) }
+  .proof-card.consistent{ border-left-color:var(--accent) }
+  /* The title runs the full width of the card; the chip shares the line under
+     it with the tier and id, so a long competency name is not wrapped a word
+     at a time to make room for a status pill. */
+  .proof-headrow{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-top:4px }
+  .proof-headrow .proof-sub{ margin-top:0; min-width:0; overflow-wrap:anywhere }
+  .proof-card h2{ font-family:var(--cond); font-weight:700; font-size:15.5px; letter-spacing:.02em; margin:0; line-height:1.2 }
+  .proof-sub{ font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-top:3px }
+  .proof-chip{ font-family:var(--cond); font-weight:700; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    border-radius:999px; padding:3px 9px; white-space:nowrap; background:rgba(126,170,200,.16); color:var(--muted) }
+  .proof-chip.demonstrated{ background:var(--good); color:#0c2a17 }
+  .proof-chip.consistent{ background:var(--accent); color:var(--accent-ink) }
+  .proof-meter{ height:5px; border-radius:999px; background:rgba(0,0,0,.35); overflow:hidden; margin:9px 0 6px }
+  .proof-meter span{ display:block; height:100%; background:var(--accent) }
+  .proof-card.demonstrated .proof-meter span, .proof-card.consistent .proof-meter span{ background:var(--good) }
+  .proof-count{ font-size:12px !important; color:var(--text) !important; margin:0 0 8px !important }
+  .proof-dim{ color:var(--muted) }
+  .proof-stds ul{ margin:3px 0 8px; padding-left:16px; font-size:11.5px; color:var(--muted); line-height:1.45 }
+  .proof-unver{ display:inline-block; margin-left:6px; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--warn); border:1px solid var(--warn); border-radius:999px; padding:0 6px }
+  .proof-stations{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:3px }
+  .proof-stations li{ display:flex; gap:8px; justify-content:space-between; font-size:11.5px; border-top:1px solid var(--edge); padding-top:3px }
+  .proof-stations li b{ font-family:var(--cond); font-weight:600; letter-spacing:.04em; text-transform:uppercase }
+  .proof-stations li.met b{ color:var(--good) }
+  .proof-stations li.not b{ color:var(--muted) }
+  .proof-stations li span{ color:var(--muted); text-align:right; max-width:60% }
+  /* Eleven columns need room: the wrapper already scrolls, so give the table a
+     floor rather than letting every cell wrap a word at a time. */
+  .proof-table{ white-space:normal; min-width:780px }
+  .proof-table td{ vertical-align:top }
+  /* The status chip is a painted pill inside a scrolling body; the sticky
+     header has to sit above it rather than have it slide over the column names. */
+  .proof-table th{ z-index:3 }
+  .proof-table td .proof-chip{ display:inline-block; margin-left:6px; vertical-align:1px }
+  .proof-when{ white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--muted) }
+  .proof-whyrow td{ border-bottom:1px solid var(--edge); padding-top:0 }
+  .proof-why{ color:var(--warn); font-size:11.5px }
+  .proof-rubric{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:8px 12px; margin:4px 0 6px }
+  .proof-rubric summary{ font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); cursor:pointer; min-height:28px; padding:4px 0 }
+  .proof-rubric dl{ margin:6px 0 2px }
+  .proof-rubric dt{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; margin-top:8px }
+  .proof-rubric dd{ margin:2px 0 0; font-size:12px; color:var(--muted); line-height:1.5 }
   .lrs-box{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:10px 12px; margin:6px 0 4px }
   .lrs-box .fineprint{ margin:4px 0 8px }
   .lrs-form{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }

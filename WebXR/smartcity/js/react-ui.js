@@ -375,12 +375,36 @@ export function mountUI(store, actions) {
   function RecordsCard() {
     const rec = useSlice("records");
     if (!rec.visible) return h("div", { className: "overlay", id: "records", hidden: true });
-    const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }); };
-    const fmtTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    const proofTab = rec.tab === "proof";
     return h("div", { className: "overlay", id: "records", role: "dialog", "aria-modal": "true", "aria-label": "Training records" },
       h("div", { className: "card card-wide" },
         h("div", { className: "eyebrow" }, "SmartCiti.X · training records"),
         h("h1", null, "Training Records"),
+        // Two tiers, two tabs: the attempt log an employer audits, and the
+        // proof tier a hall signs (see shared/competency.js).
+        h("div", { className: "rec-tabs", role: "tablist", "aria-label": "Records view" },
+          h("button", {
+            id: "rec-tab-attempts", role: "tab", "aria-selected": String(!proofTab),
+            className: `rec-tab${proofTab ? "" : " on"}`, onClick: () => actions.setRecordsTab("attempts"),
+          }, "Attempts"),
+          h("button", {
+            id: "rec-tab-proof", role: "tab", "aria-selected": String(proofTab),
+            className: `rec-tab${proofTab ? " on" : ""}`, onClick: () => actions.setRecordsTab("proof"),
+          }, "Proof")),
+        proofTab ? h(ProofPanel, { rec }) : h(AttemptsPanel, { rec }),
+        h("div", { className: "btnrow" },
+          h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
+          h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
+  }
+
+  const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }); };
+  const fmtTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  // The transcript has eleven columns, so its dates are the short sortable
+  // form rather than a locale string that wraps over five lines in a cell.
+  const fmtStamp = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
+
+  function AttemptsPanel({ rec }) {
+    return h(Fragment, null,
         h("p", { className: "lead" },
           `${rec.total} attempt${rec.total === 1 ? "" : "s"} on this device · ${rec.passes} passed. ` +
           "A pass is two or more stars with no unsafe action. Records stay in this browser until you export them."),
@@ -414,9 +438,90 @@ export function mountUI(store, actions) {
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
           h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
-          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)"),
-          h("button", { id: "rec-clear", disabled: !rec.total, onClick: actions.clearRecords }, "Clear records"),
-          h("button", { id: "rec-close", onClick: actions.closeRecords }, "Close"))));
+          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)")));
+  }
+
+  /**
+   * The proof tier: what the learner can actually demonstrate, against which
+   * standards, on which stations, and why a near miss did not count. Every
+   * value is plain data from shared/competency.js rendered as a text node —
+   * a standard's title and a station's name never arrive as markup.
+   */
+  function ProofPanel({ rec }) {
+    const proof = rec.proof ?? { competencies: [], transcript: [], rubric: [] };
+    const comps = proof.competencies ?? [];
+    const rows = proof.transcript ?? [];
+    return h(Fragment, null,
+      h("p", { className: "lead" },
+        `${comps.length} competenc${comps.length === 1 ? "y" : "ies"} touched · ${proof.demonstrated | 0} demonstrated · ${proof.consistent | 0} consistent. ` +
+        "This is the tier a hall signs: a competency is earned by mastery runs on named stations, against the standards below."),
+      h("p", { className: "proof-rule" }, h("b", null, "The mastery rule: "), proof.rule),
+      comps.length
+        ? h("div", { className: "proof-grid" }, comps.map((c) => h("section", {
+            key: c.id, className: `proof-card ${c.status.replace(/\s+/g, "-")}`,
+          },
+            // The title gets the card's full width; the status chip shares the
+            // line below it with the tier and id, rather than competing with
+            // the title for room in a 300px column.
+            h("header", { className: "proof-head" },
+              h("h2", null, c.title),
+              h("div", { className: "proof-headrow" },
+                h("span", { className: "proof-sub" }, `${c.kind === "core" ? "Cross-programme" : "Programme"} · ${c.id}`),
+                h("span", { className: `proof-chip ${c.status.replace(/\s+/g, "-")}` }, c.status))),
+            h("div", { className: "proof-meter" },
+              h("span", { style: { width: `${Math.min(100, Math.round((c.stationsMet / Math.max(1, c.require)) * 100))}%` } })),
+            h("p", { className: "proof-count" },
+              `${c.stationsMet} of ${c.require} required stations mastered`,
+              h("span", { className: "proof-dim" }, ` · ${c.total} named · ${c.masteryRuns} mastery run${c.masteryRuns === 1 ? "" : "s"} on ${c.days} day${c.days === 1 ? "" : "s"}`)),
+            h("div", { className: "proof-stds" },
+              h("div", { className: "eyebrow" }, "Standards evidenced"),
+              h("ul", null, c.standards.map((s) => h("li", { key: s.id },
+                s.label,
+                s.source === "unverified" && h("span", { className: "proof-unver" }, "citation unverified"))))),
+            h("ul", { className: "proof-stations" }, c.stations.filter((s) => s.attempted).map((s) => h("li", {
+              key: s.id, className: s.mastery ? "met" : "not",
+            }, h("b", null, s.id.replace(/-/g, " ")), h("span", null, s.note)))))))
+        : h("p", { className: "lb-empty" }, "No competency evidence yet — finish a station cleanly and it will appear here."),
+      rows.length > 0 && h(Fragment, null,
+        h("div", { className: "eyebrow", style: { marginTop: "10px" } }, "Proof transcript — every attempt behind the claim"),
+        h("div", { className: "rec-table-wrap" },
+          h("table", { className: "lb-table rec-table proof-table" },
+            h("thead", null, h("tr", null,
+              h("th", null, "Competency"), h("th", null, "When"), h("th", null, "Station"),
+              h("th", null, "Score"), h("th", null, "Stars"), h("th", null, "Unsafe"), h("th", null, "Interrupts"),
+              h("th", null, "Time / par"), h("th", null, "Counted"))),
+            // The reason a run did not count is the point of this table, so it
+            // is an annotation row under the attempt rather than a last column
+            // that a narrow overlay pushes off the right-hand edge.
+            h("tbody", null, rows.flatMap((row) => row.evidence.flatMap((e) => [
+              h("tr", { key: `${row.competency.id}:${e.attemptId}`, className: e.mastery ? "pass" : "fail" },
+                h("td", null, row.competency.title,
+                  h("span", { className: `proof-chip ${row.status.replace(/\s+/g, "-")}` }, row.status)),
+                h("td", { className: "proof-when" }, fmtStamp(e.at)),
+                h("td", null, e.stationName ?? e.stationId),
+                h("td", null, e.score),
+                h("td", null, "★".repeat(e.stars)),
+                h("td", null, e.hazardHits),
+                h("td", null, e.interrupts ? `${e.interrupts.answered}/${e.interrupts.answered + e.interrupts.wrong + e.interrupts.missed}` : "—"),
+                h("td", null, `${fmtTime(e.seconds)} / ${e.parSeconds ? fmtTime(e.parSeconds) : "—"}`),
+                h("td", null, h("span", { className: `rec-verdict ${e.mastery ? "pass" : "fail"}` }, e.mastery ? "MASTERY" : "NO"))),
+              e.mastery ? null : h("tr", {
+                key: `${row.competency.id}:${e.attemptId}:why`, className: "fail proof-whyrow",
+              }, h("td", { colSpan: 9, className: "proof-why" }, `Did not count: ${e.reason}`)),
+            ].filter(Boolean))))))),
+      // The rubric, straight from game.js's own constants, so a learner can
+      // see why the run scored what it scored and why a high score can still
+      // fail the rule above.
+      h("details", { className: "proof-rubric", id: "proof-rubric" },
+        h("summary", null, "How scoring works — score, stars, combo and par"),
+        h("dl", null, (proof.rubric ?? []).flatMap(([head, body]) => [
+          h("dt", { key: `t-${head}` }, head),
+          h("dd", { key: `d-${head}` }, body),
+        ]))),
+      h("div", { className: "btnrow" },
+        h("button", { className: "primary", id: "proof-export-csv", disabled: !rows.length, onClick: actions.exportProofCsv }, "Export proof (CSV)"),
+        h("button", { id: "proof-export-badges", disabled: !(proof.demonstrated | 0), onClick: actions.exportCompetencyBadges }, "Export competency badges (JSON)"),
+        h("button", { id: "proof-print", disabled: !rows.length, onClick: actions.printTranscript }, "Print transcript")));
   }
 
   function LrsBox({ lrs, total }) {

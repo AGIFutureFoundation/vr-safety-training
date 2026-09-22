@@ -26,6 +26,22 @@ export function passed(entry) {
   return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
 }
 
+/**
+ * The interruption tally, lifted onto the record itself from the session's
+ * interruptSummary (game.js) rather than left buried in `debrief.interrupts`.
+ *
+ * The competency layer (shared/competency.js) asks "was every interruption
+ * answered" of every record it judges, and a proof rule should not have to
+ * dig through a debrief object — nor should it break on a record written
+ * before the debrief existed. `null` means no interruption fired in that run,
+ * which the mastery rule reads as nothing to answer.
+ */
+function interruptTally(entry) {
+  const iv = entry?.interrupts ?? entry?.debrief?.interrupts;
+  if (!iv) return null;
+  return { answered: iv.answered | 0, wrong: iv.wrong | 0, missed: iv.missed | 0 };
+}
+
 function loadRecords() {
   try {
     const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
@@ -56,6 +72,7 @@ export const TrainingRecords = {
       ...entry,
     };
     full.passed = passed(full);
+    full.interrupts = interruptTally(full);
     list.push(full);
     if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
     saveRecords(list);

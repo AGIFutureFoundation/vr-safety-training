@@ -3,6 +3,10 @@ import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GES
 import { Session, Progress, Sfx, UNIVERSAL_AWARDS } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
+import {
+  MASTERY, RUBRIC, COMPETENCIES, competencyStatus, newlyDemonstrated, transcript,
+  toProofCSV, toCompetencyBadges, toCompetencyXAPI, standard, clockText as mmss,
+} from "../../shared/competency.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
@@ -210,7 +214,14 @@ const store = createStore({
   flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
   leaderboard: { visible: false, html: "" },
   records: {
-    visible: false, rows: [], summary: [], total: 0, passes: 0, credentials: [],
+    visible: false, tab: "attempts", rows: [], summary: [], total: 0, passes: 0, credentials: [],
+    // The proof tier (shared/competency.js): competency cards, the transcript
+    // and the rubric that explains why a run counted. `rule` and `rubric` are
+    // static, carried in the slice so react-ui.js reads only the store.
+    proof: {
+      competencies: [], transcript: [], demonstrated: 0, consistent: 0,
+      rule: MASTERY.text, rubric: RUBRIC.lines,
+    },
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
   programs: { visible: false, rows: [], assigned: null },
@@ -776,6 +787,10 @@ function showResults(s, summary) {
     ${renderDebrief(s)}
     ${renderCheckIn(s)}
     ${state.tour ? renderTourFooter() : ""}`;
+  // Where the learner stood on every competency BEFORE this run, so a
+  // competency this run just earned can be told apart from one they already
+  // had (see shared/competency.js and the Proof tab).
+  const competencyBefore = competencyStatus(TrainingRecords.list());
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
   // overlay. Custom scenarios record under their base station's category.
@@ -804,6 +819,7 @@ function showResults(s, summary) {
   // credential: hand the Open Badges assertion to the host ecosystem too.
   if (attempt.passed && attempt.certification) Identity.emit("smartcitix:credential", { assertion: toOpenBadges([attempt], xapiOpts())[0] });
   shipToLrs([attempt]);
+  announceNewCompetencies(competencyBefore);
   renderPrograms();
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
@@ -1237,7 +1253,92 @@ function renderRecords() {
     rows, summary: TrainingRecords.summary(list),
     credentials: earnedCertifications(list).map((r) => ({ id: r.id, certification: r.certification, simName: r.simName ?? r.simId, at: r.at, app: r.app })),
     total: list.length, passes: list.filter((r) => r.passed).length,
+    proof: renderProof(list),
   });
+}
+
+// ------------------------------------------------------------------ proof tab
+//
+// The competency tier (shared/competency.js). Plain data again — a station
+// name, a learner's crew tag and a standard's title all arrive here as text
+// and are rendered as text nodes by react-ui.js, never as markup.
+function renderProof(list = TrainingRecords.list()) {
+  const status = competencyStatus(list);
+  // Most-advanced first, and a competency nobody has touched is not shown at
+  // all: thirty-three empty cards teach nothing.
+  const competencies = COMPETENCIES
+    .map((c) => {
+      const st = status[c.id];
+      return {
+        id: c.id, title: c.title, kind: c.kind, status: st.status,
+        demonstrated: st.demonstrated, consistent: st.consistent,
+        stationsMet: st.stationsMet, require: st.require, total: st.total,
+        masteryRuns: st.masteryRuns, attempts: st.attempts, days: st.days, earnedAt: st.earnedAt,
+        standards: c.standards.map((id) => {
+          const s = standard(id);
+          return { id: s.id, label: `${s.body} — ${s.title}`, source: s.source };
+        }),
+        stations: c.stations.map((id) => {
+          const s = st.stations[id];
+          return {
+            id, mastery: !!s?.masteryAt,
+            attempted: !!s,
+            note: s ? (s.masteryAt ? `mastery on ${String(s.masteryAt).slice(0, 10)}` : (s.best?.reason ?? "attempted")) : null,
+          };
+        }),
+      };
+    })
+    .filter((c) => c.attempts > 0)
+    .sort((a, b) => (b.demonstrated - a.demonstrated) || (b.stationsMet - a.stationsMet) || (b.attempts - a.attempts));
+  return {
+    competencies,
+    transcript: transcript(list, { learner: Identity.current?.name ?? Progress.playerName }),
+    demonstrated: competencies.filter((c) => c.demonstrated).length,
+    consistent: competencies.filter((c) => c.consistent).length,
+    rule: MASTERY.text,
+    rubric: RUBRIC.lines,
+  };
+}
+function setRecordsTab(tab) { store.patch("records", { tab: tab === "proof" ? "proof" : "attempts" }); }
+
+/**
+ * A competency the run just earned, handed on the two ways this engine hands
+ * anything on: to the embedding page (Identity.emit, only ever to the
+ * learner's own home origin) and to the Learning Record Store, as an xAPI
+ * statement with verb "achieved" through the same queue the per-attempt
+ * statements use — so a competency earned on a kiosk with no network still
+ * reaches the LRS on the next connection.
+ *
+ * Only a competency that was NOT demonstrated before this run is announced:
+ * earning it is an event, having it is a state.
+ */
+function announceNewCompetencies(before) {
+  const list = TrainingRecords.list();
+  const after = competencyStatus(list);
+  const earned = newlyDemonstrated(before, after);
+  if (!earned.length) return;
+  const assertions = toCompetencyBadges(list, proofOpts());
+  const byId = Object.fromEntries(assertions.map((a) => [a.competency.id, a]));
+  for (const id of earned) {
+    Identity.emit("smartcitix:competency", {
+      competency: {
+        id, title: after[id].title, kind: after[id].kind, status: after[id].status,
+        standards: after[id].standards, stationsMet: after[id].stationsMet, require: after[id].require,
+        earnedAt: after[id].earnedAt, masteryRule: MASTERY.text,
+      },
+      assertion: byId[id] ?? null,
+    });
+  }
+  const { statements } = toCompetencyXAPI(list, { ...proofOpts(), only: earned });
+  if (statements.length && Lrs.configured) {
+    refreshLrs({ busy: true });
+    Lrs.enqueue(statements);
+    Lrs.flush().then(() => refreshLrs({ busy: false }));
+  }
+  const first = after[earned[0]];
+  announce(earned.length === 1
+    ? `Competency demonstrated: ${first.title}.`
+    : `${earned.length} competencies demonstrated, including ${first.title}.`);
 }
 function viewRecords() {
   pausedBeforeOverlay = state.paused;
@@ -1291,6 +1392,113 @@ function exportCredentials() {
   if (!assertions.length) return;
   download(`smartcitix-credentials-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
 }
+// ---------------------------------------------------------------- proof export
+function proofOpts() {
+  return {
+    ...xapiOpts(),
+    learnerHome: Identity.current?.homePage ?? null,
+    learnerId: Identity.current?.id ?? null,
+    learnerName: Identity.current?.name ?? null,
+  };
+}
+function exportProofCsv() {
+  const rows = transcript(TrainingRecords.list(), { learner: Identity.current?.name ?? Progress.playerName });
+  if (!rows.length) return;
+  download(`smartcitix-proof-transcript-${stamp()}.csv`, toProofCSV(rows), "text/csv");
+}
+function exportCompetencyBadges() {
+  const assertions = toCompetencyBadges(TrainingRecords.list(), proofOpts());
+  if (!assertions.length) return;
+  download(`smartcitix-competency-badges-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
+}
+
+/**
+ * Print the transcript.
+ *
+ * Built as DOM in a new window, every value set through createTextNode or
+ * textContent — never innerHTML. A learner's crew tag, a station name and a
+ * standard's title are all untrusted as far as this function is concerned
+ * (the interface brief's rule, and the same reason the Records table is built
+ * from elements): a transcript is the one artefact that gets printed, mailed
+ * and filed, so it is the last place to hand markup a chance to run.
+ */
+function printTranscript() {
+  const rows = transcript(TrainingRecords.list(), { learner: Identity.current?.name ?? Progress.playerName });
+  if (!rows.length) return;
+  const win = window.open("", "_blank");
+  if (!win) { announce("The transcript window was blocked. Allow pop-ups for this page, or export the CSV instead."); return; }
+  const doc = win.document;
+  const el = (tag, text = null, parent = null) => {
+    const node = doc.createElement(tag);
+    if (text != null) node.appendChild(doc.createTextNode(String(text)));
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+  doc.title = "SmartCiti.X — proof of training transcript";
+  const style = doc.createElement("style");
+  style.textContent = `
+    body{ font:13px/1.5 "Helvetica Neue", Arial, sans-serif; color:#111; margin:32px; max-width:1000px }
+    h1{ font-size:21px; margin:0 0 2px; text-transform:uppercase; letter-spacing:.04em }
+    h2{ font-size:15px; margin:22px 0 2px; page-break-after:avoid }
+    .eyebrow{ font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#666 }
+    .rule{ border:1px solid #ccc; border-left:3px solid #111; padding:8px 11px; margin:12px 0 18px; font-size:11.5px; background:#f7f7f7 }
+    .chip{ display:inline-block; border:1px solid #111; border-radius:9px; padding:0 7px; font-size:10px;
+      letter-spacing:.1em; text-transform:uppercase; margin-left:8px; vertical-align:2px }
+    .meta{ color:#555; font-size:11.5px; margin:2px 0 6px }
+    ul.std{ margin:4px 0 8px 18px; padding:0; font-size:11.5px; color:#333 }
+    table{ border-collapse:collapse; width:100%; margin:4px 0 10px; font-size:11px }
+    th,td{ border:1px solid #bbb; padding:4px 6px; text-align:left; vertical-align:top }
+    th{ background:#eee; font-size:10px; letter-spacing:.08em; text-transform:uppercase }
+    td.no{ color:#444 } tr.no td{ background:#fbfbfb }
+    section{ page-break-inside:avoid }
+    footer{ margin-top:24px; border-top:1px solid #ccc; padding-top:8px; font-size:10.5px; color:#555 }
+    @media print{ body{ margin:12mm } }`;
+  doc.head.appendChild(style);
+  el("div", "SmartCiti.X ~VR Simulators · proof of training", doc.body).className = "eyebrow";
+  el("h1", "Competency transcript", doc.body);
+  el("div", `${rows[0].learner} · ${rows.filter((r) => r.demonstrated).length} of ${rows.length} competencies demonstrated · printed ${new Date().toLocaleString()}`, doc.body).className = "meta";
+  el("div", MASTERY.text, doc.body).className = "rule";
+
+  for (const row of rows) {
+    const section = el("section", null, doc.body);
+    const head = el("h2", row.competency.title, section);
+    el("span", row.status, head).className = "chip";
+    el("div", `${row.competency.id} · ${row.stationsMet} of ${row.require} required stations demonstrated ` +
+      `(${row.total} named) · mastery runs on ${row.days} day${row.days === 1 ? "" : "s"}` +
+      (row.earnedAt ? ` · earned ${String(row.earnedAt).slice(0, 10)}` : ""), section).className = "meta";
+    const stds = el("ul", null, section);
+    stds.className = "std";
+    for (const s of row.standards) {
+      el("li", `${s.body} — ${s.title}${s.source === "unverified" ? " (citation form unverified)" : ""}`, stds);
+    }
+    const table = el("table", null, section);
+    const thead = el("tr", null, el("thead", null, table));
+    for (const h of ["When", "Station", "Score", "Stars", "Unsafe", "Interruptions", "Time", "Par", "Counted", "Why not"]) el("th", h, thead);
+    const tbody = el("tbody", null, table);
+    for (const e of row.evidence) {
+      const tr = el("tr", null, tbody);
+      if (!e.mastery) tr.className = "no";
+      const iv = e.interrupts;
+      el("td", String(e.at ?? "").replace("T", " ").slice(0, 16), tr);
+      el("td", e.stationName ?? e.stationId, tr);
+      el("td", e.score, tr);
+      el("td", e.stars, tr);
+      el("td", e.hazardHits, tr);
+      el("td", iv ? `${iv.answered} answered, ${iv.wrong} wrong, ${iv.missed} missed` : "none fired", tr);
+      el("td", mmss(e.seconds), tr);
+      el("td", e.parSeconds ? mmss(e.parSeconds) : "—", tr);
+      el("td", e.mastery ? "mastery" : "no", tr);
+      el("td", e.reason ?? "", tr).className = "no";
+    }
+  }
+  el("footer",
+    "A demonstrated competency evidences readiness against the standards named above under the mastery rule stated at the top of this " +
+    "transcript. It is not a licence or a certification issued by those bodies. Records are held in the learner's own browser; this " +
+    "transcript is a print of what was exported.", doc.body);
+  win.focus();
+  setTimeout(() => { try { win.print(); } catch (_) { /* the learner can print it themselves */ } }, 120);
+}
+
 function clearRecords() {
   if (!TrainingRecords.count()) return;
   if (!confirm("Delete every training record on this device? Export first if you need them.")) return;
@@ -2619,6 +2827,7 @@ function handleVoiceCommand(text) {
 const uiActions = {
   viewLeaderboard, closeLeaderboard,
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
+  setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart,
   prebriefStart, prebriefSkip, prebriefClose,
   lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,

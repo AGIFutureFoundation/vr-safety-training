@@ -100,3 +100,4 @@ const catalog = {
 };
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
 console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);
+await import("./gen_competency_programmes.mjs");
