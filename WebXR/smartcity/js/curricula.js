@@ -13,6 +13,11 @@
  * Stations are named by app and id so a programme can cross SmartCiti.X and
  * the Trade Skills Simulator, which is what a real apprenticeship does.
  * `tools/check_smartcity.mjs` fails the build if any id here does not exist.
+ *
+ * `guides` names the union apprenticeship or training fund that runs a block
+ * like this and the standards it answers to, by id in `tools/standards.json` —
+ * the registry, where a standard's body, title and scope live once.
+ * `tools/check_standards.mjs` fails the build if an id here is not in it.
  */
 
 export const CURRICULA = [
@@ -21,6 +26,7 @@ export const CURRICULA = [
     name: "Inside Wireman — First Period",
     union: "IBEW — International Brotherhood of Electrical Workers",
     certification: "NFPA 70E work practices and OSHA 1910.147 control of hazardous energy, as taught in an IBEW/NECA JATC first-period block",
+    guides: ["ibew-neca-jatc", "nfpa-70e", "nec-nfpa-70", "osha-1910-147", "osha-1910-333", "osha-1910-269", "osha-1926-404", "evitp-certification"],
     summary: "The isolation habit, built four ways: a panel, a substation feeder, an overhead circuit and a live-load charger. Every station in this block ends with something proven dead before it is touched.",
     accent: "#5aa9ff",
     stations: [
@@ -39,6 +45,7 @@ export const CURRICULA = [
     name: "Confined Space — Entry and Rescue",
     union: "LIUNA, UA, IUOE and IAFF technical rescue",
     certification: "OSHA 29 CFR 1910.146 permit-required confined spaces, with NFPA 1006 rescue technician for the last station",
+    guides: ["liuna-training-fund", "ua-apprenticeship", "iuoe-training", "iaff-training", "osha-1910-146", "ansi-z117-1", "osha-1910-134", "nfpa-1006", "nfpa-1670", "niosh-criteria"],
     summary: "Four spaces and the rescue. The first three build the permit, the atmosphere and the attendant; the last one is what happens when all of that failed for somebody else.",
     accent: "#4fd1ff",
     stations: [
@@ -53,6 +60,7 @@ export const CURRICULA = [
     name: "Working at Height — Fall Protection",
     union: "Ironworkers, Carpenters, CWA and NATE climbers",
     certification: "OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems",
+    guides: ["ironworkers-impact", "carpenters-ictf", "cwa-training", "nate-climber-training", "osha-1926-501", "osha-1926-502", "osha-1926-451", "osha-1926-454", "osha-1910-28", "ansi-z359", "ansi-a10-8", "ansi-a92"],
     summary: "Anchor, connect, and the thing you are standing on. Four heights, four different reasons the system has to be right before the first step off the deck.",
     accent: "#f2c14b",
     stations: [
@@ -68,6 +76,7 @@ export const CURRICULA = [
     name: "Hazmat and Environmental Response",
     union: "LIUNA hazmat and environmental crews, IAFF, and environmental technicians",
     certification: "OSHA 29 CFR 1910.120 HAZWOPER, NFPA 470 hazardous materials response, and Clean Water Act / Clean Air Act monitoring practice",
+    guides: ["liuna-training-fund", "iaff-training", "osha-1910-120", "osha-1910-134", "osha-1926-1101", "nfpa-470", "rcra-40-cfr-262", "epa-40-cfr-122-26", "epa-40-cfr-58", "epa-qa-g5"],
     summary: "Containment, decontamination and the numbers a neighbourhood relies on. This block runs from the release to the sample bottle, and opens with the real history of one site.",
     accent: "#78c8a0",
     stations: [
@@ -84,6 +93,7 @@ export const CURRICULA = [
     name: "Rigging and Lifting",
     union: "Ironworkers, IUOE crane operators, ILWU and IATSE riggers",
     certification: "ASME B30 rigging and crane practice, NCCCO operator knowledge, and ETCP entertainment rigging for the theatre station",
+    guides: ["ironworkers-impact", "iuoe-training", "ilwu-pma-training", "iatse-training-trust", "asme-b30-5", "asme-b30-9", "asme-b30-16", "asme-b30-26", "osha-1926-1425", "nccco-certification", "etcp-certification", "ansi-e1-4"],
     summary: "Load, radius, chart, and what is under the load. Five lifts in five industries that all fail the same way.",
     accent: "#a079ff",
     stations: [
@@ -99,6 +109,7 @@ export const CURRICULA = [
     name: "Stationary Engineer — Building Plant",
     union: "IUOE — International Union of Operating Engineers, stationary locals",
     certification: "State stationary engineer licence, ASME boiler practice, ASHRAE 188 water management and NFPA 25 fire-pump testing",
+    guides: ["iuoe-training", "ua-apprenticeship", "nfpa-85", "nfpa-25", "ashrae-15", "ashrae-188", "epa-section-608", "asme-a17-1", "osha-1910-147", "osha-1910-146"],
     summary: "The four plants a building engineer is responsible for at two in the morning, and the tests that prove each one will work when it is needed.",
     accent: "#6fc9e8",
     stations: [
@@ -114,6 +125,7 @@ export const CURRICULA = [
     name: "Port and Terminal Operations",
     union: "ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers",
     certification: "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",
+    guides: ["ilwu-pma-training", "meba-calhoon-school", "siu-paul-hall-center", "teamsters-training", "marad-mariner-training", "osha-1917", "osha-1918", "uscg-33-cfr-155-710", "uscg-33-cfr-156-150", "imo-solas", "asme-b30-4"],
     summary: "A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.",
     accent: "#3fa9d8",
     stations: [
@@ -128,6 +140,7 @@ export const CURRICULA = [
     name: "Transit and Ramp Operations",
     union: "ATU, TWU, IAM and IBEW signal locals",
     certification: "FRA roadway-worker protection, FTA rail transit safety practice, FAA 14 CFR 139 airfield operations and OSHA 1910.178 for powered equipment",
+    guides: ["atu-training", "twu-training", "iam-winpisinger-center", "bmwed-training", "ibew-neca-jatc", "fra-49-cfr-214", "fra-49-cfr-218", "faa-14-cfr-139-303", "osha-1910-178", "mutcd", "imsa-traffic-signal"],
     summary: "Four places where a vehicle that weighs tonnes moves near people on foot, and the protection that has to exist before anyone steps out.",
     accent: "#63b5f0",
     stations: [
@@ -143,6 +156,7 @@ export const CURRICULA = [
     name: "Energy Transition Systems",
     union: "IBEW outside construction and utility locals",
     certification: "NFPA 70E, NFPA 855 energy storage, NEC Article 690 photovoltaic systems and utility interconnection practice",
+    guides: ["ibew-neca-jatc", "nfpa-70e", "nfpa-855", "nec-nfpa-70", "nabcep-pv", "ieee-450", "neta-ats", "osha-1910-269", "osha-1910-147"],
     summary: "The plant a utility is building now: solar, storage, charging and the substation that ties them together. Direct current behaves differently, and every station here is about that difference.",
     accent: "#9fd84f",
     stations: [
@@ -158,6 +172,7 @@ export const CURRICULA = [
     name: "Live Events Production",
     union: "IATSE — International Alliance of Theatrical Stage Employees",
     certification: "ETCP Certified Rigger and Certified Entertainment Electrician, ANSI E1.4-1 counterweight rigging and NFPA 70E for the power tie-in",
+    guides: ["iatse-training-trust", "etcp-certification", "ansi-e1-4", "ansi-e1-6", "asme-b30-16", "nfpa-70e", "nfpa-1126", "atf-27-cfr-555", "osha-1910-28"],
     summary: "A load-in from the truck to the house lights, in the order a call actually runs, with the two things that kill on a stage: what is overhead and what is energised.",
     accent: "#c58cff",
     stations: [
@@ -172,6 +187,7 @@ export const CURRICULA = [
     name: "Hunters Point Clean-up and Bay Restoration",
     union: "LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen's Union of the Pacific",
     certification: "OSHA 29 CFR 1910.120 HAZWOPER as the floor for everyone inside the fence; MARSSIM radiological survey practice and NRC 10 CFR 20 for the survey crew; EPA RCRA 40 CFR 262 manifests for the haul; U.S. Army Corps of Engineers Section 404, BCDC and Regional Water Board 401 permit conditions for every hour of in-water work",
+    guides: ["liuna-training-fund", "iuoe-training", "teamsters-training", "carpenters-ictf", "ua-apprenticeship", "ilwu-pma-training", "osha-1910-120", "osha-1910-134", "osha-1926-1101", "marssim", "nrc-10-cfr-20", "rcra-40-cfr-262", "usace-section-404", "bcdc-bay-plan", "rwqcb-401-certification"],
     summary: "A Superfund shoreline and the bay beside it, worked in the order a cleanup actually runs: the record first, then survey, then excavation and haul, then the groundwater that stays behind, then the water's edge given back — sediment out, tide back in, marsh planted. The first station is a sourced briefing on the real site and the data-integrity case at the centre of it; every station after it is a union trade doing its part of the work, and the discipline that made the case is taught as procedure: an instrument source-checked before and after, a sample that is the place it came from, and a split for a lab that does not work for you.",
     accent: "#8fd18b",
     stations: [
@@ -208,6 +224,7 @@ export const CURRICULA = [
     name: "Culinary — The Working Kitchen",
     union: "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
     certification: "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+    guides: ["unite-here-training", "afscme-training", "seiu-training", "fda-food-code", "calcode-retail-food", "servsafe-certification", "nfpa-96", "nfpa-17a", "cal-osha-3203", "osha-1910-147", "nsf-ansi-2", "nsf-ansi-7"],
     summary: "Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
     accent: "#f2a23b",
     stations: [
@@ -234,6 +251,7 @@ export const CURRICULA = [
     name: "Dental Hygiene — Unspoken Smiles",
     union: "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
     certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908"],
     summary: "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
     accent: "#7fd1c9",
     stations: [
@@ -260,6 +278,7 @@ export const CURRICULA = [
     name: "Dental Careers — Unspoken Smiles",
     union: "SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential",
     certification: "The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance",
+    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908"],
     summary: "The careers a student can step into from the Unspoken Smiles clinic: dental assisting at the chair, sterilisation and instrument processing, radiography, the laboratory bench, orthodontic and surgical assisting, the front office and treatment coordination, and community outreach — with the ladder from assistant to hygienist to dentist laid out as a station of its own.",
     accent: "#f0b86e",
     stations: [
@@ -273,6 +292,7 @@ export const CURRICULA = [
     name: "Bartending — Behind the Bar",
     union: "UNITE HERE Local 2 bartenders and barbacks",
     certification: "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+    guides: ["unite-here-training", "abc-rbs-training", "abc-25602", "abc-25631", "abc-25658", "servsafe-certification", "calcode-retail-food", "cal-osha-3342", "cal-osha-3203", "labor-code-351", "dol-29-cfr-531"],
     summary: "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
     accent: "#b8862b",
     stations: [
@@ -299,6 +319,7 @@ export const CURRICULA = [
     name: "Hunters Point Edition — Can We Live?",
     union: "Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway",
     certification: "EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule",
+    guides: ["liuna-training-fund", "iuoe-training", "teamsters-training", "seiu-training", "epa-qa-g5", "epa-40-cfr-25", "epa-40-cfr-58", "baaqmd-regulations", "marssim", "hhs-45-cfr-46", "osha-1910-120", "osha-1910-134", "cal-osha-5141-1"],
     summary: "A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.",
     accent: "#f2c14b",
     stations: [
@@ -335,6 +356,7 @@ export const CURRICULA = [
     name: "Sewing and Garment Trades",
     union: "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service",
     certification: "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
+    guides: ["seiu-training", "unite-here-training", "osha-1910-212", "osha-1910-147", "osha-1910-1200", "cal-osha-5110", "niosh-criteria", "ansi-b11", "ansi-b11-3", "ansi-isea-105"],
     summary: "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
     accent: "#b86bd6",
     stations: [
@@ -356,6 +378,7 @@ export const CURRICULA = [
     name: "Bridge and Structural Trades",
     union: "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck",
     certification: "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
+    guides: ["ironworkers-impact", "iupat-fti", "iuoe-training", "liuna-training-fund", "osha-1926-501", "osha-1926-62", "osha-1926-1153", "ansi-z359", "aws-d1-5", "sspc-surface-preparation", "nbis-23-cfr-650", "aashto-bridge-inspection", "mutcd"],
     accent: "#8a9bb0",
     summary: "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
     stations: [
@@ -370,6 +393,7 @@ export const CURRICULA = [
     name: "Hotel Workers — Back of House",
     union: "UNITE HERE hotel housekeepers, laundry and banquet staff",
     certification: "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant",
+    guides: ["unite-here-training", "cal-osha-3345", "cal-osha-3342", "cal-osha-5110", "osha-1910-1200", "osha-1910-1030", "nfpa-96", "iwc-wage-orders"],
     accent: "#d67b6b",
     summary: "The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.",
     stations: [
@@ -384,6 +408,7 @@ export const CURRICULA = [
     name: "Builders — Carpenters, Laborers and Masons",
     union: "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators",
     certification: "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
+    guides: ["carpenters-ictf", "liuna-training-fund", "bac-imi", "iuoe-training", "osha-1926-701", "osha-1926-703", "osha-1926-451", "osha-1926-1153", "ansi-a10-9", "ansi-a10-8", "aci-concrete-practice", "pti-post-tensioning", "asme-b30-9"],
     accent: "#c9a36b",
     summary: "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
     stations: [
@@ -398,6 +423,7 @@ export const CURRICULA = [
     name: "First Responders — Fire, EMS, Police, Crisis and Relief",
     union: "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce",
     certification: "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
+    guides: ["iaff-training", "naemt-courses", "nasw-code-of-ethics", "afscme-training", "seiu-training", "liuna-training-fund", "nfpa-1001", "nfpa-1500", "nfpa-1584", "nfpa-1710", "nfpa-1140", "nfpa-1977", "nremt-certification", "cit-international-model", "samhsa-trauma-informed", "pfa-field-guide", "red-cross-disaster-services", "nims-ics", "fema-is-courses", "nwcg-wildland-training", "osha-1910-134", "osha-1910-156", "osha-1910-1030"],
     summary: "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
     accent: "#f0645b",
     stations: [
@@ -424,6 +450,7 @@ export const CURRICULA = [
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
     certification: "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+    guides: ["ibew-neca-jatc", "ua-apprenticeship", "liuna-training-fund", "ironworkers-impact", "iaff-training", "osha-1926", "osha-1910-146", "nfpa-70e", "nfpa-25", "cal-osha-3203"],
     summary: "Twenty-two procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
     accent: "#f0645b",
     stations: [
@@ -456,6 +483,7 @@ export const CURRICULA = [
     name: "Ports, Maritime and Bay Ecology",
     union: "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
     certification: "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+    guides: ["ilwu-pma-training", "ibew-neca-jatc", "liuna-training-fund", "afscme-training", "osha-1917", "osha-1918", "osha-1910-120", "ieee-80005", "imo-marpol", "usace-section-404", "bcdc-bay-plan", "noaa-tides-and-esa", "usfws-esa"],
     summary: "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
     accent: "#4fb8c9",
     stations: [
@@ -477,6 +505,7 @@ export const CURRICULA = [
     name: "Air Quality — Monitoring and Control",
     union: "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews",
     certification: "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
+    guides: ["afscme-training", "liuna-training-fund", "iuoe-training", "usw-mazzocchi-center", "epa-method-9", "epa-40-cfr-60", "epa-40-cfr-58", "baaqmd-regulations", "epa-qa-g5", "niosh-criteria"],
     summary: "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
     accent: "#9fd8ff",
     stations: [
