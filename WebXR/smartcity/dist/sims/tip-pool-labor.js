@@ -26,7 +26,7 @@ export const SIM_TIP_POOL_LABOR = {
   category: "Culinary & Hospitality",
   indoor: "bar",
   weather: "clear",
-  certification: "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance",
+  certification: "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the federal Fair Labor Standards Act's own tip-credit and tip-pooling rule at 29 CFR Part 531, the floor California's stricter statute sits on top of; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance; California ABC's mandatory RBS certification for anyone pouring on this licensed floor",
   name: "Tip Pool & Labor",
   title: simTitle("Tip Pool & Labor"),
   tagline: "Closing paperwork behind the bar: the jar counted open, a lawful pool split, breaks and split shift entered straight, and the steward standing behind the sheet",
@@ -78,7 +78,7 @@ export const SIM_TIP_POOL_LABOR = {
       id: "card-tips", kind: "hold", target: "pos-terminal", seconds: 4,
       title: "Print the card tip report",
       cue: "Hold the report key until the shift's card tip total prints.",
-      why: "Card tips run through the point of sale, and §351 requires the employer to pay them out no later than the next regular payday — the printed total is the only record anyone can hold the house to that deadline with, so it comes off the machine before the sheet is built around a guess.",
+      why: "Card tips run through the point of sale, and §351 requires the employer to pay them out no later than the next regular payday — federal law sets a similar floor at 29 CFR 531.52, but California's is the stricter clock that actually governs here. The printed total is the only record anyone can hold the house to that deadline with, so it comes off the machine before the sheet is built around a guess.",
       holdBreakNote: "The report cut off before the total printed. A partial slip proves nothing — hold it through to the printed figure.",
     },
     {
@@ -93,7 +93,7 @@ export const SIM_TIP_POOL_LABOR = {
       itemNames: { "role-bartender": "bartenders", "role-barback": "barbacks", "role-busser": "bussers" },
       title: "Name who lawfully shares the pool",
       cue: "Tag every role that actually works the service chain — nobody with authority over the floor belongs on this board.",
-      why: "A lawful pool is limited to people in the chain of service who do not direct or discipline anyone else's work — bartenders, barbacks and bussers all touch the same tables the tip came from. The moment someone with hiring or firing authority is added, the whole pool is unlawful, not just their share of it.",
+      why: "A lawful pool is limited to people in the chain of service who do not direct or discipline anyone else's work — bartenders, barbacks and bussers all touch the same tables the tip came from, and every one of them pouring on this floor also holds the ABC-mandated RBS certification that keeps the bar's own license in good standing. The moment someone with hiring or firing authority is added, the whole pool is unlawful, not just their share of it.",
     },
     {
       id: "tip-out-percent", kind: "gauge", target: "tip-scale",

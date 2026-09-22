@@ -6022,7 +6022,7 @@ export const SIMS_META = [
     "domain": "Hospitality",
     "trade": "Bartender — UNITE HERE Local 2",
     "category": "Culinary & Hospitality",
-    "certification": "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance",
+    "certification": "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the federal Fair Labor Standards Act's own tip-credit and tip-pooling rule at 29 CFR Part 531, the floor California's stricter statute sits on top of; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance; California ABC's mandatory RBS certification for anyone pouring on this licensed floor",
     "name": "Tip Pool & Labor",
     "weather": "clear",
     "indoor": "bar",

@@ -52,7 +52,7 @@ export const SIM_ROBOT_CELL = {
   },
 
   lateNotes: {
-    "gripper": "The gripper is only touched after the arm is proven at zero energy, air included.",
+    "jammed-part": "The gripper is only touched after the arm is proven at zero energy, air included.",
     "teach-pendant": "The pendant does not come off the hook until the cell is confirmed safe to jog.",
   },
 
@@ -134,10 +134,11 @@ export const SIM_ROBOT_CELL = {
       why: "The interlock exists specifically to stop this step from happening before isolation is proven — a closed gate plus a reset at the HMI is a cell that believes nobody is inside it. With the drive input confirmed dead at zero volts, opening the fence is finally the one moment it is actually safe to do.",
     },
     {
-      id: "service", kind: "select", target: "gripper",
+      id: "service", kind: "drag", target: "jammed-part",
       title: "Service the end effector",
-      cue: "Clear the jammed part from the gripper.",
+      cue: "Drag the jammed part free of the gripper jaws and into the return bin.",
       why: "With the arm at zero energy and the receiver bled to nothing, the gripper has stopped being an energy source and become a mechanism you can put your hands into. Skip either isolation and it is still a six-axis end effector capable of closing with enough force to crush a hand.",
+      drag: { to: "return-bin", radius: 0.4, missNote: "Not clear of the jaws — carry it fully into the return bin, not back between the fingers." },
     },
     {
       id: "restore", kind: "select", target: "disconnect-switch",
@@ -248,6 +249,12 @@ export const SIM_ROBOT_CELL = {
     reg(hits, gripperGroup, "gripper");
     holoTag(robot, "Cell 7 · KR-90", 0, 1.6, 0.2, { css: "#a079ff", w: 0.36 });
 
+    // The jammed component wedged between the jaws — the reason the line is
+    // down and the reason a hand ever has to go inside the fence at all.
+    const jammedPart = box(gripperGroup, 0.05, 0.05, 0.09, 0, 0.1, 0, 0xe8b02e, { rough: 0.5, metal: 0.2 });
+    holoTag(gripperGroup, "Jammed part", 0, 0.22, 0, { css: "#f0645b", w: 0.28 });
+    reg(hits, jammedPart, "jammed-part");
+
     // Reach envelope marked on the floor.
     torus(g, 1.1, 0.02, 0, 0.015, -0.3, 0x4fd1ff, { emissive: 0x4fd1ff, ei: 0.6, rough: 0.4, cast: false, seg: 6, seg2: 48 });
     reg(hits, cyl(g, 1.1, 1.1, 0.02, 0, 0.02, -0.3, 0x000000, { opacity: 0.001, transparent: true, cast: false, seg: 24 }),
@@ -357,6 +364,89 @@ export const SIM_ROBOT_CELL = {
     }, { ry: 0.7, accent: 0xa079ff });
     reg(hits, workOrder, "work-order");
 
+    // Return bin for the cleared jam, just inside the gate where the
+    // technician actually stands once the fence is open.
+    const binGroup = group(g, 0.55, 0, 1.05);
+    const returnBin = box(binGroup, 0.3, 0.14, 0.22, 0, 0.07, 0, 0x3a424a, { rough: 0.6, metal: 0.3 });
+    box(binGroup, 0.26, 0.02, 0.18, 0, 0.005, 0, 0x2b3138, { rough: 0.7 });
+    holoTag(binGroup, "Return bin", 0, 0.3, 0, { css: "#59c97b", w: 0.28 });
+    reg(hits, returnBin, "return-bin");
+    const clearedPart = box(binGroup, 0.05, 0.05, 0.09, 0, 0.17, 0, 0xe8b02e, { rough: 0.5, metal: 0.2 });
+    clearedPart.visible = false;
+
+    // ------------------------------------------------------------ shop dressing
+    // Fittings a real cell bay actually carries: overhead cable tray feeding
+    // the cabinet, a stack light on the fence, an infeed pallet of blanks
+    // waiting on the next cycle, a tool cart, a fire point and a first-aid
+    // box, and the hazard striping a maintenance aisle is marked with —
+    // none of it a control, all of it clear of where a technician stands.
+    const trayY = 2.05;
+    const trayPts = [[-1.5, trayY, -0.75], [-0.5, trayY, -1.55], [0.6, trayY, -1.5], [1.3, trayY, -1.1]];
+    for (let i = 0; i < trayPts.length - 1; i++) {
+      const [x0, y0, z0] = trayPts[i], [x1, y1, z1] = trayPts[i + 1];
+      const mx = (x0 + x1) / 2, mz = (z0 + z1) / 2;
+      const len = Math.hypot(x1 - x0, z1 - z0);
+      const rail = box(g, len, 0.03, 0.22, mx, y0, mz, 0x6f767d, { rough: 0.5, metal: 0.6 });
+      rail.rotation.y = Math.atan2(x1 - x0, z1 - z0);
+      const rungs = Math.max(2, Math.round(len / 0.28));
+      for (let r = 0; r <= rungs; r++) {
+        const t = r / rungs;
+        box(g, 0.22, 0.03, 0.02, x0 + (x1 - x0) * t, y0 - 0.01, z0 + (z1 - z0) * t, 0x545e67, { rough: 0.6, metal: 0.5, cast: false })
+          .rotation.y = rail.rotation.y;
+      }
+    }
+    cyl(g, 0.05, 0.05, 0.3, -1.5, 1.85, -0.75, 0x2b3138, { rough: 0.6, metal: 0.4, seg: 10 });
+    box(g, 0.16, 0.16, 0.12, 1.3, trayY, -1.1, 0x2b3138, { rough: 0.6, metal: 0.4 });
+    for (const dz of [-0.05, 0.05]) cyl(g, 0.015, 0.015, 0.5, 1.3, 1.75, -1.1 + dz, 0x3a424a, { rough: 0.5, metal: 0.5, seg: 8 });
+
+    const andonPole = group(g, 1.55, 0, -1.5);
+    cyl(andonPole, 0.03, 0.03, 1.7, 0, 0.85, 0, CITY.steel, { rough: 0.4, metal: 0.7, seg: 10 });
+    box(andonPole, 0.1, 0.02, 0.1, 0, 1.7, 0, 0x2b3138, { rough: 0.5 });
+    const ANDON = [[0x59c97b, 1.78], [0xf2c14b, 1.7], [0xf0645b, 1.62]];
+    for (const [colour, y] of ANDON) ball(andonPole, 0.045, 0, y, 0, colour, { emissive: colour, ei: 0.9, rough: 0.4 });
+
+    const pallet = group(g, 1.7, 0, 1.1);
+    for (let i = 0; i < 3; i++) box(pallet, 0.7, 0.03, 0.06, 0, 0.03, -0.24 + i * 0.24, 0x8a6a45, { rough: 0.85 });
+    for (let i = 0; i < 5; i++) box(pallet, 0.06, 0.03, 0.6, -0.32 + i * 0.16, 0.03, 0, 0x8a6a45, { rough: 0.85 });
+    for (let i = 0; i < 6; i++) {
+      box(pallet, 0.14, 0.1, 0.14, -0.2 + (i % 3) * 0.2, 0.11 + Math.floor(i / 3) * 0.11, -0.1 + (i % 2) * 0.2,
+        0xb9bec4, { rough: 0.4, metal: 0.4 });
+    }
+    holoTag(pallet, "Infeed blanks", 0, 0.45, 0, { css: "#a079ff", w: 0.32 });
+
+    const cart = group(g, -1.9, 0, 1.1);
+    for (const [dx, dz] of [[-0.22, -0.14], [0.22, -0.14], [-0.22, 0.14], [0.22, 0.14]]) {
+      cyl(cart, 0.02, 0.02, 0.7, dx, 0.35, dz, CITY.steel, { rough: 0.4, metal: 0.7, seg: 8 });
+      cyl(cart, 0.045, 0.045, 0.04, dx, 0.04, dz, 0x2b3138, { rough: 0.6, seg: 12 });
+    }
+    box(cart, 0.5, 0.03, 0.32, 0, 0.36, 0, 0x545e67, { rough: 0.5, metal: 0.4 });
+    box(cart, 0.5, 0.03, 0.32, 0, 0.7, 0, 0x545e67, { rough: 0.5, metal: 0.4 });
+    for (const [dx, tone] of [[-0.12, 0xd8232a], [0.02, 0xf2c14b], [0.16, 0x4fd1ff]]) {
+      cyl(cart, 0.015, 0.015, 0.22, dx, 0.82, 0.02, tone, { rough: 0.4, metal: 0.4, seg: 8 });
+    }
+    holoTag(cart, "Tool cart", 0, 0.95, 0, { css: "#a079ff", w: 0.26 });
+
+    const firePoint = group(g, -1.85, 0, -1.55);
+    box(firePoint, 0.24, 0.3, 0.06, 0, 0.5, 0, 0xd8232a, { rough: 0.6 });
+    cyl(firePoint, 0.06, 0.07, 0.3, 0, 0.5, 0.05, 0xd8232a, { rough: 0.5, metal: 0.3, seg: 12 });
+    box(firePoint, 0.14, 0.05, 0.1, 0, 0.68, 0.1, 0x2b3138, { rough: 0.6 });
+    holoTag(firePoint, "Fire point", 0, 0.9, 0, { css: "#f0645b", w: 0.26 });
+
+    const firstAid = group(g, -1.85, 0, -1.2);
+    box(firstAid, 0.24, 0.2, 0.1, 0, 0.55, 0, 0xf2f6fa, { rough: 0.6 });
+    decal(firstAid, 0.14, 0.14, 0, 0.55, 0.051, signFace("+", { bg: "#ffffff", accent: "#d8232a", scale: 0.8 }));
+    holoTag(firstAid, "First aid", 0, 0.7, 0, { css: "#59c97b", w: 0.24 });
+
+    // Hazard striping around the aisle outside the fence, gapped at the gate.
+    const stripeR = 1.88;
+    for (let i = 0; i < 16; i++) {
+      const a0 = (i / 16) * Math.PI * 2;
+      if (a0 > -0.35 && a0 < 0.35) continue; // leave the gate approach clear
+      const stripe = box(g, 0.24, 0.008, 0.1, Math.sin(a0) * stripeR, 0.004, Math.cos(a0) * stripeR,
+        i % 2 ? 0xf2c14b : 0x1b1e22, { rough: 0.8, cast: false });
+      stripe.rotation.y = a0;
+    }
+
     let cellPowered = true;
     let curtainActive = true;
     let armMoving = true;
@@ -394,6 +484,7 @@ export const SIM_ROBOT_CELL = {
         if (step.id === "bleed") { bleeding = true; }
         if (step.id === "verify-zero") repaint(hmiScreen, signFace("DE-ENERGISED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.36 }));
         if (step.id === "guard") { gate.rotation.y = 1.4; curtainActive = false; }
+        if (step.id === "service") { jammedPart.visible = false; clearedPart.visible = true; }
         if (step.id === "teach-save") repaint(pendantScreen, signFace("SAVED", { bg: "#0d1c14", accent: "#59c97b", fg: "#bff7d4", scale: 0.5 }));
         if (step.id === "teach-run") {
           part.position.copy(placePos);
