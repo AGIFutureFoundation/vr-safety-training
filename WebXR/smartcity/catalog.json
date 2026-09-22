@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 184
+      "stations": 187
     },
     "trades": {
       "entry": "trades/index.html",
@@ -162,6 +162,9 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "hazmat-container-inspection",
+        "straddle-carrier-ops",
+        "reefer-yard-monitoring",
         "ballast-water-sampling",
         "spill-boom-deploy",
         "shore-power-hookup",
@@ -1564,6 +1567,21 @@
           "app": "smartcity",
           "id": "mooring-line",
           "why": "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in."
+        },
+        {
+          "app": "smartcity",
+          "id": "reefer-yard-monitoring",
+          "why": "The rack these boxes sit on between the crane and the gate: ground proven before the plug goes in, set point and return air read against the manifest, and a leak isolated before anyone else gets near it."
+        },
+        {
+          "app": "smartcity",
+          "id": "straddle-carrier-ops",
+          "why": "The machine that moves a box between the stack and the quay: twist-locks proven before the lift, the load carried low down the row, and the wind read the same way the crane reads it."
+        },
+        {
+          "app": "smartcity",
+          "id": "hazmat-container-inspection",
+          "why": "The dangerous-goods box on the apron before it ever reaches the crane: placards checked against the declaration, a leak found through the door seam from a safe standoff, and the Coast Guard notified."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5721,6 +5739,252 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hazmat-container-inspection",
+      "name": "Hazmat Container Inspection",
+      "title": "SmartCiti.X~ Hazmat Container Inspection VR",
+      "tagline": "A dangerous-goods box on the apron: placards checked against the declaration, IMDG segregation confirmed, the seal verified, a leak found through the door seam from a safe standoff, the box isolated, and the terminal and the Coast Guard notified",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Marine clerk — ILWU, with the Coast Guard's inspection standard",
+      "union": null,
+      "certification": "ILWU marine clerks — U.S. Coast Guard regulations for waterfront facilities handling dangerous cargo (33 CFR Part 126); IMO's International Maritime Dangerous Goods (IMDG) Code placarding and segregation rules; OSHA HAZWOPER 29 CFR 1910.120 hazard recognition",
+      "accent": "#d88a3a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "apron-cleared",
+        "name": "Apron Cleared",
+        "note": "Declaration matched, segregation held, a leak found from a safe standoff and isolated before anyone got closer — first time"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "184",
+      "flat": false,
+      "system": "Dangerous Goods Desk",
+      "currency": "MANIFEST",
+      "ranks": [
+        "Checker",
+        "Marine Clerk",
+        "Senior Clerk",
+        "Lead Clerk",
+        "Dangerous Goods Certified"
+      ],
+      "awards": [
+        {
+          "id": "declaration-matched",
+          "name": "Declaration Matched",
+          "note": "Every placard checked against the DGD before anything else"
+        },
+        {
+          "id": "standoff-held",
+          "name": "Standoff Held",
+          "note": "Never closer than the safe distance, never through the seal"
+        },
+        {
+          "id": "reading-true-hz",
+          "name": "Reading True",
+          "note": "Standoff scan and vent reading both held inside the working band"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections anywhere on the apron"
+        },
+        {
+          "id": "scan-steady",
+          "name": "Scan Steady",
+          "note": "Held the perimeter scan without a break"
+        },
+        {
+          "id": "closed-out-fast",
+          "name": "Closed Out Fast",
+          "note": "Inspection complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hazmat-container-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "straddle-carrier-ops",
+      "name": "Straddle Carrier Ops",
+      "title": "SmartCiti.X~ Straddle Carrier Ops VR",
+      "tagline": "A straddle carrier shift: pre-op walk-around, seat belt and cab check, the pedestrian-exclusion call, twist-locks proven before the lift, the row run with the load carried low, the wind limit read, and the park-up",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Straddle carrier operator — ILWU",
+      "union": null,
+      "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety for mobile cargo-handling equipment; the corner-casting and twist-lock dimensions set by ISO; the carrier manufacturer's rated capacity and wind-limit plate",
+      "accent": "#e4a13a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "hold",
+        "track",
+        "gauge",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "row-run-clean",
+        "name": "Row Run Clean",
+        "note": "Every lock proven, the load carried low the whole row, and the wind read before it mattered — first time"
+      },
+      "meshes": 169,
+      "lights": 0,
+      "overBudget": false,
+      "index": "183",
+      "flat": false,
+      "system": "Straddle Gang",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Straddle Trainee",
+        "Straddle Operator",
+        "Lead Operator",
+        "Straddle Gang Certified"
+      ],
+      "awards": [
+        {
+          "id": "locks-proven-sc",
+          "name": "Locks Proven",
+          "note": "Every twist-lock checked before weight came on"
+        },
+        {
+          "id": "low-and-clear",
+          "name": "Low and Clear",
+          "note": "Never ran the row with the load raised, never over a person"
+        },
+        {
+          "id": "true-hand-sc",
+          "name": "True Hand",
+          "note": "Wind reading and row speed both held inside the working band"
+        },
+        {
+          "id": "clean-shift-sc",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the shift"
+        },
+        {
+          "id": "row-steady",
+          "name": "Row Steady",
+          "note": "Held the row speed the whole run without a break"
+        },
+        {
+          "id": "shift-in-time",
+          "name": "Shift In Time",
+          "note": "Whole cycle complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=straddle-carrier-ops"
+    },
+    {
+      "app": "smartcity",
+      "id": "reefer-yard-monitoring",
+      "name": "Reefer Yard Monitoring",
+      "title": "SmartCiti.X~ Reefer Yard Monitoring VR",
+      "tagline": "Night walk of the reefer rack: ground proven before the plug goes in, set point and return air read against the manifest, an alarming unit investigated, a refrigerant leak isolated, and the row kept clear of the reach stacker working it",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "Reefer mechanic — ILWU",
+      "union": null,
+      "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety; OSHA 29 CFR 1910.147 lockout/tagout for isolating a faulted unit; EPA Clean Air Act Section 608 refrigerant-management and technician-certification requirements",
+      "accent": "#5fc9dd",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "row-walked-clean",
+        "name": "Row Walked Clean",
+        "note": "Every unit proven, one alarm read before it was silenced, one leak isolated before anyone else got near it — first time"
+      },
+      "meshes": 214,
+      "lights": 0,
+      "overBudget": false,
+      "index": "182",
+      "flat": false,
+      "system": "Reefer Row",
+      "currency": "FROST",
+      "ranks": [
+        "Yard Hand",
+        "Reefer Tech",
+        "Lead Reefer Mechanic",
+        "Chief Reefer Mechanic",
+        "Reefer Row Certified"
+      ],
+      "awards": [
+        {
+          "id": "ground-proven",
+          "name": "Ground Proven",
+          "note": "Every plug tested before it took power"
+        },
+        {
+          "id": "row-clear",
+          "name": "Row Clear",
+          "note": "Never in the travel lane, never under an unplugged assumption"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Set point and return air both held inside the manifest's band"
+        },
+        {
+          "id": "clean-walk",
+          "name": "Clean Walk",
+          "note": "No corrections anywhere in the row"
+        },
+        {
+          "id": "held-the-band",
+          "name": "Held the Band",
+          "note": "Return air never dropped out of band once it settled"
+        },
+        {
+          "id": "row-in-time",
+          "name": "Row In Time",
+          "note": "Whole row closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=reefer-yard-monitoring"
     },
     {
       "app": "smartcity",
@@ -12341,7 +12605,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 272,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -13000,7 +13264,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

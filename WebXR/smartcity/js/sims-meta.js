@@ -7838,5 +7838,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "reefer-yard-monitoring",
+    "index": "182",
+    "domain": "Maritime",
+    "trade": "Reefer mechanic — ILWU",
+    "category": "Maritime & Ports",
+    "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety; OSHA 29 CFR 1910.147 lockout/tagout for isolating a faulted unit; EPA Clean Air Act Section 608 refrigerant-management and technician-certification requirements",
+    "name": "Reefer Yard Monitoring",
+    "weather": "fog",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reefer Yard Monitoring VR",
+    "tagline": "Night walk of the reefer rack: ground proven before the plug goes in, set point and return air read against the manifest, an alarming unit investigated, a refrigerant leak isolated, and the row kept clear of the reach stacker working it",
+    "accent": 6277597,
+    "accentCss": "#5fc9dd",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-walked-clean",
+      "name": "Row Walked Clean",
+      "note": "Every unit proven, one alarm read before it was silenced, one leak isolated before anyone else got near it — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reefer Row",
+      "currency": "FROST",
+      "ranks": [
+        "Yard Hand",
+        "Reefer Tech",
+        "Lead Reefer Mechanic",
+        "Chief Reefer Mechanic",
+        "Reefer Row Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "straddle-carrier-ops",
+    "index": "183",
+    "domain": "Maritime",
+    "trade": "Straddle carrier operator — ILWU",
+    "category": "Maritime & Ports",
+    "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety for mobile cargo-handling equipment; the corner-casting and twist-lock dimensions set by ISO; the carrier manufacturer's rated capacity and wind-limit plate",
+    "name": "Straddle Carrier Ops",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Straddle Carrier Ops VR",
+    "tagline": "A straddle carrier shift: pre-op walk-around, seat belt and cab check, the pedestrian-exclusion call, twist-locks proven before the lift, the row run with the load carried low, the wind limit read, and the park-up",
+    "accent": 14983482,
+    "accentCss": "#e4a13a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-run-clean",
+      "name": "Row Run Clean",
+      "note": "Every lock proven, the load carried low the whole row, and the wind read before it mattered — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Straddle Gang",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Straddle Trainee",
+        "Straddle Operator",
+        "Lead Operator",
+        "Straddle Gang Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hazmat-container-inspection",
+    "index": "184",
+    "domain": "Maritime",
+    "trade": "Marine clerk — ILWU, with the Coast Guard's inspection standard",
+    "category": "Maritime & Ports",
+    "certification": "ILWU marine clerks — U.S. Coast Guard regulations for waterfront facilities handling dangerous cargo (33 CFR Part 126); IMO's International Maritime Dangerous Goods (IMDG) Code placarding and segregation rules; OSHA HAZWOPER 29 CFR 1910.120 hazard recognition",
+    "name": "Hazmat Container Inspection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Hazmat Container Inspection VR",
+    "tagline": "A dangerous-goods box on the apron: placards checked against the declaration, IMDG segregation confirmed, the seal verified, a leak found through the door seam from a safe standoff, the box isolated, and the terminal and the Coast Guard notified",
+    "accent": 14191162,
+    "accentCss": "#d88a3a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "apron-cleared",
+      "name": "Apron Cleared",
+      "note": "Declaration matched, segregation held, a leak found from a safe standoff and isolated before anyone got closer — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dangerous Goods Desk",
+      "currency": "MANIFEST",
+      "ranks": [
+        "Checker",
+        "Marine Clerk",
+        "Senior Clerk",
+        "Lead Clerk",
+        "Dangerous Goods Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
