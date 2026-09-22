@@ -247,7 +247,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "nitrous-oxide-monitoring", why: "The hygienist's own separate permit at work: screening, the fail-safe, scavenging and a titration held inside NIOSH's exposure limit and the board's ceiling on the concentration itself." },
       { app: "smartcity", id: "chairside-emergency", why: "The chair's worst afternoon: a syncope that will not resolve, an anaphylaxis to the local anaesthetic, and the office emergency kit and the AED carrying the response from there." },
       { app: "smartcity", id: "amalgam-waste-handling", why: "The mercury side of the same clinic: a certified separator, scrap routed to one labelled stream instead of the trash or the sharps, and a manifest to the recycler at the end of it." },
-      // slot-dental-5
+      { app: "smartcity", id: "mobile-dental-outreach", why: "The clinical day carried off the operatory entirely: an RDHAP's community-practice rules and the CDC's mobile-setting guidance, run from a van's side door rather than a fixed room." },
+      { app: "smartcity", id: "pediatric-visit", why: "The youngest patient this programme sees: tell-show-do and a plan that bends to a five-year-old's cooperation, with the referral as the answer when a parent asks for more than a hygienist's scope allows." },
+      { app: "smartcity", id: "oral-cancer-screening", why: "The screening every adult recall should already include: a fixed extraoral-to-intraoral order, a finding described in terms a surgeon can act on, and the two-week rule that decides whether it waits or it's referred today." },
     ],
   },
   {

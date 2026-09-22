@@ -5385,5 +5385,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "mobile-dental-outreach",
+    "index": "128",
+    "domain": "Public health",
+    "trade": "Registered dental hygienist in alternative practice (RDHAP)",
+    "category": "Dental & Oral Health",
+    "certification": "The Dental Hygiene Board of California's registered dental hygienist in alternative practice (RDHAP) rules for practice in community and portable settings; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its guidance for portable and mobile dental units; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for records handled in the field; SEIU and UFCW dental and clinic staff, and AFSCME public-health hygienists, as the workforce's unions; the ADHA as the profession's body",
+    "name": "Mobile Dental Outreach",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Mobile Dental Outreach VR",
+    "tagline": "A school screening and sealant day run off the van: site, water and sterile stock proven before the first child sits down",
+    "accent": 6280385,
+    "accentCss": "#5fd4c1",
+    "parSeconds": 300,
+    "badge": {
+      "id": "outreach-clean-day",
+      "name": "Clean Day",
+      "note": "A full outreach day run with nothing reprocessed in the field and every child's paperwork matched before the chair"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Outreach Command",
+      "currency": "SMILE",
+      "ranks": [
+        "Van Assistant",
+        "Outreach Hygienist",
+        "Site Lead",
+        "Programme Coordinator",
+        "RDHAP Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pediatric-visit",
+    "index": "129",
+    "domain": "Pediatric dentistry",
+    "trade": "Registered dental hygienist — pediatric practice",
+    "category": "Dental & Oral Health",
+    "certification": "The AAPD's Guideline on Behavior Guidance for the Pediatric Dental Patient (tell-show-do and the Frankl behavior rating scale); the state dental hygiene board's scope of practice for a registered dental hygienist; the ADHA; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the child's record",
+    "name": "Pediatric Visit",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Pediatric Visit VR",
+    "tagline": "A five-year-old's first dental visit: knee-to-knee, tell-show-do, and a plan that bends to the child in front of you",
+    "accent": 16755021,
+    "accentCss": "#ffa94d",
+    "parSeconds": 260,
+    "badge": {
+      "id": "first-smiles",
+      "name": "First Smiles",
+      "note": "A first visit run without forcing the plan past what the child could actually tolerate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "First Smiles",
+      "currency": "STAR",
+      "ranks": [
+        "Front Desk Helper",
+        "Pediatric Hygienist",
+        "Behaviour Lead",
+        "Clinic Mentor",
+        "AAPD Practice Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "oral-cancer-screening",
+    "index": "130",
+    "domain": "Preventive dentistry",
+    "trade": "Registered dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "The ADA's and the National Cancer Institute's oral cancer screening guidance, including the two-week persistent-lesion referral rule; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the referral and the photographic record; the state dental hygiene board's scope of practice for referral; the ADHA",
+    "name": "Oral Cancer Screening",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Oral Cancer Screening VR",
+    "tagline": "The screening every adult recall should include: extraoral and intraoral in a fixed order, a finding described in terms a surgeon can act on, and the two-week rule",
+    "accent": 5224649,
+    "accentCss": "#4fb8c9",
+    "parSeconds": 270,
+    "badge": {
+      "id": "early-look",
+      "name": "Early Look",
+      "note": "A full screening run in order with a finding fully described and referred inside the two-week rule"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Early Look",
+      "currency": "SCAN",
+      "ranks": [
+        "Recall Assistant",
+        "Screening Hygienist",
+        "Lead Screener",
+        "Clinic Reviewer",
+        "ADA Screening Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 127
+      "stations": 130
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "oral-cancer-screening",
+        "pediatric-visit",
+        "mobile-dental-outreach",
         "periodontal-charting",
         "radiograph-safety",
         "patient-intake-screening",
@@ -957,6 +960,21 @@
           "app": "smartcity",
           "id": "amalgam-waste-handling",
           "why": "The mercury side of the same clinic: a certified separator, scrap routed to one labelled stream instead of the trash or the sharps, and a manifest to the recycler at the end of it."
+        },
+        {
+          "app": "smartcity",
+          "id": "mobile-dental-outreach",
+          "why": "The clinical day carried off the operatory entirely: an RDHAP's community-practice rules and the CDC's mobile-setting guidance, run from a van's side door rather than a fixed room."
+        },
+        {
+          "app": "smartcity",
+          "id": "pediatric-visit",
+          "why": "The youngest patient this programme sees: tell-show-do and a plan that bends to a five-year-old's cooperation, with the referral as the answer when a parent asks for more than a hygienist's scope allows."
+        },
+        {
+          "app": "smartcity",
+          "id": "oral-cancer-screening",
+          "why": "The screening every adult recall should already include: a fixed extraoral-to-intraoral order, a finding described in terms a surgeon can act on, and the two-week rule that decides whether it waits or it's referred today."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5291,6 +5309,253 @@
     },
     {
       "app": "smartcity",
+      "id": "oral-cancer-screening",
+      "name": "Oral Cancer Screening",
+      "title": "SmartCiti.X~ Oral Cancer Screening VR",
+      "tagline": "The screening every adult recall should include: extraoral and intraoral in a fixed order, a finding described in terms a surgeon can act on, and the two-week rule",
+      "category": "Dental & Oral Health",
+      "domain": "Preventive dentistry",
+      "trade": "Registered dental hygienist",
+      "union": null,
+      "certification": "The ADA's and the National Cancer Institute's oral cancer screening guidance, including the two-week persistent-lesion referral rule; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the referral and the photographic record; the state dental hygiene board's scope of practice for referral; the ADHA",
+      "accent": "#4fb8c9",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "sequence",
+        "hold",
+        "track",
+        "find",
+        "gauge"
+      ],
+      "badge": {
+        "id": "early-look",
+        "name": "Early Look",
+        "note": "A full screening run in order with a finding fully described and referred inside the two-week rule"
+      },
+      "meshes": 164,
+      "lights": 1,
+      "overBudget": false,
+      "index": "130",
+      "flat": false,
+      "system": "Early Look",
+      "currency": "SCAN",
+      "ranks": [
+        "Recall Assistant",
+        "Screening Hygienist",
+        "Lead Screener",
+        "Clinic Reviewer",
+        "ADA Screening Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-hands",
+          "name": "Clean Hands",
+          "note": "Never touched a bare-hand or cross-contamination trap"
+        },
+        {
+          "id": "steady-palpation",
+          "name": "Steady Palpation",
+          "note": "Held the bimanual palpation reading near band centre"
+        },
+        {
+          "id": "order-kept",
+          "name": "Order Kept",
+          "note": "Ran the intraoral sequence with no correction"
+        },
+        {
+          "id": "recall-pace",
+          "name": "Recall Pace",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-second-look",
+          "name": "No Second Look",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "screening-streak",
+          "name": "Screening Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=oral-cancer-screening"
+    },
+    {
+      "app": "smartcity",
+      "id": "pediatric-visit",
+      "name": "Pediatric Visit",
+      "title": "SmartCiti.X~ Pediatric Visit VR",
+      "tagline": "A five-year-old's first dental visit: knee-to-knee, tell-show-do, and a plan that bends to the child in front of you",
+      "category": "Dental & Oral Health",
+      "domain": "Pediatric dentistry",
+      "trade": "Registered dental hygienist — pediatric practice",
+      "union": null,
+      "certification": "The AAPD's Guideline on Behavior Guidance for the Pediatric Dental Patient (tell-show-do and the Frankl behavior rating scale); the state dental hygiene board's scope of practice for a registered dental hygienist; the ADHA; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the child's record",
+      "accent": "#ffa94d",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "find",
+        "gauge",
+        "track",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "first-smiles",
+        "name": "First Smiles",
+        "note": "A first visit run without forcing the plan past what the child could actually tolerate"
+      },
+      "meshes": 160,
+      "lights": 1,
+      "overBudget": false,
+      "index": "129",
+      "flat": false,
+      "system": "First Smiles",
+      "currency": "STAR",
+      "ranks": [
+        "Front Desk Helper",
+        "Pediatric Hygienist",
+        "Behaviour Lead",
+        "Clinic Mentor",
+        "AAPD Practice Certified"
+      ],
+      "awards": [
+        {
+          "id": "least-restrictive",
+          "name": "Least Restrictive",
+          "note": "Never reached for the restraint or the adult dose"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Held the prophy speed and the retraction near band centre"
+        },
+        {
+          "id": "tsd-clean",
+          "name": "Tell-Show-Do Clean",
+          "note": "Ran tell, show, do with no correction"
+        },
+        {
+          "id": "on-time-visit",
+          "name": "On-Time Visit",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-redo",
+          "name": "No Redo",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "calm-streak",
+          "name": "Calm Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pediatric-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-dental-outreach",
+      "name": "Mobile Dental Outreach",
+      "title": "SmartCiti.X~ Mobile Dental Outreach VR",
+      "tagline": "A school screening and sealant day run off the van: site, water and sterile stock proven before the first child sits down",
+      "category": "Dental & Oral Health",
+      "domain": "Public health",
+      "trade": "Registered dental hygienist in alternative practice (RDHAP)",
+      "union": null,
+      "certification": "The Dental Hygiene Board of California's registered dental hygienist in alternative practice (RDHAP) rules for practice in community and portable settings; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its guidance for portable and mobile dental units; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for records handled in the field; SEIU and UFCW dental and clinic staff, and AFSCME public-health hygienists, as the workforce's unions; the ADHA as the profession's body",
+      "accent": "#5fd4c1",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "sequence",
+        "find",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "outreach-clean-day",
+        "name": "Clean Day",
+        "note": "A full outreach day run with nothing reprocessed in the field and every child's paperwork matched before the chair"
+      },
+      "meshes": 183,
+      "lights": 1,
+      "overBudget": false,
+      "index": "128",
+      "flat": false,
+      "system": "Outreach Command",
+      "currency": "SMILE",
+      "ranks": [
+        "Van Assistant",
+        "Outreach Hygienist",
+        "Site Lead",
+        "Programme Coordinator",
+        "RDHAP Certified"
+      ],
+      "awards": [
+        {
+          "id": "nothing-reprocessed",
+          "name": "Nothing Reprocessed",
+          "note": "Never touched the field-reprocessing trap"
+        },
+        {
+          "id": "water-true",
+          "name": "Water True",
+          "note": "Held the water test reading near band centre"
+        },
+        {
+          "id": "consent-clean",
+          "name": "Consent Clean",
+          "note": "Matched the roster, form and card with no correction"
+        },
+        {
+          "id": "pack-down-fast",
+          "name": "Pack-Down Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "outreach-streak",
+          "name": "Outreach Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mobile-dental-outreach"
+    },
+    {
+      "app": "smartcity",
       "id": "periodontal-charting",
       "name": "Periodontal Charting",
       "title": "SmartCiti.X~ Periodontal Charting VR",
@@ -7864,7 +8129,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
