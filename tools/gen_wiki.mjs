@@ -84,6 +84,14 @@ for (const p of order) {
   }
 }
 
+if (shots.has("charge-point_env.png")) {
+  md.push("## Real-world environments");
+  md.push("");
+  md.push("A station can stand inside a licensed real-world model instead of the generated district: a scanned street, a modelled terminal, a surveyed shoreline. The station declares `environment: { url, scale, position, rotationY }` or a reviewer previews any file with `?env=<url>` before it is committed; the loader hides the procedural skyline and district while the model is shown. Only CC0, CC-BY or marketplace-licensed models with an attribution line go under `WebXR/assets/env/` — game rips are not accepted. The hand-built sample street below is the placeholder every real model is judged against.");
+  md.push("");
+  md.push('<img src="../screenshots/smartcity/charge-point_env.png" alt="Charge Point with the sample street environment loaded in place of the skyline" width="100%">');
+  md.push("");
+}
 md.push("## How a station is verified");
 md.push("");
 md.push("1. `node tools/check_all.mjs` — twenty-three checkers: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness.");

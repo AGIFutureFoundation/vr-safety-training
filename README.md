@@ -87,10 +87,12 @@ that README's "One profile, two apps" section.
 ## WebXR training network
 
 Trade Skills Simulator is one of four independent WebXR apps under `WebXR/`. The other
-three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 80 more union-trade
-AR/VR simulators across 12 categories growing toward 33 each — crane operator, tower climber,
-lineworker and more, each naming a real union and certification requirement — sharing the same
-apprentice profile as Trade Skills Simulator), **Holodeck** (`WebXR/holodeck/`, a
+three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 124 more union-trade
+AR/VR simulators across 15 categories — crane operator, tower climber, lineworker, bay
+restoration crews, kitchen workers, dental hygienists and more, each naming a real union and
+certification requirement — sharing the same apprentice profile as Trade Skills Simulator; the
+training programmes they form, with screenshots, are on the generated
+[series page](docs/wiki/SmartCitiX-Training-Series.md)), **Holodeck** (`WebXR/holodeck/`, a
 prompt-driven generator that builds a scored safety-training procedure from a spoken or typed
 description, or loads any real SmartCiti.X station by name), and the **Safety Campus** WebXR
 companion described below.
