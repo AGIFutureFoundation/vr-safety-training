@@ -2198,7 +2198,7 @@
       "domain": "Construction",
       "trade": "Ironworker / structural steel connector",
       "union": null,
-      "certification": "Ironworkers — OSHA 29 CFR 1926 Subpart R qualified connector",
+      "certification": "Ironworkers (IBB) — OSHA 29 CFR 1926 Subpart R qualified connector; fall protection under ANSI Z359 and rigging signals per ASME B30.5",
       "accent": "#ffcc00",
       "parSeconds": 235,
       "weather": "wind",
@@ -2377,6 +2377,7 @@
       "stepKinds": [
         "sequence",
         "select",
+        "find",
         "gauge",
         "drag",
         "hold"
@@ -2386,7 +2387,7 @@
         "name": "Ground Authority",
         "note": "Trench inspected, tested and protected before anyone steps below grade"
       },
-      "meshes": 163,
+      "meshes": 167,
       "lights": 0,
       "overBudget": false,
       "index": "14",
@@ -4278,7 +4279,7 @@
       "district": null,
       "steps": 12,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -5325,7 +5326,7 @@
       "domain": "Water & Environmental",
       "trade": "Certified backflow prevention assembly tester",
       "union": null,
-      "certification": "UA plumbers and pipefitters; ASSE 5110 Backflow Prevention Assembly Tester certification and ASSE 1013 reduced-pressure principle assemblies; USC FCCCHR field test procedure; state cross-connection control programme and EPA Safe Drinking Water Act obligations on the purveyor",
+      "certification": "UA plumbers and pipefitters; ANSI/ASSE 5110 Backflow Prevention Assembly Tester certification testing ANSI/ASSE 1013 reduced-pressure principle assemblies built to NSF/ANSI/CAN 61; AWWA M14 cross-connection control guidance and the purveyor's programme; EPA Safe Drinking Water Act obligations on the purveyor",
       "accent": "#4fb8c9",
       "parSeconds": 250,
       "weather": "clear",
@@ -5333,7 +5334,7 @@
       "district": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -5348,7 +5349,7 @@
         "name": "No Cross Connection",
         "note": "A test run in order on a bled gauge, with the customer told first and the assembly restored without a hammer — first time"
       },
-      "meshes": 162,
+      "meshes": 163,
       "lights": 0,
       "overBudget": false,
       "index": "50",
@@ -8790,7 +8791,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -9449,7 +9450,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -13381,6 +13382,8 @@
       "interrupts": 2,
       "stepKinds": [
         "select",
+        "drag",
+        "turn",
         "sequence",
         "gauge",
         "hold"
@@ -13390,7 +13393,7 @@
         "name": "Fire Watch Held",
         "note": "Permit to fire watch with no hot-work shortcut"
       },
-      "meshes": 389,
+      "meshes": 395,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=welding"
@@ -13527,7 +13530,7 @@
       "district": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -13540,7 +13543,7 @@
         "name": "Even Build",
         "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
       },
-      "meshes": 224,
+      "meshes": 239,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=paint-sprayer"

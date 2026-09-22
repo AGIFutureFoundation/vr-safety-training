@@ -58,24 +58,57 @@ export const SIM_AERIAL_LADDER = {
     "extend-control": "Extend after the raise and rotation have the ladder clear of the lines and aimed at the roof — extension toward the lines is the contact.",
   },
 
+  // Two things that happen to a driver/operator whose hands and eyes are
+  // committed to the set-up or the raise. See shared/game.js.
+  interrupts: [
+    {
+      id: "pad-sinking",
+      kind: "Ground pad sinking",
+      // Armed once the stabilizers are down, before the level check catches
+      // it on its own — answered by the pad itself, not the stabilizer
+      // controls that are this step's own target.
+      after: "stabilizers", delay: 3, seconds: 12,
+      alert: "The pad under the load-side stabilizer has started to sink into the softened ground — that foot is losing its bearing before the turntable is even level.",
+      cue: "Reseat the ground pad before the corner settles further.",
+      target: "ground-pad",
+      why: "A pad that is sinking under a stabilizer is a set-up failing quietly, not loudly — the truck does not tip the moment the ground gives, it just loses rated capacity on that corner without saying so. NFPA 1901's stabilization requirements exist for exactly this failure, and it is caught by watching the pad, not by waiting for the aerial to prove the load chart wrong.",
+      missNote: "The pad kept sinking while you worked. The load-side stabilizer is now bearing on soil, not on the pad's spread footprint, and the load chart for that side is no longer the number printed on it.",
+      wrongNote: "It is the ground pad. A stabilizer losing its bearing outranks whatever else is in front of you until it is reseated.",
+    },
+    {
+      id: "gust-rock",
+      kind: "Wind gust",
+      // Armed after the PTO engages, so the window overlaps the raise —
+      // the driver/operator's hands are on the raise/rotate lever, and the
+      // answer is the level indicator, not that lever.
+      after: "pto", delay: 4, seconds: 11,
+      alert: "A gust just rocked the truck on its stabilizers mid-raise — the bubble on the level indicator has swung off centre.",
+      cue: "Recheck the turntable level before you keep raising.",
+      target: "level-indicator",
+      why: "Wind loads a raised aerial the same way an unlevel turntable does — as side-load the ladder sections were not rated to carry — and a gust can push a level set-up out of tolerance in seconds. NFPA 1901 treats the level check as something to repeat under changing conditions, not a box ticked once at the start of the set-up.",
+      missNote: "The gust passed and you kept raising without rechecking. If the turntable was actually pushed out of level, the tip is now landing somewhere other than where the extend step is aimed, and nobody will know until it gets there.",
+      wrongNote: "It is the level indicator. Keep raising on a turntable that might be off level and the tip inherits the error.",
+    },
+  ],
+
   steps: [
     {
       id: "sizeup", kind: "select", target: "sizeup-board",
       title: "Read the size-up",
       cue: "Check the building height, the overhead lines, the wind and the collapse zone on the size-up board.",
-      why: "The spot is decided before the truck stops rolling: where the lines are, how tall the wall is, which way the smoke goes. Everything after this step is placed against those four facts.",
+      why: "NFPA 1002 treats the size-up as the first act of aerial operations, not a formality, because every decision after this one is placed against the same four facts: where the lines run, how tall the wall is, which way the smoke and structural load are moving, and where a collapse would land. A truck that stops rolling before this is read is a truck about to spot itself by guesswork.",
     },
     {
       id: "lines", kind: "select", target: "line-clearance",
       title: "Identify the energised lines",
       cue: "Find the overhead service lines and note the ten-foot clearance marker.",
-      why: "The lines are the one thing on this fireground that does not give a warning. Naming them first means every rotation and extension is planned around them.",
+      why: "The energised service lines are the one hazard on this fireground that gives no warning before it kills — OSHA 1910.269 and NFPA 1500 both set the ten-foot clearance because an aerial ladder is a grounded steel conductor with a firefighter riding it. Naming the lines before anything else moves means every later rotation and extension is planned around them instead of discovered against them.",
     },
     {
       id: "spot", kind: "select", target: "spot-corner",
       title: "Spot the apparatus",
       cue: "Choose the spot: at the corner, outside the collapse zone, with the aerial able to reach two sides of the building.",
-      why: "The corner gives the aerial two sides to work and puts the turntable outside the arc a failing wall covers. Closer looks faster and is the collapse zone.",
+      why: "The corner spot gives the aerial two sides of the building to work while putting the turntable outside the arc a failing wall covers — NFPA 1901's collapse-zone guidance sizes that arc at one and a half times the wall height for exactly this reason. Closer looks faster from the cab, but closer is the collapse zone, and there is no partial credit for being spotted just inside it.",
     },
     {
       id: "chock", kind: "sequence", anyOrder: true,
@@ -83,13 +116,13 @@ export const SIM_AERIAL_LADDER = {
       itemNames: { "chock-front": "front wheel chock", "chock-rear": "rear wheel chock" },
       title: "Chock the wheels",
       cue: "Chock front and rear on the downhill side before anything leaves the truck.",
-      why: "The parking brake holds a parked truck; it does not hold a truck the stabilizers are about to lift and push sideways. Chocks first, every time.",
+      why: "The parking brake holds a parked truck; it does not hold a truck whose own stabilizers are about to lift one side and push the whole chassis sideways as they extend. Chocking front and rear on the downhill side before anything else leaves the compartment is what keeps the truck from creeping while the crew's attention is on the jacks, not the wheels.",
     },
     {
       id: "pad", kind: "drag", target: "ground-pad",
       title: "Pad the soft ground",
       cue: "Carry the ground pad from the compartment and seat it under the stabilizer over the soft ground.",
-      why: "A stabilizer puts tons through a plate the size of a dinner tray. Soil, asphalt on a hot day or a grate needs a pad to spread it, or the truck settles on that side under load.",
+      why: "A stabilizer puts several tons through a foot the size of a dinner tray, and soft soil, hot asphalt or a storm grate will not announce that it cannot carry that load until the truck is already settling under it. NFPA 1901's stabilization requirements exist because a pad that spreads the load is cheap insurance against a set-up that looks solid right up until the aerial is loaded and one corner sinks.",
       drag: { to: "soft-ground-socket", radius: 0.4, missNote: "Not under the foot — seat the pad square where the stabilizer will land." },
     },
     {
@@ -98,27 +131,27 @@ export const SIM_AERIAL_LADDER = {
       itemNames: { "stab-left": "left stabilizer", "stab-right": "right stabilizer" },
       title: "Set the stabilizers",
       cue: "Extend both stabilizers fully and lower them to the ground and pads.",
-      why: "Full extension is the rated footprint. A short-jacked side has a fraction of the load chart and no warning until the aerial swings over it.",
+      why: "Full extension is the rated footprint the load chart is built on — a stabilizer left short-jacked on one side carries only a fraction of that rating and gives no warning until the aerial swings its load out over the weak corner. Extending both stabilizers fully before anything else happens is what makes every number on the load chart still true once the ladder is loaded.",
     },
     {
       id: "level", kind: "gauge", target: "level-indicator",
       title: "Level the turntable",
       cue: "Watch the bubble and commit when the turntable is inside the level band.",
-      why: "The load chart assumes a level turntable. Every degree off level is side-load on the ladder sections and a tip that lands somewhere other than where it was aimed.",
+      why: "The entire load chart assumes a level turntable, and every degree off level becomes side-load on the ladder sections that the chart was never rated to carry. NFPA 1901 sets the tolerance the bubble has to sit inside precisely because an aerial that looks level to the eye at the pedestal can still land its tip several feet from where the operator aimed it.",
       gauge: { label: "TURNTABLE LEVEL", speed: 0.7, green: [0.44, 0.56], readout: (t) => `${((t - 0.5) * 12).toFixed(1)}°`, missNote: "Off level — adjust the stabilizers and check the bubble again." },
     },
     {
       id: "pto", kind: "turn", target: "pto-switch",
       title: "Engage the PTO",
       cue: "Turn the aerial master to engage the power take-off and pressurise the hydraulics.",
-      why: "The PTO takes engine power to the aerial hydraulics. It is engaged only when the base is set, because from this point the controls move the ladder.",
+      why: "The power take-off routes engine power straight to the aerial's hydraulics, and NFPA 1002 holds it disengaged until the truck is fully chocked, stabilized and level, because from the moment it engages, the controls at the pedestal move a loaded ladder, not an inert one. Engaging it early on an unset truck means the first control input happens on a base that was never ready to take it.",
       turn: { turns: 0.25, axis: "z", label: "AERIAL MASTER" },
     },
     {
       id: "raise", kind: "track", target: "aerial-control", seconds: 7,
       title: "Raise and rotate clear of the lines",
       cue: "Raise from the bed and rotate toward the building at a steady rate, keeping the ladder outside the ten-foot line.",
-      why: "Smooth is safe: the ladder is a long lever and a jerk at the pedestal is a whip at the tip. The rotation goes the long way round if the short way passes the lines.",
+      why: "Smooth is safe on an aerial this long: the ladder acts as a lever, and a jerk at the pedestal becomes a whip at the tip sixty feet up with a firefighter riding it. NFPA 1500's clearance rule is the reason the rotation goes the long way round rather than the short way when the short way would swing the tip inside ten feet of the energised lines.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "RAISE / ROTATE", readout: (v) => (v < 0.4 ? "stalled" : v > 0.6 ? "too fast" : "steady") },
       holdBreakNote: "Rate out of band — the tip is whipping. Bring the control back to steady and hold.",
     },
@@ -126,7 +159,7 @@ export const SIM_AERIAL_LADDER = {
       id: "extend", kind: "gauge", target: "extend-control",
       title: "Extend the tip to the roofline",
       cue: "Extend until the tip is just above the parapet — inside the band, not short of the roof, not over the crew's heads.",
-      why: "The tip lands a couple of feet above the roofline so a firefighter steps off level, and the ladder is not resting its load on the parapet or reaching past where anyone can use it.",
+      why: "The tip lands a couple of feet above the roofline so a firefighter steps off level instead of climbing over a parapet or reaching down onto a roof they cannot see. Extending short leaves the ladder resting its load on the parapet edge it was never designed to bear on, and extending past the band puts the tip somewhere over the fire nobody asked it to be.",
       gauge: { label: "TIP ABOVE ROOF", speed: 0.75, green: [0.5, 0.66], readout: (t) => `${((t - 0.4) * 20).toFixed(0)} ft`, missNote: "Tip short of the roof or too far over — re-extend to the band." },
     },
     {
@@ -135,7 +168,7 @@ export const SIM_AERIAL_LADDER = {
       itemNames: { "ladder-lock": "ladder locks", "climb-belt": "ladder belt", "tip-report": "tip report" },
       title: "Lock, belt, report",
       cue: "Set the ladder locks, clip the ladder belt, then report the tip position to command.",
-      why: "Locks so the sections cannot creep under a climber; the belt before the first rung; the report so command knows the roof has a way off.",
+      why: "The locks stop the fly sections from creeping under a climber's weight, the belt is what keeps a firefighter on the ladder if the tip moves with the wind or the building, and the tip report is what tells command the roof now has a second way off. NFPA 1002 sequences all three before the first rung is climbed, because a ladder secured after someone is already on it was never actually secured.",
       outOfOrderNote: "Locks, then belt, then the report — the ladder is secured before anyone is on it.",
     },
     {
@@ -145,7 +178,7 @@ export const SIM_AERIAL_LADDER = {
       itemNotes: { "stab-float": "The right stabilizer foot has lifted clear of its pad — the ground settled and that side is carrying nothing." },
       title: "Walk the set-up under load",
       cue: "Walk the stabilizers with the aerial loaded and click anything that has moved.",
-      why: "The set-up is proven under load, not at rest. A foot that has lifted means the truck is standing on three points and the load chart no longer applies.",
+      why: "A set-up is only proven once it is loaded, not while it is sitting at rest — a stabilizer foot that lifts clear of its pad under that load means the truck is now standing on three points instead of four and the load chart it was set to no longer applies. NFPA 1901 treats this as ongoing verification, not a one-time check, precisely because ground that held at rest can still give once the aerial swings its weight over it.",
     },
   ],
 
@@ -296,6 +329,17 @@ export const SIM_AERIAL_LADDER = {
         if (step.id === "walk") floatGap.visible = false;
       },
       onHazard() {},
+      // The pad really sinks, and the raised aerial really rocks off level —
+      // both revert once answered. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "pad-sinking") pad.position.y -= 0.05;
+        if (it.id === "gust-rock") pivot.rotation.z += 0.14;
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "pad-sinking") pad.position.y += 0.05;
+        if (it.id === "gust-rock") pivot.rotation.z -= 0.14;
+      },
       animate(t, dt, session) {
         const step = session?.step;
         lightbar.material.emissiveIntensity = 1.0 + Math.max(0, Math.sin(t * 6)) * 1.4;

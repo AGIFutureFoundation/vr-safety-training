@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, cone, instrument, standingFigure, valveWheel, pipeRun, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -20,7 +20,7 @@ export const SIM_BACKFLOW_TEST = {
   trade: "Certified backflow prevention assembly tester",
   category: "Water & Environmental",
   indoor: "service",
-  certification: "UA plumbers and pipefitters; ASSE 5110 Backflow Prevention Assembly Tester certification and ASSE 1013 reduced-pressure principle assemblies; USC FCCCHR field test procedure; state cross-connection control programme and EPA Safe Drinking Water Act obligations on the purveyor",
+  certification: "UA plumbers and pipefitters; ANSI/ASSE 5110 Backflow Prevention Assembly Tester certification testing ANSI/ASSE 1013 reduced-pressure principle assemblies built to NSF/ANSI/CAN 61; AWWA M14 cross-connection control guidance and the purveyor's programme; EPA Safe Drinking Water Act obligations on the purveyor",
   name: "Backflow Test",
   title: simTitle("Backflow Test"),
   tagline: "Annual RP assembly test: hazard identified, customer notified before the water goes off, gauge zeroed and hoses bled, check one, check two and the relief opening point each tested in order, assembly restored slowly, report signed and filed",
@@ -59,12 +59,44 @@ export const SIM_BACKFLOW_TEST = {
     "restore-valve": "The service is restored after the test is complete and the test cocks are closed.",
   },
 
+  // Two things that happen to a tester whose hands are on the hoses or the
+  // shutoff and whose eyes are on a gauge. See shared/game.js.
+  interrupts: [
+    {
+      id: "relief-weeps-again",
+      kind: "Relief weeping mid-bleed",
+      // Armed on entering the bleed hold, so the window lands on the hoses
+      // — answered by the relief port itself, not the bleed valve that
+      // step's own control is.
+      after: "gauge", delay: 2, seconds: 10,
+      alert: "The relief port has started weeping again while you're bleeding the hoses — something upstream just moved.",
+      cue: "Flag the relief before you commit a reading on it.",
+      target: "relief-weep-recur",
+      why: "A relief that starts weeping again after a clean inspection means conditions changed between looking at the assembly and testing it — a pressure fluctuation, a check that was marginal and just gave a little more. ANSI/ASSE 1013 testing assumes the assembly you inspected is the one you are about to read, and a new weep means that assumption just stopped being true.",
+      missNote: "The relief kept weeping while you finished the bleed. Whatever reading comes next is being taken on an assembly that has already changed since the inspection, and the certificate will not say so.",
+      wrongNote: "It is the relief port. A fresh weep changes what the readings mean before you take a single one.",
+    },
+    {
+      id: "fire-alarm-call",
+      kind: "Fire pump low-pressure alarm",
+      // Armed after the cocks are closed, so the window overlaps the slow
+      // restore — answered by the phone, not the restore valve itself.
+      after: "close-cocks", delay: 3, seconds: 12,
+      alert: "The building's fire pump controller just alarmed on low pressure while you're bringing the service back.",
+      cue: "Call the customer back before you keep opening the shutoff.",
+      target: "notify-customer",
+      why: "A fire pump alarming during the restore is the building telling you the outage reached further than expected — the customer needs that call now, while the service is still coming back slowly, not after it is fully open and the alarm has already been sitting unanswered.",
+      missNote: "The alarm kept sounding while you finished the restore unannounced. The customer is now finding out about a fire-protection outage from the alarm panel instead of from the tester who caused it.",
+      wrongNote: "It is the phone. A fire pump alarm outranks how fast this valve opens.",
+    },
+  ],
+
   steps: [
     {
       id: "hazard", kind: "select", target: "hazard-survey",
       title: "Identify what the assembly protects against",
       cue: "Read the cross-connection survey: what is downstream and how bad it would be in the main.",
-      why: "The degree of hazard decides the assembly. A reduced-pressure assembly is here because what is downstream would be a health hazard in the public main, not merely a nuisance — and that is why this test is not optional.",
+      why: "The degree of hazard decides which assembly is required, and it is why a reduced-pressure assembly protects this connection rather than a simpler check valve. AWWA's cross-connection control guidance and the purveyor's own programme both treat a health hazard downstream — anything that could contaminate the public main — as requiring the highest level of protection available, which is exactly why this annual test is not optional paperwork.",
     },
     {
       id: "notify", kind: "sequence",
@@ -72,7 +104,7 @@ export const SIM_BACKFLOW_TEST = {
       itemNames: { "notify-customer": "customer notified", "notify-fire": "fire protection checked" },
       title: "Tell the customer before anything closes",
       cue: "Notify the building contact of the outage, and confirm whether the line feeds fire protection.",
-      why: "The test takes the water off. A building that does not know is a building with no sprinklers, no process water and no warning; a line that feeds fire protection needs the fire service told as well.",
+      why: "The test takes the building's water off, and EPA's Safe Drinking Water Act framework puts the burden of keeping that shutdown safe on the purveyor and its certified testers together, not on the building finding out the hard way. A building that does not know is a building with no sprinklers, no process water and no warning, and a line that feeds fire protection needs the fire service told as well.",
       outOfOrderNote: "Customer first, then the fire-protection question — the second is a consequence of the first.",
     },
     {
@@ -85,41 +117,41 @@ export const SIM_BACKFLOW_TEST = {
       },
       title: "Inspect the assembly",
       cue: "Look over the assembly before you touch it and click what is wrong.",
-      why: "A continuously weeping relief is a failing assembly reporting itself. Finding it before the test means the repair is planned rather than discovered halfway through with the water off.",
+      why: "A relief port that is weeping continuously is the assembly reporting its own failure before anyone touches a valve — usually because the first check is already fouled and holding back less than it should. Finding it during inspection means the repair gets planned with the water still on, instead of discovered halfway through the test with the building already shut down.",
     },
     {
       id: "gauge", kind: "hold", target: "bleed-hoses", seconds: 5,
       title: "Zero the gauge and bleed the hoses",
       cue: "Hold the bleed open until the hoses run clear of air, and check the gauge reads zero.",
-      why: "Air in a hose compresses and makes every differential read low. A bled gauge is the difference between a test and a guess, and the guess goes on a certificate with your number on it.",
+      why: "Air in a hose compresses under pressure and water does not, so any air left in the lines makes every differential reading on this test come back low by an amount nobody can predict. ANSI/ASSE 5110 tester certification exists partly because a bled gauge is the difference between an actual test and a guess, and the guess is the one that ends up on a certificate carrying your number.",
       holdBreakNote: "You closed the bleed with air still in the line — start the bleed again, or every reading after this is wrong.",
     },
     {
       id: "isolate", kind: "turn", target: "downstream-valve",
       title: "Close the downstream shutoff",
       cue: "Close the number two shutoff to isolate the assembly from the building.",
-      why: "The test measures the assembly, not the building. Downstream demand while a check is being tested pulls the reading around and hides a failing check.",
+      why: "The test has to measure the assembly by itself, not the assembly plus whatever the building happens to be drawing downstream of it. Demand pulling on the line while a check is being tested drags the reading around and can hide a check that is actually failing behind ordinary building usage.",
       turn: { turns: 1, axis: "y", label: "No. 2 SHUTOFF" },
     },
     {
       id: "check-one", kind: "gauge", target: "check-one-test",
       title: "Test check valve number one",
       cue: "Take the differential across the first check and commit — it must hold at least the required pressure drop.",
-      why: "The first check is the primary barrier. It has to hold a minimum differential above the relief opening point, or the relief will be doing the first check's job every time the pressure moves.",
+      why: "The first check is the assembly's primary barrier, and ANSI/ASSE 1013 sets the minimum differential it has to hold above the relief opening point. Fall short of that margin and the relief ends up doing the first check's job every time building pressure moves — a condition the relief was never sized to run on continuously.",
       gauge: { label: "CHECK 1 ΔP", speed: 0.7, green: [0.5, 0.68], readout: (t) => `${(t * 15).toFixed(1)} psid`, missNote: "Below the minimum — the first check has failed and the assembly cannot be certified." },
     },
     {
       id: "check-two", kind: "gauge", target: "check-two-test",
       title: "Test check valve number two",
       cue: "Take the second check's differential and commit — it must hold tight against reverse flow.",
-      why: "The second check is the backup that holds while the relief dumps. It is tested separately because an assembly can pass on one check and be one failure away from a cross connection.",
+      why: "The second check is the backup that holds while the relief is dumping to atmosphere, and it is tested separately from the first for a specific reason: an assembly can pass comfortably on one check while sitting one failure away from the exact cross connection the whole assembly exists to prevent.",
       gauge: { label: "CHECK 2 ΔP", speed: 0.75, green: [0.46, 0.64], readout: (t) => `${(t * 15).toFixed(1)} psid`, missNote: "Not holding — the second check has failed and the assembly needs repair before it goes back in service." },
     },
     {
       id: "relief", kind: "gauge", target: "relief-test",
       title: "Test the relief valve opening point",
       cue: "Bleed the differential down and commit at the pressure where the relief first discharges.",
-      why: "The relief opening point is what dumps the zone to atmosphere before backflow can happen. It has to open above a set differential and below the first check's holding pressure, or the assembly has no safe window.",
+      why: "The relief opening point is the last line of defence — it dumps the zone between the checks to atmosphere before backflow can reach the public main — and ANSI/ASSE 1013 requires it to open above a set differential but still below the first check's holding pressure. Outside that window the assembly has no safe margin left, whichever way the two checks eventually fail.",
       gauge: { label: "RELIEF OPENS AT", speed: 0.7, green: [0.34, 0.5], readout: (t) => `${(t * 12).toFixed(1)} psid`, missNote: "Opening point out of range — the relief is either late or hair-triggered, and either fails the assembly." },
     },
     {
@@ -128,14 +160,14 @@ export const SIM_BACKFLOW_TEST = {
       itemNames: { "cock-four": "number four test cock", "cock-three": "number three", "cock-two": "number two", "cock-one": "number one" },
       title: "Close the test cocks in order",
       cue: "Close four, three, two, then one, and disconnect the hoses.",
-      why: "Closing in reverse order keeps the kit from trapping pressure and keeps the assembly's zone from being back-fed through the test equipment as it comes off.",
+      why: "Closing the test cocks in reverse of the order they were opened keeps the kit from trapping pressure between the assembly and the hoses, and keeps the zone under test from being back-fed through the test equipment as it comes off — the same logic that put the readings themselves in a fixed order going in.",
       outOfOrderNote: "Four, three, two, one — the cocks close in the reverse of the order they were opened.",
     },
     {
       id: "restore", kind: "track", target: "restore-valve", seconds: 6,
       title: "Restore the service slowly",
       cue: "Crack the downstream shutoff and bring it open slowly while the building refills.",
-      why: "A slow restore lets the building's pipework fill without a hammer. Thrown open, the surge breaks joints, blows out fixture supplies and can damage the assembly that was just certified.",
+      why: "A slow restore lets the building's pipework fill gradually instead of taking the full force of a pressure wave all at once. Thrown open, the surge is a water hammer that travels through every branch of the system, breaking joints and fixture supplies and sometimes damaging the very assembly that was just certified to protect the line.",
       track: { start: 0.1, green: [0.28, 0.48], rise: 0.6, fall: 0.5, drift: 0.12, label: "OPENING RATE", readout: (v) => (v < 0.28 ? "not filling" : v > 0.48 ? "water hammer" : "slow and steady") },
       holdBreakNote: "Too fast — that is a hammer through the whole building. Back it off and bring it open slowly.",
     },
@@ -145,7 +177,7 @@ export const SIM_BACKFLOW_TEST = {
       itemNames: { "record-readings": "readings recorded", "sign-report": "report signed with the certification number", "file-purveyor": "copy filed with the water purveyor" },
       title: "Record, sign and file the report",
       cue: "Write the readings, sign with your certification number, and file the copy with the purveyor.",
-      why: "The purveyor's file is what makes the programme real: an assembly with no filed test is treated as failed, and the tester's number on the report is what makes the reading accountable to somebody.",
+      why: "AWWA's cross-connection control guidance and the purveyor's own programme both treat an assembly with no filed test as equivalent to a failed one, because there is no record proving otherwise. The tester's certification number on the signed report is what makes that specific reading accountable to a specific person, not just a number written down somewhere and forgotten.",
       outOfOrderNote: "Record, then sign, then file — you sign the readings you took, and the filed copy is the signed one.",
     },
   ],
@@ -173,6 +205,12 @@ export const SIM_BACKFLOW_TEST = {
     holoTag(asm, "RP assembly — ASSE 1013", 0, 1.62, 0.2, { css: "#4fb8c9", w: 0.5 });
     const drip = cyl(asm, 0.012, 0.012, 0.6, 0, 0.5, 0, 0x6fb4d8, { rough: 0.2, opacity: 0.7, transparent: true, seg: 8 });
     reg(hits, drip, "relief-dripping");
+    // A second, independent weep for the mid-bleed interrupt: the inspection
+    // hazard above is already resolved by then, so this is its own bead,
+    // hidden until the interrupt fires rather than a re-registration of it.
+    const weepAgain = cyl(asm, 0.012, 0.012, 0.55, 0, 0.5, 0, 0x6fb4d8, { rough: 0.2, opacity: 0.7, transparent: true, seg: 8 });
+    weepAgain.visible = false;
+    reg(hits, weepAgain, "relief-weep-recur");
     const pan = box(asm, 0.7, 0.06, 0.5, 0, 0.12, 0, 0x53606b, { rough: 0.7, metal: 0.4 });
     void reliefBody; void reliefPort; void pan;
     // Four test cocks along the body.
@@ -281,6 +319,17 @@ export const SIM_BACKFLOW_TEST = {
         if (step.id === "close-cocks") for (const lever of Object.values(cocks)) lever.rotation.y = 1.4;
       },
       onHazard() {},
+      // The relief really weeps again, and the phone really lights up —
+      // both revert once answered. See shared/game.js.
+      onInterrupt(it) {
+        if (it.id === "relief-weeps-again") weepAgain.visible = true;
+        if (it.id === "fire-alarm-call") phone.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.4, rough: 0.4 });
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "relief-weeps-again") weepAgain.visible = false;
+        if (it.id === "fire-alarm-call") phone.material = mat(0x1b1e23, { rough: 0.6 });
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (!bled) drip.position.y = 0.5 - ((t * 0.6) % 0.4);

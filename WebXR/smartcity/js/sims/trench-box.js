@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import {
-  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+  box, cyl, ball, slab, torus, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import {
   stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument,
   standingFigure, reg,
@@ -93,31 +93,45 @@ export const SIM_TRENCH_BOX = {
       itemNames: { "cone-a": "cone at the approach", "cone-b": "cone at the far end", "trench-guard": "trench guard rail" },
       title: "Guard the excavation",
       cue: "Cone both approaches and set the guard rail around the open trench.",
-      why: "An open trench next to foot traffic or vehicle movement is a hazard to everyone who is not on this crew, guarded before the first assessment even starts.",
+      why: "MUTCD-compliant cones and the trench guard rail go up before the competent-person inspection even starts, because an open excavation next to foot traffic or a work-zone travel lane is a hazard to everyone who is not on this crew — the public does not know where the edge is until something marks it.",
     },
     {
       id: "permit", kind: "select", target: "excavation-permit",
       title: "Read the excavation permit",
       cue: "Confirm the depth, soil classification and the protective system required.",
-      why: "The permit sets the protective system for this trench from its soil classification and depth, not from what looked adequate on the last job.",
+      why: "The excavation permit sets the protective system for this trench from its actual soil classification and depth under OSHA 29 CFR 1926 Subpart P — not from what looked adequate on the last job, because two trenches at the same depth in different soil do not carry the same risk of collapse.",
     },
     {
-      id: "competent-inspect", kind: "select", target: "soil-inspect",
+      id: "competent-inspect", kind: "find", noHint: true,
+      targets: ["wall-tension-crack", "wall-seep", "sloughing-face"],
+      itemNames: {
+        "wall-tension-crack": "tension crack at the edge",
+        "wall-seep": "water seeping from the wall",
+        "sloughing-face": "sloughing soil face",
+      },
+      itemNotes: {
+        "wall-tension-crack": "A tension crack running parallel to the edge is soil pulling apart before it fails — it is often the last visible warning a wall gives before it lets go.",
+        "wall-seep": "Water coming through the wall means the soil behind it is saturated and has lost most of the shear strength holding it up, whatever the soil classification on the permit says.",
+        "sloughing-face": "A face that is already sloughing material on its own, with nobody touching it, is a wall actively failing, not a wall that might fail later.",
+      },
+      decoyNotes: {
+        "stable-wall": "That section of wall is intact, dry and holding its face. Nothing to flag.",
+      },
       title: "Complete the competent-person inspection",
-      cue: "Inspect the trench walls and classify the soil before anyone approaches the edge.",
-      why: "A competent person checks the actual walls in front of them every day conditions could have changed — after rain, after a freeze-thaw, after any nearby vibration.",
+      cue: "Walk the trench walls. Three signs of instability are hiding among the excavation — find them by looking.",
+      why: "OSHA 29 CFR 1926 Subpart P requires a competent person to inspect the trench daily and after any event that could affect stability — rain, a freeze-thaw cycle, nearby vibration — because a wall that read as stable at the start of the shift is not guaranteed to still be the one you are standing next to now. NIOSH's trenching fatality data shows collapse gives almost no warning once a tension crack or a wet, sloughing face has already appeared.",
     },
     {
       id: "relocate-spoil", kind: "select", target: "spoil-pile",
       title: "Set the spoil pile back from the edge",
       cue: "Relocate the excavated soil to at least two feet from the trench edge.",
-      why: "Spoil piled at the edge adds surcharge load exactly where the wall is already carrying the most stress. Setting it back removes that extra weight from the equation entirely.",
+      why: "Spoil piled at the edge adds surcharge load exactly where the wall is already carrying the most stress, and OSHA's excavation standard sets the two-foot setback for that reason, not as a tidiness rule. Setting the pile back removes that extra weight from the equation entirely, before the wall has to hold both the soil it already had and the pile stacked on top of it.",
     },
     {
       id: "atmosphere-test", kind: "gauge", target: "gas-meter",
       title: "Test the trench atmosphere",
       cue: "Lower the meter into the trench and commit only inside the safe oxygen range.",
-      why: "Tested before every entry, not just the first one of the day — a nicked gas line or a change in groundwater can turn a trench's atmosphere hours after it was last checked.",
+      why: "A trench can fill with oxygen-deficient or toxic air from a nicked utility line with no smell and no colour to warn anyone first, which is exactly why OSHA 29 CFR 1926 Subpart P requires testing before every entry, not just the first one of the day — a nicked line or a change in groundwater can turn a trench's atmosphere hours after it was last checked clean.",
       gauge: {
         label: "TRENCH ATMOSPHERE — OXYGEN", speed: 0.6, green: [0.46, 0.6],
         readout: (t) => `${(15 + t * 12).toFixed(1)} % O₂`,
@@ -128,35 +142,35 @@ export const SIM_TRENCH_BOX = {
       id: "install-box", kind: "drag", target: "trench-box",
       title: "Place the trench box",
       cue: "Pick up the protective box and lower it into the marked footprint.",
-      why: "The box is rated for this depth and soil class from the permit. It goes in before entry, not as a precaution added after someone is already working below grade.",
+      why: "The trench box is rated for this depth and soil class from the permit, and OSHA's excavation standard treats it as protection that has to already be in place before anyone works below grade — not a precaution added afterward, once someone is already standing in an unshored trench hoping the wall holds through the shift.",
       drag: { to: "trench-socket", radius: 0.4, missNote: "Not lined up with the excavation — line it up with the marked footprint and lower it in." },
     },
     {
       id: "place-ladder", kind: "drag", target: "ladder",
       title: "Place the access ladder",
       cue: "Carry the ladder off the spoil side and set it inside the box, within 25 feet of anyone working.",
-      why: "A ladder within 25 feet means an exit is never more than a few steps away, in the trench or on the surface, in an emergency that gives you no time to walk further. Where it ends up is the whole rule, so putting it there is the step.",
+      why: "A ladder within 25 feet means an exit is never more than a few steps away, in the trench or on the surface, in an emergency that gives no time to walk further. OSHA's excavation rule sets that 25-foot distance because a means of egress that exists somewhere on the job site is not the same protection as one that exists where the entrant actually is when the wall or the atmosphere turns on them.",
       drag: { to: "ladder-socket", radius: 0.5, missNote: "Not in the box — a ladder lying on the spoil pile is not egress for anybody below grade." },
     },
     {
       id: "spotter-comm", kind: "hold", target: "spotter", seconds: 8,
       title: "Maintain contact with the spotter",
       cue: "Hold continuous contact with the surface spotter while work is underway below grade.",
-      why: "The spotter watches the walls, the spoil pile and the surrounding area the whole time you cannot, because your attention below grade is on the pipe, not the edge.",
+      why: "The spotter watches the walls, the spoil pile and the surrounding area the whole time an entrant below grade cannot, because attention down there is on the pipe, not the edge. NIOSH lists struck-by equipment and cave-in among the leading causes of excavation deaths, and a spotter in constant contact is what catches the first one before it turns into the second.",
       holdBreakNote: "Contact with the spotter dropped. Re-establish it and hold it for the whole task — nobody works below grade unwatched.",
     },
     {
       id: "pipe-work", kind: "select", target: "utility-line",
       title: "Complete the utility line repair",
       cue: "Make the repair to the utility line now that the trench is shored and tested.",
-      why: "The actual task only starts once guarding, inspection, atmosphere and shoring are all already in place — not run in parallel with them to save time.",
+      why: "The actual repair only starts once guarding, inspection, atmosphere testing and shoring are all already in place — never run in parallel with them to save time, because every one of those steps exists to make the trench safe to be inside of, and none of them protects the minutes before it was actually finished.",
     },
     {
       id: "gps-teach", kind: "sequence", targets: ["grade-wp-start", "grade-wp-mid", "grade-wp-end"],
       itemNames: { "grade-wp-start": "Start waypoint", "grade-wp-mid": "Mid waypoint", "grade-wp-end": "End waypoint" },
       title: "Teach the GPS grade-control waypoints",
       cue: "Record the start, mid and end grade points along the pipe run, in that order.",
-      why: "The automated grader follows these points in the order they're recorded, not the order that seems obvious — teach them start to end, matching the pipe's actual slope.",
+      why: "The automated grader follows these waypoints in the order they are recorded, not the order that seems obvious, so teaching start, then mid, then end has to match the pipe's actual slope. A profile taught out of order does not fail loudly — it just cuts the wrong grade the first time the machine runs it unattended over ground the crew has already left.",
       itemNotes: {
         "grade-wp-start": "Recorded at the pipe's upstream invert.",
         "grade-wp-mid": "Recorded at the midpoint, matching the design slope.",
@@ -168,20 +182,20 @@ export const SIM_TRENCH_BOX = {
       id: "gps-save", kind: "select", target: "grade-console-save",
       title: "Save the grade-control profile",
       cue: "Commit the three waypoints to the machine control system as one profile.",
-      why: "An untaught point list is just recorded positions. Saving it is what turns three grade points into a profile the grader can actually run against.",
+      why: "An untaught point list is just three recorded positions sitting in memory, not a plan the machine can act on. Saving it is what turns them into a profile the grade-control system can actually run against, and skipping the save leaves the grader with nothing to follow the next time it powers up over this trench.",
     },
     {
       id: "gps-run", kind: "hold", target: "grade-console-run", seconds: 2.5,
       title: "Dry-run the grade-control profile",
       cue: "Hold RUN/VERIFY and watch the automated profile track clear of the box and the crew.",
-      why: "A brand-new profile is verified at a walk-through pace with a hand on the console, watching the whole run, before the grader ever moves unattended over a trench a crew just worked in.",
+      why: "A brand-new profile is verified at a walk-through pace with a hand on the console, watching the whole run, before the grader ever moves unattended over a trench a crew just worked in. Releasing the hold early is exactly how a bad waypoint gets discovered by the machine cutting the wrong grade instead of by the person watching for it.",
       holdBreakNote: "Released before the dry-run finished. Hold it through the whole profile — that's how you catch a bad waypoint before the machine runs it for real.",
     },
     {
       id: "exit-count", kind: "select", target: "headcount-board",
       title: "Take a headcount before backfill",
       cue: "Confirm everyone is out of the trench and account for tools before anything closes up.",
-      why: "A headcount against the crew list is what confirms the trench is actually empty — not an assumption because the ladder looked clear from the surface.",
+      why: "A headcount against the crew list is what actually confirms the trench is empty — not an assumption made because the ladder looked clear from the surface. OSHA's excavation standard treats backfilling over someone still below grade as a foreseeable failure, not a freak accident, which is exactly why the count happens before the first bucket of fill goes back in.",
     },
     {
       id: "remove-box", kind: "drag", target: "trench-box",
@@ -194,7 +208,7 @@ export const SIM_TRENCH_BOX = {
       id: "backfill", kind: "select", target: "backfill-panel",
       title: "Backfill and compact",
       cue: "Backfill the trench in lifts and compact each one before signing off.",
-      why: "Backfilling in compacted lifts is what keeps the surface from settling later and undoing the repair that was just made underneath it.",
+      why: "Backfilling in compacted lifts, rather than dumping it back in all at once, is what keeps the surface from settling later and undoing the repair just made underneath it — a trench that reads as finished at grade today can still slump over the utility line if the fill under it was never actually compacted.",
     },
   ],
 
@@ -214,6 +228,25 @@ export const SIM_TRENCH_BOX = {
       box(trench, 0.06, trenchD, trenchL, sx * trenchW / 2, -trenchD / 2, 0, 0x453522, { rough: 0.96, cast: false });
     }
     const wallCrack = box(trench, 0.3, 0.4, 0.02, trenchW / 2 - 0.02, -0.5, 0.6, 0x2b2118, { rough: 0.98, cast: false });
+
+    // Competent-person inspection targets: real, distinct signs of an
+    // unstable wall, spread along both faces so the scan reads as a walk
+    // down the trench rather than four clicks in one spot.
+    const tensionCrack = group(trench, -trenchW / 2 - 0.01, -0.06, -0.75, 0.05);
+    box(tensionCrack, 0.5, 0.015, 0.03, 0, 0, 0, 0x1c1712, { rough: 0.95, cast: false });
+    reg(hits, tensionCrack, "wall-tension-crack");
+
+    const wallSeep = group(trench, trenchW / 2 + 0.005, -0.7, -0.15);
+    box(wallSeep, 0.02, 0.5, 0.22, 0, 0, 0, 0x1b2a26, { rough: 0.5, opacity: 0.55, transparent: true, cast: false });
+    reg(hits, wallSeep, "wall-seep");
+
+    const sloughingFace = group(trench, -trenchW / 2 - 0.03, -0.85, 0.95);
+    box(sloughingFace, 0.08, 0.3, 0.4, 0, 0, 0, 0x59422a, { rough: 0.98, cast: false });
+    reg(hits, sloughingFace, "sloughing-face");
+
+    const stableWall = group(trench, trenchW / 2 + 0.005, -0.35, 0.95);
+    box(stableWall, 0.015, 0.35, 0.4, 0, 0, 0, 0x453522, { rough: 0.96, cast: false });
+    reg(hits, stableWall, "stable-wall");
 
     // Protective box, staged beside the excavation until it is carried into place.
     const boxStageX = trenchW / 2 + 0.85;
@@ -402,6 +435,11 @@ export const SIM_TRENCH_BOX = {
         if (it.id === "spotter-gone") { spotter.position.x -= 2.4; spotter.rotation.y -= 1.4; }
       },
       onStepComplete(step) {
+        if (step.id === "competent-inspect") {
+          tensionCrack.children[0].material = mat(0x59c97b, { rough: 0.6 });
+          wallSeep.children[0].material = mat(0x59c97b, { rough: 0.5, opacity: 0.4, transparent: true });
+          sloughingFace.children[0].material = mat(0x59c97b, { rough: 0.6 });
+        }
         if (step.id === "guard-site") railPanels.forEach((p) => { p.visible = true; });
         if (step.id === "relocate-spoil") { spoil.position.set(1.6, 0, -1.4); }
         // The box's own position is already set by the drag-and-drop gesture
