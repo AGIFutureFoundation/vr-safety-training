@@ -33,6 +33,7 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
 const obs = await import("../WebXR/shared/observer.js");
 const { INSTRUCTOR_COMMANDS, LEARNER_EVENTS, CMD_ROLL, COMMAND_LABELS, OBSERVER_PROTOCOL, ACCEPTED_PROTOCOLS } = obs;
 const { buildRoster, matchStation, matchProgramme } = await import("../WebXR/instructor/js/roster.js");
+const { SIMS_META } = await import("../WebXR/smartcity/js/sims-meta.js");
 
 const catalog = JSON.parse(read("WebXR/smartcity/catalog.json"));
 const SMARTCITY_STATIONS = catalog.stations.filter((s) => s.app === "smartcity");
@@ -148,9 +149,7 @@ check("the catalog roster covers every SmartCiti.X station", () => {
   const roster = buildRoster(catalog);
   // The roster is right when it carries every registered station, whatever
   // the count is this week: compare against sims-meta, not a number.
-  const metaSrc = readFileSync(join(ROOT, "WebXR/smartcity/js/sims-meta.js"), "utf8");
-  const metaIds = new Set([...metaSrc.matchAll(/\bid:\s*"([a-z0-9-]+)"/g)].map((m) => m[1]));
-  assert(metaIds.size > 0 && SMARTCITY_STATIONS.length === metaIds.size, `expected ${metaIds.size} SmartCiti.X stations in the catalog (sims-meta), found ${SMARTCITY_STATIONS.length}`);
+  assert(SIMS_META.length > 0 && SMARTCITY_STATIONS.length === SIMS_META.length, `expected ${SIMS_META.length} SmartCiti.X stations in the catalog (sims-meta), found ${SMARTCITY_STATIONS.length}`);
   const inTree = new Set();
   for (const cat of roster.categories) for (const s of cat.stations) inTree.add(`${s.app}:${s.id}`);
   for (const s of SMARTCITY_STATIONS) {
