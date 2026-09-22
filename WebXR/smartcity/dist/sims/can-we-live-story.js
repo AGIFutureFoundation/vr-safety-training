@@ -16,8 +16,8 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // file was written in, so where its own words belong the dossier says so
 // rather than guessing.
 
-const ACCENT = 0xf2c14b;
-const q = (o) => ({ kind: "select", ...o });
+const CWL_ACCENT = 0xf2c14b;
+const cwlQ = (o) => ({ kind: "select", ...o });
 
 export const SIM_CAN_WE_LIVE_STORY = {
   id: "can-we-live-story",
@@ -30,7 +30,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
   title: simTitle("Can We Live? — The Story"),
   tagline: "The Marie Harrison Community Foundation, the woman it is named for, and the community fight over the shipyard cleanup — a sourced briefing and knowledge check that opens the Hunters Point Edition",
   flat: true,
-  accent: ACCENT,
+  accent: CWL_ACCENT,
   accentCss: "#f2c14b",
   parSeconds: 320,
   badge: { id: "her-story", name: "Her Story", note: "The foundation, its founder and the record answered without an unsafe conclusion" },
@@ -92,7 +92,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
   lateNotes: {},
 
   steps: [
-    q({
+    cwlQ({
       id: "founder", target: "f-arieann",
       options: [
         { id: "f-arieann", label: "Arieann Harrison, Executive Director, who founded it in honour of her mother Marie Harrison" },
@@ -103,7 +103,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the statement that matches the foundation's own record.",
       why: "Who an organisation is decides whose training this is. A community foundation founded by a resident in her mother's name is accountable to the neighbourhood first; a training aid offered to it has to know that before it says a word about the site.",
     }),
-    q({
+    cwlQ({
       id: "marie", target: "m-plant",
       options: [
         { id: "m-plant", label: "A resident of Hunters View whose community campaign helped close the PG&E Hunters Point power plant in 2006, later a Greenaction advocate who kept testifying while on oxygen" },
@@ -128,7 +128,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Select every programme that is the foundation's — order doesn't matter.",
       why: "The twenty-five stations of this edition are organised around these programmes: a patrol station trains what a patrol does, a biomonitoring station trains consent and custody, a scholarship is why the youth stations exist. Knowing the programmes is knowing the syllabus.",
     },
-    q({
+    cwlQ({
       id: "air", target: "a-ten",
       options: [
         { id: "a-ten", label: "Ten air monitors placed in and around Bayview Hunters Point by the community project named for her" },
@@ -139,7 +139,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the real effort.",
       why: "A low-cost sensor network is only as good as its siting, its co-location checks and its data review — which is why three stations of this edition are about exactly that. The point of the project is that the neighbourhood holds its own record, and the point of the training is that the record stands up.",
     }),
-    q({
+    cwlQ({
       id: "consent", target: "c-consent",
       options: [
         { id: "c-consent", label: "Explain the study in the resident's language, confirm they can decline and will get their own results back, get signed consent, then collect under chain of custody" },
@@ -150,7 +150,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the order the programme requires.",
       why: "Biomonitoring turns a neighbour into a study participant. Informed consent under 45 CFR 46 — the study explained, the right to refuse, the right to their own results — is the ethical floor, and chain of custody is what makes the result mean anything when it comes back.",
     }),
-    q({
+    cwlQ({
       id: "patrol", target: "pt-log",
       options: [
         { id: "pt-log", label: "Log time, place, wind, what you smell and see, take a photo, and file the complaint with the Air District — then keep patrolling" },
@@ -161,7 +161,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the response the patrol trains.",
       why: "A patrol is a record, not a raid. A timed, located, photographed, wind-noted observation filed with the Air District is evidence an inspector can act on; a body inside the fence is a trespass and an exposure, and it puts the patrol's credibility at risk.",
     }),
-    q({
+    cwlQ({
       id: "record", target: "r-live",
       options: [
         { id: "r-live", label: "An active Superfund site since 1989 under the Navy with EPA and state oversight; the contractor data case settled in 2026 while the residents' 2024 federal suit over the cleanup's adequacy continues" },
@@ -172,7 +172,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the statement that matches the 2026 record.",
       why: "Everything a community monitor does happens against an unfinished record: parcels still under cleanup, litigation still open. Saying that honestly is the first thing a patrol lead owes a new member.",
     }),
-    q({
+    cwlQ({
       id: "community-data", target: "cd-control",
       options: [
         { id: "cd-control", label: "As an independent check on the site's own record, made credible by siting, calibration checks, chain of custody and honest data review" },
@@ -183,7 +183,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the role the record supports.",
       why: "Neither dismissed nor oversold. Community data earned its standing here because the official data failed; it keeps that standing only by being done carefully, which is what the sensor, dust and sampling stations of this edition teach.",
     }),
-    q({
+    cwlQ({
       id: "gate", target: "g-hazwoper",
       options: [
         { id: "g-hazwoper", label: "A 40-hour HAZWOPER course, three supervised field days and an annual refresher, plus the site's own orientation — the trades on site are LIUNA laborers, IUOE operators, Teamsters and radiation technicians" },
@@ -194,7 +194,7 @@ export const SIM_CAN_WE_LIVE_STORY = {
       cue: "Pick the OSHA requirement.",
       why: "This edition ends with the pathway: patrol members and scholarship students who want the work behind the fence go through the same federal floor as every union laborer on the site. 29 CFR 1910.120 is the gate, and the site orientation sits on top of it.",
     }),
-    q({
+    cwlQ({
       id: "edition", target: "e-aid",
       options: [
         { id: "e-aid", label: "A training aid built to be offered to the foundation and its partners, sited generically, that does not speak for the foundation" },

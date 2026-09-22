@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 145
+      "stations": 146
     },
     "trades": {
       "entry": "trades/index.html",
@@ -187,6 +187,12 @@
         "rad-survey",
         "stack-test",
         "landfill-gas"
+      ]
+    },
+    {
+      "name": "Community Environmental Justice",
+      "stations": [
+        "can-we-live-story"
       ]
     },
     {
@@ -1080,6 +1086,81 @@
           "app": "smartcity",
           "id": "rbs-service-capstone",
           "why": "The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "hunters-point-can-we-live",
+      "name": "Hunters Point Edition — Can We Live?",
+      "union": "Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway",
+      "certification": "EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule",
+      "summary": "A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "can-we-live-story",
+          "why": "The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "sewing-garment-trades",
+      "name": "Sewing and Garment Trades",
+      "union": "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service",
+      "certification": "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
+      "summary": "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
+      "stations": [
+        {
+          "app": "trades",
+          "id": "salon",
+          "why": "The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "bridge-and-structural",
+      "name": "Bridge and Structural Trades",
+      "union": "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck",
+      "certification": "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
+      "summary": "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "steel-erector",
+          "why": "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "hotel-workers",
+      "name": "Hotel Workers — Back of House",
+      "union": "UNITE HERE hotel housekeepers, laundry and banquet staff",
+      "certification": "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant",
+      "summary": "The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "banquet-hot-hold",
+          "why": "The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "builders-trades",
+      "name": "Builders — Carpenters, Laborers and Masons",
+      "union": "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators",
+      "certification": "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
+      "summary": "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "concrete-pour",
+          "why": "The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5410,6 +5491,115 @@
     },
     {
       "app": "smartcity",
+      "id": "can-we-live-story",
+      "name": "Can We Live? — The Story",
+      "title": "SmartCiti.X~ Can We Live? — The Story VR",
+      "tagline": "The Marie Harrison Community Foundation, the woman it is named for, and the community fight over the shipyard cleanup — a sourced briefing and knowledge check that opens the Hunters Point Edition",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "Community science under the foundation's own programmes with Greenaction for Health and Environmental Justice; OSHA HAZWOPER 29 CFR 1910.120 for anyone who goes inside a cleanup fence; EPA QA/QC and chain-of-custody guidance for any sample that will be relied on; informed consent under 45 CFR 46 for biomonitoring",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 10,
+      "hazards": 4,
+      "interrupts": 0,
+      "stepKinds": [
+        "select",
+        "sequence"
+      ],
+      "badge": {
+        "id": "her-story",
+        "name": "Her Story",
+        "note": "The foundation, its founder and the record answered without an unsafe conclusion"
+      },
+      "meshes": 0,
+      "lights": 0,
+      "overBudget": false,
+      "index": "146",
+      "flat": true,
+      "system": "Community Science",
+      "currency": "PATROL",
+      "ranks": [
+        "Neighbour",
+        "Patrol Member",
+        "Monitor Lead",
+        "Data Steward",
+        "Community Scientist"
+      ],
+      "awards": [
+        {
+          "id": "named-right",
+          "name": "Named Right",
+          "note": "The foundation and its founder answered clean"
+        },
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "Never chose a sample over a person's consent"
+        },
+        {
+          "id": "record-straight",
+          "name": "Record Straight",
+          "note": "The site record and the community's role answered without correction"
+        },
+        {
+          "id": "clean-sheet",
+          "name": "Clean Sheet",
+          "note": "No corrections anywhere in the check"
+        },
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "Finish inside 70% of par — you read the dossier, not the options"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Marie Harrison Community Foundation",
+          "url": "https://www.canwelive.org/"
+        },
+        {
+          "label": "BAAQMD Community Advisory Council — Arieann Harrison",
+          "url": "https://www.baaqmd.gov/en/about-the-air-district/community-advisory-council/harrison"
+        },
+        {
+          "label": "San Francisco Bay View — Marie Harrison, mother of the movement (2019)",
+          "url": "https://sfbayview.com/2019/05/marie-harrison-mother-of-the-movement-for-environmental-justice/"
+        },
+        {
+          "label": "Greenaction — in honor and memory of Marie Harrison",
+          "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+        },
+        {
+          "label": "Inside Climate News — advocates have taken air monitoring into their own hands (2021)",
+          "url": "https://insideclimatenews.org/news/27112021/air-pollution-bayview-hunters-point-san-francisco/"
+        },
+        {
+          "label": "Greenaction — June 2026 community call to action and demands",
+          "url": "https://greenaction.org/2026/06/06/june-2026-bayview-hunters-point-community-call-to-action-and-demands-issued-by-greenaction-and-the-marie-harrison-community-foundation-inc/"
+        },
+        {
+          "label": "EPA Superfund site profile",
+          "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+        },
+        {
+          "label": "Greenaction — Bayview Hunters Point",
+          "url": "https://greenaction.org/bayview-hunters-point/"
+        },
+        {
+          "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+        }
+      ],
+      "deepLink": "smartcity/index.html?sim=can-we-live-story"
+    },
+    {
+      "app": "smartcity",
       "id": "rbs-service-capstone",
       "name": "RBS Service Capstone",
       "title": "SmartCiti.X~ RBS Service Capstone VR",
@@ -8801,7 +8991,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -9460,7 +9650,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",
