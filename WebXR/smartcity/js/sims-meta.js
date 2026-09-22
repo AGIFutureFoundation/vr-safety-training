@@ -5007,5 +5007,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "fryer-oil-change",
+    "index": "104",
+    "domain": "Culinary",
+    "trade": "Line cook — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 kitchen safety training; the California Retail Food Code (used-oil handling and equipment cleaning as adopted from the FDA Food Code); Cal/OSHA General Industry Safety Orders on personal protective equipment and slip hazards, and OSHA 29 CFR 1910.132/1910.22; NSF/ANSI 4 commercial cooking equipment; the fryer manufacturer's cool-down and boil-out procedure",
+    "name": "Fryer Oil Change",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Fryer Oil Change VR",
+    "tagline": "Cold vat, caddy not a bucket, boil-out, the dry route to the rendering bin, and a covered element before the heat goes back on",
+    "accent": 15904276,
+    "accentCss": "#f2ae14",
+    "parSeconds": 260,
+    "badge": {
+      "id": "line-certified",
+      "name": "Line Certified",
+      "note": "A full oil change with the vat cold, the caddy used, the route dry and the element covered before power"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Certified",
+      "currency": "FRY",
+      "ranks": [
+        "Prep Cook",
+        "Line Cook",
+        "Station Lead",
+        "Sous Chef",
+        "Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hood-suppression",
+    "index": "105",
+    "domain": "Culinary",
+    "trade": "Line cook / kitchen fire warden — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 kitchen fire-warden training; NFPA 96 ventilation control and fire protection of commercial cooking operations; NFPA 17A wet chemical extinguishing systems; the California Fire Code; OSHA 29 CFR 1910.157 portable extinguishers; the local fire department's semi-annual suppression-system inspection",
+    "name": "Hood Suppression",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Hood Suppression VR",
+    "tagline": "The cook's-side hood inspection and the fire response: filters, fusible links, the pull station's clear path, and the drill itself",
+    "accent": 14170666,
+    "accentCss": "#d83a2a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "canopy-certified",
+      "name": "Canopy Certified",
+      "note": "A full inspection and a clean drill — pull, gas closed, fan running, everyone out"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Canopy Certified",
+      "currency": "HOOD",
+      "ranks": [
+        "Porter",
+        "Line Cook",
+        "Fire Warden",
+        "Kitchen Lead",
+        "Canopy Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "kitchen-gas-shutoff",
+    "index": "106",
+    "domain": "Culinary",
+    "trade": "Kitchen shift lead — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "UNITE HERE Local 2 kitchen safety training; NFPA 54 / ANSI Z223.1 the National Fuel Gas Code; the California Fire Code; Cal/OSHA General Industry Safety Orders on emergency action and hazardous atmospheres; the gas utility's own reported-odor procedure",
+    "name": "Kitchen Gas Shutoff",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Kitchen Gas Shutoff VR",
+    "tagline": "A gas smell on the line: no spark used to search, every appliance and the emergency valve closed, the room swept at floor level, and a pilot-by-pilot relight",
+    "accent": 14839868,
+    "accentCss": "#e2703c",
+    "parSeconds": 275,
+    "badge": {
+      "id": "line-secured",
+      "name": "Line Secured",
+      "note": "A clean shutdown, a real floor-level sweep, and a relight with nothing skipped"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Secured",
+      "currency": "GAS",
+      "ranks": [
+        "Prep Cook",
+        "Line Cook",
+        "Shift Lead",
+        "Kitchen Manager",
+        "Line Secured"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

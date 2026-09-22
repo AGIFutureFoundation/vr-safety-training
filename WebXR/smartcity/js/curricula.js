@@ -212,7 +212,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "knife-skills", why: "The board anchored, the edge honed, and the claw grip that keeps a prep cook's own knuckles between the blade and the cut — plus the mandoline nobody runs bare-handed." },
       { app: "smartcity", id: "slicer-lockout", why: "The deli slicer taken apart for a changeover the way a machine shop would: the cord locked out before the guard comes off, and the interlock proven before power goes back in." },
       { app: "smartcity", id: "bakery-mixer", why: "The 60-quart floor mixer whose guard interlock gets proven, not assumed, before anything goes in the bowl — and whose scrape-down only ever happens on a machine that's actually stopped." },
-      // slot-culinary-2
+      { app: "smartcity", id: "fryer-oil-change", why: "The vat only gets opened once it has actually cooled — cold and wheeled beats hot and carried, every single change." },
+      { app: "smartcity", id: "hood-suppression", why: "The system over the line only works if the filters, the links and the pull path are checked before the day a flare-up actually tests them." },
+      { app: "smartcity", id: "kitchen-gas-shutoff", why: "A gas smell is a procedure, not a guess — no spark searches for it, and the valve, not the nose, decides when the line is clear." },
       { app: "smartcity", id: "walk-in-cooler", why: "Cold storage as its own procedure: the inside release proven before the door is trusted, 41 °F confirmed, and stock put away raw-below-ready in the order the Food Code sets." },
       { app: "smartcity", id: "receiving-dock-food", why: "The delivery that stocks that cooler in the first place: every cold, frozen and hot item probed at the dock and refused outside the Food Code's own limits, before anything reaches a shelf." },
       { app: "smartcity", id: "prep-cooling", why: "The other half of the clock: a cooked batch brought down through 70 °F in two hours and 41 °F in six, with the reheat-or-discard call for the one that misses it." },
