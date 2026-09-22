@@ -15,6 +15,7 @@ import { makeVariant } from "../../shared/variants.js";
 import { buildReplay } from "../../shared/incidents.js";
 import { stageReplay } from "../../shared/incident-stage.js";
 import { splitByRole, roleView, describeSplit } from "../../shared/crew.js";
+import { createBroadcaster } from "../../shared/observer.js";
 
 // Progress is the profile shared with SmartCiti.X and Trade Skills. It has
 // to be loaded before any Session finishes: Session.finish() calls
@@ -535,6 +536,90 @@ function collectSelectables() {
   for (const id of Object.keys(hits)) hits[id].traverse((o) => { if (o.isMesh) selectables.push(o); });
 }
 
+// ------------------------------------------------------------ instructor mode
+//
+// The same live feed the sibling apps publish, so one console sees a class
+// working across all three (shared/observer.js). Holodeck answers the four
+// commands that mean something here: a note, a hold, opening a station by id,
+// and firing one of the running procedure's declared interruptions now. Each
+// one is appended to the attempt's training record as an instructorAction.
+const observer = createBroadcaster("holodeck", { learner: Progress.playerName });
+let trainingHeld = false;
+let instructorActions = [];
+addEventListener("pagehide", () => observer.close());
+
+function observerSnapshot() {
+  const s = trainingSession;
+  if (!s) return null;
+  const iv = s.interruptLog ?? [];
+  return {
+    stepIndex: (s.index | 0) + 1, stepCount: s.steps?.length ?? 0, stepTitle: s.step?.title ?? "",
+    score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
+    hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+    answered: iv.filter((l) => l.outcome === "answered").length,
+    interruptTotal: s.interrupts?.length ?? 0,
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+  };
+}
+
+function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
+  instructorActions.push({ cmd, at: new Date().toISOString(), detail: detail ?? "" });
+  if (instructorActions.length > 80) instructorActions.shift();
+  observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
+}
+
+observer.describes(() => {
+  const s = trainingSession;
+  if (!s) return { steps: [], interrupts: [], fired: [] };
+  return {
+    steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
+    interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    ...(observerSnapshot() ?? {}),
+  };
+});
+
+observer.onCommand((cmd) => {
+  if (cmd.kind === "note" && cmd.text) {
+    store.patch("hud", { feedback: `<b>Instructor:</b> ${escapeHtml(cmd.text)}`, railState: "warn" });
+    announce(`Instructor: ${cmd.text}`);
+    logInstructorAction("note", cmd.text, { note: "shown on the rail" });
+    return;
+  }
+  if (cmd.kind === "freeze") {
+    trainingHeld = !!cmd.on;
+    store.patch("hud", {
+      railState: cmd.on ? "warn" : "neutral",
+      feedback: cmd.on
+        ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
+        : "<b>Released.</b> Carry on from where you stopped.",
+    });
+    logInstructorAction("freeze", cmd.on ? "on" : "off", { note: cmd.on ? "session held" : "session released" });
+    return;
+  }
+  if (cmd.kind === "open") {
+    const id = cmd.detail ?? "";
+    if (!/^[a-z0-9-]+$/.test(id)) { logInstructorAction("open", id, { ok: false, note: "not a station id" }); return; }
+    trainingHeld = false;
+    logInstructorAction("open", id, { note: "loading the station" });
+    // enterRealSim reports its own failure on the rail when no such station
+    // module exists, which is the honest answer for a console too.
+    enterRealSim(id);
+    return;
+  }
+  if (cmd.kind === "interrupt") {
+    const s = trainingSession;
+    const it = s?.interrupts?.find((i) => i.id === cmd.detail);
+    if (!s || s.finished || !it) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "no such interruption in this procedure" }); return; }
+    if (it.fired) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "already fired" }); return; }
+    // Armed for now; the engine fires it on the next tick exactly as it would
+    // a naturally-timed one (see the interrupt layer in shared/game.js).
+    it.armedAt = s.elapsed;
+    trainingHeld = false;
+    logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the procedure fires it" });
+  }
+});
+
 function clearTraining() {
   if (trainingGroup) { disposeTree(trainingGroup); worldRoot.remove(trainingGroup); trainingGroup = null; }
   trainingSession = null;
@@ -604,6 +689,11 @@ function maybeShowGestureTip(kind) {
 }
 
 function showTrainingResult(s) {
+  observer.finish({
+    passed: s.stars >= 2 && s.hazardHits === 0, stars: s.stars | 0, score: s.score | 0,
+    seconds: Math.round(s.elapsed ?? 0),
+    verdict: s.hazardHits > 0 ? `${s.hazardHits} unsafe action${s.hazardHits === 1 ? "" : "s"}` : `${s.stars} star${s.stars === 1 ? "" : "s"}, clean`,
+  });
   const stars = "★".repeat(s.stars) + "☆".repeat(3 - s.stars);
   const mins = Math.floor(s.elapsed / 60), secs = Math.round(s.elapsed % 60);
   Sfx.great();
@@ -625,7 +715,9 @@ function showTrainingResult(s) {
     score: s.score, stars: s.stars, errors: s.errors, hazardHits: s.hazardHits, holdBreaks: s.holdBreaks,
     seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
     badges: s.earned ?? [], level: s.level, levelName: s.levelName,
+    instructorActions: [...instructorActions],
   });
+  instructorActions = [];
   Identity.emit("smartcitix:record", { record: attempt });
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
   store.patch("trainingResult", {
@@ -693,11 +785,30 @@ function enterTraining(room, buildFn) {
       if (fb.kind === "danger") { srAnnouncer.alert(fb.text); if (fb.speech) announce(fb.speech); }
       syncTrainingHud();
     },
-    onStepComplete: (step, s) => trainingRefs.onStepComplete?.(step, s),
-    onHazard: (id, s) => trainingRefs.onHazard?.(id, s),
+    onStepComplete: (step, s) => {
+      trainingRefs.onStepComplete?.(step, s);
+      observer.step({ stepId: step.id, stepTitle: step.title, ...observerSnapshot() });
+    },
+    onHazard: (id, s) => {
+      trainingRefs.onHazard?.(id, s);
+      observer.hazard({ hazardId: id, note: trainingRoom?.hazards?.[id] ?? "", ...observerSnapshot() });
+    },
+    // An interruption arrives mid-step and runs on its own clock. The station's
+    // own handler changes the scene; this is the rail line and the read-back
+    // that tell the learner an alarm is up and what it is.
+    onInterrupt: (it, s) => {
+      trainingRefs.onInterrupt?.(it, s);
+      store.patch("hud", { railState: "danger", feedback: `<b>${escapeHtml(it.kind ?? "Interruption")}</b><br>${escapeHtml(it.alert ?? "")}` });
+      srAnnouncer.alert(`${it.kind ?? "Interruption"}. ${it.alert ?? ""}`);
+      announce(`${it.kind ?? "Interruption"}. ${it.alert ?? ""}`);
+      observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
+    },
+    onInterruptEnd: (it, s) => trainingRefs.onInterruptEnd?.(it, s),
     onFinish: (s) => showTrainingResult(s),
   });
   trainingSession.start();
+  trainingHeld = false;
+  observer.hello({ learner: Progress.playerName, station: room.id, stationName: room.name ?? room.title });
   store.patch("hud", {
     visible: true, mode: "training",
     feedback: `<b>${room.title}</b> — follow the procedure in order.`,
@@ -1326,8 +1437,10 @@ renderer.setAnimationLoop(() => {
       else store.patch("hud", { feedback: "Drag back from the ball, then release to putt." });
     }
   }
-  if (mode === "training" && trainingSession && !trainingSession.finished) {
+  if (mode === "training" && trainingSession && !trainingSession.finished && !trainingHeld) {
     trainingSession.tick(dt);
+    const snap = observerSnapshot();
+    if (snap) observer.state(snap);
     trainingRefs.animate?.(elapsedTotal, dt, trainingSession);
     updateTrainingDrag();
     for (let i = trainingReturning.length - 1; i >= 0; i--) {

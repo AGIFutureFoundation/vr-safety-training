@@ -338,22 +338,80 @@ function enterHub() {
 // sees a class working across both apps. See shared/observer.js.
 const observer = createBroadcaster("trades", { learner: Progress.playerName });
 addEventListener("pagehide", () => observer.close());
+// The commands this app answers: a note, a hold, opening a room, and firing
+// one of the current room's declared interruptions now. Each one is appended
+// to the attempt's training record as an instructorAction.
+let instructorActions = [];
+function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
+  instructorActions.push({ cmd, at: new Date().toISOString(), detail: detail ?? "" });
+  if (instructorActions.length > 80) instructorActions.shift();
+  observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
+}
 observer.onCommand((cmd) => {
-  if (cmd.kind === "note" && cmd.text) setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+  if (cmd.kind === "note" && cmd.text) {
+    setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
+    logInstructorAction("note", cmd.text, { note: "shown on the rail" });
+    return;
+  }
   if (cmd.kind === "freeze") {
     state.paused = !!cmd.on;
     setRail(cmd.on ? "warn" : "neutral", cmd.on
       ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
       : "<b>Released.</b> Carry on from where you stopped.");
+    logInstructorAction("freeze", cmd.on ? "on" : "off", { note: cmd.on ? "session held" : "session released" });
+    return;
   }
+  if (cmd.kind === "open") {
+    const id = cmd.detail ?? "";
+    if (ROOM_BY_ID[id]) {
+      if (!ui.intro.hidden) begin();
+      ui.results.hidden = true; hidePreBrief(); state.paused = false;
+      setRail("neutral", `<b>Instructor:</b> opening ${escapeHtml(ROOM_BY_ID[id].title)}.`);
+      enterRoom(id, { briefed: true });
+      logInstructorAction("open", id, { note: "room opened" });
+      return;
+    }
+    // A SmartCiti.X station id is not a room here; the console addresses the
+    // whole network, so hand the learner over to the app that owns it rather
+    // than reporting nothing.
+    logInstructorAction("open", id, { note: "not a Trade Skills room — opening SmartCiti.X" });
+    location.href = `../smartcity/index.html?sim=${encodeURIComponent(id)}`;
+    return;
+  }
+  if (cmd.kind === "interrupt") {
+    const s = state.session;
+    const it = s?.interrupts?.find((i) => i.id === cmd.detail);
+    if (!s || s.finished || !it) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "no such interruption in this room" }); return; }
+    if (it.fired) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "already fired" }); return; }
+    // Armed for now; the engine fires it on the next tick exactly as it would
+    // a naturally-timed one (see the interrupt layer in shared/game.js).
+    it.armedAt = s.elapsed;
+    state.paused = false;
+    logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the room fires it" });
+  }
+});
+/** The room itself, for the console's per-learner panel. */
+observer.describes(() => {
+  const s = state.session;
+  if (!s) return { steps: [], interrupts: [], fired: [] };
+  return {
+    steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
+    interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    ...(observerSnapshot() ?? {}),
+  };
 });
 function observerSnapshot() {
   const s = state.session;
   if (!s) return null;
+  const iv = s.interruptLog ?? [];
   return {
     stepIndex: (s.index | 0) + 1, stepCount: s.steps?.length ?? 0, stepTitle: s.step?.title ?? "",
     score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
     hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+    answered: iv.filter((l) => l.outcome === "answered").length,
+    interruptTotal: s.interrupts?.length ?? 0,
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
   };
 }
 
@@ -609,7 +667,9 @@ function showResults(s, summary) {
     seconds: Math.round(s.elapsed), parSeconds: s.room.parSeconds,
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
     debrief: s.debrief(),
+    instructorActions: [...instructorActions],
   });
+  instructorActions = [];
   Identity.emit("smartcitix:record", { record: attempt });
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
   announce(`${s.room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +

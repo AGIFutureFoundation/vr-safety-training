@@ -14,9 +14,10 @@ import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
-import { CURRICULA, allProgress } from "./curricula.js";
+import { CURRICULA, allProgress, curriculumProgress } from "./curricula.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
-import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice } from "../../shared/devices.js";
+import { WEATHER_KINDS } from "../../shared/weather.js";
+import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice, DEVICES, PROFILES } from "../../shared/devices.js";
 import { eiLine, CHECKIN_OPTIONS, checkInPrompt, recordCheckIn } from "../../shared/ei-guide.js";
 import {
   createGamepad, describeGamepadMap, describeBindings, describeInputs,
@@ -140,8 +141,11 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // The device in front of the learner's eye decides pixel ratio, shadows,
 // weather, skyline, HUD scale and background: a monocular hardhat display
 // and a see-through visor get a different run from a desktop (shared/devices.js).
-const DEVICE = detectDevice();
-const PROFILE = applyProfile(DEVICE, { renderer });
+// Both are `let`, not `const`: an instructor console can set the profile the
+// next station runs under (CMD_PROFILE), which is the same call with a device
+// taken from the table instead of from this browser.
+let DEVICE = detectDevice();
+let PROFILE = applyProfile(DEVICE, { renderer });
 // Filmic tone mapping + correct sRGB output is a post-process color-grading
 // step, not a lighting change — every prop's existing MeshStandardMaterial
 // and every scene's existing light intensities stay exactly as tuned, but
@@ -209,7 +213,7 @@ const store = createStore({
     visible: false, rows: [], summary: [], total: 0, passes: 0, credentials: [],
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
-  programs: { visible: false, rows: [] },
+  programs: { visible: false, rows: [], assigned: null },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -509,9 +513,19 @@ async function enterSim(id, { briefed = false } = {}) {
   // A licensed real-world model around the station, when the station (or the
   // URL, for a preview) asks for one, replaces the generated horizon; a
   // device profile that cannot carry the horizon leaves it out too.
+  // An instructor console can set the run profile and the weather for the next
+  // station (CMD_PROFILE / CMD_WEATHER in shared/observer.js). Both land here,
+  // where the stage is built, so the learner sees the change the moment they
+  // walk in rather than on some later reload.
+  if (instructorDeviceId) {
+    const device = deviceForInstructor(instructorDeviceId);
+    if (device) { DEVICE = device; PROFILE = applyProfile(DEVICE, { renderer }); }
+  }
+  const stationWeather = instructorWeather ?? room.weather;
+  coachedHazards.clear();
   const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
   const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, room.weather), room.indoor, horizon);
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, horizon);
   state.stage = stage;
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
   // The model arrives after the station is playable; a failure is reported
@@ -611,6 +625,20 @@ async function enterSim(id, { briefed = false } = {}) {
     },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
+      // Coaching mode (CMD_HAZARD_MODE): the unsafe action is still explained —
+      // the station's own call-out already ran — but it is taken back off the
+      // unsafe count, so the run can still end as a pass and the learner works
+      // on through it. The same hazard twice is explained once.
+      if (hazardMode === "coach") {
+        s.hazardHits = Math.max(0, (s.hazardHits | 0) - 1);
+        s.stepHazards = Math.max(0, (s.stepHazards | 0) - 1);
+        const firstTime = !coachedHazards.has(hitId);
+        coachedHazards.add(hitId);
+        if (firstTime) {
+          setRail("warn", `<b>Coaching:</b> ${escapeHtml(room.hazards?.[hitId] ?? "that is the unsafe way to do it")} <span class="muted">Not counted against this run.</span>`);
+          announce(`Coaching. ${room.hazards?.[hitId] ?? "That is the unsafe way to do it."} Not counted against this run.`);
+        }
+      }
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
       // The hazard text itself is spoken by the station's own call-out; the
       // guide adds its line after the first repeat, when the setup — not the
@@ -761,7 +789,13 @@ function showResults(s, summary) {
     seconds: Math.round(s.elapsed), parSeconds: room.parSeconds,
     badges: earnedNames.map((a) => a.name), level: s.level, levelName: s.levelName,
     debrief: s.debrief(),
+    // Every instructor command this attempt answered, in order. An attempt
+    // driven from a console is auditable as such: what was sent, when, and
+    // with what detail (see shared/observer.js, docs/instructor-console.md).
+    instructorActions: [...instructorActions],
+    hazardMode,
   });
+  instructorActions = [];
   // Hand the attempt to the hosting LMS page, if there is one and it told
   // us who the learner is — only ever to that origin (see identity.js).
   Identity.emit("smartcitix:record", { record: attempt });
@@ -929,17 +963,52 @@ function startRobot(room) {
 }
 // ------------------------------------------------- instructor mode
 //
-// A live feed of this session for an instructor console open on the same
-// machine (WebXR/instructor/). Same-origin, same-device, nothing stored:
-// see shared/observer.js for why that is the honest boundary. A note from
-// the instructor lands on the rail; a freeze pauses the session the way an
-// overlay does.
+// A live feed of this session for an instructor console (WebXR/instructor/),
+// and the commands that console can send back. On one machine the transport is
+// a BroadcastChannel; with ?relay=<ws url> the same envelope also goes over a
+// WebSocket. Nothing about a command is silent: each one lands in front of the
+// learner AND is appended to this attempt's training record as an
+// instructorAction, so a driven run is never mistaken for an unaided one.
+// See shared/observer.js.
 const observer = createBroadcaster("smartcity", { learner: Progress.playerName });
 let observerFrozen = false;
+let hazardMode = "assess";       // "coach" warns once and does not score it
+let instructorWeather = null;    // the kind the NEXT station is built under
+let instructorDeviceId = null;   // the device profile the NEXT station runs under
+let assignedProgram = null;      // a programme pinned in the learner's panel
+let instructorActions = [];      // this attempt's commands, for the record
+const coachedHazards = new Set(); // hazards already explained in coach mode
+
+/** One command, recorded and answered: the learner sees it, the console hears
+ *  what happened, and the attempt's record carries it. */
+function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
+  instructorActions.push({ cmd, at: new Date().toISOString(), detail: detail ?? "" });
+  if (instructorActions.length > 80) instructorActions.shift();
+  observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
+}
+
+/** The device record behind a CMD_PROFILE detail: a device id from the table,
+ *  or a bare run-profile id, which is what a console picker offers when the
+ *  instructor cares about the profile and not the hardware. */
+function deviceForInstructor(id) {
+  if (DEVICES[id]) return { id, ...DEVICES[id], how: "instructor" };
+  if (PROFILES[id]) {
+    return {
+      id, brand: "—", product: PROFILES[id].label, kind: PROFILES[id].label, class: "flat",
+      profile: id, xr: "unknown", ua: null,
+      input: { primary: "mouse", voiceFirst: false, controllers: false, hands: false, keyboard: true, gaze: false },
+      safety: { ansiZ87: false, intrinsicallySafe: false, helmetMount: false },
+      how: "instructor",
+    };
+  }
+  return null;
+}
+
 observer.onCommand((cmd) => {
   if (cmd.kind === "note" && cmd.text) {
     setRail("warn", `<b>Instructor:</b> ${escapeHtml(cmd.text)}`);
     announce(`Instructor: ${cmd.text}`);
+    logInstructorAction("note", cmd.text, { note: "shown on the rail" });
     return;
   }
   if (cmd.kind === "freeze") {
@@ -948,19 +1017,132 @@ observer.onCommand((cmd) => {
     setRail(cmd.on ? "warn" : "neutral", cmd.on
       ? "<b>Held by the instructor.</b> The clock is stopped until they release it."
       : "<b>Released.</b> Carry on from where you stopped.");
+    logInstructorAction("freeze", cmd.on ? "on" : "off", { note: cmd.on ? "session held" : "session released" });
+    return;
+  }
+  if (cmd.kind === "open") {
+    const id = cmd.detail ?? "";
+    const programme = CURRICULA.find((c) => c.id === id);
+    if (programme) {
+      // A programme opens at the first station the learner has not yet passed,
+      // which is where its own Start button goes.
+      const progress = curriculumProgress(programme, TrainingRecords.list());
+      const next = progress.next ?? programme.stations[0];
+      if (!next) { logInstructorAction("open", id, { ok: false, note: "programme has no stations" }); return; }
+      if (next.app === "trades") {
+        logInstructorAction("open", id, { note: `Trade Skills room ${next.id} — opening that app` });
+        location.href = `../trades/index.html?room=${encodeURIComponent(next.id)}`;
+        return;
+      }
+      setRail("neutral", `<b>Instructor:</b> ${escapeHtml(programme.name)} — opening ${escapeHtml(next.id.replace(/-/g, " "))}.`);
+      openForInstructor(next.id);
+      logInstructorAction("open", id, { note: `programme opened at ${next.id}` });
+      return;
+    }
+    if (!simExists(id)) { logInstructorAction("open", id, { ok: false, note: "unknown station or programme" }); return; }
+    setRail("neutral", `<b>Instructor:</b> opening ${escapeHtml(SIMS_META_BY_ID[id]?.name ?? id)}.`);
+    openForInstructor(id);
+    logInstructorAction("open", id, { note: "station opened" });
+    return;
+  }
+  if (cmd.kind === "interrupt") {
+    const s = state.session;
+    const it = s?.interrupts?.find((i) => i.id === cmd.detail);
+    if (!s || s.finished || !it) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "no such interruption in this station" }); return; }
+    if (it.fired) { logInstructorAction("interrupt", cmd.detail, { ok: false, note: "already fired" }); return; }
+    // Arm it for right now and let the engine fire it on the next tick: the
+    // learner gets the same banner, the same clock, the same scoring and the
+    // same scene change a naturally-timed one produces (see the interrupt
+    // layer in shared/game.js). Nothing here shortcuts that path.
+    it.armedAt = s.elapsed;
+    if (observerFrozen) { observerFrozen = false; state.paused = false; }
+    logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the station fires it" });
+    return;
+  }
+  if (cmd.kind === "weather") {
+    if (!WEATHER_KINDS.includes(cmd.detail)) { logInstructorAction("weather", cmd.detail, { ok: false, note: "unknown weather kind" }); return; }
+    instructorWeather = cmd.detail;
+    setRail("neutral", `<b>Instructor:</b> the next station runs in ${escapeHtml(cmd.detail)}.`);
+    announce(`Instructor: the next station runs in ${cmd.detail}.`);
+    logInstructorAction("weather", cmd.detail, { note: "set for the next station" });
+    return;
+  }
+  if (cmd.kind === "profile") {
+    const device = deviceForInstructor(cmd.detail);
+    if (!device) { logInstructorAction("profile", cmd.detail, { ok: false, note: "unknown device or profile id" }); return; }
+    instructorDeviceId = cmd.detail;
+    setRail("neutral", `<b>Instructor:</b> the next station runs on the ${escapeHtml(PROFILES[device.profile]?.label ?? device.profile)} profile.`);
+    announce(`Instructor: the next station runs on the ${PROFILES[device.profile]?.label ?? device.profile} profile.`);
+    logInstructorAction("profile", cmd.detail, { note: `profile ${device.profile} set for the next station` });
+    return;
+  }
+  if (cmd.kind === "hazard-mode") {
+    const mode = cmd.detail === "coach" ? "coach" : cmd.detail === "assess" ? "assess" : null;
+    if (!mode) { logInstructorAction("hazard-mode", cmd.detail, { ok: false, note: "mode is coach or assess" }); return; }
+    hazardMode = mode;
+    coachedHazards.clear();
+    setRail("neutral", mode === "coach"
+      ? "<b>Instructor: coaching mode.</b> An unsafe action is explained once and does not count against this run."
+      : "<b>Instructor: assessed mode.</b> An unsafe action counts, as it does in a real assessment.");
+    announce(mode === "coach" ? "Coaching mode. Unsafe actions are explained, not scored." : "Assessed mode. Unsafe actions count.");
+    logInstructorAction("hazard-mode", mode, { note: mode === "coach" ? "hazards warn once" : "hazards score" });
+    return;
+  }
+  if (cmd.kind === "assign") {
+    const programme = CURRICULA.find((c) => c.id === cmd.detail);
+    if (!programme) { logInstructorAction("assign", cmd.detail, { ok: false, note: "unknown programme" }); return; }
+    assignedProgram = programme.id;
+    renderPrograms();
+    setRail("neutral", `<b>Instructor assigned:</b> ${escapeHtml(programme.name)} — pinned at the top of your training programmes.`);
+    announce(`Instructor assigned ${programme.name}. It is pinned in your training programmes.`);
+    logInstructorAction("assign", programme.id, { note: "pinned in the programmes panel" });
   }
 });
+
+/** CMD_OPEN's own path into a station: the same one the platform channel uses,
+ *  so an instructor and an LMS cannot land a learner in different states. */
+function openForInstructor(id) {
+  if (!renderer.xr.isPresenting) state.mode = "flat";
+  if (store.get().intro.visible) { store.patch("intro", { visible: false }); pendingEnter = null; deepLink = null; Sfx.ensure(); }
+  store.patch("results", { visible: false }); store.patch("prebrief", { visible: false });
+  observerFrozen = false;
+  state.paused = false;
+  enterSim(id, { briefed: true });
+}
+
 addEventListener("pagehide", () => observer.close());
+
+/** The station itself, for the console's per-learner panel: the steps in
+ *  order, the interruptions it declares and which have gone off. Sent with
+ *  every hello, including the one a roll call triggers. */
+observer.describes(() => {
+  const s = state.session;
+  const settings = { hazardMode, weather: instructorWeather, profile: instructorDeviceId, assigned: assignedProgram };
+  if (!s) return { steps: [], interrupts: [], fired: [], ...settings };
+  return {
+    steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
+    interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    ...settings,
+    ...(observerSnapshot() ?? {}),
+  };
+});
+
 /** One snapshot of where this learner is, for the console. */
 function observerSnapshot() {
   const s = state.session;
   if (!s) return null;
+  const iv = s.interruptLog ?? [];
   return {
     stepIndex: (s.index | 0) + 1,
     stepCount: s.steps?.length ?? 0,
     stepTitle: s.step?.title ?? "",
     score: s.score | 0, stars: s.stars | 0, errors: s.errors | 0,
     hazardHits: s.hazardHits | 0, seconds: Math.round(s.elapsed ?? 0),
+    answered: iv.filter((l) => l.outcome === "answered").length,
+    interruptTotal: s.interrupts?.length ?? 0,
+    fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
+    hazardMode,
   };
 }
 
@@ -1073,7 +1255,12 @@ function closeRecords() { state.paused = pausedBeforeOverlay; store.patch("recor
 // attempt — so a programme can never show complete on stations that were
 // only played.
 function renderPrograms() {
-  store.patch("programs", { rows: allProgress(TrainingRecords.list()) });
+  // A programme an instructor assigned (CMD_ASSIGN) is pinned: marked as
+  // assigned and sorted to the top, so the learner opens the panel and sees
+  // the block they were put on rather than hunting for it among 23.
+  const rows = allProgress(TrainingRecords.list()).map((r) => ({ ...r, assigned: r.id === assignedProgram }));
+  rows.sort((a, b) => (a.assigned === b.assigned ? 0 : a.assigned ? -1 : 1));
+  store.patch("programs", { rows, assigned: assignedProgram });
 }
 function viewPrograms() {
   pausedBeforeOverlay = state.paused;

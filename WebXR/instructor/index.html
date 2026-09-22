@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Instructor Console</title>
-<meta name="description" content="A live view of the training sessions running on this machine: where each learner is, what they have hit, and a line you can put in front of them.">
+<meta name="description" content="A live view of the training sessions running on this machine — or through a relay — with the content and interaction controls for each learner: where they are, what they have hit, the station's own interruptions, its weather and device profile, and the programme they are on.">
 <style>
   :root{
     --void:#080b12; --panel:#101722; --raised:#182231; --text:#f2f6fa; --muted:#93a4b8; --edge:#2c3948;
@@ -15,19 +15,27 @@
   *{box-sizing:border-box} html,body{margin:0;min-height:100%}
   body{ background: radial-gradient(1100px 620px at 10% -10%, rgba(79,209,255,.10), transparent 60%), var(--void);
     color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; padding:36px 20px 72px }
-  main{max-width:1100px;margin:0 auto}
+  main{max-width:1180px;margin:0 auto}
   .eyebrow{font-family:var(--cond);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:0 0 8px}
   h1{font-family:var(--cond);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(28px,5vw,42px);margin:0 0 12px}
-  p.lead{color:var(--muted);font-size:15px;line-height:1.6;max-width:70ch;margin:0 0 20px}
+  h2{font-family:var(--cond);font-weight:600;letter-spacing:.02em;font-size:20px;margin:0 0 8px}
+  h3{font-family:var(--cond);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:14px 0 6px}
+  p.lead{color:var(--muted);font-size:15px;line-height:1.6;max-width:74ch;margin:0 0 20px}
   a{color:var(--accent)}
   .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:16px 18px;margin:0 0 18px}
   .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
   button{font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--raised);
     border:1px solid var(--edge);border-radius:10px;padding:10px 16px;cursor:pointer}
   button.primary{background:var(--accent);color:#08131a;border-color:transparent}
+  button.on{background:rgba(79,209,255,.18);border-color:var(--accent);color:#bfeaff}
+  button.small{padding:7px 11px;font-size:12px}
   button:disabled{opacity:.4;cursor:default}
-  input[type=text]{flex:1 1 260px;min-width:0;background:#0b111a;color:var(--text);border:1px solid var(--edge);
-    border-radius:10px;padding:10px 12px;font:14px var(--sans)}
+  input[type=text],input[type=search],select{background:#0b111a;color:var(--text);border:1px solid var(--edge);
+    border-radius:10px;padding:10px 12px;font:14px var(--sans);min-width:0}
+  input[type=text],input[type=search]{flex:1 1 260px}
+  select{flex:0 1 240px}
+  .tabs{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
+  .tabs button[aria-selected=true]{background:var(--accent);color:#08131a;border-color:transparent}
   #count{font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted);margin:0 0 12px}
   #target{color:var(--accent);font-weight:600}
   #sent{color:var(--good);font-size:13px;min-height:18px;margin:8px 0 0}
@@ -44,10 +52,11 @@
   .pill.live{background:rgba(79,209,255,.18);color:#bfeaff}
   .pill.pass{background:rgba(89,201,123,.2);color:#c9f5d6}
   .pill.fail{background:rgba(240,100,91,.2);color:#ffd9d6}
+  .pill.coach{background:rgba(242,193,75,.2);color:#ffeab8}
   .bar{height:6px;border-radius:3px;background:var(--raised);overflow:hidden;margin:10px 0 6px}
   .bar span{display:block;height:100%;background:var(--accent);transition:width .3s ease}
   .sess-step{font-size:13px;margin:0 0 10px}
-  .sess-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px;margin:0 0 10px}
+  .sess-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 10px;margin:0 0 10px}
   .sess-stats .stat{min-width:0}
   .sess-stats dt{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:10.5px;color:var(--muted)}
   .sess-stats dd{margin:2px 0 0;font-size:15px;font-weight:600}
@@ -57,32 +66,148 @@
   .sess-log li time{color:var(--muted);flex:0 0 auto;font-variant-numeric:tabular-nums}
   .sess-log li.hazard{border-left:3px solid var(--bad)}
   .sess-log li.pass{border-left:3px solid var(--good)}
-  .sess-log li.fail{border-left:3px solid var(--warn)}
+  .sess-log li.fail,.sess-log li.refused{border-left:3px solid var(--warn)}
+  .sess-log li.action{border-left:3px solid var(--accent)}
+  /* Per-learner panel */
+  #panel .panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .steps{list-style:none;padding:0;margin:0;display:grid;gap:3px;max-height:280px;overflow:auto}
+  .steps li{display:flex;gap:8px;font-size:12.5px;line-height:1.4;padding:5px 8px;border-radius:7px;background:var(--raised);color:var(--muted)}
+  .steps li b{color:var(--text);font-weight:600}
+  .steps li .num{font-variant-numeric:tabular-nums;color:var(--muted);flex:0 0 22px}
+  .steps li.done{opacity:.6}
+  .steps li.now{background:rgba(79,209,255,.16);color:var(--text);border-left:3px solid var(--accent)}
+  .ints{display:grid;gap:8px;margin:0}
+  .int{display:grid;gap:4px;background:var(--raised);border:1px solid var(--edge);border-radius:10px;padding:9px 11px}
+  .int p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+  .int .int-kind{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--text)}
   .fine{color:var(--muted);font-size:12.5px;line-height:1.55;margin:14px 0 0}
+  .muted{color:var(--muted)}
+  /* Catalog roster */
+  .cat{border:1px solid var(--edge);border-radius:12px;background:var(--panel);margin:0 0 10px;padding:0 14px}
+  .cat > summary{cursor:pointer;padding:12px 2px;font-family:var(--cond);font-weight:600;letter-spacing:.04em;font-size:17px}
+  .cat > summary::marker{color:var(--accent)}
+  .stations{list-style:none;padding:0 0 12px;margin:0;display:grid;gap:8px}
+  .stn{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;
+    background:var(--raised);border-radius:10px;padding:9px 12px}
+  .stn .stn-id{font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+  .stn h4{margin:0;font:600 14px var(--sans)}
+  .stn .stn-meta{color:var(--muted);font-size:12px}
+  .prog{border:1px solid var(--edge);border-radius:12px;background:var(--panel);margin:0 0 10px;padding:0 14px}
+  .prog > summary{cursor:pointer;padding:12px 2px;font-family:var(--cond);font-weight:600;letter-spacing:.04em;font-size:17px}
+  .prog ol{margin:0 0 12px;padding-left:22px;color:var(--muted);font-size:12.5px;line-height:1.6}
+  /* Session log */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--edge);vertical-align:top}
+  th{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+  td.dir-sent{color:var(--accent)} td.dir-recv{color:var(--muted)}
+  #log-wrap{max-height:520px;overflow:auto}
+  [hidden]{display:none !important}
 </style>
 </head>
 <body>
 <main>
-  <p class="eyebrow">SmartCiti.X ~VR Simulators · Trade Skills Simulator</p>
+  <p class="eyebrow">SmartCiti.X ~VR Simulators · Trade Skills Simulator · Holodeck</p>
   <h1>Instructor console</h1>
-  <p class="lead">A live view of the training sessions running in other tabs and windows <b>on this machine</b>: where each learner is in the procedure, what they have scored, every unsafe action as it happens, and the verdict when they finish. Select a session to put a line in front of that learner or hold their clock.</p>
+  <p class="lead">Every training session it can hear: where each learner is in the procedure, what they have scored, every unsafe action as it happens, and the verdict when they finish. Select a learner to drive their session — a line on their rail, a hold, one of the station's own interruptions, the weather and device profile the next station runs under, coaching or assessed hazards, and the programme they are put on. Every command is shown to the learner and written into their attempt record.</p>
 
-  <section class="panel">
-    <p id="count">Listening…</p>
-    <div class="row">
-      <input type="text" id="note" placeholder="A line for the selected learner — it lands on their rail" aria-label="Note to the selected learner" disabled>
-      <button class="primary" id="send" disabled>Send note</button>
-      <button id="hold" disabled>Hold</button>
-      <button id="release" disabled>Release</button>
-      <button id="roll">Roll call</button>
-    </div>
-    <p id="sent" role="status" aria-live="polite"></p>
-    <p class="fine">Selected: <span id="target">no session selected</span>. Nothing on this page is stored — it shows what is happening right now. The durable record of an attempt is the learner's training record, exported from their own app.</p>
+  <div class="tabs" role="tablist" aria-label="Console views">
+    <button id="tab-live" role="tab" aria-selected="true" aria-controls="view-live">Live class</button>
+    <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
+    <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
+  </div>
+
+  <section id="view-live" role="tabpanel" aria-labelledby="tab-live">
+    <section class="panel">
+      <p id="count">Listening…</p>
+      <div class="row">
+        <button id="roll">Roll call</button>
+        <button id="hold" disabled>Hold</button>
+        <button id="release" disabled>Release</button>
+      </div>
+      <p id="sent" role="status" aria-live="polite"></p>
+      <p class="fine">Selected: <span id="target">no session selected</span>. <span id="transport"></span></p>
+    </section>
+
+    <section class="panel" id="panel" hidden>
+      <h2 id="panel-who">Learner</h2>
+      <p class="fine" id="panel-where"></p>
+      <div class="panel-grid">
+        <div>
+          <h3>Procedure</h3>
+          <ol class="steps" id="panel-steps"></ol>
+        </div>
+        <div>
+          <h3>Declared interruptions</h3>
+          <div class="ints" id="panel-ints"></div>
+          <h3>Note on the learner's rail</h3>
+          <div class="row">
+            <input type="text" id="note" placeholder="A line for this learner" aria-label="Note to the selected learner">
+            <button class="primary" id="send">Send note</button>
+          </div>
+        </div>
+        <div>
+          <h3>Conditions for the next station</h3>
+          <div class="row">
+            <select id="weather" aria-label="Weather for the next station"></select>
+            <button id="weather-send" class="small">Set weather</button>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <select id="profile" aria-label="Device profile for the next station"></select>
+            <button id="profile-send" class="small">Set profile</button>
+          </div>
+          <h3>Hazards</h3>
+          <div class="row">
+            <button id="coach" class="small">Coach</button>
+            <button id="assess" class="small">Assess</button>
+            <span class="muted" id="hazard-mode-now"></span>
+          </div>
+          <h3>Programme</h3>
+          <div class="row">
+            <select id="programme" aria-label="Programme to assign"></select>
+            <button id="assign" class="small">Assign</button>
+            <button id="open-programme" class="small">Open now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="list"></div>
   </section>
 
-  <div id="list"></div>
+  <section id="view-roster" role="tabpanel" aria-labelledby="tab-roster" hidden>
+    <section class="panel">
+      <div class="row">
+        <input type="search" id="roster-search" placeholder="Search the catalog — station, trade, certification, category" aria-label="Search the catalog">
+        <button id="roster-clear" class="small">Clear</button>
+      </div>
+      <p class="fine" id="roster-count">Loading the catalog…</p>
+      <p class="fine">“Send selected” goes to the learner selected on the Live class view; “Send all live” goes to every live session. Both are the same open command the learner's app answers, so the class lands in the station the same way a deep link would.</p>
+    </section>
+    <div id="roster-programmes"></div>
+    <div id="roster-tree"></div>
+  </section>
 
-  <p class="fine">This console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered. An instructor watching from another machine needs the relay, which is not built yet and is not pretended at here. When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the other honest path. <a href="../portal/index.html">Back to the network portal</a>.</p>
+  <section id="view-log" role="tabpanel" aria-labelledby="tab-log" hidden>
+    <section class="panel">
+      <div class="row">
+        <button class="primary" id="log-csv">Export CSV</button>
+        <button id="log-clear">Clear</button>
+        <label class="muted" for="log-state"><input type="checkbox" id="log-state"> Include position heartbeats</label>
+        <span class="muted" id="log-count"></span>
+      </div>
+      <p class="fine">Every command this console sent and every event it received, newest first. The twice-a-second position snapshot every running session sends is folded away unless you ask for it; the export writes exactly what is shown. This page stores nothing — the export is the copy you keep. The learner's own attempt record carries the same commands as instructorActions.</p>
+    </section>
+    <section class="panel">
+      <div id="log-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Dir</th><th>Kind</th><th>Learner</th><th>Station</th><th>Detail</th></tr></thead>
+          <tbody id="log-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../portal/index.html">Back to the network portal</a>.</p>
 </main>
 <script type="module" src="./js/app.js"></script>
 </body>

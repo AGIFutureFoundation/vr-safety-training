@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Instructor Console</title>
-<meta name="description" content="A live view of the training sessions running on this machine: where each learner is, what they have hit, and a line you can put in front of them.">
+<meta name="description" content="A live view of the training sessions running on this machine — or through a relay — with the content and interaction controls for each learner: where they are, what they have hit, the station's own interruptions, its weather and device profile, and the programme they are on.">
 <style>
   :root{
     --void:#080b12; --panel:#101722; --raised:#182231; --text:#f2f6fa; --muted:#93a4b8; --edge:#2c3948;
@@ -15,19 +15,27 @@
   *{box-sizing:border-box} html,body{margin:0;min-height:100%}
   body{ background: radial-gradient(1100px 620px at 10% -10%, rgba(79,209,255,.10), transparent 60%), var(--void);
     color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; padding:36px 20px 72px }
-  main{max-width:1100px;margin:0 auto}
+  main{max-width:1180px;margin:0 auto}
   .eyebrow{font-family:var(--cond);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:0 0 8px}
   h1{font-family:var(--cond);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(28px,5vw,42px);margin:0 0 12px}
-  p.lead{color:var(--muted);font-size:15px;line-height:1.6;max-width:70ch;margin:0 0 20px}
+  h2{font-family:var(--cond);font-weight:600;letter-spacing:.02em;font-size:20px;margin:0 0 8px}
+  h3{font-family:var(--cond);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12.5px;color:var(--muted);margin:14px 0 6px}
+  p.lead{color:var(--muted);font-size:15px;line-height:1.6;max-width:74ch;margin:0 0 20px}
   a{color:var(--accent)}
   .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:16px 18px;margin:0 0 18px}
   .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
   button{font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--raised);
     border:1px solid var(--edge);border-radius:10px;padding:10px 16px;cursor:pointer}
   button.primary{background:var(--accent);color:#08131a;border-color:transparent}
+  button.on{background:rgba(79,209,255,.18);border-color:var(--accent);color:#bfeaff}
+  button.small{padding:7px 11px;font-size:12px}
   button:disabled{opacity:.4;cursor:default}
-  input[type=text]{flex:1 1 260px;min-width:0;background:#0b111a;color:var(--text);border:1px solid var(--edge);
-    border-radius:10px;padding:10px 12px;font:14px var(--sans)}
+  input[type=text],input[type=search],select{background:#0b111a;color:var(--text);border:1px solid var(--edge);
+    border-radius:10px;padding:10px 12px;font:14px var(--sans);min-width:0}
+  input[type=text],input[type=search]{flex:1 1 260px}
+  select{flex:0 1 240px}
+  .tabs{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
+  .tabs button[aria-selected=true]{background:var(--accent);color:#08131a;border-color:transparent}
   #count{font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted);margin:0 0 12px}
   #target{color:var(--accent);font-weight:600}
   #sent{color:var(--good);font-size:13px;min-height:18px;margin:8px 0 0}
@@ -44,10 +52,11 @@
   .pill.live{background:rgba(79,209,255,.18);color:#bfeaff}
   .pill.pass{background:rgba(89,201,123,.2);color:#c9f5d6}
   .pill.fail{background:rgba(240,100,91,.2);color:#ffd9d6}
+  .pill.coach{background:rgba(242,193,75,.2);color:#ffeab8}
   .bar{height:6px;border-radius:3px;background:var(--raised);overflow:hidden;margin:10px 0 6px}
   .bar span{display:block;height:100%;background:var(--accent);transition:width .3s ease}
   .sess-step{font-size:13px;margin:0 0 10px}
-  .sess-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px;margin:0 0 10px}
+  .sess-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 10px;margin:0 0 10px}
   .sess-stats .stat{min-width:0}
   .sess-stats dt{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:10.5px;color:var(--muted)}
   .sess-stats dd{margin:2px 0 0;font-size:15px;font-weight:600}
@@ -57,79 +66,564 @@
   .sess-log li time{color:var(--muted);flex:0 0 auto;font-variant-numeric:tabular-nums}
   .sess-log li.hazard{border-left:3px solid var(--bad)}
   .sess-log li.pass{border-left:3px solid var(--good)}
-  .sess-log li.fail{border-left:3px solid var(--warn)}
+  .sess-log li.fail,.sess-log li.refused{border-left:3px solid var(--warn)}
+  .sess-log li.action{border-left:3px solid var(--accent)}
+  /* Per-learner panel */
+  #panel .panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .steps{list-style:none;padding:0;margin:0;display:grid;gap:3px;max-height:280px;overflow:auto}
+  .steps li{display:flex;gap:8px;font-size:12.5px;line-height:1.4;padding:5px 8px;border-radius:7px;background:var(--raised);color:var(--muted)}
+  .steps li b{color:var(--text);font-weight:600}
+  .steps li .num{font-variant-numeric:tabular-nums;color:var(--muted);flex:0 0 22px}
+  .steps li.done{opacity:.6}
+  .steps li.now{background:rgba(79,209,255,.16);color:var(--text);border-left:3px solid var(--accent)}
+  .ints{display:grid;gap:8px;margin:0}
+  .int{display:grid;gap:4px;background:var(--raised);border:1px solid var(--edge);border-radius:10px;padding:9px 11px}
+  .int p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+  .int .int-kind{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--text)}
   .fine{color:var(--muted);font-size:12.5px;line-height:1.55;margin:14px 0 0}
+  .muted{color:var(--muted)}
+  /* Catalog roster */
+  .cat{border:1px solid var(--edge);border-radius:12px;background:var(--panel);margin:0 0 10px;padding:0 14px}
+  .cat > summary{cursor:pointer;padding:12px 2px;font-family:var(--cond);font-weight:600;letter-spacing:.04em;font-size:17px}
+  .cat > summary::marker{color:var(--accent)}
+  .stations{list-style:none;padding:0 0 12px;margin:0;display:grid;gap:8px}
+  .stn{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;
+    background:var(--raised);border-radius:10px;padding:9px 12px}
+  .stn .stn-id{font-family:var(--cond);letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+  .stn h4{margin:0;font:600 14px var(--sans)}
+  .stn .stn-meta{color:var(--muted);font-size:12px}
+  .prog{border:1px solid var(--edge);border-radius:12px;background:var(--panel);margin:0 0 10px;padding:0 14px}
+  .prog > summary{cursor:pointer;padding:12px 2px;font-family:var(--cond);font-weight:600;letter-spacing:.04em;font-size:17px}
+  .prog ol{margin:0 0 12px;padding-left:22px;color:var(--muted);font-size:12.5px;line-height:1.6}
+  /* Session log */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--edge);vertical-align:top}
+  th{font-family:var(--cond);letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+  td.dir-sent{color:var(--accent)} td.dir-recv{color:var(--muted)}
+  #log-wrap{max-height:520px;overflow:auto}
+  [hidden]{display:none !important}
 </style>
 </head>
 <body>
 <!-- Generated by tools/bundle_webxr.py from WebXR/instructor/js — edit the modules, not this file. -->
 
 <main>
-  <p class="eyebrow">SmartCiti.X ~VR Simulators · Trade Skills Simulator</p>
+  <p class="eyebrow">SmartCiti.X ~VR Simulators · Trade Skills Simulator · Holodeck</p>
   <h1>Instructor console</h1>
-  <p class="lead">A live view of the training sessions running in other tabs and windows <b>on this machine</b>: where each learner is in the procedure, what they have scored, every unsafe action as it happens, and the verdict when they finish. Select a session to put a line in front of that learner or hold their clock.</p>
+  <p class="lead">Every training session it can hear: where each learner is in the procedure, what they have scored, every unsafe action as it happens, and the verdict when they finish. Select a learner to drive their session — a line on their rail, a hold, one of the station's own interruptions, the weather and device profile the next station runs under, coaching or assessed hazards, and the programme they are put on. Every command is shown to the learner and written into their attempt record.</p>
 
-  <section class="panel">
-    <p id="count">Listening…</p>
-    <div class="row">
-      <input type="text" id="note" placeholder="A line for the selected learner — it lands on their rail" aria-label="Note to the selected learner" disabled>
-      <button class="primary" id="send" disabled>Send note</button>
-      <button id="hold" disabled>Hold</button>
-      <button id="release" disabled>Release</button>
-      <button id="roll">Roll call</button>
-    </div>
-    <p id="sent" role="status" aria-live="polite"></p>
-    <p class="fine">Selected: <span id="target">no session selected</span>. Nothing on this page is stored — it shows what is happening right now. The durable record of an attempt is the learner's training record, exported from their own app.</p>
+  <div class="tabs" role="tablist" aria-label="Console views">
+    <button id="tab-live" role="tab" aria-selected="true" aria-controls="view-live">Live class</button>
+    <button id="tab-roster" role="tab" aria-selected="false" aria-controls="view-roster">Roster</button>
+    <button id="tab-log" role="tab" aria-selected="false" aria-controls="view-log">Session log</button>
+  </div>
+
+  <section id="view-live" role="tabpanel" aria-labelledby="tab-live">
+    <section class="panel">
+      <p id="count">Listening…</p>
+      <div class="row">
+        <button id="roll">Roll call</button>
+        <button id="hold" disabled>Hold</button>
+        <button id="release" disabled>Release</button>
+      </div>
+      <p id="sent" role="status" aria-live="polite"></p>
+      <p class="fine">Selected: <span id="target">no session selected</span>. <span id="transport"></span></p>
+    </section>
+
+    <section class="panel" id="panel" hidden>
+      <h2 id="panel-who">Learner</h2>
+      <p class="fine" id="panel-where"></p>
+      <div class="panel-grid">
+        <div>
+          <h3>Procedure</h3>
+          <ol class="steps" id="panel-steps"></ol>
+        </div>
+        <div>
+          <h3>Declared interruptions</h3>
+          <div class="ints" id="panel-ints"></div>
+          <h3>Note on the learner's rail</h3>
+          <div class="row">
+            <input type="text" id="note" placeholder="A line for this learner" aria-label="Note to the selected learner">
+            <button class="primary" id="send">Send note</button>
+          </div>
+        </div>
+        <div>
+          <h3>Conditions for the next station</h3>
+          <div class="row">
+            <select id="weather" aria-label="Weather for the next station"></select>
+            <button id="weather-send" class="small">Set weather</button>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <select id="profile" aria-label="Device profile for the next station"></select>
+            <button id="profile-send" class="small">Set profile</button>
+          </div>
+          <h3>Hazards</h3>
+          <div class="row">
+            <button id="coach" class="small">Coach</button>
+            <button id="assess" class="small">Assess</button>
+            <span class="muted" id="hazard-mode-now"></span>
+          </div>
+          <h3>Programme</h3>
+          <div class="row">
+            <select id="programme" aria-label="Programme to assign"></select>
+            <button id="assign" class="small">Assign</button>
+            <button id="open-programme" class="small">Open now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="list"></div>
   </section>
 
-  <div id="list"></div>
+  <section id="view-roster" role="tabpanel" aria-labelledby="tab-roster" hidden>
+    <section class="panel">
+      <div class="row">
+        <input type="search" id="roster-search" placeholder="Search the catalog — station, trade, certification, category" aria-label="Search the catalog">
+        <button id="roster-clear" class="small">Clear</button>
+      </div>
+      <p class="fine" id="roster-count">Loading the catalog…</p>
+      <p class="fine">“Send selected” goes to the learner selected on the Live class view; “Send all live” goes to every live session. Both are the same open command the learner's app answers, so the class lands in the station the same way a deep link would.</p>
+    </section>
+    <div id="roster-programmes"></div>
+    <div id="roster-tree"></div>
+  </section>
 
-  <p class="fine">This console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered. An instructor watching from another machine needs the relay, which is not built yet and is not pretended at here. When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the other honest path. <a href="../../portal/index.html">Back to the network portal</a>.</p>
+  <section id="view-log" role="tabpanel" aria-labelledby="tab-log" hidden>
+    <section class="panel">
+      <div class="row">
+        <button class="primary" id="log-csv">Export CSV</button>
+        <button id="log-clear">Clear</button>
+        <label class="muted" for="log-state"><input type="checkbox" id="log-state"> Include position heartbeats</label>
+        <span class="muted" id="log-count"></span>
+      </div>
+      <p class="fine">Every command this console sent and every event it received, newest first. The twice-a-second position snapshot every running session sends is folded away unless you ask for it; the export writes exactly what is shown. This page stores nothing — the export is the copy you keep. The learner's own attempt record carries the same commands as instructorActions.</p>
+    </section>
+    <section class="panel">
+      <div id="log-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Dir</th><th>Kind</th><th>Learner</th><th>Station</th><th>Detail</th></tr></thead>
+          <tbody id="log-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <p class="fine">Without a relay this console is same-origin and same-device: it uses a browser BroadcastChannel, which does not cross the network. A hall with a row of laptops, or headsets mirrored to one screen, is covered by that alone. To watch from another machine, run <code>node tools/relay_server.mjs</code> and open both the console and each learner's app with <code>?relay=ws://&lt;host&gt;:8787</code> — the same JSON envelope then also travels over the WebSocket (see <a href="../../docs/instructor-console.md">docs/instructor-console.md</a>). When a simulator is embedded in a learning platform, the same events are already sent to the host page, which is the third honest path. <a href="../../portal/index.html">Back to the network portal</a>.</p>
 </main>
 <script type="module">
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+
+/* ===== shared/devices.js ===== */
+// Device profiles: how the apps run on the head-worn hardware a construction,
+// industrial, maritime or emergency-services crew actually wears — and the
+// headsets a union training centre buys for the training room.
+//
+// Many of these are assisted-reality or optical see-through AR devices, not
+// VR headsets: the wearer keeps direct sight of the real site, the display is
+// small and often monocular, and the input is voice, a touchpad or a few
+// buttons rather than controllers. A procedure that renders a full plaza with
+// rain at 2× pixel ratio behind a 28px HUD is unreadable on an 854-pixel-wide
+// monocular display clipped to a hardhat. So each device maps to a run
+// profile, and the profile decides: pixel ratio and shadows, whether the
+// weather layer and the skyline are built, how large the HUD is drawn, whether
+// the scene sits on black (optical see-through: black is transparent), which
+// entry mode the intro offers first, and what the select verb is called in a
+// hint (a trigger, a pinch, a touchpad, a spoken word).
+//
+// Detection is by URL (`?device=<id>`, the way a training office pins a
+// kiosk), then user agent, then screen size. A wrong guess only changes the
+// profile, never the procedure, and the intro names what it chose so a
+// learner can correct it. A user-agent rule exists only for devices whose
+// browser is known to announce itself (Quest browsers say "OculusBrowser" and
+// the model, PICO browsers say "PICO", RealWear, Vuzix M-series, Moverio,
+// Rokid, Iristick, ThirdEye, Univet, HoloLens); every other device has
+// `ua: null` and is reached by the URL override only. Apple Vision Pro's
+// Safari sends a desktop-Mac user agent on purpose, so it is URL-only.
+// Specific rules sit above generic ones in the table because the detector
+// takes the first match; tools/check_devices.mjs proves no rule shadows
+// another.
+//
+// `class` groups the hardware the way a procurement sheet does:
+//   vr        opaque headset, passthrough optional (Quest, Pico, Vive, Varjo,
+//             Vision Pro)
+//   mr        optical see-through headset with room tracking (HoloLens 2,
+//             Magic Leap 2)
+//   goggle    binocular see-through glasses without WebXR (Moverio, Shield,
+//             ThinkReality A3, Blade, X-Craft, X2, VisionAR)
+//   monocular a single small display on a hardhat or a frame (RealWear,
+//             Vuzix M-series and Z100, Iristick, Glass EE2)
+//   helmet    the display is built into head or face protection (Atom,
+//             DAQRI, MIDAS)
+//
+// `input` is what another team's Controls panel reads: `primary` is the way
+// the learner selects, `voiceFirst` means the vendor designs for voice as
+// the main input, `controllers` means tracked hand controllers, `hands`
+// means the device tracks the learner's bare hands, `keyboard` means a
+// keyboard reaches the page, `gaze` means where the learner looks is an
+// input the page can act on. `safety` records the vendor's own statements —
+// `true` is a vendor claim to be verified, "unverified" means no statement
+// was confirmed — and never a certification by this project. The three
+// questions a safety officer has to answer (eye protection rating, helmet
+// mount through an approved accessory slot, operational suitability) are in
+// docs/devices.md.
+
+const CLASSES = ["vr", "mr", "goggle", "monocular", "helmet"];
+const INPUT_PRIMARY = ["controllers", "hands", "voice", "touchpad", "buttons", "mouse"];
+
+/** A run profile. Beyond the render flags, `display` says what is in front
+ *  of the eye (flat screen, opaque headset, binocular see-through, monocular),
+ *  `targetScale` is how much larger the app may draw selectable targets,
+ *  `selectVerb` is the one word a hint uses for selecting, and `hint` is the
+ *  sentence the Controls panel shows before the first step. */
+const PROFILES = {
+  desktop: {
+    label: "Desktop / tablet / phone",
+    pixelRatio: 2, shadows: true, weather: true, skyline: true, hudScale: 1, contrast: "normal",
+    background: null, prefer: "flat", voicePrompt: false, display: "flat", targetScale: 1, selectVerb: "click",
+    hint: "Click or tap a highlighted part to select it.", note: "The full scene.",
+  },
+  vr: {
+    label: "VR headset",
+    pixelRatio: 2, shadows: true, weather: true, skyline: true, hudScale: 1, contrast: "normal",
+    background: null, prefer: "vr", voicePrompt: false, display: "opaque", targetScale: 1, selectVerb: "trigger",
+    hint: "Point the controller at a part and pull the trigger to select it.", note: "Immersive VR with controllers, hands where the browser offers them.",
+  },
+  hands: {
+    label: "Hand-tracked headset",
+    pixelRatio: 2, shadows: true, weather: true, skyline: true, hudScale: 1.1, contrast: "normal",
+    background: null, prefer: "vr", voicePrompt: false, display: "opaque", targetScale: 1.15, selectVerb: "pinch",
+    hint: "Look at a part and pinch thumb and finger together to select it.",
+    note: "Immersive VR driven by tracked hands with no controllers: the HUD and the selectable targets are drawn a little larger, and every hint names a pinch rather than a trigger.",
+  },
+  mr: {
+    label: "Mixed-reality headset",
+    pixelRatio: 1, shadows: false, weather: "light", skyline: false, hudScale: 1.15, contrast: "high",
+    background: null, prefer: "ar", voicePrompt: true, display: "seethrough", targetScale: 1.15, selectVerb: "pinch",
+    hint: "Air-tap: pinch thumb and finger on a part to select it.",
+    note: "WebXR immersive AR with hit-test and hands where the browser offers it; the station is placed on the real floor and the plaza is not built.",
+  },
+  seethrough: {
+    label: "Optical see-through AR glasses",
+    pixelRatio: 1, shadows: false, weather: false, skyline: false, hudScale: 1.3, contrast: "high",
+    background: "black", prefer: "flat", voicePrompt: true, display: "seethrough", targetScale: 1.2, selectVerb: "touchpad",
+    hint: "Select with the glasses' touchpad or controller; voice reads each step back.",
+    note: "Binocular see-through display without WebXR: the scene is drawn on black so the real site shows through, the HUD is enlarged and high-contrast, and voice runs the steps.",
+  },
+  assisted: {
+    label: "Assisted-reality (monocular) display",
+    pixelRatio: 1, shadows: false, weather: false, skyline: false, hudScale: 1.5, contrast: "high",
+    background: "dark", prefer: "flat", voicePrompt: true, display: "monocular", targetScale: 1.3, selectVerb: "say",
+    hint: "Say the part's name or press the action button to select it.",
+    note: "A small monocular display on a hardhat: one large step card at a time, voice-driven, no drag gestures required, minimal scene.",
+  },
+};
+
+// Record builders, as function declarations: the bundler reads a one-line
+// `const` with destructured defaults as several declared names.
+function IN(primary, flags = {}) {
+  return { primary, voiceFirst: false, controllers: false, hands: false, keyboard: false, gaze: false, ...flags };
+}
+function SAFE(flags = {}) {
+  return { ansiZ87: false, intrinsicallySafe: false, helmetMount: false, ...flags };
+}
+const NOT_PPE = "Not PPE; training-room use";
+
+/** The device table. `kind` is what the vendor calls it; `class` is the
+ *  procurement grouping above; `profile` is how the apps run it; `xr` is
+ *  whether the device's browser is known to offer WebXR immersive sessions
+ *  (none / ar / vr / both) — "none" means the flat mode with the profile's
+ *  theme, and is also what an unverified browser gets. `mount` and `ppe` are
+ *  the vendor's own statements, to be verified with the vendor and the
+ *  safety officer. Order matters for user-agent detection: a specific rule
+ *  sits above the generic rule of the same family. */
+const DEVICES = {
+  // RealWear — monocular, voice-first. The HMT-1Z1 and Navigator 500 rules
+  // sit above the 520's, whose "RealWear" alternative is the family fallback.
+  "realwear-hmt-1z1": { brand: "RealWear", product: "HMT-1Z1", kind: "Assisted reality, monocular, intrinsically safe", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ intrinsicallySafe: true, helmetMount: true }),
+    mount: "Helmet-mountable, hazardous-area rated", ppe: "Zone 1 / C1D1 rated per vendor; verify the site's classification", use: "Industrial response, petrochemical, mining, emergency maintenance", ua: /HMT-?1Z1/i },
+  "realwear-navigator-500": { brand: "RealWear", product: "Navigator 500", kind: "Assisted reality, monocular, modular", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ helmetMount: true }),
+    mount: "Clips to standard safety helmets; used with safety glasses or prescription eyewear; modular camera and battery", ppe: "Worn with certified hardhat and eyewear; the device itself is not eye protection", use: "Construction, utilities, oil and gas, remote expert support, inspection", ua: /Navigator ?500/i },
+  "realwear-navigator-520": { brand: "RealWear", product: "Navigator 520", kind: "Assisted reality, monocular", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ helmetMount: true }),
+    mount: "Clips to standard safety helmets; used with safety glasses or prescription eyewear", ppe: "Worn with certified hardhat and eyewear; the device itself is not eye protection", use: "Construction, utilities, oil and gas, remote expert support, inspection", ua: /RealWear|Navigator ?520/i },
+  // Vuzix — M-series monoculars, Blade and Shield see-through, Z100 monocular
+  // driven from a phone. M4000 sits above M400 so "M400\b" cannot see it.
+  "vuzix-m4000": { brand: "Vuzix", product: "M4000", kind: "Smart glasses, monocular waveguide", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ helmetMount: true }),
+    mount: "M-Series helmet-mount accessory system", ppe: "Worn with certified helmet; eye protection separate", use: "Remote assistance, procedures, asset inspection", ua: /M4000\b/i },
+  "vuzix-m400": { brand: "Vuzix", product: "M400", kind: "Smart glasses, monocular", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ helmetMount: true }),
+    mount: "M-Series Safety Helmet Mounts (left/right) for standard helmet accessory slots, about 30° display rotation", ppe: "Worn with certified helmet; eye protection separate", use: "Field inspection, public-sector inspection, construction service teams", ua: /M400\b/i },
+  "vuzix-blade-2": { brand: "Vuzix", product: "Blade 2 / Blade Upgraded", kind: "Smart glasses, see-through", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("touchpad"), safety: SAFE({ ansiZ87: true }),
+    mount: "PPE and helmet mounting via integrator configuration", ppe: "ANSI Z87.1 per vendor for the Blade 2 frames; confirm for the configuration bought", use: "Lighter-duty logistics, field operations, guided workflows", ua: /Blade/i },
+  "vuzix-shield": { brand: "Vuzix", product: "Shield", kind: "Smart safety glasses, binocular see-through waveguide", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ ansiZ87: true }),
+    mount: "Safety-glasses form worn under a hardhat; no helmet clip", ppe: "ANSI Z87.1 per vendor; confirm the certificate for the lot bought", use: "Guided workflows and remote assistance where the glasses must also be the eye protection", ua: null },
+  "vuzix-z100": { brand: "Vuzix", product: "Z100", kind: "Ultralight smart glasses, monocular monochrome waveguide", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("buttons"), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Eyeglass frame; no helmet mount stated", ppe: "Not sold as safety eyewear; confirm any safety-frame option", use: "Glanceable text and prompts pushed from a paired phone — the glasses have no browser, so the apps run on the phone and the step card is mirrored", ua: null },
+  // Epson Moverio — binocular see-through. BT-45C sits above BT-45CS, whose
+  // "Moverio" alternative is the family fallback (it also catches a BT-40
+  // whose BO-IC400 controller announces Moverio).
+  "epson-bt-45c": { brand: "Epson", product: "Moverio BT-45C", kind: "Binocular see-through AR", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("touchpad"), safety: SAFE({ ansiZ87: "unverified", helmetMount: true }),
+    mount: "Helmet-mounting options; shock and dust resistant configuration", ppe: "Accepts Z87.1-compatible shields per vendor", use: "Hands-free remote guidance and jobsite workflows", ua: /BT-45C\b/i },
+  "epson-bt-45cs": { brand: "Epson", product: "Moverio BT-45CS", kind: "Binocular see-through AR, headband with helmet options", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("touchpad"), safety: SAFE({ ansiZ87: "unverified", helmetMount: true }),
+    mount: "Adjustable padded headband plus helmet-mounting options; flip-up display", ppe: "Accepts add-on clear or tinted ANSI Z87.1-compatible shields per vendor", use: "Construction supervision, maintenance, training, inspection", ua: /Moverio|BT-45/i },
+  "epson-bt-40": { brand: "Epson", product: "Moverio BT-40 / BT-40S", kind: "Binocular see-through AR, USB-C tethered", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("touchpad", { keyboard: true }), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Glasses form tethered by USB-C to a PC, a phone or the BO-IC400 controller; no helmet mount stated", ppe: "Not sold as safety eyewear; confirm shield options", use: "Training rooms and remote assistance where the glasses tether to a PC or the vendor controller", ua: null },
+  // Rokid, Iristick, ThirdEye, Univet, Lenovo A3 — see-through and monocular.
+  // MIDAS sits above X2, whose "ThirdEye" alternative is the family fallback.
+  "rokid-x-craft": { brand: "Rokid", product: "X-Craft", kind: "Binocular see-through AR, helmet-first, ruggedised", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ intrinsicallySafe: true, helmetMount: true }),
+    mount: "Designed to attach to industrial safety helmets", ppe: "IP66 and ATEX/IECEx positioning per vendor; verify the certificate for the site's zone", use: "Utilities, energy, rail, aviation, industrial construction", ua: /Rokid|X-?Craft/i },
+  "iristick-g2": { brand: "Iristick", product: "Iristick.G2", kind: "Smart safety glasses, monocular display", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Works with helmets, hats, safety glasses and face shields", ppe: "Safety-glasses form; confirm the rating for the frame bought", use: "First-response communications, field service, assisted procedures", ua: /Iristick/i },
+  "thirdeye-midas": { brand: "ThirdEye", product: "MIDAS", kind: "Display embedded in a protective mask", class: "helmet", profile: "seethrough", xr: "none",
+    input: IN("voice", { voiceFirst: true }), safety: SAFE({ ansiZ87: "unverified", intrinsicallySafe: "unverified" }),
+    mount: "Integrated into the mask", ppe: "The mask's own certification governs; verify decontamination procedure", use: "Firefighters, hazmat, defence, zero-visibility response", ua: /MIDAS/i },
+  "thirdeye-x2": { brand: "ThirdEye", product: "X2 MR Glasses", kind: "Binocular mixed-reality glasses", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("voice", { voiceFirst: true, hands: true }), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Protective-eyewear form; used with helmets by integrators", ppe: "Confirm eye-protection rating with the vendor", use: "EMS, fire and public safety, telemedicine, incident documentation", ua: /ThirdEye|X2 MR/i },
+  "univet-visionar": { brand: "Univet Optics", product: "VisionAR", kind: "AR safety glasses", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("voice"), safety: SAFE({ ansiZ87: true }),
+    mount: "Safety-glasses form; confirm compatibility with the helmet system", ppe: "Certified to EN166 and ANSI Z87.1+ per vendor", use: "Construction, manufacturing, industrial safety workflows; driven from a paired phone", ua: /Univet|VisionAR/i },
+  "lenovo-thinkreality-a3": { brand: "Lenovo", product: "ThinkReality A3", kind: "Binocular see-through smart glasses, USB-C tethered", class: "goggle", profile: "seethrough", xr: "none",
+    input: IN("mouse", { keyboard: true }), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Glasses form tethered by USB-C to a PC or a supported Motorola phone; industrial frame per vendor", ppe: "Confirm the safety-frame option and its rating", use: "PC-tethered virtual screens and phone-tethered guided workflows", ua: null },
+  "google-glass-ee2": { brand: "Google", product: "Glass Enterprise Edition 2", kind: "Monocular prism display, discontinued", class: "monocular", profile: "assisted", xr: "none",
+    input: IN("touchpad"), safety: SAFE({ ansiZ87: "unverified" }),
+    mount: "Frame-mounted pod; third-party safety frames were offered", ppe: "Discontinued in 2023; verify remaining support before procurement", use: "Legacy assisted-reality pilots, checklists, remote expert", ua: null },
+  // Mixed reality — optical see-through with room tracking.
+  "hololens-2": { brand: "Microsoft", product: "HoloLens 2 Industrial Edition", kind: "Mixed-reality headset", class: "mr", profile: "mr", xr: "ar",
+    input: IN("hands", { hands: true, gaze: true }), safety: SAFE({ intrinsicallySafe: "unverified", helmetMount: true }),
+    mount: "Hardhat adapter systems; the headset does not replace PPE", ppe: "Industrial Edition rated for clean-room and hazardous-location classes per vendor; verify", use: "BIM overlays, construction QA/QC, digital-twin visualisation, design review", ua: /HoloLens|Windows Mixed Reality/i },
+  "magic-leap-2": { brand: "Magic Leap", product: "Magic Leap 2", kind: "Optical see-through AR headset with compute pack", class: "mr", profile: "seethrough", xr: "none",
+    input: IN("controllers", { controllers: true, hands: true, gaze: true }), safety: SAFE(),
+    mount: "Headset with tethered compute pack; no helmet mount stated", ppe: "Not PPE; worn over safety eyewear only where the fit allows", use: "Design review, guided assembly, clinical and training use; runs on the see-through profile until its browser's WebXR AR is verified", ua: null },
+  // Helmets — the display is part of the head protection.
+  "xyz-reality-atom": { brand: "XYZ Reality", product: "Atom", kind: "AR built into a certified construction hardhat", class: "helmet", profile: "mr", xr: "none",
+    input: IN("buttons"), safety: SAFE({ ansiZ87: "unverified", helmetMount: true }),
+    mount: "Integrated hardhat", ppe: "Certified hardhat per vendor", use: "High-precision BIM layout, structural verification; no general web browser — content is delivered through the vendor's platform, so these apps run beside it on a tablet or the vendor's tooling", ua: /XYZ ?Reality|Atom HMD/i },
+  "daqri-smart-helmet": { brand: "DAQRI", product: "Smart Helmet", kind: "Integrated AR hardhat and visor (legacy)", class: "helmet", profile: "mr", xr: "none",
+    input: IN("buttons"), safety: SAFE({ ansiZ87: "unverified", helmetMount: true }),
+    mount: "Integrated", ppe: "Legacy product; verify current sourcing and vendor support before procurement", use: "Pilot reference for smart-hardhat concepts", ua: /DAQRI/i },
+  // VR headsets — the training-room devices. Quest 3S, Quest 3 and Quest
+  // Pro sit above the generic Quest rule; the Meta Quest Browser announces
+  // "OculusBrowser" and the model name. PICO 4 Ultra sits above PICO 4.
+  "meta-quest-3s": { brand: "Meta", product: "Quest 3S", kind: "VR headset with colour passthrough", class: "vr", profile: "vr", xr: "both",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR and colour-passthrough AR in the training room; the budget fleet headset", ua: /Quest 3S\b/i },
+  "meta-quest-3": { brand: "Meta", product: "Quest 3", kind: "VR headset with colour passthrough", class: "vr", profile: "vr", xr: "both",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR and colour-passthrough AR in the training room", ua: /Quest 3\b/i },
+  "meta-quest-pro": { brand: "Meta", product: "Quest Pro", kind: "VR headset with colour passthrough, eye and face tracking", class: "vr", profile: "vr", xr: "both",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR and passthrough AR; its eye tracking is not exposed to the browser", ua: /Quest Pro\b/i },
+  "meta-quest": { brand: "Meta", product: "Quest 2 / other Quest browsers", kind: "VR headset with passthrough", class: "vr", profile: "vr", xr: "both",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR training and passthrough AR in the training room", ua: /OculusBrowser|Quest/i },
+  "pico-4-ultra-enterprise": { brand: "Pico", product: "Pico 4 Ultra Enterprise", kind: "VR headset with colour passthrough", class: "vr", profile: "vr", xr: "vr",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR in the training room with enterprise device management", ua: /PICO 4 Ultra/i },
+  "pico-4-enterprise": { brand: "Pico", product: "Pico 4 Enterprise", kind: "VR headset with colour passthrough", class: "vr", profile: "vr", xr: "vr",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR in the training room with enterprise device management", ua: /PICO 4(?! Ultra)/i },
+  "htc-vive-focus-3": { brand: "HTC", product: "Vive Focus 3", kind: "Standalone VR headset", class: "vr", profile: "vr", xr: "none",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR in the training room; swappable battery for all-day classes", ua: null },
+  "htc-vive-xr-elite": { brand: "HTC", product: "Vive XR Elite", kind: "Standalone VR headset with colour passthrough", class: "vr", profile: "vr", xr: "none",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR and passthrough in the training room; converts to a glasses form on a tether", ua: null },
+  "lenovo-thinkreality-vrx": { brand: "Lenovo", product: "ThinkReality VRX", kind: "Standalone VR headset with colour passthrough", class: "vr", profile: "vr", xr: "none",
+    input: IN("controllers", { controllers: true, hands: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR in the training room with enterprise device management", ua: null },
+  "varjo-xr-4": { brand: "Varjo", product: "XR-4", kind: "PC-tethered VR headset with video passthrough", class: "vr", profile: "vr", xr: "vr",
+    input: IN("controllers", { controllers: true, keyboard: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "High-resolution PC VR for the training room; runs in a desktop WebXR browser over OpenXR, so the page sees a PC user agent", ua: null },
+  "apple-vision-pro": { brand: "Apple", product: "Vision Pro", kind: "Spatial computer with video passthrough, no controllers", class: "vr", profile: "hands", xr: "vr",
+    input: IN("hands", { hands: true, keyboard: true, gaze: true }), safety: SAFE(),
+    mount: NOT_PPE, ppe: "None", use: "Immersive VR in Safari on visionOS driven by look-and-pinch; Safari sends a desktop-Mac user agent, so pin it with ?device=apple-vision-pro", ua: null },
+};
+
+const SYNTHETIC = {
+  "generic-assisted": { brand: "Unknown", product: "Small monocular display", kind: "Assisted reality", class: "monocular", profile: "assisted", xr: "none", input: IN("voice", { voiceFirst: true }), safety: SAFE({ ansiZ87: "unverified", intrinsicallySafe: "unverified" }) },
+  desktop: { brand: "—", product: "Desktop, tablet or phone browser", kind: "Flat screen", class: "flat", profile: "desktop", xr: "unknown", input: IN("mouse", { keyboard: true }), safety: SAFE() },
+};
+
+/** Which device this page is on: the URL wins, then the user agent, then a
+ *  small-monocular screen heuristic, else desktop. */
+function detectDevice({ ua = typeof navigator !== "undefined" ? navigator.userAgent : "", width = typeof screen !== "undefined" ? screen.width : 1920, height = typeof screen !== "undefined" ? screen.height : 1080, search = typeof location !== "undefined" ? location.search : "" } = {}) {
+  const q = new URLSearchParams(search).get("device");
+  if (q && DEVICES[q]) return { id: q, ...DEVICES[q], how: "url" };
+  for (const [id, d] of Object.entries(DEVICES)) if (d.ua?.test(ua)) return { id, ...d, how: "user agent" };
+  if (width <= 900 && height <= 540) return { id: "generic-assisted", ...SYNTHETIC["generic-assisted"], how: "screen size" };
+  return { id: "desktop", ...SYNTHETIC.desktop, how: "default" };
+}
+
+/** Apply a device's profile to the renderer and the page. Returns the
+ *  profile with the device attached so the app can read its flags. */
+function applyProfile(device, { renderer = null, root = typeof document !== "undefined" ? document.documentElement : null } = {}) {
+  const profile = { ...(PROFILES[device.profile] ?? PROFILES.desktop), id: device.profile, device };
+  if (renderer) {
+    const dpr = typeof devicePixelRatio === "number" ? devicePixelRatio : 1;
+    renderer.setPixelRatio(Math.min(dpr, profile.pixelRatio));
+    renderer.shadowMap.enabled = profile.shadows;
+  }
+  if (root) {
+    root.dataset.profile = profile.id;
+    root.dataset.device = device.id;
+    root.style.setProperty("--hud-scale", String(profile.hudScale));
+  }
+  return profile;
+}
+
+/** The weather kind a station should build under this profile. */
+function weatherUnder(profile, kind) {
+  if (profile.weather === true) return kind;
+  if (profile.weather === "light") return kind === "storm" || kind === "rain" || kind === "smoke" ? "overcast" : kind;
+  return "clear";
+}
+
+/** Sit the scene on the profile's background: black for optical
+ *  see-through (transparent to the wearer), a flat dark tone for a
+ *  monocular display, untouched for everything else. Hides the skyline
+ *  group when the profile does not build a horizon. */
+function themeScene(profile, scene, stageRoot, THREE) {
+  if (profile.background === "black") { scene.background = new THREE.Color(0x000000); scene.fog = null; }
+  else if (profile.background === "dark") { scene.background = new THREE.Color(0x06090f); scene.fog = null; }
+  if (!profile.skyline && stageRoot) stageRoot.traverse((o) => { if (o.name === "skyline" || o.name === "district") o.visible = false; });
+}
+
+/** The input style in one clause, from a device's `input` record: what the
+ *  Controls panel and the intro say the learner drives the station with. */
+function describeInput(input) {
+  if (!input) return "";
+  if (input.voiceFirst) return "voice-first";
+  switch (input.primary) {
+    case "hands": return input.gaze ? "hands and gaze" : "hands";
+    case "controllers": return input.hands ? "controllers or hands" : "controllers";
+    case "mouse": return input.keyboard ? "mouse, touch and keyboard" : "mouse or touch";
+    case "touchpad": return input.keyboard ? "touchpad or keyboard" : "touchpad";
+    case "buttons": return "buttons";
+    case "voice": return "voice";
+    default: return String(input.primary);
+  }
+}
+
+/** One line for the intro: what was detected, how it will run and what
+ *  drives it. */
+function describeDevice(device, profile) {
+  const name = device.brand === "—" ? device.product : `${device.brand} ${device.product}`;
+  const drive = describeInput(device.input);
+  return `${name} — ${profile.label.toLowerCase()} profile${drive ? `, ${drive}` : ""} (${device.how}).`;
+}
+
+
 /* ===== shared/observer.js ===== */
 /**
  * Instructor mode: a live view of a learner's session for the person running
- * the class.
+ * the class, and the commands that person can send back into it.
  *
  * Every VR training sale asks for this, and it is the largest single feature
- * in the roadmap's pilot phase. This is the part that needs no server: the
- * learner's app broadcasts its session on a BroadcastChannel, and an
- * instructor console open on the same machine — another tab, another window,
- * a second monitor at the front of the room — receives it and can send notes
- * back. That covers the common case of a hall with a row of laptops or
- * headsets mirrored to one screen.
+ * in the roadmap's pilot phase. The default carries no server: the learner's
+ * app broadcasts its session on a BroadcastChannel, and an instructor console
+ * open on the same machine — another tab, another window, a second monitor at
+ * the front of the room — receives it and can send commands back. That covers
+ * the common case of a hall with a row of laptops or headsets mirrored to one
+ * screen.
  *
- * What it does not do is cross the network. A BroadcastChannel is same-origin
- * and same-device by definition. An instructor watching from another machine
- * needs the relay, which is a roadmap item and is not pretended at here; when
- * the app is embedded in an LMS the same events already go to the host page
- * through Identity.emit, which is the other honest path.
+ * A BroadcastChannel is same-origin and same-device by definition, so for the
+ * other case — an instructor on their own machine — both sides accept
+ * `?relay=<ws url>` and put the *same* JSON envelope on a WebSocket as well.
+ * The relay is a dumb fan-out: it hands every frame to every other client and
+ * understands nothing about it (tools/relay_server.mjs, docs/instructor-console.md).
+ * When the app is embedded in an LMS the same events also go to the host page
+ * through Identity.emit, which is the third honest path.
  *
- * Nothing is stored. The channel carries what is happening right now, and
+ * Nothing is stored here. The channel carries what is happening right now, and
  * closing the console loses it; the record of the attempt is the training
- * record, which is a different, durable thing.
+ * record, which is a different, durable thing — and every command the console
+ * sends is appended to that record as an instructorAction, so a run driven by
+ * an instructor is never mistaken for one the learner drove alone.
+ *
+ * Protocol 2 added the content-and-interaction commands (open, interrupt,
+ * weather, profile, hazard mode, assign) and the `action` event that reports
+ * what the app did with one. Both sides still accept protocol 1, so a console
+ * or an app from before the bump interoperates with note, freeze and roll.
  */
 
 const CHANNEL = "smartcitix:instructor";
-const OBSERVER_PROTOCOL = 1;
+const OBSERVER_PROTOCOL = 2;
+const ACCEPTED_PROTOCOLS = [1, 2];
 
 // Learner → instructor.
 const EV_HELLO = "hello";       // a session opened (or answered a roll call)
 const EV_STATE = "state";       // throttled snapshot: station, step, score
 const EV_STEP = "step";         // a step completed
 const EV_HAZARD = "hazard";     // an unsafe action, with its consequence
+const EV_ACTION = "action";     // the app answered an instructor command
 const EV_FINISH = "finish";     // the run ended, with the verdict
 const EV_BYE = "bye";           // the session left a station or closed
 // Instructor → learner.
-const CMD_ROLL = "roll";        // who is out there?
-const CMD_NOTE = "note";        // a line to put in front of the learner
-const CMD_FREEZE = "freeze";    // pause / resume the session
-const LEARNER_EVENTS = [EV_HELLO, EV_STATE, EV_STEP, EV_HAZARD, EV_FINISH, EV_BYE];
-const INSTRUCTOR_COMMANDS = [CMD_ROLL, CMD_NOTE, CMD_FREEZE];
+const CMD_ROLL = "roll";               // who is out there?
+const CMD_NOTE = "note";               // a line to put in front of the learner
+const CMD_FREEZE = "freeze";           // pause / resume the session
+const CMD_OPEN = "open";               // send this learner to a station or programme
+const CMD_INTERRUPT = "interrupt";     // fire one declared interruption now
+const CMD_WEATHER = "weather";         // the weather the next station runs under
+const CMD_PROFILE = "profile";         // the device profile the next station runs under
+const CMD_HAZARD_MODE = "hazard-mode"; // "coach" warns once; "assess" scores it
+const CMD_ASSIGN = "assign";           // pin a programme in the learner's panel
+const LEARNER_EVENTS = [EV_HELLO, EV_STATE, EV_STEP, EV_HAZARD, EV_ACTION, EV_FINISH, EV_BYE];
+const INSTRUCTOR_COMMANDS = [CMD_ROLL, CMD_NOTE, CMD_FREEZE, CMD_OPEN, CMD_INTERRUPT, CMD_WEATHER, CMD_PROFILE, CMD_HAZARD_MODE, CMD_ASSIGN];
+
+/** What each command means, for the console's own labels and the docs. */
+const COMMAND_LABELS = {
+  [CMD_ROLL]: "Roll call",
+  [CMD_NOTE]: "Note",
+  [CMD_FREEZE]: "Hold / release",
+  [CMD_OPEN]: "Open station or programme",
+  [CMD_INTERRUPT]: "Fire interruption",
+  [CMD_WEATHER]: "Weather for next station",
+  [CMD_PROFILE]: "Device profile for next station",
+  [CMD_HAZARD_MODE]: "Hazard mode",
+  [CMD_ASSIGN]: "Assign programme",
+};
 
 const MAX_TEXT = 400;
+const MAX_DETAIL = 120;
 const clip = (v, n = MAX_TEXT) => (typeof v === "string" ? v.slice(0, n) : v);
+const knownProtocol = (m) => !!m && ACCEPTED_PROTOCOLS.includes(m.protocol);
+
+/**
+ * With both legs open — a BroadcastChannel and a relay — the same message
+ * arrives twice, and a note shown twice or an interruption armed twice is a
+ * bug the room would see. Every message carries its own id and each side drops
+ * one it has already handled. A protocol-1 message has no id and is never
+ * dropped: an old console's note is rare and shown once anyway.
+ */
+function makeSeen(limit = 240) {
+  const seen = new Set();
+  return (mid) => {
+    if (!mid) return false;
+    if (seen.has(mid)) return true;
+    seen.add(mid);
+    if (seen.size > limit) for (const old of seen) { seen.delete(old); if (seen.size <= limit) break; }
+    return false;
+  };
+}
+
+function messageId() {
+  return `m-${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36).slice(-4)}`;
+}
 
 /** A stable id for this tab, so one console can tell two learners apart. */
 function tabId() {
@@ -141,40 +635,95 @@ function openChannel() {
   try { return new BroadcastChannel(CHANNEL); } catch (_) { return null; }
 }
 
+/** `?relay=wss://host/path` on either page, when one is given. */
+function relayFromSearch(search = typeof location !== "undefined" ? location.search : "") {
+  try {
+    const raw = new URLSearchParams(search).get("relay");
+    if (!raw) return null;
+    return /^wss?:\/\//.test(raw) ? raw : null;
+  } catch (_) { return null; }
+}
+
+/**
+ * The optional WebSocket leg. Same envelope as the BroadcastChannel, one JSON
+ * object per frame; the server fans a frame out to every other client and
+ * never to the sender. Failure is silent by design — the relay is an extra
+ * leg, and a session must not break because a room's relay is down. Frames
+ * sent before the socket opens are queued, because a station is often entered
+ * within a second of the page loading.
+ */
+function openRelay(url, onMessage) {
+  if (!url || typeof WebSocket !== "function") return null;
+  let sock = null;
+  try { sock = new WebSocket(url); } catch (_) { return null; }
+  let queue = [];
+  let closed = false;
+  sock.onopen = () => { const pending = queue; queue = []; for (const frame of pending) { try { sock.send(frame); } catch (_) { /* ignore */ } } };
+  sock.onmessage = (e) => {
+    let msg = null;
+    try { msg = JSON.parse(typeof e.data === "string" ? e.data : ""); } catch (_) { return; }
+    if (msg && typeof msg === "object") onMessage(msg);
+  };
+  sock.onerror = () => { /* the BroadcastChannel leg carries on */ };
+  return {
+    get url() { return url; },
+    get open() { return sock.readyState === 1; },
+    send(msg) {
+      if (closed) return false;
+      let frame;
+      try { frame = JSON.stringify(msg); } catch (_) { return false; }
+      if (sock.readyState === 1) { try { sock.send(frame); return true; } catch (_) { return false; } }
+      if (sock.readyState === 0 && queue.length < 400) { queue.push(frame); return true; }
+      return false;
+    },
+    close() { closed = true; queue = []; try { sock.close(); } catch (_) { /* ignore */ } },
+  };
+}
+
 /**
  * The learner side. `app` is "smartcity" | "trades" | "holodeck".
- * Returns a handle even when BroadcastChannel is missing, so callers never
- * have to branch: every method is then a no-op.
+ * Returns a handle even when neither leg is available, so callers never have
+ * to branch: every method is then a no-op.
  */
-function createBroadcaster(app, { learner = "", station = "", stationName = "" } = {}) {
+function createBroadcaster(app, { learner = "", station = "", stationName = "", relay = relayFromSearch() } = {}) {
   const ch = openChannel();
   const id = tabId();
-  let last = 0, onCommand = null, closed = false;
+  let last = 0, onCommand = null, closed = false, describe = null;
   let ctx = { app, learner, station, stationName: stationName || station };
+  const handled = makeSeen();
 
-  const post = (kind, data = {}) => {
-    if (!ch || closed) return false;
-    try { ch.postMessage({ protocol: OBSERVER_PROTOCOL, kind, id, at: Date.now(), ...ctx, ...data }); return true; }
-    catch (_) { return false; }
+  const handle = (m) => {
+    if (!knownProtocol(m) || handled(m.mid)) return;
+    if (m.kind === CMD_ROLL) { post(EV_HELLO, describe?.() ?? {}); return; }
+    if (!INSTRUCTOR_COMMANDS.includes(m.kind)) return;
+    // A command addressed to one session is ignored by the others.
+    if (m.to && m.to !== id) return;
+    onCommand?.({ kind: m.kind, text: clip(m.text), on: !!m.on, detail: clip(m.detail, MAX_DETAIL) });
   };
 
-  if (ch) {
-    ch.onmessage = (e) => {
-      const m = e?.data;
-      if (!m || m.protocol !== OBSERVER_PROTOCOL) return;
-      if (m.kind === CMD_ROLL) { post(EV_HELLO); return; }
-      if (!INSTRUCTOR_COMMANDS.includes(m.kind)) return;
-      // A command addressed to one session is ignored by the others.
-      if (m.to && m.to !== id) return;
-      onCommand?.({ kind: m.kind, text: clip(m.text), on: !!m.on });
-    };
-  }
+  const link = openRelay(relay, handle);
+
+  const post = (kind, data = {}) => {
+    if (closed) return false;
+    const msg = { protocol: OBSERVER_PROTOCOL, mid: messageId(), kind, id, at: Date.now(), ...ctx, ...data };
+    let sent = false;
+    if (ch) { try { ch.postMessage(msg); sent = true; } catch (_) { /* ignore */ } }
+    if (link?.send(msg)) sent = true;
+    return sent;
+  };
+
+  if (ch) ch.onmessage = (e) => handle(e?.data);
 
   return {
     id,
-    get available() { return !!ch; },
+    get available() { return !!ch || !!link; },
+    get relay() { return link?.url ?? null; },
+    /** Extra fields every hello carries — the station's steps and declared
+     *  interruptions, which only the app knows. Called on each roll call too,
+     *  so a console opened mid-run gets the panel it needs. */
+    describes(fn) { describe = typeof fn === "function" ? fn : null; },
     /** Update who and where, and announce it. */
-    hello(next = {}) { ctx = { ...ctx, ...next }; return post(EV_HELLO); },
+    hello(next = {}) { ctx = { ...ctx, ...next }; return post(EV_HELLO, describe?.() ?? {}); },
     /** Throttled: the console does not need more than a few frames a second. */
     state(snapshot, { minMs = 500 } = {}) {
       const now = Date.now();
@@ -184,54 +733,89 @@ function createBroadcaster(app, { learner = "", station = "", stationName = "" }
     },
     step(data) { return post(EV_STEP, data); },
     hazard(data) { return post(EV_HAZARD, { ...data, note: clip(data?.note) }); },
+    /** What the app did with a command: the console's proof it landed. */
+    action(data) { return post(EV_ACTION, { ...data, cmd: clip(data?.cmd, MAX_DETAIL), detail: clip(data?.detail, MAX_DETAIL), note: clip(data?.note) }); },
     finish(data) { return post(EV_FINISH, data); },
     bye() { const ok = post(EV_BYE); return ok; },
     onCommand(fn) { onCommand = typeof fn === "function" ? fn : null; },
-    close() { if (closed) return; post(EV_BYE); closed = true; try { ch?.close(); } catch (_) {} },
+    close() { if (closed) return; post(EV_BYE); closed = true; try { ch?.close(); } catch (_) {} link?.close(); },
   };
 }
 
 /**
  * The instructor side. `onEvent` receives every learner event; call
  * `roll()` once on open so sessions that started earlier announce themselves.
+ * `onSend` (optional) sees every command as it goes out, which is how the
+ * console's session log records both directions from one place.
  */
-function createConsole(onEvent) {
+function createConsole(onEvent, { relay = relayFromSearch(), onSend = null } = {}) {
   const ch = openChannel();
-  if (ch) {
-    ch.onmessage = (e) => {
-      const m = e?.data;
-      if (!m || m.protocol !== OBSERVER_PROTOCOL || !LEARNER_EVENTS.includes(m.kind)) return;
-      onEvent?.(m);
-    };
-  }
+  const handled = makeSeen();
+  const handle = (m) => {
+    if (!knownProtocol(m) || handled(m.mid) || !LEARNER_EVENTS.includes(m.kind)) return;
+    onEvent?.(m);
+  };
+  const link = openRelay(relay, handle);
+  if (ch) ch.onmessage = (e) => handle(e?.data);
   const send = (kind, extra = {}) => {
-    if (!ch) return false;
-    try { ch.postMessage({ protocol: OBSERVER_PROTOCOL, kind, at: Date.now(), ...extra }); return true; }
-    catch (_) { return false; }
+    const msg = { protocol: OBSERVER_PROTOCOL, mid: messageId(), kind, at: Date.now(), ...extra };
+    let sent = false;
+    if (ch) { try { ch.postMessage(msg); sent = true; } catch (_) { /* ignore */ } }
+    if (link?.send(msg)) sent = true;
+    if (sent) onSend?.(msg);
+    return sent;
   };
   return {
-    get available() { return !!ch; },
+    get available() { return !!ch || !!link; },
+    get relay() { return link?.url ?? null; },
     roll() { return send(CMD_ROLL); },
     note(to, text) { return send(CMD_NOTE, { to, text: clip(text) }); },
     freeze(to, on) { return send(CMD_FREEZE, { to, on: !!on }); },
-    close() { try { ch?.close(); } catch (_) {} },
+    /** A station id, or a programme id — the app resolves which. */
+    open(to, detail) { return send(CMD_OPEN, { to, detail: clip(detail, MAX_DETAIL) }); },
+    /** One of the current station's declared interruption ids. */
+    interrupt(to, detail) { return send(CMD_INTERRUPT, { to, detail: clip(detail, MAX_DETAIL) }); },
+    weather(to, detail) { return send(CMD_WEATHER, { to, detail: clip(detail, MAX_DETAIL) }); },
+    profile(to, detail) { return send(CMD_PROFILE, { to, detail: clip(detail, MAX_DETAIL) }); },
+    hazardMode(to, detail) { return send(CMD_HAZARD_MODE, { to, detail: clip(detail, MAX_DETAIL) }); },
+    assign(to, detail) { return send(CMD_ASSIGN, { to, detail: clip(detail, MAX_DETAIL) }); },
+    close() { try { ch?.close(); } catch (_) {} link?.close(); },
   };
 }
 
 /** Fold a stream of learner events into a roster the console can render. */
 function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
   const next = new Map(roster);
-  const prev = next.get(ev.id) ?? { id: ev.id, events: [], hazards: 0, steps: 0 };
+  const prev = next.get(ev.id) ?? { id: ev.id, events: [], hazards: 0, steps: 0, actions: 0, fired: [], steplist: [], interrupts: [] };
   const row = {
     ...prev,
     id: ev.id, app: ev.app ?? prev.app, learner: ev.learner || prev.learner || "Unnamed",
     station: ev.station ?? prev.station, stationName: ev.stationName ?? prev.stationName ?? prev.station,
     at: ev.at,
   };
+  if (ev.kind === EV_HELLO) {
+    // A hello is where the station itself arrives: the steps in order and the
+    // interruptions it declares, which is what the per-learner panel drives
+    // its buttons from. Only the app knows them, and only for the station it
+    // actually loaded.
+    Object.assign(row, {
+      live: true, finished: false,
+      steplist: Array.isArray(ev.steps) ? ev.steps : prev.steplist ?? [],
+      interrupts: Array.isArray(ev.interrupts) ? ev.interrupts : prev.interrupts ?? [],
+      fired: Array.isArray(ev.fired) ? ev.fired : prev.fired ?? [],
+      hazardMode: ev.hazardMode ?? prev.hazardMode ?? "assess",
+      weather: ev.weather ?? prev.weather, profile: ev.profile ?? prev.profile,
+      assigned: ev.assigned ?? prev.assigned ?? null,
+      stepIndex: ev.stepIndex ?? prev.stepIndex, stepCount: ev.stepCount ?? prev.stepCount,
+    });
+  }
   if (ev.kind === EV_STATE) {
     Object.assign(row, {
       stepIndex: ev.stepIndex, stepCount: ev.stepCount, stepTitle: ev.stepTitle,
       score: ev.score, stars: ev.stars, errors: ev.errors, hazardHits: ev.hazardHits, seconds: ev.seconds,
+      answered: ev.answered ?? prev.answered ?? 0, interruptTotal: ev.interruptTotal ?? prev.interruptTotal ?? 0,
+      fired: Array.isArray(ev.fired) ? ev.fired : prev.fired ?? [],
+      hazardMode: ev.hazardMode ?? prev.hazardMode ?? "assess",
       live: true, finished: false,
     });
   }
@@ -240,6 +824,22 @@ function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
     row.hazards = (prev.hazards ?? 0) + 1;
     row.events = [...(prev.events ?? []), { at: ev.at, kind: "hazard", text: ev.note ?? ev.hazardId ?? "unsafe action" }].slice(-12);
     row.live = true;
+  }
+  if (ev.kind === EV_ACTION) {
+    // The app's own answer to a command: what it did, and — for an
+    // interruption — that it is now fired, so the console disables the button
+    // rather than letting a class fire the same alarm twice.
+    row.actions = (prev.actions ?? 0) + 1;
+    row.live = true;
+    if (ev.cmd === CMD_INTERRUPT && ev.ok && ev.detail) row.fired = [...new Set([...(prev.fired ?? []), ev.detail])];
+    if (ev.cmd === CMD_HAZARD_MODE && ev.ok) row.hazardMode = ev.detail ?? row.hazardMode;
+    if (ev.cmd === CMD_WEATHER && ev.ok) row.weather = ev.detail ?? row.weather;
+    if (ev.cmd === CMD_PROFILE && ev.ok) row.profile = ev.detail ?? row.profile;
+    if (ev.cmd === CMD_ASSIGN && ev.ok) row.assigned = ev.detail ?? row.assigned;
+    row.events = [...(prev.events ?? []), {
+      at: ev.at, kind: ev.ok ? "action" : "refused",
+      text: `${ev.cmd}${ev.detail ? ` ${ev.detail}` : ""} — ${ev.note ?? (ev.ok ? "done" : "refused")}`,
+    }].slice(-12);
   }
   if (ev.kind === EV_FINISH) {
     Object.assign(row, { finished: true, live: true, passed: !!ev.passed, stars: ev.stars, score: ev.score, seconds: ev.seconds });
@@ -254,31 +854,205 @@ function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
 }
 
 
+/* ===== instructor/js/roster.js ===== */
+/**
+ * The catalog roster the console browses: categories → programmes → stations,
+ * folded out of WebXR/smartcity/catalog.json (generated by
+ * tools/gen_catalog.mjs) and nothing else. The console never imports simulator
+ * code — this is the same static roster a hosting platform can index without
+ * loading an app at all, which is exactly what an instructor needs to send a
+ * class somewhere.
+ *
+ * Kept in its own module, with no DOM in it, so tools/check_console.mjs can
+ * assert the tree covers every station in the catalog rather than trusting a
+ * screenshot of the page.
+ */
+
+/** One flat row per station, in catalog order, with its category attached. */
+function stationRows(catalog) {
+  const stations = Array.isArray(catalog?.stations) ? catalog.stations : [];
+  return stations.map((s) => ({
+    app: s.app ?? "smartcity",
+    id: s.id,
+    name: s.name ?? s.id,
+    category: s.category ?? "Uncategorized",
+    trade: s.trade ?? "",
+    certification: s.certification ?? "",
+    tagline: s.tagline ?? "",
+    steps: s.steps ?? 0,
+    interrupts: s.interrupts ?? 0,
+    weather: s.weather ?? "clear",
+    parSeconds: s.parSeconds ?? 0,
+    flat: !!s.flat,
+  }));
+}
+
+/**
+ * The tree the Roster view renders. Categories come from the stations
+ * themselves (so a station in a since-renamed category is still reachable),
+ * in the order `catalog.categories` lists them, with anything the category
+ * list does not mention appended rather than dropped.
+ */
+function buildRoster(catalog) {
+  const rows = stationRows(catalog);
+  const order = (Array.isArray(catalog?.categories) ? catalog.categories : []).map((c) => c.name);
+  const byCategory = new Map();
+  for (const name of order) byCategory.set(name, []);
+  for (const row of rows) {
+    if (!byCategory.has(row.category)) byCategory.set(row.category, []);
+    byCategory.get(row.category).push(row);
+  }
+  const categories = [...byCategory.entries()]
+    .filter(([, list]) => list.length > 0)
+    .map(([name, list]) => ({ name, stations: list }));
+  const programmes = (Array.isArray(catalog?.curricula) ? catalog.curricula : []).map((c) => ({
+    id: c.id,
+    name: c.name ?? c.id,
+    union: c.union ?? "",
+    certification: c.certification ?? "",
+    summary: c.summary ?? "",
+    stations: (c.stations ?? []).map((s) => ({ app: s.app ?? "smartcity", id: s.id, why: s.why ?? "" })),
+  }));
+  return {
+    categories,
+    programmes,
+    stations: rows,
+    total: rows.length,
+    weatherKinds: Array.isArray(catalog?.weather?.kinds) ? catalog.weather.kinds : [],
+  };
+}
+
+/** Case-insensitive match over the fields an instructor would actually type:
+ *  the station's id, name, category, trade and certification. */
+function matchStation(row, query) {
+  const q = String(query ?? "").trim().toLowerCase();
+  if (!q) return true;
+  return [row.id, row.name, row.category, row.trade, row.certification, row.tagline]
+    .some((v) => String(v ?? "").toLowerCase().includes(q));
+}
+
+/** A programme matches on its own words or on any station it contains. */
+function matchProgramme(programme, query) {
+  const q = String(query ?? "").trim().toLowerCase();
+  if (!q) return true;
+  if ([programme.id, programme.name, programme.union, programme.certification, programme.summary]
+    .some((v) => String(v ?? "").toLowerCase().includes(q))) return true;
+  return programme.stations.some((s) => s.id.toLowerCase().includes(q));
+}
+
+
 /* ===== instructor/js/app.js ===== */
 // The instructor console. It owns no simulation and no records: it listens to
-// whatever sessions are running in other tabs on this machine, shows where
-// each learner is, and can put a line in front of one of them or hold them.
-// Everything here is rebuilt from the roster on each event — plain text nodes,
-// never innerHTML, because a learner's crew tag is untrusted input.
+// the sessions it can hear — other tabs on this machine over a
+// BroadcastChannel, plus anything on the relay when ?relay= is given — shows
+// where each learner is, and sends the commands the learner apps answer.
+//
+// Three views: the live class, the whole catalog (categories → programmes →
+// stations, read from the generated catalog.json and nothing else), and the
+// session log of both directions, exportable as CSV.
+//
+// Everything is rebuilt from the roster on each event, as plain text nodes: no
+// markup is ever set from a string here, because a learner's crew tag, a
+// station's tagline and an instructor's own note are all untrusted input by the
+// time they reach this page. tools/check_console.mjs enforces that.
 
 const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+
+const WEATHER_FALLBACK = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke"];
+const MAX_LOG = 2000;
+
 let roster = new Map();
 let selected = null;
+let view = "live";
+let catalog = null;          // the folded roster tree, once catalog.json lands
+let logRows = [];            // newest last; rendered newest first
+let query = "";
+// A running session posts a position snapshot twice a second. Those are what
+// the roster is built from, and they bury the commands and the verdicts in the
+// log, so the table folds them away until they are asked for.
+let showHeartbeats = false;
 
-const bus = createConsole((ev) => { roster = reduceRoster(roster, ev); render(); });
+const bus = createConsole(
+  (ev) => { roster = reduceRoster(roster, ev); logEvent(ev); render(); },
+  { onSend: (msg) => { logSent(msg); render(); } },
+);
 
 const fmtTime = (s) => `${Math.floor((s | 0) / 60)}:${String((s | 0) % 60).padStart(2, "0")}`;
 const ago = (at) => {
   const s = Math.max(0, Math.round((Date.now() - at) / 1000));
   return s < 2 ? "now" : s < 60 ? `${s}s ago` : `${Math.round(s / 60)}m ago`;
 };
-const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+const learnerName = (id) => roster.get(id)?.learner ?? id ?? "—";
+const liveRows = () => [...roster.values()].filter((r) => r.live);
 
-function render() {
+// ---------------------------------------------------------------- session log
+
+function pushLog(entry) {
+  logRows.push(entry);
+  if (logRows.length > MAX_LOG) logRows.splice(0, logRows.length - MAX_LOG);
+}
+
+function logSent(msg) {
+  pushLog({
+    at: msg.at ?? Date.now(), dir: "sent", kind: msg.kind,
+    learner: msg.to ? learnerName(msg.to) : "all sessions",
+    station: msg.to ? (roster.get(msg.to)?.station ?? "") : "",
+    detail: [msg.detail, msg.text, msg.on === undefined ? "" : msg.on ? "on" : "off"].filter(Boolean).join(" · "),
+  });
+}
+
+function logEvent(ev) {
+  const detail = ev.kind === "state"
+    ? `step ${ev.stepIndex ?? "?"}/${ev.stepCount ?? "?"} · score ${ev.score ?? 0}`
+    : ev.kind === "step" ? `${ev.stepId ?? ""} ${ev.stepTitle ?? ""}`.trim()
+      : ev.kind === "hazard" ? `${ev.hazardId ?? ""} ${ev.note ?? ""}`.trim()
+        : ev.kind === "action" ? `${ev.cmd ?? ""} ${ev.detail ?? ""} — ${ev.ok ? "done" : "refused"}: ${ev.note ?? ""}`
+          : ev.kind === "finish" ? `${ev.passed ? "passed" : "not passed"} · ${ev.stars ?? 0}★ · ${ev.verdict ?? ""}`
+            : ev.kind === "hello" ? `${ev.stepCount ?? 0} steps · ${(ev.interrupts ?? []).length} interruptions` : "";
+  pushLog({
+    at: ev.at ?? Date.now(), dir: "recv", kind: ev.kind,
+    learner: ev.learner || "Unnamed", station: ev.stationName ?? ev.station ?? "",
+    detail,
+  });
+}
+
+const shownRows = () => (showHeartbeats ? logRows : logRows.filter((r) => r.kind !== "state"));
+
+function csvCell(v) {
+  const s = v == null ? "" : String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function exportCsv() {
+  const head = ["at", "direction", "kind", "learner", "station", "detail"];
+  const lines = [head.join(",")];
+  for (const r of shownRows()) {
+    lines.push([new Date(r.at).toISOString(), r.dir, r.kind, r.learner, r.station, r.detail].map(csvCell).join(","));
+  }
+  const blob = new Blob([lines.join("\r\n") + "\r\n"], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `instructor-session-log-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.csv`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+// ------------------------------------------------------------------ the class
+
+function toast(text) {
+  $("sent").textContent = text;
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => { $("sent").textContent = ""; }, 4000);
+}
+
+function renderClass() {
   const rows = [...roster.values()].sort((a, b) => (a.live === b.live ? b.at - a.at : a.live ? -1 : 1));
   const live = rows.filter((r) => r.live).length;
   $("count").textContent = rows.length === 0
-    ? (bus.available ? "No sessions yet." : "This browser has no BroadcastChannel, so the console cannot listen.")
+    ? (bus.available ? "No sessions yet." : "This browser has no BroadcastChannel and no relay, so the console cannot listen.")
     : `${rows.length} session${rows.length === 1 ? "" : "s"} · ${live} live`;
   const list = $("list");
   list.replaceChildren();
@@ -297,9 +1071,11 @@ function render() {
     const who = el("div");
     who.append(el("h2", null, r.learner || "Unnamed"),
       el("div", "sess-station", `${r.stationName ?? r.station ?? "—"} · ${r.app ?? "—"}`));
-    const badge = el("span", `pill ${r.finished ? (r.passed ? "pass" : "fail") : r.live ? "live" : "idle"}`,
-      r.finished ? (r.passed ? "PASSED" : "NOT PASSED") : r.live ? "LIVE" : "LEFT");
-    head.append(who, badge);
+    const pills = el("div", "row");
+    if (r.hazardMode === "coach") pills.append(el("span", "pill coach", "COACHING"));
+    pills.append(el("span", `pill ${r.finished ? (r.passed ? "pass" : "fail") : r.live ? "live" : "idle"}`,
+      r.finished ? (r.passed ? "PASSED" : "NOT PASSED") : r.live ? "LIVE" : "LEFT"));
+    head.append(who, pills);
     card.append(head);
 
     if (r.stepCount) {
@@ -311,11 +1087,14 @@ function render() {
       card.append(el("p", "sess-step", `Step ${r.stepIndex ?? 0} of ${r.stepCount}${r.stepTitle ? ` — ${r.stepTitle}` : ""}`));
     }
 
-    // Each label/value pair is wrapped, or a three-column grid would lay the
-    // dt and dd of one stat into different columns and mis-pair every label.
+    // Each label/value pair is wrapped, or the grid would lay the dt and dd of
+    // one stat into different columns and mis-pair every label.
     const stats = el("dl", "sess-stats");
+    const answered = `${r.answered ?? 0}/${r.interruptTotal ?? (r.interrupts?.length ?? 0)}`;
     for (const [k, v] of [["Score", r.score ?? 0], ["Stars", "★".repeat(r.stars ?? 0) || "—"],
-      ["Corrections", r.errors ?? 0], ["Unsafe", r.hazardHits ?? 0], ["Time", fmtTime(r.seconds)], ["Heard", ago(r.at)]]) {
+      ["Corrections", r.errors ?? 0], ["Unsafe", r.hazardHits ?? 0],
+      ["Interrupts", answered], ["Commands", r.actions ?? 0],
+      ["Time", fmtTime(r.seconds)], ["Heard", ago(r.at)]]) {
       const cell = el("div", "stat");
       cell.append(el("dt", null, k), el("dd", (k === "Unsafe" && (r.hazardHits ?? 0) > 0) ? "bad" : null, String(v)));
       stats.append(cell);
@@ -335,26 +1114,273 @@ function render() {
   }
 
   const has = !!selected;
-  $("note").disabled = !has;
-  $("send").disabled = !has;
   $("hold").disabled = !has;
   $("release").disabled = !has;
-  $("target").textContent = has ? (roster.get(selected)?.learner ?? selected) : "no session selected";
+  $("target").textContent = has ? learnerName(selected) : "no session selected";
+  $("transport").textContent = bus.relay
+    ? `Relay: ${bus.relay} — sessions on other machines are included.`
+    : "Same machine only (BroadcastChannel). Add ?relay=<ws url> on both pages to cross the network.";
+  renderPanel(has ? roster.get(selected) : null);
 }
+
+/** The per-learner panel: this station's own steps and interruptions, and the
+ *  controls that change what the learner meets next. */
+function renderPanel(row) {
+  const panel = $("panel");
+  panel.hidden = !row;
+  if (!row) return;
+  $("panel-who").textContent = row.learner || "Unnamed";
+  $("panel-where").textContent = `${row.stationName ?? row.station ?? "no station"} · ${row.app ?? "—"} · step ${row.stepIndex ?? 0} of ${row.stepCount ?? 0}`
+    + (row.weather ? ` · next station in ${row.weather}` : "")
+    + (row.profile ? ` · next station on ${row.profile}` : "")
+    + (row.assigned ? ` · assigned ${row.assigned}` : "");
+
+  const steps = $("panel-steps");
+  steps.replaceChildren();
+  const list = row.steplist ?? [];
+  if (!list.length) steps.append(el("li", null, "No station open — this learner is at the hub."));
+  const here = (row.stepIndex ?? 0) - 1;
+  list.forEach((st, i) => {
+    const li = el("li", i === here ? "now" : i < here ? "done" : null);
+    li.append(el("span", "num", String(i + 1)));
+    const body = el("div");
+    body.append(el("b", null, st.title ?? st.id ?? ""), el("span", null, ` ${st.kind ?? ""}`));
+    li.append(body);
+    steps.append(li);
+  });
+
+  const ints = $("panel-ints");
+  ints.replaceChildren();
+  const declared = row.interrupts ?? [];
+  if (!declared.length) ints.append(el("p", "muted", "This station declares no interruptions, or none has been reported yet."));
+  for (const it of declared) {
+    const fired = (row.fired ?? []).includes(it.id);
+    const box = el("div", "int");
+    box.append(el("p", "int-kind", `${it.kind ?? "Interruption"} · ${it.id}`));
+    box.append(el("p", null, it.alert ?? ""));
+    if (it.after) box.append(el("p", null, `Armed on step ${it.after}`));
+    const btn = el("button", "small", fired ? "Already fired" : "Fire now");
+    btn.disabled = fired || !row.live;
+    btn.addEventListener("click", () => {
+      bus.interrupt(row.id, it.id);
+      toast(`Fired ${it.id} on ${row.learner}.`);
+    });
+    box.append(btn);
+    ints.append(box);
+  }
+
+  $("hazard-mode-now").textContent = row.hazardMode === "coach" ? "coaching — hazards warn once" : "assessed — hazards count";
+  $("coach").classList.toggle("on", row.hazardMode === "coach");
+  $("assess").classList.toggle("on", row.hazardMode !== "coach");
+}
+
+// -------------------------------------------------------------- catalog views
+
+function fillPickers() {
+  const weather = $("weather");
+  if (!weather.options.length) {
+    for (const kind of (catalog?.weatherKinds?.length ? catalog.weatherKinds : WEATHER_FALLBACK)) {
+      const opt = el("option", null, kind);
+      opt.value = kind;
+      weather.append(opt);
+    }
+  }
+  const profile = $("profile");
+  if (!profile.options.length) {
+    const byProfile = el("optgroup");
+    byProfile.label = "Run profile";
+    for (const [id, p] of Object.entries(PROFILES)) {
+      const opt = el("option", null, `${p.label} (${id})`);
+      opt.value = id;
+      byProfile.append(opt);
+    }
+    const byDevice = el("optgroup");
+    byDevice.label = "Device";
+    for (const [id, d] of Object.entries(DEVICES)) {
+      const opt = el("option", null, `${d.brand} ${d.product} — ${d.profile}`);
+      opt.value = id;
+      byDevice.append(opt);
+    }
+    profile.append(byProfile, byDevice);
+  }
+  const programme = $("programme");
+  if (!programme.options.length && catalog?.programmes?.length) {
+    for (const p of catalog.programmes) {
+      const opt = el("option", null, p.name);
+      opt.value = p.id;
+      programme.append(opt);
+    }
+  }
+}
+
+/** Send one station (or programme) to the selected learner, or to everyone. */
+function sendOpen(id, { all = false } = {}) {
+  const targets = all ? liveRows().map((r) => r.id) : selected ? [selected] : [];
+  if (!targets.length) { toast(all ? "No live sessions to send." : "Select a learner on the Live class view first."); return; }
+  for (const to of targets) bus.open(to, id);
+  toast(`Sent ${id} to ${targets.length} session${targets.length === 1 ? "" : "s"}.`);
+}
+
+function renderRoster() {
+  const count = $("roster-count");
+  if (!catalog) { count.textContent = "Loading the catalog…"; return; }
+  const stations = catalog.stations.filter((s) => matchStation(s, query));
+  const programmes = catalog.programmes.filter((p) => matchProgramme(p, query));
+  count.textContent = `${stations.length} of ${catalog.total} stations · ${programmes.length} of ${catalog.programmes.length} programmes`
+    + (query ? ` matching “${query}”` : "") + ` · ${liveRows().length} live session(s)`;
+
+  const progWrap = $("roster-programmes");
+  progWrap.replaceChildren();
+  for (const p of programmes) {
+    const box = el("details", "prog");
+    box.open = !!query;
+    const sum = el("summary", null, `${p.name} — ${p.stations.length} stations`);
+    box.append(sum);
+    box.append(el("p", "fine", p.union || ""));
+    box.append(el("p", "fine", p.summary || ""));
+    const ol = el("ol");
+    for (const s of p.stations) {
+      const li = el("li");
+      li.append(el("b", null, s.id), el("span", null, s.app === "trades" ? " (Trade Skills)" : ""), el("span", null, s.why ? ` — ${s.why}` : ""));
+      ol.append(li);
+    }
+    box.append(ol);
+    const row = el("div", "row");
+    const one = el("button", "small", "Send selected");
+    one.addEventListener("click", () => sendOpen(p.id));
+    const allBtn = el("button", "small", "Send all live learners here");
+    allBtn.addEventListener("click", () => sendOpen(p.id, { all: true }));
+    const assign = el("button", "small", "Assign to selected");
+    assign.addEventListener("click", () => {
+      if (!selected) { toast("Select a learner on the Live class view first."); return; }
+      bus.assign(selected, p.id);
+      toast(`Assigned ${p.id} to ${learnerName(selected)}.`);
+    });
+    row.append(one, allBtn, assign);
+    box.append(row);
+    progWrap.append(box);
+  }
+
+  const tree = $("roster-tree");
+  tree.replaceChildren();
+  for (const cat of catalog.categories) {
+    const rows = cat.stations.filter((s) => matchStation(s, query));
+    if (!rows.length) continue;
+    const box = el("details", "cat");
+    box.open = !!query;
+    box.append(el("summary", null, `${cat.name} — ${rows.length} station${rows.length === 1 ? "" : "s"}`));
+    const ul = el("ul", "stations");
+    for (const s of rows) {
+      const li = el("li", "stn");
+      const left = el("div");
+      left.append(el("p", "stn-id", `${s.id}${s.app === "trades" ? " · Trade Skills" : ""}`));
+      left.append(el("h4", null, s.name));
+      left.append(el("p", "stn-meta", [s.trade, s.certification].filter(Boolean).join(" · ")));
+      left.append(el("p", "stn-meta", `${s.steps} steps · ${s.interrupts} interruptions · ${s.weather} · par ${fmtTime(s.parSeconds)}`));
+      const actions = el("div", "row");
+      const one = el("button", "small", "Send selected");
+      one.addEventListener("click", () => sendOpen(s.id));
+      const allBtn = el("button", "small", "Send all live");
+      allBtn.addEventListener("click", () => sendOpen(s.id, { all: true }));
+      actions.append(one, allBtn);
+      li.append(left, actions);
+      ul.append(li);
+    }
+    box.append(ul);
+    tree.append(box);
+  }
+}
+
+function renderLog() {
+  const rows = shownRows();
+  const hidden = logRows.length - rows.length;
+  $("log-count").textContent = `${rows.length} entr${rows.length === 1 ? "y" : "ies"}`
+    + (hidden ? ` · ${hidden} position snapshot${hidden === 1 ? "" : "s"} folded away` : "");
+  const body = $("log-rows");
+  body.replaceChildren();
+  for (const r of [...rows].reverse()) {
+    const tr = el("tr");
+    tr.append(el("td", null, new Date(r.at).toLocaleTimeString()));
+    tr.append(el("td", `dir-${r.dir}`, r.dir === "sent" ? "→ sent" : "← event"));
+    tr.append(el("td", null, r.dir === "sent" ? (COMMAND_LABELS[r.kind] ?? r.kind) : r.kind));
+    tr.append(el("td", null, r.learner));
+    tr.append(el("td", null, r.station));
+    tr.append(el("td", null, r.detail));
+    body.append(tr);
+  }
+}
+
+// ---------------------------------------------------------------------- views
+
+function render() {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"]]) {
+    $(tab).setAttribute("aria-selected", String(view === name));
+    $(panel).hidden = view !== name;
+  }
+  renderClass();
+  if (view === "roster") renderRoster();
+  if (view === "log") renderLog();
+}
+
+function setView(next) { view = next; render(); }
+
+$("tab-live").addEventListener("click", () => setView("live"));
+$("tab-roster").addEventListener("click", () => setView("roster"));
+$("tab-log").addEventListener("click", () => setView("log"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
   if (!selected || !text) return;
   bus.note(selected, text);
   $("note").value = "";
-  $("sent").textContent = `Sent to ${roster.get(selected)?.learner ?? selected}.`;
-  setTimeout(() => { $("sent").textContent = ""; }, 4000);
+  toast(`Sent to ${learnerName(selected)}.`);
 });
 $("note").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("send").click(); } });
-$("hold").addEventListener("click", () => { if (selected) { bus.freeze(selected, true); $("sent").textContent = "Held."; setTimeout(() => { $("sent").textContent = ""; }, 4000); } });
-$("release").addEventListener("click", () => { if (selected) { bus.freeze(selected, false); $("sent").textContent = "Released."; setTimeout(() => { $("sent").textContent = ""; }, 4000); } });
+$("hold").addEventListener("click", () => { if (selected) { bus.freeze(selected, true); toast("Held."); } });
+$("release").addEventListener("click", () => { if (selected) { bus.freeze(selected, false); toast("Released."); } });
 $("roll").addEventListener("click", () => bus.roll());
+$("weather-send").addEventListener("click", () => {
+  if (!selected) return;
+  const kind = $("weather").value;
+  bus.weather(selected, kind);
+  toast(`Next station for ${learnerName(selected)}: ${kind}.`);
+});
+$("profile-send").addEventListener("click", () => {
+  if (!selected) return;
+  const id = $("profile").value;
+  bus.profile(selected, id);
+  toast(`Next station for ${learnerName(selected)}: ${id} profile.`);
+});
+$("coach").addEventListener("click", () => { if (selected) { bus.hazardMode(selected, "coach"); toast("Coaching mode."); } });
+$("assess").addEventListener("click", () => { if (selected) { bus.hazardMode(selected, "assess"); toast("Assessed mode."); } });
+$("assign").addEventListener("click", () => {
+  if (!selected) return;
+  const id = $("programme").value;
+  if (!id) return;
+  bus.assign(selected, id);
+  toast(`Assigned ${id}.`);
+});
+$("open-programme").addEventListener("click", () => {
+  const id = $("programme").value;
+  if (id) sendOpen(id);
+});
+$("roster-search").addEventListener("input", (e) => { query = e.target.value; renderRoster(); });
+$("roster-clear").addEventListener("click", () => { query = ""; $("roster-search").value = ""; renderRoster(); });
+$("log-state").addEventListener("change", (e) => { showHeartbeats = !!e.target.checked; renderLog(); });
+$("log-csv").addEventListener("click", exportCsv);
+$("log-clear").addEventListener("click", () => { logRows = []; render(); });
 
+// The catalog is data, not code: the same generated roster a hosting platform
+// indexes. A console that cannot fetch it still runs the live class — it just
+// cannot offer the catalog view.
+fetch("../../smartcity/catalog.json")
+  .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`catalog.json: ${r.status}`))))
+  .then((json) => { catalog = buildRoster(json); fillPickers(); render(); })
+  .catch(() => { $("roster-count").textContent = "The catalog could not be loaded from this origin, so the roster view is empty. The live class view is unaffected."; fillPickers(); });
+
+if (relayFromSearch() && !bus.relay) toast("The relay URL was rejected — it must start with ws:// or wss://.");
+
+fillPickers();
 bus.roll();
 setInterval(() => bus.roll(), 15000);
 setInterval(render, 1000);

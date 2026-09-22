@@ -118,7 +118,9 @@ APPS = {
     "instructor": {
         "out": "instructor-console.html",
         "modules": [
+            SHARED / "devices.js",
             SHARED / "observer.js",
+            WEBXR / "instructor/js/roster.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -142,6 +144,7 @@ APPS = {
             SHARED / "incidents.js",
             SHARED / "incident-stage.js",
             SHARED / "crew.js",
+            SHARED / "observer.js",
             WEBXR / "holodeck/js/themes.js",
             WEBXR / "holodeck/js/training.js",
             WEBXR / "smartcity/js/sims-meta.js",

@@ -334,10 +334,11 @@ export function mountUI(store, actions) {
           "A station counts toward a programme when it has a passing attempt — two or more stars with no unsafe action. " +
           "Programmes cross both apps, the way an apprenticeship does."),
         h("div", { className: "prog-list" }, rows.map((p) => h("section", {
-          key: p.id, className: `prog-card${p.complete ? " done" : ""}`, style: { "--prog": p.accent },
+          key: p.id, className: `prog-card${p.complete ? " done" : ""}${p.assigned ? " assigned" : ""}`, style: { "--prog": p.accent },
         },
           h("header", { className: "prog-head" },
             h("div", null,
+              p.assigned && h("p", { className: "prog-pin" }, "Assigned by your instructor"),
               h("h2", null, p.name),
               h("div", { className: "prog-union" }, p.union)),
             h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
