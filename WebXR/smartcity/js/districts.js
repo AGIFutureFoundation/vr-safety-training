@@ -452,6 +452,66 @@ function clinicBlock(g, x, z, ry = 0) {
   return { s, cross: [a, b] };
 }
 
+
+/** The public side of a cleanup fence: a row of houses on a residential
+ *  street, the chain-link and posted signage of a parcel across the road,
+ *  a fence-line monitor mast, and the community centre whose lit sign is
+ *  the neighbourhood's own. This is the horizon a community monitor works
+ *  against — always from this side of the fence. */
+function fencedParcelStreet(g, x, z, ry = 0) {
+  const s = group(g, x, -1.5, z, ry);
+  // Row houses, stepped, with lit windows.
+  for (let i = 0; i < 5; i++) {
+    const hx = -14 + i * 6.2, tone = [0xcfc2b0, 0xb9c6cf, 0xd8cfc0, 0xc5c9b8, 0xd2c4bd][i];
+    box(s, 5.4, 6 + (i % 2) * 0.8, 7, hx, 3 + (i % 2) * 0.4, 0, tone, { rough: 0.9, metal: 0.02, cast: false, receive: false });
+    const roof = box(s, 5.8, 0.3, 7.4, hx, 6.15 + (i % 2) * 0.8, 0, 0x5a4a44, { rough: 0.85, cast: false, receive: false });
+    roof.rotation.z = 0.04;
+    for (let w = 0; w < 2; w++) box(s, 1.1, 1.4, 0.08, hx - 1.3 + w * 2.6, 2.4, -3.55, 0xffe6b0, { emissive: 0xffe6b0, ei: 0.7, rough: 0.3, cast: false, receive: false });
+    box(s, 1.1, 1.4, 0.08, hx, 4.6, -3.55, 0xffe6b0, { emissive: 0xffe6b0, ei: 0.5, rough: 0.3, cast: false, receive: false });
+  }
+  // The parcel fence across the road: posts, mesh panels, posted signs.
+  for (let i = 0; i < 9; i++) {
+    cyl(s, 0.06, 0.06, 2.6, -18 + i * 4.5, 1.3, -14, 0x8b98a5, { rough: 0.6, metal: 0.6, cast: false, receive: false });
+    if (i < 8) box(s, 4.4, 2.4, 0.03, -15.75 + i * 4.5, 1.3, -14, 0xa7b3bf, { rough: 0.5, metal: 0.5, opacity: 0.35, cast: false, receive: false });
+    if (i % 3 === 1) box(s, 0.9, 0.6, 0.04, -18 + i * 4.5 + 1.2, 1.7, -13.95, 0xfff2a8, { emissive: 0xfff2a8, ei: 0.25, rough: 0.7, cast: false, receive: false });
+  }
+  // Fence-line monitor mast on the public side.
+  const mast = group(s, 6, 0, -12.2);
+  cyl(mast, 0.05, 0.05, 3.2, 0, 1.6, 0, 0xdfe6ea, { rough: 0.5, metal: 0.6, cast: false, receive: false });
+  box(mast, 0.5, 0.36, 0.3, 0, 3.0, 0, 0x2b3542, { rough: 0.5, metal: 0.4, cast: false, receive: false });
+  const lamp = box(mast, 0.12, 0.12, 0.12, 0.22, 3.25, 0, 0x4fd6a5, { emissive: 0x4fd6a5, ei: 1.6, rough: 0.4, cast: false, receive: false });
+  own(lamp);
+  // Community centre with a lit sign.
+  box(s, 12, 5, 8, 19, 2.5, -4, 0xe4d9c6, { rough: 0.9, metal: 0.02, cast: false, receive: false });
+  box(s, 9, 1.0, 0.1, 19, 4.4, -8.05, 0xf2c14b, { emissive: 0xf2c14b, ei: 0.9, rough: 0.5, cast: false, receive: false });
+  box(s, 6, 2.2, 0.08, 19, 1.5, -8.05, 0xffe6b0, { emissive: 0xffe6b0, ei: 0.55, rough: 0.3, cast: false, receive: false });
+  return { s, lamp };
+}
+
+/** A garment-district loft: a brick block with tall factory windows lit
+ *  floor by floor, a loading dock with rolling racks, and the water tower
+ *  on the roof — the building a sewing floor sits inside. */
+function garmentLoft(g, x, z, ry = 0) {
+  const s = group(g, x, -1.5, z, ry);
+  box(s, 24, 14, 12, 0, 7, 0, 0x7a4a3a, { rough: 0.9, metal: 0.03, cast: false, receive: false });
+  const panes = [];
+  for (let f = 0; f < 4; f++) for (let w = 0; w < 7; w++) {
+    const pane = box(s, 2.2, 2.1, 0.08, -9.6 + w * 3.2, 2.2 + f * 3.2, -6.05, 0xdbe9ff, { emissive: 0xdbe9ff, ei: 0.35 + ((f + w) % 3) * 0.2, rough: 0.3, cast: false, receive: false });
+    own(pane); panes.push(pane);
+  }
+  cyl(s, 1.4, 1.4, 2.6, 8, 15.6, 2, 0x5a4a44, { rough: 0.9, cast: false, receive: false });
+  for (let i = 0; i < 4; i++) cyl(s, 0.08, 0.08, 2.4, 8 + Math.cos(i * 1.57) * 1.2, 15.2, 2 + Math.sin(i * 1.57) * 1.2, 0x3a3a3a, { rough: 0.7, metal: 0.5, cast: false, receive: false });
+  // Loading dock with rolling garment racks.
+  box(s, 8, 1.1, 3, 14.5, 0.55, -4.5, 0x4a5561, { rough: 0.85, cast: false, receive: false });
+  for (let i = 0; i < 3; i++) {
+    const rx = 12.5 + i * 1.8;
+    cyl(s, 0.03, 0.03, 1.6, rx, 1.9, -4.5, 0x8b98a5, { rough: 0.5, metal: 0.7, cast: false, receive: false });
+    box(s, 1.4, 0.04, 0.04, rx, 2.7, -4.5, 0x8b98a5, { rough: 0.5, metal: 0.7, cast: false, receive: false });
+    box(s, 1.2, 0.9, 0.5, rx, 2.2, -4.5, [0xb86bd6, 0x3b7bbf, 0xd67b6b][i], { rough: 0.9, cast: false, receive: false });
+  }
+  return { s, panes };
+}
+
 // ------------------------------------------------------------------ table
 
 const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
@@ -650,6 +710,22 @@ export const DISTRICTS = {
         const ei = 1.3 + Math.sin(t * 1.6) * 0.35;
         for (const m of clinic.cross) m.material.emissiveIntensity = ei;
       };
+    },
+  },
+  "Community Environmental Justice": {
+    sky: 0x0c1018, fog: 0x121826, hemi: [0x8c9bb0, 0x1a1c22], mast: 0xffe6b0,
+    build(g) {
+      flood(g, 0, 12, -22, 0xffe6b0, 1.1);
+      const st = fencedParcelStreet(g, -3, -27, 0.03);
+      return (t) => { st.lamp.material.emissiveIntensity = 1.2 + (Math.sin(t * 2.2) > 0.6 ? 1.2 : 0); };
+    },
+  },
+  "Sewing & Garment Trades": {
+    sky: 0x0d0a12, fog: 0x141020, hemi: [0x9a8cb0, 0x1c1620], mast: 0xf0e6ff,
+    build(g) {
+      flood(g, 0, 14, -22, 0xf0e6ff, 1.1);
+      const loft = garmentLoft(g, 2, -30, -0.04);
+      return (t) => { const k = Math.floor(t * 0.5) % loft.panes.length; loft.panes[k].material.emissiveIntensity = 0.3 + (Math.sin(t * 3) > 0 ? 0.6 : 0); };
     },
   },
 };
