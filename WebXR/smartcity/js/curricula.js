@@ -261,7 +261,9 @@ export const CURRICULA = [
     accent: "#b8862b",
     stations: [
       { app: "trades", id: "kitchen", why: "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured." },
-      // slot-bar-1
+      { app: "smartcity", id: "bar-well-setup", why: "Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in." },
+      { app: "smartcity", id: "id-check-underage", why: "The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar." },
+      { app: "smartcity", id: "jigger-pour-spec", why: "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects." },
       // slot-bar-2
       // slot-bar-3
       // slot-bar-4

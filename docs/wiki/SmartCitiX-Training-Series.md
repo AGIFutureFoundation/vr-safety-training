@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-22. 130 SmartCiti.X stations across 14 categories and 17 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-22. 133 SmartCiti.X stations across 14 categories and 17 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass twenty-three checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -217,6 +217,14 @@ Fifteen stations from opening the well to closing the till, and the customers in
 | # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
 |---|---|---|---|---|---|---|---|
 | — | Trade Skills: kitchen | — | — | — | — | 98 | The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured. |
+| 131 | [Opening the Well](../../WebXR/smartcity/index.html?sim=bar-well-setup) | Bartender — UNITE HERE Local 2 | indoor (bar) | 12 | 2 | — | Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in. |
+| 132 | [Checking ID](../../WebXR/smartcity/index.html?sim=id-check-underage) | Bartender — UNITE HERE Local 2 | indoor (bar) | 14 | 2 | — | The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar. |
+| 133 | [Pouring to Spec](../../WebXR/smartcity/index.html?sim=jigger-pour-spec) | Bartender — UNITE HERE Local 2 | indoor (bar) | 12 | 2 | — | The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects. |
+
+<table>
+<tr><td width="50%"><img src="../screenshots/smartcity/bar-well-setup_spawn.png" alt="Opening the Well from the learner's spawn point" width="100%"><br><b>Opening the Well</b> — Sanitiser mixed to strength, the ice well burned and refilled with a scoop, garnish gloved and dated, the glass washer proven, the well pour-tested and the float counted before the doors open</td><td width="50%"><img src="../screenshots/smartcity/id-check-underage_spawn.png" alt="Checking ID from the learner's spawn point" width="100%"><br><b>Checking ID</b> — F.L.A.G., a UV check, the birth-date math against the calendar, a second form when in doubt, and a refusal that is polite, documented and handed to the rest of the bar</td></tr>
+<tr><td width="50%"><img src="../screenshots/smartcity/jigger-pour-spec_spawn.png" alt="Pouring to Spec from the learner's spawn point" width="100%"><br><b>Pouring to Spec</b> — The standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each worked to its own method, garnish and glass to spec, pour cost checked, and the round logged per customer</td></tr>
+</table>
 
 <a id="electrical-first-period"></a>
 ## Inside Wireman — First Period

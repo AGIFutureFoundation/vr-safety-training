@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 130
+      "stations": 133
     },
     "trades": {
       "entry": "trades/index.html",
@@ -190,6 +190,29 @@
       ]
     },
     {
+      "name": "Culinary & Hospitality",
+      "stations": [
+        "jigger-pour-spec",
+        "id-check-underage",
+        "bar-well-setup",
+        "kitchen-gas-shutoff",
+        "hood-suppression",
+        "fryer-oil-change",
+        "bakery-mixer",
+        "slicer-lockout",
+        "knife-skills",
+        "prep-cooling",
+        "receiving-dock-food",
+        "walk-in-cooler",
+        "allergen-control",
+        "grease-trap",
+        "dish-pit",
+        "grill-line-burns",
+        "cafeteria-serving",
+        "banquet-hot-hold"
+      ]
+    },
+    {
       "name": "Dental & Oral Health",
       "stations": [
         "oral-cancer-screening",
@@ -207,26 +230,6 @@
         "amalgam-waste-handling",
         "chairside-emergency",
         "nitrous-oxide-monitoring"
-      ]
-    },
-    {
-      "name": "Culinary & Hospitality",
-      "stations": [
-        "kitchen-gas-shutoff",
-        "hood-suppression",
-        "fryer-oil-change",
-        "bakery-mixer",
-        "slicer-lockout",
-        "knife-skills",
-        "prep-cooling",
-        "receiving-dock-food",
-        "walk-in-cooler",
-        "allergen-control",
-        "grease-trap",
-        "dish-pit",
-        "grill-line-burns",
-        "cafeteria-serving",
-        "banquet-hot-hold"
       ]
     },
     {
@@ -990,6 +993,21 @@
           "app": "trades",
           "id": "kitchen",
           "why": "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured."
+        },
+        {
+          "app": "smartcity",
+          "id": "bar-well-setup",
+          "why": "Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in."
+        },
+        {
+          "app": "smartcity",
+          "id": "id-check-underage",
+          "why": "The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar."
+        },
+        {
+          "app": "smartcity",
+          "id": "jigger-pour-spec",
+          "why": "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5309,6 +5327,250 @@
     },
     {
       "app": "smartcity",
+      "id": "jigger-pour-spec",
+      "name": "Pouring to Spec",
+      "title": "SmartCiti.X~ Pouring to Spec VR",
+      "tagline": "The standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each worked to its own method, garnish and glass to spec, pour cost checked, and the round logged per customer",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25602 sale to an obviously intoxicated person; the California Retail Food Code for glassware and ware-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program; California Labor Code §351 on tips; UNITE HERE Local 2's own standard for a drink built to spec rather than by feel",
+      "accent": "#b8862b",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "hold",
+        "turn",
+        "track",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "rail-on-spec",
+        "name": "Rail On Spec",
+        "note": "Every build measured, every glass and garnish right, and the round logged clean"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "133",
+      "flat": false,
+      "system": "Rail Standard",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "jigger-true",
+          "name": "Jigger True",
+          "note": "The jigger pour landed inside the calibrated band"
+        },
+        {
+          "id": "never-overserved",
+          "name": "Never Overserved",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "three-builds-clean",
+          "name": "Three Builds Clean",
+          "note": "Shaken, stirred and built all completed without a correction"
+        },
+        {
+          "id": "clean-rail",
+          "name": "Clean Rail",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-stir",
+          "name": "Steady Stir",
+          "note": "Held the stir in band the whole way"
+        },
+        {
+          "id": "rail-fast",
+          "name": "Rail Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=jigger-pour-spec"
+    },
+    {
+      "app": "smartcity",
+      "id": "id-check-underage",
+      "name": "Checking ID",
+      "title": "SmartCiti.X~ Checking ID VR",
+      "tagline": "F.L.A.G., a UV check, the birth-date math against the calendar, a second form when in doubt, and a refusal that is polite, documented and handed to the rest of the bar",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25658 sale to a minor; TIPS or ServSafe Alcohol training on the F.L.A.G. method; Cal/OSHA 8 CCR §3342 workplace violence prevention plan for a refusal that escalates; UNITE HERE Local 2's own practice on backing up a refusal across the shift",
+      "accent": "#b8862b",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "door-held",
+        "name": "Door Held",
+        "note": "Every ID at the rail checked to F.L.A.G. and both underage attempts caught and documented"
+      },
+      "meshes": 155,
+      "lights": 0,
+      "overBudget": false,
+      "index": "132",
+      "flat": false,
+      "system": "Door Authority",
+      "currency": "CARD",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "flag-clean",
+          "name": "F.L.A.G. Clean",
+          "note": "Worked feel, look, ask and glance in order without a correction"
+        },
+        {
+          "id": "never-served",
+          "name": "Never Served",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "caught-both",
+          "name": "Caught Both",
+          "note": "Both the mismatched photo and the birthday-tomorrow patron were refused clean"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "held-composure",
+          "name": "Held Composure",
+          "note": "Never broke the hold during a refusal"
+        },
+        {
+          "id": "door-fast",
+          "name": "Door Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=id-check-underage"
+    },
+    {
+      "app": "smartcity",
+      "id": "bar-well-setup",
+      "name": "Opening the Well",
+      "title": "SmartCiti.X~ Opening the Well VR",
+      "tagline": "Sanitiser mixed to strength, the ice well burned and refilled with a scoop, garnish gloved and dated, the glass washer proven, the well pour-tested and the float counted before the doors open",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "California ABC Responsible Beverage Service (RBS) certification; the California Retail Food Code for ice, glassware, sanitiser and hand-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program and §5194 hazard communication for the sanitiser chemical; UNITE HERE Local 2's own opening-shift practice; the county Environmental Health department as the inspecting authority",
+      "accent": "#b8862b",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "well-opened-clean",
+        "name": "Well Opened Clean",
+        "note": "Every opening check passed to spec before the first guest was let in"
+      },
+      "meshes": 159,
+      "lights": 0,
+      "overBudget": false,
+      "index": "131",
+      "flat": false,
+      "system": "Bar Opening Crew",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "scoop-not-glass",
+          "name": "Scoop, Not Glass",
+          "note": "Nobody touched the ice with a glass on this shift"
+        },
+        {
+          "id": "never-uncovered",
+          "name": "Never Uncovered",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "pour-true",
+          "name": "Pour True",
+          "note": "The well pour-test landed inside the calibrated band"
+        },
+        {
+          "id": "clean-open",
+          "name": "Clean Open",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-pour",
+          "name": "Steady Pour",
+          "note": "Held the pour-test rate in band the whole way"
+        },
+        {
+          "id": "doors-on-time",
+          "name": "Doors On Time",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bar-well-setup"
+    },
+    {
+      "app": "smartcity",
       "id": "oral-cancer-screening",
       "name": "Oral Cancer Screening",
       "title": "SmartCiti.X~ Oral Cancer Screening VR",
@@ -7470,7 +7732,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",

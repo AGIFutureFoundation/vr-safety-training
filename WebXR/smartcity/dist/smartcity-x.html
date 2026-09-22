@@ -12023,6 +12023,132 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bar-well-setup",
+    "index": "131",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "California ABC Responsible Beverage Service (RBS) certification; the California Retail Food Code for ice, glassware, sanitiser and hand-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program and §5194 hazard communication for the sanitiser chemical; UNITE HERE Local 2's own opening-shift practice; the county Environmental Health department as the inspecting authority",
+    "name": "Opening the Well",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Opening the Well VR",
+    "tagline": "Sanitiser mixed to strength, the ice well burned and refilled with a scoop, garnish gloved and dated, the glass washer proven, the well pour-tested and the float counted before the doors open",
+    "accent": 12092971,
+    "accentCss": "#b8862b",
+    "parSeconds": 260,
+    "badge": {
+      "id": "well-opened-clean",
+      "name": "Well Opened Clean",
+      "note": "Every opening check passed to spec before the first guest was let in"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bar Opening Crew",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "id-check-underage",
+    "index": "132",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25658 sale to a minor; TIPS or ServSafe Alcohol training on the F.L.A.G. method; Cal/OSHA 8 CCR §3342 workplace violence prevention plan for a refusal that escalates; UNITE HERE Local 2's own practice on backing up a refusal across the shift",
+    "name": "Checking ID",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Checking ID VR",
+    "tagline": "F.L.A.G., a UV check, the birth-date math against the calendar, a second form when in doubt, and a refusal that is polite, documented and handed to the rest of the bar",
+    "accent": 12092971,
+    "accentCss": "#b8862b",
+    "parSeconds": 270,
+    "badge": {
+      "id": "door-held",
+      "name": "Door Held",
+      "note": "Every ID at the rail checked to F.L.A.G. and both underage attempts caught and documented"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Door Authority",
+      "currency": "CARD",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "jigger-pour-spec",
+    "index": "133",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25602 sale to an obviously intoxicated person; the California Retail Food Code for glassware and ware-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program; California Labor Code §351 on tips; UNITE HERE Local 2's own standard for a drink built to spec rather than by feel",
+    "name": "Pouring to Spec",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Pouring to Spec VR",
+    "tagline": "The standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each worked to its own method, garnish and glass to spec, pour cost checked, and the round logged per customer",
+    "accent": 12092971,
+    "accentCss": "#b8862b",
+    "parSeconds": 280,
+    "badge": {
+      "id": "rail-on-spec",
+      "name": "Rail On Spec",
+      "note": "Every build measured, every glass and garnish right, and the round logged clean"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rail Standard",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Bartender",
+        "Shift Lead",
+        "Bar Manager",
+        "RBS Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -12291,7 +12417,9 @@ const CURRICULA = [
     accent: "#b8862b",
     stations: [
       { app: "trades", id: "kitchen", why: "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured." },
-      // slot-bar-1
+      { app: "smartcity", id: "bar-well-setup", why: "Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in." },
+      { app: "smartcity", id: "id-check-underage", why: "The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar." },
+      { app: "smartcity", id: "jigger-pour-spec", why: "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects." },
       // slot-bar-2
       // slot-bar-3
       // slot-bar-4
