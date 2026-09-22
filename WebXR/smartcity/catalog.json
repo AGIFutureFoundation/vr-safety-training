@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 106
+      "stations": 109
     },
     "trades": {
       "entry": "trades/index.html",
@@ -190,19 +190,22 @@
       ]
     },
     {
+      "name": "Dental & Oral Health",
+      "stations": [
+        "sharps-exposure-response",
+        "instrument-reprocessing",
+        "operatory-turnover",
+        "amalgam-waste-handling",
+        "chairside-emergency",
+        "nitrous-oxide-monitoring"
+      ]
+    },
+    {
       "name": "Culinary & Hospitality",
       "stations": [
         "grill-line-burns",
         "cafeteria-serving",
         "banquet-hot-hold"
-      ]
-    },
-    {
-      "name": "Dental & Oral Health",
-      "stations": [
-        "amalgam-waste-handling",
-        "chairside-emergency",
-        "nitrous-oxide-monitoring"
       ]
     },
     {
@@ -816,6 +819,21 @@
           "app": "trades",
           "id": "phlebotomy",
           "why": "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up."
+        },
+        {
+          "app": "smartcity",
+          "id": "operatory-turnover",
+          "why": "The turnover between patients: sharps and instruments contained at the point of use, the disinfectant held to its own label's contact time, barriers changed and nothing left on the tray for the next patient to find."
+        },
+        {
+          "app": "smartcity",
+          "id": "instrument-reprocessing",
+          "why": "The sterilisation centre behind that turnover: mechanical cleaning instead of a hand scrub, a chemical indicator in every pack, and the weekly spore test that is the only proof any cycle actually worked."
+        },
+        {
+          "app": "smartcity",
+          "id": "sharps-exposure-response",
+          "why": "The needlestick this whole chain exists to prevent: washed, reported at once, and into evaluation inside the hours that make post-exposure prophylaxis worth anything."
         },
         {
           "app": "smartcity",
@@ -5165,6 +5183,247 @@
     },
     {
       "app": "smartcity",
+      "id": "sharps-exposure-response",
+      "name": "Sharps Exposure Response",
+      "title": "SmartCiti.X~ Sharps Exposure Response VR",
+      "tagline": "A needlestick mid-scaling: stopped safely, washed not squeezed, reported at once, the source pursued with consent, evaluation inside the hours that matter, and the stick logged and reviewed",
+      "category": "Dental & Oral Health",
+      "domain": "Dental Hygiene",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens — the exposure control plan, engineering controls and the post-exposure evaluation; ISO 23908 for sharps injury protection devices; OSHA's sharps injury log recordkeeping requirement; the CDC's post-exposure prophylaxis guidance; the Dental Hygiene Board of California practice act",
+      "accent": "#f2a23b",
+      "parSeconds": 230,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 11,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "sequence",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "exposure-managed",
+        "name": "Exposure Managed",
+        "note": "A needlestick handled start to finish inside the hours that make post-exposure prophylaxis meaningful"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "118",
+      "flat": false,
+      "system": "Exposure Response",
+      "currency": "HOUR",
+      "ranks": [
+        "New Hygienist",
+        "Chairside Responder",
+        "Exposure Lead",
+        "Safety Officer",
+        "Exposure Response Certified"
+      ],
+      "awards": [
+        {
+          "id": "washed-not-squeezed",
+          "name": "Washed, Not Squeezed",
+          "note": "The wound washed with soap and water for the full time, nothing else done to it"
+        },
+        {
+          "id": "reported-now",
+          "name": "Reported Now",
+          "note": "The exposure reported the moment the wound was washed, not at the end of the visit"
+        },
+        {
+          "id": "log-complete",
+          "name": "Log Complete",
+          "note": "The sharps injury log closed out with the device review attached"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections anywhere in the response"
+        },
+        {
+          "id": "held-the-wash",
+          "name": "Held The Wash",
+          "note": "Held the wound wash the full time, first try"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sharps-exposure-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "instrument-reprocessing",
+      "name": "Instrument Reprocessing",
+      "title": "SmartCiti.X~ Instrument Reprocessing VR",
+      "tagline": "Sterilization centre: mechanical cleaning, inspection, chemical-indicator packaging, an autoclave cycle read from its own printout, and the weekly spore test that proves it worked",
+      "category": "Dental & Oral Health",
+      "domain": "Dental Hygiene",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA's reprocessing requirements for reusable medical devices; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
+      "accent": "#6fc9a0",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "sequence",
+        "drag",
+        "gauge"
+      ],
+      "badge": {
+        "id": "cycle-verified",
+        "name": "Cycle Verified",
+        "note": "A load cleaned, packaged, run and biologically verified end to end with no shortcut"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "117",
+      "flat": false,
+      "system": "Sterile Processing",
+      "currency": "CYCLE",
+      "ranks": [
+        "New Processor",
+        "Sterile Tech",
+        "Lead Processor",
+        "Sterilization Supervisor",
+        "Sterile Processing Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-hand-scrubbed",
+          "name": "Never Hand-Scrubbed",
+          "note": "Instruments cleaned mechanically, never by hand"
+        },
+        {
+          "id": "spore-tested",
+          "name": "Spore Tested",
+          "note": "The weekly biological indicator run and read with its control"
+        },
+        {
+          "id": "pack-precise",
+          "name": "Pack Precise",
+          "note": "Every gauge reading held inside spec"
+        },
+        {
+          "id": "clean-cycle",
+          "name": "Clean Cycle",
+          "note": "No corrections anywhere in the load"
+        },
+        {
+          "id": "loaded-right",
+          "name": "Loaded Right",
+          "note": "Held the ultrasonic and the cycle wait the whole time, first try"
+        },
+        {
+          "id": "fast-turnaround",
+          "name": "Fast Turnaround",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=instrument-reprocessing"
+    },
+    {
+      "app": "smartcity",
+      "id": "operatory-turnover",
+      "name": "Operatory Turnover",
+      "title": "SmartCiti.X~ Operatory Turnover VR",
+      "tagline": "Dirty-to-clean turnover: sharps and instruments contained at point of use, surfaces held to full contact time, barriers changed, lines flushed, the next setup laid out sterile",
+      "category": "Dental & Oral Health",
+      "domain": "Dental Hygiene",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "ADHA (American Dental Hygienists' Association) infection-control guidance; the CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; the Dental Hygiene Board of California and the state dental practice act",
+      "accent": "#5ec9c2",
+      "parSeconds": 210,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "track",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "turnover-clean",
+        "name": "Turnover Clean",
+        "note": "A full dirty-to-clean turnover with every contact time honoured and nothing left for the next patient to find"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "116",
+      "flat": false,
+      "system": "Chairside Standard",
+      "currency": "SEAL",
+      "ranks": [
+        "Junior Assistant",
+        "Chairside Hygienist",
+        "Lead Hygienist",
+        "Infection Control Lead",
+        "Chairside Standard Certified"
+      ],
+      "awards": [
+        {
+          "id": "contact-held",
+          "name": "Contact Held",
+          "note": "The disinfectant stayed wet for its full labeled contact time"
+        },
+        {
+          "id": "sharp-safe",
+          "name": "Sharp Safe",
+          "note": "No hazard hit anywhere in the turnover"
+        },
+        {
+          "id": "barrier-discipline",
+          "name": "Barrier Discipline",
+          "note": "Every barrier changed before the next patient sat down"
+        },
+        {
+          "id": "clean-turnover",
+          "name": "Clean Turnover",
+          "note": "No corrections anywhere in the sequence"
+        },
+        {
+          "id": "held-the-wipe",
+          "name": "Held The Wipe",
+          "note": "Held the wet-contact wait the full time, first try"
+        },
+        {
+          "id": "fast-chair",
+          "name": "Fast Chair",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=operatory-turnover"
+    },
+    {
+      "app": "smartcity",
       "id": "mobile-air-lab",
       "name": "Mobile Air Lab",
       "title": "SmartCiti.X~ Mobile Air Lab VR",
@@ -5362,7 +5621,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -6021,7 +6280,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

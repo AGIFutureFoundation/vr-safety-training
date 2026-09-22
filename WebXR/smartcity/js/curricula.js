@@ -227,7 +227,9 @@ export const CURRICULA = [
     accent: "#7fd1c9",
     stations: [
       { app: "trades", id: "phlebotomy", why: "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up." },
-      // slot-dental-1
+      { app: "smartcity", id: "operatory-turnover", why: "The turnover between patients: sharps and instruments contained at the point of use, the disinfectant held to its own label's contact time, barriers changed and nothing left on the tray for the next patient to find." },
+      { app: "smartcity", id: "instrument-reprocessing", why: "The sterilisation centre behind that turnover: mechanical cleaning instead of a hand scrub, a chemical indicator in every pack, and the weekly spore test that is the only proof any cycle actually worked." },
+      { app: "smartcity", id: "sharps-exposure-response", why: "The needlestick this whole chain exists to prevent: washed, reported at once, and into evaluation inside the hours that make post-exposure prophylaxis worth anything." },
       // slot-dental-2
       // slot-dental-3
       { app: "smartcity", id: "nitrous-oxide-monitoring", why: "The hygienist's own separate permit at work: screening, the fail-safe, scavenging and a titration held inside NIOSH's exposure limit and the board's ceiling on the concentration itself." },
