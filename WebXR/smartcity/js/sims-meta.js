@@ -5133,5 +5133,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ultrasonic-scaling",
+    "index": "122",
+    "domain": "Healthcare",
+    "trade": "Dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the Dental Hygiene Board of California and the state dental practice act on scope of practice and local anesthesia; the CDC's Guidelines for Infection Control in Dental Health-Care Settings, including its dental unit waterline standard of no more than 500 CFU/mL of heterotrophic bacteria; OSHA 29 CFR 1910.1030 bloodborne pathogens; NIOSH's guidance on dental ergonomics and neutral posture at the operatory",
+    "name": "Ultrasonic Scaling",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Ultrasonic Scaling VR",
+    "tagline": "A scaling and root planing appointment: the waterline verified and flushed, PPE and loupes on, the insert matched to the deposit, the evacuator held on the aerosol, the tip adapted and kept moving, and the operator's own wrist and shoulders held neutral through the whole appointment",
+    "accent": 4176076,
+    "accentCss": "#3fb8cc",
+    "parSeconds": 265,
+    "badge": {
+      "id": "srp-clean-run",
+      "name": "Clean Debridement",
+      "note": "A full scaling and root planing appointment with the waterline verified, the insert adapted correctly and posture held neutral throughout"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Operatory Standard",
+      "currency": "CALC",
+      "ranks": [
+        "Chairside Aide",
+        "Registered Hygienist",
+        "Perio Specialist",
+        "Clinical Lead",
+        "Operatory Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "aerosol-management",
+    "index": "123",
+    "domain": "Healthcare",
+    "trade": "Dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on pre-procedural rinses, dental dams and instrument selection for aerosol-generating procedures; OSHA 29 CFR 1910.134 respiratory protection and its user seal check requirement; the Dental Hygiene Board of California and the state dental practice act",
+    "name": "Aerosol Management",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Aerosol Management VR",
+    "tagline": "Turning an operatory over for an aerosol-generating procedure: the room's own air changes and a portable HEPA unit sized to them, HVE and pre-procedural rinse, an N95 seal-checked every time it goes on, the dam where it fits, and the room left to settle its own fallow time before the next patient sits down",
+    "accent": 6277536,
+    "accentCss": "#5fc9a0",
+    "parSeconds": 270,
+    "badge": {
+      "id": "operatory-cleared",
+      "name": "Operatory Cleared",
+      "note": "A full aerosol-generating appointment set up, worked and turned over on the room's own fallow time"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Air Control",
+      "currency": "CADR",
+      "ranks": [
+        "Room Setup Tech",
+        "Registered Hygienist",
+        "Infection Control Lead",
+        "Clinical Lead",
+        "Air Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "fluoride-and-sealants",
+    "index": "124",
+    "domain": "Healthcare",
+    "trade": "Dental hygienist",
+    "category": "Dental & Oral Health",
+    "certification": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the hygiene profession's own body; the ADA's evidence-based clinical guidelines on fluoride varnish and on pit-and-fissure sealants; the Dental Hygiene Board of California and the state dental practice act's scope rules on who may place a sealant and under what standing order; OSHA 29 CFR 1910.1030 bloodborne pathogens",
+    "name": "Fluoride and Sealants",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Fluoride and Sealants VR",
+    "tagline": "Preventive care on a child: a caries risk assessment, varnish dosed to the age and painted after isolation, then sealants cleaned, etched to the label's time, rinsed to the frosted look, placed and cured behind eye protection, checked for a high spot and recorded for the recall",
+    "accent": 15897950,
+    "accentCss": "#f2955e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "prevention-recorded",
+      "name": "Prevention Recorded",
+      "note": "A varnish and sealant visit completed with the dose right for the age and every sealant retained at recall"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Prevention Rounds",
+      "currency": "SEAL",
+      "ranks": [
+        "Outreach Aide",
+        "Registered Hygienist",
+        "Public Health Lead",
+        "Clinical Lead",
+        "Prevention Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

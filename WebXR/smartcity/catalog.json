@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 121
+      "stations": 124
     },
     "trades": {
       "entry": "trades/index.html",
@@ -190,6 +190,20 @@
       ]
     },
     {
+      "name": "Dental & Oral Health",
+      "stations": [
+        "fluoride-and-sealants",
+        "aerosol-management",
+        "ultrasonic-scaling",
+        "sharps-exposure-response",
+        "instrument-reprocessing",
+        "operatory-turnover",
+        "amalgam-waste-handling",
+        "chairside-emergency",
+        "nitrous-oxide-monitoring"
+      ]
+    },
+    {
       "name": "Culinary & Hospitality",
       "stations": [
         "kitchen-gas-shutoff",
@@ -207,17 +221,6 @@
         "grill-line-burns",
         "cafeteria-serving",
         "banquet-hot-hold"
-      ]
-    },
-    {
-      "name": "Dental & Oral Health",
-      "stations": [
-        "sharps-exposure-response",
-        "instrument-reprocessing",
-        "operatory-turnover",
-        "amalgam-waste-handling",
-        "chairside-emergency",
-        "nitrous-oxide-monitoring"
       ]
     },
     {
@@ -906,6 +909,21 @@
           "app": "smartcity",
           "id": "sharps-exposure-response",
           "why": "The needlestick this whole chain exists to prevent: washed, reported at once, and into evaluation inside the hours that make post-exposure prophylaxis worth anything."
+        },
+        {
+          "app": "smartcity",
+          "id": "ultrasonic-scaling",
+          "why": "A scaling and root planing appointment run the way NIOSH's own ergonomics guidance and the CDC's waterline standard both assume it will be — waterline verified before the tip touches anyone, and the operator's own wrist held as carefully as the root surface."
+        },
+        {
+          "app": "smartcity",
+          "id": "aerosol-management",
+          "why": "Turning the same operatory over for an aerosol-generating procedure: the room's own air changes and a HEPA unit sized to them, an N95 seal-checked every time, and a fallow time the chair has to earn before the next patient sits down."
+        },
+        {
+          "app": "smartcity",
+          "id": "fluoride-and-sealants",
+          "why": "Preventive care on a child: a measured varnish dose for the age in the chair, then sealants etched to the label's time, rinsed to the frosted look, and recorded for the recall so the programme can show what it retained."
         },
         {
           "app": "smartcity",
@@ -5255,6 +5273,249 @@
     },
     {
       "app": "smartcity",
+      "id": "fluoride-and-sealants",
+      "name": "Fluoride and Sealants",
+      "title": "SmartCiti.X~ Fluoride and Sealants VR",
+      "tagline": "Preventive care on a child: a caries risk assessment, varnish dosed to the age and painted after isolation, then sealants cleaned, etched to the label's time, rinsed to the frosted look, placed and cured behind eye protection, checked for a high spot and recorded for the recall",
+      "category": "Dental & Oral Health",
+      "domain": "Healthcare",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the hygiene profession's own body; the ADA's evidence-based clinical guidelines on fluoride varnish and on pit-and-fissure sealants; the Dental Hygiene Board of California and the state dental practice act's scope rules on who may place a sealant and under what standing order; OSHA 29 CFR 1910.1030 bloodborne pathogens",
+      "accent": "#f2955e",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "prevention-recorded",
+        "name": "Prevention Recorded",
+        "note": "A varnish and sealant visit completed with the dose right for the age and every sealant retained at recall"
+      },
+      "meshes": 149,
+      "lights": 1,
+      "overBudget": false,
+      "index": "124",
+      "flat": false,
+      "system": "Prevention Rounds",
+      "currency": "SEAL",
+      "ranks": [
+        "Outreach Aide",
+        "Registered Hygienist",
+        "Public Health Lead",
+        "Clinical Lead",
+        "Prevention Certified"
+      ],
+      "awards": [
+        {
+          "id": "dose-right",
+          "name": "Dose Right",
+          "note": "The varnish dose held near the correct band for this child's age"
+        },
+        {
+          "id": "no-recontamination",
+          "name": "No Recontamination",
+          "note": "The etched surface never had to be re-etched"
+        },
+        {
+          "id": "clean-visit",
+          "name": "Clean Visit",
+          "note": "No unsafe action across the whole visit"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections the whole visit"
+        },
+        {
+          "id": "steady-streak",
+          "name": "Steady Streak",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=fluoride-and-sealants"
+    },
+    {
+      "app": "smartcity",
+      "id": "aerosol-management",
+      "name": "Aerosol Management",
+      "title": "SmartCiti.X~ Aerosol Management VR",
+      "tagline": "Turning an operatory over for an aerosol-generating procedure: the room's own air changes and a portable HEPA unit sized to them, HVE and pre-procedural rinse, an N95 seal-checked every time it goes on, the dam where it fits, and the room left to settle its own fallow time before the next patient sits down",
+      "category": "Dental & Oral Health",
+      "domain": "Healthcare",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on pre-procedural rinses, dental dams and instrument selection for aerosol-generating procedures; OSHA 29 CFR 1910.134 respiratory protection and its user seal check requirement; the Dental Hygiene Board of California and the state dental practice act",
+      "accent": "#5fc9a0",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "operatory-cleared",
+        "name": "Operatory Cleared",
+        "note": "A full aerosol-generating appointment set up, worked and turned over on the room's own fallow time"
+      },
+      "meshes": 161,
+      "lights": 1,
+      "overBudget": false,
+      "index": "123",
+      "flat": false,
+      "system": "Air Control",
+      "currency": "CADR",
+      "ranks": [
+        "Room Setup Tech",
+        "Registered Hygienist",
+        "Infection Control Lead",
+        "Clinical Lead",
+        "Air Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "seal-checked",
+          "name": "Seal Checked",
+          "note": "The N95 held its user seal check the full count"
+        },
+        {
+          "id": "capture-held",
+          "name": "Capture Held",
+          "note": "The evacuator's capture distance held near band centre"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No unsafe action across the whole turnover"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections the whole appointment"
+        },
+        {
+          "id": "steady-streak",
+          "name": "Steady Streak",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=aerosol-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "ultrasonic-scaling",
+      "name": "Ultrasonic Scaling",
+      "title": "SmartCiti.X~ Ultrasonic Scaling VR",
+      "tagline": "A scaling and root planing appointment: the waterline verified and flushed, PPE and loupes on, the insert matched to the deposit, the evacuator held on the aerosol, the tip adapted and kept moving, and the operator's own wrist and shoulders held neutral through the whole appointment",
+      "category": "Dental & Oral Health",
+      "domain": "Healthcare",
+      "trade": "Dental hygienist",
+      "union": null,
+      "certification": "SEIU and UFCW dental and clinic staff, and the ADHA as the hygiene profession's own body; the Dental Hygiene Board of California and the state dental practice act on scope of practice and local anesthesia; the CDC's Guidelines for Infection Control in Dental Health-Care Settings, including its dental unit waterline standard of no more than 500 CFU/mL of heterotrophic bacteria; OSHA 29 CFR 1910.1030 bloodborne pathogens; NIOSH's guidance on dental ergonomics and neutral posture at the operatory",
+      "accent": "#3fb8cc",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "sequence",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "srp-clean-run",
+        "name": "Clean Debridement",
+        "note": "A full scaling and root planing appointment with the waterline verified, the insert adapted correctly and posture held neutral throughout"
+      },
+      "meshes": 171,
+      "lights": 1,
+      "overBudget": false,
+      "index": "122",
+      "flat": false,
+      "system": "Operatory Standard",
+      "currency": "CALC",
+      "ranks": [
+        "Chairside Aide",
+        "Registered Hygienist",
+        "Perio Specialist",
+        "Clinical Lead",
+        "Operatory Certified"
+      ],
+      "awards": [
+        {
+          "id": "water-verified",
+          "name": "Water Verified",
+          "note": "Waterline log checked and the line flushed before the handpiece touched the patient"
+        },
+        {
+          "id": "neutral-adaptation",
+          "name": "Neutral Adaptation",
+          "note": "Every graded reading held near band centre"
+        },
+        {
+          "id": "clean-field",
+          "name": "Clean Field",
+          "note": "No unsafe action across the whole appointment"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections the whole appointment"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ultrasonic-scaling"
+    },
+    {
+      "app": "smartcity",
       "id": "kitchen-gas-shutoff",
       "name": "Kitchen Gas Shutoff",
       "title": "SmartCiti.X~ Kitchen Gas Shutoff VR",
@@ -6679,7 +6940,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
