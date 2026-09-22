@@ -8468,5 +8468,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "structure-fire-sizeup",
+    "index": "197",
+    "domain": "Emergency Services",
+    "trade": "Firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF — NFPA 1500 fire department occupational safety and health, NFPA 1710 organization and deployment of career fire suppression, NFPA 1001 firefighter professional qualifications for the 360 and the initial line; OSHA 29 CFR 1910.134 respiratory protection, the source of the two-in two-out rule; NIMS/ICS through FEMA IS-100 and IS-700 for the incident command structure the on-scene report is given into",
+    "name": "Structure Fire Size-Up",
+    "weather": "smoke",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Structure Fire Size-Up VR",
+    "tagline": "First-in engine at a two-storey residential fire: the 360, the on-scene report, water before entry, the mode called with the reason, two-in two-out, the initial line, and the ten-minute PAR",
+    "accent": 13783851,
+    "accentCss": "#d2532b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "first-in-clean",
+      "name": "First-In Clean",
+      "note": "A residential structure fire sized up, reported, attacked and accounted for without an unsafe action anywhere in the job"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "First-In Company",
+      "currency": "COMMAND",
+      "ranks": [
+        "Firefighter I",
+        "Firefighter II",
+        "Company Officer",
+        "Incident Commander",
+        "First-In Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "firefighter-rehab-sector",
+    "index": "198",
+    "domain": "Emergency Services",
+    "trade": "Firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF — NFPA 1584 rehabilitation process for members during emergency operations, NFPA 1500 fire department occupational safety and health, OSHA 29 CFR 1910.134 respiratory protection governing SCBA cylinder rotation, and NIOSH heat-stress monitoring criteria the rehab vitals are read against",
+    "name": "Firefighter Rehab Sector",
+    "weather": "smoke",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Firefighter Rehab Sector VR",
+    "tagline": "Rehab sector at a working fire under NFPA 1584: cylinder rotation, PPE broken down, vitals read against the release criteria, cooling and hydration, a heat-stressed member held back, and the crew's own check-in",
+    "accent": 3055223,
+    "accentCss": "#2e9e77",
+    "parSeconds": 290,
+    "badge": {
+      "id": "release-earned",
+      "name": "Release Earned",
+      "note": "Every crew through rehab met its release criteria before going back to the line, with nobody pushed through early"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rehab Group",
+      "currency": "REHAB",
+      "ranks": [
+        "Rehab Support",
+        "Rehab Technician",
+        "Rehab Manager",
+        "Medical Group Supervisor",
+        "Rehab Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wildland-urban-interface",
+    "index": "199",
+    "domain": "Emergency Services",
+    "trade": "Firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF — NFPA 1500 fire department occupational safety and health and its LCES doctrine for wildland operations, NFPA 1140 standard for wildland fire protection in the built environment, NFPA 1977 protective ensembles for wildland fire fighting, OSHA 29 CFR 1910.156 fire brigades, NWCG wildland fire behaviour and structure triage guidance, and NIMS/ICS through FEMA IS-100 for the evacuation authority a sheriff's deputy is carrying on this road",
+    "name": "Wildland-Urban Interface",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Wildland-Urban Interface VR",
+    "tagline": "Structure defence at a WUI fire: LCES first, the structure triaged, ember-resistant prep, the trigger points and the pull-out call, a live wind and fire-behaviour read, and a resident who will not leave handled with respect and the sheriff's authority",
+    "accent": 13208111,
+    "accentCss": "#c98a2f",
+    "parSeconds": 310,
+    "badge": {
+      "id": "structure-held",
+      "name": "Structure Held",
+      "note": "A defensible structure prepped against embers, the trigger point respected, and the pull-out called the instant conditions changed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Structure Group",
+      "currency": "DEFENSE",
+      "ranks": [
+        "Wildland Crew",
+        "Engine Boss",
+        "Strike Team Leader",
+        "Division Supervisor",
+        "WUI Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

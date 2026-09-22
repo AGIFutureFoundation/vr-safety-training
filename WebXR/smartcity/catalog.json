@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 199
+      "stations": 202
     },
     "trades": {
       "entry": "trades/index.html",
@@ -103,6 +103,9 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "wildland-urban-interface",
+        "firefighter-rehab-sector",
+        "structure-fire-sizeup",
         "psychological-first-aid",
         "damage-assessment-team",
         "shelter-intake-operations",
@@ -1469,6 +1472,21 @@
           "app": "smartcity",
           "id": "triage-point",
           "why": "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you."
+        },
+        {
+          "app": "smartcity",
+          "id": "structure-fire-sizeup",
+          "why": "The first ten minutes of a residential fire: the 360, the report that puts a picture in every radio on the channel, the mode called out loud, and the accountability check that proves everyone who went in is still there."
+        },
+        {
+          "app": "smartcity",
+          "id": "firefighter-rehab-sector",
+          "why": "The sector behind the fire where the crew itself is the patient: vitals read against a real release criterion, and a member held back for re-evaluation no matter who is asking for him back on the line."
+        },
+        {
+          "app": "smartcity",
+          "id": "wildland-urban-interface",
+          "why": "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so."
         },
         {
           "app": "smartcity",
@@ -5826,6 +5844,251 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "wildland-urban-interface",
+      "name": "Wildland-Urban Interface",
+      "title": "SmartCiti.X~ Wildland-Urban Interface VR",
+      "tagline": "Structure defence at a WUI fire: LCES first, the structure triaged, ember-resistant prep, the trigger points and the pull-out call, a live wind and fire-behaviour read, and a resident who will not leave handled with respect and the sheriff's authority",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Firefighter — IAFF",
+      "union": null,
+      "certification": "IAFF — NFPA 1500 fire department occupational safety and health and its LCES doctrine for wildland operations, NFPA 1140 standard for wildland fire protection in the built environment, NFPA 1977 protective ensembles for wildland fire fighting, OSHA 29 CFR 1910.156 fire brigades, NWCG wildland fire behaviour and structure triage guidance, and NIMS/ICS through FEMA IS-100 for the evacuation authority a sheriff's deputy is carrying on this road",
+      "accent": "#c98a2f",
+      "parSeconds": 310,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "find",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "structure-held",
+        "name": "Structure Held",
+        "note": "A defensible structure prepped against embers, the trigger point respected, and the pull-out called the instant conditions changed"
+      },
+      "meshes": 245,
+      "lights": 0,
+      "overBudget": false,
+      "index": "199",
+      "flat": false,
+      "system": "Structure Group",
+      "currency": "DEFENSE",
+      "ranks": [
+        "Wildland Crew",
+        "Engine Boss",
+        "Strike Team Leader",
+        "Division Supervisor",
+        "WUI Certified"
+      ],
+      "awards": [
+        {
+          "id": "lces-first",
+          "name": "LCES First",
+          "note": "Lookouts, communications, escape routes and safety zone all named before anything else moved"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "trigger-respected",
+          "name": "Trigger Respected",
+          "note": "The pull-out called the instant the trigger point was met, not after the hose lay was finished"
+        },
+        {
+          "id": "clean-defense",
+          "name": "Clean Defense",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "prep-held",
+          "name": "Prep Held",
+          "note": "Every timed task carried its full duration, no early release"
+        },
+        {
+          "id": "prep-fast",
+          "name": "Prep Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wildland-urban-interface"
+    },
+    {
+      "app": "smartcity",
+      "id": "firefighter-rehab-sector",
+      "name": "Firefighter Rehab Sector",
+      "title": "SmartCiti.X~ Firefighter Rehab Sector VR",
+      "tagline": "Rehab sector at a working fire under NFPA 1584: cylinder rotation, PPE broken down, vitals read against the release criteria, cooling and hydration, a heat-stressed member held back, and the crew's own check-in",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Firefighter — IAFF",
+      "union": null,
+      "certification": "IAFF — NFPA 1584 rehabilitation process for members during emergency operations, NFPA 1500 fire department occupational safety and health, OSHA 29 CFR 1910.134 respiratory protection governing SCBA cylinder rotation, and NIOSH heat-stress monitoring criteria the rehab vitals are read against",
+      "accent": "#2e9e77",
+      "parSeconds": 290,
+      "weather": "smoke",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "release-earned",
+        "name": "Release Earned",
+        "note": "Every crew through rehab met its release criteria before going back to the line, with nobody pushed through early"
+      },
+      "meshes": 231,
+      "lights": 0,
+      "overBudget": false,
+      "index": "198",
+      "flat": false,
+      "system": "Rehab Group",
+      "currency": "REHAB",
+      "ranks": [
+        "Rehab Support",
+        "Rehab Technician",
+        "Rehab Manager",
+        "Medical Group Supervisor",
+        "Rehab Certified"
+      ],
+      "awards": [
+        {
+          "id": "criteria-held",
+          "name": "Criteria Held",
+          "note": "Nobody released before meeting the vitals criteria, first time"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "vitals-precise",
+          "name": "Vitals Precise",
+          "note": "Every reading committed inside its band"
+        },
+        {
+          "id": "clean-sector",
+          "name": "Clean Sector",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "cooling-held",
+          "name": "Cooling Held",
+          "note": "The cooling period held its full duration, no early step-out"
+        },
+        {
+          "id": "sector-fast",
+          "name": "Sector Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=firefighter-rehab-sector"
+    },
+    {
+      "app": "smartcity",
+      "id": "structure-fire-sizeup",
+      "name": "Structure Fire Size-Up",
+      "title": "SmartCiti.X~ Structure Fire Size-Up VR",
+      "tagline": "First-in engine at a two-storey residential fire: the 360, the on-scene report, water before entry, the mode called with the reason, two-in two-out, the initial line, and the ten-minute PAR",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Firefighter — IAFF",
+      "union": null,
+      "certification": "IAFF — NFPA 1500 fire department occupational safety and health, NFPA 1710 organization and deployment of career fire suppression, NFPA 1001 firefighter professional qualifications for the 360 and the initial line; OSHA 29 CFR 1910.134 respiratory protection, the source of the two-in two-out rule; NIMS/ICS through FEMA IS-100 and IS-700 for the incident command structure the on-scene report is given into",
+      "accent": "#d2532b",
+      "parSeconds": 300,
+      "weather": "smoke",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "select",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "first-in-clean",
+        "name": "First-In Clean",
+        "note": "A residential structure fire sized up, reported, attacked and accounted for without an unsafe action anywhere in the job"
+      },
+      "meshes": 275,
+      "lights": 0,
+      "overBudget": false,
+      "index": "197",
+      "flat": false,
+      "system": "First-In Company",
+      "currency": "COMMAND",
+      "ranks": [
+        "Firefighter I",
+        "Firefighter II",
+        "Company Officer",
+        "Incident Commander",
+        "First-In Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-report",
+          "name": "Clean Report",
+          "note": "On-scene report given in the order command needs it, first time"
+        },
+        {
+          "id": "no-hazard",
+          "name": "No Hazard",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "par-clean",
+          "name": "PAR Clean",
+          "note": "The ten-minute personnel accountability report held and answered without a break"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-advance",
+          "name": "Steady Advance",
+          "note": "Held the interior advance rate in band the whole way down the hall"
+        },
+        {
+          "id": "first-in-fast",
+          "name": "First-In Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=structure-fire-sizeup"
     },
     {
       "app": "smartcity",
@@ -13680,7 +13943,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -14339,7 +14602,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

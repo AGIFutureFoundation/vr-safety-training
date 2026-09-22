@@ -389,7 +389,9 @@ export const CURRICULA = [
     accent: "#f0645b",
     stations: [
       { app: "smartcity", id: "triage-point", why: "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you." },
-      // slot-fr-1
+      { app: "smartcity", id: "structure-fire-sizeup", why: "The first ten minutes of a residential fire: the 360, the report that puts a picture in every radio on the channel, the mode called out loud, and the accountability check that proves everyone who went in is still there." },
+      { app: "smartcity", id: "firefighter-rehab-sector", why: "The sector behind the fire where the crew itself is the patient: vitals read against a real release criterion, and a member held back for re-evaluation no matter who is asking for him back on the line." },
+      { app: "smartcity", id: "wildland-urban-interface", why: "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so." },
       // slot-fr-2
       // slot-fr-3
       // slot-fr-4
