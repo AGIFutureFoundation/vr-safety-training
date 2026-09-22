@@ -4767,7 +4767,7 @@
       "district": null,
       "steps": 11,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -4781,7 +4781,7 @@
         "name": "First Flush",
         "note": "A grab inside the permit window, in preservation order, sealed and iced — first time"
       },
-      "meshes": 128,
+      "meshes": 167,
       "lights": 0,
       "overBudget": false,
       "index": "43",
@@ -4848,7 +4848,7 @@
       "district": null,
       "steps": 12,
       "hazards": 4,
-      "interrupts": 0,
+      "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
@@ -4932,7 +4932,9 @@
       "interrupts": 2,
       "stepKinds": [
         "select",
+        "hold",
         "sequence",
+        "turn",
         "gauge",
         "track"
       ],
@@ -5000,7 +5002,7 @@
       "domain": "Mobility & Transit",
       "trade": "Airline ramp agent / ground handler",
       "union": null,
-      "certification": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
+      "certification": "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment; ANSI/ISEA 107 high-visibility apparel for anyone on the movement area",
       "accent": "#63b5f0",
       "parSeconds": 250,
       "weather": "overcast",
@@ -5014,14 +5016,15 @@
         "find",
         "sequence",
         "track",
-        "gauge"
+        "gauge",
+        "drag"
       ],
       "badge": {
         "id": "clean-turn",
         "name": "Clean Turn",
         "note": "Chocks before contact, cones set, headset before pushback and the all-clear given last — first time"
       },
-      "meshes": 178,
+      "meshes": 179,
       "lights": 0,
       "overBudget": false,
       "index": "46",
@@ -8792,7 +8795,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -9451,7 +9454,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 252,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

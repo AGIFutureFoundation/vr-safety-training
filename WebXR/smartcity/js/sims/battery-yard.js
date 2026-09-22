@@ -60,12 +60,42 @@ export const SIM_BATTERY_YARD = {
     "module-latch": "The module comes out after the bus is proven dead and the racks are grounded.",
   },
 
+  // Interruptions: see shared/game.js. A battery yard isolation is worked
+  // over several minutes on live gas detection and a rack full of cells
+  // still cooling — both of the things that actually change mid-job here are
+  // things a real crew would have to notice and answer without restarting
+  // the isolation from the top.
+  interrupts: [
+    {
+      id: "residual-offgas",
+      kind: "Gas re-alarm",
+      after: "bleed", delay: 3, seconds: 11,
+      alert: "The gas detection panel outside the enclosure has climbed back into the amber while the bleed-down timer is still running.",
+      cue: "Read the panel again before you touch anything else in there.",
+      target: "gas-panel",
+      why: "Off-gassing from a stressed cell does not stop just because the electrical isolation started; residual heat inside a failed module keeps producing gas on its own schedule, independent of where the bleed-down timer happens to be. The panel is checked once at the start of the job, but the reading it gave then is not a guarantee that holds for the whole isolation.",
+      missNote: "The bleed-down finished with the gas reading back in the amber and nobody looked again. The enclosure door was about to open on an atmosphere the crew had already stopped tracking, which is exactly the gap a stationary gas panel exists to close.",
+      wrongNote: "That is not the panel that just went into alarm. Read the gas detection panel before doing anything else in this enclosure.",
+    },
+    {
+      id: "neighbour-heats-up",
+      kind: "Thermal spike",
+      after: "bleed", delay: 7, seconds: 10,
+      alert: "While the bleed-down timer still runs, the thermal camera's standing preview on the neighbouring module shows a hot spot climbing fast.",
+      cue: "Check the thermal camera before the bleed-down even finishes.",
+      target: "thermal-camera",
+      why: "A cell failure is rarely isolated to one module; the neighbours in the same rack absorb whatever heat and current the failed cell was rejecting right up until the moment the isolation began, and UL 9540A thermal-runaway test data is exactly why a second module going the same way is checked for the instant it shows, not saved for the scheduled scan later in the job. Catching that spike now is what keeps one bad module from becoming two.",
+      missNote: "The bleed-down finished with a second module already climbing on the thermal camera and nobody looked. A rack that goes on to close up with a hot neighbour inside it can go into thermal runaway with the technician already moving on to a job that looked finished.",
+      wrongNote: "The camera is what shows the hot spot. Check the thermal reading before finishing anything else with this rack.",
+    },
+  ],
+
   steps: [
     {
       id: "wo", kind: "select", target: "work-order",
       title: "Read the work order and one-line",
       cue: "Check which enclosure, which rack, the bleed-down time and the arc-flash category.",
-      why: "A battery yard is a dozen identical enclosures. The one-line says which one is being worked, what the DC bus does when it is opened, and what the technician must be wearing to stand in front of it.",
+      why: "A grid battery yard is a dozen identical enclosures on the same aisle, and the wrong one opened under lockout is a live one. The one-line and the work order say which enclosure and rack, what the DC bus is rated at when it is opened, and the arc-flash category that decides what the technician must be wearing before ever reaching for the door.",
     },
     {
       id: "gas", kind: "sequence", anyOrder: true,
@@ -73,13 +103,13 @@ export const SIM_BATTERY_YARD = {
       itemNames: { "gas-panel": "gas detection panel", "vent-check": "deflagration vents" },
       title: "Read the enclosure from outside",
       cue: "Check the gas detection panel and look over the deflagration vents — before touching the door.",
-      why: "Everything you need to know about whether the enclosure is safe to open is readable from outside it. That is why the panel is mounted outside.",
+      why: "Everything a technician needs to know about whether this enclosure is safe to open is readable from outside it, which is exactly why the gas panel and the vents are mounted where they are. A lithium enclosure that is off-gassing gives no other outward sign, and the reading has to be checked before the door, not after.",
     },
     {
       id: "stop", kind: "select", target: "controller-stop",
       title: "Stop the unit from the controller",
       cue: "Command the enclosure to stop and confirm the inverter has ramped to zero.",
-      why: "A controlled stop ramps the inverter down and opens the contactors in the order the system was designed for. Everything after this is opening something that is already at zero.",
+      why: "A controlled stop from the controller ramps the inverter down and opens the internal contactors in the sequence the system was engineered for, rather than the arbitrary order a breaker pulled by hand would impose. Everything the technician opens after this command is opening something the controller has already brought to zero, not something still carrying load.",
     },
     {
       id: "ac", kind: "sequence",
@@ -87,7 +117,7 @@ export const SIM_BATTERY_YARD = {
       itemNames: { "ac-breaker": "AC breaker open", "ac-lock": "AC lock and tag" },
       title: "Open and lock the AC side",
       cue: "Open the AC interconnection breaker, then lock and tag it.",
-      why: "The AC side is opened first because it is the side that can re-energise from the grid. With it locked, the only energy left in the enclosure is what the cells are holding.",
+      why: "The AC interconnection is opened and locked first under 1910.147 because it is the only side that can re-energise the enclosure from the grid; a rack disconnect pulled before it means whatever happens next happens with the inverter still able to see a live bus. With the AC breaker locked and tagged, the only energy left anywhere in the enclosure is what the cells themselves are holding.",
       outOfOrderNote: "Breaker open, then the lock — you never lock a breaker you have not opened.",
     },
     {
@@ -96,14 +126,14 @@ export const SIM_BATTERY_YARD = {
       itemNames: { "dc-disconnect-1": "rack 1 disconnect", "dc-disconnect-2": "rack 2 disconnect", "dc-disconnect-3": "rack 3 disconnect" },
       title: "Open the rack DC disconnects",
       cue: "Pull the rack disconnects one at a time, in rack order.",
-      why: "Each rack is its own string at full bus voltage. They are opened one at a time, in order, so the aisle is never guessing which string is still tied in.",
+      why: "Each rack is its own string carrying the full DC bus voltage independently of the others, and opening more than one at once is how a technician loses track of which strings are actually isolated. Pulling the disconnects one at a time, in the order printed on the one-line, means the aisle always knows exactly which racks are still tied in and which are not.",
       outOfOrderNote: "Rack 1, then 2, then 3 — the order on the one-line is the order in the aisle.",
     },
     {
-      id: "bleed", kind: "hold", target: "bleed-timer", seconds: 6,
+      id: "bleed", kind: "hold", target: "bleed-timer", seconds: 10,
       title: "Wait out the bleed-down",
       cue: "Hold the timer through the full bleed-down interval printed on the enclosure.",
-      why: "The DC link capacitors hold a lethal charge after every disconnect is open. The wait is printed on the door because it is not a judgement call and it cannot be shortened by looking at the meter.",
+      why: "The DC link capacitors hold a lethal charge for a fixed interval after every rack disconnect is open, discharging through their own bleed resistors on their own schedule regardless of how urgent the swap is. The wait is printed on the enclosure door as a number, not a judgement call, precisely because it cannot be shortened by watching the meter drop faster than the physics allows.",
       holdBreakNote: "You cut the bleed-down short — the bus is still charged. Start the interval again.",
     },
     {
@@ -112,14 +142,14 @@ export const SIM_BATTERY_YARD = {
       itemNames: { "meter-known-live": "meter on the known source", "bus-meter": "meter on the DC bus", "meter-known-again": "meter on the known source again" },
       title: "Live, dead, live on the DC bus",
       cue: "Prove the meter on the known source, read the bus, then prove the meter again.",
-      why: "A meter that failed between the first reading and the bus reading will show any bus as dead. Proving it before and after is the only thing that makes 'dead' mean anything.",
+      why: "Live-dead-live is what NFPA 70E requires before anyone treats a DC bus as de-energised: a meter that failed silently between readings shows every bus as dead, live or not, and there is no way to tell the difference from the display alone. Proving the meter on a known source before and after the bus reading is the only thing that makes 'dead' mean anything a technician can act on.",
       outOfOrderNote: "Known source, then the bus, then the known source again — the meter is proven either side of the reading that matters.",
     },
     {
       id: "voltage", kind: "gauge", target: "bus-readout",
       title: "Confirm the bus is at zero",
       cue: "Read the residual bus voltage and commit inside the safe band.",
-      why: "Zero on this bus means single digits, not 'lower than it was'. Anything above the band means a string is still tied in somewhere and the aisle is still live.",
+      why: "Zero on a residual DC bus reading means single digits of volts, not simply lower than the 800-plus it was carrying under load. A residual reading above the safe band means a string is still tied in somewhere the disconnect sequence missed, and the aisle a technician is about to reach into is still carrying dangerous voltage.",
       gauge: { label: "DC BUS", speed: 0.7, green: [0.02, 0.14], readout: (t) => `${Math.round(t * 1000)} V`, missNote: "Still carrying voltage — find the string that is still connected before anyone reaches in." },
     },
     {
@@ -128,20 +158,20 @@ export const SIM_BATTERY_YARD = {
       itemNames: { "ground-rack": "rack grounding cable", "insulated-tools": "insulated tool set" },
       title: "Ground the rack and take insulated tools",
       cue: "Apply the rack grounding cable and pick up the insulated tool set.",
-      why: "The ground holds the rack at zero if a string comes back. The insulated tools are what stop a dropped spanner from becoming a bus bar across two terminals.",
+      why: "The rack grounding cable holds the string at zero potential even if a fault or a stray tie somewhere brings voltage back onto it, which a proven-dead reading alone cannot guarantee stays true for the whole job. The insulated 1000 V tool set is what stops a dropped spanner from becoming an unintended bus bar across two live-looking terminals inside a rack full of cells.",
     },
     {
       id: "swap", kind: "drag", target: "module-latch",
       title: "Draw the failed module out",
       cue: "Release the module latch and slide the failed module onto the transfer cart.",
-      why: "A module is sixty kilograms of cells on a rail. It comes out onto a cart, not into someone's arms, and it goes to the quarantine area, not back in the aisle.",
+      why: "A failed module is sixty kilograms of lithium cells riding a rail, and a rail is exactly what it is designed to come out on — not into someone's arms, where a slip is a crush injury and a punctured cell in the same moment. It is drawn straight onto the transfer cart and sent to the quarantine area, never set back down in an aisle where the next tech might treat it as good stock.",
       drag: { to: "cart-deck", radius: 0.45, missNote: "Not on the cart — slide the module square onto the transfer deck." },
     },
     {
       id: "thermal", kind: "gauge", target: "thermal-camera",
       title: "Thermal-check the rack",
       cue: "Scan the remaining modules and terminals and commit when the hottest reading is inside the band.",
-      why: "A module fails because something got hot, and the neighbours are the first place that shows. The scan before the door closes is what catches a second bad cell before it becomes the next event.",
+      why: "A module fails because something inside it got hot, per UL 9540A thermal-runaway test data, and a neighbouring module under the same stress is the first place that shows on a thermal camera before it shows on any other instrument. Scanning the remaining racks before the door closes is what catches a second cell heading toward the same failure before it becomes the incident this swap was meant to fix.",
       gauge: { label: "HOT SPOT", speed: 0.75, green: [0.1, 0.36], readout: (t) => `${Math.round(18 + t * 80)} °C`, missNote: "Too hot to close up — find the source before this enclosure goes back in service." },
     },
     {
@@ -151,7 +181,7 @@ export const SIM_BATTERY_YARD = {
       itemNotes: { "suppression-tag": "The clean-agent suppression bottle's inspection tag expired last quarter — the enclosure's own first line of defence is out of certification." },
       title: "Walk the enclosure before you close it",
       cue: "Check the suppression, the detection and the door seals, and click what is not in service.",
-      why: "The enclosure protects itself when nobody is there. Everything that does that is checked before the door closes, because the next person here may be arriving to an alarm.",
+      why: "The enclosure has to protect itself for every hour nobody is standing in front of it, and the suppression bottle, the gas detection and the door seals are the only things doing that job overnight. Everything that keeps the unit safe unattended gets checked before this door closes, because the next person to open it may be arriving to an alarm, not a scheduled swap.",
     },
   ],
 
@@ -291,11 +321,40 @@ export const SIM_BATTERY_YARD = {
     holoTag(tech, "storage technician", 0, 1.9, 0, { css: "#9fd84f", w: 0.34 });
     const smoke = particles(g, 40, 0xd8d8d8, { size: 0.03, life: 1.2, additive: false, opacity: 0.22 });
 
-    let alarm = true, opened = [false, false, false], out = false;
+    let alarm = true, opened = [false, false, false], out = false, reAlarm = false, hotSpike = false;
+    const hotModule = racks[0].mods[2];
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.8, 1.2, -1.0),
       onStep() {},
+      // The gas panel climbing back into alarm mid-bleed and a neighbouring
+      // module heating up during the swap are both things visible from where
+      // the technician is standing.
+      onInterrupt(it) {
+        if (it.id === "residual-offgas") {
+          reAlarm = true; smoke.visible = true;
+          repaint(gasPanel.userData.screen, signFace("CH4 1.8%", { bg: "#2a0d0d", accent: "#d2312b", fg: "#ffd9d6", scale: 0.55 }));
+          gasPanel.userData.screen.material.emissiveIntensity = 1.6;
+        }
+        if (it.id === "neighbour-heats-up") {
+          hotSpike = true;
+          repaint(thermal.userData.screen, signFace("61 °C ▲", { bg: "#2a0d0d", accent: "#d2312b", fg: "#f2fbe4", scale: 0.6 }));
+          hotModule.led.material.emissiveIntensity = 2.6;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "residual-offgas") {
+          reAlarm = false; smoke.visible = false;
+          repaint(gasPanel.userData.screen, signFace("CH4 CLEAR", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.58 }));
+          gasPanel.userData.screen.material.emissiveIntensity = 0.85;
+        }
+        if (it.id === "neighbour-heats-up") {
+          hotSpike = false;
+          repaint(thermal.userData.screen, signFace("-- °C", { bg: "#151c0b", accent: "#9fd84f", fg: "#f2fbe4", scale: 0.62 }));
+          hotModule.led.material.emissiveIntensity = 1.0;
+        }
+      },
       onStepComplete(step) {
         if (step.id === "gas") { alarm = false; repaint(gasPanel.userData.screen, signFace("CH4 CLEAR", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.58 })); }
         if (step.id === "stop") repaint(busRead.userData.screen, signFace("820 V", { bg: "#151c0b", accent: "#f2ae14", fg: "#f2fbe4", scale: 0.62 }));
@@ -313,7 +372,7 @@ export const SIM_BATTERY_YARD = {
       onHazard() {},
       animate(t, dt, session) {
         const step = session?.step;
-        if (alarm) {
+        if (alarm || reAlarm) {
           gasPanel.userData.screen && repaint(gasPanel.userData.screen, signFace(Math.sin(t * 4) > 0 ? "CH4 ALARM" : "CH4 1.8%", { bg: "#2a0d0d", accent: "#d2312b", fg: "#ffd9d6", scale: 0.55 }));
           smoke.visible = true; smoke.userData.step(dt, new THREE.Vector3(0.6, 2.7, -1.5), 0.25, 0.25, 0.15);
         } else if (smoke.visible) smoke.visible = false;
@@ -322,6 +381,7 @@ export const SIM_BATTERY_YARD = {
           racks[r].disc.rotation.z = opened[r] ? 0.6 : 0;
           for (const m of racks[r].mods) if (m.led.visible) m.led.material.emissiveIntensity = opened[r] ? 0.15 : 1.0 + Math.sin(t * 1.4 + r) * 0.3;
         }
+        if (hotSpike) hotModule.led.material.emissiveIntensity = 2.6;
         const gg = session?.gauge;
         if (gg && !gg.committed && step?.id === "voltage") repaint(busRead.userData.screen, signFace(`${Math.round(gg.t * 1000)} V`, { bg: "#151c0b", accent: gg.t <= 0.14 ? "#59c97b" : "#f2ae14", fg: "#f2fbe4", scale: 0.62 }));
         if (gg && !gg.committed && step?.id === "thermal") repaint(thermal.userData.screen, signFace(`${Math.round(18 + gg.t * 80)} °C`, { bg: "#151c0b", accent: gg.t <= 0.36 ? "#59c97b" : "#f2ae14", fg: "#f2fbe4", scale: 0.62 }));

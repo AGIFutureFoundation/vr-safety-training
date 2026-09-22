@@ -20,7 +20,7 @@ export const SIM_AIRPORT_RAMP = {
   trade: "Airline ramp agent / ground handler",
   category: "Mobility & Transit",
   weather: "overcast",
-  certification: "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment",
+  certification: "IAM and Transport Workers Union ramp locals; IATA Ground Operations Manual (AHM 630 ground support equipment, ERA safety envelope); FAA 14 CFR 139.303 personnel training and 139.329 movement-area safety; OSHA 29 CFR 1910.178 for powered ramp equipment; ANSI/ISEA 107 high-visibility apparel for anyone on the movement area",
   name: "Airport Ramp",
   title: simTitle("Airport Ramp"),
   tagline: "Gate turn: FOD walk and equipment restraint line, marshal onto the lead-in, chocks before anything touches it, cones set, ground power and headset to the flight deck, bridge to the door, loader at walking pace, all-clear only when chocks and cones are back",
@@ -93,7 +93,7 @@ export const SIM_AIRPORT_RAMP = {
       id: "brief", kind: "select", target: "turn-board",
       title: "Read the turn plan",
       cue: "Check the aircraft type, the stand, the equipment and who is on the headset.",
-      why: "Stand geometry and aircraft type decide where the chocks and cones go and how far the bridge travels. The turn is planned on the ground before the aircraft is on final.",
+      why: "Stand geometry and the aircraft type on the turn plan decide where the chocks and cones actually go and how far the bridge has to travel to reach the door, none of which can be worked out once the aircraft is already on the stand. Under IATA's AHM 630 ground-operations guidance, the turn is planned on the ground before the aircraft is even on final approach.",
     },
     {
       id: "fod", kind: "find", noHint: true,
@@ -105,7 +105,7 @@ export const SIM_AIRPORT_RAMP = {
       },
       title: "Walk the stand for FOD",
       cue: "Walk the area the aircraft will occupy and pick up every loose object you find.",
-      why: "Foreign object damage is the most expensive avoidable thing on a ramp. The walk happens before every arrival, and what is found goes in the bin, not kicked aside.",
+      why: "Foreign object damage is the single most expensive avoidable event on a ramp — one bolt through an intake writes off an engine, and a strap wrapped around a nose gear can bring an aircraft to a stop on the lead-in line. The walk happens before every single arrival regardless of how clean the stand looked last time, and what is found goes in the bin, never kicked aside for someone else to deal with.",
     },
     {
       id: "stage", kind: "sequence", anyOrder: true,
@@ -113,13 +113,13 @@ export const SIM_AIRPORT_RAMP = {
       itemNames: { "equipment-line": "equipment restraint line clear", "gse-parked": "ground equipment behind the line", "hi-vis-check": "hi-vis and ear protection" },
       title: "Stage behind the line",
       cue: "Everything behind the equipment restraint line, brakes set, crew in hi-vis with hearing protection.",
-      why: "Until the aircraft is stopped and chocked, the restraint line is the boundary between the ramp crew and a moving aeroplane.",
+      why: "Until the aircraft is fully stopped and chocked, the equipment restraint line is the entire boundary between the ramp crew and a moving aeroplane the pilot cannot see past its own wingtips. Everyone and everything stays behind it, brakes set on the ground equipment and the crew in hi-vis with hearing protection on, per OSHA 29 CFR 1910.178 for the powered equipment already staged there.",
     },
     {
       id: "marshal", kind: "track", target: "marshal-wands", seconds: 6,
       title: "Marshal the aircraft in",
       cue: "Wands up, steady guidance down the lead-in line until the nosewheel reaches the stop bar.",
-      why: "The pilot cannot see the nosewheel or the wingtips. The marshaller's rate and position are the only reference for the last thirty metres.",
+      why: "From the flight deck of a narrow-body, the pilot cannot see the nosewheel, the wingtips, or anything directly in front of the aircraft for the last stretch of the approach. The marshaller standing on the lead-in line, with steady wands and a steady walking rate, is the only reference the flight crew has for closing the final thirty metres onto the stand.",
       track: { start: 0.1, green: [0.38, 0.58], rise: 0.6, fall: 0.5, drift: 0.12, label: "GUIDANCE", readout: (v) => (v < 0.38 ? "hesitating" : v > 0.58 ? "waving them in fast" : "steady") },
       holdBreakNote: "Signal rate out of band — the flight deck reads that as confusion. Steady the wands.",
     },
@@ -127,7 +127,7 @@ export const SIM_AIRPORT_RAMP = {
       id: "stop", kind: "gauge", target: "stop-bar",
       title: "Stop on the mark",
       cue: "Give the stop when the nosewheel is on the stop bar — commit inside the band.",
-      why: "The stop bar is where the bridge reaches the door and the wingtip clears the stand next door. A metre long or short and one of those is no longer true.",
+      why: "The stop bar marking is calibrated for exactly one aircraft type on that stand: it is the one point where the jet bridge actually reaches the door and the wingtip still clears the adjacent stand's equipment. Stop a metre long or a metre short of that mark and one of those two things is no longer true, and neither is something the crew can fix after the aircraft is parked.",
       gauge: { label: "NOSEWHEEL", speed: 0.7, green: [0.46, 0.58], readout: (t) => `${((t - 0.52) * 400).toFixed(0)} cm`, missNote: "Off the stop bar — the bridge will not reach or the wingtip clearance is gone." },
     },
     {
@@ -136,7 +136,7 @@ export const SIM_AIRPORT_RAMP = {
       itemNames: { "chock-nose": "nose gear chocks", "chock-main": "main gear chocks", "cones-set": "wingtip and engine cones" },
       title: "Chock and cone",
       cue: "Nose chocks first, then the mains, then the cones at the wingtips and engines — and only then does anything else approach.",
-      why: "Chocks before contact is the rule the whole ramp runs on. The cones mark the parts of the aircraft that ground equipment must never find with a mirror.",
+      why: "Chocks before any contact is the rule the whole ramp runs on, because until they are set nothing except the flight crew's own brakes is holding a parked aircraft on a stand that is rarely perfectly level. The cones at the wingtips and the engine mark the exact parts of the aircraft that a reversing tug or a swinging loader must never find with a mirror.",
       outOfOrderNote: "Nose, then mains, then cones — the aircraft is held before it is marked.",
     },
     {
@@ -145,13 +145,13 @@ export const SIM_AIRPORT_RAMP = {
       itemNames: { "gpu-connect": "ground power connected", "headset-plug": "headset to the flight deck" },
       title: "Ground power and headset",
       cue: "Connect ground power and plug the headset into the nose interphone.",
-      why: "Ground power lets the engines and the auxiliary unit shut down. The headset is the only direct line to the flight deck for the rest of the turn, and it is what pushback will happen on.",
+      why: "Ground power connected first is what lets the engines and the auxiliary power unit actually shut down without losing electrics on the flight deck. The headset plugged into the nose interphone is the only direct line to the flight deck for the rest of the turn, and it is the same connection pushback will eventually happen on, so it is tested now rather than assumed.",
     },
     {
       id: "bridge", kind: "track", target: "bridge-drive", seconds: 6,
       title: "Drive the bridge to the door",
       cue: "Bring the bridge in steadily, watching the cab height and the door sill.",
-      why: "A bridge driven fast into an aircraft door is a hull strike that cancels the next four flights. Steady, watching the sill, with the auto-level following.",
+      why: "A jet bridge driven fast into an aircraft door is a hull strike, and a hull strike on a narrow-body does not just delay this turn — it grounds the aircraft for inspection and cancels the next several flights on its rotation. Bringing it in steadily, watching the cab height against the door sill with the auto-level following, is what keeps the canopy from ever making first contact at speed.",
       track: { start: 0.1, green: [0.36, 0.56], rise: 0.6, fall: 0.5, drift: 0.12, label: "BRIDGE", readout: (v) => (v < 0.36 ? "stopped" : v > 0.56 ? "too fast at the door" : "steady") },
       holdBreakNote: "Approach speed out of band — back off and bring it in steadily.",
     },
@@ -159,14 +159,15 @@ export const SIM_AIRPORT_RAMP = {
       id: "align", kind: "gauge", target: "bridge-align",
       title: "Align and dock the bridge",
       cue: "Set the canopy against the fuselage and commit when the alignment is inside the band.",
-      why: "The canopy seals to the fuselage and the auto-level keeps the sill matched as the aircraft rises with unloading. Off-centre, the seal leaks and the sill steps.",
+      why: "The bridge's canopy has to seal against the fuselage skin around the door, and the auto-level system keeps the cabin sill matched to the bridge floor as the aircraft physically rises on its gear while cargo and passengers come off. Docked off-centre, the seal leaks weather into the jetway and the sill develops a step that becomes a trip hazard for every passenger who crosses it.",
       gauge: { label: "DOOR ALIGN", speed: 0.75, green: [0.46, 0.58], readout: (t) => `${((t - 0.52) * 60).toFixed(0)} cm off`, missNote: "Canopy off centre — re-align before the door opens." },
     },
     {
-      id: "load", kind: "select", target: "belt-loader",
+      id: "load", kind: "drag", target: "belt-loader",
       title: "Bring the belt loader to the hold",
-      cue: "Approach the cargo door at walking pace and stop short before raising the belt.",
-      why: "Everything that approaches an aircraft does it at walking pace and stops short. The last metre is done with the platform, not with the vehicle.",
+      cue: "Drive the belt loader to the cargo door at walking pace and stop short before raising the belt.",
+      why: "Every vehicle that approaches a parked aircraft on the ramp does it at walking pace and stops short of the skin, under the same AHM 630 ground-support discipline that governs everything else on this turn. The last metre to the fuselage is closed with the loader's own platform, never by rolling the vehicle itself the rest of the way in.",
+      drag: { to: "loader-dock", radius: 0.5, missNote: "Not stopped short of the fuselage — bring the loader in to the hold and stop before the platform touches the skin." },
     },
     {
       id: "close", kind: "sequence",
@@ -174,7 +175,7 @@ export const SIM_AIRPORT_RAMP = {
       itemNames: { "cones-clear": "cones back on the truck", "chocks-clear": "chocks pulled", "allclear-signal": "all-clear to the flight deck" },
       title: "Clear the stand and give the all-clear",
       cue: "Cones up, then chocks, then the all-clear on the headset with the chocks held up in view.",
-      why: "The chocks come up second to last and the all-clear last, with the chocks visible to the flight deck. That signal is the pilot's proof that nothing is still attached to their aircraft.",
+      why: "The cones come up first, the chocks second to last, and the all-clear last of all, given with the chocks held up in plain view of the flight deck. That specific sequence and that visible signal are the pilot's only proof, from inside a cockpit that cannot see the nosewheel, that nothing ground crew placed is still attached to or under their aircraft before they move it.",
       outOfOrderNote: "Cones, then chocks, then the all-clear — the aircraft is released last, and only once.",
     },
   ],
@@ -277,6 +278,8 @@ export const SIM_AIRPORT_RAMP = {
     for (const [x, z] of [[-0.5, -0.3], [0.5, -0.3], [-0.5, 0.3], [0.5, 0.3]]) cyl(loader, 0.16, 0.16, 0.12, x, 0.16, z, 0x1a1e23, { rough: 0.9, seg: 12 }).rotation.z = Math.PI / 2;
     holoTag(loader, "belt loader", 0, 1.15, 0, { css: "#63b5f0", w: 0.26 });
     reg(hits, loader, "belt-loader");
+    const loaderDock = box(g, 0.6, 0.05, 0.6, -1.4, 0.02, 0.4, 0xffffff, { opacity: 0.001, transparent: true, cast: false });
+    hits["loader-dock"] = loaderDock;
     const underFus = box(g, 1.2, 0.8, 0.8, -1.0, 0.5, -1.6, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "stand under the loader?", -1.0, 1.0, -1.6, { css: "#d2312b", w: 0.44 });
     reg(hits, underFus, "under-fuselage-loading");

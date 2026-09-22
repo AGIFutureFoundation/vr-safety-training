@@ -59,18 +59,47 @@ export const SIM_STORMWATER_OUTFALL = {
     "sample-set": "The bottle set goes on ice once it is labelled, sealed and signed for.",
   },
 
+  // Interruptions: see shared/game.js. Both are armed on the grab itself —
+  // the one step where a technician's hands are committed for long enough
+  // that something can actually change underneath them, on an open bank in
+  // the same storm that produced the discharge.
+  interrupts: [
+    {
+      id: "buddy-steps-away",
+      kind: "Lone worker",
+      after: "grab", delay: 2, seconds: 10,
+      alert: "The second person on the bank has walked back toward the truck to take a phone call, out of sight of the channel.",
+      cue: "Get the buddy back on the bank before the sampler comes up.",
+      target: "buddy-present",
+      why: "A stormwater grab is worked at the edge of moving water in the rain that caused the discharge in the first place, and the second person on the bank is the entire emergency plan if the footing gives way. A technician alone at the flow with a full sampler in hand has nobody to call it in and nobody to reach them.",
+      missNote: "The buddy stayed at the truck through the rest of the grab. If the bank had given way at that moment, the outfall would have had one person in the water and nobody on the radio who knew it — the entire reason a stormwater crew never samples alone.",
+      wrongNote: "The bank is unattended right now. Get the second person back before anything else here matters.",
+    },
+    {
+      id: "storm-intensifies",
+      kind: "Lightning risk",
+      after: "grab", delay: 6, seconds: 10,
+      alert: "Thunder rolls across the yard while the sampler is still in the flow, and the rain gauge logger shows the intensity spiking well past the reading the sample was planned around.",
+      cue: "Check the gauge as soon as the bottle is full — this storm just got a lot bigger than the one you staged for.",
+      target: "rain-gauge",
+      why: "A technician holding a pole sampler out over moving water is the tallest thing near the channel, and a storm that intensifies mid-grab can bring lightning that was not there when the crew staged the bank. The rain gauge and logger are what says whether this is still a sampling problem or now a get-off-the-bank problem.",
+      missNote: "The grab finished with a storm building overhead and nobody looked at the gauge again. Lightning is the reason outdoor sampling crews are trained to reassess conditions continuously, not just at the start of the job — a storm that qualifies the sample can also be the one that hurts the sampler holding the pole.",
+      wrongNote: "That is not the gauge. Read the rain gauge and logger before doing anything else on this bank.",
+    },
+  ],
+
   steps: [
     {
       id: "permit", kind: "select", target: "permit-board",
       title: "Read the permit's sampling requirement",
       cue: "Check the parameters, the first-flush window, the bottle set and the hold times.",
-      why: "The permit says what a qualifying storm is, how long you have after discharge starts, which bottles and preservatives, and how long the lab has. Miss the window and the quarter has no sample.",
+      why: "The NPDES industrial stormwater permit, issued under 40 CFR 122.26, is what defines a qualifying storm, the first-flush window after discharge starts, the bottle set and preservatives, and the lab's hold times. Miss any of those and the quarter's discharge monitoring report has no valid data point, regardless of what actually left the outfall.",
     },
     {
       id: "weather", kind: "select", target: "rain-gauge",
       title: "Confirm the storm qualifies",
       cue: "Read the rain gauge and the antecedent dry period on the logger.",
-      why: "A qualifying event needs enough rain after enough dry days. Sampling a storm that does not qualify wastes the bottles and still leaves the permit unsatisfied.",
+      why: "A qualifying event under the permit needs a minimum rainfall total after a minimum number of dry days between storms — usually 0.1 inch after 72 hours. Grab a storm that does not clear both numbers and the lab work is real but the permit's monitoring requirement for the quarter is still unmet.",
     },
     {
       id: "calibrate", kind: "sequence",
@@ -78,7 +107,7 @@ export const SIM_STORMWATER_OUTFALL = {
       itemNames: { "ph-buffer-4": "pH 4 buffer", "ph-buffer-7": "pH 7 buffer", "cond-standard": "conductivity standard" },
       title: "Calibrate the field meters",
       cue: "Two-point the pH meter on buffer 7 then buffer 4, then the conductivity standard.",
-      why: "Field readings are data of record. A meter calibrated after the sample, or not at all, turns every number on the form into an estimate the regulator can strike.",
+why: "Field readings are data of record under 40 CFR 136's approved methods, and a two-point calibration against known buffers is what makes a pH number defensible rather than a guess. A meter calibrated after the sample, or not at all, turns every reading on the form into an estimate a regulator is entitled to strike from the discharge monitoring report.",
       outOfOrderNote: "Buffer 7 first to set the offset, then buffer 4 for the slope, then conductivity.",
     },
     {
@@ -87,20 +116,20 @@ export const SIM_STORMWATER_OUTFALL = {
       itemNames: { "buddy-present": "second person on the bank", "tripod-set": "tripod and line", "gloves-on": "nitrile gloves" },
       title: "Stage the bank",
       cue: "Second person on the bank, tripod and line set over the flow, clean gloves on.",
-      why: "The bank is wet, steep and moving. The tripod keeps the sampler over the flow without anyone leaning out, and the gloves keep the site's chemistry out of the bottle and off the technician.",
+      why: "The bank is wet, steep and moving underfoot in the rain that is the whole reason for this sample. A second person on the bank is who calls for help if the footing goes, the tripod keeps the sampler over the flow without anyone leaning past the edge, and the gloves keep the site's own chemistry off the technician and out of the bottle.",
     },
     {
       id: "flow", kind: "gauge", target: "flow-staff",
       title: "Estimate the flow",
       cue: "Read the staff gauge in the channel and commit the stage inside the band.",
-      why: "A concentration without a flow is half a number. The stage reading is what turns milligrams per litre into the pounds per day the permit is actually written against.",
+      why: "A concentration without a flow is half a number: milligrams per litre says nothing about total load until it is multiplied by how much water is actually moving. The stage reading off the staff gauge is what turns that concentration into the pounds-per-day figure the permit's effluent limit is actually written against.",
       gauge: { label: "STAGE", speed: 0.7, green: [0.42, 0.58], readout: (t) => `${(t * 1.2).toFixed(2)} m`, missNote: "Read the staff again at the marked point — a stage off by a tenth changes the load by a third." },
     },
     {
-      id: "grab", kind: "hold", target: "grab-pole", seconds: 5,
+      id: "grab", kind: "hold", target: "grab-pole", seconds: 9,
       title: "Take the grab from the flow",
       cue: "Hold the sampler in the moving flow, mouth upstream, until the bottle is full.",
-      why: "The sample is taken from the flow, not from the bank eddy where solids settle and oil collects. Mouth upstream so what goes in is what is running past.",
+      why: "The sample has to represent the flow, not the bank eddy where solids settle out and oil pools against the bank — a grab from either one biases the result low or high depending on the parameter. Holding the sampler mouth upstream means what goes into the bottle is what is actually passing the outfall right now.",
       holdBreakNote: "You lifted the sampler mid-fill — the bottle is part air and part eddy. Empty it and take the grab again.",
     },
     {
@@ -109,14 +138,14 @@ export const SIM_STORMWATER_OUTFALL = {
       itemNames: { "bottle-og": "oil and grease (no headspace)", "bottle-metals": "metals (nitric acid)", "bottle-bod": "BOD / TSS (unpreserved)" },
       title: "Fill the bottles in preservation order",
       cue: "Oil and grease first from the grab, then the acid-preserved metals bottle, then the unpreserved bottles.",
-      why: "Oil and grease is a bottle you never pour between, so it is taken first and directly. The acid bottle is filled before anything can carry acid into a bottle that must not have it.",
+      why: "Oil and grease is a bottle you never pour between containers, so it is filled first, straight from the sampler, before anything else touches the cup. The acid-preserved metals bottle goes next so nothing that has been near it can carry residual acid backward into the unpreserved bottles that must not have any.",
       outOfOrderNote: "Oil and grease, then metals, then the unpreserved bottles — preservatives never travel backwards.",
     },
     {
       id: "ph", kind: "gauge", target: "ph-meter",
       title: "Read field pH",
       cue: "Take pH on a separate aliquot and commit the reading.",
-      why: "pH has a fifteen-minute hold time: it is a field parameter or it is nothing. It is read on an aliquot, never in the sample bottle going to the lab.",
+      why: "Under 40 CFR 136, pH has a fifteen-minute hold time — it is a field parameter or it is not a valid measurement at all by the time a courier could get it to a lab. It is read on a separate aliquot, never dipped into the sample bottle itself, because a meter probe is one more thing that can contaminate what the lab receives.",
       gauge: { label: "FIELD pH", speed: 0.75, green: [0.42, 0.6], readout: (t) => `${(4 + t * 7).toFixed(2)} pH`, missNote: "Let the reading settle and commit when it stops drifting." },
     },
     {
@@ -125,14 +154,14 @@ export const SIM_STORMWATER_OUTFALL = {
       itemNames: { "label-bottles": "labels with time and site", "custody-seal": "custody seals", "sign-coc": "chain of custody signed" },
       title: "Label, seal and sign custody",
       cue: "Label every bottle with the site, date, time and preservative, seal them, and sign the chain of custody.",
-      why: "Custody is what makes the sample evidence. Every hand that holds it signs for it, and a broken seal at the lab ends the sample's life as a legal record.",
+      why: "Custody, per EPA SESD chain-of-custody procedure, is what turns a bottle of water into evidence the regulator can rely on. Every hand that holds the sample signs for it, and a seal broken before the lab logs it in ends the sample's life as a legal record no matter what the analysis eventually shows.",
       outOfOrderNote: "Label, then seal, then sign — the form describes bottles that are already labelled and sealed.",
     },
     {
       id: "ice", kind: "drag", target: "sample-set",
       title: "Get the samples on ice",
       cue: "Carry the sealed bottle set to the cooler and set it on the ice.",
-      why: "Four degrees is part of the method. A metals sample survives, but the unpreserved bottles start changing the moment they are warm, and the lab reports the sample as out of compliance on arrival.",
+      why: "Four degrees Celsius is written into the method itself, not a suggestion for the ride back. A metals sample under acid preservation survives a warm cooler; the unpreserved BOD and TSS bottles start changing biologically the moment they warm up, and the lab reports the whole set as out of compliance on arrival, no matter how carefully it was taken.",
       drag: { to: "cooler-ice", radius: 0.45, missNote: "Not in the cooler — set the bottle set down on the ice bed." },
     },
     {
@@ -142,7 +171,7 @@ export const SIM_STORMWATER_OUTFALL = {
       itemNotes: { "sheen-upstream": "There is a rainbow sheen on the water upstream of the outfall — an oil source on the yard that the grab will have caught and the site needs to know about today." },
       title: "Walk the outfall before you leave",
       cue: "Look over the channel above and below the pipe and click anything the site needs to hear about now.",
-      why: "The sampler is the only person who sees the outfall during the storm. What is visible in the flow is reportable the same day, not when the lab report comes back in three weeks.",
+      why: "The sampler is the only person who sees this outfall during the storm event itself. A visible sheen or discoloration is reportable to the facility the same day under the permit's noncompliance provisions, not three weeks from now when the lab report for a single grab parameter finally comes back.",
     },
   ],
 
@@ -262,12 +291,54 @@ export const SIM_STORMWATER_OUTFALL = {
     holoTag(buddy, "second person on the bank", 0, 1.9, 0, { css: "#78c8a0", w: 0.48 });
     reg(hits, buddy, "buddy-present");
     for (const [x, z] of [[-2.4, 2.0], [2.4, 2.0]]) cone(g, x, z);
+    // Site dressing: rip-rap at the toe of the bank, a silt-fence run above
+    // the channel, sandbags staged near the outfall, and storm litter — none
+    // of it interactive, all of it what a real discharge point looks like
+    // mid-event.
+    const ripRap = group(g, 0.8, -0.28, -2.2);
+    for (let i = 0; i < 14; i++) {
+      const rx = (Math.sin(i * 12.9) * 0.5 + 0.5) * 2.4 - 1.2, rz = (Math.cos(i * 7.3) * 0.5 + 0.5) * 0.7 - 0.35;
+      ball(ripRap, 0.05 + (i % 4) * 0.015, rx, 0, rz, 0x76716a, { rough: 0.95, seg: 6, seg2: 5 });
+    }
+    const sandbags = group(g, 1.7, 0.1, 2.2, -0.2);
+    for (let i = 0; i < 8; i++) {
+      const row = Math.floor(i / 4), col = i % 4;
+      box(sandbags, 0.32, 0.16, 0.18, -0.5 + col * 0.34, 0.08 + row * 0.17, row * 0.02, 0xc9b98a, { rough: 0.95 });
+    }
+    holoTag(sandbags, "sandbag berm", -0.2, 0.5, 0, { css: "#78c8a0", w: 0.3 });
+    const siltFence = group(g, -0.6, 0.1, -1.1, 0.1);
+    for (let i = 0; i < 6; i++) cyl(siltFence, 0.018, 0.018, 0.5, -1.5 + i * 0.6, 0.25, 0, 0x5b4a2f, { rough: 0.9, seg: 6 });
+    slab(siltFence, 3.2, 0.3, 0.02, -0.2, 0.34, 0.05, 0x4a5a3f, { rough: 0.95, opacity: 0.85, transparent: true, cast: false });
+    holoTag(siltFence, "silt fence", -0.2, 0.55, 0.05, { css: "#78c8a0", w: 0.26 });
+    const litter = group(g, -1.1, 0.02, 2.4);
+    for (const [dx, dz, w, h, d, c] of [[-0.3, 0.1, 0.14, 0.02, 0.2, 0xd8dee4], [0.1, -0.2, 0.1, 0.08, 0.1, 0x8fa050], [0.35, 0.15, 0.06, 0.06, 0.06, 0xb9bec4], [-0.05, 0.3, 0.18, 0.015, 0.12, 0xdfe6ec], [0.2, 0.35, 0.08, 0.03, 0.1, 0x9a8a6a]]) box(litter, w, h, d, dx, h / 2, dz, c, { rough: 0.9, cast: false });
+    const puddles = group(g, 1.4, -0.34, 0.6);
+    for (const [dx, dz, s] of [[0, 0, 0.28], [0.6, 0.3, 0.18], [-0.5, -0.2, 0.16]]) { const p = slab(puddles, s, 0.008, s * 0.7, dx, 0, dz, 0x3a6a7a, { rough: 0.1, metal: 0.4, opacity: 0.55, transparent: true, cast: false }); void p; }
 
-    let filled = 0;
+    let filled = 0, stormHot = false;
     return {
       hits,
       spawnLook: new THREE.Vector3(0.3, 0.9, -1.4),
       onStep() {},
+      // The buddy walking off the bank and the storm spiking on the logger
+      // are both things the technician would actually see happen.
+      onInterrupt(it) {
+        if (it.id === "buddy-steps-away") { buddy.position.x += 1.3; buddy.position.z += 0.6; buddy.rotation.y += 1.6; }
+        if (it.id === "storm-intensifies") {
+          stormHot = true;
+          repaint(logger.userData.screen, signFace("1.8 in/h ▲", { bg: "#2a0d10", accent: "#f0645b", fg: "#ffe8e6", scale: 0.55 }));
+          logger.userData.screen.material.emissiveIntensity = 1.9;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "buddy-steps-away") { buddy.position.x -= 1.3; buddy.position.z -= 0.6; buddy.rotation.y -= 1.6; }
+        if (it.id === "storm-intensifies") {
+          stormHot = false;
+          repaint(logger.userData.screen, signFace("0.00 in", { bg: "#0b1d16", accent: "#78c8a0", fg: "#edfbf4", scale: 0.62 }));
+          logger.userData.screen.material.emissiveIntensity = 0.85;
+        }
+      },
       onStepComplete(step) {
         if (step.id === "grab") filled = 1;
         if (step.id === "ice") { bottleSet.parent.remove(bottleSet); cooler.add(bottleSet); bottleSet.position.set(0, 0.5, 0); bottleSet.rotation.set(0, 0, 0); }
@@ -277,7 +348,7 @@ export const SIM_STORMWATER_OUTFALL = {
       animate(t, dt, session) {
         const step = session?.step;
         discharge.visible = true;
-        discharge.userData.step(dt, new THREE.Vector3(0.6, -0.2, -2.5), 0.12, 0.7, 1.2);
+        discharge.userData.step(dt, new THREE.Vector3(0.6, -0.2, -2.5), stormHot ? 0.2 : 0.12, stormHot ? 1.1 : 0.7, 1.2);
         water.position.y = -0.34 + Math.sin(t * 1.6) * 0.008;
         sheen.position.x = -1.7 + Math.sin(t * 0.4) * 0.15;
         const gg = session?.gauge;
