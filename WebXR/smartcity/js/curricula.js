@@ -359,7 +359,9 @@ export const CURRICULA = [
     summary: "The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.",
     stations: [
       { app: "smartcity", id: "banquet-hot-hold", why: "The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open." },
-      // slot-hotel-1
+      { app: "smartcity", id: "housekeeping-room-turn", why: "The room itself, turned under the state's own hotel ergonomics rule: the cart staged outside, the belt panic device proven, and the bed walked around rather than reached across." },
+      { app: "smartcity", id: "laundry-plant-chemicals", why: "The plant behind every room on the floor: dosing lines checked against the SDS, the washer loaded to the scale, and the ironer's guard proven before a hand ever gets near the rollers." },
+      { app: "smartcity", id: "banquet-setup-lift", why: "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded." },
     ],
   },
   {

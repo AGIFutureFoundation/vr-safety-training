@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 190
+      "stations": 193
     },
     "trades": {
       "entry": "trades/index.html",
@@ -199,6 +199,44 @@
       ]
     },
     {
+      "name": "Culinary & Hospitality",
+      "stations": [
+        "banquet-setup-lift",
+        "laundry-plant-chemicals",
+        "housekeeping-room-turn",
+        "rbs-service-capstone",
+        "wvpp-panic-button",
+        "tip-pool-labor",
+        "draught-line-cleaning",
+        "ice-well-breakage",
+        "keg-cellar-co2",
+        "last-call-lockup",
+        "allergen-cocktail",
+        "till-drop-robbery",
+        "patron-deescalation",
+        "spiked-drink-response",
+        "cutoff-overservice",
+        "jigger-pour-spec",
+        "id-check-underage",
+        "bar-well-setup",
+        "kitchen-gas-shutoff",
+        "hood-suppression",
+        "fryer-oil-change",
+        "bakery-mixer",
+        "slicer-lockout",
+        "knife-skills",
+        "prep-cooling",
+        "receiving-dock-food",
+        "walk-in-cooler",
+        "allergen-control",
+        "grease-trap",
+        "dish-pit",
+        "grill-line-burns",
+        "cafeteria-serving",
+        "banquet-hot-hold"
+      ]
+    },
+    {
       "name": "Community Environmental Justice",
       "stations": [
         "discharge-photo-doc",
@@ -242,41 +280,6 @@
         "serger-overlock",
         "lockstitch-seam-guard",
         "machine-threading-needle"
-      ]
-    },
-    {
-      "name": "Culinary & Hospitality",
-      "stations": [
-        "rbs-service-capstone",
-        "wvpp-panic-button",
-        "tip-pool-labor",
-        "draught-line-cleaning",
-        "ice-well-breakage",
-        "keg-cellar-co2",
-        "last-call-lockup",
-        "allergen-cocktail",
-        "till-drop-robbery",
-        "patron-deescalation",
-        "spiked-drink-response",
-        "cutoff-overservice",
-        "jigger-pour-spec",
-        "id-check-underage",
-        "bar-well-setup",
-        "kitchen-gas-shutoff",
-        "hood-suppression",
-        "fryer-oil-change",
-        "bakery-mixer",
-        "slicer-lockout",
-        "knife-skills",
-        "prep-cooling",
-        "receiving-dock-food",
-        "walk-in-cooler",
-        "allergen-control",
-        "grease-trap",
-        "dish-pit",
-        "grill-line-burns",
-        "cafeteria-serving",
-        "banquet-hot-hold"
       ]
     },
     {
@@ -1385,6 +1388,21 @@
           "app": "smartcity",
           "id": "banquet-hot-hold",
           "why": "The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open."
+        },
+        {
+          "app": "smartcity",
+          "id": "housekeeping-room-turn",
+          "why": "The room itself, turned under the state's own hotel ergonomics rule: the cart staged outside, the belt panic device proven, and the bed walked around rather than reached across."
+        },
+        {
+          "app": "smartcity",
+          "id": "laundry-plant-chemicals",
+          "why": "The plant behind every room on the floor: dosing lines checked against the SDS, the washer loaded to the scale, and the ironer's guard proven before a hand ever gets near the rollers."
+        },
+        {
+          "app": "smartcity",
+          "id": "banquet-setup-lift",
+          "why": "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5757,6 +5775,253 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "banquet-setup-lift",
+      "name": "Banquet Setup Lift",
+      "title": "SmartCiti.X~ Banquet Setup Lift VR",
+      "tagline": "A ballroom changeover done to the plan: tables on the dolly and set with a real two-person lift, chairs stacked to the limit, the dance floor and risers locked, cords ramped, and the exits kept clear the whole time",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Banquet setup crew — UNITE HERE Local 2",
+      "union": null,
+      "certification": "Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, and its hazard assessment for manual material handling and the two-person lift a banquet round table calls for; OSHA's walking-working surfaces standard, 29 CFR 1910.22, for the aisle widths and clear paths a banquet floor plan has to hold; NFPA 101, the Life Safety Code, on egress width and the aisle accessways an assembly space like a ballroom has to keep clear during a changeover; UNITE HERE's banquet-crew contract language on the setup crew's staffing levels and its lift limits.",
+      "accent": "#c98a4a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "hold",
+        "sequence",
+        "gauge",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "The whole room built to the plan — nothing carried alone, nothing stacked past the limit, nothing left unlocked"
+      },
+      "meshes": 182,
+      "lights": 0,
+      "overBudget": false,
+      "index": "196",
+      "flat": false,
+      "system": "Setup Crew",
+      "currency": "SETUPS",
+      "ranks": [
+        "New Hand",
+        "Setup Crew",
+        "Lead Hand",
+        "Floor Captain",
+        "Setup Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "two-hands",
+          "name": "Two Hands, Not One",
+          "note": "Never a table moved without calling the lift"
+        },
+        {
+          "id": "to-the-limit",
+          "name": "To the Limit, Not Past It",
+          "note": "Every chair stack read against the gauge before adding to it"
+        },
+        {
+          "id": "locked-before-loaded",
+          "name": "Locked Before Loaded",
+          "note": "Every riser section proven locked before anything went on it"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections across the whole changeover"
+        },
+        {
+          "id": "room-ready-fast",
+          "name": "Room Ready Fast",
+          "note": "Finished inside 80% of par"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=banquet-setup-lift"
+    },
+    {
+      "app": "smartcity",
+      "id": "laundry-plant-chemicals",
+      "name": "Laundry Plant Chemicals",
+      "title": "SmartCiti.X~ Laundry Plant Chemicals VR",
+      "tagline": "The hotel laundry plant: dosing lines checked against the SDS, the washer loaded to the scale, the ironer's guard and pull-cord proven, soiled linen sorted under the bloodborne rule, and the floor's own heat kept in check",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Hotel laundry attendant — UNITE HERE Local 2",
+      "union": null,
+      "certification": "OSHA's hazard communication standard, 29 CFR 1910.1200, and the SDS for every chemical the dosing system injects; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for linen sorted off the soiled table; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, and the heat-related hazard assessment a washer, a dryer and an ironer all running together put on this floor; the IWC's Wage Order 5, the Public Housekeeping Industry order, on rest breaks in a hot workroom; UNITE HERE's hotel laundry contract language on machine loads and the folding station; NFPA 96 fire protection wherever this laundry plant shares ductwork with the hotel's kitchen block.",
+      "accent": "#7fb3c9",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-plant",
+        "name": "Clean Plant",
+        "note": "Lines checked, the washer loaded to weight, the ironer's guard proven, and nothing sorted bare-handed"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "195",
+      "flat": false,
+      "system": "Laundry Floor",
+      "currency": "LOADS",
+      "ranks": [
+        "Sorter",
+        "Machine Operator",
+        "Lead Operator",
+        "Floor Trainer",
+        "Laundry Plant Certified"
+      ],
+      "awards": [
+        {
+          "id": "lines-first",
+          "name": "Lines First",
+          "note": "Dosing lines checked before the first drum was loaded"
+        },
+        {
+          "id": "never-bare",
+          "name": "Never Bare-Handed",
+          "note": "Never a chemical, a sharp or soiled linen touched without the right glove"
+        },
+        {
+          "id": "guard-proven",
+          "name": "Guard Proven",
+          "note": "The ironer's finger guard tested and held clean"
+        },
+        {
+          "id": "clean-floor",
+          "name": "Clean Floor",
+          "note": "No corrections across the whole shift"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "Held the folding pace without breaking it"
+        },
+        {
+          "id": "loads-fast",
+          "name": "Loads Ready Fast",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=laundry-plant-chemicals"
+    },
+    {
+      "app": "smartcity",
+      "id": "housekeeping-room-turn",
+      "name": "Housekeeping Room Turn",
+      "title": "SmartCiti.X~ Housekeeping Room Turn VR",
+      "tagline": "A guest room turned under the hotel housekeeping injury-prevention standard: cart staged, panic device tested, knock-and-announce, the bed walked rather than reached across, chemicals to the label, and the room logged against quota",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Hotel housekeeper — UNITE HERE Local 2",
+      "union": null,
+      "certification": "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard, 8 CCR 3345, and the written injury-prevention plan, long-handled tools and repetitive-task limits it requires; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for a sharp found in a room; OSHA's hazard communication standard, 29 CFR 1910.1200, and the SDS for every bathroom chemical on the cart; the IWC's Wage Order 5, the Public Housekeeping Industry order, on room quotas, rest breaks and premium pay; UNITE HERE's hotel housekeeping contract language on room assignments and a lone attendant's right to a working panic device; the hotel-worker panic-button ordinances a number of California cities have adopted at UNITE HERE's initiative for room attendants working alone.",
+      "accent": "#b08a5a",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "sequence",
+        "track",
+        "drag",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-turn",
+        "name": "Clean Turn",
+        "note": "The whole room turned on time, on technique, with nothing reached across and nothing touched bare-handed"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "194",
+      "flat": false,
+      "system": "Room Attendant",
+      "currency": "ROOMS",
+      "ranks": [
+        "New Hire",
+        "Room Attendant",
+        "Section Lead",
+        "Floor Supervisor",
+        "Room Attendant Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-not-reached",
+          "name": "Walked, Not Reached",
+          "note": "Never once reached across the bed instead of walking around it"
+        },
+        {
+          "id": "belt-proven",
+          "name": "Belt Proven",
+          "note": "The panic device tested and confirmed before the first room"
+        },
+        {
+          "id": "clean-room",
+          "name": "Clean Room",
+          "note": "No corrections across the whole turn"
+        },
+        {
+          "id": "quota-pace",
+          "name": "Quota Pace",
+          "note": "Turned the room inside 80% of par"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        },
+        {
+          "id": "no-second-look",
+          "name": "No Second Look",
+          "note": "The room check clean on the first pass"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=housekeeping-room-turn"
     },
     {
       "app": "smartcity",
@@ -12870,7 +13135,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 270,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -13529,7 +13794,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
