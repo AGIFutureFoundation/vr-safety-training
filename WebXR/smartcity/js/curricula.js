@@ -212,7 +212,9 @@ export const CURRICULA = [
       // slot-culinary-1
       // slot-culinary-2
       // slot-culinary-3
-      // slot-culinary-4
+      { app: "smartcity", id: "dish-pit", why: "The dish machine and the three-compartment sink: chemical lines checked, the sanitiser strip-tested and logged, and an eyewash proven clear before the first jug is opened." },
+      { app: "smartcity", id: "grease-trap", why: "Servicing the under-sink grease interceptor: the confined-space question answered correctly, the 25 percent rule read off the stick, and the waste sealed for the hauler rather than sent down a drain." },
+      { app: "smartcity", id: "allergen-control", why: "An allergen order on the line: the ticket called back, the purple board and dedicated pan pulled, and the plate walked to the pass by the cook who built it." },
       { app: "smartcity", id: "banquet-hot-hold", why: "The banquet line: hot boxes probed before they're loaded, chafers lit lid-open, the buffet walked before doors, and a pull-down cooled or discarded to the rule." },
       { app: "smartcity", id: "cafeteria-serving", why: "The school lunch line under the National School Lunch Program: the meal pattern's five components, offer versus serve, the wells probed and the count reconciled for the reimbursement claim." },
       { app: "smartcity", id: "grill-line-burns", why: "The grill and sauté station's own hazard, worked as a drill: handles in, a dry pan, a flambé cleared of the filters, and cool water run the full twenty minutes." },
