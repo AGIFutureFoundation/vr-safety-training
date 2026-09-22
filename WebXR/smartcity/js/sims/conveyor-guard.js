@@ -1,6 +1,9 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
-import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, reg } from "../citykit.js";
+import { box, cyl, ball, slab, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
+import {
+  CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, reg,
+  rackFrame, rackUnit, cone, standingFigure,
+} from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Conveyor Guard VR — Manufacturing & Automation, station three.
@@ -56,57 +59,85 @@ export const SIM_CONVEYOR_GUARD = {
     "restart-button": "The guard goes back on and the pull-cord is proven before the line restarts.",
   },
 
+  // Interruptions: see shared/game.js. A jam clearance has two ways to get
+  // hurt after the lockout is on — a second energy source nobody isolated,
+  // and an isolation that somebody else disturbs while your hands are full.
+  interrupts: [
+    {
+      id: "infeed-still-running",
+      kind: "Second energy source",
+      after: "bleed", delay: 3, seconds: 12,
+      alert: "The infeed spur behind you is still running — it's on its own drive, its own lockout, and nobody touched it. Cartons are stacking up against the locked head end and starting to bow the ones you're leaning past.",
+      cue: "That belt was never part of your lockout. Shut it down before the stack reaches you.",
+      target: "infeed-estop",
+      why: "This line has two machines feeding one jam: the head-end drive you locked and an infeed spur with its own motor, its own energy and its own separate point of isolation. Locking the drive stops the belt under your hands; it does nothing to the spur still pushing cartons into the space you are about to reach into to bleed off tension, and a queue that keeps growing behind a stopped point eventually has nowhere to go but into you.",
+      missNote: "The infeed spur ran the whole time you had your hands in the take-up. A queue of cartons kept pressing forward against a jam that was never built to hold that kind of load, and the point where that gives is usually the moment somebody has a hand in the pinch.",
+      wrongNote: "It's the infeed spur, not anything on this drive. That belt has its own motor and it is still turning.",
+    },
+    {
+      id: "isolation-nudged",
+      kind: "Isolation disturbed",
+      after: "clear", delay: 3, seconds: 12,
+      alert: "Over at the disconnect your lock is hanging loose and the handle's been bumped part of the way back toward ON. Someone on the next line thought this drive was free.",
+      cue: "Your hands are full of a jammed carton and somebody else has your isolation.",
+      target: "disconnect",
+      why: "A lock only protects the person actually behind it, and it only works if everyone who might touch that disconnect can see it is yours and leave it alone. On a shared panel with more than one drive on it, a lock that looks like a finished job is a lock somebody else will remove for you. Put the handle back to open and reset your lock before anything else, because the disconnect is what decides whether the belt under your hand can move.",
+      missNote: "The disconnect went the rest of the way back to ON with the guard off and your hand still inside the transfer clearing the jam. The belt was one photoeye signal away from restarting on its own.",
+      wrongNote: "It's the disconnect. Everything about this jam being safe to clear by hand depends on that lock staying exactly where you left it.",
+    },
+  ],
+
   steps: [
     {
       id: "ticket", kind: "select", target: "work-ticket",
       title: "Read the ticket",
       cue: "Check the jam location, the drive, and the lockout points for this conveyor.",
-      why: "One conveyor can have a drive, a take-up and a gravity section, each with its own energy. The ticket's lockout points are the list; you do not discover them at the pulley.",
+      why: "One conveyor line can have a head drive, a gravity take-up and an upstream infeed spur, and each one stores or delivers its own energy independently of the others. The ticket's lockout points are the complete list for this line; you do not discover a second drive still running by finding it at the pulley with your hands already inside the guard.",
     },
     {
       id: "estop", kind: "select", target: "e-stop",
       title: "Hit the e-stop",
       cue: "Stop the belt at the nearest e-stop before approaching the jam.",
-      why: "The e-stop is the immediate stop. It is not a lockout — it is what buys the seconds to get to one.",
+      why: "The e-stop is the immediate stop, not the isolation — it drops the belt now, on a control circuit that a photoeye or a reset button can re-energise the instant the fault clears. It buys the seconds it takes to walk to the disconnect and put a lock on the source; nobody works near the nip with only the e-stop between them and a moving belt.",
     },
     {
       id: "lockout", kind: "turn", target: "disconnect",
       title: "Lock out the drive",
       cue: "Open the drive disconnect and hang your lock and tag.",
-      why: "A stopped belt restarts the moment the jam clears and the controller sees the sensor go clear. Your lock is what stops that.",
+      why: "A belt stopped on its e-stop restarts itself the instant the jam sensor sees clear and the controller resets — a stopped belt is not a safe belt, only a belt waiting for permission. Opening the drive disconnect and hanging your own lock and tag on it is the only thing that takes that permission away from the controller and puts it in your hand alone.",
       turn: { turns: 0.5, axis: "y", label: "DISCONNECT" },
     },
     {
       id: "bleed", kind: "hold", target: "takeup-release", seconds: 4,
       title: "Release the stored energy",
       cue: "Back off the gravity take-up until the belt tension is released and hold until it settles.",
-      why: "A locked-out belt still has tension in it from the take-up weight. Cut a jam free under tension and the belt snaps taut — with your hand in it.",
+      why: "A locked-out belt is dead electrically but not mechanically — the gravity take-up still holds the belt in tension exactly the way it did while running, stored in the sag of the belt itself. Free a jam while that tension is still loaded and the belt snaps taut the instant the obstruction lets go, and whatever hand is on it travels with it toward the nip.",
       holdBreakNote: "Let go before it settled — there is still tension in the belt. Hold the release until it is slack.",
     },
     {
       id: "trystart", kind: "select", target: "start-button",
       title: "Try-start",
       cue: "With the lockout on, press start — nothing should happen.",
-      why: "The try-start is the proof the lockout is on the right disconnect. A lock on the wrong breaker looks exactly like a lock on the right one until you press start.",
+      why: "The try-start is the only proof that the lock is actually on the disconnect that feeds this belt and not a breaker that looks identical two panels over. A lock on the wrong device holds just as firmly and looks exactly as locked as the right one — the only thing that tells them apart is whether the belt moves when somebody presses start with your lock already on it.",
     },
     {
       id: "guard-off", kind: "select", target: "head-guard",
       title: "Remove the head guard",
       cue: "Take the head pulley guard off to reach the jam.",
-      why: "The guard comes off only now — locked, bled, try-started — and it comes off knowing it goes back on before anything else does.",
+      why: "The guard comes off only after the belt is locked, the tension is bled and the try-start has proven the lockout is real — three checks that all have to pass before the one thing standing between a hand and the nip point is removed. It comes off already knowing it goes back on before the lock does, in that order and no other.",
     },
     {
       id: "clear", kind: "drag", target: "jam-carton",
       title: "Clear the jam",
       cue: "Pull the jammed carton out of the transfer and set it on the reject stand.",
-      why: "The jam is cleared by hand only because the belt cannot move. The carton goes to the reject stand, not back on the belt.",
+      why: "A hand goes anywhere near the nip only because the belt has already been proven unable to move — lockout, bleed and try-start done, in that order, before this step starts. The carton comes out to the reject stand, not back onto the belt, because a jammed carton put back where it jammed the first time jams the same way the moment the line restarts.",
       drag: { to: "reject-socket", radius: 0.4, missNote: "Not on the reject stand — set the carton down there, not back on the belt." },
     },
     {
       id: "guard-on", kind: "select", target: "head-guard",
       title: "Refit the head guard",
       cue: "Guard back on and fastened before anything else.",
-      why: "The guard goes on before the lock comes off. In that order there is never a moment the nip is reachable and the belt can move.",
+      why: "The guard goes back on before the lock comes off, every time, with no exception for a quick restart. Reverse that order even once and there is a window, however short, where the nip point is open and the belt has permission to move — and a nip point does not need long to take a hand, only a fraction of a second of that window existing at all.",
     },
     {
       id: "pullcord", kind: "find", noHint: true,
@@ -115,20 +146,20 @@ export const SIM_CONVEYOR_GUARD = {
       itemNotes: { "cord-tie": "The pull-cord along the return side is tied back to the frame with a cable tie — someone got tired of it tripping. It is cut free and the cord tested before this line runs." },
       title: "Walk the line for defeated safeguards",
       cue: "Check the pull-cords, guards and e-stops along the run and click what has been defeated.",
-      why: "A jam on a conveyor with a working pull-cord is a stop. On one with the cord tied back it is an injury. The walk is how the second kind gets found.",
+      why: "A jam on a line with a working pull-cord ends with somebody yanking a rope and the belt stopping. The same jam on a line where that cord has been tied back to stop it tripping on false alarms ends with the same reach and no stop at all — the walk down the return side, checking every cord and guard by hand, is how a defeated safeguard gets found and fixed before it is needed for real.",
     },
     {
       id: "tension", kind: "gauge", target: "takeup-gauge",
       title: "Reset the belt tension",
       cue: "Bring the take-up back until the tension indicator is in the run band.",
-      why: "The take-up was backed off to release energy; the belt runs at its tension or it slips and tracks off. Back into the band before restart.",
+      why: "The take-up was deliberately backed off to bleed the stored tension before the guard came off, and the belt cannot run correctly slack — it slips on the drive pulley under load and tracks sideways off the frame until it rides against a guard or a support leg. Bringing the take-up back into the run band before restart is what makes the belt track straight and grip the drive the way it was designed to.",
       gauge: { label: "TENSION", speed: 0.75, green: [0.44, 0.6], readout: (t) => `${Math.round(t * 100)}%`, missNote: "Off the run band — slack tracks off, over-tight overloads the drive. Reset the take-up." },
     },
     {
       id: "restart", kind: "select", target: "restart-button",
       title: "Remove the lock, reset, restart",
       cue: "Your lock off, e-stop reset, clear the line, start.",
-      why: "Lock off last, by you. The line is cleared by eye before the start, because the start is the moment everything you did is tested.",
+      why: "Your lock comes off last, by you, and only after everything upstream and downstream is checked clear by eye — the guard back on, the pull-cord live, the tension reset. The moment the start button is pressed is the moment every one of those checks gets tested at once, on a belt about to move at full speed with people standing around it.",
     },
   ],
 
@@ -213,7 +244,71 @@ export const SIM_CONVEYOR_GUARD = {
     holoTag(reject, "reject stand", 0, 0.8, 0, { css: "#8ecae6", w: 0.26 });
     toolChest(g, -2.2, 1.2, { ry: 0.6, color: 0x2f5f6f });
 
-    let running = true, tension = 1;
+    // --------------------------------------------------- upstream infeed spur
+    // Its own motor, its own drive, its own separate lockout point — a spur
+    // feeding this belt that keeps running while only the head drive is
+    // locked, which is exactly the second energy source a jam clearance forgets.
+    const infeed = group(conv, -3.35, 0, 0);
+    for (const sx of [-0.65, 0.65]) for (const sz of [-0.32, 0.32]) box(infeed, 0.06, 0.78, 0.06, sx, 0.39, sz, 0x5b6672, { rough: 0.6, metal: 0.5 });
+    box(infeed, 1.5, 0.05, 0.75, 0, 0.78, 0, 0x2b2f34, { rough: 0.9 });
+    box(infeed, 1.4, 0.02, 0.66, 0, 0.81, 0, 0x1b1e22, { rough: 0.95 });
+    const infeedDrum = cyl(infeed, 0.09, 0.09, 0.76, 0.72, 0.81, 0, 0x8a949d, { rough: 0.4, metal: 0.7, seg: 14 });
+    infeedDrum.rotation.x = Math.PI / 2;
+    const infeedMotor = cyl(infeed, 0.075, 0.075, 0.22, 0.72, 0.5, 0.44, 0x2f4f8c, { rough: 0.5, metal: 0.4, seg: 12 });
+    infeedMotor.rotation.z = Math.PI / 2;
+    const cartons = [];
+    const cartonHome = [];
+    for (let i = 0; i < 6; i++) {
+      const x = -0.55 + i * 0.2;
+      const c = box(infeed, 0.28, 0.22, 0.26, x, 0.94, i % 2 ? 0.09 : -0.09, 0xc48b3f, { rough: 0.85 });
+      cartons.push(c); cartonHome.push(x);
+    }
+    holoTag(infeed, "infeed spur — separate drive", 0, 1.2, 0, { css: "#8ecae6", w: 0.46 });
+    const infeedEstop = group(infeed, -0.7, 1.05, 0.4);
+    cyl(infeedEstop, 0.045, 0.045, 0.035, 0, 0, 0, 0xe8b02e, { rough: 0.5, seg: 14 }).rotation.x = Math.PI / 2;
+    const infeedLamp = cyl(infeedEstop, 0.032, 0.032, 0.036, 0, 0, 0.025, 0x8a949d, { rough: 0.4, seg: 14 });
+    infeedLamp.rotation.x = Math.PI / 2;
+    holoTag(infeedEstop, "INFEED E-STOP", 0, 0.12, 0, { css: "#d2312b", w: 0.28 });
+    reg(hits, infeedEstop, "infeed-estop");
+
+    // ---------------------------------------------------------- general dressing
+    // A shrink-wrapped pallet by the reject stand, spare-parts rack behind
+    // the tool chest, a wall extinguisher and lockout signage, and exclusion
+    // cones marking the nip-point work zone off the walking aisle.
+    const pallet = group(g, 2.0, 0.1, 2.1);
+    box(pallet, 0.7, 0.08, 0.5, 0, 0.04, 0, 0x8b6a42, { rough: 0.9 });
+    for (let i = 0; i < 3; i++) box(pallet, 0.6, 0.22, 0.42, 0, 0.2 + i * 0.24, 0, 0xc9a862, { rough: 0.8 });
+    box(pallet, 0.66, 0.7, 0.46, 0, 0.42, 0, 0xdfe9ee, { rough: 0.15, opacity: 0.22, transparent: true });
+    holoTag(pallet, "reject pallet", 0, 0.85, 0, { css: "#8ecae6", w: 0.28 });
+
+    const rack = rackFrame(g, -2.9, 0.35, { ry: 0.6, h: 1.3 });
+    for (let i = 0; i < 3; i++) rackUnit(rack, 0.3 + i * 0.35, ["ROLLERS", "SPLICE KIT", "GUARD BOLTS"][i], { css: "#8ecae6" });
+
+    const ext = group(g, 3.05, 0.1, 0.55, -0.8);
+    cyl(ext, 0.06, 0.07, 0.42, 0, 0.35, 0, 0xd2312b, { rough: 0.4, metal: 0.3, seg: 14 });
+    cyl(ext, 0.025, 0.025, 0.08, 0, 0.6, 0, 0x22262b, { rough: 0.4, seg: 10 });
+    holoTag(ext, "extinguisher", 0, 0.72, 0, { css: "#d2312b", w: 0.3 });
+
+    const safetyBoard = group(g, -1.0, 0.1, 2.25, 0.3);
+    box(safetyBoard, 0.5, 0.4, 0.03, 0, 1.1, 0, 0x1b2026, { rough: 0.6 });
+    decal(safetyBoard, 0.44, 0.34, 0, 1.1, 0.018,
+      signFace("LOCKOUT\nSTATIONS\nONLY", { bg: "#0d1c24", accent: "#8ecae6", fg: "#dff4ff", scale: 0.28 }));
+    cyl(safetyBoard, 0.02, 0.02, 1.1, 0, 0.55, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6, seg: 10 });
+
+    // Cable tray along the back wall feeding the panel.
+    const tray = group(g, 2.3, 0.1, -1.9);
+    for (let i = 0; i < 5; i++) box(tray, 0.5, 0.06, 0.18, -1.0 + i * 0.5, 1.6, 0, 0x3a4550, { rough: 0.55, metal: 0.5 });
+    cyl(tray, 0.02, 0.02, 1.5, 0, 1.5, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6, seg: 8 }).rotation.z = Math.PI / 2;
+
+    cone(g, -1.6, 1.75);
+    cone(g, 1.9, -2.35);
+
+    // A second technician from the next line, clear of every control, who is
+    // the one who bumps the disconnect during the isolation-nudged interrupt.
+    const secondTech = standingFigure(g, 1.65, -1.25, { ry: 2.4, vest: CITY.hiVis, helmet: 0xe8b02e });
+    void secondTech;
+
+    let running = true, tension = 1, infeedRunning = false;
     return {
       hits,
       spawnLook: new THREE.Vector3(1.0, 0.9, -0.6),
@@ -228,11 +323,42 @@ export const SIM_CONVEYOR_GUARD = {
         if (step.id === "restart") { lock.visible = false; discHandle.rotation.z = 0; running = true; }
       },
       onHazard() {},
+      // The infeed spur visibly keeps turning and the queue visibly grows
+      // until the learner shuts it down; the disconnect visibly loses its
+      // lock and its handle moves until the learner puts it back.
+      onInterrupt(it) {
+        if (it.id === "infeed-still-running") {
+          infeedRunning = true;
+          infeedLamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 2.2, rough: 0.4 });
+        }
+        if (it.id === "isolation-nudged") {
+          lock.visible = false;
+          discHandle.rotation.z = Math.PI / 4;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "infeed-still-running") {
+          infeedRunning = false;
+          infeedLamp.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 1.4, rough: 0.4 });
+        }
+        if (it.id === "isolation-nudged") {
+          lock.visible = true;
+          discHandle.rotation.z = Math.PI / 2;
+        }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (running) headPulley.rotation.y += dt * 3;
         if (step?.id === "bleed" && session.holding) { tension = Math.max(0.2, 1 - session.holdFor / 4); releaseKnob.rotation.y += dt * 4; }
         belt.position.y = 0.84 - (1 - tension) * 0.02;
+        if (infeedRunning) {
+          infeedDrum.rotation.y += dt * 4;
+          infeedMotor.rotation.x += dt * 4;
+          for (let i = 0; i < cartons.length; i++) {
+            cartons[i].position.x = Math.min(cartonHome[i] + 0.3, cartons[i].position.x + dt * 0.12);
+          }
+        }
         const gg = session?.gauge;
         if (gg && !gg.committed && step?.id === "tension") repaint(tensionFace, signFace(`${Math.round(gg.t * 100)}%`, { bg: "#0d1c24", accent: gg.t >= 0.44 && gg.t <= 0.6 ? "#59c97b" : "#f2ae14", fg: "#dff4ff", scale: 0.6 }));
       },
