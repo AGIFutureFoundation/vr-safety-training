@@ -8,10 +8,16 @@
  *
  *     node tools/gen_catalog.mjs
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT, WEBXR, loadSmartCity, loadTrades } from "./lib/headless.mjs";
 import { CURRICULA } from "../WebXR/smartcity/js/curricula.js";
+
+// The weather kinds, read out of weather.js so the catalog never lists a kind
+// the stage cannot build or misses one it can.
+const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
+  .match(/export const WEATHER_KINDS = \[([^\]]*)\]/)?.[1] ?? "")
+  .split(",").map((k) => k.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
 
 const OUT = join(WEBXR, "smartcity", "catalog.json");
 const city = await loadSmartCity();
@@ -81,7 +87,7 @@ const catalog = {
     events: ["smartcitix:ready", "smartcitix:state", "smartcitix:catalog", "smartcitix:progress", "smartcitix:record", "smartcitix:credential"],
     trust: "commands are accepted, and events sent, only to the origin given as learner_home",
   },
-  weather: { kinds: ["clear", "overcast", "rain", "fog", "wind", "storm"], note: "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour", override: "?weather=<kind>" },
+  weather: { kinds: WEATHER_KINDS, note: "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour", override: "?weather=<kind>" },
   profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },
   records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
   performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass" },

@@ -15,7 +15,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 // animated by property writes, so a headset pays almost nothing for it. AR
 // mode gets none of it: the learner's own room is the weather there.
 
-export const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm"];
+export const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke"];
 
 export const WEATHER = {
   clear: {
@@ -47,6 +47,14 @@ export const WEATHER = {
     label: "Storm",
     note: "Driving rain and gusting wind — this is the condition most procedures say to stop for, so the call to keep going is part of the task.",
     fog: 0.55, light: 0.62, drops: 1400, gust: 1.2, wet: 0.7, sky: 0.7,
+  },
+  // Wildfire smoke: the air itself is the hazard. The sky and the fog take
+  // the plume's colour, ash drifts down, and the sun is a dim orange disc.
+  // The note carries the rule a crew actually works to.
+  smoke: {
+    label: "Wildfire smoke",
+    note: "Wildfire smoke — the AQI decides the shift: under Cal/OSHA's wildfire smoke rule, respirators are offered when PM2.5 reaches an AQI of 151 and required above 500, and every instrument on site is reading the plume, not the work.",
+    fog: 0.42, light: 0.66, drops: 0, gust: 0.25, wet: 0, sky: 0.8, tint: 0x8a5a33, ash: 240,
   },
 };
 
@@ -136,6 +144,13 @@ export function buildWeather(parent, scene, kind = "clear") {
   if (scene?.background?.isColor && w.sky !== 1) {
     scene.background.multiplyScalar(w.sky);
   }
+  // A tinted kind pulls the sky and the fog toward the plume's colour, so
+  // the horizon reads as smoke rather than as an evening.
+  if (w.tint !== undefined) {
+    const tint = new THREE.Color(w.tint);
+    if (scene?.background?.isColor) scene.background.lerp(tint, 0.55);
+    if (scene?.fog?.color) scene.fog.color.lerp(tint, 0.6);
+  }
 
   // Wet deck: a dark, very reflective disc just above the plaza so the lights
   // and the station's accent smear across it the way they do on a wet apron.
@@ -152,6 +167,13 @@ export function buildWeather(parent, scene, kind = "clear") {
 
   const drops = w.drops > 0 ? rainfall(g, w.drops, { speed: kind === "storm" ? 28 : 20, slant: kind === "storm" ? 1.4 : 0.5, size: kind === "storm" ? 0.075 : 0.062 }) : null;
   const dust = w.gust >= 0.8 ? windborne(g) : null;
+  // Ash: the same recycling cloud as rain, falling slowly, pale, and few.
+  const ash = w.ash > 0 ? rainfall(g, w.ash, { speed: 1.1, slant: 0.25, colour: 0xd9d1c4, size: 0.05, height: 12 }) : null;
+  if (w.tint !== undefined) {
+    const sun = new THREE.DirectionalLight(0xff9a4a, 0.55);
+    sun.position.set(8, 6, -14);
+    g.add(sun);
+  }
 
   // A cold overhead fill so a rainy or foggy plaza reads as weather rather
   // than as an under-lit scene.
@@ -180,6 +202,7 @@ export function buildWeather(parent, scene, kind = "clear") {
       const gust = gustAt(t);
       if (drops) drops.userData.step(dt, gust);
       if (dust) dust.userData.step(dt, gust);
+      if (ash) ash.userData.step(dt, gust);
       if (wet) wet.material.opacity = w.wet * (0.62 + Math.sin(t * 0.8) * 0.08);
       if (flash) {
         if (flashFor > 0) {

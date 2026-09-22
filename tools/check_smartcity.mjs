@@ -28,6 +28,11 @@ if (!INTERIOR_STYLES.length) throw new Error("could not read INTERIOR_STYLES fro
 // The districts a station may stand in front of, read the same way.
 const DISTRICT_NAMES = [...readFileSync(join(WEBXR, "smartcity/js/districts.js"), "utf8").matchAll(/^  "([A-Za-z &]+)": \{/gm)].map((m) => m[1]);
 if (!DISTRICT_NAMES.length) throw new Error("could not read DISTRICTS from districts.js");
+// The weather kinds, read out of weather.js for the same reason.
+const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
+  .match(/export const WEATHER_KINDS = \[([^\]]*)\]/)?.[1] ?? "")
+  .split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+if (!WEATHER_KINDS.length) throw new Error("could not read WEATHER_KINDS from weather.js");
 
 const MODULES = [
   "shared/kit.js", "shared/game.js",
@@ -253,8 +258,8 @@ for (const sim of suite.SIMS) {
   if (sim.indoor !== undefined && sim.indoor !== null && !INTERIOR_STYLES.includes(sim.indoor)) {
     fail(sim.id, `indoor "${sim.indoor}" is not one of ${INTERIOR_STYLES.join("/")}`);
   }
-  if (sim.weather !== undefined && !["clear", "overcast", "rain", "fog", "wind", "storm"].includes(sim.weather)) {
-    fail(sim.id, `weather "${sim.weather}" is not one of clear/overcast/rain/fog/wind/storm`);
+  if (sim.weather !== undefined && !WEATHER_KINDS.includes(sim.weather)) {
+    fail(sim.id, `weather "${sim.weather}" is not one of ${WEATHER_KINDS.join("/")}`);
   }
   for (const [id, note] of Object.entries(sim.lateNotes ?? {})) {
     if (!api.hits[id]) fail(sim.id, `lateNote "${id}" has no object in the station`);
