@@ -15,7 +15,7 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // to the line, and a cleanup that never turns a shift's worth of settled dust
 // back into the air with a broom.
 
-const MSS_ACCENT = 0xb2492f;
+const MSCS_ACCENT = 0xb2492f;
 
 export const SIM_MASONRY_SILICA_SCAFFOLD = {
   id: "masonry-silica-scaffold",
@@ -28,7 +28,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
   name: "Masonry Silica Scaffold",
   title: simTitle("Masonry Silica Scaffold"),
   tagline: "Block work off a frame scaffold under the silica rule: planks, guardrails and access inspected, the saw's water proven, block cut to Table 1, the respirator where the table calls for it, mortar mixed and the course laid to the line, cleanup without dry sweeping",
-  accent: MSS_ACCENT,
+  accent: MSCS_ACCENT,
   accentCss: "#b2492f",
   parSeconds: 295,
   footprint: 2.6,
@@ -196,7 +196,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
   build(root) {
     const hits = {};
     const g = group(root);
-    stationPad(g, 2.6, MSS_ACCENT);
+    stationPad(g, 2.6, MSCS_ACCENT);
 
     // ------------------------------------------------------------- ground
     const groundMesh = box(g, 6.2, 0.1, 5.2, 0, 0.05, 0, 0xffffff, { rough: 0.95 });
@@ -306,7 +306,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
     holoTag(waterValve, "water valve", 0, 0.28, 0, { css: "#b2492f", w: 0.26 });
     reg(hits, waterValve, "water-valve");
     const waterLine = hose(g, [[1.4, 0.55, 1.5], [1.7, 0.5, 1.1], [1.9, 0.5, 0.9]], 0.012, 0x3fa9d8, { steps: 12, rough: 0.6 });
-    const flowGauge = instrument(g, 1.6, 0.9, 1.3, { ry: 0.3, idle: "-- gpm", color: MSS_ACCENT, w: 0.12, d: 0.19 });
+    const flowGauge = instrument(g, 1.6, 0.9, 1.3, { ry: 0.3, idle: "-- gpm", color: MSCS_ACCENT, w: 0.12, d: 0.19 });
     holoTag(flowGauge, "flow at blade", 0, 0.16, 0, { css: "#b2492f", w: 0.32 });
     reg(hits, flowGauge, "flow-gauge");
     const spray = particles(g, 26, 0x8fd0e8, { size: 0.02, life: 0.4, additive: false, opacity: 0.6 });
@@ -319,7 +319,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
       cx.fillStyle = "#f3e2d8"; cx.fillText("1926.1153 TABLE 1 — SAW", w * 0.06, h * 0.14);
       cx.font = `${Math.round(h * 0.078)}px Arial, sans-serif`; cx.fillStyle = "#e5cabc";
       ["Stationary masonry saw, water fed", "Outdoors, under 4 hrs: no respirator", "Boxed in / over 4 hrs: respirator required", "Today's cut: boxed in against the wall"].forEach((l, i) => cx.fillText(l, w * 0.06, h * (0.32 + i * 0.15)));
-    }, { ry: -0.5, accent: MSS_ACCENT });
+    }, { ry: -0.5, accent: MSCS_ACCENT });
     reg(hits, table1Panel, "table-1-chart");
 
     const respiratorHook = group(g, 2.6, 0, -1.0);
@@ -338,7 +338,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
     box(mortarBoard, 0.9, 0.06, 0.9, 0, 0.4, 0, 0x5a4a34, { rough: 0.9 });
     const mortarPile = box(mortarBoard, 0.6, 0.14, 0.6, 0, 0.5, 0, 0xa89a80, { rough: 0.92 });
     void mortarPile;
-    const mortarGauge = instrument(mortarBoard, 0.5, 0.43, 0, { ry: -0.4, idle: "--", color: MSS_ACCENT, w: 0.13, d: 0.2 });
+    const mortarGauge = instrument(mortarBoard, 0.5, 0.43, 0, { ry: -0.4, idle: "--", color: MSCS_ACCENT, w: 0.13, d: 0.2 });
     holoTag(mortarGauge, "mortar consistency", 0, 0.17, 0, { css: "#b2492f", w: 0.44 });
     reg(hits, mortarGauge, "mortar-batch");
     const mortarLoad = group(mortarBoard, -0.4, 0.5, 0.1);
@@ -347,7 +347,7 @@ export const SIM_MASONRY_SILICA_SCAFFOLD = {
     reg(hits, mortarLoad, "mortar-load");
 
     // ------------------------------------------------------------- line gauge
-    const lineGauge = instrument(g, 1.2, 1.35, -1.15, { ry: 0.5, idle: "-- mm", color: MSS_ACCENT, w: 0.12, d: 0.19 });
+    const lineGauge = instrument(g, 1.2, 1.35, -1.15, { ry: 0.5, idle: "-- mm", color: MSCS_ACCENT, w: 0.12, d: 0.19 });
     holoTag(lineGauge, "face to line", 0, 0.16, 0, { css: "#b2492f", w: 0.28 });
     reg(hits, lineGauge, "mason-line-gauge");
 

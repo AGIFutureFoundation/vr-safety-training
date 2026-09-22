@@ -8048,5 +8048,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "masonry-silica-scaffold",
+    "index": "193",
+    "domain": "Construction",
+    "trade": "Bricklayer — BAC, with the mason tender",
+    "category": "Construction & Structural Trades",
+    "certification": "International Union of Bricklayers and Allied Craftworkers apprenticeship standards; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1 for stationary masonry saws; OSHA 29 CFR 1926 Subpart L scaffolds — 1926.451 platforms, guardrails and access; NIOSH silicosis prevention guidance for the masonry trades",
+    "name": "Masonry Silica Scaffold",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Masonry Silica Scaffold VR",
+    "tagline": "Block work off a frame scaffold under the silica rule: planks, guardrails and access inspected, the saw's water proven, block cut to Table 1, the respirator where the table calls for it, mortar mixed and the course laid to the line, cleanup without dry sweeping",
+    "accent": 11684143,
+    "accentCss": "#b2492f",
+    "parSeconds": 295,
+    "badge": {
+      "id": "course-certified",
+      "name": "Course Certified",
+      "note": "A course laid off a scaffold that was actually checked, block cut wet to Table 1, and a cleanup that never put the dust back in the air"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Masonry Authority",
+      "currency": "COURSE",
+      "ranks": [
+        "Tender",
+        "Apprentice Mason",
+        "Journeyman Bricklayer",
+        "Lead Mason",
+        "Masonry Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

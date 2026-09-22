@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 189
+      "stations": 190
     },
     "trades": {
       "entry": "trades/index.html",
@@ -139,6 +139,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "masonry-silica-scaffold",
         "mass-timber-panel-set",
         "formwork-shoring",
         "post-tension",
@@ -5756,6 +5757,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "masonry-silica-scaffold",
+      "name": "Masonry Silica Scaffold",
+      "title": "SmartCiti.X~ Masonry Silica Scaffold VR",
+      "tagline": "Block work off a frame scaffold under the silica rule: planks, guardrails and access inspected, the saw's water proven, block cut to Table 1, the respirator where the table calls for it, mortar mixed and the course laid to the line, cleanup without dry sweeping",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Bricklayer — BAC, with the mason tender",
+      "union": null,
+      "certification": "International Union of Bricklayers and Allied Craftworkers apprenticeship standards; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1 for stationary masonry saws; OSHA 29 CFR 1926 Subpart L scaffolds — 1926.451 platforms, guardrails and access; NIOSH silicosis prevention guidance for the masonry trades",
+      "accent": "#b2492f",
+      "parSeconds": 295,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "turn",
+        "gauge",
+        "track",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "course-certified",
+        "name": "Course Certified",
+        "note": "A course laid off a scaffold that was actually checked, block cut wet to Table 1, and a cleanup that never put the dust back in the air"
+      },
+      "meshes": 225,
+      "lights": 0,
+      "overBudget": false,
+      "index": "193",
+      "flat": false,
+      "system": "Masonry Authority",
+      "currency": "COURSE",
+      "ranks": [
+        "Tender",
+        "Apprentice Mason",
+        "Journeyman Bricklayer",
+        "Lead Mason",
+        "Masonry Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "platform-sound",
+          "name": "Platform Sound",
+          "note": "Planks, guardrails and access checked before the first step up, first time"
+        },
+        {
+          "id": "wet-every-cut",
+          "name": "Wet Every Cut",
+          "note": "Never cut a block without water running"
+        },
+        {
+          "id": "true-to-the-line",
+          "name": "True to the Line",
+          "note": "Every course held plumb to the mason's line"
+        },
+        {
+          "id": "clean-course",
+          "name": "Clean Course",
+          "note": "No corrections through the whole lay-up"
+        },
+        {
+          "id": "held-the-cut",
+          "name": "Held the Cut",
+          "note": "Held a steady feed through the whole cut"
+        },
+        {
+          "id": "course-by-break",
+          "name": "Course by Break",
+          "note": "Cut, laid and cleaned inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=masonry-silica-scaffold"
     },
     {
       "app": "smartcity",
@@ -12786,7 +12870,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 270,
       "lights": 0,
       "overBudget": false,
       "index": "92",
