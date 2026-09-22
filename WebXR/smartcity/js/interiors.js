@@ -62,7 +62,7 @@ const STYLE = {
   // A dental clinic: the quietest room in the roster. Acoustic-tile ceiling,
   // sheet-vinyl floor, no windows on the operatory side, four rows of light.
   clinic: {
-    label: "Dental clinic",
+    label: "Clinic",
     wall: 0xeef2f5, floor: 0xb9c4c9, trim: 0x7fd1c9, ceiling: 0xf2f5f7,
     lamp: 0xf6fbff, lampI: 1.6, ambient: 0.66, w: 12, d: 10, h: 3.4,
     rooflights: 0, door: "personnel", grime: 0.05,

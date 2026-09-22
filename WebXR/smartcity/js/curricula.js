@@ -289,10 +289,15 @@ export const CURRICULA = [
     stations: [
       { app: "smartcity", id: "can-we-live-story", why: "The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not." },
       // slot-hp-1
-      // slot-hp-2
+      { app: "smartcity", id: "biomonitoring-consent", why: "Before any tube is opened: the study explained, the consent form's rights read aloud, the signature witnessed, and a participant ID assigned so no sample ever carries a name." },
+      { app: "smartcity", id: "sample-kit-shipping", why: "What consent buys the sample: labels matched to IDs, the cold chain running, UN3373 packing, and the chain of custody signed before a courier ever touches the box." },
+      { app: "smartcity", id: "results-return-visit", why: "The other half of the promise 45 CFR 46 makes: a result explained against reference ranges, without alarm or dismissal, to the participant it actually belongs to." },
+      { app: "smartcity", id: "smoke-day-outreach", why: "The patrol network on the day the air itself is the hazard: the vulnerable list worked first, N95s actually fit, and the patrol's own masks on when the AQI says so." },
       // slot-hp-3
       // slot-hp-4
-      // slot-hp-5
+      { app: "smartcity", id: "rad-meter-basics", why: "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep." },
+      { app: "smartcity", id: "parcel-status-walk", why: "The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done." },
+      { app: "smartcity", id: "retest-witnessing", why: "Standing at the fence for someone else's retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it's still exact." },
       // slot-hp-6
       // slot-hp-7
     ],
@@ -306,9 +311,14 @@ export const CURRICULA = [
     accent: "#b86bd6",
     stations: [
       { app: "trades", id: "salon", why: "The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for." },
-      // slot-sew-1
+      { app: "smartcity", id: "machine-threading-needle", why: "The lockstitch head from a cold start: the needle changed with the scarf right, threaded in its one path, the bobbin wound and cased, tension proven on scrap, and the guard down before the first seam." },
+      { app: "smartcity", id: "lockstitch-seam-guard", why: "The same head at production speed: a straight seam and a curve run behind the guard, bundle chained to bundle, and a needle break accounted for down to the broken tip." },
+      { app: "smartcity", id: "serger-overlock", why: "The overlock next to it: four threads by colour, the cutting width set to the ticket, and the one rule that never bends — the knife gets cleaned only after it is locked out." },
+      { app: "smartcity", id: "cutting-table-rotary", why: "Where the bundle started: the spread cut to the marker on two blades with the glove on the guiding hand, and the blade itself changed the same way — locked out first." },
       // slot-sew-2
-      // slot-sew-3
+      { app: "smartcity", id: "sewing-ergonomics-shift", why: "The bench set up to the operator before the first seam: chair, table, pedal and light, the bundle in reach, and a symptom logged early instead of shrugged off." },
+      { app: "smartcity", id: "alteration-repair-ticket", why: "The alterations tailor's own ticket, worked to the customer's pinned fit rather than a guess — the ripper, the hem, and the zipper closed out with a price and a time." },
+      { app: "smartcity", id: "garment-inspection-finish", why: "The last bench a piece crosses: the light box and the spec sheet catch what a bare eye and a tape alone would miss before it ever reaches the box." },
     ],
   },
   {

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 146
+      "stations": 160
     },
     "trades": {
       "entry": "trades/index.html",
@@ -190,8 +190,27 @@
       ]
     },
     {
+      "name": "Sewing & Garment Trades",
+      "stations": [
+        "garment-inspection-finish",
+        "alteration-repair-ticket",
+        "sewing-ergonomics-shift",
+        "cutting-table-rotary",
+        "serger-overlock",
+        "lockstitch-seam-guard",
+        "machine-threading-needle"
+      ]
+    },
+    {
       "name": "Community Environmental Justice",
       "stations": [
+        "retest-witnessing",
+        "parcel-status-walk",
+        "rad-meter-basics",
+        "smoke-day-outreach",
+        "results-return-visit",
+        "sample-kit-shipping",
+        "biomonitoring-consent",
         "can-we-live-story"
       ]
     },
@@ -1101,6 +1120,41 @@
           "app": "smartcity",
           "id": "can-we-live-story",
           "why": "The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not."
+        },
+        {
+          "app": "smartcity",
+          "id": "biomonitoring-consent",
+          "why": "Before any tube is opened: the study explained, the consent form's rights read aloud, the signature witnessed, and a participant ID assigned so no sample ever carries a name."
+        },
+        {
+          "app": "smartcity",
+          "id": "sample-kit-shipping",
+          "why": "What consent buys the sample: labels matched to IDs, the cold chain running, UN3373 packing, and the chain of custody signed before a courier ever touches the box."
+        },
+        {
+          "app": "smartcity",
+          "id": "results-return-visit",
+          "why": "The other half of the promise 45 CFR 46 makes: a result explained against reference ranges, without alarm or dismissal, to the participant it actually belongs to."
+        },
+        {
+          "app": "smartcity",
+          "id": "smoke-day-outreach",
+          "why": "The patrol network on the day the air itself is the hazard: the vulnerable list worked first, N95s actually fit, and the patrol's own masks on when the AQI says so."
+        },
+        {
+          "app": "smartcity",
+          "id": "rad-meter-basics",
+          "why": "The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep."
+        },
+        {
+          "app": "smartcity",
+          "id": "parcel-status-walk",
+          "why": "The regulator's own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn't erase, and an honest answer for the resident who just wants to know if her street is done."
+        },
+        {
+          "app": "smartcity",
+          "id": "retest-witnessing",
+          "why": "Standing at the fence for someone else's retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it's still exact."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -1116,6 +1170,41 @@
           "app": "trades",
           "id": "salon",
           "why": "The shared bench case every close-work trade opens on: sharps, chemicals, posture and the client — the same discipline a cutting table asks for."
+        },
+        {
+          "app": "smartcity",
+          "id": "machine-threading-needle",
+          "why": "The lockstitch head from a cold start: the needle changed with the scarf right, threaded in its one path, the bobbin wound and cased, tension proven on scrap, and the guard down before the first seam."
+        },
+        {
+          "app": "smartcity",
+          "id": "lockstitch-seam-guard",
+          "why": "The same head at production speed: a straight seam and a curve run behind the guard, bundle chained to bundle, and a needle break accounted for down to the broken tip."
+        },
+        {
+          "app": "smartcity",
+          "id": "serger-overlock",
+          "why": "The overlock next to it: four threads by colour, the cutting width set to the ticket, and the one rule that never bends — the knife gets cleaned only after it is locked out."
+        },
+        {
+          "app": "smartcity",
+          "id": "cutting-table-rotary",
+          "why": "Where the bundle started: the spread cut to the marker on two blades with the glove on the guiding hand, and the blade itself changed the same way — locked out first."
+        },
+        {
+          "app": "smartcity",
+          "id": "sewing-ergonomics-shift",
+          "why": "The bench set up to the operator before the first seam: chair, table, pedal and light, the bundle in reach, and a symptom logged early instead of shrugged off."
+        },
+        {
+          "app": "smartcity",
+          "id": "alteration-repair-ticket",
+          "why": "The alterations tailor's own ticket, worked to the customer's pinned fit rather than a guess — the ripper, the hem, and the zipper closed out with a price and a time."
+        },
+        {
+          "app": "smartcity",
+          "id": "garment-inspection-finish",
+          "why": "The last bench a piece crosses: the light box and the spec sheet catch what a bare eye and a tape alone would miss before it ever reaches the box."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5491,6 +5580,1158 @@
     },
     {
       "app": "smartcity",
+      "id": "garment-inspection-finish",
+      "name": "Garment Inspection & Finish",
+      "title": "SmartCiti.X~ Garment Inspection & Finish VR",
+      "tagline": "Light box, spec sheet, defects found and tagged, guarded snips, the needle detector on every piece, and solvent under the SDS",
+      "category": "Sewing & Garment Trades",
+      "domain": "Apparel manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) industrial sewing machine operator apprenticeship standards; OSHA 29 CFR 1910.1200 hazard communication for the spot-cleaning solvent; OSHA 29 CFR 1910.132 personal protective equipment for the gloves; NIOSH ergonomics guidance for standing inspection-table work",
+      "accent": "#6bd6b8",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "track",
+        "hold",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "clean-pack",
+        "name": "Clean Pack",
+        "note": "Every defect found and tagged, every piece swept for needles, and nothing packed that hadn't cleared both"
+      },
+      "meshes": 147,
+      "lights": 0,
+      "overBudget": false,
+      "index": "181",
+      "flat": false,
+      "system": "Finish Authority",
+      "currency": "TAG",
+      "ranks": [
+        "Sorter",
+        "Inspector",
+        "Lead Inspector",
+        "Finish Hand",
+        "Finish Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "gloved-solvent",
+          "name": "Gloved Solvent",
+          "note": "Never touched the spot cleaner bare-handed"
+        },
+        {
+          "id": "steady-sweep",
+          "name": "Steady Sweep",
+          "note": "Held the needle detector sweep without a break"
+        },
+        {
+          "id": "to-spec",
+          "name": "To Spec",
+          "note": "The measured dimension close to the spec sheet's tolerance"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections through the whole run"
+        },
+        {
+          "id": "needle-caught",
+          "name": "Needle Caught",
+          "note": "Pulled the boxed bundle the moment the detector alarmed"
+        },
+        {
+          "id": "pack-fast",
+          "name": "Pack Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=garment-inspection-finish"
+    },
+    {
+      "app": "smartcity",
+      "id": "alteration-repair-ticket",
+      "name": "Alteration Repair Ticket",
+      "title": "SmartCiti.X~ Alteration Repair Ticket VR",
+      "tagline": "Garment on the form, ripper away from the hand, hem re-sewn, zipper replaced, and the ticket closed against the customer's own pins",
+      "category": "Sewing & Garment Trades",
+      "domain": "Apparel manufacturing",
+      "trade": "Alterations tailor — Workers United",
+      "union": null,
+      "certification": "Workers United (SEIU) alterations tailor apprenticeship standards; OSHA 29 CFR 1910.212 machine guarding for the alterations machine; 1910.1200 hazard communication for the pressing station; NIOSH ergonomics guidance for close, standing bench work at the form",
+      "accent": "#d68b6b",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "sequence",
+        "track",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "ticket-closed-right",
+        "name": "Ticket Closed Right",
+        "note": "A hem and a zipper both re-sewn to the customer's own pinned fit, and every pin off the bench before it closed"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "180",
+      "flat": false,
+      "system": "Bench Authority",
+      "currency": "SEAM",
+      "ranks": [
+        "Presser",
+        "Alterations Hand",
+        "Tailor",
+        "Lead Tailor",
+        "Bench Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "ripper-clear",
+          "name": "Ripper Clear",
+          "note": "Never opened the ripper toward the guiding hand"
+        },
+        {
+          "id": "steady-hem",
+          "name": "Steady Hem",
+          "note": "Held the hem seam without a break"
+        },
+        {
+          "id": "to-the-pins",
+          "name": "To The Pins",
+          "note": "Both fit checks close to the customer's own marks"
+        },
+        {
+          "id": "clean-ticket",
+          "name": "Clean Ticket",
+          "note": "No corrections through the whole ticket"
+        },
+        {
+          "id": "flagged-fabric",
+          "name": "Flagged Fabric",
+          "note": "Called the limit on a change the fabric couldn't take"
+        },
+        {
+          "id": "ticket-fast",
+          "name": "Ticket Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=alteration-repair-ticket"
+    },
+    {
+      "app": "smartcity",
+      "id": "sewing-ergonomics-shift",
+      "name": "Sewing Ergonomics",
+      "title": "SmartCiti.X~ Sewing Ergonomics VR",
+      "tagline": "Chair, table, pedal and light set to the operator, the bundle in reach, the micro-break taken, and a symptom reported early",
+      "category": "Sewing & Garment Trades",
+      "domain": "Apparel manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) industrial sewing machine operator apprenticeship standards; OSHA 29 CFR 1910.212 machine guarding for the needle guard; NIOSH ergonomics guidance for seated repetitive work; the Cal/OSHA repetitive motion injury standard, 8 CCR 5110",
+      "accent": "#b86bd6",
+      "parSeconds": 250,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "drag",
+        "track",
+        "hold",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "shift-set-right",
+        "name": "Shift Set Right",
+        "note": "A bench set up to the operator, a full seam run in the posture band, the break taken, and an early symptom logged"
+      },
+      "meshes": 175,
+      "lights": 0,
+      "overBudget": false,
+      "index": "179",
+      "flat": false,
+      "system": "Line Authority",
+      "currency": "STITCH",
+      "ranks": [
+        "Bundle Runner",
+        "Machine Operator",
+        "Line Operator",
+        "Lead Operator",
+        "Line Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-twist",
+          "name": "No Twist",
+          "note": "Never reached for the twist-bin instead of turning the chair"
+        },
+        {
+          "id": "steady-seam",
+          "name": "Steady Seam",
+          "note": "Held the seam run in the posture band without a break"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In The Band",
+          "note": "Table height and the fit measurement both close to the mark"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Setup",
+          "note": "No corrections through the whole setup"
+        },
+        {
+          "id": "break-kept",
+          "name": "Break Kept",
+          "note": "Took the micro-break the moment the timer called it"
+        },
+        {
+          "id": "shift-fast",
+          "name": "Shift Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sewing-ergonomics-shift"
+    },
+    {
+      "app": "smartcity",
+      "id": "cutting-table-rotary",
+      "name": "Cutting Table and Rotary Knife",
+      "title": "SmartCiti.X~ Cutting Table and Rotary Knife VR",
+      "tagline": "The spread checked, the marker weighted, the glove on, both blades guarded, the ply count right, bundled and ticketed, the blade changed locked out",
+      "category": "Sewing & Garment Trades",
+      "domain": "Garment manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "ANSI B11 safety requirements for cutting machines, OSHA 29 CFR 1910.212 machine guarding for the rotary and straight knives, 1910.132 hand protection for the cut-resistant glove on the guiding hand, and 1910.147 control of hazardous energy for the blade change — Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators",
+      "accent": "#d67b4f",
+      "parSeconds": 245,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "gauge",
+        "track",
+        "sequence",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "cut-clean",
+        "name": "Cut Clean",
+        "note": "A spread cut to the marker on both blades with the glove on, the guard proven, and the count right"
+      },
+      "meshes": 133,
+      "lights": 0,
+      "overBudget": false,
+      "index": "175",
+      "flat": false,
+      "system": "Cutting Room Authority",
+      "currency": "PLY",
+      "ranks": [
+        "Floor Trainee",
+        "Cutter",
+        "Lead Cutter",
+        "Cutting Room Lead",
+        "Cutting Room Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "blade-locked",
+          "name": "Blade Changed Locked Out",
+          "note": "Never changed a blade without the power locked out first"
+        },
+        {
+          "id": "glove-on",
+          "name": "Glove On the Guiding Hand",
+          "note": "Never guided fabric bare-handed at either blade"
+        },
+        {
+          "id": "ply-true",
+          "name": "Ply Count True",
+          "note": "Ply count held close to the ticket's spec"
+        },
+        {
+          "id": "clean-spread",
+          "name": "Clean Spread",
+          "note": "No corrections through the whole cut"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "Held both blades' feed without dropping out"
+        },
+        {
+          "id": "cut-fast",
+          "name": "Cut Fast",
+          "note": "Spread bundled inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cutting-table-rotary"
+    },
+    {
+      "app": "smartcity",
+      "id": "serger-overlock",
+      "name": "Serger and Overlock",
+      "title": "SmartCiti.X~ Serger and Overlock VR",
+      "tagline": "The knife guard, four threads by colour, the cutting width set, edges finished, the chain-off, and the knife locked out for cleaning",
+      "category": "Sewing & Garment Trades",
+      "domain": "Garment manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the overlock's own moving knife, 1910.147 control of hazardous energy before the knife or the throat plate is ever cleared of lint, and NIOSH ergonomics guidance for seated repetitive feeding",
+      "accent": "#5fb99a",
+      "parSeconds": 235,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "track",
+        "drag",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "edge-clean",
+        "name": "Edge Clean",
+        "note": "Four threads set by colour, an edge finished at the right width, and the knife cleaned only after lockout"
+      },
+      "meshes": 136,
+      "lights": 0,
+      "overBudget": false,
+      "index": "174",
+      "flat": false,
+      "system": "Overlock Authority",
+      "currency": "LOOP",
+      "ranks": [
+        "Floor Trainee",
+        "Machine Operator",
+        "Set-Up Operator",
+        "Lead Operator",
+        "Overlock Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "knife-locked",
+          "name": "Knife Locked for Cleaning",
+          "note": "Never cleared lint from the knife without the machine locked out first"
+        },
+        {
+          "id": "hands-clear",
+          "name": "Hands Clear of the Knife",
+          "note": "Never reached past the guard while the knife could move"
+        },
+        {
+          "id": "width-true",
+          "name": "Width True",
+          "note": "Cutting width held close to the ticket's spec"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Set-Up",
+          "note": "No corrections through the whole thread-up"
+        },
+        {
+          "id": "steady-feed",
+          "name": "Steady Feed",
+          "note": "Held the edge-finishing feed without dropping out"
+        },
+        {
+          "id": "quick-thread",
+          "name": "Quick Thread",
+          "note": "Threaded and running inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=serger-overlock"
+    },
+    {
+      "app": "smartcity",
+      "id": "lockstitch-seam-guard",
+      "name": "Lockstitch Seam Behind the Guard",
+      "title": "SmartCiti.X~ Lockstitch Seam Behind the Guard VR",
+      "tagline": "A straight seam at speed behind the guard, backtacked, a curve fed not pulled, chained bundle to bundle, a needle break accounted for, and the count",
+      "category": "Sewing & Garment Trades",
+      "domain": "Garment manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the needle guard behind which every seam runs, 1910.147 control of hazardous energy for a needle break, and NIOSH ergonomics guidance for the seated, repetitive pace a production line runs at",
+      "accent": "#5a8fd6",
+      "parSeconds": 240,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "bundle-clean",
+        "name": "Bundle Clean",
+        "note": "A full bundle chained through at speed with a needle break handled cleanly and the count reconciled"
+      },
+      "meshes": 142,
+      "lights": 0,
+      "overBudget": false,
+      "index": "173",
+      "flat": false,
+      "system": "Line Authority",
+      "currency": "SEAM",
+      "ranks": [
+        "Floor Trainee",
+        "Machine Operator",
+        "Line Operator",
+        "Lead Operator",
+        "Line Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "break-clean",
+          "name": "Break Handled Clean",
+          "note": "Every piece of a broken needle found and logged before the machine ran again"
+        },
+        {
+          "id": "guard-kept",
+          "name": "Guard Kept",
+          "note": "Never reached into the needle zone while the machine could move"
+        },
+        {
+          "id": "seam-steady",
+          "name": "Seam Steady",
+          "note": "Held the feed rate inside the band on both the straight seam and the curve"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections through the whole bundle"
+        },
+        {
+          "id": "unbroken-feed",
+          "name": "Unbroken Feed",
+          "note": "Never dropped out of the feed band"
+        },
+        {
+          "id": "bundle-fast",
+          "name": "Bundle Fast",
+          "note": "Bundle complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=lockstitch-seam-guard"
+    },
+    {
+      "app": "smartcity",
+      "id": "machine-threading-needle",
+      "name": "Machine Threading and Needle",
+      "title": "SmartCiti.X~ Machine Threading and Needle VR",
+      "tagline": "Power off, the needle set with the scarf right, threaded in path, the bobbin wound and cased, tension proven on scrap, the guard down",
+      "category": "Sewing & Garment Trades",
+      "domain": "Garment manufacturing",
+      "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+      "union": null,
+      "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the needle guard, 1910.147 control of hazardous energy for the power switch before servicing, and NIOSH ergonomics guidance for seated repetitive bench work",
+      "accent": "#c9a24b",
+      "parSeconds": 230,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "first-seam-clean",
+        "name": "First Seam Clean",
+        "note": "A cold machine threaded and tensioned correctly, with the guard down before the first seam ran"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "172",
+      "flat": false,
+      "system": "Bench Authority",
+      "currency": "STITCH",
+      "ranks": [
+        "Floor Trainee",
+        "Machine Operator",
+        "Set-Up Operator",
+        "Lead Operator",
+        "Bench Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "power-first",
+          "name": "Power Off First",
+          "note": "Never touched the needle with the machine still live"
+        },
+        {
+          "id": "fingers-clear",
+          "name": "Fingers Clear",
+          "note": "Never reached into the needle or hook while it could move"
+        },
+        {
+          "id": "tension-true",
+          "name": "Tension True",
+          "note": "Stitch length and tension both proven inside the band"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Set-Up",
+          "note": "No corrections through the whole thread-up"
+        },
+        {
+          "id": "steady-thread",
+          "name": "Steady Hand",
+          "note": "Held the tension check without a break"
+        },
+        {
+          "id": "quick-change",
+          "name": "Quick Change",
+          "note": "Machine proven and running inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=machine-threading-needle"
+    },
+    {
+      "app": "smartcity",
+      "id": "retest-witnessing",
+      "name": "Retest Witnessing",
+      "title": "SmartCiti.X~ Retest Witnessing VR",
+      "tagline": "A community witness at a regulator's retest from the public side of the fence: the sampling grid checked against the work plan, the split sample requested in writing, the chain-of-custody form read, a photo log kept, questions routed through the community liaison, and a witness statement written the same day",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "The kind of retest witnessing the Community Pollution Patrol Network trains; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for what a split-sample request and a custody form actually have to show; DTSC and the Regional Water Board as the agencies whose own retest this is; BAAQMD's Community Advisory Council process for the questions a witness statement feeds; OSHA 29 CFR 1910.120 HAZWOPER as the separate gate for anyone who enters the exclusion zone, which a community witness never does",
+      "accent": "#b8862b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "witness-clean",
+        "name": "Witness Clean",
+        "note": "The grid checked against the work plan, the split requested in writing, every form read before anything was signed, and the statement filed the same day"
+      },
+      "meshes": 223,
+      "lights": 0,
+      "overBudget": false,
+      "index": "165",
+      "flat": false,
+      "system": "Witness Record",
+      "currency": "OBSERVE",
+      "ranks": [
+        "Observer",
+        "Grid Checker",
+        "Witness",
+        "Lead Witness",
+        "Community Patrol Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-checked",
+          "name": "Plan Checked",
+          "note": "The work plan read and the grid checked against it, clean"
+        },
+        {
+          "id": "never-crossed",
+          "name": "Never Crossed",
+          "note": "Witnessed the whole retest from the public side, never through the fence or straight to the crew"
+        },
+        {
+          "id": "steady-scope",
+          "name": "Steady Scope",
+          "note": "Held the pan rate on the scope inside the band the whole watch"
+        },
+        {
+          "id": "clean-witness",
+          "name": "Clean Witness",
+          "note": "No corrections anywhere in the watch"
+        },
+        {
+          "id": "steady-pan",
+          "name": "Steady Pan",
+          "note": "Never broke the scope pan rate"
+        },
+        {
+          "id": "statement-same-day",
+          "name": "Statement Same Day",
+          "note": "Witness statement filed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=retest-witnessing"
+    },
+    {
+      "app": "smartcity",
+      "id": "parcel-status-walk",
+      "name": "Parcel Status Walk",
+      "title": "SmartCiti.X~ Parcel Status Walk VR",
+      "tagline": "Walking the public sidewalk around a shipyard's fenced parcels with the regulator's own map: which parcel transferred, which is under cleanup, which is being retested, the institutional-controls signage, and the map annotated with exactly what the walk found",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "The kind of parcel-status walk the Community Pollution Patrol Network trains; EPA Superfund community-involvement practice and the regulator's own current parcel map and institutional-controls registry as the only source a patrol answers from; DTSC and the Regional Water Board as the state agencies that record a parcel's cleanup status; BAAQMD's Community Advisory Council process for what a patrol reports up the chain; OSHA 29 CFR 1910.120 HAZWOPER as the separate gate for anyone who goes past a fence, which this walk never does",
+      "accent": "#c98a2b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "turn",
+        "gauge",
+        "track",
+        "find",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "map-honest",
+        "name": "Map Honest",
+        "note": "Every parcel called from the regulator's own map, the discrepancy caught and photographed, and the resident answered honestly from the map in hand"
+      },
+      "meshes": 194,
+      "lights": 0,
+      "overBudget": false,
+      "index": "164",
+      "flat": false,
+      "system": "Patrol Record",
+      "currency": "PARCEL",
+      "ranks": [
+        "Walker",
+        "Route Reader",
+        "Patrol Member",
+        "Patrol Lead",
+        "Community Patrol Certified"
+      ],
+      "awards": [
+        {
+          "id": "map-first",
+          "name": "Map First",
+          "note": "Read the regulator's map before the walk and answered the resident from it, clean"
+        },
+        {
+          "id": "never-crossed",
+          "name": "Never Crossed",
+          "note": "Read every parcel from the public sidewalk, never through a fence"
+        },
+        {
+          "id": "standoff-true",
+          "name": "Standoff True",
+          "note": "Held the posted standoff distance the whole walk"
+        },
+        {
+          "id": "clean-walk",
+          "name": "Clean Walk",
+          "note": "No corrections anywhere on the route"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "Never broke the patrol walking pace"
+        },
+        {
+          "id": "map-back-fast",
+          "name": "Map Back Fast",
+          "note": "Annotated map filed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=parcel-status-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "rad-meter-basics",
+      "name": "Rad Meter Basics",
+      "title": "SmartCiti.X~ Rad Meter Basics VR",
+      "tagline": "A community class on the public lot beside a fenced parcel: background counted first, the meter proven against its own check source, counts per minute against microsieverts per hour, a grid walked at a set pace and height, and what a hand-held meter cannot tell you",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community environmental monitor",
+      "union": null,
+      "certification": "Community science training modelled on EPA's MARSSIM walkover methodology; NRC 10 CFR 20 terms for the units a survey meter reports; the kind of hands-on class the Marie Harrison Community Foundation's own community science programmes run; OSHA 29 CFR 1910.120 HAZWOPER as the separate, much longer gate for anyone who goes past the fence, which this class never does",
+      "accent": "#d9a02c",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "gauge",
+        "hold",
+        "select",
+        "turn",
+        "track",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "class-clean",
+        "name": "Class Clean",
+        "note": "Background counted before the source ever came out, every reading logged with its own photograph, and the check source never out of sight"
+      },
+      "meshes": 249,
+      "lights": 0,
+      "overBudget": false,
+      "index": "163",
+      "flat": false,
+      "system": "Community Science",
+      "currency": "READING",
+      "ranks": [
+        "Newcomer",
+        "Meter Reader",
+        "Grid Walker",
+        "Class Lead",
+        "Community Science Certified"
+      ],
+      "awards": [
+        {
+          "id": "bracket-honest",
+          "name": "Bracket Honest",
+          "note": "Meter source-checked at the start of class and again at the end"
+        },
+        {
+          "id": "source-in-sight",
+          "name": "Source In Sight",
+          "note": "The check source never left the table for a pocket on your watch"
+        },
+        {
+          "id": "grid-true",
+          "name": "Grid True",
+          "note": "Held pace and detector height inside the band the whole walk"
+        },
+        {
+          "id": "clean-class",
+          "name": "Clean Class",
+          "note": "No corrections anywhere in the class"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "Never broke the walkover pace"
+        },
+        {
+          "id": "report-same-day",
+          "name": "Report Same Day",
+          "note": "Reading logged, photographed and reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rad-meter-basics"
+    },
+    {
+      "app": "smartcity",
+      "id": "smoke-day-outreach",
+      "name": "Smoke Day Outreach",
+      "title": "SmartCiti.X~ Smoke Day Outreach VR",
+      "tagline": "The AQI read before the first knock, the vulnerable-resident list worked first, N95s actually fit, a box-fan filter built with the resident, windows and recirculate set, the hotline card left behind, and the patrol's own masks on when the air demands it",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Community pollution patrol lead",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.134 respirators and Cal/OSHA's wildfire smoke rule; NIOSH N95 selection and fit guidance; EPA Air Quality Index and DIY box-fan filter guidance; CDC guidance for people at higher risk during wildfire smoke events",
+      "accent": "#d88a4a",
+      "parSeconds": 320,
+      "weather": "smoke",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "street-worked-right",
+        "name": "Street Worked Right",
+        "note": "The vulnerable households first, every mask actually fit, and the patrol's own respirators on before the air made that optional"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "154",
+      "flat": false,
+      "system": "Smoke Day Patrol",
+      "currency": "AQI",
+      "ranks": [
+        "Outreach Trainee",
+        "Patrol Member",
+        "Patrol Lead",
+        "Shift Lead",
+        "Smoke Day Certified"
+      ],
+      "awards": [
+        {
+          "id": "priority-first",
+          "name": "Priority First",
+          "note": "Worked the vulnerable-resident list in the order it was built"
+        },
+        {
+          "id": "never-unmasked",
+          "name": "Never Unmasked",
+          "note": "No resident or patrol member left without the mask this air required"
+        },
+        {
+          "id": "fit-true",
+          "name": "Fit True",
+          "note": "Every seal check and reading held inside its band"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections across the whole shift"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "The oxygen-power check and the AQI watch both held without a break"
+        },
+        {
+          "id": "street-fast",
+          "name": "Street Worked Fast",
+          "note": "The household visit complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=smoke-day-outreach"
+    },
+    {
+      "app": "smartcity",
+      "id": "results-return-visit",
+      "name": "Results Return Visit",
+      "title": "SmartCiti.X~ Results Return Visit VR",
+      "tagline": "Identity confirmed before the file opens, the report explained against reference ranges, a flagged result referred to a clinician, questions answered without alarm or dismissal, and the visit recorded",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Biomonitoring field coordinator",
+      "union": null,
+      "certification": "45 CFR 46 informed consent, including the participant's own right to their results; HIPAA protections for a participant's health information; CDC biomonitoring reference-range and interpretation guidance; SEIU community health worker practice standards",
+      "accent": "#7fb0e0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "track",
+        "gauge",
+        "hold",
+        "drag",
+        "turn",
+        "sequence"
+      ],
+      "badge": {
+        "id": "right-file-right-words",
+        "name": "Right File, Right Words",
+        "note": "The right participant's own result, explained without alarm or dismissal, and referred where it needed to be"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "153",
+      "flat": false,
+      "system": "Results Return",
+      "currency": "RETURN",
+      "ranks": [
+        "Return Trainee",
+        "Intake Coordinator",
+        "Field Coordinator",
+        "Lead Coordinator",
+        "Return Certified"
+      ],
+      "awards": [
+        {
+          "id": "id-checked-first",
+          "name": "ID Checked First",
+          "note": "Identity confirmed against two sources before the file ever opened"
+        },
+        {
+          "id": "never-mismatched",
+          "name": "Never Mismatched",
+          "note": "No file opened, shared or handed over that belonged to someone else"
+        },
+        {
+          "id": "calibrated-explanation",
+          "name": "Calibrated Explanation",
+          "note": "The level explained without alarm and without dismissal"
+        },
+        {
+          "id": "clean-return",
+          "name": "Clean Return",
+          "note": "No corrections across the whole visit"
+        },
+        {
+          "id": "steady-conversation",
+          "name": "Steady Conversation",
+          "note": "The header review and the question time both held without a break"
+        },
+        {
+          "id": "on-time-return",
+          "name": "On-Time Return",
+          "note": "The visit complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=results-return-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "sample-kit-shipping",
+      "name": "Sample Kit Shipping",
+      "title": "SmartCiti.X~ Sample Kit Shipping VR",
+      "tagline": "Labels matched to the manifest, the cold chain running before the lid closes, UN3373 exempt-specimen packing, the chain of custody signed at the hand-off, the courier's manifest, and the logger read one last time",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Biomonitoring field coordinator",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens for handling human biological specimens; EPA QA/QC and chain-of-custody guidance; CDC biological substance, Category B packing and shipping guidance; 45 CFR 46 informed consent underlying every specimen in the cooler",
+      "accent": "#4fb0a8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "hold",
+        "drag",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "chain-unbroken",
+        "name": "Chain Unbroken",
+        "note": "Every label matched, the cold chain running, and the custody form signed before the courier ever touched the box"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "152",
+      "flat": false,
+      "system": "Sample Shipping",
+      "currency": "CUSTODY",
+      "ranks": [
+        "Packing Trainee",
+        "Kit Handler",
+        "Field Coordinator",
+        "Lead Coordinator",
+        "Custody Certified"
+      ],
+      "awards": [
+        {
+          "id": "labels-matched",
+          "name": "Labels Matched",
+          "note": "Every label cross-checked against the manifest before packing"
+        },
+        {
+          "id": "never-unsigned",
+          "name": "Never Unsigned",
+          "note": "No sample left the room without its custody form signed"
+        },
+        {
+          "id": "temp-true",
+          "name": "Temp True",
+          "note": "The scale and the logger both read inside their working band"
+        },
+        {
+          "id": "clean-pack",
+          "name": "Clean Pack",
+          "note": "No corrections across the whole packing run"
+        },
+        {
+          "id": "cold-chain-held",
+          "name": "Cold Chain Held",
+          "note": "The temperature watch held steady without a break"
+        },
+        {
+          "id": "ready-fast",
+          "name": "Ready Fast",
+          "note": "Packed and handed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sample-kit-shipping"
+    },
+    {
+      "app": "smartcity",
+      "id": "biomonitoring-consent",
+      "name": "Biomonitoring Consent",
+      "title": "SmartCiti.X~ Biomonitoring Consent VR",
+      "tagline": "The study explained with an interpreter offered, the consent form's rights read out loud, the signature witnessed, a participant ID assigned before any sample exists, the questionnaire, and the collection visit scheduled",
+      "category": "Community Environmental Justice",
+      "domain": "Environmental",
+      "trade": "Biomonitoring field coordinator",
+      "union": null,
+      "certification": "45 CFR 46 informed consent for human subjects; HIPAA protections for a participant's own health information; CDC biomonitoring and specimen-handling guidance; SEIU community health worker practice standards",
+      "accent": "#e0a23c",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "drag",
+        "turn",
+        "sequence"
+      ],
+      "badge": {
+        "id": "consented-first",
+        "name": "Consented First",
+        "note": "Every right explained, the signature witnessed, and the participant ID on the record before a single sample existed"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "151",
+      "flat": false,
+      "system": "Community Biomonitoring",
+      "currency": "CONSENT",
+      "ranks": [
+        "Outreach Trainee",
+        "Intake Coordinator",
+        "Field Coordinator",
+        "Lead Coordinator",
+        "Consent Certified"
+      ],
+      "awards": [
+        {
+          "id": "rights-read",
+          "name": "Rights Read",
+          "note": "Every consent right named before the pen ever moved"
+        },
+        {
+          "id": "never-unconsented",
+          "name": "Never Unconsented",
+          "note": "No shortcut past consent, language access or confidentiality"
+        },
+        {
+          "id": "id-before-sample",
+          "name": "ID Before Sample",
+          "note": "The participant ID existed before anything about the visit turned toward a specimen"
+        },
+        {
+          "id": "clean-enrollment",
+          "name": "Clean Enrollment",
+          "note": "No corrections across the whole visit"
+        },
+        {
+          "id": "steady-signature",
+          "name": "Steady Signature",
+          "note": "The signature and the explanation both held without a break"
+        },
+        {
+          "id": "on-time-intake",
+          "name": "On-Time Intake",
+          "note": "Enrollment complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=biomonitoring-consent"
+    },
+    {
+      "app": "smartcity",
       "id": "can-we-live-story",
       "name": "Can We Live? — The Story",
       "title": "SmartCiti.X~ Can We Live? — The Story VR",
@@ -8991,7 +10232,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -9650,7 +10891,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
