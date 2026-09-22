@@ -379,6 +379,22 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "first-responders",
+    name: "First Responders — Fire, EMS, Police, Crisis and Relief",
+    union: "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce",
+    certification: "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
+    summary: "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
+    accent: "#f0645b",
+    stations: [
+      { app: "smartcity", id: "triage-point", why: "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you." },
+      // slot-fr-1
+      // slot-fr-2
+      // slot-fr-3
+      // slot-fr-4
+      // slot-fr-5
+    ],
+  },
+  {
     id: "situational-awareness",
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
