@@ -4686,6 +4686,7 @@ const STANDARDS = Object.fromEntries([
   S("osha-1910-146", "OSHA", "29 CFR 1910.146 Permit-required confined spaces", ["Water & Environmental", "Manufacturing"]),
   S("osha-1910-134", "OSHA", "29 CFR 1910.134 Respiratory protection", ["Hazmat & Environmental", "Emergency Response"]),
   S("osha-1910-1200", "OSHA", "29 CFR 1910.1200 Hazard communication", ["Hospitality", "Health & Clinical", "Garment Trades"]),
+  S("hipaa-privacy-rule", "HHS", "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)", ["Dental & Oral Health", "Emergency Services", "Community Environmental Justice", "Trade Skills Simulator"]),
   S("osha-1910-1030", "OSHA", "29 CFR 1910.1030 Bloodborne pathogens", ["Health & Clinical", "Hospitality"]),
   S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
   S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
@@ -4693,7 +4694,7 @@ const STANDARDS = Object.fromEntries([
   S("osha-1910-178", "OSHA", "29 CFR 1910.178 Powered industrial trucks", ["Transit & Logistics"]),
   S("osha-1910-151", "OSHA", "29 CFR 1910.151 Medical services and first aid", ["Emergency Response"]),
   S("osha-1910-272", "OSHA", "29 CFR 1910.272 Grain handling facilities", ["Manufacturing"]),
-  S("osha-1915-subpart-b", "OSHA", "29 CFR 1915 Subpart B Confined and enclosed spaces in shipyard employment", ["Maritime"]),
+  S("osha-1915", "OSHA", "29 CFR 1915 Subpart B Confined and enclosed spaces in shipyard employment", ["Maritime"]),
   S("osha-1917", "OSHA", "29 CFR 1917 Marine terminals", ["Maritime"]),
   S("osha-1918", "OSHA", "29 CFR 1918 Safety and health regulations for longshoring", ["Maritime"]),
   S("osha-1926-subpart-m", "OSHA", "29 CFR 1926 Subpart M Fall protection", ["Construction", "Telecom"]),
@@ -4719,37 +4720,37 @@ const STANDARDS = Object.fromEntries([
   S("ansi-z359", "ANSI/ASSP", "Z359 Fall Protection Code", ["Construction", "Telecom"]),
   S("ansi-z49-1", "ANSI/AWS", "Z49.1 Safety in Welding, Cutting, and Allied Processes", ["Metal Trades"]),
   S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
-  S("asme-b30", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
+  S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
   S("asme-bpvc", "ASME", "Boiler and Pressure Vessel Code", ["Building Systems"]),
   S("aws-d1-5", "AWS", "D1.5 Bridge Welding Code", ["Construction"]),
-  S("esta-e1-4-1", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
+  S("ansi-e1-4", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
   S("ashrae-188", "ASHRAE", "Standard 188 Legionellosis: Risk Management for Building Water Systems", ["Building Systems"]),
-  S("nccco-cco", "NCCCO", "Certified Crane Operator programme", ["Rigging"], "unverified"),
-  S("etcp-rigger", "ETCP", "Entertainment Technician Certification Program — Certified Rigger", ["Live Events", "Rigging"], "unverified"),
+  S("nccco-certification", "NCCCO", "Certified Crane Operator programme", ["Rigging"], "unverified"),
+  S("etcp-certification", "ETCP", "Entertainment Technician Certification Program — Certified Rigger", ["Live Events", "Rigging"], "unverified"),
   S("niosh-ergonomics", "NIOSH", "Ergonomics guidance for seated repetitive work", ["Garment Trades"], "unverified"),
-  S("samhsa-tic", "SAMHSA", "Concept of Trauma and Guidance for a Trauma-Informed Approach", ["Emergency Response", "Health & Clinical"]),
-  S("who-nctsn-pfa", "WHO and NCTSN", "Psychological First Aid field guidance — look, listen, link", ["Emergency Response"]),
-  S("fema-nims-ics", "FEMA", "NIMS/ICS foundation, IS-100 and IS-700", ["Emergency Response"]),
+  S("samhsa-trauma-informed", "SAMHSA", "Concept of Trauma and Guidance for a Trauma-Informed Approach", ["Emergency Response", "Health & Clinical"]),
+  S("pfa-field-guide", "WHO and NCTSN", "Psychological First Aid field guidance — look, listen, link", ["Emergency Response"]),
+  S("nims-ics", "FEMA", "NIMS/ICS foundation, IS-100 and IS-700", ["Emergency Response"]),
   S("hhs-45-cfr-46", "HHS", "45 CFR 46 Protection of human subjects — informed consent", ["Community Science"]),
-  S("cdc-dental-infection-control", "CDC", "Guidelines for Infection Control in Dental Health-Care Settings", ["Health & Clinical"]),
+  S("cdc-guidance", "CDC", "Guidelines for Infection Control in Dental Health-Care Settings", ["Health & Clinical"]),
   S("fda-food-code", "FDA", "Food Code, as adopted in the California Retail Food Code", ["Food Service"]),
   S("epa-40-cfr-58", "EPA", "40 CFR 58 Ambient air quality surveillance", ["Air Quality"]),
-  S("epa-40-cfr-262", "EPA", "40 CFR 262 Standards applicable to generators of hazardous waste", ["Hazmat & Environmental"]),
+  S("rcra-40-cfr-262", "EPA", "40 CFR 262 Standards applicable to generators of hazardous waste", ["Hazmat & Environmental"]),
   S("epa-40-cfr-441", "EPA", "40 CFR 441 Dental office point source category — amalgam separators", ["Health & Clinical"]),
   S("epa-method-9", "EPA", "Method 9 Visual determination of the opacity of emissions (40 CFR 60 Appendix A)", ["Air Quality"]),
   S("marssim", "Multi-Agency (NRC, EPA, DOE, DOD)", "MARSSIM Multi-Agency Radiation Survey and Site Investigation Manual", ["Hazmat & Environmental"]),
   S("nrc-10-cfr-20", "NRC", "10 CFR 20 Standards for protection against radiation", ["Hazmat & Environmental"]),
-  S("usace-cwa-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
-  S("uscg-33-cfr-156", "USCG", "33 CFR 156 Oil and hazardous material transfer operations", ["Maritime"]),
+  S("usace-section-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
+  S("uscg-33-cfr-156-150", "USCG", "33 CFR 156 Oil and hazardous material transfer operations", ["Maritime"]),
   S("imo-csm", "IMO", "Cargo Securing Manual requirements", ["Maritime"], "unverified"),
   S("carb-at-berth", "CARB", "At-Berth Regulation for ocean-going vessels", ["Maritime"], "unverified"),
-  S("fra-49-cfr-214-c", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
-  S("faa-14-cfr-139", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
+  S("fra-49-cfr-214", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
+  S("faa-14-cfr-139-303", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
   S("phmsa-49-cfr-192", "PHMSA", "49 CFR 192 Minimum federal safety standards for gas pipelines", ["Energy & Power"]),
-  S("calosha-8-ccr-3345", "Cal/OSHA", "8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention", ["Hospitality"]),
+  S("cal-osha-3345", "Cal/OSHA", "8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention", ["Hospitality"]),
   S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
   S("calosha-8-ccr-5141-1", "Cal/OSHA", "8 CCR 5141.1 Protection from wildfire smoke", ["Air Quality"]),
-  S("ca-abc-rbs", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
+  S("abc-rbs-training", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -4781,8 +4782,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["nfpa-70e", "osha-1910-147", "osha-1926-20-b-2"],
     stations: [
-      "electrical", "charge-point", "substation-switching", "line-truck", "battery-yard",
-      "motor-control-center", "arc-flash-label-study", "temporary-site-power"
+      "electrical", "charge-point", "substation-switching", "line-truck",
+      "battery-yard", "motor-control-center", "arc-flash-label-study", "temporary-site-power"
     ],
     require: 4,
   },
@@ -4802,7 +4803,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-l", "ansi-z359"],
     stations: [
-      "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul", "aerial-ladder"
+      "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul",
+      "aerial-ladder"
     ],
     require: 3,
   },
@@ -4812,8 +4814,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
     stations: [
-      "hunters-point", "abatement-chamber", "decon-line", "air-monitor", "stormwater-outfall",
-      "pressure-washer"
+      "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
+      "stormwater-outfall", "pressure-washer"
     ],
     require: 3,
   },
@@ -4821,9 +4823,10 @@ const PROGRAMME_COMPETENCIES = [
     id: "rigging-lifting",
     title: "Rig and land a load to an engineered lift plan",
     kind: "programme",
-    standards: ["asme-b30", "osha-1926-subpart-cc", "nccco-cco", "etcp-rigger"],
+    standards: ["asme-b30-16", "osha-1926-subpart-cc", "nccco-certification", "etcp-certification"],
     stations: [
-      "crane-yard", "dock-crane", "chain-hoist", "rigging-loft", "fly-system"
+      "crane-yard", "dock-crane", "chain-hoist", "rigging-loft",
+      "fly-system"
     ],
     require: 3,
   },
@@ -4833,7 +4836,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["asme-bpvc", "ashrae-188", "nfpa-25"],
     stations: [
-      "boiler-room", "chiller-plant", "cooling-tower", "fire-pump", "elevator-pit"
+      "boiler-room", "chiller-plant", "cooling-tower", "fire-pump",
+      "elevator-pit"
     ],
     require: 3,
   },
@@ -4841,7 +4845,7 @@ const PROGRAMME_COMPETENCIES = [
     id: "port-operations",
     title: "Work a marine terminal transfer, mooring and lashing watch",
     kind: "programme",
-    standards: ["uscg-33-cfr-156", "imo-csm", "osha-1917"],
+    standards: ["uscg-33-cfr-156-150", "imo-csm", "osha-1917"],
     stations: [
       "mooring-line", "bunkering-watch", "container-lashing", "dock-crane"
     ],
@@ -4851,9 +4855,10 @@ const PROGRAMME_COMPETENCIES = [
     id: "transit-ramp",
     title: "Take access and move equipment on live rail and airfield operations",
     kind: "programme",
-    standards: ["fra-49-cfr-214-c", "faa-14-cfr-139", "osha-1910-178"],
+    standards: ["fra-49-cfr-214", "faa-14-cfr-139-303", "osha-1910-178"],
     stations: [
-      "track-access", "signal-cabinet", "bus-depot-lift", "airport-ramp", "forklift-dock"
+      "track-access", "signal-cabinet", "bus-depot-lift", "airport-ramp",
+      "forklift-dock"
     ],
     require: 3,
   },
@@ -4863,7 +4868,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
-      "solar-deck", "battery-yard", "charge-point", "substation-switching", "cell-site-battery"
+      "solar-deck", "battery-yard", "charge-point", "substation-switching",
+      "cell-site-battery"
     ],
     require: 3,
   },
@@ -4871,7 +4877,7 @@ const PROGRAMME_COMPETENCIES = [
     id: "live-events",
     title: "Rig and power a performance space to entertainment practice",
     kind: "programme",
-    standards: ["etcp-rigger", "esta-e1-4-1", "nfpa-70e"],
+    standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
     stations: [
       "stage-power", "fly-system", "rigging-loft", "chain-hoist"
     ],
@@ -4881,14 +4887,15 @@ const PROGRAMME_COMPETENCIES = [
     id: "hunters-point-bay-restoration",
     title: "Work a radiological and chemical cleanup inside the fence and at the water's edge",
     kind: "programme",
-    standards: ["osha-1910-120", "marssim", "nrc-10-cfr-20", "epa-40-cfr-262", "usace-cwa-404"],
+    standards: ["osha-1910-120", "marssim", "nrc-10-cfr-20", "rcra-40-cfr-262", "usace-section-404"],
     stations: [
-      "hunters-point", "rad-survey", "building-rad-scan", "air-monitor", "soil-loadout",
-      "haul-road-dust", "pcb-equipment-removal", "transite-pipe-removal", "ust-removal",
-      "decon-line", "sampling-well", "well-install", "pump-and-treat", "vapor-mitigation",
-      "isco-injection", "stormwater-outfall", "bioswale-build", "dredge-barge",
-      "oyster-reef-monitoring", "marsh-transect-survey", "sediment-cap", "creosote-pile-removal",
-      "tide-gate", "living-shoreline", "spartina-removal", "eelgrass-transplant"
+      "hunters-point", "rad-survey", "building-rad-scan", "air-monitor",
+      "soil-loadout", "haul-road-dust", "pcb-equipment-removal", "transite-pipe-removal",
+      "ust-removal", "decon-line", "sampling-well", "well-install",
+      "pump-and-treat", "vapor-mitigation", "isco-injection", "stormwater-outfall",
+      "bioswale-build", "dredge-barge", "oyster-reef-monitoring", "marsh-transect-survey",
+      "sediment-cap", "creosote-pile-removal", "tide-gate", "living-shoreline",
+      "spartina-removal", "eelgrass-transplant"
     ],
     require: 6,
   },
@@ -4898,10 +4905,10 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["fda-food-code", "nfpa-96", "osha-1910-147"],
     stations: [
-      "kitchen", "knife-skills", "slicer-lockout", "bakery-mixer", "fryer-oil-change",
-      "hood-suppression", "kitchen-gas-shutoff", "walk-in-cooler", "receiving-dock-food",
-      "prep-cooling", "dish-pit", "grease-trap", "allergen-control", "banquet-hot-hold",
-      "cafeteria-serving", "grill-line-burns"
+      "kitchen", "knife-skills", "slicer-lockout", "bakery-mixer",
+      "fryer-oil-change", "hood-suppression", "kitchen-gas-shutoff", "walk-in-cooler",
+      "receiving-dock-food", "prep-cooling", "dish-pit", "grease-trap",
+      "allergen-control", "banquet-hot-hold", "cafeteria-serving", "grill-line-burns"
     ],
     require: 6,
   },
@@ -4909,26 +4916,35 @@ const PROGRAMME_COMPETENCIES = [
     id: "dental-hygiene-unspoken-smiles",
     title: "Deliver chairside hygiene under dental infection-control practice",
     kind: "programme",
-    standards: ["cdc-dental-infection-control", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441"],
+    standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441"],
     stations: [
       "phlebotomy", "operatory-turnover", "instrument-reprocessing", "sharps-exposure-response",
       "patient-intake-screening", "radiograph-safety", "periodontal-charting", "ultrasonic-scaling",
-      "aerosol-management", "fluoride-and-sealants", "nitrous-oxide-monitoring",
-      "chairside-emergency", "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit",
-      "oral-cancer-screening"
+      "aerosol-management", "fluoride-and-sealants", "nitrous-oxide-monitoring", "chairside-emergency",
+      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening"
     ],
     require: 6,
+  },
+  {
+    id: "dental-careers-unspoken-smiles",
+    title: "Work a dental clinic's assisting, radiography, sterilisation, laboratory and front-office roles under the practice act",
+    kind: "programme",
+    standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-1200", "hipaa-privacy-rule"],
+    stations: [
+      "patient-intake-screening"
+    ],
+    require: 1,
   },
   {
     id: "bartending-course",
     title: "Serve alcohol responsibly and handle the room behind the bar",
     kind: "programme",
-    standards: ["ca-abc-rbs", "calosha-8-ccr-3342", "fda-food-code"],
+    standards: ["abc-rbs-training", "calosha-8-ccr-3342", "fda-food-code"],
     stations: [
-      "kitchen", "bar-well-setup", "id-check-underage", "jigger-pour-spec", "cutoff-overservice",
-      "spiked-drink-response", "patron-deescalation", "keg-cellar-co2", "ice-well-breakage",
-      "draught-line-cleaning", "till-drop-robbery", "allergen-cocktail", "last-call-lockup",
-      "tip-pool-labor", "wvpp-panic-button", "rbs-service-capstone"
+      "kitchen", "bar-well-setup", "id-check-underage", "jigger-pour-spec",
+      "cutoff-overservice", "spiked-drink-response", "patron-deescalation", "keg-cellar-co2",
+      "ice-well-breakage", "draught-line-cleaning", "till-drop-robbery", "allergen-cocktail",
+      "last-call-lockup", "tip-pool-labor", "wvpp-panic-button", "rbs-service-capstone"
     ],
     require: 6,
   },
@@ -4943,8 +4959,8 @@ const PROGRAMME_COMPETENCIES = [
       "smoke-day-outreach", "fenceline-dust-monitor", "haul-route-observation", "met-station-siting",
       "dust-plan-review", "community-soil-split", "garden-soil-screen", "shoreline-sediment-grab",
       "discharge-photo-doc", "rad-meter-basics", "parcel-status-walk", "retest-witnessing",
-      "abatement-perimeter-awareness", "hazwoper-site-orientation", "decon-support-laborer",
-      "public-comment-prep", "youth-patrol-training", "shelter-in-place-drill"
+      "abatement-perimeter-awareness", "hazwoper-site-orientation", "decon-support-laborer", "public-comment-prep",
+      "youth-patrol-training", "shelter-in-place-drill"
     ],
     require: 6,
   },
@@ -4955,9 +4971,8 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-212", "osha-1910-147", "osha-1910-1200", "niosh-ergonomics"],
     stations: [
       "salon", "machine-threading-needle", "lockstitch-seam-guard", "serger-overlock",
-      "cutting-table-rotary", "pattern-marking-layout", "hem-and-buttonhole",
-      "industrial-press-steam", "sewing-ergonomics-shift", "alteration-repair-ticket",
-      "garment-inspection-finish"
+      "cutting-table-rotary", "pattern-marking-layout", "hem-and-buttonhole", "industrial-press-steam",
+      "sewing-ergonomics-shift", "alteration-repair-ticket", "garment-inspection-finish"
     ],
     require: 6,
   },
@@ -4967,8 +4982,7 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-r", "osha-1926-62", "aws-d1-5", "ansi-z359"],
     stations: [
-      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment",
-      "deck-joint-replacement"
+      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement"
     ],
     require: 2,
   },
@@ -4976,7 +4990,7 @@ const PROGRAMME_COMPETENCIES = [
     id: "hotel-workers",
     title: "Turn rooms and run back-of-house plant under the housekeeping and violence-prevention standards",
     kind: "programme",
-    standards: ["calosha-8-ccr-3345", "calosha-8-ccr-3342", "osha-1910-1200", "osha-1910-1030"],
+    standards: ["cal-osha-3345", "calosha-8-ccr-3342", "osha-1910-1200", "osha-1910-1030"],
     stations: [
       "banquet-hot-hold", "housekeeping-room-turn", "laundry-plant-chemicals", "banquet-setup-lift"
     ],
@@ -4996,13 +5010,14 @@ const PROGRAMME_COMPETENCIES = [
     id: "first-responders",
     title: "Take command of a scene and care for the people in it",
     kind: "programme",
-    standards: ["nfpa-1500", "nfpa-1584", "fema-nims-ics", "samhsa-tic", "who-nctsn-pfa", "osha-1910-134"],
+    standards: ["nfpa-1500", "nfpa-1584", "nims-ics", "samhsa-trauma-informed", "pfa-field-guide", "osha-1910-134"],
     stations: [
-      "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector",
-      "wildland-urban-interface", "shelter-intake-operations", "damage-assessment-team",
-      "psychological-first-aid"
+      "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector", "wildland-urban-interface",
+      "cardiac-arrest-pit-crew", "overdose-response-naloxone", "ambulance-scene-safety", "crisis-intervention-call",
+      "critical-incident-debrief", "traffic-incident-management", "trauma-informed-intake", "crisis-line-shift",
+      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid"
     ],
-    require: 4,
+    require: 6,
   },
   {
     id: "situational-awareness",
@@ -5010,10 +5025,12 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-20-b-2", "nfpa-70e", "osha-1910-146", "osha-1926-subpart-p", "osha-1926-subpart-cc"],
     stations: [
-      "electrical", "welding", "trench-box", "crane-yard", "chlorine-room", "confined-rescue",
-      "substation-switching", "airport-ramp", "fire-pump", "tower-climb", "elevator-pit",
-      "boiler-room", "forklift-dock", "phlebotomy", "transformer-vault", "wind-nacelle",
-      "digester-gas", "data-hall", "steel-erector", "triage-point", "dock-crane", "press-brake"
+      "electrical", "welding", "trench-box", "crane-yard",
+      "chlorine-room", "confined-rescue", "substation-switching", "airport-ramp",
+      "fire-pump", "tower-climb", "elevator-pit", "boiler-room",
+      "forklift-dock", "phlebotomy", "transformer-vault", "wind-nacelle",
+      "digester-gas", "data-hall", "steel-erector", "triage-point",
+      "dock-crane", "press-brake"
     ],
     require: 6,
   },
@@ -5021,7 +5038,7 @@ const PROGRAMME_COMPETENCIES = [
     id: "ports-maritime-ecology",
     title: "Work the waterfront without putting it in the bay",
     kind: "programme",
-    standards: ["osha-1918", "carb-at-berth", "osha-1910-120", "usace-cwa-404"],
+    standards: ["osha-1918", "carb-at-berth", "osha-1910-120", "usace-section-404"],
     stations: [
       "dock-crane", "container-lashing", "shore-power-hookup", "bunkering-watch",
       "ballast-water-sampling", "spill-boom-deploy", "pilot-transfer", "mooring-line",
@@ -5035,8 +5052,8 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["epa-method-9", "epa-40-cfr-58"],
     stations: [
-      "air-monitor", "mobile-air-lab", "opacity-reading", "stack-test", "landfill-gas",
-      "soil-loadout"
+      "air-monitor", "mobile-air-lab", "opacity-reading", "stack-test",
+      "landfill-gas", "soil-loadout"
     ],
     require: 3,
   },
@@ -5088,7 +5105,7 @@ const CORE_COMPETENCIES = [
     id: "core-hot-work",
     title: "Hot Work — permit, watch and the space behind the plate",
     kind: "core",
-    standards: ["osha-1910-252", "nfpa-51b", "ansi-z49-1", "osha-1915-subpart-b"],
+    standards: ["osha-1910-252", "nfpa-51b", "ansi-z49-1", "osha-1915"],
     stations: [
       "welding", "shipyard-hotwork", "hot-tap", "plumbing", "digester-gas"
     ],
@@ -5108,7 +5125,7 @@ const CORE_COMPETENCIES = [
     id: "core-crane-rigging",
     title: "Crane and Rigging — the lift plan, the load and the landing",
     kind: "core",
-    standards: ["asme-b30", "osha-1926-subpart-cc", "nccco-cco", "etcp-rigger"],
+    standards: ["asme-b30-16", "osha-1926-subpart-cc", "nccco-certification", "etcp-certification"],
     stations: [
       "crane-yard", "dock-crane", "chain-hoist", "rigging-loft", "fly-system",
       "arena-rigging", "container-lashing", "creosote-pile-removal", "dredge-barge",
@@ -5144,7 +5161,7 @@ const CORE_COMPETENCIES = [
     id: "core-emergency-response",
     title: "Emergency Response — the first five minutes",
     kind: "core",
-    standards: ["nfpa-1006", "nfpa-1500", "osha-1910-151", "fema-nims-ics"],
+    standards: ["nfpa-1006", "nfpa-1500", "osha-1910-151", "nims-ics"],
     stations: [
       "triage-point", "chairside-emergency", "ev-extrication", "kitchen-gas-shutoff", "confined-rescue",
       "shelter-in-place-drill", "structure-fire-sizeup", "shelter-intake-operations",
@@ -5156,7 +5173,7 @@ const CORE_COMPETENCIES = [
     id: "core-trauma-informed-practice",
     title: "Trauma-informed Practice — consent, dignity and de-escalation",
     kind: "core",
-    standards: ["samhsa-tic", "who-nctsn-pfa", "hhs-45-cfr-46", "calosha-8-ccr-3342"],
+    standards: ["samhsa-trauma-informed", "pfa-field-guide", "hhs-45-cfr-46", "calosha-8-ccr-3342"],
     stations: [
       "psychological-first-aid", "patient-intake-screening", "patron-deescalation",
       "spiked-drink-response", "biomonitoring-consent", "results-return-visit",

@@ -160,7 +160,7 @@ export const STANDARDS = Object.fromEntries([
   S("epa-method-9", "EPA", "Method 9 Visual determination of the opacity of emissions (40 CFR 60 Appendix A)", ["Air Quality"]),
   S("marssim", "Multi-Agency (NRC, EPA, DOE, DOD)", "MARSSIM Multi-Agency Radiation Survey and Site Investigation Manual", ["Hazmat & Environmental"]),
   S("nrc-10-cfr-20", "NRC", "10 CFR 20 Standards for protection against radiation", ["Hazmat & Environmental"]),
-  S("usace-cwa-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
+  S("usace-section-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
   S("uscg-33-cfr-156-150", "USCG", "33 CFR 156 Oil and hazardous material transfer operations", ["Maritime"]),
   S("imo-csm", "IMO", "Cargo Securing Manual requirements", ["Maritime"], "unverified"),
   S("carb-at-berth", "CARB", "At-Berth Regulation for ocean-going vessels", ["Maritime"], "unverified"),
@@ -307,7 +307,7 @@ export const PROGRAMME_COMPETENCIES = [
     id: "hunters-point-bay-restoration",
     title: "Work a radiological and chemical cleanup inside the fence and at the water's edge",
     kind: "programme",
-    standards: ["osha-1910-120", "marssim", "nrc-10-cfr-20", "rcra-40-cfr-262", "usace-cwa-404"],
+    standards: ["osha-1910-120", "marssim", "nrc-10-cfr-20", "rcra-40-cfr-262", "usace-section-404"],
     stations: [
       "hunters-point", "rad-survey", "building-rad-scan", "air-monitor",
       "soil-loadout", "haul-road-dust", "pcb-equipment-removal", "transite-pipe-removal",
@@ -458,7 +458,7 @@ export const PROGRAMME_COMPETENCIES = [
     id: "ports-maritime-ecology",
     title: "Work the waterfront without putting it in the bay",
     kind: "programme",
-    standards: ["osha-1918", "carb-at-berth", "osha-1910-120", "usace-cwa-404"],
+    standards: ["osha-1918", "carb-at-berth", "osha-1910-120", "usace-section-404"],
     stations: [
       "dock-crane", "container-lashing", "shore-power-hookup", "bunkering-watch",
       "ballast-water-sampling", "spill-boom-deploy", "pilot-transfer", "mooring-line",
