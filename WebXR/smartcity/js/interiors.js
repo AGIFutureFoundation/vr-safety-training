@@ -11,11 +11,11 @@ import { CITY, surfaceTexture, texturedMat, deckPlateFace, pavingFace } from "./
 // exit, a ceiling with real fittings, and rooflights that let the weather
 // and the hour through so the room still knows what time it is.
 //
-// Eight styles, because eight is what the roster actually needs. Each is the
+// Nine styles, because nine is what the roster actually needs. Each is the
 // same shell with different surfaces, dressing and light temperature, so
 // the whole layer is about a hundred meshes rather than six separate rooms.
 
-export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic"];
+export const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar"];
 
 const STYLE = {
   plant: {
@@ -66,6 +66,14 @@ const STYLE = {
     wall: 0xeef2f5, floor: 0xb9c4c9, trim: 0x7fd1c9, ceiling: 0xf2f5f7,
     lamp: 0xf6fbff, lampI: 1.6, ambient: 0.66, w: 12, d: 10, h: 3.4,
     rooflights: 0, door: "personnel", grime: 0.05,
+  },
+  // A bar: the darkest room after the theatre, warm light off the back bar,
+  // a long bar top, and the well the whole shift is worked from.
+  bar: {
+    label: "Bar",
+    wall: 0x4a3a30, floor: 0x2e2622, trim: 0xb8862b, ceiling: 0x2a2320,
+    lamp: 0xffd9a0, lampI: 0.9, ambient: 0.36, w: 14, d: 10, h: 3.6,
+    rooflights: 0, door: "personnel", grime: 0.25,
   },
   datahall: {
     label: "Data hall",
@@ -130,6 +138,27 @@ function hoodLine(g, style, y, accent) {
   box(g, w, 0.04, 0.04, 0, y - 1.0, z + 0.78, accent, { emissive: accent, ei: 0.5, rough: 0.5, cast: false });
 }
 
+/** The back bar along the back wall: shelved bottles under a lit mirror
+ *  strip, the bar top with its rail, and the pendant lights over it. The
+ *  well, the taps and everything the learner touches belong to the station. */
+function backBar(g, style, h, accent) {
+  const z = -style.d / 2 + 0.55, w = style.w - 4;
+  box(g, w, 2.4, 0.5, 0, 1.2, z, 0x2b211c, { rough: 0.6, cast: false });
+  for (let i = 0; i < 3; i++) box(g, w - 0.4, 0.04, 0.38, 0, 0.9 + i * 0.55, z + 0.02, 0xb8862b, { rough: 0.4, metal: 0.6, cast: false });
+  box(g, w - 0.4, 0.05, 0.1, 0, 2.55, z + 0.2, accent, { emissive: accent, ei: 0.9, rough: 0.5, cast: false });
+  const tones = [0x7a3a2c, 0x2c5a3a, 0xb8862b, 0x5a4a7a, 0x9a8a5a, 0x3a5a7a];
+  for (let i = 0; i < 3; i++) for (let x = -w / 2 + 0.5; x < w / 2 - 0.3; x += 0.42) {
+    cyl(g, 0.045, 0.045, 0.3, x, 1.07 + i * 0.55, z + 0.06, tones[(Math.round(x * 7) + i) % tones.length], { rough: 0.25, metal: 0.1, seg: 8, cast: false });
+  }
+  box(g, w + 1, 0.08, 0.7, 0, 1.08, z + 2.4, 0x3d2a1e, { rough: 0.35, metal: 0.05, cast: false });
+  box(g, w + 1, 1.0, 0.12, 0, 0.55, z + 2.7, 0x2b211c, { rough: 0.6, cast: false });
+  cyl(g, 0.025, 0.025, w + 0.8, 0, 1.18, z + 2.72, 0xb8862b, { rough: 0.3, metal: 0.8, seg: 8, cast: false }).rotation.z = Math.PI / 2;
+  for (let x = -w / 2 + 1; x < w / 2; x += 2.2) {
+    cyl(g, 0.01, 0.01, h - 1.9, x, h - (h - 1.9) / 2, z + 2.4, 0x1a1512, { rough: 0.6, seg: 4, cast: false });
+    cyl(g, 0.16, 0.06, 0.16, x, 1.95, z + 2.4, 0xffd9a0, { emissive: 0xffd9a0, ei: 1.4, rough: 0.5, seg: 10, cast: false });
+  }
+}
+
 /** A suspended acoustic-tile ceiling: the grid lines and the return grilles. */
 function tileCeiling(g, style, y) {
   for (let x = -style.w / 2 + 0.6; x < style.w / 2; x += 0.6) box(g, 0.025, 0.02, style.d - 0.4, x, y, 0, 0xd0d5da, { rough: 0.6, metal: 0.3, cast: false });
@@ -181,6 +210,7 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
       ? deckPlateFace(cx, cw, ch)
       : indoor === "kitchen" ? pavingFace(cx, cw, ch, { tiles: 6, base: "#7a5a48", base2: "#6b4e3e", seam: "rgba(240,230,215,0.55)" })
       : indoor === "clinic" ? pavingFace(cx, cw, ch, { tiles: 2, base: "#b9c4c9", base2: "#aeb9bf", seam: "rgba(0,0,0,0.12)" })
+      : indoor === "bar" ? pavingFace(cx, cw, ch, { tiles: 8, base: "#3a2f28", base2: "#2b221d", seam: "rgba(0,0,0,0.5)" })
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
     { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : indoor === "kitchen" ? 12 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
@@ -219,6 +249,7 @@ export function buildInterior(parent, indoor, { accent = CITY.accent, daylight =
   else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
   else if (indoor === "kitchen") hoodLine(g, style, h - 0.3, accent);
   else if (indoor === "clinic") tileCeiling(g, style, h - 0.02);
+  else if (indoor === "bar") backBar(g, style, h, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
 

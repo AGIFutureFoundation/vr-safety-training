@@ -225,12 +225,13 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   }
 
   const sky = skyline(g, { gap: district.skylineGap ?? null });
+  sky.name = "skyline";
   const marquee = buildMarquee(g);
   // Weather goes on after the sky and fog are set for the hour, because it
   // scales both; the stage hands its label and note back to the app.
   const wx = buildWeather(g, scene, weatherFor(weather));
   let districtAnimate = null;
-  if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
+  if (district.build) { const dg = group(g); dg.name = "district"; districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
   const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);

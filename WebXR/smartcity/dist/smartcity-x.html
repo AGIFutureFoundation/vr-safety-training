@@ -428,7 +428,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script type="module">
+<script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js"}}</script>
+  <script type="module">
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 
 /* ===== shared/a11y.js ===== */
@@ -3940,6 +3941,103 @@ function buildWeather(parent, scene, kind = "clear") {
 }
 
 
+/* ===== shared/environment.js ===== */
+// Real-world environments: a licensed GLB — a scanned street, a modelled
+// terminal, a surveyed shoreline — placed around a station in place of the
+// generated district. The loader is three's own GLTFLoader, fetched on
+// demand from the repository's own vendored copy, so a station that never
+// declares an environment pays nothing for the feature. The page carries an
+// import map for "three" so the loader shares the app's own three instance.
+//
+// A station declares
+//   environment: { url: "assets/env/terminal.glb", scale: 1, position: [0, 0, 0],
+//                  rotationY: 0, skyline: false, district: false }
+// with the url relative to WebXR/. `?env=<url>` (with `envScale`, `envY`,
+// `envRy`) previews any file against any station without editing it —
+// which is how a model is judged before it is committed.
+//
+// Licensing is not the loader's job, but it is the reason the assets
+// directory has a README: nothing goes in it without a licence that allows
+// redistribution and an attribution line. Game rips are not that.
+
+// three's GLTFLoader, vendored under WebXR/vendor (MIT) rather than fetched
+// from a CDN, so the only network dependency stays the one three fetch every
+// app already makes. Resolved against the WebXR root the same way assets are.
+const LOADER_PATH = "vendor/three/examples/jsm/loaders/GLTFLoader.js";
+let loaderModule = null;
+
+/** The WebXR root for the page asking: the source page sits one directory
+ *  below it and the bundled page two. */
+function webxrBase() {
+  const here = typeof document !== "undefined" ? document.baseURI : "";
+  const m = here.match(/^(.*\/)(smartcity|trades|holodeck|instructor)\//);
+  return m ? m[1] : (here ? new URL("../", here).href : "");
+}
+
+/** The environment a room asks for, or the one the URL asks to preview. */
+function environmentFor(room) {
+  const q = typeof location !== "undefined" ? new URLSearchParams(location.search) : null;
+  const url = q?.get("env");
+  if (url) {
+    return {
+      url, scale: Number(q.get("envScale") ?? 1) || 1,
+      position: [0, Number(q.get("envY") ?? 0) || 0, 0],
+      rotationY: Number(q.get("envRy") ?? 0) || 0,
+      skyline: q.get("envSkyline") === "1", district: q.get("envDistrict") === "1",
+    };
+  }
+  return room?.environment ?? null;
+}
+
+/**
+ * Load a GLB around the station.
+ *   parent  the stage's root group, so the model is freed with the stage
+ *   spec    the environment declaration (see above)
+ *   stage   the stage handle, whose named "skyline" and "district" groups
+ *           are hidden unless the spec keeps them
+ * Resolves to the model's root group, or rejects with a readable error.
+ */
+async function loadEnvironment(parent, spec, stage = null) {
+  if (!spec?.url) throw new Error("environment needs a url");
+  console.info(`[environment] loading ${spec.url}`);
+  const base = webxrBase();
+  loaderModule ??= await import(spec.loader ?? resolveUrl(LOADER_PATH, base));
+  const loader = new loaderModule.GLTFLoader();
+  const href = resolveUrl(spec.url, base);
+  console.info(`[environment] fetching ${href}`);
+  const gltf = await new Promise((resolve, reject) => loader.load(href, resolve, undefined, (e) => reject(new Error(`environment "${spec.url}" failed to load: ${e?.message ?? e}`))));
+  console.info(`[environment] loaded ${spec.url}`);
+  const root = gltf.scene;
+  root.name = "environment";
+  const s = spec.scale ?? 1;
+  root.scale.set(s, s, s);
+  const [px = 0, py = 0, pz = 0] = spec.position ?? [];
+  root.position.set(px, py, pz);
+  root.rotation.y = spec.rotationY ?? 0;
+  // Everything the file brought in belongs to this stage and is freed with
+  // it; a shared cache would keep a scanned street resident forever.
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    o.castShadow = false; o.receiveShadow = true;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    for (const m of mats) { if (m) { m.userData.ownMaterial = true; m.userData.ownTexture = true; } }
+  });
+  parent.add(root);
+  if (stage?.root) {
+    const sky = stage.root.getObjectByName("skyline");
+    const district = stage.root.getObjectByName("district");
+    if (sky && !spec.skyline) sky.visible = false;
+    if (district && !spec.district) district.visible = false;
+  }
+  return root;
+}
+
+function resolveUrl(url, base) {
+  if (/^(https?:)?\/\//.test(url) || url.startsWith("/") || !base) return url;
+  return new URL(url, base).href;
+}
+
+
 /* ===== shared/observer.js ===== */
 /**
  * Instructor mode: a live view of a learner's session for the person running
@@ -5285,11 +5383,11 @@ function districtFor(category) {
 // exit, a ceiling with real fittings, and rooflights that let the weather
 // and the hour through so the room still knows what time it is.
 //
-// Eight styles, because eight is what the roster actually needs. Each is the
+// Nine styles, because nine is what the roster actually needs. Each is the
 // same shell with different surfaces, dressing and light temperature, so
 // the whole layer is about a hundred meshes rather than six separate rooms.
 
-const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic"];
+const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic", "bar"];
 
 const STYLE = {
   plant: {
@@ -5340,6 +5438,14 @@ const STYLE = {
     wall: 0xeef2f5, floor: 0xb9c4c9, trim: 0x7fd1c9, ceiling: 0xf2f5f7,
     lamp: 0xf6fbff, lampI: 1.6, ambient: 0.66, w: 12, d: 10, h: 3.4,
     rooflights: 0, door: "personnel", grime: 0.05,
+  },
+  // A bar: the darkest room after the theatre, warm light off the back bar,
+  // a long bar top, and the well the whole shift is worked from.
+  bar: {
+    label: "Bar",
+    wall: 0x4a3a30, floor: 0x2e2622, trim: 0xb8862b, ceiling: 0x2a2320,
+    lamp: 0xffd9a0, lampI: 0.9, ambient: 0.36, w: 14, d: 10, h: 3.6,
+    rooflights: 0, door: "personnel", grime: 0.25,
   },
   datahall: {
     label: "Data hall",
@@ -5404,6 +5510,27 @@ function hoodLine(g, style, y, accent) {
   box(g, w, 0.04, 0.04, 0, y - 1.0, z + 0.78, accent, { emissive: accent, ei: 0.5, rough: 0.5, cast: false });
 }
 
+/** The back bar along the back wall: shelved bottles under a lit mirror
+ *  strip, the bar top with its rail, and the pendant lights over it. The
+ *  well, the taps and everything the learner touches belong to the station. */
+function backBar(g, style, h, accent) {
+  const z = -style.d / 2 + 0.55, w = style.w - 4;
+  box(g, w, 2.4, 0.5, 0, 1.2, z, 0x2b211c, { rough: 0.6, cast: false });
+  for (let i = 0; i < 3; i++) box(g, w - 0.4, 0.04, 0.38, 0, 0.9 + i * 0.55, z + 0.02, 0xb8862b, { rough: 0.4, metal: 0.6, cast: false });
+  box(g, w - 0.4, 0.05, 0.1, 0, 2.55, z + 0.2, accent, { emissive: accent, ei: 0.9, rough: 0.5, cast: false });
+  const tones = [0x7a3a2c, 0x2c5a3a, 0xb8862b, 0x5a4a7a, 0x9a8a5a, 0x3a5a7a];
+  for (let i = 0; i < 3; i++) for (let x = -w / 2 + 0.5; x < w / 2 - 0.3; x += 0.42) {
+    cyl(g, 0.045, 0.045, 0.3, x, 1.07 + i * 0.55, z + 0.06, tones[(Math.round(x * 7) + i) % tones.length], { rough: 0.25, metal: 0.1, seg: 8, cast: false });
+  }
+  box(g, w + 1, 0.08, 0.7, 0, 1.08, z + 2.4, 0x3d2a1e, { rough: 0.35, metal: 0.05, cast: false });
+  box(g, w + 1, 1.0, 0.12, 0, 0.55, z + 2.7, 0x2b211c, { rough: 0.6, cast: false });
+  cyl(g, 0.025, 0.025, w + 0.8, 0, 1.18, z + 2.72, 0xb8862b, { rough: 0.3, metal: 0.8, seg: 8, cast: false }).rotation.z = Math.PI / 2;
+  for (let x = -w / 2 + 1; x < w / 2; x += 2.2) {
+    cyl(g, 0.01, 0.01, h - 1.9, x, h - (h - 1.9) / 2, z + 2.4, 0x1a1512, { rough: 0.6, seg: 4, cast: false });
+    cyl(g, 0.16, 0.06, 0.16, x, 1.95, z + 2.4, 0xffd9a0, { emissive: 0xffd9a0, ei: 1.4, rough: 0.5, seg: 10, cast: false });
+  }
+}
+
 /** A suspended acoustic-tile ceiling: the grid lines and the return grilles. */
 function tileCeiling(g, style, y) {
   for (let x = -style.w / 2 + 0.6; x < style.w / 2; x += 0.6) box(g, 0.025, 0.02, style.d - 0.4, x, y, 0, 0xd0d5da, { rough: 0.6, metal: 0.3, cast: false });
@@ -5455,6 +5582,7 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
       ? deckPlateFace(cx, cw, ch)
       : indoor === "kitchen" ? pavingFace(cx, cw, ch, { tiles: 6, base: "#7a5a48", base2: "#6b4e3e", seam: "rgba(240,230,215,0.55)" })
       : indoor === "clinic" ? pavingFace(cx, cw, ch, { tiles: 2, base: "#b9c4c9", base2: "#aeb9bf", seam: "rgba(0,0,0,0.12)" })
+      : indoor === "bar" ? pavingFace(cx, cw, ch, { tiles: 8, base: "#3a2f28", base2: "#2b221d", seam: "rgba(0,0,0,0.5)" })
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
     { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : indoor === "kitchen" ? 12 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
@@ -5493,6 +5621,7 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
   else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
   else if (indoor === "kitchen") hoodLine(g, style, h - 0.3, accent);
   else if (indoor === "clinic") tileCeiling(g, style, h - 0.02);
+  else if (indoor === "bar") backBar(g, style, h, accent);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
 
@@ -6238,12 +6367,13 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null, we
   }
 
   const sky = skyline(g, { gap: district.skylineGap ?? null });
+  sky.name = "skyline";
   const marquee = buildMarquee(g);
   // Weather goes on after the sky and fog are set for the hour, because it
   // scales both; the stage hands its label and note back to the app.
   const wx = buildWeather(g, scene, weatherFor(weather));
   let districtAnimate = null;
-  if (district.build) { const dg = group(g); districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
+  if (district.build) { const dg = group(g); dg.name = "district"; districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
 
   const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);
@@ -10061,6 +10191,258 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "shore-power-hookup",
+    "index": "89",
+    "domain": "Maritime & Ports",
+    "trade": "Port electrician — shore power (cold ironing)",
+    "category": "Maritime & Ports",
+    "certification": "IBEW port electricians; ILWU Local 10 — the longshore side of the hookup; California Air Resources Board At-Berth Regulation; IEC/ISO/IEEE 80005-1 high-voltage shore connection; NFPA 70E; OSHA 1918 marine terminals",
+    "name": "Shore Power Hookup",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Shore Power Hookup VR",
+    "tagline": "Cold ironing a berthed ship: compatibility and berth rating checked against the plan, the CMS positioned, the reel paid out by crane, ground landed first, interlock and pilot circuit proven, the breaker closed on the port's order, synchronisation confirmed, and the auxiliaries shut down clean",
+    "accent": 3051478,
+    "accentCss": "#2e8fd6",
+    "parSeconds": 260,
+    "badge": {
+      "id": "cold-iron-clean",
+      "name": "Cold Iron Clean",
+      "note": "Ground proven first, the breaker closed only on the port's order, synchronisation confirmed with the ship, and both auxiliaries shut down clean — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shore Power Crew",
+      "currency": "VOLT",
+      "ranks": [
+        "Apprentice Electrician",
+        "Journeyman",
+        "Port Electrician",
+        "Lead Electrician",
+        "Shore Power Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "spill-boom-deploy",
+    "index": "90",
+    "domain": "Maritime & Ports",
+    "trade": "Marine environmental responder — boom deployment",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union of the Pacific (IBU) and ILWU marine division — boat and boom crew; LIUNA hazmat laborers — shore crew; OSHA 29 CFR 1910.120 HAZWOPER; U.S. Coast Guard federal on-scene coordinator; National Contingency Plan, 40 CFR 300; California Office of Spill Prevention and Response (OSPR)",
+    "name": "Spill Boom Deploy",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Spill Boom Deploy VR",
+    "tagline": "Fuel-dock spill drill: source secured, NRC and OSPR notified, the plan read, boom rigged on deck and worked into a J against the current with the skiff, ends anchored, skimmer staged, sorbent and PPE out for the shore crew, and a decon corridor for anyone leaving the water's edge",
+    "accent": 15233578,
+    "accentCss": "#e8722a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "boom-holding",
+      "name": "Boom Holding",
+      "note": "Source secured first, the J held against the current, both ends anchored, and the shore crew worked clean behind PPE and decon — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spill Response Crew",
+      "currency": "BOOM",
+      "ranks": [
+        "Deckhand",
+        "Boom Handler",
+        "Response Boat Lead",
+        "Spill Response Technician",
+        "OSPR Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ust-removal",
+    "index": "93",
+    "domain": "Environmental",
+    "trade": "Excavation & UST closure crew — LIUNA hazmat laborer directing, IUOE Local 3 operating engineer, UA Local 38 pipefitter",
+    "category": "Environmental Monitoring",
+    "certification": "EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks; the state water board's UST closure requirements for the soil sampling; OSHA HAZWOPER (29 CFR 1910.120); OSHA 29 CFR 1926 Subpart P excavations for the pit and its shoring",
+    "name": "UST Removal",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ UST Removal VR",
+    "tagline": "Closing out an underground fuel tank: product pumped and the tank proven inert on the LEL, the pit shored, the tank rigged and lifted by the laborer directing rather than the operator's own eye, and the pit sampled and fenced before anyone leaves",
+    "accent": 11027498,
+    "accentCss": "#a8442a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tank-out-clean",
+      "name": "Tank Out Clean",
+      "note": "Product pumped, the tank proven inert at both risers, rigged and lifted with nobody under the load, and the pit sampled under chain of custody and fenced before the crew left"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Closure Authority",
+      "currency": "LEL",
+      "ranks": [
+        "Ground Hand",
+        "Excavation Crew",
+        "Rigging Lead",
+        "Closure Foreman",
+        "Closure Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "isco-injection",
+    "index": "94",
+    "domain": "Water",
+    "trade": "In-situ chemical oxidation crew — LIUNA hazmat laborers, UA Local 38 pipefitters, IUOE stationary engineers",
+    "category": "Water & Environmental",
+    "certification": "OSHA HAZWOPER (29 CFR 1910.120) for everyone on the injection pad; ITRC's in-situ chemical oxidation guidance and the site's Record of Decision setting the design dose and pressure; the well permit governing the injection points; DOT hazmat rules for shipping the oxidant; the Regional Water Board's waste discharge requirements for the rinse water and spent totes",
+    "name": "ISCO Injection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ ISCO Injection VR",
+    "tagline": "In-situ chemical oxidation of a groundwater plume: permanganate mixed to design in the batch tank, the manifold pressure-tested before it runs, the injection held at design pressure and flow while the neighbouring wells are watched for daylighting, and the spent totes and rinse handled as hazardous",
+    "accent": 8208302,
+    "accentCss": "#7d3fae",
+    "parSeconds": 300,
+    "badge": {
+      "id": "oxidant-contained",
+      "name": "Oxidant Contained",
+      "note": "The oxidant mixed to design, the manifold proven tight before it ran, the injection held in band with nothing daylighting, and the spent totes and rinse handled as hazardous"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Oxidation Authority",
+      "currency": "PPM",
+      "ranks": [
+        "Batch Hand",
+        "Injection Crew",
+        "Manifold Lead",
+        "Plume Authority",
+        "Oxidation Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "building-rad-scan",
+    "index": "97",
+    "domain": "Environmental",
+    "trade": "Radiation control technician — building structure-surface survey",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA hazmat and environmental laborers assisting the survey; IUOE Local 3 operating engineers on the aerial lift that reaches the upper wall lanes; OSHA HAZWOPER 40-hour (29 CFR 1910.120); NRC 10 CFR 20 occupational dose limits; EPA MARSSIM structure-surface survey methodology; the site's radiological work plan and QAPP chain of custody; California Department of Public Health (CDPH) Radiologic Health Branch oversight",
+    "name": "Building Rad Scan",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Building Rad Scan VR",
+    "tagline": "A derelict building's structure-surface survey ahead of demolition: instrument bracketed by a check source, floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody",
+    "accent": 14172080,
+    "accentCss": "#d83fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "building-released",
+      "name": "Building Released",
+      "note": "Instrument bracketed at both ends of the day, the reclassification flagged the moment the drain called for it, and no shortcut on the mark, the photo or the swipe"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Structure Survey Integrity",
+      "currency": "DPM",
+      "ranks": [
+        "Grid Walker",
+        "Wall Scanner",
+        "Drain Checker",
+        "Release Reviewer",
+        "Structure Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "haul-road-dust",
+    "index": "98",
+    "domain": "Environmental",
+    "trade": "Haul road dust control crew — Teamsters haul and water-truck drivers, LIUNA laborers, IUOE Local 3",
+    "category": "Environmental Monitoring",
+    "certification": "Teamsters drivers on the haul trucks and the water truck; LIUNA laborers on the wheel wash and the sweep; IUOE Local 3 on the water truck's pump and spray-bar equipment; the site's Dust Control Plan under the cleanup order; Bay Area AQMD Regulation 6 particulate limits and its construction dust requirements; EPA 40 CFR Part 58 monitor siting and operation; OSHA 1926 traffic-control provisions; DOT load-securement rules for the tarp",
+    "name": "Haul Road Dust",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Haul Road Dust VR",
+    "tagline": "Dust control on the haul road during a soil haul: monitors read against their action level, the road wetted on the plan's schedule, the load tarped and washed clean before the gate, and the alarm that stops the haul the moment the wind turns",
+    "accent": 16764723,
+    "accentCss": "#ffcf33",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-haul",
+      "name": "Clean Haul",
+      "note": "Every pass wetted to the plan's frequency, every load tarped and washed before the gate, and the alarm answered the instant the wind turned"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dust Control",
+      "currency": "PASS",
+      "ranks": [
+        "Ground Hand",
+        "Wash Attendant",
+        "Pass Lead",
+        "Monitor Authority",
+        "Dust Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -10242,15 +10624,19 @@ const CURRICULA = [
     stations: [
       { app: "smartcity", id: "hunters-point", why: "The record: what the site is, who oversees it, what the contractor data case established, and where the neighbourhood's own air data comes from — before any simulated work." },
       { app: "smartcity", id: "rad-survey", why: "The gamma walkover done so its numbers can be trusted: source-check, background, grid speed, a static count over the investigation level, a split sample under chain of custody." },
+      { app: "smartcity", id: "building-rad-scan", why: "The same discipline turned indoors, on a derelict building ahead of demolition: floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody before a roll-up door opens on ground that isn't released yet." },
       { app: "smartcity", id: "air-monitor", why: "Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now." },
       { app: "smartcity", id: "soil-loadout", why: "Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator." },
+      { app: "smartcity", id: "haul-road-dust", why: "What keeps that loaded truck from becoming its own dust source once it's rolling: perimeter monitors read against their action level, the road wetted on schedule, a tarped load washed clean at the gate, and the alarm that stops the haul the moment the wind turns." },
       { app: "smartcity", id: "pcb-equipment-removal", why: "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate." },
       { app: "smartcity", id: "transite-pipe-removal", why: "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time." },
+      { app: "smartcity", id: "ust-removal", why: "What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves." },
       { app: "smartcity", id: "decon-line", why: "The corridor everyone and everything leaves the exclusion zone through." },
       { app: "smartcity", id: "sampling-well", why: "Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle." },
       { app: "smartcity", id: "well-install", why: "The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it." },
       { app: "smartcity", id: "pump-and-treat", why: "The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept." },
       { app: "smartcity", id: "vapor-mitigation", why: "The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard." },
+      { app: "smartcity", id: "isco-injection", why: "Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface." },
       { app: "smartcity", id: "stormwater-outfall", why: "The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains." },
       { app: "smartcity", id: "bioswale-build", why: "What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived." },
       { app: "smartcity", id: "dredge-barge", why: "Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere." },
@@ -10294,6 +10680,22 @@ const CURRICULA = [
     ],
   },
   {
+    id: "bartending-course",
+    name: "Bartending — Behind the Bar",
+    union: "UNITE HERE Local 2 bartenders and barbacks",
+    certification: "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+    summary: "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+    accent: "#b8862b",
+    stations: [
+      { app: "trades", id: "kitchen", why: "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured." },
+      // slot-bar-1
+      // slot-bar-2
+      // slot-bar-3
+      // slot-bar-4
+      // slot-bar-5
+    ],
+  },
+  {
     id: "situational-awareness",
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
@@ -10323,6 +10725,23 @@ const CURRICULA = [
       { app: "smartcity", id: "triage-point", why: "A casualty you tagged green sitting down and going quiet, and the beam over the collapse starting to move." },
       { app: "smartcity", id: "dock-crane", why: "A lashing hand cutting through the red zone under a suspended box, and a gust front putting the load on the sail." },
       { app: "smartcity", id: "press-brake", why: "The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help." },
+    ],
+  },
+  {
+    id: "ports-maritime-ecology",
+    name: "Ports, Maritime and Bay Ecology",
+    union: "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
+    certification: "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+    summary: "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+    accent: "#4fb8c9",
+    stations: [
+      { app: "smartcity", id: "dock-crane", why: "The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift." },
+      { app: "smartcity", id: "container-lashing", why: "Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear." },
+      { app: "smartcity", id: "shore-power-hookup", why: "Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists." },
+      { app: "smartcity", id: "bunkering-watch", why: "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to." },
+      { app: "smartcity", id: "spill-boom-deploy", why: "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it." },
+      { app: "smartcity", id: "pilot-transfer", why: "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call." },
+      { app: "smartcity", id: "mooring-line", why: "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in." },
     ],
   },
 ];
@@ -11656,6 +12075,15 @@ async function enterSim(id, { briefed = false } = {}) {
   // treatment works, and belongs in front of the bay instead.
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, room.weather, room.indoor);
   state.stage = stage;
+  // A licensed real-world model around the station, when the station (or the
+  // URL, for a preview) asks for one. It arrives after the station is
+  // playable; a failure is reported on the rail and the station plays on.
+  const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
+  if (envSpec) {
+    loadEnvironment(stage.root, envSpec, stage)
+      .then(() => setRail("ok", `Environment loaded: <b>${escapeHtml(envSpec.url)}</b>`))
+      .catch((e) => { console.warn("[environment]", e); setRail("warn", escapeHtml(e.message)); });
+  }
   Perf.reset();
   const root = new THREE.Group();
   worldRoot.add(root);

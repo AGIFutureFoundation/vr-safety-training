@@ -10,7 +10,7 @@
  *     node tools/check_smartcity.mjs
  */
 
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -94,6 +94,12 @@ const MODULES = [
   "smartcity/js/sims/transite-pipe-removal.js",
   "smartcity/js/sims/creosote-pile-removal.js",
   "smartcity/js/sims/bioswale-build.js",
+  "smartcity/js/sims/shore-power-hookup.js",
+  "smartcity/js/sims/spill-boom-deploy.js",
+  "smartcity/js/sims/ust-removal.js",
+  "smartcity/js/sims/isco-injection.js",
+  "smartcity/js/sims/building-rad-scan.js",
+  "smartcity/js/sims/haul-road-dust.js",
 ];
 
 const THREE_STUB = `
@@ -211,7 +217,7 @@ export const SIMS = [SIM_CHARGE_POINT, SIM_SIGNAL_CABINET, SIM_VALVE_VAULT, SIM_
   SIM_HUNTERS_POINT, SIM_AIR_MONITOR, SIM_SAMPLING_WELL,
   SIM_PRESS_BRAKE, SIM_DECON_LINE, SIM_STAGE_POWER, SIM_CONTAINER_LASHING,
   SIM_LIFT_STATION, SIM_MOORING_LINE, SIM_CHAIN_HOIST, SIM_CONVEYOR_GUARD, SIM_CELL_SITE_BATTERY,
-  SIM_SUBSTATION_SWITCHING, SIM_BUS_DEPOT_LIFT, SIM_FIRE_PUMP, SIM_SCAFFOLD_ERECTION, SIM_AERIAL_LADDER, SIM_CHLORINE_ROOM, SIM_FORKLIFT_DOCK, SIM_FLY_SYSTEM, SIM_BUNKERING_WATCH, SIM_MICROWAVE_BACKHAUL, SIM_STORMWATER_OUTFALL, SIM_BATTERY_YARD, SIM_CONFINED_RESCUE, SIM_AIRPORT_RAMP, SIM_COOLING_TOWER, SIM_CONCRETE_POUR, SIM_CNC_CELL, SIM_BACKFLOW_TEST, SIM_TRANSFORMER_VAULT, SIM_WIND_NACELLE, SIM_DIGESTER_GAS, SIM_DATA_HALL, SIM_MAST_CLIMBER, SIM_HAZMAT_ENTRY, SIM_AMMONIA_PLANT, SIM_PYRO_CUE, SIM_POST_TENSION, SIM_SHIPYARD_HOTWORK, SIM_GRAIN_BIN, SIM_LANDFILL_GAS, SIM_HOT_TAP, SIM_RCL_SWITCHING, SIM_AERIAL_LASHING, SIM_EV_EXTRICATION, SIM_TANK_LINING, SIM_ARENA_RIGGING, SIM_STACK_TEST, SIM_PILOT_TRANSFER, SIM_GAS_LEAK_SURVEY, SIM_CATH_LAB, SIM_BRIDGE_BLAST, SIM_BROADCAST_TRUCK, SIM_PUMP_AND_TREAT, SIM_TIDE_GATE, SIM_LIVING_SHORELINE, SIM_DREDGE_BARGE, SIM_RAD_SURVEY, SIM_SOIL_LOADOUT, SIM_VAPOR_MITIGATION, SIM_WELL_INSTALL, SIM_SEDIMENT_CAP, SIM_EELGRASS_TRANSPLANT, SIM_PCB_EQUIPMENT_REMOVAL, SIM_TRANSITE_PIPE_REMOVAL, SIM_CREOSOTE_PILE_REMOVAL, SIM_BIOSWALE_BUILD];
+  SIM_SUBSTATION_SWITCHING, SIM_BUS_DEPOT_LIFT, SIM_FIRE_PUMP, SIM_SCAFFOLD_ERECTION, SIM_AERIAL_LADDER, SIM_CHLORINE_ROOM, SIM_FORKLIFT_DOCK, SIM_FLY_SYSTEM, SIM_BUNKERING_WATCH, SIM_MICROWAVE_BACKHAUL, SIM_STORMWATER_OUTFALL, SIM_BATTERY_YARD, SIM_CONFINED_RESCUE, SIM_AIRPORT_RAMP, SIM_COOLING_TOWER, SIM_CONCRETE_POUR, SIM_CNC_CELL, SIM_BACKFLOW_TEST, SIM_TRANSFORMER_VAULT, SIM_WIND_NACELLE, SIM_DIGESTER_GAS, SIM_DATA_HALL, SIM_MAST_CLIMBER, SIM_HAZMAT_ENTRY, SIM_AMMONIA_PLANT, SIM_PYRO_CUE, SIM_POST_TENSION, SIM_SHIPYARD_HOTWORK, SIM_GRAIN_BIN, SIM_LANDFILL_GAS, SIM_HOT_TAP, SIM_RCL_SWITCHING, SIM_AERIAL_LASHING, SIM_EV_EXTRICATION, SIM_TANK_LINING, SIM_ARENA_RIGGING, SIM_STACK_TEST, SIM_PILOT_TRANSFER, SIM_GAS_LEAK_SURVEY, SIM_CATH_LAB, SIM_BRIDGE_BLAST, SIM_BROADCAST_TRUCK, SIM_PUMP_AND_TREAT, SIM_TIDE_GATE, SIM_LIVING_SHORELINE, SIM_DREDGE_BARGE, SIM_RAD_SURVEY, SIM_SOIL_LOADOUT, SIM_VAPOR_MITIGATION, SIM_WELL_INSTALL, SIM_SEDIMENT_CAP, SIM_EELGRASS_TRANSPLANT, SIM_PCB_EQUIPMENT_REMOVAL, SIM_TRANSITE_PIPE_REMOVAL, SIM_CREOSOTE_PILE_REMOVAL, SIM_BIOSWALE_BUILD, SIM_SHORE_POWER_HOOKUP, SIM_SPILL_BOOM_DEPLOY, SIM_UST_REMOVAL, SIM_ISCO_INJECTION, SIM_BUILDING_RAD_SCAN, SIM_HAUL_ROAD_DUST];
 export { Session, Progress, Sfx, THREE };
 `;
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\n${harness}`);
@@ -257,6 +263,12 @@ for (const sim of suite.SIMS) {
   }
   if (sim.indoor !== undefined && sim.indoor !== null && !INTERIOR_STYLES.includes(sim.indoor)) {
     fail(sim.id, `indoor "${sim.indoor}" is not one of ${INTERIOR_STYLES.join("/")}`);
+  }
+  if (sim.environment !== undefined && sim.environment !== null) {
+    const url = sim.environment.url;
+    if (typeof url !== "string" || !url) fail(sim.id, "environment has no url");
+    else if (!/^https?:/.test(url) && !existsSync(join(WEBXR, url))) fail(sim.id, `environment "${url}" is not a file under WebXR/`);
+    else if (!/\.(glb|gltf)$/i.test(url)) fail(sim.id, `environment "${url}" is not a .glb or .gltf`);
   }
   if (sim.weather !== undefined && !WEATHER_KINDS.includes(sim.weather)) {
     fail(sim.id, `weather "${sim.weather}" is not one of ${WEATHER_KINDS.join("/")}`);

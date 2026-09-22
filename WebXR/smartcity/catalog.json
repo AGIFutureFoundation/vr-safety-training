@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 88
+      "stations": 94
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "isco-injection",
         "bioswale-build",
         "transite-pipe-removal",
         "eelgrass-transplant",
@@ -156,6 +157,8 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "spill-boom-deploy",
+        "shore-power-hookup",
         "creosote-pile-removal",
         "sediment-cap",
         "dredge-barge",
@@ -170,6 +173,9 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "haul-road-dust",
+        "building-rad-scan",
+        "ust-removal",
         "well-install",
         "soil-loadout",
         "rad-survey",
@@ -626,6 +632,11 @@
         },
         {
           "app": "smartcity",
+          "id": "building-rad-scan",
+          "why": "The same discipline turned indoors, on a derelict building ahead of demolition: floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody before a roll-up door opens on ground that isn't released yet."
+        },
+        {
+          "app": "smartcity",
           "id": "air-monitor",
           "why": "Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now."
         },
@@ -636,6 +647,11 @@
         },
         {
           "app": "smartcity",
+          "id": "haul-road-dust",
+          "why": "What keeps that loaded truck from becoming its own dust source once it's rolling: perimeter monitors read against their action level, the road wetted on schedule, a tarped load washed clean at the gate, and the alarm that stops the haul the moment the wind turns."
+        },
+        {
+          "app": "smartcity",
           "id": "pcb-equipment-removal",
           "why": "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate."
         },
@@ -643,6 +659,11 @@
           "app": "smartcity",
           "id": "transite-pipe-removal",
           "why": "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time."
+        },
+        {
+          "app": "smartcity",
+          "id": "ust-removal",
+          "why": "What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves."
         },
         {
           "app": "smartcity",
@@ -668,6 +689,11 @@
           "app": "smartcity",
           "id": "vapor-mitigation",
           "why": "The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard."
+        },
+        {
+          "app": "smartcity",
+          "id": "isco-injection",
+          "why": "Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface."
         },
         {
           "app": "smartcity",
@@ -708,6 +734,51 @@
           "app": "smartcity",
           "id": "eelgrass-transplant",
           "why": "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "culinary-kitchen",
+      "name": "Culinary — The Working Kitchen",
+      "union": "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
+      "certification": "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+      "summary": "Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+      "stations": [
+        {
+          "app": "trades",
+          "id": "kitchen",
+          "why": "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "dental-hygiene-unspoken-smiles",
+      "name": "Dental Hygiene — Unspoken Smiles",
+      "union": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
+      "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+      "summary": "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+      "stations": [
+        {
+          "app": "trades",
+          "id": "phlebotomy",
+          "why": "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "bartending-course",
+      "name": "Bartending — Behind the Bar",
+      "union": "UNITE HERE Local 2 bartenders and barbacks",
+      "certification": "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+      "summary": "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+      "stations": [
+        {
+          "app": "trades",
+          "id": "kitchen",
+          "why": "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -828,6 +899,51 @@
           "app": "smartcity",
           "id": "press-brake",
           "why": "The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "ports-maritime-ecology",
+      "name": "Ports, Maritime and Bay Ecology",
+      "union": "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
+      "certification": "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+      "summary": "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "dock-crane",
+          "why": "The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift."
+        },
+        {
+          "app": "smartcity",
+          "id": "container-lashing",
+          "why": "Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear."
+        },
+        {
+          "app": "smartcity",
+          "id": "shore-power-hookup",
+          "why": "Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists."
+        },
+        {
+          "app": "smartcity",
+          "id": "bunkering-watch",
+          "why": "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to."
+        },
+        {
+          "app": "smartcity",
+          "id": "spill-boom-deploy",
+          "why": "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it."
+        },
+        {
+          "app": "smartcity",
+          "id": "pilot-transfer",
+          "why": "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call."
+        },
+        {
+          "app": "smartcity",
+          "id": "mooring-line",
+          "why": "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -4934,6 +5050,503 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "haul-road-dust",
+      "name": "Haul Road Dust",
+      "title": "SmartCiti.X~ Haul Road Dust VR",
+      "tagline": "Dust control on the haul road during a soil haul: monitors read against their action level, the road wetted on the plan's schedule, the load tarped and washed clean before the gate, and the alarm that stops the haul the moment the wind turns",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Haul road dust control crew — Teamsters haul and water-truck drivers, LIUNA laborers, IUOE Local 3",
+      "union": null,
+      "certification": "Teamsters drivers on the haul trucks and the water truck; LIUNA laborers on the wheel wash and the sweep; IUOE Local 3 on the water truck's pump and spray-bar equipment; the site's Dust Control Plan under the cleanup order; Bay Area AQMD Regulation 6 particulate limits and its construction dust requirements; EPA 40 CFR Part 58 monitor siting and operation; OSHA 1926 traffic-control provisions; DOT load-securement rules for the tarp",
+      "accent": "#ffcf33",
+      "parSeconds": 290,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "track",
+        "drag",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-haul",
+        "name": "Clean Haul",
+        "note": "Every pass wetted to the plan's frequency, every load tarped and washed before the gate, and the alarm answered the instant the wind turned"
+      },
+      "meshes": 201,
+      "lights": 0,
+      "overBudget": false,
+      "index": "98",
+      "flat": false,
+      "system": "Dust Control",
+      "currency": "PASS",
+      "ranks": [
+        "Ground Hand",
+        "Wash Attendant",
+        "Pass Lead",
+        "Monitor Authority",
+        "Dust Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-through-alarm",
+          "name": "Never Through The Alarm",
+          "note": "Never silenced a monitor alarm or let a load through unwashed or untarped"
+        },
+        {
+          "id": "steady-pass",
+          "name": "Steady Pass",
+          "note": "Held the wetting and sweeping passes inside the band the whole strip"
+        },
+        {
+          "id": "log-true",
+          "name": "Log True",
+          "note": "Closed out the monitor log with no correction"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the shift"
+        },
+        {
+          "id": "unbroken-pass",
+          "name": "Unbroken Pass",
+          "note": "Never broke a wetting or sweeping pass"
+        },
+        {
+          "id": "gate-early",
+          "name": "Gate Early",
+          "note": "Reconciled the log inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=haul-road-dust"
+    },
+    {
+      "app": "smartcity",
+      "id": "building-rad-scan",
+      "name": "Building Rad Scan",
+      "title": "SmartCiti.X~ Building Rad Scan VR",
+      "tagline": "A derelict building's structure-surface survey ahead of demolition: instrument bracketed by a check source, floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Radiation control technician — building structure-surface survey",
+      "union": null,
+      "certification": "LIUNA hazmat and environmental laborers assisting the survey; IUOE Local 3 operating engineers on the aerial lift that reaches the upper wall lanes; OSHA HAZWOPER 40-hour (29 CFR 1910.120); NRC 10 CFR 20 occupational dose limits; EPA MARSSIM structure-surface survey methodology; the site's radiological work plan and QAPP chain of custody; California Department of Public Health (CDPH) Radiologic Health Branch oversight",
+      "accent": "#d83fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "track",
+        "turn",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "building-released",
+        "name": "Building Released",
+        "note": "Instrument bracketed at both ends of the day, the reclassification flagged the moment the drain called for it, and no shortcut on the mark, the photo or the swipe"
+      },
+      "meshes": 236,
+      "lights": 0,
+      "overBudget": false,
+      "index": "97",
+      "flat": false,
+      "system": "Structure Survey Integrity",
+      "currency": "DPM",
+      "ranks": [
+        "Grid Walker",
+        "Wall Scanner",
+        "Drain Checker",
+        "Release Reviewer",
+        "Structure Survey Certified"
+      ],
+      "awards": [
+        {
+          "id": "both-brackets",
+          "name": "Both Brackets",
+          "note": "Probe source-checked clean at the start of the day and again at the end"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "Never skipped the check source, crossed into unsurveyed ground, reused a swipe or skipped a photo"
+        },
+        {
+          "id": "true-lanes",
+          "name": "True Lanes",
+          "note": "Held probe height and scan speed inside the band on both the floor and the walls"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections anywhere in the survey"
+        },
+        {
+          "id": "steady-sweep",
+          "name": "Steady Sweep",
+          "note": "Never broke a scan speed or a hold"
+        },
+        {
+          "id": "envelope-early",
+          "name": "Envelope Early",
+          "note": "Swipe bagged and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=building-rad-scan"
+    },
+    {
+      "app": "smartcity",
+      "id": "isco-injection",
+      "name": "ISCO Injection",
+      "title": "SmartCiti.X~ ISCO Injection VR",
+      "tagline": "In-situ chemical oxidation of a groundwater plume: permanganate mixed to design in the batch tank, the manifold pressure-tested before it runs, the injection held at design pressure and flow while the neighbouring wells are watched for daylighting, and the spent totes and rinse handled as hazardous",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "In-situ chemical oxidation crew — LIUNA hazmat laborers, UA Local 38 pipefitters, IUOE stationary engineers",
+      "union": null,
+      "certification": "OSHA HAZWOPER (29 CFR 1910.120) for everyone on the injection pad; ITRC's in-situ chemical oxidation guidance and the site's Record of Decision setting the design dose and pressure; the well permit governing the injection points; DOT hazmat rules for shipping the oxidant; the Regional Water Board's waste discharge requirements for the rinse water and spent totes",
+      "accent": "#7d3fae",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "oxidant-contained",
+        "name": "Oxidant Contained",
+        "note": "The oxidant mixed to design, the manifold proven tight before it ran, the injection held in band with nothing daylighting, and the spent totes and rinse handled as hazardous"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "94",
+      "flat": false,
+      "system": "Oxidation Authority",
+      "currency": "PPM",
+      "ranks": [
+        "Batch Hand",
+        "Injection Crew",
+        "Manifold Lead",
+        "Plume Authority",
+        "Oxidation Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "design-dose",
+          "name": "Design Dose",
+          "note": "The batch mixed to design concentration and the manifold proven tight before the valve ever opened"
+        },
+        {
+          "id": "never-surfaced",
+          "name": "Never Surfaced",
+          "note": "Nothing daylighted, nobody stood in the plume, and the manifold never ran past its tested limit"
+        },
+        {
+          "id": "band-held",
+          "name": "Band Held",
+          "note": "Held the injection pressure and flow near band centre the whole run"
+        },
+        {
+          "id": "clean-injection",
+          "name": "Clean Injection",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unbroken-hold",
+          "name": "Unbroken Hold",
+          "note": "Never dropped out of band through the whole injection"
+        },
+        {
+          "id": "well-closed-early",
+          "name": "Well Closed Early",
+          "note": "Flushed, disconnected and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=isco-injection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ust-removal",
+      "name": "UST Removal",
+      "title": "SmartCiti.X~ UST Removal VR",
+      "tagline": "Closing out an underground fuel tank: product pumped and the tank proven inert on the LEL, the pit shored, the tank rigged and lifted by the laborer directing rather than the operator's own eye, and the pit sampled and fenced before anyone leaves",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Excavation & UST closure crew — LIUNA hazmat laborer directing, IUOE Local 3 operating engineer, UA Local 38 pipefitter",
+      "union": null,
+      "certification": "EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks; the state water board's UST closure requirements for the soil sampling; OSHA HAZWOPER (29 CFR 1910.120); OSHA 29 CFR 1926 Subpart P excavations for the pit and its shoring",
+      "accent": "#a8442a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "gauge",
+        "sequence",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "tank-out-clean",
+        "name": "Tank Out Clean",
+        "note": "Product pumped, the tank proven inert at both risers, rigged and lifted with nobody under the load, and the pit sampled under chain of custody and fenced before the crew left"
+      },
+      "meshes": 234,
+      "lights": 0,
+      "overBudget": false,
+      "index": "93",
+      "flat": false,
+      "system": "Closure Authority",
+      "currency": "LEL",
+      "ranks": [
+        "Ground Hand",
+        "Excavation Crew",
+        "Rigging Lead",
+        "Closure Foreman",
+        "Closure Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-inert",
+          "name": "Proven Inert",
+          "note": "Both LEL readings, fill and vent, read clean before the pit was ever opened wide"
+        },
+        {
+          "id": "never-under-the-hook",
+          "name": "Never Under The Hook",
+          "note": "Nobody stood under the tank, in the pit unshored, or near a torch before the tank read clear"
+        },
+        {
+          "id": "signal-true",
+          "name": "Signal True",
+          "note": "Held the lift's swing inside the safe corridor the whole way to the laydown"
+        },
+        {
+          "id": "clean-closure",
+          "name": "Clean Closure",
+          "note": "No corrections anywhere in the removal"
+        },
+        {
+          "id": "unbroken-signal",
+          "name": "Unbroken Signal",
+          "note": "Never broke the lift's swing-path signal"
+        },
+        {
+          "id": "pit-closed-early",
+          "name": "Pit Closed Early",
+          "note": "Fenced and finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ust-removal"
+    },
+    {
+      "app": "smartcity",
+      "id": "spill-boom-deploy",
+      "name": "Spill Boom Deploy",
+      "title": "SmartCiti.X~ Spill Boom Deploy VR",
+      "tagline": "Fuel-dock spill drill: source secured, NRC and OSPR notified, the plan read, boom rigged on deck and worked into a J against the current with the skiff, ends anchored, skimmer staged, sorbent and PPE out for the shore crew, and a decon corridor for anyone leaving the water's edge",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Marine environmental responder — boom deployment",
+      "union": null,
+      "certification": "Inlandboatmen's Union of the Pacific (IBU) and ILWU marine division — boat and boom crew; LIUNA hazmat laborers — shore crew; OSHA 29 CFR 1910.120 HAZWOPER; U.S. Coast Guard federal on-scene coordinator; National Contingency Plan, 40 CFR 300; California Office of Spill Prevention and Response (OSPR)",
+      "accent": "#e8722a",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "turn",
+        "sequence",
+        "select",
+        "drag",
+        "track",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "boom-holding",
+        "name": "Boom Holding",
+        "note": "Source secured first, the J held against the current, both ends anchored, and the shore crew worked clean behind PPE and decon — first time"
+      },
+      "meshes": 192,
+      "lights": 0,
+      "overBudget": false,
+      "index": "90",
+      "flat": false,
+      "system": "Spill Response Crew",
+      "currency": "BOOM",
+      "ranks": [
+        "Deckhand",
+        "Boom Handler",
+        "Response Boat Lead",
+        "Spill Response Technician",
+        "OSPR Certified"
+      ],
+      "awards": [
+        {
+          "id": "source-first",
+          "name": "Source Secured First",
+          "note": "The valve was shut before the boom ever went over the side"
+        },
+        {
+          "id": "never-uncovered",
+          "name": "Never Uncovered",
+          "note": "Never a bare hand on the tow line or the sorbent, never a step on the shore without PPE"
+        },
+        {
+          "id": "apex-true",
+          "name": "Apex True",
+          "note": "Tow tension and skim rate both held inside the band"
+        },
+        {
+          "id": "clean-deployment",
+          "name": "Clean Deployment",
+          "note": "No corrections anywhere in the drill"
+        },
+        {
+          "id": "j-held",
+          "name": "J Held",
+          "note": "Held the tow tension in band the whole way"
+        },
+        {
+          "id": "boom-set-fast",
+          "name": "Boom Set Fast",
+          "note": "Deployment complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=spill-boom-deploy"
+    },
+    {
+      "app": "smartcity",
+      "id": "shore-power-hookup",
+      "name": "Shore Power Hookup",
+      "title": "SmartCiti.X~ Shore Power Hookup VR",
+      "tagline": "Cold ironing a berthed ship: compatibility and berth rating checked against the plan, the CMS positioned, the reel paid out by crane, ground landed first, interlock and pilot circuit proven, the breaker closed on the port's order, synchronisation confirmed, and the auxiliaries shut down clean",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Port electrician — shore power (cold ironing)",
+      "union": null,
+      "certification": "IBEW port electricians; ILWU Local 10 — the longshore side of the hookup; California Air Resources Board At-Berth Regulation; IEC/ISO/IEEE 80005-1 high-voltage shore connection; NFPA 70E; OSHA 1918 marine terminals",
+      "accent": "#2e8fd6",
+      "parSeconds": 260,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "track",
+        "gauge",
+        "turn",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "cold-iron-clean",
+        "name": "Cold Iron Clean",
+        "note": "Ground proven first, the breaker closed only on the port's order, synchronisation confirmed with the ship, and both auxiliaries shut down clean — first time"
+      },
+      "meshes": 227,
+      "lights": 0,
+      "overBudget": false,
+      "index": "89",
+      "flat": false,
+      "system": "Shore Power Crew",
+      "currency": "VOLT",
+      "ranks": [
+        "Apprentice Electrician",
+        "Journeyman",
+        "Port Electrician",
+        "Lead Electrician",
+        "Shore Power Certified"
+      ],
+      "awards": [
+        {
+          "id": "ground-first",
+          "name": "Ground First",
+          "note": "The ground connector landed and proven before either phase bank"
+        },
+        {
+          "id": "never-live",
+          "name": "Never Live Early",
+          "note": "Never touched the panel before the interlock, never closed a breaker without the order"
+        },
+        {
+          "id": "sync-true",
+          "name": "Sync True",
+          "note": "Insulation test and synchronisation both read inside the band"
+        },
+        {
+          "id": "clean-hookup",
+          "name": "Clean Hookup",
+          "note": "No corrections anywhere in the connection"
+        },
+        {
+          "id": "steady-payout",
+          "name": "Steady Pay-out",
+          "note": "Held the reel rate in band the whole run"
+        },
+        {
+          "id": "stack-clear-fast",
+          "name": "Stack Clear",
+          "note": "Auxiliaries shut down inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=shore-power-hookup"
     },
     {
       "app": "smartcity",

@@ -174,15 +174,19 @@ export const CURRICULA = [
     stations: [
       { app: "smartcity", id: "hunters-point", why: "The record: what the site is, who oversees it, what the contractor data case established, and where the neighbourhood's own air data comes from — before any simulated work." },
       { app: "smartcity", id: "rad-survey", why: "The gamma walkover done so its numbers can be trusted: source-check, background, grid speed, a static count over the investigation level, a split sample under chain of custody." },
+      { app: "smartcity", id: "building-rad-scan", why: "The same discipline turned indoors, on a derelict building ahead of demolition: floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody before a roll-up door opens on ground that isn't released yet." },
       { app: "smartcity", id: "air-monitor", why: "Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now." },
       { app: "smartcity", id: "soil-loadout", why: "Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator." },
+      { app: "smartcity", id: "haul-road-dust", why: "What keeps that loaded truck from becoming its own dust source once it's rolling: perimeter monitors read against their action level, the road wetted on schedule, a tarped load washed clean at the gate, and the alarm that stops the haul the moment the wind turns." },
       { app: "smartcity", id: "pcb-equipment-removal", why: "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate." },
       { app: "smartcity", id: "transite-pipe-removal", why: "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time." },
+      { app: "smartcity", id: "ust-removal", why: "What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves." },
       { app: "smartcity", id: "decon-line", why: "The corridor everyone and everything leaves the exclusion zone through." },
       { app: "smartcity", id: "sampling-well", why: "Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle." },
       { app: "smartcity", id: "well-install", why: "The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it." },
       { app: "smartcity", id: "pump-and-treat", why: "The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept." },
       { app: "smartcity", id: "vapor-mitigation", why: "The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard." },
+      { app: "smartcity", id: "isco-injection", why: "Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface." },
       { app: "smartcity", id: "stormwater-outfall", why: "The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains." },
       { app: "smartcity", id: "bioswale-build", why: "What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived." },
       { app: "smartcity", id: "dredge-barge", why: "Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere." },
@@ -226,6 +230,22 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "bartending-course",
+    name: "Bartending — Behind the Bar",
+    union: "UNITE HERE Local 2 bartenders and barbacks",
+    certification: "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+    summary: "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+    accent: "#b8862b",
+    stations: [
+      { app: "trades", id: "kitchen", why: "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured." },
+      // slot-bar-1
+      // slot-bar-2
+      // slot-bar-3
+      // slot-bar-4
+      // slot-bar-5
+    ],
+  },
+  {
     id: "situational-awareness",
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
@@ -255,6 +275,23 @@ export const CURRICULA = [
       { app: "smartcity", id: "triage-point", why: "A casualty you tagged green sitting down and going quiet, and the beam over the collapse starting to move." },
       { app: "smartcity", id: "dock-crane", why: "A lashing hand cutting through the red zone under a suspended box, and a gust front putting the load on the sail." },
       { app: "smartcity", id: "press-brake", why: "The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help." },
+    ],
+  },
+  {
+    id: "ports-maritime-ecology",
+    name: "Ports, Maritime and Bay Ecology",
+    union: "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
+    certification: "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+    summary: "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+    accent: "#4fb8c9",
+    stations: [
+      { app: "smartcity", id: "dock-crane", why: "The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift." },
+      { app: "smartcity", id: "container-lashing", why: "Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear." },
+      { app: "smartcity", id: "shore-power-hookup", why: "Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists." },
+      { app: "smartcity", id: "bunkering-watch", why: "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to." },
+      { app: "smartcity", id: "spill-boom-deploy", why: "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it." },
+      { app: "smartcity", id: "pilot-transfer", why: "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call." },
+      { app: "smartcity", id: "mooring-line", why: "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in." },
     ],
   },
 ];

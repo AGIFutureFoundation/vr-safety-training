@@ -78,6 +78,7 @@ APPS = {
             SHARED / "robot.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
+            SHARED / "environment.js",
             SHARED / "observer.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",

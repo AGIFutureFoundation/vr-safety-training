@@ -15,6 +15,7 @@ import { buildStage } from "./stage.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
 import { CURRICULA, allProgress } from "./curricula.js";
+import { environmentFor, loadEnvironment } from "../../shared/environment.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
@@ -480,6 +481,15 @@ async function enterSim(id, { briefed = false } = {}) {
   // treatment works, and belongs in front of the bay instead.
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, room.weather, room.indoor);
   state.stage = stage;
+  // A licensed real-world model around the station, when the station (or the
+  // URL, for a preview) asks for one. It arrives after the station is
+  // playable; a failure is reported on the rail and the station plays on.
+  const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
+  if (envSpec) {
+    loadEnvironment(stage.root, envSpec, stage)
+      .then(() => setRail("ok", `Environment loaded: <b>${escapeHtml(envSpec.url)}</b>`))
+      .catch((e) => { console.warn("[environment]", e); setRail("warn", escapeHtml(e.message)); });
+  }
   Perf.reset();
   const root = new THREE.Group();
   worldRoot.add(root);
