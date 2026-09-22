@@ -17,6 +17,7 @@ import { SIMS_META } from "./sims-meta.js";
 import { CURRICULA, allProgress } from "./curricula.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
 import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice } from "../../shared/devices.js";
+import { eiLine, CHECKIN_OPTIONS, checkInPrompt, recordCheckIn } from "../../shared/ei-guide.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml } from "./react-ui.js";
@@ -577,10 +578,26 @@ async function enterSim(id, { briefed = false } = {}) {
       kbCursor.set(targetsForStep({ target: it.target }));
       observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
     },
-    onInterruptEnd: (it) => { state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
+    onInterruptEnd: (it) => {
+      state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {}));
+      // The guide speaks to a missed or mis-answered interruption the way a
+      // peer-support trainer would: what happened, what wins next time, no
+      // blame. An answered one needs nothing said — the scene already showed it.
+      if (it.resolved === "missed" || it.resolved === "wrong") {
+        const line = eiLine(it.resolved, { kind: it.kind, seed: state.session?.interruptLog?.length ?? 0 });
+        setRail("warn", line);
+        announce(line);
+      }
+    },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+      // The hazard text itself is spoken by the station's own call-out; the
+      // guide adds its line after the first repeat, when the setup — not the
+      // hands — is usually what is wrong.
+      const count = s.hazardHits | 0;
+      if (count >= 2) announce(eiLine("hazard", { count, seed: count }));
+      else setRail("warn", eiLine("hazard", { count: 1, seed: s.errors | 0 }));
     },
     onFinish: (s, summary) => {
       observer.finish({
@@ -709,6 +726,7 @@ function showResults(s, summary) {
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${renderDebrief(s)}
+    ${renderCheckIn(s)}
     ${state.tour ? renderTourFooter() : ""}`;
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
@@ -748,6 +766,38 @@ function showResults(s, summary) {
     (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
     (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
 }
+
+/** The guide's closing line and the end-of-run check-in. The check-in is
+ * never scored and never leaves the learner's browser; a rough run (a hazard
+ * hit or a missed interruption) adds the pointer to real peer support. */
+function renderCheckIn(s) {
+  const missed = s.interruptLog?.some((l) => l.outcome === "missed") ?? false;
+  const rough = (s.hazardHits | 0) > 0 || missed;
+  const support = s.room.supportLine ?? SIMS_META_BY_ID[s.room.baseId ?? s.room.id]?.supportLine;
+  return `
+    <p class="res-note res-guide">${escapeHtml(eiLine("finish", { clean: !rough }))}</p>
+    <div class="res-checkin" data-rough="${rough ? 1 : 0}">
+      <p class="res-checkin-q">${escapeHtml(checkInPrompt({ rough, supportLine: support }))}</p>
+      <div class="res-checkin-row">${CHECKIN_OPTIONS.map((o) =>
+        `<button type="button" data-checkin="${o.id}" data-sim="${escapeHtml(s.room.id)}">${escapeHtml(o.label)}</button>`).join("")}</div>
+      <p class="res-checkin-reply" aria-live="polite"></p>
+    </div>`;
+}
+
+// The results card is plain HTML inside the React overlay, so the check-in
+// buttons are handled by delegation; one answer per card, remembered locally.
+addEventListener("click", (e) => {
+  const btn = e.target?.closest?.("#results-body [data-checkin]");
+  if (!btn) return;
+  const opt = CHECKIN_OPTIONS.find((o) => o.id === btn.dataset.checkin);
+  if (!opt) return;
+  const box = btn.closest(".res-checkin");
+  recordCheckIn({ simId: btn.dataset.sim, choice: opt.id, rough: box?.dataset.rough === "1" });
+  for (const b of box.querySelectorAll("[data-checkin]")) { b.disabled = true; b.classList.toggle("picked", b === btn); }
+  const reply = box.querySelector(".res-checkin-reply");
+  if (reply) reply.textContent = opt.reply;
+  announce(opt.reply);
+});
 
 /** Progress line shown on the results card while a guided tour is running. */
 function renderTourFooter() {

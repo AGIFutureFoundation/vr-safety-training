@@ -14,31 +14,31 @@
 // was stretched. Next time, the radio wins. Reset and go again." The same is
 // true of an apprentice who touched a live bus.
 
-const HAZARD = [
+const EI_HAZARD = [
   "That one would have hurt someone. Take a breath, look at what you reached for, and go again from the step.",
   "Stop there. That is the reach the procedure exists to prevent. The step is still open — take it the right way.",
   "That is an unsafe action, and it is why we practise here and not on the job. Reset your hands and finish the step.",
 ];
-const HAZARD_AGAIN = [
+const EI_HAZARD_AGAIN = [
   "Twice on the same thing. That usually means the setup is wrong, not the hands — look at where you are standing before the next move.",
   "Same trap again. Slow down: read the cue, find the control, then act. There is no clock on this that matters more than the order.",
 ];
-const MISSED = [
+const EI_MISSED = [
   "You missed it — the {kind} came while your hands were busy, which is exactly when it comes on the job. Next time the alarm wins.",
   "That {kind} went unanswered. Nobody notices the first one; the training is so you notice the second.",
 ];
-const WRONG = [
+const EI_WRONG = [
   "You answered the {kind}, but with the wrong control. The right one is separate from what you were holding — that separation is the lesson.",
   "Right instinct, wrong control. Look for the one that is not the thing in your hands.",
 ];
-const FINISH_CLEAN = [
+const EI_FINISH_CLEAN = [
   "Clean run. You caught every interruption and touched nothing you should not have. That is the standard — keep it.",
 ];
-const FINISH_ROUGH = [
+const EI_FINISH_ROUGH = [
   "Finished, with some unsafe actions on the sheet. That is what the sheet is for. Read the debrief before you run it again.",
 ];
 
-const pick = (list, n = 0) => list[Math.abs(n) % list.length];
+const eiPick = (list, idx) => list[Math.abs(idx || 0) % list.length];
 
 /** The guide's line for a moment. `ctx.kind` names the interruption kind
  *  ("alarm", "person in the wrong place"); `ctx.count` how many hazards so
@@ -46,10 +46,10 @@ const pick = (list, n = 0) => list[Math.abs(n) % list.length];
 export function eiLine(moment, ctx = {}) {
   const kind = ctx.kind || "interruption";
   switch (moment) {
-    case "hazard": return (ctx.count ?? 1) >= 2 ? pick(HAZARD_AGAIN, ctx.count) : pick(HAZARD, ctx.seed ?? 0);
-    case "missed": return pick(MISSED, ctx.seed ?? 0).replace("{kind}", kind);
-    case "wrong": return pick(WRONG, ctx.seed ?? 0).replace("{kind}", kind);
-    case "finish": return ctx.clean ? FINISH_CLEAN[0] : FINISH_ROUGH[0];
+    case "hazard": return (ctx.count ?? 1) >= 2 ? eiPick(EI_HAZARD_AGAIN, ctx.count) : eiPick(EI_HAZARD, ctx.seed ?? 0);
+    case "missed": return eiPick(EI_MISSED, ctx.seed ?? 0).replace("{kind}", kind);
+    case "wrong": return eiPick(EI_WRONG, ctx.seed ?? 0).replace("{kind}", kind);
+    case "finish": return ctx.clean ? EI_FINISH_CLEAN[0] : EI_FINISH_ROUGH[0];
     default: return "";
   }
 }
@@ -69,14 +69,14 @@ export function checkInPrompt({ rough = false, supportLine = "your local's peer-
     : "How are you doing after that run? There is no score on this question.";
 }
 
-const KEY = "smartcitix-checkins-v1";
+const EI_KEY = "smartcitix-checkins-v1";
 /** Record a check-in in the learner's own browser only (never transmitted). */
 export function recordCheckIn(entry) {
   try {
-    const list = JSON.parse(localStorage.getItem(KEY) || "[]");
+    const list = JSON.parse(localStorage.getItem(EI_KEY) || "[]");
     list.push({ ...entry, at: new Date().toISOString() });
-    localStorage.setItem(KEY, JSON.stringify(list.slice(-200)));
+    localStorage.setItem(EI_KEY, JSON.stringify(list.slice(-200)));
     return true;
   } catch { return false; }
 }
-export function checkIns() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } }
+export function checkIns() { try { return JSON.parse(localStorage.getItem(EI_KEY) || "[]"); } catch { return []; } }

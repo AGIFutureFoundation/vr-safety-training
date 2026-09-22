@@ -39,6 +39,7 @@ APPS = {
         "modules": [
             SHARED / "a11y.js",
             SHARED / "devices.js",
+            SHARED / "ei-guide.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",
@@ -69,6 +70,7 @@ APPS = {
         "modules": [
             SHARED / "a11y.js",
             SHARED / "devices.js",
+            SHARED / "ei-guide.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",
@@ -124,6 +126,7 @@ APPS = {
         "modules": [
             SHARED / "a11y.js",
             SHARED / "devices.js",
+            SHARED / "ei-guide.js",
             SHARED / "hands.js",
             SHARED / "kit.js",
             SHARED / "game.js",

@@ -387,6 +387,14 @@
   .res-grid>div{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:9px 11px }
   .res-grid dt{ font-family:var(--cond); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
   .res-grid dd{ margin:3px 0 0; font-family:var(--cond); font-weight:700; font-size:22px; font-variant-numeric:tabular-nums; line-height:1 }
+  .res-guide{ color:var(--accent) !important; font-style:italic }
+  .res-checkin{ margin:10px 0 12px; padding:10px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; background:rgba(255,255,255,.04) }
+  .res-checkin-q{ font-size:13px; margin:0 0 8px }
+  .res-checkin-row{ display:flex; flex-wrap:wrap; gap:6px }
+  .res-checkin-row button{ font:inherit; font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.22); background:transparent; color:inherit; cursor:pointer }
+  .res-checkin-row button.picked{ background:var(--accent); color:#06121a; border-color:var(--accent) }
+  .res-checkin-row button:disabled:not(.picked){ opacity:.45; cursor:default }
+  .res-checkin-reply{ font-size:12px; margin:8px 0 0; min-height:1em; opacity:.9 }
   .res-badges{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px }
   .res-badge{ background:linear-gradient(180deg, rgba(242,193,75,.14), rgba(242,193,75,.06)); border:1px solid rgba(242,193,75,.28);
     border-left:3px solid var(--warn); border-radius:8px;
@@ -716,6 +724,91 @@ function themeScene(profile, scene, stageRoot, THREE) {
 function describeDevice(device, profile) {
   return `${device.brand === "—" ? device.product : `${device.brand} ${device.product}`} — ${profile.label.toLowerCase()} profile (${device.how}).`;
 }
+
+
+/* ===== shared/ei-guide.js ===== */
+// The guide's emotional intelligence: what it says when a learner strikes a
+// hazard, misses an interruption, answers one wrong, or finishes a run — and
+// the check-in it offers at the end.
+//
+// The engine already scores. This layer decides the tone of what is said
+// around the score, and it follows the rules a good peer-support trainer
+// follows: name what happened in one plain sentence, say what to do next,
+// never blame, never minimise, and after a hard run ask how the person is
+// and point at the real support line. Every line is short enough to be
+// spoken by the voice assist without covering the next step.
+//
+// A first responder who just missed a Mayday in a simulation does not need
+// "Unsafe action detected". They need "You missed the Mayday while the line
+// was stretched. Next time, the radio wins. Reset and go again." The same is
+// true of an apprentice who touched a live bus.
+
+const EI_HAZARD = [
+  "That one would have hurt someone. Take a breath, look at what you reached for, and go again from the step.",
+  "Stop there. That is the reach the procedure exists to prevent. The step is still open — take it the right way.",
+  "That is an unsafe action, and it is why we practise here and not on the job. Reset your hands and finish the step.",
+];
+const EI_HAZARD_AGAIN = [
+  "Twice on the same thing. That usually means the setup is wrong, not the hands — look at where you are standing before the next move.",
+  "Same trap again. Slow down: read the cue, find the control, then act. There is no clock on this that matters more than the order.",
+];
+const EI_MISSED = [
+  "You missed it — the {kind} came while your hands were busy, which is exactly when it comes on the job. Next time the alarm wins.",
+  "That {kind} went unanswered. Nobody notices the first one; the training is so you notice the second.",
+];
+const EI_WRONG = [
+  "You answered the {kind}, but with the wrong control. The right one is separate from what you were holding — that separation is the lesson.",
+  "Right instinct, wrong control. Look for the one that is not the thing in your hands.",
+];
+const EI_FINISH_CLEAN = [
+  "Clean run. You caught every interruption and touched nothing you should not have. That is the standard — keep it.",
+];
+const EI_FINISH_ROUGH = [
+  "Finished, with some unsafe actions on the sheet. That is what the sheet is for. Read the debrief before you run it again.",
+];
+
+const eiPick = (list, idx) => list[Math.abs(idx || 0) % list.length];
+
+/** The guide's line for a moment. `ctx.kind` names the interruption kind
+ *  ("alarm", "person in the wrong place"); `ctx.count` how many hazards so
+ *  far this run; `ctx.clean` for a finish. */
+function eiLine(moment, ctx = {}) {
+  const kind = ctx.kind || "interruption";
+  switch (moment) {
+    case "hazard": return (ctx.count ?? 1) >= 2 ? eiPick(EI_HAZARD_AGAIN, ctx.count) : eiPick(EI_HAZARD, ctx.seed ?? 0);
+    case "missed": return eiPick(EI_MISSED, ctx.seed ?? 0).replace("{kind}", kind);
+    case "wrong": return eiPick(EI_WRONG, ctx.seed ?? 0).replace("{kind}", kind);
+    case "finish": return ctx.clean ? EI_FINISH_CLEAN[0] : EI_FINISH_ROUGH[0];
+    default: return "";
+  }
+}
+
+/** The end-of-run check-in. Three answers, none scored, one supportive line
+ *  each; a hard run (hazards or missed interruptions) adds the support
+ *  pointer. The department's or local's own line goes in `supportLine`. */
+const CHECKIN_OPTIONS = [
+  { id: "steady", label: "Steady", reply: "Good. Take the debrief with you." },
+  { id: "shaken", label: "A bit shaken", reply: "That is a normal reaction to a run that felt real. Give it a minute before the next one." },
+  { id: "minute", label: "Need a minute", reply: "Take it. The station will be here. If it stays with you, say so to someone — that is what peer support is for." },
+];
+
+function checkInPrompt({ rough = false, supportLine = "your local's peer-support team or EAP line" } = {}) {
+  return rough
+    ? `How are you doing after that one? There is no score on this question. If it stayed with you, ${supportLine} is the right call, and there is no penalty for making it.`
+    : "How are you doing after that run? There is no score on this question.";
+}
+
+const EI_KEY = "smartcitix-checkins-v1";
+/** Record a check-in in the learner's own browser only (never transmitted). */
+function recordCheckIn(entry) {
+  try {
+    const list = JSON.parse(localStorage.getItem(EI_KEY) || "[]");
+    list.push({ ...entry, at: new Date().toISOString() });
+    localStorage.setItem(EI_KEY, JSON.stringify(list.slice(-200)));
+    return true;
+  } catch { return false; }
+}
+function checkIns() { try { return JSON.parse(localStorage.getItem(EI_KEY) || "[]"); } catch { return []; } }
 
 
 /* ===== shared/hands.js ===== */
@@ -14976,6 +15069,132 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bridge-cable-inspection",
+    "index": "185",
+    "domain": "Construction",
+    "trade": "Ironworker — bridge inspection, with the owner's inspector",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers (IW) bridge inspection crew; OSHA 29 CFR 1926 Subpart M fall protection and ANSI/ASSP Z359 fall-arrest systems for 100% tie-off on a moving platform; the National Bridge Inspection Standards (23 CFR 650 Subpart C) and the AASHTO Manual for Bridge Evaluation governing suspender-rope condition rating and the wire-rope rejection criteria",
+    "name": "Bridge Cable Inspection",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bridge Cable Inspection VR",
+    "tagline": "A suspender rope walked from the traveller: two lanyards live, the brakes set, the wires counted against the rejection criterion, and the finding photographed before the report is signed",
+    "accent": 8366271,
+    "accentCss": "#7fa8bf",
+    "parSeconds": 310,
+    "badge": {
+      "id": "rope-cleared",
+      "name": "Rope Cleared",
+      "note": "A suspender rope inspected from the traveller, start to finish, with two lanyards live and the wire count against the rejection criterion"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bridge Inspection Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Cable Rider",
+        "Rope Inspector",
+        "Lead Inspector",
+        "Bridge Inspection Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bridge-lead-containment",
+    "index": "186",
+    "domain": "Construction",
+    "trade": "Bridge painter — IUPAT",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT bridge painters; OSHA 29 CFR 1926.62 lead in construction, including baseline and periodic blood-lead surveillance; SSPC-QP 2 certified lead-paint removal contractor and the SSPC-SP 10 near-white blast standard; OSHA 1910.134 respiratory protection and annual fit testing; 40 CFR 261 (RCRA) characteristic hazardous waste D008 for lead-paint debris",
+    "name": "Bridge Lead Containment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bridge Lead Containment VR",
+    "tagline": "A truss bay fully contained over open water: pressure proven, the respirator fit-tested against the blood-lead programme, blasted to standard, and the lead waste labelled and staged before the air sample comes off the line",
+    "accent": 13602634,
+    "accentCss": "#cf8f4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "truss-contained",
+      "name": "Truss Contained",
+      "note": "A lead-paint containment on a truss bay held start to finish on measured numbers — fit test, negative pressure, profile and the waste manifest — with nothing reaching the water below"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bridge Coatings Authority",
+      "currency": "COAT",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Competent Person",
+        "Coatings Foreman",
+        "Bridge Coatings Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "deck-joint-replacement",
+    "index": "187",
+    "domain": "Construction",
+    "trade": "Ironworker with IUOE and LIUNA under a lane closure",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers (IW), IUOE operating engineers and LIUNA laborers; the owner's lane-closure plan built to the Manual on Uniform Traffic Control Devices (MUTCD); OSHA 29 CFR 1926.1153 respirable crystalline silica, Table 1 wet-cutting method for saws",
+    "name": "Deck Joint Replacement",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Deck Joint Replacement VR",
+    "tagline": "An expansion joint replaced under a lane closure: the MUTCD taper and arrow board set, the cut run wet, the new joint torqued and levelled, and the header poured before the closure comes up in reverse",
+    "accent": 10134701,
+    "accentCss": "#9aa4ad",
+    "parSeconds": 320,
+    "badge": {
+      "id": "joint-set",
+      "name": "Joint Set",
+      "note": "An expansion joint replaced under a working lane closure — taper held, cut run wet, joint torqued and levelled, header poured true"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Deck Joint Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Flagger",
+        "Deck Hand",
+        "Joint Setter",
+        "Crew Lead",
+        "Deck Joint Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -15330,7 +15549,9 @@ const CURRICULA = [
     summary: "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
     stations: [
       { app: "smartcity", id: "steel-erector", why: "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go." },
-      // slot-bridge-1
+      { app: "smartcity", id: "bridge-cable-inspection", why: "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion." },
+      { app: "smartcity", id: "bridge-lead-containment", why: "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below." },
+      { app: "smartcity", id: "deck-joint-replacement", why: "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it." },
     ],
   },
   {
@@ -15359,6 +15580,22 @@ const CURRICULA = [
       { app: "smartcity", id: "formwork-shoring", why: "The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip." },
       { app: "smartcity", id: "mass-timber-panel-set", why: "The carpenters' own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go." },
       { app: "smartcity", id: "masonry-silica-scaffold", why: "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1." },
+    ],
+  },
+  {
+    id: "first-responders",
+    name: "First Responders — Fire, EMS, Police, Crisis and Relief",
+    union: "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce",
+    certification: "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
+    summary: "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
+    accent: "#f0645b",
+    stations: [
+      { app: "smartcity", id: "triage-point", why: "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you." },
+      // slot-fr-1
+      // slot-fr-2
+      // slot-fr-3
+      // slot-fr-4
+      // slot-fr-5
     ],
   },
   {
@@ -16857,10 +17094,26 @@ async function enterSim(id, { briefed = false } = {}) {
       kbCursor.set(targetsForStep({ target: it.target }));
       observer.hazard({ hazardId: it.id, note: it.alert ?? "", ...observerSnapshot() });
     },
-    onInterruptEnd: (it) => { state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {})); },
+    onInterruptEnd: (it) => {
+      state.api?.onInterruptEnd?.(it, state.session); hideAlarm(); kbCursor.set(targetsForStep(state.session?.step ?? {}));
+      // The guide speaks to a missed or mis-answered interruption the way a
+      // peer-support trainer would: what happened, what wins next time, no
+      // blame. An answered one needs nothing said — the scene already showed it.
+      if (it.resolved === "missed" || it.resolved === "wrong") {
+        const line = eiLine(it.resolved, { kind: it.kind, seed: state.session?.interruptLog?.length ?? 0 });
+        setRail("warn", line);
+        announce(line);
+      }
+    },
     onHazard: (hitId, s) => {
       state.api.onHazard?.(hitId, s);
       observer.hazard({ hazardId: hitId, note: room.hazards?.[hitId] ?? "", ...observerSnapshot() });
+      // The hazard text itself is spoken by the station's own call-out; the
+      // guide adds its line after the first repeat, when the setup — not the
+      // hands — is usually what is wrong.
+      const count = s.hazardHits | 0;
+      if (count >= 2) announce(eiLine("hazard", { count, seed: count }));
+      else setRail("warn", eiLine("hazard", { count: 1, seed: s.errors | 0 }));
     },
     onFinish: (s, summary) => {
       observer.finish({
@@ -16989,6 +17242,7 @@ function showResults(s, summary) {
       ? `<p class="res-note"><b>New #${s.leaderboard.rank} on the local leaderboard</b> for ${escapeHtml(room.title)}, crew tag ${escapeHtml(Progress.playerName)}.</p>`
       : ""}
     ${renderDebrief(s)}
+    ${renderCheckIn(s)}
     ${state.tour ? renderTourFooter() : ""}`;
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
@@ -17028,6 +17282,38 @@ function showResults(s, summary) {
     (earnedNames.length ? ` ${earnedNames.map((a) => a.name).join(", ")} earned.` : "") +
     (s.leaderboard?.madeBoard ? ` New number ${s.leaderboard.rank} on the local leaderboard.` : ""));
 }
+
+/** The guide's closing line and the end-of-run check-in. The check-in is
+ * never scored and never leaves the learner's browser; a rough run (a hazard
+ * hit or a missed interruption) adds the pointer to real peer support. */
+function renderCheckIn(s) {
+  const missed = s.interruptLog?.some((l) => l.outcome === "missed") ?? false;
+  const rough = (s.hazardHits | 0) > 0 || missed;
+  const support = s.room.supportLine ?? SIMS_META_BY_ID[s.room.baseId ?? s.room.id]?.supportLine;
+  return `
+    <p class="res-note res-guide">${escapeHtml(eiLine("finish", { clean: !rough }))}</p>
+    <div class="res-checkin" data-rough="${rough ? 1 : 0}">
+      <p class="res-checkin-q">${escapeHtml(checkInPrompt({ rough, supportLine: support }))}</p>
+      <div class="res-checkin-row">${CHECKIN_OPTIONS.map((o) =>
+        `<button type="button" data-checkin="${o.id}" data-sim="${escapeHtml(s.room.id)}">${escapeHtml(o.label)}</button>`).join("")}</div>
+      <p class="res-checkin-reply" aria-live="polite"></p>
+    </div>`;
+}
+
+// The results card is plain HTML inside the React overlay, so the check-in
+// buttons are handled by delegation; one answer per card, remembered locally.
+addEventListener("click", (e) => {
+  const btn = e.target?.closest?.("#results-body [data-checkin]");
+  if (!btn) return;
+  const opt = CHECKIN_OPTIONS.find((o) => o.id === btn.dataset.checkin);
+  if (!opt) return;
+  const box = btn.closest(".res-checkin");
+  recordCheckIn({ simId: btn.dataset.sim, choice: opt.id, rough: box?.dataset.rough === "1" });
+  for (const b of box.querySelectorAll("[data-checkin]")) { b.disabled = true; b.classList.toggle("picked", b === btn); }
+  const reply = box.querySelector(".res-checkin-reply");
+  if (reply) reply.textContent = opt.reply;
+  announce(opt.reply);
+});
 
 /** Progress line shown on the results card while a guided tour is running. */
 function renderTourFooter() {

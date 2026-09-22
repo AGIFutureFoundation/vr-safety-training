@@ -387,6 +387,14 @@
   .res-grid>div{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:8px; padding:9px 11px }
   .res-grid dt{ font-family:var(--cond); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
   .res-grid dd{ margin:3px 0 0; font-family:var(--cond); font-weight:700; font-size:22px; font-variant-numeric:tabular-nums; line-height:1 }
+  .res-guide{ color:var(--accent) !important; font-style:italic }
+  .res-checkin{ margin:10px 0 12px; padding:10px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; background:rgba(255,255,255,.04) }
+  .res-checkin-q{ font-size:13px; margin:0 0 8px }
+  .res-checkin-row{ display:flex; flex-wrap:wrap; gap:6px }
+  .res-checkin-row button{ font:inherit; font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.22); background:transparent; color:inherit; cursor:pointer }
+  .res-checkin-row button.picked{ background:var(--accent); color:#06121a; border-color:var(--accent) }
+  .res-checkin-row button:disabled:not(.picked){ opacity:.45; cursor:default }
+  .res-checkin-reply{ font-size:12px; margin:8px 0 0; min-height:1em; opacity:.9 }
   .res-badges{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px }
   .res-badge{ background:linear-gradient(180deg, rgba(242,193,75,.14), rgba(242,193,75,.06)); border:1px solid rgba(242,193,75,.28);
     border-left:3px solid var(--warn); border-radius:8px;
