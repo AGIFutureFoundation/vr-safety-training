@@ -393,7 +393,9 @@ export const CURRICULA = [
       // slot-fr-2
       // slot-fr-3
       // slot-fr-4
-      // slot-fr-5
+      { app: "smartcity", id: "shelter-intake-operations", why: "The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real." },
+      { app: "smartcity", id: "damage-assessment-team", why: "The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it." },
+      { app: "smartcity", id: "psychological-first-aid", why: "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted." },
     ],
   },
   {

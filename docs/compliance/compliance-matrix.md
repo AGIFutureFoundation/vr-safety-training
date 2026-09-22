@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 205 procedures, 179 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 208 procedures, 180 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -12,7 +12,7 @@ Every station names the union and the certification a worker in that role holds,
 |---|---|
 | 29 CFR 1910.120 | 31: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Community Soil Split, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Container Inspection, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
 | 29 CFR 1910.147 | 30: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Motor Control Center, PCB Equipment Removal, Press Brake, Reefer Yard Monitoring, Robot Cell, Serger and Overlock, Slicer Lockout, Tower Climb, Vapor Mitigation, Wind Nacelle |
-| 29 CFR 1910.1030 | 24: Allergens & Honest Drinks, Chairside Emergency, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Housekeeping Room Turn, Ice Well Breakage, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Spiked Drink Response, Triage Point, Ultrasonic Scaling |
+| 29 CFR 1910.1030 | 25: Allergens & Honest Drinks, Chairside Emergency, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Housekeeping Room Turn, Ice Well Breakage, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Shelter Intake Operations, Spiked Drink Response, Triage Point, Ultrasonic Scaling |
 | NIOSH | 22: Alteration Repair Ticket, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
 | 29 CFR 1926 | 19: Aerial Lashing, Arena Rigging, Bioswale Build, Bridge Cable Inspection, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Formwork Shoring, Hot Tap, Living Shoreline, Masonry Silica Scaffold, Mass Timber Panel Set, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
 | NFPA 70E | 19: Arc-Flash Label Study, Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Elevator Pit, Isolation Bay, Motor Control Center, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
@@ -102,6 +102,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1926.1425 | 1: Mass Timber Panel Set |
 | 29 CFR 1926.404 | 1: Temporary Site Power |
 | 29 CFR 1926.405 | 1: Temporary Site Power |
+| 29 CFR 1926.416 | 1: Damage Assessment Team |
 | 29 CFR 1926.454 | 1: Scaffold Erection |
 | 29 CFR 1926.501 | 1: Mass Timber Panel Set |
 | 29 CFR 1926.502 | 1: Mast Climber |
@@ -506,6 +507,9 @@ Every station names the union and the certification a worker in that role holds,
 | Station | Trade | Standards cited |
 |---|---|---|
 | Triage Point | EMT / paramedic | 29 CFR 1910.1030, NFPA 1006 |
+| Shelter Intake Operations | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | 29 CFR 1910.1030 |
+| Damage Assessment Team | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | 29 CFR 1926.416 |
+| Psychological First Aid | Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce | — |
 
 ### Situational Awareness — Interruption Drill
 
@@ -581,6 +585,9 @@ Every station names the union and the certification a worker in that role holds,
 - Stage Power (smartcity): NFPA 70E
 - Container Lashing (smartcity): 29 CFR 1918
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Psychological First Aid (smartcity): none
+- Damage Assessment Team (smartcity): 29 CFR 1926.416
+- Shelter Intake Operations (smartcity): 29 CFR 1910.1030
 - Straddle Carrier Ops (smartcity): 29 CFR 1918
 - Discharge Photo Doc (smartcity): 29 CFR 1910.132
 - Shoreline Sediment Grab (smartcity): none

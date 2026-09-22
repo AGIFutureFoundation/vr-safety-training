@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 196
+      "stations": 199
     },
     "trades": {
       "entry": "trades/index.html",
@@ -103,6 +103,9 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "psychological-first-aid",
+        "damage-assessment-team",
+        "shelter-intake-operations",
         "ev-extrication",
         "hazmat-entry"
       ]
@@ -1466,6 +1469,21 @@
           "app": "smartcity",
           "id": "triage-point",
           "why": "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you."
+        },
+        {
+          "app": "smartcity",
+          "id": "shelter-intake-operations",
+          "why": "The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real."
+        },
+        {
+          "app": "smartcity",
+          "id": "damage-assessment-team",
+          "why": "The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it."
+        },
+        {
+          "app": "smartcity",
+          "id": "psychological-first-aid",
+          "why": "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5808,6 +5826,252 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "psychological-first-aid",
+      "name": "Psychological First Aid",
+      "title": "SmartCiti.X~ Psychological First Aid VR",
+      "tagline": "A family assistance centre run on look, listen, link: practical needs met first, a person's own words reflected, honest information, a child kept with their parent, a real referral, and the worker's own check-in after",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+      "union": null,
+      "certification": "Psychological First Aid as WHO and the National Child Traumatic Stress Network (NCTSN) publish it — look, listen, link — run here at a family assistance centre inside a NIMS/ICS structure (FEMA IS-100/IS-700); the NASW Code of Ethics and SAMHSA's trauma-informed care principles for the boundary between peer support and therapy; Title II of the ADA for the centre's own accessibility; the HIPAA baseline for any health information shared at the desk; the American Red Cross's Disaster Mental Health program and the AFSCME, LIUNA and SEIU-represented crews who staff a centre like this alongside it",
+      "accent": "#9fb8d8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "hold",
+        "select",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "held-with-care",
+        "name": "Held With Care",
+        "note": "Look, listen and link run clean, practical needs met first, and the boundary between support and therapy never crossed"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "211",
+      "flat": false,
+      "system": "Family Assistance",
+      "currency": "SUPPORT",
+      "ranks": [
+        "Centre Volunteer",
+        "PFA Trained",
+        "Family Support Lead",
+        "Centre Coordinator",
+        "Psychological First Aid Certified"
+      ],
+      "awards": [
+        {
+          "id": "needs-first",
+          "name": "Needs First",
+          "note": "Water, phone and a chair offered before anything emotional was asked"
+        },
+        {
+          "id": "no-diagnosis",
+          "name": "No Diagnosis",
+          "note": "No unsafe or out-of-scope action anywhere in the run"
+        },
+        {
+          "id": "read-it-right",
+          "name": "Read It Right",
+          "note": "Assessed the signs correctly on the first sweep of the dial"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-presence",
+          "name": "Steady Presence",
+          "note": "Held both timed moments the full duration"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=psychological-first-aid"
+    },
+    {
+      "app": "smartcity",
+      "id": "damage-assessment-team",
+      "name": "Damage Assessment Team",
+      "title": "SmartCiti.X~ Damage Assessment Team VR",
+      "tagline": "A post-storm block sweep: buddied and briefed, hazards found from the street, a structure classified and photographed with a GPS point, the resident met and told the truth, an unsafe structure never entered, and the record uploaded",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+      "union": null,
+      "certification": "FEMA's Preliminary Damage Assessment classification for Individual Assistance — affected, minor, major and destroyed — run here under a NIMS/ICS block assignment (FEMA IS-100/IS-700); the National Electrical Safety Code (NESC) rule, matched by OSHA 29 CFR 1926.416, that any downed conductor is treated as energized until the utility itself says otherwise; the American Red Cross's disaster-assessment team protocol pairing every assessor with a buddy and routing every visibly unsafe structure to a qualified inspector instead of a walk-through; the AFSCME and LIUNA safety language covering the disaster-relief crews who run these sweeps",
+      "accent": "#d98f4f",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "sweep-complete",
+        "name": "Sweep Complete",
+        "note": "One structure classified, photographed and logged without a hazard being touched or an unsafe building entered"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "210",
+      "flat": false,
+      "system": "Block Sweep",
+      "currency": "ASSESS",
+      "ranks": [
+        "Assessment Trainee",
+        "Field Assessor",
+        "Team Lead",
+        "Sector Coordinator",
+        "Damage Assessment Certified"
+      ],
+      "awards": [
+        {
+          "id": "clearance-held",
+          "name": "Clearance Held",
+          "note": "Never closed the gap on the downed line before it was called in"
+        },
+        {
+          "id": "never-inside",
+          "name": "Never Inside",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "classification-true",
+          "name": "Classification True",
+          "note": "Called the structure's category on the first sweep of the dial"
+        },
+        {
+          "id": "clean-sweep",
+          "name": "Clean Sweep",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-buddy",
+          "name": "Steady Buddy",
+          "note": "Held both timed watches the full duration"
+        },
+        {
+          "id": "one-pass",
+          "name": "One Pass",
+          "note": "Classified, documented and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=damage-assessment-team"
+    },
+    {
+      "app": "smartcity",
+      "id": "shelter-intake-operations",
+      "name": "Shelter Intake Operations",
+      "title": "SmartCiti.X~ Shelter Intake Operations VR",
+      "tagline": "Opening a school-gym shelter: ICS check-in, private registration, intake asked once and gently, needs flagged to health, cots at spacing, family kept together, a pet area and a quiet room, and a real handover",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+      "union": null,
+      "certification": "NIMS/ICS through FEMA IS-100 and IS-700, worked here as the shelter's own check-in structure; the American Red Cross's shelter operations standards for registration, cot spacing and pet co-location; Title II of the ADA for the access and functional needs of residents with disabilities; OSHA 29 CFR 1910.1030 bloodborne pathogens for any first aid contact at intake; the AFSCME and LIUNA safety language covering the disaster-relief crews who staff these shelters alongside Red Cross volunteers",
+      "accent": "#5ec9a0",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "sequence",
+        "drag",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "shelter-open",
+        "name": "Shelter Open",
+        "note": "Every resident registered with dignity, every need flagged, the floor run clean, and a real count handed to the next shift"
+      },
+      "meshes": 285,
+      "lights": 0,
+      "overBudget": false,
+      "index": "209",
+      "flat": false,
+      "system": "Shelter Ops",
+      "currency": "REGISTER",
+      "ranks": [
+        "Shelter Volunteer",
+        "Registration Trained",
+        "Floor Lead",
+        "Shelter Manager",
+        "Shelter Ops Certified"
+      ],
+      "awards": [
+        {
+          "id": "asked-once",
+          "name": "Asked Once",
+          "note": "Every intake question asked once, in order, never repeated"
+        },
+        {
+          "id": "nobody-exposed",
+          "name": "Nobody Exposed",
+          "note": "No unsafe or undignified action anywhere in the run"
+        },
+        {
+          "id": "spacing-held",
+          "name": "Spacing Held",
+          "note": "Cot spacing set inside the standard's band on the first try"
+        },
+        {
+          "id": "clean-open",
+          "name": "Clean Open",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-floor",
+          "name": "Steady Floor",
+          "note": "Held the floor watch without losing the count"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=shelter-intake-operations"
     },
     {
       "app": "smartcity",
@@ -13416,7 +13680,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -14075,7 +14339,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
