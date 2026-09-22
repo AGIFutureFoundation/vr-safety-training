@@ -87,7 +87,7 @@ that README's "One profile, two apps" section.
 ## WebXR training network
 
 Trade Skills Simulator is one of four independent WebXR apps under `WebXR/`. The other
-three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 124 more union-trade
+three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 145 more union-trade
 AR/VR simulators across 15 categories — crane operator, tower climber, lineworker, bay
 restoration crews, kitchen workers, dental hygienists and more, each naming a real union and
 certification requirement — sharing the same apprentice profile as Trade Skills Simulator; the

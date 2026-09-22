@@ -145,50 +145,6 @@
     },
     {
       "app": "smartcity",
-      "id": "dock-crane",
-      "name": "Dock Crane",
-      "steps": 14,
-      "score": 79,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.455,
-          "medianWhy": 141,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.8775000000000001,
-          "meshes": 131,
-          "materials": 66,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6258555133079848,
-          "nearest": "container-lashing",
-          "similarity": 0.21482889733840305
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "aerial-ladder",
       "name": "Aerial Ladder",
       "steps": 12,
@@ -585,50 +541,6 @@
     },
     {
       "app": "smartcity",
-      "id": "lift-station",
-      "name": "Lift Station",
-      "steps": 10,
-      "score": 81,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.43,
-          "medianWhy": 136,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.75,
-          "authorities": 3
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.7297727272727272,
-          "meshes": 91,
-          "materials": 52,
-          "interactables": 19
-        },
-        "originality": {
-          "score": 0.5818565400843884,
-          "nearest": "valve-vault",
-          "similarity": 0.22362869198312235
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "decon-line",
       "name": "Decon Line",
       "steps": 11,
@@ -712,6 +624,50 @@
           "score": 0.7824468085106384,
           "nearest": "battery-yard",
           "similarity": 0.18351063829787234
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "name": "Dock Crane",
+      "steps": 14,
+      "score": 83,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.455,
+          "medianWhy": 141,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8775000000000001,
+          "meshes": 131,
+          "materials": 66,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6258555133079848,
+          "nearest": "container-lashing",
+          "similarity": 0.21482889733840305
         }
       }
     },
@@ -888,6 +844,50 @@
           "score": 0.7239043824701197,
           "nearest": "pressure-washer",
           "similarity": 0.1952191235059761
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "lift-station",
+      "name": "Lift Station",
+      "steps": 10,
+      "score": 85,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.43,
+          "medianWhy": 136,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.7297727272727272,
+          "meshes": 91,
+          "materials": 52,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.5818565400843884,
+          "nearest": "valve-vault",
+          "similarity": 0.22362869198312235
         }
       }
     },
@@ -1377,50 +1377,6 @@
     },
     {
       "app": "smartcity",
-      "id": "allergen-control",
-      "name": "Allergen Control",
-      "steps": 12,
-      "score": 86,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 6,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.25,
-          "authorities": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9149999999999999,
-          "meshes": 146,
-          "materials": 84,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.6544688026981451,
-          "nearest": "grill-line-burns",
-          "similarity": 0.209106239460371
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "pyro-cue",
       "name": "Pyro Cue",
       "steps": 15,
@@ -1531,7 +1487,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -1548,6 +1504,50 @@
           "score": 0.9616822429906543,
           "nearest": "isco-injection",
           "similarity": 0.14766355140186915
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "wvpp-panic-button",
+      "name": "WVPP & Panic Button",
+      "steps": 13,
+      "score": 87,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.875,
+          "medianWhy": 225,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.5,
+          "authorities": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9249999999999999,
+          "meshes": 150,
+          "materials": 63,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6481946624803769,
+          "nearest": "patron-deescalation",
+          "similarity": 0.21036106750392464
         }
       }
     },
@@ -1592,50 +1592,6 @@
           "score": 0.6464882943143814,
           "nearest": "ammonia-plant",
           "similarity": 0.21070234113712374
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "forklift-dock",
-      "name": "Forklift Dock",
-      "steps": 12,
-      "score": 88,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.56,
-          "medianWhy": 162,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.75,
-          "authorities": 3
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.985,
-          "meshes": 174,
-          "materials": 74,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.8228070175438598,
-          "nearest": "aerial-ladder",
-          "similarity": 0.17543859649122806
         }
       }
     },
@@ -1721,53 +1677,53 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.676109215017065,
-          "nearest": "ammonia-plant",
-          "similarity": 0.20477815699658702
+          "score": 0.6528795811518325,
+          "nearest": "keg-cellar-co2",
+          "similarity": 0.2094240837696335
         }
       }
     },
     {
       "app": "smartcity",
-      "id": "operatory-turnover",
-      "name": "Operatory Turnover",
-      "steps": 12,
+      "id": "tip-pool-labor",
+      "name": "Tip Pool & Labor",
+      "steps": 14,
       "score": 89,
       "d": {
         "variety": {
-          "score": 0.8500000000000001,
-          "distinct": 5,
-          "longestRun": 2
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
         },
         "decisions": {
-          "score": 0.9333333333333333,
+          "score": 0.95,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 286,
+          "medianWhy": 255,
           "thin": 0
         },
         "grounding": {
-          "score": 0.75,
-          "authorities": 3
+          "score": 0.5,
+          "authorities": 2
         },
         "feedback": {
           "score": 1,
-          "want": 8,
-          "got": 8
+          "want": 10,
+          "got": 10
         },
         "scene": {
-          "score": 0.9375,
-          "meshes": 155,
-          "materials": 101,
-          "interactables": 23
+          "score": 1,
+          "meshes": 212,
+          "materials": 72,
+          "interactables": 26
         },
         "originality": {
-          "score": 0.493929712460064,
-          "nearest": "instrument-reprocessing",
-          "similarity": 0.24121405750798722
+          "score": 0.6031339031339031,
+          "nearest": "till-drop-robbery",
+          "similarity": 0.21937321937321938
         }
       }
     },
@@ -1904,138 +1860,6 @@
       }
     },
     {
-      "app": "smartcity",
-      "id": "grease-trap",
-      "name": "Grease Trap",
-      "steps": 14,
-      "score": 90,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9850000000000001,
-          "medianWhy": 247,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9400000000000001,
-          "meshes": 156,
-          "materials": 78,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.6862068965517243,
-          "nearest": "fryer-oil-change",
-          "similarity": 0.20275862068965517
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "amalgam-waste-handling",
-      "name": "Amalgam Waste Handling",
-      "steps": 14,
-      "score": 90,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.85,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.75,
-          "authorities": 3
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9140909090909092,
-          "meshes": 152,
-          "materials": 79,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.6880952380952382,
-          "nearest": "grease-trap",
-          "similarity": 0.20238095238095238
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "nitrous-oxide-monitoring",
-      "name": "Nitrous Oxide Monitoring",
-      "steps": 13,
-      "score": 90,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 327,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.8847727272727273,
-          "meshes": 153,
-          "materials": 73,
-          "interactables": 19
-        },
-        "originality": {
-          "score": 0.7310650887573966,
-          "nearest": "isco-injection",
-          "similarity": 0.1937869822485207
-        }
-      }
-    },
-    {
       "app": "trades",
       "id": "devops",
       "name": "Deploy Bay",
@@ -2125,15 +1949,15 @@
     },
     {
       "app": "smartcity",
-      "id": "sharps-exposure-response",
-      "name": "Sharps Exposure Response",
-      "steps": 11,
+      "id": "forklift-dock",
+      "name": "Forklift Dock",
+      "steps": 12,
       "score": 91,
       "d": {
         "variety": {
-          "score": 0.8500000000000001,
-          "distinct": 5,
-          "longestRun": 2
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 1
         },
         "decisions": {
           "score": 1,
@@ -2141,13 +1965,13 @@
           "interrupts": 2
         },
         "explanation": {
-          "score": 0.98,
-          "medianWhy": 246,
+          "score": 0.56,
+          "medianWhy": 162,
           "thin": 0
         },
         "grounding": {
-          "score": 0.75,
-          "authorities": 3
+          "score": 1,
+          "authorities": 4
         },
         "feedback": {
           "score": 1,
@@ -2155,59 +1979,15 @@
           "got": 10
         },
         "scene": {
-          "score": 0.8931818181818181,
-          "meshes": 150,
-          "materials": 82,
-          "interactables": 20
+          "score": 0.985,
+          "meshes": 174,
+          "materials": 74,
+          "interactables": 24
         },
         "originality": {
-          "score": 0.7594059405940595,
-          "nearest": "operatory-turnover",
-          "similarity": 0.18811881188118812
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "chairside-emergency",
-      "name": "Chairside Emergency",
-      "steps": 12,
-      "score": 91,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 294,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.5,
-          "authorities": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9425,
-          "meshes": 157,
-          "materials": 79,
-          "interactables": 29
-        },
-        "originality": {
-          "score": 0.77202216066482,
-          "nearest": "nitrous-oxide-monitoring",
-          "similarity": 0.18559556786703602
+          "score": 0.8228070175438598,
+          "nearest": "aerial-ladder",
+          "similarity": 0.17543859649122806
         }
       }
     },
@@ -2367,7 +2147,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "feedback": {
           "score": 0.9230769230769231,
@@ -2564,6 +2344,50 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "till-drop-robbery",
+      "name": "Till Drop & Robbery Response",
+      "steps": 15,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.97,
+          "medianWhy": 244,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 183,
+          "materials": 81,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6031339031339031,
+          "nearest": "tip-pool-labor",
+          "similarity": 0.21937321937321938
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "pressure-washer",
       "name": "Wash-Down Yard",
@@ -2675,7 +2499,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "feedback": {
           "score": 1,
@@ -2692,6 +2516,50 @@
           "score": 0.6258555133079848,
           "nearest": "dock-crane",
           "similarity": 0.21482889733840305
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "id-check-underage",
+      "name": "Checking ID",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.7875000000000001,
+          "distinct": 5,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9375,
+          "meshes": 155,
+          "materials": 48,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5929088277858177,
+          "nearest": "rbs-service-capstone",
+          "similarity": 0.22141823444283648
         }
       }
     },
@@ -2719,7 +2587,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -2763,7 +2631,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -2807,7 +2675,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -2829,89 +2697,89 @@
     },
     {
       "app": "smartcity",
-      "id": "dish-pit",
-      "name": "Dish Pit",
-      "steps": 13,
+      "id": "operatory-turnover",
+      "name": "Operatory Turnover",
+      "steps": 12,
       "score": 93,
       "d": {
         "variety": {
-          "score": 0.9375,
-          "distinct": 6,
-          "longestRun": 3
+          "score": 0.8500000000000001,
+          "distinct": 5,
+          "longestRun": 2
         },
         "decisions": {
-          "score": 1,
+          "score": 0.9333333333333333,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 294,
+          "medianWhy": 286,
           "thin": 0
         },
         "grounding": {
-          "score": 0.75,
-          "authorities": 3
+          "score": 1,
+          "authorities": 5
         },
         "feedback": {
           "score": 1,
-          "want": 13,
-          "got": 13
+          "want": 8,
+          "got": 8
         },
         "scene": {
-          "score": 0.955,
-          "meshes": 162,
-          "materials": 76,
-          "interactables": 26
+          "score": 0.9375,
+          "meshes": 155,
+          "materials": 101,
+          "interactables": 23
         },
         "originality": {
-          "score": 0.515068493150685,
-          "nearest": "fryer-oil-change",
-          "similarity": 0.236986301369863
+          "score": 0.493929712460064,
+          "nearest": "instrument-reprocessing",
+          "similarity": 0.24121405750798722
         }
       }
     },
     {
       "app": "smartcity",
-      "id": "instrument-reprocessing",
-      "name": "Instrument Reprocessing",
+      "id": "amalgam-waste-handling",
+      "name": "Amalgam Waste Handling",
       "steps": 14,
       "score": 93,
       "d": {
         "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
         },
         "decisions": {
-          "score": 0.95,
+          "score": 0.85,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
-          "score": 1,
-          "medianWhy": 269,
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
           "thin": 0
         },
         "grounding": {
-          "score": 0.75,
-          "authorities": 3
+          "score": 1,
+          "authorities": 4
         },
         "feedback": {
           "score": 1,
-          "want": 10,
-          "got": 10
+          "want": 9,
+          "got": 9
         },
         "scene": {
-          "score": 0.9675,
-          "meshes": 167,
-          "materials": 91,
-          "interactables": 25
+          "score": 0.9140909090909092,
+          "meshes": 152,
+          "materials": 79,
+          "interactables": 21
         },
         "originality": {
-          "score": 0.493929712460064,
-          "nearest": "operatory-turnover",
-          "similarity": 0.24121405750798722
+          "score": 0.6708265802269044,
+          "nearest": "draught-line-cleaning",
+          "similarity": 0.20583468395461912
         }
       }
     },
@@ -3085,9 +2953,9 @@
           "interactables": 19
         },
         "originality": {
-          "score": 0.9598187311178249,
-          "nearest": "instrument-reprocessing",
-          "similarity": 0.14803625377643503
+          "score": 0.8947291361639825,
+          "nearest": "bar-well-setup",
+          "similarity": 0.16105417276720352
         }
       }
     },
@@ -3137,6 +3005,226 @@
     },
     {
       "app": "smartcity",
+      "id": "allergen-cocktail",
+      "name": "Allergens & Honest Drinks",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.845,
+          "medianWhy": 219,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 69,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.6381270903010035,
+          "nearest": "allergen-control",
+          "similarity": 0.21237458193979933
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "patron-deescalation",
+      "name": "Patron De-escalation",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 188,
+          "materials": 57,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.57987012987013,
+          "nearest": "cutoff-overservice",
+          "similarity": 0.22402597402597402
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "spiked-drink-response",
+      "name": "Spiked Drink Response",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8400000000000001,
+          "medianWhy": 218,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 64,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5640132669983418,
+          "nearest": "cutoff-overservice",
+          "similarity": 0.22719734660033167
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cutoff-overservice",
+      "name": "Cut-Off / Overservice",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.865,
+          "medianWhy": 223,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.99,
+          "meshes": 176,
+          "materials": 77,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5640132669983418,
+          "nearest": "spiked-drink-response",
+          "similarity": 0.22719734660033167
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "fluoride-and-sealants",
+      "name": "Fluoride and Sealants",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.875,
+          "distinct": 6,
+          "longestRun": 4
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9225,
+          "meshes": 149,
+          "materials": 73,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6726918075422628,
+          "nearest": "pediatric-visit",
+          "similarity": 0.20546163849154747
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "bakery-mixer",
       "name": "Bakery Mixer",
       "steps": 14,
@@ -3159,7 +3247,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -3555,7 +3643,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -3572,6 +3660,182 @@
           "score": 0.704424778761062,
           "nearest": "dredge-barge",
           "similarity": 0.19911504424778761
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rbs-service-capstone",
+      "name": "RBS Service Capstone",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.95,
+          "medianWhy": 240,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 63,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5745980707395499,
+          "nearest": "cutoff-overservice",
+          "similarity": 0.22508038585209003
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "jigger-pour-spec",
+      "name": "Pouring to Spec",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9115909090909091,
+          "meshes": 151,
+          "materials": 53,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.45928677563150083,
+          "nearest": "bar-well-setup",
+          "similarity": 0.24814264487369986
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "aerosol-management",
+      "name": "Aerosol Management",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 333,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.95,
+          "meshes": 160,
+          "materials": 73,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5973384030418252,
+          "nearest": "ultrasonic-scaling",
+          "similarity": 0.22053231939163498
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ultrasonic-scaling",
+      "name": "Ultrasonic Scaling",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 369,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 78,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5973384030418252,
+          "nearest": "aerosol-management",
+          "similarity": 0.22053231939163498
         }
       }
     },
@@ -3599,7 +3863,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -3616,6 +3880,94 @@
           "score": 0.515068493150685,
           "nearest": "dish-pit",
           "similarity": 0.236986301369863
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "sharps-exposure-response",
+      "name": "Sharps Exposure Response",
+      "steps": 11,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.8500000000000001,
+          "distinct": 5,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.98,
+          "medianWhy": 246,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8931818181818181,
+          "meshes": 150,
+          "materials": 82,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.7594059405940595,
+          "nearest": "operatory-turnover",
+          "similarity": 0.18811881188118812
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "chairside-emergency",
+      "name": "Chairside Emergency",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 294,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 79,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.77202216066482,
+          "nearest": "nitrous-oxide-monitoring",
+          "similarity": 0.18559556786703602
         }
       }
     },
@@ -3687,7 +4039,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -3731,7 +4083,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -3775,7 +4127,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -3819,7 +4171,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4237,6 +4589,314 @@
     },
     {
       "app": "smartcity",
+      "id": "draught-line-cleaning",
+      "name": "Draught Line Cleaning",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9200000000000002,
+          "medianWhy": 234,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 198,
+          "materials": 80,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5720538720538721,
+          "nearest": "ice-well-breakage",
+          "similarity": 0.2255892255892256
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ice-well-breakage",
+      "name": "Ice Well Breakage",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.98,
+          "medianWhy": 246,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 188,
+          "materials": 83,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.3932707355242568,
+          "nearest": "bar-well-setup",
+          "similarity": 0.26134585289514867
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "last-call-lockup",
+      "name": "Last Call & Lockup",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.855,
+          "medianWhy": 221,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9625,
+          "meshes": 165,
+          "materials": 64,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6983164983164983,
+          "nearest": "cutoff-overservice",
+          "similarity": 0.20033670033670034
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bar-well-setup",
+      "name": "Opening the Well",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 67,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3932707355242568,
+          "nearest": "ice-well-breakage",
+          "similarity": 0.26134585289514867
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "periodontal-charting",
+      "name": "Periodontal Charting",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.935,
+          "medianWhy": 237,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8825,
+          "meshes": 133,
+          "materials": 56,
+          "interactables": 35
+        },
+        "originality": {
+          "score": 0.7275650842266463,
+          "nearest": "patient-intake-screening",
+          "similarity": 0.19448698315467075
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "radiograph-safety",
+      "name": "Radiograph Safety",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9099999999999999,
+          "medianWhy": 232,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9149999999999999,
+          "meshes": 146,
+          "materials": 62,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.7563380281690142,
+          "nearest": "oral-cancer-screening",
+          "similarity": 0.18873239436619718
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "patient-intake-screening",
+      "name": "Patient Intake Screening",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.885,
+          "meshes": 134,
+          "materials": 67,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5571428571428573,
+          "nearest": "oral-cancer-screening",
+          "similarity": 0.22857142857142856
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "slicer-lockout",
       "name": "Slicer Lockout",
       "steps": 14,
@@ -4259,7 +4919,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "feedback": {
           "score": 1,
@@ -4303,7 +4963,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4320,6 +4980,138 @@
           "score": 0.4831513260530422,
           "nearest": "slicer-lockout",
           "similarity": 0.24336973478939158
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-control",
+      "name": "Allergen Control",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9149999999999999,
+          "meshes": 146,
+          "materials": 84,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6381270903010035,
+          "nearest": "allergen-cocktail",
+          "similarity": 0.21237458193979933
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dish-pit",
+      "name": "Dish Pit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 294,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 76,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.515068493150685,
+          "nearest": "fryer-oil-change",
+          "similarity": 0.236986301369863
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "instrument-reprocessing",
+      "name": "Instrument Reprocessing",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 91,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.493929712460064,
+          "nearest": "operatory-turnover",
+          "similarity": 0.24121405750798722
         }
       }
     },
@@ -4347,7 +5139,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4391,7 +5183,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4523,7 +5315,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4633,6 +5425,94 @@
     },
     {
       "app": "smartcity",
+      "id": "oral-cancer-screening",
+      "name": "Oral Cancer Screening",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 324,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.96,
+          "meshes": 164,
+          "materials": 85,
+          "interactables": 32
+        },
+        "originality": {
+          "score": 0.5571428571428573,
+          "nearest": "patient-intake-screening",
+          "similarity": 0.22857142857142856
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-dental-outreach",
+      "name": "Mobile Dental Outreach",
+      "steps": 15,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 330,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 105,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.713888888888889,
+          "nearest": "operatory-turnover",
+          "similarity": 0.19722222222222222
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "kitchen-gas-shutoff",
       "name": "Kitchen Gas Shutoff",
       "steps": 13,
@@ -4655,7 +5535,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "feedback": {
           "score": 1,
@@ -4699,7 +5579,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4716,6 +5596,50 @@
           "score": 0.5944365192582026,
           "nearest": "grill-line-burns",
           "similarity": 0.2211126961483595
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "grease-trap",
+      "name": "Grease Trap",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9850000000000001,
+          "medianWhy": 247,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 78,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.6862068965517243,
+          "nearest": "fryer-oil-change",
+          "similarity": 0.20275862068965517
         }
       }
     },
@@ -4743,7 +5667,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -4787,7 +5711,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -4796,7 +5720,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 258,
           "materials": 88,
           "interactables": 29
         },
@@ -4831,7 +5755,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -4848,6 +5772,50 @@
           "score": 0.3859838274932617,
           "nearest": "marsh-transect-survey",
           "similarity": 0.2628032345013477
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "nitrous-oxide-monitoring",
+      "name": "Nitrous Oxide Monitoring",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 327,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8847727272727273,
+          "meshes": 153,
+          "materials": 73,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.7310650887573966,
+          "nearest": "isco-injection",
+          "similarity": 0.1937869822485207
         }
       }
     },
@@ -4875,7 +5843,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 7
         },
         "feedback": {
           "score": 1,
@@ -4919,7 +5887,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -5249,6 +6217,94 @@
     },
     {
       "app": "smartcity",
+      "id": "keg-cellar-co2",
+      "name": "Keg Cellar CO2",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 282,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 198,
+          "materials": 78,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.6031770045385779,
+          "nearest": "walk-in-cooler",
+          "similarity": 0.21936459909228442
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pediatric-visit",
+      "name": "Pediatric Visit",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 283,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.95,
+          "meshes": 160,
+          "materials": 80,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6694148936170213,
+          "nearest": "oral-cancer-screening",
+          "similarity": 0.20611702127659576
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "opacity-reading",
       "name": "Opacity Reading",
       "steps": 12,
@@ -5271,7 +6327,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -5315,7 +6371,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 8
         },
         "feedback": {
           "score": 1,
@@ -5359,7 +6415,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -5403,7 +6459,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "feedback": {
           "score": 1,
@@ -5491,7 +6547,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 6
         },
         "feedback": {
           "score": 1,
@@ -5711,7 +6767,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "feedback": {
           "score": 1,

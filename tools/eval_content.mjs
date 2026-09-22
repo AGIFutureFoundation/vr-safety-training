@@ -43,7 +43,11 @@ const KINDS = ["select", "sequence", "find", "gauge", "hold", "track", "turn", "
 // vocabulary the curriculum is built on. Presence of these is a proxy for
 // "this station is anchored to something real" — not proof, but a station
 // with none of them is certainly floating.
-const AUTHORITY = /\b(OSHA|CFR|NFPA|ANSI|ASME|AWWA|ASHRAE|IIAR|AMPP|SSPC|NACE|ISO|SOLAS|IMO|USCG|FRA|EPA|NSF|PTI|ACI|ETCP|SWANA|RETA|NIMS|HAZWOPER|MUTCD|NESC|IBB|IATSE|IBEW|UA|LIUNA|IUOE|IUPAT|SMART|BLET|BCTGM|CWA|IAFF|IAEP|IOMM&P|ILA|IBU|USW|IAM|SMWIA)\b/g;
+// Bodies a station can be grounded in: the trades' codes and unions, and the
+// public-health, food, alcohol and labour bodies the hospitality and dental
+// series answer to — CDC, FDA, CalCode, the ABC and its RBS programme, the
+// Wage Orders, and the hospitality and clinic unions.
+const AUTHORITY = /\b(OSHA|CFR|NFPA|ANSI|ASME|AWWA|ASHRAE|IIAR|AMPP|SSPC|NACE|ISO|SOLAS|IMO|USCG|FRA|EPA|NSF|PTI|ACI|ETCP|SWANA|RETA|NIMS|HAZWOPER|MUTCD|NESC|IBB|IATSE|IBEW|UA|LIUNA|IUOE|IUPAT|SMART|BLET|BCTGM|CWA|IAFF|IAEP|IOMM&P|ILA|IBU|USW|IAM|SMWIA|CDC|NIOSH|FDA|USDA|HIPAA|ADA|ADHA|AAPD|CalCode|ABC|RBS|TTB|IWC|CGA|BCDC|RWQCB|NOAA|USFWS|UNITE HERE|SEIU|AFSCME|UFCW|ILWU)\b/g;
 
 const WORD = /[a-z][a-z'-]{2,}/g;
 const STOP = new Set(("the a an and or but of to in on at for with from by is are was were be been being it its this that these those you your they them their " +

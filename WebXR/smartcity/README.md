@@ -1,7 +1,7 @@
 # SmartCiti.X
 
-AR/VR training simulators across fifteen SmartCiti.X trade-union categories. 124 stations
-exist today — 123 walkable AR/VR procedures and one flat briefing station — each a
+AR/VR training simulators across fifteen SmartCiti.X trade-union categories. 145 stations
+exist today — 144 walkable AR/VR procedures and one flat briefing station — each a
 real ordered procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade. Trade Skills Simulator, `WebXR/trades/`'s own nine

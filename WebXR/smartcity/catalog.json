@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 142
+      "stations": 145
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "rbs-service-capstone",
+        "wvpp-panic-button",
+        "tip-pool-labor",
         "draught-line-cleaning",
         "ice-well-breakage",
         "keg-cellar-co2",
@@ -1062,6 +1065,21 @@
           "app": "smartcity",
           "id": "last-call-lockup",
           "why": "The last hour of the shift as its own procedure: last call on the ABC's clock, the \"one more\" refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together."
+        },
+        {
+          "app": "smartcity",
+          "id": "tip-pool-labor",
+          "why": "The paycheck the drinks pay for: the jar counted in the open, a lawful pool with no manager's hand in it, the breaks and the split shift entered honest, and the steward standing behind the sheet."
+        },
+        {
+          "app": "smartcity",
+          "id": "wvpp-panic-button",
+          "why": "The workplace violence prevention plan proven rather than filed: the panic button tested to dispatch, the hazard walk run before the smoking area goes dark, and the log kept honest enough for the safety committee to trust."
+        },
+        {
+          "app": "smartcity",
+          "id": "rbs-service-capstone",
+          "why": "The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5381,6 +5399,253 @@
     },
     {
       "app": "smartcity",
+      "id": "rbs-service-capstone",
+      "name": "RBS Service Capstone",
+      "title": "SmartCiti.X~ RBS Service Capstone VR",
+      "tagline": "One pass down the rail — an ID check, a cut-off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back",
+      "category": "Culinary & Hospitality",
+      "domain": "Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "The California ABC Responsible Beverage Service Training Program Act — Business and Professions Code §25658 (sale to a minor), §25602 (sale to an obviously intoxicated person) and §25631 (hours of sale); the California Retail Food Code (CalCode) for glassware and ice; the UNITE HERE Local 2 contract's service standards; the county Environmental Health department and the local police non-emergency line as the numbers behind the bar",
+      "accent": "#4fb8c9",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "turn",
+        "track",
+        "gauge",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "rail-certified",
+        "name": "Rail Certified",
+        "note": "Five customers down the rail, every call right, the round poured to spec and the count logged"
+      },
+      "meshes": 182,
+      "lights": 0,
+      "overBudget": false,
+      "index": "145",
+      "flat": false,
+      "system": "Rail Standing",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Rail Trained",
+        "Service Certified",
+        "Shift Lead",
+        "RBS Certified"
+      ],
+      "awards": [
+        {
+          "id": "carded-clean",
+          "name": "Carded Clean",
+          "note": "The ID check answered without a correction"
+        },
+        {
+          "id": "no-over-service",
+          "name": "No Over-Service",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "to-spec",
+          "name": "To Spec",
+          "note": "The jigger pour scored inside the top band"
+        },
+        {
+          "id": "clean-rail",
+          "name": "Clean Rail",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "fast-rail",
+          "name": "Fast Rail",
+          "note": "The whole rail closed inside 80% of par"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rbs-service-capstone"
+    },
+    {
+      "app": "smartcity",
+      "id": "wvpp-panic-button",
+      "name": "WVPP & Panic Button",
+      "title": "SmartCiti.X~ WVPP & Panic Button VR",
+      "tagline": "The workplace violence prevention plan proven, not filed: the panic button tested, the hazard walk run, the log kept honest, and nobody closing alone unescorted",
+      "category": "Culinary & Hospitality",
+      "domain": "Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard",
+      "accent": "#f0645b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "plan-proven",
+        "name": "Plan Proven",
+        "note": "The whole workplace violence prevention plan run clean — posted, tested, walked and logged"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "144",
+      "flat": false,
+      "system": "Floor Watch",
+      "currency": "WATCH",
+      "ranks": [
+        "New to the Floor",
+        "Hazard Spotter",
+        "Button Certified",
+        "Safety Committee",
+        "Floor Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "four-named",
+          "name": "Four Named",
+          "note": "All four types of workplace violence named clean"
+        },
+        {
+          "id": "no-shrug",
+          "name": "No Shrug",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "Response-time drill scored inside the target band"
+        },
+        {
+          "id": "clean-plan",
+          "name": "Clean Plan",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "fast-walk",
+          "name": "Fast Walk",
+          "note": "Finished inside 80% of par"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wvpp-panic-button"
+    },
+    {
+      "app": "smartcity",
+      "id": "tip-pool-labor",
+      "name": "Tip Pool & Labor",
+      "title": "SmartCiti.X~ Tip Pool & Labor VR",
+      "tagline": "Closing paperwork behind the bar: the jar counted open, a lawful pool split, breaks and split shift entered straight, and the steward standing behind the sheet",
+      "category": "Culinary & Hospitality",
+      "domain": "Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "California Labor Code §351 (tips are the property of the employee, no employer credit against wages, card tips paid no later than the next regular payday) and §2810.5 wage notice; IWC Wage Order 5 on meal periods, rest periods and the split-shift premium; the UNITE HERE Local 2 contract's tip-pooling and grievance language; the California Labor Commissioner's (DLSE) tip-pooling guidance",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "hold",
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "find",
+        "turn"
+      ],
+      "badge": {
+        "id": "sheet-signed",
+        "name": "Sheet Signed",
+        "note": "A full night's tip-out, breaks and split shift closed out clean, with the steward's sign-off on it"
+      },
+      "meshes": 212,
+      "lights": 0,
+      "overBudget": false,
+      "index": "143",
+      "flat": false,
+      "system": "House Ledger",
+      "currency": "TIPS",
+      "ranks": [
+        "Rail Hand",
+        "Tip-Out Trusted",
+        "Sheet Keeper",
+        "Shop Steward's Right Hand",
+        "Ledger Certified"
+      ],
+      "awards": [
+        {
+          "id": "open-count",
+          "name": "Open Count",
+          "note": "The jar counted in the open, clean"
+        },
+        {
+          "id": "no-skim",
+          "name": "No Skim",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "dead-centre-split",
+          "name": "Dead Centre Split",
+          "note": "Tip-out percentage set exactly to the contract figure"
+        },
+        {
+          "id": "clean-sheet",
+          "name": "Clean Sheet",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "fast-close",
+          "name": "Fast Close",
+          "note": "Closed out inside 80% of par"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tip-pool-labor"
+    },
+    {
+      "app": "smartcity",
       "id": "draught-line-cleaning",
       "name": "Draught Line Cleaning",
       "title": "SmartCiti.X~ Draught Line Cleaning VR",
@@ -8525,7 +8790,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -273,7 +273,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "till-drop-robbery", why: "The till counted down with a witness and dropped with an escort, and the plan for the night somebody demands it instead: comply, don't chase, and let the alarm and the police do the rest." },
       { app: "smartcity", id: "allergen-cocktail", why: "The nut liqueurs, the egg white, the dairy and the gluten a label — not a memory — actually discloses, dedicated tools for the order that needs them, and the auto-injector found fast if it ever comes to that." },
       { app: "smartcity", id: "last-call-lockup", why: "The last hour of the shift as its own procedure: last call on the ABC's clock, the \"one more\" refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together." },
-      // slot-bar-5
+      { app: "smartcity", id: "tip-pool-labor", why: "The paycheck the drinks pay for: the jar counted in the open, a lawful pool with no manager's hand in it, the breaks and the split shift entered honest, and the steward standing behind the sheet." },
+      { app: "smartcity", id: "wvpp-panic-button", why: "The workplace violence prevention plan proven rather than filed: the panic button tested to dispatch, the hazard walk run before the smoking area goes dark, and the log kept honest enough for the safety committee to trust." },
+      { app: "smartcity", id: "rbs-service-capstone", why: "The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back." },
     ],
   },
   {
