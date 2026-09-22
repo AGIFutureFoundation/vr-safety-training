@@ -27,7 +27,7 @@ export const SIM_WVPP_PANIC_BUTTON = {
   category: "Culinary & Hospitality",
   indoor: "bar",
   weather: "clear",
-  certification: "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard",
+  certification: "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard; the ABC's RBS (Responsible Beverage Service) certification every alcohol server in California, this bartender included, is required to hold and keep current",
   name: "WVPP & Panic Button",
   title: simTitle("WVPP & Panic Button"),
   tagline: "The workplace violence prevention plan proven, not filed: the panic button tested, the hazard walk run, the log kept honest, and nobody closing alone unescorted",
@@ -130,7 +130,7 @@ export const SIM_WVPP_PANIC_BUTTON = {
       id: "training-record", kind: "select", target: "training-binder",
       title: "Sign the training record",
       cue: "Confirm and sign that tonight's training on the plan actually happened.",
-      why: "§3342 requires documented training on the plan, the hazards specific to this workplace, and how to use the panic button and the log — a signed record is what an inspector, and the next new hire's trainer, both actually rely on.",
+      why: "§3342 requires documented training on the plan, the hazards specific to this workplace, and how to use the panic button and the log — a signed record is what an inspector, and the next new hire's trainer, both actually rely on. It sits in the same binder as this bartender's ABC-issued RBS card, because both are proof a required certification actually happened rather than something assumed about the person pouring drinks.",
     },
     {
       id: "escort-policy", kind: "select", target: "escort-sign",

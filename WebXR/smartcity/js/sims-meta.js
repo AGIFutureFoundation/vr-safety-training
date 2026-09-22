@@ -2006,7 +2006,7 @@ export const SIMS_META = [
       "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
     },
     "stepCount": 11,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Water Management",
       "currency": "PPM",
@@ -2452,7 +2452,7 @@ export const SIMS_META = [
     "domain": "Live events",
     "trade": "Pyrotechnic operator / stage technician",
     "category": "Entertainment & Live Events",
-    "certification": "IATSE stage locals; NFPA 1126 use of pyrotechnics before a proximate audience; ATF licensing for the acquisition and storage of explosive materials; state or provincial pyrotechnic operator licensing, which varies by jurisdiction; the permit and inspection of the authority having jurisdiction for this venue and this show",
+    "certification": "IATSE stage locals; NFPA 1126 use of pyrotechnics before a proximate audience; OSHA 29 CFR 1910.109 storage and handling of explosives and blasting agents; ATF licensing and magazine rules under 27 CFR Part 555 for the acquisition and storage of explosive materials; state or provincial pyrotechnic operator licensing, which varies by jurisdiction; the local AHJ's permit and sign-off for this venue and this show",
     "name": "Pyro Cue",
     "weather": "clear",
     "indoor": null,
@@ -6064,7 +6064,7 @@ export const SIMS_META = [
     "domain": "Hospitality",
     "trade": "Bartender — UNITE HERE Local 2",
     "category": "Culinary & Hospitality",
-    "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard",
+    "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR §3342 (SB 553) — the written plan, hazard identification and correction, training, a violent-incident log and reporting without retaliation; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203; the UNITE HERE Local 2 contract's safety-committee language; Labor Code §6310 protection against retaliation for reporting a hazard; the ABC's RBS (Responsible Beverage Service) certification every alcohol server in California, this bartender included, is required to hold and keep current",
     "name": "WVPP & Panic Button",
     "weather": "clear",
     "indoor": "bar",

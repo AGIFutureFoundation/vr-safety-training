@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, cone, instrument, standingFigure, valveWheel, lockTag, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -65,13 +65,13 @@ export const SIM_COOLING_TOWER = {
       id: "plan", kind: "select", target: "wmp-board",
       title: "Read the water management plan",
       cue: "Check the control limits, the last culture result and the quarterly task list.",
-      why: "ASHRAE 188 makes the plan the document the building is judged against. Every limit, every dose and every log entry in this task comes from it.",
+      why: "ASHRAE 188 makes this plan the single document the building is judged against, by a health department or by an outbreak investigator, whichever comes first. Every control limit, every dose calculation and every entry in today's log traces back to a number written on this board, not to what worked on a previous tower or what feels safe by habit.",
     },
     {
       id: "culture", kind: "select", target: "culture-report",
       title: "Read the last culture",
       cue: "Look at the last Legionella culture and the trend behind it.",
-      why: "A rising count changes the task from routine to remedial. The number decides whether this is a clean or a disinfection, and whether the building's risk group has to be told.",
+      why: "A rising culture count changes what this visit actually is: a routine clean and a disinfection are different tasks with different dose rates and different documentation, and the number on this report decides which one you are doing today. It also decides whether the building's risk group — the people most likely to get sick from an aerosol release — has to be notified before the basin is even opened.",
     },
     {
       id: "lockout", kind: "sequence",
@@ -79,7 +79,7 @@ export const SIM_COOLING_TOWER = {
       itemNames: { "tower-off": "tower off at the panel", "fan-breaker": "fan breaker open", "fan-lock": "lock and tag" },
       title: "Shut down and lock out the fan",
       cue: "Take the tower off at the control panel, open the fan breaker, then lock and tag.",
-      why: "A fan that restarts on a building-automation call while someone is in the basin is both a mechanical hazard and an aerosol release. The lock is what makes the shutdown real.",
+      why: "Taking the tower off at the control panel only silences the automation's normal call to run — it does not stop a scheduled restart, an override, or somebody two floors down who has no idea you are up here. A fan that turns over while you are in the basin is both a direct mechanical hazard and an aerosol release over the roof and the intake below it. The lock on the breaker is the one thing here that makes the shutdown physically impossible to undo rather than just administratively likely.",
       outOfOrderNote: "Off at the panel, then the breaker, then the lock — the load is removed before the power and the lock goes on last.",
     },
     {
@@ -88,20 +88,20 @@ export const SIM_COOLING_TOWER = {
       itemNames: { respirator: "half-face respirator with P100", "tyvek-gloves": "coveralls and chemical gloves", "eyewash-check": "eyewash station checked" },
       title: "Put on respiratory and chemical protection",
       cue: "P100 respirator fitted, coveralls and chemical gloves on, eyewash checked before the biocide comes out.",
-      why: "Two exposures on this job: the aerosol from the basin and the concentrated biocide. The respirator handles one and the gloves and eyewash handle the other.",
+      why: "This task carries two separate exposures that need different protection: the aerosol coming off a disturbed basin, which the P100 respirator is rated to filter, and the concentrated biocide handled at full strength before it is diluted into the tower, which the chemical gloves and a working eyewash station exist for. Skipping either one leaves exactly one of those exposures completely uncovered.",
     },
     {
       id: "drain", kind: "turn", target: "basin-drain",
       title: "Drain the basin",
       cue: "Open the basin drain to the sanitary connection and let the tower empty.",
-      why: "The basin is drained to sanitary, never to the storm drain, because it is treated water with a biocide residual and whatever has been growing in it.",
+      why: "The basin drains to the sanitary connection and never to storm, because what comes out of it is treated water carrying a biocide residual and whatever biological load has been growing in the system — exactly the kind of discharge storm drains are built to carry straight into a waterway untreated.",
       turn: { turns: 1, axis: "y", label: "BASIN DRAIN" },
     },
     {
       id: "clean", kind: "hold", target: "wet-wash", seconds: 6,
       title: "Wet-wash the basin and fill",
       cue: "Hold a low-pressure wet wash over the basin floor, the fill and the sump screen — keep every surface wet.",
-      why: "The clean is physical: the biofilm has to come off the surface, wet, at low pressure so nothing goes airborne. A biocide over a biofilm does not reach the organism living under it.",
+      why: "The clean has to be physical, not chemical: biofilm is a structure the organism builds specifically to protect itself, and a biocide poured over an intact layer never reaches what is living underneath it. Low pressure and wet surfaces keep whatever comes off from turning into the exact airborne dust this entire procedure exists to prevent.",
       holdBreakNote: "The surfaces dried out — wet them again before you carry on, or this becomes a dust exposure.",
     },
     {
@@ -114,20 +114,20 @@ export const SIM_COOLING_TOWER = {
       },
       title: "Inspect the drift eliminator and sump",
       cue: "Look over the eliminator panels and the sump screen and click what you find.",
-      why: "The drift eliminator is the single most important piece of Legionella control hardware in the tower: it is what stops the aerosol leaving. A gap in it undoes every chemical in the plan.",
+      why: "The drift eliminator is arguably the single most important piece of Legionella control hardware on this whole tower, because it is the one component whose entire job is stopping aerosol from leaving the unit at all. Every dose, every control limit and every culture result in the plan assumes that barrier is intact — a gap in it lets untreated droplets past all of that chemistry and out over the roof.",
     },
     {
       id: "shock", kind: "gauge", target: "biocide-pump",
       title: "Dose the biocide shock",
       cue: "Set the shock dose to the label rate for this basin volume and commit inside the band.",
-      why: "The label rate is calculated from the basin volume, and it is legally binding. Under it, the shock is theatre; over it, the discharge and the tower metal both pay.",
+      why: "The label rate is calculated specifically against this basin's own volume, and under FIFRA it is not a guideline, it is enforceable law. Dose under it and the shock does close to nothing to the biofilm you just cleaned off; dose over it and the excess goes out with the discharge as a permit violation while also accelerating corrosion on every metal surface the water touches.",
       gauge: { label: "SHOCK DOSE", speed: 0.7, green: [0.44, 0.58], readout: (t) => `${(t * 50).toFixed(1)} ppm`, missNote: "Off the label rate — recalculate against the basin volume before you dose." },
     },
     {
       id: "contact", kind: "track", target: "contact-timer", seconds: 7,
       title: "Hold the contact time",
       cue: "Circulate at the shock concentration and hold it through the required contact period.",
-      why: "Kill is concentration multiplied by time. Dropping the concentration halfway through is the same as not dosing, and the organism comes back in the biofilm that survived.",
+      why: "Microbial kill is concentration multiplied by time, not concentration alone — a strong dose held for half the required period does roughly the same nothing as a weak dose held for the full one. Letting the residual drop mid-contact hands the advantage straight back to whatever organism survived in the biofilm just scraped off, and it recolonises from there.",
       track: { start: 0.1, green: [0.42, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "RESIDUAL", readout: (v) => (v < 0.42 ? "residual falling" : v > 0.6 ? "over-dosed" : "holding") },
       holdBreakNote: "The residual dropped out of the band — the contact time restarts from there.",
     },
@@ -135,7 +135,7 @@ export const SIM_COOLING_TOWER = {
       id: "halogen", kind: "gauge", target: "halogen-test",
       title: "Test free halogen",
       cue: "Take the free halogen reading after contact and commit inside the operating band.",
-      why: "The tower goes back in service at the operating residual, not the shock residual. That is the number the plan's control limit is written against and the number the log records.",
+      why: "The tower returns to service running at the operating residual, not at the shock concentration just used to kill the biofilm — those are two different numbers doing two different jobs. The operating band is what the plan's control limit is actually written against, and it is the number that goes in the log for the next inspection to check the tower against.",
       gauge: { label: "FREE HALOGEN", speed: 0.75, green: [0.34, 0.5], readout: (t) => `${(t * 6).toFixed(2)} ppm`, missNote: "Outside the control limit — bleed or dose until it is in range before restart." },
     },
     {
@@ -144,8 +144,37 @@ export const SIM_COOLING_TOWER = {
       itemNames: { "lock-off": "lock removed", "fan-on": "tower back in service", "log-signed": "log signed and next culture booked" },
       title: "Return to service and sign the log",
       cue: "Remove the lock, bring the tower back on, then sign the log and book the next culture.",
-      why: "The log is the building's defence and its memory. An unsigned service is an unperformed service the first time a health department asks.",
+      why: "The signed log is both the building's institutional memory and its defence: it is the record that this exact service happened, on this date, to this specification. The first time a health department or an outbreak investigator asks for it, an unsigned entry reads exactly like a service that was never performed at all, regardless of what actually happened up here.",
       outOfOrderNote: "Lock off, then the tower on, then the log — the person who locked it out is the person who releases it.",
+    },
+  ],
+
+  // Interruptions: see shared/game.js. Both are the two ways a locked-out
+  // tower actually gets threatened mid-task — a system that does not know
+  // the lock is on, and a person who does not know the basin is live with
+  // shock residual.
+  interrupts: [
+    {
+      id: "bas-restart",
+      kind: "Automation call",
+      after: "clean", delay: 4, seconds: 12,
+      alert: "The building automation system is issuing a scheduled restart command to the tower fan, straight through the lockout relay it does not know is engaged.",
+      cue: "The fan is about to get a call it should never receive mid-clean — go re-confirm the lock before it lands.",
+      target: "fan-lock",
+      why: "A software schedule has no idea a technician is standing over an open, wet basin. If that restart command reaches a fan that is only administratively off, the lock and tag on the breaker are the one thing standing between a scheduled economiser cycle and blades turning over open water — go re-seat the lock so the command has nothing left to act on.",
+      missNote: "The restart command went unanswered and the lock was never reconfirmed. On a tower without a positively verified lockout, that command turns the fan over an open, wet basin.",
+      wrongNote: "That does not stop a scheduling system. The lock and tag on the fan breaker is what stops it — go confirm that.",
+    },
+    {
+      id: "tech-at-hatch",
+      kind: "Unplanned entry",
+      after: "contact", delay: 4, seconds: 12,
+      alert: "An HVAC technician has climbed up to the tower looking for the hatch, with no idea the basin is mid-shock at full biocide contact concentration.",
+      cue: "Stop them before that hatch opens — wave them off from here.",
+      target: "basin-hatch",
+      why: "Contact time only works if the shock concentration stays sealed in the basin for its full duration, and the hatch is also the single highest-exposure point on this whole task — concentrated biocide, not the diluted operating dose it will be once the tower restarts. Somebody opening that hatch now breaks the contact time and walks straight into the strongest chemical on this roof with no idea it is there.",
+      missNote: "The hatch came open mid-contact. The contact time is broken and has to restart from zero, and the technician just took a breath of concentrated shock residual they had no reason to expect.",
+      wrongNote: "That will not reach them in time. Get to the hatch and stop them physically before they lift it.",
     },
   ],
 
@@ -280,6 +309,10 @@ export const SIM_COOLING_TOWER = {
     const eng = standingFigure(g, 1.9, 2.4, { ry: 3.0, cloth: 0x2b6f88 });
     holoTag(eng, "stationary engineer", 0, 1.9, 0, { css: "#6fc9e8", w: 0.38 });
     for (const [x, z] of [[-2.7, -2.0], [2.7, -2.0]]) cone(g, x, z);
+    // The HVAC technician who wanders up during the contact-time interrupt —
+    // parked well clear of the tower and every control until then.
+    const tech = standingFigure(g, 2.3, 2.5, { ry: -2.4, cloth: 0x5a6b7a, helmet: 0xf2c14b, vest: 0xe4dc3a });
+    const techHome = tech.position.clone();
 
     let running = true, drained = false;
     return {
@@ -292,6 +325,24 @@ export const SIM_COOLING_TOWER = {
         if (step.id === "clean") biofilm.visible = false;
         if (step.id === "drift") { debris.visible = false; gap.visible = false; }
         if (step.id === "restart") { running = true; basinWater.visible = true; repaint(fanOn.userData.screen, signFace("RUN", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.62 })); }
+      },
+      // The BAS call flashes the panel like it is about to take the fan back;
+      // the tech walks in on the hatch. Both really move the scene rather
+      // than only a hint panel — see tools/interrupt_react.mjs.
+      onInterrupt(it) {
+        if (it.id === "bas-restart") {
+          repaint(towerOff.userData.screen, signFace("RESTART CALL", { bg: "#3a0d0d", accent: "#f0645b", fg: "#ffd9d6", scale: 0.5 }));
+          breaker.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.6, rough: 0.4, metal: 0.35 });
+        }
+        if (it.id === "tech-at-hatch") { tech.position.set(-1.3, 0.1, -0.05); tech.rotation.y = 1.6; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "bas-restart") {
+          repaint(towerOff.userData.screen, signFace("OFF", { bg: "#2a0d0d", accent: "#d2312b", fg: "#ffd9d6", scale: 0.62 }));
+          breaker.material = mat(0xf2c14b, { rough: 0.5, metal: 0.35 });
+        }
+        if (it.id === "tech-at-hatch") { tech.position.copy(techHome); tech.rotation.y = -2.4; }
       },
       onHazard() {},
       animate(t, dt, session) {

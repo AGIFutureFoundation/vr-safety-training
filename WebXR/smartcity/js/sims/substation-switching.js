@@ -91,13 +91,13 @@ export const SIM_SUBSTATION_SWITCHING = {
       id: "order", kind: "select", target: "switching-order",
       title: "Read the switching order",
       cue: "Read the order end to end: feeder, breaker, disconnects, test points, grounds, tag.",
-      why: "A switching order is written by one person and checked by another before it is issued. The operator reads all of it before the first step, because a step makes sense only in the sequence it sits in.",
+      why: "A switching order is drafted by one operator and independently checked by another before it is ever issued, precisely because a single step done out of sequence against a live 12 kV bus is an arc flash, not a paperwork error. The operator reads the whole order before touching the first line, since a step that looks harmless in isolation — opening a disconnect before the breaker, grounding before the test — is only safe in the sequence the order puts it in.",
     },
     {
       id: "readback", kind: "select", target: "radio",
       title: "Read back step 1 to the control centre",
       cue: "Call the system operator, identify yourself, read back the step, get the go-ahead.",
-      why: "Two people agree on every switch before it moves. The read-back is the check that the order in your hand is the order the control centre is working from.",
+      why: "Two people agree on every switch before it moves, because the operator at the cubicle cannot see the rest of the system and the control centre cannot see the cubicle. The read-back is the only check that the order in your hand is the exact order the control centre thinks it is issuing — a misheard step number here can leave a breaker elsewhere opening on a line a different crew still has hands on.",
     },
     {
       id: "ppe", kind: "sequence", anyOrder: true,
@@ -105,13 +105,13 @@ export const SIM_SUBSTATION_SWITCHING = {
       itemNames: { "arc-suit": "arc-rated suit", "arc-hood": "arc-rated hood and gloves" },
       title: "Arc-rated PPE for the cubicle",
       cue: "Suit, hood and gloves to the cubicle's arc-flash label before the door opens.",
-      why: "The cubicle label gives the incident energy. The PPE matches it, and it is on before anything in the cubicle moves.",
+      why: "The cubicle's own arc-flash label states the incident energy that door can release if the bus behind it turns out to still be live. The suit, hood and gloves are rated to that specific number, not to a general sense of caution, and none of it is optional to put on after the door is already open — by then the exposure it exists to prevent has already started.",
     },
     {
       id: "breaker", kind: "turn", target: "feeder-breaker",
       title: "Open the feeder breaker",
       cue: "Trip the feeder breaker and confirm it shows OPEN on the mimic.",
-      why: "The breaker is the device rated to interrupt load. It opens first so that everything downstream of it is de-energised before any disconnect moves.",
+      why: "The breaker is the one device in this line-up built to interrupt load current without destroying itself doing it. It opens first so everything downstream of it — the disconnects, the bus, the grounds — is de-energised before any of it is touched, since none of that other equipment is rated to break the current the breaker was designed for.",
       turn: { turns: 0.5, axis: "y", label: "BREAKER" },
     },
     {
@@ -120,14 +120,14 @@ export const SIM_SUBSTATION_SWITCHING = {
       itemNames: { "line-disconnect": "line-side disconnect", "bus-disconnect": "bus-side disconnect" },
       title: "Open the disconnects",
       cue: "Line-side disconnect open, then bus-side — visible breaks each side of the breaker.",
-      why: "With the breaker open there is no current, and the disconnects can move. Two visible breaks isolate the breaker from both sources so it cannot be back-fed from either.",
+      why: "With the breaker already open there is no load current left for a disconnect to interrupt, which is the only reason it is safe to move by hand. Opening both the line side and the bus side leaves two visible breaks in the circuit, isolating the breaker from either direction it could otherwise be back-fed from — one disconnect left closed is a path the grounds you hang next do not account for.",
       outOfOrderNote: "Line side first, then bus side — the order says so, and the order is what was read back.",
     },
     {
       id: "test", kind: "gauge", target: "test-probe",
       title: "Test the bus dead — every phase",
       cue: "Prove the tester on a live source, test A, B and C phase to ground, prove the tester again; commit on a dead reading.",
-      why: "Open disconnects are a claim; the tester is the proof. Every phase, because one back-fed phase is enough.",
+      why: "Open disconnects are a claim about the state of the bus, not a measurement of it — the tester is the only proof there is. Every phase gets tested on its own, and the tester is proved against a known live source both before and after, because a bus that reads dead on a broken tester looks exactly like a bus that actually is dead, right up until somebody grounds it and finds out which one it was.",
       gauge: { label: "PHASE-GND", speed: 0.75, green: [0.0, 0.14], readout: (t) => `${(t * 12).toFixed(1)} kV`, missNote: "That phase is not dead — stop. Recheck the disconnects and the source before anything else." },
     },
     {
@@ -136,21 +136,21 @@ export const SIM_SUBSTATION_SWITCHING = {
       itemNames: { "ground-a": "A-phase ground", "ground-b": "B-phase ground", "ground-c": "C-phase ground" },
       title: "Apply the grounds",
       cue: "Ground end to the ground bus first, then the clamp to each phase, A, B, C, with the hot stick.",
-      why: "Grounds make the isolated bus safe to touch: if anything back-feeds, the fault goes to ground, not through the crew. Ground end first so the clamp is never live in your hand.",
+      why: "Grounds are what actually make an isolated bus safe to work on: if anything back-feeds past the open disconnects, the fault current has a path to ground instead of a path through whoever is standing at the bus. The ground end goes onto the ground bus first and the clamp goes onto the phase second, so the clamp end in your hand is never the live end of an unterminated ground lead.",
       outOfOrderNote: "A, B, C in the order on the switching order — the read-back was for that sequence.",
     },
     {
       id: "clamp", kind: "hold", target: "ground-clamp", seconds: 4,
       title: "Torque the ground clamps",
       cue: "Hold each clamp to the click of the hot-stick torque head.",
-      why: "A loose ground is a ground that lifts off under fault current, exactly when it is needed. It is torqued, not tightened by feel.",
+      why: "A ground clamp that is only hand-tight can lift clear of the phase under the mechanical force of real fault current, at the exact moment the ground exists to carry that current instead of the crew. The hot-stick torque head clicks at the manufacturer's rated torque, and holding to that click — not to a guess at how tight feels right — is what keeps the clamp seated when a fault actually arrives.",
       holdBreakNote: "Came off before the click — the clamp is not seated. Set it again.",
     },
     {
       id: "tag", kind: "select", target: "hold-tag",
       title: "Tag and lock the isolation",
       cue: "Hang the hold tag with the order number on the breaker and each disconnect, and lock them.",
-      why: "The tag names the order, the operator and the crew that now owns the feeder. Nothing on this tag moves until that crew releases it.",
+      why: "The hold tag names the switching order number, the operator who hung it, and the crew that now holds exclusive control of this feeder. Locked onto the breaker and both disconnects, it is a physical statement that nothing on this equipment moves again until the crew named on it calls the control centre and releases it — not once the outage merely looks finished.",
     },
     {
       id: "walk", kind: "find", noHint: true,
@@ -159,13 +159,13 @@ export const SIM_SUBSTATION_SWITCHING = {
       itemNotes: { "cracked-insulator": "The C-phase bus support insulator is cracked through the skirts — a tracking path to the frame. It goes on the outage work list now, while the feeder is dead." },
       title: "Walk the cubicle before the hand-off",
       cue: "Inspect the bus, supports and connections while it is dead, and click what the maintenance crew needs to know.",
-      why: "The feeder is dead for a window. What is found now gets fixed in the window; what is missed waits for the next outage — or causes it.",
+      why: "The feeder is only dead for the length of this outage window, and whatever the walk-down finds now is what gets fixed inside it. A cracked insulator or a loose connection missed during this window is live again the moment the feeder is restored, left waiting either for the next planned outage to catch it or to fail on its own and cause one.",
     },
     {
       id: "handoff", kind: "select", target: "radio-handoff",
       title: "Report the feeder clear",
       cue: "Call the control centre: order complete, feeder isolated, grounded and tagged, handed to the maintenance crew.",
-      why: "The hand-off closes the order. The control centre marks the feeder out of service and the maintenance crew holds it until they call it back.",
+      why: "The hand-off is what formally closes the switching order: the control centre logs the feeder out of service against your name and this order number, and the maintenance crew now holds clearance on it until they call control back to release it. Nobody re-energises a feeder that is still logged to another crew's open order.",
     },
   ],
 
@@ -275,6 +275,34 @@ export const SIM_SUBSTATION_SWITCHING = {
     reg(hits, board, "switching-order");
     barrierPanel(g, -1.2, 1.6, { color: 0xe4622a }); barrierPanel(g, 1.0, 1.6, { color: 0xe4622a });
     const arcGlow = particles(cub, 30, 0xffe08a, { size: 0.02, life: 0.3, opacity: 0.6 });
+
+    // Yard dressing: perimeter fence along the back of the yard, a spare
+    // ground-rod rack, extra insulator stand-offs on the switchgear, a
+    // strobe over the PPE rack and trench cover plates running from the
+    // cubicles toward the test position — none of it interactive, all of it
+    // clear of the crew figure and every control.
+    const fenceZ = 2.55;
+    for (let i = 0; i < 6; i++) {
+      const px = -2.4 + i * 0.9;
+      cyl(g, 0.025, 0.025, 1.8, px, 0.9, fenceZ, 0x4a5158, { rough: 0.6, metal: 0.5, seg: 8 });
+      if (i > 0) {
+        box(g, 0.9, 1.6, 0.015, px - 0.45, 0.9, fenceZ, 0x6f7a83, { rough: 0.8, metal: 0.2, opacity: 0.35, transparent: true, cast: false });
+      }
+    }
+    const rodRack = group(g, -2.6, 0.1, -0.35);
+    box(rodRack, 0.5, 0.08, 0.22, 0, 0.04, 0, 0x3a2f22, { rough: 0.85 });
+    for (let i = 0; i < 4; i++) {
+      cyl(rodRack, 0.014, 0.014, 0.9, -0.18 + i * 0.12, 0.5, 0, 0x8a6a3a, { rough: 0.55, metal: 0.6, seg: 10 }).rotation.z = 0.08;
+    }
+    for (const sx of [-0.62, 0.62]) {
+      cyl(bus, 0.045, 0.05, 0.1, sx, -0.5, 0, 0xdfe6ea, { rough: 0.6, seg: 10 });
+    }
+    const strobeMast = group(ppeRack, 0, 1.65, 0);
+    cyl(strobeMast, 0.02, 0.02, 0.14, 0, 0, 0, 0x2b2f34, { rough: 0.6, metal: 0.5, seg: 8 });
+    ball(strobeMast, 0.035, 0, 0.09, 0, 0xd2312b, { emissive: 0xd2312b, ei: 1.1 });
+    for (let i = 0; i < 3; i++) {
+      slab(g, 0.5, 0.02, 0.35, -0.6 + i * 0.55, 0.011, -0.55, 0x3b3f43, { radius: 0.01, rough: 0.85 });
+    }
 
     let energised = true;
     return {
