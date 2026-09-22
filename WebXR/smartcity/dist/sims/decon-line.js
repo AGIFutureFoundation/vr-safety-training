@@ -61,13 +61,13 @@ export const SIM_DECON_LINE = {
       id: "iap", kind: "select", target: "iap-board",
       title: "Read the incident action plan",
       cue: "Check the product, the decon method, the zone layout and who is medical.",
-      why: "The plan says what the product is, whether it is a water-soluble wash or a dry decon, and where the zones go. The corridor is built from the plan, not from habit.",
+      why: "The IAP is what turns a decon line from a guess into a plan: it names the product so the crew knows whether a water-soluble wash even works on it or whether this is a dry decon instead, and it says where the zones and the medical group sit before a single cone goes down. A corridor built from habit instead of the plan is a corridor built for whatever the last release was, not this one.",
     },
     {
       id: "wind", kind: "select", target: "wind-flag",
       title: "Check the wind",
       cue: "Read the flag — the corridor runs upwind of the release, hot to cold.",
-      why: "Decon is set upwind and uphill of the release so the crew working the line is not in the plume. The flag decides the direction of every zone.",
+      why: "Every zone downstream of this reading depends on it: the whole point of siting decon upwind and uphill of the release is that the crew working the line is never standing in the plume they are washing off someone else. The flag is what decides which way hot, warm and cold actually point, and it is read before any tape goes down, not fitted to tape that is already on the ground.",
     },
     {
       id: "zones", kind: "sequence",
@@ -75,7 +75,7 @@ export const SIM_DECON_LINE = {
       itemNames: { "zone-hot": "hot zone line", "zone-warm": "warm zone line", "zone-cold": "cold zone line" },
       title: "Establish the zones",
       cue: "Set the hot zone boundary, then the warm zone, then the cold zone — in that order, upwind.",
-      why: "Hot first because it bounds the hazard; warm is the corridor; cold is where clean people stand. Setting cold first puts the safe area before anyone knows where the danger ends.",
+      why: "The hot line goes down first because it is the boundary that actually bounds the hazard; the warm zone is the corridor built inside that boundary, and cold is the clean ground beyond both of them. Marking cold first would put a 'safe' area on the map before anyone has said where the danger stops, which is a promise the tape cannot back up yet.",
       outOfOrderNote: "Hot, then warm, then cold — the boundaries are set from the hazard outward.",
     },
     {
@@ -84,7 +84,7 @@ export const SIM_DECON_LINE = {
       itemNames: { "pool-gross": "gross decon pool", "pool-technical": "technical wash pool", "pool-rinse": "rinse pool" },
       title: "Lay out the corridor",
       cue: "Gross decon pool at the hot line, technical wash next, rinse last, walking toward cold.",
-      why: "Each pool takes off what the last left. Gross removes the bulk, technical scrubs the suit, rinse clears the soap — reversed, the responder arrives at cold still carrying product.",
+      why: "Each pool exists to take off whatever the one before it left behind: gross knocks the bulk of the product off the suit, technical scrubs what the first pass missed out of the fabric's texture, and rinse carries the soap itself away before anyone reaches clean ground. Lay them out of order and a responder can walk out of the corridor rinsed clean of soap while still wearing the product underneath it.",
       outOfOrderNote: "Pools go in the order the responder walks them — gross, technical, rinse.",
     },
     {
@@ -93,27 +93,27 @@ export const SIM_DECON_LINE = {
       itemNames: { "decon-suit": "splash suit", "decon-gloves": "outer gloves", "decon-scba": "SCBA" },
       title: "Suit the decon crew",
       cue: "Splash suit, outer gloves and SCBA on the crew working the line.",
-      why: "The decon crew is inside the warm zone. Everything they wash off a responder is in the air and on the ground around them; they are protected to the same level, minus one, as the entry team.",
+      why: "The decon crew works the whole shift standing in the warm zone, which means everything they wash off a responder passes through the air and across the ground they are standing on. OSHA 1910.120(q) puts them one level below the entry team's protection, not two — a level that still means a full splash suit and air, because the line crew is exposed to the release just as surely as the person who walked out of it.",
     },
     {
       id: "berm", kind: "drag", target: "berm-dam",
       title: "Berm the drain",
       cue: "Carry the drain dam from the truck and seat it over the storm drain below the corridor.",
-      why: "Runoff is the product in water. The drain is bermed before the first litre is sprayed, and the pool liners drain to the collection tank.",
+      why: "Runoff from a decon line is not water with a little product in it; it is the product, carried in water, headed for whatever the drain connects to. The dam goes over that drain before the first litre is sprayed, because a corridor that washes a responder clean while sending the wash straight into a storm system has only moved the contamination from one place to a much larger one.",
       drag: { to: "drain-socket", radius: 0.4, missNote: "Not over the grate — seat the dam square on the drain." },
     },
     {
       id: "water", kind: "turn", target: "hydrant-valve",
       title: "Charge the decon line",
       cue: "Open the hydrant valve to charge the low-pressure wash line.",
-      why: "Low pressure, high volume: a wash that rinses without driving product through the suit fabric. The line charges once there is somewhere for the water to go.",
+      why: "Low pressure and high volume is the combination that rinses a suit clean without driving the product through the fabric and the seams the way a fire attack line's pressure would. The valve stays shut until the berm is down and the pools are laid, because charging a line before there is anywhere contained for the water to go turns the corridor into the exact discharge it was built to prevent.",
       turn: { turns: 1, axis: "y", label: "HYDRANT" },
     },
     {
       id: "wash", kind: "track", target: "wash-wand", seconds: 7,
       title: "Gross-decon the responder",
       cue: "Hold a steady, low-pressure wash from the top down — head, shoulders, torso, legs, boots.",
-      why: "Top down, so what runs off runs off clean skin of the suit below. Steady pressure: enough to move product, not enough to drive it into seams.",
+      why: "Top down means whatever runs off a shoulder lands on suit fabric that has not been washed yet rather than on skin that already has, so contamination travels toward clean the whole time instead of crossing back over it. Steady pressure matters just as much as direction — enough to lift product off the surface, not so much that it drives the same product into a seam or a zipper where a soft rinse will never reach it again.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "WASH", readout: (v) => (v < 0.4 ? "too light" : v > 0.6 ? "too hard" : "steady") },
       holdBreakNote: "Wash dropped out of the band — product is being left or driven in. Bring it back and hold.",
     },
@@ -123,14 +123,14 @@ export const SIM_DECON_LINE = {
       itemNames: { "doff-boots": "outer boots and gloves", "doff-suit": "suit", "doff-scba": "SCBA and mask" },
       title: "Doff in order",
       cue: "Outer boots and gloves off first, then the suit peeled away from the body, and the SCBA and mask last — at the cold line.",
-      why: "The mask stays on until the suit is off because the suit's outside is still the release. Air on the face comes last, in clean air.",
+      why: "The outside of that suit has been standing in the release since before the wash started, and rinsing does not certify it clean the way a lab test would — it only certifies it clean enough to touch. The mask stays sealed until the suit is fully off because the air right around a responder mid-doff is still the corridor's air, not the cold zone's, and the face is the one part of this that does not get a second chance at a bad breath.",
       outOfOrderNote: "Boots and gloves, then suit, then the mask last — the face is protected until everything contaminated is off.",
     },
     {
       id: "medical", kind: "gauge", target: "vitals-monitor",
       title: "Medical monitoring",
       cue: "Take the responder's post-entry vitals and commit inside the rehab criteria.",
-      why: "Heat, exertion and the product all show in the numbers. A responder is not released from decon until medical says the vitals are inside criteria.",
+      why: "Heat stress, the exertion of working in a suit, and whatever exposure did make it through the PPE all show up in the same set of numbers before they show up as a collapse. A responder does not get released off this line on how they look or how they say they feel — they get released when the numbers medical is reading say the body has actually recovered enough to leave rehab.",
       gauge: { label: "HEART RATE", speed: 0.75, green: [0.4, 0.58], readout: (t) => `${Math.round(70 + t * 90)} bpm`, missNote: "Outside rehab criteria — the responder stays in rehab and is re-checked." },
     },
     {
@@ -140,7 +140,32 @@ export const SIM_DECON_LINE = {
       itemNotes: { "liner-tear": "The technical pool liner is torn at the corner and wash water is running under it toward the drain." },
       title: "Walk the corridor for leaks",
       cue: "Check every pool and the berm, and click where containment failed.",
-      why: "A corridor that looks right can still be leaking. The walk-down is what proves not a litre left the line.",
+      why: "A corridor can be built in the right order, with every pool in its place, and still be leaking at a torn liner seam or a gap under the dam that nobody would find without looking for it. The walk-down after the last responder is through is the only step that actually proves containment held for the whole job rather than assuming it did because the layout looked right going in.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "wind-shifts-mid-wash",
+      kind: "Wind shift",
+      after: "wash", delay: 3, seconds: 12,
+      alert: "The wind flag behind the corridor has swung hard around while you're mid-wash, and it isn't reading out of the east anymore.",
+      cue: "The wind that sited this corridor just changed.",
+      target: "wind-flag",
+      why: "Upwind is not a condition this corridor earns once and keeps — it is true for exactly as long as the wind agrees with the reading taken before the tape went down, and a release plume follows the wind, not the layout drawn on the ground an hour ago. NFPA 470's mission-specific decon competency assumes conditions get reassessed as they change, and a corridor still washing a responder while the plume drifts across the warm zone is decon working against the exact hazard it was sited to avoid.",
+      missNote: "The wash kept going while the wind carried the plume across the corridor itself. The decon crew in their splash suits and SCBA were built to survive that; the responder mid-wash, already partly stripped of protection, was not.",
+      wrongNote: "It's the flag, not the wand. The wash line is doing exactly what it should — the ground it's standing on just stopped being upwind.",
+    },
+    {
+      id: "line-left-charged",
+      kind: "Line left charged",
+      after: "doff", delay: 3, seconds: 13,
+      alert: "The wash is done and the responder's doffed, but the hydrant valve behind you is still wide open with the wand capped and nowhere for the pressure to go.",
+      cue: "Nobody shut the water off.",
+      target: "hydrant-valve",
+      why: "A charged line is a live control for as long as it stays open, not just while somebody is holding the wand — a low-pressure wash line dead-ended against a shut-off wand keeps building pressure against every fitting and gasket in the run until something on it gives. It gets secured the moment the last wash is finished, because the berm and the liners were sized for one job's runoff, not for a line nobody remembered to close.",
+      missNote: "The hydrant stayed open against a dead-ended line long after the last responder was through. A coupling under that kind of standing pressure does not wait for a convenient moment to fail, and when one lets go it sprays whoever is nearest — which by then is the decon crew already stripping out of the PPE the wash line still needs.",
+      wrongNote: "It's the hydrant valve. The SCBA and mask coming off in front of you aren't what's building pressure against this corridor's fittings.",
     },
   ],
 
@@ -195,7 +220,7 @@ export const SIM_DECON_LINE = {
     const flag = group(g, 2.2, 0.1, -1.8);
     cyl(flag, 0.02, 0.02, 2.2, 0, 1.1, 0, CITY.steel, { rough: 0.45, metal: 0.7, seg: 10 });
     const cloth = box(flag, 0.5, 0.25, 0.01, 0.25, 2.0, 0, 0xe4622a, { rough: 0.8 });
-    holoTag(flag, "wind: from the east", 0, 1.6, 0.05, { css: "#f2c14b", w: 0.34 });
+    const flagTag = holoTag(flag, "wind: from the east", 0, 1.6, 0.05, { css: "#f2c14b", w: 0.34 });
     reg(hits, flag, "wind-flag");
     const board = group(g, 2.2, 0, 1.6, -0.9);
     holoPanel(board, 0.9, 0.6, 0, 1.25, 0, (ctx, w, h) => {
@@ -211,6 +236,10 @@ export const SIM_DECON_LINE = {
     cyl(hydrant, 0.1, 0.12, 0.7, 0, 0.35, 0, 0xd2312b, { rough: 0.6, metal: 0.3, seg: 16 });
     const hv = valveWheel(hydrant, 0, 0.8, 0, { color: 0xd2312b, body: 0x8a1f1f, r: 0.09 });
     reg(hits, hv, "hydrant-valve");
+    // Pressure warning light on the hydrant body — dark until a charged line
+    // is left open with nowhere for the water to go.
+    const hydrantWarn = ball(hydrant, 0.03, 0, 0.55, 0.11, 0xf0645b, { emissive: 0xf0645b, ei: 3.0, rough: 0.4 });
+    hydrantWarn.visible = false;
     hose(g, [[1.7, 0.4, 0.6], [1.0, 0.15, 0.3], [-0.6, 0.15, 0.4], [-1.0, 0.5, 0.1]], 0.025, 0xe8b02e, { steps: 22 });
     const wand = group(g, -1.0, 0.6, 0.1, 0.4);
     cyl(wand, 0.015, 0.015, 0.5, 0, 0, -0.25, CITY.steel, { rough: 0.3, metal: 0.8, seg: 10 }).rotation.x = Math.PI / 2;
@@ -252,6 +281,8 @@ export const SIM_DECON_LINE = {
     reg(hits, dam, "berm-dam");
 
     let charged = false;
+    let windShifted = false;
+    let lineLeftOpen = false;
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.3, 1.0, -0.3),
@@ -266,14 +297,46 @@ export const SIM_DECON_LINE = {
         if (step.id === "walk") tear.visible = false;
       },
       onHazard() {},
+      // Wind shifting behind the wash and a charged line left open at the
+      // hydrant are both things a decon crew would actually see happen.
+      onInterrupt(it) {
+        if (it.id === "wind-shifts-mid-wash") {
+          windShifted = true;
+          cloth.rotation.y = Math.PI * 0.55;
+          repaint(flagTag, (ctx, w, h) => {
+            ctx.fillStyle = "rgba(80,10,10,0.9)"; ctx.fillRect(0, 0, w, h);
+            ctx.fillStyle = "#f0645b"; ctx.fillRect(0, 0, 4, h);
+            ctx.fillStyle = "#ffe9e5"; ctx.font = `600 ${Math.round(h * 0.56)}px 'Barlow Condensed', Arial, sans-serif`;
+            ctx.textAlign = "left"; ctx.textBaseline = "middle";
+            ctx.fillText("WIND SHIFTED — RECHECK", w * 0.06, h * 0.56);
+          });
+        }
+        if (it.id === "line-left-charged") { lineLeftOpen = true; hydrantWarn.visible = true; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "wind-shifts-mid-wash") {
+          windShifted = false;
+          cloth.rotation.y = 0;
+          repaint(flagTag, (ctx, w, h) => {
+            ctx.fillStyle = "rgba(6,14,20,0.82)"; ctx.fillRect(0, 0, w, h);
+            ctx.fillStyle = "#f2c14b"; ctx.fillRect(0, 0, 4, h);
+            ctx.fillStyle = "#eaf6fb"; ctx.font = `600 ${Math.round(h * 0.56)}px 'Barlow Condensed', Arial, sans-serif`;
+            ctx.textAlign = "left"; ctx.textBaseline = "middle";
+            ctx.fillText("WIND: FROM THE EAST", w * 0.06, h * 0.56);
+          });
+        }
+        if (it.id === "line-left-charged") { lineLeftOpen = false; hydrantWarn.visible = false; }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         vapour.visible = true; vapour.userData.step(dt, new THREE.Vector3(0, 0.7, 0), 0.3, 0.3, 0.2);
-        cloth.rotation.y = Math.sin(t * 2) * 0.15;
+        cloth.rotation.y = windShifted ? Math.PI * 0.55 + Math.sin(t * 2) * 0.15 : Math.sin(t * 2) * 0.15;
         if (session?.turn && step?.id === "water") hv.rotation.y = session.turn.amount * Math.PI * 2;
         if (step?.id === "wash" && session.holding && charged) { spray.visible = true; spray.userData.step(dt, new THREE.Vector3(-0.85, 1.6 - session.track.inBand / 7 * 1.3, -0.25), 0.15, 1.2, -3); }
         else if (spray.visible) spray.visible = false;
         for (const id of Object.keys(zoneLines)) if (step?.id === "zones" && !session.sequence.includes(id)) zoneLines[id].visible = false;
+        if (lineLeftOpen) hydrantWarn.material.emissiveIntensity = 1.8 + Math.sin(t * 12) * 1.6;
         const gg = session?.gauge;
         if (gg && !gg.committed && step?.id === "medical") repaint(vitals.userData.screen, signFace(`${Math.round(70 + gg.t * 90)} bpm`, { bg: "#0d1c24", accent: gg.t >= 0.4 && gg.t <= 0.58 ? "#59c97b" : "#f2ae14", fg: "#ffe9b0", scale: 0.62 }));
       },

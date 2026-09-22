@@ -63,13 +63,13 @@ export const SIM_FLY_SYSTEM = {
       id: "schedule", kind: "select", target: "hang-schedule",
       title: "Read the hang schedule",
       cue: "Check lineset 12: the fixtures, the batten load and the arbor capacity.",
-      why: "The schedule says what goes on the pipe and what that weighs; the arbor is loaded to that number, not to how the rope feels.",
+      why: "The schedule is the only document that says what is actually going on the pipe and what that adds up to — four ellipsoidals and their cable is a real number, not a guess made by hefting the batten. Loading the arbor to a number nobody read off the schedule is how a lineset ends up wrong by exactly the weight of the thing that got left off the paperwork.",
     },
     {
       id: "lock", kind: "select", target: "rope-lock",
       title: "Lock the rail",
       cue: "Set the rope lock on lineset 12 and put the operator on the rail.",
-      why: "Nothing is hung on a pipe that can move. The lock holds the lineset while it goes out of balance during loading; the operator is the second lock.",
+      why: "A counterweight system holds nothing by friction once it is out of balance, and it is out of balance for the entire time bricks are going onto the arbor — every one added tips the set a little further off the number on the schedule. The rope lock is what keeps the pipe still while that happens, and the operator standing the rail is the second lock, in case the first one is ever asked to do more than it can.",
     },
     {
       id: "clear", kind: "sequence", anyOrder: true,
@@ -77,13 +77,13 @@ export const SIM_FLY_SYSTEM = {
       itemNames: { "call-heads-up": "'heads up' call", "clear-deck": "deck clear under the batten" },
       title: "Call and clear the deck",
       cue: "'Heads up, lineset 12 coming in' — loud, and wait for the deck under the batten to clear.",
-      why: "The call is the only warning a stage has. Nobody stands under a pipe that is about to move, and the fly operator does not move it until the deck answers.",
+      why: "A moving batten gives no other warning: no lights, no siren, nothing but the operator's voice and whatever the deck does in the three seconds after hearing it. The call goes out before the line is touched, and the fly does not start until the space under the pipe answers back empty, because a shout after the batten is already moving is a shout to someone who is already under it.",
     },
     {
       id: "batten-in", kind: "track", target: "purchase-line", seconds: 6,
       title: "Bring the batten in",
       cue: "Hand over hand on the purchase line, steady, until the batten is at working height on the deck.",
-      why: "Steady hand-over-hand keeps the lineset under control and the arbor from bouncing in its guides. A fast fly is a fly that gets away.",
+      why: "The arbor is riding in guides the whole way down, and a purchase line that surges makes it bounce in them — enough bounce and a brick can walk itself toward the open side of the carriage before the spreaders and ring are even on. Hand over hand at one speed keeps the pipe's descent matched to the arbor's rise, which is the only way either one behaves.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "FLY IN", readout: (v) => (v < 0.4 ? "stalled" : v > 0.6 ? "too fast" : "steady") },
       holdBreakNote: "Speed out of band — the arbor is bouncing. Settle the line and hold.",
     },
@@ -93,7 +93,7 @@ export const SIM_FLY_SYSTEM = {
       itemNames: { "attach-fixtures": "fixtures clamped", "safety-cables": "safety cables", "cable-pick": "cable pick tied off" },
       title: "Hang and safety the fixtures",
       cue: "Clamp each fixture to the pipe, safety-cable every one, then tie off the cable pick.",
-      why: "A clamp holds a fixture until it does not; the safety cable is what holds it then. Cable ties come last so nothing is left hanging when the pipe flies.",
+      why: "A c-clamp holds a fixture right up until the pipe knocks it, someone brushes it in a blackout change, or the wingnut backs off half a turn on its own — and when it lets go, the safety cable is the only thing standing between a thirty-pound instrument and whoever is on the deck under the next cue. It is fitted to every fixture before the cable pick is dressed, so nothing on the pipe is ever unsafetied even for the length of a scene.",
       outOfOrderNote: "Clamp, then safety, then tie off — every fixture is safetied before the cable is dressed.",
     },
     {
@@ -102,13 +102,13 @@ export const SIM_FLY_SYSTEM = {
       itemNames: { "harness-clip": "harness clipped to the bridge line", "bridge-gate": "bridge gate closed" },
       title: "Clip in on the loading bridge",
       cue: "Clip the harness to the bridge tie-off line and close the gate before touching a brick.",
-      why: "The loading bridge is a catwalk over the arbor pit forty feet up with an open side to load through. The tie-off is what keeps a loader who leans out on the bridge.",
+      why: "The loading bridge is a catwalk over the arbor pit forty feet above the deck, open on the side a loader reaches through to hand bricks onto the carriage — there is no rail on that side because the job needs it open. OSHA 1910.28 is exactly why the tie-off exists: it is what a loader is clipped to instead of a rail, and it goes on, with the gate shut behind it, before a hand ever crosses that open edge.",
     },
     {
       id: "load", kind: "gauge", target: "arbor-scale",
       title: "Load the arbor to the pipe",
       cue: "Hand bricks onto the arbor one at a time until the arbor weight matches the batten load — commit inside the band.",
-      why: "The arbor balances the pipe plus what is on it. Light, the pipe runs to the deck; heavy, the arbor runs to the loft. The number on the schedule is the number in the arbor.",
+      why: "A counterweight rig balances one side against the other, and the number that matters is the pipe's, not a guess at how heavy the arbor feels from the rail. Light, and the batten runs to the deck the instant the lock comes off; heavy, and the arbor itself becomes the runaway, flying to the loft with nothing above it to stop it. The schedule's number in the arbor is what makes the lock a formality instead of the only thing holding the lineset up.",
       gauge: { label: "ARBOR vs PIPE", speed: 0.7, green: [0.48, 0.6], readout: (t) => `${Math.round(t * 600)} lb`, missNote: "Out of balance — add or remove a brick and read it again." },
     },
     {
@@ -117,14 +117,14 @@ export const SIM_FLY_SYSTEM = {
       itemNames: { "spreader-plates": "spreader plates", "lock-ring": "lock ring" },
       title: "Spreader plates and lock ring",
       cue: "A spreader plate every two feet of bricks, then the lock ring cinched at the top.",
-      why: "Spreaders keep the arbor rods from bowing under a stack; the ring keeps the stack from jumping the rods if the arbor stops hard. No ring, and the bricks leave the arbor on a runaway.",
+      why: "Twenty pounds of steel stacked six feet high on two thin rods wants to bow the moment the arbor takes a hard stop, and a spreader plate every couple of feet is what keeps that stack straight in its guides instead of racking sideways. The lock ring on top is the part that actually stops a brick leaving the rods on a sudden check — without it the top bricks are free to jump clear on the very stop the ring is there for.",
       outOfOrderNote: "Spreaders through the stack first, then the ring on top.",
     },
     {
       id: "test", kind: "track", target: "purchase-test", seconds: 6,
       title: "Test lift",
       cue: "Release the lock with a hand on the line, lift the batten a foot, and feel for balance — steady.",
-      why: "The test lift is the only proof of balance. A hand on the line feels a heavy pipe or a heavy arbor before it becomes a runaway; a foot of travel is enough to know.",
+      why: "Every number used to load the arbor was an estimate — a fixture's stencil weight, a schedule's rounded figure — and the test lift is where all of that gets checked against the pipe itself rather than against paper. A hand kept on the purchase line the whole foot of travel feels a heavy pipe pulling or a heavy arbor running before either one turns into an actual runaway, which is exactly the margin a full unlock with no hand on the line throws away.",
       track: { start: 0.1, green: [0.4, 0.6], rise: 0.6, fall: 0.5, drift: 0.12, label: "TEST LIFT", readout: (v) => (v < 0.4 ? "pipe heavy" : v > 0.6 ? "arbor heavy" : "in balance") },
       holdBreakNote: "The line is pulling — out of balance. Lock it and correct the arbor.",
     },
@@ -132,7 +132,7 @@ export const SIM_FLY_SYSTEM = {
       id: "trim", kind: "gauge", target: "trim-mark",
       title: "Fly to trim",
       cue: "Fly the batten out to the trim height on the plot and commit inside the band.",
-      why: "Trim is where the designer wants the light. It is set once, marked on the purchase line, and the clamp holds it for the run.",
+      why: "Trim height is a design decision, not a rigging one — it is where the lighting designer wants that pipe for the run of the show, marked once on the purchase line so the same lineset lands in the same place every performance without anyone re-measuring it from the deck. Flying past the mark and correcting back wastes a rig; flying short leaves fixtures aimed at nothing the plot called for.",
       gauge: { label: "TRIM", speed: 0.75, green: [0.5, 0.64], readout: (t) => `${(t * 40).toFixed(1)} ft`, missNote: "Off trim — fly to the mark on the plot." },
     },
     {
@@ -141,7 +141,7 @@ export const SIM_FLY_SYSTEM = {
       itemNames: { "rope-lock-close": "rope lock", "trim-clamp": "trim clamp", "tag-loaded": "lineset tag" },
       title: "Lock, clamp, tag",
       cue: "Lock the rope lock, set the trim clamp, and tag lineset 12 as loaded with the weight.",
-      why: "The tag tells the next crew what is on the pipe and in the arbor; the clamp holds trim; the lock holds everything. Nobody leaves an untagged lineset.",
+      why: "The lock is what keeps a balanced lineset from drifting on its own weight, and the trim clamp is what keeps a single scene change from bumping it off the mark the designer signed off. The tag is for the next shift, not this one — it says what is hanging and what is in the arbor so nobody has to fly a loaded lineset blind just to find out, and a rail with an untagged pipe on it is a rail nobody downstream can trust.",
       outOfOrderNote: "Lock, then clamp, then tag — the lineset is held before it is labelled.",
     },
     {
@@ -151,7 +151,32 @@ export const SIM_FLY_SYSTEM = {
       itemNotes: { "brick-unseated": "One brick is sitting on the stack outside the arbor rods — it is not held by the ring and will leave the arbor on the first hard stop." },
       title: "Walk the arbor before you leave the bridge",
       cue: "Look down the stack — every brick on the rods, spreaders in, ring tight — and click what is wrong.",
-      why: "The arbor is checked from the bridge before the loader unclips. A brick outside the rods is found now or on the deck.",
+      why: "A brick that jumped its guide during loading can sit against the stack looking held when it is only leaning, and the ring above it proves nothing about the one below it that never made the rods in the first place. It gets found from the bridge, on the walk-down, or it gets found on the deck the first time the pipe takes a hard stop with someone underneath it.",
+    },
+  ],
+
+  interrupts: [
+    {
+      id: "wander-under-batten",
+      kind: "Body under the pipe",
+      after: "batten-in", delay: 3, seconds: 12,
+      alert: "A stagehand carrying a coil of cable has walked out from the wings and stopped directly under the batten, still moving.",
+      cue: "There's a body under the pipe again.",
+      target: "call-heads-up",
+      why: "Deck clear is not a condition that holds itself once it has been called; it is only true for as long as nobody walks back into it, and a batten in motion gives a wandering stagehand no more warning than it gave anyone the first time. The only tool the operator has for a body that reappears under a moving pipe mid-fly is the same one used to clear it in the first place — call again, loud, and hold the line until the deck answers back empty.",
+      missNote: "The batten kept coming down over someone who never got a second call. Nothing on the pipe caught them this time, but a clamped fixture or the pipe itself only has to reach a shoulder once, and the only reason it did not was that the stagehand happened to look up on their own.",
+      wrongNote: "It's the call, not the line. The purchase line is under control right now; the danger is the person standing under a pipe that does not know they are there.",
+    },
+    {
+      id: "gate-left-open",
+      kind: "Bridge gate open",
+      after: "test", delay: 4, seconds: 13,
+      alert: "The bridge gate has swung open behind the loader while everyone is watching the test lift, and nobody has latched it back.",
+      cue: "The gate on the loading bridge is hanging open forty feet up.",
+      target: "bridge-gate",
+      why: "A closed gate is the only thing standing between the loading bridge and the drop to the deck, on the exact side a loader reaches through to hand bricks across — it takes no more than an elbow catching the latch wrong to swing it open, and it takes exactly that long for someone leaning in to watch a test lift to end up standing next to an open edge they think is still guarded. It gets shut the moment anyone on the bridge notices, not after the batten is trimmed.",
+      missNote: "The gate stayed open through the whole test lift with a loader three feet from it. A pipe that comes in balance on this lift does not make an open gate on a forty-foot bridge any safer to stand beside.",
+      wrongNote: "It's the gate. The lineset finding its balance right now is not what is putting anyone on the bridge at risk.",
     },
   ],
 
@@ -283,6 +308,9 @@ export const SIM_FLY_SYSTEM = {
     reg(hits, clearZone, "clear-deck");
     for (const x of [1.0, 1.7]) box(g, 0.6, 0.6, 0.6, x, 0.4, -1.9, 0x1b1e23, { rough: 0.6, metal: 0.3 });
     standingFigure(g, -1.4, 1.5, { ry: 1.2, cloth: 0x1b1e23 });
+    // Stray stagehand who wanders under the batten mid-fly — hidden until the interrupt fires.
+    const strayHand = standingFigure(g, 2.35, -0.3, { ry: 0.4, cloth: 0x3a3535 });
+    strayHand.visible = false;
 
     let battenY = 3.6, targetY = 3.6, arborY = 1.2, loaded = 0;
     return {
@@ -299,6 +327,18 @@ export const SIM_FLY_SYSTEM = {
         if (step.id === "walk") unseated.visible = false;
       },
       onHazard() {},
+      // The interruptions each change something a flyman on the rail would
+      // actually see: a body appearing under the pipe, and the bridge gate
+      // swinging open behind the loader.
+      onInterrupt(it) {
+        if (it.id === "wander-under-batten") strayHand.visible = true;
+        if (it.id === "gate-left-open") gate.rotation.y = -1.1;
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "wander-under-batten") strayHand.visible = false;
+        if (it.id === "gate-left-open") gate.rotation.y = 0;
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "hang") { if (session.sequence.includes("attach-fixtures")) for (const fx of fixtures) fx.f.visible = true; if (session.sequence.includes("safety-cables")) for (const fx of fixtures) fx.safety.visible = true; }
