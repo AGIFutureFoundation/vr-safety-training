@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 136
+      "stations": 139
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "last-call-lockup",
+        "allergen-cocktail",
+        "till-drop-robbery",
         "patron-deescalation",
         "spiked-drink-response",
         "cutoff-overservice",
@@ -1026,6 +1029,21 @@
           "app": "smartcity",
           "id": "patron-deescalation",
           "why": "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind."
+        },
+        {
+          "app": "smartcity",
+          "id": "till-drop-robbery",
+          "why": "The till counted down with a witness and dropped with an escort, and the plan for the night somebody demands it instead: comply, don't chase, and let the alarm and the police do the rest."
+        },
+        {
+          "app": "smartcity",
+          "id": "allergen-cocktail",
+          "why": "The nut liqueurs, the egg white, the dairy and the gluten a label — not a memory — actually discloses, dedicated tools for the order that needs them, and the auto-injector found fast if it ever comes to that."
+        },
+        {
+          "app": "smartcity",
+          "id": "last-call-lockup",
+          "why": "The last hour of the shift as its own procedure: last call on the ABC's clock, the \"one more\" refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5345,6 +5363,252 @@
     },
     {
       "app": "smartcity",
+      "id": "last-call-lockup",
+      "name": "Last Call & Lockup",
+      "title": "SmartCiti.X~ Last Call & Lockup VR",
+      "tagline": "Last call on the clock the ABC licence sets, no sale after 2 a.m., the \"one more\" refused, rides checked, staff walked out together, the restrooms swept, and the building locked down behind you",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "California ABC Act §25631 (hours of sale) and §25602 (sale to an obviously intoxicated person); the ABC licence's own posted hours; Cal/OSHA's workplace violence prevention plan (8 CCR §3342, SB 553), which names the closing shift and the walk to the parking lot as elevated-risk periods; federal OSHA's recordkeeping rule (29 CFR 1904) for anything the shift needs to report; UNITE HERE Local 2's closing-shift and safety-committee language",
+      "accent": "#5c6bc0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "track",
+        "turn",
+        "find",
+        "hold",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "clean-close",
+        "name": "Clean Close",
+        "note": "Last call, the cutoff, the rides and the sweep all answered clean, and the building locked down behind a crew that walked out together"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "142",
+      "flat": false,
+      "system": "Closing Shift",
+      "currency": "CLOSE",
+      "ranks": [
+        "Barback",
+        "Closer",
+        "Shift Lead",
+        "Manager on Duty",
+        "Closing Certified"
+      ],
+      "awards": [
+        {
+          "id": "on-the-clock",
+          "name": "On the Clock",
+          "note": "Last call and the 2 a.m. cutoff both answered clean, first time"
+        },
+        {
+          "id": "nobody-left-behind",
+          "name": "Nobody Left Behind",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "steady-sweep",
+          "name": "Steady Sweep",
+          "note": "Every timed hold and sweep carried clean the whole way"
+        },
+        {
+          "id": "clean-close",
+          "name": "Clean Close",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        },
+        {
+          "id": "out-on-time",
+          "name": "Out on Time",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=last-call-lockup"
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-cocktail",
+      "name": "Allergens & Honest Drinks",
+      "title": "SmartCiti.X~ Allergens & Honest Drinks VR",
+      "tagline": "Take the allergy order seriously, read the label instead of the memory, keep dedicated tools for it, and if someone starts reacting: find their auto-injector, call 911, and don't let them leave",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "The FDA's FALCPA major food-allergen labelling under 21 CFR 101 (egg, milk, tree nuts) as it reaches bottled liqueurs and house syrups; the TTB's sulphite-disclosure requirement on wine labels; the California Retail Food Code and NSF International's equipment-sanitation standards on cross-contact and food-contact surfaces; UNITE HERE Local 2's service standards; and the venue's own written allergy protocol",
+      "accent": "#4fd18a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "read-the-label",
+        "name": "Read the Label",
+        "note": "Every allergen order answered from the label and the recipe card, clean, with the reaction chain ready if it was ever needed"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "141",
+      "flat": false,
+      "system": "Service Standards",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Well Bartender",
+        "Lead Bartender",
+        "Bar Manager",
+        "Service Certified"
+      ],
+      "awards": [
+        {
+          "id": "label-read",
+          "name": "Label Read",
+          "note": "Every bottle and recipe card checked before the first pour"
+        },
+        {
+          "id": "no-cross-contact",
+          "name": "No Cross-Contact",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "steady-build",
+          "name": "Steady Build",
+          "note": "The shake and the mocktail build both carried clean the whole way"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "six-straight",
+          "name": "Six Straight",
+          "note": "Six correct actions in a row"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=allergen-cocktail"
+    },
+    {
+      "app": "smartcity",
+      "id": "till-drop-robbery",
+      "name": "Till Drop & Robbery Response",
+      "title": "SmartCiti.X~ Till Drop & Robbery Response VR",
+      "tagline": "Count the till with a witness, drop it with an escort, and if someone demands the drawer instead: comply, don't chase, alarm after they're gone, lock up, call 911, and log it",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Bartender — UNITE HERE Local 2",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention plan (8 CCR §3342, enacted by SB 553) and Injury and Illness Prevention Program (8 CCR §3203); federal OSHA's recordkeeping rule (29 CFR 1904) for any work-related injury the incident causes; UNITE HERE Local 2's cash-handling and safety-committee language; California Labor Code §351 on tips; local police non-emergency reporting and the 911 protocol for an in-progress or just-occurred robbery",
+      "accent": "#d6455a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "bar",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "gauge",
+        "sequence",
+        "track",
+        "drag",
+        "turn",
+        "find"
+      ],
+      "badge": {
+        "id": "clean-drop",
+        "name": "Clean Drop",
+        "note": "Till counted and dropped clean, and a robbery demand answered without a single unsafe move"
+      },
+      "meshes": 183,
+      "lights": 0,
+      "overBudget": false,
+      "index": "140",
+      "flat": false,
+      "system": "Cash Control",
+      "currency": "DROP",
+      "ranks": [
+        "Barback",
+        "Closer",
+        "Shift Lead",
+        "Manager on Duty",
+        "Cash Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "witnessed",
+          "name": "Witnessed",
+          "note": "The count was called and reconciled clean, first time"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone",
+          "note": "No unsafe action anywhere in the run — the drop and the robbery both answered by the book"
+        },
+        {
+          "id": "steady-hand",
+          "name": "Steady Hand",
+          "note": "Every timed hold and the escort walk carried clean the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "reconciled",
+          "name": "Reconciled",
+          "note": "Mean gauge accuracy in the top band"
+        },
+        {
+          "id": "closed-out",
+          "name": "Closed Out",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=till-drop-robbery"
+    },
+    {
+      "app": "smartcity",
       "id": "patron-deescalation",
       "name": "Patron De-escalation",
       "title": "SmartCiti.X~ Patron De-escalation VR",
@@ -7998,7 +8262,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 270,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -8657,7 +8921,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

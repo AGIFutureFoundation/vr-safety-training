@@ -268,7 +268,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "spiked-drink-response", why: "Patron safety when the cues are somebody else's drink, not his own tab: the rail watched, the safe-word scheme posted, and a suspect glass retained rather than rinsed the moment a guest is not the person her count says she should be." },
       { app: "smartcity", id: "patron-deescalation", why: "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind." },
       // slot-bar-3
-      // slot-bar-4
+      { app: "smartcity", id: "till-drop-robbery", why: "The till counted down with a witness and dropped with an escort, and the plan for the night somebody demands it instead: comply, don't chase, and let the alarm and the police do the rest." },
+      { app: "smartcity", id: "allergen-cocktail", why: "The nut liqueurs, the egg white, the dairy and the gluten a label — not a memory — actually discloses, dedicated tools for the order that needs them, and the auto-injector found fast if it ever comes to that." },
+      { app: "smartcity", id: "last-call-lockup", why: "The last hour of the shift as its own procedure: last call on the ABC's clock, the \"one more\" refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together." },
       // slot-bar-5
     ],
   },

@@ -5763,5 +5763,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "till-drop-robbery",
+    "index": "140",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "Cal/OSHA's workplace violence prevention plan (8 CCR §3342, enacted by SB 553) and Injury and Illness Prevention Program (8 CCR §3203); federal OSHA's recordkeeping rule (29 CFR 1904) for any work-related injury the incident causes; UNITE HERE Local 2's cash-handling and safety-committee language; California Labor Code §351 on tips; local police non-emergency reporting and the 911 protocol for an in-progress or just-occurred robbery",
+    "name": "Till Drop & Robbery Response",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Till Drop & Robbery Response VR",
+    "tagline": "Count the till with a witness, drop it with an escort, and if someone demands the drawer instead: comply, don't chase, alarm after they're gone, lock up, call 911, and log it",
+    "accent": 14042458,
+    "accentCss": "#d6455a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-drop",
+      "name": "Clean Drop",
+      "note": "Till counted and dropped clean, and a robbery demand answered without a single unsafe move"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cash Control",
+      "currency": "DROP",
+      "ranks": [
+        "Barback",
+        "Closer",
+        "Shift Lead",
+        "Manager on Duty",
+        "Cash Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "allergen-cocktail",
+    "index": "141",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "The FDA's FALCPA major food-allergen labelling under 21 CFR 101 (egg, milk, tree nuts) as it reaches bottled liqueurs and house syrups; the TTB's sulphite-disclosure requirement on wine labels; the California Retail Food Code and NSF International's equipment-sanitation standards on cross-contact and food-contact surfaces; UNITE HERE Local 2's service standards; and the venue's own written allergy protocol",
+    "name": "Allergens & Honest Drinks",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Allergens & Honest Drinks VR",
+    "tagline": "Take the allergy order seriously, read the label instead of the memory, keep dedicated tools for it, and if someone starts reacting: find their auto-injector, call 911, and don't let them leave",
+    "accent": 5230986,
+    "accentCss": "#4fd18a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "read-the-label",
+      "name": "Read the Label",
+      "note": "Every allergen order answered from the label and the recipe card, clean, with the reaction chain ready if it was ever needed"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Service Standards",
+      "currency": "POUR",
+      "ranks": [
+        "Barback",
+        "Well Bartender",
+        "Lead Bartender",
+        "Bar Manager",
+        "Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "last-call-lockup",
+    "index": "142",
+    "domain": "Culinary & Hospitality",
+    "trade": "Bartender — UNITE HERE Local 2",
+    "category": "Culinary & Hospitality",
+    "certification": "California ABC Act §25631 (hours of sale) and §25602 (sale to an obviously intoxicated person); the ABC licence's own posted hours; Cal/OSHA's workplace violence prevention plan (8 CCR §3342, SB 553), which names the closing shift and the walk to the parking lot as elevated-risk periods; federal OSHA's recordkeeping rule (29 CFR 1904) for anything the shift needs to report; UNITE HERE Local 2's closing-shift and safety-committee language",
+    "name": "Last Call & Lockup",
+    "weather": "clear",
+    "indoor": "bar",
+    "district": null,
+    "title": "SmartCiti.X~ Last Call & Lockup VR",
+    "tagline": "Last call on the clock the ABC licence sets, no sale after 2 a.m., the \"one more\" refused, rides checked, staff walked out together, the restrooms swept, and the building locked down behind you",
+    "accent": 6056896,
+    "accentCss": "#5c6bc0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "clean-close",
+      "name": "Clean Close",
+      "note": "Last call, the cutoff, the rides and the sweep all answered clean, and the building locked down behind a crew that walked out together"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Closing Shift",
+      "currency": "CLOSE",
+      "ranks": [
+        "Barback",
+        "Closer",
+        "Shift Lead",
+        "Manager on Duty",
+        "Closing Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
