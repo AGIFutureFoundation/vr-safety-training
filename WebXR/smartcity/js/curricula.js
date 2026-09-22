@@ -211,7 +211,9 @@ export const CURRICULA = [
       { app: "trades", id: "kitchen", why: "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own." },
       // slot-culinary-1
       // slot-culinary-2
-      // slot-culinary-3
+      { app: "smartcity", id: "walk-in-cooler", why: "Cold storage as its own procedure: the inside release proven before the door is trusted, 41 °F confirmed, and stock put away raw-below-ready in the order the Food Code sets." },
+      { app: "smartcity", id: "receiving-dock-food", why: "The delivery that stocks that cooler in the first place: every cold, frozen and hot item probed at the dock and refused outside the Food Code's own limits, before anything reaches a shelf." },
+      { app: "smartcity", id: "prep-cooling", why: "The other half of the clock: a cooked batch brought down through 70 °F in two hours and 41 °F in six, with the reheat-or-discard call for the one that misses it." },
       { app: "smartcity", id: "dish-pit", why: "The dish machine and the three-compartment sink: chemical lines checked, the sanitiser strip-tested and logged, and an eyewash proven clear before the first jug is opened." },
       { app: "smartcity", id: "grease-trap", why: "Servicing the under-sink grease interceptor: the confined-space question answered correctly, the 25 percent rule read off the stick, and the waste sealed for the hauler rather than sent down a drain." },
       { app: "smartcity", id: "allergen-control", why: "An allergen order on the line: the ticket called back, the purple board and dedicated pan pulled, and the plate walked to the pass by the cook who built it." },

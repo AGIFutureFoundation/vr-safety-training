@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 112
+      "stations": 115
     },
     "trades": {
       "entry": "trades/index.html",
@@ -192,6 +192,9 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "prep-cooling",
+        "receiving-dock-food",
+        "walk-in-cooler",
         "allergen-control",
         "grease-trap",
         "dish-pit",
@@ -792,6 +795,21 @@
           "app": "trades",
           "id": "kitchen",
           "why": "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own."
+        },
+        {
+          "app": "smartcity",
+          "id": "walk-in-cooler",
+          "why": "Cold storage as its own procedure: the inside release proven before the door is trusted, 41 °F confirmed, and stock put away raw-below-ready in the order the Food Code sets."
+        },
+        {
+          "app": "smartcity",
+          "id": "receiving-dock-food",
+          "why": "The delivery that stocks that cooler in the first place: every cold, frozen and hot item probed at the dock and refused outside the Food Code's own limits, before anything reaches a shelf."
+        },
+        {
+          "app": "smartcity",
+          "id": "prep-cooling",
+          "why": "The other half of the clock: a cooked batch brought down through 70 °F in two hours and 41 °F in six, with the reheat-or-discard call for the one that misses it."
         },
         {
           "app": "smartcity",
@@ -5201,6 +5219,254 @@
     },
     {
       "app": "smartcity",
+      "id": "prep-cooling",
+      "name": "Prep Cooling",
+      "title": "SmartCiti.X~ Prep Cooling VR",
+      "tagline": "Cooling stock and a hotel pan of rice inside the Food Code's clock: shallow pans, an ice paddle, the blast chiller, temperatures logged at two and six hours, a pan covered only once cold, dated with its own discard date, and the reheat-or-discard call when the two-hour mark is missed",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Line cook — hot food cooling",
+      "union": null,
+      "certification": "California Retail Food Code / FDA Food Code §3-501.14 cooling — 135 °F to 70 °F within 2 hours, and a total of 6 hours to 41 °F or below; §3-501.15 cooling methods (shallow pans, ice paddles, rapid-chill equipment); §3-501.17 date marking; HACCP, which treats cooling as its own critical control point; California Food Handler card and ServSafe Food Protection Manager; NSF/ANSI 7 rapid-chill equipment; OSHA 29 CFR 1910.132 PPE for handling product at both ends of this task's temperature range; UNITE HERE Local 2",
+      "accent": "#7fb8e8",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "track",
+        "turn",
+        "hold",
+        "gauge",
+        "find"
+      ],
+      "badge": {
+        "id": "cooled-clean",
+        "name": "Cooled Clean",
+        "note": "A batch cooled inside both Food Code windows, dated with its own discard date and logged — first time"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "109",
+      "flat": false,
+      "system": "Cooling Line",
+      "currency": "CHILL",
+      "ranks": [
+        "Prep Cook",
+        "Line Cook",
+        "Lead Cook",
+        "Kitchen Supervisor",
+        "Cooling Certified"
+      ],
+      "awards": [
+        {
+          "id": "shallow-first",
+          "name": "Shallow First",
+          "note": "Batch split into shallow pans before the ice bath ever started, first time"
+        },
+        {
+          "id": "never-guessed",
+          "name": "Never Guessed",
+          "note": "Never a deep pot cooled whole, never covered hot, never a plain-water bath"
+        },
+        {
+          "id": "on-the-clock",
+          "name": "On the Clock",
+          "note": "Both temperature checks and the chiller cycle all inside the band"
+        },
+        {
+          "id": "clean-cool",
+          "name": "Clean Cooldown",
+          "note": "No corrections anywhere on the batch"
+        },
+        {
+          "id": "steady-stir",
+          "name": "Steady Stir",
+          "note": "Ice paddle held a steady rate the whole hold"
+        },
+        {
+          "id": "cool-fast",
+          "name": "Cooled In Time",
+          "note": "Batch closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=prep-cooling"
+    },
+    {
+      "app": "smartcity",
+      "id": "receiving-dock-food",
+      "name": "Receiving Dock Food",
+      "title": "SmartCiti.X~ Receiving Dock Food VR",
+      "tagline": "A delivery at the kitchen dock: invoice against the order, the truck's reefer read before the door opens, every cold and frozen item probed and refused outside the limit, packaging and dates checked, refusals logged, goods moved to cold storage in the window, and the log signed",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Receiving clerk / kitchen worker — food deliveries",
+      "union": null,
+      "certification": "California Retail Food Code / FDA Food Code §3-202.11 receiving temperatures and §3-202.15 package integrity; California Food Handler card and ServSafe Food Protection Manager; HACCP, which treats receiving as its own critical control point; OSHA 29 CFR 1910.22 walking-working surfaces for the dock apron; NSF/ANSI 2 food equipment; UNITE HERE Local 2 and the Teamsters drivers on the other side of the dock plate",
+      "accent": "#f2b13b",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "find",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "clean-receipt",
+        "name": "Clean Receipt",
+        "note": "A delivery received with every temperature checked, nothing refused going to storage and the log signed clean — first time"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "108",
+      "flat": false,
+      "system": "Receiving Line",
+      "currency": "DOCK",
+      "ranks": [
+        "Porter",
+        "Receiving Clerk",
+        "Lead Receiver",
+        "Kitchen Supervisor",
+        "Receiving Certified"
+      ],
+      "awards": [
+        {
+          "id": "probe-first",
+          "name": "Probe First",
+          "note": "Thermometer sanitised before it ever touched food, first time"
+        },
+        {
+          "id": "nothing-slipped",
+          "name": "Nothing Slipped",
+          "note": "Never a warm load accepted, never an unsanitised probe, never damage stocked"
+        },
+        {
+          "id": "on-the-limit",
+          "name": "On the Limit",
+          "note": "Every probed reading and the reefer check both inside the band"
+        },
+        {
+          "id": "clean-delivery",
+          "name": "Clean Delivery",
+          "note": "No corrections anywhere on the receipt"
+        },
+        {
+          "id": "steady-truck",
+          "name": "Steady Through",
+          "note": "Hand truck held a steady pace to cold storage"
+        },
+        {
+          "id": "receive-fast",
+          "name": "Received In Time",
+          "note": "Delivery closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=receiving-dock-food"
+    },
+    {
+      "app": "smartcity",
+      "id": "walk-in-cooler",
+      "name": "Walk-In Cooler",
+      "title": "SmartCiti.X~ Walk-In Cooler VR",
+      "tagline": "Opening check and a stocking run: inside release and light proven before the door closes, 41 °F confirmed, gasket and floor checked, raw-below-ready stocking, FIFO dates, a case lifted right, and the compressor alarm read",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Line cook / kitchen worker — cold storage",
+      "union": null,
+      "certification": "California Retail Food Code / FDA Food Code §3-501.16 cold holding at 41 °F or below, §3-302.11 raw-to-ready storage order and §3-501.17 date marking; California Food Handler card and ServSafe Food Protection Manager; the means-of-egress principle behind OSHA 29 CFR 1910.36 — nobody works in a room they cannot get out of, which is why a walk-in has an inside release; NSF/ANSI 7 commercial refrigeration equipment; Cal/OSHA Title 8 General Industry Safety Orders on manual lifting; UNITE HERE Local 2",
+      "accent": "#6fd6c9",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "gauge",
+        "find",
+        "sequence",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "cold-and-clear",
+        "name": "Cold and Clear",
+        "note": "A stocking run with the release proven, 41 °F confirmed, nothing raw over ready and every case dated — first time"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "107",
+      "flat": false,
+      "system": "Cold Storage",
+      "currency": "CHILL",
+      "ranks": [
+        "Prep Cook",
+        "Line Cook",
+        "Lead Cook",
+        "Kitchen Supervisor",
+        "Cold Storage Certified"
+      ],
+      "awards": [
+        {
+          "id": "release-proven",
+          "name": "Release Proven",
+          "note": "Inside release held and cleared before the door was ever trusted, first time"
+        },
+        {
+          "id": "never-trapped",
+          "name": "Never Trapped",
+          "note": "Never a blocked release, never raw over ready, never an unlabelled pan"
+        },
+        {
+          "id": "on-temp",
+          "name": "On Temp",
+          "note": "Thermometer and compressor readings both inside the band"
+        },
+        {
+          "id": "clean-stock",
+          "name": "Clean Stock",
+          "note": "No corrections anywhere on the run"
+        },
+        {
+          "id": "steady-wheel",
+          "name": "Steady Wheel",
+          "note": "Cart held a steady pace the whole way"
+        },
+        {
+          "id": "stock-fast",
+          "name": "Stocked In Time",
+          "note": "Run complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=walk-in-cooler"
+    },
+    {
+      "app": "smartcity",
       "id": "allergen-control",
       "name": "Allergen Control",
       "title": "SmartCiti.X~ Allergen Control VR",
@@ -5883,7 +6149,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 236,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -6542,7 +6808,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
