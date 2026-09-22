@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 193
+      "stations": 196
     },
     "trades": {
       "entry": "trades/index.html",
@@ -139,6 +139,9 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "deck-joint-replacement",
+        "bridge-lead-containment",
+        "bridge-cable-inspection",
         "masonry-silica-scaffold",
         "mass-timber-panel-set",
         "formwork-shoring",
@@ -1373,6 +1376,21 @@
           "app": "smartcity",
           "id": "steel-erector",
           "why": "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go."
+        },
+        {
+          "app": "smartcity",
+          "id": "bridge-cable-inspection",
+          "why": "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion."
+        },
+        {
+          "app": "smartcity",
+          "id": "bridge-lead-containment",
+          "why": "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below."
+        },
+        {
+          "app": "smartcity",
+          "id": "deck-joint-replacement",
+          "why": "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -1433,6 +1451,21 @@
           "app": "smartcity",
           "id": "masonry-silica-scaffold",
           "why": "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+    },
+    {
+      "id": "first-responders",
+      "name": "First Responders — Fire, EMS, Police, Crisis and Relief",
+      "union": "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce",
+      "certification": "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
+      "summary": "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "triage-point",
+          "why": "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5775,6 +5808,254 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "deck-joint-replacement",
+      "name": "Deck Joint Replacement",
+      "title": "SmartCiti.X~ Deck Joint Replacement VR",
+      "tagline": "An expansion joint replaced under a lane closure: the MUTCD taper and arrow board set, the cut run wet, the new joint torqued and levelled, and the header poured before the closure comes up in reverse",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworker with IUOE and LIUNA under a lane closure",
+      "union": null,
+      "certification": "Ironworkers (IW), IUOE operating engineers and LIUNA laborers; the owner's lane-closure plan built to the Manual on Uniform Traffic Control Devices (MUTCD); OSHA 29 CFR 1926.1153 respirable crystalline silica, Table 1 wet-cutting method for saws",
+      "accent": "#9aa4ad",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "drag",
+        "find",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "joint-set",
+        "name": "Joint Set",
+        "note": "An expansion joint replaced under a working lane closure — taper held, cut run wet, joint torqued and levelled, header poured true"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "187",
+      "flat": false,
+      "system": "Deck Joint Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Flagger",
+        "Deck Hand",
+        "Joint Setter",
+        "Crew Lead",
+        "Deck Joint Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "taper-held",
+          "name": "Taper Held",
+          "note": "The lane closure never registered a breach across the whole run"
+        },
+        {
+          "id": "cut-true",
+          "name": "Cut True",
+          "note": "Held the saw inside the cut line the whole pass"
+        },
+        {
+          "id": "level-clean",
+          "name": "Level Clean",
+          "note": "No corrections on either level check"
+        },
+        {
+          "id": "clean-closure",
+          "name": "Clean Closure",
+          "note": "No corrections through the whole replacement"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "Held the saw pass with no dropout"
+        },
+        {
+          "id": "lane-reopened",
+          "name": "Lane Reopened",
+          "note": "Closure struck and lane reopened inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=deck-joint-replacement"
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-lead-containment",
+      "name": "Bridge Lead Containment",
+      "title": "SmartCiti.X~ Bridge Lead Containment VR",
+      "tagline": "A truss bay fully contained over open water: pressure proven, the respirator fit-tested against the blood-lead programme, blasted to standard, and the lead waste labelled and staged before the air sample comes off the line",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Bridge painter — IUPAT",
+      "union": null,
+      "certification": "IUPAT bridge painters; OSHA 29 CFR 1926.62 lead in construction, including baseline and periodic blood-lead surveillance; SSPC-QP 2 certified lead-paint removal contractor and the SSPC-SP 10 near-white blast standard; OSHA 1910.134 respiratory protection and annual fit testing; 40 CFR 261 (RCRA) characteristic hazardous waste D008 for lead-paint debris",
+      "accent": "#cf8f4a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "turn",
+        "gauge",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "truss-contained",
+        "name": "Truss Contained",
+        "note": "A lead-paint containment on a truss bay held start to finish on measured numbers — fit test, negative pressure, profile and the waste manifest — with nothing reaching the water below"
+      },
+      "meshes": 204,
+      "lights": 0,
+      "overBudget": false,
+      "index": "186",
+      "flat": false,
+      "system": "Bridge Coatings Authority",
+      "currency": "COAT",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Competent Person",
+        "Coatings Foreman",
+        "Bridge Coatings Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "fit-proven",
+          "name": "Fit Proven",
+          "note": "Reached for a respirator only after confirming its fit-test tag was current"
+        },
+        {
+          "id": "held-negative-truss",
+          "name": "Held Negative",
+          "note": "Kept the bay's manometer reading negative for the whole run, no exceptions"
+        },
+        {
+          "id": "near-white-truss",
+          "name": "Near-White",
+          "note": "Kept the diagonal's standoff distance inside band for the entire pass"
+        },
+        {
+          "id": "clean-truss-containment",
+          "name": "Clean Containment",
+          "note": "Ran the whole bay, plan to manifest, without a single wrong click"
+        },
+        {
+          "id": "steady-truss-nozzle",
+          "name": "Steady Nozzle",
+          "note": "Never let the blast pattern drop out of band during the pass"
+        },
+        {
+          "id": "bay-closed-inside-par",
+          "name": "Bay Closed Inside Par",
+          "note": "Opened, blasted and struck this bay in under 80% of the par time"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bridge-lead-containment"
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-cable-inspection",
+      "name": "Bridge Cable Inspection",
+      "title": "SmartCiti.X~ Bridge Cable Inspection VR",
+      "tagline": "A suspender rope walked from the traveller: two lanyards live, the brakes set, the wires counted against the rejection criterion, and the finding photographed before the report is signed",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworker — bridge inspection, with the owner's inspector",
+      "union": null,
+      "certification": "Ironworkers (IW) bridge inspection crew; OSHA 29 CFR 1926 Subpart M fall protection and ANSI/ASSP Z359 fall-arrest systems for 100% tie-off on a moving platform; the National Bridge Inspection Standards (23 CFR 650 Subpart C) and the AASHTO Manual for Bridge Evaluation governing suspender-rope condition rating and the wire-rope rejection criteria",
+      "accent": "#7fa8bf",
+      "parSeconds": 310,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "find",
+        "track",
+        "gauge",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "rope-cleared",
+        "name": "Rope Cleared",
+        "note": "A suspender rope inspected from the traveller, start to finish, with two lanyards live and the wire count against the rejection criterion"
+      },
+      "meshes": 173,
+      "lights": 0,
+      "overBudget": false,
+      "index": "185",
+      "flat": false,
+      "system": "Bridge Inspection Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Cable Rider",
+        "Rope Inspector",
+        "Lead Inspector",
+        "Bridge Inspection Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "two-point-live",
+          "name": "Two-Point Live",
+          "note": "Never rode the cable on one lanyard"
+        },
+        {
+          "id": "flux-steady",
+          "name": "Flux Steady",
+          "note": "Held the flux head inside the coupling band the whole pass"
+        },
+        {
+          "id": "clean-finding",
+          "name": "Clean Finding",
+          "note": "No corrections from the plan to the report"
+        },
+        {
+          "id": "rope-clean",
+          "name": "Rope Clean",
+          "note": "No corrections through the whole inspection"
+        },
+        {
+          "id": "steady-pass",
+          "name": "Steady Pass",
+          "note": "Held the flux pass with no dropout"
+        },
+        {
+          "id": "span-inside-par",
+          "name": "Span Inside Par",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bridge-cable-inspection"
     },
     {
       "app": "smartcity",
@@ -13135,7 +13416,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -13794,7 +14075,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

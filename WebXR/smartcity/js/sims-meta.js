@@ -8216,5 +8216,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bridge-cable-inspection",
+    "index": "185",
+    "domain": "Construction",
+    "trade": "Ironworker — bridge inspection, with the owner's inspector",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers (IW) bridge inspection crew; OSHA 29 CFR 1926 Subpart M fall protection and ANSI/ASSP Z359 fall-arrest systems for 100% tie-off on a moving platform; the National Bridge Inspection Standards (23 CFR 650 Subpart C) and the AASHTO Manual for Bridge Evaluation governing suspender-rope condition rating and the wire-rope rejection criteria",
+    "name": "Bridge Cable Inspection",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bridge Cable Inspection VR",
+    "tagline": "A suspender rope walked from the traveller: two lanyards live, the brakes set, the wires counted against the rejection criterion, and the finding photographed before the report is signed",
+    "accent": 8366271,
+    "accentCss": "#7fa8bf",
+    "parSeconds": 310,
+    "badge": {
+      "id": "rope-cleared",
+      "name": "Rope Cleared",
+      "note": "A suspender rope inspected from the traveller, start to finish, with two lanyards live and the wire count against the rejection criterion"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bridge Inspection Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Cable Rider",
+        "Rope Inspector",
+        "Lead Inspector",
+        "Bridge Inspection Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bridge-lead-containment",
+    "index": "186",
+    "domain": "Construction",
+    "trade": "Bridge painter — IUPAT",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT bridge painters; OSHA 29 CFR 1926.62 lead in construction, including baseline and periodic blood-lead surveillance; SSPC-QP 2 certified lead-paint removal contractor and the SSPC-SP 10 near-white blast standard; OSHA 1910.134 respiratory protection and annual fit testing; 40 CFR 261 (RCRA) characteristic hazardous waste D008 for lead-paint debris",
+    "name": "Bridge Lead Containment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bridge Lead Containment VR",
+    "tagline": "A truss bay fully contained over open water: pressure proven, the respirator fit-tested against the blood-lead programme, blasted to standard, and the lead waste labelled and staged before the air sample comes off the line",
+    "accent": 13602634,
+    "accentCss": "#cf8f4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "truss-contained",
+      "name": "Truss Contained",
+      "note": "A lead-paint containment on a truss bay held start to finish on measured numbers — fit test, negative pressure, profile and the waste manifest — with nothing reaching the water below"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bridge Coatings Authority",
+      "currency": "COAT",
+      "ranks": [
+        "Helper",
+        "Blaster",
+        "Competent Person",
+        "Coatings Foreman",
+        "Bridge Coatings Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "deck-joint-replacement",
+    "index": "187",
+    "domain": "Construction",
+    "trade": "Ironworker with IUOE and LIUNA under a lane closure",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers (IW), IUOE operating engineers and LIUNA laborers; the owner's lane-closure plan built to the Manual on Uniform Traffic Control Devices (MUTCD); OSHA 29 CFR 1926.1153 respirable crystalline silica, Table 1 wet-cutting method for saws",
+    "name": "Deck Joint Replacement",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Deck Joint Replacement VR",
+    "tagline": "An expansion joint replaced under a lane closure: the MUTCD taper and arrow board set, the cut run wet, the new joint torqued and levelled, and the header poured before the closure comes up in reverse",
+    "accent": 10134701,
+    "accentCss": "#9aa4ad",
+    "parSeconds": 320,
+    "badge": {
+      "id": "joint-set",
+      "name": "Joint Set",
+      "note": "An expansion joint replaced under a working lane closure — taper held, cut run wet, joint torqued and levelled, header poured true"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Deck Joint Authority",
+      "currency": "SPAN",
+      "ranks": [
+        "Flagger",
+        "Deck Hand",
+        "Joint Setter",
+        "Crew Lead",
+        "Deck Joint Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

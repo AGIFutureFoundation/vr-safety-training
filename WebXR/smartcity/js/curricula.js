@@ -347,7 +347,9 @@ export const CURRICULA = [
     summary: "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
     stations: [
       { app: "smartcity", id: "steel-erector", why: "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go." },
-      // slot-bridge-1
+      { app: "smartcity", id: "bridge-cable-inspection", why: "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion." },
+      { app: "smartcity", id: "bridge-lead-containment", why: "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below." },
+      { app: "smartcity", id: "deck-joint-replacement", why: "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it." },
     ],
   },
   {
