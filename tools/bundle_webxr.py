@@ -115,6 +115,10 @@ APPS = {
         "copy_files": {
             WEBXR / "smartcity/js/citykit.js": "citykit.js",
             WEBXR / "smartcity/js/gamify.js": "gamify.js",
+            # The hub's guide figure, fetched by hub.js only when the device
+            # profile and ?nomodels say so. Same relative path under dist/ as
+            # under smartcity/, because hub.js resolves it against the page.
+            WEBXR / "smartcity/models/guide-worker.glb": "models/guide-worker.glb",
             **{p: f"sims/{p.name}" for p in sorted((WEBXR / "smartcity/js/sims").glob("*.js"))},
         },
     },
@@ -291,7 +295,9 @@ def build(app: str) -> int:
             return 1
         dest = out.parent / rel_dest
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(source_path.read_text())
+        # Bytes, not text: this list carries a .glb as well as .js files, and
+        # read_text() on a binary asset either mangles it or throws.
+        dest.write_bytes(source_path.read_bytes())
 
     extra = f", {len(copy_files)} lazy-loaded files alongside it" if copy_files else ""
     print(f"[{app}] wrote {out.relative_to(ROOT)}  "

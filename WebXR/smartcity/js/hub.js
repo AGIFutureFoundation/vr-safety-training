@@ -1,12 +1,75 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, repaint, markInteractive, HUD } from "../../shared/kit.js";
 import { Progress } from "../../shared/game.js";
-import { CITY, holoTag, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
+import { detectDevice } from "../../shared/devices.js";
+import { loadEnvironment } from "../../shared/environment.js";
+import { CITY, holoTag, surfaceTexture, texturedMat, pavingFace, deckPlateFace, standingFigure } from "./citykit.js";
 
 // The district selector. Twenty simulators, each its own gamified system, laid
 // out as kiosks around a plaza. Selecting one starts that simulator's own
 // AR/VR/flat session; the kiosk shows that system's own rank and currency,
 // never a shared platform score, because there isn't one.
+
+// The guide who stands by the campus totem: a scanned worker, decimated to a
+// few thousand triangles, loaded from a file instead of built out of lathes.
+// One of these anywhere in the product is a deliberate exception — everything
+// else is procedural, because two hundred stations of downloaded people would
+// not fit on a headset over a hall's wifi. The hub is the one place a learner
+// stands still and looks at somebody, so it is the one place worth the bytes.
+//
+// It is skipped where it would cost more than it is worth: on assisted-reality
+// and optical see-through glasses, where the display is a small bright overlay
+// and a photographic figure is unreadable clutter, and whenever the page is
+// opened with ?nomodels=1. When the file will not load — offline, blocked,
+// corrupt — a procedural figure stands in the same spot instead, so the plaza
+// is never empty because of a missing asset.
+const GUIDE_FILE = "models/guide-worker.glb";
+const GUIDE_AT = [1.75, 1.60];             // x, z: beside the totem, off the walk ring
+const GUIDE_SPAWN = [0.4, 4.9];            // where a flat-mode learner arrives, from app.js
+const GUIDE_SCALE = 0.90;                  // the scan is 1.90 units tall; a person is not
+const GUIDE_FOOT = 0.950;                  // its origin is its own centre, not its feet
+
+/** Whether this page should fetch the guide at all. */
+function guideWanted() {
+  const q = typeof location !== "undefined" ? new URLSearchParams(location.search) : null;
+  if (q?.get("nomodels") === "1") return false;
+  let profile = "desktop";
+  try { profile = detectDevice()?.profile ?? "desktop"; } catch (e) { profile = "desktop"; }
+  return profile !== "assisted" && profile !== "seethrough";
+}
+
+/**
+ * Put the guide by the totem, and never let the plaza wait on it: this is
+ * called without being awaited, so the hub is up and selectable while the file
+ * is still in flight, and a rejection only ever swaps in a procedural figure.
+ */
+async function addGuide(root) {
+  const [gx, gz] = GUIDE_AT;
+  // Turned to face the spot a learner arrives on, so the first thing in the
+  // plaza that is a person is looking back at them.
+  const ry = Math.atan2(GUIDE_SPAWN[0] - gx, GUIDE_SPAWN[1] - gz);
+  const fallback = () => {
+    const fig = standingFigure(root, gx, gz, {
+      ry, vest: 0xff7a00, cap: 0xd8532a, glasses: true, toolBelt: true,
+      gloves: 0xe0b23a, trousers: 0xff7a00, seed: 0x5ea11e,
+    });
+    fig.userData.crew = false;
+    return fig;
+  };
+  if (!guideWanted()) return fallback();
+  try {
+    return await loadEnvironment(root, {
+      url: new URL(GUIDE_FILE, typeof document !== "undefined" ? document.baseURI : "").href,
+      scale: GUIDE_SCALE,
+      position: [gx, GUIDE_FOOT * GUIDE_SCALE, gz],
+      rotationY: ry,
+      skyline: true, district: true,      // this is a prop, not a backdrop: hide nothing
+    });
+  } catch (e) {
+    console.warn(`[hub] guide figure unavailable (${e?.message ?? e}); using the built-in one`);
+    return fallback();
+  }
+}
 
 /** Clip a single line to `maxWidth` with an ellipsis, using the context's current font. */
 function fitText(g, text, maxWidth) {
@@ -184,6 +247,9 @@ export function buildHub(root, sims) {
   const rim = new THREE.DirectionalLight(0x6fb8ff, 0.3);
   rim.position.set(-4, 5, -7);
   root.add(rim);
+
+  // Kicked off, not awaited: the plaza is finished and selectable either way.
+  addGuide(root).catch(() => {});
 
   return {
     hits,

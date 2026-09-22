@@ -875,7 +875,7 @@ export function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 //
 // Everybody in both apps is built from the parts below, and the whole point of
 // them is that a figure has to read as a person at two metres in a headset
-// without costing more meshes than the block-and-ball stand-in it replaces.
+// without costing more meshes than the block-and-ball stand-in it replaced.
 //
 // What each part buys, and why it is shaped the way it is:
 //   - The torso is one lathe, not a box. A revolved profile can flare at the
@@ -891,19 +891,29 @@ export function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 //   - Legs and arms are lathes with a joint pinch: a calf belly above a narrow
 //     knee, a forearm that pinches at the wrist and swells into a hand. One
 //     mesh each, and the silhouette bends where a body bends.
-//   - The face is a small canvas decal on the front of the head, painted with
-//     brows, eyes and a mouth from a fixed set chosen by a seed, so a crew of
-//     six is six faces. Transparent everywhere else, so the skin below shows
-//     through and the flat card is invisible.
-//   - Skin and hair come from palettes when the caller does not name them, by
-//     the same seed, so a station gets a crew rather than sextuplets.
+//   - The face is a canvas decal on the front of the head: eye whites, iris,
+//     pupil and catchlight, lids and lashes, brows in the figure's own hair
+//     colour, a shaded nose, cheek and jaw, and filled lips — all from a fixed
+//     set chosen by a seed, so a crew of six is six faces. Transparent
+//     everywhere else, so the skin below shows through and the card is invisible.
+//   - The WORK DRESS is painted, not built. A coverall's reflective bands, its
+//     chest pocket flaps, its zip, the knee pads on the trousers and the gloves
+//     on the hands are all canvas on the torso, leg and arm meshes that are
+//     there anyway, so a figure in full hi-vis costs the same meshes as a
+//     figure in a t-shirt. That is the only reason those details are
+//     affordable at all across two hundred stations.
+//   - Skin, hair, hair style and the dress palette all come from the same seed
+//     when the caller does not name them, so a station gets a crew rather than
+//     sextuplets.
 //
 // Mesh budget, per figure, standing: torso, pelvis, head, face, hair (or a
-// helmet and its chin strap), two legs, two boots, two upper arms, two
-// forearms = 13, which is exactly what the old stand-in cost. The hand is the
-// end of the forearm lathe rather than a mesh of its own — the wrist pinch,
-// palm and thumb pad are in that profile — because a separate hand on each arm
-// would have made the figure 15.
+// helmet and its chin strap, or a cap), two legs, two boots, two upper arms,
+// two forearms = 13, which is exactly what the old stand-in cost, and one less
+// than the same figure in hi-vis cost before the bands were painted. The hand
+// is the end of the forearm lathe rather than a mesh of its own — the wrist
+// pinch, palm and thumb pad are in that profile — because a separate hand on
+// each arm would have made the figure 15. Safety glasses and a tool belt are
+// one mesh each, and only when a caller asks for them.
 
 /** Eight skin tones, light to dark, used when a caller does not name one. */
 export const SKIN_TONES = [
@@ -913,18 +923,32 @@ export const SKIN_TONES = [
 export const HAIR_TONES = [
   0x1a1512, 0x2c231d, 0x46301f, 0x6a4a2e, 0x9a7440, 0xd4bb87, 0x8f8d8a, 0xa2432c,
 ];
-
-// Brows, eye opening and mouth curve. Six combinations is enough that a crew
-// of six is six faces, and few enough that they are all deliberately drawn
-// rather than randomly generated.
-const FACE_SET = [
-  { brow: 0.00, open: 0.60, mouth: 0.06, ex: 0.292, mw: 0.19 },
-  { brow: 0.22, open: 0.70, mouth: 0.20, ex: 0.300, mw: 0.22 },
-  { brow: -0.20, open: 0.40, mouth: -0.10, ex: 0.284, mw: 0.17 },
-  { brow: 0.10, open: 0.52, mouth: 0.00, ex: 0.296, mw: 0.20 },
-  { brow: -0.10, open: 0.58, mouth: -0.18, ex: 0.288, mw: 0.16 },
-  { brow: 0.16, open: 0.45, mouth: 0.12, ex: 0.304, mw: 0.21 },
+/**
+ * The garment over the chest when a caller does not name one. The first entry
+ * is the colour every figure used to be, so a room that was tuned against that
+ * blue-grey still has it in the mix.
+ */
+export const WORK_TONES = [
+  0x37505f, 0x3c4a57, 0x2f4a63, 0x4a5a62, 0x335a55, 0x5a4b42, 0x44543f, 0x3a4150,
 ];
+/** Trousers. Work trousers are dark; the spread is deliberately narrow. */
+export const TROUSER_TONES = [
+  0x2f3740, 0x343d47, 0x293037, 0x3b4450, 0x3d4340, 0x2c3642,
+];
+
+// Brows, eye opening, lip shape and the soft shading that turns a decal into a
+// face. Six combinations is enough that a crew of six is six faces, and few
+// enough that they are all deliberately drawn rather than randomly generated.
+const FACE_SET = [
+  { brow: 0.00, open: 0.62, mouth: 0.06, ex: 0.292, mw: 0.19, lip: 0.55, browW: 1.00, lash: 0.6 },
+  { brow: 0.22, open: 0.74, mouth: 0.20, ex: 0.300, mw: 0.22, lip: 0.80, browW: 0.86, lash: 1.0 },
+  { brow: -0.20, open: 0.44, mouth: -0.10, ex: 0.284, mw: 0.17, lip: 0.42, browW: 1.18, lash: 0.3 },
+  { brow: 0.10, open: 0.56, mouth: 0.00, ex: 0.296, mw: 0.20, lip: 0.62, browW: 0.94, lash: 0.5 },
+  { brow: -0.10, open: 0.60, mouth: -0.18, ex: 0.288, mw: 0.16, lip: 0.48, browW: 1.10, lash: 0.4 },
+  { brow: 0.16, open: 0.50, mouth: 0.12, ex: 0.304, mw: 0.21, lip: 0.72, browW: 0.90, lash: 0.8 },
+];
+/** Iris colours, picked by the same seed as everything else about a figure. */
+const IRIS_TONES = ["#4a3a26", "#3c2a1f", "#5b4630", "#3f5a53", "#4c6274", "#2e2320"];
 
 // Profiles are [radius, y] bottom-up (see lathe()). Heights are in the part's
 // own space; the standing figure's absolute heights are in personTorso().
@@ -933,15 +957,71 @@ const HEAD_PROFILE = [
   [0.098, -0.095], [0.104, -0.055], [0.111, -0.010], [0.112, 0.030],
   [0.108, 0.070], [0.092, 0.105], [0.055, 0.124], [0.001, 0.131],
 ];
-const HAIR_PROFILE = [
-  [0.113, 0.018], [0.117, 0.050], [0.113, 0.082], [0.098, 0.110],
-  [0.060, 0.128], [0.001, 0.136],
+/**
+ * Six hair masses, one lathe each.
+ *
+ * A revolve is symmetric about the head's axis, so a style that hangs down the
+ * back would also hang down the face. `dz` is what buys the long ones: pushing
+ * the whole mass backwards keeps its front edge behind the face card (which
+ * sits at z 0.117) while its back edge reaches the nape, and `sx`/`sz` widen it
+ * again so it is still proud of the skull at the sides.
+ *
+ * Every profile's FIRST ring is deliberately narrower than the skull at that
+ * height, so the mass starts inside the head and the hairline is where the two
+ * surfaces cross — a smooth curve, higher at the front because of the tilt.
+ * A profile that starts flush with the skull instead gives a row of triangular
+ * teeth across the brow, because a 20-sided hair and a 14-sided head do not
+ * meet in the same places.
+ */
+const HAIR_STYLES = [
+  { // 0 — crop
+    profile: [[0.070, -0.050], [0.118, 0.022], [0.121, 0.058], [0.118, 0.090], [0.100, 0.115], [0.060, 0.132], [0.001, 0.139]],
+    sx: 1.00, sz: 1.05, dz: 0.002, tilt: -0.16,
+  },
+  { // 1 — full, swept volume: the mass the stylised references all have
+    profile: [[0.072, -0.058], [0.124, 0.018], [0.131, 0.056], [0.129, 0.092], [0.114, 0.120], [0.070, 0.141], [0.001, 0.150]],
+    sx: 1.02, sz: 1.09, dz: -0.010, tilt: -0.15,
+  },
+  { // 2 — bob, down over the ears and out at the back
+    profile: [[0.058, -0.100], [0.106, -0.082], [0.122, -0.040], [0.130, 0.006], [0.130, 0.054], [0.121, 0.094], [0.094, 0.122], [0.046, 0.139], [0.001, 0.144]],
+    sx: 1.12, sz: 1.18, dz: -0.028, tilt: -0.10,
+  },
+  { // 3 — tied up: a crop with a knot on the crown
+    profile: [[0.070, -0.050], [0.118, 0.022], [0.121, 0.058], [0.116, 0.092], [0.096, 0.114], [0.066, 0.130], [0.050, 0.140], [0.060, 0.152], [0.044, 0.167], [0.001, 0.175]],
+    sx: 1.00, sz: 1.05, dz: 0.000, tilt: -0.15,
+  },
+  { // 4 — long, to the nape
+    profile: [[0.050, -0.170], [0.094, -0.150], [0.112, -0.110], [0.126, -0.060], [0.132, 0.000], [0.130, 0.056], [0.120, 0.098], [0.090, 0.126], [0.042, 0.142], [0.001, 0.148]],
+    sx: 1.06, sz: 1.14, dz: -0.046, tilt: -0.08,
+  },
+  { // 5 — close fade
+    profile: [[0.072, -0.040], [0.116, 0.028], [0.118, 0.062], [0.115, 0.092], [0.098, 0.116], [0.058, 0.132], [0.001, 0.138]],
+    sx: 0.99, sz: 1.02, dz: 0.002, tilt: -0.18,
+  },
 ];
 // A hard hat: the rim lifts into a full brim and the brim turns back into the
 // dome, all in one revolved surface, so brim and shell are a single mesh.
 const HELMET_PROFILE = [
   [0.118, 0.034], [0.126, 0.048], [0.155, 0.064], [0.148, 0.078],
   [0.140, 0.100], [0.118, 0.130], [0.070, 0.156], [0.001, 0.166],
+];
+// A baseball cap. The first three rings are the brim; sweep() pushes them out
+// into a peak at the front only and leaves them tucked under the crown
+// everywhere else, so cap and peak are one mesh rather than two.
+const CAP_PROFILE = [
+  [0.116, 0.030], [0.121, 0.042], [0.126, 0.058], [0.124, 0.092],
+  [0.111, 0.120], [0.074, 0.143], [0.001, 0.152],
+];
+// How far out and how far down each of those rings is carried at the front.
+// Only the first three move, so the peak is a wedge off the headband and the
+// crown above it keeps its shape.
+const CAP_PEAK_R = [0.62, 0.56, 0.16, 0, 0, 0, 0];
+const CAP_PEAK_Y = [0.022, 0.014, 0.002, 0, 0, 0, 0];
+// Safety glasses: a lens band at eye height, at full radius across the front
+// and the temples and drawn back inside the skull behind the ears, so the one
+// mesh reads as a wrap lens with arms and nothing shows at the back of the head.
+const GLASSES_PROFILE = [
+  [0.100, -0.012], [0.114, -0.004], [0.117, 0.010], [0.104, 0.018],
 ];
 // A half-face respirator, revolved about the axis that points at the learner.
 const RESPIRATOR_PROFILE = [
@@ -956,18 +1036,24 @@ const TORSO_PROFILE = [
   [0.176, 1.160], [0.196, 1.250], [0.198, 1.300], [0.182, 1.338],
   [0.134, 1.374], [0.062, 1.393], [0.001, 1.400],
 ];
-// Two reflective bands in one mesh. The stretch between them is revolved at a
-// radius smaller than the torso's, so it is inside the body and never drawn;
-// only the two proud rings are visible. Same trick for the harness webbing.
-const BAND_PROFILE = [
-  [0.001, 1.095], [0.140, 1.098], [0.172, 1.105], [0.176, 1.145],
-  [0.140, 1.152], [0.140, 1.196], [0.188, 1.205], [0.193, 1.245],
-  [0.140, 1.252], [0.001, 1.255],
-];
 const HARNESS_PROFILE = [
   [0.001, 0.965], [0.130, 0.968], [0.156, 0.975], [0.158, 1.020],
   [0.130, 1.030], [0.130, 1.252], [0.196, 1.260], [0.199, 1.292],
   [0.130, 1.300], [0.001, 1.303],
+];
+// The upper arm. A lathe rather than a cylinder: a cylinder's flat end caps
+// sample the whole of the sleeve texture, which printed a disc of reflective
+// tape on top of each shoulder, and a revolved profile rounds the deltoid and
+// the elbow into the bargain.
+const UPPERARM_PROFILE = [
+  [0.001, -0.312], [0.038, -0.302], [0.043, -0.272], [0.045, -0.230],
+  [0.047, -0.185], [0.049, -0.140], [0.052, -0.082], [0.053, -0.030],
+  [0.044, 0.004], [0.001, 0.020],
+];
+// A tool belt over the hips: a webbing band with the pouches painted on it.
+const TOOLBELT_PROFILE = [
+  [0.001, 0.930], [0.150, 0.936], [0.172, 0.950], [0.176, 0.996],
+  [0.164, 1.014], [0.001, 1.020],
 ];
 // Ankle to hip: calf belly, a narrow knee at 0.47, then the thigh.
 const LEG_PROFILE = [
@@ -1002,80 +1088,539 @@ export function figureSeed(x = 0, z = 0) {
   return h >>> 0;
 }
 
-/** Skin, hair and face variant for one figure — whatever the caller left open. */
+/**
+ * Skin, hair, hair style, face variant and work dress for one figure —
+ * whatever the caller left open, drawn from the palettes above by the seed.
+ */
 export function figureLook(o = {}, x = 0, z = 0) {
   const seed = (o.seed ?? figureSeed(x, z)) >>> 0;
   return {
     seed,
     skin: o.skin ?? SKIN_TONES[seed % SKIN_TONES.length],
     hair: o.hair ?? HAIR_TONES[(seed >>> 5) % HAIR_TONES.length],
+    style: (seed >>> 3) % HAIR_STYLES.length,
     face: (seed >>> 11) % FACE_SET.length,
+    cloth: o.cloth ?? WORK_TONES[(seed >>> 17) % WORK_TONES.length],
+    trousers: o.trousers ?? o.legs ?? TROUSER_TONES[(seed >>> 23) % TROUSER_TONES.length],
   };
 }
 
-/** Brows, eyes and a mouth on a transparent canvas — the painter for a face decal. */
+// ------------------------------------------------------- painted work dress
+
+/**
+ * A lathe's texture coordinate for a height in the profile's own space.
+ *
+ * LatheGeometry hands every ring the v of its INDEX in the profile, not its
+ * height, so a painter that wants a reflective band at y 1.11 has to ask the
+ * profile where that is. Everything painted on a figure goes through here.
+ */
+function profileV(profile, y) {
+  const n = profile.length;
+  for (let j = 0; j < n - 1; j++) {
+    const a = profile[j][1], b = profile[j + 1][1];
+    if ((y >= a && y <= b) || (y <= a && y >= b)) {
+      return (j + (b === a ? 0 : (y - a) / (b - a))) / (n - 1);
+    }
+  }
+  return y <= profile[0][1] ? 0 : 1;
+}
+
+/** Canvas row for a v, remembering that a CanvasTexture is uploaded flipped. */
+const rowAt = (v, h) => (1 - v) * h;
+/** Canvas column for a turn from dead ahead, −0.5 (behind) … 0 (front) … 0.5. */
+const colAt = (turn, w) => (turn + 0.5) * w;
+
+const dressCache = new Map();
+/**
+ * A cached, canvas-painted material for one part of a figure's dress.
+ *
+ * Keyed on everything the painter reads, so two people in the same coverall
+ * share one material and mergeStatic() can still bake a crowd — which is the
+ * whole reason the dress is paint and not geometry. Nothing here is flagged
+ * ownMaterial/ownTexture: like mat(), these live for the life of the page and
+ * a room's disposeTree() must leave them alone.
+ *
+ * `offset.x` is set to 0.5 so that u = 0 — which is dead ahead on every lathe
+ * and cylinder in this file — lands in the middle of the canvas, and the seam
+ * where the paint wraps ends up down the figure's back where nobody looks.
+ */
+function dressMat(key, w, h, draw, o = {}) {
+  let m = dressCache.get(key);
+  if (m) return m;
+  let tex = null;
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const g = canvas.getContext("2d");
+    draw(g, w, h);
+    tex = new THREE.CanvasTexture(canvas);
+    if (THREE.RepeatWrapping !== undefined) tex.wrapS = THREE.RepeatWrapping;
+    tex.offset?.set?.(0.5, 0);
+    tex.anisotropy = 4;
+    if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
+  } catch (e) {
+    tex = null;                       // headless: no canvas, so no paint
+  }
+  m = new THREE.MeshStandardMaterial({
+    color: tex ? 0xffffff : (o.color ?? 0xffffff),
+    map: tex,
+    roughness: o.rough ?? 0.88,
+    metalness: o.metal ?? 0,
+  });
+  dressCache.set(key, m);
+  return m;
+}
+
+/** Flat fill plus the side-to-back shading that stops a painted garment reading as a sticker. */
+function clothBase(g, w, h, css, o = {}) {
+  g.fillStyle = css;
+  g.fillRect(0, 0, w, h);
+  // Columns, not a gradient: the headless checkers' 2D context has no real
+  // gradient support and this has to run there without a special case.
+  const steps = 48;
+  for (let i = 0; i < steps; i++) {
+    const turn = -0.5 + (i + 0.5) / steps;            // −0.5 behind … 0 ahead
+    const away = Math.min(1, Math.abs(turn) * 2.1);   // 0 at the front, 1 at the back
+    g.fillStyle = `rgba(0,0,0,${(away * away * (o.shade ?? 0.34)).toFixed(3)})`;
+    g.fillRect((i / steps) * w, 0, w / steps + 1, h);
+  }
+  if (o.floorShade !== false) {
+    for (let i = 0; i < 12; i++) {
+      g.fillStyle = `rgba(0,0,0,${(0.020 * (12 - i)).toFixed(3)})`;
+      g.fillRect(0, h - (h * 0.14) * (i + 1) / 12, w, h * 0.14 / 12 + 1);
+    }
+  }
+}
+
+/** One reflective band right around a part, with the dark piping a real one is sewn between. */
+function reflectiveBand(g, w, h, v0, v1, css) {
+  const y0 = rowAt(v1, h), y1 = rowAt(v0, h);
+  g.fillStyle = "rgba(12,14,16,0.55)";
+  g.fillRect(0, y0 - Math.max(1, h * 0.006), w, (y1 - y0) + Math.max(2, h * 0.012));
+  g.fillStyle = css;
+  g.fillRect(0, y0, w, y1 - y0);
+  // Retroreflective tape is two tones: a bright core and a duller edge.
+  g.fillStyle = "rgba(255,255,255,0.34)";
+  g.fillRect(0, y0 + (y1 - y0) * 0.28, w, (y1 - y0) * 0.30);
+  g.fillStyle = "rgba(0,0,0,0.16)";
+  g.fillRect(0, y1 - (y1 - y0) * 0.16, w, (y1 - y0) * 0.16);
+}
+
+/** A stitched panel — pocket flap, knee pad, belt pouch. */
+function panel(g, x, y, pw, ph, fill, o = {}) {
+  g.fillStyle = "rgba(0,0,0,0.30)";
+  g.fillRect(x - pw / 2 + 1, y + 1, pw, ph);
+  g.fillStyle = fill;
+  g.fillRect(x - pw / 2, y, pw, ph);
+  g.strokeStyle = o.stitch ?? "rgba(0,0,0,0.42)";
+  g.lineWidth = Math.max(1, pw * 0.035);
+  g.strokeRect(x - pw / 2, y, pw, ph);
+  if (o.button) {
+    g.fillStyle = o.button;
+    g.beginPath();
+    g.arc(x, y + ph * 0.78, Math.max(1.2, pw * 0.07), 0, Math.PI * 2);
+    g.fill();
+  }
+}
+
+/**
+ * The chest: garment colour, a collar and a neck opening, a zip down the
+ * centre, chest pocket flaps and the two reflective bands that are the reason
+ * anybody can see a worker across a yard. Everything a second mesh used to do.
+ */
+function coatFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.coat), { shade: 0.36 });
+    const V = (y) => profileV(TORSO_PROFILE, y);
+    // Collar and the neck hole above it.
+    g.fillStyle = "rgba(0,0,0,0.30)";
+    g.fillRect(0, 0, w, rowAt(V(1.352), h));
+    g.fillStyle = "rgba(0,0,0,0.55)";
+    g.fillRect(0, 0, w, rowAt(V(1.388), h));
+    // Shoulder seams, where the sleeve is set in.
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    for (const t of [-0.25, 0.25]) g.fillRect(colAt(t, w) - w * 0.006, rowAt(V(1.342), h), w * 0.012, h * 0.22);
+    // A yoke seam across the back.
+    g.fillStyle = "rgba(0,0,0,0.22)";
+    g.fillRect(0, rowAt(V(1.300), h), w * 0.14, Math.max(1, h * 0.006));
+    g.fillRect(w * 0.86, rowAt(V(1.300), h), w * 0.14, Math.max(1, h * 0.006));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(1.098), V(1.150), hex(d.band));
+      reflectiveBand(g, w, h, V(1.200), V(1.252), hex(d.band));
+    }
+    // Chest pocket flaps, above the upper band where a real coverall puts them.
+    if (d.pockets) {
+      const py = rowAt(V(1.318), h), ph = rowAt(V(1.262), h) - py;
+      for (const t of [-0.085, 0.085]) {
+        panel(g, colAt(t, w), py, w * 0.105, ph, "rgba(255,255,255,0.07)",
+          { stitch: "rgba(0,0,0,0.45)", button: "rgba(20,22,26,0.7)" });
+      }
+    }
+    // The zip, from the collar to the waist.
+    if (d.zip) {
+      const x = colAt(0, w), top = rowAt(V(1.356), h), bot = rowAt(V(0.960), h);
+      g.fillStyle = "rgba(0,0,0,0.50)";
+      g.fillRect(x - w * 0.009, top, w * 0.018, bot - top);
+      g.fillStyle = "rgba(226,234,240,0.30)";
+      g.fillRect(x - w * 0.003, top, w * 0.006, bot - top);
+      g.fillStyle = "rgba(210,220,228,0.55)";
+      g.fillRect(x - w * 0.011, top + (bot - top) * 0.14, w * 0.022, h * 0.016);
+    }
+    noiseTexture(g, w, h, { density: 1200, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/** Trousers: a hem, a lower-leg band, a knee-pad panel and a thigh cargo pocket. */
+function legFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.trousers), { shade: 0.30, floorShade: false });
+    const V = (y) => profileV(LEG_PROFILE, y);
+    // Turn-up at the ankle.
+    g.fillStyle = "rgba(0,0,0,0.30)";
+    g.fillRect(0, rowAt(V(0.112), h), w, h - rowAt(V(0.112), h));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(0.150), V(0.196), hex(d.band));
+      reflectiveBand(g, w, h, V(0.216), V(0.262), hex(d.band));
+    }
+    // Knee pad: a padded panel with three ribs, on the front of the leg only.
+    const ky = rowAt(V(0.560), h), kh = rowAt(V(0.408), h) - ky;
+    panel(g, colAt(0, w), ky, w * 0.34, kh, "rgba(0,0,0,0.20)", { stitch: "rgba(0,0,0,0.40)" });
+    g.fillStyle = "rgba(255,255,255,0.06)";
+    for (let i = 0; i < 3; i++) g.fillRect(colAt(-0.15, w), ky + kh * (0.22 + i * 0.25), w * 0.30, kh * 0.10);
+    // Cargo pocket on the outer thigh, and the seam down the leg.
+    const gy = rowAt(V(0.800), h), gh = rowAt(V(0.660), h) - gy;
+    panel(g, colAt(0.27, w), gy, w * 0.20, gh, "rgba(255,255,255,0.05)", { stitch: "rgba(0,0,0,0.38)" });
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    g.fillRect(colAt(-0.27, w), 0, Math.max(1, w * 0.012), h);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/** Sleeve: a set-in shoulder, the upper-arm reflective band and the elbow. */
+function sleeveFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.coat), { shade: 0.32, floorShade: false });
+    const V = (y) => profileV(UPPERARM_PROFILE, y);
+    // The shoulder seam, where the sleeve is set into the body.
+    g.fillStyle = "rgba(0,0,0,0.28)";
+    g.fillRect(0, 0, w, rowAt(V(-0.020), h));
+    if (d.band) {
+      reflectiveBand(g, w, h, V(-0.258), V(-0.218), hex(d.band));
+      reflectiveBand(g, w, h, V(-0.198), V(-0.158), hex(d.band));
+    }
+    // The elbow, which on a working sleeve is always the dirtiest part of it.
+    g.fillStyle = "rgba(0,0,0,0.24)";
+    g.fillRect(0, rowAt(V(-0.284), h), w, h - rowAt(V(-0.284), h));
+    noiseTexture(g, w, h, { density: 700, alpha: 0.05, tone: "0,0,0" });
+  };
+}
+
+/**
+ * Forearm and hand in one canvas: the sleeve runs down from the elbow to a
+ * cuff, and below the cuff is either a glove — gauntlet, knuckle shading and
+ * finger grooves — or the figure's own skin. This is what makes `gloves` cost
+ * nothing: the option used to recolour the whole lathe, arm and all.
+ */
+function forearmFace(d) {
+  return (g, w, h) => {
+    const V = (y) => profileV(FOREARM_PROFILE, y);
+    const handTop = d.glove ? V(-0.215) : V(-0.243);
+    clothBase(g, w, h, hex(d.glove ?? d.skin), { shade: d.glove ? 0.30 : 0.24, floorShade: false });
+    // Sleeve down to the cuff.
+    g.fillStyle = hex(d.coat);
+    g.fillRect(0, 0, w, rowAt(handTop, h));
+    const steps = 32;
+    for (let i = 0; i < steps; i++) {
+      const turn = -0.5 + (i + 0.5) / steps;
+      const away = Math.min(1, Math.abs(turn) * 2.1);
+      g.fillStyle = `rgba(0,0,0,${(away * away * 0.32).toFixed(3)})`;
+      g.fillRect((i / steps) * w, 0, w / steps + 1, rowAt(handTop, h));
+    }
+    // The cuff itself: a darker ring, and for a glove the gauntlet over it.
+    g.fillStyle = "rgba(0,0,0,0.32)";
+    g.fillRect(0, rowAt(handTop, h) - h * 0.03, w, h * 0.03);
+    if (d.glove) {
+      g.fillStyle = "rgba(0,0,0,0.20)";
+      g.fillRect(0, rowAt(handTop, h), w, h * 0.04);
+      // Knuckles, then the grooves between the fingers down the front.
+      g.fillStyle = "rgba(0,0,0,0.16)";
+      g.fillRect(colAt(-0.16, w), rowAt(V(-0.330), h), w * 0.32, h * 0.045);
+    }
+    g.fillStyle = "rgba(0,0,0,0.26)";
+    for (const t of [-0.10, -0.03, 0.04]) {
+      g.fillRect(colAt(t, w) - w * 0.006, rowAt(V(-0.360), h), w * 0.012, rowAt(V(-0.420), h) - rowAt(V(-0.360), h));
+    }
+    // Thumb pad, on the side the thumb is on.
+    g.fillStyle = "rgba(0,0,0,0.14)";
+    g.fillRect(colAt(0.14, w), rowAt(V(-0.320), h), w * 0.10, rowAt(V(-0.395), h) - rowAt(V(-0.320), h));
+  };
+}
+
+/** A tool belt: webbing, a buckle dead ahead, and pouches painted round the hips. */
+function toolBeltFace(d) {
+  return (g, w, h) => {
+    clothBase(g, w, h, hex(d.belt ?? 0x6a4b30), { shade: 0.30, floorShade: false });
+    const V = (y) => profileV(TOOLBELT_PROFILE, y);
+    const top = rowAt(V(1.006), h), bot = rowAt(V(0.940), h);
+    // Pouches: one on each hip and a small one behind the right.
+    for (const [t, pw] of [[-0.14, 0.14], [0.13, 0.16], [0.30, 0.09]]) {
+      panel(g, colAt(t, w), top + (bot - top) * 0.22, w * pw, (bot - top) * 0.82,
+        hex(d.pouch ?? 0xc08a4a), { stitch: "rgba(40,26,14,0.7)", button: "rgba(230,214,180,0.7)" });
+    }
+    // Buckle.
+    g.fillStyle = "rgba(214,222,228,0.85)";
+    g.fillRect(colAt(0, w) - w * 0.035, top + (bot - top) * 0.28, w * 0.07, (bot - top) * 0.40);
+    g.fillStyle = "rgba(0,0,0,0.45)";
+    g.fillRect(colAt(0, w) - w * 0.014, top + (bot - top) * 0.34, w * 0.028, (bot - top) * 0.28);
+    noiseTexture(g, w, h, { density: 700, alpha: 0.06, tone: "0,0,0" });
+  };
+}
+
+/**
+ * The dress a figure wears, resolved once so the torso, leg and arm painters
+ * all agree — and so the material cache can key on it.
+ *
+ * `cloth`/`jacket`/`vest` keep meaning what every existing caller means by
+ * them: a station that hands in `vest: 0xff7a00` gets an orange garment with
+ * the two silver bands across it, the pocket flaps and the zip, because a
+ * named vest colour IS the hi-vis garment.
+ */
+export function figureDress(o = {}) {
+  const coat = o.coat ?? 0x37505f;
+  return {
+    coat,
+    trousers: o.trousers ?? coat,
+    band: o.band ?? null,
+    glove: o.glove ?? null,
+    skin: o.skin ?? SKIN_TONES[2],
+    belt: o.belt ?? 0x6a4b30,
+    pouch: o.pouch ?? 0xc08a4a,
+    pockets: o.pockets ?? !!o.band,
+    zip: o.zip ?? true,
+  };
+}
+
+const dressKey = (d, part) =>
+  `${part}|${d.coat}|${d.trousers}|${d.band}|${d.glove}|${d.skin}|${d.belt}|${d.pouch}|${d.pockets ? 1 : 0}|${d.zip ? 1 : 0}`;
+
+// ------------------------------------------------------------- swept shapes
+
+/**
+ * A lathe whose radius, height and depth can vary with the angle round it.
+ *
+ * A revolve cannot make a baseball cap, because a cap has a peak at the front
+ * and nothing at the back, and it cannot make a pair of glasses, because the
+ * arms have to disappear into the head behind the ears. Both are one mesh
+ * here instead of two or three, which is the only budget they fit in.
+ *
+ * `shape(u, t, r, y, j)` returns `{ r, y, z }` — a radius multiplier and
+ * offsets — for the ring at turn `u` (0 = dead ahead) and profile index `j`.
+ */
+function sweep(parent, profile, shape, x, y, z, color, o = {}) {
+  const seg = o.seg ?? 18;
+  const n = profile.length;
+  const pos = [], uv = [], idx = [];
+  for (let i = 0; i <= seg; i++) {
+    const u = i / seg, phi = u * TAU;
+    const sin = Math.sin(phi), cos = Math.cos(phi);
+    for (let j = 0; j < n; j++) {
+      const [r0, y0] = profile[j];
+      const m = shape(u, j / (n - 1), r0, y0, j) || {};
+      const r = Math.max(0.0005, r0 * (m.r ?? 1));
+      pos.push(r * sin, y0 + (m.y ?? 0), r * cos + (m.z ?? 0));
+      uv.push(u, j / (n - 1));
+    }
+  }
+  for (let i = 0; i < seg; i++) {
+    for (let j = 0; j < n - 1; j++) {
+      const base = j + i * n;
+      idx.push(base, base + n, base + 1, base + n + 1, base + 1, base + n);
+    }
+  }
+  const geo = track(new THREE.BufferGeometry());
+  geo.setAttribute?.("position", new THREE.BufferAttribute(new Float32Array(pos), 3));
+  geo.setAttribute?.("uv", new THREE.BufferAttribute(new Float32Array(uv), 2));
+  geo.setIndex?.(idx);
+  geo.computeVertexNormals?.();
+  const m = new THREE.Mesh(geo, o.material ?? mat(color, o));
+  m.position.set(x, y, z);
+  m.castShadow = o.cast !== false;
+  m.receiveShadow = o.receive !== false;
+  parent.add(m);
+  return m;
+}
+
+/**
+ * A soft, edgeless blot of colour — the cheek hollow, the shadow beside the
+ * nose, the shade under a lip. Radial gradients are what this wants and what
+ * the headless checkers' 2D context does not have, so it falls back to a flat
+ * ellipse at half the strength rather than throwing or drawing nothing.
+ */
+function softBlob(g, x, y, rx, ry, rgb, a) {
+  const r = Math.max(rx, ry);
+  let grad = null;
+  try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch (e) { grad = null; }
+  if (grad && typeof grad.addColorStop === "function") {
+    grad.addColorStop(0, `rgba(${rgb},${a})`);
+    grad.addColorStop(1, `rgba(${rgb},0)`);
+    g.save();
+    g.translate(x, y);
+    g.scale(rx / r, ry / r);
+    g.translate(-x, -y);
+    g.fillStyle = grad;
+    g.beginPath();
+    g.arc(x, y, r, 0, Math.PI * 2);
+    g.fill();
+    g.restore();
+  } else {
+    g.fillStyle = `rgba(${rgb},${(a * 0.5).toFixed(3)})`;
+    g.beginPath();
+    g.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    g.fill();
+  }
+}
+
+/** Brows, eyes, nose, cheeks and lips on a transparent canvas — the face painter. */
 export function faceFace(variant = 0, o = {}) {
   const n = FACE_SET.length;
   const f = FACE_SET[(((Math.round(variant) % n) + n) % n)];
   const ink = o.ink ?? "#241c17";
-  const sclera = o.sclera ?? "#cfc4ba";
+  const sclera = o.sclera ?? "#f2ece6";
   const iris = o.iris ?? "#3c2a1f";
+  const browCss = o.brow ?? "#33251c";
+  const lipCss = o.lips ?? "#a75c52";
   return (g, w, h) => {
     const browY = 0.190 * h, eyeY = 0.400 * h, noseY = 0.625 * h, mouthY = 0.831 * h;
-    const ex = f.ex * w, rx = 0.082 * w, ry = 0.040 * h * f.open + 0.006 * h;
+    const ex = f.ex * w, rx = 0.100 * w, ry = 0.050 * h * f.open + 0.010 * h;
     g.lineCap = "round";
     g.lineJoin = "round";
+    // Shading first, so every feature is drawn on top of it: the hollow under
+    // each cheekbone, a flush over it, the shadow down one side of the nose,
+    // the light on its bridge and a little shade under the jaw. A flat card
+    // with only line work on it reads as a mask; this is what makes it read as
+    // a face. Everything stays well inside the card, because the feather at
+    // the end of this painter only hides an edge, it does not move one.
+    softBlob(g, w / 2 - 0.33 * w, 0.585 * h, 0.17 * w, 0.13 * h, "92,58,44", 0.22);
+    softBlob(g, w / 2 + 0.33 * w, 0.585 * h, 0.17 * w, 0.13 * h, "92,58,44", 0.22);
+    softBlob(g, w / 2 - 0.26 * w, 0.540 * h, 0.13 * w, 0.09 * h, "198,106,90", 0.18);
+    softBlob(g, w / 2 + 0.26 * w, 0.540 * h, 0.13 * w, 0.09 * h, "198,106,90", 0.18);
+    softBlob(g, w / 2 - 0.072 * w, 0.500 * h, 0.048 * w, 0.19 * h, "92,58,44", 0.34);
+    softBlob(g, w / 2 + 0.038 * w, 0.450 * h, 0.042 * w, 0.15 * h, "255,238,222", 0.24);
+    softBlob(g, w / 2, 0.662 * h, 0.085 * w, 0.030 * h, "92,58,44", 0.26);
+    softBlob(g, w / 2, 0.600 * h, 0.050 * w, 0.028 * h, "255,236,218", 0.24);
+    softBlob(g, w / 2, 0.930 * h, 0.24 * w, 0.055 * h, "92,58,44", 0.20);
     for (const s of [-1, 1]) {
       const cx = w / 2 + s * ex;
-      // Brow: the one feature that carries most of an expression at distance.
-      g.strokeStyle = ink;
-      g.lineWidth = 0.028 * w;
-      g.beginPath();
-      g.moveTo(cx - s * rx * 1.2, browY + f.brow * 0.055 * h);
-      g.quadraticCurveTo(cx, browY - 0.024 * h, cx + s * rx * 1.2, browY - f.brow * 0.055 * h);
-      g.stroke();
-      // Eye: white, iris, pupil, then a heavier upper lid line.
-      g.fillStyle = sclera;
+      // Socket, then the white. The iris and pupil are CLIPPED to the eye
+      // opening, which is what makes an eye read as a wet ball behind two lids
+      // rather than a dark dot painted on a white one.
+      softBlob(g, cx, eyeY, rx * 1.45, ry * 2.4, "84,54,40", 0.22);
+      g.save();
       g.beginPath();
       g.ellipse(cx, eyeY, rx, ry, 0, 0, Math.PI * 2);
-      g.fill();
-      const ir = Math.min(ry * 1.0, rx * 0.58);
+      g.closePath();
+      g.clip?.();
+      g.fillStyle = sclera;
+      g.fillRect(cx - rx * 1.1, eyeY - ry * 1.4, rx * 2.2, ry * 2.8);
+      const ir = rx * 0.46;
       g.fillStyle = iris;
       g.beginPath();
-      g.ellipse(cx, eyeY, ir, ir, 0, 0, Math.PI * 2);
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir, 0, 0, Math.PI * 2);
       g.fill();
+      g.fillStyle = "rgba(0,0,0,0.30)";
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir * 0.55, 0, Math.PI, Math.PI * 2);
+      g.fill();
+      g.strokeStyle = "rgba(24,18,14,0.75)";      // limbal ring
+      g.lineWidth = ir * 0.16;
+      g.beginPath();
+      g.ellipse(cx, eyeY + ry * 0.06, ir, ir, 0, 0, Math.PI * 2);
+      g.stroke();
       g.fillStyle = ink;
       g.beginPath();
-      g.ellipse(cx, eyeY, ir * 0.42, ir * 0.42, 0, 0, Math.PI * 2);
+      g.ellipse(cx, eyeY + ry * 0.06, ir * 0.42, ir * 0.42, 0, 0, Math.PI * 2);
       g.fill();
+      g.fillStyle = "rgba(255,255,255,0.90)";
+      g.beginPath();
+      g.ellipse(cx - s * ir * 0.36, eyeY - ir * 0.32, ir * 0.24, ir * 0.24, 0, 0, Math.PI * 2);
+      g.fill();
+      // The shadow the upper lid casts on the eye, inside the same clip.
+      g.fillStyle = "rgba(90,62,48,0.34)";
+      g.fillRect(cx - rx * 1.1, eyeY - ry * 1.4, rx * 2.2, ry * 0.72);
+      g.restore();
+      // Upper lid: a heavy line with lashes at the outer corner. Lower lid: a
+      // light one, so the eye has a thickness rather than a painted outline.
       g.strokeStyle = ink;
-      g.lineWidth = 0.013 * w;
+      g.lineWidth = 0.024 * w;
       g.beginPath();
-      g.moveTo(cx - rx, eyeY - ry * 0.2);
-      g.quadraticCurveTo(cx, eyeY - ry * 1.45, cx + rx, eyeY - ry * 0.2);
+      g.moveTo(cx - rx * 1.06, eyeY - ry * 0.10);
+      g.quadraticCurveTo(cx, eyeY - ry * 1.55, cx + rx * 1.06, eyeY - ry * 0.10);
       g.stroke();
-      // Nostril, and the shadow down one side of the nose.
-      g.strokeStyle = "rgba(60,40,28,0.55)";
-      g.lineWidth = 0.016 * w;
+      g.strokeStyle = `rgba(36,28,23,${(0.30 + 0.45 * f.lash).toFixed(2)})`;
+      g.lineWidth = 0.014 * w;
       g.beginPath();
-      g.moveTo(w / 2 + s * 0.055 * w, noseY);
-      g.quadraticCurveTo(w / 2 + s * 0.030 * w, noseY + 0.014 * h, w / 2 + s * 0.012 * w, noseY + 0.006 * h);
+      g.moveTo(cx + s * rx * 0.96, eyeY - ry * 0.26);
+      g.lineTo(cx + s * rx * 1.30, eyeY - ry * 0.80);
+      g.stroke();
+      g.strokeStyle = "rgba(122,88,70,0.50)";
+      g.lineWidth = 0.011 * w;
+      g.beginPath();
+      g.moveTo(cx - rx * 0.88, eyeY + ry * 0.66);
+      g.quadraticCurveTo(cx, eyeY + ry * 1.34, cx + rx * 0.88, eyeY + ry * 0.66);
+      g.stroke();
+      // Brow, in the figure's own hair colour: the one feature that carries
+      // most of an expression at distance.
+      g.strokeStyle = browCss;
+      g.lineWidth = 0.042 * w * f.browW;
+      g.beginPath();
+      g.moveTo(cx - s * rx * 1.20, browY + f.brow * 0.055 * h);
+      g.quadraticCurveTo(cx - s * rx * 0.1, browY - 0.032 * h, cx + s * rx * 1.10, browY - f.brow * 0.050 * h);
+      g.stroke();
+      // Nostril, and the wing of the nose above it.
+      g.strokeStyle = "rgba(60,40,28,0.62)";
+      g.lineWidth = 0.019 * w;
+      g.beginPath();
+      g.moveTo(w / 2 + s * 0.062 * w, noseY);
+      g.quadraticCurveTo(w / 2 + s * 0.034 * w, noseY + 0.016 * h, w / 2 + s * 0.013 * w, noseY + 0.006 * h);
       g.stroke();
     }
-    // Mouth: one curve, with a lighter lower-lip line under it.
-    const mw = f.mw * w;
-    g.strokeStyle = "#43201a";
-    g.lineWidth = 0.038 * w;
+    // Lips: filled, not outlined. A cupid's bow on top, a fuller lower lip
+    // under it, the line between them, and a highlight on the lower one.
+    const mw = f.mw * w, dip = f.mouth * 0.020 * h;
+    g.fillStyle = lipCss;
     g.beginPath();
-    g.moveTo(w / 2 - mw, mouthY - f.mouth * 0.018 * h);
-    g.quadraticCurveTo(w / 2, mouthY + f.mouth * 0.040 * h, w / 2 + mw, mouthY - f.mouth * 0.018 * h);
-    g.stroke();
-    g.strokeStyle = "rgba(96,52,42,0.5)";
-    g.lineWidth = 0.018 * w;
+    g.moveTo(w / 2 - mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2 - mw * 0.5, mouthY - 0.032 * h * f.lip, w / 2, mouthY - 0.012 * h * f.lip);
+    g.quadraticCurveTo(w / 2 + mw * 0.5, mouthY - 0.032 * h * f.lip, w / 2 + mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.010 * h, w / 2 - mw, mouthY - dip);
+    g.fill();
     g.beginPath();
-    g.moveTo(w / 2 - mw * 0.8, mouthY + 0.026 * h);
-    g.quadraticCurveTo(w / 2, mouthY + 0.040 * h + f.mouth * 0.02 * h, w / 2 + mw * 0.8, mouthY + 0.026 * h);
+    g.moveTo(w / 2 - mw * 0.94, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.056 * h * f.lip + dip, w / 2 + mw * 0.94, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + 0.008 * h, w / 2 - mw * 0.94, mouthY - dip);
+    g.fill();
+    g.strokeStyle = "rgba(70,30,26,0.92)";
+    g.lineWidth = 0.021 * w;
+    g.beginPath();
+    g.moveTo(w / 2 - mw, mouthY - dip);
+    g.quadraticCurveTo(w / 2, mouthY + f.mouth * 0.040 * h, w / 2 + mw, mouthY - dip);
     g.stroke();
+    softBlob(g, w / 2, mouthY + 0.028 * h, mw * 0.5, 0.012 * h, "255,232,224", 0.32);
+    softBlob(g, w / 2, mouthY + 0.066 * h, mw * 0.8, 0.018 * h, "92,58,44", 0.18);
+    // Feather the card to nothing at its edges. The card is a flat rectangle
+    // in front of a curved skull, and without this the shading stops on four
+    // straight lines that are plainly visible as a sticker on the face.
+    g.globalCompositeOperation = "destination-out";
+    const steps = 20, bx = (0.10 * w) / steps, by = (0.075 * h) / steps;
+    for (let i = 0; i < steps; i++) {
+      g.fillStyle = `rgba(0,0,0,${(1 - Math.pow(i / steps, 0.55)).toFixed(3)})`;
+      g.fillRect(i * bx, 0, bx + 1, h);
+      g.fillRect(w - (i + 1) * bx, 0, bx + 1, h);
+      g.fillRect(0, i * by, w, by + 1);
+      g.fillRect(0, h - (i + 1) * by, w, by + 1);
+    }
+    g.globalCompositeOperation = "source-over";
   };
 }
 
@@ -1084,8 +1629,9 @@ export function faceFace(variant = 0, o = {}) {
  * — existing stations hang labels and exam markers off that group, so its
  * position is never this function's business.
  *
- * `helmet` replaces the hair with a hard hat and a chin strap; `respirator`
- * adds a half mask over nose and mouth.
+ * `helmet` replaces the hair with a hard hat and a chin strap; `cap` replaces
+ * it with a baseball cap, one mesh, and wins over `helmet` when both are named;
+ * `glasses` adds a wrap lens; `respirator` adds a half mask over nose and mouth.
  */
 export function personHead(head, o = {}) {
   const look = o.look ?? figureLook(o);
@@ -1093,14 +1639,28 @@ export function personHead(head, o = {}) {
   // a seated patient keeps 1.0, because a handful of dental stations pin exam
   // markers (TMJ, lips, swelling) to coordinates on that surface.
   const k = o.k ?? 1;
-  const skull = lathe(head, HEAD_PROFILE, 0, 0, 0, look.skin, { rough: 0.72, seg: 14 });
+  const skull = lathe(head, HEAD_PROFILE, 0, 0, 0, look.skin, { rough: 0.72, seg: 18 });
   skull.scale.set(0.95 * k, k, 1.02 * k);
   // The face card sits just clear of the front of the skull. Its canvas is
   // transparent apart from the features, so the card itself cannot be seen.
-  const face = decal(head, 0.120 * k, 0.115 * k, 0, -0.008 * k, 0.117 * k, faceFace(look.face), {
-    px: 256, transparent: true, rough: 0.68,
-  });
-  if (o.helmet) {
+  const face = decal(head, 0.120 * k, 0.115 * k, 0, -0.008 * k, 0.117 * k,
+    faceFace(look.face, {
+      brow: hex(look.hair),
+      iris: IRIS_TONES[((look.seed ?? 0) >>> 7) % IRIS_TONES.length],
+    }), { px: 512, transparent: true, rough: 0.68 });
+  if (o.cap) {
+    const peak = (u, t, r, y, j) => {
+      // Dead ahead only, and falling away fast: a peak that reaches round to
+      // the ears is a sun hat, not a ball cap.
+      const front = Math.pow(Math.max(0, Math.cos(u * TAU)), 2.2);
+      return { r: 1 + (CAP_PEAK_R[j] ?? 0) * front, y: -(CAP_PEAK_Y[j] ?? 0) * front };
+    };
+    // Double-sided, because a peak is a plate and the underside of one is
+    // exactly the part a learner looking up at a figure would see through.
+    const shell = sweep(head, CAP_PROFILE, peak, 0, 0, 0,
+      o.cap === true ? 0xd8532a : o.cap, { rough: 0.62, seg: 20, side: 2 });
+    shell.scale.set(0.95 * k, k, 1.02 * k);
+  } else if (o.helmet) {
     const shell = lathe(head, HELMET_PROFILE, 0, 0, 0, o.helmet, { rough: 0.42, seg: 16 });
     shell.scale.set(0.95 * k, k, 1.02 * k);
     // A strap under the jaw: the top of the ring is inside the shell, so all
@@ -1110,11 +1670,26 @@ export function personHead(head, o = {}) {
       { rough: 0.7, seg: 6, seg2: 18 });
     strap.rotation.x = 0.10;
   } else {
-    // A capped scalp, tipped back so the hairline sits above the brows in
-    // front and comes down behind the ears at the back.
-    const cap = lathe(head, HAIR_PROFILE, 0, 0, 0.004 * k, look.hair, { rough: 0.86, seg: 14 });
-    cap.scale.set(0.95 * k, k, 1.02 * k);
-    cap.rotation.x = -0.18;
+    // A hair mass, tipped back so the hairline sits above the brows in front
+    // and the volume falls behind the ears.
+    const s = HAIR_STYLES[look.style ?? 0];
+    const cap = lathe(head, s.profile, 0, 0, s.dz * k, look.hair, { rough: 0.86, seg: 20 });
+    cap.scale.set(0.95 * s.sx * k, k, 1.02 * s.sz * k);
+    cap.rotation.x = s.tilt;
+  }
+  if (o.glasses) {
+    // Full radius across the front and temples, tucked inside the skull behind
+    // the ears so the one mesh stops where a real pair of arms would.
+    const wrap = (u) => {
+      const behind = (1 - Math.cos(u * TAU)) / 2;
+      return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
+    };
+    const lens = sweep(head, GLASSES_PROFILE, wrap, 0, 0, 0,
+      o.glasses === true ? 0xaebfcb : o.glasses,
+      { rough: 0.20, metal: 0.2, opacity: 0.42, seg: 22, cast: false });
+    // Not squeezed to 0.95 in x like the skull is: the temples have to stand
+    // off the side of the head or there is nothing to see from the front.
+    lens.scale.set(1.00 * k, k, 1.02 * k);
   }
   if (o.respirator) {
     const cup = lathe(head, RESPIRATOR_PROFILE, 0, -0.045 * k, 0.055 * k,
@@ -1129,26 +1704,31 @@ export function personHead(head, o = {}) {
  * Pelvis and torso, plus whatever is worn over them. `y` shifts the whole
  * assembly, which is how a seated figure reuses a standing figure's shape.
  *
- * `vis` paints two reflective bands across the chest in one mesh; `harness`
- * lays a waist belt and a chest strap over the top in one more.
+ * `vis` names the colour of the two reflective bands across the chest; they
+ * are painted onto the torso now rather than revolved as a second mesh, so a
+ * hi-vis figure is one mesh cheaper than it was. `harness` lays a waist belt
+ * and a chest strap over the top in one more, and `toolBelt` a pouched belt.
  */
 export function personTorso(parent, o = {}) {
   const y = o.y ?? 0;
   const cloth = o.cloth ?? 0x37505f;
+  const dress = o.dress ?? figureDress({
+    coat: o.jacket ?? cloth, trousers: o.trousers ?? cloth, band: o.vis ?? null,
+  });
   const pelvis = lathe(parent, PELVIS_PROFILE, 0, y, 0, o.trousers ?? cloth, { rough: 0.9, seg: 12 });
   pelvis.scale.set(1, 1, 0.72);
   const torso = lathe(parent, TORSO_PROFILE, 0, y, 0, o.jacket ?? cloth, { rough: 0.9, seg: 14 });
   torso.scale.set(1, 1, 0.66);
-  if (o.vis) {
-    const bands = lathe(parent, BAND_PROFILE, 0, y, 0, o.vis, {
-      rough: 0.55, emissive: o.vis, ei: o.ei ?? 0.3, seg: 14,
-    });
-    bands.scale.set(1, 1, 0.66);
-  }
+  torso.material = dressMat(dressKey(dress, "coat"), 256, 256, coatFace(dress), { rough: 0.88 });
   if (o.harness) {
     const webbing = lathe(parent, HARNESS_PROFILE, 0, y, 0,
       o.harness === true ? 0x2b2f33 : o.harness, { rough: 0.8, seg: 12 });
     webbing.scale.set(1, 1, 0.66);
+  }
+  if (o.toolBelt) {
+    const belt = lathe(parent, TOOLBELT_PROFILE, 0, y, 0, dress.belt, { rough: 0.8, seg: 16 });
+    belt.scale.set(1, 1, 0.74);
+    belt.material = dressMat(dressKey(dress, "belt"), 256, 96, toolBeltFace(dress), { rough: 0.82 });
   }
   return { pelvis, torso };
 }
@@ -1158,8 +1738,11 @@ export function personLegs(parent, o = {}) {
   const trousers = o.trousers ?? 0x2f3740;
   const span = o.span ?? 0.085;
   const y = o.y ?? 0;
+  const dress = o.dress ?? figureDress({ coat: trousers, trousers, band: o.vis ?? null });
+  const legMat = dressMat(dressKey(dress, "leg"), 128, 256, legFace(dress), { rough: 0.9 });
   for (const sx of [-1, 1]) {
-    lathe(parent, LEG_PROFILE, sx * span, y, 0, trousers, { rough: 0.9, seg: 10 });
+    const leg = lathe(parent, LEG_PROFILE, sx * span, y, 0, trousers, { rough: 0.9, seg: 10 });
+    leg.material = legMat;
     // Revolved about the axis that points forward, then squashed: the
     // vertical squash is scale.z, because the profile's own y is now z.
     const boot = lathe(parent, BOOT_PROFILE, sx * span, y + 0.046, -0.075,
@@ -1175,15 +1758,24 @@ export function personLegs(parent, o = {}) {
  * and the forearm keeps a standing bend at the elbow, both baked into the
  * meshes rather than the groups, so a station that poses the groups does not
  * flatten the figure back into a cross.
+ *
+ * The sleeve, its reflective band and the glove are all paint on these two
+ * meshes; `glove` used to recolour the whole forearm, hand and all.
  */
 export function personArm(parent, sx, o = {}) {
+  const sleeve = o.sleeve ?? 0x37505f;
+  const dress = o.dress ?? figureDress({
+    coat: sleeve, trousers: sleeve, band: o.vis ?? null, glove: o.glove ?? null, skin: o.skin,
+  });
   const shoulder = group(parent, sx * (o.span ?? 0.166), o.y ?? 1.336, 0);
-  const upper = cyl(shoulder, 0.052, 0.042, 0.30, sx * 0.015, -0.149, 0,
-    o.sleeve ?? 0x37505f, { rough: 0.9, seg: 10 });
+  const upper = lathe(shoulder, UPPERARM_PROFILE, sx * 0.015, 0, 0, sleeve, { rough: 0.9, seg: 12 });
+  upper.material = dressMat(dressKey(dress, "sleeve"), 96, 160, sleeveFace(dress), { rough: 0.9 });
   upper.rotation.z = sx * 0.10;
   const fore = group(shoulder, sx * 0.030, -0.2985, 0);
-  const lower = lathe(fore, FOREARM_PROFILE, 0, 0, 0, o.glove ?? o.skin ?? SKIN_TONES[2],
-    { rough: o.glove ? 0.82 : 0.72, seg: 10 });
+  const lower = lathe(fore, FOREARM_PROFILE, 0, 0, 0, dress.glove ?? dress.skin,
+    { rough: dress.glove ? 0.82 : 0.72, seg: 10 });
+  lower.material = dressMat(dressKey(dress, "fore"), 96, 192, forearmFace(dress),
+    { rough: dress.glove ? 0.84 : 0.7 });
   lower.rotation.x = -0.16;
   lower.scale.set(1.1, 1, 0.9);
   return { shoulder, fore };
@@ -1195,27 +1787,34 @@ export function personArm(parent, sx, o = {}) {
  * bench, holding a tool, or turning to talk to you.
  *
  * Pose first, then call mergeStatic(fig.root, { local: true }) if the figure
- * only has to move as a whole — that takes it from thirteen meshes to four
- * (the face keeps its own canvas) and it still walks, turns and bobs.
+ * only has to move as a whole — that bakes every part that shares a material
+ * and it still walks, turns and bobs.
  */
 export function standingPerson(parent, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
   const look = figureLook(o, x, z);
-  const cloth = o.cloth ?? 0x37505f;
-  const legs = o.legs ?? 0x2f3740;
+  const cloth = o.cloth ?? look.cloth;
+  const legs = o.legs ?? look.trousers;
+  // The band that makes somebody visible across a shop, which is the point of
+  // putting them in the room at all.
+  const band = o.hiVis === false ? null : (o.vis ?? 0xd8e33a);
+  const dress = figureDress({
+    coat: cloth, trousers: legs, band, glove: o.gloves === true ? 0xd8a63a : (o.gloves || null),
+    skin: look.skin, belt: o.beltColor, pouch: o.pouchColor,
+  });
   const torso = group(g, 0, 0, 0);
   personTorso(torso, {
-    cloth, trousers: legs, harness: o.harness,
-    // The band that makes somebody visible across a shop, which is the point
-    // of putting them in the room at all.
-    vis: o.hiVis === false ? null : (o.vis ?? 0xd8e33a), ei: 0.25,
+    cloth, trousers: legs, jacket: cloth, harness: o.harness, vis: band, ei: 0.25,
+    toolBelt: o.toolBelt, dress,
   });
-  personLegs(torso, { trousers: legs, boots: o.boots });
+  personLegs(torso, { trousers: legs, boots: o.boots, dress });
   const head = group(torso, 0, 1.52, 0);
-  personHead(head, { look, k: 0.9, helmet: o.hat, respirator: o.respirator });
+  personHead(head, {
+    look, k: 0.9, helmet: o.hat, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+  });
   const arms = [];
   for (const sx of [-1, 1]) {
-    arms.push(personArm(torso, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves }));
+    arms.push(personArm(torso, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress }));
   }
   return { root: g, torso, head, arms };
 }
@@ -1224,11 +1823,18 @@ export function standingPerson(parent, x, z, o = {}) {
 export function seatedFigure(parent, x, y, z, o = {}) {
   const g = group(parent, x, y, z, o.ry ?? 0);
   const look = figureLook(o, x + z, z - y);
-  const cloth = o.cloth ?? 0x37505f;
+  const cloth = o.cloth ?? look.cloth;
+  const dress = figureDress({
+    coat: cloth, trousers: o.legs ?? cloth, band: o.vis ?? null,
+    glove: o.gloves === true ? 0xd8a63a : (o.gloves || null), skin: look.skin,
+  });
   const torso = group(g, 0, 0, 0);
   // The same torso the standing figure has, dropped to sitting height, so a
   // seated person has the same shoulders and the same waist as a standing one.
-  personTorso(torso, { cloth, trousers: o.legs ?? cloth, y: -0.44, harness: o.harness });
+  personTorso(torso, {
+    cloth, trousers: o.legs ?? cloth, jacket: cloth, y: -0.44, harness: o.harness,
+    vis: o.vis ?? null, toolBelt: o.toolBelt, dress,
+  });
   const span = 0.105;
   for (const sx of [-1, 1]) {
     // Thigh forward from the hip to the knee, revolved about the forward axis.
@@ -1248,11 +1854,13 @@ export function seatedFigure(parent, x, y, z, o = {}) {
     boot.scale.set(0.78, 1, 0.70);
   }
   const head = group(torso, 0, 1.06, 0.01);
-  personHead(head, { look, helmet: o.hat, respirator: o.respirator });
+  personHead(head, {
+    look, helmet: o.hat, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+  });
   const arms = [];
   for (const sx of [-1, 1]) {
     arms.push(personArm(torso, sx, {
-      span: 0.166, y: 0.893, sleeve: cloth, skin: look.skin, glove: o.gloves,
+      span: 0.166, y: 0.893, sleeve: cloth, skin: look.skin, glove: o.gloves, dress,
     }));
   }
   return { root: g, torso, head, arms };

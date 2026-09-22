@@ -57,7 +57,8 @@ const INTRO_FOOT_HTML = `
   one shared apprentice record across both. See <a href="../portal/index.html">the network map</a> for
   all four apps in this repository, including <a href="../holodeck/index.html">Holodeck</a>'s
   prompt-driven procedure generator.</p>
-  <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.</p>
+  <p class="fineprint" style="opacity:.65;margin-top:8px">SmartCiti.X ~VR Simulators — powered by AGI Corp &amp; Visko.
+  Construction worker model by restore50, CC-BY 4.0.</p>
 `;
 
 function stripHtml(html) {

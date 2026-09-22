@@ -22,9 +22,12 @@ Ripped game assets are not licensed for this and are not accepted, whatever
 the file is called. A model whose provenance is unknown is not accepted
 until it is known.
 
-Keep files under 15 MB; the whole app is meant to load on a headset over a
-hall's wifi. Draco-compressed files need the Draco decoder wired into the
-loader before they will open; ask before committing one.
+Keep files under 2 MB; the whole app is meant to load on a headset over a
+hall's wifi, and `tools/check_models.mjs` enforces that ceiling on every `.glb`
+under a `models/` directory, along with its attribution line and the fact that
+some module actually references it. Draco-compressed files need the Draco
+decoder wired into the loader before they will open, and the loader does not
+have one; ask before committing one.
 
 `sample-street.glb` is a hand-built placeholder written by
 `tools/gen_sample_env.py` — six blocks and a kerb — so the loader can be

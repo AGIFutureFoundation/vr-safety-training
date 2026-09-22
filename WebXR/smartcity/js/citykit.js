@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import {
   box, cyl, ball, torus, slab, lathe, hose, group, decal, repaint, signFace, paperFace,
   mat, HUD, markInteractive, gradientFill, noiseTexture, grimeOverlay,
-  figureLook, personHead, personTorso, personLegs, personArm,
+  figureLook, figureDress, personHead, personTorso, personLegs, personArm,
 } from "../../shared/kit.js";
 
 // SmartCity.X asset kit — the pieces every station is assembled from.
@@ -427,9 +427,17 @@ export function instrument(parent, x, y, z, o = {}) {
  * dress. Thirteen meshes bare, which is what the old block-and-ball stand-in
  * cost: see the people section of kit.js for where each one goes.
  *
- * `skin` and `seed` are optional — left alone, the figure takes a skin tone,
- * a hair colour and one of six faces from its own position, so a crew of six
- * is six people rather than one person six times.
+ * `skin`, `cloth`, `trousers` and `seed` are optional — left alone, the figure
+ * takes a skin tone, a hair colour, a hair style, one of six faces and its work
+ * dress from its own position, so a crew of six is six people rather than one
+ * person six times.
+ *
+ * `vest` is the hi-vis garment: naming a colour paints that colour over the
+ * chest with two reflective bands across it, bands on the upper arms and lower
+ * legs, chest pocket flaps and a zip — all canvas on meshes that are there
+ * anyway, so it costs nothing. `helmet` is a hard hat, `cap` a baseball cap
+ * (one mesh, and it wins over a helmet), `glasses` a wrap lens, `toolBelt` a
+ * pouched belt, and `gloves` is paint on the hands rather than a garment.
  */
 export function standingFigure(parent, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
@@ -443,25 +451,32 @@ export function standingFigure(parent, x, z, o = {}) {
   // be standing somewhere real.
   if (!o.lying && !o.atStation) g.userData.crew = true;
   const look = figureLook(o, x, z);
-  const cloth = o.cloth ?? 0x37505f;
-  const trousers = o.trousers ?? 0x2f3740;
+  const cloth = o.cloth ?? look.cloth;
+  const trousers = o.trousers ?? look.trousers;
   const lying = !!o.lying;
   const body = group(g, 0, 0, 0);
   if (lying) { body.rotation.x = -Math.PI / 2; body.position.set(0, 0.16, 0); }
-  personTorso(body, {
-    cloth, trousers, harness: o.harness,
-    // A hi-vis vest is the garment worn over the shirt, so it takes the
-    // torso's colour instead of costing a second shell around it, and the two
-    // reflective bands across it are the one mesh that is added.
-    jacket: o.vest ?? cloth,
-    vis: o.vest ? (o.bands ?? 0xdfe8ee) : null,
-    ei: 0.45,
+  // A hi-vis vest is the garment worn over the shirt, so it takes the torso's
+  // colour instead of costing a second shell around it, and the reflective
+  // bands, pocket flaps and zip across it are painted on that same mesh.
+  const dress = figureDress({
+    coat: o.vest ?? cloth,
+    trousers,
+    band: o.vest ? (o.bands ?? 0xdfe8ee) : null,
+    glove: o.gloves === true ? 0xd8a63a : (o.gloves || null),
+    skin: look.skin,
   });
-  personLegs(body, { trousers });
+  personTorso(body, {
+    cloth, trousers, harness: o.harness, jacket: o.vest ?? cloth,
+    vis: dress.band, ei: 0.45, toolBelt: o.toolBelt, dress,
+  });
+  personLegs(body, { trousers, dress });
   const head = group(body, 0, 1.5, 0);
-  personHead(head, { look, k: 0.9, helmet: o.helmet, respirator: o.respirator });
+  personHead(head, {
+    look, k: 0.9, helmet: o.helmet, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+  });
   for (const sx of [-1, 1]) {
-    personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves });
+    personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress });
   }
   g.userData.head = head;
   g.userData.body = body;
