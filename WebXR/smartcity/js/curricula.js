@@ -194,6 +194,38 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "culinary-kitchen",
+    name: "Culinary — The Working Kitchen",
+    union: "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
+    certification: "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+    summary: "Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+    accent: "#f2a23b",
+    stations: [
+      { app: "trades", id: "kitchen", why: "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own." },
+      // slot-culinary-1
+      // slot-culinary-2
+      // slot-culinary-3
+      // slot-culinary-4
+      // slot-culinary-5
+    ],
+  },
+  {
+    id: "dental-hygiene-unspoken-smiles",
+    name: "Dental Hygiene — Unspoken Smiles",
+    union: "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
+    certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+    summary: "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+    accent: "#7fd1c9",
+    stations: [
+      { app: "trades", id: "phlebotomy", why: "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up." },
+      // slot-dental-1
+      // slot-dental-2
+      // slot-dental-3
+      // slot-dental-4
+      // slot-dental-5
+    ],
+  },
+  {
     id: "situational-awareness",
     name: "Situational Awareness — Interruption Drill",
     union: "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",

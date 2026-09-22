@@ -5285,11 +5285,11 @@ function districtFor(category) {
 // exit, a ceiling with real fittings, and rooflights that let the weather
 // and the hour through so the room still knows what time it is.
 //
-// Six styles, because six is what the roster actually needs. Each is the
+// Eight styles, because eight is what the roster actually needs. Each is the
 // same shell with different surfaces, dressing and light temperature, so
 // the whole layer is about a hundred meshes rather than six separate rooms.
 
-const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall"];
+const INTERIOR_STYLES = ["plant", "shop", "theatre", "service", "garage", "datahall", "kitchen", "clinic"];
 
 const STYLE = {
   plant: {
@@ -5325,6 +5325,22 @@ const STYLE = {
   // A hall has no windows on purpose — daylight is a heat load and a
   // security problem — so it is the one style with no rooflights at all,
   // and the only light in it is the light somebody installed.
+  // A commercial kitchen: white tile walls, a quarry-tile floor that is
+  // always a little wet, and the hood line the whole room is arranged under.
+  kitchen: {
+    label: "Commercial kitchen",
+    wall: 0xe6ebee, floor: 0x7a5a48, trim: 0xb8c1c9, ceiling: 0xd8dde2,
+    lamp: 0xf8fbff, lampI: 1.8, ambient: 0.62, w: 15, d: 11, h: 4.2,
+    rooflights: 0, door: "personnel", grime: 0.3,
+  },
+  // A dental clinic: the quietest room in the roster. Acoustic-tile ceiling,
+  // sheet-vinyl floor, no windows on the operatory side, four rows of light.
+  clinic: {
+    label: "Dental clinic",
+    wall: 0xeef2f5, floor: 0xb9c4c9, trim: 0x7fd1c9, ceiling: 0xf2f5f7,
+    lamp: 0xf6fbff, lampI: 1.6, ambient: 0.66, w: 12, d: 10, h: 3.4,
+    rooflights: 0, door: "personnel", grime: 0.05,
+  },
   datahall: {
     label: "Data hall",
     wall: 0xdfe4e9, floor: 0x3e4650, trim: 0x2f6f8c, ceiling: 0xc6ccd2,
@@ -5375,6 +5391,26 @@ function flyTower(g, style, y, accent) {
   void cat;
 }
 
+/** The exhaust hood line along the back wall of a kitchen: stainless canopy,
+ *  baffle filters, a duct up through the ceiling, and the fire-suppression
+ *  nozzles that NFPA 96 puts over every appliance. */
+function hoodLine(g, style, y, accent) {
+  const z = -style.d / 2 + 1.35, w = style.w - 3;
+  box(g, w, 0.9, 1.6, 0, y - 0.55, z, 0xc9d0d6, { rough: 0.35, metal: 0.8, cast: false });
+  for (let x = -w / 2 + 0.6; x < w / 2 - 0.3; x += 0.55) box(g, 0.5, 0.42, 0.04, x, y - 0.72, z + 0.5, 0xaeb7bf, { rough: 0.4, metal: 0.7, cast: false });
+  box(g, 1.2, 0.3, 1.2, -w / 4, y - 0.05, z, 0xb0b9c2, { rough: 0.45, metal: 0.7, cast: false });
+  box(g, 1.2, 0.3, 1.2, w / 4, y - 0.05, z, 0xb0b9c2, { rough: 0.45, metal: 0.7, cast: false });
+  for (let x = -w / 2 + 1.2; x < w / 2 - 0.6; x += 1.5) cyl(g, 0.03, 0.03, 0.22, x, y - 1.05, z + 0.2, 0xb3261e, { rough: 0.5, seg: 6, cast: false });
+  box(g, w, 0.04, 0.04, 0, y - 1.0, z + 0.78, accent, { emissive: accent, ei: 0.5, rough: 0.5, cast: false });
+}
+
+/** A suspended acoustic-tile ceiling: the grid lines and the return grilles. */
+function tileCeiling(g, style, y) {
+  for (let x = -style.w / 2 + 0.6; x < style.w / 2; x += 0.6) box(g, 0.025, 0.02, style.d - 0.4, x, y, 0, 0xd0d5da, { rough: 0.6, metal: 0.3, cast: false });
+  for (let z = -style.d / 2 + 0.6; z < style.d / 2; z += 0.6) box(g, style.w - 0.4, 0.02, 0.025, 0, y, z, 0xd0d5da, { rough: 0.6, metal: 0.3, cast: false });
+  for (const [x, z] of [[-style.w * 0.3, -style.d * 0.3], [style.w * 0.3, style.d * 0.3]]) box(g, 0.58, 0.03, 0.58, x, y - 0.01, z, 0xaeb7bf, { rough: 0.5, metal: 0.5, cast: false });
+}
+
 /** Ladder tray, dual busway and a fibre run overhead — the data-hall style.
  *  The A and B busways are the point of the room: two feeds a metre apart in
  *  identical housings, which is what makes the hall maintainable and what
@@ -5417,8 +5453,10 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
   const floorTex = surfaceTexture(
     (cx, cw, ch) => (indoor === "shop" || indoor === "garage" || indoor === "datahall"
       ? deckPlateFace(cx, cw, ch)
+      : indoor === "kitchen" ? pavingFace(cx, cw, ch, { tiles: 6, base: "#7a5a48", base2: "#6b4e3e", seam: "rgba(240,230,215,0.55)" })
+      : indoor === "clinic" ? pavingFace(cx, cw, ch, { tiles: 2, base: "#b9c4c9", base2: "#aeb9bf", seam: "rgba(0,0,0,0.12)" })
       : pavingFace(cx, cw, ch, { tiles: 3, base: "#6a7076", base2: "#5f656b" })),
-    { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : 6, px: 512 });
+    { repeat: indoor === "shop" ? 10 : indoor === "datahall" ? 14 : indoor === "kitchen" ? 12 : 6, px: 512 });
   const floor = box(g, w, 0.2, d, 0, -0.1, 0, style.floor, { rough: 0.85, metal: 0.1 });
   floor.material = texturedMat(floorTex, { rough: 0.8, metal: 0.12, color: style.floor });
   floor.receiveShadow = true;
@@ -5453,12 +5491,14 @@ function buildInterior(parent, indoor, { accent = CITY.accent, daylight = 0.25, 
     { rough: 0.9, finish: "painted", tile: [Math.round(w * PER_M), Math.round(d * PER_M)] });
   if (indoor === "theatre") flyTower(g, style, h - 0.4, accent);
   else if (indoor === "datahall") cableTrays(g, style, h - 0.9, accent);
+  else if (indoor === "kitchen") hoodLine(g, style, h - 0.3, accent);
+  else if (indoor === "clinic") tileCeiling(g, style, h - 0.02);
   else if (indoor === "shop" || indoor === "garage") trusses(g, style, h - 0.5);
   else overheadPipes(g, style, h - 0.7, accent);
 
   // Light fittings: emissive panels with one point light each.
   const lamps = [];
-  const rows = indoor === "theatre" ? 2 : indoor === "datahall" ? 4 : 3;
+  const rows = indoor === "theatre" ? 2 : (indoor === "datahall" || indoor === "clinic") ? 4 : 3;
   for (let r = 0; r < rows; r++) {
     for (const sx of [-1, 1]) {
       const x = sx * w * 0.24;
@@ -10219,6 +10259,38 @@ const CURRICULA = [
       { app: "smartcity", id: "tide-gate", why: "The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee." },
       { app: "smartcity", id: "living-shoreline", why: "The water's edge rebuilt as habitat — coir, oyster shell, cordgrass at the design elevation — inside the tide window and the fish window." },
       { app: "smartcity", id: "eelgrass-transplant", why: "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water." },
+    ],
+  },
+  {
+    id: "culinary-kitchen",
+    name: "Culinary — The Working Kitchen",
+    union: "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
+    certification: "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
+    summary: "Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+    accent: "#f2a23b",
+    stations: [
+      { app: "trades", id: "kitchen", why: "The bench case: the line as a first-period cook meets it, before any one hazard is taken apart on its own." },
+      // slot-culinary-1
+      // slot-culinary-2
+      // slot-culinary-3
+      // slot-culinary-4
+      // slot-culinary-5
+    ],
+  },
+  {
+    id: "dental-hygiene-unspoken-smiles",
+    name: "Dental Hygiene — Unspoken Smiles",
+    union: "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
+    certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+    summary: "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+    accent: "#7fd1c9",
+    stations: [
+      { app: "trades", id: "phlebotomy", why: "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up." },
+      // slot-dental-1
+      // slot-dental-2
+      // slot-dental-3
+      // slot-dental-4
+      // slot-dental-5
     ],
   },
   {
