@@ -68,13 +68,13 @@ export const SIM_AIR_MONITOR = {
       id: "plan", kind: "select", target: "amp-board",
       title: "Read the Air Monitoring Plan",
       cue: "Check the action level, the monitor count and the placement rule before you touch an instrument.",
-      why: "The plan says how many monitors, where relative to the wind, what PM10 level triggers action and what that action is. Everything on the line follows from it — you read it first, not when the alarm goes.",
+      why: "The plan sets the monitor count, the placement rule relative to the wind, the PM10 level that triggers action and exactly what that action is. A crew that starts placing before reading it is defending numbers it never agreed were the trigger, and a regulator does not accept 'we thought' as the standard when the exceedance record gets pulled.",
     },
     {
       id: "wind", kind: "select", target: "wind-vane",
       title: "Check the wind",
       cue: "Read the vane and the anemometer — direction and speed decide where the monitors go.",
-      why: "Upwind gives you background; downwind gives you what the site adds. Without the wind, a monitor is a box that measures somewhere.",
+      why: "Upwind gives you the neighbourhood's background dust; downwind gives you everything the dig adds on top of it. Get the direction wrong and the unit you call downwind is reading the wrong side of the fence, so a real exceedance can pass unflagged while a clean reading gets logged as a violation.",
     },
     {
       id: "placement", kind: "sequence",
@@ -82,14 +82,14 @@ export const SIM_AIR_MONITOR = {
       itemNames: { "monitor-upwind": "upwind monitor", "monitor-downwind": "downwind monitor" },
       title: "Place the monitors by the wind",
       cue: "Upwind first, for background — then the downwind monitor on the fence line.",
-      why: "The upwind reading is the number every downwind reading is judged against. It goes in first so the pair is logging together from the first minute of the dig.",
+      why: "The upwind reading is the number every downwind reading gets compared against, so it has to be logging first. A downwind unit powered up alone has nothing to subtract from and no way to prove the dust it reads came from the site rather than the street — placing them out of order breaks that pairing for the whole shift.",
       outOfOrderNote: "Upwind first — the background is what makes the downwind reading mean anything.",
     },
     {
       id: "flow", kind: "gauge", target: "flow-cal",
       title: "Calibrate the sampler flow",
       cue: "Set the sampler to its rated flow against the calibrator and commit inside the band.",
-      why: "A PM10 inlet only cuts at 10 microns at its design flow. Off-flow, the size cut moves and the number the plan compares to its action level is a different quantity.",
+      why: "A PM10 inlet only cuts particles at ten microns when it is pulling air at its rated flow. Run it high or low and the size cut moves with it, so the number the plan compares to the action level is measuring a different, uncalibrated slice of the dust — an exceedance call built on it will not hold up.",
       gauge: {
         label: "FLOW", speed: 0.75, green: [0.45, 0.6],
         readout: (t) => `${(1.4 + t * 1.2).toFixed(2)} L/min`,
@@ -100,20 +100,20 @@ export const SIM_AIR_MONITOR = {
       id: "zero", kind: "hold", target: "zero-filter", seconds: 5,
       title: "Run the zero check",
       cue: "Hold the HEPA zero filter on the inlet until the reading settles at zero.",
-      why: "A monitor that will not read zero on filtered air cannot be trusted at the action level. The zero is the proof the instrument, not the site, is what you are measuring.",
+      why: "A monitor that will not settle at zero on filtered air is reading something about itself, not the site, and every number it produces afterward carries that same offset. The zero check is the only proof that what climbs above the action level later is dust off the dig, not drift in the instrument.",
       holdBreakNote: "Filter lifted early — the reading never settled. Hold it on until it reads zero.",
     },
     {
       id: "logger", kind: "select", target: "data-logger",
       title: "Start the logger with synced time",
       cue: "Sync the clock, then start logging on both monitors.",
-      why: "An exceedance is a time, a wind and a reading together. Two loggers a minute apart are two stories; synced clocks are one record.",
+      why: "An exceedance is a reading, a wind direction and a time stamped together, and two loggers running a minute apart turn that into two different stories neither one can settle by itself. Syncing the clocks before logging starts is what lets the regulator, and the next shift, trust the record as one account of the event.",
     },
     {
       id: "telemetry", kind: "turn", target: "antenna-mast",
       title: "Raise and lock the telemetry mast",
       cue: "Wind the mast up until it locks — the readings go to the site trailer live.",
-      why: "The monitor beside the fence is only useful if someone sees it when it alarms. Telemetry puts the reading in the trailer and on the health and safety officer's phone.",
+      why: "A fence-line monitor that alarms with nobody watching it has done nothing for however long it takes someone to walk by. Telemetry puts the live reading in the site trailer and on the health and safety officer's phone the instant it climbs, which is the only way an exceedance gets a response inside the window the plan assumes.",
       turn: { turns: 0.75, axis: "y", label: "MAST" },
     },
     {
@@ -123,7 +123,7 @@ export const SIM_AIR_MONITOR = {
       itemNotes: { "inlet-clog": "The downwind inlet screen is packed with dust from yesterday. Blocked, it reads low — the one direction a fence-line monitor must never be wrong." },
       title: "Walk the line and find the fault",
       cue: "Inspect each inlet and click the one that is not sampling true.",
-      why: "Calibration proves the flow through a clean inlet. A blocked screen fails quietly, low, on the downwind side — the walk-down is what catches it.",
+      why: "Calibration only proves the flow through a clean inlet; it says nothing about the inlet an hour later. A packed screen fails quietly and low, and low is the one direction a fence-line monitor can never be wrong in — it is the difference between an exceedance the plan catches and one that reaches the houses unlogged.",
     },
     {
       id: "exceedance", kind: "sequence",
@@ -131,14 +131,42 @@ export const SIM_AIR_MONITOR = {
       itemNames: { "stop-excavator": "stop the excavator", "wet-down": "wet the work face", "notify-hso": "notify the health and safety officer" },
       title: "Answer the exceedance",
       cue: "The downwind monitor alarms above the action level: stop the dig, wet the face, notify — in that order.",
-      why: "Stop removes the source, water holds it down, the notification starts the record and the decision on restart. The order is the plan's; the mute button is not in it.",
+      why: "Stopping removes the source, wetting holds down what is already loose, and the notification starts the clock on the decision to restart — in that order, because nothing else in the response helps while the excavator is still lifting dust into the same wind that carries it across the fence. The mute button is not a step in this sequence.",
       outOfOrderNote: "Stop the source first — nothing else in the response helps while the excavator is still lifting dust.",
     },
     {
       id: "log", kind: "select", target: "field-log",
       title: "Log the exceedance",
       cue: "Record the time, wind, reading, and the actions taken.",
-      why: "The regulators, the neighbours and the next shift all read the same log. What was measured, what was done and when — written while it is true, not remembered later.",
+      why: "The regulators, the neighbours and the next shift all read the same entry, so what was measured, what was done about it and when has to go in while it is still true, not reconstructed from memory at the end of the day. A page of numbers with no narrative around it proves nothing to anyone who asks later.",
+    },
+  ],
+
+  // Two things that happen while the technician is heads-down on the line:
+  // a colleague about to refuel a live generator, and a visitor drifting
+  // toward the exclusion zone with no respirator. See shared/game.js.
+  interrupts: [
+    {
+      id: "hot-refuel",
+      kind: "Hot refuel",
+      after: "logger", delay: 4, seconds: 12,
+      alert: "A labourer has walked up with a fuel can and is about to top off the generator while the engine is still running.",
+      cue: "The engine beside the instruments is live and someone is about to pour fuel next to it.",
+      target: "gen-cutoff",
+      why: "A generator's fuel tank sits inches from a hot engine block and an exposed exhaust, and pouring fuel onto or near either one is how a splash becomes a flash fire — the plume from that fire is the one exceedance the Air Monitoring Plan has no response for, because it cannot be stopped, wetted or waited out like dust. Killing the engine before the can is opened is the whole difference between a routine refuel and a site fire next to a set of instruments nobody can then get near.",
+      missNote: "The engine kept running while the fuel can was open beside it. Nothing caught this time, but the exposure was real: a hot-refuel fire at a monitoring line burns the instruments the neighbourhood depends on along with whoever is standing there.",
+      wrongNote: "It is the generator's cutoff switch. Kill the engine before that fuel can opens anywhere near it.",
+    },
+    {
+      id: "unauthorized-entry",
+      kind: "Unescorted visitor",
+      after: "telemetry", delay: 3, seconds: 12,
+      alert: "A subcontractor from another crew is walking toward the exclusion zone gap with no respirator on.",
+      cue: "Someone with no protection on their face is closing on the fence.",
+      target: "warn-horn",
+      why: "Inside the fence, the perimeter monitors are not protection for anyone standing there — they exist for the houses beyond it, and the only thing standing between a worker's lungs and the site's air is what is on their face. The horn is loud enough to be heard over site noise and is the one way to stop somebody before they cross a line the monitors were never built to warn them about in time.",
+      missNote: "They walked into the exclusion zone with no respirator and nobody called it. The perimeter line was reading the neighbourhood's exposure while a worker took the site's exposure straight, with no warning at all.",
+      wrongNote: "Sound the horn. That is the only thing that reaches someone already walking toward the gap.",
     },
   ],
 
@@ -249,6 +277,18 @@ export const SIM_AIR_MONITOR = {
     const fuelCan = group(gen, -0.45, 0, 0.1);
     box(fuelCan, 0.16, 0.22, 0.1, 0, 0.11, 0, 0xd2312b, { rough: 0.6 });
     reg(hits, fuelCan, "refuel-running");
+    // Engine cutoff switch on the generator's side — the interrupt response,
+    // separate from the fuel can it stands beside (footgun: never reg the
+    // same mesh under two hit ids).
+    const cutoff = group(gen, 0.25, 0.32, 0.21);
+    box(cutoff, 0.08, 0.05, 0.03, 0, 0, 0, 0x22262b, { rough: 0.6 });
+    const cutoffToggle = box(cutoff, 0.02, 0.03, 0.02, 0, 0.01, 0.02, 0x59c97b, { rough: 0.5 });
+    cutoffToggle.material = cutoffToggle.material.clone();
+    decal(cutoff, 0.07, 0.02, 0, -0.035, 0.02, signFace("ENGINE STOP", { bg: "#22262b", accent: "#d2312b", scale: 0.45 }));
+    reg(hits, cutoff, "gen-cutoff");
+    // A second labourer, only visible once the hot-refuel interrupt fires.
+    const refueler = standingFigure(g, -2.55, 1.05, { ry: 1.0, cloth: 0xe4622a });
+    refueler.visible = false;
 
     // ---------------------------------------------- exceedance response
     const hose = group(g, -0.6, 0.14, -0.9, 0.5);
@@ -271,8 +311,19 @@ export const SIM_AIR_MONITOR = {
     const gapSpot = cyl(gap, 0.25, 0.25, 0.01, 0, 0.005, 0, 0xd2312b, { rough: 0.6, opacity: 0.35, transparent: true, cast: false });
     holoTag(gap, "EXCLUSION ZONE — respirator required", 0, 0.7, 0, { css: "#d2312b", w: 0.5 });
     reg(hits, gapSpot, "zone-no-respirator");
+    // Warning horn mounted on the gate post — the unauthorized-entry
+    // interrupt's answer, distinct from the hazard marker above.
+    const horn = group(gap, 0, 0.9, -0.32);
+    cyl(horn, 0.05, 0.08, 0.12, 0, 0, 0, 0xd9a441, { rough: 0.5, metal: 0.4, seg: 12 });
+    const hornLight = ball(horn, 0.04, 0, 0.08, 0, 0xf2ae14, { emissive: 0xf2ae14, ei: 0.3, rough: 0.4 });
+    hornLight.material = hornLight.material.clone();
+    reg(hits, horn, "warn-horn");
+    // The unescorted visitor, only visible once that interrupt fires.
+    const visitor = standingFigure(g, 2.2, 0.95, { ry: -2.1, cloth: 0xc9a227 });
+    visitor.visible = false;
 
     let alarming = false, logging = false, placed = 0;
+    let unauthorized = false, engineOff = false;
     const strobeOn = (on) => { strobe.material.emissiveIntensity = on ? 2.4 : 0.2; };
 
     return {
@@ -289,13 +340,26 @@ export const SIM_AIR_MONITOR = {
         if (step.id === "exceedance") { alarming = false; strobeOn(false); repaint(down.screen, signFace("31 µg/m³", { bg: "#0d1c24", accent: "#9fd8c0", fg: "#bfeaf7", scale: 0.6 })); }
       },
       onHazard() {},
+      // The refueler really steps up to the generator, and the visitor
+      // really appears at the fence gap — both are scene changes an
+      // animate()-only flicker could not produce.
+      onInterrupt(it) {
+        if (it.id === "hot-refuel") refueler.visible = true;
+        if (it.id === "unauthorized-entry") { unauthorized = true; visitor.visible = true; }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "hot-refuel") { engineOff = true; refueler.visible = false; cutoffToggle.material = cutoffToggle.material.clone(); cutoffToggle.material.color.set(0xd2312b); }
+        if (it.id === "unauthorized-entry") { unauthorized = false; visitor.visible = false; }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (alarming) { strobeOn(Math.floor(t * 4) % 2 === 0); dust.visible = true; dust.userData.step(dt, new THREE.Vector3(-1.5, 0.3, -0.6), 1.2, 0.5, 0.15); }
         else if (dust.visible && step?.id !== "exceedance") dust.visible = false;
         if (step?.id === "exceedance" && session.sequence.includes("wet-down")) { spray.visible = true; spray.userData.step(dt, new THREE.Vector3(-0.3, 0.2, -0.9), 0.2, 1.4, -3); }
         else if (spray.visible) spray.visible = false;
-        smoke.visible = true; smoke.userData.step(dt, new THREE.Vector3(-1.65, 0.8, 1.0), 0.05, 0.4, 0.3);
+        smoke.visible = !engineOff;
+        if (!engineOff) smoke.userData.step(dt, new THREE.Vector3(-1.65, 0.8, 1.0), 0.05, 0.4, 0.3);
         cups.rotation.y += dt * 2.4;
         const gg = session?.gauge;
         if (gg && !gg.committed && step?.id === "flow") {
@@ -303,6 +367,8 @@ export const SIM_AIR_MONITOR = {
         }
         if (step?.id === "zero" && session.holding) zeroFilter.position.set(0.18 - (0.6 * Math.min(1, session.holdFor)), 0.72 + 0.3 * Math.min(1, session.holdFor), 0.05);
         if (session?.turn && step?.id === "telemetry") { mastPole.scale.y = 1 + session.turn.amount / session.turn.required * 0.8; mastPole.position.y = 0.45 * mastPole.scale.y; mastCrank.rotation.z = session.turn.amount * Math.PI * 2; }
+        if (unauthorized) hornLight.material.emissiveIntensity = 1.5 + Math.sin(t * 10) * 1.2;
+        else hornLight.material.emissiveIntensity = 0.3;
       },
     };
   },

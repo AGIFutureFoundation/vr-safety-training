@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
-import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, reg } from "../citykit.js";
+import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, rackFrame, rackUnit, cone, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Press Brake VR — Manufacturing & Automation, station two.
@@ -62,33 +62,33 @@ export const SIM_PRESS_BRAKE = {
       id: "traveler", kind: "select", target: "job-traveler",
       title: "Read the job traveler",
       cue: "Check material, thickness, bend angle, tooling and the inside radius called for.",
-      why: "The traveler names the V-die, the punch, the tonnage and the angle. A setup starts from the drawing, not from whatever tooling is already in the machine.",
+      why: "The traveler names the V-die, the punch, the tonnage and the angle the drawing calls for. A setup that starts from whatever tooling is already sitting in the machine, instead of the drawing, is a bet that this job happens to match the last one — and when it does not, the bend is wrong on every part before anyone measures the first one.",
     },
     {
       id: "lockout", kind: "turn", target: "control-switch",
       title: "Lock out control power",
       cue: "Turn the control power off and apply your lock before the tooling change.",
-      why: "The ram is hydraulic; a pedal bump or a control fault during a tooling change closes it. Your lock is what makes the die space a safe place for hands.",
+      why: "The ram is hydraulic and moves on control power alone; a pedal bumped by a passing hip or a control fault during the tooling change closes it exactly as fast as it closes on a stroke. Your lock is the only thing that turns the die space into a place hands can be while the die is loose and unclamped in it.",
       turn: { turns: 0.5, axis: "y", label: "CONTROL" },
     },
     {
       id: "install", kind: "drag", target: "v-die",
       title: "Install and seat the V-die",
       cue: "Carry the V-die from the rack and seat it in the lower die holder.",
-      why: "The die goes in square, seated against the holder, then clamped. A die that is not seated bends a part wrong at best and ejects at worst.",
+      why: "The die goes in square against the holder before it is clamped, not after. A die that is not fully seated rides on an edge under load, and the first thing that happens under tonnes of ram pressure on an unseated die is the part bending wrong, the second is the die itself kicking sideways out of the holder.",
       drag: { to: "die-socket", radius: 0.35, missNote: "Not in the holder — seat the die square in the lower clamp." },
     },
     {
       id: "clamp", kind: "select", target: "die-clamp",
       title: "Clamp the tooling",
       cue: "Tighten the die clamps and check the punch is locked.",
-      why: "Clamped tooling stays where it was set through every stroke. Unclamped tooling is the one thing the press can throw at you.",
+      why: "Clamped tooling stays exactly where it was set through every one of the strokes that follow it. Unclamped tooling is the one thing on this machine the ram itself can pick up and throw, because the same force that bends steel does not need much of an excuse to move a die that nothing is holding down.",
     },
     {
       id: "unlock", kind: "turn", target: "control-switch",
       title: "Remove your lock and restore control power",
       cue: "Clear your hands from the die space, take your lock off, then turn control power back on.",
-      why: "Your lock, your call — nobody removes it but you. Control power is what makes the ram able to move, so the die space is proven empty before the lock comes off, not after.",
+      why: "Your lock, your call — nobody on the floor removes another operator's lock but the person who hung it. Control power is what makes the ram able to move at all, so the die space is confirmed empty first and the lock comes off only after that, never as a way of finding out whether it was clear.",
       turn: { turns: 0.5, axis: "y", label: "CONTROL" },
     },
     {
@@ -97,41 +97,41 @@ export const SIM_PRESS_BRAKE = {
       itemNames: { "curtain-top": "top beam", "curtain-mid": "middle beam", "curtain-low": "lowest beam" },
       title: "Prove the light curtain",
       cue: "Break the curtain with the test rod at the top, the middle and the lowest beam — the ram must not move.",
-      why: "A curtain is proven, not assumed. Every beam is tested every setup because a single failed beam at hand height is a curtain that does not exist where it matters.",
+      why: "A curtain is proven every setup, never assumed carried over from the last one, because a single failed beam at hand height is a curtain that does not exist exactly where a hand would be when the ram closes. Testing all three heights is what catches a beam that failed without the fault lamp ever lighting.",
       outOfOrderNote: "Top to bottom — the test walks the whole field so a dead beam has nowhere to hide.",
     },
     {
       id: "back-gauge", kind: "gauge", target: "back-gauge",
       title: "Set the back gauge",
       cue: "Bring the back gauge to the flange dimension on the traveler.",
-      why: "The gauge sets the flange length. It is set to the drawing and then proven on a first article — never eyeballed against the last job's part.",
+      why: "The gauge sets the flange length the part is bent to, and it is set to the drawing's number, then proven on a first article — never eyeballed against the last job's part sitting on the bench, because two jobs that look alike from across the shop are routinely a millimetre apart on the print.",
       gauge: { label: "GAUGE", speed: 0.75, green: [0.46, 0.6], readout: (t) => `${(20 + t * 60).toFixed(1)} mm`, missNote: "Off the flange dimension — reset the gauge to the drawing." },
     },
     {
       id: "tonnage", kind: "gauge", target: "tonnage-dial",
       title: "Set the tonnage",
       cue: "Set the tonnage limit from the chart for this material, thickness and V opening.",
-      why: "Too little and the bend is short; too much and you crack the die or the punch. The chart number is the number.",
+      why: "Too little tonnage and the bend springs back short of the drawing's angle; too much and the excess force cracks the die, breaks the punch tip, or drives a crease into the part that never planned to be there. The chart number for this material, thickness and V opening is the number — not a setting nudged by feel.",
       gauge: { label: "TONNAGE", speed: 0.75, green: [0.42, 0.58], readout: (t) => `${Math.round(10 + t * 80)} t`, missNote: "Off the chart value — a wrong tonnage breaks tooling or the part. Reset it." },
     },
     {
       id: "first-article", kind: "select", target: "scrap-blank",
       title: "Bend a first article on scrap",
       cue: "Load a scrap blank against the gauge and take one stroke.",
-      why: "The first stroke is a test, on a piece you can throw away. It proves the setup before it proves it on the customer's part.",
+      why: "The first stroke of a new setup is a test, taken on a piece that costs nothing to throw away, precisely because a gauge, a tonnage and a die that all measured right on paper can still combine to bend a part wrong the first time metal actually goes through them. It proves the setup before the setup proves itself on the customer's material.",
     },
     {
       id: "angle", kind: "gauge", target: "protractor",
       title: "Check the bend angle",
       cue: "Measure the first article with the protractor and commit inside tolerance.",
-      why: "Springback means the ram depth and the angle are not the same number. The protractor is what says the setup is right; the drawing's tolerance is the band.",
+      why: "Springback means the ram's travel and the part's final angle are never quite the same number — every material relaxes a few degrees after the ram opens. The protractor on the actual bent part is what says the setup is right; the drawing's tolerance band is the only thing that gets to decide, not how close it looks by eye.",
       gauge: { label: "ANGLE", speed: 0.7, green: [0.45, 0.6], readout: (t) => `${(85 + t * 10).toFixed(1)}°`, missNote: "Out of tolerance — adjust ram depth and bend another test piece." },
     },
     {
       id: "production", kind: "hold", target: "foot-pedal", seconds: 3,
       title: "Take the production stroke",
       cue: "Hands on the supports behind the flange, then hold the pedal through the full stroke.",
-      why: "A stroke released halfway leaves the part pinched and the ram mid-travel. Hands placed first, then a full, deliberate stroke.",
+      why: "A stroke released halfway leaves the ram stalled mid-travel with the part pinched in the die and nowhere safe to reach for it, because the machine does not know the difference between an operator letting off the pedal and one who needs to. Hands go on the supports first, and the pedal gets one full, deliberate stroke, not a series of taps.",
       holdBreakNote: "Pedal released mid-stroke — the ram stopped in the part. Reset and take the stroke through.",
     },
     {
@@ -141,7 +141,7 @@ export const SIM_PRESS_BRAKE = {
       itemNotes: { "guard-gap": "The side guard has been left off after the last maintenance — a reach-around path to the die space the curtain does not see." },
       title: "Walk the machine before the run",
       cue: "Check the guarding and click what is wrong.",
-      why: "The curtain guards the front. The sides and back are fixed guards, and a missing one is a route into the die space nobody is watching.",
+      why: "The light curtain guards the front approach to the die, nothing more; the sides and the back of the machine are fixed guards, and a fixed guard left off after maintenance is a route into the die space that the curtain's beams never cross and never see. Production only starts once that route is closed, not just the front one.",
     },
   ],
 
@@ -271,6 +271,59 @@ export const SIM_PRESS_BRAKE = {
     reg(hits, scrap, "scrap-blank");
     const rod = cyl(g, 0.012, 0.012, 0.5, 1.6, 0.9, 0.5, 0xffffff, { rough: 0.5, seg: 8 });
     holoTag(g, "curtain test rod", 1.6, 1.2, 0.5, { css: "#d9a441", w: 0.3 });
+
+    // ------------------------------------------------------- shop dressing
+    // A pallet of sheared blanks staged for the next job, a spare-die rack
+    // behind the tooling chest, a wall extinguisher, a lockout signage board,
+    // an ear-protection station (the brake is loud at every stroke), a
+    // ceiling cable tray feeding the pendant, and exclusion cones marking the
+    // walking aisle off from the die space — the shop this machine actually
+    // sits in, not a bare stage around it.
+    const stockPallet = group(g, 1.7, 0.1, 1.9);
+    box(stockPallet, 0.8, 0.08, 0.6, 0, 0.04, 0, 0x8b6a42, { rough: 0.9 });
+    for (let i = 0; i < 6; i++) box(stockPallet, 0.74, 0.02, 0.54, 0, 0.1 + i * 0.03, 0, 0xb9bec4, { rough: 0.35, metal: 0.6 });
+    box(stockPallet, 0.7, 0.5, 0.5, 0, 0.35, 0, 0xdfe9ee, { rough: 0.15, opacity: 0.2, transparent: true });
+    holoTag(stockPallet, "sheared blanks", 0, 0.65, 0, { css: "#d9a441", w: 0.3 });
+
+    const dieRack = rackFrame(g, -2.5, -1.5, { ry: 0.5, h: 1.2 });
+    for (let i = 0; i < 3; i++) rackUnit(dieRack, 0.25 + i * 0.32, ["16mm V-DIE", "32mm V-DIE", "PUNCH SET"][i], { css: "#d9a441" });
+
+    const ext = group(g, 2.3, 0.1, 1.9, -0.8);
+    cyl(ext, 0.06, 0.07, 0.42, 0, 0.35, 0, 0xd2312b, { rough: 0.4, metal: 0.3, seg: 14 });
+    cyl(ext, 0.025, 0.025, 0.08, 0, 0.6, 0, 0x22262b, { rough: 0.4, seg: 10 });
+    holoTag(ext, "extinguisher", 0, 0.72, 0, { css: "#d2312b", w: 0.3 });
+
+    const safetyBoard = group(g, -2.3, 0.1, 1.8, 0.3);
+    box(safetyBoard, 0.5, 0.4, 0.03, 0, 1.1, 0, 0x1b2026, { rough: 0.6 });
+    decal(safetyBoard, 0.44, 0.34, 0, 1.1, 0.018,
+      signFace("LOCKOUT\nSTATIONS\nONLY", { bg: "#0d1c24", accent: "#d9a441", fg: "#fff3d6", scale: 0.28 }));
+    cyl(safetyBoard, 0.02, 0.02, 1.1, 0, 0.55, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6, seg: 10 });
+
+    const earStation = group(g, -1.9, 0.1, -1.9, 0.6);
+    box(earStation, 0.3, 0.4, 0.14, 0, 1.0, 0, 0x2b2f34, { rough: 0.6 });
+    for (const sx of [-0.06, 0.06]) ball(earStation, 0.045, sx, 1.08, 0.08, 0xf2ae14, { rough: 0.5 });
+    holoTag(earStation, "hearing protection", 0, 1.28, 0, { css: "#d9a441", w: 0.4 });
+
+    const cableTray = group(g, 1.6, 0.1, -1.9);
+    for (let i = 0; i < 5; i++) box(cableTray, 0.5, 0.06, 0.18, -1.0 + i * 0.5, 1.9, 0, 0x3a4550, { rough: 0.55, metal: 0.5 });
+    for (let i = 0; i < 4; i++) cyl(cableTray, 0.012, 0.012, 0.48, -0.8 + i * 0.5, 1.9, 0.05, 0x1b1e22, { rough: 0.7, seg: 8 }).rotation.z = Math.PI / 2;
+
+    for (const [x, z] of [[1.0, 1.7], [-0.6, 1.9], [0.8, -1.9]]) cone(g, x, z);
+
+    const scrapBin = group(g, 2.4, 0.1, -1.6, 0.4);
+    box(scrapBin, 0.5, 0.4, 0.5, 0, 0.2, 0, 0x2f6f8c, { rough: 0.8, metal: 0.3 });
+    for (let i = 0; i < 4; i++) box(scrapBin, 0.32, 0.02, 0.1, -0.1 + (i % 2) * 0.2, 0.42 + Math.floor(i / 2) * 0.03, (i % 2) * 0.1, 0xb9bec4, { rough: 0.4, metal: 0.7 });
+    holoTag(scrapBin, "scrap steel", 0, 0.6, 0, { css: "#d9a441", w: 0.26 });
+
+    const oilDrum = group(g, -2.7, 0.1, -0.3, 0.2);
+    cyl(oilDrum, 0.24, 0.24, 0.6, 0, 0.3, 0, 0x2f6f8c, { rough: 0.7, metal: 0.3, seg: 16 });
+    cyl(oilDrum, 0.06, 0.06, 0.04, 0, 0.62, 0, 0x22262b, { rough: 0.5, seg: 10 });
+    decal(oilDrum, 0.22, 0.14, 0.245, 0.3, 0, signFace("HYDRAULIC OIL", { bg: "#0d1c24", accent: "#d9a441", scale: 0.4 }));
+
+    const fireHose = group(g, -2.8, 0.1, 1.2, -0.2);
+    box(fireHose, 0.3, 0.5, 0.14, 0, 1.0, 0, 0x8a0f0f, { rough: 0.6 });
+    cyl(fireHose, 0.09, 0.09, 0.1, 0, 1.05, 0.1, 0x2b2f34, { rough: 0.5, metal: 0.4, seg: 14 });
+    holoTag(fireHose, "hose reel", 0, 1.32, 0, { css: "#d9a441", w: 0.26 });
 
     let locked = false, curtainOk = 0, bending = false;
     return {

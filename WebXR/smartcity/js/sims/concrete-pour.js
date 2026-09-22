@@ -64,7 +64,7 @@ export const SIM_CONCRETE_POUR = {
       id: "plan", kind: "select", target: "pour-card",
       title: "Read the pour card",
       cue: "Check the mix design, the lift height, the placement rate the forms are designed for and today's weather hold.",
-      why: "Formwork is engineered for a rate of rise, not a volume. The card carries that number, the mix, and the temperature window the pour is allowed in.",
+      why: "Formwork is engineered against a rate of rise, not a volume — a form rated for a wall placed one foot an hour is a different piece of engineering from the same form placed two feet an hour. The card carries that number, the mix design and the temperature window the pour is allowed in, and none of it is negotiable on site.",
     },
     {
       id: "prepour", kind: "find", noHint: true,
@@ -77,7 +77,7 @@ export const SIM_CONCRETE_POUR = {
       },
       title: "Walk the pour before the truck arrives",
       cue: "Walk the formwork and the deck and click every defect you find.",
-      why: "Everything found now is a five-minute fix. The same things found once concrete is moving are a stopped pour, a cold joint, or somebody in the ambulance.",
+      why: "Everything found on this walk is a five-minute fix with no truck on site and no clock running. The same defects found once concrete is moving are a stopped pour, a cold joint that never fully bonds, or somebody in the ambulance — the walk is what a five-minute fix looks like instead.",
     },
     {
       id: "fix", kind: "sequence", anyOrder: true,
@@ -85,13 +85,13 @@ export const SIM_CONCRETE_POUR = {
       itemNames: { "rebar-caps": "rebar caps fitted", "brace-pin": "brace pinned", "blow-out": "form blown out" },
       title: "Correct what the walk found",
       cue: "Cap the bar, pin the brace, blow the debris out of the form.",
-      why: "A defect found and not fixed is worse than one never found, because now the crew believes the walk was done.",
+      why: "A defect found on the walk and left uncorrected is worse than one nobody ever spotted, because now the whole crew believes the walk happened and the form is safe to work around, when the only thing that actually happened is somebody wrote it down.",
     },
     {
       id: "slump", kind: "gauge", target: "slump-cone",
       title: "Slump test the first truck",
       cue: "Take the slump off the first truck and commit inside the mix design's band.",
-      why: "Slump is the check that the mix on site is the mix that was ordered. Too stiff will not fill the form; too wet has had water added on site and has lost the strength the engineer specified.",
+      why: "Slump is the one field check that the mix arriving on the truck is the mix that was actually ordered. Too stiff and it will not fill the form around the rebar and embeds; too wet means water was added on site after batching, and water added on site is strength taken back out of the cylinder that gets broken in twenty-eight days.",
       gauge: { label: "SLUMP", speed: 0.7, green: [0.4, 0.58], readout: (t) => `${(t * 10).toFixed(1)} in`, missNote: "Outside the design slump — reject the load or have it adjusted with admixture, not with a hose." },
     },
     {
@@ -100,20 +100,20 @@ export const SIM_CONCRETE_POUR = {
       itemNames: { "air-meter": "air content measured", "cast-cylinders": "test cylinders cast" },
       title: "Air content and cylinders",
       cue: "Run the air meter, then cast the test cylinders for the lab.",
-      why: "Entrained air is what survives a freeze-thaw winter, and the cylinders are the only proof of strength anyone will have in twenty-eight days. Both are taken from the same load, before placement.",
+      why: "Entrained air is the microscopic space that lets water expand when it freezes without cracking the paste around it, so it is what this wall survives its first winter on; the cylinders are the only proof of strength anyone will have until they are broken at twenty-eight days. Both come off the same load, before a yard of it gets placed.",
       outOfOrderNote: "Air first, then the cylinders — the cylinders record the mix that was measured.",
     },
     {
       id: "clear", kind: "select", target: "boom-zone",
       title: "Clear the boom zone",
       cue: "Move the crew out from under the boom and the line before the pump is charged.",
-      why: "The zone under a charged line is the one place on a pour nobody has a reason to be. A plug clears as a whip, and it does it when the pressure finally breaks it, not when you are watching.",
+      why: "The zone under a charged line is the one place on this whole pour nobody has a reason to be standing. A plugged line clears as a whip with enough force to kill, and it lets go the instant the pressure finally breaks the plug — never when anyone is watching for it, which is exactly why the zone is cleared before the line goes live, not monitored while it is.",
     },
     {
       id: "place", kind: "track", target: "pump-remote", seconds: 7,
       title: "Place the first lift",
       cue: "Run the pump at a rate the forms can take, filling in even lifts around the wall.",
-      why: "The rate of rise is what sets the pressure on the form. Placing fast in one corner is how a wall form blows, and it is the most common formwork failure there is.",
+      why: "The rate of rise is the number that sets the actual pressure the fresh concrete puts on the form, independent of how much has gone in total. Placing fast in one corner builds pressure there faster than the form was designed for, and a blown wall form buries whoever is standing in the pour line under tonnes of wet concrete with no warning at all.",
       track: { start: 0.1, green: [0.34, 0.54], rise: 0.6, fall: 0.5, drift: 0.12, label: "RATE OF RISE", readout: (v) => (v < 0.34 ? "cold joint risk" : v > 0.54 ? "over the form pressure" : "inside the design rate") },
       holdBreakNote: "Rate out of band — either the lift is going cold or the form is over pressure. Bring it back and hold.",
     },
@@ -121,21 +121,21 @@ export const SIM_CONCRETE_POUR = {
       id: "vibrate", kind: "hold", target: "vibrator", seconds: 5,
       title: "Consolidate the lift",
       cue: "Hold the vibrator in, straight down, long enough for the surface to close — then out slowly.",
-      why: "Vibration drives out entrapped air; over-vibration drives the aggregate down and the paste up, which is segregation. Straight in, straight out, and never used to move concrete sideways.",
+      why: "Vibration drives entrapped air out of concrete that would otherwise cure full of voids; run it too long or drag it sideways and it drives the heavy aggregate down while the cement paste rises, which is segregation and it does not un-mix once the concrete sets. Straight in, straight out, at each insertion point, and never used to push concrete sideways along the form.",
       holdBreakNote: "You pulled out early — the lift has voids in it that will show as honeycomb when the form comes off.",
     },
     {
       id: "joint", kind: "turn", target: "joint-key",
       title: "Set the construction joint key",
       cue: "Wind the joint key down into the top of the lift before it takes its set.",
-      why: "The key is what makes the next lift act as one wall with this one. It goes in while the concrete is still plastic, and the surface is roughened and cleaned before the next pour.",
+      why: "The key is the physical interlock that makes tomorrow's lift act as one structural wall with today's, instead of two slabs stacked on a plane with nothing but friction holding them. It only works pressed in while this lift is still plastic, and the surface still has to be roughened and cleaned before the next pour goes on it.",
       turn: { turns: 1, axis: "y", label: "JOINT KEY" },
     },
     {
       id: "bleed", kind: "gauge", target: "bleed-check",
       title: "Wait out the bleed water",
       cue: "Watch the surface and commit when the bleed water has gone and the sheen has left it.",
-      why: "Finishing while bleed water is on the surface works that water back into the top, and the top is the part that has to last. This is the single most common way a slab is ruined.",
+      why: "Finishing while bleed water is still sitting on the surface works that same water back down into the top inch of the slab, and the top inch is the part that carries traffic and has to last decades. Trying to trowel a wet sheen away is the single most common way an otherwise good pour gets a weak, dusting surface.",
       gauge: { label: "SURFACE", speed: 0.7, green: [0.52, 0.68], readout: (t) => (t < 0.52 ? "still bleeding" : t > 0.68 ? "going off" : "sheen gone, ready"), missNote: "Too early or too late — too early works water in, too late and you are tearing the surface." },
     },
     {
@@ -144,15 +144,44 @@ export const SIM_CONCRETE_POUR = {
       itemNames: { "bull-float": "bull float", "edge-tool": "edger and jointer", "cure-blanket": "curing applied" },
       title: "Float, edge and cure",
       cue: "Bull float, then edge and joint, then get the cure on.",
-      why: "Curing is not cleanup, it is the last structural step: concrete that dries instead of curing loses a large part of its strength and crazes on the surface.",
+      why: "Curing is not cleanup at the end of the job, it is the last structural step in making the concrete: a slab that dries out in open air instead of curing under cover loses a large share of its design strength and craze-cracks across the whole surface, which no amount of good placement or vibration upstream can fix afterward.",
       outOfOrderNote: "Float, then edge and joint, then cure — each one works the surface the last one left.",
     },
     {
       id: "cleanup", kind: "drag", target: "wet-saw",
       title: "Cut the hardened spill wet",
       cue: "Bring the wet saw with its water feed to the spill on the slab edge.",
-      why: "Cutting concrete dry is a silica exposure many times over the limit. Water on the blade or a vacuum shroud is not optional, and it is the difference between a nuisance and silicosis.",
+      why: "Cutting hardened concrete dry throws respirable crystalline silica into the air at many times the permissible exposure limit, in particles fine enough to reach deep into the lungs and never come back out. Water on the blade or a vacuum shroud is not a nicety, it is the entire difference between an afternoon's nuisance dust and a disease with no cure.",
       drag: { to: "spill-socket", radius: 0.45, missNote: "Not on the spill — set the saw down square on the hardened edge." },
+    },
+  ],
+
+  // Two things that happen while the crew is task-loaded on the pour: the
+  // pump's remote loses signal mid-lift, and a second crew's crane swings a
+  // load over the deck while hands are still in the placement. See
+  // shared/game.js.
+  interrupts: [
+    {
+      id: "remote-dropout",
+      kind: "Remote signal lost",
+      after: "place", delay: 3, seconds: 12,
+      alert: "The pump remote's link light has gone dead — the boom operator up in the truck cab cannot see your rate commands anymore.",
+      cue: "The remote in your hand is not talking to the pump.",
+      target: "pump-hardstop",
+      why: "A wireless placement remote is the only thing standing between the crew at the form and a boom operator who cannot see the lift, the rate of rise, or a person standing where the line comes down — that whole picture exists for him only through the remote's readout. When the link drops, the pump keeps running on its last command with nobody able to slow it, correct the rate, or stop it if the form starts to bow, so the hard-stop at the truck is the only control left that still reaches the pump.",
+      missNote: "The remote stayed dark and the pump kept placing on its last command with nobody able to adjust the rate or stop it from the form side. A rate nobody is steering is exactly how a form goes past its design pressure with no one noticing until it moves.",
+      wrongNote: "The remote is dead. The pump hard-stop at the truck is the only thing left that can still reach it.",
+    },
+    {
+      id: "crane-swing",
+      kind: "Load overhead",
+      after: "vibrate", delay: 3, seconds: 12,
+      alert: "A tower crane on the next pour over is swinging a rebar bundle across your deck, and it is tracking straight toward the crew working the lift.",
+      cue: "There is a suspended load moving over the crew's heads.",
+      target: "crane-horn",
+      why: "A load moving on a crane hook has no brakes a ground crew can apply and no guarantee the operator can see people crouched at form height behind their own boom and rigging — a dropped or swinging load lands with the full weight of the bundle at whatever speed the crane was already moving. Sounding the horn is the fastest way to put every head on the deck up and moving before the load is overhead rather than after.",
+      missNote: "The bundle swung directly over the crew with vibrators still running and nobody looked up. A suspended load crossing a live pour is a struck-by hazard the crew on the ground has no control over except getting out from under it in time.",
+      wrongNote: "Sound the horn. That is what gets heads up before the load is actually overhead.",
     },
   ],
 
@@ -221,6 +250,14 @@ export const SIM_CONCRETE_POUR = {
     const boom = group(pump, 0, 1.2, 0);
     const boomArm = box(boom, 0.3, 0.3, 4.4, 0, 1.4, -2.0, 0x2b6fd8, { rough: 0.5, metal: 0.4 });
     boomArm.rotation.x = -0.25;
+    // Hard stop at the truck itself — the remote-dropout interrupt's answer,
+    // separate from the wireless remote the crew normally runs the rate with.
+    const hardstop = group(pump, 1.2, 0.5, 0.62);
+    box(hardstop, 0.1, 0.1, 0.04, 0, 0, 0, 0x22262b, { rough: 0.6 });
+    const hardstopBtn = cyl(hardstop, 0.045, 0.045, 0.03, 0, 0, 0.03, 0xd2312b, { rough: 0.5, metal: 0.3, seg: 16 });
+    hardstopBtn.material = hardstopBtn.material.clone();
+    decal(hardstop, 0.09, 0.03, 0, -0.06, 0.03, signFace("PUMP STOP", { bg: "#22262b", accent: "#d2312b", scale: 0.4 }));
+    reg(hits, hardstop, "pump-hardstop");
     const line = hose(g, [[2.0, 2.6, -3.4], [0.6, 2.9, -2.4], [-0.4, 2.6, -1.6], [-0.6, 2.1, -1.2]], 0.07, 0x3a4550, { steps: 20, rough: 0.7 });
     const boomZoneRing = slab(g, 1.8, 0.01, 1.8, -0.6, 0.105, -0.2, 0xd2312b, { rough: 0.7, opacity: 0.2, transparent: true, cast: false });
     const underHit = box(g, 1.2, 1.6, 1.2, -0.6, 0.9, -0.2, 0x000000, { opacity: 0.001, transparent: true, cast: false });
@@ -304,7 +341,30 @@ export const SIM_CONCRETE_POUR = {
     const mason = standingFigure(g, 0.2, 1.3, { ry: 3.0, cloth: 0x8a8f96 });
     holoTag(mason, "cement mason", 0, 1.9, 0, { css: "#c9c2b4", w: 0.28 });
 
+    // The adjacent pour's tower crane — it only swings the bundle over the
+    // deck when the crane-swing interrupt fires, but the mast, jib and
+    // trolley are part of the yard the whole shift.
+    const crane = group(g, 3.3, 0.1, 2.6, -0.5);
+    cyl(crane, 0.08, 0.1, 3.2, 0, 1.6, 0, CITY.steel, { rough: 0.5, metal: 0.6, seg: 12 });
+    box(crane, 3.0, 0.14, 0.14, -1.4, 3.2, 0, 0xf2c14b, { rough: 0.5, metal: 0.4 });
+    box(crane, 0.9, 0.14, 0.14, 0.65, 3.15, 0, 0xf2c14b, { rough: 0.5, metal: 0.4 });
+    const trolley = group(crane, -2.6, 3.15, 0);
+    box(trolley, 0.18, 0.1, 0.18, 0, 0, 0, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+    const cable = cyl(trolley, 0.01, 0.01, 1.6, 0, -0.8, 0, 0x1b1e22, { rough: 0.6, seg: 6 });
+    const bundle = group(trolley, 0, -1.6, 0);
+    for (let i = 0; i < 5; i++) cyl(bundle, 0.02, 0.02, 1.2, (i - 2) * 0.05, 0, 0, 0x8a5a3a, { rough: 0.8, seg: 8 }).rotation.z = Math.PI / 2;
+    holoTag(crane, "adjacent pour — tower crane", 0, 3.6, 0, { css: "#c9c2b4", w: 0.5 });
+    void cable;
+    // Warning horn on the pour-card post — the crane-swing interrupt's answer.
+    const horn = group(board, 0.5, 1.3, 0, 0.2);
+    box(horn, 0.1, 0.14, 0.06, 0, 0, 0, 0x2b2f34, { rough: 0.6 });
+    const hornLight = ball(horn, 0.03, 0, 0.09, 0.03, 0xf2ae14, { emissive: 0xf2ae14, ei: 0.4, rough: 0.4 });
+    hornLight.material = hornLight.material.clone();
+    decal(horn, 0.08, 0.03, 0, -0.05, 0.03, signFace("HORN", { bg: "#22262b", accent: "#c9c2b4", scale: 0.45 }));
+    reg(hits, horn, "crane-horn");
+
     let fill = 0, placing = false, cutting = false;
+    let craneSwinging = false, craneElapsed = 0, remoteDead = false;
     return {
       hits,
       spawnLook: new THREE.Vector3(-0.6, 1.1, -1.0),
@@ -315,19 +375,51 @@ export const SIM_CONCRETE_POUR = {
         if (step.id === "cleanup") { saw.parent.remove(saw); g.add(saw); saw.position.set(-2.2, 0.18, -1.8); saw.rotation.set(0, 0.3, 0); cutting = true; }
       },
       onHazard() {},
+      // The pump's rate readout really dies, and the crane really swings
+      // the bundle across the deck — both are scene changes an animate()
+      // flicker on its own could not produce.
+      onInterrupt(it) {
+        if (it.id === "remote-dropout") {
+          remoteDead = true;
+          repaint(slumpRead.userData.screen, signFace("LINK LOST", { bg: "#2a0c0c", accent: "#d2312b", fg: "#ffd0d0", scale: 0.45 }));
+          hardstopBtn.material.color.set(0xff5a3c);
+          hardstopBtn.material.emissiveIntensity = 2.4;
+        }
+        if (it.id === "crane-swing") {
+          craneSwinging = true;
+          craneElapsed = 0;
+          trolley.position.x = -1.0;
+          hornLight.material.emissiveIntensity = 2.0;
+        }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "remote-dropout") { remoteDead = false; hardstopBtn.material.emissiveIntensity = 1; hardstopBtn.material.color.set(0x22262b); }
+        if (it.id === "crane-swing") { craneSwinging = false; trolley.position.x = -2.6; hornLight.material.emissiveIntensity = 0.4; }
+      },
       animate(t, dt, session) {
         const step = session?.step;
         if (step?.id === "fix") { if (session.sequence.includes("rebar-caps")) for (const c of caps) c.cap.visible = true; if (session.sequence.includes("brace-pin")) braces[1].pin.visible = true; if (session.sequence.includes("blow-out")) debris.visible = false; }
         const gg = session?.gauge;
         if (gg && !gg.committed && step?.id === "slump") repaint(slumpRead.userData.screen, signFace(`${(gg.t * 10).toFixed(1)} in`, { bg: "#22201a", accent: gg.t >= 0.4 && gg.t <= 0.58 ? "#59c97b" : "#f2ae14", fg: "#f7f4ec", scale: 0.62 }));
         if (gg && !gg.committed && step?.id === "bleed") repaint(bleedPanel.userData.screen, signFace(gg.t < 0.52 ? "BLEEDING" : gg.t > 0.68 ? "GOING OFF" : "READY", { bg: "#22201a", accent: gg.t >= 0.52 && gg.t <= 0.68 ? "#59c97b" : "#f2ae14", fg: "#f7f4ec", scale: 0.5 }));
-        if (step?.id === "place" && session.holding) { placing = true; fill = Math.min(1, fill + dt / 8); flow.visible = true; flow.userData.step(dt, new THREE.Vector3(-0.6, 2.0, -1.2), 0.15, 0.6, -4); }
+        if (step?.id === "place" && session.holding && !remoteDead) { placing = true; fill = Math.min(1, fill + dt / 8); flow.visible = true; flow.userData.step(dt, new THREE.Vector3(-0.6, 2.0, -1.2), 0.15, 0.6, -4); }
         else if (flow.visible) { flow.visible = false; placing = false; }
         pourLevel.scale.y = 1 + fill * 34;
         pourLevel.position.y = 0.14 + fill * 0.85;
         if (session?.turn && step?.id === "joint") key.rotation.y = -session.turn.amount * Math.PI * 2;
         if (cutting) { dust.visible = false; }
         boom.rotation.y = Math.sin(t * 0.2) * 0.04;
+        if (remoteDead) hardstopBtn.material.emissiveIntensity = 1.6 + Math.sin(t * 9) * 1.4;
+        if (craneSwinging) {
+          craneElapsed += dt;
+          const p = Math.min(1, craneElapsed / 8);
+          trolley.position.x = -2.6 + p * 3.6;
+          hornLight.material.emissiveIntensity = 1.5 + Math.sin(t * 10) * 1.2;
+        } else {
+          trolley.position.x += (-2.6 - trolley.position.x) * Math.min(1, dt * 2);
+          hornLight.material.emissiveIntensity = 0.4;
+        }
         void placing; void boomZoneRing; void line; void faces;
       },
     };

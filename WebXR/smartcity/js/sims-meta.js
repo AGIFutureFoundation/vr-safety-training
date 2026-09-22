@@ -956,7 +956,7 @@ export const SIMS_META = [
       "note": "Monitors placed by the wind, proven at zero and flow, and an exceedance answered by the plan"
     },
     "stepCount": 10,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Air Watch",
       "currency": "READING",
@@ -2048,7 +2048,7 @@ export const SIMS_META = [
       "note": "A pour tested before it started, placed inside the form's rate and consolidated without segregating — first time"
     },
     "stepCount": 12,
-    "interruptCount": 0,
+    "interruptCount": 2,
     "game": {
       "system": "Placement Crew",
       "currency": "YARD",

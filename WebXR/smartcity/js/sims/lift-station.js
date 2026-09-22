@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
-import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument, lockTag, valveWheel, reg } from "../citykit.js";
+import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument, lockTag, valveWheel, rackFrame, rackUnit, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Lift Station VR — Water & Environmental, station three.
@@ -63,7 +63,7 @@ export const SIM_LIFT_STATION = {
       id: "workorder", kind: "select", target: "work-order",
       title: "Read the work order and the well data",
       cue: "Check which pump, the wet-well depth, the last gas readings and the bypass plan.",
-      why: "The order names the pump and the plan names how the flow keeps moving while it is out. A pull without a bypass plan is an overflow with a schedule.",
+      why: "The order names the pump that tripped and the plan names how the flow keeps moving while it is out on the pad. A crew that starts pulling before the bypass plan is set is scheduling an overflow, not preventing one — the catchment above this station does not pause for maintenance.",
     },
     {
       id: "gas", kind: "sequence",
@@ -71,14 +71,14 @@ export const SIM_LIFT_STATION = {
       itemNames: { "gas-oxygen": "oxygen", "gas-flammable": "flammable gas", "gas-h2s": "hydrogen sulfide" },
       title: "Test the wet-well atmosphere through the vent",
       cue: "Drop the meter probe through the vent port — oxygen, then flammable, then H2S — before the hatch moves.",
-      why: "Through the vent, with the hatch closed, so the first reading is taken with no one's face over the opening. Oxygen first because the flammable sensor cannot be trusted without it.",
+      why: "Testing through the vent with the hatch still closed means the first reading is taken with nobody's face anywhere near the opening it turns out to be bad news at. Oxygen is read first because the flammable sensor's catalytic bead cannot be trusted at all in an oxygen-deficient atmosphere, which a sewer headspace routinely is.",
       outOfOrderNote: "Oxygen, flammable, then H2S — the combustible reading depends on the oxygen reading.",
     },
     {
       id: "lockout", kind: "turn", target: "pump-disconnect",
       title: "Lock out the duty pump",
       cue: "Open the pump's disconnect at the control panel and hang your lock.",
-      why: "The level controller will call the pump the moment the well rises. Your lock is what stops it starting while it is hanging on the chain.",
+      why: "The level controller does not know a pump is on the chain — it will call for the duty pump the instant the well rises past its set point, exactly as it does on any ordinary night. Your lock is the only thing standing between that call and a four-hundred-kilogram pump trying to start while it hangs in the shaft.",
       turn: { turns: 0.5, axis: "y", label: "DISCONNECT" },
     },
     {
@@ -87,34 +87,34 @@ export const SIM_LIFT_STATION = {
       itemNames: { "bypass-suction": "suction hose in the well", "bypass-discharge": "discharge to the downstream manhole", "bypass-start": "bypass pump start" },
       title: "Set up bypass pumping",
       cue: "Suction into the wet well, discharge to the downstream manhole, then start the bypass pump.",
-      why: "Suction and discharge are connected before the pump starts, or the start is a spill. The bypass takes the inflow so the well can be worked without rising.",
+      why: "Suction and discharge are both connected before the pump ever starts, because starting it with the discharge still open is not a delay, it is a spill onto the ground next to the crew. The bypass exists to take the inflow the duty pump was carrying so the well can be worked on without the level climbing behind everyone's back.",
       outOfOrderNote: "Connect both ends before the bypass starts — a running pump with an open discharge is a spill.",
     },
     {
       id: "bypass-level", kind: "gauge", target: "level-readout",
       title: "Confirm the bypass is holding the level",
       cue: "Watch the well level and commit once the bypass holds it steady below the pump-on set point.",
-      why: "A bypass that cannot keep up is not a bypass. The level has to sit below the set point before the duty pump comes out.",
+      why: "A bypass that cannot hold the level down is not a bypass, it is a smaller pump adding a false sense of coverage to the same problem. The level has to sit demonstrably below the set point before anyone commits to pulling the duty pump, because once that pump is on the chain there is nothing else in the well to catch a rise.",
       gauge: { label: "WELL LEVEL", speed: 0.75, green: [0.36, 0.52], readout: (t) => `${(0.4 + t * 2.4).toFixed(2)} m`, missNote: "Level not holding below set point — check the bypass before pulling the pump." },
     },
     {
       id: "hatch", kind: "select", target: "hatch",
       title: "Open the hatch and set the guard",
       cue: "Open the wet-well hatch and drop the safety grate across the opening.",
-      why: "The hatch opens onto a drop with H2S at the bottom. The grate keeps a person on the surface while the pump comes through it.",
+      why: "The hatch opens onto a four-metre drop into a permit space with hydrogen sulfide sitting in the bottom of it. The grate is what keeps a foot, a tool or a person on the surface once that opening exists, while the pump itself is what actually comes up through it on the rail.",
     },
     {
       id: "lift", kind: "hold", target: "hoist-lever", seconds: 6,
       title: "Lift the pump on the guide rail",
       cue: "Hold the hoist up until the pump clears the hatch and swings to the pad.",
-      why: "The pump breaks its seal off the discharge elbow and rides the rail to the top. A steady lift; a stalled one leaves it hanging half out of the well.",
+      why: "The pump breaks its mechanical seal off the discharge elbow at the bottom of the rail and then rides that rail all the way to the top, guided the whole way so it never swings free over the shaft. A stalled lift leaves four hundred kilograms hanging half out of a permit space on a chain, which is its own hazard on top of the one already down there.",
       holdBreakNote: "Hoist stopped mid-lift — the pump is hanging in the well. Bring it up the rest of the way.",
     },
     {
       id: "set-down", kind: "drag", target: "pump-body",
       title: "Land the pump on the pad",
       cue: "Swing the pump over and set it down on the wash-down pad before anyone handles it.",
-      why: "The pump is handled on the ground, not in the air. Hands go on it after the chain goes slack.",
+      why: "The pump gets handled on solid ground, never in the air, because a load on a chain can shift the instant a hand touches it and a hoist is not a hand rated to catch anything. Hands go on the pump only after the chain has gone slack and the weight is fully on the pad, not before.",
       drag: { to: "pad-socket", radius: 0.45, missNote: "Not on the pad — land it square before the chain goes slack." },
     },
     {
@@ -124,13 +124,13 @@ export const SIM_LIFT_STATION = {
       itemNotes: { "impeller-rag": "The impeller is bound with rags and wipes — the reason the pump tripped. It gets cleared on the pad, never with the pump on the chain or in the well." },
       title: "Find the fault on the pad",
       cue: "Inspect the pump and click the fault.",
-      why: "The pull exists to find this. It is found on the pad, in daylight, with the pump locked out and on the ground.",
+      why: "The whole pull exists to find whatever tripped this pump, and it gets found here, on the pad, in daylight, with the pump locked out and sitting flat on the ground — never on the chain, and never by reaching into the wet well to check it in place, which is exactly the shortcut this pull was designed to avoid.",
     },
     {
       id: "restart", kind: "select", target: "restart-panel",
       title: "Rail the pump back, close the hatch, remove the lock, restart",
       cue: "Pump back on the rail, hatch closed, your lock off, bypass off, duty pump to auto.",
-      why: "Back in reverse order: the well is closed before the bypass comes off, and the lock comes off last, by the person who put it on.",
+      why: "Everything goes back in reverse order for a reason: the well is closed before the bypass comes off so nothing is exposed while flow transfers back, and the lock comes off last, by the same person who put it on, because that lock was never anyone else's to remove.",
     },
   ],
 
@@ -262,6 +262,52 @@ export const SIM_LIFT_STATION = {
     hose(g, [[-1.9, 0.3, 1.0], [-1.2, 0.2, 0.2], [-0.9, 0.15, -0.4]], 0.05, 0x2b2f34, { steps: 12 });
     const fumes = particles(well, 40, 0xc8e08a, { size: 0.03, life: 1.2, additive: false, opacity: 0.3 });
     cone(g, 2.4, -1.8); barrierPanel(g, 0.4, 1.9, { color: 0xe4622a });
+
+    // -------------------------------------------------------- yard dressing
+    // A confined-space tripod and retrieval kit staged at the hatch (never
+    // rigged — this pull never enters), a spare-parts rack behind the
+    // control panel, a wall extinguisher, a lockout signage board, a
+    // toolbox, and the yard's own cable tray feeding the panel — the plant
+    // yard this pump pull actually happens in.
+    const tripod = group(g, -1.3, 0.12, -1.5, 0.5);
+    for (const a of [0, 2.1, 4.2]) { const leg = cyl(tripod, 0.02, 0.02, 1.5, 0, 0.75, 0, CITY.steel, { rough: 0.5, metal: 0.6, seg: 8 }); leg.rotation.x = 0.35; leg.rotation.y = a; }
+    ball(tripod, 0.05, 0, 1.5, 0, 0x22262b, { rough: 0.6 });
+    holoTag(tripod, "confined-space tripod — not rigged this pull", 0, 1.75, 0, { css: "#5bb0a8", w: 0.6 });
+    const retrievalBag = group(tripod, 0.3, 0.1, -0.3);
+    box(retrievalBag, 0.28, 0.2, 0.2, 0, 0.1, 0, 0xe8b02e, { rough: 0.7 });
+    holoTag(retrievalBag, "retrieval kit", 0, 0.28, 0, { css: "#5bb0a8", w: 0.28 });
+
+    const partsRack = rackFrame(g, 2.5, 1.6, { ry: -0.6, h: 1.2 });
+    for (let i = 0; i < 3; i++) rackUnit(partsRack, 0.25 + i * 0.32, ["IMPELLER KIT", "SEAL KIT", "GASKETS"][i], { css: "#5bb0a8" });
+
+    const ext = group(g, -2.3, 0.12, 2.0, -0.5);
+    cyl(ext, 0.06, 0.07, 0.42, 0, 0.35, 0, 0xd2312b, { rough: 0.4, metal: 0.3, seg: 14 });
+    cyl(ext, 0.025, 0.025, 0.08, 0, 0.6, 0, 0x22262b, { rough: 0.4, seg: 10 });
+    holoTag(ext, "extinguisher", 0, 0.72, 0, { css: "#d2312b", w: 0.3 });
+
+    const safetyBoard = group(g, 2.6, 0.12, -1.3, -0.4);
+    box(safetyBoard, 0.5, 0.4, 0.03, 0, 1.1, 0, 0x1b2026, { rough: 0.6 });
+    decal(safetyBoard, 0.44, 0.34, 0, 1.1, 0.018,
+      signFace("PERMIT\nSPACE\nNO ENTRY", { bg: "#0d1c24", accent: "#5bb0a8", fg: "#dff4ff", scale: 0.28 }));
+    cyl(safetyBoard, 0.02, 0.02, 1.1, 0, 0.55, 0, CITY.darkSteel, { rough: 0.5, metal: 0.6, seg: 10 });
+
+    const toolbox2 = toolChest(g, -2.6, -0.4, { ry: 0.9, color: 0x5bb0a8 });
+    void toolbox2;
+
+    const cableTray = group(g, 2.1, 0.12, 0.8);
+    for (let i = 0; i < 5; i++) box(cableTray, 0.5, 0.06, 0.18, 0, 1.9, -1.0 + i * 0.5, 0x3a4550, { rough: 0.55, metal: 0.5 }).rotation.y = Math.PI / 2;
+    for (let i = 0; i < 4; i++) cyl(cableTray, 0.012, 0.012, 0.48, 0, 1.9, -0.8 + i * 0.5, 0x1b1e22, { rough: 0.7, seg: 8 });
+
+    const drum = group(g, -0.4, 0.12, 2.3, 0.2);
+    cyl(drum, 0.24, 0.24, 0.6, 0, 0.3, 0, 0x2f6f4a, { rough: 0.7, metal: 0.3, seg: 16 });
+    cyl(drum, 0.06, 0.06, 0.04, 0, 0.62, 0, 0x22262b, { rough: 0.5, seg: 10 });
+    decal(drum, 0.22, 0.14, 0.245, 0.3, 0, signFace("GREASE", { bg: "#0d1c24", accent: "#5bb0a8", scale: 0.45 }));
+
+    for (const [x, z] of [[1.9, -2.1], [-2.0, 0.6]]) cone(g, x, z);
+    const spillKit = group(g, -0.9, 0.12, -2.1, 0.3);
+    box(spillKit, 0.34, 0.28, 0.28, 0, 0.14, 0, 0xf2ae14, { rough: 0.7 });
+    decal(spillKit, 0.3, 0.1, 0, 0.29, 0, signFace("SPILL KIT", { bg: "#22262b", accent: "#5bb0a8", scale: 0.42 }));
+    holoTag(spillKit, "spill kit", 0, 0.42, 0, { css: "#5bb0a8", w: 0.24 });
 
     let lifted = 0;
     let bypassDown = false;
