@@ -169,6 +169,200 @@ export function mudflatFace(g, w, h, o = {}) {
   }
 }
 
+/** A radial gradient blob, drawn only where the context supports gradients. */
+function radialBlob(g, x, y, r, stops) {
+  let grad = null;
+  try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+  if (!grad || typeof grad.addColorStop !== "function") return;
+  for (const [s, c] of stops) grad.addColorStop(s, c);
+  g.fillStyle = grad;
+  g.fillRect(x - r, y - r, r * 2, r * 2);
+}
+
+/**
+ * Painted structural steel: a base coat (International Orange for the bridge
+ * district), plate seams on a grid, rows of rivet heads either side of every
+ * seam with a lit top and a shadowed foot, and a little chalking and grime so
+ * a tower leg reads as riveted built-up plate and not as an orange box.
+ */
+export function paintedSteelFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#d4461c"], [1, o.base2 ?? "#c23d17"]]);
+  noiseTexture(g, w, h, { density: 2600, alpha: 0.08, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 900, alpha: 0.06, tone: "255,210,190" });
+  const cols = o.cols ?? 2, rows = o.rows ?? 4;
+  const cw = w / cols, rh = h / rows, pitch = o.pitch ?? 12;
+  const rivet = (x, y) => {
+    g.fillStyle = "rgba(255,190,160,0.30)"; g.fillRect(x - 2, y - 2, 4, 2);
+    g.fillStyle = "rgba(0,0,0,0.35)"; g.fillRect(x - 2, y, 4, 2);
+  };
+  for (let c = 0; c <= cols; c++) {
+    const x = c * cw;
+    g.fillStyle = "rgba(0,0,0,0.42)"; g.fillRect(x - 1.5, 0, 3, h);
+    g.fillStyle = "rgba(255,200,170,0.10)"; g.fillRect(x + 1.5, 0, 1.5, h);
+    for (let y = pitch / 2; y < h; y += pitch) { rivet(x - 7, y); rivet(x + 7, y); }
+  }
+  for (let r = 0; r <= rows; r++) {
+    const y = r * rh;
+    g.fillStyle = "rgba(0,0,0,0.42)"; g.fillRect(0, y - 1.5, w, 3);
+    g.fillStyle = "rgba(255,200,170,0.10)"; g.fillRect(0, y + 1.5, w, 1.5);
+    for (let x = pitch / 2; x < w; x += pitch) { rivet(x, y - 7); rivet(x, y + 7); }
+  }
+  grimeOverlay(g, w, h, { tone: "60,24,12", alpha: 0.16, blotches: 5, streaks: 6 });
+}
+
+/**
+ * Bridge roadway: weathered asphalt with the lane lines painted where a
+ * deck `lanes` wide puts them (dashed white between lanes, solid at the
+ * edges), plus tyre-polished wheel paths. Drawn for a texture repeated once
+ * across and many times along the deck.
+ */
+export function roadwayFace(g, w, h, o = {}) {
+  const lanes = o.lanes ?? 6;
+  gradientFill(g, w, h, [[0, "#3a3d41"], [1, "#34373b"]], { horizontal: true });
+  noiseTexture(g, w, h, { density: 5200, alpha: 0.16, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 2200, alpha: 0.10, tone: "200,200,200" });
+  const lw = w / lanes;
+  for (let i = 0; i < lanes; i++) {
+    for (const f of [0.3, 0.7]) { g.fillStyle = "rgba(0,0,0,0.10)"; g.fillRect(i * lw + lw * f - lw * 0.07, 0, lw * 0.14, h); }
+  }
+  g.fillStyle = "rgba(236,236,228,0.85)";
+  g.fillRect(3, 0, 5, h); g.fillRect(w - 8, 0, 5, h);
+  for (let i = 1; i < lanes; i++) for (let y = 0; y < h; y += h / 2) g.fillRect(i * lw - 2.5, y, 5, h * 0.2);
+}
+
+/**
+ * Harbour silt: grey-green fines with sand ripples, a scatter of shell hash
+ * and a few darker patches where the bottom has been disturbed.
+ */
+export function siltFace(g, w, h) {
+  gradientFill(g, w, h, [[0, "#5c6a5e"], [1, "#4a574d"]], { radial: true });
+  noiseTexture(g, w, h, { density: 4200, alpha: 0.14, tone: "0,0,0" });
+  noiseTexture(g, w, h, { density: 1600, alpha: 0.12, tone: "210,214,190" });
+  // Sand ripples: faint wavy crests, not the ruled lines of a deck.
+  for (let y = 0; y < h; y += 22) {
+    const ph = Math.random() * 6;
+    for (let x = 0; x < w; x += 3) {
+      const yy = y + Math.sin((x / w) * Math.PI * 6 + ph) * 5 + Math.sin((x / w) * Math.PI * 14) * 1.5;
+      g.fillStyle = "rgba(0,0,0,0.07)"; g.fillRect(x, yy, 3, 2);
+      g.fillStyle = "rgba(220,225,200,0.05)"; g.fillRect(x, yy + 3, 3, 1.5);
+    }
+  }
+  for (let i = 0; i < 90; i++) {
+    g.fillStyle = `rgba(230,228,215,${(0.15 + Math.random() * 0.25).toFixed(2)})`;
+    g.fillRect(Math.random() * w, Math.random() * h, 2 + Math.random() * 3, 1.5);
+  }
+  for (let i = 0; i < 6; i++) radialBlob(g, Math.random() * w, Math.random() * h, 30 + Math.random() * 50, [[0, "rgba(20,26,22,0.30)"], [1, "rgba(20,26,22,0)"]]);
+}
+
+/**
+ * Caustics: the bright net of light the surface throws on the bottom. Drawn
+ * as overlapping soft rings on black so it can be an emissive map: black adds
+ * nothing, the net adds light, and sliding the texture moves the pattern.
+ */
+export function causticFace(g, w, h) {
+  g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
+  // The real thing is a cell network: bright where two cells meet. Drawn as
+  // tileable Voronoi edges (the gap between the nearest and second-nearest
+  // seed, wrapped so the texture repeats) where the canvas can hand back its
+  // pixels; the ring sketch below is the fallback for a context that cannot.
+  const img = (() => { try { return g.getImageData?.(0, 0, w, h); } catch { return null; } })();
+  if (img?.data?.length === w * h * 4) {
+    const n = 38, sx = [], sy = [];
+    for (let i = 0; i < n; i++) { sx.push(Math.random() * w); sy.push(Math.random() * h); }
+    const d = img.data, edge = w * 0.075;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      let f1 = 1e9, f2 = 1e9;
+      for (let i = 0; i < n; i++) {
+        let dx = Math.abs(x - sx[i]), dy = Math.abs(y - sy[i]);
+        if (dx > w / 2) dx = w - dx;
+        if (dy > h / 2) dy = h - dy;
+        const dd = dx * dx + dy * dy;
+        if (dd < f1) { f2 = f1; f1 = dd; } else if (dd < f2) f2 = dd;
+      }
+      const k = Math.max(0, 1 - (Math.sqrt(f2) - Math.sqrt(f1)) / edge);
+      const v = Math.round(215 * k * k);
+      const o = (y * w + x) * 4;
+      d[o] = v * 0.85; d[o + 1] = v; d[o + 2] = v * 0.95; d[o + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+    return;
+  }
+  g.lineCap = "round";
+  for (let i = 0; i < 70; i++) {
+    const x = Math.random() * w, y = Math.random() * h, r = 16 + Math.random() * 34;
+    g.strokeStyle = `rgba(210,255,245,${(0.25 + Math.random() * 0.35).toFixed(2)})`;
+    g.lineWidth = 1.5 + Math.random() * 2.5;
+    try {
+      g.beginPath();
+      for (let k = 0; k <= 7; k++) {
+        const a = (k / 7) * Math.PI * 2, rr = r * (0.75 + Math.random() * 0.4);
+        const px = x + Math.cos(a) * rr, py = y + Math.sin(a) * rr;
+        if (k === 0) g.moveTo(px, py); else g.lineTo(px, py);
+      }
+      g.stroke();
+    } catch { /* headless */ }
+  }
+}
+
+/**
+ * Pile with marine growth: a timber-and-concrete grey that goes green and
+ * shelly toward the bottom, barnacle specks, and mussel bands.
+ */
+export function growthFace(g, w, h) {
+  gradientFill(g, w, h, [[0, "#6a716a"], [0.55, "#56644f"], [1, "#3f4d38"]]);
+  noiseTexture(g, w, h, { density: 3600, alpha: 0.16, tone: "0,0,0" });
+  for (let i = 0; i < 520; i++) {
+    const y = h * Math.pow(Math.random(), 0.6);
+    g.fillStyle = `rgba(225,225,205,${(0.25 + Math.random() * 0.35).toFixed(2)})`;
+    g.fillRect(Math.random() * w, y, 2.5, 2.5);
+  }
+  for (let b = 0; b < 3; b++) {
+    const y = h * (0.45 + b * 0.18);
+    for (let x = 0; x < w; x += 5) {
+      g.fillStyle = `rgba(22,24,34,${(0.55 + Math.random() * 0.3).toFixed(2)})`;
+      g.fillRect(x, y + Math.random() * 10, 4, 6 + Math.random() * 6);
+    }
+  }
+}
+
+/**
+ * Ship's side below the waterline: antifouling red-brown in welded plates,
+ * with a slime film and fouling heaviest near the bottom.
+ */
+export function hullFace(g, w, h) {
+  gradientFill(g, w, h, [[0, "#96503e"], [1, "#7a4234"]]);
+  noiseTexture(g, w, h, { density: 3000, alpha: 0.12, tone: "0,0,0" });
+  g.fillStyle = "rgba(0,0,0,0.30)";
+  for (let x = 0; x <= w; x += w / 3) g.fillRect(x - 1, 0, 2, h);
+  for (let y = 0; y <= h; y += h / 2) g.fillRect(0, y - 1, w, 2);
+  for (let i = 0; i < 260; i++) {
+    const y = h * (0.4 + Math.random() * 0.6);
+    g.fillStyle = `rgba(80,110,70,${(0.12 + Math.random() * 0.2).toFixed(2)})`;
+    g.fillRect(Math.random() * w, y, 3 + Math.random() * 6, 2 + Math.random() * 3);
+  }
+}
+
+/**
+ * Soft fog: a transparent canvas of overlapping pale puffs, tiling, for the
+ * marine layer's banks and the cloud deck under a bridge.
+ */
+export function fogPuffFace(g, w, h, o = {}) {
+  g.clearRect?.(0, 0, w, h);
+  const tone = o.tone ?? "226,232,236";
+  for (let i = 0; i < (o.puffs ?? 26); i++) {
+    const x = Math.random() * w, y = Math.random() * h, r = w * (0.12 + Math.random() * 0.2);
+    for (const [dx, dy] of [[0, 0], [-w, 0], [w, 0], [0, -h], [0, h]]) {
+      radialBlob(g, x + dx, y + dy, r, [[0, `rgba(${tone},${(o.alpha ?? 0.34).toFixed(2)})`], [1, `rgba(${tone},0)`]]);
+    }
+  }
+}
+
+/** A round glow on black: the surface seen from below, or a lamp's halo. */
+export function glowFace(g, w, h, o = {}) {
+  g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
+  radialBlob(g, w / 2, h / 2, w / 2, [[0, o.core ?? "rgba(230,255,250,1)"], [0.35, o.mid ?? "rgba(150,225,215,0.55)"], [1, "rgba(0,0,0,0)"]]);
+}
+
 /** The station footprint: a holographic pad the equipment stands on. */
 export function stationPad(parent, radius = 1.75, accent = CITY.accent) {
   const g = group(parent);
@@ -503,18 +697,21 @@ export function skyline(parent, o = {}) {
   // [from, to] bearing (radians, 0 = +z, π = the side the learner faces) in
   // which no tower is built, so the horizon there is whatever the district
   // puts across the bay instead of a wall of city.
-  const gap = o.gap ?? null;
-  const inGap = (a) => { if (!gap) return false; const n = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2); return n >= gap[0] && n <= gap[1]; };
+  // `gap` may also be a list of such arcs, and `base` drops the ring's feet
+  // below the plaza (a city seen from a bridge deck stands far below it).
+  const gaps = !o.gap ? [] : Array.isArray(o.gap[0]) ? o.gap : [o.gap];
+  const base = o.base ?? -1.5;
+  const inGap = (a) => { const n = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2); return gaps.some((gp) => n >= gp[0] && n <= gp[1]); };
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2 + Math.random() * 0.05;
     if (inGap(a)) continue;
-    const r = 34 + Math.random() * 16;
-    const h = 5 + Math.random() * 24;
-    const w = 3 + Math.random() * 5;
+    const r = (o.radius ?? 34) + Math.random() * (o.spread ?? 16);
+    const h = (5 + Math.random() * 24) * (o.hScale ?? 1);
+    const w = (3 + Math.random() * 5) * (o.wScale ?? 1);
     const tone = SKY_TONES[i % SKY_TONES.length];
     const rough = SKY_ROUGH[i % SKY_ROUGH.length];
     const metal = i % 5 === 0 ? 0.3 : 0;
-    const tower = box(g, w, h, w, Math.sin(a) * r, h / 2 - 1.5, Math.cos(a) * r,
+    const tower = box(g, w, h, w, Math.sin(a) * r, h / 2 + base, Math.cos(a) * r,
       tone, { rough, metal, cast: false, receive: false });
     tower.rotation.y = a;
     const bands = 1 + (i % 3 === 0 ? 1 : 0);
@@ -522,13 +719,13 @@ export function skyline(parent, o = {}) {
       if ((i + b * 7) % 5 === 0) continue; // leave some floors dark
       const wt = SKY_WINDOW[(i + b) % SKY_WINDOW.length];
       const lit = box(g, w * (0.55 + ((i + b) % 4) * 0.06), 0.06, 0.05,
-        Math.sin(a) * r, h * (0.25 + b * 0.32 + ((i * 7 + b) % 5) * 0.05) - 1.5,
+        Math.sin(a) * r, h * (0.25 + b * 0.32 + ((i * 7 + b) % 5) * 0.05) + base,
         Math.cos(a) * r + w / 2, wt,
         { emissive: wt, ei: 1.3 + ((i + b) % 4) * 0.35, rough: 0.4, cast: false, receive: false });
       lit.rotation.y = a;
     }
     if (i % 9 === 0) {
-      const beacon = ball(g, 0.09, Math.sin(a) * r, h - 1.5 + 0.12, Math.cos(a) * r, 0xff5f5f,
+      const beacon = ball(g, 0.09, Math.sin(a) * r, h + base + 0.12, Math.cos(a) * r, 0xff5f5f,
         { emissive: 0xff5f5f, ei: 1.6, rough: 0.3, cast: false });
       // Give each beacon its own material instance (cheap — a handful of towers only)
       // so the pulse below can stagger per-beacon instead of every one sharing (and

@@ -130,9 +130,11 @@ function windborne(parent, count = 90, { spread = 26 } = {}) {
  *   parent  a group inside the stage (freed with it)
  *   scene   for the fog, which the caller has already set for time of day
  *   kind    one of WEATHER_KINDS
+ *   o       { wetDeck: false } leaves out the round wet-plaza disc, for a
+ *           stage whose ground is not the round plaza (a bridge deck)
  * Returns { animate(t, dt), gustAt(t), label, note, lightScale, kind }.
  */
-export function buildWeather(parent, scene, kind = "clear") {
+export function buildWeather(parent, scene, kind = "clear", o = {}) {
   const w = WEATHER[WEATHER_KINDS.includes(kind) ? kind : "clear"];
   const g = new THREE.Group();
   parent.add(g);
@@ -155,7 +157,7 @@ export function buildWeather(parent, scene, kind = "clear") {
   // Wet deck: a dark, very reflective disc just above the plaza so the lights
   // and the station's accent smear across it the way they do on a wet apron.
   let wet = null;
-  if (w.wet > 0) {
+  if (w.wet > 0 && o.wetDeck !== false) {
     const geo = new THREE.CircleGeometry(14.8, 48);
     const mat = new THREE.MeshStandardMaterial({ color: 0x0a1016, roughness: 0.08, metalness: 0.9, transparent: true, opacity: w.wet * 0.75, depthWrite: false });
     mat.userData.ownMaterial = true;

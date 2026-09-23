@@ -20,6 +20,8 @@ import { createFlowRunner, outcomeFromRecord, acknowledgedOutcome, parseFlowLink
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage } from "./stage.js";
+import { DISTRICTS } from "./districts.js";
+import { CITY, stationPad } from "./citykit.js";
 import { buildHub } from "./hub.js";
 import { SIMS_META } from "./sims-meta.js";
 import { CURRICULA, allProgress, curriculumProgress } from "./curricula.js";
@@ -35,7 +37,7 @@ import {
 } from "../../shared/input.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
-import { mountUI, stripHtml, introMenu } from "./react-ui.js";
+import { mountUI, stripHtml, introMenu, diveReadout } from "./react-ui.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
 // small, always-available metadata every display surface (hub kiosks,
@@ -202,6 +204,7 @@ const store = createStore({
     fillPct: 0, count: "0/20 CLEARED", timer: "",
     railState: "neutral", feedbackHtml: "Loading the training campus…",
     scorePops: [],
+    dive: null,
   },
   gestureTip: { html: "", show: false },
   arPrompt: { visible: false },
@@ -326,6 +329,7 @@ function syncHud() {
       fillPct: (Progress.roomsClearedIn(allSims().map((s) => s.id)) / allSims().length) * 100,
       timer: "",
       gestureVisible: false,
+      dive: null,
     });
     vrHudDirty = true;
     return;
@@ -342,6 +346,10 @@ function syncHud() {
     fillPct: s.progress01 * 100,
     timer: `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")} / ${
       String(Math.floor(s.room.parSeconds / 60)).padStart(2, "0")}:${String(s.room.parSeconds % 60).padStart(2, "0")}`,
+    // A station in the bay-underwater district may declare
+    // room.underwater = { depthLabel, bottomTimeSeconds }; the chip shows
+    // exactly that against this run's own clock, and nothing when it is unset.
+    dive: diveReadout(s.room.underwater, s.elapsed),
   };
   const step = s.step;
   if (step) {
@@ -501,6 +509,7 @@ function enterHub() {
   state.room = null;
   const stage = buildStage(worldRoot, state.mode, scene);
   state.stage = stage;
+  applyStageCamera(stage);
   const root = new THREE.Group();
   worldRoot.add(root);
   state.roomRoot = root;
@@ -516,6 +525,50 @@ function enterHub() {
   store.patch("scaleRow", { visible: state.mode === "ar" });
   setRail("neutral", `<b>SmartCiti.X training campus.</b> ${allSims().length} stations across ${categoryCount()} categories, each with its own rank ladder. Select a kiosk to begin.${PROFILE.id === "desktop" ? "" : ` <span class="muted">Device: ${escapeHtml(describeDevice(DEVICE, PROFILE))}</span>`}`);
   syncHud();
+}
+
+/** Most stages sit inside a 90 m view; a district that looks further (a bridge
+ *  deck with the bay below it) or much less far (the bottom of the bay) says
+ *  so, and the camera follows it for as long as that stage stands. */
+function applyStageCamera(stage) {
+  const far = stage?.far ?? 90;
+  if (camera.far !== far) { camera.far = far; camera.updateProjectionMatrix(); }
+}
+
+// `?district=<id>` builds one stage district with no station on it — the
+// hub's empty pad where the station would stand — so the scene team can look
+// at, walk and screenshot a district on its own (`&time=` and `&weather=`
+// still apply). Anything that is not a district id falls through to the hub.
+let districtPreview = new URLSearchParams(location.search).get("district");
+if (districtPreview && !Object.prototype.hasOwnProperty.call(DISTRICTS, districtPreview)) districtPreview = null;
+function enterDistrictPreview(id) {
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const horizon = { skyline: PROFILE.skyline, district: PROFILE.skyline };
+  const stage = buildStage(worldRoot, state.mode, scene, CITY.accent, id, null, null, horizon);
+  state.stage = stage;
+  applyStageCamera(stage);
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  stationPad(root, 1.75, CITY.accent);
+  state.api = { hits: {} };
+  state.hits = {};
+  collectSelectables();
+  resetPlacement();
+  if (state.mode !== "ar") {
+    const spawn = stage.spawn ?? { x: 0, z: 4.9, ry: 0 };
+    rig.position.set(spawn.x, 0, spawn.z);
+    rig.rotation.y = spawn.ry ?? 0;
+  } else rig.position.set(0, 0, 0);
+  yaw = 0; pitch = 0;
+  camera.rotation.set(0, 0, 0);
+  syncHud();
+  store.patch("hud", { room: `${id} · preview`, step: "District preview", cue: "No station is loaded: the pad marks where one would stand. Walk with WASD, drag to look.", count: "", fillPct: 0 });
+  const wx = stage.weather;
+  setRail("neutral", `<b>District preview:</b> ${escapeHtml(id)}.${wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : ""}`);
 }
 
 // Bumped on every call so a station whose dynamic import is still in flight
@@ -560,6 +613,7 @@ async function enterSim(id, { briefed = false } = {}) {
   const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, horizon);
   state.stage = stage;
+  applyStageCamera(stage);
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
   // The model arrives after the station is playable; a failure is reported
   // on the rail and the station plays on.
@@ -3075,6 +3129,10 @@ function drawVrHud() {
   g.fillStyle = HUD.muted; g.font = `600 26px 'Barlow Condensed', Arial, sans-serif`;
   g.fillText(hud.comboText, w - 34, 108);
   g.fillText(hud.count + "   " + hud.timer, w - 34, 144);
+  if (hud.dive) {
+    g.fillStyle = hud.dive.state === "over" ? HUD.danger : hud.dive.state === "warn" ? HUD.warn : "#4fd6c8";
+    g.fillText(`${hud.dive.depth ? `DEPTH ${hud.dive.depth}   ` : ""}BOTTOM ${hud.dive.bottom}`, w - 34, 180);
+  }
   g.textAlign = "left";
   g.fillStyle = "#1d2833"; g.fillRect(36, h - 34, w - 70, 10);
   g.fillStyle = accent;
@@ -3102,6 +3160,12 @@ function begin() {
     resetPlacement();
     store.patch("arPrompt", { visible: true });
     store.patch("scaleRow", { visible: true });
+  }
+  if (districtPreview && !pendingEnter && !deepLink) {
+    const id = districtPreview;
+    districtPreview = null;
+    enterDistrictPreview(id);
+    return;
   }
   if (programmeLink && !pendingEnter && !deepLink) {
     programmeLink = null;
@@ -3491,6 +3555,7 @@ addEventListener("resize", () => {
 
 const clock = new THREE.Clock();
 let elapsedTotal = 0;
+let lastDiveSecond = -1;
 
 renderer.setAnimationLoop((_, frame) => {
   const rawDt = clock.getDelta();
@@ -3526,6 +3591,8 @@ renderer.setAnimationLoop((_, frame) => {
       state.session.tick(dt);
       syncAlarm(state.session);
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
+      // The bottom-time chip counts in whole seconds; refresh it once a second.
+      else if (state.room?.underwater && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
     }
   }
 

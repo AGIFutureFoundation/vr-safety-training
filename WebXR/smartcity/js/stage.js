@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture, ownMaterial, mergeStatic } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
-import { buildApron } from "./apron.js";
+import { buildApron, APRON } from "./apron.js";
 import { districtFor, selfLight } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { reducedMotion } from "../../shared/a11y.js";
@@ -178,9 +178,25 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     };
   }
 
-  scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);
-  // A district on the horizon needs the fog held back past it (r ≈ 20–46).
-  scene.fog = new THREE.Fog(tod.fog !== null ? new THREE.Color(tod.fog) : lift(district.fog, tod.lift), district.build ? 36 : 22, district.build ? 96 : 64);
+  // A district that is a whole scene rather than a horizon (districts.js:
+  // golden-gate-deck, bay-underwater) says so with `plaza: false`. It brings
+  // its own ground, so the plaza disc, masts, marquee and site apron are not
+  // built under it; it may carry its own sky for every hour (`skyByTime`),
+  // its own fog distances (`fogRange`), a default or forced weather, its own
+  // spawn and roam, and a camera far plane (`far`). It is built even where a
+  // device profile drops the horizon, because without it there is no floor.
+  const scenic = district.plaza === false;
+  const hour = timeOfDay();
+  if (district.skyByTime) {
+    const c = district.skyByTime[hour] ?? district.skyByTime.night;
+    scene.background = new THREE.Color(c.sky);
+    scene.fog = new THREE.Fog(new THREE.Color(c.fog), ...(district.fogRange ?? [22, 64]));
+  } else {
+    scene.background = tod.sky !== null ? new THREE.Color(tod.sky) : lift(district.sky, tod.lift);
+    // A district on the horizon needs the fog held back past it (r ≈ 20–46).
+    const range = district.fogRange ?? (district.build ? [36, 96] : [22, 64]);
+    scene.fog = new THREE.Fog(tod.fog !== null ? new THREE.Color(tod.fog) : lift(district.fog, tod.lift), range[0], range[1]);
+  }
 
   // Plaza deck: cast-concrete paving tiled across the disc (the cylinder cap's
   // planar UVs make a repeating texture read as a real slab grid), with a
@@ -198,48 +214,67 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // nothing to raise — a ship's side, a quay — builds its outboard
   // arrangement above plaza level instead and accepts the compressed
   // freeboard. Either way, look at a spawn screenshot before you believe it.
-  const pavingTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4 }), { repeat: 7, px: 512 });
-  const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 64 });
-  deck.material = texturedMat(pavingTex, { rough: 0.9, metal: 0.04, color: 0xd8dde3 });
-  deck.receiveShadow = true;
-  const plateTex = surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 22, px: 256 });
-  const walkRing = cyl(g, 13.6, 13.6, 0.04, 0, 0.02, 0, 0x232b33, { rough: 0.6, metal: 0.5, seg: 64 });
-  walkRing.material = texturedMat(plateTex, { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
-  walkRing.receiveShadow = true;
-  cyl(g, 11.8, 11.8, 0.05, 0, 0.025, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
-    .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1c242d", base2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
-  // Station-accent glow ring and an inner hazard-yellow kerb line: the ring
-  // takes the current station's colour so each sim's plaza is subtly its own.
-  torus(g, 12.6, 0.05, 0, 0.03, 0, accent,
-    { emissive: accent, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 72 });
-  torus(g, 11.75, 0.02, 0, 0.055, 0, CITY.hiVis,
-    { emissive: CITY.hiVis, ei: 0.6, rough: 0.5, cast: false, seg: 6, seg2: 72 });
+  if (!scenic) {
+    const pavingTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4 }), { repeat: 7, px: 512 });
+    const deck = cyl(g, 15, 15, 0.3, 0, -0.15, 0, 0x151b22, { rough: 0.55, metal: 0.2, seg: 64 });
+    deck.material = texturedMat(pavingTex, { rough: 0.9, metal: 0.04, color: 0xd8dde3 });
+    deck.receiveShadow = true;
+    const plateTex = surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 22, px: 256 });
+    const walkRing = cyl(g, 13.6, 13.6, 0.04, 0, 0.02, 0, 0x232b33, { rough: 0.6, metal: 0.5, seg: 64 });
+    walkRing.material = texturedMat(plateTex, { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
+    walkRing.receiveShadow = true;
+    cyl(g, 11.8, 11.8, 0.05, 0, 0.025, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
+      .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1c242d", base2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
+    // Station-accent glow ring and an inner hazard-yellow kerb line: the ring
+    // takes the current station's colour so each sim's plaza is subtly its own.
+    torus(g, 12.6, 0.05, 0, 0.03, 0, accent,
+      { emissive: accent, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 72 });
+    torus(g, 11.75, 0.02, 0, 0.055, 0, CITY.hiVis,
+      { emissive: CITY.hiVis, ei: 0.6, rough: 0.5, cast: false, seg: 6, seg2: 72 });
 
-  // Perimeter light masts.
-  for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
-    const mx = Math.sin(a) * 11.5, mz = Math.cos(a) * 11.5;
-    cyl(g, 0.055, 0.075, 5.2, mx, 2.6, mz, 0x2b333c, { rough: 0.5, metal: 0.6, seg: 12 });
-    const head = box(g, 0.5, 0.09, 0.26, mx, 5.2, mz, 0x2b333c, { rough: 0.5, metal: 0.6 });
-    head.rotation.y = a;
-    const lamp = box(g, 0.42, 0.03, 0.2, mx, 5.14, mz, district.mast,
-      { emissive: district.mast, ei: 1.8 * tod.mast, rough: 0.4, cast: false });
-    lamp.rotation.y = a;
-    const light = new THREE.PointLight(district.mast, 1.6 * tod.mast, 16, 2);
-    light.position.set(mx * 0.82, 4.6, mz * 0.82);
-    g.add(light);
+    // Perimeter light masts.
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
+      const mx = Math.sin(a) * 11.5, mz = Math.cos(a) * 11.5;
+      cyl(g, 0.055, 0.075, 5.2, mx, 2.6, mz, 0x2b333c, { rough: 0.5, metal: 0.6, seg: 12 });
+      const head = box(g, 0.5, 0.09, 0.26, mx, 5.2, mz, 0x2b333c, { rough: 0.5, metal: 0.6 });
+      head.rotation.y = a;
+      const lamp = box(g, 0.42, 0.03, 0.2, mx, 5.14, mz, district.mast,
+        { emissive: district.mast, ei: 1.8 * tod.mast, rough: 0.4, cast: false });
+      lamp.rotation.y = a;
+      const light = new THREE.PointLight(district.mast, 1.6 * tod.mast, 16, 2);
+      light.position.set(mx * 0.82, 4.6, mz * 0.82);
+      g.add(light);
+    }
   }
 
-  const sky = opts.skyline === false ? null : skyline(g, { gap: district.skylineGap ?? null });
+  // `skyline: false` on a district leaves the ring out entirely (there is no
+  // city on the bottom of the bay); `skyline: {…}` passes its own gap, base,
+  // radius and height to the ring (a city seen from a bridge deck).
+  const skyOpts = district.skyline === false ? null : { gap: district.skylineGap ?? null, ...(district.skyline ?? {}) };
+  const sky = opts.skyline === false || !skyOpts ? null : skyline(g, skyOpts);
   if (sky) sky.name = "skyline";
-  const marquee = buildMarquee(g);
+  const marquee = scenic ? null : buildMarquee(g);
   // Weather goes on after the sky and fog are set for the hour, because it
-  // scales both; the stage hands its label and note back to the app.
-  const wx = buildWeather(g, scene, weatherFor(weather));
+  // scales both; the stage hands its label and note back to the app. A
+  // district may name the weather it stands in when the station names none
+  // (`weather`), or insist on its own whatever the station or the URL asks
+  // (`forceWeather`): there is no rain on the bottom of the bay.
+  const wxKind = district.forceWeather ? district.weather : weatherFor(weather ?? district.weather);
+  const wx = buildWeather(g, scene, wxKind, { wetDeck: !scenic });
   let districtAnimate = null;
-  if (district.build && opts.district !== false) { const dg = group(g); dg.name = "district"; districtAnimate = district.build(dg, accent); selfLight(dg, tod.glow); }
+  if (district.build && (opts.district !== false || scenic)) {
+    const dg = group(g);
+    // themeScene() hides groups named "district" on a profile with no
+    // horizon; a scenic district is the floor, so it goes under another name.
+    dg.name = scenic ? "district-scene" : "district";
+    districtAnimate = district.build(dg, accent, { time: hour, weather: wx.kind });
+    // A scenic district lights itself; the blanket self-glow would clone
+    // every material it touches, and a cloned material cannot be merged.
+    if (!scenic) selfLight(dg, tod.glow);
+  }
 
-  const key = new THREE.DirectionalLight(tod.key[0], tod.key[1] * wx.lightScale);
+  const key = new THREE.DirectionalLight(district.key ?? tod.key[0], tod.key[1] * wx.lightScale);
   key.position.set(4, 9, 5);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -247,7 +282,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   key.shadow.camera.top = 9; key.shadow.camera.bottom = -9;
   key.shadow.bias = -0.0008;
   g.add(key);
-  const hemi = tod.hemi ?? [lift(district.hemi[0], 1.35).getHex(), lift(district.hemi[1], 1.6).getHex()];
+  const hemi = district.skyByTime ? district.hemi : tod.hemi ?? [lift(district.hemi[0], 1.35).getHex(), lift(district.hemi[1], 1.6).getHex()];
   g.add(new THREE.HemisphereLight(hemi[0], hemi[1], tod.hemiI));
   // A flat fill so no face of a station ever goes to black — the districts and
   // the station props are authored bright enough to read at a glance.
@@ -266,7 +301,12 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // The site around the work: gate, sign-in, laydown, crew truck, muster point
   // and waste station, spread across ground that used to be empty pavement the
   // learner was not allowed to walk on anyway. See apron.js.
-  const apron = buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
+  // A scenic district is its own site (a lane closure on the deck, a dive
+  // stage on the bottom), so it gets no apron; it keeps the apron's gate
+  // spawn and roam unless it names its own.
+  const apron = scenic ? null : buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
+  const spawn = district.spawn ?? apron?.spawn ?? { x: Math.sin(APRON.gateBearing) * APRON.spawnRadius, z: Math.cos(APRON.gateBearing) * APRON.spawnRadius, ry: APRON.gateBearing };
+  const roam = district.roam ?? apron?.roam ?? APRON.fence - 0.7;
 
   const beacons = sky?.userData.beacons ?? [];
 
@@ -281,8 +321,11 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   const merged = mergeStatic(g);
 
   return {
-    root: g, ar, roam: apron.roam, spawn: apron.spawn, merged,
-    weather: { kind: wx.kind, label: wx.label, note: wx.note },
+    root: g, ar, roam, spawn, merged, far: district.far ?? null,
+    // A forced district weather reports the district's own conditions.
+    weather: district.forceWeather && district.weatherLabel
+      ? { kind: district.weatherKind ?? wx.kind, label: district.weatherLabel, note: district.weatherNote ?? wx.note }
+      : { kind: wx.kind, label: wx.label, note: wx.note },
     animate(t, dt = 0.016) {
       // A learner who asked their system for less animation gets a still
       // plaza: the station itself still moves, because the procedure needs
@@ -291,14 +334,16 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
       // Cheap flagship motion: rotate the holo-emblem, pulse its inner ring and the
       // marquee trim, and blink a handful of rooftop beacons — property tweaks on
       // already-built meshes/materials, nothing allocated per frame.
-      marquee.emblem.rotation.y = t * 0.5;
-      marquee.ring2.rotation.z = t * 0.8;
-      marquee.trim.material.emissiveIntensity = 1.4 + Math.sin(t * 1.6) * 0.3;
+      if (marquee) {
+        marquee.emblem.rotation.y = t * 0.5;
+        marquee.ring2.rotation.z = t * 0.8;
+        marquee.trim.material.emissiveIntensity = 1.4 + Math.sin(t * 1.6) * 0.3;
+      }
       for (const beacon of beacons) {
         beacon.material.emissiveIntensity = 1.1 + Math.max(0, Math.sin(t * 1.4 + beacon.userData.phase)) * 1.4;
       }
-      if (districtAnimate) districtAnimate(t);
-      apron.animate(t, dt);
+      if (districtAnimate) districtAnimate(t, dt);
+      apron?.animate(t, dt);
       wx.animate(t, dt);
     },
   };

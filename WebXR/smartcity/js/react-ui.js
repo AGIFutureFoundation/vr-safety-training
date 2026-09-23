@@ -113,6 +113,46 @@ export function introMenu() {
 }
 const SIM_BADGE_BASE = INTRO_BUTTONS.length;
 
+/** mm:ss for a count of seconds. */
+function diveClock(sec) {
+  const s = Math.max(0, Math.floor(sec));
+  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+}
+
+/**
+ * The dive readout for a station that stands in the bay-underwater district.
+ * Every value comes from the station: `room.underwater = { depthLabel,
+ * bottomTimeSeconds }`, where depthLabel is the text the station wants shown
+ * (it may name the dive plan rather than a number) and bottomTimeSeconds is
+ * the planned bottom time the station declares. The only thing measured here
+ * is how long this run has been on the bottom — the session's own clock. No
+ * depth, gas or decompression figure is ever made up; a station that sets
+ * nothing gets no chip.
+ */
+export function diveReadout(underwater, elapsedSeconds = 0) {
+  if (!underwater || typeof underwater !== "object") return null;
+  const depth = typeof underwater.depthLabel === "string" && underwater.depthLabel.trim() ? underwater.depthLabel.trim() : null;
+  const plan = Number.isFinite(underwater.bottomTimeSeconds) && underwater.bottomTimeSeconds > 0 ? underwater.bottomTimeSeconds : null;
+  if (!depth && !plan) return null;
+  const on = Math.max(0, elapsedSeconds || 0);
+  return {
+    depth,
+    bottom: plan ? `${diveClock(on)} / ${diveClock(plan)}` : diveClock(on),
+    // Past four-fifths of the planned bottom time the chip turns amber, and
+    // past the plan it turns red: the cue a supervisor would give on the radio.
+    state: !plan ? "ok" : on >= plan ? "over" : on >= plan * 0.8 ? "warn" : "ok",
+  };
+}
+
+/** The HUD chip for diveReadout(); nothing at all when there is no readout. */
+export function DiveChip({ dive }) {
+  if (!dive) return null;
+  return h("div", { className: "chip", id: "hud-dive", "data-state": dive.state, role: "status", "aria-label": `Depth ${dive.depth ?? "not set"}, bottom time ${dive.bottom}` },
+    dive.depth ? h(Fragment, null, h("div", { className: "eyebrow" }, "Depth"), h("div", { id: "hud-depth" }, dive.depth)) : null,
+    h("div", { className: "eyebrow" }, "Bottom time"),
+    h("div", { id: "hud-bottom" }, dive.bottom));
+}
+
 export function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -132,6 +172,11 @@ export function mountUI(store, actions) {
       h("div", { id: "hud-score" }, hud.score),
       h("div", { id: "hud-combo", className: [hud.comboHot && "hot", hud.comboFire && "fire"].filter(Boolean).join(" ") }, hud.comboText),
       hud.scorePops.map((p) => h("div", { key: p.id, className: p.big ? "score-pop big" : "score-pop" }, p.text)));
+  }
+
+  function HudDive() {
+    const hud = useSlice("hud");
+    return h(DiveChip, { dive: hud.dive ?? null });
   }
 
   function HudObjective() {
@@ -957,7 +1002,7 @@ export function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));

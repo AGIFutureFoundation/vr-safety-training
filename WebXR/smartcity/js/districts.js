@@ -1,6 +1,9 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, torus, group } from "../../shared/kit.js";
-import { CITY, surfaceTexture, texturedMat, waterFace, mudflatFace } from "./citykit.js";
+import { box, cyl, ball, torus, group, hose, decal, mat, particles } from "../../shared/kit.js";
+import {
+  CITY, surfaceTexture, texturedMat, waterFace, mudflatFace, paintedSteelFace, roadwayFace, deckPlateFace,
+  siltFace, causticFace, growthFace, hullFace, fogPuffFace, glowFace, pavingFace,
+} from "./citykit.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -324,8 +327,9 @@ function dehuSkid(g, x, z, ry = 0) {
 /** Bay water to the horizon, textured and drifting: the shoreline districts'
  *  version of water(). Returns the texture so animate can slide it. */
 function bayWater(g, o = {}) {
-  const tex = surfaceTexture((cx, w, h) => waterFace(cx, w, h, o), { repeat: 14, px: 512 });
-  const w = cyl(g, 66, 66, 0.1, 0, -0.56, 0, 0x0f2e3a, { rough: 0.25, metal: 0.55, seg: 56, cast: false });
+  const r = o.r ?? 66;
+  const tex = surfaceTexture((cx, w, h) => waterFace(cx, w, h, o), { repeat: o.repeat ?? 14, px: 512 });
+  const w = cyl(g, r, r, 0.1, 0, o.y ?? -0.56, 0, 0x0f2e3a, { rough: 0.25, metal: 0.55, seg: 56, cast: false });
   w.material = texturedMat(tex, { rough: 0.28, metal: 0.5, color: 0xa8c4cc });
   w.receiveShadow = false;
   return tex;
@@ -512,9 +516,578 @@ function garmentLoft(g, x, z, ry = 0) {
   return { s, panes };
 }
 
+// ------------------------------------------------------- scenic districts
+//
+// golden-gate-deck and bay-underwater are not a horizon behind the plaza:
+// the learner stands IN them — on a suspension-bridge deck, on the bottom of
+// the bay — so each brings its own ground and the stage leaves the plaza,
+// masts, marquee and apron out (`plaza: false`, see stage.js). They are built
+// once here and any station uses one by naming it: `district:
+// "golden-gate-deck"` or `district: "bay-underwater"`.
+//
+// Their budget is their own: at most SCENIC_BUDGET meshes each, counted the
+// way tools/check_budget.mjs counts a station, so a station's 150–280 still
+// fits on top. Most of the repetition (railing balusters, suspender ropes,
+// cones, piles, growth rings) goes through bake(), which builds the parts
+// with the ordinary kit calls and hands back ONE mesh; what is left is
+// merged per material by the stage's mergeStatic() at the end of the build.
+
+export const SCENIC_BUDGET = 120;
+
+/** Position of `o` in the frame of `stop` (its own little tree's root),
+ *  scale-then-rotate-then-translate like three.js, so a part inside a
+ *  rotated group is recorded where it really is. */
+function framePos(o, stop = null, p = { x: 0, y: 0, z: 0 }) {
+  let { x, y, z } = p;
+  for (let n = o; n && n !== stop; n = n.parent) {
+    const sc = n.scale;
+    if (sc) { x *= sc.x ?? 1; y *= sc.y ?? 1; z *= sc.z ?? 1; }
+    const r = n.rotation;
+    if (r) {
+      if (r.z) { const c = Math.cos(r.z), s = Math.sin(r.z); [x, y] = [x * c - y * s, x * s + y * c]; }
+      if (r.y) { const c = Math.cos(r.y), s = Math.sin(r.y); [x, z] = [x * c + z * s, -x * s + z * c]; }
+      if (r.x) { const c = Math.cos(r.x), s = Math.sin(r.x); [y, z] = [y * c - z * s, y * s + z * c]; }
+    }
+    x += n.position?.x ?? 0; y += n.position?.y ?? 0; z += n.position?.z ?? 0;
+  }
+  return { x, y, z };
+}
+
+/** Rough half-extents of a kit primitive (box, cylinder, sphere, torus,
+ *  plane), for the layout checker; null when the geometry says nothing. */
+function halfExtents(m) {
+  const p = m.geometry?.parameters;
+  if (!p) return null;
+  let hx, hy, hz;
+  if (p.width !== undefined) { hx = p.width / 2; hy = (p.height ?? 0) / 2; hz = (p.depth ?? 0) / 2; }
+  else if (p.radiusTop !== undefined) { hx = hz = Math.max(p.radiusTop, p.radiusBottom); hy = p.height / 2; }
+  else if (p.tube !== undefined) { hx = hy = hz = p.radius + p.tube; }
+  else if (p.radius !== undefined) { hx = hy = hz = p.radius; }
+  else return null;
+  const s = m.scale ?? { x: 1, y: 1, z: 1 };
+  hx *= s.x ?? 1; hy *= s.y ?? 1; hz *= s.z ?? 1;
+  if (Math.abs(Math.sin(m.rotation?.y ?? 0)) > 0.7) [hx, hz] = [hz, hx];
+  if (Math.abs(Math.sin(m.rotation?.x ?? 0)) > 0.7 || Math.abs(Math.sin(m.rotation?.z ?? 0)) > 0.7) { const k = Math.max(hx, hy, hz); hx = hy = hz = k; }
+  return [hx, hy, hz];
+}
+
+/**
+ * Build static parts with the ordinary kit calls into a scratch group, and
+ * add ONE mesh to `parent` carrying all of their geometry in `material`.
+ * Where three.js has no geometry API (the headless checkers' stub) the mesh
+ * is empty; either way it is one mesh, and `userData.parts` records where
+ * each part stood so the layout checker can still see them.
+ */
+function bake(parent, material, fill, o = {}) {
+  const tmp = new THREE.Group();
+  fill(tmp);
+  const meshes = [];
+  tmp.traverse((m) => { if (m.isMesh) meshes.push(m); });
+  const parts = meshes.map((m) => ({ p: framePos(m, tmp), h: halfExtents(m) }));
+  const geometry = new THREE.BufferGeometry();
+  if (typeof geometry.applyMatrix4 === "function" && THREE.Float32BufferAttribute) {
+    tmp.updateMatrixWorld(true);
+    const pos = [], nor = [], uv = [];
+    for (const m of meshes) {
+      const src = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
+      src.applyMatrix4(m.matrixWorld);
+      const P = src.getAttribute("position"), N = src.getAttribute("normal"), U = src.getAttribute("uv");
+      for (let i = 0; i < P.count; i++) {
+        pos.push(P.getX(i), P.getY(i), P.getZ(i));
+        nor.push(N.getX(i), N.getY(i), N.getZ(i));
+        uv.push(U ? U.getX(i) : 0, U ? U.getY(i) : 0);
+      }
+      src.dispose();
+      m.geometry.dispose();
+    }
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    geometry.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+    geometry.computeBoundingSphere();
+  }
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = !!o.cast;
+  mesh.receiveShadow = o.receive !== false;
+  mesh.userData.parts = parts;
+  // Something that moves (a car, a school of fish) keeps its own mesh: the
+  // stage's merge bakes everything else into world space where it stands.
+  if (o.noMerge) mesh.userData.noMerge = true;
+  parent.add(mesh);
+  return mesh;
+}
+
+/** A bar between two points inside a bake (bracing, bridles, diagonals). */
+function bar(t, a, b, r) {
+  const m = span(t, a, b, r);
+  return m;
+}
+
+/** A transparent sheet with a tiling canvas on it (fog banks, light shafts,
+ *  the surface seen from below). Unlit, so it reads the same at any hour;
+ *  `fog: false` keeps a sheet visible through the scene fog. */
+let edgeFadeTex = null;
+/** A soft-edged white rectangle on black, shared as the alpha map of every
+ *  sheet so no fog bank shows the straight edge of the plane it is drawn on.
+ *  Built once and kept, like a mat() material. */
+function edgeFade() {
+  if (edgeFadeTex) return edgeFadeTex;
+  edgeFadeTex = surfaceTexture((cx, w, h) => {
+    // Concentric rectangles, black at the rim to white a third of the way in.
+    const steps = 24;
+    for (let i = 0; i <= steps; i++) {
+      const k = i / steps, v = Math.round(255 * (k * k * (3 - 2 * k)));
+      const inset = k * w * 0.34;
+      cx.fillStyle = `rgb(${v},${v},${v})`;
+      cx.fillRect(inset, inset, w - inset * 2, h - inset * 2);
+    }
+  }, { px: 128, repeat: 1 });
+  return edgeFadeTex;
+}
+
+function sheet(g, w, h, draw, o = {}) {
+  const tex = surfaceTexture(draw, { px: o.px ?? 256, repeat: o.repeat ?? 1 });
+  const material = new THREE.MeshBasicMaterial({
+    map: tex, alphaMap: o.fade === false ? null : edgeFade(),
+    color: o.color ?? 0xffffff, transparent: true, opacity: o.opacity ?? 1, depthWrite: false,
+    side: THREE.DoubleSide, fog: o.fog !== false,
+    blending: o.additive ? THREE.AdditiveBlending : THREE.NormalBlending,
+  });
+  material.userData.ownMaterial = true;
+  material.userData.ownTexture = true;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), material);
+  m.position.set(o.x ?? 0, o.y ?? 0, o.z ?? 0);
+  m.rotation.x = o.rx ?? 0; m.rotation.y = o.ry ?? 0;
+  m.castShadow = false; m.receiveShadow = false;
+  g.add(m);
+  return { mesh: m, tex };
+}
+
+/** Slide a texture if this three.js has texture transforms (the headless
+ *  stub does not). */
+function slide(tex, x, y) { if (tex?.offset) tex.offset.set(x, y); }
+
+// The deck, in metres from the stage origin: the roadway runs along z, the
+// main cables hang in the planes x = ±GG.cable, the tower stands ahead of
+// the learner (−z) and the cable sags to its low point behind them (+z).
+const GG = {
+  half: 10.4,          // roadway half-width: six lanes
+  barrier: 10.65,      // traffic barrier between the roadway and the cable line
+  cable: 11.3,         // main-cable plane
+  walk: 12.2,          // sidewalk and cable-line strip centre (10.4 … 14.0), kerb at the roadway edge
+  rail: 14.1,          // outer railing
+  len: 116,            // deck length modelled
+  towerZ: -34,
+  saddle: 46.8,        // main cable over the tower saddle
+  lowZ: 50, lowY: 2.6, // the cable's low point, where it comes down to the deck
+  water: -46,          // the bay, far below
+};
+const ggCableY = (z) => GG.lowY + (GG.saddle - GG.lowY) * ((z - GG.lowZ) / (GG.towerZ - GG.lowZ)) ** 2;
+const ggCableSlope = (z) => 2 * (GG.saddle - GG.lowY) * (z - GG.lowZ) / (GG.towerZ - GG.lowZ) ** 2;
+// International Orange, in the 0xf04a00 family, for the plain-painted steel.
+const GG_ORANGE = 0xd24a1c;
+
+/**
+ * golden-gate-deck: a suspension-bridge deck the learner stands on, a tower
+ * rising ahead in International Orange (riveted plate drawn by
+ * paintedSteelFace), the main cables curving down from the saddles toward
+ * the deck with the suspender ropes hanging from them, deck railings, a
+ * sidewalk and light standards, a lane closure with cones and an arrow
+ * board, a cable traveller parked on the main cable, the bay far below and
+ * the marine layer rolling in from the strait.
+ */
+function goldenGateDeck(g, env) {
+  const night = env.time === "night", dusk = env.time === "dusk";
+  const orange = mat(GG_ORANGE, { rough: 0.62, metal: 0.35 });
+  flood(g, 0, 32, 26, 0xe6ecf0, 1.0);
+  flood(g, -26, 18, 12, 0xdfe6ea, 0.5);
+
+  // ---- the deck: roadway, sidewalks, the stiffening truss under it
+  const roadTex = surfaceTexture((cx, w, h) => roadwayFace(cx, w, h, { lanes: 6 }), { px: 512 });
+  roadTex.repeat?.set?.(1, 16);
+  const road = box(g, GG.half * 2, 0.3, GG.len, 0, -0.15, 0, 0x3a3d41, { cast: false });
+  road.material = texturedMat(roadTex, { rough: 0.92, metal: 0.02 });
+  road.receiveShadow = true;
+  const walkTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4, base: "#8d9094", base2: "#7f8286", seam: "rgba(0,0,0,0.35)" }), { px: 256 });
+  walkTex.repeat?.set?.(1.5, 48);
+  const walkMat = texturedMat(walkTex, { rough: 0.95, metal: 0.02 });
+  for (const sx of [-1, 1]) {
+    const w = box(g, 3.6, 0.2, GG.len, sx * GG.walk, 0.1, 0, 0x8d9094, { cast: false });
+    w.material = walkMat;
+  }
+  box(g, GG.rail * 2 + 0.4, 1.1, GG.len, 0, -0.85, 0, GG_ORANGE, { rough: 0.62, metal: 0.35, cast: false });
+  bake(g, orange, (t) => {
+    for (const sx of [-1, 1]) {
+      const x = sx * (GG.rail - 0.1);
+      box(t, 0.5, 0.5, GG.len, x, -1.6, 0, 0);
+      box(t, 0.5, 0.5, GG.len, x, -7.4, 0, 0);
+      for (let z = -GG.len / 2; z <= GG.len / 2; z += 7.25) {
+        box(t, 0.4, 5.8, 0.4, x, -4.5, z, 0);
+        if (z + 7.25 <= GG.len / 2) bar(t, [x, -1.6, z], [x, -7.4, z + 7.25], 0.3);
+      }
+      // Outer railing: posts, top and bottom rails, close-set balusters.
+      box(t, 0.16, 0.12, GG.len, sx * GG.rail, 1.5, 0, 0);
+      box(t, 0.12, 0.1, GG.len, sx * GG.rail, 0.34, 0, 0);
+      for (let z = -GG.len / 2; z <= GG.len / 2; z += 0.32) box(t, 0.035, 1.12, 0.035, sx * GG.rail, 0.92, z, 0);
+      for (let z = -GG.len / 2; z <= GG.len / 2; z += 3.2) box(t, 0.14, 1.34, 0.14, sx * GG.rail, 0.87, z, 0);
+      // Light standards on the cable line: pole and outreach arm.
+      for (const z of [-52, -18, 6, 30, 54]) {
+        cyl(t, 0.09, 0.15, 8, sx * 10.95, 4, z, 0, { seg: 10 });
+        box(t, 1.9, 0.12, 0.12, sx * 10.1, 7.95, z, 0);
+      }
+    }
+  }, { receive: false });
+
+  // Traffic barrier between roadway and the cable line.
+  bake(g, mat(0x9aa1a8, { rough: 0.45, metal: 0.6 }), (t) => {
+    for (const sx of [-1, 1]) {
+      for (let z = -GG.len / 2; z <= GG.len / 2; z += 2.5) box(t, 0.12, 0.82, 0.12, sx * GG.barrier, 0.41, z, 0);
+      for (const y of [0.55, 0.82]) box(t, 0.1, 0.22, GG.len, sx * GG.barrier, y, 0, 0);
+    }
+  });
+  // Lamp heads, and the lamps themselves: sodium at night, barely on by day.
+  bake(g, mat(0x3a3f45, { rough: 0.5, metal: 0.5 }), (t) => {
+    for (const sx of [-1, 1]) for (const z of [-52, -18, 6, 30, 54]) box(t, 0.5, 0.2, 0.9, sx * 9.2, 7.88, z, 0);
+  });
+  const lampI = night ? 2.4 : dusk ? 1.5 : 0.3;
+  bake(g, mat(0xffd9a0, { emissive: 0xffd9a0, ei: lampI, rough: 0.4 }), (t) => {
+    for (const sx of [-1, 1]) for (const z of [-52, -18, 6, 30, 54]) box(t, 0.4, 0.05, 0.7, sx * 9.2, 7.76, z, 0);
+  });
+
+  // ---- the tower: riveted legs and portal struts, saddles, aviation lights
+  const legTex = surfaceTexture((cx, w, h) => paintedSteelFace(cx, w, h, { cols: 2, rows: 4 }), { px: 512 });
+  legTex.repeat?.set?.(1, 9);
+  const legMat = texturedMat(legTex, { rough: 0.62, metal: 0.3 });
+  const strutTex = surfaceTexture((cx, w, h) => paintedSteelFace(cx, w, h, { cols: 4, rows: 2 }), { px: 512 });
+  strutTex.repeat?.set?.(5, 1);
+  const strutMat = texturedMat(strutTex, { rough: 0.62, metal: 0.3 });
+  const beacons = [];
+  for (const sx of [-1, 1]) {
+    const x = sx * GG.cable;
+    box(g, 2.0, 60, 5.0, x, -16, GG.towerZ, GG_ORANGE, { cast: false }).material = legMat;
+    box(g, 1.7, 30.8, 4.2, x, 29.4, GG.towerZ, GG_ORANGE, { cast: false }).material = legMat;
+    box(g, 2.3, 2.0, 4.8, x, 45.8, GG.towerZ, GG_ORANGE, { cast: false }).material = strutMat;
+    beacons.push(own(ball(g, 0.3, x, 47.9, GG.towerZ, 0xff3b30, { emissive: 0xff3b30, ei: 2, cast: false, seg: 10, seg2: 8 })));
+  }
+  for (const [y, h] of [[11.8, 2.8], [25.2, 2.6], [38.2, 2.4]]) {
+    box(g, GG.cable * 2 - 1.7, h, 2.4, 0, y, GG.towerZ, GG_ORANGE, { cast: false }).material = strutMat;
+  }
+
+  // ---- main cables, cable bands and suspender ropes
+  const cableMat = { rough: 0.62, metal: 0.35, steps: 140, seg: 10, cast: false };
+  for (const sx of [-1, 1]) {
+    const x = sx * GG.cable;
+    const pts = [[x, 22, -60], [x, 31, -52], [x, 40, -43], [x, GG.saddle, GG.towerZ]];
+    for (let z = GG.towerZ + 4; z <= GG.len / 2; z += 4) pts.push([x, ggCableY(z), z]);
+    hose(g, pts, 0.42, GG_ORANGE, cableMat);
+  }
+  const hangers = [];
+  for (let z = GG.towerZ + 4.5; z <= GG.len / 2 - 1; z += 4.25) hangers.push(z);
+  bake(g, orange, (t) => {
+    for (const sx of [-1, 1]) {
+      box(t, 1.7, 1.4, 3.6, sx * GG.cable, GG.saddle + 0.4, GG.towerZ, 0);
+      for (const z of hangers) {
+        box(t, 0.95, 0.55, 0.9, sx * GG.cable, ggCableY(z), z, 0);
+        box(t, 0.34, 0.42, 0.6, sx * GG.cable, 0.21, z, 0);
+      }
+    }
+  }, { receive: false });
+  bake(g, mat(0xa9401a, { rough: 0.7, metal: 0.3 }), (t) => {
+    for (const sx of [-1, 1]) for (const z of hangers) {
+      const top = ggCableY(z) - 0.3, len = top - 0.4;
+      for (const dz of [-0.14, 0.14]) box(t, 0.07, len, 0.07, sx * GG.cable, 0.4 + len / 2, z + dz, 0);
+    }
+  }, { receive: false });
+
+  // ---- the cable traveller, parked on the strait-side main cable
+  const tz = -9;
+  const trav = group(g, -GG.cable, ggCableY(tz), tz);
+  trav.rotation.x = -Math.atan(ggCableSlope(tz));
+  bake(trav, mat(0x2a2f35, { rough: 0.6, metal: 0.5 }), (t) => {
+    for (const z of [-1.1, 1.1]) for (const x of [-0.2, 0.2]) cyl(t, 0.22, 0.22, 0.14, x, 0.66, z, 0, { seg: 14 }).rotation.z = Math.PI / 2;
+  });
+  bake(trav, mat(CITY.hiVis, { rough: 0.55, metal: 0.3 }), (t) => {
+    for (const sx of [-1, 1]) {
+      box(t, 0.08, 1.9, 2.7, sx * 0.62, -0.05, 0, 0);
+      for (const z of [-1.15, 1.15]) box(t, 0.05, 1.0, 0.05, sx * 1.55, -0.4, z, 0);
+      box(t, 0.05, 0.05, 2.35, sx * 1.55, 0.1, 0, 0);
+    }
+    for (const z of [-1.1, 1.1]) box(t, 1.32, 0.12, 0.14, 0, 0.9, z, 0);
+  }, { receive: false });
+  box(trav, 3.2, 0.08, 2.4, 0, -0.95, 0, 0x5a636c, { rough: 0.7, metal: 0.5, cast: false });
+  const travLamp = own(ball(trav, 0.12, 0, 1.05, 0, 0xf2a03a, { emissive: 0xf2a03a, ei: 1.8, cast: false, seg: 8, seg2: 6 }));
+
+  // ---- the lane closure: a taper into the tangent, and the arrow board
+  // upstream of it. Traffic runs toward −z in the lanes left open (x > 3.5).
+  const cones = [];
+  for (let i = 0; i <= 7; i++) cones.push([-10.0 + (13.9 * i) / 7, 46 - (24 * i) / 7]);
+  for (let z = 18.5; z >= -27; z -= 3.5) cones.push([3.9, z]);
+  bake(g, mat(0xe4622a, { rough: 0.75 }), (t) => { for (const [x, z] of cones) cyl(t, 0.035, 0.16, 0.7, x, 0.37, z, 0, { seg: 12 }); }, { receive: false });
+  bake(g, mat(0xe8eef2, { rough: 0.45, emissive: 0x9aa3aa, ei: night ? 0.7 : 0.1 }), (t) => {
+    for (const [x, z] of cones) { cyl(t, 0.1, 0.12, 0.1, x, 0.46, z, 0, { seg: 12 }); cyl(t, 0.066, 0.08, 0.07, x, 0.61, z, 0, { seg: 12 }); }
+  }, { receive: false });
+  bake(g, mat(0x22262b, { rough: 0.9 }), (t) => { for (const [x, z] of cones) box(t, 0.38, 0.03, 0.38, x, 0.015, z, 0); });
+
+  const ab = group(g, -8.2, 0, 50);
+  bake(ab, mat(0xe8b830, { rough: 0.6, metal: 0.3 }), (t) => {
+    box(t, 1.7, 0.55, 2.3, 0, 0.75, 0, 0);
+    box(t, 0.14, 0.14, 1.4, 0, 0.55, -1.8, 0);
+    box(t, 0.16, 2.4, 0.16, 0, 2.0, 0.5, 0);
+    box(t, 2.6, 1.4, 0.12, 0, 3.4, 0.62, 0);
+  }, { receive: false });
+  bake(ab, mat(0x1a1e23, { rough: 0.9 }), (t) => { for (const sx of [-1, 1]) cyl(t, 0.34, 0.34, 0.22, sx * 0.95, 0.34, 0.2, 0, { seg: 14 }).rotation.z = Math.PI / 2; });
+  // The lamp panel: amber dots in an arrow pointing into the open lanes.
+  const board = decal(ab, 2.4, 1.2, 0, 3.4, 0.69, (cx, w, h) => {
+    cx.fillStyle = "#07090b"; cx.fillRect(0, 0, w, h);
+    const dot = (x, y) => { cx.fillStyle = "#ffb13a"; try { cx.beginPath(); cx.arc(x, y, h * 0.035, 0, Math.PI * 2); cx.fill(); } catch { cx.fillRect(x - 3, y - 3, 6, 6); } };
+    const cyM = h / 2, step = h * 0.1;
+    for (let x = w * 0.14; x <= w * 0.7; x += step) dot(x, cyM);
+    for (let k = 1; k <= 4; k++) { dot(w * 0.78 - k * step, cyM - k * step); dot(w * 0.78 - k * step, cyM + k * step); }
+    dot(w * 0.78, cyM);
+  }, { px: 512, glow: true, ei: 1.8 });
+
+  // A crew truck inside the closure, beacon turning.
+  const truck = group(g, -6.6, 0, -9);
+  bake(truck, mat(0xe6e9ec, { rough: 0.5, metal: 0.3 }), (t) => {
+    box(t, 2.2, 1.7, 4.2, 0, 1.45, 0.9, 0);
+    box(t, 2.2, 1.4, 1.9, 0, 1.3, -2.2, 0);
+  }, { receive: false });
+  box(truck, 2.1, 0.55, 0.06, 0, 1.75, -3.16, 0x1d2630, { rough: 0.2, metal: 0.6, cast: false });
+  bake(truck, mat(0x1a1e23, { rough: 0.9 }), (t) => { for (const z of [-2.1, 1.9]) for (const sx of [-1, 1]) cyl(t, 0.42, 0.42, 0.3, sx * 1.0, 0.42, z, 0, { seg: 14 }).rotation.z = Math.PI / 2; });
+  const truckLamp = own(box(truck, 0.9, 0.16, 0.26, 0, 2.1, -2.2, 0xf2a03a, { emissive: 0xf2a03a, ei: 1.6, cast: false }));
+
+  // Traffic in the lanes left open.
+  const cars = [];
+  for (const [x, tone, v, ph] of [[5.2, 0x2b4a6b, 9, 0], [8.7, 0xc9ccd0, 12, 60]]) {
+    const c = group(g, x, 0, 0);
+    const moving = { receive: false, noMerge: true };
+    bake(c, mat(tone, { rough: 0.35, metal: 0.55 }), (t) => { box(t, 1.8, 0.75, 4.4, 0, 0.62, 0, 0); box(t, 1.6, 0.6, 2.2, 0, 1.22, 0.2, 0); }, moving);
+    bake(c, mat(0x151b22, { rough: 0.9 }), (t) => { for (const z of [-1.4, 1.4]) for (const sx of [-1, 1]) cyl(t, 0.33, 0.33, 0.22, sx * 0.82, 0.33, z, 0, { seg: 12 }).rotation.z = Math.PI / 2; }, moving);
+    bake(c, mat(0xfff1d6, { emissive: 0xfff1d6, ei: night ? 2.4 : 1.2, rough: 0.3 }), (t) => { for (const sx of [-1, 1]) box(t, 0.36, 0.14, 0.05, sx * 0.62, 0.72, -2.21, 0); }, moving);
+    cars.push({ c, v, ph });
+  }
+
+  // ---- the bay far below, the far shores, the marine layer
+  const waterTex = bayWater(g, { y: GG.water, r: 200, repeat: 44 });
+  for (const [x, z, rx, ry, rz, tone] of [[-34, -122, 70, 62, 36, 0x3a4636], [44, 124, 60, 50, 30, 0x3c443a], [70, -96, 40, 34, 26, 0x39433a]]) {
+    ball(g, 1, x, GG.water, z, tone, { rough: 1, cast: false, receive: false, seg: 16, seg2: 12 }).scale.set(rx, ry, rz);
+  }
+  const tone = night ? "118,132,146" : dusk ? "214,196,196" : "236,240,243";
+  // The marine layer: patchy sheets under the deck with the water showing
+  // between them, banks standing up off the strait side, one crossing the
+  // road far ahead, and a wisp the tower top stands out of.
+  const puff = (a, n = 26) => (cx, w, h) => fogPuffFace(cx, w, h, { tone, alpha: a, puffs: n });
+  const fogs = [
+    sheet(g, 260, 260, puff(0.32, 12), { y: -18, rx: -Math.PI / 2, opacity: 0.7, repeat: 3 }),
+    sheet(g, 260, 260, puff(0.38, 14), { y: -32, rx: -Math.PI / 2, opacity: 0.8, repeat: 2 }),
+    sheet(g, 220, 60, puff(0.4), { x: -70, y: -8, ry: Math.PI / 2, opacity: 0.85, repeat: 2 }),
+    sheet(g, 240, 70, puff(0.46), { x: -100, y: 0, ry: Math.PI / 2, opacity: 0.95, repeat: 2 }),
+    sheet(g, 120, 34, puff(0.38), { z: -78, y: 6, opacity: 0.7, repeat: 2 }),
+    sheet(g, 70, 70, puff(0.34), { z: GG.towerZ, y: 35, rx: -Math.PI / 2, opacity: 0.55, repeat: 1 }),
+  ];
+
+  return (tt, dt = 0.016) => {
+    slide(waterTex, tt * 0.003, Math.sin(tt * 0.05) * 0.02);
+    for (let i = 0; i < fogs.length; i++) slide(fogs[i].tex, tt * (0.004 + i * 0.0015), Math.sin(tt * 0.03 + i) * 0.02);
+    for (let i = 0; i < beacons.length; i++) beacons[i].material.emissiveIntensity = Math.sin(tt * 2.1 + i * 0.4) > 0.2 ? 2.6 : 0.3;
+    board.material.emissiveIntensity = (tt % 1.2) < 0.75 ? 1.8 : 0.12;
+    travLamp.material.emissiveIntensity = Math.sin(tt * 3.1) > 0 ? 2.2 : 0.4;
+    truckLamp.material.emissiveIntensity = 0.8 + Math.max(0, Math.sin(tt * 5.2)) * 1.6;
+    for (const car of cars) car.c.position.z = GG.len / 2 - ((tt * car.v + car.ph) % GG.len);
+    void dt;
+  };
+}
+
+// The bottom of the bay: the learner stands on silt at y = 0 beside a
+// pier's piles, a ship's hull alongside, and the dive stage they came down on.
+const UW_PILES = [[-10, -7], [-6, -7], [-2, -7], [2, -7], [-10, -12.5], [-6, -12.5], [-2, -12.5], [2, -12.5], [-10, -2], [-10, 3.5]];
+
+/**
+ * bay-underwater: blue-green water closing in a few metres out, a caustic
+ * net of light sliding over the silt, the piles and the hull, bubbles, a
+ * pier's piles ringed with marine growth, a ship's side plate with its weld
+ * seams and zinc anodes, a dive stage with rails on the bottom, and the
+ * umbilical rising from it to the glow of the surface.
+ */
+function bayUnderwater(g, env) {
+  const k = { night: 0.3, dusk: 0.65, day: 1 }[env.time] ?? 1;
+  const cTone = 0xa8f0e0;
+  // Down-welling light off the surface, raking in from the pier side so the
+  // ship's side plate (which faces the learner, away from the key) reads.
+  flood(g, -12, 16, 3, 0x9fe6da, 0.9 * k);
+  // One caustic canvas, three texture transforms: the floor, the piles and
+  // the hull each tile it at their own scale, and all three slide.
+  const caustic = surfaceTexture((cx, w, h) => causticFace(cx, w, h), { px: 256, repeat: 14 });
+  const cPile = caustic.clone ? caustic.clone() : caustic;
+  const cHull = caustic.clone ? caustic.clone() : caustic;
+  cPile.repeat?.set?.(1.5, 9); cHull.repeat?.set?.(9, 3.5);
+  cPile.needsUpdate = true; cHull.needsUpdate = true;
+  const caustics = [caustic, cPile, cHull];
+
+  // ---- the silt
+  const siltTex = surfaceTexture((cx, w, h) => siltFace(cx, w, h), { px: 512, repeat: 12 });
+  const floor = cyl(g, 42, 42, 0.3, 0, -0.15, 0, 0x4a574d, { seg: 48, cast: false });
+  const floorMat = texturedMat(siltTex, { rough: 1, metal: 0, color: 0xc2ccbc, emissive: cTone, ei: 0.3 * k });
+  floorMat.emissiveMap = caustic;
+  floor.material = floorMat;
+  floor.receiveShadow = true;
+  bake(g, mat(0x3f463f, { rough: 1 }), (t) => {
+    for (const [x, z, r] of [[-6.5, 6.5, 0.5], [5.5, 6.8, 0.35], [-8, -4.5, 0.6], [6.2, -9, 0.45], [-4.2, -10, 0.4], [9, 9, 0.7], [-12, 8, 0.8]]) {
+      ball(t, r, x, 0.02, z, 0, { seg: 10, seg2: 7 }).scale.set(1, 0.45, 0.8);
+    }
+  });
+
+  // ---- the pier: piles, growth rings, mussel clumps, bracing
+  const growthTex = surfaceTexture((cx, w, h) => growthFace(cx, w, h), { px: 512 });
+  growthTex.repeat?.set?.(2, 1);
+  const pileMat = texturedMat(growthTex, { rough: 0.95, metal: 0.02, emissive: cTone, ei: 0.26 * k });
+  pileMat.emissiveMap = cPile;
+  bake(g, pileMat, (t) => { for (const [x, z] of UW_PILES) cyl(t, 0.3, 0.32, 20, x, 10, z, 0, { seg: 16 }); });
+  bake(g, mat(0x56613f, { rough: 1 }), (t) => {
+    UW_PILES.forEach(([x, z], i) => {
+      for (const [y, hh] of [[0.35 + (i % 3) * 0.2, 0.5], [1.7 + (i % 2) * 0.4, 0.34], [3.3 + (i % 4) * 0.3, 0.26]]) cyl(t, 0.4, 0.43, hh, x, y, z, 0, { seg: 16 });
+    });
+  }, { receive: false });
+  bake(g, mat(0x1c1f2a, { rough: 0.8, metal: 0.1 }), (t) => {
+    UW_PILES.forEach(([x, z], i) => {
+      for (let j = 0; j < 4; j++) { const a = i * 1.7 + j * 1.57; ball(t, 0.16 + (j % 2) * 0.05, x + Math.cos(a) * 0.36, 0.15 + (j % 3) * 0.18, z + Math.sin(a) * 0.36, 0, { seg: 8, seg2: 6 }).scale.set(1, 0.7, 1); }
+    });
+    torus(t, 0.36, 0.13, 7.4, 0.12, 7.8, 0, { seg: 8, seg2: 16 }).rotation.x = Math.PI / 2;
+  }, { receive: false });
+  // One pile has had a band scraped back to bare concrete for inspection.
+  cyl(g, 0.325, 0.325, 0.5, -2, 1.25, -7, 0x9aa29c, { rough: 0.9, seg: 16, cast: false });
+  bake(g, mat(0x3e3a30, { rough: 0.95 }), (t) => {
+    for (const z of [-7, -12.5]) for (let i = 0; i < 3; i++) {
+      const x0 = -10 + i * 4;
+      bar(t, [x0, 3.2, z], [x0 + 4, 6.8, z], 0.16);
+      bar(t, [x0, 6.8, z], [x0 + 4, 3.2, z], 0.16);
+    }
+    bar(t, [-10, 3.5, -7], [-10, 6.5, -2], 0.16);
+  }, { receive: false });
+
+  // ---- the ship alongside: side plate, bilge, flat of bottom, seams, anodes
+  const hullTex = surfaceTexture((cx, w, h) => hullFace(cx, w, h), { px: 512, repeat: 1 });
+  const hullMat = texturedMat(hullTex, { rough: 0.75, metal: 0.2, color: 0xffffff, emissive: cTone, ei: 0.08 * k });
+  hullMat.emissiveMap = cHull;
+  // The ship lies to +x: its side plate faces the learner at x = 7.4, just
+  // past the edge of the roam circle, from 2.2m off the silt up into the
+  // murk; below that the bilge turns away under the ship to the flat of
+  // bottom, a metre off the silt.
+  const H = { side: 7.4, top: 10, turn: 2.2, flatY: 1.2, flatOut: 13 };
+  const sideH = H.top - H.turn, sideY = (H.top + H.turn) / 2;
+  box(g, 0.5, sideH, 20, H.side, sideY, -2, 0x6e3328, { cast: false }).material = hullMat;
+  const bilgeTurn = box(g, 0.5, 1.5, 20, H.side + 0.55, (H.turn + H.flatY) / 2, -2, 0x6e3328, { cast: false });
+  bilgeTurn.material = hullMat;
+  bilgeTurn.rotation.z = 0.83;
+  box(g, H.flatOut - H.side - 1.1, 0.5, 20, (H.flatOut + H.side + 1.1) / 2, H.flatY, -2, 0x6e3328, { cast: false }).material = hullMat;
+  box(g, 0.06, 0.7, 12, H.side + 0.32, H.flatY + 0.25, -2, 0x4f2a22, { rough: 0.8, metal: 0.2, cast: false }).rotation.z = -0.74;
+  const face = H.side - 0.285;
+  // Weld seams on the side plate: the horizontal seams, the vertical butts,
+  // and the seam where the side meets the bilge strake.
+  bake(g, mat(0x9a6452, { rough: 0.5, metal: 0.45 }), (t) => {
+    for (const y of [H.turn + 0.1, 4.8, sideY + 1.3]) box(t, 0.07, 0.08, 20, face, y, -2, 0);
+    for (const z of [-5.33, 1.33]) box(t, 0.07, sideH, 0.08, face, sideY, z, 0);
+  }, { receive: false });
+  // Zinc anodes welded to the side plate; the second is wasted away to half
+  // its size — the thing a hull inspection is looking for.
+  bake(g, mat(0xa3a9ad, { rough: 0.5, metal: 0.65 }), (t) => {
+    for (const [z, len] of [[-3.5, 1.0], [3.0, 0.55], [6.8, 1.0]]) {
+      box(t, 0.2, len > 0.8 ? 0.3 : 0.18, len, face - 0.1, 3.1, z, 0);
+      for (const dz of [-len / 2 - 0.08, len / 2 + 0.08]) box(t, 0.12, 0.06, 0.14, face - 0.06, 3.1, z + dz, 0);
+    }
+  }, { receive: false });
+
+  // ---- the dive stage, its bridle and lift wire, the umbilical
+  const stage = group(g, -4.3, 0, 2.8, 0.25);
+  box(stage, 1.6, 0.06, 1.6, 0, 0.26, 0, 0x3a4048, { rough: 0.7, metal: 0.5, cast: false });
+  bake(stage, mat(CITY.hiVis, { rough: 0.55, metal: 0.3 }), (t) => {
+    for (const sx of [-1, 1]) {
+      box(t, 0.1, 0.2, 1.8, sx * 0.7, 0.1, 0, 0);
+      for (const sz of [-1, 1]) box(t, 0.08, 2.3, 0.08, sx * 0.8, 1.4, sz * 0.8, 0);
+      box(t, 1.68, 0.08, 0.08, 0, 2.52, sx * 0.8, 0);
+      box(t, 0.08, 0.08, 1.68, sx * 0.8, 2.52, 0, 0);
+      box(t, 0.06, 0.06, 1.62, sx * 0.8, 1.35, 0, 0);
+    }
+    box(t, 1.62, 0.06, 0.06, 0, 1.35, -0.8, 0);
+  }, { receive: false });
+  bake(stage, mat(0x8b949d, { rough: 0.45, metal: 0.7 }), (t) => {
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) bar(t, [sx * 0.8, 2.56, sz * 0.8], [0, 4.2, 0], 0.03);
+    box(t, 0.04, 20, 0.04, 0, 14.2, 0, 0);
+    torus(t, 0.12, 0.03, 0, 4.25, 0, 0, { seg: 6, seg2: 12 });
+  }, { receive: false });
+  box(stage, 0.42, 0.3, 0.26, 0.35, 0.44, -0.45, 0x2a3b33, { rough: 0.9, cast: false });
+  hose(g, [[-7.9, 24, 9.2], [-6.8, 15, 7.4], [-5.4, 7, 5.0], [-4.6, 3.0, 3.4], [-3.7, 1.5, 2.7], [-3.0, 0.12, 3.1], [-2.2, 0.1, 4.0], [-1.4, 0.1, 4.7], [-0.8, 0.1, 5.1]], 0.055, 0xe8b830, { rough: 0.6, steps: 90, seg: 8, cast: false });
+
+  // ---- light from above: the surface glow and a few shafts through it
+  const glowTone = { night: 0x3a5058, dusk: 0x8fb0a0, day: 0xd8f4ec }[env.time] ?? 0xd8f4ec;
+  sheet(g, 80, 80, (cx, w, h) => glowFace(cx, w, h), { x: -6, y: 26, z: 6, rx: Math.PI / 2, additive: true, fog: false, fade: false, color: glowTone, opacity: 0.9 });
+  const shaftTex = surfaceTexture((cx, w, h) => {
+    cx.clearRect?.(0, 0, w, h);
+    let grad = null;
+    try { grad = cx.createLinearGradient(0, 0, 0, h); } catch { grad = null; }
+    if (grad && typeof grad.addColorStop === "function") { grad.addColorStop(0, "rgba(220,255,245,0.9)"); grad.addColorStop(1, "rgba(220,255,245,0)"); cx.fillStyle = grad; }
+    else cx.fillStyle = "rgba(220,255,245,0.4)";
+    cx.fillRect(w * 0.2, 0, w * 0.6, h);
+  }, { px: 128, repeat: 1 });
+  const shaftMat = new THREE.MeshBasicMaterial({ map: shaftTex, color: glowTone, transparent: true, opacity: 0.16 * k, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+  shaftMat.userData.ownMaterial = true; shaftMat.userData.ownTexture = true;
+  bake(g, shaftMat, (t) => {
+    for (const [x, z, ry, w] of [[-5, -3, 0.3, 2.6], [3.5, -4, 1.2, 2.0], [-7.5, 5, 2.0, 3.0], [1.5, 7.5, 0.8, 1.8], [6, 2.5, 2.6, 2.2]]) {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 26), shaftMat);
+      m.position.set(x, 13, z); m.rotation.y = ry; m.rotation.z = 0.12;
+      t.add(m);
+    }
+  }, { receive: false });
+
+  // ---- life: bubbles from a diver under the hull and from the stage, gas
+  // working out of the silt, drifting particulate, a small school of fish
+  const bubbles = [
+    { pts: particles(g, 44, 0xdaf6f0, { size: 0.07, opacity: 0.6, additive: false, life: 3.2 }), at: { x: 6.4, y: 1.2, z: -1.5 }, spread: 0.35 },
+    { pts: particles(g, 24, 0xdaf6f0, { size: 0.05, opacity: 0.55, additive: false, life: 3.0 }), at: { x: -4.0, y: 2.7, z: 2.5 }, spread: 0.25 },
+    { pts: particles(g, 14, 0xdaf6f0, { size: 0.045, opacity: 0.5, additive: false, life: 2.6 }), at: { x: -7.6, y: 0.1, z: -4.2 }, spread: 0.2 },
+  ];
+  const snow = particles(g, 140, 0xcfd8c8, { size: 0.035, opacity: 0.45, additive: false, life: 9 });
+  // particles() draws square points; a bubble is a bright ring, so each
+  // cloud gets a small round sprite of its own (freed with its material).
+  for (const b of [...bubbles.map((x) => x.pts), snow]) {
+    b.visible = true;
+    const dot = surfaceTexture((cx, w, h) => {
+      cx.clearRect?.(0, 0, w, h);
+      cx.strokeStyle = "rgba(255,255,255,0.95)"; cx.lineWidth = w * 0.09;
+      cx.fillStyle = "rgba(255,255,255,0.28)";
+      try { cx.beginPath(); cx.arc(w / 2, h / 2, w * 0.36, 0, Math.PI * 2); cx.fill(); cx.stroke(); } catch { cx.fillRect(w * 0.2, h * 0.2, w * 0.6, h * 0.6); }
+    }, { px: 32, repeat: 1 });
+    b.material.map = dot;
+    b.material.alphaTest = 0.05;
+    b.material.userData.ownTexture = true;
+  }
+  const school = group(g, -5.5, 3.8, -3.2);
+  bake(school, mat(0xb8c4c8, { rough: 0.35, metal: 0.7 }), (t) => {
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2, r = 1.4 + (i % 3) * 0.35;
+      const f = ball(t, 0.1, Math.cos(a) * r, ((i * 7) % 5) * 0.16 - 0.3, Math.sin(a) * r, 0, { seg: 8, seg2: 6 });
+      f.scale.set(0.35, 0.7, 1.5); f.rotation.y = -a;
+    }
+  }, { receive: false, noMerge: true });
+  const snowAt = { x: 0, y: 2.6, z: 0 };
+
+  return (tt, dt = 0.016) => {
+    slide(caustic, tt * 0.011, Math.sin(tt * 0.21) * 0.04);
+    slide(cPile, Math.sin(tt * 0.17) * 0.05, tt * 0.009);
+    slide(cHull, tt * 0.008, Math.cos(tt * 0.19) * 0.04);
+    floorMat.emissiveIntensity = 0.3 * k * (0.82 + Math.sin(tt * 0.7) * 0.18);
+    pileMat.emissiveIntensity = 0.26 * k * (0.82 + Math.sin(tt * 0.6 + 1) * 0.18);
+    hullMat.emissiveIntensity = 0.08 * k * (0.82 + Math.sin(tt * 0.5 + 2) * 0.18);
+    shaftMat.opacity = 0.16 * k * (0.75 + Math.sin(tt * 0.35) * 0.25);
+    for (const b of bubbles) b.pts.userData.step(dt, b.at, b.spread, 0.8, 0.35);
+    snow.userData.step(dt, snowAt, 18, 0.06, -0.004);
+    school.rotation.y = tt * 0.32;
+    school.position.y = 3.8 + Math.sin(tt * 0.4) * 0.3;
+  };
+}
+
 // ------------------------------------------------------------------ table
 
-const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
+const DEFAULT ={ sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
 
 export const DISTRICTS = {
   "Energy & Power": {
@@ -728,7 +1301,60 @@ export const DISTRICTS = {
       return (t) => { const k = Math.floor(t * 0.5) % loft.panes.length; loft.panes[k].material.emissiveIntensity = 0.3 + (Math.sin(t * 3) > 0 ? 0.6 : 0); };
     },
   },
+  // ---- scenic districts: a station names one with `district: "<id>"`.
+  "golden-gate-deck": {
+    // The deck is the ground: no plaza, masts, marquee or apron under it.
+    plaza: false,
+    sky: 0x121a24, fog: 0x1c2530, hemi: [0x9aa8b4, 0x1a2026], mast: 0xffd9a0,
+    // The marine layer is the district's own: fog banks standing off the
+    // strait and lying under the deck (the sheets in goldenGateDeck) under
+    // a flat overcast light, with the bay still visible from the railing.
+    // A station's own weather replaces the overcast — `weather: "fog"` closes
+    // it right in, so the tower top goes and the radio takes over — and so
+    // does `?weather=`.
+    weather: "overcast",
+    // Held back far enough that fog weather (×0.34) still shows the tower
+    // from the station and loses its top from the gate.
+    fogRange: [34, 190],
+    far: 220,
+    // Out onto the sidewalk to the railing: from the middle of a 28m deck the
+    // water below is hidden by the deck edge; from the rail it is not.
+    roam: 13.2,
+    // The city stands across the bay on the +x side, far off and far below
+    // the deck; the strait side (−x) and both ends of the bridge stay open.
+    skyline: { gap: [[0, 0.75], [2.4, Math.PI * 2]], base: GG.water, radius: 112, spread: 30, hScale: 2.6, wScale: 2, count: 70 },
+    build(g, _accent, env = {}) { return goldenGateDeck(g, env); },
+  },
+  "bay-underwater": {
+    plaza: false,
+    sky: 0x0c2c30, fog: 0x0c2c30, mast: 0xa8f0e0,
+    // Its own water colour at every hour; nothing from TIME's day/dusk skies.
+    skyByTime: {
+      night: { sky: 0x0b2a2e, fog: 0x0b2a2e },
+      dusk: { sky: 0x1b5054, fog: 0x1b5054 },
+      day: { sky: 0x2a6c68, fog: 0x2a6c68 },
+    },
+    hemi: [0x9fe0d0, 0x16241e],
+    key: 0x9fe6da,
+    // Visibility of a few metres: the station is clear from the spawn, the
+    // piles and the hull fade out past it.
+    fogRange: [1.2, 15],
+    far: 40,
+    skyline: false,
+    // There is no weather on the bottom of the bay. The station's own and
+    // the URL's are both ignored, and the stage reports these instead.
+    forceWeather: true, weather: "clear",
+    weatherKind: "underwater", weatherLabel: "Underwater",
+    weatherNote: "Low visibility on the bottom — the umbilical and the supervisor on the comms are the line back to the surface. Depth, gas and decompression limits are per the dive plan and the tables the supervisor holds.",
+    // Closer in than the plaza's gate: past about ten metres the water hides everything.
+    spawn: { x: 0, z: 5.2, ry: 0 },
+    roam: 7,
+    build(g, _accent, env = {}) { return bayUnderwater(g, env); },
+  },
 };
+
+/** The ids of the scenic districts (a whole scene, not a horizon). */
+export const SCENIC_DISTRICTS = Object.keys(DISTRICTS).filter((k) => DISTRICTS[k].plaza === false);
 
 /** The district for a category (the shared plaza with the default sky when
  *  the category has none or the hub is showing). */

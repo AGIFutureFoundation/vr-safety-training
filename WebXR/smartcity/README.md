@@ -446,6 +446,72 @@ it, a perimeter fence carrying the site's own dust monitors, and a clamshell dre
 bucket cycle offshore, so a learner standing at the bay sees a shoreline instead of a city
 across the water.
 
+### Scenic districts: `golden-gate-deck` and `bay-underwater`
+
+Two districts are not a horizon behind the plaza but the place the learner stands, built once
+for the Bay Area Union Edition's bridge and marine packs and usable by any station. They carry
+`plaza: false`, so the stage (`js/stage.js`) leaves out the plaza disc, the light masts, the
+marquee and the site apron and the district brings its own ground at y = 0.
+
+| | `golden-gate-deck` | `bay-underwater` |
+|---|---|---|
+| The scene | A suspension-bridge deck: six-lane roadway, sidewalks and orange railings, the tower ahead in International Orange (riveted plate drawn by `paintedSteelFace`), the main cables down from the saddles to their low point behind the spawn, paired suspender ropes, light standards, a lane closure (cone taper and tangent, an arrow board upstream, a crew truck inside), a cable traveller parked on the strait-side cable, traffic in the open lanes, the bay 46 m below, far shores, the city across the bay on one side only | Silt floor with a slow caustic net sliding over it (a Voronoi canvas used as the emissive map of the floor, the piles and the hull), a pier's piles ringed with marine growth and mussels, one band scraped back for inspection, a ship's side plate with weld seams and zinc anodes (one wasted), a dive stage with rails, bridle and lift wire, the umbilical rising to the surface glow, light shafts, bubbles, drifting particulate, a small school of fish |
+| Weather | Overcast by default, with the district's own marine layer: fog banks standing off the strait, patchy sheets under the deck, a wisp round the tower top. A station's own `weather` (`"fog"` closes it right in) or `?weather=` replaces the overcast | Forced: the station's and the URL's weather are ignored; the rail reads "Underwater" with a note that depth, gas and decompression limits are per the dive plan and the tables the supervisor holds |
+| Horizon | Skyline ring only on the bay side, far off and below the deck; the strait side and both ends of the bridge stay open | No skyline; blue-green water closing in at about 15 m |
+| Spawn / roam | (0, 9.4) / 13.2 m — out onto the sidewalk to the railing, the only place the water below can be seen from | (0, 5.2) / 7 m |
+| Camera far plane | 220 m | 40 m |
+| Own meshes (budget 120) | 53 authored, 46 after the stage merge | 25 |
+
+**Using one from a station.** Name it on the sim's header, exactly as the category districts
+are named:
+
+```js
+district: "golden-gate-deck",          // or "bay-underwater"
+weather: "fog",                        // optional on the deck; ignored underwater
+underwater: {                          // bay-underwater only, optional
+  depthLabel: "Per dive plan",         // any short text: the station's own words
+  bottomTimeSeconds: 1500,             // the planned bottom time the station declares
+},
+```
+
+`room.underwater` puts a **Depth / Bottom time** chip under the score (`#hud-dive`, and a line on
+the VR panel): the station's `depthLabel`, and the run's own clock against its
+`bottomTimeSeconds` (`05:12 / 25:00`), amber past four-fifths of the plan and red past it. The
+chip shows nothing the station did not set, and no station sets it at all unless it stands in
+`bay-underwater` (`check_districts` fails one that does). A station may change
+`room.underwater` while it runs (a gauge step that sets a new depth label); the HUD reads it on
+every sync. Per the edition brief, depth, gas and decompression limits are never written as
+numbers the station invents — say "per the dive plan" and let the supervisor's tables stand.
+
+A station's work area should stay inside a 3 m circle round the origin (the districts keep it
+clear); the deck's lane closure runs along x = 3.9, and the underwater dive stage stands at
+(−4.3, 2.8) with the umbilical running from it to the spawn.
+
+**Previewing one.** `?district=<id>` (for example
+`smartcity/index.html?district=golden-gate-deck&time=day`) builds that district with no station
+on it — the hub's empty pad marks where one would stand — and `&time=` and `&weather=` still
+apply. Any id in `DISTRICTS` works, category districts included.
+
+**Checking them.** `node tools/check_districts.mjs` (part of `check_all`) builds the real stage
+round each scenic district headlessly at night, dusk and day and fails on a throw, on the
+district's own meshes past `SCENIC_BUDGET` (120, so a station of 150–280 still fits under
+`check_budget`'s limit), on `check_layout`'s rules from the district's spawn (spawn inside the
+roam circle, nothing floor-standing on it, across the walk to the station or inside the
+station's circle, ground under every point of the roam circle), on the stage contract (no plaza
+under it, built even on a profile that drops the horizon, forced or default weather honoured,
+skyline gaps kept) and on the underwater HUD chip rendering exactly the station's values.
+
+| | |
+|---|---|
+| ![golden-gate-deck by day](../../docs/screenshots/districts/golden-gate-deck_day.png) | ![golden-gate-deck at night in fog](../../docs/screenshots/districts/golden-gate-deck_night-fog.png) |
+| ![over the rail to the bay](../../docs/screenshots/districts/golden-gate-deck_day-over-the-rail.png) | ![the lane closure and arrow board](../../docs/screenshots/districts/golden-gate-deck_day-closure.png) |
+| ![bay-underwater by day](../../docs/screenshots/districts/bay-underwater_day.png) | ![bay-underwater at night with the dive chip](../../docs/screenshots/districts/bay-underwater_night-hud-chip.png) |
+| ![the ship's side plate](../../docs/screenshots/districts/bay-underwater_day-hull.png) | ![looking up to the surface](../../docs/screenshots/districts/bay-underwater_day-surface.png) |
+
+The night underwater shot renders the real `DiveChip` with example station values
+("Per dive plan", 1500 s planned, 312 s elapsed); the preview itself shows no chip, because no
+station is loaded to declare one.
+
 ## Headset budget
 
 `catalog.json` carries a `meshes` and `lights` count for every station, from a headless build,

@@ -26,7 +26,7 @@ const INTERIOR_STYLES = (readFileSync(join(WEBXR, "smartcity/js/interiors.js"), 
   .split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
 if (!INTERIOR_STYLES.length) throw new Error("could not read INTERIOR_STYLES from interiors.js");
 // The districts a station may stand in front of, read the same way.
-const DISTRICT_NAMES = [...readFileSync(join(WEBXR, "smartcity/js/districts.js"), "utf8").matchAll(/^  "([A-Za-z &]+)": \{/gm)].map((m) => m[1]);
+const DISTRICT_NAMES = [...readFileSync(join(WEBXR, "smartcity/js/districts.js"), "utf8").matchAll(/^  "([A-Za-z &-]+)": \{/gm)].map((m) => m[1]);
 if (!DISTRICT_NAMES.length) throw new Error("could not read DISTRICTS from districts.js");
 // The weather kinds, read out of weather.js for the same reason.
 const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
