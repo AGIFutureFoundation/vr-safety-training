@@ -104,7 +104,9 @@
     "CFPB",
     "IRS",
     "CVSA",
-    "FMCSA"
+    "FMCSA",
+    "NEBB",
+    "SMACNA"
   ],
   "standards": [
     {
@@ -2517,7 +2519,8 @@
       "scope": [
         "Culinary & Hospitality",
         "Trade Skills Simulator",
-        "Building Systems & Facilities"
+        "Building Systems & Facilities",
+        "Manufacturing & Automation"
       ],
       "source": "verified",
       "cites": [
@@ -3819,7 +3822,8 @@
         "Maritime & Ports",
         "Mobility & Transit",
         "Building Systems & Facilities",
-        "Entertainment & Live Events"
+        "Entertainment & Live Events",
+        "Manufacturing & Automation"
       ],
       "source": "verified",
       "cites": [
@@ -3863,7 +3867,8 @@
         "Maritime & Ports",
         "Mobility & Transit",
         "Building Systems & Facilities",
-        "Entertainment & Live Events"
+        "Entertainment & Live Events",
+        "Manufacturing & Automation"
       ],
       "source": "verified",
       "cites": [
@@ -3885,7 +3890,8 @@
         "Maritime & Ports",
         "Mobility & Transit",
         "Building Systems & Facilities",
-        "Entertainment & Live Events"
+        "Entertainment & Live Events",
+        "Manufacturing & Automation"
       ],
       "source": "verified",
       "cites": [
@@ -5198,6 +5204,140 @@
       "cites": [
         "Revised NIOSH Lifting Equation",
         "NIOSH Lifting Equation"
+      ]
+    },
+    {
+      "id": "smacna-hvac-duct-construction",
+      "body": "SMACNA",
+      "title": "SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades",
+        "Trade Skills Simulator"
+      ],
+      "source": "verified",
+      "cites": [
+        "SMACNA"
+      ]
+    },
+    {
+      "id": "smacna-seismic-restraint",
+      "body": "SMACNA",
+      "title": "SMACNA Seismic Restraint Manual — guidelines for mechanical systems (bracing of duct, pipe and equipment)",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades"
+      ],
+      "source": "unverified",
+      "cites": [
+        "SMACNA Seismic Restraint Manual"
+      ]
+    },
+    {
+      "id": "smacna-architectural-sheet-metal",
+      "body": "SMACNA",
+      "title": "SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades"
+      ],
+      "source": "verified",
+      "cites": [
+        "SMACNA Architectural Sheet Metal Manual"
+      ]
+    },
+    {
+      "id": "aws-d9-1",
+      "body": "AWS",
+      "title": "AWS D9.1/D9.1M — Sheet Metal Welding Code",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades",
+        "Trade Skills Simulator"
+      ],
+      "source": "verified",
+      "cites": [
+        "AWS D9.1"
+      ]
+    },
+    {
+      "id": "ashrae-111",
+      "body": "ASHRAE",
+      "title": "ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades"
+      ],
+      "source": "verified",
+      "cites": [
+        "ASHRAE 111"
+      ]
+    },
+    {
+      "id": "nebb-tab-procedural-standard",
+      "body": "NEBB",
+      "title": "NEBB Procedural Standard for Testing, Adjusting and Balancing of Environmental Systems, and NEBB TAB technician certification",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades"
+      ],
+      "source": "unverified",
+      "cites": [
+        "NEBB"
+      ]
+    },
+    {
+      "id": "osha-1910-217",
+      "body": "OSHA",
+      "title": "29 CFR 1910.217 — Mechanical power presses",
+      "scope": [
+        "Manufacturing & Automation",
+        "Sewing & Garment Trades",
+        "Trade Skills Simulator"
+      ],
+      "source": "verified",
+      "cites": [
+        "29 CFR 1910.217"
+      ]
+    },
+    {
+      "id": "osha-1926-453",
+      "body": "OSHA",
+      "title": "29 CFR 1926.453 — Aerial lifts",
+      "scope": [
+        "Manufacturing & Automation",
+        "Building Systems & Facilities",
+        "Construction & Structural Trades",
+        "Energy & Power",
+        "Connectivity & Telecom",
+        "Entertainment & Live Events",
+        "Mobility & Transit",
+        "Maritime & Ports"
+      ],
+      "source": "verified",
+      "cites": [
+        "29 CFR 1926.453"
+      ]
+    },
+    {
+      "id": "osha-1910-1026",
+      "body": "OSHA",
+      "title": "29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel)",
+      "scope": [
+        "Manufacturing & Automation",
+        "Construction & Structural Trades",
+        "Trade Skills Simulator",
+        "Maritime & Ports"
+      ],
+      "source": "verified",
+      "cites": [
+        "29 CFR 1910.1026"
       ]
     }
   ]

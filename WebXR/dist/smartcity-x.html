@@ -5615,9 +5615,11 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-r", "osha-1926-subpart-m", "osha-1910-134"],
     stations: [
-      "press-brake", "steel-erector", "container-lashing", "mooring-line"
+      "press-brake", "sm-shop-layout-and-shear", "sm-duct-fabrication-and-seams", "sm-plasma-table-and-fume",
+      "sm-tig-and-spot-welding", "sm-duct-hanging-and-seismic-bracing", "sm-architectural-panels-at-height", "sm-air-balancing-and-testing",
+      "sm-kitchen-exhaust-and-fire-wrap", "steel-erector", "container-lashing", "mooring-line"
     ],
-    require: 2,
+    require: 6,
   },
   {
     id: "job-readiness-edition",
@@ -24881,6 +24883,342 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "sm-shop-layout-and-shear",
+    "index": "217",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal worker — SMART, trained through its International Training Institute shop curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute sheet metal apprenticeship (shop fabrication year); OSHA 29 CFR 1910.212 machine guarding, with the point-of-operation guarding logic of 1910.217 applied to a hydraulic squaring shear; 29 CFR 1910.147 lockout/tagout for blade-gap and knife work; 29 CFR 1910.138 hand protection against sheared edges; ANSI B11 machine safety series; SMACNA HVAC Duct Construction Standards for the gauges and pressure classes a cut list is written to",
+    "name": "Shop Layout and Shear",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ Shop Layout and Shear VR",
+    "tagline": "Cut list to scribed blank, back gauge and blade gap set, guards walked, a full treadle stroke with hands behind the finger guard, drops hooked off the back, edges checked and logged",
+    "accent": 14191162,
+    "accentCss": "#d88a3a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "blade-line-clear",
+      "name": "Blade Line Clear",
+      "note": "A whole cut list sheared with nothing but steel under the blade — hands behind the guard, drops hooked, edges checked"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shear Line",
+      "currency": "STRIP",
+      "ranks": [
+        "Pre-apprentice",
+        "Shop Apprentice",
+        "Shear Operator",
+        "Layout Lead",
+        "Shear Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-duct-fabrication-and-seams",
+    "index": "218",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal fabricator — SMART, International Training Institute duct construction curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute duct fabrication curriculum; SMACNA HVAC Duct Construction Standards — Metal and Flexible for pressure class, seam type, transverse joint and seal class; OSHA 29 CFR 1910.212 point-of-operation guarding on the lock former, notcher and coil line, 29 CFR 1910.147 lockout/tagout on the coil line, 29 CFR 1910.138 hand protection for raw edges; ANSI B11 machine safety series",
+    "name": "Duct Fabrication and Seams",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ Duct Fabrication and Seams VR",
+    "tagline": "Pressure class off the drawing, corners notched, a Pittsburgh lock rolled and closed, sides braked to angle, the flange rolled and cornered, seams sealed to class, the section stencilled and logged",
+    "accent": 7317704,
+    "accentCss": "#6fa8c8",
+    "parSeconds": 280,
+    "badge": {
+      "id": "seam-to-class",
+      "name": "Seam To Class",
+      "note": "A section built to the drawing's pressure and seal class, with nothing fed past the infeed guard"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fab Shop",
+      "currency": "SEAM",
+      "ranks": [
+        "Pre-apprentice",
+        "Fab Apprentice",
+        "Lock Former",
+        "Fab Lead",
+        "Fab Shop Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-plasma-table-and-fume",
+    "index": "219",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal worker, CNC plasma — SMART, International Training Institute cutting and fume-control curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute plasma cutting and welding-fume curriculum; OSHA 29 CFR 1910.252 welding, cutting and brazing (ventilation and fire prevention), 29 CFR 1910.134 respiratory protection where the extractor cannot hold the exposure, 29 CFR 1910.1000 air contaminants and ACGIH threshold limit values for metal fume, NIOSH guidance on plasma cutting fume, 29 CFR 1910.212 guarding of the table's cutting zone; NFPA 51B fire prevention during hot work",
+    "name": "Plasma Table and Fume",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ Plasma Table and Fume VR",
+    "tagline": "Nest read, downdraft zone opened and static proven on the manometer, plate landed on the slats, zone cleared, the cut held at speed, cooled and hooked off, the extractor walked before the next plate",
+    "accent": 14711356,
+    "accentCss": "#e07a3c",
+    "parSeconds": 275,
+    "badge": {
+      "id": "fume-down-the-bed",
+      "name": "Fume Down The Bed",
+      "note": "A nest cut with the extractor proven before the arc and the zone clear through the whole run"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cut Bay",
+      "currency": "PIERCE",
+      "ranks": [
+        "Pre-apprentice",
+        "Table Helper",
+        "Plasma Operator",
+        "Cut Lead",
+        "Cut Bay Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-tig-and-spot-welding",
+    "index": "220",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal welder — SMART, International Training Institute welding curriculum to AWS D9.1",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute welding curriculum; AWS D9.1 Sheet Metal Welding Code for the weld procedure, visual acceptance and welder qualification on sheet; OSHA 29 CFR 1910.252 welding, cutting and brazing, 29 CFR 1910.1026 hexavalent chromium for stainless fume, 29 CFR 1910.134 respiratory protection; ANSI Z49.1 safety in welding, cutting and allied processes; NFPA 51B fire watch during hot work",
+    "name": "TIG and Spot Welding",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ TIG and Spot Welding VR",
+    "tagline": "The weld procedure read, argon on and the flow set, work lead clamped and the seam fitted, the fume arm at the arc, a bead run at travel speed, a flange spot-welded, the weld read against the code and the booth walked",
+    "accent": 10466504,
+    "accentCss": "#9fb4c8",
+    "parSeconds": 285,
+    "badge": {
+      "id": "code-bead",
+      "name": "Code Bead",
+      "note": "A stainless seam run to the procedure with the fume arm on the arc and a fire watch behind the screen the whole way"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Weld Booth",
+      "currency": "BEAD",
+      "ranks": [
+        "Pre-apprentice",
+        "Tack Welder",
+        "Sheet Welder",
+        "Code Welder",
+        "Weld Booth Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-duct-hanging-and-seismic-bracing",
+    "index": "221",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal installer — SMART, International Training Institute field installation curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute field installation curriculum; SMACNA HVAC Duct Construction Standards for hanger type and spacing by duct size and the SMACNA Seismic Restraint Manual for transverse and longitudinal bracing; OSHA 29 CFR 1926.451 scaffold requirements as applied to a scissor lift, 29 CFR 1926.501 fall protection at the platform, 29 CFR 1926.453 where a boom lift is used; the anchor manufacturer's cure schedule and the engineer's seismic drawing",
+    "name": "Duct Hanging and Seismic Bracing",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Duct Hanging and Seismic Bracing VR",
+    "tagline": "Hanger schedule and seismic drawing read, the lift inspected, the anchor's cure card checked before a load, trapeze hung and locked, the section raised and levelled, braces set to angle, the run walked and logged",
+    "accent": 9421946,
+    "accentCss": "#8fc47a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "cured-and-braced",
+      "name": "Cured And Braced",
+      "note": "A run hung on anchors that had cured, on hangers that were locked, with the braces the drawing asked for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ceiling Crew",
+      "currency": "HANGER",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Duct Installer",
+        "Run Lead",
+        "Ceiling Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-architectural-panels-at-height",
+    "index": "222",
+    "domain": "Manufacturing & Automation",
+    "trade": "Architectural sheet metal worker — SMART, International Training Institute architectural curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute architectural sheet metal curriculum; SMACNA Architectural Sheet Metal Manual for panel systems, copings, flashings and expansion; OSHA 29 CFR 1926.453 aerial lifts (boom-supported platforms), 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria including the personal fall arrest system on the platform; the lift maker's wind rating and the panel maker's installation instructions",
+    "name": "Architectural Panels at Height",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Architectural Panels at Height VR",
+    "tagline": "Tailboard and wind reading, harness inspected and tied off, the panel carried to the clip rail and clipped, held on the cups while it is fixed, the joint sealed at a steady bead, the platform walked for edges and dropped objects, logged",
+    "accent": 13218426,
+    "accentCss": "#c9b27a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clipped-and-tied",
+      "name": "Clipped And Tied",
+      "note": "A panel run set at height with the wind read, the harness on the anchor and nothing loose on the rail"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Facade Crew",
+      "currency": "PANEL",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Panel Installer",
+        "Facade Lead",
+        "Facade Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-air-balancing-and-testing",
+    "index": "223",
+    "domain": "Manufacturing & Automation",
+    "trade": "Testing, adjusting and balancing technician — SMART, International Training Institute TAB curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute testing, adjusting and balancing curriculum; ASHRAE 111 measurement, testing, adjusting and balancing of building HVAC systems and the NEBB procedural standard for TAB, with NEBB technician certification; SMACNA HVAC Duct Construction Standards and duct leakage test procedures; OSHA 29 CFR 1910.212 machine guarding on belt-driven fans, 29 CFR 1910.147 lockout/tagout at the fan disconnect, 29 CFR 1910.23 ladders and 29 CFR 1910.28 fall protection above a ceiling",
+    "name": "Air Balancing and Testing",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Air Balancing and Testing VR",
+    "tagline": "Design airflows off the TAB report, instruments proven, hood on the diffuser, static on the manometer, the branch damper trimmed and locked, the fan held at speed through a traverse, the duct walked for the leaks that explain the numbers",
+    "accent": 7325368,
+    "accentCss": "#6fc6b8",
+    "parSeconds": 285,
+    "badge": {
+      "id": "numbers-that-agree",
+      "name": "Numbers That Agree",
+      "note": "A branch balanced to design with every reading taken off a proven instrument on a system nobody was inside"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Balance Crew",
+      "currency": "CFM",
+      "ranks": [
+        "Pre-apprentice",
+        "Instrument Hand",
+        "TAB Technician",
+        "Balance Lead",
+        "Balance Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sm-kitchen-exhaust-and-fire-wrap",
+    "index": "224",
+    "domain": "Manufacturing & Automation",
+    "trade": "Sheet metal worker, kitchen ventilation — SMART, International Training Institute commercial kitchen exhaust curriculum",
+    "category": "Manufacturing & Automation",
+    "certification": "SMART and its International Training Institute commercial kitchen exhaust curriculum; NFPA 96 ventilation control and fire protection of commercial cooking operations for liquid-tight grease duct construction, access, clearance to combustibles and listed enclosure; AWS D9.1 Sheet Metal Welding Code for the continuous liquid-tight joint weld; OSHA 29 CFR 1910.252 welding, cutting and brazing and NFPA 51B fire watch for hot work above a cooking line; 29 CFR 1910.134 respiratory protection for the wrap fibre; the wrap and access door listings",
+    "name": "Kitchen Exhaust and Fire Wrap",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Kitchen Exhaust and Fire Wrap VR",
+    "tagline": "The listing read against NFPA 96, the section hung, the joint welded liquid-tight and light-tested, a listed door with listed sealant, clearance measured, the wrap put on layer by layer, the cleanout labelled and the run logged",
+    "accent": 14051914,
+    "accentCss": "#d66a4a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "liquid-tight",
+      "name": "Liquid Tight",
+      "note": "A grease duct joint welded continuous, light-tested and wrapped to its listing, with the fire watch on post through the arc"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hood Line",
+      "currency": "JOINT",
+      "ranks": [
+        "Pre-apprentice",
+        "Hood Hand",
+        "Grease Duct Installer",
+        "Kitchen Vent Lead",
+        "Hood Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -25311,7 +25649,14 @@ const CURRICULA = [
     accent: "#e8552d",
     stations: [
       { app: "smartcity", id: "press-brake", why: "The shared opener for the shop: a brake, a guard and a hand position are the first sheet metal lesson." },
-      // slot-sm-1
+      { app: "smartcity", id: "sm-shop-layout-and-shear", why: "The shop's first machine: a cut list laid out square and sheared with the guards walked, hands behind the finger guard and the drops hooked, never grabbed." },
+      { app: "smartcity", id: "sm-duct-fabrication-and-seams", why: "The fitting itself: pressure and seal class off the drawing, a Pittsburgh lock rolled and closed, the flange cornered and the seams sealed to class before the section is stencilled." },
+      { app: "smartcity", id: "sm-plasma-table-and-fume", why: "The CNC plasma table where the fume control is proven on the manometer before the arc, the zone kept clear through the cut, and the parts hooked off after the cool timer." },
+      { app: "smartcity", id: "sm-tig-and-spot-welding", why: "A stainless seam run to the shop's procedure under AWS D9.1 with the fume arm on the arc, a fire watch behind the screen and the weld read against the code afterwards." },
+      { app: "smartcity", id: "sm-duct-hanging-and-seismic-bracing", why: "The run going up on a lift: the anchor's cure card read before any load, trapeze hung and locked, the section levelled and the seismic braces set to the drawing's angle." },
+      { app: "smartcity", id: "sm-architectural-panels-at-height", why: "The trade's finish work on a boom lift: wind read against the rating, harness on the anchor, panels carried by their returns, clipped, clamped and sealed with nothing loose on the rail." },
+      { app: "smartcity", id: "sm-air-balancing-and-testing", why: "Testing, adjusting and balancing to ASHRAE 111 and the NEBB procedure: instruments proven, static and flows read at a held fan speed, and the duct walked for the leaks behind the numbers." },
+      { app: "smartcity", id: "sm-kitchen-exhaust-and-fire-wrap", why: "A grease duct built to NFPA 96: the joint welded liquid-tight and light-tested, a listed door with listed sealant, clearance measured and the wrap put on layer by layer under a fire watch." },
       { app: "smartcity", id: "steel-erector", why: "The shared opener for the bridge: connecting steel at height is where every bridge crew starts." },
       // slot-br-1
       { app: "smartcity", id: "container-lashing", why: "The shared opener for the port: the lashing deck is where maintenance meets the working terminal." },

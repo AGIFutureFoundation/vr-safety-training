@@ -423,7 +423,14 @@ export const CURRICULA = [
     accent: "#e8552d",
     stations: [
       { app: "smartcity", id: "press-brake", why: "The shared opener for the shop: a brake, a guard and a hand position are the first sheet metal lesson." },
-      // slot-sm-1
+      { app: "smartcity", id: "sm-shop-layout-and-shear", why: "The shop's first machine: a cut list laid out square and sheared with the guards walked, hands behind the finger guard and the drops hooked, never grabbed." },
+      { app: "smartcity", id: "sm-duct-fabrication-and-seams", why: "The fitting itself: pressure and seal class off the drawing, a Pittsburgh lock rolled and closed, the flange cornered and the seams sealed to class before the section is stencilled." },
+      { app: "smartcity", id: "sm-plasma-table-and-fume", why: "The CNC plasma table where the fume control is proven on the manometer before the arc, the zone kept clear through the cut, and the parts hooked off after the cool timer." },
+      { app: "smartcity", id: "sm-tig-and-spot-welding", why: "A stainless seam run to the shop's procedure under AWS D9.1 with the fume arm on the arc, a fire watch behind the screen and the weld read against the code afterwards." },
+      { app: "smartcity", id: "sm-duct-hanging-and-seismic-bracing", why: "The run going up on a lift: the anchor's cure card read before any load, trapeze hung and locked, the section levelled and the seismic braces set to the drawing's angle." },
+      { app: "smartcity", id: "sm-architectural-panels-at-height", why: "The trade's finish work on a boom lift: wind read against the rating, harness on the anchor, panels carried by their returns, clipped, clamped and sealed with nothing loose on the rail." },
+      { app: "smartcity", id: "sm-air-balancing-and-testing", why: "Testing, adjusting and balancing to ASHRAE 111 and the NEBB procedure: instruments proven, static and flows read at a held fan speed, and the duct walked for the leaks behind the numbers." },
+      { app: "smartcity", id: "sm-kitchen-exhaust-and-fire-wrap", why: "A grease duct built to NFPA 96: the joint welded liquid-tight and light-tested, a listed door with listed sealant, clearance measured and the wrap put on layer by layer under a fire watch." },
       { app: "smartcity", id: "steel-erector", why: "The shared opener for the bridge: connecting steel at height is where every bridge crew starts." },
       // slot-br-1
       { app: "smartcity", id: "container-lashing", why: "The shared opener for the port: the lashing deck is where maintenance meets the working terminal." },

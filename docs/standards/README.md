@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 309 entries across 86 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 318 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -10,13 +10,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 ## By body
 
-### OSHA (67)
+### OSHA (70)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | 29 CFR 1904 — Recording and reporting occupational injuries and illnesses | `osha-1904` | all 17 categories | `29 CFR 1904` |
 | ✓ | 29 CFR 1910 — Occupational safety and health standards for general industry | `osha-1910` | all 17 categories | `29 CFR 1910` |
 | ✓ | 29 CFR 1910.1000 — Air contaminants and the permissible exposure limits | `osha-1910-1000` | all 17 categories | `29 CFR 1910.1000` |
+| ✓ | 29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel) | `osha-1910-1026` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `29 CFR 1910.1026` |
 | ✓ | 29 CFR 1910.1030 — Bloodborne pathogens | `osha-1910-1030` | all 17 categories | `29 CFR 1910.1030` |
 | ✓ | 29 CFR 1910.109 — Explosives and blasting agents | `osha-1910-109` | Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Maritime & Ports | `29 CFR 1910.109` |
 | ✓ | 29 CFR 1910.1096 — Ionizing radiation | `osha-1910-1096` | Building Systems & Facilities, Community Environmental Justice, Dental & Oral Health, Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910.1096` |
@@ -34,6 +35,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1910.157 — Portable fire extinguishers | `osha-1910-157` | all 17 categories | `29 CFR 1910.157` |
 | ✓ | 29 CFR 1910.178 — Powered industrial trucks | `osha-1910-178` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.178` |
 | ✓ | 29 CFR 1910.212 — General requirements for all machines (machine guarding) | `osha-1910-212` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.212` |
+| ✓ | 29 CFR 1910.217 — Mechanical power presses | `osha-1910-217` | Manufacturing & Automation, Sewing & Garment Trades, Trade Skills Simulator | `29 CFR 1910.217` |
 | ✓ | 29 CFR 1910.22 — Walking-working surfaces, general requirements | `osha-1910-22` | all 17 categories | `29 CFR 1910.22` |
 | ✓ | 29 CFR 1910.23 — Ladders | `osha-1910-23` | all 17 categories | `29 CFR 1910.23` |
 | ✓ | 29 CFR 1910.242 — Hand and portable powered tools and equipment, general | `osha-1910-242` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.242` |
@@ -67,10 +69,11 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1926.404 — Wiring design and protection on a construction site | `osha-1926-404` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.404` |
 | ✓ | 29 CFR 1926.405 — Wiring methods, components and equipment for general use in construction | `osha-1926-405` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.405` |
 | ✓ | 29 CFR 1926.416 — General requirements for electrical work practices in construction | `osha-1926-416` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.416` |
-| ✓ | 29 CFR 1926.451 — Scaffolds, general requirements | `osha-1926-451` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.451` |
+| ✓ | 29 CFR 1926.451 — Scaffolds, general requirements | `osha-1926-451` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.451` |
+| ✓ | 29 CFR 1926.453 — Aerial lifts | `osha-1926-453` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit | `29 CFR 1926.453` |
 | ✓ | 29 CFR 1926.454 — Training requirements for scaffold erectors and users | `osha-1926-454` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.454` |
-| ✓ | 29 CFR 1926.501 — Duty to have fall protection | `osha-1926-501` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.501` |
-| ✓ | 29 CFR 1926.502 — Fall protection systems criteria and practices | `osha-1926-502` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.502` |
+| ✓ | 29 CFR 1926.501 — Duty to have fall protection | `osha-1926-501` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.501` |
+| ✓ | 29 CFR 1926.502 — Fall protection systems criteria and practices | `osha-1926-502` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.502` |
 | ✓ | 29 CFR 1926.62 — Lead in construction | `osha-1926-62` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.62` |
 | ✓ | 29 CFR 1926.701 — Concrete and masonry construction, general requirements | `osha-1926-701` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.701` |
 | ✓ | 29 CFR 1926.703 — Requirements for cast-in-place concrete | `osha-1926-703` | Construction & Structural Trades, Maritime & Ports, Water & Environmental | `29 CFR 1926.703` |
@@ -114,7 +117,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities | `nfpa-820` | Environmental Monitoring, Water & Environmental | `NFPA 820` |
 | ✓ | NFPA 85 — Boiler and Combustion Systems Hazards Code | `nfpa-85` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports | `NFPA 85` |
 | ✓ | NFPA 855 — Installation of Stationary Energy Storage Systems | `nfpa-855` | Building Systems & Facilities, Connectivity & Telecom, Energy & Power, Mobility & Transit | `NFPA 855` |
-| ✓ | NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations | `nfpa-96` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator | `NFPA 96` |
+| ✓ | NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations | `nfpa-96` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Trade Skills Simulator | `NFPA 96` |
 | ✓ | NFPA 99 — Health Care Facilities Code | `nfpa-99` | Building Systems & Facilities, Dental & Oral Health, Emergency Services | `NFPA 99` |
 
 ### Unions, apprenticeships and training funds (29)
@@ -291,6 +294,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 49 CFR Part 232 — Brake system safety standards for freight and other non-passenger trains | `fra-49-cfr-232` | Mobility & Transit | `49 CFR 232` |
 | ✓ | 49 CFR Part 242 — Qualification and certification of conductors | `fra-49-cfr-242` | Mobility & Transit | `49 CFR 242` |
 
+### ASHRAE (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems | `ashrae-111` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation | `ASHRAE 111` |
+| ✓ | ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems | `ashrae-15` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `ASHRAE 15` |
+| ✓ | ANSI/ASHRAE 188 — Legionellosis: risk management for building water systems | `ashrae-188` | Building Systems & Facilities, Culinary & Hospitality, Dental & Oral Health, Maritime & Ports | `ASHRAE 188` |
+
 ### ASSE (3)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -298,6 +309,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | ASSE 1013 — Reduced pressure principle backflow preventers | `asse-1013` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator, Water & Environmental | `ASSE 1013`, `ANSI/ASSE 1013` |
 | ? | ASSE 1020 — Pressure vacuum breaker assemblies | `asse-1020` | Building Systems & Facilities, Trade Skills Simulator, Water & Environmental | `ASSE 1020`, `ANSI/ASSE 1020` |
 | ? | ASSE 5110 — Backflow prevention assembly tester professional qualification | `asse-5110` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator, Water & Environmental | `ASSE 5110`, `ANSI/ASSE 5110` |
+
+### AWS (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | AWS D1.1 — Structural Welding Code, Steel | `aws-d1-1` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `AWS D1.1` |
+| ✓ | AWS D1.5 — Bridge Welding Code | `aws-d1-5` | Construction & Structural Trades, Mobility & Transit | `AWS D1.5` |
+| ✓ | AWS D9.1/D9.1M — Sheet Metal Welding Code | `aws-d9-1` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Trade Skills Simulator | `AWS D9.1` |
 
 ### AWWA (3)
 
@@ -363,6 +382,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle | `phmsa-49-cfr-177` | Emergency Services, Maritime & Ports, Mobility & Transit | `49 CFR 177` |
 | ✓ | 49 CFR Part 192 — Transportation of natural and other gas by pipeline: minimum federal safety standards | `phmsa-49-cfr-192` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Water & Environmental | `49 CFR 192` |
 
+### SMACNA (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion | `smacna-architectural-sheet-metal` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation | `SMACNA Architectural Sheet Metal Manual` |
+| ✓ | SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers) | `smacna-hvac-duct-construction` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Trade Skills Simulator | `SMACNA` |
+| ? | SMACNA Seismic Restraint Manual — guidelines for mechanical systems (bracing of duct, pipe and equipment) | `smacna-seismic-restraint` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation | `SMACNA Seismic Restraint Manual` |
+
 ### WHO (3)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -370,20 +397,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | World Health Organization technical and field guidance for health emergencies and outbreak response | `who-guidance` | Emergency Services | `WHO` |
 | ? | WHO guidance on infection prevention and control in health care | `who-ipc-guidance` | Emergency Services | `WHO infection prevention and control guidance` |
 | ? | WHO outbreak communication guidance | `who-outbreak-communication` | Emergency Services | `WHO outbreak communication guidance` |
-
-### ASHRAE (2)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems | `ashrae-15` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `ASHRAE 15` |
-| ✓ | ANSI/ASHRAE 188 — Legionellosis: risk management for building water systems | `ashrae-188` | Building Systems & Facilities, Culinary & Hospitality, Dental & Oral Health, Maritime & Ports | `ASHRAE 188` |
-
-### AWS (2)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | AWS D1.1 — Structural Welding Code, Steel | `aws-d1-1` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `AWS D1.1` |
-| ✓ | AWS D1.5 — Bridge Welding Code | `aws-d1-5` | Construction & Structural Trades, Mobility & Transit | `AWS D1.5` |
 
 ### FAA (2)
 
@@ -622,6 +635,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide | `pfa-field-guide` | Community Environmental Justice, Emergency Services | `Psychological First Aid` |
+
+### NEBB (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | NEBB Procedural Standard for Testing, Adjusting and Balancing of Environmental Systems, and NEBB TAB technician certification | `nebb-tab-procedural-standard` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation | `NEBB` |
 
 ### NEC/NFPA 70 (1)
 
