@@ -453,6 +453,40 @@ export function mountUI(store, actions) {
           "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
   }
 
+  /** A programme's ten-level ladder (shared/ladder.js), top rung first: each
+   * level's tasks, steps, state and partial flag, and Start on an open one.
+   * A locked rung says what opens it; nothing on this card unlocks anything. */
+  function LadderView({ p }) {
+    const rows = [...(p.ladder ?? [])].reverse();
+    const passed = rows.filter((r) => r.state === "passed").length;
+    return h("div", { className: "ladder", role: "list", "aria-label": `${p.name} — ten-level ladder` },
+      h("div", { className: "ladder-head" },
+        h("b", null, "Ladder"),
+        h("span", null, `${passed} of 10 passed · a level passes when every task in one run of it is a mastery run`)),
+      rows.map((r) => h("div", {
+        key: r.n, role: "listitem", id: `rung-${p.id}-${r.n}`,
+        className: `rung ${r.state}${r.partial ? " partial" : ""}${p.assignedLevel === r.n ? " assigned" : ""}`,
+      },
+        h("span", { className: "rung-n", "aria-label": `Level ${r.n}` }, String(r.n)),
+        h("div", null,
+          h("div", { className: "rung-title" }, r.title,
+            !r.coaching && h("span", { className: "rung-tag" }, "no coaching"),
+            r.weather && h("span", { className: "rung-tag" }, r.weather),
+            r.partial && h("span", { className: "rung-tag warn" }, `partial · ${r.shortfall} steps short`),
+            p.assignedLevel === r.n && h("span", { className: "rung-tag pin" }, "assigned")),
+          h("div", { className: "rung-tasks" }, r.tasks.map((t) => t.name + (t.app === "trades" ? " (Trade Skills)" : "")).join(" → ")),
+          h("div", { className: "rung-meta" },
+            `${r.tasks.length} task${r.tasks.length === 1 ? "" : "s"} · ${r.steps} steps · ${r.standards} standard${r.standards === 1 ? "" : "s"} evidenced` +
+            (r.interruptions ? ` · ${r.interruptions} injectable interruptions` : ""))),
+        h("span", { className: `rung-state ${r.state}` }, r.state),
+        r.state === "locked"
+          ? h("span", { className: "rung-lock" }, `Pass level ${r.n - 1}`)
+          : h("button", {
+              className: r.state === "open" ? "primary small" : "small", id: `level-start-${p.id}-${r.n}`,
+              onClick: () => actions.startLevel(p.id, r.n),
+            }, r.state === "passed" ? "Run again" : "Start level"))));
+  }
+
   /** Training programmes: the ordered blocks a hall runs, with progress read
    * from the same passing records the certificate claim rests on. Plain data
    * only — a station name never reaches this as markup. */
@@ -497,12 +531,18 @@ export function mountUI(store, actions) {
             s.app === "trades" && h("span", { className: "prog-app" }, "Trade Skills"),
             h("span", { className: "prog-why" }, s.why)))),
           p.robot && h(RobotTrainingCard, null),
-          p.next
-            ? h("button", {
-                className: "primary", id: `prog-start-${p.id}`,
-                onClick: () => actions.programStart(p.next.app, p.next.id),
-              }, `Start ${p.next.id.replace(/-/g, " ")}`)
-            : h("p", { className: "prog-done" }, "Programme complete — every station passed.")))),
+          h("div", { className: "prog-actions" },
+            p.next
+              ? h("button", {
+                  className: "primary", id: `prog-start-${p.id}`,
+                  onClick: () => actions.programStart(p.next.app, p.next.id),
+                }, `Start ${p.next.id.replace(/-/g, " ")}`)
+              : h("p", { className: "prog-done" }, "Programme complete — every station passed."),
+            p.ladder?.length ? h("button", {
+              id: `prog-ladder-${p.id}`, "aria-expanded": p.ladderOpen ? "true" : "false",
+              onClick: () => actions.toggleLadder(p.id),
+            }, p.ladderOpen ? "Hide ladder" : `Ladder · ${p.ladder.filter((r) => r.state === "passed").length}/10`) : null),
+          p.ladderOpen && h(LadderView, { p })))),
         h("div", { className: "btnrow" },
           h("button", { id: "prog-close", onClick: actions.closePrograms }, "Close"))));
   }

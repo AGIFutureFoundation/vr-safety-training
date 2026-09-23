@@ -7,6 +7,7 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
 import { createFlowRunner, outcomeFromRecord, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
+import { nextTask, recordTask, levelTag, readLevelRun, writeLevelRun, parseLevelRef } from "../../shared/ladder.js";
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { Perf } from "../../shared/perf.js";
@@ -799,8 +800,10 @@ function showResults(s, summary) {
     badges: s.badgeEarned ? [s.room.badge.name] : [], level: s.level, levelName: s.levelName,
     debrief: s.debrief(),
     instructorActions: [...instructorActions],
+    ...(levelHere(s.room.id) ? { ladder: levelTag(levelRunHere, nextTask(levelRunHere).index) } : {}),
   });
   instructorActions = [];
+  levelOnAttempt(attempt);
   Identity.emit("smartcitix:record", { record: attempt });
   // A flow standing on this room moves now, on the same verdict the record
   // carries — a flow never scores anything of its own.
@@ -810,12 +813,41 @@ function showResults(s, summary) {
     (s.badgeEarned ? ` Badge earned — ${s.room.badge.name}.` : ""));
 }
 
+// ------------------------------------------------------------ ladder levels
+//
+// A SmartCiti.X ladder level (shared/ladder.js) can chain a room from here.
+// That app saves the level run and opens this one with ?room=<id>&level=
+// <programme:level>; the attempt here is tagged into the same run, and leaving
+// the results card goes back to SmartCiti.X, which carries the chain on. Only
+// a link that names the level picks the run up, so a stale run in storage
+// never folds an ordinary room played here into a level.
+const levelLink = parseLevelRef(new URLSearchParams(location.search).get("level"));
+let levelRunHere = levelLink ? readLevelRun() : null;
+if (levelRunHere && (levelRunHere.programme !== levelLink.programme || levelRunHere.level !== levelLink.level)) levelRunHere = null;
+let levelReturn = false;
+function levelHere(roomId) {
+  const t = levelRunHere ? nextTask(levelRunHere) : null;
+  return !!t && t.app === "trades" && t.id === roomId;
+}
+function levelOnAttempt(attempt) {
+  if (!levelHere(attempt.simId)) return;
+  const t = nextTask(levelRunHere);
+  levelRunHere = recordTask(levelRunHere, attempt);
+  writeLevelRun(levelRunHere);
+  levelReturn = true;
+  ui.resultsBody.insertAdjacentHTML("beforeend",
+    `<p class="res-note" style="color:var(--accent)"><b>Level ${levelRunHere.level} · task ${t.index + 1} of ${t.of} complete.</b> ` +
+    `Back to SmartCiti.X for ${nextTask(levelRunHere) ? "the next task" : "the level's results"}.</p>`);
+  document.getElementById("res-hub").textContent = "Back to the level →";
+}
+
 document.getElementById("res-retry").addEventListener("click", () => {
   ui.results.hidden = true;
   state.paused = false;
   enterRoom(state.room.id);
 });
 document.getElementById("res-hub").addEventListener("click", () => {
+  if (levelReturn) { location.href = "../smartcity/index.html?level_resume=1"; return; }
   ui.results.hidden = true;
   state.paused = false;
   // On a flow, leaving the room is the flow going on rather than a walk back to

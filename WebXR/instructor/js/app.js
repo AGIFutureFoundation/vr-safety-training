@@ -513,8 +513,13 @@ $("assign").addEventListener("click", () => {
   if (!selected) return;
   const id = $("programme").value;
   if (!id) return;
-  bus.assign(selected, id);
-  toast(`Assigned ${id}.`);
+  // A ladder level is named "programme:level"; the learner's app pins the
+  // programme and opens its ladder at that rung (it stays locked until the
+  // level below it is passed — an assignment never unlocks anything).
+  const level = $("assign-level")?.value;
+  const detail = level ? `${id}:${level}` : id;
+  bus.assign(selected, detail);
+  toast(`Assigned ${detail}.`);
 });
 $("open-programme").addEventListener("click", () => {
   const id = $("programme").value;

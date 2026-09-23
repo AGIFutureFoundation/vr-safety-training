@@ -169,6 +169,13 @@
           <h3>Programme</h3>
           <div class="row">
             <select id="programme" aria-label="Programme to assign"></select>
+            <select id="assign-level" aria-label="Ladder level to assign">
+              <option value="">Whole programme</option>
+              <option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option>
+              <option value="4">Level 4</option><option value="5">Level 5</option><option value="6">Level 6</option>
+              <option value="7">Level 7</option><option value="8">Level 8</option><option value="9">Level 9</option>
+              <option value="10">Level 10 (capstone)</option>
+            </select>
             <button id="assign" class="small">Assign</button>
             <button id="open-programme" class="small">Open now</button>
           </div>
@@ -2450,8 +2457,13 @@ $("assign").addEventListener("click", () => {
   if (!selected) return;
   const id = $("programme").value;
   if (!id) return;
-  bus.assign(selected, id);
-  toast(`Assigned ${id}.`);
+  // A ladder level is named "programme:level"; the learner's app pins the
+  // programme and opens its ladder at that rung (it stays locked until the
+  // level below it is passed — an assignment never unlocks anything).
+  const level = $("assign-level")?.value;
+  const detail = level ? `${id}:${level}` : id;
+  bus.assign(selected, detail);
+  toast(`Assigned ${detail}.`);
 });
 $("open-programme").addEventListener("click", () => {
   const id = $("programme").value;

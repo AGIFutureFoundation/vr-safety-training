@@ -108,6 +108,11 @@ const catalog = {
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
 console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);
 await import("./gen_competency_programmes.mjs");
+// The ten-level ladders are generated from the same programmes and the same
+// station modules, so a station added to a programme lands on its ladder in
+// the same run (tools/gen_ladders.mjs, docs/ladders.md).
+const { writeLadders } = await import("./gen_ladders.mjs");
+await writeLadders();
 // The homepage is generated from the catalog that was just written, so a
 // station, category or programme can never exist in the roster and be missing
 // from the page a learner actually lands on.

@@ -1,0 +1,12 @@
+{
+  "note": "Hand-tuned ladder levels. An entry here wins over the level tools/gen_ladders.mjs generates for the same programme and level number: title, tasks (\"app:id\" or a bare id from the programme), weather and a note. Step totals, par and standards are recomputed from the tasks named, and tools/check_ladders.mjs validates every entry. Keep the reason in the note.",
+  "programmes": {
+    "electrical-first-period": {
+      "1": {
+        "title": "Orientation — the isolation habit",
+        "tasks": ["trades:electrical", "charge-point", "substation-switching", "temporary-site-power", "battery-yard"],
+        "note": "The programme teaches the bench case first: lockout, tagout and live-dead-live on a panel with nothing else going on, before the same habit is taken outdoors. The generated order put the charge point ahead of it on par time alone."
+      }
+    }
+  }
+}

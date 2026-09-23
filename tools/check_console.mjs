@@ -94,7 +94,8 @@ check("SmartCiti.X answers a fired interruption through the station's own layer"
 
 check("SmartCiti.X applies the instructor's weather and profile to the next station", () => {
   const src = APPS["SmartCiti.X"].src;
-  assert(/const stationWeather = instructorWeather \?\? room\.weather;/.test(src), "the station's weather is not overridable");
+  // A ladder level 4–6 sits between the two: the instructor still wins.
+  assert(/const stationWeather = instructorWeather \?\? (?:levelWeatherFor\(room\) \?\? )?room\.weather;/.test(src), "the station's weather is not overridable");
   assert(/weatherUnder\(PROFILE, stationWeather\)/.test(src), "the stage is not built with the overridden weather");
   assert(/deviceForInstructor\(instructorDeviceId\)/.test(src), "the device profile is not applied on entering a station");
   assert(/hazardMode === "coach"/.test(src), "coaching mode is not honoured where hazards are handled");
