@@ -17,7 +17,7 @@ export const ROOM_PHLEBOTOMY = {
   title: "Draw Station",
   tagline: "Two-identifier check, venipuncture technique and the order of draw",
   union: "SEIU / NUHW — healthcare workers (hospital and laboratory locals)",
-  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41, the ANSI-approved American National Standard for collection of diagnostic venous blood specimens (two-identifier check, order of draw); ISO 6710 single-use evacuated blood collection tubes; OSHA Bloodborne Pathogens (29 CFR 1910.1030) and the Needlestick Safety and Prevention Act",
+  certification: "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41, the American National Standard for collection of diagnostic venous blood specimens (two-identifier check, order of draw); ISO 6710 single-use evacuated blood collection tubes and ISO 23908 for the sharps injury protection engineered into the needle assembly; OSHA Bloodborne Pathogens, 29 CFR 1910.1030, and the Needlestick Safety and Prevention Act that put engineered protection into it; CDC hand-hygiene and infection-prevention guidance for everything that happens either side of the draw",
   accent: 0x53c1c9,
   accentCss: "#53c1c9",
   parSeconds: 220,
@@ -42,10 +42,19 @@ export const ROOM_PHLEBOTOMY = {
 
   steps: [
     {
-      id: "identify", kind: "select", target: "wristband",
+      id: "identify", kind: "find", noHint: true,
+      targets: ["wristband", "requisition"],
+      itemNames: { "wristband": "the wristband", "requisition": "the requisition" },
+      itemNotes: {
+        "wristband": "Name and date of birth read straight off the band, not recited from memory and not confirmed by the patient nodding.",
+        "requisition": "The same two fields on the requisition, compared character by character — a matching surname with a different date of birth is two patients, not one.",
+      },
+      decoyNotes: {
+        "bed-card": "That is the chair card. A bed or chair number is not a patient identifier — patients get moved, and the card stays where it was.",
+      },
       title: "Verify two patient identifiers",
-      cue: "Check the wristband against the requisition — name and date of birth.",
-      why: "Two identifiers, actively confirmed against the requisition in front of you — full name and date of birth, read off the band. Bed number is not one, and neither is a patient answering yes to a name called across the bay: someone drowsy, hard of hearing or confused will answer to anything, and GP41 puts the matching on you rather than on them.",
+      cue: "Check both documents against each other — name and date of birth on each, and the hints will not tell you which two.",
+      why: "Two identifiers, actively confirmed against each other in front of you — full name and date of birth, read off the band and off the requisition. Bed number is not one of them, and neither is a patient answering yes to a name called across the bay: someone drowsy, hard of hearing or confused will answer to anything, and GP41 puts the matching on you rather than on them.",
     },
     {
       id: "gloves", kind: "select", target: "glove-box",
@@ -54,10 +63,11 @@ export const ROOM_PHLEBOTOMY = {
       why: "Gloves go on after hand hygiene, never instead of it — OSHA's bloodborne pathogens standard treats them as the last barrier, not the only one. They work in both directions: your hands away from this patient's blood, and the next patient away from whatever your hands picked up in the bay before this one.",
     },
     {
-      id: "tourniquet", kind: "select", target: "tourniquet",
+      id: "tourniquet", kind: "drag", target: "tourniquet",
       title: "Apply the tourniquet",
-      cue: "Apply the tourniquet three to four inches above the site.",
-      why: "The tourniquet comes off inside a minute. Past that, trapped blood loses plasma water through the vessel wall and everything measured as a concentration climbs with it — potassium, calcium, total protein, packed cell volume. The result has already shifted before the needle goes in, and no one downstream can tell that from real disease.",
+      cue: "Carry the tourniquet from the tray and set it on the upper arm, three to four inches above the site.",
+      drag: { to: "upper-arm", radius: 0.3, missNote: "Not where a tourniquet goes. Too close to the site and you cannot prep or anchor the vein without touching it; too high and it never occludes the vein at all." },
+      why: "Three to four inches above the intended site is the placement, and it is a placement rather than a rule of thumb: closer than that and the band sits in the field you are about to prep and anchor, further and the venous return is not occluded where it matters. The tourniquet comes off inside a minute. Past that, trapped blood loses plasma water through the vessel wall and everything measured as a concentration climbs with it — potassium, calcium, total protein, packed cell volume. The result has already shifted before the needle goes in, and no one downstream can tell that from real disease.",
     },
     {
       id: "clean", kind: "select", target: "alcohol-pad",
@@ -198,6 +208,19 @@ export const ROOM_PHLEBOTOMY = {
     decal(band, 0.075, 0.03, 0, 0, 0.051, paperFace("", ["MARSH, J.  DOB 14/07/71"], { bg: "#ffffff" }), { px: 256 });
     reg(band, "wristband");
 
+    // Where the tourniquet actually goes: three to four inches above the site,
+    // on the upper arm. Its own marker, so the drag has a socket to land on.
+    const upperArm = group(drawArm.shoulder, 0, -0.06, 0.02);
+    torus(upperArm, 0.055, 0.004, 0, 0, 0, 0x53c1c9, { rough: 0.6, opacity: 0.4, cast: false })
+      .rotation.x = Math.PI / 2;
+    reg(upperArm, "upper-arm");
+
+    // The chair card — a number, which is exactly what is not an identifier.
+    const bedCard = group(chair, -0.3, 0.62, 0.28, 0.2);
+    box(bedCard, 0.12, 0.08, 0.008, 0, 0, 0, 0xdfe6ec, { rough: 0.6 });
+    decal(bedCard, 0.11, 0.07, 0, 0, 0.006, paperFace("", ["CHAIR 4", "OUTPATIENT PHLEB"], { bg: "#ffffff" }), { px: 192 });
+    reg(bedCard, "bed-card");
+
     // The patient's face is selectable, because one of the interruptions is
     // that they stop being all right and the tech is the only one watching.
     reg(patient.head, "patient");
@@ -251,6 +274,15 @@ export const ROOM_PHLEBOTOMY = {
     });
     decal(tray, 0.34, 0.05, -0.06, 0.018, 0.06, signFace("ORDER OF DRAW →", { bg: "#2d3940", accent: "#53c1c9", scale: 0.55 }))
       .rotation.x = -Math.PI / 2;
+
+    // The requisition: the other half of the two-identifier check.
+    const requisition = group(tray, -0.2, 0.02, 0.09, -0.12);
+    box(requisition, 0.15, 0.004, 0.2, 0, 0, 0, 0xf6f8fa, { rough: 0.7 });
+    decal(requisition, 0.14, 0.19, 0, 0.004, 0, paperFace("REQUISITION", [
+      "MARSH, J.", "DOB 14/07/71", "", "CBC · CMP · PT/INR", "Fasting: yes",
+    ], { bg: "#ffffff" }), { px: 320 }).rotation.x = -Math.PI / 2;
+    box(requisition, 0.02, 0.006, 0.02, 0.06, 0.005, -0.08, 0x53c1c9, { rough: 0.5, cast: false });
+    reg(requisition, "requisition");
 
     // Tourniquet, alcohol pads, gauze, needle assembly on the tray.
     const tq = group(tray, 0.19, 0.02, -0.1);

@@ -18,10 +18,10 @@ export const ROOM_SALON = {
   title: "Colour Studio",
   tagline: "Oxidative colour service from consultation to rinse, with station sanitation",
   union: "Licensed trade under the state board of barbering and cosmetology (non-union in most states; some salon locals organise under UFCW)",
-  certification: "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then immersed in an EPA-registered hospital-grade disinfectant for the full contact time, single-use items discarded after one client; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets, labelling and glove selection on colour and developer; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
+  certification: "State cosmetology licence issued by the board of barbering and cosmetology, which is also the thing that gets suspended over a sanitation failure; the board's disinfection rules — implements cleaned, then fully immersed in a hospital-grade disinfectant registered for that use for the whole of its contact time, single-use items discarded after one client — which follow CDC infection-prevention guidance on cleaning before disinfecting; OSHA Hazard Communication, 29 CFR 1910.1200, for the safety data sheets and labelling on colour and developer, and 29 CFR 1910.138 for the glove selection that goes with them; NIOSH on the chemical exposures a stylist accumulates over a career; Cal/OSHA 8 CCR 5110 on repetitive motion, which is what a colourist's shoulders and wrists are actually up against across a ten-hour day; and the manufacturer's directions, which are what make the 48-hour patch test non-negotiable",
   accent: 0xe2739b,
   accentCss: "#e2739b",
-  parSeconds: 205,
+  parSeconds: 215,
   // The shell this room builds, so the app can let the learner walk to the
   // walls instead of clamping them to a circle in the middle of the floor.
   size: { w: 13.9, d: 13.9 },
@@ -128,6 +128,34 @@ export const ROOM_SALON = {
     },
   ],
 
+  // Two things that arrive while the colourist's hands are already committed —
+  // one is the station the last service was left in, one is the client's own
+  // head moving. See shared/game.js.
+  interrupts: [
+    {
+      id: "iron-left-live",
+      kind: "Equipment left live",
+      after: "sanitize", delay: 3, seconds: 12,
+      alert: "The flat iron from the last blow-dry is still switched on at the console, lying face down on a towel, and the towel under the plate has started to brown.",
+      cue: "Your hands are in the jar and the contact time is running. The socket strip is at the end of the console.",
+      target: "station-switch",
+      why: "A thermal tool left live is the most common fire in a salon and it does not announce itself — the plate reaches working temperature in under a minute and then sits there on linen for as long as nobody looks. Killing the socket strip is one movement and it deals with every tool on that console at once, which is why the strip is switched rather than the tools being unplugged one at a time. The contact time you are part way through can simply be started again; a scorched towel on a live plate cannot be undone.",
+      missNote: "The iron stayed face down on the towel for the rest of the disinfection. Browned linen is the stage before it smoulders, and it was lying twenty centimetres from a jar of alcohol-based disinfectant and an open bottle of developer on the same console — the ignition source and the fuel were already touching.",
+      wrongNote: "That is not what makes the console safe. The switched socket strip at the end of the console kills the iron and everything else plugged into it in one movement.",
+    },
+    {
+      id: "neckline-run",
+      kind: "Colour on the skin",
+      after: "rinse", delay: 3, seconds: 13,
+      alert: "The client has let their head come forward at the bowl and a line of colour-laden water has run past the towel and down the back of their neck.",
+      cue: "Stop the run at the neckline before you carry on rinsing.",
+      target: "client-shoulders",
+      why: "Oxidative dye on skin is not a staining problem, it is a sensitisation problem: the neck and hairline are where PPD actually gets onto a client, and a run that sits there through the rest of a rinse has minutes of contact rather than seconds. The towel at the nape is the only thing between the two, so the moment the head moves and opens that gap the towel gets reset — and the rinse resumes afterwards, because a run left to sit is the reaction the patch test was supposed to have ruled out.",
+      missNote: "The run stayed on the neck for the rest of the rinse, drying as it went. That is a band of stained, sensitised skin on a client who will feel it tomorrow and see it for a week, and it is the single most common complaint a board of cosmetology receives about a colour service.",
+      wrongNote: "That is not where the colour is going. It has run past the towel at the nape and onto the neckline — reset the drape at the shoulders first.",
+    },
+  ],
+
   build(root) {
     // The shell, the fittings and the shop furniture never move and are
     // never clicked, so they go in one group that is baked into a handful
@@ -222,13 +250,27 @@ export const ROOM_SALON = {
     decal(gloveBox, 0.16, 0.045, 0, 0.06, 0.066, signFace("NITRILE  M", { bg: "#0f4257", accent: "#6cc6f0", scale: 0.6 }));
     reg(gloveBox, "glove-box");
 
-    // The flat iron, hot on its rest.
+    // The flat iron, hot on its rest, with a station towel under the plate.
     const iron = group(console_, 0.5, 0.88, -0.1, 0.9);
     box(iron, 0.045, 0.03, 0.26, 0, 0.02, 0, 0x2b2e33, { rough: 0.4, metal: 0.3 });
     box(iron, 0.042, 0.02, 0.16, 0, 0.045, 0.03, 0x3d4148, { rough: 0.35, metal: 0.4 });
-    ball(iron, 0.008, 0, 0.058, -0.09, 0xff5a3c, { emissive: 0xff5a3c, ei: 3 });
+    const ironLamp = ball(iron, 0.008, 0, 0.058, -0.09, 0xff5a3c, { emissive: 0xff5a3c, ei: 3 });
     hose(iron, [[0, 0.02, -0.13], [-0.1, 0.01, -0.24], [-0.26, 0.005, -0.2]], 0.008, 0x1b1e22, { steps: 12 });
     reg(iron, "flat-iron");
+    const ironTowel = slab(console_, 0.2, 0.02, 0.28, 0.5, 0.875, -0.1, 0xe8e2d6, { radius: 0.01, rough: 0.92 });
+    const scorch = slab(console_, 0.09, 0.006, 0.16, 0.5, 0.888, -0.1, 0x8a5a2e, { radius: 0.01, rough: 0.95, cast: false });
+    scorch.visible = false;
+
+    // Switched socket strip at the end of the console — one movement kills
+    // every thermal tool on the station, which is what the interruption wants.
+    const strip = group(console_, -1.02, 0.88, -0.14, 0.2);
+    slab(strip, 0.3, 0.05, 0.09, 0, 0, 0, 0x3a3d44, { radius: 0.015, rough: 0.5, metal: 0.3 });
+    for (let i = 0; i < 4; i++) {
+      box(strip, 0.045, 0.006, 0.045, -0.1 + i * 0.066, 0.028, 0, 0x22252a, { rough: 0.6, cast: false });
+    }
+    const stripLamp = ball(strip, 0.008, 0.125, 0.026, 0, 0x59c97b, { emissive: 0x59c97b, ei: 2.4 });
+    decal(strip, 0.16, 0.035, -0.03, 0.027, 0.02, signFace("STATION 2", { bg: "#22252a", accent: "#e2739b", scale: 0.55 }));
+    reg(strip, "station-switch");
 
     // --------------------------------------------------------- styling chair
     const chairBase = group(root, -1.4, 0, -2.5);
@@ -253,6 +295,11 @@ export const ROOM_SALON = {
     const shoulders = group(client.torso, 0, 0.6, 0.03);
     box(shoulders, 0.3, 0.02, 0.18, 0, 0, 0, 0xe2739b, { rough: 0.6, opacity: 0.25, cast: false });
     reg(shoulders, "client-shoulders");
+    // Colour running past the towel and down the nape — the second interruption.
+    const necklineRun = group(client.torso, 0, 0.56, -0.1);
+    box(necklineRun, 0.14, 0.09, 0.02, 0, 0, 0, 0x6b3a2c, { rough: 0.85, cast: false });
+    box(necklineRun, 0.03, 0.13, 0.02, 0.04, -0.08, 0.002, 0x6b3a2c, { rough: 0.85, cast: false });
+    necklineRun.visible = false;
 
     const capeFolded = group(console_, 0.06, 0.88, 0.16);
     slab(capeFolded, 0.22, 0.06, 0.16, 0, 0, 0, 0x1f2a44, { radius: 0.02, rough: 0.8 });
@@ -445,6 +492,27 @@ export const ROOM_SALON = {
         }
         if (step.id === "rinse") rinsing = true;
         if (step.id === "dispose") { product.visible = false; rinsing = false; }
+      },
+
+      // Both interruptions change the station itself: the towel under the iron
+      // browns and the strip lamp goes out, and the run appears on the nape.
+      onInterrupt(it) {
+        if (it.id === "iron-left-live") {
+          scorch.visible = true;
+          ironLamp.material = mat(0xffd08a, { emissive: 0xffd08a, ei: 4 });
+        }
+        if (it.id === "neckline-run") necklineRun.visible = true;
+      },
+
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "iron-left-live") {
+          ironLamp.material = mat(0x4a3a36, { rough: 0.6 });
+          stripLamp.material = mat(0x3a4a3e, { rough: 0.6 });
+          ironTowel.position.z = -0.32;
+          scorch.visible = false;
+        }
+        if (it.id === "neckline-run") necklineRun.visible = false;
       },
 
       animate(t, dt, session) {

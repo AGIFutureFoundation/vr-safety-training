@@ -24,7 +24,7 @@ export const SIM_SOLAR_DECK = {
   tagline: "Rooftop array and battery commissioning: fall protection, rapid shutdown and string test",
   accent: 0xffb648,
   accentCss: "#ffb648",
-  parSeconds: 215,
+  parSeconds: 225,
   badge: { id: "rooftop-authority", name: "Rooftop Authority", note: "Anchored, isolated and commissioned with no shortcut" },
 
   game: system({
@@ -48,6 +48,7 @@ export const SIM_SOLAR_DECK = {
     "hot-mc4": "You pulled an MC4 under load. A live DC string will not stop arcing when the plug separates — the array is a current source for as long as the sun is on it.",
     "battery-terminal": "Those are the battery terminals. A DC battery bank has no zero-crossing: a spanner across them vaporises and takes your hand with it.",
     "damaged-conduit": "That conduit is crushed and the conductors inside are chafed. Energising a damaged run puts fault current into the roof structure.",
+    "skylight": "That is a skylight, not a step. A domed acrylic light on an unscreened curb carries no weight at all — people go through them every year and land on a floor two storeys down, and from above a dirty skylight on a ballasted roof looks like part of the deck. It gets a screen or a guardrail before anybody works within falling distance of it.",
   },
 
   lateNotes: {
@@ -88,19 +89,36 @@ export const SIM_SOLAR_DECK = {
       id: "survey", kind: "select", target: "roof-plan",
       title: "Survey the roof and anchor plan",
       cue: "Read the plan: anchor points, edge distances, array layout.",
-      why: "Falls from height are the single largest killer in this trade, which is exactly why OSHA's fall-protection rules exist. You establish where the certified anchors are and exactly where the unprotected edges start before you ever step onto the deck, not while you are already standing three paces from one.",
+      why: "Falls from height are the single largest killer in this trade, which is exactly what OSHA 29 CFR 1926.501 exists to answer: a duty to have fall protection wherever the exposure is, decided before anybody is exposed to it. You establish where the certified anchors are, where the unprotected edge runs and where the skylights sit before you ever step onto the deck — not while you are already standing three paces from one of them.",
     },
     {
-      id: "anchor", kind: "select", target: "anchor-point",
-      title: "Connect to the anchor",
-      cue: "Clip the lanyard to the certified anchor point.",
-      why: "The anchor is rated to 22 kN and inspected on a schedule the way ANSI's fall-protection standards require. Connecting to a vent stack or a conduit run instead because it happens to be closer is exactly how anchors fail at the one moment their rating actually gets tested.",
+      id: "anchor", kind: "hold", target: "anchor-point", seconds: 4,
+      title: "Rig the anchor and proof the connection",
+      cue: "Clip the lifeline to the certified anchor and put your weight on it — hold the load until the connection has proved itself.",
+      why: "The anchor is rated to 22 kN and inspected on the schedule ANSI Z359, the Fall Protection Code, sets out, and the certified eye is the only thing on this roof that carries that rating. Connecting to a vent stack or a conduit run instead because it happens to be closer is exactly how an anchorage fails at the one moment its rating is actually asked for, and pulling steadily against the connection now is how you find a loose base plate or a rolled-out gate while a fall is still hypothetical.",
+      holdBreakNote: "You came off the connection before it had taken any real load. A pull test that stops the moment it starts to feel like effort has proved nothing about the base plate under that anchor.",
     },
     {
-      id: "harness", kind: "select", target: "harness",
-      title: "Don and check the harness",
-      cue: "Fit the harness and check the D-ring and lanyard condition.",
-      why: "The harness is inspected at every single use, not on a calendar schedule. A lanyard with a fraying strand or a D-ring with a hairline crack passes a casual glance right up until the one fall it is asked to actually arrest.",
+      id: "harness", kind: "find", noHint: true,
+      targets: ["harness", "harness-dring", "harness-absorber", "harness-hook"],
+      itemNames: {
+        "harness": "webbing and stitching",
+        "harness-dring": "dorsal D-ring",
+        "harness-absorber": "energy absorber pack",
+        "harness-hook": "snap hook and gate",
+      },
+      itemNotes: {
+        "harness": "Webbing run through your hands a span at a time — no cuts, no fraying, no glazed or hardened patch where it has been near heat.",
+        "harness-dring": "The dorsal D-ring sits flat and square with no pitting, no elongation and no hairline crack across the bend.",
+        "harness-absorber": "The energy absorber's cover is intact and its warning flag is unbroken, so this lanyard has never taken a fall.",
+        "harness-hook": "The snap hook closes fully, the gate springs shut on its own and the locking sleeve engages without being helped.",
+      },
+      decoyNotes: {
+        "spare-harness": "That is the spare in the chest, and its inspection tag is last year's. A harness whose tag is out of date does not get worn while you work out whether it is probably fine — it goes out of service.",
+      },
+      title: "Inspect and don the harness",
+      cue: "Go over the harness before it goes on — four things, and the hints will not point at them.",
+      why: "A harness is inspected at every single use, not on a calendar, because everything that takes it out of service happens between uses: a cut from a panel frame, a glazed patch from a hot roof, a D-ring pitted by grit, an absorber whose flag has been pulled. Every one of those passes a casual glance and every one of them passes right up until the single fall the harness is finally asked to arrest, which is the first and last time it will ever be tested.",
     },
     {
       id: "shutdown", kind: "select", target: "rapid-shutdown",
@@ -126,7 +144,7 @@ export const SIM_SOLAR_DECK = {
       id: "lock", kind: "select", target: "lock-point",
       title: "Lock both disconnects",
       cue: "Lock and tag the DC and AC disconnects.",
-      why: "Two isolations, two locks, because either one alone leaves a path back to a live conductor. An IBEW crew treats an inverter that gets reset remotely mid-string-test as a near miss, not an inconvenience — the locks are what stop it from happening at all.",
+      why: "Two isolations, two locks, because either one alone leaves a path back to a live conductor, and that is the whole point of OSHA 29 CFR 1910.147: the energy is controlled by a device only you can remove. An IBEW crew treats an inverter that gets reset remotely mid-string-test as a near miss rather than an inconvenience — the locks are what stop somebody downstairs from making that decision on your behalf.",
     },
     {
       id: "voc", kind: "gauge", target: "string-meter",
@@ -320,9 +338,79 @@ export const SIM_SOLAR_DECK = {
       strap.rotation.x = 0.22;
     }
     box(harness, 0.16, 0.02, 0.04, 0, 0.014, 0.03, 0xf2c14b, { rough: 0.85 });
-    torus(harness, 0.022, 0.005, 0, 0.035, -0.07, CITY.steel, { rough: 0.3, metal: 0.9 });
-    holoTag(harness, "Harness + lanyard", 0, 0.2, 0, { css: "#ffb648", w: 0.36 });
+    for (const sx of [-1, 1]) {
+      box(harness, 0.02, 0.014, 0.05, sx * 0.055, 0.02, 0.05, 0xdfe3e8, { rough: 0.4, metal: 0.7 });
+    }
+    holoTag(harness, "Webbing + stitching", 0, 0.2, 0, { css: "#ffb648", w: 0.38 });
     reg(hits, harness, "harness");
+
+    // The four things a pre-use harness inspection actually looks at, each its
+    // own target so the find step is four separate looks and not one click.
+    const dring = group(chest, -0.1, 0.815, -0.07, 0.4);
+    torus(dring, 0.024, 0.006, 0, 0, 0, CITY.steel, { rough: 0.3, metal: 0.9 });
+    box(dring, 0.05, 0.012, 0.02, 0, -0.022, 0, 0xf2c14b, { rough: 0.85 });
+    holoTag(dring, "Dorsal D-ring", 0, 0.14, 0, { css: "#ffb648", w: 0.3 });
+    reg(hits, dring, "harness-dring");
+
+    const absorber = group(chest, 0.06, 0.8, 0.02, 0.2);
+    box(absorber, 0.07, 0.03, 0.13, 0, 0, 0, 0x2f3a44, { rough: 0.8 });
+    box(absorber, 0.05, 0.012, 0.04, 0, 0.022, 0.04, 0xd8232a, { rough: 0.7 });
+    holoTag(absorber, "Energy absorber", 0, 0.14, 0, { css: "#ffb648", w: 0.32 });
+    reg(hits, absorber, "harness-absorber");
+
+    const hook = group(chest, 0.14, 0.8, -0.05, -0.3);
+    cyl(hook, 0.006, 0.006, 0.07, 0, 0, 0, CITY.steel, { rough: 0.3, metal: 0.9, seg: 8 });
+    torus(hook, 0.019, 0.005, 0, 0.042, 0, CITY.steel, { rough: 0.3, metal: 0.9 });
+    cyl(hook, 0.009, 0.009, 0.026, 0, 0.005, 0, 0xd8b23a, { rough: 0.4, metal: 0.7, seg: 10 });
+    holoTag(hook, "Snap hook + gate", 0, 0.13, 0, { css: "#ffb648", w: 0.32 });
+    reg(hits, hook, "harness-hook");
+
+    // The spare in the chest, on last year's tag — the decoy on that find.
+    const spareHarness = group(chest, -0.26, 0.78, 0.06, -0.5);
+    for (const sx of [-1, 1]) {
+      box(spareHarness, 0.028, 0.018, 0.2, sx * 0.055, 0, 0, 0xb8905a, { rough: 0.9 }).rotation.x = 0.18;
+    }
+    box(spareHarness, 0.15, 0.018, 0.035, 0, 0.012, 0.028, 0xb8905a, { rough: 0.9 });
+    box(spareHarness, 0.04, 0.008, 0.025, 0.05, 0.022, -0.06, 0xe8e0c8, { rough: 0.9 });
+    holoTag(spareHarness, "Spare — tag out of date", 0, 0.18, 0, { css: "#f0645b", w: 0.4 });
+    reg(hits, spareHarness, "spare-harness");
+
+    // Skylight on an unscreened curb, mid-deck — a hole in the roof that
+    // does not read as one from up here.
+    const skylight = group(g, 0.55, 0, -0.15);
+    for (const [sx, sz, sw, sd] of [[0, -0.42, 0.9, 0.06], [0, 0.42, 0.9, 0.06], [-0.42, 0, 0.06, 0.9], [0.42, 0, 0.06, 0.9]]) {
+      box(skylight, sw, 0.18, sd, sx, 0.25, sz, 0x6d747b, { rough: 0.88 });
+    }
+    const dome = ball(skylight, 0.36, 0, 0.34, 0, 0xcfe4ef, { rough: 0.25, opacity: 0.4, metal: 0.05 });
+    dome.scale.set(1, 0.42, 1);
+    for (let i = 0; i < 4; i++) {
+      box(skylight, 0.86, 0.008, 0.012, 0, 0.36, -0.3 + i * 0.2, 0xb8c6d0, { rough: 0.5, cast: false });
+    }
+    holoTag(skylight, "Skylight — unscreened", 0, 0.72, 0, { css: "#f0645b", w: 0.4 });
+    reg(hits, skylight, "skylight");
+
+    // Ballast pavers, roof drains, vent stacks and a duct run: what is on a
+    // commercial roof around an array before the array arrives.
+    for (let i = 0; i < 6; i++) {
+      const bx = -2.0 + (i % 3) * 0.62, bz = i < 3 ? -2.05 : 1.72;
+      box(g, 0.44, 0.05, 0.44, bx, 0.185, bz, 0x767d84, { rough: 0.97, cast: false });
+    }
+    for (const [dx, dz] of [[-1.95, 1.05], [1.95, -1.95]]) {
+      cyl(g, 0.16, 0.19, 0.09, dx, 0.2, dz, 0x4a4f55, { rough: 0.9, seg: 14 });
+      cyl(g, 0.11, 0.11, 0.05, dx, 0.26, dz, 0x2b3138, { rough: 0.85, seg: 12 });
+      for (let i = 0; i < 4; i++) {
+        box(g, 0.03, 0.06, 0.12, dx + Math.cos((i * Math.PI) / 2) * 0.1, 0.28, dz + Math.sin((i * Math.PI) / 2) * 0.1,
+          0x2b3138, { rough: 0.85, cast: false });
+      }
+    }
+    for (const [vx, vz, vh] of [[-0.9, -2.05, 0.6], [-0.35, -2.05, 0.45], [1.6, 1.85, 0.55]]) {
+      cyl(g, 0.07, 0.08, vh, vx, 0.16 + vh / 2, vz, 0x8d959d, { rough: 0.6, metal: 0.4, seg: 12 });
+      cyl(g, 0.11, 0.09, 0.07, vx, 0.16 + vh + 0.02, vz, 0x767d84, { rough: 0.65, metal: 0.35, seg: 12 });
+    }
+    const duct = group(g, -2.0, 0, -0.55, 0.12);
+    box(duct, 0.34, 0.3, 1.5, 0, 0.55, 0, 0x9aa3ab, { rough: 0.6, metal: 0.4 });
+    for (let i = 0; i < 2; i++) box(duct, 0.37, 0.04, 0.05, 0, 0.55, -0.4 + i * 0.8, 0x7e868e, { rough: 0.6, metal: 0.45 });
+    for (const sz of [-0.55, 0.55]) box(duct, 0.1, 0.24, 0.1, 0, 0.28, sz, 0x53585e, { rough: 0.9 });
 
     const meter = instrument(chest, 0.14, 0.79, 0.04, { ry: -0.3, idle: "0 V", color: 0xffb648 });
     holoTag(meter, "String tester", 0, 0.16, 0, { css: "#ffb648", w: 0.28 });

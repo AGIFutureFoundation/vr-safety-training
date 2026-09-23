@@ -27,7 +27,7 @@ export const SIM_AMBULANCE_SCENE_SAFETY = {
   trade: "EMT — NAGE/AFSCME EMS local",
   category: "Emergency Services",
   weather: "clear",
-  certification: "NFPA 1500 and 1917 for emergency vehicle operations and ambulance design standards; the Manual on Uniform Traffic Control Devices (MUTCD) for the cone taper and the block position on the shoulder; ANSI/ISEA 207 high-visibility apparel for emergency responders working roadside; OSHA 29 CFR 1910.132 personal protective equipment and 1910.1030 bloodborne pathogens; NAGE and AFSCME EMS locals as the workforce's unions; the department's own fatigue and duty-hour policy for the fitness-to-drive check at the end of a 24-hour shift.",
+  certification: "NFPA 1500 for fire and EMS occupational safety, including its requirements for operations at roadway incidents — the apparatus placed as a block, the buffer and the advance taper — and NFPA's automotive ambulance standard for the vehicle itself; ANSI/ISEA 107 high-visibility safety apparel for responders working roadside; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.1030 bloodborne pathogens; NREMT certification at the EMT level; NAGE and AFSCME EMS locals as the workforce's unions; the department's own fatigue and duty-hour policy for the fitness-to-drive check at the end of a 24-hour shift.",
   name: "Ambulance Scene Safety",
   title: simTitle("Ambulance Scene Safety"),
   tagline: "A night roadside call: the ambulance as the block, the light pattern, the cone taper, an agitated occupant approached from the protected side, and the fatigue check at the end of a 24-hour shift",
@@ -93,7 +93,7 @@ export const SIM_AMBULANCE_SCENE_SAFETY = {
       id: "dress-hivis", kind: "select", target: "hivis-vest",
       title: "Put on the high-visibility vest before you step out",
       cue: "Vest on, before either door of the cab opens.",
-      why: "ANSI/ISEA 207 sets the visibility standard for exactly this reason — a person on a dark shoulder without one is close to invisible to a driver until it is too late to react, and the vest goes on inside the cab, before anyone is standing on the roadway in the dark.",
+      why: "ANSI/ISEA 107 sets the retroreflective area and the background colour a garment needs before it counts as high-visibility apparel, and it exists for exactly this situation — a person on a dark shoulder in a dark jacket is close to invisible to a driver until it is too late to react, so the vest goes on inside the cab, before anyone is standing on the roadway in the dark.",
     },
     {
       id: "cone-taper", kind: "drag", target: "cone-set",

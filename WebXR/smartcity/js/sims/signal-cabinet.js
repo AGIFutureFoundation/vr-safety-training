@@ -27,7 +27,7 @@ export const SIM_SIGNAL_CABINET = {
   tagline: "Intersection work zone, controller fault diagnosis and conflict monitor integrity",
   accent: 0xf2c14b,
   accentCss: "#f2c14b",
-  parSeconds: 215,
+  parSeconds: 225,
   badge: { id: "intersection-safe", name: "Intersection Safe", note: "Zone, flash, repair and restore with nothing defeated" },
 
   game: system({
@@ -50,7 +50,8 @@ export const SIM_SIGNAL_CABINET = {
     "conflict-bypass": "That jumper defeats the conflict monitor. The monitor is the only thing that stops the controller showing green to crossing traffic at the same time. Defeating it is how intersections kill people.",
     "live-terminals": "You are across the 120 V field terminals with the cabinet live. Those feed the heads outside; the cabinet stays powered even in flash, which is exactly the kind of exposure NFPA 70E's electrical safe work practices are written to control.",
     "step-into-road": "You stepped into the running lane. Your work zone exists so you never have to — stay behind the cones and let traffic pass.",
-    "ladder-unsecured": "That ladder is footed on a kerb, unsecured, beside a live lane. OSHA's ladder-use rules require it tied off or footed by a second person before anyone climbs it — signal heads get accessed from a properly set ladder or not at all.",
+    "service-disconnect": "That is the utility service disconnect on the pole, ahead of the cabinet's own breaker. Everything on the line side of it stays energised no matter what you switch off inside the cabinet, and it is not the signal technician's to open — the utility owns that point of connection and works it with their own clearance.",
+    "ladder-unsecured": "That ladder is footed on a kerb, unsecured, beside a live lane. OSHA 29 CFR 1910.23 requires it set on a level, stable base and secured against displacement before anyone climbs it — signal heads get accessed from a properly set and footed ladder or not at all.",
   },
 
   lateNotes: {
@@ -112,10 +113,11 @@ export const SIM_SIGNAL_CABINET = {
       why: "You are a pedestrian in a roadway with a controller cabinet between you and oncoming traffic. Conspicuity, the class-3 garment rated for this kind of exposure, is the only protection you have against a driver who is looking at their phone instead of the cones.",
     },
     {
-      id: "open", kind: "select", target: "cabinet-lock",
+      id: "open", kind: "turn", target: "cabinet-lock",
       title: "Open the controller cabinet",
-      cue: "Unlock and open the cabinet door.",
-      why: "Now that the zone is up and the centre knows, the cabinet can come open — with the door swung out to put steel between you and the lane, not to make the rack easier to reach.",
+      cue: "Turn the key in the cabinet lock and swing the door out.",
+      turn: { turns: 0.5, axis: "z", label: "CABINET LOCK" },
+      why: "Now that the zone is up and the centre knows, the cabinet can come open — with the door swung out to put a sheet of steel between you and the running lane, not swung back flat because that makes the rack easier to reach. The door is the only physical barrier at head height you have once you are working inside, and which way it faces is a decision you make once and live with for the whole job.",
     },
     {
       id: "flash", kind: "select", target: "flash-switch",
@@ -139,6 +141,7 @@ export const SIM_SIGNAL_CABINET = {
       decoyNotes: {
         "healthy-switch": "That load switch is clean — no discolouration, no pitting. Leave serviceable parts in the rack.",
         "power-supply": "The supply is within tolerance and its indicator is steady. Swapping healthy parts is how you turn one fault into three.",
+        "spare-monitor": "That is the spare monitor in the door pocket, still in its bag. Swapping the monitor on a hunch trades a unit you have proof about for one you do not, and you still have to run the trip test afterwards.",
       },
       title: "Find the cabinet faults",
       cue: "Inspect the rack and terminals. Three things are wrong — the hints will not show you which.",
@@ -173,16 +176,18 @@ export const SIM_SIGNAL_CABINET = {
       },
     },
     {
-      id: "restore", kind: "select", target: "flash-switch",
+      id: "restore", kind: "hold", target: "flash-switch", seconds: 6,
       title: "Return the intersection to normal",
-      cue: "Take the intersection out of flash and watch a full cycle.",
-      why: "You watch it cycle before you pack up, start to finish, phase by phase. A controller that comes back with the wrong phase order or a stuck call is your fault until you have personally seen it run a complete, correct cycle with your own eyes.",
+      cue: "Hold the transfer switch in the normal position and stay on it until a complete cycle has run.",
+      why: "You watch it cycle before you pack up, start to finish, phase by phase, and you stay on the switch the whole time so the intersection can be put straight back into flash the instant something is wrong. A controller that comes back with the wrong phase order, a stuck call or a detector that never drops is your fault until you have personally seen it run one complete, correct cycle with your own eyes.",
+      holdBreakNote: "You came off the switch part way through the cycle. Half a cycle proves the phase you happened to be watching and nothing about the other two — stay on it until the controller has been all the way round.",
     },
     {
-      id: "clear", kind: "select", target: "arrow-board",
+      id: "clear", kind: "drag", target: "arrow-board",
       title: "Recover the work zone",
-      cue: "Pick the zone up in reverse order, arrow board last out of the lane.",
-      why: "The zone comes down from the traffic side inward — arrow board last, not first — so at every point in the teardown you are never the first unprotected thing an approaching driver meets, the way you were on the way in.",
+      cue: "Walk the arrow board out of the closed lane and onto the shoulder behind the truck.",
+      drag: { to: "truck-shoulder", radius: 0.7, missNote: "Still in the lane, or out in the open road — the board comes back to the shoulder behind the truck, clear of running traffic and clear of the taper you are still standing in." },
+      why: "The zone comes down from the traffic side inward — arrow board last out of the lane, not first — so at every point in the teardown you are never the first unprotected thing an approaching driver meets, the way you were on the way in. The board itself is the heaviest thing in the kit and the one that gets walked across a live lane if nobody has thought about where it is going before they start moving it.",
     },
   ],
 
@@ -205,6 +210,14 @@ export const SIM_SIGNAL_CABINET = {
     decal(cab, 0.3, 0.08, 0, 1.66, 0.29, signFace("TS2 · INT 118", { accent: "#f2c14b", scale: 0.55 }));
     holoTag(cab, "Controller cabinet", 0, 1.86, 0.1, { css: "#f2c14b", w: 0.36 });
     const lockBody = box(cab, 0.05, 0.07, 0.04, 0.3, 0.9, 0.3, CITY.steel, { rough: 0.3, metal: 0.9 });
+    // The barrel is what turns under the key, so the 'turn' step has something
+    // that visibly rotates in the plane of the door rather than spinning the
+    // whole escutcheon. Its own group is the node app.js rotates about z.
+    const lockBarrel = group(lockBody, 0, 0, 0.02);
+    cyl(lockBarrel, 0.016, 0.016, 0.03, 0, 0, 0.015, 0xdcd2a8, { rough: 0.35, metal: 0.8, seg: 12 })
+      .rotation.x = Math.PI / 2;
+    box(lockBarrel, 0.024, 0.005, 0.01, 0, 0, 0.032, 0x22262b, { rough: 0.5 });
+    lockBody.userData.wheel = lockBarrel;
     reg(hits, lockBody, "cabinet-lock");
 
     // Rack inside the cabinet.
@@ -250,6 +263,14 @@ export const SIM_SIGNAL_CABINET = {
     box(supply, 0.09, 0.2, 0.11, 0, 0, 0, 0x2b3138, { rough: 0.6 });
     ball(supply, 0.008, 0, -0.06, 0.06, CITY.good, { emissive: CITY.good, ei: 2 });
     reg(hits, supply, "power-supply");
+
+    // Spare monitor bagged in the door pocket — the third thing a tech reaches
+    // for when the rack does not give an answer fast enough.
+    const spare = group(cab.userData.door ?? cab, 0.0, 0.62, 0.0);
+    box(spare, 0.16, 0.2, 0.06, 0, 0, 0, 0x22303c, { rough: 0.5 });
+    box(spare, 0.18, 0.22, 0.02, 0, 0, 0.04, 0xcfd8de, { rough: 0.35, opacity: 0.5 });
+    decal(spare, 0.12, 0.04, 0, -0.06, 0.055, signFace("SPARE MMU", { accent: "#4fd1ff", scale: 0.5 }));
+    reg(hits, spare, "spare-monitor");
 
     // The monitor bypass jumper, hanging where a previous crew left it.
     const bypass = group(rack, 0.24, 0.66, 0.06);
@@ -370,6 +391,82 @@ export const SIM_SIGNAL_CABINET = {
     const radioLamp = ball(radio, 0.007, -0.02, 0.06, 0.021, CITY.good, { emissive: CITY.good, ei: 2 });
     holoTag(radio, "TMC radio", 0, 0.2, 0, { css: "#f2c14b", w: 0.24 });
     reg(hits, radio, "radio");
+
+    // ------------------------------------------------------ street furniture
+    // What is actually standing at an intersection while a cabinet is open:
+    // the service pole and its disconnect, the pull boxes and conduit risers
+    // the loops come up through, a ped head and push-button post, the loop
+    // saw-cuts in the pavement, and the crew truck the kit came off.
+    const pole = group(g, -1.15, 0, -1.75, 0.2);
+    cyl(pole, 0.11, 0.14, 4.2, 0, 2.1, 0, 0x6b5a48, { rough: 0.95, seg: 12 });
+    for (let i = 0; i < 3; i++) box(pole, 0.03, 0.14, 0.03, 0.12, 0.7 + i * 0.35, 0, 0x8a939b, { rough: 0.6, metal: 0.5 });
+    const meterCan = group(pole, 0.16, 1.5, 0.02);
+    cyl(meterCan, 0.13, 0.13, 0.3, 0, 0, 0, 0x9aa3ab, { rough: 0.5, metal: 0.5, seg: 14 });
+    cyl(meterCan, 0.1, 0.1, 0.05, 0, 0, 0.16, 0xdfe8ee, { rough: 0.2, metal: 0.1, seg: 14 }).rotation.x = Math.PI / 2;
+    const disconnect = group(pole, 0.17, 1.02, 0.02);
+    box(disconnect, 0.2, 0.3, 0.14, 0, 0, 0, 0x8a939b, { rough: 0.55, metal: 0.5 });
+    box(disconnect, 0.05, 0.11, 0.04, 0.07, -0.04, 0.09, 0xf0645b, { rough: 0.5 });
+    decal(disconnect, 0.15, 0.05, 0, 0.11, 0.072, signFace("SERVICE", { bg: "#7d1512", accent: "#f2ae14", scale: 0.5 }));
+    holoTag(disconnect, "utility service — not yours", 0, 0.3, 0.05, { css: "#f0645b", w: 0.42 });
+    reg(hits, disconnect, "service-disconnect");
+    for (let i = 0; i < 4; i++) {
+      cyl(pole, 0.028, 0.028, 1.0, -0.13, 0.5, 0.02 + i * 0.05, 0x6d757d, { rough: 0.6, metal: 0.4, seg: 8 });
+    }
+
+    // Pull boxes and conduit risers between the pole, the cabinet and the kerb.
+    for (const [bx, bz, bw] of [[-0.05, 0.55, 0.42], [0.85, 0.3, 0.34], [-1.7, -0.5, 0.38]]) {
+      box(g, bw, 0.04, bw * 0.72, bx, 0.02, bz, 0x5f666d, { rough: 0.95, cast: false });
+      box(g, bw - 0.06, 0.02, bw * 0.72 - 0.06, bx, 0.045, bz, 0x6f767d, { rough: 0.9, cast: false });
+      for (const ex of [-1, 1]) box(g, 0.04, 0.02, 0.04, bx + ex * (bw / 2 - 0.05), 0.055, bz, 0x8a939b, { rough: 0.6, metal: 0.5, cast: false });
+    }
+    for (const [rx, rz, rh] of [[-0.62, -0.28, 0.5], [-0.9, -0.3, 0.42]]) {
+      const r = cyl(g, 0.026, 0.026, rh, rx, rh / 2, rz, 0x6d757d, { rough: 0.6, metal: 0.4, seg: 8 });
+      r.rotation.z = 0.06;
+    }
+
+    // Loop saw-cuts in the closed lane, sealed black.
+    for (let i = 0; i < 2; i++) {
+      const lz = 1.35 + i * 0.5;
+      for (const [sx, sw, sd] of [[0.55, 1.5, 0.05], [0.55, 1.5, 0.05]]) {
+        box(g, sw, 0.006, sd, sx, 0.155, lz, 0x14171a, { rough: 0.95, cast: false });
+      }
+      box(g, 0.05, 0.006, 0.5, 1.3 - i * 0.02, 0.155, lz + 0.25, 0x14171a, { rough: 0.95, cast: false });
+      box(g, 0.05, 0.006, 0.5, -0.2 + i * 0.02, 0.155, lz + 0.25, 0x14171a, { rough: 0.95, cast: false });
+    }
+
+    // Pedestrian head and push-button post on the far kerb.
+    const ped = group(g, 2.15, 0, 0.55, -0.4);
+    cyl(ped, 0.05, 0.06, 2.5, 0, 1.25, 0, 0x4d545b, { rough: 0.6, metal: 0.5, seg: 12 });
+    cyl(ped, 0.16, 0.19, 0.1, 0, 0.05, 0, 0x3b4148, { rough: 0.7, seg: 14 });
+    const pedHead = group(ped, 0, 2.3, 0.05);
+    box(pedHead, 0.3, 0.3, 0.16, 0, 0, 0, 0x1f2429, { rough: 0.7 });
+    ball(pedHead, 0.055, -0.06, 0, 0.08, 0xf0645b, { emissive: 0xf0645b, ei: 1.6, rough: 0.4 });
+    ball(pedHead, 0.055, 0.06, 0, 0.08, 0xdfe8ee, { emissive: 0xdfe8ee, ei: 0.15, rough: 0.4 });
+    box(pedHead, 0.3, 0.04, 0.1, 0, 0.16, 0.1, 0x14171a, { rough: 0.8 });
+    const pedButton = group(ped, 0.08, 1.05, 0.06);
+    box(pedButton, 0.1, 0.16, 0.06, 0, 0, 0, 0x2b3138, { rough: 0.6 });
+    cyl(pedButton, 0.022, 0.022, 0.02, 0, 0.02, 0.04, 0xdfe8ee, { rough: 0.4, seg: 12 }).rotation.x = Math.PI / 2;
+    decal(pedButton, 0.09, 0.04, 0, -0.05, 0.035, signFace("PUSH", { accent: "#f2c14b", scale: 0.55 }));
+
+    // Crew truck: the bed the kit came off and the shoulder the board goes back to.
+    const truck = group(g, -2.1, 0, -1.0, 0.85);
+    box(truck, 1.9, 0.5, 0.95, 0, 0.62, 0, 0x2f4f6f, { rough: 0.6, metal: 0.35 });
+    box(truck, 1.86, 0.06, 0.9, 0, 0.9, 0, 0x22384d, { rough: 0.8, metal: 0.3 });
+    for (const sx of [-0.62, 0.62]) {
+      cyl(truck, 0.26, 0.26, 0.18, sx, 0.26, 0.5, 0x14171a, { rough: 0.9, seg: 16 }).rotation.x = Math.PI / 2;
+      cyl(truck, 0.11, 0.11, 0.2, sx, 0.26, 0.5, 0x8a939b, { rough: 0.4, metal: 0.7, seg: 12 }).rotation.x = Math.PI / 2;
+    }
+    for (let i = 0; i < 4; i++) box(truck, 0.06, 0.34, 0.06, -0.8 + i * 0.53, 1.1, -0.42, 0x8a939b, { rough: 0.55, metal: 0.55 });
+    cyl(truck, 0.017, 0.017, 1.7, 0, 1.28, -0.42, 0x8a939b, { rough: 0.55, metal: 0.55, seg: 8 }).rotation.z = Math.PI / 2;
+    for (const bx of [-0.4, 0.4]) {
+      box(truck, 0.34, 0.12, 0.2, bx, 1.16, 0.3, 0xf2a51e, { rough: 0.5, emissive: 0xf2a51e, ei: 0.5 });
+    }
+    for (let i = 0; i < 3; i++) box(truck, 0.3, 0.22, 0.3, -0.5 + i * 0.5, 1.05, 0.12, 0x3b4148, { rough: 0.8 });
+    const shoulder = group(g, -1.55, 0, -0.1, 0.3);
+    box(shoulder, 0.96, 0.02, 0.8, 0, 0.16, 0, 0x3f474e, { rough: 0.95, cast: false });
+    for (let i = 0; i < 4; i++) box(shoulder, 0.86, 0.006, 0.05, 0, 0.175, -0.3 + i * 0.2, 0xf2a51e, { rough: 0.8, cast: false });
+    holoTag(shoulder, "board goes here", 0, 0.42, 0, { css: "#f2c14b", w: 0.32 });
+    reg(hits, shoulder, "truck-shoulder");
 
     // Holographic intersection state board.
     const board = holoPanel(g, 0.6, 0.4, -1.9, 1.55, -1.7, (ctx, w, h) => {

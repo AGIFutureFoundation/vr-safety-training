@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -50,6 +50,7 @@ export const SIM_STAGE_POWER = {
     "wet-distro": "The distro is standing in the puddle from the load-in. A metal frame carrying three phases on a wet floor is a shock path to whoever touches it next; it gets moved and dried before it gets power.",
     "taped-cam": "That cam is held in with tape because the latch is broken. A connector that can pull apart under load arcs — and a 400 A arc on a stage is a fire and a burn, not a fault.",
     "meter-no-gloves": "You went at the switch with the meter and no gloves or face shield. Verification is the live part of this job; it is done in the PPE the arc-flash label calls for, or it is not done.",
+    "house-switch": "That is the other tenant's company switch on the same house feeder — the one the scene shop's lift is fed from. It is not yours to open, lock, clear or even test, and killing somebody else's feed mid-load-in to make room for your own is how a venue ends up with two crews each certain the other one is locked out.",
   },
 
   lateNotes: {
@@ -62,20 +63,20 @@ export const SIM_STAGE_POWER = {
       id: "plot", kind: "select", target: "power-plot",
       title: "Read the power plot",
       cue: "Check the service size, the phase colours for this venue, and the load the tour brings.",
-      why: "The plot says what the venue can give and what the rig needs, in amps, before any cam goes on. A 400 A switch feeding a 600 A rig is a decision made here at the plot, not discovered when the breaker trips at the top of the show.",
+      why: "The plot says what the venue can give and what the rig needs, in amps per phase, before any cam goes on — and it also says which colour is which phase in this building, because that is a local convention and not a national one. A 400 A switch feeding a 600 A rig is a decision that gets made here at the plot, in the quiet, not discovered when the house breaker trips at the top of the show with an audience in the room.",
     },
     {
       id: "lockout", kind: "turn", target: "switch-handle",
       title: "Open and lock the company switch",
       cue: "Throw the switch off and hang your lock and tag.",
-      why: "The switch is opened and locked before the tap cover comes off. Your lock is the only thing standing between the house electrician's hand on the same switch and your own hands still on the lugs behind it.",
+      why: "The switch is opened and locked before the tap cover comes off, under OSHA 29 CFR 1910.147 — your own lock, your own key, and nobody else's. A venue has a house electrician, a second crew on another switch and a load-in running past the panel all afternoon, and your lock is the only thing standing between somebody's hand on that handle and your hands still on the lugs behind it.",
       turn: { turns: 0.5, axis: "z", label: "SWITCH" },
     },
     {
       id: "ppe", kind: "select", target: "arc-ppe",
       title: "Arc-rated PPE for the verification",
       cue: "Gloves and face shield on before the meter goes near the switch.",
-      why: "Proving it dead is the one moment in this whole tie-in where you are working on something that might still be live. OSHA's electrical rules point straight at NFPA 70E for the PPE category; the meter goes nowhere near the lugs without that gear on first.",
+      why: "Proving it dead is the one moment in this whole tie-in when you are deliberately working on something that might still be live. OSHA 29 CFR 1910.333 sets the work practice and NFPA 70E is what the arc-flash label on the switch door is calculated from, so the category on that label is the gear you wear, not a suggestion — the meter goes nowhere near those lugs without gloves and a shield on first.",
     },
     {
       id: "verify", kind: "sequence",
@@ -83,7 +84,7 @@ export const SIM_STAGE_POWER = {
       itemNames: { "meter-live": "known live source", "meter-switch": "switch lugs", "meter-live-again": "known live source again" },
       title: "Live-dead-live",
       cue: "Prove the meter on a known live source, test every lug of the switch, prove the meter again.",
-      why: "A meter that reads zero can mean a dead switch or a meter with a dead battery, a blown fuse, or a broken lead. Testing it on a known live source before and after the reading is the only way that zero actually means something.",
+      why: "A meter that reads zero can mean a dead switch, or it can mean a flat battery, a blown internal fuse, a lead broken inside its moulding, or a selector left on the wrong range. Every one of those reads exactly like a safe switch. Proving the meter on a known live source immediately before the reading and again immediately after it is the only thing that turns that zero from an absence of a number into evidence.",
       outOfOrderNote: "Live, then dead, then live — the meter is proven before and after the reading you are relying on.",
     },
     {
@@ -92,40 +93,40 @@ export const SIM_STAGE_POWER = {
       itemNames: { "cam-ground": "ground (green)", "cam-neutral": "neutral (white)", "cam-l1": "phase A", "cam-l2": "phase B", "cam-l3": "phase C" },
       title: "Make the cams ground-first",
       cue: "Ground, then neutral, then the three phases — in that order, latched.",
-      why: "Ground first so the distro frame is bonded before any conductor could be hot; neutral before phases so a load never sees a floating neutral even for an instant. Off reverses the whole order: phases first, ground last.",
+      why: "Ground goes on first so the distro frame is bonded to the building's earth before any conductor could possibly be hot, which means a fault anywhere downstream has a path back rather than putting the frame at voltage. Neutral goes on before the phases so a load never sees a floating neutral even for an instant, because a floating neutral on a three-phase rig puts line voltage across single-phase gear. Coming off, the whole order reverses: phases first, ground last.",
       outOfOrderNote: "Ground, neutral, then phases. A phase first is the one order the code forbids.",
     },
     {
       id: "strain", kind: "select", target: "strain-relief",
       title: "Strain-relieve the feeder",
       cue: "Secure the feeder to the frame so no pull reaches the connectors.",
-      why: "The feeder is heavy and the whole load-in crew walks and rolls cases over it for the next several hours. The strain relief takes that pull at the frame so the cam connectors themselves never do.",
+      why: "The feeder is heavy, it runs across a floor the whole load-in crew is walking and rolling road cases over for the next several hours, and every one of those pulls travels back up the cable toward whatever is holding it. The strain relief takes that load at the frame so the cam connectors never do — a single-pole connector is rated to carry current, not to be the thing that stops a hundred kilos of copper sliding across a deck.",
     },
     {
       id: "cover", kind: "select", target: "switch-cover",
       title: "Cover the taps",
       cue: "Close the switch's tap cover so no lug is exposed.",
-      why: "Nothing gets energised with a bare lug sitting exposed behind an open tap cover. The cover goes back on before the switch goes on, every single time, with no exception for a quick test.",
+      why: "Nothing gets energised with a bare lug sitting exposed behind an open tap cover. Once that switch is closed the lugs are at 208 volts phase to phase with nothing over them, in a backstage corridor that fills with crew, carts and performers in the dark within the hour. The cover goes back on before the switch goes on, every single time, and there is no version of a quick test that is worth making an exception for.",
     },
     {
       id: "switch-on", kind: "turn", target: "switch-on",
       title: "Remove the lock and energise",
       cue: "Take your lock off, clear the area, throw the switch on.",
-      why: "Your lock, your key, your call to re-energise. The area is cleared first because the first energisation after a tie-in is exactly the moment a wiring fault, if there is one, finally shows itself.",
+      why: "Your lock, your key, your call to re-energise, and nobody else's — a lock removed by anyone but the person who hung it is the failure mode the whole procedure exists to prevent. The area gets cleared before the handle moves because the first energisation after a tie-in is precisely the moment a reversed conductor, a loose lug or a nicked jacket finally announces itself, and it announces itself as an arc at the switch you are standing in front of.",
       turn: { turns: 0.5, axis: "z", label: "SWITCH" },
     },
     {
       id: "phases", kind: "gauge", target: "distro-meter",
       title: "Read the phases at the distro",
       cue: "Read phase-to-neutral on each phase and commit inside the nominal band.",
-      why: "Three phases reading right at the distro, phase to neutral, is the actual proof the tie-in was made correctly. A lost or reversed neutral shows up here first — as one phase reading high and one low — long before it shows as a rack of dead dimmers onstage.",
+      why: "Three phases reading right at the distro, phase to neutral, is the actual proof that the tie-in was made correctly rather than merely made. A lost or high-resistance neutral shows up here first and nowhere else — one phase reading high and another low, because the loads are now sharing a return that cannot carry them — and it shows up here long before it shows up as a rack of dimmers cooking themselves onstage in front of an audience.",
       gauge: { label: "VOLTS", speed: 0.75, green: [0.46, 0.6], readout: (t) => `${Math.round(100 + t * 40)} V`, missNote: "Off nominal — do not load it. Recheck neutral and the cam order." },
     },
     {
       id: "load", kind: "hold", target: "dimmer-test", seconds: 4,
       title: "Load test",
       cue: "Bring a test load up on the dimmer and hold it while the phases stay balanced.",
-      why: "Balanced under an actual load is the last proof a tie-in can give. A connection that reads perfectly with nothing drawing current and then sags the moment the first cue calls for power was never actually right.",
+      why: "Balanced under an actual load is the last proof a tie-in can give, because voltage with nothing drawing current tells you the conductors are connected and nothing about how well. A lug that is finger-tight or a cam that is not fully latched reads perfectly at no load and then sags and heats the moment the first cue calls for real power — and the first cue is the worst possible time to find out, with a full house and the board operator committed.",
       holdBreakNote: "Load dropped early — the balance was never proven. Bring it up and hold.",
     },
     {
@@ -135,7 +136,7 @@ export const SIM_STAGE_POWER = {
       itemNotes: { "damaged-jacket": "The feeder jacket is cut through to the insulation where a road case rolled over it. That run gets replaced before the house opens." },
       title: "Walk the feeder run",
       cue: "Inspect the feeder from the switch to the distro and click the damage.",
-      why: "The feeder lives on the floor for the rest of the load-in with every road case and every foot in the building walking over it. This walk is what finds the cut in the jacket before it becomes a fault at the top of the show.",
+      why: "The feeder lives on the floor for the rest of the load-in, with every road case, every pallet truck and every foot in the building crossing it, and the damage that matters is a cut in the jacket rather than anything you would hear or smell. This walk, from the switch to the distro with your eyes on the cable the whole way, is what finds that cut while there is still time to pull a new run instead of at the top of the show.",
     },
   ],
 
@@ -257,6 +258,94 @@ export const SIM_STAGE_POWER = {
     const noGloves = box(g, 0.3, 0.3, 0.3, -0.3, 1.1, -1.7, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "meter, bare hands?", -0.3, 1.35, -1.7, { css: "#d2312b", w: 0.3 });
     reg(hits, noGloves, "meter-no-gloves");
+
+    // ------------------------------------------------- backstage, stage right
+    // The rest of what is standing in a wing during a load-in: the other
+    // tenant's company switch on the same house feeder, the lineset rail and
+    // rope locks, an electric with lanterns on it, road cases still to be
+    // struck, cable ramps and coils, and the work light it is all done under.
+    const wing = group(g, 0, 0.1, 0);
+    // Stage deck boards and the proscenium-side leg.
+    for (let i = 0; i < 12; i++) {
+      box(wing, 0.36, 0.012, 4.3, -2.2 + i * 0.4, 0.008, 0, i % 2 ? 0x2a2b2f : 0x303136, { rough: 0.95, cast: false });
+    }
+    box(wing, 0.12, 2.9, 1.4, -2.4, 1.45, 0.6, 0x14151a, { rough: 0.98 });
+    box(wing, 0.06, 0.06, 1.4, -2.4, 2.92, 0.6, 0x4a4b52, { rough: 0.7, metal: 0.4 });
+    // The neighbouring company switch, fed off the same house riser.
+    const houseSw = group(g, 0.9, 0.1, -1.95);
+    box(houseSw, 0.62, 0.95, 0.22, 0, 1.3, 0, 0x5f6a73, { rough: 0.5, metal: 0.5 });
+    decal(houseSw, 0.5, 0.1, 0, 1.84, 0.115, signFace("SCENE SHOP · 200 A", { bg: "#1b1e22", accent: "#f2c14b", scale: 0.5 }));
+    const houseHandle = box(houseSw, 0.045, 0.26, 0.045, 0.38, 1.3, 0.09, 0x2f7d4a, { rough: 0.5 });
+    box(houseSw, 0.1, 0.12, 0.02, 0.38, 1.62, 0.1, 0xd2312b, { rough: 0.6 });
+    holoTag(houseSw, "not your switch", 0, 1.98, 0.1, { css: "#d2312b", w: 0.3 });
+    reg(hits, houseHandle, "house-switch");
+    // House riser and conduit feeding both switches.
+    for (const rx of [-0.05, 0.35]) {
+      cyl(g, 0.04, 0.04, 2.6, rx, 1.4, -2.04, 0x6d757d, { rough: 0.6, metal: 0.45, seg: 10 });
+      for (let i = 0; i < 3; i++) cyl(g, 0.05, 0.05, 0.05, rx, 0.6 + i * 0.85, -2.04, 0x8a939b, { rough: 0.5, metal: 0.55, seg: 10 });
+    }
+    box(g, 1.3, 0.22, 0.16, 0.15, 2.85, -2.02, 0x6d757d, { rough: 0.6, metal: 0.45 });
+    // Lineset rail with rope locks, stage left of the switch.
+    const rail = group(g, -2.05, 0.1, -0.35, 0.1);
+    box(rail, 0.14, 2.3, 0.1, 0, 1.15, 0, 0x4a4b52, { rough: 0.65, metal: 0.4 });
+    for (let i = 0; i < 6; i++) {
+      const y = 0.45 + i * 0.3;
+      box(rail, 0.22, 0.1, 0.12, 0.09, y, 0, 0x6d757d, { rough: 0.55, metal: 0.5 });
+      box(rail, 0.05, 0.16, 0.05, 0.17, y + 0.08, 0, 0xd2312b, { rough: 0.5 });
+      cyl(rail, 0.012, 0.012, 2.2, -0.03, 1.2, 0.07 - i * 0.012, 0xcfc3a0, { rough: 0.85, seg: 6 });
+      decal(rail, 0.07, 0.04, 0.09, y - 0.09, 0.062, signFace(`LS${i + 4}`, { accent: "#c77dff", scale: 0.55 }));
+    }
+    // An electric flown in at working height, lanterns hung on it.
+    const electric = group(g, -0.1, 0, 1.95);
+    cyl(electric, 0.025, 0.025, 4.2, 0, 2.5, 0, 0x22262b, { rough: 0.7, metal: 0.4, seg: 10 }).rotation.z = Math.PI / 2;
+    for (let i = 0; i < 5; i++) {
+      const lx = -1.6 + i * 0.8;
+      const yoke = group(electric, lx, 2.5, 0);
+      box(yoke, 0.03, 0.22, 0.03, 0, -0.14, 0, 0x8a939b, { rough: 0.55, metal: 0.5 });
+      const body = group(yoke, 0, -0.34, 0);
+      box(body, 0.2, 0.2, 0.34, 0, 0, 0, 0x14151a, { rough: 0.75 });
+      cyl(body, 0.09, 0.11, 0.06, 0, 0, 0.2, 0x22262b, { rough: 0.6, seg: 14 }).rotation.x = Math.PI / 2;
+      ball(body, 0.055, 0, 0, 0.2, 0xfff1c4, { emissive: 0xfff1c4, ei: 0.08, rough: 0.4, cast: false });
+      for (let f = 0; f < 4; f++) {
+        box(body, f % 2 ? 0.02 : 0.18, f % 2 ? 0.18 : 0.02, 0.1, f === 0 ? 0 : f === 1 ? 0.1 : f === 2 ? 0 : -0.1,
+          f === 0 ? 0.1 : f === 2 ? -0.1 : 0, 0.26, 0x14151a, { rough: 0.85, cast: false });
+      }
+      hose(electric, [[lx, 2.44, 0], [lx + 0.12, 2.62, -0.08], [lx + 0.05, 2.78, 0.04]], 0.008, 0x1b1e22, { steps: 8 });
+    }
+    // Road cases still to be struck, and a stack of cable ramp.
+    for (const [cx, cz, cw, ch, cry] of [[-1.55, 1.55, 0.72, 0.6, 0.25], [-1.6, 0.85, 0.5, 0.44, -0.15], [1.05, 1.95, 0.64, 0.56, 0.5]]) {
+      const kase = group(g, cx, 0.1, cz, cry);
+      box(kase, cw, ch, cw * 0.72, 0, ch / 2 + 0.05, 0, 0x191a1f, { rough: 0.85 });
+      box(kase, cw + 0.03, 0.05, cw * 0.72 + 0.03, 0, ch + 0.05, 0, 0x3b3c42, { rough: 0.6, metal: 0.4 });
+      for (const ex of [-1, 1]) box(kase, 0.04, ch, 0.04, ex * (cw / 2 - 0.03), ch / 2 + 0.05, cw * 0.36, 0x8a939b, { rough: 0.5, metal: 0.55 });
+      for (const wx of [-1, 1]) cyl(kase, 0.05, 0.05, 0.04, wx * (cw / 2 - 0.09), 0.05, 0, 0x14151a, { rough: 0.9, seg: 10 }).rotation.x = Math.PI / 2;
+      decal(kase, cw * 0.6, 0.07, 0, ch * 0.7, cw * 0.365, signFace("TOUR · LX", { accent: "#c77dff", scale: 0.5 }));
+    }
+    for (let i = 0; i < 3; i++) {
+      box(g, 0.9, 0.05, 0.34, 2.0, 0.13 + i * 0.05, -0.55, 0xf2a51e, { rough: 0.8 });
+      for (let r = 0; r < 4; r++) box(g, 0.06, 0.02, 0.3, 1.66 + r * 0.22, 0.16 + i * 0.05, -0.55, 0x2b2f34, { rough: 0.9, cast: false });
+    }
+    // Coiled spare cable and a gaff-tape pile on the deck.
+    for (const [cx, cz, cr] of [[-1.15, -1.5, 0.3], [-0.55, -1.55, 0.24]]) {
+      for (let i = 0; i < 4; i++) {
+        const t = torus(g, cr - i * 0.035, 0.018, cx, 0.13 + i * 0.03, cz, 0x1b1e22, { rough: 0.8 });
+        t.rotation.x = Math.PI / 2;
+      }
+    }
+    for (let i = 0; i < 4; i++) {
+      cyl(g, 0.055, 0.055, 0.05, 0.75 + (i % 2) * 0.13, 0.13 + Math.floor(i / 2) * 0.05, -1.35,
+        i % 2 ? 0x1b1e22 : 0xd8dce0, { rough: 0.85, seg: 12 });
+    }
+    // Work light on a stand, which is what any of this is visible by.
+    const work = group(g, 2.15, 0.1, 1.85, -0.6);
+    cyl(work, 0.03, 0.04, 1.7, 0, 0.85, 0, 0x4a4b52, { rough: 0.6, metal: 0.45, seg: 10 });
+    for (let i = 0; i < 3; i++) {
+      cyl(work, 0.016, 0.016, 0.5, 0, 0.16, 0, 0x4a4b52, { rough: 0.6, metal: 0.45, seg: 6 })
+        .rotation.set(0.9, (i * Math.PI * 2) / 3, 0);
+    }
+    box(work, 0.26, 0.2, 0.12, 0, 1.75, 0.04, 0x2b2f34, { rough: 0.6 });
+    ball(work, 0.07, 0, 1.75, 0.11, 0xfff6de, { emissive: 0xfff6de, ei: 1.8, cast: false });
+    hose(work, [[0, 0.06, 0], [-0.4, 0.12, 0.3], [-0.9, 0.12, 0.5]], 0.01, 0x1b1e22, { steps: 10 });
 
     let energised = false;
     return {

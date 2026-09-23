@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { box, cyl, ball, torus, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, instrument, standingFigure, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -19,7 +19,7 @@ export const SIM_CONTAINER_LASHING = {
   trade: "Longshore worker — lasher",
   category: "Maritime & Ports",
   weather: "wind",
-  certification: "ILWU — OSHA 29 CFR 1918 (longshoring) marine terminal safety; ship's Cargo Securing Manual (IMO CSS Code) lashing pattern; fall protection on lashing bridges",
+  certification: "ILWU/PMA longshore training — OSHA 29 CFR 1918 (longshoring) marine terminal safety; IMO SOLAS Chapter VI and the Cargo Securing Manual requirements approved for this ship, which is what fixes the lashing pattern for the bay; fall protection on lashing bridges",
   name: "Container Lashing",
   title: simTitle("Container Lashing"),
   tagline: "Deck stow securing: crane held off, twist-locks proven, rods and turnbuckles to the pattern, fall protection on the bridge, torque checked",
@@ -50,6 +50,7 @@ export const SIM_CONTAINER_LASHING = {
     "untied-bridge": "You went onto the lashing bridge without clipping in. It is a narrow steel walkway three tiers up over open deck; the harness is worn, and it is clipped, or the bridge is not worked.",
     "hand-on-cone": "You put your hand on a twist-lock while the box is still coming down. Fingers between a 30-tonne container and its corner casting are gone before you feel the pinch.",
     "bent-rod": "You went to fit a lashing rod with a bent shank. A rod that is not straight does not seat in the casting and does not take the load the pattern assumes — it goes to the reject rack, not on the stack.",
+    "loose-gear": "That is a twist-lock lying loose in the walkway. Gear left on the deck of a bay is what a lasher carrying a rod trips over on the way to the bridge ladder, and it is also the cone that goes over the side and through somebody's windscreen on the apron below — it goes back in the bin the moment you see it, not after the bay is finished.",
   },
 
   lateNotes: {
@@ -62,13 +63,13 @@ export const SIM_CONTAINER_LASHING = {
       id: "plan", kind: "select", target: "bay-plan",
       title: "Read the bay plan and securing pattern",
       cue: "Check the tier heights, the weights and the rod pattern the Cargo Securing Manual calls for on this bay.",
-      why: "The pattern depends on the stack: how many tiers, how heavy, where on deck. The Cargo Securing Manual decides which castings get rods and at what tension — not whichever rods and turnbuckles happen to be closest to hand.",
+      why: "The pattern depends on the stack: how many tiers, how heavy, and where on deck the bay sits, because an outboard stack rolls through a far bigger arc than one on the centreline. The Cargo Securing Manual requirements approved for this ship decide which castings get rods and at what tension — not whichever rods and turnbuckles happen to be closest to hand, and not what worked on the last ship you lashed.",
     },
     {
       id: "crane-hold", kind: "select", target: "crane-radio",
       title: "Hold the crane off the bay",
       cue: "Radio the crane: lashers entering the bay, hold all lifts until the all-clear.",
-      why: "The crane and the lashers never share a bay — OSHA 1918 treats a suspended container over a person as a struck-by hazard whether the gang is ILWU on one coast or ILA on the other. The hold goes on the radio before the first lasher's boot hits the deck.",
+      why: "The crane and the lashers never share a bay, because a gang on the deck cannot see a spreader coming over the stack behind them and the operator four storeys up cannot see a lasher kneeling between tiers. OSHA 29 CFR 1918 treats a suspended container over a person as a struck-by hazard whether the gang is ILWU on one coast or ILA on the other, and the hold goes on the radio before the first lasher's boot hits the deck — not once somebody is already in the bay.",
     },
     {
       id: "harness", kind: "sequence", anyOrder: true,
@@ -76,7 +77,7 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "harness-on": "harness", "lanyard-clip": "lanyard clipped to the bridge line" },
       title: "Harness on, clipped to the bridge line",
       cue: "Harness worn and the lanyard clipped before a foot goes on the lashing bridge.",
-      why: "The bridge is the workplace three tiers up with open deck on both sides. Clipped to the lifeline, a slip on wet steel is a scare; unclipped, the same slip is a fall onto steel plating or into the open bay below.",
+      why: "The lashing bridge is a workplace three tiers up with open deck on both sides, painted steel that holds spray and diesel film, and nothing underfoot but grating. Clipped to the lifeline, a slip on wet steel is a scare and a bruise; unclipped, the same slip is a fall onto steel plating or straight into the open bay below, and the harness is worn on the walk out to the bridge rather than fitted once you are already standing on it.",
     },
     {
       id: "locks", kind: "sequence", anyOrder: true,
@@ -84,7 +85,7 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "lock-a": "fore-port lock", "lock-b": "fore-starboard lock", "lock-c": "aft-port lock", "lock-d": "aft-starboard lock" },
       title: "Prove every twist-lock",
       cue: "Check each twist-lock's handle is in the locked position — all four corners, every tier.",
-      why: "A twist-lock in the unlocked position looks exactly like a locked one from the bridge, and the indicator on the handle can be wrong. Four corners, checked by hand, every tier, is the only proof — and the reason the lashers are here at all.",
+      why: "A twist-lock in the unlocked position looks exactly like a locked one from a few feet away, and the painted indicator on the handle can be wrong — worn, bent by a spreader, or thrown back by the box landing on it. Four corners, checked by hand, on every tier, is the only proof there is, and it is the whole reason a lashing gang goes into the bay at all instead of the stow being signed off from the plan.",
     },
     {
       id: "rods", kind: "sequence",
@@ -92,14 +93,14 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "rod-port": "port lashing rod", "rod-starboard": "starboard lashing rod" },
       title: "Fit the lashing rods to the pattern",
       cue: "Hook the port rod into the casting, then the starboard rod, crossing as the pattern shows.",
-      why: "Rods take the racking load when the ship rolls in a seaway. Crossed, port and starboard, they hold the stack against both directions of roll; one side fitted alone only holds against roll toward that side.",
+      why: "The rods take the racking load when the ship rolls in a seaway — the force that tries to push the top of a stack sideways relative to its base while the twist-locks hold the corners together. Crossed, port and starboard, they carry that load in both directions of roll; one side fitted alone only resists roll toward that side, so a half-lashed stack is secure on one tack and effectively unlashed on the other.",
       outOfOrderNote: "Port then starboard — the pattern is worked one side, then crossed.",
     },
     {
       id: "seat", kind: "hold", target: "rod-seat", seconds: 4,
       title: "Seat the rod in the casting",
       cue: "Hold the rod head in the corner casting until it drops fully home.",
-      why: "A rod that is hooked into the casting but not fully seated pulls free on the first hard roll at sea, well after anyone can get back up to the bridge to fix it. It is held under load until it drops home — you feel the seat.",
+      why: "A rod that is hooked into the casting but not fully seated is carrying its load on the lip of the aperture rather than in the throat of it, and that lip lets go on the first hard roll at sea — days out, in weather, with nobody able to get back up onto the bridge to find out why a stack has started working. It is held under its own weight until it drops home, and you feel the seat rather than look for it.",
       holdBreakNote: "Let go before it seated — the rod head is sitting on the lip. Hold it until it drops home.",
     },
     {
@@ -108,21 +109,21 @@ export const SIM_CONTAINER_LASHING = {
       itemNames: { "turnbuckle-a": "port turnbuckle", "turnbuckle-b": "starboard turnbuckle" },
       title: "Hand-tighten the turnbuckles",
       cue: "Take up the slack on each turnbuckle by hand, port then starboard, evenly.",
-      why: "Even take-up on both sides keeps the stack square in the casting. One side cranked tight before the other pulls the whole stack over toward it, pre-loading the rod on that side before tension is even set.",
+      why: "Even take-up on both sides is what keeps the stack sitting square on its castings. One side cranked down before the other has taken up its slack pulls the whole stack over toward it, so the rod on that side is already carrying load before anyone has set a tension figure and the rod opposite is slack — and a slack lashing does not start working until the ship is rolling, which is the one place nobody can correct it.",
       outOfOrderNote: "Port then starboard, evenly — one side over-tight pulls the stack.",
     },
     {
       id: "torque", kind: "gauge", target: "torque-gauge",
       title: "Set the turnbuckle tension",
       cue: "Tension each turnbuckle to the manual's figure and commit inside the band.",
-      why: "Under-tensioned lashings go slack on the first roll and let the stack work; over-tensioned ones pre-load the castings past what the Cargo Securing Manual assumes. The manual's kN figure is the figure, not a range to eyeball.",
+      why: "Under-tensioned lashings go slack on the first roll and let the stack work, and a stack that works rounds out its castings until the twist-locks no longer hold anything. Over-tensioned ones pre-load the corner fittings past what the Cargo Securing Manual requirements assume, so the lashing takes up capacity the ship's own calculation had allocated to the seaway. The manual's kN figure is the figure, not a range to eyeball off the turnbuckle.",
       gauge: { label: "TENSION", speed: 0.75, green: [0.45, 0.6], readout: (t) => `${Math.round(10 + t * 40)} kN`, missNote: "Off the manual's tension — reset and tension it to the figure." },
     },
     {
       id: "lock-turnbuckle", kind: "turn", target: "lock-nut",
       title: "Lock the turnbuckles",
       cue: "Run the lock nut down against the body so the tension cannot back off.",
-      why: "A turnbuckle without its lock nut run down against the body backs off a fraction of a turn with every roll of the ship, and a lashing that has backed off is a lashing nobody notices has gone slack until the next inspection.",
+      why: "A turnbuckle without its lock nut run down against the body backs off a fraction of a turn with every roll of the ship, and a passage is tens of thousands of rolls. A lashing that has unwound itself is a lashing nobody notices has gone slack until somebody walks the bay at the next port — by which time the stack has been working in a seaway for days, and the castings are the part that paid for it.",
       turn: { turns: 0.75, axis: "y", label: "LOCK NUT" },
     },
     {
@@ -132,13 +133,13 @@ export const SIM_CONTAINER_LASHING = {
       itemNotes: { "unlocked-lock": "The aft-starboard lock on the upper tier is still in the unlocked position — its handle was never thrown. That box would have gone over at sea." },
       title: "Walk the bay before the all-clear",
       cue: "Check every lock and lashing on the way out and click what was missed.",
-      why: "The walk-out is the last time anyone sees this bay before the ship sails into open water. A lock or a rod that is not caught here does not get a second look until cargo has already shifted at sea.",
+      why: "The walk-out is the last time anyone sees this bay before the hatch is worked, the gang goes ashore and the ship sails. A lock or a rod that is not caught here gets no second look for the whole passage, and the way the omission usually announces itself is a stack leaning against the one alongside it, or a box over the side — either of which starts as one handle nobody threw on a tier that was hard to reach.",
     },
     {
       id: "all-clear", kind: "select", target: "crane-radio-clear",
       title: "Give the crane the all-clear",
       cue: "Radio the crane: lashers out of the bay, lifts may resume.",
-      why: "The hold comes off from the same radio it went on, by the person who put it on, only once every lasher is confirmed out of the bay — never assumed from a headcount, never relayed through a third radio.",
+      why: "The hold comes off the same radio it went on, from the person who put it on, and only once every lasher is confirmed out of the bay by name rather than counted from a distance. A headcount taken from the deck misses the one hand still up on the bridge tying off a spare rod, and a hold released through a third party is a hold whose author no longer knows whether it is safe to lift.",
     },
   ],
 
@@ -266,6 +267,92 @@ export const SIM_CONTAINER_LASHING = {
     bent.rotation.z = 0.12;
     holoTag(rack, "rod rack — one bent", 0, 2.0, 0, { css: "#d2312b", w: 0.32 });
     reg(hits, bent, "bent-rod");
+    // ------------------------------------------------------- deck dressing
+    // What a bay actually has around it once the gang is working in it: the
+    // hatch coaming the stack sits on, the next stack aft, the gear bins the
+    // rods and turnbuckles come out of, the fire main, deck fittings and the
+    // mast light that makes any of it visible on a night sailing.
+    const clDeck = group(g, 0, 0.12, 0);
+    // Hatch coaming ring under the stack, with cleats along its top edge.
+    for (const [cx, cz, cw, cd] of [[0, -2.0, 4.4, 0.18], [0, 0.2, 4.4, 0.18], [-2.2, -0.9, 0.18, 2.4], [2.2, -0.9, 0.18, 2.4]]) {
+      box(clDeck, cw, 0.22, cd, cx, 0.11, cz, 0x6c7a85, { rough: 0.8, metal: 0.45 });
+      box(clDeck, cw + 0.05, 0.03, cd + 0.05, cx, 0.235, cz, 0x8a949d, { rough: 0.6, metal: 0.6, cast: false });
+    }
+    for (let i = 0; i < 7; i++) {
+      box(clDeck, 0.1, 0.07, 0.14, -1.8 + i * 0.6, 0.27, 0.2, 0x8a949d, { rough: 0.5, metal: 0.6 });
+    }
+    // The next stack aft, already secured — the bay this gang is not in.
+    const aft = group(clDeck, 0, 0, -3.15);
+    for (let tier = 0; tier < 2; tier++) {
+      box(aft, 2.4, 1.0, 1.0, 0, 0.5 + tier * 1.02, 0, tier ? 0x4a6b4f : 0x7a6a4a, { rough: 0.72, metal: 0.28 });
+      for (const sx of [-1.15, 1.15]) for (const sz of [-0.45, 0.45]) {
+        box(aft, 0.15, 0.13, 0.15, sx, 1.01 + tier * 1.02, sz, 0x2b2f34, { rough: 0.6, metal: 0.6 });
+      }
+    }
+    for (const sx of [-0.8, 0.8]) {
+      const r = cyl(aft, 0.018, 0.018, 1.35, sx, 0.85, 0.53, CITY.steel, { rough: 0.35, metal: 0.8, seg: 8 });
+      r.rotation.z = sx > 0 ? -0.5 : 0.5;
+    }
+    // Gear bins: loose rods, a basket of turnbuckles, a bin of spare locks.
+    const bins = group(clDeck, -2.5, 0, -0.1, 0.35);
+    for (const [bx, bw, bcol] of [[-0.55, 0.5, 0x3f5b6d], [0.1, 0.55, 0x5a4b3a], [0.75, 0.5, 0x3f5b6d]]) {
+      box(bins, bw, 0.42, 0.55, bx, 0.21, 0, bcol, { rough: 0.85, metal: 0.25 });
+      box(bins, bw + 0.04, 0.04, 0.59, bx, 0.44, 0, 0x8a949d, { rough: 0.6, metal: 0.55, cast: false });
+    }
+    for (let i = 0; i < 6; i++) {
+      const r = cyl(bins, 0.018, 0.018, 0.52, -0.62 + i * 0.05, 0.47, 0, CITY.steel, { rough: 0.4, metal: 0.75, seg: 8 });
+      r.rotation.x = Math.PI / 2; r.rotation.z = 0.04 * i;
+    }
+    for (let i = 0; i < 6; i++) {
+      cyl(bins, 0.03, 0.03, 0.2, -0.06 + (i % 3) * 0.14, 0.4 + Math.floor(i / 3) * 0.07, -0.1 + (i % 2) * 0.18,
+        0x22262b, { rough: 0.55, metal: 0.6, seg: 8 }).rotation.z = 1.2 + i * 0.3;
+    }
+    for (let i = 0; i < 8; i++) {
+      box(bins, 0.13, 0.11, 0.13, 0.6 + (i % 3) * 0.13, 0.4 + Math.floor(i / 3) * 0.11, -0.15 + (i % 2) * 0.2,
+        0x2b2f34, { rough: 0.62, metal: 0.58 }).rotation.y = i * 0.4;
+    }
+    // Fire main and hydrant valves down the outboard side, and deck pad-eyes.
+    const main = group(clDeck, 2.55, 0, -0.6);
+    for (let i = 0; i < 4; i++) {
+      cyl(main, 0.055, 0.055, 1.05, 0, 0.42, -1.4 + i * 1.1, 0xb04a35, { rough: 0.7, metal: 0.4, seg: 10 })
+        .rotation.x = Math.PI / 2;
+      cyl(main, 0.075, 0.075, 0.04, 0, 0.42, -0.88 + i * 1.1, 0x8a3a28, { rough: 0.65, metal: 0.5, seg: 10 })
+        .rotation.x = Math.PI / 2;
+      box(main, 0.09, 0.3, 0.09, 0, 0.16, -1.4 + i * 1.1, 0x6c7a85, { rough: 0.85, metal: 0.4 });
+    }
+    for (const hz of [-1.1, 1.0]) {
+      cyl(main, 0.045, 0.045, 0.24, 0.1, 0.56, hz, 0xb04a35, { rough: 0.6, metal: 0.5, seg: 10 });
+      torus(main, 0.07, 0.014, 0.1, 0.7, hz, 0xe8b02e, { rough: 0.45, metal: 0.6 });
+    }
+    for (let i = 0; i < 8; i++) {
+      const px = -2.0 + (i % 4) * 1.3, pz = i < 4 ? 1.7 : -2.5;
+      cyl(clDeck, 0.07, 0.08, 0.05, px, 0.03, pz, 0x6c7a85, { rough: 0.85, metal: 0.4, seg: 10 });
+      torus(clDeck, 0.05, 0.011, px, 0.09, pz, 0x8a949d, { rough: 0.5, metal: 0.7 });
+    }
+    // Mast light over the bay and the outboard handrail run.
+    const mast = group(clDeck, 2.6, 0, 1.5);
+    cyl(mast, 0.06, 0.08, 3.1, 0, 1.55, 0, 0x6c7a85, { rough: 0.7, metal: 0.5, seg: 10 });
+    box(mast, 0.5, 0.06, 0.12, -0.2, 3.1, 0, 0x6c7a85, { rough: 0.7, metal: 0.5 });
+    for (const lx of [-0.34, -0.06]) {
+      box(mast, 0.18, 0.12, 0.16, lx, 3.0, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+      ball(mast, 0.045, lx, 2.93, 0, 0xfff0c4, { emissive: 0xffe9a8, ei: 1.5, cast: false });
+    }
+    const rail = group(clDeck, 0, 0, 2.1);
+    for (let i = 0; i < 6; i++) cyl(rail, 0.022, 0.022, 1.0, -2.25 + i * 0.9, 0.5, 0, 0x8a949d, { rough: 0.55, metal: 0.6, seg: 8 });
+    for (const ry of [0.6, 0.95]) {
+      cyl(rail, 0.018, 0.018, 4.6, 0, ry, 0, 0x8a949d, { rough: 0.55, metal: 0.6, seg: 8 }).rotation.z = Math.PI / 2;
+    }
+    // Scupper plates, and a twist-lock somebody left lying in the walkway.
+    for (const sx of [-1.5, 0.3, 1.9]) {
+      box(clDeck, 0.3, 0.02, 0.22, sx, 0.015, 1.9, 0x5c6a75, { rough: 0.9, metal: 0.4, cast: false });
+      for (let i = 0; i < 3; i++) box(clDeck, 0.26, 0.03, 0.02, sx, 0.025, 1.83 + i * 0.07, 0x3d4852, { rough: 0.9, cast: false });
+    }
+    const looseLock = group(clDeck, -1.55, 0.06, 0.95);
+    box(looseLock, 0.17, 0.12, 0.17, 0, 0, 0, 0x33383e, { rough: 0.62, metal: 0.55 });
+    box(looseLock, 0.13, 0.02, 0.02, 0.07, 0.03, 0.09, 0xe8b02e, { rough: 0.5 });
+    holoTag(looseLock, "gear in the walkway", 0, 0.42, 0, { css: "#d2312b", w: 0.34 });
+    reg(hits, looseLock, "loose-gear");
+
     standingFigure(g, -1.0, 1.6, { ry: 0.6, cloth: 0xe4622a });
     cone(g, 2.4, -1.8); cone(g, -2.4, -1.9);
 
