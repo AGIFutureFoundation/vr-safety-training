@@ -2,11 +2,19 @@
 
 Every page under `docs/`, one line each. Pages marked *generated* are written by a tool and are never edited by hand; the command that rewrites each one is named beside it.
 
+## Overview and white papers
+
+| Page | What it is |
+|---|---|
+| [product-overview.md](product-overview.md) | What SmartCiti.X is in one paragraph, the editions with their station counts, the feature list grouped by layer, the stack in one table, the deployment options, and what is verified against what is only asserted. Every number named to its source file. |
+| [whitepaper/SmartCitiX-Whitepaper-v2.md](whitepaper/SmartCitiX-Whitepaper-v2.md) · [.html](whitepaper/SmartCitiX-Whitepaper-v2.html) | The white paper, second revision (2026-09-23, end of day): executive summary, the problem, the current version at 316 procedures and 29 programmes including the ladder layer, the homepage and sign-in, the scenic districts and the five newest editions, the stack, compliance posture, roadmap, forty questions and answers, a letter to investors, and appendices. The HTML is self-contained beside `whitepaper/figures/`. |
+| [whitepaper/SmartCitiX-Whitepaper.md](whitepaper/SmartCitiX-Whitepaper.md) · [.html](whitepaper/SmartCitiX-Whitepaper.html) | The first revision, written earlier the same day at 235 procedures and 24 programmes; kept in place for the record. |
+
 ## Status and series
 
 | Page | What it is |
 |---|---|
-| [STATUS.md](STATUS.md) | The dated build log: live totals (stations, categories, programmes, checkers, corpus mean, standards), then one section per wave with its stations and eval scores, the checkers added, the pages to read, screenshots and what failed first. |
+| [STATUS.md](STATUS.md) | The dated build log: live totals (stations, categories, programmes, checkers, corpus mean, standards), then one section per wave with its stations and eval scores, the checkers added, the pages to read, screenshots and what failed first. Its totals are those of the 225-procedure roster; the catalog and `node tools/check_all.mjs` are the current source. |
 | [wiki/SmartCitiX-Training-Series.md](wiki/SmartCitiX-Training-Series.md) | *Generated* (`node tools/gen_wiki.mjs`). Every training programme with its union, certifications, station table (conditions, steps, interruptions, eval score, why each station is in the programme) and a spawn screenshot per station. |
 
 ## Assurance
