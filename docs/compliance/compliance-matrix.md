@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 260 procedures, 191 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 280 procedures, 192 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -10,66 +10,75 @@ Every station names the union and the certification a worker in that role holds,
 
 | Standard | Stations |
 |---|---|
-| 29 CFR 1910.1030 | 42: Allergens & Honest Drinks, Ambulance Scene Safety, Cardiac Arrest — Pit Crew, Chairside Emergency, Crisis Intervention Call, Cut-Off / Overservice, Draw Station, Endodontic Assisting, Fluoride and Sealants, Four-Handed Dentistry, Front Office & Treatment Coordination, Full-Mouth Radiographic Series, Housekeeping Room Turn, Ice Well Breakage, Implant Surgery Assisting, Infection Control Audit, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Oral Surgery Assisting, Orthodontic Assisting, Overdose Response — Naloxone, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, School Screening Outreach, Sharps Exposure Response, Shelter Intake Operations, Special Needs & Geriatric Dentistry, Spiked Drink Response, Sterilisation Centre, Teledentistry & Triage, Trash and Recycling Room, Triage Point, Ultrasonic Scaling |
-| 29 CFR 1910.147 | 36: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Electrical Room, Elevator Machine Room, Elevator Pit, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Motor Control Center, PCB Equipment Removal, Press Brake, Reefer Yard Monitoring, Robot Cell, Roof and Drains, Serger and Overlock, Slicer Lockout, Solar Deck, Stage Power, Tower Climb, Trash and Recycling Room, Vapor Mitigation, Wind Nacelle |
-| NIOSH | 34: Alteration Repair Ticket, Colour Studio, Dental Laboratory Bench, Denture Delivery & Adjustment, Firefighter Rehab Sector, Four-Handed Dentistry, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Parking Garage, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Special Needs & Geriatric Dentistry, Trades Lineage Briefing, Trench Box, Ultrasonic Scaling, Valve Vault, Wellness — Asking for Help and Resources, Wellness — Peer Support Conversation, Wellness — Shift Work, Sleep and Stress, Wellness — Substance Use and the Job, Youth Patrol Training |
+| 29 CFR 1910.1030 | 55: After-Action Review, Allergens & Honest Drinks, Ambulance Scene Safety, Cardiac Arrest — Pit Crew, Chairside Emergency, Contact Tracing Visit, Crisis Intervention Call, Cut-Off / Overservice, Draw Station, Endodontic Assisting, Fitness Room & Gym, Fluoride and Sealants, Four-Handed Dentistry, Front Office & Treatment Coordination, Full-Mouth Radiographic Series, Housekeeping Room Turn, Ice Well Breakage, Implant Surgery Assisting, Infection Control Audit, Instrument Reprocessing, Isolation Ward Setup, Laundry Plant Chemicals, Mail & Package Room, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Oral Surgery Assisting, Orthodontic Assisting, Overdose Response — Naloxone, PPE Donning and Doffing, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Playground & Courtyard, Pouring to Spec, Radiograph Safety, Risk Communication and Community Engagement, Safe and Dignified Burial, Sample Kit Shipping, School Screening Outreach, Sharps Exposure Response, Shelter Intake Operations, Special Needs & Geriatric Dentistry, Spiked Drink Response, Sterilisation Centre, Surveillance and Case Definition, Teledentistry & Triage, Trash and Recycling Room, Treatment Centre Triage, Triage Point, Ultrasonic Scaling, Vaccination Line, Water, Sanitation and Hygiene |
+| 29 CFR 1910.147 | 41: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Domestic Water & Backflow, Electrical Room, Elevator Machine Room, Elevator Pit, Fitness Room & Gym, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Landscaping & Irrigation, Laundry Room, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Motor Control Center, PCB Equipment Removal, Pool & Spa Chemistry, Press Brake, Reefer Yard Monitoring, Robot Cell, Roof and Drains, Serger and Overlock, Slicer Lockout, Solar Deck, Stage Power, Tower Climb, Trash and Recycling Room, Vapor Mitigation, Wind Nacelle |
+| NIOSH | 37: Alteration Repair Ticket, Colour Studio, Dental Laboratory Bench, Denture Delivery & Adjustment, Firefighter Rehab Sector, Four-Handed Dentistry, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Landscaping & Irrigation, Loading Dock & Moves, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Mail & Package Room, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Parking Garage, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Special Needs & Geriatric Dentistry, Trades Lineage Briefing, Trench Box, Ultrasonic Scaling, Valve Vault, Wellness — Asking for Help and Resources, Wellness — Peer Support Conversation, Wellness — Shift Work, Sleep and Stress, Wellness — Substance Use and the Job, Youth Patrol Training |
 | 29 CFR 1910.120 | 31: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Community Soil Split, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Container Inspection, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
+| 29 CFR 1910.134 | 27: Abatement Chamber, Abatement Perimeter Awareness, Aerosol Management, After-Action Review, Ammonia Plant, Bridge Blast, Bridge Lead Containment, Chlorine Room, Confined Rescue, Contact Tracing Visit, Cooling Tower, Decon Support Laborer, Denture Delivery & Adjustment, Firefighter Rehab Sector, HAZWOPER Site Orientation, Hazmat Entry, Isolation Ward Setup, PPE Donning and Doffing, Risk Communication and Community Engagement, Safe and Dignified Burial, Smoke Day Outreach, Structure Fire Size-Up, Surveillance and Case Definition, Tank Lining, Treatment Centre Triage, Vaccination Line, Water, Sanitation and Hygiene |
+| 29 CFR 1910.1200 | 25: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dental Laboratory Bench, Dish Pit, Domestic Water & Backflow, Endodontic Assisting, Fitness Room & Gym, Garment Inspection & Finish, Grease Trap, Housekeeping Room Turn, Infection Control Audit, Keg Cellar CO2, Landscaping & Irrigation, Laundry Plant Chemicals, Laundry Room, Lobby and Front Desk, Mail & Package Room, Opening the Well, Operatory Turnover, Orthodontic Assisting, Pool & Spa Chemistry, Spartina Removal, Sterilisation Centre, Trash and Recycling Room |
 | NFPA 70E | 20: Arc-Flash Label Study, Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Electrical Room, Elevator Pit, Isolation Bay, Motor Control Center, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
-| 29 CFR 1910.1200 | 19: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dental Laboratory Bench, Dish Pit, Endodontic Assisting, Garment Inspection & Finish, Grease Trap, Housekeeping Room Turn, Infection Control Audit, Keg Cellar CO2, Laundry Plant Chemicals, Lobby and Front Desk, Opening the Well, Operatory Turnover, Orthodontic Assisting, Spartina Removal, Sterilisation Centre, Trash and Recycling Room |
 | 29 CFR 1926 | 19: Aerial Lashing, Arena Rigging, Bioswale Build, Bridge Cable Inspection, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Formwork Shoring, Hot Tap, Living Shoreline, Masonry Silica Scaffold, Mass Timber Panel Set, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
-| 29 CFR 1910.134 | 17: Abatement Chamber, Abatement Perimeter Awareness, Aerosol Management, Ammonia Plant, Bridge Blast, Bridge Lead Containment, Chlorine Room, Confined Rescue, Cooling Tower, Decon Support Laborer, Denture Delivery & Adjustment, Firefighter Rehab Sector, HAZWOPER Site Orientation, Hazmat Entry, Smoke Day Outreach, Structure Fire Size-Up, Tank Lining |
+| 29 CFR 1910.132 | 15: Ambulance Scene Safety, Arc-Flash Label Study, Cutting Table and Rotary Knife, Discharge Photo Doc, Fryer Oil Change, Garment Inspection & Finish, Hem & Buttonhole, Implant Surgery Assisting, Landscaping & Irrigation, Marsh Transect Survey, Oyster Reef Monitoring, Pattern Marking & Layout, Playground & Courtyard, Prep Cooling, Traffic Incident Management |
+| 29 CFR 1910.212 | 15: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Dental Laboratory Bench, Elevator Machine Room, Hem & Buttonhole, Industrial Press & Steam, Laundry Room, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics, Trash and Recycling Room |
 | California Retail Food Code | 15: Allergen Control, Allergens & Honest Drinks, Banquet Hot Hold, Cafeteria Serving, Cut-Off / Overservice, Dish Pit, Fryer Oil Change, Ice Well Breakage, Knife Skills, Opening the Well, Pouring to Spec, Prep Cooling, RBS Service Capstone, Receiving Dock Food, Walk-In Cooler |
-| 29 CFR 1910.212 | 14: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Dental Laboratory Bench, Elevator Machine Room, Hem & Buttonhole, Industrial Press & Steam, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics, Trash and Recycling Room |
-| 29 CFR 1910.132 | 13: Ambulance Scene Safety, Arc-Flash Label Study, Cutting Table and Rotary Knife, Discharge Photo Doc, Fryer Oil Change, Garment Inspection & Finish, Hem & Buttonhole, Implant Surgery Assisting, Marsh Transect Survey, Oyster Reef Monitoring, Pattern Marking & Layout, Prep Cooling, Traffic Incident Management |
 | 8 CCR 3203 | 11: Banquet Setup Lift, Crisis Line Shift, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Leasing Office and Fair Housing, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
+| 29 CFR 1910.22 | 10: Banquet Setup Lift, Fryer Oil Change, Hot Line, Loading Dock & Moves, Lobby and Front Desk, Mail & Package Room, Parking Garage, Playground & Courtyard, Receiving Dock Food, Sprinkler Riser Room |
+| NFPA 101 | 10: Banquet Setup Lift, Community Room & Events, Fire Alarm Panel Room, Leasing Office and Fair Housing, Loading Dock & Moves, Lobby and Front Desk, Mail & Package Room, Parking Garage, Patron De-escalation, Trash and Recycling Room |
+| 29 CFR 1910.157 | 9: Banquet Hot Hold, Community Room & Events, Elevator Machine Room, Hood Suppression, Hot Line, Leasing Office and Fair Housing, Parking Garage, Sprinkler Riser Room, Storage & Bike Room |
+| NFPA 72 | 9: Community Room & Events, Electrical Room, Elevator Machine Room, Fire Alarm Panel Room, Laundry Room, Lobby and Front Desk, Sprinkler Riser Room, Storage & Bike Room, Unit Turnover |
 | 29 CFR 1910.269 | 8: Aerial Ladder, Aerial Lashing, Battery Yard, Line Truck, PCB Equipment Removal, Substation Switching, Transformer Vault, Wind Nacelle |
+| EPA Method 40 | 8: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Playground & Courtyard, Sensor Co-Location Check |
 | NFPA 70 | 8: Arc-Flash Label Study, Cath Lab, Electrical Room, Elevator Pit, Fire Alarm Panel Room, Industrial Press & Steam, Parking Garage, Temporary Site Power |
-| 29 CFR 1910.157 | 7: Banquet Hot Hold, Elevator Machine Room, Hood Suppression, Hot Line, Leasing Office and Fair Housing, Parking Garage, Sprinkler Riser Room |
-| 29 CFR 1910.22 | 7: Banquet Setup Lift, Fryer Oil Change, Hot Line, Lobby and Front Desk, Parking Garage, Receiving Dock Food, Sprinkler Riser Room |
+| 29 CFR 1910.133 | 7: Denture Delivery & Adjustment, Draught Line Cleaning, Endodontic Assisting, Landscaping & Irrigation, Pool & Spa Chemistry, Trash and Recycling Room, Wash-Down Yard |
 | 29 CFR 1910.333 | 7: Charge Point, Data Hall, Electrical Room, Fire Alarm Panel Room, Isolation Bay, Motor Control Center, Stage Power |
-| EPA Method 40 | 7: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Sensor Co-Location Check |
-| NFPA 101 | 7: Banquet Setup Lift, Fire Alarm Panel Room, Leasing Office and Fair Housing, Lobby and Front Desk, Parking Garage, Patron De-escalation, Trash and Recycling Room |
+| 29 CFR 1910.36 | 7: Community Room & Events, Laundry Room, Leasing Office and Fair Housing, Lobby and Front Desk, Mail & Package Room, Storage & Bike Room, Walk-In Cooler |
 | NFPA 1500 | 7: Aerial Ladder, Ambulance Scene Safety, Critical Incident Debrief, Firefighter Rehab Sector, Structure Fire Size-Up, Traffic Incident Management, Wildland-Urban Interface |
+| 29 CFR 1910.23 | 6: Fire Alarm Panel Room, Neighbourhood Air Sensor, Playground & Courtyard, Roof and Drains, Signal Cabinet, Storage & Bike Room |
 | 8 CCR 3342 | 6: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, Trauma-Informed Intake, WVPP & Panic Button |
 | ANSI Z359 | 6: Bridge Cable Inspection, Confined Rescue, Roof and Drains, Solar Deck, Steel Erector, Tower Climb |
-| NFPA 72 | 6: Electrical Room, Elevator Machine Room, Fire Alarm Panel Room, Lobby and Front Desk, Sprinkler Riser Room, Unit Turnover |
 | 29 CFR 1910 | 5: Eelgrass Transplant, Opacity Reading, Stack Test, Trades Lineage Briefing, Wellness — Shift Work, Sleep and Stress |
-| 29 CFR 1910.133 | 5: Denture Delivery & Adjustment, Draught Line Cleaning, Endodontic Assisting, Trash and Recycling Room, Wash-Down Yard |
+| 29 CFR 1910.38 | 5: Community Room & Events, Fire Alarm Panel Room, Kitchen Gas Shutoff, Leasing Office and Fair Housing, Lobby and Front Desk |
+| 29 CFR 1926.1101 | 5: Abatement Chamber, Abatement Perimeter Awareness, Storage & Bike Room, Transite Pipe Removal, Unit Turnover |
 | 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
 | MUTCD | 5: Aerial Lashing, Deck Joint Replacement, Signal Cabinet, Traffic Incident Management, Trench Box |
+| NFPA 25 | 5: Fire Pump, Lobby and Front Desk, Sprinkler Riser Room, Storage & Bike Room, Trash and Recycling Room |
+| 29 CFR 1910.1000 | 4: Amalgam Waste Handling, Chlorine Room, Loading Dock & Moves, Parking Garage |
 | 29 CFR 1910.138 | 4: Colour Studio, Knife Skills, Slicer Lockout, Trash and Recycling Room |
-| 29 CFR 1910.23 | 4: Fire Alarm Panel Room, Neighbourhood Air Sensor, Roof and Drains, Signal Cabinet |
-| 29 CFR 1910.38 | 4: Fire Alarm Panel Room, Kitchen Gas Shutoff, Leasing Office and Fair Housing, Lobby and Front Desk |
-| 29 CFR 1926.1101 | 4: Abatement Chamber, Abatement Perimeter Awareness, Transite Pipe Removal, Unit Turnover |
+| 29 CFR 1910.151 | 4: Endodontic Assisting, Fitness Room & Gym, Grill Line Burns, Wellness — Asking for Help and Resources |
+| 29 CFR 1910.178 | 4: Airport Ramp, Forklift Dock, Loading Dock & Moves, Trades Lineage Briefing |
 | 29 CFR 1926.1153 | 4: Concrete Pour, Deck Joint Replacement, Masonry Silica Scaffold, Tank Lining |
+| 40 CFR 745 | 4: Coatings Bay, Leasing Office and Fair Housing, Playground & Courtyard, Unit Turnover |
+| ASSE 5110 | 4: Backflow Test, Domestic Water & Backflow, Landscaping & Irrigation, Rough-In Bay |
 | Cal. Labor Code §351 | 4: Opening the Well, Pouring to Spec, Till Drop & Robbery Response, Tip Pool & Labor |
 | IMO SOLAS | 4: Bunkering Watch, Container Lashing, Mooring Line, Pilot Transfer |
-| NFPA 25 | 4: Fire Pump, Lobby and Front Desk, Sprinkler Riser Room, Trash and Recycling Room |
 | NFPA 96 | 4: Grill Line Burns, Hood Suppression, Hot Line, Laundry Plant Chemicals |
+| NSF/ANSI 61 | 4: Backflow Test, Domestic Water & Backflow, Rough-In Bay, Tank Lining |
 | NSF/ANSI 7 | 4: Cafeteria Serving, Hot Line, Prep Cooling, Walk-In Cooler |
 | 29 CFR 1904 | 3: Last Call & Lockup, Till Drop & Robbery Response, Wellness — Substance Use and the Job |
-| 29 CFR 1910.1000 | 3: Amalgam Waste Handling, Chlorine Room, Parking Garage |
-| 29 CFR 1910.151 | 3: Endodontic Assisting, Grill Line Burns, Wellness — Asking for Help and Resources |
-| 29 CFR 1910.178 | 3: Airport Ramp, Forklift Dock, Trades Lineage Briefing |
 | 29 CFR 1910.252 | 3: Roof and Drains, Rough-In Bay, Weld Bay |
 | 29 CFR 1910.268 | 3: Aerial Lashing, Microwave Backhaul, Splice Node |
-| 29 CFR 1910.36 | 3: Leasing Office and Fair Housing, Lobby and Front Desk, Walk-In Cooler |
+| 29 CFR 1910.28 | 3: Fly System, Loading Dock & Moves, Roof and Drains |
+| 29 CFR 1910.305 | 3: Cell Site Battery, Community Room & Events, Fitness Room & Gym |
 | 29 CFR 1918 | 3: Container Lashing, Reefer Yard Monitoring, Straddle Carrier Ops |
 | 29 CFR 1926.451 | 3: Masonry Silica Scaffold, Mast Climber, Scaffold Erection |
 | 29 CFR 1926.62 | 3: Bridge Blast, Bridge Lead Containment, Unit Turnover |
 | 40 CFR 262 | 3: Haul Route Observation, Pump and Treat, Soil Loadout |
-| 40 CFR 745 | 3: Coatings Bay, Leasing Office and Fair Housing, Unit Turnover |
 | 8 CCR 5110 | 3: Colour Studio, Sewing Ergonomics, Special Needs & Geriatric Dentistry |
+| ANSI Z358.1 | 3: Dish Pit, Endodontic Assisting, Pool & Spa Chemistry |
+| ASHRAE 188 | 3: Cooling Tower, Domestic Water & Backflow, Unit Turnover |
+| ASME A17.1 | 3: Elevator Machine Room, Elevator Pit, Loading Dock & Moves |
+| ASSE 1020 | 3: Domestic Water & Backflow, Landscaping & Irrigation, Rough-In Bay |
+| AWWA M14 | 3: Backflow Test, Domestic Water & Backflow, Landscaping & Irrigation |
 | Cal. Bus. & Prof. Code §25602 | 3: Cut-Off / Overservice, Last Call & Lockup, Pouring to Spec |
 | ISO 23908 | 3: Draw Station, Endodontic Assisting, Sharps Exposure Response |
 | NFPA 1006 | 3: Confined Rescue, EV Extrication, Triage Point |
 | NFPA 51B | 3: Roof and Drains, Rough-In Bay, Weld Bay |
+| NFPA 54 | 3: Gas Leak Survey, Kitchen Gas Shutoff, Laundry Room |
 | NFPA 99 | 3: Cath Lab, Chairside Emergency, Implant Surgery Assisting |
 | NSF/ANSI 2 | 3: Hot Line, Knife Skills, Receiving Dock Food |
 | NSF/ANSI 4 | 3: Banquet Hot Hold, Fryer Oil Change, Grill Line Burns |
-| NSF/ANSI 61 | 3: Backflow Test, Rough-In Bay, Tank Lining |
-| 29 CFR 1910.28 | 2: Fly System, Roof and Drains |
+| 29 CFR 1910.95 | 2: Fire Pump, Landscaping & Irrigation |
 | 29 CFR 1915 | 2: Ballast Water Sampling, Shipyard Hot Work |
 | 29 CFR 1917 | 2: Dock Crane, Mooring Line |
 | 29 CFR 1926.501 | 2: Mass Timber Panel Set, Solar Deck |
@@ -81,18 +90,15 @@ Every station names the union and the certification a worker in that role holds,
 | 8 CCR 5141 | 2: Denture Delivery & Adjustment, Network Data Review |
 | 8 CCR 5194 | 2: Draught Line Cleaning, Opening the Well |
 | ANSI A4 | 2: Knife Skills, Slicer Lockout |
-| ANSI Z358.1 | 2: Dish Pit, Endodontic Assisting |
+| ANSI B56.1 | 2: Forklift Dock, Loading Dock & Moves |
 | ASHRAE 15 | 2: Ammonia Plant, Chiller Plant |
-| ASHRAE 188 | 2: Cooling Tower, Unit Turnover |
-| ASME A17.1 | 2: Elevator Machine Room, Elevator Pit |
 | ASME B30.5 | 2: Crane Yard, Steel Erector |
 | ASME B30.9 | 2: Crane Yard, Mass Timber Panel Set |
-| ASSE 5110 | 2: Backflow Test, Rough-In Bay |
+| ASSE 1013 | 2: Backflow Test, Domestic Water & Backflow |
 | Cal. Bus. & Prof. Code §25658 | 2: Checking ID, RBS Service Capstone |
 | IEC 61010 | 2: Electrical Room, Isolation Bay |
 | NFPA 1584 | 2: Cardiac Arrest — Pit Crew, Firefighter Rehab Sector |
 | NFPA 1670 | 2: Confined Rescue, EV Extrication |
-| NFPA 54 | 2: Gas Leak Survey, Kitchen Gas Shutoff |
 | NSF/ANSI 8 | 2: Bakery Mixer, Slicer Lockout |
 | 14 CFR 107 | 1: Flight Deck |
 | 14 CFR 139.303 | 1: Airport Ramp |
@@ -106,9 +112,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.156 | 1: Wildland-Urban Interface |
 | 29 CFR 1910.242 | 1: CNC Cell |
 | 29 CFR 1910.272 | 1: Grain Bin |
-| 29 CFR 1910.305 | 1: Cell Site Battery |
 | 29 CFR 1910.424 | 1: Eelgrass Transplant |
-| 29 CFR 1910.95 | 1: Fire Pump |
 | 29 CFR 1915.12 | 1: Shipyard Hot Work |
 | 29 CFR 1915.14 | 1: Shipyard Hot Work |
 | 29 CFR 1915.15 | 1: Shipyard Hot Work |
@@ -143,6 +147,7 @@ Every station names the union and the certification a worker in that role holds,
 | 49 CFR 393 | 1: Trades Lineage Briefing |
 | 49 CFR 395 | 1: Trades Lineage Briefing |
 | 8 CCR 3345 | 1: Housekeeping Room Turn |
+| ACGIH TLVs | 1: Loading Dock & Moves |
 | ANSI A10.8 | 1: Scaffold Erection |
 | ANSI A10.9 | 1: Formwork Shoring |
 | ANSI A92 | 1: Aerial Lashing |
@@ -151,7 +156,6 @@ Every station names the union and the certification a worker in that role holds,
 | ANSI B11.22 | 1: CNC Cell |
 | ANSI B11.3 | 1: Press Brake |
 | ANSI B30.5 | 1: Crane Yard |
-| ANSI B56.1 | 1: Forklift Dock |
 | ANSI E1.4 | 1: Fly System |
 | ANSI E1.6 | 1: Chain Hoist |
 | ANSI R15.06 | 1: Robot Cell |
@@ -165,12 +169,9 @@ Every station names the union and the certification a worker in that role holds,
 | ASME B30.26 | 1: Crane Yard |
 | ASME B30.4 | 1: Dock Crane |
 | ASME B31.9 | 1: Rough-In Bay |
-| ASSE 1013 | 1: Backflow Test |
-| ASSE 1020 | 1: Rough-In Bay |
 | AWS D1.1 | 1: Weld Bay |
 | AWWA C651 | 1: Hot Tap |
 | AWWA C652 | 1: Tank Lining |
-| AWWA M14 | 1: Backflow Test |
 | Cal. Bus. & Prof. Code §25631 | 1: Last Call & Lockup |
 | Cal. Labor Code §512 | 1: Tip Pool & Labor |
 | Cal. Labor Code §6310 | 1: WVPP & Panic Button |
@@ -462,6 +463,16 @@ Every station names the union and the certification a worker in that role holds,
 | Parking Garage | Porter and garage patrol — SEIU building service members, with IUOE Local 39 engineers for the ventilation and CO detection system | 29 CFR 1910.1000, 29 CFR 1910.157, 29 CFR 1910.22, NFPA 101, NFPA 70, NIOSH |
 | Roof and Drains | Building engineer — IUOE Local 39 stationary engineers, with SEIU porters on the ground and the roofing contractor under permit | 29 CFR 1910.147, 29 CFR 1910.23, 29 CFR 1910.252, 29 CFR 1910.28, ANSI Z359, NFPA 51B |
 | Electrical Room | Building engineer — IUOE Local 39 stationary engineers, working with a licensed electrician | 29 CFR 1910.147, 29 CFR 1910.333, IEC 61010, NFPA 70, NFPA 70E, NFPA 72 |
+| Domestic Water & Backflow | Building stationary engineer — IUOE Local 39, with SEIU building staff and a CAMT-credentialed maintenance technician | 29 CFR 1910.1200, 29 CFR 1910.147, ASHRAE 188, ASSE 1013, ASSE 1020, ASSE 5110, AWWA M14, NSF/ANSI 61 |
+| Laundry Room | Building porter and maintenance technician — SEIU building staff with a CAMT-credentialed technician, and IUOE Local 39 engineers for the gas dryers' venting | 29 CFR 1910.1200, 29 CFR 1910.147, 29 CFR 1910.212, 29 CFR 1910.36, NFPA 54, NFPA 72 |
+| Pool & Spa Chemistry | Pool operator and building engineer — IUOE Local 39 stationary engineers and SEIU building staff, UNITE HERE residential amenity staff on deck, and the apartment association's CAM and CAMT credentials | 29 CFR 1910.1200, 29 CFR 1910.133, 29 CFR 1910.147, ANSI Z358.1 |
+| Fitness Room & Gym | Amenity attendant and maintenance technician — UNITE HERE residential hospitality staff, SEIU building staff and the apartment association's CAMT credential | 29 CFR 1910.1030, 29 CFR 1910.1200, 29 CFR 1910.147, 29 CFR 1910.151, 29 CFR 1910.305 |
+| Community Room & Events | Residential events and hospitality staff — UNITE HERE, with SEIU building staff setting the room and the apartment association's CAM-credentialed manager signing off | 29 CFR 1910.157, 29 CFR 1910.305, 29 CFR 1910.36, 29 CFR 1910.38, NFPA 101, NFPA 72 |
+| Mail & Package Room | Front desk and package room staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM-credentialed manager | 29 CFR 1910.1030, 29 CFR 1910.1200, 29 CFR 1910.22, 29 CFR 1910.36, NFPA 101, NIOSH |
+| Loading Dock & Moves | Building porter and dock attendant — SEIU building staff, with IUOE Local 39 engineers for the garage ventilation and the apartment association's CAM-credentialed manager scheduling the move | 29 CFR 1910.1000, 29 CFR 1910.178, 29 CFR 1910.22, 29 CFR 1910.28, ACGIH TLVs, ANSI B56.1, ASME A17.1, NFPA 101, NIOSH |
+| Landscaping & Irrigation | Grounds and irrigation technician — SEIU building staff, with IUOE Local 39 engineers on the backflow and the apartment association's CAMT credential | 29 CFR 1910.1200, 29 CFR 1910.132, 29 CFR 1910.133, 29 CFR 1910.147, 29 CFR 1910.95, ASSE 1020, ASSE 5110, AWWA M14, NIOSH |
+| Playground & Courtyard | Grounds and amenity staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM and CAMT credentials | 29 CFR 1910.1030, 29 CFR 1910.132, 29 CFR 1910.22, 29 CFR 1910.23, 40 CFR 745, EPA Method 40 |
+| Storage & Bike Room | Building porter and maintenance technician — SEIU building staff, IUOE Local 39 engineers for the sprinkler and the pipe lagging, and the apartment association's CAMT credential | 29 CFR 1910.157, 29 CFR 1910.23, 29 CFR 1910.36, 29 CFR 1926.1101, NFPA 25, NFPA 72 |
 
 ### Outbreak and Disease Response — WHO and UN Practice
 
@@ -470,6 +481,16 @@ Every station names the union and the certification a worker in that role holds,
 | Station | Trade | Standards cited |
 |---|---|---|
 | Decon Line | Hazmat firefighter / decon technician | 29 CFR 1910.120, NFPA 470 |
+| Surveillance and Case Definition | Surveillance officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| PPE Donning and Doffing | Isolation-area nurse and IPC focal person — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Isolation Ward Setup | Ward nurse and IPC lead — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Contact Tracing Visit | Contact tracer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Treatment Centre Triage | Screening and triage nurse — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Water, Sanitation and Hygiene | WASH officer and hygiene promoter — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Vaccination Line | Vaccinator — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Risk Communication and Community Engagement | Risk communication and community engagement officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| Safe and Dignified Burial | Burial team member — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
+| After-Action Review | AAR facilitator — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters | 29 CFR 1910.1030, 29 CFR 1910.134 |
 
 ### Job Readiness Edition — wojrc.org programmes
 

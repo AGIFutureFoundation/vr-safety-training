@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 290 entries across 79 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 295 entries across 82 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -320,6 +320,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | IEC/IEEE 80005 — Utility connections in port: high-voltage shore connection systems | `ieee-80005` | Energy & Power, Maritime & Ports | `IEEE 80005` |
 | ✓ | IEEE C2 — National Electrical Safety Code (NESC) | `ieee-c2-nesc` | Building Systems & Facilities, Connectivity & Telecom, Emergency Services, Energy & Power, Mobility & Transit | `NESC`, `IEEE C2` |
 
+### WHO (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | World Health Organization technical and field guidance for health emergencies and outbreak response | `who-guidance` | Emergency Services | `WHO` |
+| ? | WHO guidance on infection prevention and control in health care | `who-ipc-guidance` | Emergency Services | `WHO infection prevention and control guidance` |
+| ? | WHO outbreak communication guidance | `who-outbreak-communication` | Emergency Services | `WHO outbreak communication guidance` |
+
 ### ASHRAE (2)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -515,6 +523,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting | `political-reform-act` | Community Environmental Justice | `Political Reform Act`, `Fair Political Practices Commission`, `Form 700` |
 
+### IASC (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance | `iasc-cluster-coordination` | Emergency Services | `IASC` |
+
 ### IMSA (1)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -658,6 +672,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association) | `servsafe-certification` | Culinary & Hospitality, Trade Skills Simulator | `ServSafe` |
+
+### Sphere (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response | `sphere-handbook` | Emergency Services | `Sphere Handbook` |
 
 ### SSPC (1)
 

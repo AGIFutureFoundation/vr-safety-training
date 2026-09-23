@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 261
+      "stations": 271
     },
     "trades": {
       "entry": "trades/index.html",
@@ -103,6 +103,16 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "who-after-action-review",
+        "who-safe-and-dignified-burial",
+        "who-risk-communication-and-community-engagement",
+        "who-vaccination-line",
+        "who-water-sanitation-and-hygiene",
+        "who-treatment-centre-triage",
+        "who-contact-tracing-visit",
+        "who-isolation-ward-setup",
+        "who-ppe-donning-and-doffing",
+        "who-surveillance-and-case-definition",
         "ambulance-scene-safety",
         "overdose-response-naloxone",
         "cardiac-arrest-pit-crew",
@@ -1423,6 +1433,56 @@
           "app": "smartcity",
           "id": "decon-line",
           "why": "The shared opener: a decontamination line run in order is the same discipline an isolation ward and a treatment centre are built on."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-surveillance-and-case-definition",
+          "why": "The first alert: a written case definition read before anything is counted, a signal verified before it is believed, a report filed at the tier the evidence supports, and a silent site chased rather than counted as zero."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-ppe-donning-and-doffing",
+          "why": "The anteroom every clinical station after this one depends on: kit inspected, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-isolation-ward-setup",
+          "why": "An ordinary ward turned into an isolation area before the first patient arrives: one-way flow, suspected and confirmed kept apart, a room held at negative pressure, and hand hygiene within reach of every bed."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-contact-tracing-visit",
+          "why": "The daily household visit that finds the next case before it spreads: the community focal person met first, the interview held outdoors at distance, every contact found, and a sick contact referred rather than driven."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-treatment-centre-triage",
+          "why": "The treatment centre's gate: every arrival screened touch-free against the posted definition, suspected cases sent by their own path, and the ambulance and the family that follow handled without breaking either rule."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-water-sanitation-and-hygiene",
+          "why": "The camp water point the Sphere Handbook sets standards for: water treated in order, chlorine dosed from the jar test, a residual read at the tap, and latrines sited downhill with a basin at every one."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-vaccination-line",
+          "why": "An outbreak vaccination session end to end: the cold chain proven, every vial checked, an auto-disable syringe straight into the safety box uncapped, and every person watched before they go home."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-risk-communication-and-community-engagement",
+          "why": "The community meeting WHO outbreak communication guidance describes: what is known and what is not, trusted voices at the front, rumours logged rather than repeated, and last week's questions answered in public."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-safe-and-dignified-burial",
+          "why": "A burial team's visit taught as one procedure for safety and dignity: the family heard first with their community representative, the body carried by the whole team, the grave marked, and a supervised doff."
+        },
+        {
+          "app": "smartcity",
+          "id": "who-after-action-review",
+          "why": "The last station: a no-blame review once the outbreak is over, the frontline heard first, planned set against actual, and every lesson turned into an action with an owner and a date."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6315,6 +6375,836 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-after-action-review",
+      "name": "After-Action Review",
+      "title": "SmartCiti.X~ After-Action Review VR",
+      "tagline": "The review once the outbreak is over: the right people in the room, no blame and no rank, a timeline from the record, planned against actual, the frontline heard first, every action with an owner and a date, and the report shared",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "AAR facilitator — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO after-action review practice — a facilitated, no-blame review of what was planned, what actually happened, what went well and what should change, with actions owned and dated — as the national authority runs it after an outbreak; WHO infection prevention and control guidance and CDC isolation precautions as the benchmarks the clinical findings are read against; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the worker-safety findings; WHO outbreak communication guidance for the community-engagement findings and for how the report is shared; the Sphere Handbook's core commitments on learning and improvement and IASC cluster coordination for sharing it with the Health Cluster; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+      "accent": "#9ac46a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "lessons-owned",
+        "name": "Lessons Owned",
+        "note": "The frontline heard first, nobody blamed by name, and every lesson turned into an action with an owner and a date"
+      },
+      "meshes": 221,
+      "lights": 0,
+      "overBudget": false,
+      "index": "226",
+      "flat": false,
+      "system": "Review Room",
+      "currency": "LESSON",
+      "ranks": [
+        "Note-taker",
+        "Co-facilitator",
+        "Facilitator",
+        "Lead Facilitator",
+        "Review Room Certified"
+      ],
+      "awards": [
+        {
+          "id": "timeline-true",
+          "name": "Timeline True",
+          "note": "The timeline laid in order first time"
+        },
+        {
+          "id": "no-blame",
+          "name": "No Blame",
+          "note": "No name blamed, no floor closed early, no vague action, no rumour as a finding"
+        },
+        {
+          "id": "vote-read",
+          "name": "Vote Read",
+          "note": "Priority committed to match the vote"
+        },
+        {
+          "id": "clean-review",
+          "name": "Clean Review",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "balanced-room",
+          "name": "Balanced Room",
+          "note": "Talking time kept balanced without a dropout"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-after-action-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-safe-and-dignified-burial",
+      "name": "Safe and Dignified Burial",
+      "title": "SmartCiti.X~ Safe and Dignified Burial VR",
+      "tagline": "A burial team's visit: roles assigned, the family met with their community representative, PPE, the sprayer mixed to protocol, the family's items found, the body carried by the whole team, the grave marked, a pause for prayer, a supervised doff",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Burial team member — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO safe and dignified burial practice as the national response adopts it — a trained team with assigned roles, the family engaged with a community or religious representative before anything is done, and dignity treated as part of safety; WHO infection prevention and control guidance for the team's PPE, chlorine solutions and handling of the body; CDC isolation precautions for the transmission-based precautions the team works under; OSHA 29 CFR 1910.1030 for body fluids and 29 CFR 1910.134 for the respirators worn; WHO outbreak communication guidance for what is said to the family and the neighbours; the Sphere Handbook's minimum standards and IASC cluster coordination for the partners who field burial teams; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+      "accent": "#b8b0a0",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "sequence",
+        "gauge",
+        "turn",
+        "find",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "safe-and-dignified",
+        "name": "Safe and Dignified",
+        "note": "The family heard first, the body carried by the whole team, the grave marked for the family to find, and every team member doffed under supervision"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "225",
+      "flat": false,
+      "system": "Burial Team",
+      "currency": "RESPECT",
+      "ranks": [
+        "Team Trainee",
+        "Burial Team Member",
+        "Sprayer",
+        "Team Leader",
+        "Burial Team Certified"
+      ],
+      "awards": [
+        {
+          "id": "family-first",
+          "name": "Family First",
+          "note": "The family meeting held to the end before anything else happened"
+        },
+        {
+          "id": "never-alone",
+          "name": "Never Alone",
+          "note": "No lone handling, no opened bag, no spray at the family, no guessed mix"
+        },
+        {
+          "id": "mixed-true",
+          "name": "Mixed True",
+          "note": "Sprayer solution committed inside the band"
+        },
+        {
+          "id": "clean-burial",
+          "name": "Clean Burial",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "level-carry",
+          "name": "Level Carry",
+          "note": "Carried the stretcher level without a dropout"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-safe-and-dignified-burial"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-risk-communication-and-community-engagement",
+      "name": "Risk Communication and Community Engagement",
+      "title": "SmartCiti.X~ Risk Communication and Community Engagement VR",
+      "tagline": "A community meeting in an outbreak: the rumour log read first, what is known and what is not, trusted voices at the front, the community's language, listening before answering, rumours logged not repeated, and the feedback loop closed",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Risk communication and community engagement officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO outbreak communication guidance — trust, announcing early, transparency, listening to the public and planning — as the risk communication and community engagement working group applies it; WHO infection prevention and control guidance for the practical advice given at the meeting; CDC isolation precautions for what families are told about a relative in isolation; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the health staff who attend; the Sphere Handbook's core humanitarian standard commitments on communication, participation and feedback, and IASC cluster coordination for sharing the rumour log across partners; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+      "accent": "#c98ad8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "loop-closed",
+        "name": "Loop Closed",
+        "note": "A message that said what is known and what is not, trusted voices heard, every rumour logged and none repeated, and last week's questions answered in public"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "224",
+      "flat": false,
+      "system": "Community Voice",
+      "currency": "TRUST",
+      "ranks": [
+        "Community Mobiliser",
+        "RCCE Officer",
+        "Engagement Lead",
+        "RCCE Coordinator",
+        "Community Voice Certified"
+      ],
+      "awards": [
+        {
+          "id": "honest-message",
+          "name": "Honest Message",
+          "note": "Known, not yet known, doing, you can — first time"
+        },
+        {
+          "id": "no-harm-said",
+          "name": "No Harm Said",
+          "note": "No rumour repeated, no promise, no family named, no group blamed"
+        },
+        {
+          "id": "heard-at-back",
+          "name": "Heard at the Back",
+          "note": "Loudspeaker set inside the band"
+        },
+        {
+          "id": "clean-meeting",
+          "name": "Clean Meeting",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "every-question",
+          "name": "Every Question",
+          "note": "Question tally kept without a dropout"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-risk-communication-and-community-engagement"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-vaccination-line",
+      "name": "Vaccination Line",
+      "title": "SmartCiti.X~ Vaccination Line VR",
+      "tagline": "An outbreak vaccination session: the plan read, the cold chain proven, vials checked, each person screened and consenting, an auto-disable syringe straight into the safety box, the card kept and the observation area watched",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Vaccinator — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO immunization practice as the national programme adopts it for an outbreak response — the cold chain, the vaccine vial monitor, auto-disable syringes, safety boxes, screening and consent, and observation for adverse events following immunization; WHO infection prevention and control guidance for injection safety and hand hygiene; OSHA 29 CFR 1910.1030 for sharps, the prohibition on recapping a used needle by hand and the post-exposure pathway, and 29 CFR 1910.134 where the session's risk assessment calls for respirators; CDC isolation precautions for anyone who arrives unwell; WHO outbreak communication guidance for answering hesitant questions at the table; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who run a campaign together; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+      "accent": "#8a9fe0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "turn",
+        "sequence",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "cold-and-capped",
+        "name": "Cold and Uncapped",
+        "note": "The cold chain proven, every vial checked, every syringe straight into the box uncapped, and every person watched before they went home"
+      },
+      "meshes": 264,
+      "lights": 0,
+      "overBudget": false,
+      "index": "223",
+      "flat": false,
+      "system": "Vaccine Table",
+      "currency": "DOSE",
+      "ranks": [
+        "Recorder",
+        "Vaccinator",
+        "Team Lead",
+        "Session Supervisor",
+        "Vaccine Table Certified"
+      ],
+      "awards": [
+        {
+          "id": "chain-held",
+          "name": "Chain Held",
+          "note": "The carrier temperature committed inside the label's range"
+        },
+        {
+          "id": "no-recap",
+          "name": "No Recap",
+          "note": "No recapped needle, no stale vial, nobody sent home early, no overfilled box"
+        },
+        {
+          "id": "vials-read",
+          "name": "Vials Read",
+          "note": "Both bad vials found first time"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "eyes-on",
+          "name": "Eyes On",
+          "note": "Observation area watched without a dropout"
+        },
+        {
+          "id": "session-fast",
+          "name": "Session Fast",
+          "note": "Finished inside 85% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-vaccination-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-water-sanitation-and-hygiene",
+      "name": "Water, Sanitation and Hygiene",
+      "title": "SmartCiti.X~ Water, Sanitation and Hygiene VR",
+      "tagline": "A camp water point in an outbreak: treated in order, dosed from the jar test, contact time kept, a residual read at the tap, latrines downhill with hand washing at every one, clean covered containers and a hygiene promoter who listens",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "WASH officer and hygiene promoter — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "The Sphere Handbook's water supply, sanitation and hygiene promotion standards as the WASH cluster applies them under IASC cluster coordination — treated water with a chlorine residual at the point of delivery, latrines sited away from and downhill of water sources, hand washing at every latrine, clean covered household containers; WHO infection prevention and control guidance for chlorine solutions and hand hygiene in an outbreak; CDC isolation precautions for the health facility the water point also serves; OSHA 29 CFR 1910.134 for the respirator worn when handling chlorine concentrate and 29 CFR 1910.1030 for faecal and body-fluid spills; WHO outbreak communication guidance for the hygiene promoter's conversations; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+      "accent": "#4f9fd0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "drag",
+        "find"
+      ],
+      "badge": {
+        "id": "safe-at-tap",
+        "name": "Safe at the Tap",
+        "note": "Water treated, dosed, held and proven at the tap, latrines sited right with a basin at every one, and nobody drinking from the bypass"
+      },
+      "meshes": 209,
+      "lights": 0,
+      "overBudget": false,
+      "index": "222",
+      "flat": false,
+      "system": "Water Point",
+      "currency": "LITRE",
+      "ranks": [
+        "WASH Volunteer",
+        "Water Operator",
+        "WASH Officer",
+        "WASH Coordinator",
+        "Water Point Certified"
+      ],
+      "awards": [
+        {
+          "id": "jar-test",
+          "name": "Jar Test",
+          "note": "The dose committed on the jar-test mark"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No dose by eye, no latrine uphill, no open bucket, no tap before the contact time"
+        },
+        {
+          "id": "in-order",
+          "name": "In Order",
+          "note": "Settle, filter, chlorinate — first time"
+        },
+        {
+          "id": "clean-point",
+          "name": "Clean Point",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-pump",
+          "name": "Steady Pump",
+          "note": "Dosing pump held matched to flow without a dropout"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-water-sanitation-and-hygiene"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-treatment-centre-triage",
+      "name": "Treatment Centre Triage",
+      "title": "SmartCiti.X~ Treatment Centre Triage VR",
+      "tagline": "The screening point at a treatment centre's gate: the case definition posted, a table at distance, hand washing for every arrival, a touch-free scan, questions in order, suspected cases sent by their own path, the red zone called ahead",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Screening and triage nurse — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO infection prevention and control guidance for screening and triage at the entrance of a treatment centre — a posted case definition, distance at the screening point, hand hygiene for every arrival and a separate path for suspected cases; CDC isolation precautions for the screener's precautions and the separation of suspected patients; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the screener's gloves, gown and respirator; WHO outbreak communication guidance for what is said to a frightened family at the gate; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who run a centre's gate together; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+      "accent": "#d9785a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "sequence",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "gate-held",
+        "name": "Gate Held",
+        "note": "Every arrival screened at distance, every suspected case sent by its own path, and nobody walked through the waiting area who should not have been"
+      },
+      "meshes": 203,
+      "lights": 0,
+      "overBudget": false,
+      "index": "221",
+      "flat": false,
+      "system": "Gate Screening",
+      "currency": "SCREEN",
+      "ranks": [
+        "Gate Volunteer",
+        "Screener",
+        "Triage Nurse",
+        "Gate Lead",
+        "Gate Screening Certified"
+      ],
+      "awards": [
+        {
+          "id": "right-path",
+          "name": "Right Path",
+          "note": "Every suspected case picked out and routed first time"
+        },
+        {
+          "id": "hands-off",
+          "name": "Hands Off",
+          "note": "No bare-hand forehead, no shared pen, no shortcut through the waiting area, no neat concentrate"
+        },
+        {
+          "id": "queue-set",
+          "name": "Queue Set",
+          "note": "Queue spacing committed inside the band"
+        },
+        {
+          "id": "clean-gate",
+          "name": "Clean Gate",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-scan",
+          "name": "Steady Scan",
+          "note": "Held the temperature scan without a dropout"
+        },
+        {
+          "id": "gate-fast",
+          "name": "Gate Fast",
+          "note": "Finished inside 85% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-treatment-centre-triage"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-contact-tracing-visit",
+      "name": "Contact Tracing Visit",
+      "title": "SmartCiti.X~ Contact Tracing Visit VR",
+      "tagline": "A household follow-up visit: the list and the follow-up period read first, the focal person met at the gate, an outdoor interview at distance, consent asked, every contact found, a symptomatic contact referred and the day logged",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Contact tracer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO contact-tracing practice as the national response adopts it — contacts listed, visited and followed up daily for the period the case definition sets; WHO infection prevention and control guidance and CDC isolation precautions for distance, hand hygiene and a non-contact temperature check; OSHA 29 CFR 1910.134 for the respirator the team carries and 29 CFR 1910.1030 for anything that could carry blood; WHO outbreak communication guidance for consent, confidentiality and rumours at the gate; the Sphere Handbook's protection principles and IASC cluster coordination for the Health Cluster partners the team reports to; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+      "accent": "#e0a84a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "find",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "every-contact",
+        "name": "Every Contact",
+        "note": "Every household contact found, checked without touching and logged, the case's name kept private and the sick contact referred, not driven"
+      },
+      "meshes": 201,
+      "lights": 0,
+      "overBudget": false,
+      "index": "220",
+      "flat": false,
+      "system": "Trace Team",
+      "currency": "TRACE",
+      "ranks": [
+        "Volunteer Tracer",
+        "Contact Tracer",
+        "Team Lead",
+        "Tracing Supervisor",
+        "Trace Team Certified"
+      ],
+      "awards": [
+        {
+          "id": "none-missed",
+          "name": "None Missed",
+          "note": "Every contact found, including the ones not on the list"
+        },
+        {
+          "id": "trusted",
+          "name": "Trusted",
+          "note": "No name shared, no rumour repeated, nobody driven, nobody interviewed indoors"
+        },
+        {
+          "id": "at-distance",
+          "name": "At Distance",
+          "note": "Interview distance set inside the band"
+        },
+        {
+          "id": "clean-visit",
+          "name": "Clean Visit",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-reading",
+          "name": "Steady Reading",
+          "note": "Temperature check held without a dropout"
+        },
+        {
+          "id": "seven-straight",
+          "name": "Seven Straight",
+          "note": "Seven correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-contact-tracing-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-isolation-ward-setup",
+      "name": "Isolation Ward Setup",
+      "title": "SmartCiti.X~ Isolation Ward Setup VR",
+      "tagline": "An ordinary ward turned into an isolation area: one-way flow, suspected and confirmed kept apart, beds at spacing, a negative-pressure room, hand hygiene at every bed, three waste streams and a door that stays shut",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Ward nurse and IPC lead — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO infection prevention and control guidance for isolation areas — one-way flow, separation of suspected and confirmed patients, hand hygiene at the point of care; CDC isolation precautions for standard and transmission-based precautions, door signage, dedicated patient equipment and the negative-pressure room; OSHA 29 CFR 1910.1030 for sharps and infectious waste and 29 CFR 1910.134 for the respirators worn in the single room; WHO outbreak communication guidance for the families at the ward door; the Sphere Handbook's health standards and IASC cluster coordination for the partners who share the ward; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+      "accent": "#6fc3a8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "ward-ready",
+        "name": "Ward Ready",
+        "note": "A ward that keeps suspected and confirmed apart, runs one way, holds its pressure and puts hand hygiene within reach of every bed"
+      },
+      "meshes": 192,
+      "lights": 0,
+      "overBudget": false,
+      "index": "219",
+      "flat": false,
+      "system": "Ward Command",
+      "currency": "BARRIER",
+      "ranks": [
+        "Ward Aide",
+        "Ward Nurse",
+        "Isolation Nurse",
+        "IPC Lead",
+        "Ward Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "one-way",
+          "name": "One Way",
+          "note": "The staff route walked in order, first time"
+        },
+        {
+          "id": "apart",
+          "name": "Kept Apart",
+          "note": "No mixed cohort, no propped door, no shared thermometer, no guessed dilution"
+        },
+        {
+          "id": "spaced",
+          "name": "Spaced",
+          "note": "Bed spacing set on the plan mark"
+        },
+        {
+          "id": "clean-ward",
+          "name": "Clean Ward",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "held-negative",
+          "name": "Held Negative",
+          "note": "Pressure watch held without a dropout"
+        },
+        {
+          "id": "ward-fast",
+          "name": "Ward Fast",
+          "note": "Ward set inside 85% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-isolation-ward-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-ppe-donning-and-doffing",
+      "name": "PPE Donning and Doffing",
+      "title": "SmartCiti.X~ PPE Donning and Doffing VR",
+      "tagline": "The isolation anteroom: kit inspected, the bin staged, hand hygiene in full, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Isolation-area nurse and IPC focal person — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO infection prevention and control guidance on personal protective equipment, hand hygiene and the trained observer; CDC isolation precautions and the CDC donning and doffing sequence for gown, respirator, eye protection and gloves; OSHA 29 CFR 1910.134 for the respirator programme, its fit test and the user seal check every time it goes on; OSHA 29 CFR 1910.1030 for the gloves, the gown and the waste stream; WHO outbreak communication guidance for what staff say at the door; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who staff an isolation area together; worked by NNU/CNA nurses alongside SEIU and AFSCME public-health staff",
+      "accent": "#5fb8c9",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "sequence",
+        "hold",
+        "select",
+        "gauge"
+      ],
+      "badge": {
+        "id": "off-in-order",
+        "name": "Off in Order",
+        "note": "On in the right order, sealed, buddy-checked, and off again with the respirator last and clean hands at the end"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "218",
+      "flat": false,
+      "system": "Barrier Discipline",
+      "currency": "BARRIER",
+      "ranks": [
+        "Trainee",
+        "PPE Trained",
+        "Buddy Observer",
+        "IPC Focal Person",
+        "Barrier Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "last-off",
+          "name": "Last Off",
+          "note": "The doffing order held clean, respirator last"
+        },
+        {
+          "id": "untouched",
+          "name": "Untouched",
+          "note": "No gloved hand near the face, no reused glove, no shaken gown"
+        },
+        {
+          "id": "timer-true",
+          "name": "Timer True",
+          "note": "The rotation timer set inside the band"
+        },
+        {
+          "id": "clean-anteroom",
+          "name": "Clean Anteroom",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "full-rub",
+          "name": "Full Rub",
+          "note": "Hand hygiene held without a dropout"
+        },
+        {
+          "id": "eight-straight",
+          "name": "Eight Straight",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-ppe-donning-and-doffing"
+    },
+    {
+      "app": "smartcity",
+      "id": "who-surveillance-and-case-definition",
+      "name": "Surveillance and Case Definition",
+      "title": "SmartCiti.X~ Surveillance and Case Definition VR",
+      "tagline": "District surveillance desk: the case definition read first, a signal verified, a report filed at the tier the evidence supports, a clean line list, a triple-packaged specimen, zero reports chased and the next level told",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Surveillance officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+      "union": null,
+      "certification": "WHO surveillance practice as the national programme adopts it — a written case definition with suspected, probable and confirmed tiers, a line list, zero reporting and notification up the chain; WHO infection prevention and control guidance and CDC isolation precautions for the specimen and anyone who handles it; OSHA 29 CFR 1910.1030 for the blood specimen and 29 CFR 1910.134 for the respirator a field collection needs; WHO outbreak communication guidance for what leaves this desk and what does not; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners the line list is shared with; worked by SEIU and AFSCME public-health staff alongside NNU/CNA nurses",
+      "accent": "#4fb0a0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "signal-verified",
+        "name": "Signal Verified",
+        "note": "Every report tiered on the evidence, the line list clean, the specimen packed right and the silent site chased before anyone assumed zero"
+      },
+      "meshes": 192,
+      "lights": 0,
+      "overBudget": false,
+      "index": "217",
+      "flat": false,
+      "system": "Signal Desk",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Data Clerk",
+        "Surveillance Assistant",
+        "Surveillance Officer",
+        "District Epidemiologist",
+        "Signal Desk Certified"
+      ],
+      "awards": [
+        {
+          "id": "tier-true",
+          "name": "Tier True",
+          "note": "The report filed at the tier the evidence supports, first time"
+        },
+        {
+          "id": "nothing-leaked",
+          "name": "Nothing Leaked",
+          "note": "No name on a public board, no rumour forwarded, no stamp without a lab"
+        },
+        {
+          "id": "returns-read",
+          "name": "Returns Read",
+          "note": "Reporting completeness committed inside the band"
+        },
+        {
+          "id": "clean-desk",
+          "name": "Clean Desk",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "eyes-on-feed",
+          "name": "Eyes on the Feed",
+          "note": "Held the feed watch without a dropout"
+        },
+        {
+          "id": "desk-on-time",
+          "name": "Desk on Time",
+          "note": "Finished inside 85% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=who-surveillance-and-case-definition"
     },
     {
       "app": "smartcity",

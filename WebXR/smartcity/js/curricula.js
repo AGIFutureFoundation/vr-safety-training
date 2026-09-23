@@ -364,8 +364,16 @@ export const CURRICULA = [
     accent: "#4fb0a0",
     stations: [
       { app: "smartcity", id: "decon-line", why: "The shared opener: a decontamination line run in order is the same discipline an isolation ward and a treatment centre are built on." },
-      // slot-who-1
-      // slot-who-2
+      { app: "smartcity", id: "who-surveillance-and-case-definition", why: "The first alert: a written case definition read before anything is counted, a signal verified before it is believed, a report filed at the tier the evidence supports, and a silent site chased rather than counted as zero." },
+      { app: "smartcity", id: "who-ppe-donning-and-doffing", why: "The anteroom every clinical station after this one depends on: kit inspected, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last." },
+      { app: "smartcity", id: "who-isolation-ward-setup", why: "An ordinary ward turned into an isolation area before the first patient arrives: one-way flow, suspected and confirmed kept apart, a room held at negative pressure, and hand hygiene within reach of every bed." },
+      { app: "smartcity", id: "who-contact-tracing-visit", why: "The daily household visit that finds the next case before it spreads: the community focal person met first, the interview held outdoors at distance, every contact found, and a sick contact referred rather than driven." },
+      { app: "smartcity", id: "who-treatment-centre-triage", why: "The treatment centre's gate: every arrival screened touch-free against the posted definition, suspected cases sent by their own path, and the ambulance and the family that follow handled without breaking either rule." },
+      { app: "smartcity", id: "who-water-sanitation-and-hygiene", why: "The camp water point the Sphere Handbook sets standards for: water treated in order, chlorine dosed from the jar test, a residual read at the tap, and latrines sited downhill with a basin at every one." },
+      { app: "smartcity", id: "who-vaccination-line", why: "An outbreak vaccination session end to end: the cold chain proven, every vial checked, an auto-disable syringe straight into the safety box uncapped, and every person watched before they go home." },
+      { app: "smartcity", id: "who-risk-communication-and-community-engagement", why: "The community meeting WHO outbreak communication guidance describes: what is known and what is not, trusted voices at the front, rumours logged rather than repeated, and last week's questions answered in public." },
+      { app: "smartcity", id: "who-safe-and-dignified-burial", why: "A burial team's visit taught as one procedure for safety and dignity: the family heard first with their community representative, the body carried by the whole team, the grave marked, and a supervised doff." },
+      { app: "smartcity", id: "who-after-action-review", why: "The last station: a no-blame review once the outbreak is over, the frontline heard first, planned set against actual, and every lesson turned into an action with an owner and a date." },
     ],
   },
   {

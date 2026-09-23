@@ -412,9 +412,11 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-134"],
     stations: [
-      "decon-line"
+      "decon-line", "who-surveillance-and-case-definition", "who-ppe-donning-and-doffing", "who-isolation-ward-setup",
+      "who-contact-tracing-visit", "who-treatment-centre-triage", "who-water-sanitation-and-hygiene", "who-vaccination-line",
+      "who-risk-communication-and-community-engagement", "who-safe-and-dignified-burial", "who-after-action-review"
     ],
-    require: 1,
+    require: 6,
   },
   {
     id: "bartending-course",
