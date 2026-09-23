@@ -450,7 +450,14 @@ export const CURRICULA = [
       { app: "smartcity", id: "pt-stormwater-at-the-terminal", why: "The permit's plan as a procedure: the sheen watched, traced upstream and pumped with the outfall gated before the storm's first flush reaches the bay." },
       { app: "smartcity", id: "pt-chassis-and-genset-yard", why: "A chassis worked chocked or not at all, and its genset isolated before the fuel system opens: the two energies a chassis yard puts in the same bay." },
       { app: "smartcity", id: "mooring-line", why: "The shared opener for the water: the line under load teaches the snap-back zone before anything else." },
-      // slot-mw-1
+      { app: "smartcity", id: "mw-ferry-deckhand-and-passenger-safety", why: "The Inlandboatmen's deckhand at the float: the station bill read, the gangway landed before anyone crosses, every passenger counted against the certificate, and the ring buoy to a person in the gap before anything else." },
+      { app: "smartcity", id: "mw-workboat-towing-and-line-handling", why: "Making up to a barge astern under Subchapter M: the hawser walked and the winch brake set, the eye passed from outside the bight, and the pay-out stopped the moment the wheelhouse goes silent." },
+      { app: "smartcity", id: "mw-oil-transfer-watch-and-boom", why: "The person in charge of a transfer: the declaration signed before the pump, the boom streamed from upcurrent, the flange watched through the slow start, and a sheen stopped at the source rather than dispersed." },
+      { app: "smartcity", id: "mw-dive-supervisor-and-dive-plan", why: "The dive station at the surface: the plan briefed, the screw locked out, the standby dressed, the panel never left, and the decompression obligation read from the tables the supervisor holds." },
+      { app: "smartcity", id: "mw-pier-pile-inspection-dive", why: "The Pile Drivers' diver under the pier: the umbilical proven by hand, the spall and the section loss found and measured, and every defect photographed against a scale without passing inside a brace." },
+      { app: "smartcity", id: "mw-hull-inspection-and-cleaning-dive", why: "Under a ship's stern with the shaft and sea suctions locked out: the anodes and coating surveyed, the brush opened only on the plate, and the grating touched only behind its confirmed tag." },
+      { app: "smartcity", id: "mw-underwater-welding-and-cutting", why: "Wet cutting and welding to AWS D3.6: the sealed void found, the ground on clean steel before 'make it hot', 'make it cold' before every rod change, and never the diver between the ground and the work." },
+      { app: "smartcity", id: "mw-diver-emergency-and-recovery", why: "The standby's dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor's call rather than flown up on a bag." },
     ],
   },
   {

@@ -5131,7 +5131,9 @@ const PROGRAMME_COMPETENCIES = [
       "gg-suspender-rope-replacement", "gg-deck-lane-closure-and-traveller", "gg-paint-containment-on-the-deck", "gg-international-orange-recoat",
       "gg-fog-and-wind-work-stop", "gg-pile-driver-fender-repair", "container-lashing", "pt-spreader-and-twistlock-inspection",
       "pt-crane-boom-hoist-brake-service", "pt-straddle-carrier-hydraulics", "pt-reefer-plug-and-power-panel", "pt-dock-fender-and-bollard-inspection",
-      "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line"
+      "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line",
+      "mw-ferry-deckhand-and-passenger-safety", "mw-workboat-towing-and-line-handling", "mw-oil-transfer-watch-and-boom", "mw-dive-supervisor-and-dive-plan",
+      "mw-pier-pile-inspection-dive", "mw-hull-inspection-and-cleaning-dive", "mw-underwater-welding-and-cutting", "mw-diver-emergency-and-recovery"
     ],
     require: 6,
   },
@@ -23295,6 +23297,342 @@ const SIMS_META = [
         "Rigger",
         "Fender Foreman",
         "Pile Butt Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-ferry-deckhand-and-passenger-safety",
+    "index": "230",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union of the ILWU deckhand on a Bay passenger ferry, with the MEBA licensed engineer below and SIU-trained ratings in the relief crew",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union of the ILWU deck department practice; MEBA engineering watch; SIU Paul Hall Center unlicensed training for relief ratings; IMO STCW basic safety training and crowd management for passenger-ship crew; IMO SOLAS muster, station bill and life-saving appliance requirements as the vessel's own certificate of inspection applies them; IMO MARPOL for anything that goes over the side",
+    "name": "Ferry Deckhand & Passenger Safety",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Ferry Deckhand & Passenger Safety VR",
+    "tagline": "A passenger ferry at the float: the station bill read, vest and radio on, the deck walked before boarding, the gangway landed, the count held against the certificate while a passenger goes in between the float and the hull, the lines let go, the life-saving gear walked, the bow line tended on the capstan through a current shift, the passengers landed in order and the run logged",
+    "accent": 3122116,
+    "accentCss": "#2fa3c4",
+    "parSeconds": 280,
+    "badge": {
+      "id": "every-soul-counted",
+      "name": "Every Soul Counted",
+      "note": "The count held against the certificate, the passenger overboard answered with the ring, and the gangway never crossed before it was landed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ferry Deck",
+      "currency": "SOUL",
+      "ranks": [
+        "Ordinary Deckhand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Bosun",
+        "Ferry Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-workboat-towing-and-line-handling",
+    "index": "231",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union of the ILWU deckhand on a harbour towing vessel, with the MEBA licensed engineer on watch and an SIU-trained AB in the relief crew",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union of the ILWU deck practice on towing vessels; MEBA engineering watch; SIU Paul Hall Center unlicensed deck training; USCG 46 CFR Subchapter M towing vessel inspection, including the vessel's towing safety management and its towing gear; IMO STCW basic safety training; IMO MARPOL for the fuel and the bilge on deck",
+    "name": "Workboat Towing & Line Handling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Workboat Towing & Line Handling VR",
+    "tagline": "Making up to a barge astern: the voyage plan read, vest and knife on, the hawser and bridle walked, the winch brake set, the heaving line tended to the barge through a current shift, the eye passed to the barge's bitt, the load read, the gob and roller walked, the hawser paid out to the master's length through a lost-comms call, the afterdeck chained off, the gear stowed and the tow logged",
+    "accent": 14714682,
+    "accentCss": "#e0873a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "clear-of-the-hawser",
+      "name": "Clear Of The Hawser",
+      "note": "Never over a working hawser, never a hand on the drum, never a line near the screw, and both the set and the silent radio answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tow Deck",
+      "currency": "FATHOM",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Lead Deckhand",
+        "Tow Mate",
+        "Tow Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-oil-transfer-watch-and-boom",
+    "index": "232",
+    "domain": "Maritime & Ports",
+    "trade": "MEBA licensed engineer as the barge's person in charge of the oil transfer, with an Inlandboatmen's Union of the ILWU deckhand on the boom boat and an SIU-trained tankerman on the pump",
+    "category": "Maritime & Ports",
+    "certification": "MEBA Calhoon School engineering; SIU Paul Hall Center tankerman training; Inlandboatmen's Union of the ILWU deck practice on the boom boat; USCG 33 CFR 155.710 person in charge of an oil transfer; USCG 33 CFR 156.150 declaration of inspection; IMO MARPOL oil pollution prevention; the facility's and the vessel's own transfer procedures and boom plan",
+    "name": "Oil Transfer Watch & Boom",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Oil Transfer Watch & Boom VR",
+    "tagline": "A barge discharging ashore: the transfer procedures read and the declaration of inspection signed, the current read against the boom plan, the boom streamed from upcurrent, the hose and flange walked, the manifold opened, a slow start watched at the flange while a sheen shows outside the boom, the pump held at the agreed rate through a current shift, the deck walked, the pressure read against the hose, the line stopped, drained and blanked, and the transfer logged",
+    "accent": 4175242,
+    "accentCss": "#3fb58a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "nothing-past-the-boom",
+      "name": "Nothing Past The Boom",
+      "note": "The boom streamed from upcurrent, the pump never ahead of the declaration, the sheen stopped at the source and never dispersed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Transfer Watch",
+      "currency": "BARREL",
+      "ranks": [
+        "Watchstander",
+        "Tankerman",
+        "Person In Charge",
+        "Senior PIC",
+        "Transfer Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-dive-supervisor-and-dive-plan",
+    "index": "233",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver as dive supervisor on a surface-supplied air dive, with the tender, the standby diver and an Inlandboatmen's Union of the ILWU deckhand on the dive boat",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the safe practices manual, the dive team, pre-dive, during-dive and post-dive procedures and the dive record; ADCI consensus standards for commercial diving; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel under Coast Guard jurisdiction; Inlandboatmen's Union of the ILWU deck practice on the dive boat",
+    "name": "Dive Supervisor & Dive Plan",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Supervisor & Dive Plan VR",
+    "tagline": "The dive station at the surface: the plan briefed, the screw locked out and the flag up, the umbilical walked, the air lined up and the supply read against the plan, the station checked, the tools on the stage, the comms check held through a dead line, the stage lowered while a launch comes in with its screw turning, the pneumo read, the decompression obligation read from the tables the supervisor holds, and the dive logged",
+    "accent": 15905597,
+    "accentCss": "#f2b33d",
+    "parSeconds": 290,
+    "badge": {
+      "id": "by-the-tables",
+      "name": "By The Tables",
+      "note": "The standby dressed, the panel never left, the umbilical never paid out foul, and the obligation read from the tables the supervisor holds"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dive Station",
+      "currency": "FATHOM",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Supervisor",
+        "Dive Station Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-pier-pile-inspection-dive",
+    "index": "234",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver on a surface-supplied pier inspection dive, with the dive supervisor, the tender and the standby diver at the surface",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations; ADCI consensus standards for commercial diving and underwater inspection; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Pier Pile Inspection Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Pier Pile Inspection Dive VR",
+    "tagline": "On the bottom under the pier: on-bottom report to the supervisor, the umbilical checked hand over hand while the comms go dead, the scraper passed off the stage, the first pile's spall and section loss found, the pneumo read, the faceplate cleared, the section measured, the second pile's band cleaned at a breathing pace the supply can hold through a current shift, the jacket and anode lead found, the defects photographed against a scale, the tools sent up and the findings read up for the dive log",
+    "accent": 6279360,
+    "accentCss": "#5fd0c0",
+    "parSeconds": 290,
+    "badge": {
+      "id": "every-pile-read",
+      "name": "Every Pile Read",
+      "note": "Both piles inspected, every defect photographed against a scale, the umbilical never fouled and never a free ascent"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Inspection",
+      "currency": "BENT",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Inspection Diver",
+        "Lead Inspection Diver",
+        "Pile Inspection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-hull-inspection-and-cleaning-dive",
+    "index": "235",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver on a hull inspection and cleaning dive, with the ship's MEBA licensed engineer holding the shaft and sea-suction lockouts and the dive supervisor on the comms",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations, including the vessel's own hazards to the diver; ADCI consensus standards for commercial diving and ships' husbandry; USCG 46 CFR 197 Subpart B for a dive worked from or under a vessel; MEBA engineering practice for the ship's shaft and sea-suction lockouts; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Hull Inspection & Cleaning Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Hull Inspection & Cleaning Dive VR",
+    "tagline": "Under a ship's stern quarter: the ship's lockouts confirmed on comms, the umbilical checked while a tug's screw turns at the next berth, the anodes and coating inspected, the pneumo read, the brush brought off the stage and opened only on the plate, a strake cleaned at a breathing pace while the sea suction starts to draw, the running gear walked, the sea chest cleaned only behind its tag, the plate gauged, the tools sent up and the findings read up for the dive log",
+    "accent": 7324648,
+    "accentCss": "#6fc3e8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "locked-out-below",
+      "name": "Locked Out Below",
+      "note": "Nothing touched until the ship's lockouts were confirmed, never a hand between blade and hull, never a lift bag without its dump, never under the keel"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ship's Husbandry",
+      "currency": "STRAKE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Husbandry Diver",
+        "Lead Husbandry Diver",
+        "Ship's Husbandry Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-underwater-welding-and-cutting",
+    "index": "236",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver-welder cutting and wet-welding a steel pile, with the tender on the surface switch and the dive supervisor on the comms",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; AWS D3.6 underwater welding code for the qualified procedure and the welder's qualification; OSHA 29 CFR 1910 Subpart T commercial diving operations, including electrical safety for underwater welding and cutting; ADCI consensus standards for underwater burning and welding; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Underwater Welding & Cutting",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Welding & Cutting VR",
+    "tagline": "A steel pile cut back and patched: the job and the switch plan agreed on comms, the umbilical checked, the torch taken off the stage, the sealed void and the painted ground spot found, the ground on clean steel before 'make it hot', the pneumo read, the cut run at a steady oxygen flow while the comms drop, 'make it cold' before the rod change, the oxygen closed, the patch seated, the pass run through a current shift, the weld inspected and the dive logged",
+    "accent": 15769675,
+    "accentCss": "#f0a04b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "ground-then-hot",
+      "name": "Ground Then Hot",
+      "note": "The ground on clean steel before every 'make it hot', never a rod changed hot, never between the ground and the work, never a lift bag run away"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wet Weld",
+      "currency": "ROD",
+      "ranks": [
+        "Burner's Helper",
+        "Burner",
+        "Diver-Welder",
+        "Lead Diver-Welder",
+        "Wet Weld Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mw-diver-emergency-and-recovery",
+    "index": "237",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver as the standby diver recovering a fouled working diver, with the dive supervisor, the tenders and an Inlandboatmen's Union of the ILWU deckhand on the dive boat at the surface",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the standby diver, the emergency procedures in the safe practices manual and the dive record; ADCI consensus standards for commercial diving, standby and emergency response; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; Inlandboatmen's Union of the ILWU deck practice on the dive boat; ascent and treatment per the dive plan and the tables the supervisor holds",
+    "name": "Diver Emergency & Recovery",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Diver Emergency & Recovery VR",
+    "tagline": "The standby goes in: on the bottom on the working diver's umbilical, followed hand over hand while a vessel's screw turns overhead, the diver checked through his faceplate, his bailout opened, the pneumo read, the wire and the monofilament found, the cutter passed down the stage, his free-flow held steady while your own comms go, his gear checked, brought to the stage, clipped on before the call up, and the emergency read up for the dive log",
+    "accent": 15230554,
+    "accentCss": "#e8665a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "brought-him-home",
+      "name": "Brought Him Home",
+      "note": "His gas first, the snag cut and never his umbilical, never flown up on a bag, never his helmet off, and your own umbilical kept clear"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Standby Diver",
+      "currency": "BREATH",
+      "ranks": [
+        "Standby Trainee",
+        "Standby Diver",
+        "Rescue Diver",
+        "Lead Standby",
+        "Standby Diver Certified"
       ],
       "rankAt": [
         0,

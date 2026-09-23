@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 327 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 331 entries across 89 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -10,7 +10,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 ## By body
 
-### OSHA (70)
+### OSHA (71)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
@@ -50,6 +50,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1910.38 — Emergency action plans | `osha-1910-38` | all 17 categories | `29 CFR 1910.38` |
 | ✓ | 29 CFR 1910.424 — SCUBA diving | `osha-1910-424` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910.424` |
 | ✓ | 29 CFR 1910.95 — Occupational noise exposure | `osha-1910-95` | all 17 categories | `29 CFR 1910.95` |
+| ✓ | 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record) | `osha-1910-subpart-t` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910 Subpart T` |
 | ✓ | 29 CFR 1915 — Occupational safety and health standards for shipyard employment | `osha-1915` | Maritime & Ports, Water & Environmental | `29 CFR 1915` |
 | ✓ | 29 CFR 1915.12 — Precautions before entering a shipyard confined or enclosed space | `osha-1915-12` | Maritime & Ports | `29 CFR 1915.12` |
 | ✓ | 29 CFR 1915.14 — Hot work authorisation in shipyard employment | `osha-1915-14` | Maritime & Ports | `29 CFR 1915.14` |
@@ -241,6 +242,17 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | NSF/ANSI 7 — Commercial refrigerators and freezers | `nsf-ansi-7` | Culinary & Hospitality, Trade Skills Simulator | `NSF/ANSI 7` |
 | ✓ | NSF/ANSI 8 — Commercial powered food preparation equipment | `nsf-ansi-8` | Culinary & Hospitality, Trade Skills Simulator | `NSF/ANSI 8` |
 
+### USCG (6)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | 33 CFR Part 126 — Handling of dangerous cargo at waterfront facilities | `uscg-33-cfr-126` | Maritime & Ports | `33 CFR 126` |
+| ✓ | 33 CFR Part 151 — Vessel pollution prevention and ballast water management | `uscg-33-cfr-151` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `33 CFR 151` |
+| ✓ | 33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer | `uscg-33-cfr-155-710` | Maritime & Ports | `33 CFR 155.710` |
+| ✓ | 33 CFR 156.150 — Declaration of inspection before an oil transfer | `uscg-33-cfr-156-150` | Maritime & Ports | `33 CFR 156.150` |
+| ? | 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction | `uscg-46-cfr-197-subpart-b` | Maritime & Ports, Water & Environmental | `46 CFR 197 Subpart B`, `46 CFR 197` |
+| ✓ | 46 CFR Subchapter M — Inspection of towing vessels | `uscg-subchapter-m` | Maritime & Ports, Water & Environmental | `46 CFR Subchapter M`, `Subchapter M` |
+
 ### IMO (5)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -271,15 +283,14 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning | `sspc-sp-10` | Construction & Structural Trades, Energy & Power, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-SP 10` |
 | ✓ | SSPC-SP surface preparation standards (SP 1 to SP 11), now published by AMPP | `sspc-surface-preparation` | Construction & Structural Trades, Energy & Power, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-SP`, `SSPC`, `AMPP` |
 
-### USCG (5)
+### AWS (4)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ✓ | 33 CFR Part 126 — Handling of dangerous cargo at waterfront facilities | `uscg-33-cfr-126` | Maritime & Ports | `33 CFR 126` |
-| ✓ | 33 CFR Part 151 — Vessel pollution prevention and ballast water management | `uscg-33-cfr-151` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `33 CFR 151` |
-| ✓ | 33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer | `uscg-33-cfr-155-710` | Maritime & Ports | `33 CFR 155.710` |
-| ✓ | 33 CFR 156.150 — Declaration of inspection before an oil transfer | `uscg-33-cfr-156-150` | Maritime & Ports | `33 CFR 156.150` |
-| ✓ | 46 CFR Subchapter M — Inspection of towing vessels | `uscg-subchapter-m` | Maritime & Ports, Water & Environmental | `46 CFR Subchapter M`, `Subchapter M` |
+| ✓ | AWS D1.1 — Structural Welding Code, Steel | `aws-d1-1` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `AWS D1.1` |
+| ✓ | AWS D1.5 — Bridge Welding Code | `aws-d1-5` | Construction & Structural Trades, Mobility & Transit | `AWS D1.5` |
+| ? | AWS D3.6M — Underwater Welding Code | `aws-d3-6` | Maritime & Ports, Water & Environmental | `AWS D3.6` |
+| ✓ | AWS D9.1/D9.1M — Sheet Metal Welding Code | `aws-d9-1` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Trade Skills Simulator | `AWS D9.1` |
 
 ### Cal. ABC (4)
 
@@ -323,14 +334,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | ASSE 1013 — Reduced pressure principle backflow preventers | `asse-1013` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator, Water & Environmental | `ASSE 1013`, `ANSI/ASSE 1013` |
 | ? | ASSE 1020 — Pressure vacuum breaker assemblies | `asse-1020` | Building Systems & Facilities, Trade Skills Simulator, Water & Environmental | `ASSE 1020`, `ANSI/ASSE 1020` |
 | ? | ASSE 5110 — Backflow prevention assembly tester professional qualification | `asse-5110` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator, Water & Environmental | `ASSE 5110`, `ANSI/ASSE 5110` |
-
-### AWS (3)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | AWS D1.1 — Structural Welding Code, Steel | `aws-d1-1` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `AWS D1.1` |
-| ✓ | AWS D1.5 — Bridge Welding Code | `aws-d1-5` | Construction & Structural Trades, Mobility & Transit | `AWS D1.5` |
-| ✓ | AWS D9.1/D9.1M — Sheet Metal Welding Code | `aws-d9-1` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Trade Skills Simulator | `AWS D9.1` |
 
 ### AWWA (3)
 
@@ -470,6 +473,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | American Dental Association and FDA guidance on prescribing dental radiographs | `ada-radiographic-guidance` | Dental & Oral Health | `ADA/FDA`, `ADA's`, `ADA’s` |
+
+### ADCI (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations | `adci-consensus-standards` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `ADCI`, `Association of Diving Contractors International` |
 
 ### ADHA (1)
 

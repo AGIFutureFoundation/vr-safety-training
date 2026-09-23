@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 315
+      "stations": 323
     },
     "trades": {
       "entry": "trades/index.html",
@@ -239,6 +239,14 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "mw-diver-emergency-and-recovery",
+        "mw-underwater-welding-and-cutting",
+        "mw-hull-inspection-and-cleaning-dive",
+        "mw-pier-pile-inspection-dive",
+        "mw-dive-supervisor-and-dive-plan",
+        "mw-oil-transfer-watch-and-boom",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
         "pt-chassis-and-genset-yard",
         "pt-stormwater-at-the-terminal",
         "pt-terminal-lighting-mast-service",
@@ -1817,6 +1825,46 @@
           "app": "smartcity",
           "id": "mooring-line",
           "why": "The shared opener for the water: the line under load teaches the snap-back zone before anything else."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-ferry-deckhand-and-passenger-safety",
+          "why": "The Inlandboatmen's deckhand at the float: the station bill read, the gangway landed before anyone crosses, every passenger counted against the certificate, and the ring buoy to a person in the gap before anything else."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-workboat-towing-and-line-handling",
+          "why": "Making up to a barge astern under Subchapter M: the hawser walked and the winch brake set, the eye passed from outside the bight, and the pay-out stopped the moment the wheelhouse goes silent."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-oil-transfer-watch-and-boom",
+          "why": "The person in charge of a transfer: the declaration signed before the pump, the boom streamed from upcurrent, the flange watched through the slow start, and a sheen stopped at the source rather than dispersed."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-dive-supervisor-and-dive-plan",
+          "why": "The dive station at the surface: the plan briefed, the screw locked out, the standby dressed, the panel never left, and the decompression obligation read from the tables the supervisor holds."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-pier-pile-inspection-dive",
+          "why": "The Pile Drivers' diver under the pier: the umbilical proven by hand, the spall and the section loss found and measured, and every defect photographed against a scale without passing inside a brace."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-hull-inspection-and-cleaning-dive",
+          "why": "Under a ship's stern with the shaft and sea suctions locked out: the anodes and coating surveyed, the brush opened only on the plate, and the grating touched only behind its confirmed tag."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-underwater-welding-and-cutting",
+          "why": "Wet cutting and welding to AWS D3.6: the sealed void found, the ground on clean steel before 'make it hot', 'make it cold' before every rod change, and never the diver between the ground and the work."
+        },
+        {
+          "app": "smartcity",
+          "id": "mw-diver-emergency-and-recovery",
+          "why": "The standby's dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor's call rather than flown up on a bag."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6639,6 +6687,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-diver-emergency-and-recovery",
+      "name": "Diver Emergency & Recovery",
+      "title": "SmartCiti.X~ Diver Emergency & Recovery VR",
+      "tagline": "The standby goes in: on the bottom on the working diver's umbilical, followed hand over hand while a vessel's screw turns overhead, the diver checked through his faceplate, his bailout opened, the pneumo read, the wire and the monofilament found, the cutter passed down the stage, his free-flow held steady while your own comms go, his gear checked, brought to the stage, clipped on before the call up, and the emergency read up for the dive log",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver as the standby diver recovering a fouled working diver, with the dive supervisor, the tenders and an Inlandboatmen's Union of the ILWU deckhand on the dive boat at the surface",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the standby diver, the emergency procedures in the safe practices manual and the dive record; ADCI consensus standards for commercial diving, standby and emergency response; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; Inlandboatmen's Union of the ILWU deck practice on the dive boat; ascent and treatment per the dive plan and the tables the supervisor holds",
+      "accent": "#e8665a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "turn",
+        "gauge",
+        "find",
+        "drag",
+        "track",
+        "sequence"
+      ],
+      "badge": {
+        "id": "brought-him-home",
+        "name": "Brought Him Home",
+        "note": "His gas first, the snag cut and never his umbilical, never flown up on a bag, never his helmet off, and your own umbilical kept clear"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "237",
+      "flat": false,
+      "system": "Standby Diver",
+      "currency": "BREATH",
+      "ranks": [
+        "Standby Trainee",
+        "Standby Diver",
+        "Rescue Diver",
+        "Lead Standby",
+        "Standby Diver Certified"
+      ],
+      "awards": [
+        {
+          "id": "gas-first",
+          "name": "Gas First",
+          "note": "His faceplate checked and his bailout opened before anything was cut"
+        },
+        {
+          "id": "read-true-rescue",
+          "name": "Read True",
+          "note": "Pneumo committed inside the band first time"
+        },
+        {
+          "id": "never-his-umbilical",
+          "name": "Never His Umbilical",
+          "note": "Never cut his umbilical, never flew him up, never took his helmet off, never fouled your own"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections from the on-bottom call to the log"
+        },
+        {
+          "id": "steady-free-flow",
+          "name": "Steady Free-Flow",
+          "note": "His free-flow held in band the whole time he was freed"
+        },
+        {
+          "id": "fast-to-the-stage",
+          "name": "Fast To The Stage",
+          "note": "Diver on the stage and the job read up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-diver-emergency-and-recovery"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-underwater-welding-and-cutting",
+      "name": "Underwater Welding & Cutting",
+      "title": "SmartCiti.X~ Underwater Welding & Cutting VR",
+      "tagline": "A steel pile cut back and patched: the job and the switch plan agreed on comms, the umbilical checked, the torch taken off the stage, the sealed void and the painted ground spot found, the ground on clean steel before 'make it hot', the pneumo read, the cut run at a steady oxygen flow while the comms drop, 'make it cold' before the rod change, the oxygen closed, the patch seated, the pass run through a current shift, the weld inspected and the dive logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver-welder cutting and wet-welding a steel pile, with the tender on the surface switch and the dive supervisor on the comms",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; AWS D3.6 underwater welding code for the qualified procedure and the welder's qualification; OSHA 29 CFR 1910 Subpart T commercial diving operations, including electrical safety for underwater welding and cutting; ADCI consensus standards for underwater burning and welding; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#f0a04b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "drag",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "ground-then-hot",
+        "name": "Ground Then Hot",
+        "note": "The ground on clean steel before every 'make it hot', never a rod changed hot, never between the ground and the work, never a lift bag run away"
+      },
+      "meshes": 182,
+      "lights": 0,
+      "overBudget": false,
+      "index": "236",
+      "flat": false,
+      "system": "Wet Weld",
+      "currency": "ROD",
+      "ranks": [
+        "Burner's Helper",
+        "Burner",
+        "Diver-Welder",
+        "Lead Diver-Welder",
+        "Wet Weld Certified"
+      ],
+      "awards": [
+        {
+          "id": "switch-discipline",
+          "name": "Switch Discipline",
+          "note": "Ground on, then 'make it hot' — in that order, first time"
+        },
+        {
+          "id": "read-true-weld",
+          "name": "Read True",
+          "note": "Pneumo committed inside the band first time"
+        },
+        {
+          "id": "never-in-the-circuit",
+          "name": "Never In The Circuit",
+          "note": "Never struck without the ground, never a hot rod change, never between ground and work, never a runaway bag"
+        },
+        {
+          "id": "clean-burn",
+          "name": "Clean Burn",
+          "note": "No corrections from the switch plan to the log"
+        },
+        {
+          "id": "steady-oxygen",
+          "name": "Steady Oxygen",
+          "note": "Oxygen flow held in band the whole cut"
+        },
+        {
+          "id": "in-the-slack",
+          "name": "In The Slack",
+          "note": "Dive logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-underwater-welding-and-cutting"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-hull-inspection-and-cleaning-dive",
+      "name": "Hull Inspection & Cleaning Dive",
+      "title": "SmartCiti.X~ Hull Inspection & Cleaning Dive VR",
+      "tagline": "Under a ship's stern quarter: the ship's lockouts confirmed on comms, the umbilical checked while a tug's screw turns at the next berth, the anodes and coating inspected, the pneumo read, the brush brought off the stage and opened only on the plate, a strake cleaned at a breathing pace while the sea suction starts to draw, the running gear walked, the sea chest cleaned only behind its tag, the plate gauged, the tools sent up and the findings read up for the dive log",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver on a hull inspection and cleaning dive, with the ship's MEBA licensed engineer holding the shaft and sea-suction lockouts and the dive supervisor on the comms",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations, including the vessel's own hazards to the diver; ADCI consensus standards for commercial diving and ships' husbandry; USCG 46 CFR 197 Subpart B for a dive worked from or under a vessel; MEBA engineering practice for the ship's shaft and sea-suction lockouts; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#6fc3e8",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "sequence"
+      ],
+      "badge": {
+        "id": "locked-out-below",
+        "name": "Locked Out Below",
+        "note": "Nothing touched until the ship's lockouts were confirmed, never a hand between blade and hull, never a lift bag without its dump, never under the keel"
+      },
+      "meshes": 203,
+      "lights": 0,
+      "overBudget": false,
+      "index": "235",
+      "flat": false,
+      "system": "Ship's Husbandry",
+      "currency": "STRAKE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Husbandry Diver",
+        "Lead Husbandry Diver",
+        "Ship's Husbandry Certified"
+      ],
+      "awards": [
+        {
+          "id": "lockouts-first",
+          "name": "Lockouts First",
+          "note": "The ship's shaft and sea suctions confirmed locked out before going under the hull"
+        },
+        {
+          "id": "gauged-true",
+          "name": "Gauged True",
+          "note": "Pneumo and plate gauge committed inside the band"
+        },
+        {
+          "id": "clear-of-the-gear",
+          "name": "Clear Of The Gear",
+          "note": "Never between blade and hull, never at the grating untagged, never a sealed lift bag, never under the keel"
+        },
+        {
+          "id": "clean-husbandry",
+          "name": "Clean Dive",
+          "note": "No corrections from the lockouts to the log"
+        },
+        {
+          "id": "steady-strake",
+          "name": "Steady Strake",
+          "note": "Breathing held on the supply the whole strake"
+        },
+        {
+          "id": "berth-window-hull",
+          "name": "Berth Window",
+          "note": "Findings read up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-hull-inspection-and-cleaning-dive"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-pier-pile-inspection-dive",
+      "name": "Pier Pile Inspection Dive",
+      "title": "SmartCiti.X~ Pier Pile Inspection Dive VR",
+      "tagline": "On the bottom under the pier: on-bottom report to the supervisor, the umbilical checked hand over hand while the comms go dead, the scraper passed off the stage, the first pile's spall and section loss found, the pneumo read, the faceplate cleared, the section measured, the second pile's band cleaned at a breathing pace the supply can hold through a current shift, the jacket and anode lead found, the defects photographed against a scale, the tools sent up and the findings read up for the dive log",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver on a surface-supplied pier inspection dive, with the dive supervisor, the tender and the standby diver at the surface",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations; ADCI consensus standards for commercial diving and underwater inspection; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#5fd0c0",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "drag",
+        "find",
+        "gauge",
+        "turn",
+        "track",
+        "sequence"
+      ],
+      "badge": {
+        "id": "every-pile-read",
+        "name": "Every Pile Read",
+        "note": "Both piles inspected, every defect photographed against a scale, the umbilical never fouled and never a free ascent"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "234",
+      "flat": false,
+      "system": "Pile Inspection",
+      "currency": "BENT",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Inspection Diver",
+        "Lead Inspection Diver",
+        "Pile Inspection Certified"
+      ],
+      "awards": [
+        {
+          "id": "umbilical-proven",
+          "name": "Umbilical Proven",
+          "note": "The umbilical checked hand over hand before the work started"
+        },
+        {
+          "id": "measured-true",
+          "name": "Measured True",
+          "note": "Pneumo committed inside the band first time"
+        },
+        {
+          "id": "clear-of-the-brace",
+          "name": "Clear Of The Brace",
+          "note": "Never through the brace, never bare-handed on the growth, never under the timber, never a free ascent"
+        },
+        {
+          "id": "clean-inspection-dive",
+          "name": "Clean Dive",
+          "note": "No corrections from the on-bottom report to the log"
+        },
+        {
+          "id": "paced-breathing",
+          "name": "Paced Breathing",
+          "note": "Breathing held on the supply the whole band clean"
+        },
+        {
+          "id": "inside-the-plan",
+          "name": "Inside The Plan",
+          "note": "Findings read up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-pier-pile-inspection-dive"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-dive-supervisor-and-dive-plan",
+      "name": "Dive Supervisor & Dive Plan",
+      "title": "SmartCiti.X~ Dive Supervisor & Dive Plan VR",
+      "tagline": "The dive station at the surface: the plan briefed, the screw locked out and the flag up, the umbilical walked, the air lined up and the supply read against the plan, the station checked, the tools on the stage, the comms check held through a dead line, the stage lowered while a launch comes in with its screw turning, the pneumo read, the decompression obligation read from the tables the supervisor holds, and the dive logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver as dive supervisor on a surface-supplied air dive, with the tender, the standby diver and an Inlandboatmen's Union of the ILWU deckhand on the dive boat",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the safe practices manual, the dive team, pre-dive, during-dive and post-dive procedures and the dive record; ADCI consensus standards for commercial diving; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel under Coast Guard jurisdiction; Inlandboatmen's Union of the ILWU deck practice on the dive boat",
+      "accent": "#f2b33d",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "gauge",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "by-the-tables",
+        "name": "By The Tables",
+        "note": "The standby dressed, the panel never left, the umbilical never paid out foul, and the obligation read from the tables the supervisor holds"
+      },
+      "meshes": 215,
+      "lights": 0,
+      "overBudget": false,
+      "index": "233",
+      "flat": false,
+      "system": "Dive Station",
+      "currency": "FATHOM",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Supervisor",
+        "Dive Station Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-briefed",
+          "name": "Plan Briefed",
+          "note": "The whole team briefed on the dive plan before anything was dressed or lined up"
+        },
+        {
+          "id": "read-true",
+          "name": "Read True",
+          "note": "Supply and pneumo both committed inside the band"
+        },
+        {
+          "id": "panel-held",
+          "name": "Panel Held",
+          "note": "Never without a dressed standby, never off the panel, never a foul umbilical, never a table off a phone"
+        },
+        {
+          "id": "clean-dive",
+          "name": "Clean Dive",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "stage-steady",
+          "name": "Stage Steady",
+          "note": "The stage lowered in band the whole descent"
+        },
+        {
+          "id": "in-the-window",
+          "name": "In The Window",
+          "note": "Dive logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-dive-supervisor-and-dive-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-oil-transfer-watch-and-boom",
+      "name": "Oil Transfer Watch & Boom",
+      "title": "SmartCiti.X~ Oil Transfer Watch & Boom VR",
+      "tagline": "A barge discharging ashore: the transfer procedures read and the declaration of inspection signed, the current read against the boom plan, the boom streamed from upcurrent, the hose and flange walked, the manifold opened, a slow start watched at the flange while a sheen shows outside the boom, the pump held at the agreed rate through a current shift, the deck walked, the pressure read against the hose, the line stopped, drained and blanked, and the transfer logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "MEBA licensed engineer as the barge's person in charge of the oil transfer, with an Inlandboatmen's Union of the ILWU deckhand on the boom boat and an SIU-trained tankerman on the pump",
+      "union": null,
+      "certification": "MEBA Calhoon School engineering; SIU Paul Hall Center tankerman training; Inlandboatmen's Union of the ILWU deck practice on the boom boat; USCG 33 CFR 155.710 person in charge of an oil transfer; USCG 33 CFR 156.150 declaration of inspection; IMO MARPOL oil pollution prevention; the facility's and the vessel's own transfer procedures and boom plan",
+      "accent": "#3fb58a",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "drag",
+        "find",
+        "turn",
+        "hold",
+        "track",
+        "sequence"
+      ],
+      "badge": {
+        "id": "nothing-past-the-boom",
+        "name": "Nothing Past The Boom",
+        "note": "The boom streamed from upcurrent, the pump never ahead of the declaration, the sheen stopped at the source and never dispersed"
+      },
+      "meshes": 215,
+      "lights": 0,
+      "overBudget": false,
+      "index": "232",
+      "flat": false,
+      "system": "Transfer Watch",
+      "currency": "BARREL",
+      "ranks": [
+        "Watchstander",
+        "Tankerman",
+        "Person In Charge",
+        "Senior PIC",
+        "Transfer Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "signed-before-started",
+          "name": "Signed Before Started",
+          "note": "The declaration of inspection signed before anything moved"
+        },
+        {
+          "id": "boom-read-true",
+          "name": "Boom Read True",
+          "note": "Current and pressure both committed inside the band"
+        },
+        {
+          "id": "no-dispersing",
+          "name": "No Dispersing",
+          "note": "Never a pump ahead of the paperwork, never soap on a sheen, never a boom from downcurrent"
+        },
+        {
+          "id": "clean-transfer-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the procedures to the log"
+        },
+        {
+          "id": "rate-held",
+          "name": "Rate Held",
+          "note": "The agreed rate held in band the whole discharge"
+        },
+        {
+          "id": "berth-turned",
+          "name": "Berth Turned",
+          "note": "Transfer logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-oil-transfer-watch-and-boom"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-workboat-towing-and-line-handling",
+      "name": "Workboat Towing & Line Handling",
+      "title": "SmartCiti.X~ Workboat Towing & Line Handling VR",
+      "tagline": "Making up to a barge astern: the voyage plan read, vest and knife on, the hawser and bridle walked, the winch brake set, the heaving line tended to the barge through a current shift, the eye passed to the barge's bitt, the load read, the gob and roller walked, the hawser paid out to the master's length through a lost-comms call, the afterdeck chained off, the gear stowed and the tow logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union of the ILWU deckhand on a harbour towing vessel, with the MEBA licensed engineer on watch and an SIU-trained AB in the relief crew",
+      "union": null,
+      "certification": "Inlandboatmen's Union of the ILWU deck practice on towing vessels; MEBA engineering watch; SIU Paul Hall Center unlicensed deck training; USCG 46 CFR Subchapter M towing vessel inspection, including the vessel's towing safety management and its towing gear; IMO STCW basic safety training; IMO MARPOL for the fuel and the bilge on deck",
+      "accent": "#e0873a",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "hold",
+        "drag",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "clear-of-the-hawser",
+        "name": "Clear Of The Hawser",
+        "note": "Never over a working hawser, never a hand on the drum, never a line near the screw, and both the set and the silent radio answered"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "231",
+      "flat": false,
+      "system": "Tow Deck",
+      "currency": "FATHOM",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Lead Deckhand",
+        "Tow Mate",
+        "Tow Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The voyage and tow plan read before any line moved"
+        },
+        {
+          "id": "load-read-true",
+          "name": "Load Read True",
+          "note": "Hawser load committed inside the band first time"
+        },
+        {
+          "id": "out-of-the-lead",
+          "name": "Out Of The Lead",
+          "note": "Never over the hawser, never at the drum by hand, never a lashed release"
+        },
+        {
+          "id": "clean-make-up",
+          "name": "Clean Make-Up",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-payout",
+          "name": "Steady Payout",
+          "note": "Hawser paid out in band the whole way to the master's length"
+        },
+        {
+          "id": "on-the-tide",
+          "name": "On The Tide",
+          "note": "Tow logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-workboat-towing-and-line-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-ferry-deckhand-and-passenger-safety",
+      "name": "Ferry Deckhand & Passenger Safety",
+      "title": "SmartCiti.X~ Ferry Deckhand & Passenger Safety VR",
+      "tagline": "A passenger ferry at the float: the station bill read, vest and radio on, the deck walked before boarding, the gangway landed, the count held against the certificate while a passenger goes in between the float and the hull, the lines let go, the life-saving gear walked, the bow line tended on the capstan through a current shift, the passengers landed in order and the run logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union of the ILWU deckhand on a Bay passenger ferry, with the MEBA licensed engineer below and SIU-trained ratings in the relief crew",
+      "union": null,
+      "certification": "Inlandboatmen's Union of the ILWU deck department practice; MEBA engineering watch; SIU Paul Hall Center unlicensed training for relief ratings; IMO STCW basic safety training and crowd management for passenger-ship crew; IMO SOLAS muster, station bill and life-saving appliance requirements as the vessel's own certificate of inspection applies them; IMO MARPOL for anything that goes over the side",
+      "accent": "#2fa3c4",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "every-soul-counted",
+        "name": "Every Soul Counted",
+        "note": "The count held against the certificate, the passenger overboard answered with the ring, and the gangway never crossed before it was landed"
+      },
+      "meshes": 239,
+      "lights": 0,
+      "overBudget": false,
+      "index": "230",
+      "flat": false,
+      "system": "Ferry Deck",
+      "currency": "SOUL",
+      "ranks": [
+        "Ordinary Deckhand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Bosun",
+        "Ferry Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "bill-before-boarding",
+          "name": "Bill Before Boarding",
+          "note": "The station bill read before the first passenger came near the gangway"
+        },
+        {
+          "id": "counted-true",
+          "name": "Counted True",
+          "note": "Count committed against the certificate inside the band, first time"
+        },
+        {
+          "id": "no-shortcuts-on-deck",
+          "name": "No Shortcuts On Deck",
+          "note": "Never across the gap, never in the bight, never a wedged watertight door, never a line near the screw"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections from the station bill to the log"
+        },
+        {
+          "id": "line-held",
+          "name": "Line Held",
+          "note": "The bow line held in band on the capstan the whole landing"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Run logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mw-ferry-deckhand-and-passenger-safety"
     },
     {
       "app": "smartcity",
@@ -24179,7 +24891,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -24839,7 +25551,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

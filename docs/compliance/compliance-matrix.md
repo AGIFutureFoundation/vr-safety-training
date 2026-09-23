@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 324 procedures, 203 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 332 procedures, 204 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -25,6 +25,7 @@ Every station names the union and the certification a worker in that role holds,
 | 49 CFR 380 | 11: Air Brake Test, Backing and Docking, Cargo Securement and Hours, Coupling and Uncoupling, Hazmat Labeling and Segregation, Lifting and Ergonomics, Pallet Jack and Racking, Pick, Pack and Scan, Pre-Trip Inspection, Trades Lineage Briefing, Trailer Loading and Dock Plate |
 | 8 CCR 3203 | 11: Banquet Setup Lift, Crisis Line Shift, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Leasing Office and Fair Housing, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | ANSI Z359 | 11: Bridge Cable Inspection, Confined Rescue, International Orange Recoat, Main Cable Band Inspection, Roof and Drains, Solar Deck, Steel Erector, Suspender Rope Replacement, Terminal Lighting Mast Service, Tower Climb, Tower Climb & Tie-Off |
+| 29 CFR 1910 | 10: Dive Supervisor & Dive Plan, Diver Emergency & Recovery, Eelgrass Transplant, Hull Inspection & Cleaning Dive, Opacity Reading, Pier Pile Inspection Dive, Stack Test, Trades Lineage Briefing, Underwater Welding & Cutting, Wellness — Shift Work, Sleep and Stress |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
 | 29 CFR 1910.157 | 10: Banquet Hot Hold, Community Room & Events, Elevator Machine Room, Hood Suppression, Hot Line, Leasing Office and Fair Housing, Pallet Jack and Racking, Parking Garage, Sprinkler Riser Room, Storage & Bike Room |
 | 29 CFR 1910.178 | 10: Airport Ramp, Backing and Docking, Forklift Dock, Hazmat Labeling and Segregation, Lifting and Ergonomics, Loading Dock & Moves, Pallet Jack and Racking, Pick, Pack and Scan, Trades Lineage Briefing, Trailer Loading and Dock Plate |
@@ -48,14 +49,15 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1926.501 | 6: Architectural Panels at Height, Duct Hanging and Seismic Bracing, Jobsite Orientation & OSHA 10, Mass Timber Panel Set, Solar Deck, Tower Climb & Tie-Off |
 | 8 CCR 3342 | 6: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, Trauma-Informed Intake, WVPP & Panic Button |
 | NFPA 51B | 6: Kitchen Exhaust and Fire Wrap, Plasma Table and Fume, Roof and Drains, Rough-In Bay, TIG and Spot Welding, Weld Bay |
-| 29 CFR 1910 | 5: Eelgrass Transplant, Opacity Reading, Stack Test, Trades Lineage Briefing, Wellness — Shift Work, Sleep and Stress |
 | 29 CFR 1910.1000 | 5: Amalgam Waste Handling, Chlorine Room, Loading Dock & Moves, Parking Garage, Plasma Table and Fume |
 | 29 CFR 1910.38 | 5: Community Room & Events, Fire Alarm Panel Room, Kitchen Gas Shutoff, Leasing Office and Fair Housing, Lobby and Front Desk |
 | 29 CFR 1926.1101 | 5: Abatement Chamber, Abatement Perimeter Awareness, Storage & Bike Room, Transite Pipe Removal, Unit Turnover |
 | 29 CFR 1926.1153 | 5: Concrete Pour, Deck Joint Replacement, Jobsite Orientation & OSHA 10, Masonry Silica Scaffold, Tank Lining |
 | 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
+| 46 CFR 197 | 5: Dive Supervisor & Dive Plan, Diver Emergency & Recovery, Hull Inspection & Cleaning Dive, Pier Pile Inspection Dive, Underwater Welding & Cutting |
 | ANSI B56.1 | 5: Forklift Dock, Lifting and Ergonomics, Loading Dock & Moves, Pallet Jack and Racking, Trailer Loading and Dock Plate |
 | ASME B30.9 | 5: Crane Yard, Dock Fender & Bollard Inspection, Mass Timber Panel Set, Pile Driver Fender Repair, Suspender Rope Replacement |
+| IMO SOLAS | 5: Bunkering Watch, Container Lashing, Ferry Deckhand & Passenger Safety, Mooring Line, Pilot Transfer |
 | NFPA 25 | 5: Fire Pump, Lobby and Front Desk, Sprinkler Riser Room, Storage & Bike Room, Trash and Recycling Room |
 | NFPA 96 | 5: Grill Line Burns, Hood Suppression, Hot Line, Kitchen Exhaust and Fire Wrap, Laundry Plant Chemicals |
 | 29 CFR 1904 | 4: Last Call & Lockup, Lifting and Ergonomics, Till Drop & Robbery Response, Wellness — Substance Use and the Job |
@@ -72,7 +74,7 @@ Every station names the union and the certification a worker in that role holds,
 | ASME B30.5 | 4: Crane Yard, Dock Fender & Bollard Inspection, Pile Driver Fender Repair, Steel Erector |
 | ASSE 5110 | 4: Backflow Test, Domestic Water & Backflow, Landscaping & Irrigation, Rough-In Bay |
 | Cal. Labor Code §351 | 4: Opening the Well, Pouring to Spec, Till Drop & Robbery Response, Tip Pool & Labor |
-| IMO SOLAS | 4: Bunkering Watch, Container Lashing, Mooring Line, Pilot Transfer |
+| IMO MARPOL | 4: Bunkering Watch, Ferry Deckhand & Passenger Safety, Oil Transfer Watch & Boom, Workboat Towing & Line Handling |
 | NSF/ANSI 61 | 4: Backflow Test, Domestic Water & Backflow, Rough-In Bay, Tank Lining |
 | NSF/ANSI 7 | 4: Cafeteria Serving, Hot Line, Prep Cooling, Walk-In Cooler |
 | 29 CFR 1910.268 | 3: Aerial Lashing, Microwave Backhaul, Splice Node |
@@ -88,6 +90,7 @@ Every station names the union and the certification a worker in that role holds,
 | ASSE 1020 | 3: Domestic Water & Backflow, Landscaping & Irrigation, Rough-In Bay |
 | AWWA M14 | 3: Backflow Test, Domestic Water & Backflow, Landscaping & Irrigation |
 | Cal. Bus. & Prof. Code §25602 | 3: Cut-Off / Overservice, Last Call & Lockup, Pouring to Spec |
+| IMO STCW | 3: Bunkering Watch, Ferry Deckhand & Passenger Safety, Workboat Towing & Line Handling |
 | ISO 23908 | 3: Draw Station, Endodontic Assisting, Sharps Exposure Response |
 | NFPA 1006 | 3: Confined Rescue, EV Extrication, Triage Point |
 | NFPA 54 | 3: Gas Leak Survey, Kitchen Gas Shutoff, Laundry Room |
@@ -101,6 +104,8 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1926.453 | 2: Architectural Panels at Height, Duct Hanging and Seismic Bracing |
 | 29 CFR 1926.701 | 2: Concrete Pour, Post Tension |
 | 29 CFR 1926.703 | 2: Concrete Pour, Formwork Shoring |
+| 33 CFR 155.710 | 2: Bunkering Watch, Oil Transfer Watch & Boom |
+| 33 CFR 156.150 | 2: Bunkering Watch, Oil Transfer Watch & Boom |
 | 40 CFR 122.26 | 2: Stormwater Outfall, Stormwater at the Terminal |
 | 40 CFR 136 | 2: Stormwater Outfall, Stormwater at the Terminal |
 | 40 CFR 261 | 2: Bridge Blast, Bridge Lead Containment |
@@ -147,8 +152,6 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 531.52 | 1: Tip Pool & Labor |
 | 33 CFR 126 | 1: Hazmat Container Inspection |
 | 33 CFR 151 | 1: Ballast Water Sampling |
-| 33 CFR 155.710 | 1: Bunkering Watch |
-| 33 CFR 156.150 | 1: Bunkering Watch |
 | 40 CFR 258.23 | 1: Landfill Gas |
 | 40 CFR 280 | 1: UST Removal |
 | 40 CFR 441 | 1: Amalgam Waste Handling |
@@ -191,8 +194,6 @@ Every station names the union and the certification a worker in that role holds,
 | IIAR 2 | 1: Ammonia Plant |
 | IIAR 6 | 1: Ammonia Plant |
 | IMO BWM Convention | 1: Ballast Water Sampling |
-| IMO MARPOL | 1: Bunkering Watch |
-| IMO STCW | 1: Bunkering Watch |
 | ISO 10218 | 1: Robot Cell |
 | ISO 6710 | 1: Draw Station |
 | NFPA 1001 | 1: Structure Fire Size-Up |
@@ -570,6 +571,14 @@ Every station names the union and the certification a worker in that role holds,
 | Stormwater at the Terminal | ILWU maintenance and repair — terminal stormwater crew, PMA training programme, with the IUOE operator on the vacuum truck | 29 CFR 1910.132, 29 CFR 1917, 40 CFR 122.26, 40 CFR 136, EPA Method 40 |
 | Chassis & Genset Yard | ILWU maintenance and repair mechanic — chassis and genset yard, PMA training programme, with IUOE stationary engineers on the gensets | 29 CFR 1910.132, 29 CFR 1910.147, 29 CFR 1917, NFPA 70E |
 | Mooring Line | Line handler / wharf mooring crew | 29 CFR 1917, IMO SOLAS |
+| Ferry Deckhand & Passenger Safety | Inlandboatmen's Union of the ILWU deckhand on a Bay passenger ferry, with the MEBA licensed engineer below and SIU-trained ratings in the relief crew | IMO MARPOL, IMO SOLAS, IMO STCW |
+| Workboat Towing & Line Handling | Inlandboatmen's Union of the ILWU deckhand on a harbour towing vessel, with the MEBA licensed engineer on watch and an SIU-trained AB in the relief crew | IMO MARPOL, IMO STCW |
+| Oil Transfer Watch & Boom | MEBA licensed engineer as the barge's person in charge of the oil transfer, with an Inlandboatmen's Union of the ILWU deckhand on the boom boat and an SIU-trained tankerman on the pump | 33 CFR 155.710, 33 CFR 156.150, IMO MARPOL |
+| Dive Supervisor & Dive Plan | Pile Drivers of the Carpenters commercial diver as dive supervisor on a surface-supplied air dive, with the tender, the standby diver and an Inlandboatmen's Union of the ILWU deckhand on the dive boat | 29 CFR 1910, 46 CFR 197 |
+| Pier Pile Inspection Dive | Pile Drivers of the Carpenters commercial diver on a surface-supplied pier inspection dive, with the dive supervisor, the tender and the standby diver at the surface | 29 CFR 1910, 46 CFR 197 |
+| Hull Inspection & Cleaning Dive | Pile Drivers of the Carpenters commercial diver on a hull inspection and cleaning dive, with the ship's MEBA licensed engineer holding the shaft and sea-suction lockouts and the dive supervisor on the comms | 29 CFR 1910, 46 CFR 197 |
+| Underwater Welding & Cutting | Pile Drivers of the Carpenters commercial diver-welder cutting and wet-welding a steel pile, with the tender on the surface switch and the dive supervisor on the comms | 29 CFR 1910, 46 CFR 197 |
+| Diver Emergency & Recovery | Pile Drivers of the Carpenters commercial diver as the standby diver recovering a fouled working diver, with the dive supervisor, the tenders and an Inlandboatmen's Union of the ILWU deckhand on the dive boat at the surface | 29 CFR 1910, 46 CFR 197 |
 
 ### Bartending — Behind the Bar
 

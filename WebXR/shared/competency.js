@@ -370,7 +370,9 @@ export const PROGRAMME_COMPETENCIES = [
       "gg-suspender-rope-replacement", "gg-deck-lane-closure-and-traveller", "gg-paint-containment-on-the-deck", "gg-international-orange-recoat",
       "gg-fog-and-wind-work-stop", "gg-pile-driver-fender-repair", "container-lashing", "pt-spreader-and-twistlock-inspection",
       "pt-crane-boom-hoist-brake-service", "pt-straddle-carrier-hydraulics", "pt-reefer-plug-and-power-panel", "pt-dock-fender-and-bollard-inspection",
-      "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line"
+      "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line",
+      "mw-ferry-deckhand-and-passenger-safety", "mw-workboat-towing-and-line-handling", "mw-oil-transfer-watch-and-boom", "mw-dive-supervisor-and-dive-plan",
+      "mw-pier-pile-inspection-dive", "mw-hull-inspection-and-cleaning-dive", "mw-underwater-welding-and-cutting", "mw-diver-emergency-and-recovery"
     ],
     require: 6,
   },
