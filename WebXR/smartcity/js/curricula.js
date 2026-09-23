@@ -343,6 +343,22 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "job-readiness-edition",
+    name: "Job Readiness Edition — wojrc.org programmes",
+    union: "Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff",
+    certification: "OSHA 29 CFR 1910.178 powered industrial trucks, FMCSA 49 CFR 380 Subpart F entry-level driver training, 49 CFR 393 cargo securement and 49 CFR 395 hours of service, CVSA roadside inspection practice, the apprenticeship standards of the trades the edition prepares people for, OSHA 10, CFPB and IRS consumer guidance for the financial coaching stations, and SAMHSA guidance for the wellness stations",
+    guides: ["teamsters-training", "ilwu-pma-training", "osha-1910-178", "samhsa-trauma-informed", "seiu-training"],
+    summary: "The programmes wojrc.org describes, as simulators: warehouse and Commercial Class A driving under the TDL pre-apprenticeship, navigating and enrolling in a union construction apprenticeship, financial coaching that builds credit, reduces debt and builds savings, and the wellness resource centre. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+    accent: "#e07a3f",
+    stations: [
+      { app: "smartcity", id: "forklift-dock", why: "The shared opener: the forklift and the dock are where warehouse training starts and where the first credential is earned." },
+      // slot-tdl-1
+      // slot-tdl-2
+      // slot-fin-1
+      // slot-well-1
+    ],
+  },
+  {
     id: "bartending-course",
     name: "Bartending — Behind the Bar",
     union: "UNITE HERE Local 2 bartenders and barbacks",
