@@ -8972,5 +8972,215 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dental-careers-pathway",
+    "index": "212",
+    "domain": "Dental",
+    "trade": "Dental careers — assistant to hygienist to dentist",
+    "category": "Dental & Oral Health",
+    "certification": "The state dental practice act and its allowable-duties list for assistants and hygienists; DANB's Certified Dental Assistant components — Radiation Health and Safety, Infection Control and General Chairside — and the separate state radiography permit; programmes accredited by the Commission on Dental Accreditation (CODA); the National Board Dental Hygiene Examination and a state or regional clinical examination for hygiene licensure; the Dental Admission Test, a CODA-accredited dental school and the Integrated National Board Dental Examination for the DDS or DMD; the American Dental Assistants Association (ADAA) and the American Dental Hygienists' Association (ADHA) as the professions' bodies; the ADA on the dental team; the U.S. Bureau of Labor Statistics Occupational Outlook Handbook for current pay and hours; SEIU, UFCW and AFSCME clinic and public-health staff agreements; HIPAA for anything a student sees on a shadowing day",
+    "name": "Dental Careers Pathway",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Careers Pathway VR",
+    "tagline": "A careers evening in the staff room: the ladder from assistant to hygienist to dentist, the credential behind each rung, where the pay-and-hours facts actually come from, and how to apply this month",
+    "accent": 15775854,
+    "accentCss": "#f0b86e",
+    "parSeconds": 330,
+    "badge": {
+      "id": "plan-in-hand",
+      "name": "Plan In Hand",
+      "note": "The ladder read off the board, the credentials matched to their rungs, and a signed plan with a real next step on it"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Career Ladder",
+      "currency": "RUNG",
+      "ranks": [
+        "Visitor",
+        "Applicant",
+        "Dental Assisting Student",
+        "Credentialled Assistant",
+        "Career Ladder Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "four-handed-dentistry",
+    "index": "213",
+    "domain": "Dental",
+    "trade": "Dental assistant — chairside (DANB CDA)",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Dental Assistant (CDA) credential and its general chairside assisting component; the American Dental Assistants Association (ADAA) as the profession's body; the state dental practice act's allowable-duties list for assistants and any separate state permit above it; the ADA's guidance on the dental team; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for instrument handling at the chair; OSHA 29 CFR 1910.1030 bloodborne pathogens and NIOSH's dental ergonomics guidance; SEIU and UFCW clinic staff agreements",
+    "name": "Four-Handed Dentistry",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Four-Handed Dentistry VR",
+    "tagline": "Chairside assisting as a trade: clock zones, stool heights, a tray in order of use, transfers below the chin, evacuation on hard tissue and retraction that holds a field without blanching it",
+    "accent": 5814240,
+    "accentCss": "#58b7e0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "second-pair-of-hands",
+      "name": "Second Pair Of Hands",
+      "note": "A full restorative appointment assisted from the assistant's zone with every transfer made below the patient's chin"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chairside Craft",
+      "currency": "PASS",
+      "ranks": [
+        "Assisting Student",
+        "Chairside Assistant",
+        "Certified Dental Assistant",
+        "Lead Assistant",
+        "Chairside Craft Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dental-radiography-fmx",
+    "index": "214",
+    "domain": "Dental",
+    "trade": "Dental assistant — radiographer (DANB RHS)",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Radiation Health and Safety (RHS) component and the separate state dental radiography permit the practice act requires above it; the ADA and FDA's patient-selection recommendations for dental radiographic examinations; the ALARA principle and the state radiation control programme's own operator rules; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for receptor barriers and holder reprocessing; OSHA 29 CFR 1910.1030; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+    "name": "Full-Mouth Radiographic Series",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Full-Mouth Radiographic Series VR",
+    "tagline": "A complete series on a paralleling instrument: holder assembled, sensor sheathed and seated, factors set for this patient, tubehead square to the ring, region order worked, retakes decided by rule",
+    "accent": 15245628,
+    "accentCss": "#e8a13c",
+    "parSeconds": 320,
+    "badge": {
+      "id": "series-complete",
+      "name": "Series Complete",
+      "note": "A full-mouth series taken with the patient shielded, the factors set for them, and every retake justified in the exposure record"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Receptor Discipline",
+      "currency": "VIEW",
+      "ranks": [
+        "Radiography Student",
+        "Permitted Operator",
+        "Series Radiographer",
+        "Imaging Lead",
+        "Receptor Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "sterilisation-technician-cycle",
+    "index": "215",
+    "domain": "Dental",
+    "trade": "Sterile processing technician — dental instruments",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Infection Control (ICE) component and, where the office requires it, a sterile processing technician certification (CRCST / CBSPD); ANSI/AAMI ST79 for steam sterilisation and sterility assurance in health care facilities; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; the FDA's reprocessing instructions that every reusable device carries; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+    "name": "Sterilisation Centre",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Sterilisation Centre VR",
+    "tagline": "The processing room as a career: one-way zones, mechanical cleaning, indicators and load numbers, a cycle chosen for the chamber, a chart read before release, a spore test with its control and a recall that can name every pack",
+    "accent": 8374436,
+    "accentCss": "#7fc8a4",
+    "parSeconds": 310,
+    "badge": {
+      "id": "load-released-clean",
+      "name": "Load Released Clean",
+      "note": "A load carried from soiled intake to documented release with the chart read, the spore test running and the recall opened on evidence"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sterility Assurance",
+      "currency": "LOAD",
+      "ranks": [
+        "Processing Trainee",
+        "Instrument Technician",
+        "Sterile Processing Technician",
+        "Processing Lead",
+        "Sterility Assurance Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dental-lab-bench",
+    "index": "216",
+    "domain": "Dental",
+    "trade": "Dental laboratory technician (CDT)",
+    "category": "Dental & Oral Health",
+    "certification": "The National Board for Certification in Dental Laboratory Technology's Certified Dental Technician (CDT) credential and the National Association of Dental Laboratories as the trade's body; the state dental practice act, which requires a written prescription from the dentist for every case a laboratory makes; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for handling incoming impressions and outgoing cases; the FDA's device requirements for what a laboratory fabricates; OSHA 29 CFR 1910.1053 respirable crystalline silica, 1910.212 machine guarding, 1910.1200 hazard communication and NIOSH's dust-control guidance; SEIU and UFCW clinic and laboratory staff agreements",
+    "name": "Dental Laboratory Bench",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Laboratory Bench VR",
+    "tagline": "The lab bench as a trade: impressions disinfected to time, stone mixed by ratio under vacuum, models poured and trimmed wet, a lathe behind its shield, pumice changed per case and a tray made to the written prescription",
+    "accent": 13149920,
+    "accentCss": "#c8a6e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "case-made-right",
+      "name": "Case Made Right",
+      "note": "One case carried from a disinfected impression to a finished tray with the dust controlled and the prescription honoured"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bench Craft",
+      "currency": "CASE",
+      "ranks": [
+        "Lab Apprentice",
+        "Bench Technician",
+        "Certified Dental Technician",
+        "Laboratory Lead",
+        "Bench Craft Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -1,7 +1,7 @@
 {
   "protocol": 1,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-22",
+  "generatedAt": "2026-09-23",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 211
+      "stations": 216
     },
     "trades": {
       "entry": "trades/index.html",
@@ -217,6 +217,31 @@
       ]
     },
     {
+      "name": "Dental & Oral Health",
+      "stations": [
+        "dental-lab-bench",
+        "sterilisation-technician-cycle",
+        "dental-radiography-fmx",
+        "four-handed-dentistry",
+        "dental-careers-pathway",
+        "oral-cancer-screening",
+        "pediatric-visit",
+        "mobile-dental-outreach",
+        "periodontal-charting",
+        "radiograph-safety",
+        "patient-intake-screening",
+        "fluoride-and-sealants",
+        "aerosol-management",
+        "ultrasonic-scaling",
+        "sharps-exposure-response",
+        "instrument-reprocessing",
+        "operatory-turnover",
+        "amalgam-waste-handling",
+        "chairside-emergency",
+        "nitrous-oxide-monitoring"
+      ]
+    },
+    {
       "name": "Culinary & Hospitality",
       "stations": [
         "banquet-setup-lift",
@@ -298,26 +323,6 @@
         "serger-overlock",
         "lockstitch-seam-guard",
         "machine-threading-needle"
-      ]
-    },
-    {
-      "name": "Dental & Oral Health",
-      "stations": [
-        "oral-cancer-screening",
-        "pediatric-visit",
-        "mobile-dental-outreach",
-        "periodontal-charting",
-        "radiograph-safety",
-        "patient-intake-screening",
-        "fluoride-and-sealants",
-        "aerosol-management",
-        "ultrasonic-scaling",
-        "sharps-exposure-response",
-        "instrument-reprocessing",
-        "operatory-turnover",
-        "amalgam-waste-handling",
-        "chairside-emergency",
-        "nitrous-oxide-monitoring"
       ]
     },
     {
@@ -1096,6 +1101,31 @@
           "app": "smartcity",
           "id": "patient-intake-screening",
           "why": "The shared first ten minutes: every dental career starts by reading the history and taking the vitals the same way."
+        },
+        {
+          "app": "smartcity",
+          "id": "dental-careers-pathway",
+          "why": "The ladder itself, before any of it: assistant to expanded-function assistant to hygienist to dentist, what each rung actually requires, where the pay-and-hours facts come from, and a signed plan with a date on it."
+        },
+        {
+          "app": "smartcity",
+          "id": "four-handed-dentistry",
+          "why": "The assistant's own trade at the chair: clock zones, stool heights, a tray in order of use, and every instrument transferred below the patient's chin rather than across their face."
+        },
+        {
+          "app": "smartcity",
+          "id": "dental-radiography-fmx",
+          "why": "The radiography permit put to work on a full-mouth series: holder assembled, sensor sheathed and seated, factors set for this patient, and a retake decided by rule instead of reflex."
+        },
+        {
+          "app": "smartcity",
+          "id": "sterilisation-technician-cycle",
+          "why": "The processing room as a career of its own: one-way zones, indicators and load numbers, a chart read before release, and a recall that can name every pack a failed load produced."
+        },
+        {
+          "app": "smartcity",
+          "id": "dental-lab-bench",
+          "why": "The bench furthest from the chair: impressions disinfected to time, stone mixed by ratio, models trimmed wet behind a guard, and a tray made to the prescription the dentist actually wrote."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -1993,7 +2023,7 @@
         "name": "Entry Authority",
         "note": "Permit to exit with every control in place"
       },
-      "meshes": 195,
+      "meshes": 193,
       "lights": 0,
       "overBudget": false,
       "index": "03",
@@ -2321,7 +2351,7 @@
         "name": "Possession Clear",
         "note": "Full possession taken and handed back with nothing skipped"
       },
-      "meshes": 137,
+      "meshes": 135,
       "lights": 0,
       "overBudget": false,
       "index": "07",
@@ -2650,7 +2680,7 @@
         "name": "Summit Authority",
         "note": "Every clip made, every tool tethered, no unprotected air"
       },
-      "meshes": 143,
+      "meshes": 142,
       "lights": 0,
       "overBudget": false,
       "index": "11",
@@ -2812,7 +2842,7 @@
         "name": "Rigging Command",
         "note": "Set, verified against the chart and landed with the swing radius clear"
       },
-      "meshes": 121,
+      "meshes": 120,
       "lights": 0,
       "overBudget": false,
       "index": "13",
@@ -2898,7 +2928,7 @@
         "name": "Ground Authority",
         "note": "Trench inspected, tested and protected before anyone steps below grade"
       },
-      "meshes": 166,
+      "meshes": 165,
       "lights": 0,
       "overBudget": false,
       "index": "14",
@@ -3228,7 +3258,7 @@
         "name": "Fly Qualified",
         "note": "Full fly cue with the arbor locked and the deck clear throughout"
       },
-      "meshes": 127,
+      "meshes": 126,
       "lights": 0,
       "overBudget": false,
       "index": "18",
@@ -3401,7 +3431,7 @@
         "name": "Waterfront Certified",
         "note": "Full lift cycle with the red zone clear and every lock verified"
       },
-      "meshes": 182,
+      "meshes": 180,
       "lights": 0,
       "overBudget": false,
       "index": "20",
@@ -3666,7 +3696,7 @@
         "name": "Chain Unbroken",
         "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
       },
-      "meshes": 184,
+      "meshes": 183,
       "lights": 0,
       "overBudget": false,
       "index": "23",
@@ -4318,7 +4348,7 @@
         "name": "Nip Point Never",
         "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
       },
-      "meshes": 155,
+      "meshes": 154,
       "lights": 0,
       "overBudget": false,
       "index": "31",
@@ -4481,7 +4511,7 @@
         "name": "Order Held",
         "note": "Every step of the switching order read back, done in sequence, tested dead and grounded before the hand-off"
       },
-      "meshes": 171,
+      "meshes": 170,
       "lights": 0,
       "overBudget": false,
       "index": "33",
@@ -5618,7 +5648,7 @@
         "name": "No Aerosol",
         "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
       },
-      "meshes": 182,
+      "meshes": 181,
       "lights": 0,
       "overBudget": false,
       "index": "47",
@@ -5916,6 +5946,421 @@
     },
     {
       "app": "smartcity",
+      "id": "dental-lab-bench",
+      "name": "Dental Laboratory Bench",
+      "title": "SmartCiti.X~ Dental Laboratory Bench VR",
+      "tagline": "The lab bench as a trade: impressions disinfected to time, stone mixed by ratio under vacuum, models poured and trimmed wet, a lathe behind its shield, pumice changed per case and a tray made to the written prescription",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental laboratory technician (CDT)",
+      "union": null,
+      "certification": "The National Board for Certification in Dental Laboratory Technology's Certified Dental Technician (CDT) credential and the National Association of Dental Laboratories as the trade's body; the state dental practice act, which requires a written prescription from the dentist for every case a laboratory makes; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for handling incoming impressions and outgoing cases; the FDA's device requirements for what a laboratory fabricates; OSHA 29 CFR 1910.1053 respirable crystalline silica, 1910.212 machine guarding, 1910.1200 hazard communication and NIOSH's dust-control guidance; SEIU and UFCW clinic and laboratory staff agreements",
+      "accent": "#c8a6e0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "gauge",
+        "track",
+        "turn",
+        "drag",
+        "sequence",
+        "find"
+      ],
+      "badge": {
+        "id": "case-made-right",
+        "name": "Case Made Right",
+        "note": "One case carried from a disinfected impression to a finished tray with the dust controlled and the prescription honoured"
+      },
+      "meshes": 228,
+      "lights": 1,
+      "overBudget": false,
+      "index": "216",
+      "flat": false,
+      "system": "Bench Craft",
+      "currency": "CASE",
+      "ranks": [
+        "Lab Apprentice",
+        "Bench Technician",
+        "Certified Dental Technician",
+        "Laboratory Lead",
+        "Bench Craft Certified"
+      ],
+      "awards": [
+        {
+          "id": "disinfected-on-arrival",
+          "name": "Disinfected On Arrival",
+          "note": "The impression was disinfected to its own time before anything was poured"
+        },
+        {
+          "id": "dust-controlled",
+          "name": "Dust Controlled",
+          "note": "No unsafe action anywhere on the bench"
+        },
+        {
+          "id": "ratio-by-measure",
+          "name": "Ratio By Measure",
+          "note": "Water and powder committed inside the band rather than guessed"
+        },
+        {
+          "id": "clean-case",
+          "name": "Clean Case",
+          "note": "No corrections anywhere in the case"
+        },
+        {
+          "id": "held-the-mix",
+          "name": "Held The Mix",
+          "note": "Both timed passages carried without a break"
+        },
+        {
+          "id": "case-on-time",
+          "name": "Case On Time",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dental-lab-bench"
+    },
+    {
+      "app": "smartcity",
+      "id": "sterilisation-technician-cycle",
+      "name": "Sterilisation Centre",
+      "title": "SmartCiti.X~ Sterilisation Centre VR",
+      "tagline": "The processing room as a career: one-way zones, mechanical cleaning, indicators and load numbers, a cycle chosen for the chamber, a chart read before release, a spore test with its control and a recall that can name every pack",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Sterile processing technician — dental instruments",
+      "union": null,
+      "certification": "DANB's Infection Control (ICE) component and, where the office requires it, a sterile processing technician certification (CRCST / CBSPD); ANSI/AAMI ST79 for steam sterilisation and sterility assurance in health care facilities; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; the FDA's reprocessing instructions that every reusable device carries; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+      "accent": "#7fc8a4",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "hold",
+        "gauge",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "load-released-clean",
+        "name": "Load Released Clean",
+        "note": "A load carried from soiled intake to documented release with the chart read, the spore test running and the recall opened on evidence"
+      },
+      "meshes": 242,
+      "lights": 1,
+      "overBudget": false,
+      "index": "215",
+      "flat": false,
+      "system": "Sterility Assurance",
+      "currency": "LOAD",
+      "ranks": [
+        "Processing Trainee",
+        "Instrument Technician",
+        "Sterile Processing Technician",
+        "Processing Lead",
+        "Sterility Assurance Certified"
+      ],
+      "awards": [
+        {
+          "id": "flow-never-reversed",
+          "name": "Flow Never Reversed",
+          "note": "The one-way journey walked in order, soiled to sterile"
+        },
+        {
+          "id": "nothing-released-on-faith",
+          "name": "Nothing Released On Faith",
+          "note": "No unsafe action anywhere in the load"
+        },
+        {
+          "id": "dose-measured",
+          "name": "Dose Measured",
+          "note": "Detergent dilution committed inside the label band"
+        },
+        {
+          "id": "clean-load",
+          "name": "Clean Load",
+          "note": "No corrections anywhere in the load"
+        },
+        {
+          "id": "never-broke-a-cycle",
+          "name": "Never Broke A Cycle",
+          "note": "Both timed passages carried without a break"
+        },
+        {
+          "id": "turnaround",
+          "name": "Turnaround",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=sterilisation-technician-cycle"
+    },
+    {
+      "app": "smartcity",
+      "id": "dental-radiography-fmx",
+      "name": "Full-Mouth Radiographic Series",
+      "title": "SmartCiti.X~ Full-Mouth Radiographic Series VR",
+      "tagline": "A complete series on a paralleling instrument: holder assembled, sensor sheathed and seated, factors set for this patient, tubehead square to the ring, region order worked, retakes decided by rule",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental assistant — radiographer (DANB RHS)",
+      "union": null,
+      "certification": "DANB's Radiation Health and Safety (RHS) component and the separate state dental radiography permit the practice act requires above it; the ADA and FDA's patient-selection recommendations for dental radiographic examinations; the ALARA principle and the state radiation control programme's own operator rules; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for receptor barriers and holder reprocessing; OSHA 29 CFR 1910.1030; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+      "accent": "#e8a13c",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "series-complete",
+        "name": "Series Complete",
+        "note": "A full-mouth series taken with the patient shielded, the factors set for them, and every retake justified in the exposure record"
+      },
+      "meshes": 220,
+      "lights": 1,
+      "overBudget": false,
+      "index": "214",
+      "flat": false,
+      "system": "Receptor Discipline",
+      "currency": "VIEW",
+      "ranks": [
+        "Radiography Student",
+        "Permitted Operator",
+        "Series Radiographer",
+        "Imaging Lead",
+        "Receptor Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "sheathed-first",
+          "name": "Sheathed First",
+          "note": "The sensor barrier went on before the sensor went anywhere"
+        },
+        {
+          "id": "never-a-hand-inside",
+          "name": "Never A Hand Inside",
+          "note": "No unsafe action anywhere in the series"
+        },
+        {
+          "id": "factors-for-this-patient",
+          "name": "Factors For This Patient",
+          "note": "Exposure factors committed inside the band for the patient in the chair"
+        },
+        {
+          "id": "clean-series-fmx",
+          "name": "Clean Series",
+          "note": "No corrections anywhere in the series"
+        },
+        {
+          "id": "held-the-bite",
+          "name": "Held The Bite",
+          "note": "Both timed passages carried without a break"
+        },
+        {
+          "id": "series-inside-par",
+          "name": "Series Inside Par",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dental-radiography-fmx"
+    },
+    {
+      "app": "smartcity",
+      "id": "four-handed-dentistry",
+      "name": "Four-Handed Dentistry",
+      "title": "SmartCiti.X~ Four-Handed Dentistry VR",
+      "tagline": "Chairside assisting as a trade: clock zones, stool heights, a tray in order of use, transfers below the chin, evacuation on hard tissue and retraction that holds a field without blanching it",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental assistant — chairside (DANB CDA)",
+      "union": null,
+      "certification": "DANB's Certified Dental Assistant (CDA) credential and its general chairside assisting component; the American Dental Assistants Association (ADAA) as the profession's body; the state dental practice act's allowable-duties list for assistants and any separate state permit above it; the ADA's guidance on the dental team; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for instrument handling at the chair; OSHA 29 CFR 1910.1030 bloodborne pathogens and NIOSH's dental ergonomics guidance; SEIU and UFCW clinic staff agreements",
+      "accent": "#58b7e0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "second-pair-of-hands",
+        "name": "Second Pair Of Hands",
+        "note": "A full restorative appointment assisted from the assistant's zone with every transfer made below the patient's chin"
+      },
+      "meshes": 261,
+      "lights": 1,
+      "overBudget": false,
+      "index": "213",
+      "flat": false,
+      "system": "Chairside Craft",
+      "currency": "PASS",
+      "ranks": [
+        "Assisting Student",
+        "Chairside Assistant",
+        "Certified Dental Assistant",
+        "Lead Assistant",
+        "Chairside Craft Certified"
+      ],
+      "awards": [
+        {
+          "id": "zones-held",
+          "name": "Zones Held",
+          "note": "The clock zones read correctly and the static zone left clear"
+        },
+        {
+          "id": "nothing-over-the-face",
+          "name": "Nothing Over The Face",
+          "note": "No unsafe action anywhere in the appointment"
+        },
+        {
+          "id": "rhythm-kept",
+          "name": "Rhythm Kept",
+          "note": "Both timed passages carried without a break"
+        },
+        {
+          "id": "clean-assist",
+          "name": "Clean Assist",
+          "note": "No corrections anywhere in the appointment"
+        },
+        {
+          "id": "steady-field",
+          "name": "Steady Field",
+          "note": "Retraction committed inside the narrow band"
+        },
+        {
+          "id": "on-the-operator",
+          "name": "On The Operator",
+          "note": "Complete inside 80% of par — the operator never waited"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=four-handed-dentistry"
+    },
+    {
+      "app": "smartcity",
+      "id": "dental-careers-pathway",
+      "name": "Dental Careers Pathway",
+      "title": "SmartCiti.X~ Dental Careers Pathway VR",
+      "tagline": "A careers evening in the staff room: the ladder from assistant to hygienist to dentist, the credential behind each rung, where the pay-and-hours facts actually come from, and how to apply this month",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental careers — assistant to hygienist to dentist",
+      "union": null,
+      "certification": "The state dental practice act and its allowable-duties list for assistants and hygienists; DANB's Certified Dental Assistant components — Radiation Health and Safety, Infection Control and General Chairside — and the separate state radiography permit; programmes accredited by the Commission on Dental Accreditation (CODA); the National Board Dental Hygiene Examination and a state or regional clinical examination for hygiene licensure; the Dental Admission Test, a CODA-accredited dental school and the Integrated National Board Dental Examination for the DDS or DMD; the American Dental Assistants Association (ADAA) and the American Dental Hygienists' Association (ADHA) as the professions' bodies; the ADA on the dental team; the U.S. Bureau of Labor Statistics Occupational Outlook Handbook for current pay and hours; SEIU, UFCW and AFSCME clinic and public-health staff agreements; HIPAA for anything a student sees on a shadowing day",
+      "accent": "#f0b86e",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "plan-in-hand",
+        "name": "Plan In Hand",
+        "note": "The ladder read off the board, the credentials matched to their rungs, and a signed plan with a real next step on it"
+      },
+      "meshes": 225,
+      "lights": 1,
+      "overBudget": false,
+      "index": "212",
+      "flat": false,
+      "system": "Career Ladder",
+      "currency": "RUNG",
+      "ranks": [
+        "Visitor",
+        "Applicant",
+        "Dental Assisting Student",
+        "Credentialled Assistant",
+        "Career Ladder Certified"
+      ],
+      "awards": [
+        {
+          "id": "ladder-read-right",
+          "name": "Ladder Read Right",
+          "note": "The entry rung and the accreditation cards both answered clean"
+        },
+        {
+          "id": "nothing-taken-on-trust",
+          "name": "Nothing Taken On Trust",
+          "note": "No unsafe conclusion anywhere in the evening"
+        },
+        {
+          "id": "planned-by-measure",
+          "name": "Planned By Measure",
+          "note": "The study plan committed inside a workable band"
+        },
+        {
+          "id": "clean-evening",
+          "name": "Clean Evening",
+          "note": "No corrections anywhere in the briefing"
+        },
+        {
+          "id": "sat-the-section",
+          "name": "Sat The Section",
+          "note": "Both timed passages carried without a break"
+        },
+        {
+          "id": "read-the-board",
+          "name": "Read The Board",
+          "note": "Finish inside 80% of par — you read the board rather than the cards"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dental-careers-pathway"
+    },
+    {
+      "app": "smartcity",
       "id": "ambulance-scene-safety",
       "name": "Ambulance Scene Safety",
       "title": "SmartCiti.X~ Ambulance Scene Safety VR",
@@ -5948,7 +6393,7 @@
         "name": "Shoulder Safe",
         "note": "A full roadside call worked with the block, the taper and the approach all held, and the crew fit to drive home"
       },
-      "meshes": 215,
+      "meshes": 214,
       "lights": 1,
       "overBudget": false,
       "index": "202",
@@ -6197,7 +6642,7 @@
         "name": "Lane Given Back",
         "note": "Blocked, tapered, shielded and cleared — nobody in the buffer, and the lane reopened on the plan's clock"
       },
-      "meshes": 236,
+      "meshes": 235,
       "lights": 0,
       "overBudget": false,
       "index": "205",
@@ -6692,7 +7137,7 @@
         "name": "Structure Held",
         "note": "A defensible structure prepped against embers, the trigger point respected, and the pull-out called the instant conditions changed"
       },
-      "meshes": 243,
+      "meshes": 240,
       "lights": 0,
       "overBudget": false,
       "index": "199",
@@ -6773,7 +7218,7 @@
         "name": "Release Earned",
         "note": "Every crew through rehab met its release criteria before going back to the line, with nobody pushed through early"
       },
-      "meshes": 229,
+      "meshes": 227,
       "lights": 0,
       "overBudget": false,
       "index": "198",
@@ -6856,7 +7301,7 @@
         "name": "First-In Clean",
         "note": "A residential structure fire sized up, reported, attacked and accounted for without an unsafe action anywhere in the job"
       },
-      "meshes": 272,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "197",
@@ -6938,7 +7383,7 @@
         "name": "Held With Care",
         "note": "Look, listen and link run clean, practical needs met first, and the boundary between support and therapy never crossed"
       },
-      "meshes": 183,
+      "meshes": 181,
       "lights": 0,
       "overBudget": false,
       "index": "211",
@@ -7019,7 +7464,7 @@
         "name": "Sweep Complete",
         "note": "One structure classified, photographed and logged without a hazard being touched or an unsafe building entered"
       },
-      "meshes": 176,
+      "meshes": 175,
       "lights": 0,
       "overBudget": false,
       "index": "210",
@@ -7102,7 +7547,7 @@
         "name": "Shelter Open",
         "note": "Every resident registered with dignity, every need flagged, the floor run clean, and a real count handed to the next shift"
       },
-      "meshes": 285,
+      "meshes": 282,
       "lights": 0,
       "overBudget": false,
       "index": "209",
@@ -7185,7 +7630,7 @@
         "name": "Joint Set",
         "note": "An expansion joint replaced under a working lane closure — taper held, cut run wet, joint torqued and levelled, header poured true"
       },
-      "meshes": 176,
+      "meshes": 174,
       "lights": 0,
       "overBudget": false,
       "index": "187",
@@ -7268,7 +7713,7 @@
         "name": "Truss Contained",
         "note": "A lead-paint containment on a truss bay held start to finish on measured numbers — fit test, negative pressure, profile and the waste manifest — with nothing reaching the water below"
       },
-      "meshes": 202,
+      "meshes": 200,
       "lights": 0,
       "overBudget": false,
       "index": "186",
@@ -7350,7 +7795,7 @@
         "name": "Rope Cleared",
         "note": "A suspender rope inspected from the traveller, start to finish, with two lanyards live and the wire count against the rejection criterion"
       },
-      "meshes": 172,
+      "meshes": 171,
       "lights": 0,
       "overBudget": false,
       "index": "185",
@@ -7680,7 +8125,7 @@
         "name": "Course Certified",
         "note": "A course laid off a scaffold that was actually checked, block cut wet to Table 1, and a cleanup that never put the dust back in the air"
       },
-      "meshes": 223,
+      "meshes": 221,
       "lights": 0,
       "overBudget": false,
       "index": "193",
@@ -7762,7 +8207,7 @@
         "name": "Panel Set",
         "note": "A CLT panel picked, flown, landed and braced before the hook came off, with nobody ever under the load"
       },
-      "meshes": 183,
+      "meshes": 180,
       "lights": 0,
       "overBudget": false,
       "index": "192",
@@ -7844,7 +8289,7 @@
         "name": "Deck Certified",
         "note": "A shoring bay built to the drawing, plumbed, pinned and reshored on the engineer's own sequence — signed off before the first yard went in"
       },
-      "meshes": 200,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "191",
@@ -7925,7 +8370,7 @@
         "name": "Apron Cleared",
         "note": "Declaration matched, segregation held, a leak found from a safe standoff and isolated before anyone got closer — first time"
       },
-      "meshes": 167,
+      "meshes": 166,
       "lights": 0,
       "overBudget": false,
       "index": "184",
@@ -8008,7 +8453,7 @@
         "name": "Row Run Clean",
         "note": "Every lock proven, the load carried low the whole row, and the wind read before it mattered — first time"
       },
-      "meshes": 167,
+      "meshes": 165,
       "lights": 0,
       "overBudget": false,
       "index": "183",
@@ -8090,7 +8535,7 @@
         "name": "Row Walked Clean",
         "note": "Every unit proven, one alarm read before it was silenced, one leak isolated before anyone else got near it — first time"
       },
-      "meshes": 213,
+      "meshes": 212,
       "lights": 0,
       "overBudget": false,
       "index": "182",
@@ -8171,7 +8616,7 @@
         "name": "Site Power Certified",
         "note": "A temporary service grounded, GFCI-protected, AEGCP-current and walked clean at the end of the shift"
       },
-      "meshes": 164,
+      "meshes": 163,
       "lights": 0,
       "overBudget": false,
       "index": "190",
@@ -8251,7 +8696,7 @@
         "name": "Label Issued",
         "note": "A label built from the actual study data, printed and placed on the panel it was calculated for"
       },
-      "meshes": 152,
+      "meshes": 151,
       "lights": 0,
       "overBudget": false,
       "index": "189",
@@ -8332,7 +8777,7 @@
         "name": "Bucket Cleared",
         "note": "A bucket racked out with the remote tool, proven dead, inspected and racked back in with nothing skipped"
       },
-      "meshes": 180,
+      "meshes": 179,
       "lights": 0,
       "overBudget": false,
       "index": "188",
@@ -8413,7 +8858,7 @@
         "name": "Record That Holds",
         "note": "A dry-boots documentation an inspector can act on — the right bottle, a scaled photo, both hotlines called"
       },
-      "meshes": 177,
+      "meshes": 175,
       "lights": 0,
       "overBudget": false,
       "index": "162",
@@ -8494,7 +8939,7 @@
         "name": "Window Held",
         "note": "A clean grab from the top two centimetres, taken and iced inside the tide window, without a boot in the eelgrass or the cordgrass"
       },
-      "meshes": 246,
+      "meshes": 245,
       "lights": 0,
       "overBudget": false,
       "index": "161",
@@ -8656,7 +9101,7 @@
         "name": "Split Clean",
         "note": "A witnessed core, decontaminated tools, both jars sealed and signed for, and the community jar on its way to an independent lab"
       },
-      "meshes": 173,
+      "meshes": 170,
       "lights": 0,
       "overBudget": false,
       "index": "159",
@@ -8984,7 +9429,7 @@
         "name": "Building Held",
         "note": "Every opening closed, the air handled correctly, every room counted, both calls made, every resident checked, and the all-clear recorded rather than assumed"
       },
-      "meshes": 173,
+      "meshes": 172,
       "lights": 0,
       "overBudget": false,
       "index": "171",
@@ -9066,7 +9511,7 @@
         "name": "First Shift Clean",
         "note": "Roles held, the buddy rule never broken, the boundary respected, and a real observation logged and handed off"
       },
-      "meshes": 246,
+      "meshes": 244,
       "lights": 0,
       "overBudget": false,
       "index": "170",
@@ -9148,7 +9593,7 @@
         "name": "Record Backed",
         "note": "Every claim tied to a dated log or monitor record, the chart correct, the statement timed clean, and nothing said that the record does not back up"
       },
-      "meshes": 267,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "169",
@@ -9231,7 +9676,7 @@
         "name": "Gap Named",
         "note": "Every claim in the plan checked against the patrol's own record, every gap cited to a real authority, and the letter filed before the deadline moved"
       },
-      "meshes": 176,
+      "meshes": 175,
       "lights": 0,
       "overBudget": false,
       "index": "158",
@@ -9314,7 +9759,7 @@
         "name": "True North Set",
         "note": "Sited clear of every obstruction, aligned to true north, levelled, grounded, and the first day's data checked against the airport's before anyone trusts a wind direction off it"
       },
-      "meshes": 180,
+      "meshes": 179,
       "lights": 0,
       "overBudget": false,
       "index": "157",
@@ -9397,7 +9842,7 @@
         "name": "Gate Watched",
         "note": "Every check made from the sidewalk, every observation logged with a plate, a time and a photo, and never once through the gate"
       },
-      "meshes": 200,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "156",
@@ -9480,7 +9925,7 @@
         "name": "Fenceline True",
         "note": "Sited downwind, level and guyed, proven at zero and flow, alarmed to the plan, and an exceedance reported without setting foot past the fence"
       },
-      "meshes": 211,
+      "meshes": 209,
       "lights": 0,
       "overBudget": false,
       "index": "155",
@@ -9562,7 +10007,7 @@
         "name": "Fence-Line Record",
         "note": "A route walked in order, an event logged completely, and a complaint filed without ever stepping past the fence"
       },
-      "meshes": 246,
+      "meshes": 244,
       "lights": 0,
       "overBudget": false,
       "index": "150",
@@ -9643,7 +10088,7 @@
         "name": "Map Read Honestly",
         "note": "A smoke day and a local source told apart by the pattern, a stuck sensor caught, and the real outlier reported before the note went public"
       },
-      "meshes": 159,
+      "meshes": 158,
       "lights": 0,
       "overBudget": false,
       "index": "149",
@@ -9724,7 +10169,7 @@
         "name": "Correction Earned",
         "note": "A correction factor derived from a full week against a proven reference, with the drifting sensor caught before it shipped back to the network"
       },
-      "meshes": 196,
+      "meshes": 195,
       "lights": 0,
       "overBudget": false,
       "index": "148",
@@ -9806,7 +10251,7 @@
         "name": "Network Node Proven",
         "note": "A sensor sited by the rules, consented to by the resident who hosts it, and proven against a handheld before it ever reports a number"
       },
-      "meshes": 211,
+      "meshes": 210,
       "lights": 0,
       "overBudget": false,
       "index": "147",
@@ -9972,7 +10417,7 @@
         "name": "Orientation Complete",
         "note": "Every part of the orientation finished in order, with nothing skipped for the sake of starting sooner"
       },
-      "meshes": 173,
+      "meshes": 171,
       "lights": 0,
       "overBudget": false,
       "index": "167",
@@ -10055,7 +10500,7 @@
         "name": "Perimeter Held",
         "note": "The watch kept clean: nothing crossed, nothing touched, the competent person called the moment it mattered"
       },
-      "meshes": 182,
+      "meshes": 181,
       "lights": 0,
       "overBudget": false,
       "index": "166",
@@ -10713,7 +11158,7 @@
         "name": "Witness Clean",
         "note": "The grid checked against the work plan, the split requested in writing, every form read before anything was signed, and the statement filed the same day"
       },
-      "meshes": 220,
+      "meshes": 217,
       "lights": 0,
       "overBudget": false,
       "index": "165",
@@ -10796,7 +11241,7 @@
         "name": "Map Honest",
         "note": "Every parcel called from the regulator's own map, the discrepancy caught and photographed, and the resident answered honestly from the map in hand"
       },
-      "meshes": 192,
+      "meshes": 190,
       "lights": 0,
       "overBudget": false,
       "index": "164",
@@ -10879,7 +11324,7 @@
         "name": "Class Clean",
         "note": "Background counted before the source ever came out, every reading logged with its own photograph, and the check source never out of sight"
       },
-      "meshes": 247,
+      "meshes": 245,
       "lights": 0,
       "overBudget": false,
       "index": "163",
@@ -10961,7 +11406,7 @@
         "name": "Street Worked Right",
         "note": "The vulnerable households first, every mask actually fit, and the patrol's own respirators on before the air made that optional"
       },
-      "meshes": 150,
+      "meshes": 149,
       "lights": 0,
       "overBudget": false,
       "index": "154",
@@ -11044,7 +11489,7 @@
         "name": "Right File, Right Words",
         "note": "The right participant's own result, explained without alarm or dismissal, and referred where it needed to be"
       },
-      "meshes": 162,
+      "meshes": 161,
       "lights": 0,
       "overBudget": false,
       "index": "153",
@@ -11126,7 +11571,7 @@
         "name": "Chain Unbroken",
         "note": "Every label matched, the cold chain running, and the custody form signed before the courier ever touched the box"
       },
-      "meshes": 154,
+      "meshes": 152,
       "lights": 0,
       "overBudget": false,
       "index": "152",
@@ -11207,7 +11652,7 @@
         "name": "Consented First",
         "note": "Every right explained, the signature witnessed, and the participant ID on the record before a single sample existed"
       },
-      "meshes": 191,
+      "meshes": 190,
       "lights": 0,
       "overBudget": false,
       "index": "151",
@@ -11399,7 +11844,7 @@
         "name": "Rail Certified",
         "note": "Five customers down the rail, every call right, the round poured to spec and the count logged"
       },
-      "meshes": 182,
+      "meshes": 181,
       "lights": 0,
       "overBudget": false,
       "index": "145",
@@ -11481,7 +11926,7 @@
         "name": "Plan Proven",
         "note": "The whole workplace violence prevention plan run clean — posted, tested, walked and logged"
       },
-      "meshes": 148,
+      "meshes": 147,
       "lights": 0,
       "overBudget": false,
       "index": "144",
@@ -11563,7 +12008,7 @@
         "name": "Sheet Signed",
         "note": "A full night's tip-out, breaks and split shift closed out clean, with the steward's sign-off on it"
       },
-      "meshes": 210,
+      "meshes": 209,
       "lights": 0,
       "overBudget": false,
       "index": "143",
@@ -11645,7 +12090,7 @@
         "name": "Neutral and Clean",
         "note": "A full line clean read neutral on the strip with every tap tagged and nobody poured from it — first time"
       },
-      "meshes": 199,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "139",
@@ -11726,7 +12171,7 @@
         "name": "Well Cleared",
         "note": "A contaminated well stopped, burned, sanitised and back on line — and a cut treated clean, first time"
       },
-      "meshes": 189,
+      "meshes": 188,
       "lights": 0,
       "overBudget": false,
       "index": "138",
@@ -11808,7 +12253,7 @@
         "name": "Cellar Clean Change",
         "note": "A keg change with the monitor read, both bottles verified, no leak and the door left open — first time"
       },
-      "meshes": 199,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "137",
@@ -11890,7 +12335,7 @@
         "name": "Clean Close",
         "note": "Last call, the cutoff, the rides and the sweep all answered clean, and the building locked down behind a crew that walked out together"
       },
-      "meshes": 165,
+      "meshes": 164,
       "lights": 0,
       "overBudget": false,
       "index": "142",
@@ -12054,7 +12499,7 @@
         "name": "Clean Drop",
         "note": "Till counted and dropped clean, and a robbery demand answered without a single unsafe move"
       },
-      "meshes": 182,
+      "meshes": 181,
       "lights": 0,
       "overBudget": false,
       "index": "140",
@@ -12384,7 +12829,7 @@
         "name": "Rail On Spec",
         "note": "Every build measured, every glass and garnish right, and the round logged clean"
       },
-      "meshes": 151,
+      "meshes": 150,
       "lights": 0,
       "overBudget": false,
       "index": "133",
@@ -12546,7 +12991,7 @@
         "name": "Well Opened Clean",
         "note": "Every opening check passed to spec before the first guest was let in"
       },
-      "meshes": 159,
+      "meshes": 158,
       "lights": 0,
       "overBudget": false,
       "index": "131",
@@ -12628,7 +13073,7 @@
         "name": "Early Look",
         "note": "A full screening run in order with a finding fully described and referred inside the two-week rule"
       },
-      "meshes": 164,
+      "meshes": 163,
       "lights": 1,
       "overBudget": false,
       "index": "130",
@@ -12711,7 +13156,7 @@
         "name": "First Smiles",
         "note": "A first visit run without forcing the plan past what the child could actually tolerate"
       },
-      "meshes": 160,
+      "meshes": 159,
       "lights": 1,
       "overBudget": false,
       "index": "129",
@@ -12793,7 +13238,7 @@
         "name": "Clean Day",
         "note": "A full outreach day run with nothing reprocessed in the field and every child's paperwork matched before the chair"
       },
-      "meshes": 183,
+      "meshes": 182,
       "lights": 1,
       "overBudget": false,
       "index": "128",
@@ -14351,7 +14796,7 @@
         "name": "Exposure Managed",
         "note": "A needlestick handled start to finish inside the hours that make post-exposure prophylaxis meaningful"
       },
-      "meshes": 151,
+      "meshes": 150,
       "lights": 0,
       "overBudget": false,
       "index": "118",
@@ -14595,7 +15040,7 @@
         "name": "Van Proven",
         "note": "A deployment sited on the wind rather than on convenience, with instruments proven and a reference sample running before the first hour is trusted"
       },
-      "meshes": 197,
+      "meshes": 196,
       "lights": 0,
       "overBudget": false,
       "index": "96",
@@ -14678,7 +15123,7 @@
         "name": "Smoke School Certified",
         "note": "A Method 9 observation taken from the right ground, read past the steam, and averaged honestly against the permit"
       },
-      "meshes": 164,
+      "meshes": 163,
       "lights": 0,
       "overBudget": false,
       "index": "95",
@@ -14761,7 +15206,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -14844,7 +15289,7 @@
         "name": "Reef Reconciled",
         "note": "Every fixed quadrat, tile and pin read to the plan and the sheet squared with the photos before the flood — first time"
       },
-      "meshes": 250,
+      "meshes": 249,
       "lights": 0,
       "overBudget": false,
       "index": "91",
@@ -15421,7 +15866,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -15504,7 +15949,7 @@
         "name": "Clean Hold",
         "note": "A sample drawn to protocol, chain of custody unbroken, and the discharge held until the number came back — first time"
       },
-      "meshes": 213,
+      "meshes": 212,
       "lights": 0,
       "overBudget": false,
       "index": "99",
@@ -15587,7 +16032,7 @@
         "name": "Clean Haul",
         "note": "Every pass wetted to the plan's frequency, every load tarped and washed before the gate, and the alarm answered the instant the wind turned"
       },
-      "meshes": 199,
+      "meshes": 197,
       "lights": 0,
       "overBudget": false,
       "index": "98",
@@ -15670,7 +16115,7 @@
         "name": "Building Released",
         "note": "Instrument bracketed at both ends of the day, the reclassification flagged the moment the drain called for it, and no shortcut on the mark, the photo or the swipe"
       },
-      "meshes": 234,
+      "meshes": 232,
       "lights": 0,
       "overBudget": false,
       "index": "97",
@@ -15753,7 +16198,7 @@
         "name": "Oxidant Contained",
         "note": "The oxidant mixed to design, the manifold proven tight before it ran, the injection held in band with nothing daylighting, and the spent totes and rinse handled as hazardous"
       },
-      "meshes": 191,
+      "meshes": 189,
       "lights": 0,
       "overBudget": false,
       "index": "94",
@@ -15835,7 +16280,7 @@
         "name": "Tank Out Clean",
         "note": "Product pumped, the tank proven inert at both risers, rigged and lifted with nobody under the load, and the pit sampled under chain of custody and fenced before the crew left"
       },
-      "meshes": 232,
+      "meshes": 230,
       "lights": 0,
       "overBudget": false,
       "index": "93",
@@ -15918,7 +16363,7 @@
         "name": "Boom Holding",
         "note": "Source secured first, the J held against the current, both ends anchored, and the shore crew worked clean behind PPE and decon — first time"
       },
-      "meshes": 191,
+      "meshes": 188,
       "lights": 0,
       "overBudget": false,
       "index": "90",
@@ -16001,7 +16446,7 @@
         "name": "Cold Iron Clean",
         "note": "Ground proven first, the breaker closed only on the port's order, synchronisation confirmed with the ship, and both auxiliaries shut down clean — first time"
       },
-      "meshes": 226,
+      "meshes": 225,
       "lights": 0,
       "overBudget": false,
       "index": "89",
@@ -16084,7 +16529,7 @@
         "name": "Swale To Grade",
         "note": "A bioswale built to the design grade, with a clean subgrade, an unpacked soil mix, and the first inflow disperses across the dams"
       },
-      "meshes": 246,
+      "meshes": 244,
       "lights": 0,
       "overBudget": false,
       "index": "86",
@@ -16167,7 +16612,7 @@
         "name": "Clean Pull",
         "note": "A pile pulled whole, or its stub marked and logged, drained over the barge, and no reading over the curtain's limit"
       },
-      "meshes": 241,
+      "meshes": 239,
       "lights": 0,
       "overBudget": false,
       "index": "85",
@@ -16250,7 +16695,7 @@
         "name": "Pipe Out Clean",
         "note": "A transite run removed wet, hand-cut, bagged at the point of removal and manifested, with the sampling pump running the whole job"
       },
-      "meshes": 191,
+      "meshes": 189,
       "lights": 0,
       "overBudget": false,
       "index": "88",
@@ -16333,7 +16778,7 @@
         "name": "PCB Shipment",
         "note": "A PCB transformer isolated, rigged and manifested with no shortcut on the lockout, the oil or the paperwork"
       },
-      "meshes": 218,
+      "meshes": 216,
       "lights": 0,
       "overBudget": false,
       "index": "87",
@@ -16415,7 +16860,7 @@
         "name": "Bed Established",
         "note": "A donor bed harvested to its permitted share and a new bed planted to the grid, with every diver accounted for the whole time"
       },
-      "meshes": 274,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "82",
@@ -16498,7 +16943,7 @@
         "name": "Cap To Grade",
         "note": "A design grid cell capped to its full thickness, cores proving it, without a turbidity reading over limit"
       },
-      "meshes": 219,
+      "meshes": 216,
       "lights": 0,
       "overBudget": false,
       "index": "81",
@@ -16581,7 +17026,7 @@
         "name": "Well of Record",
         "note": "A boring drilled inside its clearance and exclusion zone, cuttings drummed as IDW, a seal hydrated before the grout, and a survey point logged — nothing free-fallen, nothing on the ground"
       },
-      "meshes": 222,
+      "meshes": 221,
       "lights": 0,
       "overBudget": false,
       "index": "84",
@@ -16747,7 +17192,7 @@
         "name": "Clean Load",
         "note": "Zones set from the wind, dust read clean before the first bucket, the load lined, tarped and manifested, and the alarm answered the instant it sounded"
       },
-      "meshes": 243,
+      "meshes": 241,
       "lights": 0,
       "overBudget": false,
       "index": "76",
@@ -16830,7 +17275,7 @@
         "name": "Bracketed Day",
         "note": "Instrument proven against the check source before the grid and after it, every flagged reading GPS-logged, and the independent lab's split never touched"
       },
-      "meshes": 196,
+      "meshes": 195,
       "lights": 0,
       "overBudget": false,
       "index": "75",
@@ -16913,7 +17358,7 @@
         "name": "Clean Cut",
         "note": "A load dredged, tested and moved without a reading over limit or a line unaccounted for"
       },
-      "meshes": 216,
+      "meshes": 214,
       "lights": 0,
       "overBudget": false,
       "index": "78",
@@ -16996,7 +17441,7 @@
         "name": "Reach Secured",
         "note": "The whole reach placed to grade, curtain tight, and nothing left for the flood to take — first time"
       },
-      "meshes": 198,
+      "meshes": 197,
       "lights": 0,
       "overBudget": false,
       "index": "77",
@@ -17078,7 +17523,7 @@
         "name": "Gate Holds",
         "note": "A tide gate swapped inside the low-water window, levelled to design and proven on the first flood"
       },
-      "meshes": 188,
+      "meshes": 187,
       "lights": 0,
       "overBudget": false,
       "index": "80",
@@ -17161,7 +17606,7 @@
         "name": "Carbon Clean",
         "note": "A GAC vessel isolated, bled to zero, drummed as hazardous waste and lead/lag swapped, with the compliance sample sealed under chain of custody"
       },
-      "meshes": 231,
+      "meshes": 230,
       "lights": 0,
       "overBudget": false,
       "index": "79",
@@ -17244,7 +17689,7 @@
         "name": "Clean Transfer",
         "note": "A generator tie-in bonded, cammed ground-first and GFCI-proven, with the transfer to shore power held clean and the UPS never dropped"
       },
-      "meshes": 220,
+      "meshes": 219,
       "lights": 0,
       "overBudget": false,
       "index": "74",
@@ -17327,7 +17772,7 @@
         "name": "Containment Held",
         "note": "A lead-paint containment worked start to finish on measured numbers — breathing air, negative pressure, profile and the waste manifest — with no breach"
       },
-      "meshes": 246,
+      "meshes": 245,
       "lights": 0,
       "overBudget": false,
       "index": "73",
@@ -17493,7 +17938,7 @@
         "name": "Leak Graded",
         "note": "An odour call worked out to its edges and graded on where the gas was, with nothing on the street left able to light it"
       },
-      "meshes": 262,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "71",
@@ -17576,7 +18021,7 @@
         "name": "Fit To Climb",
         "note": "A pilot ladder rigged to the drawing on a certified ladder, attended from the moment it went over the side"
       },
-      "meshes": 254,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "67",
@@ -17659,7 +18104,7 @@
         "name": "The Run Stands",
         "note": "A traverse taken isokinetically, bracketed by leak checks that both passed, and recovered so an auditor can follow it"
       },
-      "meshes": 267,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "68",
@@ -17742,7 +18187,7 @@
         "name": "Point Set",
         "note": "One point found, calculated, hung and tagged — over a floor nobody was standing on"
       },
-      "meshes": 270,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "69",
@@ -17824,7 +18269,7 @@
         "name": "Lining Held",
         "note": "A tank lined on measured numbers — breathing air, profile, dew point, film thickness and a holiday test — and disinfected before it went back"
       },
-      "meshes": 225,
+      "meshes": 224,
       "lights": 0,
       "overBudget": false,
       "index": "70",
@@ -17907,7 +18352,7 @@
         "name": "EV Rescue",
         "note": "An occupant freed from a battery-electric car with the high voltage down, the wait kept, nothing orange cut, and the pack still being watched when the patient left"
       },
-      "meshes": 243,
+      "meshes": 241,
       "lights": 0,
       "overBudget": false,
       "index": "65",
@@ -17990,7 +18435,7 @@
         "name": "Span Placed",
         "note": "A span lashed with the lane closed, the strand bonded and the supply space never entered"
       },
-      "meshes": 261,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "64",
@@ -18073,7 +18518,7 @@
         "name": "Point Protected",
         "note": "A cut shoved, coupled, secured and left in the clear with the leading end never once out of sight"
       },
-      "meshes": 259,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "63",
@@ -18156,7 +18601,7 @@
         "name": "Tap Held",
         "note": "A live main tapped and stopped with the pressure test done first, the coupon on the cutter and the section disinfected before it went back"
       },
-      "meshes": 187,
+      "meshes": 186,
       "lights": 0,
       "overBudget": false,
       "index": "66",
@@ -18319,7 +18764,7 @@
         "name": "Never On The Grain",
         "note": "A bridge broken from above with the bin locked out, the line tight and the observer still at the hatch"
       },
-      "meshes": 210,
+      "meshes": 208,
       "lights": 0,
       "overBudget": false,
       "index": "59",
@@ -18402,7 +18847,7 @@
         "name": "Certificate Read",
         "note": "Hot work done inside the four corners of a Marine Chemist's certificate — the right spaces, the right finding, inside the hours"
       },
-      "meshes": 272,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "57",
@@ -18485,7 +18930,7 @@
         "name": "Tendon Certified",
         "note": "A tendon stressed with the cone kept empty, the elongation inside tolerance and the tails cut only after acceptance"
       },
-      "meshes": 251,
+      "meshes": 249,
       "lights": 0,
       "overBudget": false,
       "index": "58",
@@ -18731,7 +19176,7 @@
         "name": "Entry Certified",
         "note": "A Level A entry made and reversed with the air managed, the buddy kept and the decon line walked"
       },
-      "meshes": 225,
+      "meshes": 221,
       "lights": 0,
       "overBudget": false,
       "index": "56",
@@ -18813,7 +19258,7 @@
         "name": "Mast Certified",
         "note": "A mast section added, tied and plumbed, with the deck loaded inside its distribution chart and the cut-out proven"
       },
-      "meshes": 258,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "55",
@@ -18895,7 +19340,7 @@
         "name": "Concurrent Certified",
         "note": "A tap-off landed on a live busway with the redundant side proven, the boundary held and nothing dropped"
       },
-      "meshes": 278,
+      "meshes": 277,
       "lights": 0,
       "overBudget": false,
       "index": "54",
@@ -18977,7 +19422,7 @@
         "name": "Gas Free Proven",
         "note": "A biogas main opened only after purge, LEL and H2S were all proven, and closed leak-tight"
       },
-      "meshes": 227,
+      "meshes": 226,
       "lights": 0,
       "overBudget": false,
       "index": "53",
@@ -19058,7 +19503,7 @@
         "name": "Nacelle Certified",
         "note": "A gearbox serviced with all three locks proven, sampled hot, and the nacelle left closed and clear"
       },
-      "meshes": 166,
+      "meshes": 165,
       "lights": 0,
       "overBudget": false,
       "index": "52",
@@ -19139,7 +19584,7 @@
         "name": "Vault Clear",
         "note": "A padmount switched and grounded to a written order, with the oil drawn clean and the vault left safe"
       },
-      "meshes": 187,
+      "meshes": 186,
       "lights": 0,
       "overBudget": false,
       "index": "51",
@@ -19221,7 +19666,7 @@
         "name": "Zero Energy Verified",
         "note": "Perfect live-dead-live on the first run"
       },
-      "meshes": 299,
+      "meshes": 297,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=electrical"
@@ -19367,7 +19812,7 @@
         "name": "Fire Watch Held",
         "note": "Permit to fire watch with no hot-work shortcut"
       },
-      "meshes": 389,
+      "meshes": 387,
       "lights": 7,
       "overBudget": false,
       "deepLink": "trades/index.html?room=welding"
@@ -19443,7 +19888,7 @@
         "name": "Zero Leaks",
         "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
       },
-      "meshes": 232,
+      "meshes": 230,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=plumbing"
@@ -19481,7 +19926,7 @@
         "name": "Clean Recovery",
         "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
       },
-      "meshes": 217,
+      "meshes": 215,
       "lights": 6,
       "overBudget": false,
       "deepLink": "trades/index.html?room=pressure-washer"

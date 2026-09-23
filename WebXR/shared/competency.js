@@ -351,9 +351,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["cdc-guidance", "osha-1910-1030", "osha-1910-1200", "hipaa-privacy-rule"],
     stations: [
-      "patient-intake-screening"
+      "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
+      "sterilisation-technician-cycle", "dental-lab-bench"
     ],
-    require: 1,
+    require: 3,
   },
   {
     id: "bartending-course",

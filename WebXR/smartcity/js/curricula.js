@@ -283,7 +283,11 @@ export const CURRICULA = [
     accent: "#f0b86e",
     stations: [
       { app: "smartcity", id: "patient-intake-screening", why: "The shared first ten minutes: every dental career starts by reading the history and taking the vitals the same way." },
-      // slot-dc-1
+      { app: "smartcity", id: "dental-careers-pathway", why: "The ladder itself, before any of it: assistant to expanded-function assistant to hygienist to dentist, what each rung actually requires, where the pay-and-hours facts come from, and a signed plan with a date on it." },
+      { app: "smartcity", id: "four-handed-dentistry", why: "The assistant's own trade at the chair: clock zones, stool heights, a tray in order of use, and every instrument transferred below the patient's chin rather than across their face." },
+      { app: "smartcity", id: "dental-radiography-fmx", why: "The radiography permit put to work on a full-mouth series: holder assembled, sensor sheathed and seated, factors set for this patient, and a retake decided by rule instead of reflex." },
+      { app: "smartcity", id: "sterilisation-technician-cycle", why: "The processing room as a career of its own: one-way zones, indicators and load numbers, a chart read before release, and a recall that can name every pack a failed load produced." },
+      { app: "smartcity", id: "dental-lab-bench", why: "The bench furthest from the chair: impressions disinfected to time, stone mixed by ratio, models trimmed wet behind a guard, and a tray made to the prescription the dentist actually wrote." },
       // slot-dc-2
       // slot-dc-3
     ],

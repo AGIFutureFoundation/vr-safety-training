@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-22: 220 procedures, 186 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 225 procedures, 187 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -10,17 +10,17 @@ Every station names the union and the certification a worker in that role holds,
 
 | Standard | Stations |
 |---|---|
+| 29 CFR 1910.1030 | 32: Allergens & Honest Drinks, Ambulance Scene Safety, Cardiac Arrest — Pit Crew, Chairside Emergency, Crisis Intervention Call, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Four-Handed Dentistry, Full-Mouth Radiographic Series, Housekeeping Room Turn, Ice Well Breakage, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Overdose Response — Naloxone, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Shelter Intake Operations, Spiked Drink Response, Sterilisation Centre, Triage Point, Ultrasonic Scaling |
 | 29 CFR 1910.120 | 31: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Community Soil Split, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Container Inspection, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
 | 29 CFR 1910.147 | 30: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Motor Control Center, PCB Equipment Removal, Press Brake, Reefer Yard Monitoring, Robot Cell, Serger and Overlock, Slicer Lockout, Tower Climb, Vapor Mitigation, Wind Nacelle |
-| 29 CFR 1910.1030 | 29: Allergens & Honest Drinks, Ambulance Scene Safety, Cardiac Arrest — Pit Crew, Chairside Emergency, Crisis Intervention Call, Cut-Off / Overservice, Draw Station, Fluoride and Sealants, Housekeeping Room Turn, Ice Well Breakage, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Overdose Response — Naloxone, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, Sharps Exposure Response, Shelter Intake Operations, Spiked Drink Response, Triage Point, Ultrasonic Scaling |
-| NIOSH | 23: Alteration Repair Ticket, Firefighter Rehab Sector, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
+| NIOSH | 25: Alteration Repair Ticket, Dental Laboratory Bench, Firefighter Rehab Sector, Four-Handed Dentistry, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
 | 29 CFR 1926 | 19: Aerial Lashing, Arena Rigging, Bioswale Build, Bridge Cable Inspection, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Formwork Shoring, Hot Tap, Living Shoreline, Masonry Silica Scaffold, Mass Timber Panel Set, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
 | NFPA 70E | 19: Arc-Flash Label Study, Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Elevator Pit, Isolation Bay, Motor Control Center, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
 | 29 CFR 1910.134 | 16: Abatement Chamber, Abatement Perimeter Awareness, Aerosol Management, Ammonia Plant, Bridge Blast, Bridge Lead Containment, Chlorine Room, Confined Rescue, Cooling Tower, Decon Support Laborer, Firefighter Rehab Sector, HAZWOPER Site Orientation, Hazmat Entry, Smoke Day Outreach, Structure Fire Size-Up, Tank Lining |
 | California Retail Food Code | 15: Allergen Control, Allergens & Honest Drinks, Banquet Hot Hold, Cafeteria Serving, Cut-Off / Overservice, Dish Pit, Fryer Oil Change, Ice Well Breakage, Knife Skills, Opening the Well, Pouring to Spec, Prep Cooling, RBS Service Capstone, Receiving Dock Food, Walk-In Cooler |
-| 29 CFR 1910.1200 | 12: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dish Pit, Garment Inspection & Finish, Grease Trap, Housekeeping Room Turn, Keg Cellar CO2, Laundry Plant Chemicals, Opening the Well, Operatory Turnover, Spartina Removal |
+| 29 CFR 1910.1200 | 14: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dental Laboratory Bench, Dish Pit, Garment Inspection & Finish, Grease Trap, Housekeeping Room Turn, Keg Cellar CO2, Laundry Plant Chemicals, Opening the Well, Operatory Turnover, Spartina Removal, Sterilisation Centre |
 | 29 CFR 1910.132 | 12: Ambulance Scene Safety, Arc-Flash Label Study, Cutting Table and Rotary Knife, Discharge Photo Doc, Fryer Oil Change, Garment Inspection & Finish, Hem & Buttonhole, Marsh Transect Survey, Oyster Reef Monitoring, Pattern Marking & Layout, Prep Cooling, Traffic Incident Management |
-| 29 CFR 1910.212 | 11: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Hem & Buttonhole, Industrial Press & Steam, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
+| 29 CFR 1910.212 | 12: Alteration Repair Ticket, Bakery Mixer, CNC Cell, Conveyor Guard, Cutting Table and Rotary Knife, Dental Laboratory Bench, Hem & Buttonhole, Industrial Press & Steam, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Serger and Overlock, Sewing Ergonomics |
 | 29 CFR 1910.146 | 10: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Stormwater Outfall, Tank Lining, Valve Vault |
 | 8 CCR 3203 | 10: Banquet Setup Lift, Crisis Line Shift, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | 29 CFR 1910.269 | 8: Aerial Ladder, Aerial Lashing, Battery Yard, Line Truck, PCB Equipment Removal, Substation Switching, Transformer Vault, Wind Nacelle |
@@ -75,12 +75,14 @@ Every station names the union and the certification a worker in that role holds,
 | NFPA 1670 | 2: Confined Rescue, EV Extrication |
 | NFPA 51B | 2: Rough-In Bay, Weld Bay |
 | NFPA 54 | 2: Gas Leak Survey, Kitchen Gas Shutoff |
+| NFPA 99 | 2: Cath Lab, Chairside Emergency |
 | NSF/ANSI 8 | 2: Bakery Mixer, Slicer Lockout |
 | 14 CFR 107 | 1: Flight Deck |
 | 14 CFR 139.303 | 1: Airport Ramp |
 | 21 CFR 101 | 1: Allergens & Honest Drinks |
 | 23 CFR 650 | 1: Bridge Cable Inspection |
 | 27 CFR 555 | 1: Pyro Cue |
+| 29 CFR 1910.1053 | 1: Dental Laboratory Bench |
 | 29 CFR 1910.109 | 1: Pyro Cue |
 | 29 CFR 1910.1096 | 1: Garden Soil Screen |
 | 29 CFR 1910.119 | 1: Ammonia Plant |
@@ -194,7 +196,6 @@ Every station names the union and the certification a worker in that role holds,
 | NFPA 820 | 1: Digester Gas |
 | NFPA 85 | 1: Boiler Room |
 | NFPA 855 | 1: Battery Yard |
-| NFPA 99 | 1: Cath Lab |
 | NSF/ANSI 18 | 1: Draught Line Cleaning |
 
 ## By programme
@@ -393,11 +394,24 @@ Every station names the union and the certification a worker in that role holds,
 | Aerosol Management | Dental hygienist | 29 CFR 1910.134 |
 | Fluoride and Sealants | Dental hygienist | 29 CFR 1910.1030 |
 | Nitrous Oxide Monitoring | Dental hygienist | 29 CFR 1910.1030, NIOSH |
-| Chairside Emergency | Dental hygienist | 29 CFR 1910.1030 |
+| Chairside Emergency | Dental hygienist | 29 CFR 1910.1030, NFPA 99 |
 | Amalgam Waste Handling | Dental hygienist | 29 CFR 1910.1000, 29 CFR 1910.1200, 40 CFR 441, EPA Method 40 |
 | Mobile Dental Outreach | Registered dental hygienist in alternative practice (RDHAP) | 29 CFR 1910.1030 |
 | Pediatric Visit | Registered dental hygienist — pediatric practice | 29 CFR 1910.1030 |
 | Oral Cancer Screening | Registered dental hygienist | 29 CFR 1910.1030 |
+
+### Dental Careers — Unspoken Smiles
+
+**Certification frame:** The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Patient Intake Screening | Dental hygienist | 29 CFR 1910.1030 |
+| Dental Careers Pathway | Dental careers — assistant to hygienist to dentist | — |
+| Four-Handed Dentistry | Dental assistant — chairside (DANB CDA) | 29 CFR 1910.1030, NIOSH |
+| Full-Mouth Radiographic Series | Dental assistant — radiographer (DANB RHS) | 29 CFR 1910.1030 |
+| Sterilisation Centre | Sterile processing technician — dental instruments | 29 CFR 1910.1030, 29 CFR 1910.1200 |
+| Dental Laboratory Bench | Dental laboratory technician (CDT) | 29 CFR 1910.1053, 29 CFR 1910.1200, 29 CFR 1910.212, NIOSH |
 
 ### Bartending — Behind the Bar
 
@@ -603,6 +617,8 @@ Every station names the union and the certification a worker in that role holds,
 - Stage Power (smartcity): NFPA 70E
 - Container Lashing (smartcity): 29 CFR 1918
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Full-Mouth Radiographic Series (smartcity): 29 CFR 1910.1030
+- Dental Careers Pathway (smartcity): none
 - Overdose Response — Naloxone (smartcity): 29 CFR 1910.1030
 - Critical Incident Debrief (smartcity): NFPA 1500
 - Crisis Intervention Call (smartcity): 29 CFR 1910.1030
@@ -637,7 +653,6 @@ Every station names the union and the certification a worker in that role holds,
 - Instrument Reprocessing (smartcity): 29 CFR 1910.1030
 - Marsh Transect Survey (smartcity): 29 CFR 1910.132
 - Oyster Reef Monitoring (smartcity): 29 CFR 1910.132
-- Chairside Emergency (smartcity): 29 CFR 1910.1030
 - Spartina Removal (smartcity): 29 CFR 1910.1200
 - Haul Road Dust (smartcity): EPA Method 40
 - Building Rad Scan (smartcity): 29 CFR 1910.120
