@@ -48,6 +48,10 @@ const GENERIC = new Set([
   // traffic-incident-management), and without it here "summarise last month's
   // incidents" scored as a report against one of them.
   "incident",
+  // Every residential building has parking, and "more parking at the union
+  // hall" is a request, not a report. The garage station is still named by
+  // "garage" or by its full name; "parking" on its own names nothing.
+  "parking",
 ]);
 
 const STOP = new Set([

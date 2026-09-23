@@ -5156,9 +5156,11 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-147", "nfpa-25"],
     stations: [
-      "boiler-room"
+      "boiler-room", "pm-lobby-and-front-desk", "pm-leasing-office-fair-housing", "pm-unit-turnover",
+      "pm-trash-and-recycling-room", "pm-fire-alarm-panel-room", "pm-sprinkler-riser-room", "pm-elevator-machine-room",
+      "pm-parking-garage", "pm-roof-and-drains", "pm-electrical-room"
     ],
-    require: 1,
+    require: 6,
   },
   {
     id: "outbreak-response-who",
@@ -7154,6 +7156,10 @@ const GENERIC = new Set([
   // traffic-incident-management), and without it here "summarise last month's
   // incidents" scored as a report against one of them.
   "incident",
+  // Every residential building has parking, and "more parking at the union
+  // hall" is a request, not a report. The garage station is still named by
+  // "garage" or by its full name; "parking" on its own names nothing.
+  "parking",
 ]);
 
 const STOP = new Set([
@@ -19614,6 +19620,426 @@ const SIMS_META = [
         "Knows the Doors",
         "Resource Navigator",
         "Job Ready"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-lobby-and-front-desk",
+    "index": "301",
+    "domain": "Property Management",
+    "trade": "Front desk attendant and porter — SEIU building service members, with IUOE Local 39 stationary engineers on call and a CAM-credentialed property manager",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 101 (Life Safety Code) for the exit access, the self-closing stair door and the illuminated exit signs; NFPA 72 for the fire alarm annunciator the desk watches and the records an inspector asks for; OSHA 29 CFR 1910.22 for a lobby floor kept clean, dry and free of trip edges, 29 CFR 1910.36 for exit routes kept unobstructed, 29 CFR 1910.38 for the building's emergency action plan and its announcements, and 29 CFR 1910.1200 for the floor cleaner on the porter's cart; SEIU contract language for building service staff; the state landlord-tenant statute's written notice before a unit is entered and the Fair Housing Act's rule that every resident is served the same way; the apartment association's CAM credential for the manager the desk reports to.",
+    "name": "Lobby and Front Desk",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Lobby and Front Desk VR",
+    "tagline": "The desk opened in order: pass-down read, cameras, callbox and annunciator proven, the door closer read, the egress path walked, the entry mopped under a sign, a notice read over the PA, a lockout handled against the roster, and the shift closed in the building log",
+    "accent": 7317724,
+    "accentCss": "#6fa8dc",
+    "parSeconds": 270,
+    "badge": {
+      "id": "desk-opened",
+      "name": "Desk Opened",
+      "note": "A lobby opened, watched and handed over with every exit clear and every resident served the same way"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Front of House",
+      "currency": "SHIFTS",
+      "ranks": [
+        "Relief Porter",
+        "Desk Attendant",
+        "Lead Attendant",
+        "Lobby Supervisor",
+        "Front of House Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-leasing-office-fair-housing",
+    "index": "302",
+    "domain": "Property Management",
+    "trade": "Leasing agent and community manager — apartment association CAM credential, working alongside SEIU building service staff",
+    "category": "Building Systems & Facilities",
+    "certification": "The federal Fair Housing Act and its protected classes, applied through one written tenant selection standard, reasonable accommodations and modifications for residents with disabilities, and advertising free of words that steer; EPA's lead-based paint disclosure rule for target housing under 40 CFR 745, with the Lead Warning Statement and the lead pamphlet in every pre-1978 lease; the state landlord-tenant statute's notice before a unit is entered; OSHA 29 CFR 1910.38 (emergency action plans), 29 CFR 1910.36 (exit routes) and 29 CFR 1910.157 (portable extinguishers) for the office itself, with NFPA 101 for its exit; an injury and illness prevention program under 8 CCR 3203 covering a leasing agent who shows units alone; the apartment association's CAM credential; SEIU building service staff who share the building.",
+    "name": "Leasing Office and Fair Housing",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Leasing Office and Fair Housing VR",
+    "tagline": "One set of criteria for everyone: notices posted, an ad cleaned of steering words, income applied by the number, an accommodation routed, the lead disclosure packed, a lone-worker check-in, a tour at the prospect's pace, reasons in writing and the files locked",
+    "accent": 9418858,
+    "accentCss": "#8fb86a",
+    "parSeconds": 260,
+    "badge": {
+      "id": "same-for-everyone",
+      "name": "Same for Everyone",
+      "note": "Every applicant and resident served by the same written standard, with nothing steered and nothing refused on the spot"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fair Housing",
+      "currency": "LEASES",
+      "ranks": [
+        "Leasing Trainee",
+        "Leasing Consultant",
+        "Assistant Manager",
+        "Community Manager",
+        "Fair Housing Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-unit-turnover",
+    "index": "303",
+    "domain": "Property Management",
+    "trade": "Maintenance technician — apartment association CAMT credential, SEIU building service and IUOE Local 39 engineering staff",
+    "category": "Building Systems & Facilities",
+    "certification": "EPA's Renovation, Repair and Painting rule under 40 CFR 745 for work that disturbs paint in pre-1978 housing — certified renovator and firm, containment, no dry sanding or open-flame removal, HEPA cleaning and cleaning verification; the asbestos NESHAP under 40 CFR 61 and OSHA's asbestos standard, 29 CFR 1926.1101, for textured ceilings that have not been surveyed; OSHA's lead standard for construction work, 29 CFR 1926.62; ASHRAE 188 for managing the building's hot water against Legionella and scald alike; NFPA 72 for the unit's smoke alarms; the local housing code's habitability standards and the state landlord-tenant statute's move-in condition; the apartment association's CAMT credential; SEIU and IUOE Local 39 building staff.",
+    "name": "Unit Turnover",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Unit Turnover VR",
+    "tagline": "A pre-1978 unit made ready: defects found, lead-safe containment set, trim wet-scraped, chips bagged, the floor HEPA-cleaned and verified, the faucet swapped on an isolated line, hot water read at the tap, alarms proven and the lock re-keyed",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 290,
+    "badge": {
+      "id": "lead-safe-ready",
+      "name": "Lead-Safe Ready",
+      "note": "A unit turned with the paint disturbed safely, the dust verified gone and every device proven before the keys changed hands"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Make-Ready",
+      "currency": "UNITS",
+      "ranks": [
+        "Maintenance Helper",
+        "Maintenance Tech",
+        "Lead Tech",
+        "Maintenance Supervisor",
+        "Make-Ready Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-trash-and-recycling-room",
+    "index": "304",
+    "domain": "Property Management",
+    "trade": "Porter and building service worker — SEIU building service members, with IUOE Local 39 engineers for the compactor's electrical and hydraulic repairs",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.147 (control of hazardous energy) for any reach into the compactor, 29 CFR 1910.212 for its guarding and hold-to-run control, 29 CFR 1910.1030 for a needle found in the trash, 29 CFR 1910.1200 for the cleaning chemicals, and 29 CFR 1910.138 and 29 CFR 1910.133 for cut-resistant gloves and eye protection; NFPA 25 for the sprinkler over the chute discharge and NFPA 101 for the chute's self-closing rated door; the state and local organics and recycling rules the building's carts are sorted to; SEIU contract language for building service staff; IUOE Local 39 for the engineers who repair the compactor.",
+    "name": "Trash and Recycling Room",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Trash and Recycling Room VR",
+    "tagline": "The room under the chute: schedule read, gloves and glasses on, fire faults found, the compactor read and run hold-to-run, a needle taken with tongs, the compactor locked out before the jam is cleared, the carts sorted, and power restored by the lock's owner",
+    "accent": 6270602,
+    "accentCss": "#5fae8a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "chute-room-clear",
+      "name": "Chute Room Clear",
+      "note": "A trash room run with no hand inside a live compactor, no needle touched and no fire door propped"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chute Room",
+      "currency": "BINS",
+      "ranks": [
+        "Relief Porter",
+        "Porter",
+        "Lead Porter",
+        "Day Porter Lead",
+        "Chute Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-fire-alarm-panel-room",
+    "index": "305",
+    "domain": "Property Management",
+    "trade": "Building engineer — IUOE Local 39 stationary engineers, working with the licensed fire alarm contractor and SEIU front desk staff",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 72 (National Fire Alarm and Signaling Code) for inspection and testing, notification of the supervising station and occupants before a test, standby battery checks, a marked and protected branch circuit, and record documentation kept at the control unit; NFPA 101 for the rated walls a penetration must not breach; NFPA 70 for the panel's branch circuit; OSHA 29 CFR 1910.38 for the building's emergency action plan and alarm notification, 29 CFR 1910.333 for work near the battery terminals, and 29 CFR 1910.23 for keeping a pole on the floor instead of a ladder; the state fire code's permit rule for work on fire alarm systems; IUOE Local 39 and SEIU building staff.",
+    "name": "Fire Alarm Panel Room",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Fire Alarm Panel Room VR",
+    "tagline": "A routine fire alarm test done in order: history read, monitoring and residents told, faults found, batteries read, a lamp check, a detector seated and smoke-tested, the panel reset and taken off test, and the controls locked",
+    "accent": 14701130,
+    "accentCss": "#e0524a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "system-normal",
+      "name": "System Normal",
+      "note": "A fire alarm tested, restored and back on line with the monitoring station, with nothing silenced, disabled or switched off along the way"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Panel Authority",
+      "currency": "SIGNALS",
+      "ranks": [
+        "Engineer Trainee",
+        "Building Engineer",
+        "Chief's Assistant",
+        "Chief Engineer",
+        "Panel Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-sprinkler-riser-room",
+    "index": "306",
+    "domain": "Property Management",
+    "trade": "Building engineer — IUOE Local 39 stationary engineers, with the sprinkler contractor's inspector and an SEIU porter on fire watch",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 25 (inspection, testing and maintenance of water-based fire protection systems) for control valve inspections, gauges, spare sprinklers, main drain tests, inspector's test flows and the impairment procedure — tag, notify, fire watch, restore; NFPA 72 for the waterflow and valve tamper signals the riser sends to the fire alarm; OSHA 29 CFR 1910.157 for the extinguisher a fire watch carries and 29 CFR 1910.22 for a floor kept dry around a drain test; the state fire code's impairment notice to the fire department; IUOE Local 39 building engineers and SEIU porters.",
+    "name": "Sprinkler Riser Room",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Sprinkler Riser Room VR",
+    "tagline": "The riser inspected under NFPA 25: a closed floor valve found, the impairment tagged, notified and watched, the valve reopened and chained, pressure read, a main drain flowed, the waterflow alarm proven and the impairment ended",
+    "accent": 14174778,
+    "accentCss": "#d84a3a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "valves-open",
+      "name": "Valves Open",
+      "note": "Every control valve found, reopened, proven and signed off with the impairment handled by the book"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Riser Watch",
+      "currency": "PSI",
+      "ranks": [
+        "Engineer Trainee",
+        "Building Engineer",
+        "Fire Systems Engineer",
+        "Chief Engineer",
+        "Riser Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-elevator-machine-room",
+    "index": "307",
+    "domain": "Property Management",
+    "trade": "Building engineer — IUOE Local 39 stationary engineers, alongside the elevator contractor's licensed mechanic",
+    "category": "Building Systems & Facilities",
+    "certification": "ASME A17.1 (Safety Code for Elevators and Escalators) and the state elevator code for a machine room kept locked, self-closing, clear of storage, within the equipment's temperature range and holding the maintenance control program and its records, with two-way emergency communication in every car; OSHA 29 CFR 1910.147 for the mainline disconnect that only the mechanic locks out, 29 CFR 1910.212 for guards over sheaves and ropes, and 29 CFR 1910.157 for the machine room's portable extinguisher; NFPA 72 for the smoke detection that recalls the cars in a fire; IUOE Local 39 building engineers working alongside the elevator contractor's licensed mechanics.",
+    "name": "Elevator Machine Room",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Elevator Machine Room VR",
+    "tagline": "A monthly machine room round: the maintenance program read, the door proven, temperature read, oil, guards and extinguisher checked, storage carried out, defects handed to the mechanic, the car phone tested, the room ventilated and left as found",
+    "accent": 9076694,
+    "accentCss": "#8a7fd6",
+    "parSeconds": 260,
+    "badge": {
+      "id": "room-as-found",
+      "name": "Room as Found",
+      "note": "A machine room checked, cleared and left locked with the controller and the mainline left to the mechanic"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Machine Room",
+      "currency": "ROUNDS",
+      "ranks": [
+        "Engineer Trainee",
+        "Building Engineer",
+        "Senior Engineer",
+        "Chief Engineer",
+        "Machine Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-parking-garage",
+    "index": "308",
+    "domain": "Property Management",
+    "trade": "Porter and garage patrol — SEIU building service members, with IUOE Local 39 engineers for the ventilation and CO detection system",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA's permissible exposure limit for carbon monoxide under 29 CFR 1910.1000, with the lower NIOSH recommended limit as the level a careful crew works to; 29 CFR 1910.22 for a garage floor kept free of oil and trip hazards and 29 CFR 1910.157 for portable extinguishers kept charged and in their cabinets; NFPA 70 for EV charging equipment and its emergency shut-off; NFPA 101 for the stair doors and exit signs of the garage's means of egress; the local building code's enclosed-garage ventilation and CO detection requirements and the storm water rules that keep oil out of the drains; SEIU building service staff and IUOE Local 39 engineers.",
+    "name": "Parking Garage",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Parking Garage VR",
+    "tagline": "An enclosed garage patrolled and cleaned: CO read before an engine runs, fans to purge, the level walked, oil absorbed, a lane coned, the sweeper run at a walking pace, the callbox tested, the fans back to auto and the stairs checked",
+    "accent": 15245882,
+    "accentCss": "#e8a23a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "clean-air-level",
+      "name": "Clean Air Level",
+      "note": "A garage level patrolled and swept with the air read, the alarms answered and nothing ignored"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Garage Patrol",
+      "currency": "LEVELS",
+      "ranks": [
+        "Relief Porter",
+        "Garage Porter",
+        "Patrol Lead",
+        "Garage Supervisor",
+        "Garage Patrol Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-roof-and-drains",
+    "index": "309",
+    "domain": "Property Management",
+    "trade": "Building engineer — IUOE Local 39 stationary engineers, with SEIU porters on the ground and the roofing contractor under permit",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.28 for fall protection on a low-slope roof — guardrail, travel restraint or personal fall arrest near the edge, a designated area behind a warning line further back, and covers or screens over skylights and hatches; 29 CFR 1910.23 for a fixed ladder climbed with hands free; ANSI Z359 for the anchor, harness and lanyard used in restraint; 29 CFR 1910.147 for locking out a rooftop fan before its housing is opened; NFPA 51B and 29 CFR 1910.252 for torch work on a roof under a hot work permit with a fire watch; the local building code's roof drainage and overflow requirements; IUOE Local 39 building engineers and SEIU porters.",
+    "name": "Roof and Drains",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Building Systems & Facilities",
+    "title": "SmartCiti.X~ Roof and Drains VR",
+    "tagline": "The roof walked before a storm: access logged, the hatch climbed and guarded, wind read, the route walked in restraint, drains and scuppers cleared, a slow drain augered, a fan locked out for a belt check and restored",
+    "accent": 5222598,
+    "accentCss": "#4fb0c6",
+    "parSeconds": 290,
+    "badge": {
+      "id": "drains-clear",
+      "name": "Drains Clear",
+      "note": "A roof walked, drained and checked with nobody past the warning line and nothing opened live"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Roof Round",
+      "currency": "DRAINS",
+      "ranks": [
+        "Engineer Trainee",
+        "Building Engineer",
+        "Senior Engineer",
+        "Chief Engineer",
+        "Roof Round Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-electrical-room",
+    "index": "310",
+    "domain": "Property Management",
+    "trade": "Building engineer — IUOE Local 39 stationary engineers, working with a licensed electrician",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 70E (Standard for Electrical Safety in the Workplace) for the arc flash label, approach boundaries, arc-rated PPE, the electrically safe work condition and absence-of-voltage testing; NFPA 70 for the working space kept clear in front of electrical equipment and for panel directories and filler plates; OSHA 29 CFR 1910.147 for lockout and tagout and 29 CFR 1910.333 for de-energising before work and keeping clear of live parts; IEC 61010 for the measurement category rating of the tester; NFPA 72 for the fire alarm equipment a feeder outage can drop into trouble; the local housing code's duty to restore essential services promptly; IUOE Local 39 building engineers and the licensed electrician they work alongside.",
+    "name": "Electrical Room",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Electrical Room VR",
+    "tagline": "A failed breaker replaced dead, never live: the arc flash label read, the working space cleared, the gear scanned, arc-rated PPE on, the feeder locked out, absence of voltage proven, the lug torqued, and power restored from the side",
+    "accent": 15905594,
+    "accentCss": "#f2b33a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "worked-dead",
+      "name": "Worked Dead",
+      "note": "A panel repaired in an electrically safe work condition, proven dead and restored by the person whose lock it was"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Switchroom",
+      "currency": "AMPS",
+      "ranks": [
+        "Engineer Trainee",
+        "Building Engineer",
+        "Qualified Person",
+        "Chief Engineer",
+        "Switchroom Certified"
       ],
       "rankAt": [
         0,

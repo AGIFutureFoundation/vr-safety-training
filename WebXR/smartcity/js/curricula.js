@@ -324,7 +324,16 @@ export const CURRICULA = [
     accent: "#6fa8dc",
     stations: [
       { app: "smartcity", id: "boiler-room", why: "The shared opener: the building's heating plant, where a manager first learns that every zone has a system, a log and a person responsible for it." },
-      // slot-pm-1
+      { app: "smartcity", id: "pm-lobby-and-front-desk", why: "The front desk, where the building is watched: the annunciator read, the exits kept clear, a lockout checked against the roster and every resident answered the same way." },
+      { app: "smartcity", id: "pm-leasing-office-fair-housing", why: "The leasing office, where the Fair Housing Act is practised: one written standard for every applicant, an ad cleaned of steering words, an accommodation routed and the lead disclosure in every pre-1978 lease." },
+      { app: "smartcity", id: "pm-unit-turnover", why: "A vacant unit made ready: habitability defects found, the paint disturbed lead-safe under EPA's renovation rule, the dust verified gone and the alarms and lock proven before the keys change hands." },
+      { app: "smartcity", id: "pm-trash-and-recycling-room", why: "The room under the chute: the fire door and its sprinkler kept working, a needle taken with tongs, and the compactor locked out before any hand goes into its charge box." },
+      { app: "smartcity", id: "pm-fire-alarm-panel-room", why: "The fire alarm control unit, tested under NFPA 72: the monitoring station told first, the batteries read, a detector replaced and proven, and the account taken off test before anyone leaves." },
+      { app: "smartcity", id: "pm-sprinkler-riser-room", why: "The sprinkler riser, inspected under NFPA 25: a floor valve found shut and handled as an impairment, the main drain compared with last year and the waterflow alarm proven end to end." },
+      { app: "smartcity", id: "pm-elevator-machine-room", why: "The elevator machine room on its monthly round: the door proven, the room cleared of storage, defects handed to the licensed mechanic, and an entrapment answered by voice rather than by reset." },
+      { app: "smartcity", id: "pm-parking-garage", why: "The enclosed garage: the air read against OSHA's carbon monoxide limit before any engine runs, the fans put to purge, a CO alarm answered at its source and a smoking charger shut off." },
+      { app: "smartcity", id: "pm-roof-and-drains", why: "The roof before a storm: the hatch guarded, the route walked in restraint inside the warning line, the drains and scuppers cleared, and a torch without a permit put out." },
+      { app: "smartcity", id: "pm-electrical-room", why: "The main electrical room, where a failed breaker is replaced dead under NFPA 70E: label read, feeder locked out, absence of voltage proven and power restored from the side." },
       // slot-pm-2
     ],
   },
