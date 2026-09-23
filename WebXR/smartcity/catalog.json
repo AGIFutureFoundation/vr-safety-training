@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 299
+      "stations": 307
     },
     "trades": {
       "entry": "trades/index.html",
@@ -231,6 +231,14 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "pt-chassis-and-genset-yard",
+        "pt-stormwater-at-the-terminal",
+        "pt-terminal-lighting-mast-service",
+        "pt-dock-fender-and-bollard-inspection",
+        "pt-reefer-plug-and-power-panel",
+        "pt-straddle-carrier-hydraulics",
+        "pt-crane-boom-hoist-brake-service",
+        "pt-spreader-and-twistlock-inspection",
         "hazmat-container-inspection",
         "straddle-carrier-ops",
         "reefer-yard-monitoring",
@@ -1716,6 +1724,46 @@
           "app": "smartcity",
           "id": "container-lashing",
           "why": "The shared opener for the port: the lashing deck is where maintenance meets the working terminal."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-spreader-and-twistlock-inspection",
+          "why": "The spreader on its stands: a below-the-hook device isolated, cycled by hand, measured against its limit and caught lying on its indicator before it goes back on the crane."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-crane-boom-hoist-brake-service",
+          "why": "The machinery house: the latch proven before the drive is locked, the brake gap a measured number, and the release pressure held under test while the terminal's storm procedure fires."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-straddle-carrier-hydraulics",
+          "why": "Stored hydraulic energy as the whole lesson: accumulators bled to zero and proven before a fitting is cracked, the leak found with dye and never a hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-reefer-plug-and-power-panel",
+          "why": "The reefer row worked to NFPA 70E: the unit down at its own controller before the breaker opens, the plug out dead, and every contact proven live-dead-live."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-dock-fender-and-bollard-inspection",
+          "why": "The wharf edge in a berth window: the vest before the cope, the fender pad measured and slung in, and the bollard's anchors tensioned by the number."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-terminal-lighting-mast-service",
+          "why": "The yard's lighting as its traffic control after dark: the mast tested dead at the handhole, the platform tied off before it moves, and the wind limit read rather than guessed."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-stormwater-at-the-terminal",
+          "why": "The permit's plan as a procedure: the sheen watched, traced upstream and pumped with the outfall gated before the storm's first flush reaches the bay."
+        },
+        {
+          "app": "smartcity",
+          "id": "pt-chassis-and-genset-yard",
+          "why": "A chassis worked chocked or not at all, and its genset isolated before the fuel system opens: the two energies a chassis yard puts in the same bay."
         },
         {
           "app": "smartcity",
@@ -6543,6 +6591,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-chassis-and-genset-yard",
+      "name": "Chassis & Genset Yard",
+      "title": "SmartCiti.X~ Chassis & Genset Yard VR",
+      "tagline": "A chassis in the repair bay with its genset: chocked, landing gear down and the air bled before anything else, the frame walked for a crack, tyres gauged, the slack adjuster set, the brakes held and listened to while a hustler turns in, the genset checked, its battery isolated and locked, a new fuel filter fitted, the run test held in band while the reefer next door throws a code, the damaged pigtail found, and the chassis logged roadable",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair mechanic — chassis and genset yard, PMA training programme, with IUOE stationary engineers on the gensets",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the generator sets; OSHA 29 CFR 1917 marine terminals, including the chassis and intermodal equipment provisions; 29 CFR 1910.147 control of hazardous energy for the genset; NFPA 70E for the genset's output and the reefer pigtail; 29 CFR 1910.132 for the eye protection at the grinder",
+      "accent": "#c86a3c",
+      "parSeconds": 270,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "roadable-clean",
+        "name": "Roadable Clean",
+        "note": "Chocked before a hand went under, the genset isolated before a wrench went on, the lane and the reefer both answered, and the chassis signed roadable"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "224",
+      "flat": false,
+      "system": "Chassis Yard",
+      "currency": "AXLE",
+      "ranks": [
+        "Yard Hand",
+        "Chassis Mechanic",
+        "Genset Tech",
+        "Lead Mechanic",
+        "Chassis Yard Certified"
+      ],
+      "awards": [
+        {
+          "id": "chocked-first",
+          "name": "Chocked First",
+          "note": "Chocks, landing gear and air bled in that order before a hand went near the frame"
+        },
+        {
+          "id": "isolated-genset",
+          "name": "Isolated Genset",
+          "note": "The genset's battery disconnected and locked before the filter came off"
+        },
+        {
+          "id": "yard-discipline",
+          "name": "Yard Discipline",
+          "note": "Never under an unchocked chassis, never between the hustler and the kingpin, never a live pigtail pulled, never a grinder by the tank"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections anywhere in the inspection"
+        },
+        {
+          "id": "steady-run",
+          "name": "Steady Run",
+          "note": "Held the genset's output in band for the whole run test"
+        },
+        {
+          "id": "back-on-the-road",
+          "name": "Back On The Road",
+          "note": "Chassis signed roadable inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-chassis-and-genset-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-stormwater-at-the-terminal",
+      "name": "Stormwater at the Terminal",
+      "title": "SmartCiti.X~ Stormwater at the Terminal VR",
+      "tagline": "A sheen in the separator: the permit's plan read, gloves and goggles on, the lane coned before the grate comes up on the hook, the sheen watched while a hustler turns into the lane, a new basin insert set, the leak traced to a parked stacker, the oil layer measured, the separator valved off and pumped down while a storm cell closes on the outfall, the discharge sampled to the method, the empty spill kit found, and the log closed",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair — terminal stormwater crew, PMA training programme, with the IUOE operator on the vacuum truck",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE vacuum truck operation; EPA 40 CFR 122.26 storm water discharges under the terminal's industrial permit; 40 CFR 136 test procedures for the discharge samples; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.132 for the gloves, goggles and hi-vis at the basin",
+      "accent": "#3f9f8a",
+      "parSeconds": 270,
+      "weather": "rain",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "drag",
+        "find",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "outfall-held",
+        "name": "Outfall Held",
+        "note": "The sheen kept out of the bay: source found, separator pumped, outfall gated before the storm, and the sample taken to the method"
+      },
+      "meshes": 259,
+      "lights": 0,
+      "overBudget": false,
+      "index": "223",
+      "flat": false,
+      "system": "Stormwater Crew",
+      "currency": "LITRE",
+      "ranks": [
+        "Yard Hand",
+        "Drainage Mechanic",
+        "Stormwater Tech",
+        "Lead Mechanic",
+        "Stormwater Certified"
+      ],
+      "awards": [
+        {
+          "id": "hook-not-hand",
+          "name": "Hook, Not Hand",
+          "note": "The grate came up on the hook, after the cones, every time"
+        },
+        {
+          "id": "source-found",
+          "name": "Source Found",
+          "note": "The sheen traced to its source rather than pumped and forgotten"
+        },
+        {
+          "id": "basin-discipline",
+          "name": "Basin Discipline",
+          "note": "Never fingers under a grate, never a hose to the drain, never in the basin, never an open basin left in a live lane"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections anywhere in the response"
+        },
+        {
+          "id": "steady-pumpdown",
+          "name": "Steady Pump-down",
+          "note": "Held the vacuum rate in band for the whole pump-out"
+        },
+        {
+          "id": "before-the-rain",
+          "name": "Before The Rain",
+          "note": "Log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-stormwater-at-the-terminal"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-terminal-lighting-mast-service",
+      "name": "Terminal Lighting Mast Service",
+      "title": "SmartCiti.X~ Terminal Lighting Mast Service VR",
+      "tagline": "A yard high-mast with a luminaire out: the outage scheduled, the mast isolated, locked and tested dead at the handhole, harness and lift inspected, outriggers levelled while a hustler enters the lane, tied off before the platform leaves the ground, the ascent held steady through a wind call, the failed driver found, a new luminaire fitted and aimed, the mast wiring meggered, the strike watched, and the outage logged back",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair electrician — yard high-mast lighting, PMA training programme, with the IUOE operator on the aerial lift",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE aerial lift operation; OSHA 29 CFR 1917 marine terminals, including the yard's lighting provisions; 29 CFR 1910.147 control of hazardous energy; NFPA 70E for the handhole and the mast circuit; ANSI A92 for the aerial lift; ANSI Z359 for the harness and the tie-off",
+      "accent": "#e8c14b",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "track",
+        "find",
+        "drag",
+        "turn",
+        "gauge"
+      ],
+      "badge": {
+        "id": "mast-lit-clean",
+        "name": "Mast Lit Clean",
+        "note": "Isolated, locked and tested before the handhole, tied off before the platform rose, the lane and the wind both answered, and the mast back on at the strike"
+      },
+      "meshes": 249,
+      "lights": 0,
+      "overBudget": false,
+      "index": "222",
+      "flat": false,
+      "system": "Yard Lighting",
+      "currency": "LUX",
+      "ranks": [
+        "Yard Hand",
+        "M&R Electrician",
+        "Lighting Tech",
+        "Lead Electrician",
+        "High-Mast Certified"
+      ],
+      "awards": [
+        {
+          "id": "tested-dead",
+          "name": "Tested Dead",
+          "note": "The mast isolated, locked and tested dead at the handhole in that order"
+        },
+        {
+          "id": "tied-first",
+          "name": "Tied Off First",
+          "note": "Clipped to the platform anchor before it left the ground"
+        },
+        {
+          "id": "mast-discipline",
+          "name": "Mast Discipline",
+          "note": "Never on the pegs, never in the handhole live, never on the rail, never an outrigger on a grate"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "No corrections anywhere in the service"
+        },
+        {
+          "id": "steady-ascent",
+          "name": "Steady Ascent",
+          "note": "Held the platform's ascent in band the whole way up"
+        },
+        {
+          "id": "outage-window",
+          "name": "Outage Window",
+          "note": "Mast back on inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-terminal-lighting-mast-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-dock-fender-and-bollard-inspection",
+      "name": "Dock Fender & Bollard Inspection",
+      "title": "SmartCiti.X~ Dock Fender & Bollard Inspection VR",
+      "tagline": "The wharf edge in a berth window: vest and lanyard on before the cope, the fender frame walked for cracks, the chains checked while a ship's jib swings over the apron, the pad measured and a new one slung in and bolted, the bollard's base checked and its anchors tensioned by the number while a storm cell comes over the water, the load plate read, the edge and the ladder proven, and the wharf logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair — wharf structures crew, PMA training programme, with the IUOE operator on the crane truck",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane truck operation; OSHA 29 CFR 1917 marine terminals, including work over water and the fender and bollard provisions; ASME B30.5 for the crane truck; ASME B30.9 for the slings on the pad; 29 CFR 1910.132 for the flotation vest and the edge lanyard",
+      "accent": "#2f8f9d",
+      "parSeconds": 270,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "gauge",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "edge-worked-clean",
+        "name": "Edge Worked Clean",
+        "note": "Never at the cope without the vest, never under the slung pad, the jib and the storm both answered, and every anchor tensioned by the number"
+      },
+      "meshes": 212,
+      "lights": 0,
+      "overBudget": false,
+      "index": "221",
+      "flat": false,
+      "system": "Wharf Structures",
+      "currency": "TONNE",
+      "ranks": [
+        "Wharf Hand",
+        "Structures Mechanic",
+        "Fender Tech",
+        "Lead Mechanic",
+        "Wharf Structures Certified"
+      ],
+      "awards": [
+        {
+          "id": "vest-before-edge",
+          "name": "Vest Before Edge",
+          "note": "The flotation vest and the lanyard on before the first step to the cope"
+        },
+        {
+          "id": "tensioned-by-number",
+          "name": "Tensioned By Number",
+          "note": "Every anchor bolt tensioned inside the band, none by feel"
+        },
+        {
+          "id": "cope-discipline",
+          "name": "Cope Discipline",
+          "note": "Never on the fender, never under the boom, never an unchocked truck worked beside"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections anywhere in the inspection"
+        },
+        {
+          "id": "pad-to-the-mark",
+          "name": "Pad To The Mark",
+          "note": "Pad thickness committed inside the band first time"
+        },
+        {
+          "id": "berth-window",
+          "name": "Berth Window",
+          "note": "Wharf logged back inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-dock-fender-and-bollard-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-reefer-plug-and-power-panel",
+      "name": "Reefer Plug & Power Panel",
+      "title": "SmartCiti.X~ Reefer Plug & Power Panel VR",
+      "tagline": "An arcing reefer receptacle: the circuit identified at the panel, arc-rated PPE on, the unit shut down at its own controller before the breaker opens and locks, the plug collar turned and withdrawn dead, absence of voltage proven while a neighbouring reefer throws a fault, the burned contact found, a new receptacle fitted and its terminals torqued, ground proven, the breaker restored and the load current watched settle beside a live lane",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair electrician — reefer power, PMA training programme, with IUOE stationary engineers on the row's distribution",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the row's distribution; NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; 29 CFR 1910.132 for the arc-rated face shield and gloves",
+      "accent": "#4fc3d6",
+      "parSeconds": 270,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "hold",
+        "find",
+        "drag",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "dead-before-open",
+        "name": "Dead Before Open",
+        "note": "The unit off, the breaker locked, the plug out dead and absence of voltage proven before a contact was touched"
+      },
+      "meshes": 277,
+      "lights": 0,
+      "overBudget": false,
+      "index": "220",
+      "flat": false,
+      "system": "Reefer Row",
+      "currency": "AMP",
+      "ranks": [
+        "Reefer Hand",
+        "M&R Electrician",
+        "Row Electrician",
+        "Lead Electrician",
+        "Reefer Power Certified"
+      ],
+      "awards": [
+        {
+          "id": "unit-off-first",
+          "name": "Unit Off First",
+          "note": "The reefer shut down at its own controller before the breaker was opened"
+        },
+        {
+          "id": "proven-dead",
+          "name": "Proven Dead",
+          "note": "Absence of voltage held for the full test on every contact"
+        },
+        {
+          "id": "row-discipline",
+          "name": "Row Discipline",
+          "note": "Never a plug pulled live, never a bare hand in the panel, never a lock removed that was not yours"
+        },
+        {
+          "id": "clean-replacement",
+          "name": "Clean Replacement",
+          "note": "No corrections anywhere in the replacement"
+        },
+        {
+          "id": "settled-load",
+          "name": "Settled Load",
+          "note": "Held the load current in band as the unit came up"
+        },
+        {
+          "id": "row-back-cold",
+          "name": "Row Back Cold",
+          "note": "Reefer back on power inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-reefer-plug-and-power-panel"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-straddle-carrier-hydraulics",
+      "name": "Straddle Carrier Hydraulics",
+      "title": "SmartCiti.X~ Straddle Carrier Hydraulics VR",
+      "tagline": "A straddle carrier with a creeping hoist: chocked, isolated and locked, the accumulators bled to zero and proven, the weeping fitting found with dye and not a hand, a new hose fitted and torqued, the carriage pinned on its locks, the system pressure held under test beside a live lane and under a live bridge crane, the relief set by the number, and the machine logged back to its operator",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair mechanic — heavy equipment shop, PMA training programme, with IUOE heavy equipment maintenance",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE heavy equipment and crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy, including stored hydraulic energy; ASME B30.2 for the shop's bridge crane; 29 CFR 1910.132 for the face shield and gloves at an open line",
+      "accent": "#6fb35a",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "zero-then-open",
+        "name": "Zero, Then Open",
+        "note": "Every line opened at zero pressure, every leak found with dye, and the lane and the bridge crane both answered"
+      },
+      "meshes": 252,
+      "lights": 0,
+      "overBudget": false,
+      "index": "219",
+      "flat": false,
+      "system": "Heavy Equipment Shop",
+      "currency": "BAR",
+      "ranks": [
+        "Shop Hand",
+        "Hydraulics Mechanic",
+        "Straddle Tech",
+        "Lead Mechanic",
+        "Straddle Certified"
+      ],
+      "awards": [
+        {
+          "id": "bled-to-zero",
+          "name": "Bled To Zero",
+          "note": "The accumulators held at zero before any fitting was cracked"
+        },
+        {
+          "id": "dye-not-hand",
+          "name": "Dye, Not Hand",
+          "note": "The leak found with the dye and the lamp, never a bare hand"
+        },
+        {
+          "id": "shop-discipline",
+          "name": "Shop Discipline",
+          "note": "Chocked, locked, never under the carriage, never a hand on a live line"
+        },
+        {
+          "id": "clean-repair",
+          "name": "Clean Repair",
+          "note": "No corrections anywhere in the repair"
+        },
+        {
+          "id": "held-the-test",
+          "name": "Held The Test",
+          "note": "System pressure held in band for the whole test"
+        },
+        {
+          "id": "back-to-the-yard",
+          "name": "Back To The Yard",
+          "note": "Machine logged back inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-straddle-carrier-hydraulics"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-crane-boom-hoist-brake-service",
+      "name": "Crane Boom Hoist Brake Service",
+      "title": "SmartCiti.X~ Crane Boom Hoist Brake Service VR",
+      "tagline": "Machinery house, boom at stow: the latch proven before the drive is isolated and locked, the lining found glazed, the gap measured and set, a new lining fitted, the release pressure held under test while a storm cell and a gantrying neighbour both call for attention, the stroke watched through three cycles, and the brake logged back",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "IUOE crane maintenance mechanic with the ILWU maintenance and repair crew, PMA training programme",
+      "union": null,
+      "certification": "IUOE crane maintenance; ILWU maintenance and repair with the PMA training programme; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.2 overhead and gantry cranes for the brake, drum and limit requirements; ASME B30.20 for the headblock and spreader below the hook",
+      "accent": "#d9903a",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "brake-set-true",
+        "name": "Brake Set True",
+        "note": "Latch proven, drive locked, the gap a measured number, the release pressure held, and both calls from outside the house answered"
+      },
+      "meshes": 226,
+      "lights": 0,
+      "overBudget": false,
+      "index": "218",
+      "flat": false,
+      "system": "Machinery House",
+      "currency": "GAP",
+      "ranks": [
+        "Oiler",
+        "Crane Mechanic",
+        "Brake Technician",
+        "Lead Mechanic",
+        "Boom Hoist Certified"
+      ],
+      "awards": [
+        {
+          "id": "latch-first",
+          "name": "Latch First",
+          "note": "The boom latch proven before the hoist drive was isolated"
+        },
+        {
+          "id": "gap-by-number",
+          "name": "Gap By Number",
+          "note": "The brake gap committed inside the band on the feeler gauge"
+        },
+        {
+          "id": "house-discipline",
+          "name": "House Discipline",
+          "note": "Never a hand in the drum, never a pin pulled under load, never a limit jumpered"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "No corrections anywhere in the brake service"
+        },
+        {
+          "id": "held-the-pressure",
+          "name": "Held The Pressure",
+          "note": "Release pressure held in band for the whole test"
+        },
+        {
+          "id": "house-turnaround",
+          "name": "House Turnaround",
+          "note": "Brake logged back inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-crane-boom-hoist-brake-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "pt-spreader-and-twistlock-inspection",
+      "name": "Spreader & Twist-lock Inspection",
+      "title": "SmartCiti.X~ Spreader & Twist-lock Inspection VR",
+      "tagline": "A spreader on its stands: supply isolated and locked, stands proven under a live boom, every hose walked, a twist-lock cycled and measured, flippers checked, the telescope run on test power beside a hustler lane, an indicator caught lying, a new twist-lock fitted and torqued, and the spreader signed back to the crane",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU maintenance and repair mechanic — spreader shop, PMA training programme, with IUOE crane maintenance",
+      "union": null,
+      "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.20 below-the-hook lifting devices; ASME B30.2 for the shop's overhead crane",
+      "accent": "#3fa7c9",
+      "parSeconds": 270,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "turn",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "spreader-signed-back",
+        "name": "Spreader Signed Back",
+        "note": "Every corner proven, the indicator caught, the lane and the boom both answered, and the spreader handed back to the crane clean"
+      },
+      "meshes": 242,
+      "lights": 0,
+      "overBudget": false,
+      "index": "217",
+      "flat": false,
+      "system": "Spreader Shop",
+      "currency": "CONE",
+      "ranks": [
+        "Shop Hand",
+        "M&R Mechanic",
+        "Spreader Tech",
+        "Lead Mechanic",
+        "Spreader Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-before-reach",
+          "name": "Locked Before Reach",
+          "note": "The supply isolated, locked and tried before a hand went into a housing"
+        },
+        {
+          "id": "indicator-caught",
+          "name": "Indicator Caught",
+          "note": "The lying landed-and-locked indicator found before the spreader went back"
+        },
+        {
+          "id": "clear-of-everything",
+          "name": "Clear Of Everything",
+          "note": "Never under the boom, never in the lane, never a pin pulled under load"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections anywhere in the inspection"
+        },
+        {
+          "id": "steady-telescope",
+          "name": "Steady Telescope",
+          "note": "Held the telescope rate in band for the whole run"
+        },
+        {
+          "id": "shop-turnaround",
+          "name": "Shop Turnaround",
+          "note": "Spreader back to the crane inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pt-spreader-and-twistlock-inspection"
     },
     {
       "app": "smartcity",
@@ -22755,7 +23467,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -23415,7 +24127,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 246,
       "lights": 0,
       "overBudget": false,
       "index": "100",

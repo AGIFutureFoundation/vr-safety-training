@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 318 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 320 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -200,13 +200,15 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification | `epa-section-608` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `Section 608` |
 | ✓ | MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual | `marssim` | Building Systems & Facilities, Community Environmental Justice, Environmental Monitoring, Water & Environmental | `MARSSIM` |
 
-### ASME (9)
+### ASME (11)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | ASME A17.1 — Safety Code for Elevators and Escalators | `asme-a17-1` | Building Systems & Facilities, Culinary & Hospitality, Entertainment & Live Events, Maritime & Ports, Mobility & Transit | `ASME A17.1` |
 | ✓ | ASME B20.1 — Safety standard for conveyors and related equipment | `asme-b20-1` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades, Water & Environmental | `ASME B20.1` |
 | ✓ | ASME B30.16 — Overhead underhung and stationary hoists | `asme-b30-16` | Building Systems & Facilities, Construction & Structural Trades, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `ASME B30.16` |
+| ? | ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist) | `asme-b30-2` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `ASME B30.2` |
+| ? | ASME B30.20 — Below-the-hook lifting devices | `asme-b30-20` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `ASME B30.20` |
 | ✓ | ASME B30.26 — Rigging hardware | `asme-b30-26` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `ASME B30.26` |
 | ✓ | ASME B30.4 — Portal and pedestal cranes | `asme-b30-4` | Maritime & Ports | `ASME B30.4` |
 | ✓ | ASME B30.5 — Mobile and locomotive cranes | `asme-b30-5` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `ASME B30.5`, `ANSI B30.5` |

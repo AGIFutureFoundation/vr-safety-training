@@ -434,7 +434,14 @@ export const CURRICULA = [
       { app: "smartcity", id: "steel-erector", why: "The shared opener for the bridge: connecting steel at height is where every bridge crew starts." },
       // slot-br-1
       { app: "smartcity", id: "container-lashing", why: "The shared opener for the port: the lashing deck is where maintenance meets the working terminal." },
-      // slot-pt-1
+      { app: "smartcity", id: "pt-spreader-and-twistlock-inspection", why: "The spreader on its stands: a below-the-hook device isolated, cycled by hand, measured against its limit and caught lying on its indicator before it goes back on the crane." },
+      { app: "smartcity", id: "pt-crane-boom-hoist-brake-service", why: "The machinery house: the latch proven before the drive is locked, the brake gap a measured number, and the release pressure held under test while the terminal's storm procedure fires." },
+      { app: "smartcity", id: "pt-straddle-carrier-hydraulics", why: "Stored hydraulic energy as the whole lesson: accumulators bled to zero and proven before a fitting is cracked, the leak found with dye and never a hand." },
+      { app: "smartcity", id: "pt-reefer-plug-and-power-panel", why: "The reefer row worked to NFPA 70E: the unit down at its own controller before the breaker opens, the plug out dead, and every contact proven live-dead-live." },
+      { app: "smartcity", id: "pt-dock-fender-and-bollard-inspection", why: "The wharf edge in a berth window: the vest before the cope, the fender pad measured and slung in, and the bollard's anchors tensioned by the number." },
+      { app: "smartcity", id: "pt-terminal-lighting-mast-service", why: "The yard's lighting as its traffic control after dark: the mast tested dead at the handhole, the platform tied off before it moves, and the wind limit read rather than guessed." },
+      { app: "smartcity", id: "pt-stormwater-at-the-terminal", why: "The permit's plan as a procedure: the sheen watched, traced upstream and pumped with the outfall gated before the storm's first flush reaches the bay." },
+      { app: "smartcity", id: "pt-chassis-and-genset-yard", why: "A chassis worked chocked or not at all, and its genset isolated before the fuel system opens: the two energies a chassis yard puts in the same bay." },
       { app: "smartcity", id: "mooring-line", why: "The shared opener for the water: the line under load teaches the snap-back zone before anything else." },
       // slot-mw-1
     ],

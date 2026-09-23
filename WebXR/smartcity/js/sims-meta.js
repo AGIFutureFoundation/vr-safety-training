@@ -12838,5 +12838,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "pt-spreader-and-twistlock-inspection",
+    "index": "217",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair mechanic — spreader shop, PMA training programme, with IUOE crane maintenance",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.20 below-the-hook lifting devices; ASME B30.2 for the shop's overhead crane",
+    "name": "Spreader & Twist-lock Inspection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Spreader & Twist-lock Inspection VR",
+    "tagline": "A spreader on its stands: supply isolated and locked, stands proven under a live boom, every hose walked, a twist-lock cycled and measured, flippers checked, the telescope run on test power beside a hustler lane, an indicator caught lying, a new twist-lock fitted and torqued, and the spreader signed back to the crane",
+    "accent": 4171721,
+    "accentCss": "#3fa7c9",
+    "parSeconds": 270,
+    "badge": {
+      "id": "spreader-signed-back",
+      "name": "Spreader Signed Back",
+      "note": "Every corner proven, the indicator caught, the lane and the boom both answered, and the spreader handed back to the crane clean"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spreader Shop",
+      "currency": "CONE",
+      "ranks": [
+        "Shop Hand",
+        "M&R Mechanic",
+        "Spreader Tech",
+        "Lead Mechanic",
+        "Spreader Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-crane-boom-hoist-brake-service",
+    "index": "218",
+    "domain": "Maritime & Ports",
+    "trade": "IUOE crane maintenance mechanic with the ILWU maintenance and repair crew, PMA training programme",
+    "category": "Maritime & Ports",
+    "certification": "IUOE crane maintenance; ILWU maintenance and repair with the PMA training programme; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.2 overhead and gantry cranes for the brake, drum and limit requirements; ASME B30.20 for the headblock and spreader below the hook",
+    "name": "Crane Boom Hoist Brake Service",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Crane Boom Hoist Brake Service VR",
+    "tagline": "Machinery house, boom at stow: the latch proven before the drive is isolated and locked, the lining found glazed, the gap measured and set, a new lining fitted, the release pressure held under test while a storm cell and a gantrying neighbour both call for attention, the stroke watched through three cycles, and the brake logged back",
+    "accent": 14258234,
+    "accentCss": "#d9903a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "brake-set-true",
+      "name": "Brake Set True",
+      "note": "Latch proven, drive locked, the gap a measured number, the release pressure held, and both calls from outside the house answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Machinery House",
+      "currency": "GAP",
+      "ranks": [
+        "Oiler",
+        "Crane Mechanic",
+        "Brake Technician",
+        "Lead Mechanic",
+        "Boom Hoist Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-straddle-carrier-hydraulics",
+    "index": "219",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair mechanic — heavy equipment shop, PMA training programme, with IUOE heavy equipment maintenance",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE heavy equipment and crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy, including stored hydraulic energy; ASME B30.2 for the shop's bridge crane; 29 CFR 1910.132 for the face shield and gloves at an open line",
+    "name": "Straddle Carrier Hydraulics",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Straddle Carrier Hydraulics VR",
+    "tagline": "A straddle carrier with a creeping hoist: chocked, isolated and locked, the accumulators bled to zero and proven, the weeping fitting found with dye and not a hand, a new hose fitted and torqued, the carriage pinned on its locks, the system pressure held under test beside a live lane and under a live bridge crane, the relief set by the number, and the machine logged back to its operator",
+    "accent": 7320410,
+    "accentCss": "#6fb35a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "zero-then-open",
+      "name": "Zero, Then Open",
+      "note": "Every line opened at zero pressure, every leak found with dye, and the lane and the bridge crane both answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Heavy Equipment Shop",
+      "currency": "BAR",
+      "ranks": [
+        "Shop Hand",
+        "Hydraulics Mechanic",
+        "Straddle Tech",
+        "Lead Mechanic",
+        "Straddle Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-reefer-plug-and-power-panel",
+    "index": "220",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair electrician — reefer power, PMA training programme, with IUOE stationary engineers on the row's distribution",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the row's distribution; NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; 29 CFR 1910.132 for the arc-rated face shield and gloves",
+    "name": "Reefer Plug & Power Panel",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Reefer Plug & Power Panel VR",
+    "tagline": "An arcing reefer receptacle: the circuit identified at the panel, arc-rated PPE on, the unit shut down at its own controller before the breaker opens and locks, the plug collar turned and withdrawn dead, absence of voltage proven while a neighbouring reefer throws a fault, the burned contact found, a new receptacle fitted and its terminals torqued, ground proven, the breaker restored and the load current watched settle beside a live lane",
+    "accent": 5227478,
+    "accentCss": "#4fc3d6",
+    "parSeconds": 270,
+    "badge": {
+      "id": "dead-before-open",
+      "name": "Dead Before Open",
+      "note": "The unit off, the breaker locked, the plug out dead and absence of voltage proven before a contact was touched"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reefer Row",
+      "currency": "AMP",
+      "ranks": [
+        "Reefer Hand",
+        "M&R Electrician",
+        "Row Electrician",
+        "Lead Electrician",
+        "Reefer Power Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-dock-fender-and-bollard-inspection",
+    "index": "221",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair — wharf structures crew, PMA training programme, with the IUOE operator on the crane truck",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE crane truck operation; OSHA 29 CFR 1917 marine terminals, including work over water and the fender and bollard provisions; ASME B30.5 for the crane truck; ASME B30.9 for the slings on the pad; 29 CFR 1910.132 for the flotation vest and the edge lanyard",
+    "name": "Dock Fender & Bollard Inspection",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dock Fender & Bollard Inspection VR",
+    "tagline": "The wharf edge in a berth window: vest and lanyard on before the cope, the fender frame walked for cracks, the chains checked while a ship's jib swings over the apron, the pad measured and a new one slung in and bolted, the bollard's base checked and its anchors tensioned by the number while a storm cell comes over the water, the load plate read, the edge and the ladder proven, and the wharf logged",
+    "accent": 3116957,
+    "accentCss": "#2f8f9d",
+    "parSeconds": 270,
+    "badge": {
+      "id": "edge-worked-clean",
+      "name": "Edge Worked Clean",
+      "note": "Never at the cope without the vest, never under the slung pad, the jib and the storm both answered, and every anchor tensioned by the number"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wharf Structures",
+      "currency": "TONNE",
+      "ranks": [
+        "Wharf Hand",
+        "Structures Mechanic",
+        "Fender Tech",
+        "Lead Mechanic",
+        "Wharf Structures Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-terminal-lighting-mast-service",
+    "index": "222",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair electrician — yard high-mast lighting, PMA training programme, with the IUOE operator on the aerial lift",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE aerial lift operation; OSHA 29 CFR 1917 marine terminals, including the yard's lighting provisions; 29 CFR 1910.147 control of hazardous energy; NFPA 70E for the handhole and the mast circuit; ANSI A92 for the aerial lift; ANSI Z359 for the harness and the tie-off",
+    "name": "Terminal Lighting Mast Service",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Terminal Lighting Mast Service VR",
+    "tagline": "A yard high-mast with a luminaire out: the outage scheduled, the mast isolated, locked and tested dead at the handhole, harness and lift inspected, outriggers levelled while a hustler enters the lane, tied off before the platform leaves the ground, the ascent held steady through a wind call, the failed driver found, a new luminaire fitted and aimed, the mast wiring meggered, the strike watched, and the outage logged back",
+    "accent": 15253835,
+    "accentCss": "#e8c14b",
+    "parSeconds": 280,
+    "badge": {
+      "id": "mast-lit-clean",
+      "name": "Mast Lit Clean",
+      "note": "Isolated, locked and tested before the handhole, tied off before the platform rose, the lane and the wind both answered, and the mast back on at the strike"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Lighting",
+      "currency": "LUX",
+      "ranks": [
+        "Yard Hand",
+        "M&R Electrician",
+        "Lighting Tech",
+        "Lead Electrician",
+        "High-Mast Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-stormwater-at-the-terminal",
+    "index": "223",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair — terminal stormwater crew, PMA training programme, with the IUOE operator on the vacuum truck",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE vacuum truck operation; EPA 40 CFR 122.26 storm water discharges under the terminal's industrial permit; 40 CFR 136 test procedures for the discharge samples; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.132 for the gloves, goggles and hi-vis at the basin",
+    "name": "Stormwater at the Terminal",
+    "weather": "rain",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Stormwater at the Terminal VR",
+    "tagline": "A sheen in the separator: the permit's plan read, gloves and goggles on, the lane coned before the grate comes up on the hook, the sheen watched while a hustler turns into the lane, a new basin insert set, the leak traced to a parked stacker, the oil layer measured, the separator valved off and pumped down while a storm cell closes on the outfall, the discharge sampled to the method, the empty spill kit found, and the log closed",
+    "accent": 4169610,
+    "accentCss": "#3f9f8a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "outfall-held",
+      "name": "Outfall Held",
+      "note": "The sheen kept out of the bay: source found, separator pumped, outfall gated before the storm, and the sample taken to the method"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Stormwater Crew",
+      "currency": "LITRE",
+      "ranks": [
+        "Yard Hand",
+        "Drainage Mechanic",
+        "Stormwater Tech",
+        "Lead Mechanic",
+        "Stormwater Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pt-chassis-and-genset-yard",
+    "index": "224",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU maintenance and repair mechanic — chassis and genset yard, PMA training programme, with IUOE stationary engineers on the gensets",
+    "category": "Maritime & Ports",
+    "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the generator sets; OSHA 29 CFR 1917 marine terminals, including the chassis and intermodal equipment provisions; 29 CFR 1910.147 control of hazardous energy for the genset; NFPA 70E for the genset's output and the reefer pigtail; 29 CFR 1910.132 for the eye protection at the grinder",
+    "name": "Chassis & Genset Yard",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Chassis & Genset Yard VR",
+    "tagline": "A chassis in the repair bay with its genset: chocked, landing gear down and the air bled before anything else, the frame walked for a crack, tyres gauged, the slack adjuster set, the brakes held and listened to while a hustler turns in, the genset checked, its battery isolated and locked, a new fuel filter fitted, the run test held in band while the reefer next door throws a code, the damaged pigtail found, and the chassis logged roadable",
+    "accent": 13134396,
+    "accentCss": "#c86a3c",
+    "parSeconds": 270,
+    "badge": {
+      "id": "roadable-clean",
+      "name": "Roadable Clean",
+      "note": "Chocked before a hand went under, the genset isolated before a wrench went on, the lane and the reefer both answered, and the chassis signed roadable"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chassis Yard",
+      "currency": "AXLE",
+      "ranks": [
+        "Yard Hand",
+        "Chassis Mechanic",
+        "Genset Tech",
+        "Lead Mechanic",
+        "Chassis Yard Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
