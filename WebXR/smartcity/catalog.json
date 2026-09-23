@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 307
+      "stations": 315
     },
     "trades": {
       "entry": "trades/index.html",
@@ -202,6 +202,14 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "gg-pile-driver-fender-repair",
+        "gg-fog-and-wind-work-stop",
+        "gg-international-orange-recoat",
+        "gg-paint-containment-on-the-deck",
+        "gg-deck-lane-closure-and-traveller",
+        "gg-suspender-rope-replacement",
+        "gg-main-cable-band-inspection",
+        "gg-tower-climb-and-tie-off",
         "deck-joint-replacement",
         "bridge-lead-containment",
         "bridge-cable-inspection",
@@ -1719,6 +1727,46 @@
           "app": "smartcity",
           "id": "steel-erector",
           "why": "The shared opener for the bridge: connecting steel at height is where every bridge crew starts."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-tower-climb-and-tie-off",
+          "why": "Up a tower leg on a rope grab and across to the platform on a twin-leg lanyard: the permit and rescue plan read, the wind taken, and one leg always on something rated at the transfer."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-main-cable-band-inspection",
+          "why": "A cable band from the traveller: the seam and end joints walked for water, the slip read at the witness mark, and the band bolts brought to tension in the charted order, never one slackened out of turn."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-suspender-rope-replacement",
+          "why": "A suspender changed under load: the temporary jacks carrying before the old socket is touched, the new rope tensioned to the engineer's figure, pinned, cottered and confirmed."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-deck-lane-closure-and-traveller",
+          "why": "The lanes closed before the cable is worked: advance sign, arrow board and a taper measured to the plan, set with the traffic and taken down against it, and the traveller run and parked."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-paint-containment-on-the-deck",
+          "why": "Old coatings taken off inside a sealed enclosure: held negative, the strait-side seams smoke-tested before removal, nothing swept dry, and nothing reaching the water."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-international-orange-recoat",
+          "why": "A blasted patch brought back to International Orange to the specification: the dew point margin taken, the prep and profile checked, edges striped, and the airless pump relieved before its tip is touched."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-fog-and-wind-work-stop",
+          "why": "The foreman's call when the weather turns: everyone aloft down in order of exposure, the deck cleared of what the wind takes first, the traveller brought home and the restart held on the trend."
+        },
+        {
+          "app": "smartcity",
+          "id": "gg-pile-driver-fender-repair",
+          "why": "The deck side of a pier fender repair: a new panel bolted up, test-lifted and lowered over the rail on the tag line to the barge, with the water below held clear."
         },
         {
           "app": "smartcity",
@@ -6591,6 +6639,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-pile-driver-fender-repair",
+      "name": "Pile Driver Fender Repair",
+      "title": "SmartCiti.X~ Pile Driver Fender Repair VR",
+      "tagline": "The deck side of a pier fender repair: the lift plan read, vest and lanyard on at the rail, the old wale read for borers and wasted bolts, the wind taken, the new panel's through-bolts torqued, the sling shackled, the test lift held while a boat comes under, the panel lowered on the tag line into the fog, handed to the barge's signal, the hook recovered, the deck checked and the lift logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Pile Drivers of the Carpenters (UBC) — fender repair crew, trained through the Carpenters International Training Fund, with the barge crew below and the davit operator",
+      "union": null,
+      "certification": "Pile Drivers of the Carpenters and the Carpenters International Training Fund; OSHA 29 CFR 1926.106 for work over water, flotation and the rescue skiff; ASME B30.9 slings and ASME B30.26 rigging hardware on the lift; ASME B30.5 practice for the davit crane and its signals; OSHA 29 CFR 1926.502 for the tie-off at the railing; BCDC and the permit's conditions for work in the bay; the owner's lift plan and fender drawing",
+      "accent": "#3f9c6a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "over-the-side-clean",
+        "name": "Over The Side Clean",
+        "note": "A fender panel lowered to the barge on the tag line, never with anyone under it, and the water below held clear"
+      },
+      "meshes": 223,
+      "lights": 0,
+      "overBudget": false,
+      "index": "232",
+      "flat": false,
+      "system": "Pile Butt Crew",
+      "currency": "WALE",
+      "ranks": [
+        "Deck Hand",
+        "Pile Driver Apprentice",
+        "Rigger",
+        "Fender Foreman",
+        "Pile Butt Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "test-lift-held",
+          "name": "Test Lift Held",
+          "note": "The test lift held clean before the panel went over"
+        },
+        {
+          "id": "tag-line-steady",
+          "name": "Tag Line Steady",
+          "note": "The panel lowered inside its band on the tag line"
+        },
+        {
+          "id": "never-under",
+          "name": "Never Under",
+          "note": "Never under the panel, never a hand in the sling, never at the rail without the vest"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections from the lift plan to the log"
+        },
+        {
+          "id": "no-spin",
+          "name": "No Spin",
+          "note": "The lowering never dropped out of band"
+        },
+        {
+          "id": "fender-inside-par",
+          "name": "Fender Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-pile-driver-fender-repair"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-fog-and-wind-work-stop",
+      "name": "Fog & Wind Work Stop",
+      "title": "SmartCiti.X~ Fog & Wind Work Stop VR",
+      "tagline": "The foreman's call when the weather turns: the procedure read, the wind taken against the limit, every crew aloft called down in order of exposure, the deck walked for what the wind takes first, visibility held until the fog closes in, the tarps tied down and the hoist stowed, the traveller brought home through a gust, the headcount matched, the hoist locked out, the restart held on the trend, and the stop logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers and IMPACT with IUPAT bridge painters (FTI) — the deck foreman running the fog and wind work stop for every crew on the span",
+      "union": null,
+      "certification": "Ironworkers and IMPACT bridge crew training with IUPAT and Finishing Trades Institute crews on the same span; the owner's weather and work-stop procedure; OSHA 29 CFR 1926, with 29 CFR 1926.21 safety training for every crew on the span; 29 CFR 1926.502 for the crews aloft; 29 CFR 1926.106 for work over water; MUTCD Part 6 for the closure in low visibility; ANSI/ISEA 107 for being seen in fog",
+      "accent": "#8fb3c4",
+      "parSeconds": 310,
+      "weather": "fog",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "hold",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "called-it-early",
+        "name": "Called It Early",
+        "note": "Everyone aloft down in order of exposure, nothing left loose for the wind, and the restart held until the trend said so"
+      },
+      "meshes": 182,
+      "lights": 0,
+      "overBudget": false,
+      "index": "231",
+      "flat": false,
+      "system": "Deck Foreman",
+      "currency": "CALL",
+      "ranks": [
+        "Crew Hand",
+        "Lead Hand",
+        "Weather Watch",
+        "Deck Foreman",
+        "Deck Foreman Certified"
+      ],
+      "awards": [
+        {
+          "id": "most-exposed-first",
+          "name": "Most Exposed First",
+          "note": "The roll call made in order of exposure without a correction"
+        },
+        {
+          "id": "home-steady",
+          "name": "Home Steady",
+          "note": "The traveller brought home inside its speed band"
+        },
+        {
+          "id": "no-finishing-up",
+          "name": "No Finishing Up",
+          "note": "Never told a crew to finish first, never in the lane, never a sheet carried upright"
+        },
+        {
+          "id": "clean-stop",
+          "name": "Clean Stop",
+          "note": "No corrections from the procedure to the log"
+        },
+        {
+          "id": "steady-home",
+          "name": "Steady Home",
+          "note": "The traveller run never dropped out of band"
+        },
+        {
+          "id": "stop-inside-par",
+          "name": "Stop Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-fog-and-wind-work-stop"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-international-orange-recoat",
+      "name": "International Orange Recoat",
+      "title": "SmartCiti.X~ International Orange Recoat VR",
+      "tagline": "A blasted patch of railing brought back to International Orange: the specification read, tied off with the right cartridges in, the steel's margin over the dew point taken, the prep checked and the profile read while the fog comes in, the coating mixed, edges and rivets striped, the coat sprayed at a steady film through a gust, the film combed, the pump relieved and locked, the wet paint signed and the batch logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "IUPAT bridge painters — coating crew on the paint programme, trained through the Finishing Trades Institute (FTI)",
+      "union": null,
+      "certification": "IUPAT and the Finishing Trades Institute industrial and bridge painter training; the owner's coating specification, with the blasted surface prepared to SSPC-SP 10 and an SSPC-QP 1 qualified contractor for field application; 29 CFR 1910.134 respiratory protection for solvent-borne coatings; 29 CFR 1910.1200 hazard communication for the coating's safety data sheets; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for tie-off at the railing; the coating maker's product data for mixing, pot life and recoat windows",
+      "accent": "#e8541e",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "hold",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "on-spec-orange",
+        "name": "On-Spec Orange",
+        "note": "A recoat applied inside the weather window, at the specified film, with the airless pump relieved before its tip was touched"
+      },
+      "meshes": 201,
+      "lights": 0,
+      "overBudget": false,
+      "index": "230",
+      "flat": false,
+      "system": "Paint Programme",
+      "currency": "COAT",
+      "ranks": [
+        "Paint Hand",
+        "Brush Painter",
+        "Spray Painter",
+        "Coating Lead",
+        "Paint Programme Certified"
+      ],
+      "awards": [
+        {
+          "id": "inside-the-window",
+          "name": "Inside The Window",
+          "note": "Dew point margin committed inside the band first time"
+        },
+        {
+          "id": "even-film",
+          "name": "Even Film",
+          "note": "Spray held at a steady distance the whole pass"
+        },
+        {
+          "id": "respect-the-tip",
+          "name": "Respect The Tip",
+          "note": "Never a hand at the tip, never an open rag pile, never over the rail unclipped"
+        },
+        {
+          "id": "clean-coat",
+          "name": "Clean Coat",
+          "note": "No corrections from the specification to the log"
+        },
+        {
+          "id": "no-runs",
+          "name": "No Runs",
+          "note": "The spray pass never dropped out of band"
+        },
+        {
+          "id": "coat-inside-par",
+          "name": "Coat Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-international-orange-recoat"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-paint-containment-on-the-deck",
+      "name": "Paint Containment on the Deck",
+      "title": "SmartCiti.X~ Paint Containment on the Deck VR",
+      "tagline": "Old coatings taken off inside a sealed enclosure the water never sees: the lead compliance plan read, suited and fit-checked, the strait-side tarp hung and sealed, the enclosure walked for leaks, the collector set and the negative pressure read, the seams smoke-tested while a boat passes under, the steel cleaned under the shroud through a gust, the floor HEPA-vacuumed, the drums closed and labelled, washed out and logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "IUPAT bridge painters — containment and lead removal crew, trained through the Finishing Trades Institute (FTI), with the containment competent person",
+      "union": null,
+      "certification": "IUPAT and the Finishing Trades Institute bridge painter and lead abatement training; OSHA 29 CFR 1926.62 lead in construction, including the written compliance programme, exposure monitoring, hygiene and decontamination; 29 CFR 1910.134 respiratory protection and fit testing; SSPC Guide 6 for containing surface preparation debris; an SSPC-QP 2 qualified contractor for hazardous coating removal; ANSI/ASSP A10.34 protection of the public beside the work; BCDC and the permit's conditions for work over the bay",
+      "accent": "#3fa7c9",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "nothing-to-the-water",
+        "name": "Nothing To The Water",
+        "note": "An enclosure sealed, held negative and smoke-proven before removal, never breached toward the strait, and nothing swept dry"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "229",
+      "flat": false,
+      "system": "Containment Crew",
+      "currency": "SEAL",
+      "ranks": [
+        "Tarp Hand",
+        "Containment Painter",
+        "Smoke Tester",
+        "Containment Lead",
+        "Containment Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "sealed-to-the-strait",
+          "name": "Sealed To The Strait",
+          "note": "The strait-side tarp hung and sealed without a correction"
+        },
+        {
+          "id": "shroud-on-steel",
+          "name": "Shroud On Steel",
+          "note": "The shroud held to the steel the whole pass"
+        },
+        {
+          "id": "clean-habits",
+          "name": "Clean Habits",
+          "note": "Never swept dry, never drank in the zone, never breached the enclosure"
+        },
+        {
+          "id": "clean-enclosure",
+          "name": "Clean Enclosure",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "no-lift-off",
+          "name": "No Lift-Off",
+          "note": "The shroud never left the steel"
+        },
+        {
+          "id": "containment-inside-par",
+          "name": "Containment Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-paint-containment-on-the-deck"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-deck-lane-closure-and-traveller",
+      "name": "Deck Lane Closure & Traveller",
+      "title": "SmartCiti.X~ Deck Lane Closure & Traveller VR",
+      "tagline": "The lanes closed before the cable is worked: the traffic control plan read, the advance sign, arrow board and taper set with the traffic, the taper measured, the buffer marked, the truck spotted in while a cyclist rides into the closure, the closure walked, the traveller released and run while a fog bank rolls in, parked and chocked, and the closure taken down in reverse",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers and IMPACT — traveller crew setting their own lane closure, with a flagger on the closure and the traveller operator",
+      "union": null,
+      "certification": "Ironworkers and IMPACT bridge crew training; MUTCD Part 6 temporary traffic control for the advance warning, the arrow board, the taper and the buffer; ANSI/ASSP A10.47 work zone safety for highway construction; ANSI/ISEA 107 high-visibility apparel; OSHA 29 CFR 1926 and 29 CFR 1926.502 for the traveller's fall protection; 29 CFR 1926.106 for work over water; the owner's traveller operating procedure",
+      "accent": "#f08a24",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "taper-to-the-plan",
+        "name": "Taper To The Plan",
+        "note": "A closure set with the traffic, a taper measured to the plan's length, and a traveller run and parked without a correction"
+      },
+      "meshes": 216,
+      "lights": 0,
+      "overBudget": false,
+      "index": "228",
+      "flat": false,
+      "system": "Closure Crew",
+      "currency": "CONE",
+      "ranks": [
+        "Cone Setter",
+        "Flagger",
+        "Closure Lead",
+        "Traveller Operator",
+        "Closure Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "with-the-traffic",
+          "name": "With The Traffic",
+          "note": "Closure devices set in the order traffic meets them"
+        },
+        {
+          "id": "smooth-run",
+          "name": "Smooth Run",
+          "note": "Traveller run held inside its speed band"
+        },
+        {
+          "id": "never-in-the-lane",
+          "name": "Never In The Lane",
+          "note": "Never stood with your back to traffic or stepped into an open lane"
+        },
+        {
+          "id": "clean-closure",
+          "name": "Clean Closure",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-traveller",
+          "name": "Steady Traveller",
+          "note": "The traveller run never dropped out of band"
+        },
+        {
+          "id": "closure-inside-par",
+          "name": "Closure Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-deck-lane-closure-and-traveller"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-suspender-rope-replacement",
+      "name": "Suspender Rope Replacement",
+      "title": "SmartCiti.X~ Suspender Rope Replacement VR",
+      "tagline": "A suspender changed under load: the plan read, tied off and the drop zone barricaded, the wind taken, the new rope's sockets checked, the temporary jacks loaded while a cyclist rides into the closure, the old socket backed off only once they carry, the new rope rigged and tensioned to the figure through a gust, pinned and cottered, the tension confirmed, the jacks bled down and the rope logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers and IMPACT — suspender rope replacement crew, with the owner's engineer witnessing the tension",
+      "union": null,
+      "certification": "Ironworkers and IMPACT bridge crew training; the owner's engineered replacement procedure and load-transfer sequence; AASHTO Maintenance Manual practice for suspension-bridge ropes; ASME B30.9 and ASME B30.26 for the slings and rigging hardware on the tugger; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for tie-off at the deck edge; 29 CFR 1926.106 for work over water; MUTCD for the closure the crew works inside",
+      "accent": "#e3743a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "hold",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "load-always-held",
+        "name": "Load Always Held",
+        "note": "The deck carried by the old rope, the temporary jacks or the new rope at every moment of the change"
+      },
+      "meshes": 219,
+      "lights": 0,
+      "overBudget": false,
+      "index": "227",
+      "flat": false,
+      "system": "Rope Gang",
+      "currency": "STRAND",
+      "ranks": [
+        "Deck Rigger",
+        "Jack Hand",
+        "Rope Setter",
+        "Rope Foreman",
+        "Rope Gang Certified"
+      ],
+      "awards": [
+        {
+          "id": "transfer-first",
+          "name": "Transfer First",
+          "note": "Temporary jacks loaded before the old socket was touched"
+        },
+        {
+          "id": "on-the-figure",
+          "name": "On The Figure",
+          "note": "New rope tensioned inside the band the whole pull"
+        },
+        {
+          "id": "clear-of-the-bight",
+          "name": "Clear Of The Bight",
+          "note": "Never under the rope, never a hand in the socket throat"
+        },
+        {
+          "id": "clean-change",
+          "name": "Clean Change",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-pull",
+          "name": "Steady Pull",
+          "note": "The tensioning never dropped out of band"
+        },
+        {
+          "id": "rope-inside-par",
+          "name": "Rope Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-suspender-rope-replacement"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-main-cable-band-inspection",
+      "name": "Main Cable Band Inspection",
+      "title": "SmartCiti.X~ Main Cable Band Inspection VR",
+      "tagline": "A cable band checked from the traveller: tied to the hand rope and the brake set, the seam and caulking walked, the band read against its witness mark, the tensioner seated while a gust hits, the band bolts brought to tension in the charted sequence and held there while a boat passes under, the end joint recaulked, the pump bled before a hose is touched, and the band logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers — main cable crew, trained through the Ironworkers' IMPACT programme, working with the owner's bridge engineer",
+      "union": null,
+      "certification": "Ironworkers and IMPACT bridge crew training; the National Bridge Inspection Standards (23 CFR 650) and the AASHTO Manual for Bridge Element Inspection for the band and cable condition; the owner's band-bolt tension procedure and sequence chart; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for the hand-rope tie-off; 29 CFR 1926.106 for work over water",
+      "accent": "#d9572a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "band-held",
+        "name": "Band Held",
+        "note": "Every band bolt brought to tension in the charted order, none slackened out of turn, and the pump bled to zero before a coupling was opened"
+      },
+      "meshes": 210,
+      "lights": 0,
+      "overBudget": false,
+      "index": "226",
+      "flat": false,
+      "system": "Cable Crew",
+      "currency": "BAND",
+      "ranks": [
+        "Catwalk Hand",
+        "Band Checker",
+        "Tensioner Tech",
+        "Cable Lead",
+        "Cable Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "charted-order",
+          "name": "Charted Order",
+          "note": "Bolts tensioned in the chart's sequence without a correction"
+        },
+        {
+          "id": "steady-pressure",
+          "name": "Steady Pressure",
+          "note": "Tensioner pressure held inside the band the whole check"
+        },
+        {
+          "id": "dry-hands",
+          "name": "Dry Hands",
+          "note": "No unsafe action with the hydraulics or on the cable"
+        },
+        {
+          "id": "clean-band",
+          "name": "Clean Band",
+          "note": "No corrections from the work order to the log"
+        },
+        {
+          "id": "no-dropout",
+          "name": "No Dropout",
+          "note": "The tension check never dropped out of band"
+        },
+        {
+          "id": "band-inside-par",
+          "name": "Band Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-main-cable-band-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "gg-tower-climb-and-tie-off",
+      "name": "Tower Climb & Tie-Off",
+      "title": "SmartCiti.X~ Tower Climb & Tie-Off VR",
+      "tagline": "Up a tower leg on a rope grab and across to the platform on a twin-leg lanyard: the permit and the rescue plan read, the wind taken, the climb held steady through a gust, one leg always clipped at the transfer, the tools hauled up in a tethered bucket while the fog comes in, a beam clamp set for the next crew, and the climb logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers — bridge ironworker on the tower, trained through the Ironworkers' IMPACT programme, with the crew's rescue attendant on the deck",
+      "union": null,
+      "certification": "Ironworkers and IMPACT bridge crew training; OSHA 29 CFR 1926 Subpart M fall protection, including 29 CFR 1926.501 and 29 CFR 1926.502 for the anchorage, the lanyard and the rope grab; ANSI/ASSP Z359 for the harness, the twin-leg lanyard and the vertical lifeline; 29 CFR 1926 Subpart R where the tower work is ironwork; 29 CFR 1926.106 for work over water; the owner's climbing and rescue plan",
+      "accent": "#e0662e",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "golden-gate-deck",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "track",
+        "hold",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "always-on-something",
+        "name": "Always On Something",
+        "note": "Up the ladder, across the transfer and onto the platform without a moment when neither lanyard leg was on a rated anchor"
+      },
+      "meshes": 225,
+      "lights": 0,
+      "overBudget": false,
+      "index": "225",
+      "flat": false,
+      "system": "Tower Crew",
+      "currency": "RIVET",
+      "ranks": [
+        "Deck Hand",
+        "Tower Climber",
+        "Transfer Qualified",
+        "Lead Climber",
+        "Tower Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "one-leg-live",
+          "name": "One Leg Live",
+          "note": "The transfer made with one lanyard leg always connected"
+        },
+        {
+          "id": "steady-grab",
+          "name": "Steady Grab",
+          "note": "Rope grab held above the D-ring the whole climb"
+        },
+        {
+          "id": "nothing-dropped",
+          "name": "Nothing Dropped",
+          "note": "No unsafe action from the deck to the platform and back to the log"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "No corrections anywhere in the climb"
+        },
+        {
+          "id": "unbroken-climb",
+          "name": "Unbroken Climb",
+          "note": "The rope grab never dropped out of band"
+        },
+        {
+          "id": "tower-inside-par",
+          "name": "Tower Inside Par",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gg-tower-climb-and-tie-off"
     },
     {
       "app": "smartcity",
@@ -23467,7 +24179,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",

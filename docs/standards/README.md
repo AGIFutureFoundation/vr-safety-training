@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 320 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 327 entries across 88 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -154,10 +154,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff | `unite-here-training` | Building Systems & Facilities, Culinary & Hospitality | `UNITE HERE` |
 | ✓ | USW Tony Mazzocchi Center health, safety and environmental training | `usw-mazzocchi-center` | Community Environmental Justice, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `USW` |
 
-### ANSI/ASSP (20)
+### ANSI/ASSP (22)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
+| ? | ANSI/ASSP A10.34 — Protection of the public on or adjacent to construction sites | `ansi-a10-34` | Construction & Structural Trades, Mobility & Transit, Surface Prep & Coatings | `ANSI A10.34` |
+| ? | ANSI/ASSP A10.47 — Work zone safety for highway construction | `ansi-a10-47` | Construction & Structural Trades, Mobility & Transit, Surface Prep & Coatings | `ANSI A10.47` |
 | ✓ | ANSI/ASSP A10.8 — Scaffolding safety requirements | `ansi-a10-8` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `ANSI A10.8` |
 | ✓ | ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements | `ansi-a10-9` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `ANSI A10.9` |
 | ✓ | ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training | `ansi-a92` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `ANSI A92` |
@@ -258,6 +260,16 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | ISO 23908 — Sharps injury protection: requirements and test methods | `iso-23908` | Dental & Oral Health, Emergency Services, Trade Skills Simulator | `ISO 23908` |
 | ✓ | ISO 6710 — Single-use containers for human venous blood specimen collection | `iso-6710` | Dental & Oral Health, Emergency Services, Trade Skills Simulator | `ISO 6710` |
 | ✓ | ISO/IEC 27001 — Information security management systems | `iso-iec-27001` | Building Systems & Facilities, Connectivity & Telecom, Trade Skills Simulator | `IEC 27001`, `ISO 27001` |
+
+### SSPC (5)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | SSPC Guide 6 — Guide for containing surface preparation debris generated during paint removal operations | `sspc-guide-6` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC Guide 6` |
+| ? | SSPC-QP 1 — Qualification procedure for painting contractors doing field application on complex industrial structures, now administered by AMPP | `sspc-qp-1` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-QP 1` |
+| ? | SSPC-QP 2 — Qualification procedure for painting contractors removing hazardous coatings in the field from complex structures, now administered by AMPP | `sspc-qp-2` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-QP 2` |
+| ✓ | SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning | `sspc-sp-10` | Construction & Structural Trades, Energy & Power, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-SP 10` |
+| ✓ | SSPC-SP surface preparation standards (SP 1 to SP 11), now published by AMPP | `sspc-surface-preparation` | Construction & Structural Trades, Energy & Power, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-SP`, `SSPC`, `AMPP` |
 
 ### USCG (5)
 
@@ -400,6 +412,13 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | WHO guidance on infection prevention and control in health care | `who-ipc-guidance` | Emergency Services | `WHO infection prevention and control guidance` |
 | ? | WHO outbreak communication guidance | `who-outbreak-communication` | Emergency Services | `WHO outbreak communication guidance` |
 
+### AASHTO (2)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications | `aashto-bridge-inspection` | Construction & Structural Trades, Mobility & Transit | `AASHTO` |
+| ? | AASHTO Maintenance Manual for Roadways and Bridges | `aashto-maintenance-manual` | Construction & Structural Trades, Mobility & Transit, Surface Prep & Coatings | `AASHTO Maintenance Manual` |
+
 ### FAA (2)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -433,12 +452,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients | `aapd-reference-manual` | Dental & Oral Health | `AAPD` |
-
-### AASHTO (1)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications | `aashto-bridge-inspection` | Construction & Structural Trades, Mobility & Transit | `AASHTO` |
 
 ### ACGIH (1)
 
@@ -733,12 +746,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response | `sphere-handbook` | Emergency Services | `Sphere Handbook` |
-
-### SSPC (1)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | SSPC-SP surface preparation standards (SP 1 to SP 11), now published by AMPP | `sspc-surface-preparation` | Construction & Structural Trades, Energy & Power, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `SSPC-SP`, `SSPC`, `AMPP` |
 
 ### SWANA (1)
 
