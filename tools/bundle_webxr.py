@@ -48,6 +48,7 @@ APPS = {
             SHARED / "records.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
+            SHARED / "auth.js",
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
@@ -82,6 +83,7 @@ APPS = {
             SHARED / "records.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
+            SHARED / "auth.js",
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
@@ -149,6 +151,7 @@ APPS = {
             SHARED / "records.js",
             SHARED / "competency.js",
             SHARED / "identity.js",
+            SHARED / "auth.js",
             SHARED / "lrs.js",
             SHARED / "lessons.js",
             SHARED / "variants.js",
@@ -183,11 +186,29 @@ APPS = {
 # "flows" is not an app but is reached the same way: the instructor console
 # fetches "../flows/index.json", which needs the same one-level fixup in dist.
 SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows"]
+AUTH_CONFIG = "auth-config.json"
+# The apps whose bundle reads the sign-in configuration, and therefore need a
+# copy of it beside the bundle. A deployment edits the copy it serves.
+AUTH_CONFIG_APPS = ["smartcity"]
+
+
+# Both quoting styles, because a cross-app link is written as a plain HTML
+# attribute in one place and as a template literal in another — trades' app.js
+# builds its SmartCiti.X deep link with `../smartcity/index.html?sim=${id}`,
+# which the double-quote-only rewrite used to miss, shipping a dist bundle whose
+# "open that station" link resolved one directory too shallow.
+LINK_QUOTES = ('"', "`")
 
 
 def dist_fixup(html: str) -> str:
     for name in SIBLING_APP_DIRS:
-        html = html.replace(f'"../{name}/', f'"../../{name}/')
+        for q in LINK_QUOTES:
+            html = html.replace(f'{q}../{name}/', f'{q}../../{name}/')
+    # The sign-in configuration is read relative to the page. Beside the modular
+    # source that is one directory up (WebXR/auth-config.json from
+    # WebXR/<app>/); in a dist folder it is the copy written next to the bundle.
+    for q in LINK_QUOTES:
+        html = html.replace(f'{q}../{AUTH_CONFIG}{q}', f'{q}./{AUTH_CONFIG}{q}')
     return html
 
 
@@ -306,9 +327,79 @@ def build(app: str) -> int:
         # read_text() on a binary asset either mangles it or throws.
         dest.write_bytes(source_path.read_bytes())
 
+    if app in AUTH_CONFIG_APPS:
+        (out.parent / AUTH_CONFIG).write_bytes((WEBXR / AUTH_CONFIG).read_bytes())
+
     extra = f", {len(copy_files)} lazy-loaded files alongside it" if copy_files else ""
     print(f"[{app}] wrote {out.relative_to(ROOT)}  "
           f"({len(html) / 1024:.0f} KB, {len(cfg['modules'])} modules{extra})")
+    return 0
+
+
+# The combined dist folder: WebXR/dist/ holds the homepage and every bundle
+# side by side, which is the layout a single-file drop actually ships in. The
+# generated WebXR/home.html is the homepage written for exactly this layout —
+# its links are the flat file names below — so it is copied in as index.html.
+# The sims SmartCiti.X lazy-loads, its citykit/gamify and the hub's guide model
+# come along at the same relative depth, and shared/auth.js (with the two
+# modules it imports) so the homepage's sign-in dialog works here too.
+DIST = WEBXR / "dist"
+DIST_PAGES = {
+    "smartcity": "smartcity-x.html",
+    "trades": "trade-skills-simulator.html",
+    "holodeck": "holodeck.html",
+    "instructor": "instructor-console.html",
+}
+DIST_SHARED = ["auth.js", "identity.js", "records.js"]
+
+
+def combined_fixup(html: str) -> str:
+    """Rewrite a bundle's cross-app links for the flat combined folder.
+
+    dist_fixup() has already turned "../<sibling>/" into "../../<sibling>/" for
+    a file at WebXR/<app>/dist/. In WebXR/dist/ one level up is WebXR itself,
+    and a sibling app is no longer a folder but one HTML file in this folder, so
+    an app entry becomes its flat file name and everything else loses a level.
+    """
+    for app, page in DIST_PAGES.items():
+        for q in LINK_QUOTES:
+            html = html.replace(f'{q}../../{app}/index.html', f'{q}./{page}')
+            html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
+    for q in LINK_QUOTES:
+        html = html.replace(f'{q}../../', f'{q}../')
+    return html
+
+
+def build_combined() -> int:
+    home = WEBXR / "home.html"
+    if not home.exists():
+        print("[dist] WebXR/home.html is missing — run tools/gen_home.mjs "
+              "(tools/gen_catalog.mjs runs it) before bundling.", file=sys.stderr)
+        return 1
+    DIST.mkdir(parents=True, exist_ok=True)
+    (DIST / "index.html").write_text(home.read_text())
+    copied = 1
+    for app, page in DIST_PAGES.items():
+        src = WEBXR / app / "dist" / page
+        if not src.exists():
+            print(f"[dist] {src.relative_to(ROOT)} has not been built yet", file=sys.stderr)
+            return 1
+        (DIST / page).write_text(combined_fixup(src.read_text()))
+        copied += 1
+    (DIST / AUTH_CONFIG).write_bytes((WEBXR / AUTH_CONFIG).read_bytes())
+    copied += 1
+    for name in DIST_SHARED:
+        (DIST / "shared").mkdir(parents=True, exist_ok=True)
+        (DIST / "shared" / name).write_bytes((SHARED / name).read_bytes())
+        copied += 1
+    for source_path, rel_dest in APPS["smartcity"]["copy_files"].items():
+        dest = DIST / rel_dest
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(source_path.read_bytes())
+        copied += 1
+    print(f"[dist] wrote {(DIST / 'index.html').relative_to(ROOT)} and {copied - 1} files beside it "
+          f"({len(DIST_PAGES)} bundles, {len(DIST_SHARED)} shared modules, "
+          f"{len(APPS['smartcity']['copy_files'])} lazy-loaded files)")
     return 0
 
 
@@ -321,6 +412,10 @@ def main(argv: list[str]) -> int:
         code = build(app)
         if code:
             return code
+    # The combined folder is assembled from the per-app bundles, so it is only
+    # rebuilt when all of them were just built.
+    if len(wanted) == len(APPS):
+        return build_combined()
     return 0
 
 

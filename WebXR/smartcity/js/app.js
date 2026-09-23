@@ -8,6 +8,7 @@ import {
   toProofCSV, toCompetencyBadges, toCompetencyXAPI, standard, clockText as mmss,
 } from "../../shared/competency.js";
 import { Identity } from "../../shared/identity.js";
+import { Auth, availableProviders, makeAuthEnv, providerById } from "../../shared/auth.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
@@ -231,7 +232,11 @@ const store = createStore({
     },
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
-  programs: { visible: false, rows: [], assigned: null },
+  programs: { visible: false, rows: [], assigned: null, assignedBy: null },
+  // Sign-in (shared/auth.js): only the options this deployment configured and
+  // this browser can actually do, plus the one line that says where the
+  // credential is verified — which is never here.
+  signin: { visible: false, providers: [], session: null, field: "", fieldFor: null, message: "" },
   // The dental programme's robot-training card: a headless calibration of
   // every station in the block, run in slices on this thread so the panel can
   // show the difficulty curve filling in rather than freezing until it is done.
@@ -1162,6 +1167,7 @@ let hazardMode = "assess";       // "coach" warns once and does not score it
 let instructorWeather = null;    // the kind the NEXT station is built under
 let instructorDeviceId = null;   // the device profile the NEXT station runs under
 let assignedProgram = null;      // a programme pinned in the learner's panel
+let assignedBy = null;           // "instructor" or "link" — why it is pinned
 let instructorActions = [];      // this attempt's commands, for the record
 const coachedHazards = new Set(); // hazards already explained in coach mode
 
@@ -1278,6 +1284,7 @@ observer.onCommand((cmd) => {
     const programme = CURRICULA.find((c) => c.id === cmd.detail);
     if (!programme) { logInstructorAction("assign", cmd.detail, { ok: false, note: "unknown programme" }); return; }
     assignedProgram = programme.id;
+    assignedBy = "instructor";
     renderPrograms();
     setRail("neutral", `<b>Instructor assigned:</b> ${escapeHtml(programme.name)} — pinned at the top of your training programmes.`);
     announce(`Instructor assigned ${programme.name}. It is pinned in your training programmes.`);
@@ -1591,9 +1598,9 @@ function renderPrograms() {
   // the block they were put on rather than hunting for it among 23. The
   // dental block is the one with a robot-training card: its stations are
   // the ones annotated for an embodied trainee (see docs/robot-training.md).
-  const rows = allProgress(TrainingRecords.list()).map((r) => ({ ...r, assigned: r.id === assignedProgram, robot: r.id === ROBOT_PROGRAMME }));
+  const rows = allProgress(TrainingRecords.list()).map((r) => ({ ...r, assigned: r.id === assignedProgram, assignedBy, robot: r.id === ROBOT_PROGRAMME }));
   rows.sort((a, b) => (a.assigned === b.assigned ? 0 : a.assigned ? -1 : 1));
-  store.patch("programs", { rows, assigned: assignedProgram });
+  store.patch("programs", { rows, assigned: assignedProgram, assignedBy });
 }
 function viewPrograms() {
   pausedBeforeOverlay = state.paused;
@@ -1953,6 +1960,76 @@ function clearRecords() {
   TrainingRecords.clear();
   renderRecords();
 }
+
+// ------------------------------------------------------------------- sign-in
+//
+// A static page cannot verify anybody, so this dialog does exactly two things:
+// it collects a credential from an option the deployment configured, and it
+// hands the result to Identity in the same shape a launch URL would (see
+// shared/auth.js and docs/sign-in.md). Where each credential is actually
+// verified is printed next to the option that produces it.
+
+// This page sits one directory below the deployment's auth-config.json; the
+// bundler rewrites that path for the dist folders, which are flat.
+const authEnv = makeAuthEnv({ configUrl: "../auth-config.json" });
+function signInOptions() {
+  return availableProviders(Auth.config, authEnv)
+    .map((p) => ({ id: p.id, label: p.label, note: p.note, short: p.short, needs: p.needs ?? null }));
+}
+function refreshSignIn(extra = {}) {
+  store.patch("signin", {
+    providers: signInOptions(),
+    session: Auth.session ? { name: Auth.session.name, line: Auth.describe() } : null,
+    ...extra,
+  });
+}
+function viewSignIn() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  refreshSignIn({ visible: true, message: "", field: "", fieldFor: null });
+}
+function closeSignIn() { state.paused = pausedBeforeOverlay; store.patch("signin", { visible: false }); }
+function setSignInField(value) { store.patch("signin", { field: String(value ?? "").slice(0, 200) }); }
+/** An adopted identity reaches the crew tag and the intro card the same way a launch URL's does. */
+function afterSignIn() {
+  applyIdentity();
+  store.patch("intro", { playerName: Progress.playerName, identityLocked: !!Identity.current, identityLabel: identityLabel() });
+}
+async function signInWith(id) {
+  const provider = providerById(id);
+  const slice = store.get().signin;
+  // An option that needs something typed (an address, a passkey label) asks
+  // for it first and is chosen again once it is there.
+  if (provider?.needs && slice.fieldFor !== id) {
+    store.patch("signin", { fieldFor: id, field: "", message: `Type it in, then choose ${provider.short} again.` });
+    return;
+  }
+  store.patch("signin", { message: "Working…" });
+  const result = await Auth.signIn(id, { email: slice.field, name: slice.field });
+  if (result.kind === "signed-in") {
+    afterSignIn();
+    refreshSignIn({ message: "", field: "", fieldFor: null });
+    announce(`Signed in as ${Auth.session.name}.`);
+    closeSignIn();
+    return;
+  }
+  refreshSignIn({ message: result.reason ?? result.note ?? "" });
+}
+function signOutOfAuth() {
+  const alsoRecords = TrainingRecords.count() > 0
+    && confirm("Signed out. Also delete the training records stored in this browser? Cancel keeps them.");
+  Auth.signOut({ clearRecords: alsoRecords });
+  if (alsoRecords) renderRecords();
+  afterSignIn();
+  refreshSignIn({ message: "Signed out." });
+  announce("Signed out.");
+}
+// The configuration lives beside the page (WebXR/auth-config.json) and is read
+// once; until it arrives the dialog simply lists fewer options.
+Auth.loadConfig(authEnv).then(() => {
+  if (Auth.load()) afterSignIn();
+  refreshSignIn();
+});
 
 // ------------------------------------------------------------------ live LRS
 //
@@ -3009,6 +3086,13 @@ function drawVrHud() {
 // -------------------------------------------------------------------- intro
 
 let deepLink = new URLSearchParams(location.search).get("sim");
+// A programme deep link (?programme=<id>, from the homepage's programme rail)
+// opens the programmes panel with that block pinned to the top — the same
+// treatment an instructor's assignment gets, so the learner lands on the block
+// they were sent to instead of hunting for it among two dozen.
+let programmeLink = new URLSearchParams(location.search).get("programme");
+if (!CURRICULA.some((c) => c.id === programmeLink)) programmeLink = null;
+if (programmeLink) { assignedProgram = programmeLink; assignedBy = "link"; }
 let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 function begin() {
   store.patch("intro", { visible: false });
@@ -3018,6 +3102,12 @@ function begin() {
     resetPlacement();
     store.patch("arPrompt", { visible: true });
     store.patch("scaleRow", { visible: true });
+  }
+  if (programmeLink && !pendingEnter && !deepLink) {
+    programmeLink = null;
+    enterHub();
+    viewPrograms();
+    return;
   }
   const target = pendingEnter ?? deepLink;
   // One-shot, like pendingEnter: otherwise the next bare begin() — e.g.
@@ -3281,6 +3371,7 @@ const uiActions = {
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart,
+  viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
   startRobotTraining, stopRobotTraining,
   viewFlows, closeFlows, flowContinue, flowRestart, flowSelect,
   prebriefStart, prebriefSkip, prebriefClose,

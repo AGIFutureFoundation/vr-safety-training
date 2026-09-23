@@ -116,7 +116,7 @@ Two additional delivery surfaces beyond the Windows PC-VR build:
   Vulkan-first), and `Safety Training > Build Meta Quest APK` produces
   `Builds/Quest/VR-Safety-Training.apk` for `adb install -r`. Requires the Android Build Support
   module in the editor.
-- **WebXR companion** (`WebXR/index.html`): a single static page carrying the full six-site
+- **WebXR companion** (`WebXR/campus/index.html`): a single static page carrying the full six-site
   inspection curriculum with the same deterministic scoring — immersive VR in the Meta Quest
   Browser (controller ray select, stick locomotion, snap turn) and a desktop mouse/keyboard
   fallback. Deployment notes, hosting assumptions (rb1.com), and the honest device-support

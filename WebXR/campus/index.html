@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Safety Campus WebXR</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500&display=swap">
+<style>
+  :root{
+    --void:#071018; --panel:#101C27; --panel-glass:rgba(16,28,39,.86); --raised:#172735;
+    --text:#F4F8FB; --muted:#9FB0BF; --accent:#37D6C0; --warn:#F2B84B; --danger:#F0645B;
+    --edge:#426174; --good:#59C97B;
+  }
+  html,body{height:100%}
+  body{margin:0;background:var(--void);color:var(--text);overflow:hidden;
+       font-family:Barlow,system-ui,sans-serif}
+  #scene{position:fixed;inset:0}
+  .chip{position:fixed;background:var(--panel-glass);border:1px solid var(--edge);
+        border-radius:6px;padding:10px 14px;pointer-events:none;backdrop-filter:blur(3px)}
+  .chip .eyebrow{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:11px;
+        letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  #mission{top:16px;left:16px;border-left:3px solid var(--accent);max-width:44vw}
+  #mission .site{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:22px;
+        letter-spacing:.03em;text-transform:uppercase}
+  #scorebox{top:16px;right:16px;text-align:right}
+  #score{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:26px;
+        font-variant-numeric:tabular-nums;letter-spacing:.06em}
+  #rail{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;width:min(760px,calc(100vw - 32px));
+        background:var(--panel-glass);border:1px solid var(--edge);border-radius:6px;
+        padding:12px 16px;pointer-events:none;backdrop-filter:blur(3px)}
+  #rail[data-state="ok"]{border-left:3px solid var(--good)}
+  #rail[data-state="warn"]{border-left:3px solid var(--warn)}
+  #rail[data-state="neutral"]{border-left:3px solid var(--edge)}
+  #rail[data-state="complete"]{border-left:3px solid var(--accent)}
+  #feedback{font-size:15px;line-height:1.45}
+  #feedback b{font-weight:500}
+  #progressrow{display:flex;gap:16px;align-items:center;margin-top:8px}
+  #ptrack{flex:1;height:5px;background:var(--raised);border-radius:3px;overflow:hidden}
+  #pfill{height:100%;width:0%;background:var(--accent);transition:width .18s ease-out}
+  #plabel{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:12px;
+        letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+  #intro{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+        background:rgba(7,16,24,.78);padding:16px;z-index:10}
+  #introcard{background:var(--panel);border:1px solid var(--edge);border-radius:8px;
+        max-width:520px;padding:26px 28px;border-top:3px solid var(--accent)}
+  #introcard h1{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:32px;
+        letter-spacing:.04em;text-transform:uppercase;margin:2px 0 10px}
+  #introcard p{margin:0 0 12px;color:var(--muted);font-size:14.5px;line-height:1.55;max-width:60ch}
+  #introcard .rules{color:var(--text)}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 10px}
+  button{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:16px;
+        letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:5px;
+        padding:11px 20px;border:1px solid var(--edge);background:var(--raised);color:var(--text)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#04211c}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  button[disabled]{opacity:.45;cursor:not-allowed}
+  #devnote{font-size:12.5px;color:var(--muted);line-height:1.5}
+  kbd{background:var(--raised);border:1px solid var(--edge);border-radius:3px;
+      padding:0 5px;font-family:inherit;font-size:12px}
+  @media (max-width:640px){ #mission .site{font-size:17px} #score{font-size:20px} }
+</style>
+
+<div id="scene"></div>
+
+<div class="chip" id="mission">
+  <div class="eyebrow">Field module</div>
+  <div class="site" id="sitename">Training Campus</div>
+</div>
+<div class="chip" id="scorebox">
+  <div class="eyebrow">Score</div>
+  <div id="score">0000</div>
+</div>
+<div id="rail" data-state="neutral">
+  <div id="feedback">Walk to a site bay. Inspect each area and select only the conditions you believe are hazardous.</div>
+  <div id="progressrow">
+    <div id="ptrack"><div id="pfill"></div></div>
+    <div id="plabel">CONDITIONS 0/24 · HAZARDS 0/12</div>
+  </div>
+</div>
+
+<div id="intro">
+  <div id="introcard">
+    <div class="eyebrow" style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase">VR Safety Training Explorer · Web companion</div>
+    <h1>Safety Campus</h1>
+    <p class="rules">Six workplace bays, each with four conditions: two real hazards and two controlled
+    look-alikes. Nothing is marked before you commit. Correct hazard +100, false positive −25 once,
+    repeats score nothing — the same deterministic rules as the headset build.</p>
+    <p>Desktop: <kbd>W A S D</kbd> move · drag to look · click to inspect.<br>
+    Headset: open this page in the Meta Quest Browser, then Enter VR — point and pull the trigger;
+    left stick glides, right stick snap-turns.</p>
+    <div class="btnrow">
+      <button class="primary" id="entervr" disabled>Enter VR</button>
+      <button id="enterflat">Explore on screen</button>
+      <button id="resetrun" hidden>Reset progress</button>
+    </div>
+    <p id="devnote">Immersive mode needs a WebXR browser (Meta Quest Browser, or a PC headset via
+    a WebXR-capable desktop browser). Ray-Ban Meta display glasses cannot run immersive WebXR —
+    on those, this page is view-only through the phone. Scoring runs entirely in this page; nothing
+    is transmitted.</p>
+    <p>Three more WebXR training apps live alongside this one — see
+    <a href="../portal/index.html" style="color:var(--accent)">the network map</a>.</p>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+const TARGETS=[
+{
+"site":"Construction",
+"id":"fall-edge",
+"hazard":true,
+"title":"Unprotected elevated edge",
+"rationale":"The work platform has an exposed edge without a guardrail.",
+"action":"Install compliant top and mid rails or require approved fall arrest before access."
+},
+{
+"site":"Construction",
+"id":"blocked-access",
+"hazard":true,
+"title":"Blocked access route",
+"rationale":"Materials obstruct the marked route used to reach the work area.",
+"action":"Move materials into the designated staging zone and restore the full route width."
+},
+{
+"site":"Construction",
+"id":"guarded-edge",
+"hazard":false,
+"title":"Guarded work platform",
+"rationale":"Top rails and mid rails control the fall exposure at this platform.",
+"action":"Maintain the barrier and report damaged or missing sections."
+},
+{
+"site":"Construction",
+"id":"stored-materials",
+"hazard":false,
+"title":"Materials in staging zone",
+"rationale":"The materials are stable and outside the marked access route.",
+"action":"Keep the stack stable and within the designated boundary."
+},
+{
+"site":"Warehouse",
+"id":"floor-spill",
+"hazard":true,
+"title":"Uncontrolled floor spill",
+"rationale":"Liquid is present in an active pedestrian aisle without isolation.",
+"action":"Isolate the area, use the spill procedure, and reopen only after the surface is safe."
+},
+{
+"site":"Warehouse",
+"id":"vehicle-route",
+"hazard":true,
+"title":"Obstruction in vehicle lane",
+"rationale":"Cargo extends into the powered industrial truck route.",
+"action":"Stop traffic and relocate the pallet to a designated staging or rack position."
+},
+{
+"site":"Warehouse",
+"id":"marked-maintenance",
+"hazard":false,
+"title":"Marked maintenance area",
+"rationale":"The temporary work area is visibly isolated from normal travel.",
+"action":"Keep the boundary intact until maintenance releases the area."
+},
+{
+"site":"Warehouse",
+"id":"racked-cargo",
+"hazard":false,
+"title":"Cargo in staging bay",
+"rationale":"The pallet is stable and fully contained inside the marked bay.",
+"action":"Maintain aisle clearance and verify the load remains stable."
+},
+{
+"site":"FireResponse",
+"id":"blocked-extinguisher",
+"hazard":true,
+"title":"Blocked fire extinguisher",
+"rationale":"Stored material prevents immediate access to the extinguisher.",
+"action":"Remove the obstruction and preserve the required clear access area."
+},
+{
+"site":"FireResponse",
+"id":"blocked-exit",
+"hazard":true,
+"title":"Blocked emergency exit",
+"rationale":"A pallet obstructs the direct egress path to the marked exit.",
+"action":"Remove the pallet immediately and keep the egress route continuously clear."
+},
+{
+"site":"FireResponse",
+"id":"clear-extinguisher",
+"hazard":false,
+"title":"Accessible fire extinguisher",
+"rationale":"The extinguisher is visible and has clear approach space.",
+"action":"Continue routine inspection and preserve clear access."
+},
+{
+"site":"FireResponse",
+"id":"clear-egress",
+"hazard":false,
+"title":"Clear egress route",
+"rationale":"The marked evacuation route is unobstructed and easy to follow.",
+"action":"Keep temporary storage and equipment outside the route."
+},
+{
+"site":"ChemicalProcessing",
+"id":"chemical-leak",
+"hazard":true,
+"title":"Leaking solvent drum",
+"rationale":"A drum is visibly leaking into the transfer lane.",
+"action":"Stop the transfer, isolate the area, and follow the site spill response procedure."
+},
+{
+"site":"ChemicalProcessing",
+"id":"unlabeled-drum",
+"hazard":true,
+"title":"Unlabeled chemical container",
+"rationale":"The container lacks a legible identity and hazard label.",
+"action":"Quarantine the container and restore the approved label before handling."
+},
+{
+"site":"ChemicalProcessing",
+"id":"labeled-drum",
+"hazard":false,
+"title":"Labeled compatible container",
+"rationale":"The container is labeled and inside the compatible storage bay.",
+"action":"Keep the label legible and maintain segregation by compatibility."
+},
+{
+"site":"ChemicalProcessing",
+"id":"clear-eyewash",
+"hazard":false,
+"title":"Accessible emergency eyewash",
+"rationale":"The eyewash station has a clear approach from the transfer lane.",
+"action":"Keep the approach clear and test the station on the site schedule."
+},
+{
+"site":"ElectricalMaintenance",
+"id":"open-panel",
+"hazard":true,
+"title":"Open energized panel",
+"rationale":"The panel is open without a visible lockout boundary or verified isolation.",
+"action":"Stop work, isolate the source, apply lockout/tagout, and verify zero energy."
+},
+{
+"site":"ElectricalMaintenance",
+"id":"loose-cable",
+"hazard":true,
+"title":"Unprotected cable crossing",
+"rationale":"A temporary cable crosses the walking route without a ramp or overhead support.",
+"action":"Reroute the cable or install a rated cable protector before access resumes."
+},
+{
+"site":"ElectricalMaintenance",
+"id":"locked-panel",
+"hazard":false,
+"title":"Locked and tagged panel",
+"rationale":"The panel is closed with a visible lockout tag inside the staging boundary.",
+"action":"Preserve the isolation and verify the tag remains legible."
+},
+{
+"site":"ElectricalMaintenance",
+"id":"protected-cable",
+"hazard":false,
+"title":"Protected cable crossing",
+"rationale":"The cable crossing is covered by a high-visibility floor protector.",
+"action":"Inspect the ramp before use and keep its edges seated."
+},
+{
+"site":"ImmersiveLab",
+"id":"play-space-obstruction",
+"hazard":true,
+"title":"Obstruction inside the active play space",
+"rationale":"A hard case and a folding stool sit inside the marked room-scale boundary while a headset session is running.",
+"action":"Clear the play space back to the marked boundary and re-run boundary setup before the next session."
+},
+{
+"site":"ImmersiveLab",
+"id":"unspotted-ar-route",
+"hazard":true,
+"title":"AR walkthrough crossing a live equipment lane",
+"rationale":"The marked augmented-reality route crosses the powered equipment lane with no barrier and no spotter.",
+"action":"Barrier the route from the lane and assign a spotter before any head-mounted walkthrough."
+},
+{
+"site":"ImmersiveLab",
+"id":"managed-tether",
+"hazard":false,
+"title":"Overhead-managed headset tether",
+"rationale":"The tether is carried on an overhead retractor and stays clear of the floor and the walking route.",
+"action":"Keep the retractor travel free and inspect the cable jacket before each session."
+},
+{
+"site":"ImmersiveLab",
+"id":"hygiene-comfort-station",
+"hazard":false,
+"title":"Stocked hygiene and comfort station",
+"rationale":"Disinfection supplies, the photosensitivity notice, and the comfort-break rule are posted with a clear approach.",
+"action":"Restock the wipes and keep the approach clear for every headset handover."
+}
+];
+const SITES = [
+  { id:"Construction",          title:"Construction Site",      tint:0x3a4148, sign:"01 CONSTRUCTION" },
+  { id:"Warehouse",             title:"Warehouse",              tint:0x2c4157, sign:"02 WAREHOUSE" },
+  { id:"FireResponse",          title:"Fire Response",          tint:0x4d3230, sign:"03 FIRE RESPONSE" },
+  { id:"ChemicalProcessing",    title:"Chemical Processing",    tint:0x27443f, sign:"04 CHEMICAL" },
+  { id:"ElectricalMaintenance", title:"Electrical Maintenance", tint:0x2e3450, sign:"05 ELECTRICAL" },
+  { id:"ImmersiveLab",          title:"Immersive Lab",          tint:0x293043, sign:"06 IMMERSIVE LAB" },
+];
+const SLOTS = [[-2.3,1.1],[-2.3,-1.4],[2.3,1.1],[2.3,-1.4]]; // local x,z per bay
+const HAZARD_TOTAL = TARGETS.filter(t=>t.hazard).length;
+
+// ---------- deterministic session (mirrors TrainingSession.cs) ----------
+const state = { inspected:new Set(), score:0, falsePositives:0 };
+try {
+  const saved = JSON.parse(localStorage.getItem("safety-campus-v1") || "null");
+  if (saved && Array.isArray(saved.inspected)) {
+    saved.inspected.forEach(id => state.inspected.add(id));
+    state.score = saved.score|0; state.falsePositives = saved.fp|0;
+  }
+} catch (_) {}
+function persist(){
+  try { localStorage.setItem("safety-campus-v1", JSON.stringify({
+    inspected:[...state.inspected], score:state.score, fp:state.falsePositives })); } catch(_){}
+}
+function hazardsFound(){ return [...state.inspected].filter(id => byId[id].hazard).length; }
+function siteProgress(site){
+  const all = TARGETS.filter(t=>t.site===site);
+  const found = all.filter(t=>t.hazard && state.inspected.has(t.id)).length;
+  const need = all.filter(t=>t.hazard).length;
+  return { found, need, complete: found===need };
+}
+const byId = {}; TARGETS.forEach(t => byId[t.id]=t);
+
+function inspect(target){
+  if (state.inspected.has(target.id))
+    return { state:"neutral", text:"That condition has already been recorded." };
+  state.inspected.add(target.id);
+  let out;
+  if (target.hazard){
+    state.score += 100;
+    const p = siteProgress(target.site);
+    out = { state:"ok", text:`<b>Correct +100 — ${target.title}</b> (${p.found}/${p.need})<br>${target.rationale}<br>Control: ${target.action}` };
+    if (p.complete) out.text += `<br><b>${siteTitle(target.site)} complete.</b>`;
+    if (hazardsFound() === HAZARD_TOTAL){
+      out.state = "complete";
+      out.text += `<br><b>All ${HAZARD_TOTAL} hazards identified across the campus. Final score ${state.score}, false positives ${state.falsePositives}.</b>`;
+    }
+  } else {
+    state.score -= 25; state.falsePositives++;
+    out = { state:"warn", text:`<b>False positive −25 — ${target.title} is controlled.</b><br>${target.rationale}` };
+  }
+  persist();
+  return out;
+}
+function siteTitle(id){ return SITES.find(s=>s.id===id).title; }
+
+// ---------- HUD ----------
+const ui = {
+  site: document.getElementById("sitename"), score: document.getElementById("score"),
+  rail: document.getElementById("rail"), feedback: document.getElementById("feedback"),
+  pfill: document.getElementById("pfill"), plabel: document.getElementById("plabel"),
+};
+let vrHudDirty = true;
+function setFeedback(stateName, html){
+  ui.rail.dataset.state = stateName; ui.feedback.innerHTML = html; vrHudDirty = true;
+}
+function refreshCounters(){
+  ui.score.textContent = String(Math.max(0,state.score)).padStart(4,"0");
+  if (state.score < 0) ui.score.textContent = "-" + String(-state.score).padStart(3,"0");
+  ui.plabel.textContent =
+    `CONDITIONS ${state.inspected.size}/${TARGETS.length} · HAZARDS ${hazardsFound()}/${HAZARD_TOTAL}`;
+  ui.pfill.style.width = `${(hazardsFound()/HAZARD_TOTAL)*100}%`;
+  vrHudDirty = true;
+}
+
+// ---------- three.js scene ----------
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.xr.enabled = true;
+document.getElementById("scene").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0c1620);
+scene.fog = new THREE.Fog(0x0c1620, 26, 70);
+
+const rig = new THREE.Group();           // player rig: camera + controllers
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.05, 120);
+camera.position.set(0, 1.65, 0);
+rig.add(camera);
+rig.position.set(0, 0, 7.5);
+scene.add(rig);
+
+const sun = new THREE.DirectionalLight(0xffe8cc, 2.4);
+sun.position.set(12, 18, 8);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left=-30; sun.shadow.camera.right=30;
+sun.shadow.camera.top=30; sun.shadow.camera.bottom=-30;
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0x5b7a99, 0x1a1d20, 1.1));
+
+const MAT = {};
+function mat(color, rough=0.85, metal=0){
+  const key = `${color}|${rough}|${metal}`;
+  if (!MAT[key]) MAT[key] = new THREE.MeshStandardMaterial({ color, roughness:rough, metalness:metal });
+  return MAT[key];
+}
+function box(parent,w,h,d,x,y,z,color,rough,metal){
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat(color,rough,metal));
+  m.position.set(x,y,z); m.castShadow = m.receiveShadow = true; parent.add(m); return m;
+}
+function cyl(parent,rt,rb,h,x,y,z,color,rough,metal,seg=20){
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg), mat(color,rough,metal));
+  m.position.set(x,y,z); m.castShadow = m.receiveShadow = true; parent.add(m); return m;
+}
+
+// campus ground
+const ground = new THREE.Mesh(new THREE.CircleGeometry(46, 48), mat(0x181f26, 0.95));
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+for (let i=0;i<SITES.length;i++){                 // route lanes toward each bay
+  const a = laneAngle(i);
+  const lane = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.024, 10.5), mat(0x212a33, 0.95));
+  lane.position.set(Math.sin(a)*8.4, 0.012, -Math.cos(a)*8.4);
+  lane.lookAt(0, 0.012, 0);
+  lane.receiveShadow = true; scene.add(lane);
+}
+function laneAngle(i){ return (i - 2.5) * (Math.PI*2/9); }   // 6 bays across a 200° arc
+
+// sign textures
+function signTexture(text){
+  const c = document.createElement("canvas"); c.width = 512; c.height = 128;
+  const g = c.getContext("2d");
+  g.fillStyle = "#0b141d"; g.fillRect(0,0,512,128);
+  g.fillStyle = "#37D6C0"; g.fillRect(0,116,512,12);
+  g.fillStyle = "#F4F8FB"; g.font = "600 58px 'Barlow Condensed', sans-serif";
+  g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(text, 256, 60);
+  const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+}
+
+// ---------- prop builders (silhouettes echo the Unity assemblies) ----------
+const YELLOW=0xf2ae14, STEEL=0x5c6b7a, TIMBER=0x8c5729, RED=0xb81410, DARK=0x11151a;
+function crateStack(g,n,x,z,s=1){ for(let i=0;i<n;i++) box(g,1.05*s,0.72*s,0.85*s,x,(0.36+0.72*i)*s,z,TIMBER); }
+function pallet(g,x,z,load=true){ box(g,1.5,0.16,1.05,x,0.08,z,TIMBER);
+  if(load) box(g,0.72,1.9,0.66,x,1.13,z,STEEL,0.7,0.4); }
+function extinguisher(g,x,z){ cyl(g,0.14,0.14,0.62,x,0.31,z,RED,0.5,0.3);
+  box(g,0.26,0.08,0.1,x,0.68,z,STEEL,0.5,0.6); }
+function drum(g,x,z,bodyC,bandC){ cyl(g,0.34,0.34,0.88,x,0.44,z,bodyC,0.6,0.25);
+  cyl(g,0.35,0.35,0.05,x,0.66,z,bandC,0.6,0.2); }
+function cabinet(g,x,z,open,shellC){ box(g,0.95,1.7,0.42,x,0.85,z,shellC,0.55,0.45);
+  if(open){ const d=box(g,0.8,1.5,0.05,x-0.62,0.85,z-0.3,shellC,0.55,0.45); d.rotation.y=1.25;
+            box(g,0.6,1.2,0.04,x,0.9,z-0.2,0x211,0.9); box(g,0.4,0.22,0.04,x,1.45,z-0.24,0xc01810,0.6);
+  } else { box(g,0.14,0.18,0.09,x+0.24,0.55,z-0.24,YELLOW,0.5); } }
+const PROP_BUILDERS = {
+  "fall-edge":g=>{ box(g,2.5,0.16,1.5,0,1.05,0,0x767b82); box(g,0.12,1,0.12,-1,0.5,0,STEEL,0.7,0.5);
+                   box(g,0.12,1,0.12,1,0.5,0,STEEL,0.7,0.5); },
+  "blocked-access":g=>crateStack(g,3,0,0),
+  "guarded-edge":g=>{ box(g,2.5,0.14,1.2,0,0.55,0,0x767b82);
+    for(const x of[-1.15,1.15]) box(g,0.07,1.05,0.07,x,1.1,-0.5,YELLOW);
+    box(g,2.4,0.09,0.07,0,1.6,-0.5,YELLOW); box(g,2.4,0.07,0.07,0,1.1,-0.5,YELLOW); },
+  "stored-materials":g=>{ crateStack(g,2,-0.3,0,0.95); crateStack(g,1,0.75,0.2,0.95); },
+  "floor-spill":g=>{ const p=cyl(g,0.85,0.95,0.02,0,0.012,0,0x143242,0.25,0.1,26); p.receiveShadow=true; },
+  "vehicle-route":g=>pallet(g,0,0,true),
+  "marked-maintenance":g=>{ cyl(g,0.03,0.3,0.75,0,0.375,0,YELLOW,0.6,0,14);
+                            box(g,0.55,0.03,0.55,0,0.02,0,YELLOW,0.6); },
+  "racked-cargo":g=>{ pallet(g,0,0,false); box(g,0.95,0.7,0.7,0,0.51,0,0xb08d52,0.8); },
+  "blocked-extinguisher":g=>{ extinguisher(g,0,-0.55); crateStack(g,2,0,0.45,0.9); },
+  "blocked-exit":g=>{ pallet(g,0,0,true); box(g,1.3,0.45,0.07,0,2.5,0.5,0x0a6130,0.6);
+                      box(g,0.1,0.8,0.1,0,2.05,0.5,STEEL,0.7,0.5); },
+  "clear-extinguisher":g=>{ box(g,0.5,0.06,0.5,0,0.03,0,RED,0.7); extinguisher(g,0,0); },
+  "clear-egress":g=>{ const s=box(g,1.9,0.03,2.6,0,0.016,0,0x14582a,0.9); s.castShadow=false; },
+  "chemical-leak":g=>{ drum(g,0,0,0x24384d,YELLOW);
+    const p=cyl(g,0.72,0.8,0.018,0.35,0.011,0.4,0x0f2f28,0.2,0.1,24); p.castShadow=false; },
+  "unlabeled-drum":g=>drum(g,0,0,0xaaadb2,0xc23020),
+  "labeled-drum":g=>{ drum(g,0,0,0x2e6688,0x35cc6a); box(g,0.3,0.34,0.02,0,0.45,-0.345,0xd8e6ee,0.5); },
+  "clear-eyewash":g=>{ cyl(g,0.09,0.11,1,0,0.5,0,0x2f9e57,0.6,0.2);
+    cyl(g,0.3,0.24,0.12,0,1.05,0,0xdde6ea,0.4,0.3); },
+  "open-panel":g=>cabinet(g,0,0,true,0x272c31),
+  "loose-cable":g=>{ for(const dz of[-0.09,0,0.09]){ const c=cyl(g,0.035,0.035,3.4,0,0.05,dz,DARK,0.7,0,10);
+      c.rotation.z=Math.PI/2; } for(const x of[-1,0,1]) box(g,0.12,0.05,0.4,x,0.07,0,YELLOW,0.6); },
+  "locked-panel":g=>cabinet(g,0,0,false,0x4d5a68),
+  "protected-cable":g=>{ const r=box(g,3.2,0.16,0.7,0,0.08,0,0x24282c,0.7);
+    for(const z of[-0.31,0.31]) box(g,3.14,0.05,0.07,0,0.18,z,YELLOW,0.6); },
+  "play-space-obstruction":g=>{ box(g,0.8,0.4,0.55,-0.25,0.2,0,0x2c3138,0.6,0.3);
+    box(g,0.84,0.05,0.59,-0.25,0.42,0,STEEL,0.5,0.5); box(g,0.4,0.05,0.36,0.42,0.45,0,TIMBER);
+    for(const x of[0.28,0.56]) for(const z of[-0.13,0.13]) box(g,0.045,0.44,0.045,x,0.22,z,STEEL,0.6,0.4); },
+  "unspotted-ar-route":g=>{ for(const a of[0,2.09,4.19]){ const l=cyl(g,0.03,0.03,1,Math.sin(a)*0.2,0.5,Math.cos(a)*0.2,0x363b42,0.6,0.3,10);
+      l.rotation.set(Math.cos(a)*0.2,0,-Math.sin(a)*0.2); }
+    box(g,0.26,0.09,0.11,0,1.12,0,0x22262b,0.5,0.3); box(g,0.28,0.075,0.02,0,1.1,-0.07,0x6cbac8,0.3,0.3);
+    const strip=box(g,4.4,0.024,0.85,1.4,0.013,0,0x23344c,0.9); strip.castShadow=false;
+    for(const z of[-0.44,0.44]) box(g,4.4,0.03,0.06,1.4,0.02,z,0x529ef2,0.8).castShadow=false; },
+  "managed-tether":g=>{ cyl(g,0.2,0.2,0.05,0,0.03,0,STEEL,0.6,0.4); cyl(g,0.045,0.045,2.4,0,1.2,0,STEEL,0.6,0.4);
+    box(g,0.06,0.06,0.85,0,2.35,-0.35,STEEL,0.6,0.4); cyl(g,0.11,0.11,0.07,0,2.35,-0.72,0x2c3138,0.5,0.4);
+    cyl(g,0.016,0.016,0.85,0,1.9,-0.72,DARK,0.7,0,8);
+    for(const z of[-0.15,-0.55]) box(g,0.075,0.075,0.09,0,2.35,z,YELLOW,0.6); },
+  "hygiene-comfort-station":g=>{ box(g,0.95,1.05,0.4,0,0.53,0,0xd9dde1,0.55);
+    box(g,1.02,0.05,0.44,0,1.08,0,0x4a525a,0.6,0.3);
+    cyl(g,0.11,0.11,0.24,-0.26,1.23,0,0x3e94a8,0.5); box(g,0.22,0.15,0.2,0.28,1.19,0,0xe0b43e,0.7);
+    box(g,0.95,0.5,0.045,0,1.62,0.1,0x0b141d,0.8); },
+};
+
+// ---------- bays ----------
+const selectables = [];      // meshes -> target lookup via userData.targetId on group
+const targetGroups = {};     // id -> group (for markers)
+SITES.forEach((site, i) => {
+  const a = laneAngle(i);
+  const bay = new THREE.Group();
+  bay.position.set(Math.sin(a)*15, 0, -Math.cos(a)*15);
+  bay.lookAt(0, 0, 0);                   // open side (+z local) faces the campus center
+  scene.add(bay);
+
+  const pad = new THREE.Mesh(new THREE.BoxGeometry(9, 0.1, 7.6), mat(site.tint, 0.92));
+  pad.position.y = 0.05; pad.receiveShadow = true; bay.add(pad);
+  box(bay, 9, 0.06, 0.14, 0, 0.11, 3.72, YELLOW, 0.7);
+  box(bay, 9, 2.9, 0.22, 0, 1.55, -3.8, 0x1c242c, 0.9);            // back wall (away from center)
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 1.1),
+    new THREE.MeshBasicMaterial({ map: signTexture(site.sign) }));
+  sign.position.set(0, 3.35, -3.65); bay.add(sign);
+
+  TARGETS.filter(t => t.site === site.id).forEach((t, slot) => {
+    const g = new THREE.Group();
+    const [lx, lz] = SLOTS[slot];
+    g.position.set(lx, 0, lz);
+    g.userData.targetId = t.id;
+    (PROP_BUILDERS[t.id] || (gg=>box(gg,0.8,0.8,0.8,0,0.4,0,STEEL)))(g);
+    bay.add(g);
+    targetGroups[t.id] = g;
+    g.traverse(o => { if (o.isMesh) selectables.push(o); });
+    if (state.inspected.has(t.id)) addMarker(t);   // restore saved run
+  });
+});
+
+function addMarker(t){
+  const g = targetGroups[t.id];
+  const color = t.hazard ? 0x59C97B : 0xF2B84B;
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.72, 0.86, 28),
+    new THREE.MeshBasicMaterial({ color, side:THREE.DoubleSide }));
+  ring.rotation.x = -Math.PI/2; ring.position.y = 0.14; g.add(ring);
+}
+
+// ---------- selection ----------
+const raycaster = new THREE.Raycaster();
+raycaster.far = 12;
+let hovered = null;
+function findTarget(intersections){
+  for (const hit of intersections){
+    let o = hit.object;
+    while (o){ if (o.userData.targetId) return o.userData.targetId; o = o.parent; }
+  }
+  return null;
+}
+function setHover(id){
+  if (hovered === id) return;
+  if (hovered) tintGroup(hovered, 0);
+  hovered = id;
+  if (hovered) tintGroup(hovered, 0.25);
+  document.body.style.cursor = hovered ? "pointer" : "default";
+}
+function tintGroup(id, amount){
+  targetGroups[id]?.traverse(o => {
+    if (o.isMesh && o.material.emissive !== undefined){
+      if (amount > 0){
+        if (!o.userData.baseMat) o.userData.baseMat = o.material;
+        o.material = o.userData.baseMat.clone();
+        o.material.emissive = new THREE.Color(0x37D6C0);
+        o.material.emissiveIntensity = amount;
+      } else if (o.userData.baseMat){
+        o.material.dispose(); o.material = o.userData.baseMat;
+      }
+    }
+  });
+}
+function selectTarget(id){
+  if (!id) return;
+  const t = byId[id];
+  const already = state.inspected.has(id);
+  const result = inspect(t);
+  if (!already) addMarker(t);
+  setFeedback(result.state, result.text);
+  refreshCounters();
+}
+
+// ---------- desktop controls ----------
+let yaw = 0, pitch = 0;                            // bays sit in the -z half: default view faces them
+camera.rotation.order = "YXZ";
+const keys = {};
+addEventListener("keydown", e => keys[e.code] = true);
+addEventListener("keyup",   e => keys[e.code] = false);
+let dragging = false, lastX = 0, lastY = 0;
+renderer.domElement.addEventListener("pointerdown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+addEventListener("pointerup", () => dragging = false);
+addEventListener("pointermove", e => {
+  if (renderer.xr.isPresenting) return;
+  if (dragging){
+    yaw   -= (e.clientX - lastX) * 0.0042;
+    pitch -= (e.clientY - lastY) * 0.0042;
+    pitch = Math.max(-1.2, Math.min(1.2, pitch));
+    lastX = e.clientX; lastY = e.clientY;
+    camera.rotation.set(pitch, yaw, 0);
+  }
+  const r = renderer.domElement.getBoundingClientRect();
+  pointerNdc.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+});
+const pointerNdc = new THREE.Vector2();
+let downAt = 0;
+renderer.domElement.addEventListener("pointerdown", () => downAt = performance.now());
+renderer.domElement.addEventListener("pointerup", e => {
+  if (renderer.xr.isPresenting) return;
+  if (performance.now() - downAt > 260) return;    // a drag, not a click
+  const r = renderer.domElement.getBoundingClientRect();
+  pointerNdc.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+  raycaster.setFromCamera(pointerNdc, camera);
+  selectTarget(findTarget(raycaster.intersectObjects(selectables, false)));
+});
+function desktopMove(dt){
+  const speed = 3.2 * dt;
+  const f = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const r = new THREE.Vector3(-f.z, 0, f.x);
+  if (keys.KeyW || keys.ArrowUp)    rig.position.addScaledVector(f,  speed);
+  if (keys.KeyS || keys.ArrowDown)  rig.position.addScaledVector(f, -speed);
+  if (keys.KeyD || keys.ArrowRight) rig.position.addScaledVector(r,  speed);
+  if (keys.KeyA || keys.ArrowLeft)  rig.position.addScaledVector(r, -speed);
+  clampRig();
+}
+function clampRig(){
+  const len = Math.hypot(rig.position.x, rig.position.z);
+  if (len > 21){ rig.position.x *= 21/len; rig.position.z *= 21/len; }
+}
+
+// ---------- VR controllers ----------
+const controllers = [];
+for (let i = 0; i < 2; i++){
+  const c = renderer.xr.getController(i);
+  const rayGeo = new THREE.BufferGeometry().setFromPoints(
+    [new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,-6)]);
+  const ray = new THREE.Line(rayGeo, new THREE.LineBasicMaterial({ color:0x37D6C0, transparent:true, opacity:0.7 }));
+  c.add(ray);
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.014, 10, 10),
+    new THREE.MeshBasicMaterial({ color:0x37D6C0 }));
+  c.add(tip);
+  c.addEventListener("selectstart", () => {
+    const m = new THREE.Matrix4().identity().extractRotation(c.matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(c.matrixWorld);
+    raycaster.ray.direction.set(0,0,-1).applyMatrix4(m);
+    selectTarget(findTarget(raycaster.intersectObjects(selectables, false)));
+  });
+  rig.add(c);
+  controllers.push(c);
+}
+
+// in-VR HUD panel (world-space canvas, follows the head, low-center per the HUD contract)
+const hudCanvas = document.createElement("canvas");
+hudCanvas.width = 880; hudCanvas.height = 260;
+const hudCtx = hudCanvas.getContext("2d");
+const hudTexture = new THREE.CanvasTexture(hudCanvas);
+const hudPanel = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 0.254),
+  new THREE.MeshBasicMaterial({ map:hudTexture, transparent:true }));
+hudPanel.position.set(0, -0.42, -1.05);
+hudPanel.rotation.x = -0.32;
+hudPanel.renderOrder = 5;
+camera.add(hudPanel);
+hudPanel.visible = false;
+function drawVrHud(){
+  const g = hudCtx;
+  g.clearRect(0,0,880,260);
+  g.fillStyle = "rgba(16,28,39,0.88)"; g.fillRect(0,0,880,260);
+  g.fillStyle = { ok:"#59C97B", warn:"#F2B84B", neutral:"#426174", complete:"#37D6C0" }[ui.rail.dataset.state];
+  g.fillRect(0,0,10,260);
+  g.fillStyle = "#F4F8FB"; g.font = "500 30px Barlow, sans-serif";
+  const plain = ui.feedback.textContent;
+  let line = "", y = 52;
+  for (const word of plain.split(/\s+/)){
+    if (g.measureText(line + word).width > 800){ g.fillText(line, 34, y); y += 40; line = ""; }
+    if (y > 172) { line += "…"; break; }
+    line += word + " ";
+  }
+  g.fillText(line, 34, y);
+  g.fillStyle = "#9FB0BF"; g.font = "600 26px 'Barlow Condensed', sans-serif";
+  g.fillText(ui.plabel.textContent, 34, 226);
+  g.fillStyle = "#37D6C0"; g.textAlign = "right"; g.font = "600 34px 'Barlow Condensed', sans-serif";
+  g.fillText("SCORE " + ui.score.textContent, 846, 226);
+  g.textAlign = "left";
+  hudTexture.needsUpdate = true;
+}
+
+// VR locomotion: left stick glides (head-relative), right stick snap-turns 30°
+let snapReady = true;
+function vrMove(dt){
+  const session = renderer.xr.getSession();
+  if (!session) return;
+  for (const source of session.inputSources){
+    const gp = source.gamepad;
+    if (!gp) continue;
+    const ax = gp.axes.length >= 4 ? [gp.axes[2], gp.axes[3]] : [gp.axes[0]||0, gp.axes[1]||0];
+    if (source.handedness === "left"){
+      const head = new THREE.Vector3();
+      camera.getWorldDirection(head); head.y = 0; head.normalize();
+      const right = new THREE.Vector3(-head.z, 0, head.x);
+      rig.position.addScaledVector(head, -ax[1] * 2.4 * dt);
+      rig.position.addScaledVector(right, ax[0] * 2.4 * dt);
+      clampRig();
+    } else if (source.handedness === "right"){
+      if (Math.abs(ax[0]) < 0.35) snapReady = true;
+      else if (snapReady){ rig.rotation.y -= Math.sign(ax[0]) * Math.PI/6; snapReady = false; }
+    }
+  }
+}
+
+// ---------- session entry ----------
+const intro = document.getElementById("intro");
+const enterVrBtn = document.getElementById("entervr");
+const resetBtn = document.getElementById("resetrun");
+if (state.inspected.size > 0) resetBtn.hidden = false;
+resetBtn.addEventListener("click", () => {
+  try { localStorage.removeItem("safety-campus-v1"); } catch(_){}
+  location.reload();
+});
+document.getElementById("enterflat").addEventListener("click", () => intro.style.display = "none");
+if (navigator.xr){
+  navigator.xr.isSessionSupported("immersive-vr").then(ok => {
+    if (ok){ enterVrBtn.disabled = false; }
+    else enterVrBtn.textContent = "VR not available here";
+  }).catch(() => enterVrBtn.textContent = "VR not available here");
+} else enterVrBtn.textContent = "VR not available here";
+enterVrBtn.addEventListener("click", async () => {
+  try {
+    const session = await navigator.xr.requestSession("immersive-vr",
+      { optionalFeatures: ["local-floor", "bounded-floor"] });
+    await renderer.xr.setSession(session);
+    intro.style.display = "none";
+    hudPanel.visible = true; vrHudDirty = true;
+    session.addEventListener("end", () => { hudPanel.visible = false; });
+  } catch (err) {
+    setFeedback("warn", `<b>Could not start the VR session.</b> ${err.message ?? err}. ` +
+      "If this page is embedded, open it in its own tab in a WebXR browser.");
+    intro.style.display = "none";
+  }
+});
+
+// ---------- frame loop ----------
+addEventListener("resize", () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  if (renderer.xr.isPresenting){
+    vrMove(dt);
+    const m = new THREE.Matrix4().identity().extractRotation(controllers[0].matrixWorld);
+    raycaster.ray.origin.setFromMatrixPosition(controllers[0].matrixWorld);
+    raycaster.ray.direction.set(0,0,-1).applyMatrix4(m);
+    setHover(findTarget(raycaster.intersectObjects(selectables, false)));
+    if (vrHudDirty){ drawVrHud(); vrHudDirty = false; }
+  } else {
+    desktopMove(dt);
+    raycaster.setFromCamera(pointerNdc, camera);
+    setHover(findTarget(raycaster.intersectObjects(selectables, false)));
+  }
+  renderer.render(scene, camera);
+});
+refreshCounters();
+</script>
+
+</body>
+</html>

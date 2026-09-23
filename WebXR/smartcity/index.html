@@ -356,6 +356,19 @@
   .flat-feedback{ border-left:3px solid var(--edge-strong); background:var(--surface-raised); border-radius:0 8px 8px 0; padding:10px 12px; font-size:13.5px; line-height:1.45 }
   .flat-feedback.ok{ border-left-color:var(--good) } .flat-feedback.danger{ border-left-color:var(--danger) }
   .flat-feedback.warn{ border-left-color:var(--warn, #f2ae14) }
+  /* Sign in: one button per option, each carrying the sentence that says where
+     its credential is verified (shared/auth.js, docs/sign-in.md). */
+  .signin-opts{ display:grid; gap:10px; margin:6px 0 14px }
+  .signin-opt{ display:block; width:100%; text-align:left; cursor:pointer; padding:12px 13px;
+    background:var(--surface-raised); border:1px solid var(--edge-strong); border-radius:8px; color:var(--text); font:inherit }
+  .signin-opt:hover{ border-color:var(--accent) }
+  .signin-opt b{ display:block; font-family:var(--cond); font-weight:600; font-size:15.5px; letter-spacing:.02em }
+  .signin-opt span{ display:block; margin-top:3px; font-family:var(--sans); font-weight:400;
+    font-size:12.5px; letter-spacing:0; text-transform:none; color:var(--muted); line-height:1.45 }
+  .signin-field{ margin:0 0 12px }
+  .signin-field input{ width:100%; margin-top:5px; padding:11px 12px; font:inherit; font-size:16px; color:var(--text);
+    background:var(--void); border:1px solid var(--edge-strong); border-radius:6px }
+  .signin-msg{ margin:0 0 12px; font-size:13px; color:var(--warn) }
   /* Training programmes: one card per block, with a progress bar in the
      programme's own accent and the station list underneath. */
   .prog-list{ display:grid; gap:14px; margin:6px 0 16px }

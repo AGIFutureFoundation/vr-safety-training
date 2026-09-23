@@ -2351,7 +2351,7 @@ function setFlow(flow, where) {
 function loadFlowFromPicker() {
   const file = $("flow-pick").value;
   if (!file) { flowStatus("No example flow is available from this origin.", "bad"); return; }
-  fetch(`../flows/${file}`)
+  fetch(`../../flows/${file}`)
     .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`${file}: ${r.status}`))))
     .then((text) => {
       const parsed = flowFromJSON(text);

@@ -108,3 +108,8 @@ const catalog = {
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
 console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);
 await import("./gen_competency_programmes.mjs");
+// The homepage is generated from the catalog that was just written, so a
+// station, category or programme can never exist in the roster and be missing
+// from the page a learner actually lands on.
+const { writeHome } = await import("./gen_home.mjs");
+writeHome();

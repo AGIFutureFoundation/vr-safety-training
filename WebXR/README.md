@@ -1,6 +1,6 @@
 # Safety Campus WebXR — web companion
 
-`index.html` is a self-contained WebXR version of the campus inspection curriculum: all six
+`campus/index.html` is a self-contained WebXR version of the campus inspection curriculum: all six
 sites, the same 24 authored conditions (two hazards and two controlled look-alikes per site),
 and the same deterministic scoring as the Unity build (+100 correct hazard, −25 first false
 positive, repeats score nothing). Progress persists per browser via `localStorage`; nothing is
@@ -9,8 +9,9 @@ Unity headset build.
 
 Three more independent WebXR apps live alongside this one under `WebXR/` — SmartCiti.X, Trade
 Skills Simulator and Holodeck, which share a separate procedure engine and learner profile from
-this page's own. [`portal/index.html`](portal/index.html) links all four with a short
-description of each.
+this page's own. [`index.html`](index.html) is the homepage: every station in the network with a
+deep link to each, generated from `smartcity/catalog.json` by `tools/gen_home.mjs`.
+[`portal/index.html`](portal/index.html) links all the apps with a short description of each.
 
 ## Device support — the honest matrix
 
@@ -32,7 +33,7 @@ The page is a single static file with one pinned external dependency
 (three.js 0.160.0 from cdnjs.cloudflare.com; swap the import URL for a self-hosted copy of
 `three.module.min.js` if the site must be fully self-contained).
 
-1. Copy `index.html` to the web root (or a path such as `/safety-campus/`).
+1. Copy `campus/index.html` to the web root (or a path such as `/safety-campus/`).
 2. Serve over **HTTPS** — WebXR requires a secure context.
 3. No headers are strictly required; if the site sets a Content-Security-Policy it must allow
    `script-src` from `cdnjs.cloudflare.com` and `style-src`/`font-src` from

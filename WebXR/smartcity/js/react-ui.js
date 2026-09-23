@@ -79,6 +79,7 @@ const INTRO_BUTTONS = [
   { id: "view-records", label: "Training records", action: "viewRecords" },
   { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
   { id: "view-flows", label: "Flows", action: "viewFlows" },
+  { id: "open-signin", label: "Sign in", action: "viewSignIn" },
   { id: "open-editor", label: "Create a scenario", action: "openEditor" },
   { id: "open-controls", label: "Controls", action: "openControls" },
   { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
@@ -358,6 +359,55 @@ export function mountUI(store, actions) {
       rt.note && h("div", { className: "robot-note" }, rt.note));
   }
 
+  /** Sign in. Only the options this deployment configured and this browser can
+   * actually do reach this list (shared/auth.js decides), and each one carries
+   * the sentence that says where its credential is verified — which is never
+   * this page. Built from plain data, never markup: a provider's note and a
+   * learner's own typed value are both untrusted here. */
+  function SignInCard() {
+    const si = useSlice("signin");
+    if (!si.visible) return h("div", { className: "overlay", id: "signin", hidden: true });
+    const asking = si.fieldFor ? (si.providers.find((p) => p.id === si.fieldFor) ?? null) : null;
+    return h("div", { className: "overlay", id: "signin", role: "dialog", "aria-modal": "true", "aria-label": "Sign in" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · sign in"),
+        h("h1", null, si.session ? "Signed in" : "Put your name on the record"),
+        h("p", { className: "lead" }, si.session
+          ? si.session.line
+          : "These pages are static files. Signing in collects a credential and hands it to your training host, "
+            + "which is what verifies it — nothing is verified here. Only the options this deployment configured, "
+            + "and this browser can actually do, are listed."),
+        si.session
+          ? null
+          : h("div", { className: "signin-opts" },
+              si.providers.length
+                ? si.providers.map((p) => h("button", {
+                    key: p.id, id: `signin-${p.id}`, type: "button", className: "signin-opt",
+                    onClick: () => actions.signInWith(p.id),
+                  }, h("b", null, p.label), h("span", null, p.note)))
+                : h("p", { className: "fineprint" },
+                    "No sign-in option is configured for this deployment and this browser offers none of its own. "
+                    + "Your crew tag and your records still work; they stay in this browser.")),
+        asking
+          ? h("div", { className: "signin-field" },
+              h("label", { className: "eyebrow", htmlFor: "signin-value" },
+                asking.needs === "email" ? "Your e-mail address" : "The name to label this device's passkey with"),
+              h("input", {
+                id: "signin-value", type: asking.needs === "email" ? "email" : "text",
+                value: si.field, autoComplete: asking.needs === "email" ? "email" : "name",
+                onChange: (e) => actions.setSignInField(e.target.value),
+              }))
+          : null,
+        si.message ? h("p", { className: "signin-msg", role: "status" }, si.message) : null,
+        h("div", { className: "btnrow" },
+          si.session
+            ? h("button", { id: "signin-out", onClick: actions.signOutOfAuth }, "Sign out")
+            : null,
+          h("button", { id: "signin-close", onClick: actions.closeSignIn }, "Close")),
+        h("p", { className: "fineprint" },
+          "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
+  }
+
   /** Training programmes: the ordered blocks a hall runs, with progress read
    * from the same passing records the certificate claim rests on. Plain data
    * only — a station name never reaches this as markup. */
@@ -379,7 +429,8 @@ export function mountUI(store, actions) {
         },
           h("header", { className: "prog-head" },
             h("div", null,
-              p.assigned && h("p", { className: "prog-pin" }, "Assigned by your instructor"),
+              p.assigned && h("p", { className: "prog-pin" },
+                p.assignedBy === "link" ? "The programme you followed here" : "Assigned by your instructor"),
               h("h2", null, p.name),
               h("div", { className: "prog-union" }, p.union)),
             h("div", { className: `prog-count${p.complete ? " done" : ""}` }, `${p.done}/${p.total}`)),
@@ -908,7 +959,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
   }
 

@@ -1,0 +1,10 @@
+{
+  "_read_me": "Sign-in configuration for this deployment. Every value is null out of the box, which is the honest default: a static copy of these pages verifies nobody, so with nothing configured the sign-in dialog offers only a device passkey and a wallet signature. Fill in the values your host actually operates and nothing else — WebXR/shared/auth.js never contacts an endpoint that is null here. See docs/sign-in.md.",
+  "googleClientId": null,
+  "microsoftClientId": null,
+  "microsoftTenant": null,
+  "emailEndpoint": null,
+  "walletChainId": 1,
+  "walletStatement": null,
+  "homePage": null
+}
