@@ -359,6 +359,25 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "bay-area-union-edition",
+    name: "Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine",
+    union: "SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen's Union of the ILWU, MEBA and SIU, with the Pile Drivers' commercial divers for the underwater work",
+    certification: "SMART's International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving",
+    guides: ["smart-iti", "ironworkers-impact", "iupat-fti", "carpenters-ictf", "ilwu-pma-training", "meba-calhoon-school", "siu-paul-hall-center", "uscg-subchapter-m"],
+    summary: "One Bay Area tool for four union families: the sheet metal shop and the duct run, the Golden Gate Bridge tower, cable and paint programme, the terminal's cranes, fenders and reefer power, and the water itself: ferries, mooring, oil transfer, and the dive stage down to the piles and the hull.",
+    accent: "#e8552d",
+    stations: [
+      { app: "smartcity", id: "press-brake", why: "The shared opener for the shop: a brake, a guard and a hand position are the first sheet metal lesson." },
+      // slot-sm-1
+      { app: "smartcity", id: "steel-erector", why: "The shared opener for the bridge: connecting steel at height is where every bridge crew starts." },
+      // slot-br-1
+      { app: "smartcity", id: "container-lashing", why: "The shared opener for the port: the lashing deck is where maintenance meets the working terminal." },
+      // slot-pt-1
+      { app: "smartcity", id: "mooring-line", why: "The shared opener for the water: the line under load teaches the snap-back zone before anything else." },
+      // slot-mw-1
+    ],
+  },
+  {
     id: "bartending-course",
     name: "Bartending — Behind the Bar",
     union: "UNITE HERE Local 2 bartenders and barbacks",
