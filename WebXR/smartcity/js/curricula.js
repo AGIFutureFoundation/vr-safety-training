@@ -293,7 +293,11 @@ export const CURRICULA = [
       { app: "smartcity", id: "front-office-treatment-coordination", why: "The dental career that never puts a glove on: privacy at an open counter, a pre-authorisation built on a real CDT code, and a treatment plan presented behind a door with no pressure in it." },
       { app: "smartcity", id: "infection-control-audit", why: "The coordinator's whole-clinic walk with the CDC's own checklist — hand hygiene, PPE, barriers, waterlines, sharps, sterilisation logs and spore records, each finding closed with a corrective action." },
       { app: "smartcity", id: "school-screening-outreach", why: "The career that works out of a school hall rather than an operatory: consent sorted first, a basic screening by light and mirror, varnish under standing order, and a referral list somebody actually follows up." },
-      // slot-dc-3
+      { app: "smartcity", id: "implant-surgery-assisting", why: "Surgical assisting one chair further on: the sterile field laid and kept, the drill kit handed up in the manufacturer's own sequence, chilled irrigant on the bur and the seating torque read aloud into the record." },
+      { app: "smartcity", id: "endodontic-assisting", why: "The root canal visit from the assistant's side: the dam on before anything opens the tooth, a working length off the apex locator, hypochlorite handled as a caustic, and every file counted off the bracket." },
+      { app: "smartcity", id: "denture-delivery-and-adjustment", why: "Where the laboratory bench meets the chair: the case matched to its prescription, the fit proved with paste, the spot cut under a guard and extraction, and the appliance marked with its owner's identity." },
+      { app: "smartcity", id: "special-needs-and-geriatric-dentistry", why: "The patients the schedule makes least room for: a transfer done with equipment rather than backs, consent taken from the patient and not around them, a swallow-safe position, and a dry mouth treated as a disease." },
+      { app: "smartcity", id: "teledentistry-and-triage", why: "The visit that happens down a camera: a platform the practice may lawfully use, images worth reading, the emergency criteria worked airway first, and the limits of a remote look written into the note." },
     ],
   },
   {

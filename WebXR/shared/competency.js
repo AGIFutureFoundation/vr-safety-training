@@ -353,7 +353,8 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
       "sterilisation-technician-cycle", "dental-lab-bench", "orthodontic-assisting", "oral-surgery-assisting",
-      "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach"
+      "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach", "implant-surgery-assisting",
+      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage"
     ],
     require: 6,
   },

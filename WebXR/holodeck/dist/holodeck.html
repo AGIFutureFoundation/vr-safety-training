@@ -5114,7 +5114,8 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
       "sterilisation-technician-cycle", "dental-lab-bench", "orthodontic-assisting", "oral-surgery-assisting",
-      "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach"
+      "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach", "implant-surgery-assisting",
+      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage"
     ],
     require: 6,
   },
@@ -18493,6 +18494,216 @@ const SIMS_META = [
         "Screening Lead",
         "Programme Coordinator",
         "Oral Health Programme Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "implant-surgery-assisting",
+    "index": "212",
+    "domain": "Oral and maxillofacial surgery",
+    "trade": "Dental assistant — surgical assisting (DANB Certified Oral and Maxillofacial Surgery Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Oral and Maxillofacial Surgery Assistant credential and the general chairside and infection-control components behind it; AAOMS guidance on the office-based surgical and anaesthesia team; the state dental practice act, which sets what a surgical assistant may place, cut or record and what only the operating dentist may; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on surgical asepsis, sterile irrigant and instrument sterilisation; OSHA 29 CFR 1910.1030 bloodborne pathogens and 29 CFR 1910.132 personal protective equipment; NFPA 99 for the medical gas and surgical vacuum this operatory runs on",
+    "name": "Implant Surgery Assisting",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Implant Surgery Assisting VR",
+    "tagline": "A single-fixture implant placement from the assistant's side: sterile field, kit sequence, chilled irrigation, a torque you can read, graft handled once, and a patient who leaves knowing what failure looks like",
+    "accent": 5816488,
+    "accentCss": "#58c0a8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "sterile-placement",
+      "name": "Sterile Placement",
+      "note": "A fixture placed with the field unbroken, the kit in sequence and the seating torque read off the wrench"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Surgical Field",
+      "currency": "TORQ",
+      "ranks": [
+        "Chairside Assistant",
+        "Surgical Assistant",
+        "Sterile Field Lead",
+        "Implant Coordinator",
+        "Surgery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "endodontic-assisting",
+    "index": "213",
+    "domain": "Endodontics",
+    "trade": "Dental assistant — endodontic assisting (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Dental Assistant credential and its infection-control component; the state dental practice act, which decides which endodontic duties an assistant may carry out and which belong to the dentist alone; AGD continuing education for the general practice that does its own root canal treatment; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens, 29 CFR 1910.1200 hazard communication for the sodium hypochlorite on the bracket, 29 CFR 1910.133 eye and face protection and 29 CFR 1910.151 first aid; ANSI Z358.1 for the emergency eyewash this room has to be able to reach; ISO 23908 on sharps injury protection behind the file count",
+    "name": "Endodontic Assisting",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Endodontic Assisting VR",
+    "tagline": "A root canal from the assistant's side: the dam on before anything opens, a working length read off the locator, files counted both ways, hypochlorite treated as caustic, and the fill proved on a radiograph",
+    "accent": 11895776,
+    "accentCss": "#b583e0",
+    "parSeconds": 295,
+    "badge": {
+      "id": "sealed-canal",
+      "name": "Sealed Canal",
+      "note": "A canal isolated, shaped to a measured length, filled and proved on film with every file accounted for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Canal Discipline",
+      "currency": "APEX",
+      "ranks": [
+        "Chairside Aide",
+        "Endodontic Assistant",
+        "Isolation Lead",
+        "Treatment Coordinator",
+        "Endodontics Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "denture-delivery-and-adjustment",
+    "index": "214",
+    "domain": "Removable prosthodontics",
+    "trade": "Dental assistant and dental laboratory technician — removable prosthodontics (DANB Certified Dental Assistant), SEIU and UFCW clinic, dental and laboratory staff",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Dental Assistant credential; the state dental practice act, which lists which parts of a denture delivery an assistant may carry out and which adjustments only the dentist may make; ACP guidance on removable prosthodontic care and the prosthodontic team; the laboratory prescription the practice act requires for every case; SEIU and UFCW clinic, dental and laboratory staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on disinfecting an appliance travelling between the laboratory and the chair; OSHA 29 CFR 1910.133 eye and face protection and 29 CFR 1910.134 respiratory protection for acrylic dust; 8 CCR 5141 on controlling a harmful exposure at its source; NIOSH guidance on local exhaust at a bench",
+    "name": "Denture Delivery & Adjustment",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Denture Delivery & Adjustment VR",
+    "tagline": "A finished denture handed over properly: case checked against the prescription, fit proved with paste, the spot cut under a guard and under extraction, bite checked, appliance marked, and home care an older patient can follow",
+    "accent": 14721611,
+    "accentCss": "#e0a24b",
+    "parSeconds": 310,
+    "badge": {
+      "id": "seated-and-marked",
+      "name": "Seated & Marked",
+      "note": "A denture delivered on proof rather than on hope, adjusted safely and marked with its owner's identity"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bench & Chair",
+      "currency": "FIT",
+      "ranks": [
+        "Laboratory Aide",
+        "Prosthetic Assistant",
+        "Bench Technician",
+        "Delivery Lead",
+        "Prosthodontics Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "special-needs-and-geriatric-dentistry",
+    "index": "215",
+    "domain": "Special care and geriatric dentistry",
+    "trade": "Dental assistant and hygienist — special care and geriatric dentistry (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Dental Assistant credential and the state dental practice act on what may be delegated during a supported appointment; Title II of the Americans with Disabilities Act on making a service reachable and on reasonable accommodation; SAMHSA's principles of trauma-informed care; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; 8 CCR 5110 on repetitive motion and the lifting injuries that end clinic careers; NIOSH guidance on moving a person with equipment rather than by hand",
+    "name": "Special Needs & Geriatric Dentistry",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Special Needs & Geriatric Dentistry VR",
+    "tagline": "A supported appointment: the bay reachable, the transfer done with equipment, consent taken from the patient, a swallow-safe position, a pace that stops when they say stop, and a dry mouth treated seriously",
+    "accent": 8369384,
+    "accentCss": "#7fb4e8",
+    "parSeconds": 315,
+    "badge": {
+      "id": "supported-visit",
+      "name": "Supported Visit",
+      "note": "A whole appointment completed at the patient's pace, with the transfer and the airway both handled properly"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Supported Care",
+      "currency": "CARE",
+      "ranks": [
+        "Clinic Aide",
+        "Special Care Assistant",
+        "Access Lead",
+        "Geriatric Care Coordinator",
+        "Special Care Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "teledentistry-and-triage",
+    "index": "216",
+    "domain": "Teledentistry and triage",
+    "trade": "Dental assistant — teledentistry facilitator and triage (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "DANB's Certified Dental Assistant credential; the state dental practice act and its teledentistry provisions, which set what may be done remotely, who has to be licensed where the patient physically is, and what an assistant may record rather than diagnose; ADA policy on teledentistry, and the ADA's guidance with the FDA on when a radiograph is actually justified; HIPAA's privacy and security rules, including the business associate agreement behind any platform a practice uses; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for the intraoral camera's barrier and reprocessing; OSHA 29 CFR 1910.1030 bloodborne pathogens; FDA-cleared devices used inside their labelled indications",
+    "name": "Teledentistry & Triage",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Teledentistry & Triage VR",
+    "tagline": "A virtual triage session run properly: compliant platform, private room, images worth reading, emergency criteria checked, the right level of care, and the limits of a camera said out loud",
+    "accent": 5228720,
+    "accentCss": "#4fc8b0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "right-level",
+      "name": "Right Level of Care",
+      "note": "A remote triage that sent this patient to the level of care their symptoms actually called for"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Remote Triage",
+      "currency": "TRIA",
+      "ranks": [
+        "Intake Aide",
+        "Teledentistry Facilitator",
+        "Triage Lead",
+        "Care Navigator",
+        "Teledentistry Certified"
       ],
       "rankAt": [
         0,
