@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 271
+      "stations": 281
     },
     "trades": {
       "entry": "trades/index.html",
@@ -249,6 +249,16 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "emergency-savings-and-predatory-lending",
+        "budget-with-irregular-income",
+        "pay-stub-and-withholding",
+        "debt-reduction-plan",
+        "credit-report-reading",
+        "first-period-evaluation",
+        "union-hall-and-dispatch",
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "apprenticeship-standards-reading",
         "mentorship-and-succession",
         "conflict-mediation-room",
         "community-listening-session",
@@ -1498,6 +1508,56 @@
           "app": "smartcity",
           "id": "forklift-dock",
           "why": "The shared opener: the forklift and the dock are where warehouse training starts and where the first credential is earned."
+        },
+        {
+          "app": "smartcity",
+          "id": "apprenticeship-standards-reading",
+          "why": "The briefing that opens the apprenticeship steps: how to read a registered standard, the ladder from pre-apprentice to journey level, the aptitude test, the tool list and where OSHA 10 fits, sourced and flat."
+        },
+        {
+          "app": "smartcity",
+          "id": "apprenticeship-application-and-test",
+          "why": "The way in: a recruitment notice read for what it asks, the documents gathered, an application read before it is signed and handed in on time, and an aptitude test sat at a steady pace."
+        },
+        {
+          "app": "smartcity",
+          "id": "jobsite-orientation-and-osha-10",
+          "why": "The first morning on site: the OSHA 10 card understood as awareness, the site orientation 29 CFR 1926.21 owes every new hand, a ladder set, a harness on and tied off, and water on the saw before the cut."
+        },
+        {
+          "app": "smartcity",
+          "id": "union-hall-and-dispatch",
+          "why": "The hall between jobs: the book signed in your own name, a dispatch slip read at the window, the morning planned back from the report time, and a job outside the apprenticeship taken to the coordinator."
+        },
+        {
+          "app": "smartcity",
+          "id": "first-period-evaluation",
+          "why": "The end of the first period: a logbook with no gaps, a guarded skills demonstration, an evaluation read before it is signed, and the next rate read off the standard's wage schedule."
+        },
+        {
+          "app": "smartcity",
+          "id": "credit-report-reading",
+          "why": "The free report pulled from the right place, every line read, the errors disputed with both the credit reporting company and the furnisher, and a date set for the answer."
+        },
+        {
+          "app": "smartcity",
+          "id": "debt-reduction-plan",
+          "why": "Every debt on the table with its APR and minimum, sorted highest rate first, a monthly amount that holds, and a finish date that a threatening collector and a settlement contract do not get to change."
+        },
+        {
+          "app": "smartcity",
+          "id": "pay-stub-and-withholding",
+          "why": "The first stub read properly: the rate held against the wage schedule, the hours against your own log, every deduction named, and the W-4 checked with the IRS's own estimator."
+        },
+        {
+          "app": "smartcity",
+          "id": "budget-with-irregular-income",
+          "why": "Construction pay budgeted on the lean month: essentials first, the good months feeding a buffer, the tax on side work set aside, and a car repair paid without a payday loan."
+        },
+        {
+          "app": "smartcity",
+          "id": "emergency-savings-and-predatory-lending",
+          "why": "An emergency fund built automatically and fed by the refund, and every loan offer read by its APR, finance charge and total before anything is signed on somebody else's deadline."
         },
         {
           "app": "smartcity",
@@ -6375,6 +6435,863 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "emergency-savings-and-predatory-lending",
+      "name": "Emergency Savings & Predatory Lending",
+      "title": "SmartCiti.X~ Emergency Savings & Predatory Lending VR",
+      "tagline": "Build the fund that pays for the car repair — automatic, separate, fed by the refund — and read any loan offer by its APR, finance charge and total before signing, past a lender who wants your Social Security number now",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Financial coaching — emergency savings and avoiding predatory loans",
+      "union": null,
+      "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on building an emergency fund, on payday and small-dollar loans — including its worked example that a fifteen-dollar fee per hundred borrowed for two weeks is an APR of almost 400 percent — and on overdraft coverage for debit purchases, which a bank needs your opt-in to provide; the Truth in Lending Act as the CFPB describes it, under which the APR, finance charge and total of payments are disclosed in writing before you sign; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which a loan sent to collection can stay on a report for years; IRS guidance that a refund can be split by direct deposit into more than one account; SAMHSA's National Helpline and 988 for the stress money emergencies carry",
+      "accent": "#d88ab8",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "track",
+        "drag",
+        "find",
+        "hold",
+        "sequence",
+        "turn"
+      ],
+      "badge": {
+        "id": "fund-before-loan",
+        "name": "Fund Before Loan",
+        "note": "The repair paid from savings, every loan read by its APR and total, and nothing signed or said on a lender's deadline"
+      },
+      "meshes": 190,
+      "lights": 0,
+      "overBudget": false,
+      "index": "255",
+      "flat": false,
+      "system": "Rainy Day",
+      "currency": "SAVED",
+      "ranks": [
+        "Paycheck Zero",
+        "First Deposit",
+        "Steady Saver",
+        "Offer Reader",
+        "Rainy Day Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-box",
+          "name": "Read The Box",
+          "note": "The disclosure box and the contract's red flags both read clean"
+        },
+        {
+          "id": "no-payday",
+          "name": "No Payday",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "steady-transfer",
+          "name": "Steady Transfer",
+          "note": "The automatic transfer committed near the middle of the band"
+        },
+        {
+          "id": "clean-save",
+          "name": "Clean Save",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "kept-saving",
+          "name": "Kept Saving",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "quick-save",
+          "name": "Quick Save",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=emergency-savings-and-predatory-lending"
+    },
+    {
+      "app": "smartcity",
+      "id": "budget-with-irregular-income",
+      "name": "Budget With Irregular Income",
+      "title": "SmartCiti.X~ Budget With Irregular Income VR",
+      "tagline": "A year of uneven construction pay turned into a budget that holds: built on the lean month, essentials first, the good months feeding a buffer, tax set aside, bills lined up with paydays — and tested by a car repair",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Financial coaching — budgeting on irregular construction income",
+      "union": null,
+      "certification": "The Consumer Financial Protection Bureau (CFPB) budgeting guidance — tracking income and spending, putting housing, utilities, food and getting to work first when money is tight — and its warnings on payday loans, car title loans and buy-now-pay-later plans; the Truth in Lending Act as the CFPB describes it, under which a lender discloses the APR and finance charge before you sign; IRS guidance that self-employment income, including side work paid on a 1099, may require estimated tax payments during the year; the apprenticeship standard's wage schedule, which sets the rate but not the number of hours a season brings; SAMHSA's National Helpline and 988 for the stress an uneven income carries",
+      "accent": "#9ac46a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "lean-month-ready",
+        "name": "Lean Month Ready",
+        "note": "A budget built on the lean month that paid a car repair from its own buffer without a payday loan"
+      },
+      "meshes": 180,
+      "lights": 0,
+      "overBudget": false,
+      "index": "254",
+      "flat": false,
+      "system": "Season Budget",
+      "currency": "BUFFER",
+      "ranks": [
+        "Paycheck To Paycheck",
+        "Income Tracker",
+        "Budget Builder",
+        "Buffer Keeper",
+        "Season Budget Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-year",
+          "name": "Read The Year",
+          "note": "The income pattern and the leaks both found clean"
+        },
+        {
+          "id": "no-quick-cash",
+          "name": "No Quick Cash",
+          "note": "No unsafe action anywhere in the budget"
+        },
+        {
+          "id": "lean-baseline",
+          "name": "Lean Baseline",
+          "note": "The baseline committed near the middle of the lean-month band"
+        },
+        {
+          "id": "clean-budget",
+          "name": "Clean Budget",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "held-the-lean-month",
+          "name": "Held The Lean Month",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "quick-sheet",
+          "name": "Quick Sheet",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=budget-with-irregular-income"
+    },
+    {
+      "app": "smartcity",
+      "id": "pay-stub-and-withholding",
+      "name": "Pay Stub & Withholding",
+      "title": "SmartCiti.X~ Pay Stub & Withholding VR",
+      "tagline": "Read the first stub properly: rate against the wage schedule, hours against your own log, every deduction named, the W-4 read before signing and checked with the IRS's own estimator — past a caller using the IRS's name",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Financial coaching — reading a pay stub and checking withholding",
+      "union": null,
+      "certification": "IRS guidance for workers — Form W-4 and when to review it, the IRS Tax Withholding Estimator, who may claim exemption from withholding, free tax help through the IRS's Volunteer Income Tax Assistance programme, the rule that all income including cash is reportable, and the IRS's own statement of how it contacts taxpayers; the progressive wage schedule in the apprenticeship standard the apprentice was indentured under, registered with the U.S. Department of Labor or a State Apprenticeship Agency; LIUNA's dues and benefit deductions as the local's agreement sets them; the CFPB's budgeting guidance, which starts from take-home pay; SAMHSA's National Helpline and 988 for the stress money problems carry",
+      "accent": "#8fb8e8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "sequence",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "stub-read-right",
+        "name": "Stub Read Right",
+        "note": "Rate, hours and deductions all checked, the error raised in writing, and nothing given to a caller using the IRS's name"
+      },
+      "meshes": 184,
+      "lights": 0,
+      "overBudget": false,
+      "index": "253",
+      "flat": false,
+      "system": "Payday Check",
+      "currency": "STUB",
+      "ranks": [
+        "New Hire",
+        "Stub Reader",
+        "Hours Keeper",
+        "Withholding Checked",
+        "Payday Certified"
+      ],
+      "awards": [
+        {
+          "id": "caught-the-short-pay",
+          "name": "Caught The Short Pay",
+          "note": "The stub lines and the stub errors found clean"
+        },
+        {
+          "id": "nothing-to-a-caller",
+          "name": "Nothing To A Caller",
+          "note": "No unsafe action anywhere at the table"
+        },
+        {
+          "id": "rate-dead-on",
+          "name": "Rate Dead On",
+          "note": "The period rate committed near the middle of the band"
+        },
+        {
+          "id": "clean-payday",
+          "name": "Clean Payday",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "read-it-through",
+          "name": "Read It Through",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "before-the-break-ends",
+          "name": "Before The Break Ends",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pay-stub-and-withholding"
+    },
+    {
+      "app": "smartcity",
+      "id": "debt-reduction-plan",
+      "name": "Debt Reduction Plan",
+      "title": "SmartCiti.X~ Debt Reduction Plan VR",
+      "tagline": "Every debt on the table with its rate and minimum, sorted highest rate first, a monthly amount you can keep, and a plan with a finish date — past a threatening collector, a settlement contract and a consolidation text",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Financial coaching — building a debt reduction plan",
+      "union": null,
+      "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on debt collection — asking a collector for validation information in writing, disputing a debt, and what a collector may not threaten — and its budgeting and debt tools; the Truth in Lending Act as the CFPB describes it, including the APR and the minimum-payment warning printed on every card statement; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which accurate negative information can stay on a report for years; IRS guidance that a canceled or forgiven debt may count as income and is reported on Form 1099-C; SAMHSA's National Helpline and 988 for the stress debt carries",
+      "accent": "#e0a85a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "hold",
+        "drag",
+        "sequence",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "plan-with-a-date",
+        "name": "Plan With A Date",
+        "note": "Every debt listed, sorted by rate, and a plan with a finish date that nobody talked you out of"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "252",
+      "flat": false,
+      "system": "Payoff Ledger",
+      "currency": "PAYDOWN",
+      "ranks": [
+        "Statement Pile",
+        "Debt Lister",
+        "Plan Builder",
+        "Plan Keeper",
+        "Debt Plan Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-fine-print",
+          "name": "Read The Fine Print",
+          "note": "The statement lines and the settlement contract both read clean"
+        },
+        {
+          "id": "nothing-signed-blind",
+          "name": "Nothing Signed Blind",
+          "note": "No unsafe action anywhere in the plan"
+        },
+        {
+          "id": "honest-number",
+          "name": "Honest Number",
+          "note": "The monthly amount committed near the middle of what the budget supports"
+        },
+        {
+          "id": "clean-plan",
+          "name": "Clean Plan",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "held-the-plan",
+          "name": "Held The Plan",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "quick-plan",
+          "name": "Quick Plan",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=debt-reduction-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "credit-report-reading",
+      "name": "Credit Report Reading",
+      "title": "SmartCiti.X~ Credit Report Reading VR",
+      "tagline": "Pull the free report, read every line, find what is wrong, and send the dispute to both companies with a date for the answer — while a caller and a text both try to get your Social Security number",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Financial coaching — reading and correcting a credit report",
+      "union": null,
+      "certification": "The Fair Credit Reporting Act (FCRA) as the Consumer Financial Protection Bureau (CFPB) states it — free credit reports from each nationwide credit reporting company through AnnualCreditReport.com, the right to dispute inaccurate or incomplete information with the company that reports it and the company that furnished it, and an investigation usually completed within 30 days; the CFPB's guidance on security freezes, fraud alerts and debt collection; the Truth in Lending Act's APR disclosure as the CFPB describes it, for the card accounts listed on the report; the IRS's published statement that it does not start contact by text or email to ask for personal or financial information; SAMHSA's National Helpline and 988 for the stress money problems carry",
+      "accent": "#6fc2b0",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "gauge",
+        "sequence",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "report-read-right",
+        "name": "Report Read Right",
+        "note": "Every line read, every error disputed with both companies, and nothing given to a caller you could not verify"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "251",
+      "flat": false,
+      "system": "Credit File",
+      "currency": "LINE",
+      "ranks": [
+        "First Look",
+        "Line Reader",
+        "Dispute Writer",
+        "File Keeper",
+        "Credit Report Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-them-all",
+          "name": "Found Them All",
+          "note": "The personal-information and account errors all found clean"
+        },
+        {
+          "id": "nothing-to-a-stranger",
+          "name": "Nothing To A Stranger",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "under-the-line",
+          "name": "Under The Line",
+          "note": "The utilisation example committed near the middle of the band"
+        },
+        {
+          "id": "clean-file",
+          "name": "Clean File",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-record",
+          "name": "Steady Record",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "brisk-read",
+          "name": "Brisk Read",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=credit-report-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "first-period-evaluation",
+      "name": "First-Period Evaluation",
+      "title": "SmartCiti.X~ First-Period Evaluation VR",
+      "tagline": "The end of the first period: the logbook checked, a guarded skills demonstration, the signed pages in, the evaluation read before it is signed, and the next rate read off the schedule — while a foreman tries to send you up a lift alone",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "Construction apprentice — the first-period evaluation",
+      "union": null,
+      "certification": "The apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the on-the-job hours by work process, the related instruction, the periodic evaluation, the supervision of apprentices by journey-level workers and the progressive wage schedule; OSHA 29 CFR 1926.21 on the employer's duty to train, and the guarding and tool rules of 29 CFR 1926; OSHA 10 through the OSHA Outreach Training Program as the awareness base the demonstration builds on; NIOSH guidance on hearing loss prevention; SAMHSA's National Helpline and 988 for the stress an evaluation carries",
+      "accent": "#c98f5a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "gauge",
+        "turn",
+        "track",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "period-one-passed",
+        "name": "Period One Passed",
+        "note": "A clean logbook, a guarded demonstration and an evaluation read before it was signed"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "260",
+      "flat": false,
+      "system": "Period Card",
+      "currency": "HOUR",
+      "ranks": [
+        "First Period",
+        "Logbook Kept",
+        "Demonstrated",
+        "Evaluated",
+        "Period Advancement Certified"
+      ],
+      "awards": [
+        {
+          "id": "straight-logbook",
+          "name": "Straight Logbook",
+          "note": "The logbook errors and the pre-cut check both found clean"
+        },
+        {
+          "id": "no-shortcuts-in-the-shop",
+          "name": "No Shortcuts In The Shop",
+          "note": "No unsafe action anywhere in the evaluation"
+        },
+        {
+          "id": "square-and-true",
+          "name": "Square And True",
+          "note": "The square check committed near the middle of the band"
+        },
+        {
+          "id": "clean-evaluation",
+          "name": "Clean Evaluation",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "done-by-lunch",
+          "name": "Done By Lunch",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=first-period-evaluation"
+    },
+    {
+      "app": "smartcity",
+      "id": "union-hall-and-dispatch",
+      "name": "Union Hall & Dispatch",
+      "title": "SmartCiti.X~ Union Hall & Dispatch VR",
+      "tagline": "Sign the book in your own name, bring the cards, read the rules, take the slip and read it, plan the morning back from the report time, and stay reachable — while a dispatch you should not take and a cash job both come calling",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "Construction apprentice — the union hall and the dispatch",
+      "union": null,
+      "certification": "The local's own referral rules as posted in the hall, and the apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the work processes an apprentice trains in, the supervision by journey-level workers and the ratio; the building-trades training funds that run such programmes, LIUNA and IUOE among them; OSHA 10 through the OSHA Outreach Training Program, which many contractors ask to see on the first morning; IRS guidance that all income, including cash, is reportable; SAMHSA's National Helpline and 988 for the stress of the weeks between jobs",
+      "accent": "#6fa8dc",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "drag",
+        "gauge",
+        "sequence",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "dispatched-right",
+        "name": "Dispatched Right",
+        "note": "On the book in your own name, dispatched to work inside your apprenticeship, and there on time with the right tools"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "259",
+      "flat": false,
+      "system": "Referral Book",
+      "currency": "SLIP",
+      "ranks": [
+        "Walk-In",
+        "On The Book",
+        "Dispatched",
+        "Reported",
+        "Dispatch Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-slip",
+          "name": "Read The Slip",
+          "note": "The cards and the dispatch slip both read clean"
+        },
+        {
+          "id": "straight-book",
+          "name": "Straight Book",
+          "note": "No unsafe action anywhere in the hall"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "The leave time committed near the middle of the band"
+        },
+        {
+          "id": "clean-dispatch",
+          "name": "Clean Dispatch",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "reachable-all-week",
+          "name": "Reachable All Week",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "first-out-the-door",
+          "name": "First Out The Door",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=union-hall-and-dispatch"
+    },
+    {
+      "app": "smartcity",
+      "id": "jobsite-orientation-and-osha-10",
+      "name": "Jobsite Orientation & OSHA 10",
+      "title": "SmartCiti.X~ Jobsite Orientation & OSHA 10 VR",
+      "tagline": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "First-period construction apprentice — the first day on site",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.21 — the employer's duty to instruct each employee in recognising and avoiding the unsafe conditions of the site; OSHA 10 through the OSHA Outreach Training Program, a voluntary ten-hour awareness course taught by an authorized trainer that some states and many contractors require; OSHA 29 CFR 1926.501 and 29 CFR 1926.502 for fall protection from six feet and the personal fall arrest system; OSHA 29 CFR 1926.416 on worn or damaged cords; OSHA 29 CFR 1926.1153 for wet cutting under the silica standard; the ladder rules in 29 CFR 1926; the apprenticeship standard's requirement that an apprentice works under a journey-level worker; LIUNA's training fund as one of the building-trades programmes that trains first-period apprentices for exactly this morning",
+      "accent": "#f2a43a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Construction & Structural Trades",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "gauge",
+        "sequence",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "oriented-not-rushed",
+        "name": "Oriented, Not Rushed",
+        "note": "The whole orientation done before the first task, with nobody talked into skipping any of it"
+      },
+      "meshes": 228,
+      "lights": 0,
+      "overBudget": false,
+      "index": "258",
+      "flat": false,
+      "system": "Site Ready",
+      "currency": "TAG",
+      "ranks": [
+        "New Face",
+        "Signed In",
+        "Oriented",
+        "Tied Off",
+        "Site Ready Certified"
+      ],
+      "awards": [
+        {
+          "id": "saw-it-first",
+          "name": "Saw It First",
+          "note": "The site hazards and the emergency kit both found clean"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No unsafe action anywhere on site"
+        },
+        {
+          "id": "four-to-one",
+          "name": "Four To One",
+          "note": "The ladder angle set near the middle of the band"
+        },
+        {
+          "id": "clean-first-day",
+          "name": "Clean First Day",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "kept-the-lane",
+          "name": "Kept The Lane",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "on-the-tools-early",
+          "name": "On The Tools Early",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=jobsite-orientation-and-osha-10"
+    },
+    {
+      "app": "smartcity",
+      "id": "apprenticeship-application-and-test",
+      "name": "Apprenticeship Application & Test",
+      "title": "SmartCiti.X~ Apprenticeship Application & Test VR",
+      "tagline": "Read the recruitment notice, gather the documents, read the application before signing it, hand it in on time, ask for an accommodation early, and sit the aptitude test at a steady pace — past a caller after your Social Security number",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "Apprenticeship applicant — the application and the aptitude test",
+      "union": null,
+      "certification": "The selection procedure in the programme's registered apprenticeship standard — the recruitment window, the minimum qualifications, the aptitude test and the ranking — registered with the U.S. Department of Labor or a State Apprenticeship Agency, and the equal-opportunity pledge every registered programme carries; the Americans with Disabilities Act, under which an applicant with a disability may ask for a reasonable accommodation on the test; OSHA 10 through the OSHA Outreach Training Program, which some programmes ask for and many pre-apprenticeship courses give; the training funds of the building-trades unions that sponsor such programmes, LIUNA and IUOE among them; SAMHSA's National Helpline for anyone for whom a pre-indenture drug screen is a worry",
+      "accent": "#f0c05a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "drag",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "application-in-on-time",
+        "name": "In On Time",
+        "note": "The application read, signed and handed in before the window closed, and the test sat without a shortcut"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "257",
+      "flat": false,
+      "system": "Applicant File",
+      "currency": "RANK",
+      "ranks": [
+        "Interested",
+        "Applicant",
+        "Tested",
+        "Ranked",
+        "Application Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-notice",
+          "name": "Read The Notice",
+          "note": "The minimum qualifications and the test sections both found clean"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere in the application"
+        },
+        {
+          "id": "to-the-sixteenth",
+          "name": "To The Sixteenth",
+          "note": "The tape read near the middle of the band"
+        },
+        {
+          "id": "clean-application",
+          "name": "Clean Application",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "early-bird",
+          "name": "Early Bird",
+          "note": "Finish inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=apprenticeship-application-and-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "apprenticeship-standards-reading",
+      "name": "Reading an Apprenticeship Standard",
+      "title": "SmartCiti.X~ Reading an Apprenticeship Standard VR",
+      "tagline": "How to read a registered apprenticeship standard, the ladder from pre-apprentice to journey level, what the aptitude test covers, the tool list, and where OSHA 10 fits — a sourced briefing and knowledge check",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "Apprenticeship navigation — reading the standard",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency, setting the term and work processes, related instruction, the progressive wage schedule, the ratio, the probationary period, the selection procedure and the equal-opportunity pledge; OSHA 10 through the OSHA Outreach Training Program; OSHA 29 CFR 1926.21 on the employer's duty to train each employee for the site; the building-trades training funds that sponsor such programmes, LIUNA and IUOE among them",
+      "accent": "#e0b04a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 10,
+      "hazards": 4,
+      "interrupts": 0,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence"
+      ],
+      "badge": {
+        "id": "standard-read",
+        "name": "Standard Read",
+        "note": "The standard, the ladder, the test and the first morning answered without an unsafe conclusion"
+      },
+      "meshes": 0,
+      "lights": 0,
+      "overBudget": false,
+      "index": "256",
+      "flat": true,
+      "system": "Standard Reader",
+      "currency": "CLAUSE",
+      "ranks": [
+        "Curious",
+        "Reader",
+        "Applicant-Ready",
+        "Ladder-Wise",
+        "Standard Reader Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-document",
+          "name": "Read The Document",
+          "note": "What a standard states and the ladder answered clean"
+        },
+        {
+          "id": "no-shortcut-in",
+          "name": "No Shortcut In",
+          "note": "Never chose a shortcut into the trade"
+        },
+        {
+          "id": "first-morning-right",
+          "name": "First Morning Right",
+          "note": "The first morning put in order without correction"
+        },
+        {
+          "id": "clean-check",
+          "name": "Clean Check",
+          "note": "No corrections anywhere in the check"
+        },
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "Finish inside 70% of par — you read the dossier, not the options"
+        }
+      ],
+      "sources": [
+        {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        },
+        {
+          "label": "California DIR — Division of Apprenticeship Standards",
+          "url": "https://www.dir.ca.gov/das/"
+        },
+        {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        },
+        {
+          "label": "North America's Building Trades Unions",
+          "url": "https://nabtu.org/"
+        },
+        {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        },
+        {
+          "label": "OSHA — Personal protective equipment",
+          "url": "https://www.osha.gov/personal-protective-equipment"
+        },
+        {
+          "label": "OSHA Outreach Training Program",
+          "url": "https://www.osha.gov/training/outreach"
+        },
+        {
+          "label": "OSHA 29 CFR 1926.21 — Safety training and education",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.21"
+        },
+        {
+          "label": "wojrc.org — text supplied by the sponsor of this edition",
+          "url": "https://wojrc.org/"
+        }
+      ],
+      "deepLink": "smartcity/index.html?sim=apprenticeship-standards-reading"
     },
     {
       "app": "smartcity",
@@ -20236,7 +21153,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 268,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -20896,7 +21813,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

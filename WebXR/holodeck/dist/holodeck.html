@@ -5135,10 +5135,12 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-178", "samhsa-trauma-informed"],
     stations: [
-      "forklift-dock", "trades-lineage-briefing", "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation",
-      "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+      "forklift-dock", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
+      "union-hall-and-dispatch", "first-period-evaluation", "credit-report-reading", "debt-reduction-plan",
+      "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending", "trades-lineage-briefing",
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
     ],
-    require: 3,
+    require: 6,
   },
   {
     id: "civic-leadership-and-ei",
@@ -7167,6 +7169,12 @@ const GENERIC = new Set([
   // hall" is a request, not a report. The garage station is still named by
   // "garage" or by its full name; "parking" on its own names nothing.
   "parking",
+  // "union" is on half the catalogue's tradesmen and every hall anyone
+  // mentions, so it cannot tell stations apart either. It became reachable
+  // with union-hall-and-dispatch, whose id and name both carry it, and
+  // without it here "we need more parking at the union hall" scored as a
+  // report against that station.
+  "union",
 ]);
 
 const STOP = new Set([
@@ -21367,6 +21375,489 @@ const SIMS_META = [
         "Facilitator",
         "Lead Facilitator",
         "Review Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "apprenticeship-standards-reading",
+    "index": "256",
+    "domain": "Apprenticeship navigation",
+    "trade": "Apprenticeship navigation — reading the standard",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency, setting the term and work processes, related instruction, the progressive wage schedule, the ratio, the probationary period, the selection procedure and the equal-opportunity pledge; OSHA 10 through the OSHA Outreach Training Program; OSHA 29 CFR 1926.21 on the employer's duty to train each employee for the site; the building-trades training funds that sponsor such programmes, LIUNA and IUOE among them",
+    "name": "Reading an Apprenticeship Standard",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Reading an Apprenticeship Standard VR",
+    "tagline": "How to read a registered apprenticeship standard, the ladder from pre-apprentice to journey level, what the aptitude test covers, the tool list, and where OSHA 10 fits — a sourced briefing and knowledge check",
+    "accent": 14725194,
+    "accentCss": "#e0b04a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "standard-read",
+      "name": "Standard Read",
+      "note": "The standard, the ladder, the test and the first morning answered without an unsafe conclusion"
+    },
+    "stepCount": 10,
+    "interruptCount": 0,
+    "flat": true,
+    "dossier": [
+      {
+        "title": "What an apprenticeship standard is",
+        "body": "A registered apprenticeship programme runs under written standards that its sponsor — often a joint committee of a union and contractors — registers with the U.S. Department of Labor's Office of Apprenticeship or with a State Apprenticeship Agency; in California that agency is the Division of Apprenticeship Standards. The standard is the document to read before applying. It states the occupation; the term, as hours of on-the-job learning broken down by work process; the related technical instruction; the progressive wage schedule, as a share of the journey-level rate for each period; the ratio of apprentices to journey-level workers; the probationary period; the selection procedure; and the equal-opportunity pledge. Not sourced here: any particular programme's figures — its hours, its rates, its ratio. Read those in that programme's own standard.",
+        "source": {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        },
+        "source2": {
+          "label": "California DIR — Division of Apprenticeship Standards",
+          "url": "https://www.dir.ca.gov/das/"
+        }
+      },
+      {
+        "title": "The ladder, from pre-apprentice to journey level",
+        "body": "Pre-apprenticeship prepares people to enter a registered programme's selection process — many building-trades pre-apprenticeship programmes teach North America's Building Trades Unions' Multi-Craft Core Curriculum — but it does not by itself place anyone in a programme. An applicant then goes through the programme's selection procedure. Once indentured, an apprentice serves the probationary period the standard sets, then advances period by period as on-the-job hours, related instruction and evaluations are completed, with a raise at each step of the wage schedule. Completing the term leads to journey-level status and a certificate of completion from the registration agency. Not sourced here: how long any trade's ladder takes, or how many applicants any programme accepts.",
+        "source": {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        },
+        "source2": {
+          "label": "North America's Building Trades Unions",
+          "url": "https://nabtu.org/"
+        }
+      },
+      {
+        "title": "What the aptitude test usually covers",
+        "body": "Many construction programmes include an aptitude test in their selection procedure. Across trades the common sections are arithmetic and measurement — fractions, decimals, reading a tape measure — and reading comprehension, with mechanical reasoning or spatial questions on some trades' tests and not others. Minimum qualifications commonly include an age at indenture, a diploma or equivalency, and sometimes a driver's licence. Not sourced here: any specific trade's test, its sections, its time limits or its passing score. The programme's own recruitment notice and outline are the only place to read those, and nobody outside the programme can sell a place on its list.",
+        "source": {
+          "label": "U.S. Department of Labor — Apprenticeship.gov",
+          "url": "https://www.apprenticeship.gov/"
+        }
+      },
+      {
+        "title": "The tool list and the PPE",
+        "body": "Programmes publish the basic hand tools a first-period apprentice is expected to bring. The sensible rule is to buy what is on the list and nothing more until a journey-level worker tells you what the work needs. Personal protective equipment is different: OSHA's rules generally require the employer to pay for the PPE a job requires, with exceptions such as ordinary safety-toe boots and prescription safety glasses. Not sourced here: any programme's actual tool list, or what a particular employer provides.",
+        "source": {
+          "label": "OSHA — Personal protective equipment",
+          "url": "https://www.osha.gov/personal-protective-equipment"
+        }
+      },
+      {
+        "title": "OSHA 10 and the site's own training",
+        "body": "OSHA 10 is the ten-hour construction course of the OSHA Outreach Training Program, taught by an authorized trainer. It is voluntary awareness training — some states and many contractors require it — and it is not a licence and not a certification. It does not replace the employer's own duty under 29 CFR 1926.21 to instruct each employee in recognising and avoiding the unsafe conditions of the job, which is what the site-specific orientation on the first morning is for.",
+        "source": {
+          "label": "OSHA Outreach Training Program",
+          "url": "https://www.osha.gov/training/outreach"
+        },
+        "source2": {
+          "label": "OSHA 29 CFR 1926.21 — Safety training and education",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.21"
+        }
+      },
+      {
+        "title": "What this edition is, and what is not sourced",
+        "body": "The Job Readiness Edition is built from the programmes wojrc.org describes. On apprenticeship, its own words are: \"We prepare you and help you navigate and enroll in union construction trades apprenticeship programs.\" Nothing else about the organisation's navigation service — how it works, who runs it, its partners or its results — could be retrieved when this station was written, so none of it is stated here. The stations that follow train the steps any applicant takes, sited generically.",
+        "source": {
+          "label": "wojrc.org — text supplied by the sponsor of this edition",
+          "url": "https://wojrc.org/"
+        }
+      }
+    ],
+    "game": {
+      "system": "Standard Reader",
+      "currency": "CLAUSE",
+      "ranks": [
+        "Curious",
+        "Reader",
+        "Applicant-Ready",
+        "Ladder-Wise",
+        "Standard Reader Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "apprenticeship-application-and-test",
+    "index": "257",
+    "domain": "Apprenticeship navigation",
+    "trade": "Apprenticeship applicant — the application and the aptitude test",
+    "category": "Community Environmental Justice",
+    "certification": "The selection procedure in the programme's registered apprenticeship standard — the recruitment window, the minimum qualifications, the aptitude test and the ranking — registered with the U.S. Department of Labor or a State Apprenticeship Agency, and the equal-opportunity pledge every registered programme carries; the Americans with Disabilities Act, under which an applicant with a disability may ask for a reasonable accommodation on the test; OSHA 10 through the OSHA Outreach Training Program, which some programmes ask for and many pre-apprenticeship courses give; the training funds of the building-trades unions that sponsor such programmes, LIUNA and IUOE among them; SAMHSA's National Helpline for anyone for whom a pre-indenture drug screen is a worry",
+    "name": "Apprenticeship Application & Test",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Apprenticeship Application & Test VR",
+    "tagline": "Read the recruitment notice, gather the documents, read the application before signing it, hand it in on time, ask for an accommodation early, and sit the aptitude test at a steady pace — past a caller after your Social Security number",
+    "accent": 15777882,
+    "accentCss": "#f0c05a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "application-in-on-time",
+      "name": "In On Time",
+      "note": "The application read, signed and handed in before the window closed, and the test sat without a shortcut"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Applicant File",
+      "currency": "RANK",
+      "ranks": [
+        "Interested",
+        "Applicant",
+        "Tested",
+        "Ranked",
+        "Application Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "jobsite-orientation-and-osha-10",
+    "index": "258",
+    "domain": "Apprenticeship navigation",
+    "trade": "First-period construction apprentice — the first day on site",
+    "category": "Community Environmental Justice",
+    "certification": "OSHA 29 CFR 1926.21 — the employer's duty to instruct each employee in recognising and avoiding the unsafe conditions of the site; OSHA 10 through the OSHA Outreach Training Program, a voluntary ten-hour awareness course taught by an authorized trainer that some states and many contractors require; OSHA 29 CFR 1926.501 and 29 CFR 1926.502 for fall protection from six feet and the personal fall arrest system; OSHA 29 CFR 1926.416 on worn or damaged cords; OSHA 29 CFR 1926.1153 for wet cutting under the silica standard; the ladder rules in 29 CFR 1926; the apprenticeship standard's requirement that an apprentice works under a journey-level worker; LIUNA's training fund as one of the building-trades programmes that trains first-period apprentices for exactly this morning",
+    "name": "Jobsite Orientation & OSHA 10",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Construction & Structural Trades",
+    "title": "SmartCiti.X~ Jobsite Orientation & OSHA 10 VR",
+    "tagline": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
+    "accent": 15901754,
+    "accentCss": "#f2a43a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "oriented-not-rushed",
+      "name": "Oriented, Not Rushed",
+      "note": "The whole orientation done before the first task, with nobody talked into skipping any of it"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Ready",
+      "currency": "TAG",
+      "ranks": [
+        "New Face",
+        "Signed In",
+        "Oriented",
+        "Tied Off",
+        "Site Ready Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "union-hall-and-dispatch",
+    "index": "259",
+    "domain": "Apprenticeship navigation",
+    "trade": "Construction apprentice — the union hall and the dispatch",
+    "category": "Community Environmental Justice",
+    "certification": "The local's own referral rules as posted in the hall, and the apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the work processes an apprentice trains in, the supervision by journey-level workers and the ratio; the building-trades training funds that run such programmes, LIUNA and IUOE among them; OSHA 10 through the OSHA Outreach Training Program, which many contractors ask to see on the first morning; IRS guidance that all income, including cash, is reportable; SAMHSA's National Helpline and 988 for the stress of the weeks between jobs",
+    "name": "Union Hall & Dispatch",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Union Hall & Dispatch VR",
+    "tagline": "Sign the book in your own name, bring the cards, read the rules, take the slip and read it, plan the morning back from the report time, and stay reachable — while a dispatch you should not take and a cash job both come calling",
+    "accent": 7317724,
+    "accentCss": "#6fa8dc",
+    "parSeconds": 290,
+    "badge": {
+      "id": "dispatched-right",
+      "name": "Dispatched Right",
+      "note": "On the book in your own name, dispatched to work inside your apprenticeship, and there on time with the right tools"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Referral Book",
+      "currency": "SLIP",
+      "ranks": [
+        "Walk-In",
+        "On The Book",
+        "Dispatched",
+        "Reported",
+        "Dispatch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "first-period-evaluation",
+    "index": "260",
+    "domain": "Apprenticeship navigation",
+    "trade": "Construction apprentice — the first-period evaluation",
+    "category": "Community Environmental Justice",
+    "certification": "The apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the on-the-job hours by work process, the related instruction, the periodic evaluation, the supervision of apprentices by journey-level workers and the progressive wage schedule; OSHA 29 CFR 1926.21 on the employer's duty to train, and the guarding and tool rules of 29 CFR 1926; OSHA 10 through the OSHA Outreach Training Program as the awareness base the demonstration builds on; NIOSH guidance on hearing loss prevention; SAMHSA's National Helpline and 988 for the stress an evaluation carries",
+    "name": "First-Period Evaluation",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ First-Period Evaluation VR",
+    "tagline": "The end of the first period: the logbook checked, a guarded skills demonstration, the signed pages in, the evaluation read before it is signed, and the next rate read off the schedule — while a foreman tries to send you up a lift alone",
+    "accent": 13209434,
+    "accentCss": "#c98f5a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "period-one-passed",
+      "name": "Period One Passed",
+      "note": "A clean logbook, a guarded demonstration and an evaluation read before it was signed"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Period Card",
+      "currency": "HOUR",
+      "ranks": [
+        "First Period",
+        "Logbook Kept",
+        "Demonstrated",
+        "Evaluated",
+        "Period Advancement Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "credit-report-reading",
+    "index": "251",
+    "domain": "Financial coaching",
+    "trade": "Financial coaching — reading and correcting a credit report",
+    "category": "Community Environmental Justice",
+    "certification": "The Fair Credit Reporting Act (FCRA) as the Consumer Financial Protection Bureau (CFPB) states it — free credit reports from each nationwide credit reporting company through AnnualCreditReport.com, the right to dispute inaccurate or incomplete information with the company that reports it and the company that furnished it, and an investigation usually completed within 30 days; the CFPB's guidance on security freezes, fraud alerts and debt collection; the Truth in Lending Act's APR disclosure as the CFPB describes it, for the card accounts listed on the report; the IRS's published statement that it does not start contact by text or email to ask for personal or financial information; SAMHSA's National Helpline and 988 for the stress money problems carry",
+    "name": "Credit Report Reading",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Credit Report Reading VR",
+    "tagline": "Pull the free report, read every line, find what is wrong, and send the dispute to both companies with a date for the answer — while a caller and a text both try to get your Social Security number",
+    "accent": 7324336,
+    "accentCss": "#6fc2b0",
+    "parSeconds": 290,
+    "badge": {
+      "id": "report-read-right",
+      "name": "Report Read Right",
+      "note": "Every line read, every error disputed with both companies, and nothing given to a caller you could not verify"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Credit File",
+      "currency": "LINE",
+      "ranks": [
+        "First Look",
+        "Line Reader",
+        "Dispute Writer",
+        "File Keeper",
+        "Credit Report Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "debt-reduction-plan",
+    "index": "252",
+    "domain": "Financial coaching",
+    "trade": "Financial coaching — building a debt reduction plan",
+    "category": "Community Environmental Justice",
+    "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on debt collection — asking a collector for validation information in writing, disputing a debt, and what a collector may not threaten — and its budgeting and debt tools; the Truth in Lending Act as the CFPB describes it, including the APR and the minimum-payment warning printed on every card statement; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which accurate negative information can stay on a report for years; IRS guidance that a canceled or forgiven debt may count as income and is reported on Form 1099-C; SAMHSA's National Helpline and 988 for the stress debt carries",
+    "name": "Debt Reduction Plan",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Debt Reduction Plan VR",
+    "tagline": "Every debt on the table with its rate and minimum, sorted highest rate first, a monthly amount you can keep, and a plan with a finish date — past a threatening collector, a settlement contract and a consolidation text",
+    "accent": 14723162,
+    "accentCss": "#e0a85a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "plan-with-a-date",
+      "name": "Plan With A Date",
+      "note": "Every debt listed, sorted by rate, and a plan with a finish date that nobody talked you out of"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Payoff Ledger",
+      "currency": "PAYDOWN",
+      "ranks": [
+        "Statement Pile",
+        "Debt Lister",
+        "Plan Builder",
+        "Plan Keeper",
+        "Debt Plan Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pay-stub-and-withholding",
+    "index": "253",
+    "domain": "Financial coaching",
+    "trade": "Financial coaching — reading a pay stub and checking withholding",
+    "category": "Community Environmental Justice",
+    "certification": "IRS guidance for workers — Form W-4 and when to review it, the IRS Tax Withholding Estimator, who may claim exemption from withholding, free tax help through the IRS's Volunteer Income Tax Assistance programme, the rule that all income including cash is reportable, and the IRS's own statement of how it contacts taxpayers; the progressive wage schedule in the apprenticeship standard the apprentice was indentured under, registered with the U.S. Department of Labor or a State Apprenticeship Agency; LIUNA's dues and benefit deductions as the local's agreement sets them; the CFPB's budgeting guidance, which starts from take-home pay; SAMHSA's National Helpline and 988 for the stress money problems carry",
+    "name": "Pay Stub & Withholding",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Pay Stub & Withholding VR",
+    "tagline": "Read the first stub properly: rate against the wage schedule, hours against your own log, every deduction named, the W-4 read before signing and checked with the IRS's own estimator — past a caller using the IRS's name",
+    "accent": 9418984,
+    "accentCss": "#8fb8e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "stub-read-right",
+      "name": "Stub Read Right",
+      "note": "Rate, hours and deductions all checked, the error raised in writing, and nothing given to a caller using the IRS's name"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Payday Check",
+      "currency": "STUB",
+      "ranks": [
+        "New Hire",
+        "Stub Reader",
+        "Hours Keeper",
+        "Withholding Checked",
+        "Payday Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "budget-with-irregular-income",
+    "index": "254",
+    "domain": "Financial coaching",
+    "trade": "Financial coaching — budgeting on irregular construction income",
+    "category": "Community Environmental Justice",
+    "certification": "The Consumer Financial Protection Bureau (CFPB) budgeting guidance — tracking income and spending, putting housing, utilities, food and getting to work first when money is tight — and its warnings on payday loans, car title loans and buy-now-pay-later plans; the Truth in Lending Act as the CFPB describes it, under which a lender discloses the APR and finance charge before you sign; IRS guidance that self-employment income, including side work paid on a 1099, may require estimated tax payments during the year; the apprenticeship standard's wage schedule, which sets the rate but not the number of hours a season brings; SAMHSA's National Helpline and 988 for the stress an uneven income carries",
+    "name": "Budget With Irregular Income",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Budget With Irregular Income VR",
+    "tagline": "A year of uneven construction pay turned into a budget that holds: built on the lean month, essentials first, the good months feeding a buffer, tax set aside, bills lined up with paydays — and tested by a car repair",
+    "accent": 10142826,
+    "accentCss": "#9ac46a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "lean-month-ready",
+      "name": "Lean Month Ready",
+      "note": "A budget built on the lean month that paid a car repair from its own buffer without a payday loan"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Season Budget",
+      "currency": "BUFFER",
+      "ranks": [
+        "Paycheck To Paycheck",
+        "Income Tracker",
+        "Budget Builder",
+        "Buffer Keeper",
+        "Season Budget Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "emergency-savings-and-predatory-lending",
+    "index": "255",
+    "domain": "Financial coaching",
+    "trade": "Financial coaching — emergency savings and avoiding predatory loans",
+    "category": "Community Environmental Justice",
+    "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on building an emergency fund, on payday and small-dollar loans — including its worked example that a fifteen-dollar fee per hundred borrowed for two weeks is an APR of almost 400 percent — and on overdraft coverage for debit purchases, which a bank needs your opt-in to provide; the Truth in Lending Act as the CFPB describes it, under which the APR, finance charge and total of payments are disclosed in writing before you sign; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which a loan sent to collection can stay on a report for years; IRS guidance that a refund can be split by direct deposit into more than one account; SAMHSA's National Helpline and 988 for the stress money emergencies carry",
+    "name": "Emergency Savings & Predatory Lending",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Emergency Savings & Predatory Lending VR",
+    "tagline": "Build the fund that pays for the car repair — automatic, separate, fed by the refund — and read any loan offer by its APR, finance charge and total before signing, past a lender who wants your Social Security number now",
+    "accent": 14191288,
+    "accentCss": "#d88ab8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "fund-before-loan",
+      "name": "Fund Before Loan",
+      "note": "The repair paid from savings, every loan read by its APR and total, and nothing signed or said on a lender's deadline"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rainy Day",
+      "currency": "SAVED",
+      "ranks": [
+        "Paycheck Zero",
+        "First Deposit",
+        "Steady Saver",
+        "Offer Reader",
+        "Rainy Day Certified"
       ],
       "rankAt": [
         0,

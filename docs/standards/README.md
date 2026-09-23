@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 295 entries across 82 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 302 entries across 84 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -10,7 +10,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 ## By body
 
-### OSHA (65)
+### OSHA (67)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
@@ -63,6 +63,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1926.1153 — Respirable crystalline silica in construction | `osha-1926-1153` | Community Environmental Justice, Construction & Structural Trades, Energy & Power, Environmental Monitoring, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.1153` |
 | ✓ | 29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction) | `osha-1926-1425` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `29 CFR 1926.1425` |
 | ? | OSHA 29 CFR 1926.20(b)(2) Competent person accident prevention responsibilities | `osha-1926-20-b-2` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator, Water & Environmental | `29 CFR 1926.20(b)(2) Competent person accident prevention re` |
+| ✓ | 29 CFR 1926.21 — Safety training and education in construction | `osha-1926-21` | Community Environmental Justice, Construction & Structural Trades | `29 CFR 1926.21` |
 | ✓ | 29 CFR 1926.404 — Wiring design and protection on a construction site | `osha-1926-404` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.404` |
 | ✓ | 29 CFR 1926.405 — Wiring methods, components and equipment for general use in construction | `osha-1926-405` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.405` |
 | ✓ | 29 CFR 1926.416 — General requirements for electrical work practices in construction | `osha-1926-416` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.416` |
@@ -79,6 +80,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | OSHA 29 CFR 1926 Subpart P Excavations | `osha-1926-subpart-p` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator, Water & Environmental | `29 CFR 1926 Subpart P Excavations` |
 | ? | OSHA 29 CFR 1926 Subpart Q Concrete and masonry construction | `osha-1926-subpart-q` | Construction & Structural Trades | `29 CFR 1926 Subpart Q Concrete and masonry construction` |
 | ? | OSHA 29 CFR 1926 Subpart R Steel erection | `osha-1926-subpart-r` | Construction & Structural Trades | `29 CFR 1926 Subpart R Steel erection` |
+| ? | OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training | `osha-outreach-10` | Community Environmental Justice | `OSHA 10`, `OSHA Outreach Training Program` |
 
 ### NFPA (30)
 
@@ -304,6 +306,22 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | California Labor Code §512 — meal periods | `labor-code-512` | Culinary & Hospitality | `Labor Code §512`, `Cal. Labor Code §512` |
 | ✓ | California Labor Code §6310 — no retaliation for reporting an unsafe condition | `labor-code-6310` | all 17 categories | `Labor Code §6310`, `Cal. Labor Code §6310` |
 
+### CFPB (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans | `cfpb-consumer-guidance` | Community Environmental Justice | `CFPB`, `Consumer Financial Protection Bureau` |
+| ? | The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information | `cfpb-fair-credit-reporting` | Community Environmental Justice | `Fair Credit Reporting Act`, `FCRA` |
+| ? | The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit | `cfpb-truth-in-lending` | Community Environmental Justice, Dental & Oral Health | `Truth in Lending Act`, `Truth in Lending` |
+
+### DOL (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | 29 CFR Part 531 — Wage payments under the Fair Labor Standards Act, including the tip credit | `dol-29-cfr-531` | Culinary & Hospitality | `29 CFR 531` |
+| ✓ | 29 CFR 531.52 — General characteristics of tips | `dol-29-cfr-531-52` | Culinary & Hospitality | `29 CFR 531.52` |
+| ? | Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure | `dol-apprenticeship-standards` | Community Environmental Justice | `apprenticeship standard`, `registered apprenticeship` |
+
 ### FDA (3)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -341,13 +359,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | AWS D1.1 — Structural Welding Code, Steel | `aws-d1-1` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `AWS D1.1` |
 | ✓ | AWS D1.5 — Bridge Welding Code | `aws-d1-5` | Construction & Structural Trades, Mobility & Transit | `AWS D1.5` |
-
-### DOL (2)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | 29 CFR Part 531 — Wage payments under the Fair Labor Standards Act, including the tip credit | `dol-29-cfr-531` | Culinary & Hospitality | `29 CFR 531` |
-| ✓ | 29 CFR 531.52 — General characteristics of tips | `dol-29-cfr-531-52` | Culinary & Hospitality | `29 CFR 531.52` |
 
 ### FAA (2)
 
@@ -534,6 +545,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | IMSA Traffic Signal Technician certification | `imsa-traffic-signal` | Construction & Structural Trades, Mobility & Transit | `IMSA` |
+
+### IRS (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers | `irs-consumer-guidance` | Community Environmental Justice | `IRS`, `Internal Revenue Service` |
 
 ### IWC (1)
 

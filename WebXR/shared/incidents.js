@@ -52,6 +52,12 @@ const GENERIC = new Set([
   // hall" is a request, not a report. The garage station is still named by
   // "garage" or by its full name; "parking" on its own names nothing.
   "parking",
+  // "union" is on half the catalogue's tradesmen and every hall anyone
+  // mentions, so it cannot tell stations apart either. It became reachable
+  // with union-hall-and-dispatch, whose id and name both carry it, and
+  // without it here "we need more parking at the union hall" scored as a
+  // report against that station.
+  "union",
 ]);
 
 const STOP = new Set([
