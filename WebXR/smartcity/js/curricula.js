@@ -342,7 +342,16 @@ export const CURRICULA = [
       { app: "smartcity", id: "pm-parking-garage", why: "The enclosed garage: the air read against OSHA's carbon monoxide limit before any engine runs, the fans put to purge, a CO alarm answered at its source and a smoking charger shut off." },
       { app: "smartcity", id: "pm-roof-and-drains", why: "The roof before a storm: the hatch guarded, the route walked in restraint inside the warning line, the drains and scuppers cleared, and a torch without a permit put out." },
       { app: "smartcity", id: "pm-electrical-room", why: "The main electrical room, where a failed breaker is replaced dead under NFPA 70E: label read, feeder locked out, absence of voltage proven and power restored from the side." },
-      // slot-pm-2
+      { app: "smartcity", id: "pm-domestic-water-and-backflow", why: "Zone eleven, the basement water room: the RP assembly tested to its numbers, cross-connections walked, the booster brought back gently and the hot loop held hot at the heater and safe at the tap." },
+      { app: "smartcity", id: "pm-laundry-room", why: "Zone twelve, the residents' laundry: a washer locked out and drained into a bucket, the trap cleared, the dryer exhaust read for back pressure and a smouldering dryer shut off at its gas cock." },
+      { app: "smartcity", id: "pm-pool-and-spa-chemistry", why: "Zone thirteen, the courtyard pool and spa: water tested and dosed to the state pool code, two oxidisers kept apart, the pump locked out for its strainer and a child walked back through a latched gate." },
+      { app: "smartcity", id: "pm-fitness-room-and-gym", why: "Zone fourteen, the residents' gym: a treadmill and a cable machine repaired under lockout, disinfectant held to its label, an assistance-animal question routed to the office and the AED reached when a resident goes down." },
+      { app: "smartcity", id: "pm-community-room-and-events", why: "Zone fifteen, the community room on party night: set to its posted occupant load with aisles, exits, detectors and strobes clear, the host briefed on the plan and the door counted under the sign." },
+      { app: "smartcity", id: "pm-mail-and-package-room", why: "Zone sixteen, the package room after a holiday: heavy boxes weighed and carted, a leaking parcel read before it is touched, the overflow kept out of the exit corridor and parcels released only to their owners." },
+      { app: "smartcity", id: "pm-loading-dock-and-moves", why: "Zone seventeen, the dock on move-in day: the freight car keyed and padded, the truck chocked and the plate pinned, the garage air read and a delivery driver waved off the occupied bay." },
+      { app: "smartcity", id: "pm-landscaping-and-irrigation", why: "Zone eighteen, the front lawn: the irrigation controller adjusted rather than reset, the vacuum breaker walked, the mower serviced under lockout and a sheared head shut off at its zone valve." },
+      { app: "smartcity", id: "pm-playground-and-courtyard", why: "Zone nineteen, the courtyard round: swings, bolts and mulch inspected to the playground handbook, a needle picked out with tongs, old paint left for testing and a rule against children refused." },
+      { app: "smartcity", id: "pm-storage-and-bike-room", why: "Zone twenty, the basement: fuel pulled out of the storage cages, boxes brought below the sprinklers, the flow alarm proven with the monitoring company told and the old pipe lagging left for the licensed crew." },
     ],
   },
   {

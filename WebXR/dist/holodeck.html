@@ -5160,7 +5160,10 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "boiler-room", "pm-lobby-and-front-desk", "pm-leasing-office-fair-housing", "pm-unit-turnover",
       "pm-trash-and-recycling-room", "pm-fire-alarm-panel-room", "pm-sprinkler-riser-room", "pm-elevator-machine-room",
-      "pm-parking-garage", "pm-roof-and-drains", "pm-electrical-room"
+      "pm-parking-garage", "pm-roof-and-drains", "pm-electrical-room", "pm-domestic-water-and-backflow",
+      "pm-laundry-room", "pm-pool-and-spa-chemistry", "pm-fitness-room-and-gym", "pm-community-room-and-events",
+      "pm-mail-and-package-room", "pm-loading-dock-and-moves", "pm-landscaping-and-irrigation", "pm-playground-and-courtyard",
+      "pm-storage-and-bike-room"
     ],
     require: 6,
   },
@@ -20522,6 +20525,426 @@ const SIMS_META = [
         "Mentor",
         "Senior Mentor",
         "Leadership Elder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-domestic-water-and-backflow",
+    "index": "227",
+    "domain": "Building Systems & Facilities",
+    "trade": "Building stationary engineer — IUOE Local 39, with SEIU building staff and a CAMT-credentialed maintenance technician",
+    "category": "Building Systems & Facilities",
+    "certification": "ANSI/ASSE 1013 reduced-pressure principle assemblies and the ASSE 5110 tester qualification behind the annual field test; ASSE 1020 for the courtyard irrigation vacuum breaker; AWWA M14 cross-connection control as the water purveyor enforces it; NSF/ANSI 61 for anything wetted by drinking water; ASHRAE 188 and CDC Legionella guidance for the hot-water loop; OSHA 29 CFR 1910.147 lockout and 29 CFR 1910.1200 hazard communication in the water room; IUOE stationary engineer training, the apartment association's CAMT credential and the local housing code's hot-water requirement at every tap",
+    "name": "Domestic Water & Backflow",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Domestic Water & Backflow VR",
+    "tagline": "The building's water room: the RP assembly tested to its numbers, cross-connections walked, the booster brought back gently, the hot loop held hot and delivered safe, and the test on the purveyor's form",
+    "accent": 5218264,
+    "accentCss": "#4f9fd8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-service",
+      "name": "Clean Service",
+      "note": "The assembly passed on real numbers, every cross-connection found, and the hot loop left hot at the heater and safe at the tap"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Water Room",
+      "currency": "PSID",
+      "ranks": [
+        "Helper",
+        "Maintenance Tech",
+        "Building Engineer",
+        "Chief Engineer",
+        "Water Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-laundry-room",
+    "index": "228",
+    "domain": "Building Systems & Facilities",
+    "trade": "Building porter and maintenance technician — SEIU building staff with a CAMT-credentialed technician, and IUOE Local 39 engineers for the gas dryers' venting",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.147 lockout on a coin-op washer before any hand reaches the drum or the drain pump; 29 CFR 1910.212 guarding on the belt side; 29 CFR 1910.1200 hazard communication for the chemicals residents leave behind; 29 CFR 1910.36 exit routes kept clear of carts and baskets; NFPA 54 for gas dryer venting and makeup air and NFPA 72 for the room's smoke detection; SEIU building-staff training, IUOE stationary engineer practice and the apartment association's CAMT credential; the local housing code for the laundry the lease promises",
+    "name": "Laundry Room",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Laundry Room VR",
+    "tagline": "The residents' laundry: washer three locked out and drained into a bucket, the trap cleared, the dryer exhaust read for back pressure, and the room walked for what residents leave behind",
+    "accent": 7321768,
+    "accentCss": "#6fb8a8",
+    "parSeconds": 280,
+    "badge": {
+      "id": "dry-floor",
+      "name": "Dry Floor",
+      "note": "Machine locked out, drained into a bucket, exhaust read, and nothing left on the floor for a resident to slip on"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Laundry Room",
+      "currency": "QUARTERS",
+      "ranks": [
+        "Porter",
+        "Maintenance Tech",
+        "Lead Tech",
+        "Building Super",
+        "Laundry Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-pool-and-spa-chemistry",
+    "index": "229",
+    "domain": "Building Systems & Facilities",
+    "trade": "Pool operator and building engineer — IUOE Local 39 stationary engineers and SEIU building staff, UNITE HERE residential amenity staff on deck, and the apartment association's CAM and CAMT credentials",
+    "category": "Building Systems & Facilities",
+    "certification": "The state pool code's disinfectant, pH and water-temperature limits and the rescue equipment a residential pool keeps on deck; the Virginia Graeme Baker Pool and Spa Safety Act's anti-entrapment drain covers; CDC guidance on recreational water illness and pool chemical storage; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.133 eye protection and ANSI Z358.1 eyewash in the chemical room; 29 CFR 1910.147 lockout on the recirculation pump; IUOE stationary engineer training for the pool plant, UNITE HERE for the amenity staff on deck, and the apartment association's CAM and CAMT credentials",
+    "name": "Pool & Spa Chemistry",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Pool & Spa Chemistry VR",
+    "tagline": "The courtyard pool and spa: water tested and dosed to code, the pump locked out for its strainer, the filter backwashed to its gauge, the chemicals stored apart, and the spa held under its ceiling",
+    "accent": 4175576,
+    "accentCss": "#3fb6d8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clear-water",
+      "name": "Clear Water",
+      "note": "Tested to code, dosed by the feeder, two oxidisers kept apart, and the gate latched behind every child"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pool Deck",
+      "currency": "PPM",
+      "ranks": [
+        "Deck Attendant",
+        "Pool Tech",
+        "Pool Operator",
+        "Aquatics Lead",
+        "Pool Plant Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-fitness-room-and-gym",
+    "index": "230",
+    "domain": "Building Systems & Facilities",
+    "trade": "Amenity attendant and maintenance technician — UNITE HERE residential hospitality staff, SEIU building staff and the apartment association's CAMT credential",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.147 lockout on the treadmill before its motor hood comes off; 29 CFR 1910.1030 bloodborne pathogens for blood on the equipment; 29 CFR 1910.151 first aid and the AED in the room; 29 CFR 1910.1200 hazard communication for the disinfectant's label and contact time; 29 CFR 1910.305 for the cords and outlets that feed the machines; the Fair Housing Act for a resident's assistance animal; UNITE HERE residential hospitality training, SEIU building-staff practice and the apartment association's CAMT credential",
+    "name": "Fitness Room & Gym",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Fitness Room & Gym VR",
+    "tagline": "The residents' gym: a slipping treadmill and a frayed cable repaired under lockout, disinfectant held to its label, an assistance-animal question routed right, and the AED reached when a resident goes down",
+    "accent": 14717274,
+    "accentCss": "#e0915a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "safe-reps",
+      "name": "Safe Reps",
+      "note": "Both machines repaired under lockout, the disinfectant given its full contact time, and the AED on its way inside the window"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Residents' Gym",
+      "currency": "REPS",
+      "ranks": [
+        "Attendant",
+        "Amenity Tech",
+        "Lead Tech",
+        "Amenity Manager",
+        "Fitness Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-community-room-and-events",
+    "index": "231",
+    "domain": "Building Systems & Facilities",
+    "trade": "Residential events and hospitality staff — UNITE HERE, with SEIU building staff setting the room and the apartment association's CAM-credentialed manager signing off",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 101 occupant load, aisle widths and panic hardware for an assembly room; NFPA 72 for the detectors and notification appliances decorations must never cover; OSHA 29 CFR 1910.36 exit routes and 29 CFR 1910.38 the building's emergency action plan; 29 CFR 1910.157 portable extinguishers; 29 CFR 1910.305 and the NEC for temporary cords at a DJ table; the Fair Housing Act for equal access to the community room; UNITE HERE residential hospitality training, SEIU building staff and the apartment association's CAM credential",
+    "name": "Community Room & Events",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Community Room & Events VR",
+    "tagline": "A Saturday party for sixty: the room set to its posted load, aisles and exits clear, detectors and strobes left uncovered, the host briefed, and the door counted as guests arrive",
+    "accent": 12094168,
+    "accentCss": "#b88ad8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "full-house",
+      "name": "Full House, Clear Exits",
+      "note": "Set to the posted load, every exit and detector clear, and the count held under the sign all night"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Community Room",
+      "currency": "GUESTS",
+      "ranks": [
+        "Houseman",
+        "Setup Lead",
+        "Events Captain",
+        "Events Manager",
+        "Community Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-mail-and-package-room",
+    "index": "232",
+    "domain": "Building Systems & Facilities",
+    "trade": "Front desk and package room staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM-credentialed manager",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.36 exit routes and 29 CFR 1910.22 walking-working surfaces with parcels on the floor; NFPA 101 for the corridor the overflow must never fill; 29 CFR 1910.1200 hazard communication for a leaking parcel and 29 CFR 1910.1030 for a crushed sharps mailer; NIOSH lifting guidance for the heavy box; the Fair Housing Act for a resident's accommodation request; SEIU building-staff and UNITE HERE front-desk training, and the apartment association's CAM credential",
+    "name": "Mail & Package Room",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Mail & Package Room VR",
+    "tagline": "The Monday after a holiday: heavy boxes weighed and carted, a leaking parcel held and read, lithium and sharps picked out, the overflow kept out of the exit corridor, and packages released only to their owners",
+    "accent": 14200911,
+    "accentCss": "#d8b04f",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clear-corridor",
+      "name": "Clear Corridor",
+      "note": "Every box weighed, sorted and shelved, the corridor kept clear, and nothing handed to the wrong person"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Package Room",
+      "currency": "PARCELS",
+      "ranks": [
+        "Desk Clerk",
+        "Package Lead",
+        "Front Desk Lead",
+        "Resident Services Manager",
+        "Package Room Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-loading-dock-and-moves",
+    "index": "233",
+    "domain": "Building Systems & Facilities",
+    "trade": "Building porter and dock attendant — SEIU building staff, with IUOE Local 39 engineers for the garage ventilation and the apartment association's CAM-credentialed manager scheduling the move",
+    "category": "Building Systems & Facilities",
+    "certification": "OSHA 29 CFR 1910.178 and ANSI B56.1 for the mover's powered pallet jack; 29 CFR 1910.22 and 29 CFR 1910.28 for the dock edge and walking surfaces; 29 CFR 1910.1000 and the ACGIH TLV for carbon monoxide in the garage, with NIOSH guidance on engine exhaust in enclosed spaces; ASME A17.1 for the freight elevator's independent service; NFPA 101 for the stair doors a move must never prop; SEIU building staff, IUOE Local 39 engineers for the garage ventilation and the apartment association's CAM credential; the building's move rules under the local housing code",
+    "name": "Loading Dock & Moves",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Loading Dock & Moves VR",
+    "tagline": "Move-in Saturday: the freight elevator keyed and padded, the truck chocked and the dock plate pinned, the garage air read, the pallet jack spotted across the plate, and the move path walked",
+    "accent": 14725178,
+    "accentCss": "#e0b03a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "pinned-plate",
+      "name": "Pinned Plate",
+      "note": "Truck chocked, plate pinned, garage air clean, and every resident kept out of the jack's path"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Loading Dock",
+      "currency": "PALLETS",
+      "ranks": [
+        "Porter",
+        "Dock Attendant",
+        "Dock Lead",
+        "Building Super",
+        "Loading Dock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-landscaping-and-irrigation",
+    "index": "234",
+    "domain": "Building Systems & Facilities",
+    "trade": "Grounds and irrigation technician — SEIU building staff, with IUOE Local 39 engineers on the backflow and the apartment association's CAMT credential",
+    "category": "Building Systems & Facilities",
+    "certification": "ASSE 1020 for the irrigation pressure vacuum breaker and the ASSE 5110 tester who certifies it each year; AWWA M14 cross-connection control; OSHA 29 CFR 1910.95 hearing conservation for the mower and blower, 29 CFR 1910.133 eye protection and 29 CFR 1910.132 PPE for trimming; 29 CFR 1910.147 lockout on the mower blade; 29 CFR 1910.1200 hazard communication for fertiliser and fuel; NIOSH heat guidance for grounds crews; the local water agency's watering-day rules; SEIU building staff, IUOE Local 39 engineers on the backflow and the apartment association's CAMT credential",
+    "name": "Landscaping & Irrigation",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Landscaping & Irrigation VR",
+    "tagline": "The front lawn in a dry summer: the controller set to the season instead of reset, the vacuum breaker walked, the mower serviced under lockout, a sheared head shut at its valve, and the shed walked",
+    "accent": 8046682,
+    "accentCss": "#7ac85a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "green-and-safe",
+      "name": "Green and Safe",
+      "note": "Program kept, heads fixed, blade serviced under lockout, and a geyser shut off at its own valve"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "GALLONS",
+      "ranks": [
+        "Grounds Helper",
+        "Irrigation Tech",
+        "Grounds Lead",
+        "Grounds Supervisor",
+        "Irrigation Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-playground-and-courtyard",
+    "index": "235",
+    "domain": "Building Systems & Facilities",
+    "trade": "Grounds and amenity staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM and CAMT credentials",
+    "category": "Building Systems & Facilities",
+    "certification": "The federal public playground safety handbook, with ASTM F1487 for the equipment and ASTM F1292 for the surfacing under it; EPA 40 CFR 745 lead-safe work practices before old paint on a pre-1978 property is disturbed; OSHA 29 CFR 1910.1030 for needles found in the sand, 29 CFR 1910.132 PPE, 29 CFR 1910.23 ladders for the shade sail and 29 CFR 1910.22 for the courtyard's walking surfaces; the Fair Housing Act's protection for families with children; SEIU building staff, UNITE HERE amenity staff and the apartment association's CAM and CAMT credentials",
+    "name": "Playground & Courtyard",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Playground & Courtyard VR",
+    "tagline": "The monthly courtyard round: swings, bolts and mulch inspected to the handbook, the sand swept with tongs, old paint tested before it is touched, a toddler kept inside the gate, and a rule against children refused",
+    "accent": 15245386,
+    "accentCss": "#e8a04a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "safe-to-play",
+      "name": "Safe to Play",
+      "note": "Equipment inspected, surfacing at depth, sand swept with tongs, old paint left for testing, and every child still welcome"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Courtyard Round",
+      "currency": "INCHES",
+      "ranks": [
+        "Grounds Helper",
+        "Amenity Tech",
+        "Grounds Lead",
+        "Community Manager",
+        "Playground Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pm-storage-and-bike-room",
+    "index": "236",
+    "domain": "Building Systems & Facilities",
+    "trade": "Building porter and maintenance technician — SEIU building staff, IUOE Local 39 engineers for the sprinkler and the pipe lagging, and the apartment association's CAMT credential",
+    "category": "Building Systems & Facilities",
+    "certification": "NFPA 25 for sprinkler obstructions and the inspector's test, and NFPA 72 for the waterflow alarm and its monitoring; EPA's asbestos rules at 40 CFR 61 and OSHA 29 CFR 1926.1101 for the old pipe lagging; 29 CFR 1910.157 portable extinguishers, 29 CFR 1910.36 exit routes and 29 CFR 1910.23 ladders for the upper bike rack; the local fire and housing codes on basement storage, battery charging and abandoned property; SEIU building staff, IUOE Local 39 engineers for the sprinkler and the lagging, and the apartment association's CAMT credential",
+    "name": "Storage & Bike Room",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Storage & Bike Room VR",
+    "tagline": "The basement audit: fuel out of the cages, boxes below the sprinklers, the inspector's test run with the monitoring company told, the e-bike chargers audited, and the old lagging left for the licensed crew",
+    "accent": 5945544,
+    "accentCss": "#5ab8c8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clear-heads",
+      "name": "Clear Heads",
+      "note": "Every sprinkler head clear, no fuel in a cage, the flow alarm proven, and the lagging left untouched"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Basement Audit",
+      "currency": "CAGES",
+      "ranks": [
+        "Porter",
+        "Maintenance Tech",
+        "Lead Tech",
+        "Building Engineer",
+        "Storage Audit Certified"
       ],
       "rankAt": [
         0,
