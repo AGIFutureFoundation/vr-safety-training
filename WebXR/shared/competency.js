@@ -213,9 +213,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-146", "nfpa-1006", "osha-1910-134"],
     stations: [
-      "valve-vault", "lift-station", "chlorine-room", "confined-rescue"
+      "valve-vault", "lift-station", "chlorine-room", "confined-rescue",
+      "manhole-entry-and-atmospheric-monitoring"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "fall-protection",
@@ -224,7 +225,7 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-l", "ansi-z359"],
     stations: [
       "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul",
-      "aerial-ladder"
+      "aerial-ladder", "leading-edge-and-horizontal-lifeline"
     ],
     require: 3,
   },
@@ -235,9 +236,9 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
     stations: [
       "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
-      "stormwater-outfall", "pressure-washer"
+      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "rigging-lifting",
@@ -267,9 +268,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["uscg-33-cfr-156-150", "imo-csm", "osha-1917"],
     stations: [
-      "mooring-line", "bunkering-watch", "container-lashing", "dock-crane"
+      "mooring-line", "bunkering-watch", "container-lashing", "dock-crane",
+      "vessel-gangway-and-hatch-cover-safety"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "transit-ramp",
@@ -278,7 +280,7 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["fra-49-cfr-214", "faa-14-cfr-139-303", "osha-1910-178"],
     stations: [
       "track-access", "signal-cabinet", "bus-depot-lift", "airport-ramp",
-      "forklift-dock"
+      "forklift-dock", "bus-yard-fuelling-and-brake-check"
     ],
     require: 3,
   },
@@ -289,7 +291,7 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
       "solar-deck", "battery-yard", "charge-point", "substation-switching",
-      "cell-site-battery"
+      "cell-site-battery", "battery-storage-container-commissioning"
     ],
     require: 3,
   },
@@ -299,9 +301,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
     stations: [
-      "stage-power", "fly-system", "rigging-loft", "chain-hoist"
+      "stage-power", "fly-system", "rigging-loft", "chain-hoist",
+      "stage-load-in-and-truss-rigging"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "hunters-point-bay-restoration",

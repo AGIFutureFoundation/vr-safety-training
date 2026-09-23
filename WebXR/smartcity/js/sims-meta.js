@@ -13846,5 +13846,299 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "manhole-entry-and-atmospheric-monitoring",
+    "index": "311",
+    "domain": "Water & Environmental",
+    "trade": "Sewer collection maintenance worker — AFSCME or LIUNA public-works crew, entrant with an attendant at the winch",
+    "category": "Water & Environmental",
+    "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with the ANSI Z117.1 confined-space practice standard and the NIOSH confined-space criteria behind the testing order; ACGIH exposure values for hydrogen sulphide on the permit; MUTCD temporary traffic control for the lane closure and ANSI/ISEA 107 high-visibility garments for the crew; AFSCME and LIUNA public-works training",
+    "name": "Manhole Entry & Atmospheric Monitoring",
+    "weather": "rain",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Manhole Entry & Atmospheric Monitoring VR",
+    "tagline": "A sewer manhole in a live lane on a wet morning: the lane closed to the traffic manual, the permit read, the four-gas monitor bumped, the cover walked off with the lifter, the shaft tested top to bottom while a car noses into the taper, the blower set upwind, the rungs looked at, the winch brake proven, the harness on and the line clipped, the climb down on a snug line while the upstream lift station starts, the invert checked, and the entry closed out and logged",
+    "accent": 4175561,
+    "accentCss": "#3fb6c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tested-before-trusted",
+      "name": "Tested Before Trusted",
+      "note": "Every level of the shaft read before a boot went in, the line never slack, the taper and the lift station both answered, and the permit closed with the readings on it"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Collection Entry",
+      "currency": "PPM",
+      "ranks": [
+        "Collection Hand",
+        "Entrant",
+        "Gas Tester",
+        "Lead Entrant",
+        "Confined Space Qualified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "vessel-gangway-and-hatch-cover-safety",
+    "index": "312",
+    "domain": "Maritime & Ports",
+    "trade": "ILWU longshore — hatch gang going aboard to open the hold, PMA training programme, with the ship's deck officer on the hydraulics",
+    "category": "Maritime & Ports",
+    "certification": "ILWU longshore with the PMA training programme; OSHA 29 CFR 1918 longshoring for the means of access, the hatch covers and the hold, and 29 CFR 1917 marine terminals for the quay; IMO SOLAS for the ship's gangway and IMO STCW for the watch that tends it; NIOSH guidance on oxygen-depleted cargo holds; ANSI/ISEA 107 high-visibility garments on deck",
+    "name": "Vessel Gangway & Hatch Cover Safety",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Vessel Gangway & Hatch Cover Safety VR",
+    "tagline": "Aboard before the cargo moves: the gangway looked over, the net under it and the ring buoy at its head, its angle read against the tide, the climb with both hands while the ship ranges on her lines, the hatch plan agreed with the mate, the cover's path chained off and its cleats knocked back, a weeping hydraulic hose found, the cover opened on the lever while a lasher wanders into its fold, the panels pinned, the hold ladder and lights proven, the hold's air read, and the hatch logged",
+    "accent": 3121104,
+    "accentCss": "#2f9fd0",
+    "parSeconds": 290,
+    "badge": {
+      "id": "aboard-and-open-clean",
+      "name": "Aboard and Open Clean",
+      "note": "Both hands on the gangway, nobody in the fold, the ranging ship and the lasher both answered, and the hold's air read before a foot went down the ladder"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hatch Gang",
+      "currency": "LIFT",
+      "ranks": [
+        "Casual",
+        "Hatch Hand",
+        "Gangway Checker",
+        "Hatch Boss",
+        "Hatch Gang Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "stage-load-in-and-truss-rigging",
+    "index": "313",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE stagehand — ground rigger at an arena load-in, working to the head rigger in the steel",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust with ETCP Certified Rigger — Arena practice; ANSI E1.6 powered entertainment hoists for the chain motors; ASME B30.16 for the hoists themselves, ASME B30.26 for the shackles and ASME B30.9 for the slings and steel secondaries",
+    "name": "Stage Load-In & Truss Rigging",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Stage Load-In & Truss Rigging VR",
+    "tagline": "An arena load-in from the deck: the rigging plot read, hard hat and gloves on, a dented truss chord found, the sections spliced and the couplers bolted, the bridle angle read, a twisted motor chain caught, the tag line held while a stagehand pushes a cart under the load, the motors bumped up level until one falls out of step, trim checked, the load cells read, the steel secondaries rigged and the shackles moused, and the points logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 285,
+    "badge": {
+      "id": "flown-level-and-dead-hung",
+      "name": "Flown Level and Dead-Hung",
+      "note": "Nobody under the load, the out-of-step motor stopped on the E-stop, every point inside its plot load, and every point on its steel"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ground Rigging",
+      "currency": "POINT",
+      "ranks": [
+        "Deck Hand",
+        "Truss Builder",
+        "Ground Rigger",
+        "Lead Ground Rigger",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "leading-edge-and-horizontal-lifeline",
+    "index": "314",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker or carpenter laying metal deck at a leading edge, on a horizontal lifeline rigged to a qualified person's design",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT and Carpenters training; OSHA 29 CFR 1926.501 duty to have fall protection at a leading edge and 29 CFR 1926.502 fall-protection systems, including the horizontal lifeline's design by a qualified person; ANSI Z359 personal fall-arrest equipment, including leading-edge-rated self-retracting lifelines; ASME B30.5 for the crane landing the deck bundles",
+    "name": "Leading Edge & Horizontal Lifeline",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Leading Edge & Horizontal Lifeline VR",
+    "tagline": "Deck at the leading edge: the fall-protection plan read, the harness on and the leading-edge SRL clipped, a cut lanyard found, the beam clamps torqued, the lifeline run and tensioned while a welder starts cutting above it, the sag measured, the clearance checked, the traveller clipped while the crane swings a bundle overhead, a knife-edge flange found and padded, the rescue kit confirmed, a sheet laid and fastened, and the edge logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tied-off-at-the-edge",
+      "name": "Tied Off At The Edge",
+      "note": "Never untied past the line, the lifeline tensioned to the design, the sparks and the bundle both answered, and the edge padded before the first sheet"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Leading Edge",
+      "currency": "SHEET",
+      "ranks": [
+        "Apprentice",
+        "Decker",
+        "Lifeline Rigger",
+        "Lead Decker",
+        "Leading Edge Qualified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drum-sampling-and-overpack",
+    "index": "315",
+    "domain": "Environmental Monitoring",
+    "trade": "LIUNA hazmat laborer or environmental technician — drum sampling and overpacking in Level B, with a buddy and the site safety officer at decon",
+    "category": "Environmental Monitoring",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER, including its drum and container handling provisions, and 29 CFR 1910.134 for the SCBA; EPA RCRA 40 CFR 261 waste identification and 40 CFR 262 generator marking for the overpack; PHMSA 49 CFR 172 hazard communication for the shipment; EPA QA/G-5 sampling quality practice and chain of custody; NIOSH guidance on chemical protective clothing; LIUNA Training hazardous waste worker courses",
+    "name": "Drum Sampling & Overpack",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Drum Sampling & Overpack VR",
+    "tagline": "Abandoned drums in the exclusion zone: the site safety plan read, Level B on in order, a bulging drum found and left shut, the vapour read, a good drum bonded and its bung cracked with a brass wrench, a full-depth sample drawn while the wind swings round, the jar sealed, a weeping chime found and bermed, the leaker lifted into a salvage drum while a buddy's low-air bell rings, the lid ring torqued, the overpack marked, and the custody form signed",
+    "accent": 7915680,
+    "accentCss": "#78c8a0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "sampled-and-contained",
+      "name": "Sampled and Contained",
+      "note": "The bulging drum left for remote opening, the sample drawn full depth and sealed, the wind and the low-air bell both answered, and the leaker overpacked and marked"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Drum Crew",
+      "currency": "DRUM",
+      "ranks": [
+        "Site Laborer",
+        "Drum Handler",
+        "Sampler",
+        "Drum Crew Lead",
+        "Hazardous Waste Worker Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bus-yard-fuelling-and-brake-check",
+    "index": "316",
+    "domain": "Mobility & Transit",
+    "trade": "ATU or IAM coach yard service worker — fuel lane and air brake check, with the yard hostler moving coaches behind",
+    "category": "Mobility & Transit",
+    "certification": "ATU, IAM and TWU bus maintenance training; FMCSA 49 CFR 393 brake and warning-device requirements and 49 CFR 396 inspection, repair and the driver vehicle inspection report for a carrier under FMCSA rules; CVSA out-of-service criteria for brake adjustment and air-line condition; OSHA 29 CFR 1910.1200 hazard communication for diesel and DEF at the island; ANSI/ISEA 107 high-visibility garments in the yard",
+    "name": "Bus Yard Fuelling & Brake Check",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bus Yard Fuelling & Brake Check VR",
+    "tagline": "The fuel lane at the end of the day: the lane board read, the brake set and the engine off, the coach chocked, the tank filled with a hand on the nozzle while a hose lets go at the next island, the DEF into its own filler, the cap on to the click, a coolant leak found, air built to cut-out, the applied leak held while a hostler backs a coach into the lane, the low-air warning proven, a pushrod stroke measured, a chafed air line found, the coach tagged out, and the report written",
+    "accent": 6534640,
+    "accentCss": "#63b5f0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "fuelled-checked-written-up",
+      "name": "Fuelled, Checked, Written Up",
+      "note": "Engine off and a hand on the nozzle, the spill and the hostler both answered, the brake check done by the numbers, and the chafed line kept off the road"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fuel Lane",
+      "currency": "PSI",
+      "ranks": [
+        "Yard Hand",
+        "Fueller",
+        "Service Worker",
+        "Lead Service Worker",
+        "Fuel Lane Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "battery-storage-container-commissioning",
+    "index": "317",
+    "domain": "Energy & Power",
+    "trade": "IBEW inside wireman on a battery storage commissioning crew, with the commissioning agent on the radio",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC training; NFPA 855 stationary energy storage systems, including commissioning, gas detection and explosion control, with NFPA 69 for the exhaust interlock; NFPA 70 (NEC) for the energy storage wiring; NFPA 70E for DC shock and arc-flash work practices; NETA acceptance testing for the insulation and torque checks; OSHA 29 CFR 1910.147 lockout and 29 CFR 1910.333 verification of de-energisation",
+    "name": "Battery Storage Container Commissioning",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Battery Storage Container Commissioning VR",
+    "tagline": "A battery container from delivered to first charge: the commissioning plan read, a swollen module found on the walkdown, the gas detection and exhaust interlock proven, gloves air-tested and the hood on, the DC disconnect locked out, zero volts proven while the off-gas detector alarms, the bus links torqued, the insulation tested, a missing finger-safe cover found, the HVAC and BMS confirmed, the first charge ramped while a cell group runs hot, the connections scanned, and the container logged",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "commissioned-by-the-plan",
+      "name": "Commissioned By The Plan",
+      "note": "Never inside in alarm, zero volts proven before a tool touched the bus, the off-gas and the hot cell both answered, and every connection scanned under load"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Storage Commissioning",
+      "currency": "KWH",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Commissioning Tech",
+        "Lead Commissioning Tech",
+        "Storage Commissioning Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

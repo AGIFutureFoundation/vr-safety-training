@@ -53,6 +53,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "lift-station", why: "A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard." },
       { app: "smartcity", id: "chlorine-room", why: "A space you do not enter blind: the monitor and the air pack are read and staged from outside the door." },
       { app: "smartcity", id: "confined-rescue", why: "The rescue, including the part where the first job is stopping a coworker from becoming the second patient." },
+      { app: "smartcity", id: "manhole-entry-and-atmospheric-monitoring", why: "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls." },
     ],
   },
   {
@@ -69,6 +70,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "tower-climb", why: "A climb with a hundred metres under it: the transitions are where people fall." },
       { app: "smartcity", id: "microwave-backhaul", why: "A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath." },
       { app: "smartcity", id: "aerial-ladder", why: "An aerial device, where the platform is the thing that has to be set level before anyone is on it." },
+      { app: "smartcity", id: "leading-edge-and-horizontal-lifeline", why: "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on." },
     ],
   },
   {
@@ -86,6 +88,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "air-monitor", why: "Fence-line monitoring: placement, calibration and an exceedance response that happens now." },
       { app: "smartcity", id: "stormwater-outfall", why: "The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence." },
       { app: "trades", id: "pressure-washer", why: "Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment." },
+      { app: "smartcity", id: "drum-sampling-and-overpack", why: "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest." },
     ],
   },
   {
@@ -133,6 +136,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bunkering-watch", why: "Fuel transfer as person in charge, with the deck contained before the hose comes aboard." },
       { app: "smartcity", id: "container-lashing", why: "Deck stow: every twist-lock proven and the rods to the pattern the manual calls for." },
       { app: "smartcity", id: "dock-crane", why: "The crane over all of it, with the lashing gang's positions as the constraint." },
+      { app: "smartcity", id: "vessel-gangway-and-hatch-cover-safety", why: "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down." },
     ],
   },
   {
@@ -149,6 +153,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bus-depot-lift", why: "A vehicle raised over a person, and the supports that go in before anyone is underneath." },
       { app: "smartcity", id: "airport-ramp", why: "An aircraft turn, where chocks before contact is the rule the whole ramp runs on." },
       { app: "smartcity", id: "forklift-dock", why: "The dock: a trailer that creeps and a load that tips, on the most common powered truck in the country." },
+      { app: "smartcity", id: "bus-yard-fuelling-and-brake-check", why: "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road." },
     ],
   },
   {
@@ -165,6 +170,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "charge-point", why: "The load end: high-current DC in a public place." },
       { app: "smartcity", id: "substation-switching", why: "The interconnection, switched on a written order with grounds proven on." },
       { app: "smartcity", id: "cell-site-battery", why: "A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night." },
+      { app: "smartcity", id: "battery-storage-container-commissioning", why: "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop." },
     ],
   },
   {
@@ -180,6 +186,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "fly-system", why: "Loading a lineset, where an unbalanced arbor is a runaway with a person on the rope." },
       { app: "smartcity", id: "rigging-loft", why: "Points overhead, with automation cues proven before the house is let in." },
       { app: "smartcity", id: "chain-hoist", why: "Motors: inspection, capacity and never leaving a load hanging on a brake." },
+      { app: "smartcity", id: "stage-load-in-and-truss-rigging", why: "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel." },
     ],
   },
   {

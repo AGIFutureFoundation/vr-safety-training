@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 323
+      "stations": 330
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "battery-storage-container-commissioning",
         "temporary-site-power",
         "arc-flash-label-study",
         "motor-control-center",
@@ -61,6 +62,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
         "tdl-backing-and-docking",
         "tdl-coupling-and-uncoupling",
@@ -82,6 +84,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "manhole-entry-and-atmospheric-monitoring",
         "oyster-reef-monitoring",
         "spartina-removal",
         "isco-injection",
@@ -202,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
         "gg-international-orange-recoat",
@@ -227,6 +231,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
         "pyro-cue"
@@ -239,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "vessel-gangway-and-hatch-cover-safety",
         "mw-diver-emergency-and-recovery",
         "mw-underwater-welding-and-cutting",
         "mw-hull-inspection-and-cleaning-dive",
@@ -275,6 +281,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "drum-sampling-and-overpack",
         "mobile-air-lab",
         "opacity-reading",
         "marsh-transect-survey",
@@ -605,6 +612,11 @@
           "app": "smartcity",
           "id": "confined-rescue",
           "why": "The rescue, including the part where the first job is stopping a coworker from becoming the second patient."
+        },
+        {
+          "app": "smartcity",
+          "id": "manhole-entry-and-atmospheric-monitoring",
+          "why": "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -640,6 +652,11 @@
           "app": "smartcity",
           "id": "aerial-ladder",
           "why": "An aerial device, where the platform is the thing that has to be set level before anyone is on it."
+        },
+        {
+          "app": "smartcity",
+          "id": "leading-edge-and-horizontal-lifeline",
+          "why": "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -680,6 +697,11 @@
           "app": "trades",
           "id": "pressure-washer",
           "why": "Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment."
+        },
+        {
+          "app": "smartcity",
+          "id": "drum-sampling-and-overpack",
+          "why": "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -780,6 +802,11 @@
           "app": "smartcity",
           "id": "dock-crane",
           "why": "The crane over all of it, with the lashing gang's positions as the constraint."
+        },
+        {
+          "app": "smartcity",
+          "id": "vessel-gangway-and-hatch-cover-safety",
+          "why": "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -815,6 +842,11 @@
           "app": "smartcity",
           "id": "forklift-dock",
           "why": "The dock: a trailer that creeps and a load that tips, on the most common powered truck in the country."
+        },
+        {
+          "app": "smartcity",
+          "id": "bus-yard-fuelling-and-brake-check",
+          "why": "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -850,6 +882,11 @@
           "app": "smartcity",
           "id": "cell-site-battery",
           "why": "A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night."
+        },
+        {
+          "app": "smartcity",
+          "id": "battery-storage-container-commissioning",
+          "why": "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -880,6 +917,11 @@
           "app": "smartcity",
           "id": "chain-hoist",
           "why": "Motors: inspection, capacity and never leaving a load hanging on a brake."
+        },
+        {
+          "app": "smartcity",
+          "id": "stage-load-in-and-truss-rigging",
+          "why": "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6687,6 +6729,587 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-storage-container-commissioning",
+      "name": "Battery Storage Container Commissioning",
+      "title": "SmartCiti.X~ Battery Storage Container Commissioning VR",
+      "tagline": "A battery container from delivered to first charge: the commissioning plan read, a swollen module found on the walkdown, the gas detection and exhaust interlock proven, gloves air-tested and the hood on, the DC disconnect locked out, zero volts proven while the off-gas detector alarms, the bus links torqued, the insulation tested, a missing finger-safe cover found, the HVAC and BMS confirmed, the first charge ramped while a cell group runs hot, the connections scanned, and the container logged",
+      "category": "Energy & Power",
+      "domain": "Energy & Power",
+      "trade": "IBEW inside wireman on a battery storage commissioning crew, with the commissioning agent on the radio",
+      "union": null,
+      "certification": "IBEW/NECA JATC training; NFPA 855 stationary energy storage systems, including commissioning, gas detection and explosion control, with NFPA 69 for the exhaust interlock; NFPA 70 (NEC) for the energy storage wiring; NFPA 70E for DC shock and arc-flash work practices; NETA acceptance testing for the insulation and torque checks; OSHA 29 CFR 1910.147 lockout and 29 CFR 1910.333 verification of de-energisation",
+      "accent": "#9fd84f",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "commissioned-by-the-plan",
+        "name": "Commissioned By The Plan",
+        "note": "Never inside in alarm, zero volts proven before a tool touched the bus, the off-gas and the hot cell both answered, and every connection scanned under load"
+      },
+      "meshes": 228,
+      "lights": 0,
+      "overBudget": false,
+      "index": "317",
+      "flat": false,
+      "system": "Storage Commissioning",
+      "currency": "KWH",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Commissioning Tech",
+        "Lead Commissioning Tech",
+        "Storage Commissioning Certified"
+      ],
+      "awards": [
+        {
+          "id": "live-dead-live",
+          "name": "Live, Dead, Live",
+          "note": "Zero volts proven on the DC bus with the meter checked either side"
+        },
+        {
+          "id": "gentle-first-charge",
+          "name": "Gentle First Charge",
+          "note": "The first charge ramped inside the band throughout"
+        },
+        {
+          "id": "never-in-alarm",
+          "name": "Never In Alarm",
+          "note": "Never inside in alarm, never a bare hand on the bus, never a blocked vent, never square to the handle"
+        },
+        {
+          "id": "clean-commissioning",
+          "name": "Clean Commissioning",
+          "note": "No corrections anywhere in the commissioning"
+        },
+        {
+          "id": "interlock-on-the-mark",
+          "name": "Interlock On The Mark",
+          "note": "Exhaust setpoint committed inside the band first time"
+        },
+        {
+          "id": "online-on-time",
+          "name": "Online On Time",
+          "note": "Container logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=battery-storage-container-commissioning"
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check",
+      "name": "Bus Yard Fuelling & Brake Check",
+      "title": "SmartCiti.X~ Bus Yard Fuelling & Brake Check VR",
+      "tagline": "The fuel lane at the end of the day: the lane board read, the brake set and the engine off, the coach chocked, the tank filled with a hand on the nozzle while a hose lets go at the next island, the DEF into its own filler, the cap on to the click, a coolant leak found, air built to cut-out, the applied leak held while a hostler backs a coach into the lane, the low-air warning proven, a pushrod stroke measured, a chafed air line found, the coach tagged out, and the report written",
+      "category": "Mobility & Transit",
+      "domain": "Mobility & Transit",
+      "trade": "ATU or IAM coach yard service worker — fuel lane and air brake check, with the yard hostler moving coaches behind",
+      "union": null,
+      "certification": "ATU, IAM and TWU bus maintenance training; FMCSA 49 CFR 393 brake and warning-device requirements and 49 CFR 396 inspection, repair and the driver vehicle inspection report for a carrier under FMCSA rules; CVSA out-of-service criteria for brake adjustment and air-line condition; OSHA 29 CFR 1910.1200 hazard communication for diesel and DEF at the island; ANSI/ISEA 107 high-visibility garments in the yard",
+      "accent": "#63b5f0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "hold",
+        "turn",
+        "find",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "fuelled-checked-written-up",
+        "name": "Fuelled, Checked, Written Up",
+        "note": "Engine off and a hand on the nozzle, the spill and the hostler both answered, the brake check done by the numbers, and the chafed line kept off the road"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "316",
+      "flat": false,
+      "system": "Fuel Lane",
+      "currency": "PSI",
+      "ranks": [
+        "Yard Hand",
+        "Fueller",
+        "Service Worker",
+        "Lead Service Worker",
+        "Fuel Lane Certified"
+      ],
+      "awards": [
+        {
+          "id": "hand-on-nozzle",
+          "name": "Hand On The Nozzle",
+          "note": "The fill attended from start to finish"
+        },
+        {
+          "id": "steady-application",
+          "name": "Steady Application",
+          "note": "The applied brake held steady through the leak test"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never A Shortcut",
+          "note": "No idling fill, no latched nozzle, no DEF in the diesel, never under an unchocked coach"
+        },
+        {
+          "id": "clean-lane",
+          "name": "Clean Lane",
+          "note": "No corrections anywhere in the lane"
+        },
+        {
+          "id": "cut-out-on-the-mark",
+          "name": "Cut-Out On The Mark",
+          "note": "Governor cut-out committed inside the band first time"
+        },
+        {
+          "id": "lane-turned",
+          "name": "Lane Turned",
+          "note": "Report written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bus-yard-fuelling-and-brake-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "drum-sampling-and-overpack",
+      "name": "Drum Sampling & Overpack",
+      "title": "SmartCiti.X~ Drum Sampling & Overpack VR",
+      "tagline": "Abandoned drums in the exclusion zone: the site safety plan read, Level B on in order, a bulging drum found and left shut, the vapour read, a good drum bonded and its bung cracked with a brass wrench, a full-depth sample drawn while the wind swings round, the jar sealed, a weeping chime found and bermed, the leaker lifted into a salvage drum while a buddy's low-air bell rings, the lid ring torqued, the overpack marked, and the custody form signed",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "LIUNA hazmat laborer or environmental technician — drum sampling and overpacking in Level B, with a buddy and the site safety officer at decon",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.120 HAZWOPER, including its drum and container handling provisions, and 29 CFR 1910.134 for the SCBA; EPA RCRA 40 CFR 261 waste identification and 40 CFR 262 generator marking for the overpack; PHMSA 49 CFR 172 hazard communication for the shipment; EPA QA/G-5 sampling quality practice and chain of custody; NIOSH guidance on chemical protective clothing; LIUNA Training hazardous waste worker courses",
+      "accent": "#78c8a0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "sampled-and-contained",
+        "name": "Sampled and Contained",
+        "note": "The bulging drum left for remote opening, the sample drawn full depth and sealed, the wind and the low-air bell both answered, and the leaker overpacked and marked"
+      },
+      "meshes": 247,
+      "lights": 0,
+      "overBudget": false,
+      "index": "315",
+      "flat": false,
+      "system": "Drum Crew",
+      "currency": "DRUM",
+      "ranks": [
+        "Site Laborer",
+        "Drum Handler",
+        "Sampler",
+        "Drum Crew Lead",
+        "Hazardous Waste Worker Certified"
+      ],
+      "awards": [
+        {
+          "id": "full-column",
+          "name": "Full Column",
+          "note": "The sampler held to the bottom long enough to take the whole column"
+        },
+        {
+          "id": "level-lift",
+          "name": "Level Lift",
+          "note": "The leaker hoisted into the salvage drum without a swing"
+        },
+        {
+          "id": "no-sparks-no-shortcuts",
+          "name": "No Sparks, No Shortcuts",
+          "note": "No bulging drum opened, no steel wrench, never downwind, never a drum by hand"
+        },
+        {
+          "id": "clean-drum-run",
+          "name": "Clean Drum Run",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "vapour-read-true",
+          "name": "Vapour Read True",
+          "note": "The monitor reading committed inside the band first time"
+        },
+        {
+          "id": "air-to-spare",
+          "name": "Air To Spare",
+          "note": "Custody signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drum-sampling-and-overpack"
+    },
+    {
+      "app": "smartcity",
+      "id": "leading-edge-and-horizontal-lifeline",
+      "name": "Leading Edge & Horizontal Lifeline",
+      "title": "SmartCiti.X~ Leading Edge & Horizontal Lifeline VR",
+      "tagline": "Deck at the leading edge: the fall-protection plan read, the harness on and the leading-edge SRL clipped, a cut lanyard found, the beam clamps torqued, the lifeline run and tensioned while a welder starts cutting above it, the sag measured, the clearance checked, the traveller clipped while the crane swings a bundle overhead, a knife-edge flange found and padded, the rescue kit confirmed, a sheet laid and fastened, and the edge logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Ironworker or carpenter laying metal deck at a leading edge, on a horizontal lifeline rigged to a qualified person's design",
+      "union": null,
+      "certification": "Ironworkers IMPACT and Carpenters training; OSHA 29 CFR 1926.501 duty to have fall protection at a leading edge and 29 CFR 1926.502 fall-protection systems, including the horizontal lifeline's design by a qualified person; ANSI Z359 personal fall-arrest equipment, including leading-edge-rated self-retracting lifelines; ASME B30.5 for the crane landing the deck bundles",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "drag",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "tied-off-at-the-edge",
+        "name": "Tied Off At The Edge",
+        "note": "Never untied past the line, the lifeline tensioned to the design, the sparks and the bundle both answered, and the edge padded before the first sheet"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "314",
+      "flat": false,
+      "system": "Leading Edge",
+      "currency": "SHEET",
+      "ranks": [
+        "Apprentice",
+        "Decker",
+        "Lifeline Rigger",
+        "Lead Decker",
+        "Leading Edge Qualified"
+      ],
+      "awards": [
+        {
+          "id": "clipped-and-latched",
+          "name": "Clipped And Latched",
+          "note": "The traveller connection held and checked before a step toward the edge"
+        },
+        {
+          "id": "tensioned-to-design",
+          "name": "Tensioned To Design",
+          "note": "The lifeline pretensioned inside the designer's band throughout"
+        },
+        {
+          "id": "never-untied",
+          "name": "Never Untied",
+          "note": "No foot-level tie-off, no handrail anchor, no step past the line, no loose sheet walked"
+        },
+        {
+          "id": "clean-edge",
+          "name": "Clean Edge",
+          "note": "No corrections anywhere at the edge"
+        },
+        {
+          "id": "sag-on-the-mark",
+          "name": "Sag On The Mark",
+          "note": "Midspan sag committed inside the band first time"
+        },
+        {
+          "id": "bay-decked",
+          "name": "Bay Decked",
+          "note": "Edge logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=leading-edge-and-horizontal-lifeline"
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-load-in-and-truss-rigging",
+      "name": "Stage Load-In & Truss Rigging",
+      "title": "SmartCiti.X~ Stage Load-In & Truss Rigging VR",
+      "tagline": "An arena load-in from the deck: the rigging plot read, hard hat and gloves on, a dented truss chord found, the sections spliced and the couplers bolted, the bridle angle read, a twisted motor chain caught, the tag line held while a stagehand pushes a cart under the load, the motors bumped up level until one falls out of step, trim checked, the load cells read, the steel secondaries rigged and the shackles moused, and the points logged",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "IATSE stagehand — ground rigger at an arena load-in, working to the head rigger in the steel",
+      "union": null,
+      "certification": "IATSE training trust with ETCP Certified Rigger — Arena practice; ANSI E1.6 powered entertainment hoists for the chain motors; ASME B30.16 for the hoists themselves, ASME B30.26 for the shackles and ASME B30.9 for the slings and steel secondaries",
+      "accent": "#c58cff",
+      "parSeconds": 285,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "flown-level-and-dead-hung",
+        "name": "Flown Level and Dead-Hung",
+        "note": "Nobody under the load, the out-of-step motor stopped on the E-stop, every point inside its plot load, and every point on its steel"
+      },
+      "meshes": 226,
+      "lights": 0,
+      "overBudget": false,
+      "index": "313",
+      "flat": false,
+      "system": "Ground Rigging",
+      "currency": "POINT",
+      "ranks": [
+        "Deck Hand",
+        "Truss Builder",
+        "Ground Rigger",
+        "Lead Ground Rigger",
+        "Arena Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "tag-line-held",
+          "name": "Tag Line Held",
+          "note": "The truss steadied on its tag line the whole flight"
+        },
+        {
+          "id": "flown-level",
+          "name": "Flown Level",
+          "note": "The motors run up together without the truss going out of level"
+        },
+        {
+          "id": "clear-under-load",
+          "name": "Clear Under Load",
+          "note": "Never under the flying truss, never a hand in a running chain, never on the truss"
+        },
+        {
+          "id": "clean-load-in",
+          "name": "Clean Load-In",
+          "note": "No corrections anywhere in the rig"
+        },
+        {
+          "id": "bridle-on-the-plot",
+          "name": "Bridle On The Plot",
+          "note": "Bridle angle committed inside the band first time"
+        },
+        {
+          "id": "trim-before-doors",
+          "name": "Trim Before Doors",
+          "note": "Points logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=stage-load-in-and-truss-rigging"
+    },
+    {
+      "app": "smartcity",
+      "id": "vessel-gangway-and-hatch-cover-safety",
+      "name": "Vessel Gangway & Hatch Cover Safety",
+      "title": "SmartCiti.X~ Vessel Gangway & Hatch Cover Safety VR",
+      "tagline": "Aboard before the cargo moves: the gangway looked over, the net under it and the ring buoy at its head, its angle read against the tide, the climb with both hands while the ship ranges on her lines, the hatch plan agreed with the mate, the cover's path chained off and its cleats knocked back, a weeping hydraulic hose found, the cover opened on the lever while a lasher wanders into its fold, the panels pinned, the hold ladder and lights proven, the hold's air read, and the hatch logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ILWU longshore — hatch gang going aboard to open the hold, PMA training programme, with the ship's deck officer on the hydraulics",
+      "union": null,
+      "certification": "ILWU longshore with the PMA training programme; OSHA 29 CFR 1918 longshoring for the means of access, the hatch covers and the hold, and 29 CFR 1917 marine terminals for the quay; IMO SOLAS for the ship's gangway and IMO STCW for the watch that tends it; NIOSH guidance on oxygen-depleted cargo holds; ANSI/ISEA 107 high-visibility garments on deck",
+      "accent": "#2f9fd0",
+      "parSeconds": 290,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "select",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "aboard-and-open-clean",
+        "name": "Aboard and Open Clean",
+        "note": "Both hands on the gangway, nobody in the fold, the ranging ship and the lasher both answered, and the hold's air read before a foot went down the ladder"
+      },
+      "meshes": 229,
+      "lights": 0,
+      "overBudget": false,
+      "index": "312",
+      "flat": false,
+      "system": "Hatch Gang",
+      "currency": "LIFT",
+      "ranks": [
+        "Casual",
+        "Hatch Hand",
+        "Gangway Checker",
+        "Hatch Boss",
+        "Hatch Gang Certified"
+      ],
+      "awards": [
+        {
+          "id": "both-hands-aboard",
+          "name": "Both Hands Aboard",
+          "note": "The gangway climbed on both rails, start to finish"
+        },
+        {
+          "id": "fold-kept-clear",
+          "name": "Fold Kept Clear",
+          "note": "The cover opened steadily with its path chained and empty"
+        },
+        {
+          "id": "never-on-the-cover",
+          "name": "Never On The Cover",
+          "note": "Nobody on a moving cover, in its fold, or at an open coaming edge"
+        },
+        {
+          "id": "clean-opening",
+          "name": "Clean Opening",
+          "note": "No corrections anywhere in the opening"
+        },
+        {
+          "id": "angle-on-the-mark",
+          "name": "Angle On The Mark",
+          "note": "Gangway angle committed inside the band first time"
+        },
+        {
+          "id": "hatch-open-fast",
+          "name": "Hatch Open Fast",
+          "note": "Hatch logged open inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=vessel-gangway-and-hatch-cover-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "manhole-entry-and-atmospheric-monitoring",
+      "name": "Manhole Entry & Atmospheric Monitoring",
+      "title": "SmartCiti.X~ Manhole Entry & Atmospheric Monitoring VR",
+      "tagline": "A sewer manhole in a live lane on a wet morning: the lane closed to the traffic manual, the permit read, the four-gas monitor bumped, the cover walked off with the lifter, the shaft tested top to bottom while a car noses into the taper, the blower set upwind, the rungs looked at, the winch brake proven, the harness on and the line clipped, the climb down on a snug line while the upstream lift station starts, the invert checked, and the entry closed out and logged",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Sewer collection maintenance worker — AFSCME or LIUNA public-works crew, entrant with an attendant at the winch",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with the ANSI Z117.1 confined-space practice standard and the NIOSH confined-space criteria behind the testing order; ACGIH exposure values for hydrogen sulphide on the permit; MUTCD temporary traffic control for the lane closure and ANSI/ISEA 107 high-visibility garments for the crew; AFSCME and LIUNA public-works training",
+      "accent": "#3fb6c9",
+      "parSeconds": 300,
+      "weather": "rain",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "hold",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "tested-before-trusted",
+        "name": "Tested Before Trusted",
+        "note": "Every level of the shaft read before a boot went in, the line never slack, the taper and the lift station both answered, and the permit closed with the readings on it"
+      },
+      "meshes": 214,
+      "lights": 0,
+      "overBudget": false,
+      "index": "311",
+      "flat": false,
+      "system": "Collection Entry",
+      "currency": "PPM",
+      "ranks": [
+        "Collection Hand",
+        "Entrant",
+        "Gas Tester",
+        "Lead Entrant",
+        "Confined Space Qualified"
+      ],
+      "awards": [
+        {
+          "id": "top-middle-bottom",
+          "name": "Top, Middle, Bottom",
+          "note": "The whole shaft tested, level by level, before the entry"
+        },
+        {
+          "id": "line-never-slack",
+          "name": "Line Never Slack",
+          "note": "The retrieval line snug all the way down"
+        },
+        {
+          "id": "nobody-leans-in",
+          "name": "Nobody Leans In",
+          "note": "No bare-handed cover, no head over the hole, no exhaust at the intake"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Entry",
+          "note": "No corrections anywhere in the entry"
+        },
+        {
+          "id": "bump-on-the-mark",
+          "name": "Bump On The Mark",
+          "note": "The bump reading committed inside the band first time"
+        },
+        {
+          "id": "lane-back-fast",
+          "name": "Lane Back Fast",
+          "note": "Lane reopened inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=manhole-entry-and-atmospheric-monitoring"
     },
     {
       "app": "smartcity",
@@ -24891,7 +25514,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
