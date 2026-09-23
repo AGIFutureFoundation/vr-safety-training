@@ -310,8 +310,16 @@ export const CURRICULA = [
     accent: "#c9a34a",
     stations: [
       { app: "smartcity", id: "public-comment-prep", why: "The shared opener: standing up in public with a case that is sourced, timed and respectful is the first civic skill every station here builds on." },
-      // slot-civ-1
-      // slot-civ-2
+      { app: "smartcity", id: "civic-principles-briefing", why: "The briefing before the stations: the eight principles stated honestly, the decision framework they hang on, and the open-meeting, disclosure and access law every station after it assumes." },
+      { app: "smartcity", id: "public-meeting-chair", why: "Chairing the meeting is where listening first becomes a procedure: every speaker heard to the bell, nothing acted on that was not noticed, and each vote stated aloud." },
+      { app: "smartcity", id: "constituent-service-desk", why: "Keeping your word is learned one resident at a time, at a counter where the only honest promise is a date the office can actually meet." },
+      { app: "smartcity", id: "coalition-building-table", why: "A coalition table is where a leader learns to find the interest behind each position and to count support honestly without carrying votes between officials." },
+      { app: "smartcity", id: "budget-tradeoff-hearing", why: "Closing a budget gap in front of the people it lands on is the plainest test of spending public money in the open and owning the hard call." },
+      { app: "smartcity", id: "ethics-and-conflict-of-interest", why: "Disclosure, gifts, recusal and the revolving door are where a leader's word is tested when nobody would have noticed otherwise." },
+      { app: "smartcity", id: "crisis-communication-podium", why: "The podium on the worst day asks for every principle at once: confirm before you speak, reach everybody, and correct a mistake in public." },
+      { app: "smartcity", id: "community-listening-session", why: "A listening session with nothing to defend is where bringing people in rather than shutting them out is practised as a skill rather than a slogan." },
+      { app: "smartcity", id: "conflict-mediation-room", why: "Mediating between two neighbours trains the emotional intelligence underneath every other station: hear each side whole, take the blame out, and keep the room level." },
+      { app: "smartcity", id: "mentorship-and-succession", why: "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you." },
     ],
   },
   {

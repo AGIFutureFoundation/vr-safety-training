@@ -5636,9 +5636,11 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["samhsa-trauma-informed", "nims-ics"],
     stations: [
-      "public-comment-prep"
+      "public-comment-prep", "civic-principles-briefing", "public-meeting-chair", "constituent-service-desk",
+      "coalition-building-table", "budget-tradeoff-hearing", "ethics-and-conflict-of-interest", "crisis-communication-podium",
+      "community-listening-session", "conflict-mediation-room", "mentorship-and-succession"
     ],
-    require: 1,
+    require: 6,
   },
   {
     id: "property-management",
@@ -22646,6 +22648,486 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "civic-principles-briefing",
+    "index": "226",
+    "domain": "Civic",
+    "trade": "Civic leader — councillor, commissioner, organiser or public servant",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) for open meetings; the Political Reform Act and the Fair Political Practices Commission (FPPC) for disclosure, disqualification and gifts; the municipal ethics code, named generically; Robert's Rules of Order as a practice a body adopts, not a law; SAMHSA's trauma-informed care principles; NIMS and ICS for crisis communication; Title II of the ADA for access. The eight leadership principles are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Civic Principles Briefing",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Civic Principles Briefing VR",
+    "tagline": "Eight principles of public leadership, a six-step decision framework, and the law under every public meeting — a briefing and knowledge check that opens the civic leadership programme, with every source stated and every gap marked not sourced",
+    "accent": 13214538,
+    "accentCss": "#c9a34a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "principles-held",
+      "name": "Principles Held",
+      "note": "The eight principles, the framework and the law answered without an unsafe conclusion"
+    },
+    "stepCount": 10,
+    "interruptCount": 0,
+    "flat": true,
+    "dossier": [
+      {
+        "title": "What this programme is, and what it is not",
+        "body": "The Civic Leadership and Emotional Intelligence programme was asked to draw on the principles taught by a civic-leadership foundation. That foundation's own curriculum could not be retrieved from the environment this briefing was written in, and nothing about it exists in this repository, so this briefing does not describe the foundation, does not quote it, and does not speak for it or for anybody connected with it. The eight principles that follow are stated generically: they are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository. Before the programme is used with learners, the foundation's own words belong here, in its own voice.",
+        "source": {
+          "label": "Not sourced — the foundation's own curriculum is not in this repository"
+        }
+      },
+      {
+        "title": "The eight principles",
+        "body": "1. Listen first — hear the whole thing before you answer any of it. 2. Know the interest behind the position — ask why before you argue with what. 3. Count the votes before the vote — and count them honestly, in public, never by carrying positions between members in private. 4. Keep your word — promise only what you can deliver, then deliver it. 5. Spend public money in the open — the public sees the same numbers, at the same time, as the people deciding. 6. Take the hard call and own it — say \"we chose\", say why, say when you will look again. 7. Bring people in rather than shut them out — notice who is missing and go and get them. 8. Mentor the next person — the job is not done until somebody else can do it without you.",
+        "source": {
+          "label": "Not sourced — principles commonly taught in civic-leadership programmes, stated generically"
+        }
+      },
+      {
+        "title": "A decision framework: hear, name, count, decide, own, report",
+        "body": "Hear: every affected voice, the quiet ones included, before anything is proposed. Name: the interest behind each position, said back in the speaker's own words. Count: honest support, in the open — a maybe is not a yes. Decide: in the noticed meeting, on the posted item, with any personal interest disclosed and stepped away from. Own: the decision in the first person, with the reason and a date to revisit it. Report: the decision, the reasoning, the dissent and each vote, back to the people it affects. The nine stations of this programme each practise part of this sequence under pressure.",
+        "source": {
+          "label": "Not sourced — a framework written for this programme, not taken from any organisation"
+        }
+      },
+      {
+        "title": "The open-meeting law under every public meeting",
+        "body": "California's Ralph M. Brown Act governs meetings of local legislative bodies: city councils, county boards, and the commissions and committees they create. A regular meeting's agenda is posted in public seventy-two hours ahead; the public may address the body; the body acts only on what was noticed, with narrow exceptions; a majority may not discuss, deliberate or decide the body's business outside a noticed meeting, including through a chain of one-to-one contacts or an intermediary; documents given to a majority are public at the same time; and a majority may attend a community meeting open to the public so long as they do not discuss the body's business among themselves there.",
+        "source": {
+          "label": "California Legislative Information — Government Code section 54950 and following (official site; page not retrieved at build time)",
+          "url": "https://leginfo.legislature.ca.gov/"
+        }
+      },
+      {
+        "title": "Money, gifts and conflicts of interest",
+        "body": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission, requires public officials to disclose their economic interests on the Statement of Economic Interests (Form 700), bars an official from making or influencing a decision in which they have a financial interest, and limits and requires reporting of gifts. Gift limits are adjusted over time, so no figure is quoted here. A city's or county's own ethics code adds its rules on gifts from interested parties, lobbyist contact, misuse of position and the revolving door; they differ by jurisdiction and are named here only generically.",
+        "source": {
+          "label": "Fair Political Practices Commission (official site; page not retrieved at build time)",
+          "url": "https://www.fppc.ca.gov/"
+        }
+      },
+      {
+        "title": "Procedure is a practice, not a law",
+        "body": "Robert's Rules of Order is a parliamentary authority: a body adopts it, or a simplified version, or its own rules of procedure, and is bound by it only to the extent it has chosen to be. It supplies the ordinary shape of a meeting — a motion, a second, debate on something specific, a vote — and the chair's job of recognising speakers and keeping order. The open-meeting law sits underneath it and cannot be waived by any rule of procedure.",
+        "source": {
+          "label": "Robert's Rules of Order Newly Revised — official site (page not retrieved at build time)",
+          "url": "https://robertsrules.com/"
+        }
+      },
+      {
+        "title": "People, crisis and access",
+        "body": "SAMHSA's six principles of a trauma-informed approach — safety; trustworthiness and transparency; peer support; collaboration and mutuality; empowerment, voice and choice; and cultural, historical and gender issues — shape how a leader listens to a neighbourhood that has been hurt before. In an emergency, NIMS places the public information officer on the incident's command staff and uses a joint information centre so every agency speaks with one voice. Title II of the ADA requires public entities to make their programmes, meetings and communications accessible, including interpreters and captions on request.",
+        "source": {
+          "label": "SAMHSA (official site; page not retrieved at build time)",
+          "url": "https://www.samhsa.gov/"
+        },
+        "source2": {
+          "label": "FEMA — National Incident Management System (official site; page not retrieved at build time)",
+          "url": "https://www.fema.gov/emergency-managers/nims"
+        }
+      }
+    ],
+    "game": {
+      "system": "Public Trust",
+      "currency": "TRUST",
+      "ranks": [
+        "Resident",
+        "Volunteer",
+        "Organiser",
+        "Public Servant",
+        "Civic Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "public-meeting-chair",
+    "index": "217",
+    "domain": "Civic",
+    "trade": "Presiding officer — council or commission chair",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) for the posted agenda, public comment and the bar on serial meetings; Robert's Rules of Order as the parliamentary authority the body adopts in its own rules — a practice, not a law; Title II of the ADA for interpreters, captions and an accessible room; the Political Reform Act and the city ethics code for a gift from anyone with business before the body; SAMHSA's trauma-informed care principles for residents who testify about harm; SEIU and AFSCME for the clerks and staff who run the room. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Public Meeting Chair",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Public Meeting Chair VR",
+    "tagline": "Chair a public meeting people trust: notice checked, the room live, every speaker heard to the bell, a late item sent to the next agenda, order kept without a heavy gavel — and every vote stated out loud",
+    "accent": 13214538,
+    "accentCss": "#c9a34a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "gavel-held-lightly",
+      "name": "Gavel Held Lightly",
+      "note": "A whole meeting chaired in the open: every speaker heard, nothing acted on that was not noticed, and each vote announced"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Chamber",
+      "currency": "TRUST",
+      "ranks": [
+        "Member",
+        "Vice Chair",
+        "Chair",
+        "Presiding Officer",
+        "Mentor Chair"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "constituent-service-desk",
+    "index": "218",
+    "domain": "Civic",
+    "trade": "District office caseworker",
+    "category": "Community Environmental Justice",
+    "certification": "Title II of the ADA for an accessible counter and effective communication, including a language or sign interpreter on request; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN) for a resident who arrives exhausted and angry; the Political Reform Act and the city ethics code for a gift from a party to a complaint and for favouring a donor's case; SEIU and AFSCME for the public-service staff who work the desk. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Constituent Service Desk",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Constituent Service Desk VR",
+    "tagline": "A tenant with no heat, two unreturned calls and a queue behind her: hear it all, route it right, promise only a date you can keep, own the office's miss — and send her away with a name, a number and a day",
+    "accent": 6271905,
+    "accentCss": "#5fb3a1",
+    "parSeconds": 330,
+    "badge": {
+      "id": "word-kept",
+      "name": "Word Kept",
+      "note": "Every commitment made at the desk was one the office could keep, and the resident left with it in writing"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Casework",
+      "currency": "FOLLOW-THROUGH",
+      "ranks": [
+        "Intake Aide",
+        "Caseworker",
+        "Senior Caseworker",
+        "District Director",
+        "Casework Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "coalition-building-table",
+    "index": "219",
+    "domain": "Civic",
+    "trade": "Community organiser — coalition convenor",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) and its bar on serial meetings, which a coalition breaks when it carries positions between members of a legislative body; the Political Reform Act, administered by the FPPC, and the municipal ethics code for gifts to officials and for paid advocacy; Robert's Rules of Order, or whatever decision rule the coalition adopts for itself, as a practice rather than a law; SAMHSA's trauma-informed principles of collaboration and mutuality and of voice and choice; SEIU and AFSCME as the labour partners at many such tables. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Coalition Building Table",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Coalition Building Table VR",
+    "tagline": "Five organisations, one proposal and a room that could split: find who is missing, hear every partner, turn positions into interests, size the ask, keep the opposition at the table — and count your support honestly",
+    "accent": 13666894,
+    "accentCss": "#d08a4e",
+    "parSeconds": 330,
+    "badge": {
+      "id": "table-held",
+      "name": "Table Held",
+      "note": "Every partner heard, the opposition kept in the room, and a support count nobody had to inflate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Common Ground",
+      "currency": "ALLIES",
+      "ranks": [
+        "Volunteer",
+        "Convenor",
+        "Coalition Lead",
+        "Campaign Director",
+        "Organiser Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "budget-tradeoff-hearing",
+    "index": "220",
+    "domain": "Civic",
+    "trade": "Budget committee chair",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) for a budget hearing held in public and for documents given to a majority of the body being available to the public at the same time; the Political Reform Act, administered by the FPPC, and the municipal ethics code for a member's financial interest in a funded project and for gifts from a bidder; Robert's Rules of Order as the body's adopted practice for amendments; Title II of the ADA for budget documents in accessible formats; SEIU and AFSCME for the public-service workers whose jobs a cut touches, and the state's public-sector labour relations law for consulting them. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Budget Tradeoff Hearing",
+    "weather": "rain",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Budget Tradeoff Hearing VR",
+    "tagline": "A gap to close in front of the people it lands on: the packet public, the options costed, testimony heard, one-time money kept off ongoing costs, the reserve held, your own interest disclosed — and the cut owned out loud",
+    "accent": 8366040,
+    "accentCss": "#7fa7d8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "money-in-the-open",
+      "name": "Money in the Open",
+      "note": "Every dollar decided where the public could see it, with the reasoning published and the hard call owned"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Ledger",
+      "currency": "LEDGER",
+      "ranks": [
+        "Committee Member",
+        "Vice Chair",
+        "Budget Chair",
+        "Finance Lead",
+        "Budget Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ethics-and-conflict-of-interest",
+    "index": "221",
+    "domain": "Civic",
+    "trade": "Appointed commissioner — ethics and disclosure",
+    "category": "Community Environmental Justice",
+    "certification": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission (FPPC): the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting — no dollar limit is quoted here because it is adjusted over time; the municipal ethics code for lobbyist contact, misuse of position and the revolving door; the Ralph M. Brown Act (California Government Code section 54950 and following) for a recusal announced in the open meeting; Robert's Rules of Order as the body's adopted practice, where an abstention is not a recusal; SAMHSA's trauma-informed principles of safety and of trustworthiness and transparency for receiving a staff member's report; SEIU and AFSCME for the staff who raise concerns. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Ethics and Conflict of Interest",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Ethics and Conflict of Interest VR",
+    "tagline": "Your first month in office in one room: interests disclosed, a gift valued and reported, a recusal done in public and sat out in full, a lobbyist logged, a job offer disclosed — and a staff member's concern heard rather than waved away",
+    "accent": 10193622,
+    "accentCss": "#9b8ad6",
+    "parSeconds": 330,
+    "badge": {
+      "id": "clean-hands",
+      "name": "Clean Hands",
+      "note": "Every interest disclosed, every gift reported and every recusal done in the open, without being asked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clear Conscience",
+      "currency": "INTEGRITY",
+      "ranks": [
+        "New Appointee",
+        "Commissioner",
+        "Vice Chair",
+        "Chair",
+        "Ethics Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "crisis-communication-podium",
+    "index": "222",
+    "domain": "Civic",
+    "trade": "Public information officer — city spokesperson",
+    "category": "Community Environmental Justice",
+    "certification": "NIMS and ICS, through FEMA IS-100 and IS-700, for the public information officer's place on the command staff and for the joint information centre that makes many agencies speak with one voice; the CDC's Crisis and Emergency Risk Communication principles — be first, be right, be credible, express empathy, promote action, show respect; Title II of the ADA for a sign-language interpreter in frame, captions and alerts residents can actually receive; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN) for speaking to a frightened public. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Crisis Communication Podium",
+    "weather": "smoke",
+    "indoor": null,
+    "district": "Community Environmental Justice",
+    "title": "SmartCiti.X~ Crisis Communication Podium VR",
+    "tagline": "Smoke over three neighbourhoods and a camera in your face: confirm before you speak, one voice for every agency, what to do and when you'll be back, the interpreter in frame, a rumour checked not repeated — and the morning's mistake owned on the record",
+    "accent": 14721610,
+    "accentCss": "#e0a24a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "first-right-credible",
+      "name": "First, Right, Credible",
+      "note": "A whole briefing given on confirmed facts, in every format residents need, with the earlier error corrected by name"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "One Voice",
+      "currency": "CREDIBILITY",
+      "ranks": [
+        "Press Aide",
+        "Deputy PIO",
+        "Public Information Officer",
+        "JIC Lead",
+        "Communications Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "community-listening-session",
+    "index": "223",
+    "domain": "Civic",
+    "trade": "Community engagement facilitator",
+    "category": "Community Environmental Justice",
+    "certification": "SAMHSA's six principles of a trauma-informed approach — safety, trustworthiness and transparency, peer support, collaboration and mutuality, empowerment, voice and choice, and cultural, historical and gender issues — for a neighbourhood with a long memory of broken promises; Psychological First Aid (NCTSN) for a resident overwhelmed in the room; Title II of the ADA for interpretation, an accessible hall and assistive listening; the Ralph M. Brown Act's rule that a majority of a legislative body attending a community meeting must not discuss the body's business among themselves there; SEIU and AFSCME for the city staff who facilitate and record. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Community Listening Session",
+    "weather": "rain",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Community Listening Session VR",
+    "tagline": "A circle, not a stage: access set up before the doors open, what the session is for said plainly, every voice reflected back, the quiet tables reached, a resident in distress cared for — and a date when people will hear what was done with what they said",
+    "accent": 7323507,
+    "accentCss": "#6fbf73",
+    "parSeconds": 330,
+    "badge": {
+      "id": "heard-back",
+      "name": "Heard Back",
+      "note": "A whole session run as listening: nothing defended, nobody left out, and a record the room would sign"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Circle",
+      "currency": "VOICES",
+      "ranks": [
+        "Note Taker",
+        "Co-Facilitator",
+        "Facilitator",
+        "Engagement Lead",
+        "Facilitation Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "conflict-mediation-room",
+    "index": "224",
+    "domain": "Civic",
+    "trade": "Community mediator",
+    "category": "Community Environmental Justice",
+    "certification": "SAMHSA's trauma-informed care principles of safety, trustworthiness and transparency, and empowerment, voice and choice, for two parties who each feel unheard; Psychological First Aid (NCTSN) for a party who is overwhelmed mid-session; Title II of the ADA for an interpreter and any accommodation a party asks for in a city-run programme; the municipal ethics code for a mediator's duty to disclose a connection to a party and to refuse gifts; SEIU and AFSCME for the public-service staff who run community mediation programmes. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Conflict Mediation Room",
+    "weather": "overcast",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Conflict Mediation Room VR",
+    "tagline": "A garden, a food truck and two neighbours who stopped talking months ago: your own connection disclosed, the rules said out loud, each side heard whole, the blame taken out of the complaint, the power kept level — and an agreement written in their words, not yours",
+    "accent": 7319752,
+    "accentCss": "#6fb0c8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "both-heard",
+      "name": "Both Heard",
+      "note": "A whole mediation run level: neither side favoured, nothing promised, and an agreement both parties wrote"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Level Table",
+      "currency": "ACCORD",
+      "ranks": [
+        "Observer",
+        "Co-Mediator",
+        "Mediator",
+        "Lead Mediator",
+        "Mediation Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mentorship-and-succession",
+    "index": "225",
+    "domain": "Civic",
+    "trade": "Outgoing commission chair — mentor",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) as the first thing a new member must know; the Political Reform Act, administered by the FPPC, for the assuming-office Statement of Economic Interests (Form 700) and gift rules; the municipal ethics code and the state's required ethics training for local officials, named generically; Robert's Rules of Order as the commission's adopted practice for running a meeting; SAMHSA's trauma-informed principle of peer support, applied to mentoring; SEIU and AFSCME for the commission staff a new chair relies on. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+    "name": "Mentorship and Succession",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Mentorship and Succession VR",
+    "tagline": "Hand the seat on properly: the binder that matters, their goals before yours, a practice meeting you sit back from, the gavel passed, your relationships shared, a freeze coached quietly — and feedback honest enough to use",
+    "accent": 13208240,
+    "accentCss": "#c98ab0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "seat-handed-on",
+      "name": "Seat Handed On",
+      "note": "A successor left able to lead without you: prepared, introduced, trusted with the gavel and told the truth"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pass It On",
+      "currency": "LEGACY",
+      "ranks": [
+        "Member",
+        "Chair",
+        "Mentor",
+        "Senior Mentor",
+        "Leadership Elder"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -22963,8 +23445,16 @@ const CURRICULA = [
     accent: "#c9a34a",
     stations: [
       { app: "smartcity", id: "public-comment-prep", why: "The shared opener: standing up in public with a case that is sourced, timed and respectful is the first civic skill every station here builds on." },
-      // slot-civ-1
-      // slot-civ-2
+      { app: "smartcity", id: "civic-principles-briefing", why: "The briefing before the stations: the eight principles stated honestly, the decision framework they hang on, and the open-meeting, disclosure and access law every station after it assumes." },
+      { app: "smartcity", id: "public-meeting-chair", why: "Chairing the meeting is where listening first becomes a procedure: every speaker heard to the bell, nothing acted on that was not noticed, and each vote stated aloud." },
+      { app: "smartcity", id: "constituent-service-desk", why: "Keeping your word is learned one resident at a time, at a counter where the only honest promise is a date the office can actually meet." },
+      { app: "smartcity", id: "coalition-building-table", why: "A coalition table is where a leader learns to find the interest behind each position and to count support honestly without carrying votes between officials." },
+      { app: "smartcity", id: "budget-tradeoff-hearing", why: "Closing a budget gap in front of the people it lands on is the plainest test of spending public money in the open and owning the hard call." },
+      { app: "smartcity", id: "ethics-and-conflict-of-interest", why: "Disclosure, gifts, recusal and the revolving door are where a leader's word is tested when nobody would have noticed otherwise." },
+      { app: "smartcity", id: "crisis-communication-podium", why: "The podium on the worst day asks for every principle at once: confirm before you speak, reach everybody, and correct a mistake in public." },
+      { app: "smartcity", id: "community-listening-session", why: "A listening session with nothing to defend is where bringing people in rather than shutting them out is practised as a skill rather than a slogan." },
+      { app: "smartcity", id: "conflict-mediation-room", why: "Mediating between two neighbours trains the emotional intelligence underneath every other station: hear each side whole, take the blame out, and keep the room level." },
+      { app: "smartcity", id: "mentorship-and-succession", why: "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you." },
     ],
   },
   {

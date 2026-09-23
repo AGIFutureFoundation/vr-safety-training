@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 285 entries across 75 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 290 entries across 79 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -80,7 +80,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | OSHA 29 CFR 1926 Subpart Q Concrete and masonry construction | `osha-1926-subpart-q` | Construction & Structural Trades | `29 CFR 1926 Subpart Q Concrete and masonry construction` |
 | ? | OSHA 29 CFR 1926 Subpart R Steel erection | `osha-1926-subpart-r` | Construction & Structural Trades | `29 CFR 1926 Subpart R Steel erection` |
 
-### NFPA (29)
+### NFPA (30)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
@@ -107,6 +107,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | NFPA 69 — Standard on Explosion Prevention Systems | `nfpa-69` | Building Systems & Facilities, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `NFPA 69` |
 | ? | NFPA 70 National Electrical Code Article 690 Solar photovoltaic systems | `nfpa-70-art-690` | Connectivity & Telecom, Energy & Power | `70 National Electrical Code Article 690 Solar photovoltaic s` |
 | ✓ | NFPA 70E — Standard for Electrical Safety in the Workplace | `nfpa-70e` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator | `NFPA 70E` |
+| ✓ | NFPA 72 National Fire Alarm and Signaling Code | `nfpa-72` | Building Systems & Facilities, Emergency Services | `NFPA 72` |
 | ✓ | NFPA 780 — Installation of Lightning Protection Systems | `nfpa-780` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Energy & Power, Environmental Monitoring | `NFPA 780` |
 | ✓ | NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities | `nfpa-820` | Environmental Monitoring, Water & Environmental | `NFPA 820` |
 | ✓ | NFPA 85 — Boiler and Combustion Systems Hazards Code | `nfpa-85` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports | `NFPA 85` |
@@ -454,6 +455,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it | `calcode-retail-food` | Culinary & Hospitality, Trade Skills Simulator | `California Retail Food Code`, `CalCode` |
 
+### California Government Code (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority | `brown-act` | Community Environmental Justice | `Ralph M. Brown Act`, `Brown Act` |
+
 ### CARB (1)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -502,6 +509,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ? | FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS | `fema-is-courses` | Community Environmental Justice, Emergency Services, Environmental Monitoring | `FEMA IS-100`, `FEMA IS-700`, `FEMA` |
 
+### FPPC (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting | `political-reform-act` | Community Environmental Justice | `Political Reform Act`, `Fair Political Practices Commission`, `Form 700` |
+
 ### IMSA (1)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -519,6 +532,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | U.S. Maritime Administration mariner training and workforce standards, delivered through the state and federal maritime academies | `marad-mariner-training` | Maritime & Ports | `MARAD` |
+
+### municipal ethics code (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited | `municipal-ethics-code` | Community Environmental Justice | `city ethics code`, `municipal ethics code` |
 
 ### MUTCD (1)
 
@@ -615,6 +634,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | RETA industrial refrigeration operator certification | `reta-refrigeration-operator` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports | `RETA` |
+
+### Robert's Rules (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law | `roberts-rules` | Community Environmental Justice | `Robert's Rules of Order`, `Robert's Rules` |
 
 ### RWQCB (1)
 
@@ -910,6 +935,63 @@ What governs each training programme in `WebXR/smartcity/js/curricula.js`, as it
 - ? AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients (`aapd-reference-manual`)
 - ✓ HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164) (`hipaa-privacy-rule`)
 - ✓ ISO 23908 — Sharps injury protection: requirements and test methods (`iso-23908`)
+
+### Civic Leadership and Emotional Intelligence
+
+`civic-leadership-and-ei` · SEIU and AFSCME public-service staff, the trades' own apprenticeship coordinators, and community organisations that train residents for public life
+
+**Union and trade guide.** SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members · AFSCME member education and safety training for public-service and air-district members
+
+**Standards.**
+
+- ✓ SAMHSA's six principles of a trauma-informed approach (`samhsa-trauma-informed`)
+- ✓ NIMS incident command system — the structure a multi-agency response runs inside (`nims-ics`)
+
+### Property Management — Twenty Zones
+
+`property-management` · SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association's certified apartment manager and maintenance technician credentials
+
+**Union and trade guide.** SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members · IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship · UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff
+
+**Standards.**
+
+- ✓ 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout) (`osha-1910-147`)
+- ✓ NFPA 72 National Fire Alarm and Signaling Code (`nfpa-72`)
+- ✓ NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems (`nfpa-25`)
+
+### Outbreak and Disease Response — WHO and UN Practice
+
+`outbreak-response-who` · SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters
+
+**Union and trade guide.** SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members · AFSCME member education and safety training for public-service and air-district members
+
+**Standards.**
+
+- ✓ CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance (`cdc-guidance`)
+- ✓ 29 CFR 1910.1030 — Bloodborne pathogens (`osha-1910-1030`)
+- ✓ 29 CFR 1910.134 — Respiratory protection (`osha-1910-134`)
+- ✓ NIMS incident command system — the structure a multi-agency response runs inside (`nims-ics`)
+
+### Job Readiness Edition — wojrc.org programmes
+
+`job-readiness-edition` · Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff
+
+**Union and trade guide.** Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work · ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division · SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members
+
+**Standards.**
+
+- ✓ 29 CFR 1910.178 — Powered industrial trucks (`osha-1910-178`)
+- ✓ SAMHSA's six principles of a trauma-informed approach (`samhsa-trauma-informed`)
+
+### Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine
+
+`bay-area-union-edition` · SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen's Union of the ILWU, MEBA and SIU, with the Pile Drivers' commercial divers for the underwater work
+
+**Union and trade guide.** SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship · Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork · IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training · United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship · ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division · MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training · SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes
+
+**Standards.**
+
+- ✓ 46 CFR Subchapter M — Inspection of towing vessels (`uscg-subchapter-m`)
 
 ### Bartending — Behind the Bar
 

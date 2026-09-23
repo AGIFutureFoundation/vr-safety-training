@@ -385,9 +385,11 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["samhsa-trauma-informed", "nims-ics"],
     stations: [
-      "public-comment-prep"
+      "public-comment-prep", "civic-principles-briefing", "public-meeting-chair", "constituent-service-desk",
+      "coalition-building-table", "budget-tradeoff-hearing", "ethics-and-conflict-of-interest", "crisis-communication-podium",
+      "community-listening-session", "conflict-mediation-room", "mentorship-and-succession"
     ],
-    require: 1,
+    require: 6,
   },
   {
     id: "property-management",

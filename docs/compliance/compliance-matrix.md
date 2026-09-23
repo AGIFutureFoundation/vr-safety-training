@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 250 procedures, 191 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 260 procedures, 191 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -434,6 +434,16 @@ Every station names the union and the certification a worker in that role holds,
 | Station | Trade | Standards cited |
 |---|---|---|
 | Public Comment Prep | Community pollution patrol lead | 29 CFR 1910.120 |
+| Civic Principles Briefing | Civic leader — councillor, commissioner, organiser or public servant | — |
+| Public Meeting Chair | Presiding officer — council or commission chair | — |
+| Constituent Service Desk | District office caseworker | — |
+| Coalition Building Table | Community organiser — coalition convenor | — |
+| Budget Tradeoff Hearing | Budget committee chair | — |
+| Ethics and Conflict of Interest | Appointed commissioner — ethics and disclosure | — |
+| Crisis Communication Podium | Public information officer — city spokesperson | — |
+| Community Listening Session | Community engagement facilitator | — |
+| Conflict Mediation Room | Community mediator | — |
+| Mentorship and Succession | Outgoing commission chair — mentor | — |
 
 ### Property Management — Twenty Zones
 
@@ -686,6 +696,16 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Mentorship and Succession (smartcity): none
+- Conflict Mediation Room (smartcity): none
+- Community Listening Session (smartcity): none
+- Crisis Communication Podium (smartcity): none
+- Ethics and Conflict of Interest (smartcity): none
+- Budget Tradeoff Hearing (smartcity): none
+- Coalition Building Table (smartcity): none
+- Constituent Service Desk (smartcity): none
+- Public Meeting Chair (smartcity): none
+- Civic Principles Briefing (smartcity): none
 - Wellness — Peer Support Conversation (smartcity): NIOSH
 - Teledentistry & Triage (smartcity): 29 CFR 1910.1030
 - School Screening Outreach (smartcity): 29 CFR 1910.1030
