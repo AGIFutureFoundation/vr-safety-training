@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 302 entries across 84 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 309 entries across 86 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -273,6 +273,15 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21 | `abc-25658` | Culinary & Hospitality | `Cal. Bus. & Prof. Code §25658`, `§25658`, `25658` |
 | ✓ | California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol | `abc-rbs-training` | Culinary & Hospitality | `RBS` |
 
+### FMCSA (4)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry | `fmcsa-49-cfr-380-subpart-f` | Maritime & Ports, Mobility & Transit | `49 CFR 380 Subpart F`, `49 CFR 380` |
+| ✓ | 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo | `fmcsa-49-cfr-393` | Maritime & Ports, Mobility & Transit | `49 CFR 393` |
+| ✓ | 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices | `fmcsa-49-cfr-395` | Maritime & Ports, Mobility & Transit | `49 CFR 395` |
+| ✓ | 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report | `fmcsa-49-cfr-396` | Maritime & Ports, Mobility & Transit | `49 CFR 396` |
+
 ### FRA (4)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -338,6 +347,22 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | IEC/IEEE 80005 — Utility connections in port: high-voltage shore connection systems | `ieee-80005` | Energy & Power, Maritime & Ports | `IEEE 80005` |
 | ✓ | IEEE C2 — National Electrical Safety Code (NESC) | `ieee-c2-nesc` | Building Systems & Facilities, Connectivity & Telecom, Emergency Services, Energy & Power, Mobility & Transit | `NESC`, `IEEE C2` |
 
+### NIOSH (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | all 17 categories | `NIOSH` |
+| ? | NIOSH Ergonomics guidance for seated repetitive work | `niosh-ergonomics` | Sewing & Garment Trades, Trade Skills Simulator | `Ergonomics guidance for seated repetitive work` |
+| ✓ | Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting | `niosh-lifting-equation` | Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports, Mobility & Transit | `Revised NIOSH Lifting Equation`, `NIOSH Lifting Equation` |
+
+### PHMSA (3)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | 49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training | `phmsa-49-cfr-172` | Community Environmental Justice, Dental & Oral Health, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `49 CFR 172` |
+| ✓ | 49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle | `phmsa-49-cfr-177` | Emergency Services, Maritime & Ports, Mobility & Transit | `49 CFR 177` |
+| ✓ | 49 CFR Part 192 — Transportation of natural and other gas by pipeline: minimum federal safety standards | `phmsa-49-cfr-192` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Water & Environmental | `49 CFR 192` |
+
 ### WHO (3)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -380,20 +405,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | ANSI/IIAR 2 — Safe design of closed-circuit ammonia refrigeration systems | `iiar-2` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports | `IIAR 2` |
 | ✓ | ANSI/IIAR 6 — Inspection, testing and maintenance of closed-circuit ammonia refrigeration systems | `iiar-6` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports | `IIAR 6` |
-
-### NIOSH (2)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | all 17 categories | `NIOSH` |
-| ? | NIOSH Ergonomics guidance for seated repetitive work | `niosh-ergonomics` | Sewing & Garment Trades, Trade Skills Simulator | `Ergonomics guidance for seated repetitive work` |
-
-### PHMSA (2)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | 49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training | `phmsa-49-cfr-172` | Community Environmental Justice, Dental & Oral Health, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `49 CFR 172` |
-| ✓ | 49 CFR Part 192 — Transportation of natural and other gas by pipeline: minimum federal safety standards | `phmsa-49-cfr-192` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Water & Environmental | `49 CFR 192` |
 
 ### RCRA (2)
 
@@ -497,6 +508,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | CIT International's Crisis Intervention Team core elements for response to people in crisis | `cit-international-model` | Community Environmental Justice, Emergency Services | `CIT International`, `Crisis Intervention Team` |
+
+### CVSA (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles | `cvsa-out-of-service-criteria` | Maritime & Ports, Mobility & Transit | `CVSA` |
 
 ### DOJ (1)
 

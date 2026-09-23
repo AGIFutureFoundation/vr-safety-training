@@ -5135,10 +5135,13 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-178", "samhsa-trauma-informed"],
     stations: [
-      "forklift-dock", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
-      "union-hall-and-dispatch", "first-period-evaluation", "credit-report-reading", "debt-reduction-plan",
-      "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending", "trades-lineage-briefing",
-      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+      "forklift-dock", "tdl-pallet-jack-and-racking", "tdl-pick-pack-and-scan", "tdl-trailer-loading-and-dock-plate",
+      "tdl-hazmat-labeling-and-segregation", "tdl-lifting-and-ergonomics", "tdl-pretrip-inspection", "tdl-air-brake-test",
+      "tdl-coupling-and-uncoupling", "tdl-backing-and-docking", "tdl-cargo-securement-and-hours", "apprenticeship-standards-reading",
+      "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10", "union-hall-and-dispatch", "first-period-evaluation",
+      "credit-report-reading", "debt-reduction-plan", "pay-stub-and-withholding", "budget-with-irregular-income",
+      "emergency-savings-and-predatory-lending", "trades-lineage-briefing", "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation",
+      "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
     ],
     require: 6,
   },
@@ -21858,6 +21861,426 @@ const SIMS_META = [
         "Steady Saver",
         "Offer Reader",
         "Rainy Day Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-pallet-jack-and-racking",
+    "index": "217",
+    "domain": "Warehouse & Distribution",
+    "trade": "Warehouse associate, TDL pre-apprenticeship — Teamsters warehouse work: pallet jack and racking, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, which covers motorized hand trucks and requires operator training and evaluation under paragraph (l) with a re-evaluation at least every three years; ANSI B56.1 for low-lift trucks; 29 CFR 1910.22 walking-working surfaces for aisles kept clear; 29 CFR 1910.157 for fire extinguishers kept reachable; the Revised NIOSH Lifting Equation for the hand work around the pallet; Teamsters warehouse locals' powered-truck programmes",
+    "name": "Pallet Jack and Racking",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Pallet Jack and Racking VR",
+    "tagline": "A walkie pallet jack and a run of selective racking: pre-use inspection, controls tested, the pallet against the rating and the plaque, raised just clear, walking pace with the horn at the aisle end, a floor location set square, the rack walk and the park",
+    "accent": 15769914,
+    "accentCss": "#f0a13a",
+    "parSeconds": 260,
+    "badge": {
+      "id": "square-and-clear",
+      "name": "Square and Clear",
+      "note": "A putaway with the truck inspected, the load inside both ratings, the aisle warned and the rack damage reported — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Floor Operations",
+      "currency": "PALLET",
+      "ranks": [
+        "New Associate",
+        "Jack Operator",
+        "Aisle Lead",
+        "Putaway Lead",
+        "Floor Operations Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-pick-pack-and-scan",
+    "index": "218",
+    "domain": "Warehouse & Distribution",
+    "trade": "Order picker and packer, TDL pre-apprenticeship — Teamsters warehouse work: pick, pack and scan, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.147 control of hazardous energy for conveyor jam clearing; 29 CFR 1910.178 for the forklift traffic the pick aisles share; 29 CFR 1910.22 walking-working surfaces; the Revised NIOSH Lifting Equation for repetitive picking; PHMSA 49 CFR 172 hazard communication marks, including the limited-quantity mark, on packages that pass through a pick face; Teamsters warehouse locals' safety committees and training",
+    "name": "Pick, Pack and Scan",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Pick, Pack and Scan VR",
+    "tagline": "One pick wave: scanner and tote, a slot that does not match its label, a cart in a forklift aisle, the right compartment, a jammed conveyor stopped, isolated and locked, a carton weighed against the order and a label read before it ships",
+    "accent": 5224649,
+    "accentCss": "#4fb8c9",
+    "parSeconds": 250,
+    "badge": {
+      "id": "zero-touch-jam",
+      "name": "Zero-Touch Jam",
+      "note": "A wave picked and packed with the conveyor locked out before the jam was touched, the forklift yielded to and the mis-pick caught on the scale — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Order Fulfilment",
+      "currency": "SCAN",
+      "ranks": [
+        "New Picker",
+        "Picker",
+        "Packer",
+        "Wave Lead",
+        "Fulfilment Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-trailer-loading-and-dock-plate",
+    "index": "219",
+    "domain": "Warehouse & Distribution",
+    "trade": "Dock loader, TDL pre-apprenticeship — Teamsters warehouse and dock work: trailer loading and dock plate, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, including trailer brakes set, wheel chocks under the rear wheels and fixed jacks under an uncoupled semitrailer while it is boarded by a truck; ANSI B56.1 for the counterbalanced truck; 29 CFR 1910.22 walking-working surfaces and OSHA's dockboard requirements for plates secured against sliding; FMCSA 49 CFR 393 Subpart I, which the carrier's driver answers for at the roadside and the loader builds for at the dock; Teamsters warehouse and freight locals' dock training",
+    "name": "Trailer Loading and Dock Plate",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Trailer Loading and Dock Plate VR",
+    "tagline": "A dropped van at a plate door: load plan, trailer walk, chock and nose jack, restraint held till it grips, a plate rated for truck plus load and seated, the load built tight, a load bar across the last row, and a release that never leaves a plate on a trailer that can move",
+    "accent": 14857020,
+    "accentCss": "#e2b33c",
+    "parSeconds": 270,
+    "badge": {
+      "id": "tight-and-sealed",
+      "name": "Tight and Sealed",
+      "note": "A trailer chocked and jacked before the plate, loaded tight with a load bar across the last row and released in order — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dock Loading",
+      "currency": "LOAD",
+      "ranks": [
+        "Dock Trainee",
+        "Loader",
+        "Lead Loader",
+        "Dock Lead",
+        "Dock Loading Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-hazmat-labeling-and-segregation",
+    "index": "220",
+    "domain": "Warehouse & Distribution",
+    "trade": "Hazmat shipping associate, TDL pre-apprenticeship — Teamsters warehouse and freight work: hazmat labelling and segregation, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+    "category": "Mobility & Transit",
+    "certification": "PHMSA 49 CFR 172 — the hazardous materials table, shipping papers and the shipper's certification, package marking and labels, placarding, emergency response information, and the hazmat employee training every person who handles or prepares a shipment must have, refreshed at least every three years; 49 CFR 177 for loading and segregation on the vehicle; OSHA 29 CFR 1910.1200 hazard communication and the safety data sheet; 29 CFR 1910.132 personal protective equipment; ANSI Z358.1 for the eyewash; 29 CFR 1910.178 for the truck that loads the trailer; Teamsters freight and warehouse locals' hazmat training",
+    "name": "Hazmat Labeling and Segregation",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Hazmat Labeling and Segregation VR",
+    "tagline": "A hazmat staging cage at an outbound door: the paper read, PPE and eyewash, labels, marks and arrows audited, a drum weighed and its bung checked, staged away from what it must never meet, emergency information attached, placards walked on every side, and the paper signed to the driver",
+    "accent": 14706234,
+    "accentCss": "#e0663a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "segregated",
+      "name": "Segregated",
+      "note": "A hazmat shipment staged away from its incompatibles, with every label, mark and placard right and the paper signed — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hazmat Shipping",
+      "currency": "PAPER",
+      "ranks": [
+        "Hazmat Trainee",
+        "Hazmat Employee",
+        "Hazmat Shipper",
+        "Hazmat Lead",
+        "Hazmat Shipping Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-lifting-and-ergonomics",
+    "index": "221",
+    "domain": "Warehouse & Distribution",
+    "trade": "Warehouse associate, TDL pre-apprenticeship — Teamsters warehouse work: manual lifting and ergonomics, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+    "category": "Mobility & Transit",
+    "certification": "The Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed lifts; NIOSH ergonomics research on repetitive manual handling; OSHA 29 CFR 1904 recording and reporting of work-related injuries, including a worker's right to report without retaliation; 29 CFR 1910.22 walking-working surfaces; 29 CFR 1910.178 and ANSI B56.1 for the pallet trucks that share the floor; Teamsters (IBT) warehouse locals' safety committees and ergonomics programmes",
+    "name": "Lifting and Ergonomics",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Lifting and Ergonomics VR",
+    "tagline": "A case-picking station: the job card, each lift sized up and scored the way the NIOSH Lifting Equation scores it, the pallet raised and turned instead of reached across, a carry held close, the power-zone shelf, a team lift on a count, a partner who hurts his back, and a discomfort report made early",
+    "accent": 9421914,
+    "accentCss": "#8fc45a",
+    "parSeconds": 250,
+    "badge": {
+      "id": "power-zone",
+      "name": "Power Zone",
+      "note": "A shift of lifts with the station changed to fit the worker, the team lift called and the discomfort reported early — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Manual Handling",
+      "currency": "LIFT",
+      "ranks": [
+        "New Associate",
+        "Case Picker",
+        "Station Lead",
+        "Ergonomics Rep",
+        "Manual Handling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-pretrip-inspection",
+    "index": "222",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: pre-trip inspection under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and range curriculum includes vehicle inspection, delivered by a provider on the Training Provider Registry; 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories, including tread depth and the emergency equipment a truck carries; 49 CFR 395 hours of service, which logs inspection time as on duty; the CVSA North American Standard Out-of-Service Criteria a roadside inspector applies; Teamsters (IBT) freight locals' driver training",
+    "name": "Pre-Trip Inspection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Pre-Trip Inspection VR",
+    "tagline": "A tractor-trailer before the first dispatch: the last report read, the rig secured, the engine bay walked cold, tread measured, lamps and lights walked, brake lights held, mirrors set, triangles stowed, the engine started and watched, tires and air lines walked, and the defects written down",
+    "accent": 5809896,
+    "accentCss": "#58a6e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "written-up",
+      "name": "Written Up",
+      "note": "A full pre-trip with every defect found, the engine shut down on the overheat and the report written honestly — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Vehicle Inspection",
+      "currency": "CHECK",
+      "ranks": [
+        "Permit Holder",
+        "Driver Trainee",
+        "Class A Driver",
+        "Lead Driver",
+        "Inspection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-air-brake-test",
+    "index": "223",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: the air brake check under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum covers air brakes and the in-cab brake check, delivered by a provider on the Training Provider Registry; 49 CFR 393 brake system requirements, including the low-pressure warning; 49 CFR 396 inspection and the driver vehicle inspection report; the CVSA North American Standard Out-of-Service Criteria for brakes, air loss and adjustment that a roadside inspector applies; the state commercial driver manual's air brake section, which sets the figures a skills examiner checks; Teamsters (IBT) freight locals' driver training",
+    "name": "Air Brake Test",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Air Brake Test VR",
+    "tagline": "The in-cab air brake check: chock, build and time the air, read the governor, release and watch the static leak, hold the applied leak, fan down to the warning and the pop-out, drain the tanks, feel the service brakes, find the leaks and write the numbers down",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "holds-air",
+      "name": "Holds Air",
+      "note": "A full in-cab brake check with every leak rate inside the manual's figure, the blown line caught and the numbers in the report — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Air Brakes",
+      "currency": "PSI",
+      "ranks": [
+        "Permit Holder",
+        "Air Brake Trainee",
+        "Class A Driver",
+        "Lead Driver",
+        "Air Brake Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-coupling-and-uncoupling",
+    "index": "224",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: coupling and uncoupling under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and range curriculum covers coupling and uncoupling, delivered by a provider on the Training Provider Registry; 49 CFR 393 parts and accessories, including coupling devices and the air and electrical connections between tractor and trailer; 49 CFR 396 inspection and the driver vehicle inspection report; the CVSA North American Standard Out-of-Service Criteria for fifth wheels and coupling devices; ANSI/ISEA 107 high-visibility apparel for anyone on foot in the yard; Teamsters (IBT) freight locals' driver training",
+    "name": "Coupling and Uncoupling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Coupling and Uncoupling VR",
+    "tagline": "Hook and drop a trailer the manual's way: right trailer, fifth wheel open and greased, chocked, height checked, lines on and trailer brakes set, backed under slowly, tugged, looked at, legs up, chocks out — and then legs down, lines off, release pulled and written up",
+    "accent": 7327924,
+    "accentCss": "#6fd0b4",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tugged-and-looked",
+      "name": "Tugged and Looked",
+      "note": "A coupling tugged, looked at and written up, and a drop with the legs down before the jaws opened — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Coupling",
+      "currency": "PIN",
+      "ranks": [
+        "Permit Holder",
+        "Driver Trainee",
+        "Class A Driver",
+        "Yard Lead",
+        "Coupling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-backing-and-docking",
+    "index": "225",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: backing and docking under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes straight-line, offset and alley-dock backing, delivered by a provider on the Training Provider Registry; 49 CFR 393 for the mirrors and lamps backing depends on; 49 CFR 395 hours of service and the electronic logging device's duty status at the dock; OSHA 29 CFR 1910.178 for the trailer brakes and wheel chocks a warehouse needs before its forklifts board; ANSI/ISEA 107 high-visibility apparel for the spotter; Teamsters (IBT) freight locals' driver training",
+    "name": "Backing and Docking",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Backing and Docking VR",
+    "tagline": "An alley dock between two trailers: the door read, window down and flashers on, get out and look, a sight-side set-up, the wheel turned the trailer's way, dead slow with a spotter in the mirror, look again, feather onto the bumpers, brakes, chock, hand over and change the log",
+    "accent": 12094704,
+    "accentCss": "#b88cf0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "sight-side",
+      "name": "Sight Side",
+      "note": "A sight-side alley dock with two looks, the spotter always in view and the trailer chocked at the door — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Backing",
+      "currency": "FOOT",
+      "ranks": [
+        "Permit Holder",
+        "Driver Trainee",
+        "Class A Driver",
+        "Yard Lead",
+        "Backing Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tdl-cargo-securement-and-hours",
+    "index": "226",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: cargo securement and hours of service under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 393 Subpart I protection against shifting and falling cargo — working load limits, the minimum number of tie-downs by article length and weight, tie-down condition and edge protection; 49 CFR 395 hours of service and the electronic logging device; 49 CFR 396 inspection and the driver vehicle inspection report; 49 CFR 380 Subpart F entry-level driver training, whose Class A theory curriculum covers cargo securement and hours of service; the CVSA North American Standard Out-of-Service Criteria for cargo securement and hours a roadside inspector applies; Teamsters (IBT) freight locals' driver training",
+    "name": "Cargo Securement and Hours",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Cargo Securement and Hours VR",
+    "tagline": "A flatbed with two crated machines: the bill of lading, working load limits against half the weight, straps inspected, tie-downs thrown and winched, edge protection, the first miles and the re-check, the shoulder, the log read for what it will force, a legal trip plan and a certified day",
+    "accent": 6210262,
+    "accentCss": "#5ec2d6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "legal-load-legal-day",
+      "name": "Legal Load, Legal Day",
+      "note": "Tie-downs enough by count and by limit, the slack strap caught, the shoulder protected and the day planned inside the hours — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Securement and Hours",
+      "currency": "WLL",
+      "ranks": [
+        "Permit Holder",
+        "Driver Trainee",
+        "Flatbed Driver",
+        "Lead Driver",
+        "Securement Certified"
       ],
       "rankAt": [
         0,
