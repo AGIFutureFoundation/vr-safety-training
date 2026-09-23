@@ -87,13 +87,16 @@ that README's "One profile, two apps" section.
 ## WebXR training network
 
 Trade Skills Simulator is one of four independent WebXR apps under `WebXR/`. The other
-three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 145 more union-trade
-AR/VR simulators across 15 categories — crane operator, tower climber, lineworker, bay
-restoration crews, kitchen workers, dental hygienists and more, each naming a real union and
+three: **SmartCiti.X** ([`WebXR/smartcity/`](WebXR/smartcity/README.md), 216 more union-trade
+AR/VR stations across 16 categories in 24 training programmes — crane operator, tower climber, lineworker, bay
+restoration crews, kitchen workers, dental hygienists, first responders and more, each naming a real union and
 certification requirement — sharing the same apprentice profile as Trade Skills Simulator; the
 training programmes they form, with screenshots, are on the generated
 [series page](docs/wiki/SmartCitiX-Training-Series.md), and the standards each one cites are on the generated
-[compliance matrix](docs/compliance/compliance-matrix.md); how they run on hardhat-mounted
+[compliance matrix](docs/compliance/compliance-matrix.md); every station passes the 29 checkers in
+`tools/check_all.mjs` before it ships, and the counts in this paragraph are read from
+`WebXR/smartcity/catalog.json` and that file — [`docs/STATUS.md`](docs/STATUS.md) carries the dated
+build log with the live totals; how they run on hardhat-mounted
 AR glasses and MR headsets is in the [device guide](docs/devices.md); the dental block doubles as a
 robot training simulator — poses, grasps, force ceilings and patient keep-out volumes — described in
 the [robot training guide](docs/robot-training.md)), **Holodeck** (`WebXR/holodeck/`, a

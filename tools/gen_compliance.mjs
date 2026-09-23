@@ -12,6 +12,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
+// The checker count is whatever check_all.mjs runs today, never a spelled-out number.
+const CHECKERS = (readFileSync(join(ROOT, "tools/check_all.mjs"), "utf8").match(/"check_[a-z0-9_]+\.mjs"/g) ?? []).length;
 
 // Citation patterns, each normalised to one display form.
 const PATTERNS = [
@@ -65,7 +67,7 @@ md.push(`_Generated from the station sources by \`tools/gen_compliance.mjs\` on 
 md.push("");
 md.push("## How a procedure earns its place");
 md.push("");
-md.push("Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes twenty-three automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.");
+md.push(`Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes ${CHECKERS} automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by \`tools/eval_content.mjs\` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in \`WebXR/assets/env/README.md\`, \`tools/briefs/hp-edition-brief.md\` and the flat briefing stations.`);
 md.push("");
 md.push("## By standard");
 md.push("");

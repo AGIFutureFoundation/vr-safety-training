@@ -1,32 +1,37 @@
 # SmartCiti.X
 
-AR/VR training simulators across seventeen SmartCiti.X trade-union categories. 181 stations
-exist today — 179 walkable AR/VR procedures and two flat briefing stations — each a
+AR/VR training simulators across sixteen SmartCiti.X trade-union categories. 216 stations
+exist today — 214 walkable AR/VR procedures and 2 flat briefing stations, counted from
+`catalog.json` on 2026-09-23 — each a
 real ordered procedure with real hazards, its own gamified rank ladder, and the real
 union and certification a worker in that role would actually need — not a generic "safety
 training" wrapper, a specific one per trade. Trade Skills Simulator, `WebXR/trades/`'s own nine
-rooms, makes a thirteenth category on the shared catalog; see that app's own README.
+rooms, makes a seventeenth category on the shared catalog; see that app's own README.
 
-## The thirteen categories
+## The seventeen categories
 
 | Category | SmartCiti.X app | Stations today |
 |---|---|---|
-| Energy & Power | smartcity | 8 |
-| Mobility & Transit | smartcity | 6 |
-| Water & Environmental | smartcity | 10 |
+| Building Systems & Facilities | smartcity | 8 |
+| Community Environmental Justice | smartcity | 26 |
 | Connectivity & Telecom | smartcity | 6 |
-| Emergency Services | smartcity | 6 |
-| Manufacturing & Automation | smartcity | 6 |
-| Building Systems & Facilities | smartcity | 7 |
-| Construction & Structural Trades | smartcity | 7 |
+| Construction & Structural Trades | smartcity | 13 |
+| Culinary & Hospitality | smartcity | 33 |
+| Dental & Oral Health | smartcity | 20 |
+| Emergency Services | smartcity | 21 |
+| Energy & Power | smartcity | 12 |
 | Entertainment & Live Events | smartcity | 7 |
-| Maritime & Ports | smartcity | 7 |
-| Environmental Monitoring | smartcity | 8 |
+| Environmental Monitoring | smartcity | 15 |
+| Manufacturing & Automation | smartcity | 6 |
+| Maritime & Ports | smartcity | 15 |
+| Mobility & Transit | smartcity | 6 |
+| Sewing & Garment Trades | smartcity | 10 |
 | Surface Prep & Coatings | smartcity + trades | 4 (Bridge Blast and Tank Lining, plus the Trade Skills rooms Wash-Down Yard and Coatings Bay) |
+| Water & Environmental | smartcity | 16 |
 | Trade Skills Simulator | trades | 7 (the rest of `WebXR/trades/`'s rooms) |
 
 `catalog.json` is the merged roster for both apps and is the place to read the current
-station list per category; this table counts it rather than naming all eighty.
+station list per category; this table counts it (regenerated from `catalog.json`, 225 rows) rather than naming every station.
 
 This is a growth taxonomy, not a fixed roster: the plan is 33 stations per category — enough
 for every category to eventually cover a whole family of real, distinct trades rather than one

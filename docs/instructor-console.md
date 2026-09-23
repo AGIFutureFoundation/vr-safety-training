@@ -25,8 +25,9 @@ learner: each unsafe action with its consequence, each command and what the app
 did with it, and the verdict when the run ends. Selecting a card opens the
 per-learner panel below the header.
 
-**Roster** — the whole catalog: 23 programmes, then 17 categories holding all
-202 SmartCiti.X stations and the 9 Trade Skills rooms, each with its trade,
+**Roster** — the whole catalog: every programme, then every category holding every
+SmartCiti.X station and the 9 Trade Skills rooms (24 programmes, 17 categories and
+216 stations as `catalog.json` stands today), each with its trade,
 certification, step and interruption counts, weather and par time. The search
 box matches a station's id, name, category, trade, certification or tagline, and
 a programme's own words or any station it contains. Each row can be sent to the
@@ -147,6 +148,6 @@ predates the bump keeps working with the commands it knows.
 * `node tools/check_console.mjs` — that every command is handled by the learner
   apps, recorded on the attempt, and reduced into the roster; that the console
   sets no markup and imports no simulator code; and that the catalog roster
-  covers all 202 SmartCiti.X stations.
+  covers every SmartCiti.X station in `sims-meta` (the count is read there, not fixed).
 
 Screenshots: `docs/screenshots/console/`.

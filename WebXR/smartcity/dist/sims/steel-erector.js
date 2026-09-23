@@ -19,7 +19,7 @@ export const SIM_STEEL_ERECTOR = {
   trade: "Ironworker / structural steel connector",
   category: "Construction & Structural Trades",
   weather: "wind",
-  certification: "Ironworkers (IBB) — OSHA 29 CFR 1926 Subpart R qualified connector; fall protection under ANSI Z359 and rigging signals per ASME B30.5",
+  certification: "Ironworkers (IW) — OSHA 29 CFR 1926 Subpart R qualified connector; fall protection under ANSI Z359 and rigging signals per ASME B30.5",
   name: "Steel Erector",
   title: simTitle("Steel Erector"),
   tagline: "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",
@@ -146,7 +146,7 @@ export const SIM_STEEL_ERECTOR = {
       id: "torque-final", kind: "select", target: "torque-wrench",
       title: "Apply final torque",
       cue: "Torque every bolt in the connection to the specified value in the required pattern.",
-      why: "Final torque is a one-way operation — once a bolt is torqued to the connection's specified value in the required pattern, backing it off to fix an alignment problem means starting the joint over. IBB apprenticeship practice and the erection plan both hold final torque until the minimum bolt count is in and the column already reads plumb, so torquing never has to double as a shortcut past the checks that came before it.",
+      why: "Final torque is a one-way operation — once a bolt is torqued to the connection's specified value in the required pattern, backing it off to fix an alignment problem means starting the joint over. IW apprenticeship practice and the erection plan both hold final torque until the minimum bolt count is in and the column already reads plumb, so torquing never has to double as a shortcut past the checks that came before it.",
     },
     {
       id: "connection-log", kind: "select", target: "connection-log",

@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-22: 273 entries across 74 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 285 entries across 75 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -10,7 +10,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 ## By body
 
-### OSHA (58)
+### OSHA (65)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
@@ -62,6 +62,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1926.1101 — Asbestos in construction | `osha-1926-1101` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Environmental Monitoring, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.1101` |
 | ✓ | 29 CFR 1926.1153 — Respirable crystalline silica in construction | `osha-1926-1153` | Community Environmental Justice, Construction & Structural Trades, Energy & Power, Environmental Monitoring, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.1153` |
 | ✓ | 29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction) | `osha-1926-1425` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `29 CFR 1926.1425` |
+| ? | OSHA 29 CFR 1926.20(b)(2) Competent person accident prevention responsibilities | `osha-1926-20-b-2` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator, Water & Environmental | `29 CFR 1926.20(b)(2) Competent person accident prevention re` |
 | ✓ | 29 CFR 1926.404 — Wiring design and protection on a construction site | `osha-1926-404` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.404` |
 | ✓ | 29 CFR 1926.405 — Wiring methods, components and equipment for general use in construction | `osha-1926-405` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.405` |
 | ✓ | 29 CFR 1926.416 — General requirements for electrical work practices in construction | `osha-1926-416` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.416` |
@@ -72,6 +73,46 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 29 CFR 1926.62 — Lead in construction | `osha-1926-62` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.62` |
 | ✓ | 29 CFR 1926.701 — Concrete and masonry construction, general requirements | `osha-1926-701` | Construction & Structural Trades, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1926.701` |
 | ✓ | 29 CFR 1926.703 — Requirements for cast-in-place concrete | `osha-1926-703` | Construction & Structural Trades, Maritime & Ports, Water & Environmental | `29 CFR 1926.703` |
+| ? | OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction | `osha-1926-subpart-cc` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator, Water & Environmental | `29 CFR 1926 Subpart CC Cranes and derricks in construction` |
+| ? | OSHA 29 CFR 1926 Subpart L Scaffolds | `osha-1926-subpart-l` | Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events | `29 CFR 1926 Subpart L Scaffolds` |
+| ? | OSHA 29 CFR 1926 Subpart M Fall protection | `osha-1926-subpart-m` | Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events | `29 CFR 1926 Subpart M Fall protection` |
+| ? | OSHA 29 CFR 1926 Subpart P Excavations | `osha-1926-subpart-p` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator, Water & Environmental | `29 CFR 1926 Subpart P Excavations` |
+| ? | OSHA 29 CFR 1926 Subpart Q Concrete and masonry construction | `osha-1926-subpart-q` | Construction & Structural Trades | `29 CFR 1926 Subpart Q Concrete and masonry construction` |
+| ? | OSHA 29 CFR 1926 Subpart R Steel erection | `osha-1926-subpart-r` | Construction & Structural Trades | `29 CFR 1926 Subpart R Steel erection` |
+
+### NFPA (29)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | NFPA 1001 — Fire Fighter Professional Qualifications | `nfpa-1001` | Emergency Services | `NFPA 1001` |
+| ✓ | NFPA 1002 — Fire Apparatus Driver/Operator Professional Qualifications | `nfpa-1002` | Emergency Services | `NFPA 1002` |
+| ✓ | NFPA 1006 — Technical Rescue Personnel Professional Qualifications | `nfpa-1006` | Building Systems & Facilities, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 1006` |
+| ✓ | NFPA 101 — Life Safety Code | `nfpa-101` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades, Trade Skills Simulator | `NFPA 101` |
+| ✓ | NFPA 1126 — Use of Pyrotechnics before a Proximate Audience | `nfpa-1126` | Entertainment & Live Events | `NFPA 1126` |
+| ✓ | NFPA 1140 — Standard for Wildland Fire Protection | `nfpa-1140` | Community Environmental Justice, Emergency Services | `NFPA 1140` |
+| ✓ | NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program | `nfpa-1500` | Emergency Services | `NFPA 1500` |
+| ✓ | NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises | `nfpa-1584` | Emergency Services | `NFPA 1584` |
+| ✓ | NFPA 1670 — Operations and Training for Technical Search and Rescue Incidents | `nfpa-1670` | Building Systems & Facilities, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 1670` |
+| ✓ | NFPA 1710 — Organization and Deployment of Fire Suppression, EMS and Special Operations by Career Fire Departments | `nfpa-1710` | Emergency Services | `NFPA 1710` |
+| ✓ | NFPA 17A — Standard for Wet Chemical Extinguishing Systems | `nfpa-17a` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator | `NFPA 17A` |
+| ? | NFPA 1901 — Automotive Fire Apparatus (now consolidated in the NFPA 1900 series) | `nfpa-1901` | Emergency Services | `NFPA 1901` |
+| ✓ | NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting | `nfpa-1977` | Emergency Services | `NFPA 1977` |
+| ✓ | NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems | `nfpa-25` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades | `NFPA 25` |
+| ✓ | NFPA 306 — Control of Gas Hazards on Vessels | `nfpa-306` | Maritime & Ports | `NFPA 306` |
+| ✓ | NFPA 470 — Hazardous Materials/WMD Response Personnel Professional Qualifications | `nfpa-470` | Community Environmental Justice, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Water & Environmental | `NFPA 470` |
+| ✓ | NFPA 472 — Competence of Responders to Hazardous Materials/WMD Incidents (consolidated into NFPA 470) | `nfpa-472` | Community Environmental Justice, Emergency Services, Environmental Monitoring, Maritime & Ports, Water & Environmental | `NFPA 472` |
+| ✓ | NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work | `nfpa-51b` | Building Systems & Facilities, Construction & Structural Trades, Energy & Power, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `NFPA 51B` |
+| ✓ | NFPA 54 — National Fuel Gas Code | `nfpa-54` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Trade Skills Simulator | `NFPA 54` |
+| ✓ | NFPA 55 — Compressed Gases and Cryogenic Fluids Code | `nfpa-55` | Building Systems & Facilities, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 55` |
+| ✓ | NFPA 69 — Standard on Explosion Prevention Systems | `nfpa-69` | Building Systems & Facilities, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `NFPA 69` |
+| ? | NFPA 70 National Electrical Code Article 690 Solar photovoltaic systems | `nfpa-70-art-690` | Connectivity & Telecom, Energy & Power | `70 National Electrical Code Article 690 Solar photovoltaic s` |
+| ✓ | NFPA 70E — Standard for Electrical Safety in the Workplace | `nfpa-70e` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator | `NFPA 70E` |
+| ✓ | NFPA 780 — Installation of Lightning Protection Systems | `nfpa-780` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Energy & Power, Environmental Monitoring | `NFPA 780` |
+| ✓ | NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities | `nfpa-820` | Environmental Monitoring, Water & Environmental | `NFPA 820` |
+| ✓ | NFPA 85 — Boiler and Combustion Systems Hazards Code | `nfpa-85` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports | `NFPA 85` |
+| ✓ | NFPA 855 — Installation of Stationary Energy Storage Systems | `nfpa-855` | Building Systems & Facilities, Connectivity & Telecom, Energy & Power, Mobility & Transit | `NFPA 855` |
+| ✓ | NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations | `nfpa-96` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator | `NFPA 96` |
+| ✓ | NFPA 99 — Health Care Facilities Code | `nfpa-99` | Building Systems & Facilities, Dental & Oral Health, Emergency Services | `NFPA 99` |
 
 ### Unions, apprenticeships and training funds (29)
 
@@ -106,39 +147,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ? | UFCW member training for retail food, clinic and dental support work | `ufcw-training` | Culinary & Hospitality, Dental & Oral Health, Manufacturing & Automation | `UFCW` |
 | ? | UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff | `unite-here-training` | Building Systems & Facilities, Culinary & Hospitality | `UNITE HERE` |
 | ✓ | USW Tony Mazzocchi Center health, safety and environmental training | `usw-mazzocchi-center` | Community Environmental Justice, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `USW` |
-
-### NFPA (28)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | NFPA 1001 — Fire Fighter Professional Qualifications | `nfpa-1001` | Emergency Services | `NFPA 1001` |
-| ✓ | NFPA 1002 — Fire Apparatus Driver/Operator Professional Qualifications | `nfpa-1002` | Emergency Services | `NFPA 1002` |
-| ✓ | NFPA 1006 — Technical Rescue Personnel Professional Qualifications | `nfpa-1006` | Building Systems & Facilities, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 1006` |
-| ✓ | NFPA 101 — Life Safety Code | `nfpa-101` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades, Trade Skills Simulator | `NFPA 101` |
-| ✓ | NFPA 1126 — Use of Pyrotechnics before a Proximate Audience | `nfpa-1126` | Entertainment & Live Events | `NFPA 1126` |
-| ✓ | NFPA 1140 — Standard for Wildland Fire Protection | `nfpa-1140` | Community Environmental Justice, Emergency Services | `NFPA 1140` |
-| ✓ | NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program | `nfpa-1500` | Emergency Services | `NFPA 1500` |
-| ✓ | NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises | `nfpa-1584` | Emergency Services | `NFPA 1584` |
-| ✓ | NFPA 1670 — Operations and Training for Technical Search and Rescue Incidents | `nfpa-1670` | Building Systems & Facilities, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 1670` |
-| ✓ | NFPA 1710 — Organization and Deployment of Fire Suppression, EMS and Special Operations by Career Fire Departments | `nfpa-1710` | Emergency Services | `NFPA 1710` |
-| ✓ | NFPA 17A — Standard for Wet Chemical Extinguishing Systems | `nfpa-17a` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator | `NFPA 17A` |
-| ? | NFPA 1901 — Automotive Fire Apparatus (now consolidated in the NFPA 1900 series) | `nfpa-1901` | Emergency Services | `NFPA 1901` |
-| ✓ | NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting | `nfpa-1977` | Emergency Services | `NFPA 1977` |
-| ✓ | NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems | `nfpa-25` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades | `NFPA 25` |
-| ✓ | NFPA 306 — Control of Gas Hazards on Vessels | `nfpa-306` | Maritime & Ports | `NFPA 306` |
-| ✓ | NFPA 470 — Hazardous Materials/WMD Response Personnel Professional Qualifications | `nfpa-470` | Community Environmental Justice, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Water & Environmental | `NFPA 470` |
-| ✓ | NFPA 472 — Competence of Responders to Hazardous Materials/WMD Incidents (consolidated into NFPA 470) | `nfpa-472` | Community Environmental Justice, Emergency Services, Environmental Monitoring, Maritime & Ports, Water & Environmental | `NFPA 472` |
-| ✓ | NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work | `nfpa-51b` | Building Systems & Facilities, Construction & Structural Trades, Energy & Power, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `NFPA 51B` |
-| ✓ | NFPA 54 — National Fuel Gas Code | `nfpa-54` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Trade Skills Simulator | `NFPA 54` |
-| ✓ | NFPA 55 — Compressed Gases and Cryogenic Fluids Code | `nfpa-55` | Building Systems & Facilities, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NFPA 55` |
-| ✓ | NFPA 69 — Standard on Explosion Prevention Systems | `nfpa-69` | Building Systems & Facilities, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `NFPA 69` |
-| ✓ | NFPA 70E — Standard for Electrical Safety in the Workplace | `nfpa-70e` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator | `NFPA 70E` |
-| ✓ | NFPA 780 — Installation of Lightning Protection Systems | `nfpa-780` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Energy & Power, Environmental Monitoring | `NFPA 780` |
-| ✓ | NFPA 820 — Fire Protection in Wastewater Treatment and Collection Facilities | `nfpa-820` | Environmental Monitoring, Water & Environmental | `NFPA 820` |
-| ✓ | NFPA 85 — Boiler and Combustion Systems Hazards Code | `nfpa-85` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports | `NFPA 85` |
-| ✓ | NFPA 855 — Installation of Stationary Energy Storage Systems | `nfpa-855` | Building Systems & Facilities, Connectivity & Telecom, Energy & Power, Mobility & Transit | `NFPA 855` |
-| ✓ | NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations | `nfpa-96` | Building Systems & Facilities, Culinary & Hospitality, Trade Skills Simulator | `NFPA 96` |
-| ✓ | NFPA 99 — Health Care Facilities Code | `nfpa-99` | Building Systems & Facilities, Dental & Oral Health, Emergency Services | `NFPA 99` |
 
 ### ANSI/ASSP (20)
 
@@ -186,7 +194,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification | `epa-section-608` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `Section 608` |
 | ✓ | MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual | `marssim` | Building Systems & Facilities, Community Environmental Justice, Environmental Monitoring, Water & Environmental | `MARSSIM` |
 
-### ASME (8)
+### ASME (9)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
@@ -198,6 +206,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | ASME B30.5 — Mobile and locomotive cranes | `asme-b30-5` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `ASME B30.5`, `ANSI B30.5` |
 | ✓ | ASME B30.9 — Slings | `asme-b30-9` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Water & Environmental | `ASME B30.9` |
 | ✓ | ASME B31.9 — Building services piping | `asme-b31-9` | Building Systems & Facilities, Energy & Power, Trade Skills Simulator, Water & Environmental | `ASME B31.9` |
+| ? | ASME Boiler and Pressure Vessel Code | `asme-bpvc` | Building Systems & Facilities | `Boiler and Pressure Vessel Code` |
 
 ### Cal/OSHA (7)
 
@@ -221,6 +230,16 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | NSF/ANSI/CAN 61 — Drinking water system components: health effects | `nsf-ansi-61` | Building Systems & Facilities, Construction & Structural Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `NSF/ANSI 61` |
 | ✓ | NSF/ANSI 7 — Commercial refrigerators and freezers | `nsf-ansi-7` | Culinary & Hospitality, Trade Skills Simulator | `NSF/ANSI 7` |
 | ✓ | NSF/ANSI 8 — Commercial powered food preparation equipment | `nsf-ansi-8` | Culinary & Hospitality, Trade Skills Simulator | `NSF/ANSI 8` |
+
+### IMO (5)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | IMO Ballast Water Management Convention | `imo-bwm` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `IMO BWM Convention`, `BWM Convention` |
+| ? | IMO Cargo Securing Manual requirements | `imo-csm` | Maritime & Ports | `Cargo Securing Manual requirements` |
+| ✓ | MARPOL — International Convention for the Prevention of Pollution from Ships | `imo-marpol` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `IMO MARPOL`, `MARPOL` |
+| ✓ | SOLAS — International Convention for the Safety of Life at Sea | `imo-solas` | Maritime & Ports | `IMO SOLAS`, `SOLAS` |
+| ✓ | STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers | `imo-stcw` | Maritime & Ports | `IMO STCW`, `STCW` |
 
 ### ISO (5)
 
@@ -259,15 +278,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 49 CFR Part 218 — Railroad operating practices, including blue signal protection of workers | `fra-49-cfr-218` | Mobility & Transit | `49 CFR 218` |
 | ✓ | 49 CFR Part 232 — Brake system safety standards for freight and other non-passenger trains | `fra-49-cfr-232` | Mobility & Transit | `49 CFR 232` |
 | ✓ | 49 CFR Part 242 — Qualification and certification of conductors | `fra-49-cfr-242` | Mobility & Transit | `49 CFR 242` |
-
-### IMO (4)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | IMO Ballast Water Management Convention | `imo-bwm` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `IMO BWM Convention`, `BWM Convention` |
-| ✓ | MARPOL — International Convention for the Prevention of Pollution from Ships | `imo-marpol` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `IMO MARPOL`, `MARPOL` |
-| ✓ | SOLAS — International Convention for the Safety of Life at Sea | `imo-solas` | Maritime & Ports | `IMO SOLAS`, `SOLAS` |
-| ✓ | STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers | `imo-stcw` | Maritime & Ports | `IMO STCW`, `STCW` |
 
 ### ASSE (3)
 
@@ -350,6 +360,13 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | ANSI/IIAR 2 — Safe design of closed-circuit ammonia refrigeration systems | `iiar-2` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports | `IIAR 2` |
 | ✓ | ANSI/IIAR 6 — Inspection, testing and maintenance of closed-circuit ammonia refrigeration systems | `iiar-6` | Building Systems & Facilities, Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports | `IIAR 6` |
+
+### NIOSH (2)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | all 17 categories | `NIOSH` |
+| ? | NIOSH Ergonomics guidance for seated repetitive work | `niosh-ergonomics` | Sewing & Garment Trades, Trade Skills Simulator | `Ergonomics guidance for seated repetitive work` |
 
 ### PHMSA (2)
 
@@ -436,6 +453,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it | `calcode-retail-food` | Culinary & Hospitality, Trade Skills Simulator | `California Retail Food Code`, `CalCode` |
+
+### CARB (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | CARB At-Berth Regulation for ocean-going vessels | `carb-at-berth` | Maritime & Ports | `At-Berth Regulation for ocean-going vessels` |
 
 ### CDC (1)
 
@@ -550,12 +573,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | NIMS incident command system — the structure a multi-agency response runs inside | `nims-ics` | Community Environmental Justice, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `NIMS`, `ICS` |
-
-### NIOSH (1)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | all 17 categories | `NIOSH` |
 
 ### NOAA (1)
 
@@ -861,6 +878,24 @@ What governs each training programme in `WebXR/smartcity/js/curricula.js`, as it
 ### Dental Hygiene — Unspoken Smiles
 
 `dental-hygiene-unspoken-smiles` · SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body
+
+**Union and trade guide.** SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members · UFCW member training for retail food, clinic and dental support work · AFSCME member education and safety training for public-service and air-district members
+
+**Standards.**
+
+- ✓ ADHA Standards for Clinical Dental Hygiene Practice (`adha-standards`)
+- ✓ CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance (`cdc-guidance`)
+- ✓ 29 CFR 1910.1030 — Bloodborne pathogens (`osha-1910-1030`)
+- ✓ 29 CFR 1910.1200 — Hazard communication (`osha-1910-1200`)
+- ✓ 40 CFR Part 441 — Dental office point source category (the amalgam separator rule) (`epa-40-cfr-441`)
+- ✓ American Dental Association and FDA guidance on prescribing dental radiographs (`ada-radiographic-guidance`)
+- ? AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients (`aapd-reference-manual`)
+- ✓ HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164) (`hipaa-privacy-rule`)
+- ✓ ISO 23908 — Sharps injury protection: requirements and test methods (`iso-23908`)
+
+### Dental Careers — Unspoken Smiles
+
+`dental-careers-unspoken-smiles` · SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential
 
 **Union and trade guide.** SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members · UFCW member training for retail food, clinic and dental support work · AFSCME member education and safety training for public-service and air-district members
 

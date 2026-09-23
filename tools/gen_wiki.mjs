@@ -11,6 +11,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR/smartcity/catalog.json"), "utf8"));
+// The checker count is whatever check_all.mjs runs today, never a spelled-out number.
+const CHECKERS = (readFileSync(join(ROOT, "tools/check_all.mjs"), "utf8").match(/"check_[a-z0-9_]+\.mjs"/g) ?? []).length;
 const SHOTS = join(ROOT, "docs/screenshots/smartcity");
 const shots = new Set(existsSync(SHOTS) ? readdirSync(SHOTS) : []);
 const byId = new Map(catalog.stations.map((s) => [s.id, s]));
@@ -38,7 +40,7 @@ md.push("# SmartCiti.X training series");
 md.push("");
 md.push(`_Generated from \`WebXR/smartcity/catalog.json\` by \`tools/gen_wiki.mjs\` on ${new Date().toISOString().slice(0, 10)}. ${catalog.stations.filter((s) => s.app === "smartcity").length} SmartCiti.X stations across ${new Set(catalog.stations.filter((s) => s.app === "smartcity").map((s) => s.category)).size} categories and ${catalog.curricula.length} programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._`);
 md.push("");
-md.push("Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass twenty-three checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.");
+md.push(`Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass ${CHECKERS} checkers before they ship; the content evaluation in \`tools/eval_content.mjs\` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.`);
 md.push("");
 md.push("## Contents");
 md.push("");
@@ -94,7 +96,7 @@ if (shots.has("charge-point_env.png")) {
 }
 md.push("## How a station is verified");
 md.push("");
-md.push("1. `node tools/check_all.mjs` — twenty-three checkers: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness.");
+md.push(`1. \`node tools/check_all.mjs\` — ${CHECKERS} checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.`);
 md.push("2. `python3 tools/bundle_webxr.py` — the single-file bundle the headset loads.");
 md.push("3. A headless Chromium drive of every step, with both interruptions answered, and a screenshot from the spawn point that someone actually looks at.");
 md.push("4. `node tools/eval_content.mjs` — the graded content review, used as the heartbeat between waves of stations rather than as a gate.");
