@@ -301,6 +301,48 @@ export const CURRICULA = [
     ],
   },
   {
+    id: "civic-leadership-and-ei",
+    name: "Civic Leadership and Emotional Intelligence",
+    union: "SEIU and AFSCME public-service staff, the trades' own apprenticeship coordinators, and community organisations that train residents for public life",
+    certification: "The Brown Act and public-meeting law, the Political Reform Act's conflict-of-interest rules, the city charter's ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify",
+    guides: ["seiu-training", "afscme-training", "samhsa-trauma-informed", "nims-ics"],
+    summary: "Ten stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.",
+    accent: "#c9a34a",
+    stations: [
+      { app: "smartcity", id: "public-comment-prep", why: "The shared opener: standing up in public with a case that is sourced, timed and respectful is the first civic skill every station here builds on." },
+      // slot-civ-1
+      // slot-civ-2
+    ],
+  },
+  {
+    id: "property-management",
+    name: "Property Management — Twenty Zones",
+    union: "SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association's certified apartment manager and maintenance technician credentials",
+    certification: "OSHA 29 CFR 1910 general industry, NFPA 72 and 25 for fire alarm and sprinkler systems, the state elevator code, the Fair Housing Act, the state landlord-tenant statute, the local housing code, and EPA lead and asbestos rules for pre-1978 buildings",
+    guides: ["seiu-training", "iuoe-training", "unite-here-training", "osha-1910-147", "nfpa-72", "nfpa-25"],
+    summary: "A working building as twenty zones, each its own station: lobby to roof, boiler room to trash room, leasing office to fire panel, with the tenant, the inspector and the contractor in the scene.",
+    accent: "#6fa8dc",
+    stations: [
+      { app: "smartcity", id: "boiler-room", why: "The shared opener: the building's heating plant, where a manager first learns that every zone has a system, a log and a person responsible for it." },
+      // slot-pm-1
+      // slot-pm-2
+    ],
+  },
+  {
+    id: "outbreak-response-who",
+    name: "Outbreak and Disease Response — WHO and UN Practice",
+    union: "SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters",
+    certification: "WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice",
+    guides: ["seiu-training", "afscme-training", "cdc-guidance", "osha-1910-1030", "osha-1910-134", "nims-ics"],
+    summary: "Ten stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.",
+    accent: "#4fb0a0",
+    stations: [
+      { app: "smartcity", id: "decon-line", why: "The shared opener: a decontamination line run in order is the same discipline an isolation ward and a treatment centre are built on." },
+      // slot-who-1
+      // slot-who-2
+    ],
+  },
+  {
     id: "bartending-course",
     name: "Bartending — Behind the Bar",
     union: "UNITE HERE Local 2 bartenders and barbacks",
