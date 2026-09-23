@@ -16,6 +16,8 @@ import { buildReplay } from "../../shared/incidents.js";
 import { stageReplay } from "../../shared/incident-stage.js";
 import { splitByRole, roleView, describeSplit } from "../../shared/crew.js";
 import { createBroadcaster } from "../../shared/observer.js";
+import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
+import { createFlowRunner, outcomeFromRecord, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
 
 // Progress is the profile shared with SmartCiti.X and Trade Skills. It has
 // to be loaded before any Session finishes: Session.finish() calls
@@ -355,6 +357,9 @@ function newPrompt() {
   store.patch("final", { visible: false });
   store.patch("trainingResult", { visible: false });
   store.patch("lesson", { visible: false });
+  // While a flow is running, leaving the finished procedure is the flow going
+  // on: the learner was put on an order of work, not left at the prompt box.
+  if (flowResume()) return;
   store.patch("hud", { visible: false });
   clearHole();
   clearTraining();
@@ -568,10 +573,18 @@ function logInstructorAction(cmd, detail, { ok = true, note = "" } = {}) {
   observer.action({ cmd, detail: detail ?? "", ok, note, ...(observerSnapshot() ?? {}) });
 }
 
+/** The flow's position, safe to ask for before the runner below is built. */
+function flowLive() {
+  try { return flowRunner.current(); } catch (_) { return { flow: null, run: null, node: null }; }
+}
+
 observer.describes(() => {
   const s = trainingSession;
-  if (!s) return { steps: [], interrupts: [], fired: [] };
+  const live = flowLive();
+  const flowFields = { flow: live.flow?.id ?? null, flowNode: live.node ? `${live.node.kind}: ${nodeLabel(live.node)}` : null };
+  if (!s) return { steps: [], interrupts: [], fired: [], ...flowFields };
   return {
+    ...flowFields,
     steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
     interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
     fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
@@ -617,8 +630,138 @@ observer.onCommand((cmd) => {
     it.armedAt = s.elapsed;
     trainingHeld = false;
     logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the procedure fires it" });
+    return;
+  }
+  if (cmd.kind === "flow") {
+    // Holodeck runs the station nodes a flow addresses to it (its real-station
+    // mode loads any SmartCiti.X station by id); a brief, a programme, a gate or
+    // a check-in belongs to SmartCiti.X and the flow is handed back there.
+    const res = flowRunner.load(cmd.flow, { validateAgainst: FLOW_CATALOG });
+    if (!res.ok) { logInstructorAction("flow", cmd.detail, { ok: false, note: res.errors?.[0] ?? "flow refused" }); return; }
+    const started = flowRunner.start(res.flow.id, { restart: true });
+    logInstructorAction("flow", res.flow.id, {
+      ok: started.ok !== false,
+      note: started.ok === false ? started.reason : `flow started at ${flowRunner.current().run?.nodeId ?? res.flow.start}`,
+    });
   }
 });
+
+// ------------------------------------------------------------------- flows
+//
+// Holodeck is the third app on this engine, so it answers the same flow channel
+// (shared/flowhub.js): a host hands over a graph, this app runs the station
+// nodes addressed to it — its real-station mode can load any SmartCiti.X
+// station by id — and hands anything else back to SmartCiti.X, which owns the
+// pre-brief, the programmes and the records panel. The run waits in the one
+// localStorage key across the app switch.
+Platform.init({
+  app: "holodeck",
+  onCommand(type, data, reply) {
+    const snapshot = () => ({
+      app: "holodeck", mode,
+      procedure: trainingRoom ? { id: trainingRoom.id, name: trainingRoom.name ?? trainingRoom.title } : null,
+      stepIndex: trainingSession ? trainingSession.index : null, stepCount: trainingSession ? trainingSession.steps.length : null,
+      score: trainingSession?.score ?? null, finished: trainingSession?.finished ?? null,
+      level: Progress.level, levelName: Progress.levelName, learner: Progress.playerName, records: TrainingRecords.count(),
+    });
+    if (type === "smartcitix:open") {
+      const id = String(data.sim ?? data.room ?? "");
+      if (!/^[a-z0-9-]+$/.test(id)) { reply("smartcitix:state", { ...snapshot(), error: `not a station id: ${id}` }); return; }
+      enterRealSim(id);
+      return;
+    }
+    if (type === "smartcitix:status") { reply("smartcitix:state", snapshot()); return; }
+    if (type === FLOW_LOAD) {
+      const res = flowRunner.load(data.flow, { validateAgainst: FLOW_CATALOG });
+      if (!res.ok) { reply("smartcitix:state", { ...snapshot(), error: `flow refused: ${(res.errors ?? []).join("; ")}` }); return; }
+      reply(FLOW_STATE, { flow: res.state, transition: null });
+      return;
+    }
+    if (type === FLOW_START) {
+      const res = flowRunner.start(data.flowId ?? null, { restart: !!data.restart });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.start: ${res.reason}` });
+      return;
+    }
+    if (type === FLOW_RESUME) {
+      const res = flowRunner.resume({ nodeId: data.nodeId ?? null, outcome: data.outcome ?? null });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.resume: ${res.reason}` });
+    }
+  },
+});
+
+let FLOW_CATALOG = null;
+for (const url of ["../smartcity/catalog.json", "./catalog.json"]) {
+  fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+    if (cat?.stations?.length) FLOW_CATALOG = cat;
+  }).catch(() => { /* offline or a bundled build — validation then skips the roster */ });
+}
+
+const flowRunner = createFlowRunner({
+  app: "holodeck",
+  enter: (node, { href }) => {
+    if (href) {
+      store.patch("hud", { feedback: `<b>Flow:</b> next is ${escapeHtml(nodeLabel(node))} in ${escapeHtml(String(node.app))} — opening that app.` });
+      location.href = href;
+      return true;
+    }
+    if (node.kind !== "station") {
+      store.patch("hud", { feedback: `<b>Flow:</b> ${escapeHtml(nodeLabel(node))} runs in SmartCiti.X — opening it.` });
+      location.href = `../smartcity/index.html?flow=${encodeURIComponent(flowRunner.current().flow?.id ?? "")}&node=${encodeURIComponent(node.id)}`;
+      return true;
+    }
+    trainingHeld = false;
+    enterRealSim(node.ref);
+    return true;
+  },
+  onState: (state_, transition) => { Platform.flowState(state_, transition); observer.hello({}); },
+  onExternal: (payload) => {
+    Platform.flowExternal(payload);
+    store.patch("hud", { feedback: `<b>Flow:</b> ${escapeHtml(String(payload.node?.title ?? payload.nodeId))} runs on your learning platform. This app waits for its result.` });
+  },
+  onDone: (state_) => {
+    Platform.flowDone(state_);
+    store.patch("hud", { feedback: `<b>Flow complete:</b> ${escapeHtml(String(state_.title ?? state_.flowId))}.` });
+  },
+});
+
+let flowPending = false; // the run has moved; the learner has not yet been sent on
+
+/**
+ * A finished attempt, offered to a flow standing on this very station. The run
+ * moves at once so the host hears the transition, but the next node waits: the
+ * learner reads the result and goes on with New prompt.
+ */
+function flowOnAttempt(attempt) {
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run || run.done || node?.kind !== "station") return;
+  if (node.ref !== attempt.simId) return;
+  flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+  const live = flowRunner.current();
+  flowPending = !live.run?.done;
+}
+
+/** Open the node the flow now stands on. Returns true when it took over. */
+function flowResume() {
+  if (!flowPending) return false;
+  flowPending = false;
+  const r = flowRunner.resumeHere();
+  return r.ok !== false;
+}
+
+// A flow node handed over from another app, or a station named straight on the
+// launch URL: `?station=<id>&flow=<id>&node=<id>`.
+{
+  const params = new URLSearchParams(location.search);
+  const link = parseFlowLink(location.search);
+  if (link.flowId) {
+    const restored = flowRunner.restore(link);
+    if (restored.ok) queueMicrotask(() => flowRunner.resumeHere());
+    else store.patch("hud", { visible: true, feedback: `<b>Flow:</b> ${escapeHtml(restored.reason)}` });
+  } else {
+    const station = params.get("station");
+    if (station && /^[a-z0-9-]+$/.test(station)) queueMicrotask(() => enterRealSim(station));
+  }
+}
 
 function clearTraining() {
   if (trainingGroup) { disposeTree(trainingGroup); worldRoot.remove(trainingGroup); trainingGroup = null; }
@@ -719,6 +862,9 @@ function showTrainingResult(s) {
   });
   instructorActions = [];
   Identity.emit("smartcitix:record", { record: attempt });
+  // A flow standing on this station moves now, on the same verdict the record
+  // carries — a flow never scores anything of its own.
+  flowOnAttempt(attempt);
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
   store.patch("trainingResult", {
     visible: true, stars,

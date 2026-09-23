@@ -50,6 +50,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "lrs.js",
             SHARED / "platform.js",
+            SHARED / "flowhub.js",
             SHARED / "observer.js",
             SHARED / "perf.js",
             WEBXR / "trades/js/shopfit.js",
@@ -83,6 +84,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "lrs.js",
             SHARED / "platform.js",
+            SHARED / "flowhub.js",
             SHARED / "robot.js",
             SHARED / "robot-embodiment.js",
             SHARED / "perf.js",
@@ -127,6 +129,7 @@ APPS = {
         "modules": [
             SHARED / "devices.js",
             SHARED / "observer.js",
+            SHARED / "flowhub.js",
             WEBXR / "instructor/js/roster.js",
             WEBXR / "instructor/js/app.js",
         ],
@@ -153,6 +156,8 @@ APPS = {
             SHARED / "incident-stage.js",
             SHARED / "crew.js",
             SHARED / "observer.js",
+            SHARED / "platform.js",
+            SHARED / "flowhub.js",
             WEBXR / "holodeck/js/themes.js",
             WEBXR / "holodeck/js/training.js",
             WEBXR / "smartcity/js/sims-meta.js",
@@ -175,7 +180,9 @@ APPS = {
 # covers both a plain HTML href="../smartcity/..." and a JS object property
 # like href: "../smartcity/..." (Holodeck's react-ui.js uses the latter),
 # since both contain the same quoted "../smartcity/ substring.
-SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor"]
+# "flows" is not an app but is reached the same way: the instructor console
+# fetches "../flows/index.json", which needs the same one-level fixup in dist.
+SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows"]
 
 
 def dist_fixup(html: str) -> str:

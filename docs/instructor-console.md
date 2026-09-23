@@ -51,11 +51,23 @@ the durable record is the learner's own attempt record.
 | Set profile | `profile` | a rail line naming the profile, then the **next** station runs under that device profile: pixel ratio, shadows, weather allowance, skyline, HUD scale, contrast and background. Either a device id from `WebXR/shared/devices.js` or a bare run profile (`desktop`, `vr`, `hands`, `mr`, `seethrough`, `assisted`) | `{cmd: "profile", at, detail: <device or profile id>}` |
 | Coach / Assess | `hazard-mode` | *Coach:* an unsafe action is still called out and explained once, but it is taken back off the unsafe count, so the run can still end as a pass and the learner works on through it. *Assess:* the scored behaviour — an unsafe action counts, as it does in a real assessment | `{cmd: "hazard-mode", at, detail: "coach" \| "assess"}`, plus `hazardMode` on the attempt |
 | Assign (programme) | `assign` | the programme is pinned at the top of the learner's own Training programmes panel, marked *Assigned by your instructor*, with a rail line naming it | `{cmd: "assign", at, detail: <programme id>}` |
+| Load flow / Send flow to learner | `flow` | the flow is validated against this network's own roster and started at its first node: the learner lands on that node and the flow's own panel shows the path as it is walked. A node in another app follows the cross-app link; a node the host platform owns is handed back to it | `{cmd: "flow", at, detail: <flow id>}` |
 
 Only SmartCiti.X has a stage with weather, a device profile per station and a
-programmes panel, so it answers all nine. The Trade Skills Simulator and
-Holodeck answer `roll`, `note`, `freeze`, `open` and `interrupt`; a station id
-the other app owns is handed over to that app rather than silently dropped.
+programmes panel, so it answers all ten. The Trade Skills Simulator and
+Holodeck answer `roll`, `note`, `freeze`, `open`, `interrupt` and `flow`; a
+station id the other app owns is handed over to that app rather than silently
+dropped.
+
+`flow` is the one command that carries a payload rather than a short string,
+because a flow is a node graph and there is no useful way to name one in 120
+characters (protocol 3, `shared/observer.js`). The console reads the examples in
+`WebXR/flows/` — `flows/index.json` is the index, since a static page cannot
+list a directory — or takes one pasted into the box, and checks it with the same
+validator the learner app uses. The app checks it again on arrival and refuses it
+with the reason if it names a station that does not exist. The schema, the
+message contract and what a host platform must send are in
+[docs/flowhub.md](flowhub.md).
 
 A command the app cannot honour — an interruption that has already fired, an
 unknown station, a weather kind that does not exist — is refused, and the

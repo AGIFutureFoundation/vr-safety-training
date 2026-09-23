@@ -28,11 +28,18 @@
  * weather, profile, hazard mode, assign) and the `action` event that reports
  * what the app did with one. Both sides still accept protocol 1, so a console
  * or an app from before the bump interoperates with note, freeze and roll.
+ *
+ * Protocol 3 added `flow`: the one command that carries a payload rather than
+ * a short string, because a flow is a node graph (shared/flowhub.js) and there
+ * is no useful way to name one in 120 characters. It travels as a parsed
+ * object on the `flow` field, size-capped like every other field here, and the
+ * app validates it against the catalog before it will run it — the console is
+ * not trusted to have handed over a flow that makes sense.
  */
 
 const CHANNEL = "smartcitix:instructor";
-export const OBSERVER_PROTOCOL = 2;
-export const ACCEPTED_PROTOCOLS = [1, 2];
+export const OBSERVER_PROTOCOL = 3;
+export const ACCEPTED_PROTOCOLS = [1, 2, 3];
 
 // Learner → instructor.
 export const EV_HELLO = "hello";       // a session opened (or answered a roll call)
@@ -52,8 +59,9 @@ export const CMD_WEATHER = "weather";         // the weather the next station ru
 export const CMD_PROFILE = "profile";         // the device profile the next station runs under
 export const CMD_HAZARD_MODE = "hazard-mode"; // "coach" warns once; "assess" scores it
 export const CMD_ASSIGN = "assign";           // pin a programme in the learner's panel
+export const CMD_FLOW = "flow";               // hand over a flow and start it (shared/flowhub.js)
 export const LEARNER_EVENTS = [EV_HELLO, EV_STATE, EV_STEP, EV_HAZARD, EV_ACTION, EV_FINISH, EV_BYE];
-export const INSTRUCTOR_COMMANDS = [CMD_ROLL, CMD_NOTE, CMD_FREEZE, CMD_OPEN, CMD_INTERRUPT, CMD_WEATHER, CMD_PROFILE, CMD_HAZARD_MODE, CMD_ASSIGN];
+export const INSTRUCTOR_COMMANDS = [CMD_ROLL, CMD_NOTE, CMD_FREEZE, CMD_OPEN, CMD_INTERRUPT, CMD_WEATHER, CMD_PROFILE, CMD_HAZARD_MODE, CMD_ASSIGN, CMD_FLOW];
 
 /** What each command means, for the console's own labels and the docs. */
 export const COMMAND_LABELS = {
@@ -66,11 +74,27 @@ export const COMMAND_LABELS = {
   [CMD_PROFILE]: "Device profile for next station",
   [CMD_HAZARD_MODE]: "Hazard mode",
   [CMD_ASSIGN]: "Assign programme",
+  [CMD_FLOW]: "Load flow",
 };
 
 const MAX_TEXT = 400;
 const MAX_DETAIL = 120;
+/** A flow is a graph, not a label. Capped so a relay frame stays sane. */
+const MAX_FLOW_JSON = 64000;
 const clip = (v, n = MAX_TEXT) => (typeof v === "string" ? v.slice(0, n) : v);
+
+/**
+ * The one structured payload this protocol carries. Re-serialised and size
+ * checked here so a malformed or enormous flow never reaches an app's handler;
+ * whether it is a *valid* flow is flowhub's question, asked by the app.
+ */
+function clipFlow(flow) {
+  if (!flow || typeof flow !== "object" || Array.isArray(flow)) return null;
+  let json;
+  try { json = JSON.stringify(flow); } catch (_) { return null; }
+  if (!json || json.length > MAX_FLOW_JSON) return null;
+  try { return JSON.parse(json); } catch (_) { return null; }
+}
 const knownProtocol = (m) => !!m && ACCEPTED_PROTOCOLS.includes(m.protocol);
 
 /**
@@ -168,7 +192,7 @@ export function createBroadcaster(app, { learner = "", station = "", stationName
     if (!INSTRUCTOR_COMMANDS.includes(m.kind)) return;
     // A command addressed to one session is ignored by the others.
     if (m.to && m.to !== id) return;
-    onCommand?.({ kind: m.kind, text: clip(m.text), on: !!m.on, detail: clip(m.detail, MAX_DETAIL) });
+    onCommand?.({ kind: m.kind, text: clip(m.text), on: !!m.on, detail: clip(m.detail, MAX_DETAIL), flow: clipFlow(m.flow) });
   };
 
   const link = openRelay(relay, handle);
@@ -249,6 +273,17 @@ export function createConsole(onEvent, { relay = relayFromSearch(), onSend = nul
     profile(to, detail) { return send(CMD_PROFILE, { to, detail: clip(detail, MAX_DETAIL) }); },
     hazardMode(to, detail) { return send(CMD_HAZARD_MODE, { to, detail: clip(detail, MAX_DETAIL) }); },
     assign(to, detail) { return send(CMD_ASSIGN, { to, detail: clip(detail, MAX_DETAIL) }); },
+    /**
+     * Hand a flow to a learner's app and ask it to start. `detail` is the
+     * flow's id, for the console's own log and the app's refusal message; the
+     * graph itself rides on `flow`. The app validates it against the catalog
+     * and answers with an `action` event either way.
+     */
+    flow(to, flow, detail = null) {
+      const payload = clipFlow(flow);
+      if (!payload) return false;
+      return send(CMD_FLOW, { to, flow: payload, detail: clip(detail ?? payload.id ?? "", MAX_DETAIL) });
+    },
     close() { try { ch?.close(); } catch (_) {} link?.close(); },
   };
 }
@@ -276,6 +311,9 @@ export function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
       hazardMode: ev.hazardMode ?? prev.hazardMode ?? "assess",
       weather: ev.weather ?? prev.weather, profile: ev.profile ?? prev.profile,
       assigned: ev.assigned ?? prev.assigned ?? null,
+      // The flow the session is on, if any: id, node and why it is there.
+      flow: ev.flow ?? prev.flow ?? null,
+      flowNode: ev.flowNode ?? prev.flowNode ?? null,
       stepIndex: ev.stepIndex ?? prev.stepIndex, stepCount: ev.stepCount ?? prev.stepCount,
     });
   }
@@ -306,6 +344,7 @@ export function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
     if (ev.cmd === CMD_WEATHER && ev.ok) row.weather = ev.detail ?? row.weather;
     if (ev.cmd === CMD_PROFILE && ev.ok) row.profile = ev.detail ?? row.profile;
     if (ev.cmd === CMD_ASSIGN && ev.ok) row.assigned = ev.detail ?? row.assigned;
+    if (ev.cmd === CMD_FLOW && ev.ok) row.flow = ev.detail ?? row.flow;
     row.events = [...(prev.events ?? []), {
       at: ev.at, kind: ev.ok ? "action" : "refused",
       text: `${ev.cmd}${ev.detail ? ` ${ev.detail}` : ""} — ${ev.note ?? (ev.ok ? "done" : "refused")}`,

@@ -30,8 +30,11 @@
   button.on{background:rgba(79,209,255,.18);border-color:var(--accent);color:#bfeaff}
   button.small{padding:7px 11px;font-size:12px}
   button:disabled{opacity:.4;cursor:default}
-  input[type=text],input[type=search],select{background:#0b111a;color:var(--text);border:1px solid var(--edge);
+  input[type=text],input[type=search],select,textarea{background:#0b111a;color:var(--text);border:1px solid var(--edge);
     border-radius:10px;padding:10px 12px;font:14px var(--sans);min-width:0}
+  textarea{width:100%;margin:6px 0 8px;font:12px ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+  #flow-state{margin:6px 0 0}
+  #flow-state.bad{color:var(--bad)} #flow-state.good{color:var(--good)}
   input[type=text],input[type=search]{flex:1 1 260px}
   select{flex:0 1 240px}
   .tabs{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
@@ -167,6 +170,19 @@
             <button id="assign" class="small">Assign</button>
             <button id="open-programme" class="small">Open now</button>
           </div>
+          <h3>Flow</h3>
+          <div class="row">
+            <select id="flow-pick" aria-label="Example flow to load"></select>
+            <button id="flow-load" class="small">Load flow</button>
+          </div>
+          <label class="muted" for="flow-json">Or paste a flow definition</label>
+          <textarea id="flow-json" rows="4" spellcheck="false" aria-label="Flow definition as JSON"
+            placeholder='{"id":"…","title":"…","version":1,"start":"…","nodes":[…],"edges":[…]}'></textarea>
+          <div class="row">
+            <button id="flow-send" class="primary small">Send flow to learner</button>
+            <button id="flow-send-all" class="small">Send to all live</button>
+          </div>
+          <p class="fine" id="flow-state">No flow loaded in this console.</p>
         </div>
       </div>
     </section>

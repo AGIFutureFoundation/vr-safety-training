@@ -159,6 +159,20 @@
   </div>
 
   <section class="note">
+    <h3>Flows — one order of work across the apps</h3>
+    <p>A hosting platform can hand these apps a <b>flow</b>: an ordered graph of nodes — a
+    station, a station's pre-brief, a whole programme, a competency gate, a check-in, or a node
+    the platform runs itself — with a condition on every edge, read off the same attempt records
+    the certificates rest on. All three learner apps run the nodes that are theirs and report
+    every transition back, and a node in a sibling app is reached by the cross-app links on this
+    page carrying the flow and node ids, with the run kept under one key in the browser so it
+    survives the switch. The instructor console can load one of the examples in
+    <code>WebXR/flows/</code> and send it to a learner. The schema and the message contract are in
+    <a href="../../docs/flowhub.md">docs/flowhub.md</a>, which states plainly that this is the
+    SmartCiti.X side of the contract and nothing more.</p>
+  </section>
+
+  <section class="note">
     <h3>One shared apprentice profile</h3>
     <p>SmartCiti.X, Trade Skills Simulator and Holodeck's real-station mode all read and write
     the same learner profile — level, XP, badges and player name carry over between them,

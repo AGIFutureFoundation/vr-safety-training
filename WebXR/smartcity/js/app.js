@@ -11,9 +11,11 @@ import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
-import { Platform } from "../../shared/platform.js";
+import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
+
 import { Perf } from "../../shared/perf.js";
 import { createBroadcaster } from "../../shared/observer.js";
+import { createFlowRunner, outcomeFromRecord, acknowledgedOutcome, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage } from "./stage.js";
@@ -210,7 +212,7 @@ const store = createStore({
     playerName: Progress.playerName === "YOU" ? "" : Progress.playerName,
     identityLocked: !!Identity.current, identityLabel: identityLabel(),
   },
-  results: { visible: false, html: "", showNext: false, retryPrimary: true },
+  results: { visible: false, html: "", showNext: false, retryPrimary: true, nextLabel: "Next stop →" },
   // Flipped-classroom pre-brief: a station's steps and the reason for each,
   // shown before the first run of that station (see shared/game.js).
   prebrief: { visible: false, id: "", name: "", trade: "", category: "", tagline: "", certification: "", steps: [], hazardCount: 0 },
@@ -237,6 +239,9 @@ const store = createStore({
     programme: ROBOT_PROGRAMME, running: false, done: 0, total: 0, station: "", note: "",
     ladder: DIFFICULTY_LADDER, curve: [], stations: [],
   },
+  // Flows: the host-orchestrated graphs (shared/flowhub.js). One row per
+  // loaded flow, the node standing now and the path that got there.
+  flows: { visible: false, rows: [], current: null, note: "", error: "" },
   editor: {
     visible: false,
     baseOptions: SIMS_META.map((s) => ({ id: s.id, label: `${s.name} — ${s.trade}` })),
@@ -833,13 +838,21 @@ function showResults(s, summary) {
   shipToLrs([attempt]);
   announceNewCompetencies(competencyBefore);
   renderPrograms();
+  // A flow standing on this station moves now, on the same verdict the record
+  // carries — a flow never scores anything of its own. The run moves and the
+  // host hears the transition immediately; the next node is not opened over the
+  // top of the results card, it waits for "Next stop" or the panel's Continue.
+  flowOnAttempt(attempt);
   const touring = !!state.tour;
   const tourDone = touring && state.tour.i + 1 >= SIMS_META.length;
   store.patch("results", {
     visible: true,
     html: bodyHtml,
-    showNext: touring && !tourDone,
-    retryPrimary: !touring || tourDone,
+    // The flow's next node is offered on the same button the guided tour uses:
+    // the learner reads the verdict, then goes on when they are ready.
+    showNext: (touring && !tourDone) || flowPending,
+    retryPrimary: !flowPending && (!touring || tourDone),
+    nextLabel: flowPending ? `Continue the flow → ${flowNextLabel()}` : "Next stop →",
   });
   state.paused = true;
   announce(`${room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
@@ -1269,6 +1282,22 @@ observer.onCommand((cmd) => {
     setRail("neutral", `<b>Instructor assigned:</b> ${escapeHtml(programme.name)} — pinned at the top of your training programmes.`);
     announce(`Instructor assigned ${programme.name}. It is pinned in your training programmes.`);
     logInstructorAction("assign", programme.id, { note: "pinned in the programmes panel" });
+    return;
+  }
+  if (cmd.kind === "flow") {
+    // The console hands over the whole graph, not a name: a flow is not in any
+    // roster here. It is validated against the catalog before it can run, and a
+    // refusal says why on the console's own log.
+    const res = flowRunner.load(cmd.flow, { validateAgainst: FLOW_CATALOG });
+    if (!res.ok) { logInstructorAction("flow", cmd.detail, { ok: false, note: res.errors?.[0] ?? "flow refused" }); return; }
+    const started = flowRunner.start(res.flow.id, { restart: true });
+    renderFlows();
+    setRail("neutral", `<b>Instructor:</b> flow ${escapeHtml(res.flow.title)} — starting at ${escapeHtml(nodeLabel(flowRunner.current().node))}.`);
+    announce(`Instructor loaded the flow ${res.flow.title}.`);
+    logInstructorAction("flow", res.flow.id, {
+      ok: started.ok !== false,
+      note: started.ok === false ? started.reason : `flow started at ${flowRunner.current().run?.nodeId ?? res.flow.start}`,
+    });
   }
 });
 
@@ -1288,9 +1317,21 @@ addEventListener("pagehide", () => observer.close());
 /** The station itself, for the console's per-learner panel: the steps in
  *  order, the interruptions it declares and which have gone off. Sent with
  *  every hello, including the one a roll call triggers. */
+/** The flow's position, safe to ask for before the runner below is built. */
+function flowLive() {
+  try { return flowRunner.current(); } catch (_) { return { flow: null, run: null, node: null }; }
+}
+
 observer.describes(() => {
   const s = state.session;
-  const settings = { hazardMode, weather: instructorWeather, profile: instructorDeviceId, assigned: assignedProgram };
+  const live = flowLive();
+  const settings = {
+    hazardMode, weather: instructorWeather, profile: instructorDeviceId, assigned: assignedProgram,
+    // Where the learner's flow stands, so the console's row says which node of
+    // which flow this run belongs to rather than just naming a station.
+    flow: live.flow?.id ?? null,
+    flowNode: live.node ? `${live.node.kind}: ${nodeLabel(live.node)}` : null,
+  };
   if (!s) return { steps: [], interrupts: [], fired: [], ...settings };
   return {
     steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
@@ -1362,6 +1403,28 @@ Platform.init({
     if (type === "smartcitix:status") { reply("smartcitix:state", platformState()); return; }
     if (type === "smartcitix:catalog") {
       reply("smartcitix:catalog", { stations: allSims().map((s) => ({ id: s.id, name: s.name, category: s.category ?? null, trade: s.trade ?? null, certification: s.certification ?? null, flat: !!s.flat, custom: !!s.isCustom })) });
+      return;
+    }
+    // ---- the flow channel (platform protocol 2, see shared/flowhub.js) ----
+    if (type === FLOW_LOAD) {
+      const res = flowRunner.load(data.flow, { validateAgainst: FLOW_CATALOG });
+      renderFlows();
+      if (!res.ok) { reply("smartcitix:state", { ...platformState(), error: `flow refused: ${(res.errors ?? []).join("; ")}` }); return; }
+      reply(FLOW_STATE, { flow: res.state, transition: null });
+      return;
+    }
+    if (type === FLOW_START) {
+      const res = flowRunner.start(data.flowId ?? null, { restart: !!data.restart });
+      renderFlows();
+      if (res.ok === false) reply("smartcitix:state", { ...platformState(), error: `flow.start: ${res.reason}` });
+      return;
+    }
+    if (type === FLOW_RESUME) {
+      // The host finished the external node it was handed. It cannot resume any
+      // other node, so a stray resume can never skip a station still owed.
+      const res = flowRunner.resume({ nodeId: data.nodeId ?? null, outcome: data.outcome ?? null });
+      renderFlows();
+      if (res.ok === false) reply("smartcitix:state", { ...platformState(), error: `flow.resume: ${res.reason}` });
     }
   },
 });
@@ -1389,11 +1452,15 @@ function prebriefStart() {
   const id = state.pendingBrief; if (!id) return;
   Progress.markBriefed(id);
   store.patch("prebrief", { visible: false });
+  // A brief that is a flow's own node is finished by reading it; the flow then
+  // says what comes next (which may well be this same station).
+  if (flowBriefAnswered()) return;
   enterSim(id, { briefed: true });
 }
 function prebriefSkip() {
   const id = state.pendingBrief; if (!id) return;
   store.patch("prebrief", { visible: false });
+  if (flowBriefAnswered()) return;
   enterSim(id, { briefed: true });
 }
 function prebriefClose() { state.pendingBrief = null; store.patch("prebrief", { visible: false }); }
@@ -1544,6 +1611,222 @@ function programStart(app, id) {
   Sfx.ensure();
   enterSim(id);
 }
+
+// ------------------------------------------------------------------- flows
+//
+// A flow is a host's ordered graph of nodes with a condition on every edge
+// (shared/flowhub.js). SmartCiti.X runs the nodes that are its to run — a
+// station, a station's pre-brief, a programme, a check-in — evaluates a gate
+// against the same attempt records the certificate claim rests on, hands an
+// external node back to the host, and follows the portal's own cross-app link
+// when the next node belongs to Trade Skills or Holodeck. The run itself lives
+// in one localStorage key so it survives that app switch.
+//
+// The protocol is platform.js's (FLOW_LOAD / FLOW_START / FLOW_RESUME in,
+// FLOW_STATE / FLOW_DONE / FLOW_EXTERNAL out) and the instructor console's
+// CMD_FLOW lands in the same place. Nothing here knows anything about how a
+// host's own orchestrator is built; see docs/flowhub.md.
+
+// Flows are validated against the network's real roster. The generated catalog
+// is the only place the Trade Skills rooms are also listed, so it is fetched
+// when it can be; until then (and in the bundled single-file build, where the
+// file sits one folder up) the local roster is the floor.
+let FLOW_CATALOG = {
+  stations: SIMS_META.map((s) => ({ app: "smartcity", id: s.id })),
+  curricula: CURRICULA.map((c) => ({ id: c.id })),
+};
+for (const url of ["./catalog.json", "../catalog.json"]) {
+  fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+    if (cat?.stations?.length) FLOW_CATALOG = cat;
+  }).catch(() => { /* offline, or a bundled build — the local roster stands */ });
+}
+
+let flowBriefNode = null; // the flow node a pre-brief on screen belongs to
+let flowPending = false;  // the run has moved; the learner has not yet been sent on
+
+const flowRunner = createFlowRunner({
+  app: "smartcity",
+  enter: flowEnter,
+  onState: (state, transition) => { Platform.flowState(state, transition); renderFlows(); flowTellObserver(state); },
+  onExternal: (payload) => {
+    Platform.flowExternal(payload);
+    const label = payload.node?.title ?? payload.node?.ref ?? payload.nodeId;
+    store.patch("results", { visible: false });
+    store.patch("flows", { note: `Waiting on your platform: ${label}. The flow continues when it sends the result back.` });
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(String(label))} runs on your learning platform. This station waits for its result.`);
+    announce(`Flow paused. ${label} runs on your learning platform.`);
+    viewFlows();
+  },
+  onDone: (state) => {
+    Platform.flowDone(state);
+    store.patch("flows", { note: `Flow complete: ${state.title ?? state.flowId}.` });
+    setRail("ok", `<b>Flow complete:</b> ${escapeHtml(String(state.title ?? state.flowId))}.`);
+    announce(`Flow complete: ${state.title ?? state.flowId}.`);
+    viewFlows();
+  },
+});
+
+/** Do here whatever the node the run is standing on means. */
+function flowEnter(node, { href }) {
+  if (href) {
+    // A node in Trade Skills or Holodeck: the portal's own cross-app link,
+    // carrying the flow and node ids. The run is already saved under the one
+    // localStorage key, so the other app picks it up on load.
+    flowBriefNode = null;
+    setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(node))} in ${escapeHtml(String(node.app))} — opening that app.`);
+    location.href = href;
+    return true;
+  }
+  if (node.kind === "station") { flowBriefNode = null; openForInstructor(node.ref); return true; }
+  if (node.kind === "brief") { flowBriefNode = node.id; flowOpenBrief(node.ref); return true; }
+  if (node.kind === "programme") { flowBriefNode = null; return flowEnterProgramme(node); }
+  if (node.kind === "checkin") {
+    flowBriefNode = null;
+    store.patch("results", { visible: false });
+    store.patch("flows", { note: `${nodeLabel(node)} — answer the check-in, then Continue. It is never scored and never leaves this browser.` });
+    viewFlows();
+    return true;
+  }
+  return false;
+}
+
+/** A brief node: the station's own pre-brief, with nothing else entered. */
+async function flowOpenBrief(id) {
+  if (!simExists(id)) { store.patch("flows", { error: `no station ${id} for this flow's brief` }); return; }
+  store.patch("intro", { visible: false });
+  store.patch("results", { visible: false });
+  const room = await findSim(id);
+  if (room) showPreBrief(room);
+}
+
+/** A programme node opens at the first station of it the learner has not passed. */
+function flowEnterProgramme(node) {
+  const programme = CURRICULA.find((c) => c.id === node.ref);
+  if (!programme) { store.patch("flows", { error: `no programme ${node.ref}` }); return false; }
+  assignedProgram = programme.id;
+  renderPrograms();
+  const progress = curriculumProgress(programme, TrainingRecords.list());
+  const next = progress.next ?? programme.stations[0];
+  if (!next) { store.patch("flows", { error: `programme ${node.ref} has no stations` }); return false; }
+  if (next.app !== "smartcity") {
+    location.href = `../${next.app}/index.html?room=${encodeURIComponent(next.id)}`;
+    return true;
+  }
+  setRail("neutral", `<b>Flow:</b> ${escapeHtml(programme.name)} — opening ${escapeHtml(next.id.replace(/-/g, " "))}.`);
+  openForInstructor(next.id);
+  return true;
+}
+
+/**
+ * A finished attempt, offered to the flow. It only counts when the flow is
+ * actually standing on that node: a learner who wanders off to another station
+ * mid-flow has not completed the one the flow asked for.
+ */
+function flowOnAttempt(attempt) {
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run || run.done || !node) return;
+  if (node.kind === "station") {
+    if (node.ref !== attempt.simId) return;
+    flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+    flowPending = !flowRunner.current().run?.done;
+    return;
+  }
+  if (node.kind === "programme") {
+    const programme = CURRICULA.find((c) => c.id === node.ref);
+    if (!programme || !programme.stations.some((s) => s.id === attempt.simId)) return;
+    const progress = curriculumProgress(programme, TrainingRecords.list());
+    // A programme node is done when the programme is: until then the flow
+    // stays on it and the block's next station is what "Next stop" opens.
+    if (!progress.complete) { flowPending = true; return; }
+    flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+    flowPending = !flowRunner.current().run?.done;
+  }
+}
+
+/** What the results card's Continue button says it will open. */
+function flowNextLabel() {
+  const node = flowRunner.current().node;
+  return node ? nodeLabel(node) : "next node";
+}
+
+/** Open the node the flow is now standing on — the results card's "Next stop"
+ *  and the Flows panel's "Continue" are the same act. */
+function flowResume() {
+  flowPending = false;
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run) return false;
+  if (run.done) { viewFlows(); return true; }
+  if (node?.kind === "programme") { flowEnterProgramme(node); return true; }
+  const r = flowRunner.resumeHere();
+  if (r.ok === false) { store.patch("flows", { error: r.reason ?? "the flow could not continue" }); viewFlows(); }
+  return true;
+}
+
+/** A pre-brief that belonged to a flow's brief node: read is the outcome. */
+function flowBriefAnswered() {
+  if (!flowBriefNode) return false;
+  const nodeId = flowBriefNode;
+  flowBriefNode = null;
+  flowRunner.complete(acknowledgedOutcome({ why: "pre-brief read" }), { nodeId });
+  return true;
+}
+
+/**
+ * Tell the instructor console where the flow stands. A transition happens once
+ * per node, so this is a hello rather than a throttled heartbeat, and it
+ * carries the same fields describeStation() puts on every hello.
+ */
+function flowTellObserver(state) {
+  if (!state) return;
+  observer.hello({});
+}
+
+function renderFlows() {
+  const rows = flowRunner.rows();
+  const { flow } = flowRunner.current();
+  store.patch("flows", { rows, current: flow?.id ?? null });
+}
+function viewFlows() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderFlows();
+  store.patch("flows", { visible: true });
+}
+function closeFlows() { state.paused = pausedBeforeOverlay; store.patch("flows", { visible: false }); }
+/** Continue: answer a check-in node, or stand on the current node again. */
+function flowContinue(flowId = null) {
+  if (flowId) flowRunner.select(flowId);
+  const { run, node } = flowRunner.current();
+  store.patch("flows", { error: "" });
+  if (!run) { const r = flowRunner.start(flowId); if (!r.ok) store.patch("flows", { error: r.reason }); renderFlows(); return; }
+  closeFlows();
+  if (node?.kind === "checkin") { flowPending = false; flowRunner.complete(acknowledgedOutcome({ why: "check-in answered" })); return; }
+  flowResume();
+}
+function flowRestart(flowId = null) {
+  closeFlows();
+  const r = flowRunner.restart(flowId);
+  if (!r.ok) { store.patch("flows", { error: r.reason ?? "the flow could not restart" }); viewFlows(); }
+}
+function flowSelect(flowId) { if (flowRunner.select(flowId)) renderFlows(); }
+
+// A flow node in another app hands back the same way it went out: the link
+// carried the flow and node ids, and the run waited in localStorage.
+{
+  const link = parseFlowLink(location.search);
+  if (link.flowId) {
+    const restored = flowRunner.restore(link);
+    if (restored.ok) {
+      renderFlows();
+      // The station on the link is the flow's node; entering it is the flow
+      // continuing, not a deep link the learner typed.
+      queueMicrotask(() => flowRunner.resumeHere());
+    } else {
+      store.patch("flows", { error: restored.reason });
+    }
+  }
+}
+
 function stamp() { return new Date().toISOString().slice(0, 10); }
 function exportRecordsCsv() {
   download(`smartcitix-training-records-${stamp()}.csv`, toCSV(TrainingRecords.list()), "text/csv");
@@ -1839,6 +2122,9 @@ function backToHub() {
   enterHub();
 }
 function nextTourStop() {
+  // The same button carries a flow's next node; a flow takes precedence,
+  // because a learner put on a flow is being driven by it.
+  if (flowPending) { store.patch("results", { visible: false }); state.paused = false; flowResume(); return; }
   if (!state.tour) return;
   state.tour.i += 1;
   const next = SIMS_META[state.tour.i];
@@ -2222,6 +2508,7 @@ function backAction() {
   if (ui.records.visible) { closeRecords(); return true; }
   if (ui.leaderboard.visible) { closeLeaderboard(); return true; }
   if (ui.programs.visible) { closePrograms(); return true; }
+  if (ui.flows.visible) { closeFlows(); return true; }
   if (ui.editor.visible) { closeEditor(); return true; }
   if (state.session) { state.tour = null; store.patch("results", { visible: false }); enterHub(); return true; }
   return false;
@@ -2995,6 +3282,7 @@ const uiActions = {
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart,
   startRobotTraining, stopRobotTraining,
+  viewFlows, closeFlows, flowContinue, flowRestart, flowSelect,
   prebriefStart, prebriefSkip, prebriefClose,
   lrsSetEndpoint, lrsSetAuth, lrsConnect, lrsDisconnect, lrsSendAll,
   openEditor, closeEditor, edSelectBase, edToggleStep, edMoveStep,
@@ -3076,6 +3364,16 @@ window.__smartcityTest = {
     programs: renderer.info.programs?.length ?? null,
   }),
   stage: () => state.stage,
+  // The flow runner, so a live browser test can drive a host's flow the way a
+  // host would and read back exactly what the panel and the channel report.
+  flow: () => ({
+    state: flowRunner.state(), rows: flowRunner.rows(),
+    current: (() => { const c = flowRunner.current(); return { flowId: c.flow?.id ?? null, nodeId: c.run?.nodeId ?? null, kind: c.node?.kind ?? null, done: !!c.run?.done }; })(),
+  }),
+  // The same two handlers the panel's own buttons run, so a live test drives the
+  // real actions rather than a copy of them.
+  flowContinue: () => flowContinue(),
+  openFlows: () => viewFlows(),
   // The station's built controls by id, the group they live in, and the THREE
   // namespace — so a live probe can raycast from the camera to a control and
   // see whether anything is in front of it. The headless checkers know where

@@ -44,7 +44,9 @@ const ANSWERED_BY_APPS = INSTRUCTOR_COMMANDS.filter((c) => c !== CMD_ROLL);
 // The four that mean the same thing in every app. The others are SmartCiti.X's
 // because only it has a stage with weather, a device profile per station and a
 // programmes panel.
-const EVERYWHERE = ["note", "freeze", "open", "interrupt"];
+// A flow is a graph the console hands over, so every app that can run a station
+// can run one: all three answer it (shared/flowhub.js, docs/flowhub.md).
+const EVERYWHERE = ["note", "freeze", "open", "interrupt", "flow"];
 
 const APPS = {
   "SmartCiti.X": { src: read("WebXR/smartcity/js/app.js"), commands: ANSWERED_BY_APPS },
@@ -54,9 +56,9 @@ const APPS = {
 
 console.log("Instructor console — self-test\n");
 
-check("the protocol is bumped and still accepts the version before it", () => {
-  assert(OBSERVER_PROTOCOL === 2, `expected protocol 2, got ${OBSERVER_PROTOCOL}`);
-  assert(ACCEPTED_PROTOCOLS.includes(1) && ACCEPTED_PROTOCOLS.includes(2), "both 1 and 2 are accepted");
+check("the protocol is bumped and still accepts every version before it", () => {
+  assert(OBSERVER_PROTOCOL === 3, `expected protocol 3, got ${OBSERVER_PROTOCOL}`);
+  for (const v of [1, 2, 3]) assert(ACCEPTED_PROTOCOLS.includes(v), `protocol ${v} is no longer accepted`);
   for (const cmd of INSTRUCTOR_COMMANDS) assert(COMMAND_LABELS[cmd], `${cmd} has no label for the console and the docs`);
 });
 
@@ -131,16 +133,16 @@ check("the console sets no HTML from a string", () => {
 check("every control the console offers is a declared command", () => {
   const app = read("WebXR/instructor/js/app.js");
   const called = [...app.matchAll(/bus\.([a-zA-Z]+)\(/g)].map((m) => m[1]);
-  const allowed = new Set(["roll", "note", "freeze", "open", "interrupt", "weather", "profile", "hazardMode", "assign", "close"]);
+  const allowed = new Set(["roll", "note", "freeze", "open", "interrupt", "weather", "profile", "hazardMode", "assign", "flow", "close"]);
   for (const name of called) assert(allowed.has(name), `the console calls bus.${name}(), which the protocol does not declare`);
-  for (const want of ["open", "interrupt", "weather", "profile", "hazardMode", "assign", "note", "freeze"]) {
+  for (const want of ["open", "interrupt", "weather", "profile", "hazardMode", "assign", "note", "freeze", "flow"]) {
     assert(called.includes(want), `the console has no control that sends ${want}`);
   }
 });
 
 check("the console page has a control for each of the protocol's commands", () => {
   const html = read("WebXR/instructor/index.html");
-  for (const id of ["roll", "note", "send", "hold", "release", "weather-send", "profile-send", "coach", "assess", "assign", "panel-ints", "panel-steps", "roster-search", "log-csv"]) {
+  for (const id of ["roll", "note", "send", "hold", "release", "weather-send", "profile-send", "coach", "assess", "assign", "flow-pick", "flow-load", "flow-json", "flow-send", "panel-ints", "panel-steps", "roster-search", "log-csv"]) {
     assert(html.includes(`id="${id}"`), `the page has no #${id}`);
   }
 });

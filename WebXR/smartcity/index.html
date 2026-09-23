@@ -401,6 +401,37 @@
   .robot-legend{ color:var(--muted); font-size:11.5px; line-height:1.5 }
   .robot-note{ font-size:12px; margin-top:6px; color:var(--text) }
   @media (prefers-reduced-motion: reduce){ .robot-spin{ animation:none } .robot-bar span{ transition:none } }
+  /* Flows (shared/flowhub.js): one card per loaded flow, with the path taken
+     drawn as a chain of chips — the node standing now highlighted, a failed
+     node tinted, and the reason the run branched printed under each hop. */
+  .flow-list{ display:grid; gap:14px; margin:6px 0 16px }
+  .flow-card{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:12px; padding:14px 16px }
+  .flow-card.current{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset }
+  .flow-card.done{ border-color:color-mix(in srgb, var(--good) 55%, var(--edge)) }
+  .flow-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin:0 0 6px }
+  .flow-head h2{ font-family:var(--cond); font-weight:600; font-size:20px; margin:0; text-transform:none }
+  .flow-meta{ color:var(--muted); font-size:11.5px; letter-spacing:.03em; margin-top:2px }
+  .flow-state{ font-family:var(--cond); font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:11px;
+    padding:3px 9px; border-radius:999px; background:var(--edge); white-space:nowrap }
+  .flow-state.done{ background:color-mix(in srgb, var(--good) 28%, transparent); color:var(--good) }
+  .flow-now{ margin:0 0 4px; font-size:13.5px }
+  .flow-kind,.flow-app{ display:inline-block; margin-left:7px; padding:1px 6px; border-radius:5px; background:var(--edge);
+    font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--text) }
+  .flow-why-line,.flow-comps{ margin:0 0 8px; color:var(--muted); font-size:12.5px; line-height:1.5 }
+  .flow-why-line span,.flow-comps span{ font-family:var(--cond); letter-spacing:.06em; text-transform:uppercase; font-size:11px }
+  .flow-note{ color:var(--accent); font-size:13px; margin:0 0 8px }
+  .flow-error{ color:var(--bad); font-size:13px; margin:0 0 8px }
+  .flow-diagram{ list-style:none; margin:0 0 12px; padding:0; display:flex; flex-wrap:wrap; gap:8px 18px }
+  .flow-node{ position:relative; min-width:132px; max-width:210px; background:var(--surface); border:1px solid var(--edge);
+    border-radius:9px; padding:7px 9px; font-size:12px; line-height:1.45 }
+  .flow-node + .flow-node::before{ content:"→"; position:absolute; left:-14px; top:50%; transform:translateY(-50%); color:var(--muted) }
+  .flow-node b{ display:block; text-transform:capitalize }
+  .flow-node .flow-kind{ margin:0 0 2px; display:inline-block }
+  .flow-node.done{ border-color:color-mix(in srgb, var(--good) 45%, var(--edge)) }
+  .flow-node.failed{ border-color:color-mix(in srgb, var(--bad) 55%, var(--edge)) }
+  .flow-node.now{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset }
+  .flow-stars{ display:block; color:var(--warn); font-size:11px; letter-spacing:.08em }
+  .flow-why{ display:block; color:var(--muted); margin-top:3px; font-size:11px }
   /* Step-by-step debrief under the score: a bar per step scaled to the
      longest one, tinted by whether the step was clean, corrected or unsafe. */
   .debrief{ margin:14px 0 4px; border:1px solid var(--edge); border-radius:12px; background:var(--surface-raised); padding:10px 12px; text-align:left }

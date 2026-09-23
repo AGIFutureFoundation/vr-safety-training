@@ -173,7 +173,8 @@ await check("everything is a no-op without BroadcastChannel", () => {
   assert(b.hello() === false && b.step({}) === false && b.hazard({}) === false && b.finish({}) === false, "learner calls return false, do not throw");
   assert(con.roll() === false && con.note("x", "y") === false && con.freeze("x", true) === false, "console calls return false, do not throw");
   assert(con.open("x", "y") === false && con.interrupt("x", "y") === false && con.weather("x", "rain") === false
-    && con.profile("x", "vr") === false && con.hazardMode("x", "coach") === false && con.assign("x", "p") === false,
+    && con.profile("x", "vr") === false && con.hazardMode("x", "coach") === false && con.assign("x", "p") === false
+    && con.flow("x", { id: "f", title: "F", version: 1, start: "a", nodes: [], edges: [] }) === false,
     "the new commands are no-ops too, not throws");
   b.close(); con.close();
   globalThis.BroadcastChannel = real;
@@ -181,9 +182,9 @@ await check("everything is a no-op without BroadcastChannel", () => {
 });
 
 await check("the protocol names both directions and nothing overlaps", () => {
-  assert(LEARNER_EVENTS.length === 7 && INSTRUCTOR_COMMANDS.length === 9, `seven learner events, nine commands, got ${LEARNER_EVENTS.length}/${INSTRUCTOR_COMMANDS.length}`);
+  assert(LEARNER_EVENTS.length === 7 && INSTRUCTOR_COMMANDS.length === 10, `seven learner events, ten commands, got ${LEARNER_EVENTS.length}/${INSTRUCTOR_COMMANDS.length}`);
   assert(!LEARNER_EVENTS.some((k) => INSTRUCTOR_COMMANDS.includes(k)), "the two directions use distinct names");
-  assert(OBSERVER_PROTOCOL === 2 && ACCEPTED_PROTOCOLS.includes(1), "protocol 2, and 1 still accepted");
+  assert(OBSERVER_PROTOCOL === 3 && ACCEPTED_PROTOCOLS.includes(1) && ACCEPTED_PROTOCOLS.includes(2), "protocol 3, and 1 and 2 still accepted");
 });
 
 await check("a console from before the bump is still answered", () => {

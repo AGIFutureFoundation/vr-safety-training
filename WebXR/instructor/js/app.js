@@ -1,4 +1,5 @@
 import { createConsole, reduceRoster, COMMAND_LABELS, relayFromSearch } from "../../shared/observer.js";
+import { validateFlow, flowFromJSON } from "../../shared/flowhub.js";
 import { DEVICES, PROFILES } from "../../shared/devices.js";
 import { buildRoster, matchStation, matchProgramme } from "./roster.js";
 
@@ -26,6 +27,7 @@ let roster = new Map();
 let selected = null;
 let view = "live";
 let catalog = null;          // the folded roster tree, once catalog.json lands
+let rawCatalog = null;       // the same catalog unfolded, for validating a flow
 let logRows = [];            // newest last; rendered newest first
 let query = "";
 // A running session posts a position snapshot twice a second. Those are what
@@ -193,7 +195,9 @@ function renderPanel(row) {
   $("panel-where").textContent = `${row.stationName ?? row.station ?? "no station"} · ${row.app ?? "—"} · step ${row.stepIndex ?? 0} of ${row.stepCount ?? 0}`
     + (row.weather ? ` · next station in ${row.weather}` : "")
     + (row.profile ? ` · next station on ${row.profile}` : "")
-    + (row.assigned ? ` · assigned ${row.assigned}` : "");
+    + (row.assigned ? ` · assigned ${row.assigned}` : "")
+    + (row.flow ? ` · flow ${row.flow}` : "")
+    + (row.flowNode ? ` · ${row.flowNode}` : "");
 
   const steps = $("panel-steps");
   steps.replaceChildren();
@@ -370,6 +374,98 @@ function renderLog() {
   }
 }
 
+
+// ----------------------------------------------------------------- flows
+//
+// A flow is a node graph, not a name in a roster, so this is the one control
+// that sends a payload: the console reads one of the examples in WebXR/flows/
+// (a static page cannot list a directory, so flows/index.json is the index) or
+// takes one pasted in, checks it against the catalog with the very same
+// validator the learner app uses, and sends it with CMD_FLOW. The app validates
+// it again on arrival and answers with an action event either way — this console
+// is not trusted, and does not need to be.
+let flowIndex = [];          // { id, file, title, shape } from flows/index.json
+let flowLoaded = null;       // the flow this console currently holds
+
+function flowStatus(text, kind = "") {
+  const node = $("flow-state");
+  node.textContent = text;
+  node.className = `fine${kind ? ` ${kind}` : ""}`;
+}
+
+function flowCatalogForCheck() {
+  // buildRoster keeps the raw catalog's own arrays; validateFlow wants those.
+  return rawCatalog ?? null;
+}
+
+function setFlow(flow, where) {
+  const verdict = validateFlow(flow, flowCatalogForCheck());
+  if (!verdict.ok) {
+    flowLoaded = null;
+    flowStatus(`${where} is not a flow this network can run: ${verdict.errors[0]}`, "bad");
+    return false;
+  }
+  flowLoaded = flow;
+  const extra = verdict.warnings.length ? ` (${verdict.warnings[0]})` : "";
+  flowStatus(`Holding ${flow.title} — ${verdict.nodes} nodes, ${verdict.edges} edges, starts at ${flow.start}.${extra}`, "good");
+  return true;
+}
+
+function loadFlowFromPicker() {
+  const file = $("flow-pick").value;
+  if (!file) { flowStatus("No example flow is available from this origin.", "bad"); return; }
+  fetch(`../flows/${file}`)
+    .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`${file}: ${r.status}`))))
+    .then((text) => {
+      const parsed = flowFromJSON(text);
+      if (parsed.error) { flowStatus(`${file}: ${parsed.error}`, "bad"); return; }
+      $("flow-json").value = text;
+      setFlow(parsed.flow, file);
+    })
+    .catch((e) => flowStatus(`Could not read ${file}: ${e.message}`, "bad"));
+}
+
+function flowFromBox() {
+  const text = $("flow-json").value.trim();
+  if (!text) { flowStatus("Paste a flow definition, or pick one of the examples.", "bad"); return null; }
+  const parsed = flowFromJSON(text);
+  if (parsed.error) { flowStatus(`The pasted flow ${parsed.error}`, "bad"); return null; }
+  return setFlow(parsed.flow, "the pasted flow") ? flowLoaded : null;
+}
+
+/** Send the held flow to the selected learner, or to every live session. */
+function sendFlow({ all = false } = {}) {
+  const flow = flowLoaded ?? flowFromBox();
+  if (!flow) return;
+  const targets = all ? liveRows().map((r) => r.id) : selected ? [selected] : [];
+  if (!targets.length) { toast(all ? "No live sessions to send to." : "Select a learner on the Live class view first."); return; }
+  let sent = 0;
+  for (const to of targets) if (bus.flow(to, flow, flow.id)) sent += 1;
+  toast(sent
+    ? `Sent flow ${flow.id} to ${sent} session${sent === 1 ? "" : "s"}.`
+    : "The flow was too large for the channel and was not sent.");
+}
+
+$("flow-load").addEventListener("click", loadFlowFromPicker);
+$("flow-json").addEventListener("input", () => { flowLoaded = null; flowStatus("Pasted flow not checked yet — Send checks it first.", ""); });
+$("flow-send").addEventListener("click", () => sendFlow());
+$("flow-send-all").addEventListener("click", () => sendFlow({ all: true }));
+
+fetch("../flows/index.json")
+  .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`flows/index.json: ${r.status}`))))
+  .then((json) => {
+    flowIndex = Array.isArray(json?.flows) ? json.flows : [];
+    const pick = $("flow-pick");
+    pick.replaceChildren();
+    for (const row of flowIndex) {
+      const opt = el("option", null, `${row.title} — ${row.shape ?? row.id}`);
+      opt.value = row.file;
+      pick.append(opt);
+    }
+    if (!flowIndex.length) flowStatus("No example flows are published at this origin. Paste one instead.", "");
+  })
+  .catch(() => flowStatus("The example flows could not be read from this origin. Paste a flow definition instead.", ""));
+
 // ---------------------------------------------------------------------- views
 
 function render() {
@@ -435,7 +531,7 @@ $("log-clear").addEventListener("click", () => { logRows = []; render(); });
 // cannot offer the catalog view.
 fetch("../smartcity/catalog.json")
   .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`catalog.json: ${r.status}`))))
-  .then((json) => { catalog = buildRoster(json); fillPickers(); render(); })
+  .then((json) => { rawCatalog = json; catalog = buildRoster(json); fillPickers(); render(); })
   .catch(() => { $("roster-count").textContent = "The catalog could not be loaded from this origin, so the roster view is empty. The live class view is unaffected."; fillPickers(); });
 
 if (relayFromSearch() && !bus.relay) toast("The relay URL was rejected — it must start with ws:// or wss://.");

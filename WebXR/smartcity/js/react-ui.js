@@ -78,6 +78,7 @@ const INTRO_BUTTONS = [
   { id: "view-leaderboard", label: "Leaderboards", action: "viewLeaderboard" },
   { id: "view-records", label: "Training records", action: "viewRecords" },
   { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
+  { id: "view-flows", label: "Flows", action: "viewFlows" },
   { id: "open-editor", label: "Create a scenario", action: "openEditor" },
   { id: "open-controls", label: "Controls", action: "openControls" },
   { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
@@ -304,7 +305,7 @@ export function mountUI(store, actions) {
       h("div", { className: "card" },
         h("div", { id: "results-body", dangerouslySetInnerHTML: { __html: results.html } }),
         h("div", { className: "btnrow" },
-          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, "Next stop →"),
+          h("button", { className: "primary", id: "res-next", hidden: !results.showNext, onClick: actions.nextTourStop }, results.nextLabel ?? "Next stop →"),
           h("button", { className: results.retryPrimary ? "primary" : "", id: "res-retry", onClick: actions.retryResult }, "Run it again"),
           h("button", { id: "res-hub", onClick: actions.backToHub }, "Back to campus"))));
   }
@@ -408,6 +409,71 @@ export function mountUI(store, actions) {
             : h("p", { className: "prog-done" }, "Programme complete — every station passed.")))),
         h("div", { className: "btnrow" },
           h("button", { id: "prog-close", onClick: actions.closePrograms }, "Close"))));
+  }
+
+  /** Flows: the host-orchestrated graphs a platform hands over
+   * (shared/flowhub.js). One card per loaded flow with the node standing now,
+   * the path taken as a small diagram of chips and arrows, and the reason the
+   * run is where it is. Plain data only — a flow's title comes from a host, so
+   * nothing here is ever set as markup. */
+  function FlowPath({ path }) {
+    const rows = path ?? [];
+    if (!rows.length) return null;
+    return h("ol", { className: "flow-diagram" }, rows.map((r) => h("li", {
+      key: `${r.index}-${r.id}`,
+      className: `flow-node${r.current ? " now" : ""}${r.passed === false ? " failed" : ""}${r.passed === true ? " done" : ""}`,
+    },
+      h("span", { className: "flow-kind" }, r.kind ?? "node"),
+      h("b", null, r.label || r.id),
+      r.app && r.app !== "smartcity" && h("span", { className: "flow-app" }, r.app),
+      r.stars != null && r.kind === "station" && h("span", { className: "flow-stars" }, "★".repeat(r.stars) + "☆".repeat(Math.max(0, 3 - r.stars))),
+      r.why && h("span", { className: "flow-why" }, r.why))));
+  }
+
+  function FlowsCard() {
+    const fl = useSlice("flows");
+    if (!fl.visible) return h("div", { className: "overlay", id: "flows", hidden: true });
+    const rows = fl.rows ?? [];
+    return h("div", { className: "overlay", id: "flows", role: "dialog", "aria-modal": "true", "aria-label": "Flows" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · flows"),
+        h("h1", null, "Flows"),
+        h("p", { className: "lead" },
+          rows.length
+            ? `${rows.length} flow${rows.length === 1 ? "" : "s"} loaded. A flow is your platform's own order of work — stations, briefs, programmes, a competency gate and its own assessments — and this side runs the parts that are its to run.`
+            : "No flow is loaded. A flow arrives from the platform that launched you, or from an instructor console on this machine; it is never invented here."),
+        fl.note && h("p", { className: "flow-note" }, fl.note),
+        fl.error && h("p", { className: "flow-error" }, fl.error),
+        h("div", { className: "flow-list" }, rows.map((f) => h("section", {
+          key: f.id, className: `flow-card${f.current ? " current" : ""}${f.done ? " done" : ""}`,
+        },
+          h("header", { className: "flow-head" },
+            h("div", null,
+              h("h2", null, f.title || f.id),
+              h("div", { className: "flow-meta" },
+                `${f.id} · v${f.version} · ${f.nodes} nodes, ${f.edges} edges` + (f.restarts ? ` · restarted ${f.restarts}×` : ""))),
+            h("div", { className: `flow-state${f.done ? " done" : ""}` }, f.done ? "complete" : f.started ? "running" : "not started")),
+          h("p", { className: "flow-now" },
+            h("b", null, f.done ? "Finished" : `Now: ${f.nodeLabel || f.nodeId}`),
+            !f.done && f.nodeKind && h("span", { className: "flow-kind" }, f.nodeKind),
+            !f.done && f.nodeApp && f.nodeApp !== "smartcity" && h("span", { className: "flow-app" }, f.nodeApp)),
+          h("p", { className: "flow-why-line" }, h("span", null, "Why here: "), f.why),
+          f.competencies.length > 0 && h("p", { className: "flow-comps" },
+            h("span", null, "Demonstrated: "), f.competencies.join(", ")),
+          h(FlowPath, { path: f.path }),
+          h("div", { className: "btnrow" },
+            h("button", {
+              className: "primary", id: `flow-continue-${f.id}`, disabled: !!f.done,
+              onClick: () => actions.flowContinue(f.id),
+            }, f.started ? "Continue" : "Start"),
+            h("button", { id: `flow-restart-${f.id}`, onClick: () => actions.flowRestart(f.id) }, "Restart"),
+            !f.current && h("button", { id: `flow-select-${f.id}`, onClick: () => actions.flowSelect(f.id) }, "Make current"))))),
+        h("p", { className: "fineprint" },
+          "A flow is validated against this network's own roster before it runs: a node naming a station that does not exist is refused, with the reason. " +
+          "A gate reads the same passing attempts the certificate claim rests on and scores nothing of its own, and a node your platform owns is handed back to it — this side waits rather than guessing. " +
+          "The run is kept in this browser only, under one key, so a flow that sends you to Trade Skills and back keeps its place."),
+        h("div", { className: "btnrow" },
+          h("button", { id: "flows-close", onClick: actions.closeFlows }, "Close"))));
   }
 
   /** Instructor/compliance view: every attempt with its pass verdict, per
@@ -842,7 +908,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(EditorCard),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard),
       h(ControlsCard));
   }
 

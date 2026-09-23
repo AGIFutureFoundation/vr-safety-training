@@ -67,7 +67,7 @@ const rooms = trades.ROOMS.map((r) => ({
 }));
 
 const catalog = {
-  protocol: 1,
+  protocol: 2,
   network: "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
   generatedAt: new Date().toISOString().slice(0, 10),
   apps: {
@@ -83,9 +83,16 @@ const catalog = {
     identity: "?learner=<name>&learner_id=<id>&learner_home=<https origin>  or  postMessage({type:'smartcitix:identity', learner, learner_id, learner_home})",
     lrs: "?lrs_endpoint=<https url>  or  postMessage({type:'smartcitix:lrs', endpoint, auth})",
     robot: "?robot=<skill 0..1>  runs a software trainee (SmartCiti.X)",
-    commands: ["smartcitix:open {sim|room, skipBrief?}", "smartcitix:hub", "smartcitix:status", "smartcitix:catalog"],
-    events: ["smartcitix:ready", "smartcitix:state", "smartcitix:catalog", "smartcitix:progress", "smartcitix:record", "smartcitix:credential"],
+    commands: [
+      "smartcitix:open {sim|room, skipBrief?}", "smartcitix:hub", "smartcitix:status", "smartcitix:catalog",
+      "smartcitix:flow.load {flow}", "smartcitix:flow.start {flowId?, restart?}", "smartcitix:flow.resume {nodeId, outcome}",
+    ],
+    events: [
+      "smartcitix:ready", "smartcitix:state", "smartcitix:catalog", "smartcitix:progress", "smartcitix:record", "smartcitix:credential",
+      "smartcitix:flow.state", "smartcitix:flow.done", "smartcitix:flow.external",
+    ],
     trust: "commands are accepted, and events sent, only to the origin given as learner_home",
+    flows: "protocol 2: a host hands over a flow (a node graph with a condition on every edge) and hears every transition back. Schema and message contract: docs/flowhub.md, WebXR/shared/flowhub.js; examples in WebXR/flows/",
   },
   weather: { kinds: WEATHER_KINDS, note: "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour", override: "?weather=<kind>" },
   profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },

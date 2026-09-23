@@ -5,7 +5,8 @@ import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
-import { Platform } from "../../shared/platform.js";
+import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
+import { createFlowRunner, outcomeFromRecord, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { Perf } from "../../shared/perf.js";
@@ -338,6 +339,84 @@ function enterHub() {
 // sees a class working across both apps. See shared/observer.js.
 const observer = createBroadcaster("trades", { learner: Progress.playerName });
 addEventListener("pagehide", () => observer.close());
+
+// ------------------------------------------------------------------- flows
+//
+// A host's flow (shared/flowhub.js) can send a learner through rooms here as
+// part of a graph that also crosses SmartCiti.X — which is what a real
+// apprenticeship does. This app answers flow.load/start/resume on the platform
+// channel and CMD_FLOW from the instructor console, runs the rooms that are its
+// to run, and follows the portal's own cross-app link when the next node is
+// another app's. The run waits in the one localStorage key across that switch.
+let FLOW_CATALOG = { stations: ROOMS.map((r) => ({ app: "trades", id: r.id })), curricula: [] };
+for (const url of ["../smartcity/catalog.json", "./catalog.json"]) {
+  fetch(url).then((r) => (r.ok ? r.json() : null)).then((cat) => {
+    if (cat?.stations?.length) FLOW_CATALOG = cat;
+  }).catch(() => { /* offline or a bundled build — the local roster stands */ });
+}
+
+const flowRunner = createFlowRunner({
+  app: "trades",
+  enter: (node, { href }) => {
+    if (href) {
+      setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(node))} in ${escapeHtml(String(node.app))} — opening that app.`);
+      location.href = href;
+      return true;
+    }
+    if (node.kind !== "station" || !ROOM_BY_ID[node.ref]) {
+      // A brief, a programme, a gate or a check-in belongs to SmartCiti.X: it
+      // owns the pre-brief, the programmes and the records panel. Hand the
+      // whole flow back there rather than pretending to run the node here.
+      setRail("neutral", `<b>Flow:</b> ${escapeHtml(nodeLabel(node))} runs in SmartCiti.X — opening it.`);
+      location.href = `../smartcity/index.html?flow=${encodeURIComponent(flowRunner.current().flow?.id ?? "")}&node=${encodeURIComponent(node.id)}`;
+      return true;
+    }
+    if (!ui.intro.hidden) begin();
+    ui.results.hidden = true; hidePreBrief(); state.paused = false;
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(ROOM_BY_ID[node.ref].title)}.`);
+    enterRoom(node.ref, { briefed: true });
+    return true;
+  },
+  onState: (state_, transition) => { Platform.flowState(state_, transition); observer.hello({}); },
+  onExternal: (payload) => {
+    Platform.flowExternal(payload);
+    setRail("neutral", `<b>Flow:</b> ${escapeHtml(String(payload.node?.title ?? payload.nodeId))} runs on your learning platform. This app waits for its result.`);
+  },
+  onDone: (state_) => {
+    Platform.flowDone(state_);
+    setRail("ok", `<b>Flow complete:</b> ${escapeHtml(String(state_.title ?? state_.flowId))}.`);
+  },
+});
+
+let flowPending = false; // the run has moved; the learner has not yet been sent on
+
+/**
+ * A finished attempt, offered to a flow standing on this very room. The run
+ * moves at once, so the host hears the transition on the same verdict the
+ * record carries; the next node is not opened over the top of the results card.
+ * The rail says what is next and the learner goes on from the results buttons.
+ */
+function flowOnAttempt(attempt) {
+  const { flow, run, node } = flowRunner.current();
+  if (!flow || !run || run.done || node?.kind !== "station") return;
+  if (node.ref !== attempt.simId) return;
+  flowRunner.complete(outcomeFromRecord(attempt), { enterNode: false });
+  const now = flowRunner.current();
+  flowPending = !now.run?.done;
+  if (flowPending && now.node) {
+    setRail("neutral", `<b>Flow:</b> next is ${escapeHtml(nodeLabel(now.node))}. Leave this room to go on.`);
+  }
+}
+
+/** Open the node the flow now stands on — what leaving the results card means
+ *  while a flow is running. Returns true when the flow took over. */
+function flowResume() {
+  if (!flowPending) return false;
+  flowPending = false;
+  const r = flowRunner.resumeHere();
+  if (r.ok === false) { setRail("warn", `<b>Flow:</b> ${escapeHtml(r.reason ?? "could not continue")}`); return false; }
+  return true;
+}
 // The commands this app answers: a note, a hold, opening a room, and firing
 // one of the current room's declared interruptions now. Each one is appended
 // to the attempt's training record as an instructorAction.
@@ -388,13 +467,38 @@ observer.onCommand((cmd) => {
     it.armedAt = s.elapsed;
     state.paused = false;
     logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the room fires it" });
+    return;
+  }
+  if (cmd.kind === "flow") {
+    // The same flow the console can send to any app on this engine. Trade
+    // Skills validates it against its own rooms plus the generated catalog and
+    // runs the nodes that are its; a node in SmartCiti.X or Holodeck becomes
+    // the cross-app link this app already knows how to follow.
+    const res = flowRunner.load(cmd.flow, { validateAgainst: FLOW_CATALOG });
+    if (!res.ok) { logInstructorAction("flow", cmd.detail, { ok: false, note: res.errors?.[0] ?? "flow refused" }); return; }
+    const started = flowRunner.start(res.flow.id, { restart: true });
+    setRail("neutral", `<b>Instructor:</b> flow ${escapeHtml(res.flow.title)} — starting at ${escapeHtml(nodeLabel(flowRunner.current().node))}.`);
+    logInstructorAction("flow", res.flow.id, {
+      ok: started.ok !== false,
+      note: started.ok === false ? started.reason : `flow started at ${flowRunner.current().run?.nodeId ?? res.flow.start}`,
+    });
   }
 });
 /** The room itself, for the console's per-learner panel. */
+/** The flow's position, safe to ask for before the runner above is built. */
+function flowLive() {
+  try { return flowRunner.current(); } catch (_) { return { flow: null, run: null, node: null }; }
+}
+
 observer.describes(() => {
   const s = state.session;
-  if (!s) return { steps: [], interrupts: [], fired: [] };
+  const live = flowLive();
+  // Where the learner's flow stands, so the console's row names the node of the
+  // flow rather than only the room.
+  const flowFields = { flow: live.flow?.id ?? null, flowNode: live.node ? `${live.node.kind}: ${nodeLabel(live.node)}` : null };
+  if (!s) return { steps: [], interrupts: [], fired: [], ...flowFields };
   return {
+    ...flowFields,
     steps: (s.steps ?? []).map((st) => ({ id: st.id, title: st.title, kind: st.kind })),
     interrupts: (s.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption", alert: i.alert ?? "", after: i.after ?? "" })),
     fired: (s.interrupts ?? []).filter((i) => i.fired).map((i) => i.id),
@@ -524,9 +628,36 @@ Platform.init({
     }
     if (type === "smartcitix:hub") { if (ui.intro.hidden) { ui.results.hidden = true; enterHub(); } reply("smartcitix:state", snapshot()); return; }
     if (type === "smartcitix:status") { reply("smartcitix:state", snapshot()); return; }
-    if (type === "smartcitix:catalog") reply("smartcitix:catalog", { rooms: ROOMS.map((r) => ({ id: r.id, name: r.title, trade: r.trade, category: r.category ?? "Trade Skills Simulator", certification: r.certification ?? null })) });
+    if (type === "smartcitix:catalog") { reply("smartcitix:catalog", { rooms: ROOMS.map((r) => ({ id: r.id, name: r.title, trade: r.trade, category: r.category ?? "Trade Skills Simulator", certification: r.certification ?? null })) }); return; }
+    // ---- the flow channel (platform protocol 2, see shared/flowhub.js) ----
+    if (type === FLOW_LOAD) {
+      const res = flowRunner.load(data.flow, { validateAgainst: FLOW_CATALOG });
+      if (!res.ok) { reply("smartcitix:state", { ...snapshot(), error: `flow refused: ${(res.errors ?? []).join("; ")}` }); return; }
+      reply(FLOW_STATE, { flow: res.state, transition: null });
+      return;
+    }
+    if (type === FLOW_START) {
+      const res = flowRunner.start(data.flowId ?? null, { restart: !!data.restart });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.start: ${res.reason}` });
+      return;
+    }
+    if (type === FLOW_RESUME) {
+      const res = flowRunner.resume({ nodeId: data.nodeId ?? null, outcome: data.outcome ?? null });
+      if (res.ok === false) reply("smartcitix:state", { ...snapshot(), error: `flow.resume: ${res.reason}` });
+    }
   },
 });
+
+// A flow node handed over from another app: the link carried the flow and node
+// ids, and the run itself waited in the one localStorage key.
+{
+  const link = parseFlowLink(location.search);
+  if (link.flowId) {
+    const restored = flowRunner.restore(link);
+    if (restored.ok) queueMicrotask(() => flowRunner.resumeHere());
+    else setRail("warn", `<b>Flow:</b> ${escapeHtml(restored.reason)}`);
+  }
+}
 
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 let pendingBrief = null;
@@ -671,6 +802,9 @@ function showResults(s, summary) {
   });
   instructorActions = [];
   Identity.emit("smartcitix:record", { record: attempt });
+  // A flow standing on this room moves now, on the same verdict the record
+  // carries — a flow never scores anything of its own.
+  flowOnAttempt(attempt);
   Lrs.ship([attempt], { actorName: Progress.playerName, homePage: location.origin });
   announce(`${s.room.title} complete. ${s.stars} star${s.stars === 1 ? "" : "s"}.` +
     (s.badgeEarned ? ` Badge earned — ${s.room.badge.name}.` : ""));
@@ -684,6 +818,9 @@ document.getElementById("res-retry").addEventListener("click", () => {
 document.getElementById("res-hub").addEventListener("click", () => {
   ui.results.hidden = true;
   state.paused = false;
+  // On a flow, leaving the room is the flow going on rather than a walk back to
+  // the hub — the learner was put on an order of work, not left to browse.
+  if (flowResume()) return;
   enterHub();
 });
 
