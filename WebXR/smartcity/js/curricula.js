@@ -288,7 +288,11 @@ export const CURRICULA = [
       { app: "smartcity", id: "dental-radiography-fmx", why: "The radiography permit put to work on a full-mouth series: holder assembled, sensor sheathed and seated, factors set for this patient, and a retake decided by rule instead of reflex." },
       { app: "smartcity", id: "sterilisation-technician-cycle", why: "The processing room as a career of its own: one-way zones, indicators and load numbers, a chart read before release, and a recall that can name every pack a failed load produced." },
       { app: "smartcity", id: "dental-lab-bench", why: "The bench furthest from the chair: impressions disinfected to time, stone mixed by ratio, models trimmed wet behind a guard, and a tray made to the prescription the dentist actually wrote." },
-      // slot-dc-2
+      { app: "smartcity", id: "orthodontic-assisting", why: "The specialty chair a DANB Certified Orthodontic Assistant works: a bracket tray in bonding order, an etch held to its label's window, and every distal wire end tucked before the patient stands up." },
+      { app: "smartcity", id: "oral-surgery-assisting", why: "The surgical side of the same building: a time-out, a draped sterile field, suction and retraction held steady, and the sedation monitor read back out loud to the surgeon." },
+      { app: "smartcity", id: "front-office-treatment-coordination", why: "The dental career that never puts a glove on: privacy at an open counter, a pre-authorisation built on a real CDT code, and a treatment plan presented behind a door with no pressure in it." },
+      { app: "smartcity", id: "infection-control-audit", why: "The coordinator's whole-clinic walk with the CDC's own checklist — hand hygiene, PPE, barriers, waterlines, sharps, sterilisation logs and spore records, each finding closed with a corrective action." },
+      { app: "smartcity", id: "school-screening-outreach", why: "The career that works out of a school hall rather than an operatory: consent sorted first, a basic screening by light and mirror, varnish under standing order, and a referral list somebody actually follows up." },
       // slot-dc-3
     ],
   },

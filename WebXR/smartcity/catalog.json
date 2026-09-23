@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 216
+      "stations": 221
     },
     "trades": {
       "entry": "trades/index.html",
@@ -219,6 +219,11 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "school-screening-outreach",
+        "infection-control-audit",
+        "front-office-treatment-coordination",
+        "oral-surgery-assisting",
+        "orthodontic-assisting",
         "dental-lab-bench",
         "sterilisation-technician-cycle",
         "dental-radiography-fmx",
@@ -1133,6 +1138,31 @@
           "app": "smartcity",
           "id": "dental-lab-bench",
           "why": "The bench furthest from the chair: impressions disinfected to time, stone mixed by ratio, models trimmed wet behind a guard, and a tray made to the prescription the dentist actually wrote."
+        },
+        {
+          "app": "smartcity",
+          "id": "orthodontic-assisting",
+          "why": "The specialty chair a DANB Certified Orthodontic Assistant works: a bracket tray in bonding order, an etch held to its label's window, and every distal wire end tucked before the patient stands up."
+        },
+        {
+          "app": "smartcity",
+          "id": "oral-surgery-assisting",
+          "why": "The surgical side of the same building: a time-out, a draped sterile field, suction and retraction held steady, and the sedation monitor read back out loud to the surgeon."
+        },
+        {
+          "app": "smartcity",
+          "id": "front-office-treatment-coordination",
+          "why": "The dental career that never puts a glove on: privacy at an open counter, a pre-authorisation built on a real CDT code, and a treatment plan presented behind a door with no pressure in it."
+        },
+        {
+          "app": "smartcity",
+          "id": "infection-control-audit",
+          "why": "The coordinator's whole-clinic walk with the CDC's own checklist — hand hygiene, PPE, barriers, waterlines, sharps, sterilisation logs and spore records, each finding closed with a corrective action."
+        },
+        {
+          "app": "smartcity",
+          "id": "school-screening-outreach",
+          "why": "The career that works out of a school hall rather than an operatory: consent sorted first, a basic screening by light and mirror, varnish under standing order, and a referral list somebody actually follows up."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -5955,6 +5985,421 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "school-screening-outreach",
+      "name": "School Screening Outreach",
+      "title": "SmartCiti.X~ School Screening Outreach VR",
+      "tagline": "A school screening day: consent sorted first, stations laid out private, a basic screening by light and mirror, varnish under standing order, referrals triaged and a sealant day booked",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Community dental health worker",
+      "union": null,
+      "certification": "The state dental practice act's public-health-setting provisions — the standing order or protocol under which a community dental health worker or hygienist may screen and apply fluoride varnish away from a dental office, and the supervision level it requires; the ADA's Community Dental Health Coordinator programme as the role's own training route; the CDC's school sealant programme guidance and its oral health surveillance work; the ASTDD (Association of State and Territorial Dental Directors) Basic Screening Survey, which is the instrument state oral health programmes report against; the AAPD's caries-risk assessment guidance for the triage; FERPA for the school's education records and HIPAA's Privacy Rule for the clinical record the screening creates; OSHA 29 CFR 1910.1030 bloodborne pathogens, which applies in a gym exactly as it does in an operatory; AFSCME and SEIU as the unions representing public-health dental staff",
+      "accent": "#8ed07f",
+      "parSeconds": 285,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "drag",
+        "turn",
+        "sequence",
+        "track",
+        "gauge",
+        "select",
+        "hold"
+      ],
+      "badge": {
+        "id": "hall-run-right",
+        "name": "Hall Run Right",
+        "note": "A whole screening day with consent honoured, privacy held and every referral triaged and followed up"
+      },
+      "meshes": 257,
+      "lights": 0,
+      "overBudget": false,
+      "index": "216",
+      "flat": false,
+      "system": "Community Oral Health",
+      "currency": "REACH",
+      "ranks": [
+        "Outreach Volunteer",
+        "Community Health Worker",
+        "Screening Lead",
+        "Programme Coordinator",
+        "Oral Health Programme Lead"
+      ],
+      "awards": [
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "Nobody screened who was not consented for"
+        },
+        {
+          "id": "nobody-held-down",
+          "name": "Nobody Held Down",
+          "note": "No unsafe action anywhere in the day"
+        },
+        {
+          "id": "triaged-true",
+          "name": "Triaged True",
+          "note": "Urgency committed where the findings actually put it"
+        },
+        {
+          "id": "clean-day",
+          "name": "Clean Day",
+          "note": "No corrections anywhere in the day"
+        },
+        {
+          "id": "held-the-set",
+          "name": "Held The Set",
+          "note": "Every timed hold carried to full duration first time"
+        },
+        {
+          "id": "before-the-bell",
+          "name": "Before The Bell",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=school-screening-outreach"
+    },
+    {
+      "app": "smartcity",
+      "id": "infection-control-audit",
+      "name": "Infection Control Audit",
+      "title": "SmartCiti.X~ Infection Control Audit VR",
+      "tagline": "The CDC checklist walked through a whole clinic: hand hygiene, PPE, barriers, waterlines sampled and shocked, sharps, sterilisation logs, spore records and a corrective action per finding",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Dental infection prevention coordinator",
+      "union": null,
+      "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003), its 2016 Summary, and the CDC's Infection Prevention Checklist for Dental Settings, which is the document this audit is actually walking; the CDC's recommendation that dental unit water for non-surgical procedures meet the EPA's regulatory standard for drinking water of no more than 500 CFU/mL of heterotrophic water bacteria, and that sterilisers be biologically monitored at least weekly; OSHA 29 CFR 1910.1030 bloodborne pathogens — the written exposure control plan, engineering controls, sharps containers and the sharps injury log — and 1910.1200 hazard communication for the disinfectants and waterline treatments; EPA registration of those surface disinfectants and waterline products, whose own labels set the contact and dwell times; DANB's Certified Dental Assistant infection control component; the ADA and the American Dental Assistants Association (ADAA); the state dental board, which inspects against the same guidance; SEIU and UFCW as the unions representing clinic staff in organised practices",
+      "accent": "#72c4e0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "turn",
+        "drag",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "checklist-walked",
+        "name": "Checklist Walked",
+        "note": "A whole-clinic audit with every finding written up and a corrective action against each one"
+      },
+      "meshes": 239,
+      "lights": 0,
+      "overBudget": false,
+      "index": "215",
+      "flat": false,
+      "system": "Infection Prevention",
+      "currency": "CFU",
+      "ranks": [
+        "Audit Observer",
+        "Assistant Auditor",
+        "Infection Control Lead",
+        "Prevention Coordinator",
+        "Board Inspector"
+      ],
+      "awards": [
+        {
+          "id": "waterline-proven",
+          "name": "Waterline Proven",
+          "note": "The line sampled, shocked and dwelt for the label's own time"
+        },
+        {
+          "id": "nothing-touched",
+          "name": "Nothing Touched",
+          "note": "No unsafe action anywhere in the walk"
+        },
+        {
+          "id": "chamber-read",
+          "name": "Chamber Read",
+          "note": "The cycle parameters read off the chart rather than assumed"
+        },
+        {
+          "id": "clean-audit",
+          "name": "Clean Audit",
+          "note": "No corrections anywhere in the walk"
+        },
+        {
+          "id": "held-the-dwell",
+          "name": "Held The Dwell",
+          "note": "Every timed hold carried to full duration first time"
+        },
+        {
+          "id": "before-first-patient",
+          "name": "Before First Patient",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=infection-control-audit"
+    },
+    {
+      "app": "smartcity",
+      "id": "front-office-treatment-coordination",
+      "name": "Front Office & Treatment Coordination",
+      "title": "SmartCiti.X~ Front Office & Treatment Coordination VR",
+      "tagline": "Privacy at an open counter and on the phone, a pre-authorisation built on a real code, a plan presented behind a door, payment options without pressure, and a records request answered right",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Dental front office treatment coordinator",
+      "union": null,
+      "certification": "HIPAA's Privacy Rule and Security Rule, including the minimum-necessary standard, the requirement for reasonable safeguards at an open counter, and the right of access that sets an outer limit on answering a patient's own records request; the ADA's Code on Dental Procedures and Nomenclature (CDT) as the only source for the procedure code that goes on a claim; the state dental practice act on who may present a treatment plan and who must obtain the informed consent behind it; the American Dental Assistants Association (ADAA) for the administrative and chairside credential path; the federal Truth in Lending Act's disclosure requirements for any in-office financing agreement; OSHA 29 CFR 1910.1030 bloodborne pathogens, which covers front-office staff who handle a contaminated chart or a specimen hand-off; SEIU and UFCW as the unions representing clinic and front-office staff in organised practices",
+      "accent": "#e0a463",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "turn",
+        "select",
+        "hold",
+        "drag",
+        "sequence",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "desk-discipline",
+        "name": "Desk Discipline",
+        "note": "A morning at the desk with nothing disclosed that did not have to be and nothing coded from memory"
+      },
+      "meshes": 276,
+      "lights": 0,
+      "overBudget": false,
+      "index": "214",
+      "flat": false,
+      "system": "Front Office Practice",
+      "currency": "LEDGER",
+      "ranks": [
+        "Front Desk Trainee",
+        "Scheduling Coordinator",
+        "Insurance Coordinator",
+        "Treatment Coordinator",
+        "Business Office Lead"
+      ],
+      "awards": [
+        {
+          "id": "minimum-necessary",
+          "name": "Minimum Necessary",
+          "note": "Nothing disclosed beyond what the caller was entitled to"
+        },
+        {
+          "id": "nothing-guessed",
+          "name": "Nothing Guessed",
+          "note": "No unsafe action anywhere in the morning"
+        },
+        {
+          "id": "honest-estimate",
+          "name": "Honest Estimate",
+          "note": "The estimate committed inside what the breakdown actually supports"
+        },
+        {
+          "id": "clean-morning",
+          "name": "Clean Morning",
+          "note": "No corrections anywhere in the morning"
+        },
+        {
+          "id": "held-the-room",
+          "name": "Held The Room",
+          "note": "Every timed hold carried to full duration first time"
+        },
+        {
+          "id": "before-the-hygienist",
+          "name": "Before The Hygienist",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=front-office-treatment-coordination"
+    },
+    {
+      "app": "smartcity",
+      "id": "oral-surgery-assisting",
+      "name": "Oral Surgery Assisting",
+      "title": "SmartCiti.X~ Oral Surgery Assisting VR",
+      "tagline": "Time-out, surgical asepsis and draping, suction and retraction, a sedation readback, specimen and sharps handling, and post-op instructions that survive the sedation",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Oral and maxillofacial surgery assistant",
+      "union": null,
+      "certification": "DANB's Certified Oral and Maxillofacial Surgery Assistant (COMSA) credential, and AAOMS's Dental Anesthesia Assistant National Certification Examination (DAANCE) for the monitoring role; the American Association of Oral and Maxillofacial Surgeons' office anesthesia guidance and its office anesthesia evaluation; the state dental practice act's allowable-duties list for surgical and anesthesia assistants; the American Dental Assistants Association (ADAA) as the profession's body; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its 2016 Summary for surgical asepsis; OSHA 29 CFR 1910.1030 bloodborne pathogens, including its sharps and specimen-labelling provisions; HIPAA's Privacy Rule for the operative record; SEIU and UFCW as the unions representing clinic staff in organised practices",
+      "accent": "#7fc9b6",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "hold",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "turn",
+        "select"
+      ],
+      "badge": {
+        "id": "field-held",
+        "name": "Field Held",
+        "note": "A sedated surgical extraction assisted with the field sterile, the airway watched and every sharp accounted for"
+      },
+      "meshes": 264,
+      "lights": 0,
+      "overBudget": false,
+      "index": "213",
+      "flat": false,
+      "system": "Surgical Assisting",
+      "currency": "SUTURE",
+      "ranks": [
+        "Surgical Trainee",
+        "Surgery Assistant",
+        "Lead Surgical Assistant",
+        "Anesthesia Assistant",
+        "Certified Surgery Assistant"
+      ],
+      "awards": [
+        {
+          "id": "read-it-back",
+          "name": "Read It Back",
+          "note": "Vital signs read back inside the band the record actually supports"
+        },
+        {
+          "id": "sterile-throughout",
+          "name": "Sterile Throughout",
+          "note": "No unsafe action anywhere in the case"
+        },
+        {
+          "id": "counted-out",
+          "name": "Counted Out",
+          "note": "Every sharp on the field accounted for before the drape came off"
+        },
+        {
+          "id": "clean-case",
+          "name": "Clean Case",
+          "note": "No corrections anywhere in the case"
+        },
+        {
+          "id": "never-let-go",
+          "name": "Never Let Go",
+          "note": "Every timed hold carried to full duration first time"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=oral-surgery-assisting"
+    },
+    {
+      "app": "smartcity",
+      "id": "orthodontic-assisting",
+      "name": "Orthodontic Assisting",
+      "title": "SmartCiti.X~ Orthodontic Assisting VR",
+      "tagline": "Bracket tray, retraction and isolation, an etch held to the label's window, bracket height on the gauge, archwire and module change with the distal ends tucked",
+      "category": "Dental & Oral Health",
+      "domain": "Dental & Oral Health",
+      "trade": "Orthodontic dental assistant",
+      "union": null,
+      "certification": "DANB's Certified Orthodontic Assistant (COA) credential and the infection control and radiation health and safety components behind it; the state dental practice act's allowable-duties list for orthodontic assistants, which decides whether archwires and ligatures are placed or only passed; the American Association of Orthodontists (AAO) as the specialty's body and the American Dental Assistants Association (ADAA) as the assistants'; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its 2016 Summary; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication for the etchant and the bonding resin; HIPAA's Privacy Rule for the chart and the progress photographs; SEIU and UFCW as the unions representing clinic staff in organised practices",
+      "accent": "#9fb8e8",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "track",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "bracket-true",
+        "name": "Bracket True",
+        "note": "A full bonding and adjustment visit with the etch held to its window and every wire end accounted for"
+      },
+      "meshes": 271,
+      "lights": 0,
+      "overBudget": false,
+      "index": "212",
+      "flat": false,
+      "system": "Orthodontic Chairside",
+      "currency": "ARCH",
+      "ranks": [
+        "Ortho Trainee",
+        "Orthodontic Assistant",
+        "Lead Ortho Assistant",
+        "Clinical Coordinator",
+        "Certified Orthodontic Assistant"
+      ],
+      "awards": [
+        {
+          "id": "dry-field",
+          "name": "Dry Field",
+          "note": "Isolation held so the etch and the adhesive never saw saliva"
+        },
+        {
+          "id": "no-loose-ends",
+          "name": "No Loose Ends",
+          "note": "No unsafe action anywhere in the appointment"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Bracket height committed close to the gauge's own mark"
+        },
+        {
+          "id": "clean-bond",
+          "name": "Clean Bond",
+          "note": "No corrections anywhere in the visit"
+        },
+        {
+          "id": "held-the-window",
+          "name": "Held The Window",
+          "note": "Every timed hold carried to full duration first time"
+        },
+        {
+          "id": "on-the-hour",
+          "name": "On The Hour",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=orthodontic-assisting"
     },
     {
       "app": "smartcity",
@@ -15218,7 +15663,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -15878,7 +16323,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
