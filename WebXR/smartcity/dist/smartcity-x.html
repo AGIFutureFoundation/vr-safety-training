@@ -5625,9 +5625,10 @@ const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1910-178", "samhsa-trauma-informed"],
     stations: [
-      "forklift-dock"
+      "forklift-dock", "trades-lineage-briefing", "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation",
+      "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
     ],
-    require: 1,
+    require: 3,
   },
   {
     id: "civic-leadership-and-ei",
@@ -21966,6 +21967,263 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "trades-lineage-briefing",
+    "index": "227",
+    "domain": "Workforce readiness",
+    "trade": "Pre-apprentice — warehouse, Commercial Class A driving and the union construction trades",
+    "category": "Community Environmental Justice",
+    "certification": "None is earned by reading a briefing. The stations that follow it are cited to the standards the work is actually held to: OSHA's general industry rules in 29 CFR 1910 for the warehouse, the Teamsters' training programmes for the dock and the cab, NIOSH guidance on long hours and shift work, SAMHSA guidance for the wellness stations, and Psychological First Aid as the Red Cross and NCTSN teach it",
+    "name": "Trades Lineage Briefing",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Trades Lineage Briefing VR",
+    "tagline": "The trades as a lineage — what the sponsor's own text says the programmes are, the bridge that opened in 1937, an article listed as reading rather than retold, and an honest line around what is not sourced",
+    "accent": 14711359,
+    "accentCss": "#e07a3f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "lineage-read",
+      "name": "Lineage Read",
+      "note": "The sourced text, the date, the unread article and the standard all answered without an unsafe conclusion"
+    },
+    "stepCount": 8,
+    "interruptCount": 0,
+    "flat": true,
+    "dossier": [
+      {
+        "title": "What the programmes are, in the sponsor's own words",
+        "body": "The organisation is referred to here by its domain, wojrc.org. Everything this edition says about it is the text the sponsor supplied from that site, quoted without change: \"Everyone who is willing to work hard deserves an opportunity to succeed. For the past 14 years, we have been helping low-income Bay Area residents' gain the skills and confidence they need to get and keep jobs, and build financial security that support themselves and their families.\" And, under How We Help: \"We offer training for warehouse and Commercial A truck driver positions. We prepare you and help you navigate and enroll in union construction trades apprenticeship programs. We offer financial coaching to help build your credit score, reduce debt, and build savings.\" Two page titles are also sourced: \"TDL Pre-Apprenticeship Training\" and \"Wellness Resource Center\". Nothing else about the organisation could be fetched from the environment this station was written in, and nothing else is stated.",
+        "source": {
+          "label": "wojrc.org — text supplied by the sponsor of this edition",
+          "url": "https://wojrc.org/"
+        }
+      },
+      {
+        "title": "Who runs the programmes, as far as this edition can say",
+        "body": "Joyce Guy is named by the sponsor of this edition as the person who runs the programmes. That is the whole of what is sourced: no title, no biography, no quotation and no history are attached to the name here, because none was supplied and none could be fetched. A learner who wants to know more asks the programme, not this briefing.",
+        "source": {
+          "label": "wojrc.org — text supplied by the sponsor of this edition",
+          "url": "https://wojrc.org/"
+        }
+      },
+      {
+        "title": "A lineage, not a ladder",
+        "body": "The Golden Gate Bridge opened in 1937. The people who built it worked in the trades this edition prepares people for: ironwork and rigging, welding, labouring, operating, driving what had to be driven. Those trades are still taught the way they were taught then — a journey-level worker beside an apprentice, a skill handed down on the job under a written standard, a card or a licence earned rather than assumed. That is what this edition means by a lineage: not that anyone here built the bridge, but that a pre-apprentice loading a trailer, a Class A trainee doing a pre-trip inspection, and an apprentice on their first day at a union hall are standing in a line of people who did this work before them and were trained to do it safely. The bridge is the visible end of the line. The standards are the rest of it.",
+        "source": {
+          "label": "Golden Gate Bridge Highway and Transportation District — the bridge's own site",
+          "url": "https://www.goldengate.org/"
+        }
+      },
+      {
+        "title": "Recommended reading — listed, not retold",
+        "body": "The sponsor linked an article from the Golden Gate National Parks Conservancy on the construction of the Golden Gate Bridge, the welding workers on it, and Black history in San Francisco. It is recommended reading for every learner who opens this edition, at the address the sponsor supplied. It could not be fetched from the environment this briefing was written in, so it is not summarised here and it is not quoted here, and no worker it may name is named here. A briefing that retold an article it had not read would be inventing a record, which is the one thing a sourced dossier must never do. Read the article itself; then the lineage in the section above has names in it, put there by the people who did the research.",
+        "source": {
+          "label": "Golden Gate National Parks Conservancy — the article the sponsor linked (not fetched, not summarised here)",
+          "url": "https://www.parksconservancy.org/article/golden-gate-bridge-construction-welding-workers-black-history-san-francisco"
+        }
+      },
+      {
+        "title": "What this edition trains, and what it is not",
+        "body": "Four blocks follow this briefing, each a procedure with its standard: the TDL pre-apprenticeship's warehouse work (the forklift and pallet jack under OSHA's powered industrial truck standard, 29 CFR 1910.178; dock and trailer loading; picking, packing and scanning; hazmat labelling under 49 CFR 172; racking and load limits; the NIOSH lifting equation) and its Commercial Class A driving (the pre-trip, the air-brake test, coupling, backing, cargo securement under 49 CFR 393, hours of service and the electronic log under 49 CFR 395, the roadside inspection, and the entry-level driver training rule in 49 CFR 380 Subpart F); navigating and enrolling in a union construction apprenticeship; financial coaching that builds credit, reduces debt and builds savings, with the consumer bodies named and no tax advice given; and the Wellness Resource Center block — four walkable stations on sleep and shift work, a peer-support conversation, substance use and the job, and asking for help — each of which closes with the guide's check-in and names the peer-support and EAP resource. This edition is a training aid built to be offered to the programme. It is not the programme's own curriculum and it does not speak for the organisation.",
+        "source": {
+          "label": "OSHA 29 CFR 1910.178 — powered industrial trucks",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.178"
+        },
+        "source2": {
+          "label": "SAMHSA — the wellness stations' guidance body",
+          "url": "https://www.samhsa.gov/"
+        }
+      }
+    ],
+    "game": {
+      "system": "Job Readiness",
+      "currency": "SHIFT",
+      "ranks": [
+        "Applicant",
+        "Pre-Apprentice",
+        "Trainee",
+        "Journey-Ready",
+        "Job Ready"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wellness-shift-work-sleep-and-stress",
+    "index": "228",
+    "domain": "Workforce readiness",
+    "trade": "Warehouse and Class A pre-apprentice — Teamsters-bound",
+    "category": "Community Environmental Justice",
+    "certification": "NIOSH guidance on work schedules, long hours and shift work — the anchor-sleep, light, caffeine and nap practices this station scores; CDC and NIOSH training on shift work and long work hours; SAMHSA guidance on sleep, stress and substance use as connected risks; OSHA, which has no shift-length limit in 29 CFR 1910 and treats worker fatigue through its long-work-hours guidance; FMCSA's hours-of-service rule for property-carrying drivers, which the Class A block of this edition teaches and which the drive home is measured against here; the Teamsters' training programmes for the warehouse and the cab; the programme's own peer-support team and the employee assistance programme (EAP) line",
+    "name": "Wellness — Shift Work, Sleep and Stress",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Wellness — Shift Work, Sleep and Stress VR",
+    "tagline": "The week the roster flips to nights: the traps read off the roster, a stress check rated honestly, one block of anchor sleep held against the extra shift, the room darkened, the caffeine cut, a twenty-minute nap, and the drive home decided by a check instead of by pride",
+    "accent": 7321558,
+    "accentCss": "#6fb7d6",
+    "parSeconds": 330,
+    "badge": {
+      "id": "anchor-held",
+      "name": "Anchor Held",
+      "note": "The anchor sleep block held against the extra shift, the caffeine and the keys, and the drive home decided by the check"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wellness Resource Center",
+      "currency": "REST",
+      "ranks": [
+        "Trainee",
+        "Roster-Aware",
+        "Anchor Sleeper",
+        "Shift Steward",
+        "Rested and Ready"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wellness-peer-support-conversation",
+    "index": "229",
+    "domain": "Workforce readiness",
+    "trade": "Pre-apprentice trained as a programme peer supporter",
+    "category": "Community Environmental Justice",
+    "certification": "Psychological First Aid as the NCTSN field guide and the Red Cross's psychological first aid course teach it — look, listen, link — applied by a peer rather than a clinician; SAMHSA's trauma-informed care principles and its guidance on peer support, including asking the direct question about suicide and the warm handoff to the 988 Suicide and Crisis Lifeline; the Sphere Handbook's minimum standard on mental health and psychosocial support, which this station's non-clinical scope is drawn from; HIPAA, for why the employee assistance programme's records stay with its clinician; NIOSH's work-organisation and stress guidance for the signs read at the start; the programme's own peer-support team and the EAP line its employer partners and the Teamsters and SEIU locals carry",
+    "name": "Wellness — Peer Support Conversation",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Wellness — Peer Support Conversation VR",
+    "tagline": "A cohort-mate says he cannot keep doing this: the signs noticed first, the room made private, the rule said with its limits, their pace followed, the direct question asked when the words call for it, three real doors named, and the peer's own check-in after",
+    "accent": 10465504,
+    "accentCss": "#9fb0e0",
+    "parSeconds": 340,
+    "badge": {
+      "id": "asked-directly",
+      "name": "Asked Directly",
+      "note": "A peer conversation run as one — nothing waved off, nothing promised that could not be kept, the direct question asked, and a follow-up on the calendar"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wellness Resource Center",
+      "currency": "TRUST",
+      "ranks": [
+        "Trainee",
+        "Peer Trained",
+        "Peer Supporter",
+        "Cohort Lead",
+        "Peer Team Coordinator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wellness-substance-use-and-the-job",
+    "index": "230",
+    "domain": "Workforce readiness",
+    "trade": "Warehouse pre-apprentice — trainee crew lead, Teamsters-bound",
+    "category": "Community Environmental Justice",
+    "certification": "SAMHSA's guidance on substance use in the workplace and its national helpline, and its trauma-informed care principles for how the conversation is had; OSHA's anti-retaliation rule in 29 CFR 1904, which protects a worker who reports an injury or a hazard from a drug test used as punishment for reporting; the federal drug and alcohol testing programme for commercial drivers that FMCSA administers, taught in the Class A block and named here as the employer's process; the Americans with Disabilities Act, which protects a person in recovery and does not protect current illegal use; the federal confidentiality rule for substance use disorder treatment records, and HIPAA for the employee assistance programme's own file; NIOSH's guidance on shift work and stimulant use; the Teamsters' training programmes and the contract language that puts a steward beside a member in a reasonable-suspicion meeting",
+    "name": "Wellness — Substance Use and the Job",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Wellness — Substance Use and the Job VR",
+    "tagline": "Four in the morning on the dock: the signs read, the forklift key taken before the conversation, what you saw said plainly, the conversation kept level, whose decision the test is, the doors he can take without losing the job, and the pill you did not take",
+    "accent": 14197831,
+    "accentCss": "#d8a447",
+    "parSeconds": 335,
+    "badge": {
+      "id": "key-first",
+      "name": "Key First",
+      "note": "The forklift key taken before a word was said, the conversation kept level, and nothing taken to make the shift"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wellness Resource Center",
+      "currency": "SHIFT",
+      "ranks": [
+        "Trainee",
+        "Crew Lead",
+        "Reasonable-Suspicion Aware",
+        "Shift Steward",
+        "Job Ready"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wellness-asking-for-help-and-resources",
+    "index": "231",
+    "domain": "Workforce readiness",
+    "trade": "Pre-apprentice — the trainee whose week is going sideways",
+    "category": "Community Environmental Justice",
+    "certification": "SAMHSA's guidance on help-seeking and its national helpline, its trauma-informed care principles applied to the person asking, and the 988 Suicide and Crisis Lifeline for the door that is for a crisis; Psychological First Aid's look, listen, link, turned on yourself — practical needs first, then the link — as the Red Cross and NCTSN teach it; the Sphere Handbook's minimum standard on mental health and psychosocial support for the layered model of help this room is arranged by; OSHA's medical services and first aid rule in 29 CFR 1910.151, the floor under an employer's duty to have somebody a worker can go to; HIPAA, for what the employee assistance programme's clinician keeps and the employer never sees; NIOSH's work-organisation and stress guidance for the signs read at the start; the SEIU and AFSCME locals whose members staff wellness and benefits rooms like this one, and the Teamsters' training programmes on the warehouse side",
+    "name": "Wellness — Asking for Help and Resources",
+    "weather": "rain",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Wellness — Asking for Help and Resources VR",
+    "tagline": "The week your own life goes sideways: the signs read on yourself, the stress rated, the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, the instructor told what you need, and the follow-up booked",
+    "accent": 8373408,
+    "accentCss": "#7fc4a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "asked",
+      "name": "Asked",
+      "note": "Every problem matched to its door, one call made and stayed on, nothing posted, nothing borrowed at four hundred percent, and a follow-up on the calendar"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wellness Resource Center",
+      "currency": "REACH",
+      "ranks": [
+        "Trainee",
+        "Asked Once",
+        "Knows the Doors",
+        "Resource Navigator",
+        "Job Ready"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -22328,7 +22586,11 @@ const CURRICULA = [
       // slot-tdl-1
       // slot-tdl-2
       // slot-fin-1
-      // slot-well-1
+      { app: "smartcity", id: "trades-lineage-briefing", why: "The heritage opener: the trades as a lineage, a bridge that opened in 1937, an article listed as reading rather than retold, and a plain line around what this edition does and does not know." },
+      { app: "smartcity", id: "wellness-shift-work-sleep-and-stress", why: "The week the roster flips to nights: the traps read off the roster, a stress check rated honestly, one block of anchor sleep held against the extra shift, and the drive home decided by a check instead of by pride." },
+      { app: "smartcity", id: "wellness-peer-support-conversation", why: "A cohort-mate says he cannot keep doing this: the signs noticed first, the rule said with its limits, their pace followed, the direct question asked when the words call for it, and three real doors named." },
+      { app: "smartcity", id: "wellness-substance-use-and-the-job", why: "Four in the morning on the dock: the forklift key taken before the conversation, what you saw said plainly, whose decision the test is, and the doors a crew-mate can take without losing the job." },
+      { app: "smartcity", id: "wellness-asking-for-help-and-resources", why: "The week your own life goes sideways: the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, and the follow-up booked." },
     ],
   },
   {

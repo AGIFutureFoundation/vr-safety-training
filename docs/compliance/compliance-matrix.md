@@ -1,19 +1,19 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 235 procedures, 187 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-23: 240 procedures, 190 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
-Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 30 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
+Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 31 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
 
 ## By standard
 
 | Standard | Stations |
 |---|---|
 | 29 CFR 1910.1030 | 41: Allergens & Honest Drinks, Ambulance Scene Safety, Cardiac Arrest — Pit Crew, Chairside Emergency, Crisis Intervention Call, Cut-Off / Overservice, Draw Station, Endodontic Assisting, Fluoride and Sealants, Four-Handed Dentistry, Front Office & Treatment Coordination, Full-Mouth Radiographic Series, Housekeeping Room Turn, Ice Well Breakage, Implant Surgery Assisting, Infection Control Audit, Instrument Reprocessing, Laundry Plant Chemicals, Mobile Dental Outreach, Nitrous Oxide Monitoring, Operatory Turnover, Oral Cancer Screening, Oral Surgery Assisting, Orthodontic Assisting, Overdose Response — Naloxone, Patient Intake Screening, Patron De-escalation, Pediatric Visit, Periodontal Charting, Pouring to Spec, Radiograph Safety, Sample Kit Shipping, School Screening Outreach, Sharps Exposure Response, Shelter Intake Operations, Special Needs & Geriatric Dentistry, Spiked Drink Response, Sterilisation Centre, Teledentistry & Triage, Triage Point, Ultrasonic Scaling |
+| NIOSH | 33: Alteration Repair Ticket, Colour Studio, Dental Laboratory Bench, Denture Delivery & Adjustment, Firefighter Rehab Sector, Four-Handed Dentistry, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Special Needs & Geriatric Dentistry, Trades Lineage Briefing, Trench Box, Ultrasonic Scaling, Valve Vault, Wellness — Asking for Help and Resources, Wellness — Peer Support Conversation, Wellness — Shift Work, Sleep and Stress, Wellness — Substance Use and the Job, Youth Patrol Training |
 | 29 CFR 1910.147 | 32: Ammonia Plant, Bakery Mixer, Battery Yard, Boiler Room, Broadcast Truck, Bus Depot Lift, CNC Cell, Cath Lab, Conveyor Guard, Cooling Tower, Cutting Table and Rotary Knife, Digester Gas, Elevator Pit, Grain Bin, Hem & Buttonhole, Industrial Press & Steam, Isolation Bay, Lift Station, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Motor Control Center, PCB Equipment Removal, Press Brake, Reefer Yard Monitoring, Robot Cell, Serger and Overlock, Slicer Lockout, Solar Deck, Stage Power, Tower Climb, Vapor Mitigation, Wind Nacelle |
 | 29 CFR 1910.120 | 31: Building Rad Scan, Can We Live? — The Story, Coatings Bay, Community Soil Split, Decon Line, Decon Support Laborer, Dust Plan Review, Fenceline Dust Monitor, HAZWOPER Site Orientation, Haul Route Observation, Hazmat Container Inspection, Hazmat Entry, Hunters Point Briefing, ISCO Injection, Mobile Air Lab, PCB Equipment Removal, Parcel Status Walk, Perimeter Air, Pollution Patrol, Public Comment Prep, Pump and Treat, Rad Meter Basics, Rad Survey, Retest Witnessing, Sampling Well, Soil Loadout, Spill Boom Deploy, Stormwater Outfall, UST Removal, Well Install, Youth Patrol Training |
-| NIOSH | 28: Alteration Repair Ticket, Colour Studio, Dental Laboratory Bench, Denture Delivery & Adjustment, Firefighter Rehab Sector, Four-Handed Dentistry, Garden Soil Screen, Garment Inspection & Finish, HAZWOPER Site Orientation, Hem & Buttonhole, Keg Cellar CO2, Lockstitch Seam Behind the Guard, Machine Threading and Needle, Masonry Silica Scaffold, Neighbourhood Air Sensor, Network Data Review, Nitrous Oxide Monitoring, Pattern Marking & Layout, Scaffold Erection, Sensor Co-Location Check, Serger and Overlock, Sewing Ergonomics, Smoke Day Outreach, Special Needs & Geriatric Dentistry, Trench Box, Ultrasonic Scaling, Valve Vault, Youth Patrol Training |
 | 29 CFR 1926 | 19: Aerial Lashing, Arena Rigging, Bioswale Build, Bridge Cable Inspection, Concrete Pour, Crane Yard, Creosote Pile Removal, Dredge Barge, Formwork Shoring, Hot Tap, Living Shoreline, Masonry Silica Scaffold, Mass Timber Panel Set, Met Station Siting, Post Tension, Steel Erector, Transite Pipe Removal, Trench Box, UST Removal |
 | NFPA 70E | 19: Arc-Flash Label Study, Battery Yard, Broadcast Truck, Bus Depot Lift, Cath Lab, Cell Site Battery, Charge Point, Data Hall, Elevator Pit, Isolation Bay, Motor Control Center, Robot Cell, Shore Power Hookup, Signal Cabinet, Solar Deck, Splice Node, Stage Power, Substation Switching, Transformer Vault |
 | 29 CFR 1910.1200 | 17: Alteration Repair Ticket, Amalgam Waste Handling, Colour Studio, Dental Laboratory Bench, Dish Pit, Endodontic Assisting, Garment Inspection & Finish, Grease Trap, Housekeeping Room Turn, Infection Control Audit, Keg Cellar CO2, Laundry Plant Chemicals, Opening the Well, Operatory Turnover, Orthodontic Assisting, Spartina Removal, Sterilisation Centre |
@@ -27,6 +27,7 @@ Every station names the union and the certification a worker in that role holds,
 | EPA Method 40 | 7: Amalgam Waste Handling, Fenceline Dust Monitor, Haul Road Dust, Met Station Siting, Mobile Air Lab, Network Data Review, Sensor Co-Location Check |
 | NFPA 1500 | 7: Aerial Ladder, Ambulance Scene Safety, Critical Incident Debrief, Firefighter Rehab Sector, Structure Fire Size-Up, Traffic Incident Management, Wildland-Urban Interface |
 | 8 CCR 3342 | 6: Checking ID, Last Call & Lockup, Patron De-escalation, Till Drop & Robbery Response, Trauma-Informed Intake, WVPP & Panic Button |
+| 29 CFR 1910 | 5: Eelgrass Transplant, Opacity Reading, Stack Test, Trades Lineage Briefing, Wellness — Shift Work, Sleep and Stress |
 | 29 CFR 1910.333 | 5: Charge Point, Data Hall, Isolation Bay, Motor Control Center, Stage Power |
 | 45 CFR 46 | 5: Biomonitoring Consent, Can We Live? — The Story, Neighbourhood Air Sensor, Results Return Visit, Sample Kit Shipping |
 | ANSI Z359 | 5: Bridge Cable Inspection, Confined Rescue, Solar Deck, Steel Erector, Tower Climb |
@@ -39,9 +40,11 @@ Every station names the union and the certification a worker in that role holds,
 | IMO SOLAS | 4: Bunkering Watch, Container Lashing, Mooring Line, Pilot Transfer |
 | NFPA 96 | 4: Grill Line Burns, Hood Suppression, Hot Line, Laundry Plant Chemicals |
 | NSF/ANSI 7 | 4: Cafeteria Serving, Hot Line, Prep Cooling, Walk-In Cooler |
-| 29 CFR 1910 | 3: Eelgrass Transplant, Opacity Reading, Stack Test |
+| 29 CFR 1904 | 3: Last Call & Lockup, Till Drop & Robbery Response, Wellness — Substance Use and the Job |
 | 29 CFR 1910.138 | 3: Colour Studio, Knife Skills, Slicer Lockout |
+| 29 CFR 1910.151 | 3: Endodontic Assisting, Grill Line Burns, Wellness — Asking for Help and Resources |
 | 29 CFR 1910.157 | 3: Banquet Hot Hold, Hood Suppression, Hot Line |
+| 29 CFR 1910.178 | 3: Airport Ramp, Forklift Dock, Trades Lineage Briefing |
 | 29 CFR 1910.268 | 3: Aerial Lashing, Microwave Backhaul, Splice Node |
 | 29 CFR 1918 | 3: Container Lashing, Reefer Yard Monitoring, Straddle Carrier Ops |
 | 29 CFR 1926.1101 | 3: Abatement Chamber, Abatement Perimeter Awareness, Transite Pipe Removal |
@@ -55,10 +58,7 @@ Every station names the union and the certification a worker in that role holds,
 | NSF/ANSI 2 | 3: Hot Line, Knife Skills, Receiving Dock Food |
 | NSF/ANSI 4 | 3: Banquet Hot Hold, Fryer Oil Change, Grill Line Burns |
 | NSF/ANSI 61 | 3: Backflow Test, Rough-In Bay, Tank Lining |
-| 29 CFR 1904 | 2: Last Call & Lockup, Till Drop & Robbery Response |
 | 29 CFR 1910.1000 | 2: Amalgam Waste Handling, Chlorine Room |
-| 29 CFR 1910.151 | 2: Endodontic Assisting, Grill Line Burns |
-| 29 CFR 1910.178 | 2: Airport Ramp, Forklift Dock |
 | 29 CFR 1910.23 | 2: Neighbourhood Air Sensor, Signal Cabinet |
 | 29 CFR 1910.252 | 2: Rough-In Bay, Weld Bay |
 | 29 CFR 1915 | 2: Ballast Water Sampling, Shipyard Hot Work |
@@ -69,6 +69,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1926.703 | 2: Concrete Pour, Formwork Shoring |
 | 40 CFR 261 | 2: Bridge Blast, Bridge Lead Containment |
 | 40 CFR 300 | 2: Dust Plan Review, Spill Boom Deploy |
+| 49 CFR 172 | 2: PCB Equipment Removal, Trades Lineage Briefing |
 | 8 CCR 5141 | 2: Denture Delivery & Adjustment, Network Data Review |
 | 8 CCR 5194 | 2: Draught Line Cleaning, Opening the Well |
 | ANSI A4 | 2: Knife Skills, Slicer Lockout |
@@ -128,12 +129,14 @@ Every station names the union and the certification a worker in that role holds,
 | 40 CFR 441 | 1: Amalgam Waste Handling |
 | 40 CFR 745 | 1: Coatings Bay |
 | 40 CFR 761 | 1: PCB Equipment Removal |
-| 49 CFR 172 | 1: PCB Equipment Removal |
 | 49 CFR 192 | 1: Gas Leak Survey |
 | 49 CFR 214 | 1: Track Access |
 | 49 CFR 218 | 1: RCL Switching |
 | 49 CFR 232 | 1: RCL Switching |
 | 49 CFR 242 | 1: RCL Switching |
+| 49 CFR 380 | 1: Trades Lineage Briefing |
+| 49 CFR 393 | 1: Trades Lineage Briefing |
+| 49 CFR 395 | 1: Trades Lineage Briefing |
 | 8 CCR 3345 | 1: Housekeeping Room Turn |
 | ANSI A10.8 | 1: Scaffold Erection |
 | ANSI A10.9 | 1: Formwork Shoring |
@@ -423,6 +426,54 @@ Every station names the union and the certification a worker in that role holds,
 | Special Needs & Geriatric Dentistry | Dental assistant and hygienist — special care and geriatric dentistry (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff | 29 CFR 1910.1030, 8 CCR 5110, NIOSH |
 | Teledentistry & Triage | Dental assistant — teledentistry facilitator and triage (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff | 29 CFR 1910.1030 |
 
+### Civic Leadership and Emotional Intelligence
+
+**Certification frame:** The Brown Act and public-meeting law, the Political Reform Act's conflict-of-interest rules, the city charter's ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Public Comment Prep | Community pollution patrol lead | 29 CFR 1910.120 |
+
+### Property Management — Twenty Zones
+
+**Certification frame:** OSHA 29 CFR 1910 general industry, NFPA 72 and 25 for fire alarm and sprinkler systems, the state elevator code, the Fair Housing Act, the state landlord-tenant statute, the local housing code, and EPA lead and asbestos rules for pre-1978 buildings
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Boiler Room | Stationary engineer / steamfitter | 29 CFR 1910.147, NFPA 85 |
+
+### Outbreak and Disease Response — WHO and UN Practice
+
+**Certification frame:** WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Decon Line | Hazmat firefighter / decon technician | 29 CFR 1910.120, NFPA 470 |
+
+### Job Readiness Edition — wojrc.org programmes
+
+**Certification frame:** OSHA 29 CFR 1910.178 powered industrial trucks, FMCSA 49 CFR 380 Subpart F entry-level driver training, 49 CFR 393 cargo securement and 49 CFR 395 hours of service, CVSA roadside inspection practice, the apprenticeship standards of the trades the edition prepares people for, OSHA 10, CFPB and IRS consumer guidance for the financial coaching stations, and SAMHSA guidance for the wellness stations
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Forklift Dock | Powered industrial truck operator — warehouse and dock | 29 CFR 1910.178, ANSI B56.1 |
+| Trades Lineage Briefing | Pre-apprentice — warehouse, Commercial Class A driving and the union construction trades | 29 CFR 1910, 29 CFR 1910.178, 49 CFR 172, 49 CFR 380, 49 CFR 393, 49 CFR 395, NIOSH |
+| Wellness — Shift Work, Sleep and Stress | Warehouse and Class A pre-apprentice — Teamsters-bound | 29 CFR 1910, NIOSH |
+| Wellness — Peer Support Conversation | Pre-apprentice trained as a programme peer supporter | NIOSH |
+| Wellness — Substance Use and the Job | Warehouse pre-apprentice — trainee crew lead, Teamsters-bound | 29 CFR 1904, NIOSH |
+| Wellness — Asking for Help and Resources | Pre-apprentice — the trainee whose week is going sideways | 29 CFR 1910.151, NIOSH |
+
+### Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine
+
+**Certification frame:** SMART's International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Press Brake | Sheet-metal press brake operator | 29 CFR 1910.147, ANSI B11.3 |
+| Steel Erector | Ironworker / structural steel connector | 29 CFR 1926, ANSI Z359, ASME B30.5 |
+| Container Lashing | Longshore worker — lasher | 29 CFR 1918, IMO SOLAS |
+| Mooring Line | Line handler / wharf mooring crew | 29 CFR 1917, IMO SOLAS |
+
 ### Bartending — Behind the Bar
 
 **Certification frame:** California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips
@@ -624,6 +675,7 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Wellness — Peer Support Conversation (smartcity): NIOSH
 - Teledentistry & Triage (smartcity): 29 CFR 1910.1030
 - School Screening Outreach (smartcity): 29 CFR 1910.1030
 - Front Office & Treatment Coordination (smartcity): 29 CFR 1910.1030

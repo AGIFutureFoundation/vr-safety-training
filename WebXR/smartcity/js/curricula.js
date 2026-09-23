@@ -355,7 +355,11 @@ export const CURRICULA = [
       // slot-tdl-1
       // slot-tdl-2
       // slot-fin-1
-      // slot-well-1
+      { app: "smartcity", id: "trades-lineage-briefing", why: "The heritage opener: the trades as a lineage, a bridge that opened in 1937, an article listed as reading rather than retold, and a plain line around what this edition does and does not know." },
+      { app: "smartcity", id: "wellness-shift-work-sleep-and-stress", why: "The week the roster flips to nights: the traps read off the roster, a stress check rated honestly, one block of anchor sleep held against the extra shift, and the drive home decided by a check instead of by pride." },
+      { app: "smartcity", id: "wellness-peer-support-conversation", why: "A cohort-mate says he cannot keep doing this: the signs noticed first, the rule said with its limits, their pace followed, the direct question asked when the words call for it, and three real doors named." },
+      { app: "smartcity", id: "wellness-substance-use-and-the-job", why: "Four in the morning on the dock: the forklift key taken before the conversation, what you saw said plainly, whose decision the test is, and the doors a crew-mate can take without losing the job." },
+      { app: "smartcity", id: "wellness-asking-for-help-and-resources", why: "The week your own life goes sideways: the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, and the follow-up booked." },
     ],
   },
   {
