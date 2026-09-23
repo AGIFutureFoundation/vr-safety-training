@@ -322,7 +322,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // A scenic district is its own site (a lane closure on the deck, a dive
   // stage on the bottom), so it gets no apron; it keeps the apron's gate
   // spawn and roam unless it names its own.
-  const apron = scenic ? null : buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
+  // `opts.apron === false` leaves the site apron out: the kit gallery lays
+  // vehicles across the whole plaza and a fence line through them helps nobody.
+  const apron = scenic || opts.apron === false ? null : buildApron(g, { accent, accentCss: `#${accent.toString(16).padStart(6, "0")}` });
   const spawn = district.spawn ?? apron?.spawn ?? { x: Math.sin(APRON.gateBearing) * APRON.spawnRadius, z: Math.cos(APRON.gateBearing) * APRON.spawnRadius, ry: APRON.gateBearing };
   const roam = district.roam ?? apron?.roam ?? APRON.fence - 0.7;
 

@@ -35,7 +35,7 @@ const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
 if (!WEATHER_KINDS.length) throw new Error("could not read WEATHER_KINDS from weather.js");
 
 const MODULES = [
-  "shared/kit.js", "shared/game.js",
+  "shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js",
   "smartcity/js/citykit.js", "smartcity/js/gamify.js",
   "smartcity/js/sims/charge-point.js", "smartcity/js/sims/signal-cabinet.js",
   "smartcity/js/sims/valve-vault.js", "smartcity/js/sims/solar-deck.js",

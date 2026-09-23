@@ -23,6 +23,7 @@ import { buildStage } from "./stage.js";
 import { DISTRICTS } from "./districts.js";
 import { CITY, stationPad } from "./citykit.js";
 import { buildHub } from "./hub.js";
+import { buildGallery, GALLERY_KINDS } from "./gallery.js";
 import { SIMS_META } from "./sims-meta.js";
 import { CURRICULA, allProgress, curriculumProgress } from "./curricula.js";
 import { LADDER_BY_PROGRAMME, LADDER_STANDARDS } from "./ladders.js";
@@ -577,6 +578,67 @@ function enterDistrictPreview(id) {
   store.patch("hud", { room: `${id} · preview`, step: "District preview", cue: "No station is loaded: the pad marks where one would stand. Walk with WASD, drag to look.", count: "", fillPct: 0 });
   const wx = stage.weather;
   setRail("neutral", `<b>District preview:</b> ${escapeHtml(id)}.${wx && wx.kind !== "clear" ? ` <b>${escapeHtml(wx.label)}:</b> ${escapeHtml(wx.note)}` : ""}`);
+}
+
+// `?gallery=fleet|equipment|toolkit` lays every builder of one shared kit
+// (shared/fleet.js, equipment.js, toolkit.js) out on a plaza with no apron or
+// district, each labelled with its name and the meshes it cost here, for
+// screenshots and for the teams retrofitting stations with them. It is not a
+// station: no steps, nothing to click. `window.__gallery.focus(key)` frames
+// one builder for a thumbnail; `.overview()` goes back to the whole layout.
+let galleryPreview = new URLSearchParams(location.search).get("gallery");
+if (galleryPreview && !Object.prototype.hasOwnProperty.call(GALLERY_KINDS, galleryPreview)) galleryPreview = null;
+function lookFrom(eye, target) {
+  rig.position.set(eye[0], eye[1] - 1.62, eye[2]);
+  rig.rotation.y = 0;
+  const dx = target[0] - eye[0], dy = target[1] - eye[1], dz = target[2] - eye[2];
+  yaw = Math.atan2(-dx, -dz);
+  pitch = Math.atan2(dy, Math.hypot(dx, dz));
+  camera.rotation.set(pitch, yaw, 0, "YXZ");
+}
+function enterGallery(kind) {
+  clearRoom();
+  state.session = null;
+  state.room = null;
+  const stage = buildStage(worldRoot, state.mode, scene, CITY.accent, null, "clear", null, { skyline: PROFILE.skyline, district: false, apron: false });
+  stage.roam = 200;
+  state.stage = stage;
+  applyStageCamera(stage);
+  if (camera.far < 160) { camera.far = 160; camera.updateProjectionMatrix(); }
+  if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
+  const root = new THREE.Group();
+  worldRoot.add(root);
+  state.roomRoot = root;
+  const gallery = buildGallery(root, kind);
+  state.api = { hits: {} };
+  state.hits = {};
+  collectSelectables();
+  resetPlacement();
+  const showAll = () => { for (const it of gallery.items) { it.group.visible = true; it.label.visible = true; } };
+  const overview = () => { showAll(); lookFrom(gallery.overview.eye, gallery.overview.target); };
+  if (state.mode !== "ar") overview();
+  const report = gallery.items.map((it) => ({ key: it.key, meshes: it.meshes, declared: it.declared }));
+  window.__gallery = {
+    kind, report, overview,
+    keys: gallery.items.map((it) => it.key),
+    focus(key, o = {}) {
+      const it = gallery.items.find((i) => i.key === key);
+      if (!it) return false;
+      // A thumbnail shows the one builder: its neighbours and every label hide.
+      for (const other of gallery.items) { other.group.visible = o.solo === false || other === it; other.label.visible = o.solo === false; }
+      const [w, h, l] = it.footprint;
+      const size = Math.max(w, h, l);
+      const dist = o.dist ?? (kind === "toolkit" ? size * 1.1 + 0.12 : size * 1.05 + 2.2);
+      const turn = o.turn ?? 0.62, rise = o.rise ?? 0.42;
+      const [cx, cy, cz] = it.centre;
+      lookFrom([cx + Math.sin(turn) * Math.cos(rise) * dist, cy + Math.sin(rise) * dist, cz + Math.cos(turn) * Math.cos(rise) * dist], [cx, cy * (kind === "toolkit" ? 1 : 0.8), cz]);
+      return true;
+    },
+  };
+  syncHud();
+  const over = report.filter((r) => r.meshes > r.declared);
+  store.patch("hud", { room: `${kind} gallery`, step: "Kit gallery", cue: `${report.length} builders from shared/${kind}.js. Walk with WASD, drag to look.`, count: "", fillPct: 0 });
+  setRail(over.length ? "warn" : "neutral", `<b>Kit gallery:</b> ${escapeHtml(kind)} — ${report.length} builders, ${report.reduce((s, r) => s + r.meshes, 0)} meshes.${over.length ? ` Over their declared count: ${escapeHtml(over.map((r) => r.key).join(", "))}.` : ""}`);
 }
 
 // Bumped on every call so a station whose dynamic import is still in flight
@@ -3503,6 +3565,12 @@ function begin() {
     resetPlacement();
     store.patch("arPrompt", { visible: true });
     store.patch("scaleRow", { visible: true });
+  }
+  if (galleryPreview && !pendingEnter && !deepLink) {
+    const kind = galleryPreview;
+    galleryPreview = null;
+    enterGallery(kind);
+    return;
   }
   if (districtPreview && !pendingEnter && !deepLink) {
     const id = districtPreview;
