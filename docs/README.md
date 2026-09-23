@@ -24,6 +24,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 | [compliance/README.md](compliance/README.md) | What an enterprise training office needs before running the platform: how a procedure is assured before it ships, what records exist, and the rules for real sites, consent, licensed assets and accessibility. |
 | [compliance/compliance-matrix.md](compliance/compliance-matrix.md) | *Generated* (`node tools/gen_compliance.mjs`). Every procedure with the standards its own text cites, every standard with the procedures that carry it, and the stations citing fewer than two. |
 | [standards/README.md](standards/README.md) | *Generated* (`node tools/check_standards.mjs --docs`). The standards registry: every standard, code and union programme taught against, by body and by programme, with its scope and whether the citation form is verified. |
+| [signage.md](signage.md) | The union sign and ANSI Z535 safety sign at every station pad: the trademark policy (no union logo ships; wordmarks typeset from `tools/unions.json`; a licensed deployment supplies its own files through `WebXR/assets/brand/manifest.json`), how a station's union is chosen, the category hazard table and the mesh budget rule. |
 | [proof-of-training.md](proof-of-training.md) | The mastery rule, the 34 competencies and the standards they evidence, the Proof tab, the CSV, badge and printed exports, and the scoring rubric. |
 
 ## Running it

@@ -6,6 +6,7 @@ import { districtFor, selfLight } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { reducedMotion } from "../../shared/a11y.js";
 import { buildInterior, interiorFor } from "./interiors.js";
+import { stationSignage } from "../../shared/signage.js";
 
 // Flagship banner copy, product-owner-specified: SmartCiti.X is the visitor-facing
 // simulator brand; AGI Corp and Visko are the umbrella/co-brands it is built and run under.
@@ -120,11 +121,25 @@ export function timeOfDay() {
 // here rather than hidden afterwards because mergeStatic() folds the
 // scenery into shared meshes, after which hiding the source groups does
 // nothing.
+//
+// `opts.station` is the station the stage is being built for (the sim
+// module, or anything with id, category and certification). With it the
+// stage stands the station's union sign beside the pad and, when the
+// station's mesh count leaves room under the headset budget, the safety sign
+// for its category's dominant hazard (shared/signage.js). Without it — the
+// hub, a district preview — no signs are built.
 export function buildStage(root, mode, scene, accent = CITY.accent, category = null, weather = null, indoor = null, opts = {}) {
   const g = group(root);
   const ar = mode === "ar";
   const district = districtFor(category);
   const tod = TIME[timeOfDay()];
+  const accentCss = `#${accent.toString(16).padStart(6, "0")}`;
+  // Built after the merge below so the signs stay their own meshes: the
+  // union sign repaints itself when a licensed logo loads, and fit() may
+  // take the safety sign down once the station's own count is known.
+  const signsFor = (stageRoot, where = {}) => (opts.station
+    ? stationSignage(stageRoot, opts.station, { ar, accentCss, meshesUsed: opts.station.meshes ?? null, ...where })
+    : null);
 
   if (ar) {
     // Passthrough: no sky, no ground, nothing that would paint over the room.
@@ -146,8 +161,10 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     key.position.set(2.5, 5, 3);
     root.add(key);
     // No apron in AR: the learner's own room is the site, and a fence line
-    // through their furniture helps nobody.
-    return { root: g, ar, roam: null, spawn: null, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
+    // through their furniture helps nobody. The union sign still stands off
+    // the pad — it is the one piece of the site a station carries everywhere.
+    const signage = signsFor(g);
+    return { root: g, ar, roam: null, spawn: null, signage, weather: { kind: "clear", label: "Passthrough", note: "In AR the learner's own room is the environment; the stage adds nothing." }, animate() {} };
   }
 
   // A station that is indoors gets a room, not a plaza with a skyline behind
@@ -166,10 +183,11 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     // An interior is already a walkable space; the learner may use all of it
     // up to the walls, and they start at the door rather than mid-floor.
     const half = Math.min(room?.w ?? 12, room?.d ?? 12) / 2 - 1.1;
+    const doorSpawn = { x: 0, z: Math.max(2.6, (room?.d ?? 12) / 2 - 1.6), ry: 0 };
     return {
-      root: g, ar, indoor,
+      root: g, ar, indoor, signage: signsFor(g, { indoor: true, spawn: doorSpawn }),
       roam: Math.max(3.4, half),
-      spawn: { x: 0, z: Math.max(2.6, (room?.d ?? 12) / 2 - 1.6), ry: 0 },
+      spawn: doorSpawn,
       weather: { kind: wxIn.kind, label: wxIn.label, note: wxIn.note },
       animate(t, dt = 0.016) {
         if (reducedMotion()) return;
@@ -319,9 +337,10 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   // The beacons and the marquee trim animate their own materials and carry
   // the ownMaterial flag, so the merge steps over them and they still pulse.
   const merged = mergeStatic(g);
+  const signage = signsFor(g);
 
   return {
-    root: g, ar, roam, spawn, merged, far: district.far ?? null,
+    root: g, ar, roam, spawn, merged, signage, far: district.far ?? null,
     // A forced district weather reports the district's own conditions.
     weather: district.forceWeather && district.weatherLabel
       ? { kind: district.weatherKind ?? wx.kind, label: district.weatherLabel, note: district.weatherNote ?? wx.note }

@@ -9,7 +9,7 @@
  *
  *     node tools/check_budget.mjs
  */
-import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
+import { loadSmartCity, loadTrades, buildSuite } from "./lib/headless.mjs";
 
 // What a Quest-class headset has left for content, which is not the same
 // number in both apps because they are not the same scene.
@@ -35,6 +35,18 @@ const LIGHT_BUDGET = { smartcity: 12, trades: 14 };
 const city = await loadSmartCity();
 const trades = await loadTrades();
 
+// The stage stands two signs beside every SmartCiti.X station (shared/
+// signage.js): the union sign always, the safety sign when the station leaves
+// room for it. They are part of what the station asks the headset for, so
+// they count here, against the same budget the stage reads, and a station the
+// budget forces to go without its safety sign is reported rather than failed.
+const signage = await buildSuite(["shared/kit.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js"],
+  "export { stationSignage, STATION_MESH_BUDGET, THREE };", "budget-signage");
+if (signage.STATION_MESH_BUDGET !== MESH_BUDGET.smartcity) {
+  console.log(`  ✗ shared/signage.js STATION_MESH_BUDGET is ${signage.STATION_MESH_BUDGET}; this checker's smartcity budget is ${MESH_BUDGET.smartcity} — they must agree`);
+  process.exit(1);
+}
+
 function count(suite, r) {
   const root = new suite.THREE.Group();
   r.build(root);
@@ -47,6 +59,7 @@ function count(suite, r) {
 }
 
 let failures = 0;
+let skippedSafety = 0;
 const rows = [];
 for (const [app, suite, list] of [["smartcity", city, city.ROOMS], ["trades", trades, trades.ROOMS]]) {
   for (const r of list) {
@@ -55,6 +68,13 @@ for (const [app, suite, list] of [["smartcity", city, city.ROOMS], ["trades", tr
       console.log(`  ✗ ${app}/${r.id}: build threw — ${e.message}`);
       failures += 1;
       continue;
+    }
+    if (app === "smartcity") {
+      const signs = signage.stationSignage(new signage.THREE.Group(), r, { meshesUsed: c.meshes });
+      c.station = c.meshes;
+      c.signage = signs.meshes();
+      c.meshes += c.signage;
+      if (signs.skippedSafety) skippedSafety += 1;
     }
     rows.push({ app, id: r.id, ...c });
     if (c.meshes > MESH_BUDGET[app]) {
@@ -72,5 +92,5 @@ rows.sort((a, b) => b.meshes / MESH_BUDGET[b.app] - a.meshes / MESH_BUDGET[a.app
 const worst = rows.slice(0, 3).map((r) => `${r.id} ${r.meshes}/${MESH_BUDGET[r.app]}`).join(", ");
 console.log(failures
   ? `\n${failures} station(s) over budget.`
-  : `\nAll ${rows.length} stations inside budget (${MESH_BUDGET.smartcity} meshes on the stage, ${MESH_BUDGET.trades} standalone). Fullest: ${worst}.`);
+  : `\nAll ${rows.length} stations inside budget with their signage (${MESH_BUDGET.smartcity} meshes on the stage, ${MESH_BUDGET.trades} standalone); ${skippedSafety} safety sign(s) skipped by the budget. Fullest: ${worst}.`);
 process.exit(failures ? 1 : 0);

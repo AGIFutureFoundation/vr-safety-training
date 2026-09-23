@@ -95,6 +95,11 @@ APPS = {
             SHARED / "weather.js",
             SHARED / "environment.js",
             SHARED / "observer.js",
+            # Union and safety signage at every station pad (shared/signage.js
+            # reads the generated shared/unions.js; regenerate that with
+            # tools/gen_unions.mjs after editing tools/unions.json).
+            SHARED / "unions.js",
+            SHARED / "signage.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",

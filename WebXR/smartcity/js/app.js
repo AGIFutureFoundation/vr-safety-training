@@ -619,7 +619,10 @@ async function enterSim(id, { briefed = false } = {}) {
   coachedHazards.clear();
   const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
   const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, horizon);
+  // The stage stands the station's union sign and safety sign beside the
+  // pad (shared/signage.js); the safety sign is confirmed or taken down
+  // below once the station has been built and its mesh count is known.
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room });
   state.stage = stage;
   applyStageCamera(stage);
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
@@ -637,6 +640,14 @@ async function enterSim(id, { briefed = false } = {}) {
   state.room = room;
   state.api = room.build(root);
   state.hits = state.api.hits;
+  // Now the station's own count is known: the safety sign stays only if the
+  // station and its two signs still fit the headset budget (the same rule
+  // tools/check_budget.mjs enforces).
+  if (stage.signage) {
+    let stationMeshes = 0;
+    root.traverse((o) => { if (o.isMesh || o.isPoints || o.isLine) stationMeshes += 1; });
+    stage.signage.fit(stationMeshes);
+  }
   collectSelectables();
   resetPlacement();
   if (flat) {
