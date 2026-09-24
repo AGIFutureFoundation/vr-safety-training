@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "drive-city-route-and-turns",
+    "index": "318",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters freight driving on city streets under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and road curriculum covers turning, space management and visual search; 49 CFR 383 for the Class A skills test the road portion prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors and turn signals the route depends on; 49 CFR 395 for the duty status logged at the end; the state CDL handbook's turning and space-management guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "City Route and Turns",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ City Route and Turns VR",
+    "tagline": "A block of right turns with a trailer behind you: signal early, hold your lane, swing wide only as you finish, keep the rear tight to the curb, and live in the right mirror where the tandem cuts in",
+    "accent": 6273264,
+    "accentCss": "#5fb8f0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tight-to-the-curb",
+      "name": "Tight to the Curb",
+      "note": "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Road",
+      "currency": "BLOCK",
+      "ranks": [
+        "Permit Holder",
+        "Road Trainee",
+        "City Driver",
+        "Route Lead",
+        "Road Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

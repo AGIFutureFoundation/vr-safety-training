@@ -9,6 +9,7 @@
  *     node tools/interrupt_react.mjs
  */
 import { loadTrades, loadSmartCity } from "./lib/headless.mjs";
+import { drivePolicy } from "../WebXR/shared/game.js";
 
 // Material identity, so swapping a lamp's material for a red one registers as
 // a change even when the stub's Color has no getHex().
@@ -43,6 +44,7 @@ function driveTo(session, api, untilStepId) {
     else if (st.kind === "track") { session.setHolding(true); const [lo, hi] = st.track?.green ?? [0.42, 0.62]; session.track = { v: (lo + hi) / 2, green: [lo, hi], rise: 0, fall: 0, drift: 0, wobble: 0, inBand: 0, dropouts: 0, wasIn: true }; for (let i = 0; i < (st.seconds ?? 5) * 20 + 4 && session.step === st; i++) session.tick(0.05); }
     else if (st.kind === "turn") session.rotate(st.target, (st.turn?.turns ?? 1) + 1);
     else if (st.kind === "drag") session.dropAt(st.target, 0);
+    else if (st.kind === "drive") { for (let i = 0; i < 8000 && session.step === st; i++) { const a = drivePolicy(session); session.driveInput(a); if (a.check) session.driveCheck(a.check); session.tick(0.05); if (session.activeInterrupt) session.select(session.activeInterrupt.target); } }
     else break;
     // Answer anything that fires on the way, so it does not sit armed.
     if (session.activeInterrupt) session.select(session.activeInterrupt.target);

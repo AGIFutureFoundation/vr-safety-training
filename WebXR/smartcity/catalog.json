@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-23",
+  "generatedAt": "2026-09-24",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -62,6 +62,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "drive-city-route-and-turns",
         "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
         "tdl-backing-and-docking",
@@ -6729,6 +6730,90 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-city-route-and-turns",
+      "name": "City Route and Turns",
+      "title": "SmartCiti.X~ City Route and Turns VR",
+      "tagline": "A block of right turns with a trailer behind you: signal early, hold your lane, swing wide only as you finish, keep the rear tight to the curb, and live in the right mirror where the tandem cuts in",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters freight driving on city streets under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and road curriculum covers turning, space management and visual search; 49 CFR 383 for the Class A skills test the road portion prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors and turn signals the route depends on; 49 CFR 395 for the duty status logged at the end; the state CDL handbook's turning and space-management guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#5fb8f0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "find",
+        "gauge",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "tight-to-the-curb",
+        "name": "Tight to the Curb",
+        "note": "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time"
+      },
+      "meshes": 298,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Road",
+      "currency": "BLOCK",
+      "ranks": [
+        "Permit Holder",
+        "Road Trainee",
+        "City Driver",
+        "Route Lead",
+        "Road Certified"
+      ],
+      "awards": [
+        {
+          "id": "mirror-eyes",
+          "name": "Mirror Eyes",
+          "note": "Every drive step finished with no check missed"
+        },
+        {
+          "id": "no-squeeze",
+          "name": "No Squeeze Play",
+          "note": "Never swung left, cut the corner, rolled a red or picked up the phone"
+        },
+        {
+          "id": "smooth-hands",
+          "name": "Smooth Hands",
+          "note": "Every drive held in lane and band with no excursion"
+        },
+        {
+          "id": "clean-block",
+          "name": "Clean Block",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "centre-line",
+          "name": "Centre of the Lane",
+          "note": "Drives and the swing-point read near the centre of their bands"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-city-route-and-turns"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25599,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26174,7 +26259,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
