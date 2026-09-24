@@ -10531,6 +10531,10 @@ const GENERIC = new Set([
   // without it here "we need more parking at the union hall" scored as a
   // report against that station.
   "union",
+  // "course" is a golf course, a training course and a course of action long
+  // before it is the forklift course, so it names nothing on its own. It
+  // became reachable with drive-light-vehicle-fleet-and-forklift-course.
+  "course",
 ]);
 
 const STOP = new Set([
@@ -29067,6 +29071,8 @@ function enterTraining(room, buildFn) {
   positionTrainingCamera(room.footprint);
 
   trainingSession = new Session(room, {
+    // A real station's drive step moves its own registered vehicle.
+    onDrive: (step, s, ds) => { if (hits[step.target] && s.drive?.pose) placeVehicle(hits[step.target], s.drive.pose, ds); },
     onStep: (step, s) => {
       trainingRefs.onStep?.(step, s);
       kbCursor.set(targetsForStep(step));
@@ -29736,6 +29742,8 @@ renderer.setAnimationLoop(() => {
     }
   }
   if (mode === "training" && trainingSession && !trainingSession.finished && !trainingHeld) {
+    // A drive step is driven from the keys (shared/input.js's drive table).
+    if (trainingSession.step?.kind === "drive") trainingSession.driveInput(driveInputFrom({ held: holoDriveHeld }));
     trainingSession.tick(dt);
     const snap = observerSnapshot();
     if (snap) observer.state(snap);
@@ -29830,6 +29838,8 @@ function kbAdjust(delta) {
   return false;
 }
 
+const HOLO_DRIVE_CONTINUOUS = new Set(DRIVE_ACTIONS.filter((a) => a.continuous).map((a) => a.id));
+const holoDriveHeld = Object.create(null);
 addEventListener("keydown", (e) => {
   const tag = e.target?.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
@@ -29837,6 +29847,15 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyM") Sfx.muted = !Sfx.muted;
   // --- keyboard operation of the running procedure ---
   if (!trainingSession || renderer.xr.isPresenting) return;
+  if (trainingSession.step?.kind === "drive") {
+    const da = driveActionForKey(e.code);
+    if (da) {
+      e.preventDefault();
+      if (HOLO_DRIVE_CONTINUOUS.has(da)) holoDriveHeld[da] = true;
+      else if (!e.repeat) { if (da === "radio") trainingSession.driveControl("radio"); else trainingSession.driveCheck(da); syncTrainingHud(); }
+      return;
+    }
+  }
   if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
   if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
   if (e.code === "Space") { e.preventDefault(); if (!e.repeat && kbCursor.current) pressStart(kbCursor.current); return; }
@@ -29846,6 +29865,8 @@ addEventListener("keydown", (e) => {
 addEventListener("keyup", (e) => {
   const tag = e.target?.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  const da = driveActionForKey(e.code);
+  if (da && HOLO_DRIVE_CONTINUOUS.has(da)) holoDriveHeld[da] = false;
   if (e.code === "Space" && trainingSession) { e.preventDefault(); pressEnd(); }
 });
 
