@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 337
+      "stations": 338
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-rebounding-and-boxing-out",
         "bb-defensive-stance-and-closeouts",
         "bb-free-throw-routine",
         "bb-shooting-form-and-arc",
@@ -6741,6 +6742,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-rebounding-and-boxing-out",
+      "name": "Rebounding and Boxing Out",
+      "title": "SmartCiti.X~ Rebounding and Boxing Out VR",
+      "tagline": "The paint cleared, pairs matched by size, the box-out built and the seal held, the jump timed, contact kept controlled, concussion signs recognised, and any knock to the head taken out of play",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on introducing contact progressively and matching players by size and maturity; NFHS basketball rules on legal contact and displacement under the basket; CDC Heads Up for concussion signs and the recognise, remove, refer action plan with no same-day return; the U.S. Center for SafeSport for keeping a parent's concern out of the drill and in the open; the American Red Cross first aid course for a player down after a collision",
+      "accent": "#ff5d8f",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "sealed-and-safe",
+        "name": "Sealed and Safe",
+        "note": "Contact taught under control, pairs matched, and every knock to the head recognised and removed"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "338",
+      "flat": false,
+      "system": "Boards",
+      "currency": "BOARDS",
+      "ranks": [
+        "Rebound Helper",
+        "Contact Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Player-Safety Lead"
+      ],
+      "awards": [
+        {
+          "id": "clear-paint",
+          "name": "Clear Paint",
+          "note": "Everything in the paint found first time"
+        },
+        {
+          "id": "no-bad-contact",
+          "name": "No Bad Contact",
+          "note": "No unsafe action in the whole rebounding block"
+        },
+        {
+          "id": "timed-and-sealed",
+          "name": "Timed and Sealed",
+          "note": "Jump timing and contact control both inside the band"
+        },
+        {
+          "id": "clean-boards",
+          "name": "Clean Boards",
+          "note": "No corrections anywhere in the block"
+        },
+        {
+          "id": "steady-contact",
+          "name": "Steady Contact",
+          "note": "Held contact control in band the whole time"
+        },
+        {
+          "id": "quick-boards",
+          "name": "Quick Boards",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-rebounding-and-boxing-out"
     },
     {
       "app": "smartcity",
@@ -26767,7 +26851,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",

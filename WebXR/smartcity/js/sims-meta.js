@@ -14434,5 +14434,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-rebounding-and-boxing-out",
+    "index": "338",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on introducing contact progressively and matching players by size and maturity; NFHS basketball rules on legal contact and displacement under the basket; CDC Heads Up for concussion signs and the recognise, remove, refer action plan with no same-day return; the U.S. Center for SafeSport for keeping a parent's concern out of the drill and in the open; the American Red Cross first aid course for a player down after a collision",
+    "name": "Rebounding and Boxing Out",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Rebounding and Boxing Out VR",
+    "tagline": "The paint cleared, pairs matched by size, the box-out built and the seal held, the jump timed, contact kept controlled, concussion signs recognised, and any knock to the head taken out of play",
+    "accent": 16735631,
+    "accentCss": "#ff5d8f",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sealed-and-safe",
+      "name": "Sealed and Safe",
+      "note": "Contact taught under control, pairs matched, and every knock to the head recognised and removed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boards",
+      "currency": "BOARDS",
+      "ranks": [
+        "Rebound Helper",
+        "Contact Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Player-Safety Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
