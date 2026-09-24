@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hw-flatwork-ironer-and-folder-guarding",
+    "index": "320",
+    "domain": "Culinary & Hospitality",
+    "trade": "Hotel laundry ironer operator — UNITE HERE laundry, flatwork line",
+    "category": "Culinary & Hospitality",
+    "certification": "OSHA 29 CFR 1910.212 machine guarding for the ironer's nip point and the folder's moving parts; OSHA 29 CFR 1910.147 control of hazardous energy for clearing a jam — electrical, steam and the heat no lock isolates; 29 CFR 1910.132 for dress and PPE at a nip point; ANSI Z8.1 commercial laundry equipment safety practice behind the finger guard and folder interlocks; Cal/OSHA's injury and illness prevention program, 8 CCR 3203; NIOSH guidance on heat in hot workplaces; UNITE HERE laundry training on the flatwork line",
+    "name": "Flatwork Ironer & Folder Guarding",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Flatwork Ironer & Folder Guarding VR",
+    "tagline": "The hotel laundry's flatwork line: guards walked and a bypassed interlock found, dressed for a nip point, the chest read against the machine card, sheets fed flat and steady while a coworker reaches into the folder, a wrapped sheet cleared under lockout at the disconnect and the steam valve with the heat waited out, the guards back before the lock comes off, and the jam logged",
+    "accent": 9413575,
+    "accentCss": "#8fa3c7",
+    "parSeconds": 270,
+    "badge": {
+      "id": "hands-whole",
+      "name": "Hands Whole",
+      "note": "Every jam cleared under your own lock, every guard back before the restart, and nobody reached into a running nip"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Flatwork Line",
+      "currency": "SHEETS",
+      "ranks": [
+        "Feeder",
+        "Ironer Operator",
+        "Line Lead",
+        "Laundry Supervisor",
+        "Flatwork Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
