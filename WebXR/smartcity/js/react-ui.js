@@ -44,6 +44,7 @@ const CATEGORY_ORDER = [
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
   "Environmental Monitoring", "Surface Prep & Coatings", "Culinary & Hospitality",
   "Dental & Oral Health", "Community Environmental Justice", "Sewing & Garment Trades",
+  "Youth Sports & Coaching",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
@@ -153,6 +154,42 @@ export function DiveChip({ dive }) {
     h("div", { id: "hud-bottom" }, dive.bottom));
 }
 
+/**
+ * The scoreboard chip for a station standing in the gym-court district. The
+ * district names the labels (`scoreboard = { period, home, guest }`); every
+ * number is this run's own: drills cleared out of the station's steps, fouls
+ * as the run's unsafe actions, and the session clock against the station's
+ * par. Nothing is invented — no scoreboard, no chip.
+ */
+export function courtReadout(scoreboard, session) {
+  if (!scoreboard || typeof scoreboard !== "object" || !session) return null;
+  const total = session.steps?.length ?? 0;
+  const done = session.finished ? total : Math.min(session.index ?? 0, total);
+  const fouls = session.hazardHits | 0;
+  const on = Math.max(0, session.elapsed || 0);
+  const par = session.room?.parSeconds > 0 ? session.room.parSeconds : null;
+  return {
+    period: String(scoreboard.period ?? "Practice"),
+    home: String(scoreboard.home ?? "Home"), guest: String(scoreboard.guest ?? "Guest"),
+    drills: `${String(done).padStart(2, "0")}/${String(total).padStart(2, "0")}`,
+    fouls: String(fouls).padStart(2, "0"),
+    clock: par ? `${diveClock(on)} / ${diveClock(par)}` : diveClock(on),
+    // A foul on the board turns the chip amber; past par it turns red.
+    state: par && on > par ? "over" : fouls ? "warn" : "ok",
+  };
+}
+
+/** The HUD chip for courtReadout(); nothing at all when there is no readout. */
+export function CourtChip({ court }) {
+  if (!court) return null;
+  return h("div", { className: "chip", id: "hud-court", "data-state": court.state, role: "status", "aria-label": `${court.period}: ${court.home} ${court.drills}, ${court.guest} ${court.fouls}, clock ${court.clock}` },
+    h("div", { className: "eyebrow" }, court.period),
+    h("div", { className: "court-row" },
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.home), h("span", { id: "hud-drills" }, court.drills)),
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.guest), h("span", { id: "hud-fouls" }, court.fouls))),
+    h("div", { id: "hud-court-clock" }, court.clock));
+}
+
 export function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -177,6 +214,11 @@ export function mountUI(store, actions) {
   function HudDive() {
     const hud = useSlice("hud");
     return h(DiveChip, { dive: hud.dive ?? null });
+  }
+
+  function HudCourt() {
+    const hud = useSlice("hud");
+    return h(CourtChip, { court: hud.court ?? null });
   }
 
   function HudObjective() {
@@ -1042,7 +1084,7 @@ export function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudDive), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudCourt), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));

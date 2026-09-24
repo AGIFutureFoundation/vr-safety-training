@@ -43,7 +43,7 @@ import {
 } from "../../shared/input.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
-import { mountUI, stripHtml, introMenu, diveReadout } from "./react-ui.js";
+import { mountUI, stripHtml, introMenu, diveReadout, courtReadout } from "./react-ui.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
 // small, always-available metadata every display surface (hub kiosks,
@@ -211,6 +211,7 @@ const store = createStore({
     railState: "neutral", feedbackHtml: "Loading the training campus…",
     scorePops: [],
     dive: null,
+    court: null,
   },
   gestureTip: { html: "", show: false },
   arPrompt: { visible: false },
@@ -336,6 +337,7 @@ function syncHud() {
       timer: "",
       gestureVisible: false,
       dive: null,
+      court: null,
     });
     vrHudDirty = true;
     return;
@@ -358,6 +360,9 @@ function syncHud() {
     // room.underwater = { depthLabel, bottomTimeSeconds }; the chip shows
     // exactly that against this run's own clock, and nothing when it is unset.
     dive: diveReadout(s.room.underwater, s.elapsed),
+    // A station on the gym-court district gets the scoreboard chip: the
+    // district names the labels, and drills, fouls and clock are this run's.
+    court: courtReadout(state.stage?.scoreboard, s),
   };
   const step = s.step;
   if (step) {
@@ -4003,7 +4008,7 @@ renderer.setAnimationLoop((_, frame) => {
       syncAlarm(state.session);
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
       // The bottom-time chip counts in whole seconds; refresh it once a second.
-      else if (state.room?.underwater && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
+      else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
     }
   }
 

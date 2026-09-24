@@ -66,6 +66,15 @@
   #hud-dive{ top:118px; right:14px; text-align:right; min-width:156px; border-right:3px solid #4fd6c8; }
   #hud-dive[data-state="warn"]{ border-right-color:var(--warn, #f2c14b); }
   #hud-dive[data-state="over"]{ border-right-color:var(--danger, #f0645b); }
+  #hud-court{ top:118px; right:14px; text-align:right; min-width:156px; border-right:3px solid #c8a24a; }
+  #hud-court[data-state="warn"]{ border-right-color:var(--warn, #f2c14b); }
+  #hud-court[data-state="over"]{ border-right-color:var(--danger, #f0645b); }
+  #hud-court .court-row{ display:flex; gap:12px; justify-content:flex-end; margin:1px 0 2px; }
+  #hud-court .court-cell{ display:flex; flex-direction:column; align-items:flex-end; }
+  #hud-court .court-label{ font-size:10px; letter-spacing:.12em; text-transform:uppercase; opacity:.75; }
+  #hud-drills, #hud-fouls, #hud-court-clock{ font-family:var(--cond); font-weight:700; font-size:20px; letter-spacing:.04em; line-height:1.1;
+    font-variant-numeric:tabular-nums; }
+  #hud-fouls{ color:#ff8a6a; }
   #hud-depth, #hud-bottom{ font-family:var(--cond); font-weight:700; font-size:20px; letter-spacing:.04em; line-height:1.1;
     font-variant-numeric:tabular-nums; margin:1px 0 4px; }
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
@@ -656,6 +665,7 @@
     #hud-mission{ left:max(14px, env(safe-area-inset-left)) }
     #hud-metrics{ right:max(14px, env(safe-area-inset-right)) }
     #hud-dive{ right:max(14px, env(safe-area-inset-right)) }
+    #hud-court{ right:max(14px, env(safe-area-inset-right)) }
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
