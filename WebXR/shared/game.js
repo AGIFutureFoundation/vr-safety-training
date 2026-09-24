@@ -316,6 +316,7 @@ export const Sfx = {
 //                                 // interruption on this step may be answered by
 //     sceneRate: 0.2,             // scene metres per second per unit of speed
 //     checkWindow,                // metres either side of a check's point
+//     forbid: { "gear-up": note },  // controls that are a mistake on this stretch
 //     label, bandLabel, units, laneNote, speedNote, checkNotes: { kind: note },
 //   }
 //
@@ -811,6 +812,10 @@ export class Session {
     if (this.activeInterrupt && d.controls?.[kind] && d.controls[kind] === this.activeInterrupt.target) return this.resolveInterrupt(d.controls[kind]);
     const due = d.plan.find((c) => !c.done && !c.missed && c.kind === kind && d.s >= c.from && d.s <= c.to);
     const name = DRIVE_CHECK_NAMES[kind] ?? kind;
+    // A step may forbid a control outright — shifting on a rail crossing is the
+    // textbook case — and then using it is a mistake, not just out of place.
+    const forbidden = this.step.drive?.forbid?.[kind];
+    if (forbidden && !due) return this.wrong(this.step.target, forbidden);
     if (due) {
       due.done = true;
       Sfx.tick();

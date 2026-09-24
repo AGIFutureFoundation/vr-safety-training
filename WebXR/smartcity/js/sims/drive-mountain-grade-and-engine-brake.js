@@ -99,7 +99,7 @@ export const SIM_DRIVE_MOUNTAIN_GRADE_AND_ENGINE_BRAKE = {
       holdBreakNote: "Out of the lane or out of the band at the crest. Slow before the top, not after it.",
       drive: {
         path: [[-5.6, -3.2], [-5.0, -4.8], [-3.8, -6.2], [-2.0, -7.0], [0, -7.2]],
-        speedBand: [10, 25], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.8, sceneRate: 0.14,
+        speedBand: [10, 25], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.6, sceneRate: 0.1,
         bandLabel: "slow over the crest",
         checks: [
           { at: 0, kind: "gear-down", note: "The low gear goes in before the crest — often lower than the gear you climbed in." },
@@ -125,7 +125,7 @@ export const SIM_DRIVE_MOUNTAIN_GRADE_AND_ENGINE_BRAKE = {
       holdBreakNote: "Out of lane or band on the grade — ease the speed back on the engine and snub the brakes, don't ride them.",
       drive: {
         path: [[0, -7.2], [2, -7.0], [3.8, -6.2], [5.0, -5.0], [5.6, -3.4], [5.8, -1.8]],
-        speedBand: [18, 32], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.6, sceneRate: 0.14,
+        speedBand: [18, 32], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.5, sceneRate: 0.075,
         bandLabel: "safe speed for the grade, per the sign",
         checks: [
           { at: 1, kind: "mirror-right", note: "Right mirror: the tandem and the brake drums — smoke means the brakes are doing too much." },
@@ -164,7 +164,7 @@ export const SIM_DRIVE_MOUNTAIN_GRADE_AND_ENGINE_BRAKE = {
       holdBreakNote: "Out of lane or band in the curve at the bottom — the grade is not over until the road is flat.",
       drive: {
         path: [[5.8, -1.8], [5.9, 0], [5.4, 1.8], [4.2, 3.2], [2.6, 4.0]],
-        speedBand: [12, 26], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.5, sceneRate: 0.14,
+        speedBand: [12, 26], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.4, sceneRate: 0.075,
         bandLabel: "curve at the bottom, per the posted limit",
         checks: [
           { at: 1, kind: "mirror-right", note: "Right mirror as the escape ramp slides past: the tandems are still smoke-free." },

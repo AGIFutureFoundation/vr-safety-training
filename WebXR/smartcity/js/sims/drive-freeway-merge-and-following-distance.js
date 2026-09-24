@@ -105,7 +105,7 @@ export const SIM_DRIVE_FREEWAY_MERGE_AND_FOLLOWING_DISTANCE = {
       holdBreakNote: "Out of the lane or out of the band on the ramp. Build speed steadily and hold the ramp's lane until the gap is yours.",
       drive: {
         path: [[-6.2, -1.0], [-6.3, -2.6], [-5.9, -4.1], [-4.76, -5.67], [-3.7, -6.41], [-2.53, -6.95], [-1.28, -7.29]],
-        speedBand: [30, 60], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.8, sceneRate: 0.06,
+        speedBand: [30, 60], laneWidth: 1.5, graceSeconds: 1.8, checkWindow: 1.6, sceneRate: 0.045,
         bandLabel: "matching traffic, per the posted limit",
         checks: [
           { at: 0, kind: "gear-up", note: "Up through the gears on the ramp: the ramp is where the speed for the merge is built." },
@@ -132,7 +132,7 @@ export const SIM_DRIVE_FREEWAY_MERGE_AND_FOLLOWING_DISTANCE = {
       holdBreakNote: "Out of lane or band during the lane change — make it slowly and hold your speed while you do.",
       drive: {
         path: [[-1.28, -7.29], [0, -7.4], [1.28, -7.29], [2.7, -7.55], [3.89, -8.34]],
-        speedBand: [40, 60], laneWidth: 1.6, graceSeconds: 1.8, checkWindow: 1.6, sceneRate: 0.06,
+        speedBand: [40, 60], laneWidth: 1.6, graceSeconds: 1.8, checkWindow: 1.3, sceneRate: 0.028,
         bandLabel: "with the flow, per the posted limit",
         checks: [
           { at: 1, kind: "signal-left", note: "Signal before you move, not as you move — the lane you want needs the warning." },
@@ -178,7 +178,7 @@ export const SIM_DRIVE_FREEWAY_MERGE_AND_FOLLOWING_DISTANCE = {
       holdBreakNote: "Out of lane or band leaving the freeway — slow down on the ramp, before the curve.",
       drive: {
         path: [[3.89, -8.34], [4.9, -6.9], [5.4, -5.6], [5.9, -4.2], [6.1, -2.6]],
-        speedBand: [20, 50], laneWidth: 1.6, graceSeconds: 1.8, checkWindow: 1.5, sceneRate: 0.06,
+        speedBand: [20, 50], laneWidth: 1.6, graceSeconds: 1.8, checkWindow: 1.4, sceneRate: 0.035,
         bandLabel: "ramp — slow before the curve",
         checks: [
           { at: 0, kind: "signal-right", note: "Signal right well before the exit so the traffic behind knows you are leaving." },

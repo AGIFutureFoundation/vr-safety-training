@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "drive-night-fog-and-rail-crossing",
+    "index": "321",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters tank and hazmat freight at night: fog, lights and railroad crossings under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes night operation, extreme driving conditions and railroad-highway grade crossings; 49 CFR 383 for the skills test; 49 CFR 392 for driving a commercial motor vehicle, including the stop a hazmat cargo tank must make at a rail crossing and the no-shifting rule on the tracks; 49 CFR 393 for headlamps and lamps; PHMSA 49 CFR 177 for the shipping papers' place in the cab; 49 CFR 395 for the duty status; the state CDL handbook's night, fog and railroad-crossing guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Night Fog and Rail Crossing",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Night Fog and Rail Crossing VR",
+    "tagline": "A placarded tank at night into fog and over the tracks: low beams, a speed inside your sight distance, the window down, the stop the rule requires, both tracks and the far side checked, across in one gear",
+    "accent": 10135807,
+    "accentCss": "#9aa8ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-gear-across",
+      "name": "One Gear Across",
+      "note": "Lights right for the fog, the stop in the band, both tracks looked for and across without a shift — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crossing",
+      "currency": "RAIL",
+      "ranks": [
+        "Permit Holder",
+        "Night Trainee",
+        "Tank Driver",
+        "Hazmat Lead",
+        "Crossing Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

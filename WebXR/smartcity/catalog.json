@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -62,6 +62,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "drive-night-fog-and-rail-crossing",
         "drive-mountain-grade-and-engine-brake",
         "drive-freeway-merge-and-following-distance",
         "drive-city-route-and-turns",
@@ -6735,6 +6736,90 @@
     },
     {
       "app": "smartcity",
+      "id": "drive-night-fog-and-rail-crossing",
+      "name": "Night Fog and Rail Crossing",
+      "title": "SmartCiti.X~ Night Fog and Rail Crossing VR",
+      "tagline": "A placarded tank at night into fog and over the tracks: low beams, a speed inside your sight distance, the window down, the stop the rule requires, both tracks and the far side checked, across in one gear",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters tank and hazmat freight at night: fog, lights and railroad crossings under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes night operation, extreme driving conditions and railroad-highway grade crossings; 49 CFR 383 for the skills test; 49 CFR 392 for driving a commercial motor vehicle, including the stop a hazmat cargo tank must make at a rail crossing and the no-shifting rule on the tracks; 49 CFR 393 for headlamps and lamps; PHMSA 49 CFR 177 for the shipping papers' place in the cab; 49 CFR 395 for the duty status; the state CDL handbook's night, fog and railroad-crossing guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#9aa8ff",
+      "parSeconds": 320,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "turn",
+        "gauge",
+        "hold",
+        "find",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "one-gear-across",
+        "name": "One Gear Across",
+        "note": "Lights right for the fog, the stop in the band, both tracks looked for and across without a shift — first time"
+      },
+      "meshes": 265,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Crossing",
+      "currency": "RAIL",
+      "ranks": [
+        "Permit Holder",
+        "Night Trainee",
+        "Tank Driver",
+        "Hazmat Lead",
+        "Crossing Certified"
+      ],
+      "awards": [
+        {
+          "id": "low-beams",
+          "name": "Low Beams",
+          "note": "All three drives with every check on time"
+        },
+        {
+          "id": "never-on-the-tracks",
+          "name": "Never on the Tracks",
+          "note": "Never used high beams in fog, raced the train, stopped on the tracks or reached for the phone"
+        },
+        {
+          "id": "sight-distance",
+          "name": "Inside Sight Distance",
+          "note": "Every drive and the fog speed held in band with no excursion"
+        },
+        {
+          "id": "clean-night",
+          "name": "Clean Night",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "fifteen-to-fifty",
+          "name": "Fifteen to Fifty",
+          "note": "The stop point and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-night-fog-and-rail-crossing"
+    },
+    {
+      "app": "smartcity",
       "id": "drive-mountain-grade-and-engine-brake",
       "name": "Mountain Grade and Engine Brake",
       "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
@@ -6767,7 +6852,7 @@
         "name": "Low Gear First",
         "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
       },
-      "meshes": 266,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "320",
@@ -25768,7 +25853,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 247,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26428,7 +26513,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",
