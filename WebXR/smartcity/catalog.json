@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -281,6 +281,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-dredge-spoils-dewatering-pad",
         "drum-sampling-and-overpack",
         "mobile-air-lab",
         "opacity-reading",
@@ -6729,6 +6730,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad",
+      "name": "Dredge Spoils Dewatering Pad",
+      "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+      "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+      "union": null,
+      "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+      "accent": "#b98a4e",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "nothing-back-unfiltered",
+        "name": "Nothing Back Unfiltered",
+        "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+      },
+      "meshes": 212,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D1",
+      "flat": false,
+      "system": "Decant Control",
+      "currency": "CELL",
+      "ranks": [
+        "Pad Hand",
+        "Decant Tender",
+        "Pad Lead",
+        "Rehandle Foreman",
+        "Decant Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "liner-first",
+          "name": "Liner First",
+          "note": "The work plan read and the liner and berm walked clean before anything was rehandled"
+        },
+        {
+          "id": "never-around-the-train",
+          "name": "Never Around The Train",
+          "note": "Never a bypass, never a boot on the spoils, never a walk through the swing"
+        },
+        {
+          "id": "freeboard-true",
+          "name": "Freeboard True",
+          "note": "Sump and free-liquid readings both committed inside their bands"
+        },
+        {
+          "id": "clean-pad",
+          "name": "Clean Pad",
+          "note": "No corrections from the work plan to the check-in"
+        },
+        {
+          "id": "steady-rehandle",
+          "name": "Steady Rehandle",
+          "note": "The rehandle call held in band the whole time"
+        },
+        {
+          "id": "cell-drained",
+          "name": "Cell Drained",
+          "note": "Pad logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-dredge-spoils-dewatering-pad"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25598,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 238,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26174,7 +26258,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

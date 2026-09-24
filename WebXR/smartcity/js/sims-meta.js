@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-dredge-spoils-dewatering-pad",
+    "index": "BR-D1",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+    "name": "Dredge Spoils Dewatering Pad",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+    "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+    "accent": 12159566,
+    "accentCss": "#b98a4e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-unfiltered",
+      "name": "Nothing Back Unfiltered",
+      "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decant Control",
+      "currency": "CELL",
+      "ranks": [
+        "Pad Hand",
+        "Decant Tender",
+        "Pad Lead",
+        "Rehandle Foreman",
+        "Decant Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
