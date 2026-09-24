@@ -14224,5 +14224,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-underwater-debris-survey-and-mapping",
+    "index": "320",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a surface-supplied debris survey for a Bay restoration removal plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver, termination of the dive) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; hazardous debris handled per the work plan",
+    "name": "Underwater Debris Survey & Mapping",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Debris Survey & Mapping VR",
+    "tagline": "On the bottom before anything is lifted: on-bottom report, the baseline's bearing set, the tape run out to the far stake, the baseline swum steady while the silt blows out the visibility, the drum and the battery found and left alone, the offset read, the item floated and written up, the rebar and the skiff found, position held while fishing line wraps a fin, the hazards reported for the work plan, the survey bag sent up and the map read up for the dive log",
+    "accent": 8378024,
+    "accentCss": "#7fd6a8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "mapped-not-moved",
+      "name": "Mapped, Not Moved",
+      "note": "Every item placed on the baseline and written up, and nothing hazardous touched, lifted or opened on the bottom"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Debris Survey",
+      "currency": "CHAINAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Debris Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-underwater-sediment-core-sampling",
+    "index": "321",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver taking push cores of Bay sediment for a restoration's sampling plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, termination of the dive), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan; the sediment handled per the sampling and work plans",
+    "name": "Underwater Sediment Core Sampling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Sediment Core Sampling VR",
+    "tagline": "On the bottom at the sampling station: on-bottom report, the cable and the buried metal found, the tube carried to a clear spot, the core pushed steady while the gas supply stops, the top capped before the bottom, the core drawn out while the supervisor calls a recall, the recovery read, the core labelled and latched in the rack, yourself checked for contamination, the rack sent up the downline and the core log read up for the chain of custody",
+    "accent": 13215850,
+    "accentCss": "#c9a86a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-core",
+      "name": "Clean Core",
+      "note": "A full, capped, labelled core from a clear spot, the bailout used without a pause and never a bare hand in the mud"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Core Sampling",
+      "currency": "CORE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Sampling Diver",
+        "Lead Sampling Diver",
+        "Core Sampling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
