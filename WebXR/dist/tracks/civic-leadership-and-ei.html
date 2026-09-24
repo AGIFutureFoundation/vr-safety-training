@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Civic Leadership and Emotional Intelligence — training track</title>
+<meta name="description" content="Civic Leadership and Emotional Intelligence: a twenty-level training track, 1549 lessons across 11 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#c9a34a">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 11 stations · 20 levels · 1549 lessons</p>
+    <h1>Civic Leadership and Emotional Intelligence</h1>
+    <p class="union">SEIU and AFSCME public-service staff, the trades&#39; own apprenticeship coordinators, and community organisations that train residents for public life</p>
+    <p class="cert">The Brown Act and public-meeting law, the Political Reform Act&#39;s conflict-of-interest rules, the city charter&#39;s ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify</p>
+    <p class="summary">Ten stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1549</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing">Civic Principles Briefing <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep">Public Comment Prep <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table">Coalition Building Table <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session">Community Listening Session <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room">Conflict Mediation Room <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium">Crisis Communication Podium <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=day">Civic Principles Briefing <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=day">Public Comment Prep <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=day">Coalition Building Table <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=day">Community Listening Session <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=day">Conflict Mediation Room <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=day">Crisis Communication Podium <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing">Civic Principles Briefing <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep">Public Comment Prep <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table">Coalition Building Table <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session">Community Listening Session <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room">Conflict Mediation Room <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium">Crisis Communication Podium <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=dusk">Civic Principles Briefing <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=dusk">Public Comment Prep <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=dusk">Coalition Building Table <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=dusk">Community Listening Session <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=dusk">Conflict Mediation Room <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=dusk">Crisis Communication Podium <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=day">Civic Principles Briefing <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=day">Public Comment Prep <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=day">Coalition Building Table <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session">Community Listening Session <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room">Conflict Mediation Room <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium">Crisis Communication Podium <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=dusk">Civic Principles Briefing <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=dusk">Public Comment Prep <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=dusk">Coalition Building Table <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=dusk">Community Listening Session <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=dusk">Conflict Mediation Room <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=rain">Crisis Communication Podium <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=day">Public Comment Prep <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=day">Coalition Building Table <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=day">Community Listening Session <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=day">Conflict Mediation Room <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=day">Crisis Communication Podium <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=day">Ethics and Conflict of Interest <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;time=dusk">Public Comment Prep <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=dusk">Coalition Building Table <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=dusk">Community Listening Session <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=dusk">Conflict Mediation Room <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=fog">Crisis Communication Podium <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=dusk">Ethics and Conflict of Interest <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=day">Coalition Building Table <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=day">Community Listening Session <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=day">Conflict Mediation Room <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=day">Crisis Communication Podium <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=day">Ethics and Conflict of Interest <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;time=day">Mentorship and Succession <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=coalition-building-table&amp;time=dusk">Coalition Building Table <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;time=dusk">Community Listening Session <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=dusk">Conflict Mediation Room <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=smoke">Crisis Communication Podium <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=dusk">Ethics and Conflict of Interest <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;time=dusk">Mentorship and Succession <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=community-listening-session&amp;hazard=assess">Community Listening Session <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;hazard=assess">Conflict Mediation Room <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;hazard=assess">Crisis Communication Podium <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;hazard=assess">Ethics and Conflict of Interest <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;hazard=assess">Mentorship and Succession <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;hazard=assess">Public Meeting Chair <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;interrupt=recording-attempt">Conflict Mediation Room <span class="chip interrupt">interruption: recording attempt</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;interrupt=rumour-shouted">Crisis Communication Podium <span class="chip interrupt">interruption: rumour shouted</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=applicant-in-hallway">Ethics and Conflict of Interest <span class="chip interrupt">interruption: applicant in hallway</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=shadow-chair-offer">Mentorship and Succession <span class="chip interrupt">interruption: shadow chair offer</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=side-conversation-on-dais">Public Meeting Chair <span class="chip interrupt">interruption: side conversation on dais</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=revised-sheet-to-three">Budget Tradeoff Hearing <span class="chip interrupt">interruption: revised sheet to three</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=conflict-mediation-room&amp;hazard=assess">Conflict Mediation Room <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;hazard=assess">Crisis Communication Podium <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;hazard=assess">Ethics and Conflict of Interest <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;hazard=assess">Mentorship and Succession <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;hazard=assess">Public Meeting Chair <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;hazard=assess">Budget Tradeoff Hearing <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;interrupt=zone-widens">Crisis Communication Podium <span class="chip interrupt">interruption: zone widens</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=staffer-knocks">Ethics and Conflict of Interest <span class="chip interrupt">interruption: staffer knocks</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=successor-freezes">Mentorship and Succession <span class="chip interrupt">interruption: successor freezes</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=gallery-outburst">Public Meeting Chair <span class="chip interrupt">interruption: gallery outburst</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=steward-rises">Budget Tradeoff Hearing <span class="chip interrupt">interruption: steward rises</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=member-office-calls">Constituent Service Desk <span class="chip interrupt">interruption: member office calls</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=rain">Crisis Communication Podium <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=day">Ethics and Conflict of Interest <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;time=day">Mentorship and Succession <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=side-conversation-on-dais">Public Meeting Chair <span class="chip interrupt">interruption: side conversation on dais</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;time=day">Budget Tradeoff Hearing <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=queue-filming">Constituent Service Desk <span class="chip interrupt">interruption: queue filming</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;hazard=assess">Crisis Communication Podium <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=dusk">Ethics and Conflict of Interest <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;hazard=assess">Mentorship and Succession <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=gallery-outburst">Public Meeting Chair <span class="chip interrupt">interruption: gallery outburst</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;time=dusk">Budget Tradeoff Hearing <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=member-office-calls">Constituent Service Desk <span class="chip interrupt">interruption: member office calls</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=fog">Crisis Communication Podium <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;hazard=assess">Ethics and Conflict of Interest <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=shadow-chair-offer">Mentorship and Succession <span class="chip interrupt">interruption: shadow chair offer</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;hazard=assess">Public Meeting Chair <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=revised-sheet-to-three">Budget Tradeoff Hearing <span class="chip interrupt">interruption: revised sheet to three</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=queue-filming">Constituent Service Desk <span class="chip interrupt">interruption: queue filming</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=storm">Crisis Communication Podium <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=applicant-in-hallway">Ethics and Conflict of Interest <span class="chip interrupt">interruption: applicant in hallway</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;hazard=assess">Mentorship and Succession <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;time=day">Public Meeting Chair <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=steward-rises">Budget Tradeoff Hearing <span class="chip interrupt">interruption: steward rises</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;time=day">Constituent Service Desk <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=dusk">Crisis Communication Podium <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=staffer-knocks">Ethics and Conflict of Interest <span class="chip interrupt">interruption: staffer knocks</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=successor-freezes">Mentorship and Succession <span class="chip interrupt">interruption: successor freezes</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;hazard=assess">Public Meeting Chair <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;time=day">Budget Tradeoff Hearing <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk">Constituent Service Desk <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-communication-podium&amp;variant=assessment">Crisis Communication Podium <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;variant=assessment">Ethics and Conflict of Interest <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mentorship-and-succession&amp;variant=assessment">Mentorship and Succession <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-meeting-chair&amp;variant=assessment">Public Meeting Chair <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;variant=assessment">Budget Tradeoff Hearing <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=constituent-service-desk&amp;variant=assessment">Constituent Service Desk <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=civic-leadership-and-ei&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f2c14b">
+          <img class="shot" src="img/public-comment-prep.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Public Comment Prep</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The shared opener: standing up in public with a case that is sourced, timed and respectful is the first civic skill every station here builds on.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=public-comment-prep"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=public-comment-prep&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=public-comment-prep&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=public-comment-prep">Launch Public Comment Prep</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c9a34a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Civic Principles Briefing</h3>
+            <p class="st-meta">10 steps · 5 hazards · 0 interruptions · par 5.3 min</p>
+            <p class="why">The briefing before the stations: the eight principles stated honestly, the decision framework they hang on, and the open-meeting, disclosure and access law every station after it assumes.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=civic-principles-briefing"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5</span> <a href="../smartcity-x.html?sim=civic-principles-briefing&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=civic-principles-briefing">Launch Civic Principles Briefing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c9a34a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Public Meeting Chair</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">Chairing the meeting is where listening first becomes a procedure: every speaker heard to the bell, nothing acted on that was not noticed, and each vote stated aloud.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=public-meeting-chair&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L17, L19</span> <a href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=side-conversation-on-dais"><span class="chip interrupt">interruption: side conversation on dais</span></a><span class="st-meta">L12, L15</span> <a href="../smartcity-x.html?sim=public-meeting-chair&amp;interrupt=gallery-outburst"><span class="chip interrupt">interruption: gallery outburst</span></a><span class="st-meta">L14, L16</span> <a href="../smartcity-x.html?sim=public-meeting-chair&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=public-meeting-chair&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=public-meeting-chair">Launch Public Meeting Chair</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fb3a1">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Constituent Service Desk</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">Keeping your word is learned one resident at a time, at a counter where the only honest promise is a date the office can actually meet.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=member-office-calls"><span class="chip interrupt">interruption: member office calls</span></a><span class="st-meta">L14, L16</span> <a href="../smartcity-x.html?sim=constituent-service-desk&amp;interrupt=queue-filming"><span class="chip interrupt">interruption: queue filming</span></a><span class="st-meta">L15, L17</span> <a href="../smartcity-x.html?sim=constituent-service-desk&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=constituent-service-desk"><span class="chip base">base run</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=constituent-service-desk&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=constituent-service-desk">Launch Constituent Service Desk</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d08a4e">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Coalition Building Table</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">A coalition table is where a leader learns to find the interest behind each position and to count support honestly without carrying votes between officials.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=coalition-building-table"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=coalition-building-table&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7, L9</span> <a href="../smartcity-x.html?sim=coalition-building-table&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8, L10</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=coalition-building-table">Launch Coalition Building Table</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fa7d8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Budget Tradeoff Hearing</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min · indoors</p>
+            <p class="why">Closing a budget gap in front of the people it lands on is the plainest test of spending public money in the open and owning the hard call.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=revised-sheet-to-three"><span class="chip interrupt">interruption: revised sheet to three</span></a><span class="st-meta">L12, L17</span> <a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;interrupt=steward-rises"><span class="chip interrupt">interruption: steward rises</span></a><span class="st-meta">L14, L18</span> <a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15, L19</span> <a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=budget-tradeoff-hearing&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=budget-tradeoff-hearing">Launch Budget Tradeoff Hearing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9b8ad6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Ethics and Conflict of Interest</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">Disclosure, gifts, recusal and the revolving door are where a leader&#39;s word is tested when nobody would have noticed otherwise.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L7, L9, L15</span> <a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8, L10, L16</span> <a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L17</span> <a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=applicant-in-hallway"><span class="chip interrupt">interruption: applicant in hallway</span></a><span class="st-meta">L12, L18</span> <a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;interrupt=staffer-knocks"><span class="chip interrupt">interruption: staffer knocks</span></a><span class="st-meta">L14, L19</span> <a href="../smartcity-x.html?sim=ethics-and-conflict-of-interest&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ethics-and-conflict-of-interest">Launch Ethics and Conflict of Interest</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a24a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Crisis Communication Podium</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">The podium on the worst day asks for every principle at once: confirm before you speak, reach everybody, and correct a mistake in public.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=crisis-communication-podium"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7, L9</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L19</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6, L15</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8, L17</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L16</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;interrupt=rumour-shouted"><span class="chip interrupt">interruption: rumour shouted</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;interrupt=zone-widens"><span class="chip interrupt">interruption: zone widens</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=crisis-communication-podium&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=crisis-communication-podium">Launch Crisis Communication Podium</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fbf73">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Community Listening Session</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">A listening session with nothing to defend is where bringing people in rather than shutting them out is practised as a skill rather than a slogan.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=community-listening-session"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=community-listening-session&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7, L9</span> <a href="../smartcity-x.html?sim=community-listening-session&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8, L10</span> <a href="../smartcity-x.html?sim=community-listening-session&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=community-listening-session">Launch Community Listening Session</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fb0c8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Conflict Mediation Room</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">Mediating between two neighbours trains the emotional intelligence underneath every other station: hear each side whole, take the blame out, and keep the room level.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=conflict-mediation-room"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7, L9</span> <a href="../smartcity-x.html?sim=conflict-mediation-room&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8, L10</span> <a href="../smartcity-x.html?sim=conflict-mediation-room&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=conflict-mediation-room&amp;interrupt=recording-attempt"><span class="chip interrupt">interruption: recording attempt</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=conflict-mediation-room">Launch Conflict Mediation Room</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c98ab0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Mentorship and Succession</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The programme ends where leadership does, with the seat handed on to somebody who can do the job without you.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>California Government Code — The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</li><li>municipal ethics code — A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</li><li>FPPC — The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</li><li>Robert&#39;s Rules — Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mentorship-and-succession&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9, L15</span> <a href="../smartcity-x.html?sim=mentorship-and-succession&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=mentorship-and-succession&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L16, L18</span> <a href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=shadow-chair-offer"><span class="chip interrupt">interruption: shadow chair offer</span></a><span class="st-meta">L12, L17</span> <a href="../smartcity-x.html?sim=mentorship-and-succession&amp;interrupt=successor-freezes"><span class="chip interrupt">interruption: successor freezes</span></a><span class="st-meta">L14, L19</span> <a href="../smartcity-x.html?sim=mentorship-and-succession&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mentorship-and-succession">Launch Mentorship and Succession</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>BAAQMD</td><td>Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</td><td class="n">8 levels</td></tr>
+          <tr><td>California Government Code</td><td>The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public&#39;s right to comment, action only on noticed items, and the bar on serial meetings of a majority</td><td class="n">all 20</td></tr>
+          <tr><td>CDC</td><td>CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</td><td class="n">all 20</td></tr>
+          <tr><td>DOJ</td><td>Americans with Disabilities Act Title II — programme accessibility for public entities and their services</td><td class="n">all 20</td></tr>
+          <tr><td>FEMA</td><td>FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</td><td class="n">all 20</td></tr>
+          <tr><td>FPPC</td><td>The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting</td><td class="n">all 20</td></tr>
+          <tr><td>municipal ethics code</td><td>A city or county ethics code and the charter&#39;s ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction&#39;s sections cited</td><td class="n">all 20</td></tr>
+          <tr><td>NCTSN</td><td>Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</td><td class="n">all 20</td></tr>
+          <tr><td>NIMS/ICS</td><td>NIMS incident command system — the structure a multi-agency response runs inside</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</td><td class="n">8 levels</td></tr>
+          <tr><td>Robert&#39;s Rules</td><td>Robert&#39;s Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law</td><td class="n">all 20</td></tr>
+          <tr><td>SAMHSA</td><td>SAMHSA&#39;s six principles of a trauma-informed approach</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>AFSCME member education and safety training for public-service and air-district members</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Lead in public: listen, decide, own the call, and run a meeting people trust</h3>
+        <p>Demonstrated with a mastery run on 6 of its 11 stations, against SAMHSA Concept of Trauma and Guidance for a Trauma-Informed Approach; FEMA NIMS/ICS foundation, IS-100 and IS-700.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: The Brown Act and public-meeting law, the Political Reform Act&#39;s conflict-of-interest rules, the city charter&#39;s ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -29,6 +29,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { tracksSection } from "./gen_tracks.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -616,6 +617,8 @@ ${apps}
 ${rails}
     </div>
   </section>
+
+${tracksSection(catalog, layoutName)}
 
   <div id="catalog">
 ${sections}

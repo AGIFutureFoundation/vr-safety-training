@@ -23,7 +23,7 @@
  */
 
 /** Small deterministic PRNG, so a seed always produces the same variant. */
-function rng(seed) {
+function variantRng(seed) {
   let s = (typeof seed === "string"
     ? [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7)
     : (seed >>> 0)) || 1;
@@ -67,7 +67,7 @@ export function findLevel(id) {
 export function makeVariant(base, { seed = Date.now(), level = "assessment" } = {}) {
   if (!base?.steps?.length) return null;
   const lv = findLevel(level);
-  const rand = rng(`${base.id}:${seed}:${lv.id}`);
+  const rand = variantRng(`${base.id}:${seed}:${lv.id}`);
 
   const steps = base.steps.map((step) => {
     const out = { ...step };

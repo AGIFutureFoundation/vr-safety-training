@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Working at Height — Fall Protection — training track</title>
+<meta name="description" content="Working at Height — Fall Protection: a twenty-level training track, 1480 lessons across 6 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#f2c14b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 6 stations · 20 levels · 1480 lessons</p>
+    <h1>Working at Height — Fall Protection</h1>
+    <p class="union">Ironworkers, Carpenters, CWA and NATE climbers</p>
+    <p class="cert">OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems</p>
+    <p class="summary">Anchor, connect, and the thing you are standing on. Four heights, four different reasons the system has to be right before the first step off the deck.</p>
+    <div class="stats">
+      <div class="stat warn"><b>0 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1480</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat warn"><b>1</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>20 of 20 levels are partial</b> — 20 lessons short in total. About <b>1 more station</b> of 13 steps would bring every level to 75; content teams write them, and nothing on this page is padded to hide the gap.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul">Microwave Backhaul <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector">Steel Erector <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb">Tower Climb <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection">Scaffold Erection <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder">Aerial Ladder <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline">Leading Edge &amp; Horizontal Lifeline <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=day">Microwave Backhaul <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=day">Steel Erector <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;time=day">Tower Climb <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;time=day">Scaffold Erection <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=day">Aerial Ladder <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=day">Leading Edge &amp; Horizontal Lifeline <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul">Microwave Backhaul <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector">Steel Erector <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb">Tower Climb <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection">Scaffold Erection <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder">Aerial Ladder <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline">Leading Edge &amp; Horizontal Lifeline <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=dusk">Microwave Backhaul <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=dusk">Steel Erector <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;time=dusk">Tower Climb <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;time=dusk">Scaffold Erection <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=dusk">Aerial Ladder <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=dusk">Leading Edge &amp; Horizontal Lifeline <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=day">Microwave Backhaul <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=day">Steel Erector <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb">Tower Climb <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection">Scaffold Erection <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=day">Aerial Ladder <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline">Leading Edge &amp; Horizontal Lifeline <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=rain">Microwave Backhaul <span class="chip weather">rain</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;weather=rain">Steel Erector <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;time=dusk">Tower Climb <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;time=dusk">Scaffold Erection <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;weather=rain">Aerial Ladder <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=dusk">Leading Edge &amp; Horizontal Lifeline <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=day">Microwave Backhaul <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=day">Steel Erector <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;weather=wind">Tower Climb <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=wind">Scaffold Erection <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;weather=wind">Aerial Ladder <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=day">Leading Edge &amp; Horizontal Lifeline <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=dusk">Microwave Backhaul <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=dusk">Steel Erector <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;weather=fog">Tower Climb <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=fog">Scaffold Erection <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;weather=fog">Aerial Ladder <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=dusk">Leading Edge &amp; Horizontal Lifeline <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=storm">Microwave Backhaul <span class="chip weather">storm</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;weather=storm">Steel Erector <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;weather=storm">Tower Climb <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;time=day">Scaffold Erection <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=day">Aerial Ladder <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=day">Leading Edge &amp; Horizontal Lifeline <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=smoke">Microwave Backhaul <span class="chip weather">wildfire smoke</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;weather=overcast">Steel Erector <span class="chip weather">overcast</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;weather=smoke">Tower Climb <span class="chip weather">wildfire smoke</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=rain">Scaffold Erection <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=dusk">Aerial Ladder <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;weather=rain">Leading Edge &amp; Horizontal Lifeline <span class="chip weather">rain</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;hazard=assess">Microwave Backhaul <span class="chip hazard">hazard mode</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;hazard=assess">Steel Erector <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;hazard=assess">Tower Climb <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;hazard=assess">Scaffold Erection <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;hazard=assess">Aerial Ladder <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;hazard=assess">Leading Edge &amp; Horizontal Lifeline <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;interrupt=noc-recheck-pan">Microwave Backhaul <span class="chip interrupt">interruption: noc recheck pan</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;interrupt=load-drifting">Steel Erector <span class="chip interrupt">interruption: load drifting</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;interrupt=tool-adrift">Tower Climb <span class="chip interrupt">interruption: tool adrift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;interrupt=gust-on-the-lift">Scaffold Erection <span class="chip interrupt">interruption: gust on the lift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=pad-sinking">Aerial Ladder <span class="chip interrupt">interruption: pad sinking</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;interrupt=welding-over-line">Leading Edge &amp; Horizontal Lifeline <span class="chip interrupt">interruption: welding over line</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;hazard=assess">Microwave Backhaul <span class="chip hazard">hazard mode</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;hazard=assess">Steel Erector <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;hazard=assess">Tower Climb <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;hazard=assess">Scaffold Erection <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;hazard=assess">Aerial Ladder <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;hazard=assess">Leading Edge &amp; Horizontal Lifeline <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;interrupt=gust-drift-pan">Microwave Backhaul <span class="chip interrupt">interruption: gust drift pan</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;interrupt=hole-uncovered">Steel Erector <span class="chip interrupt">interruption: hole uncovered</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;interrupt=crew-under-drop">Tower Climb <span class="chip interrupt">interruption: crew under drop</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;interrupt=ground-soaked">Scaffold Erection <span class="chip interrupt">interruption: ground soaked</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=gust-rock">Aerial Ladder <span class="chip interrupt">interruption: gust rock</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;interrupt=bundle-over-edge">Leading Edge &amp; Horizontal Lifeline <span class="chip interrupt">interruption: bundle over edge</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=rain">Microwave Backhaul <span class="chip weather">rain</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;interrupt=load-drifting">Steel Erector <span class="chip interrupt">interruption: load drifting</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;time=day">Tower Climb <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=rain">Scaffold Erection <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=pad-sinking">Aerial Ladder <span class="chip interrupt">interruption: pad sinking</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;weather=wind">Leading Edge &amp; Horizontal Lifeline <span class="chip weather">high wind</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;hazard=assess">Microwave Backhaul <span class="chip hazard">hazard mode</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=dusk">Steel Erector <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;interrupt=tool-adrift">Tower Climb <span class="chip interrupt">interruption: tool adrift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;hazard=assess">Scaffold Erection <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=gust-rock">Aerial Ladder <span class="chip interrupt">interruption: gust rock</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=dusk">Leading Edge &amp; Horizontal Lifeline <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=fog">Microwave Backhaul <span class="chip weather">fog</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;hazard=assess">Steel Erector <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;interrupt=crew-under-drop">Tower Climb <span class="chip interrupt">interruption: crew under drop</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=fog">Scaffold Erection <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=pad-sinking">Aerial Ladder <span class="chip interrupt">interruption: pad sinking</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;hazard=assess">Leading Edge &amp; Horizontal Lifeline <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=storm">Microwave Backhaul <span class="chip weather">storm</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;interrupt=hole-uncovered">Steel Erector <span class="chip interrupt">interruption: hole uncovered</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;hazard=assess">Tower Climb <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;time=day">Scaffold Erection <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;weather=storm">Aerial Ladder <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;interrupt=welding-over-line">Leading Edge &amp; Horizontal Lifeline <span class="chip interrupt">interruption: welding over line</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;time=dusk">Microwave Backhaul <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;interrupt=load-drifting">Steel Erector <span class="chip interrupt">interruption: load drifting</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;interrupt=tool-adrift">Tower Climb <span class="chip interrupt">interruption: tool adrift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;weather=rain">Scaffold Erection <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;time=day">Aerial Ladder <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline">Leading Edge &amp; Horizontal Lifeline <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>74</b> lessons · 6 tasks</span><span class="flag warn">partial · 1 lessons short</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=microwave-backhaul&amp;variant=assessment">Microwave Backhaul <span class="chip variant">assessment variant</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;variant=assessment">Steel Erector <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tower-climb&amp;variant=assessment">Tower Climb <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=scaffold-erection&amp;variant=assessment">Scaffold Erection <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=aerial-ladder&amp;variant=assessment">Aerial Ladder <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;variant=assessment">Leading Edge &amp; Horizontal Lifeline <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=fall-protection&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f0a63a">
+          <img class="shot" src="img/scaffold-erection.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Scaffold Erection</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.2 min</p>
+            <p class="why">Building the platform: the order in which a scaffold becomes safe to stand on, and the green tag that says so.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP A10.8 — Scaffolding safety requirements</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1926.451 — Scaffolds, general requirements</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=scaffold-erection"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L9, L18</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8, L17</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10, L15, L19</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L16</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;interrupt=gust-on-the-lift"><span class="chip interrupt">interruption: gust on the lift</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;interrupt=ground-soaked"><span class="chip interrupt">interruption: ground soaked</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=scaffold-erection&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=scaffold-erection">Launch Scaffold Erection</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ffcc00">
+          <img class="shot" src="img/steel-erector.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Steel Erector</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 3.9 min</p>
+            <p class="why">Connecting steel, where the anchor moves with the work and the decking is not yet there.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>ASME — ASME B30.5 — Mobile and locomotive cranes</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=steel-erector"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=steel-erector&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=steel-erector&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L8, L16</span> <a href="../smartcity-x.html?sim=steel-erector&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=steel-erector&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=steel-erector&amp;weather=overcast"><span class="chip weather">overcast</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=steel-erector&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L17</span> <a href="../smartcity-x.html?sim=steel-erector&amp;interrupt=load-drifting"><span class="chip interrupt">interruption: load drifting</span></a><span class="st-meta">L12, L15, L19</span> <a href="../smartcity-x.html?sim=steel-erector&amp;interrupt=hole-uncovered"><span class="chip interrupt">interruption: hole uncovered</span></a><span class="st-meta">L14, L18</span> <a href="../smartcity-x.html?sim=steel-erector&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=steel-erector">Launch Steel Erector</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ff7a1a">
+          <img class="shot" src="img/tower-climb.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>Tower Climb</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4 min</p>
+            <p class="why">A climb with a hundred metres under it: the transitions are where people fall.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>union — CWA member training for outside-plant, tower and broadcast work</li><li>FCC — FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NATE — NATE tower climber fall-protection and climber safety training</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tower-climb"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=tower-climb&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L15</span> <a href="../smartcity-x.html?sim=tower-climb&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span> <a href="../smartcity-x.html?sim=tower-climb&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=tower-climb&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=tower-climb&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=tower-climb&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=tower-climb&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L18</span> <a href="../smartcity-x.html?sim=tower-climb&amp;interrupt=tool-adrift"><span class="chip interrupt">interruption: tool adrift</span></a><span class="st-meta">L12, L16, L19</span> <a href="../smartcity-x.html?sim=tower-climb&amp;interrupt=crew-under-drop"><span class="chip interrupt">interruption: crew under drop</span></a><span class="st-meta">L14, L17</span> <a href="../smartcity-x.html?sim=tower-climb&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tower-climb">Launch Tower Climb</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fd3c8">
+          <img class="shot" src="img/microwave-backhaul.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>Microwave Backhaul</h3>
+            <p class="st-meta">11 steps · 4 hazards · 2 interruptions · par 4.2 min</p>
+            <p class="why">A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath.</p>
+            <ul class="st-std"><li>union — CWA member training for outside-plant, tower and broadcast work</li><li>FCC — FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NATE — NATE tower climber fall-protection and climber safety training</li><li>OSHA — 29 CFR 1910.268 — Telecommunications</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=microwave-backhaul"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L8, L19</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6, L15</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9, L18</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L16</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;interrupt=noc-recheck-pan"><span class="chip interrupt">interruption: noc recheck pan</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;interrupt=gust-drift-pan"><span class="chip interrupt">interruption: gust drift pan</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=microwave-backhaul&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=microwave-backhaul">Launch Microwave Backhaul</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d2312b">
+          <img class="shot" src="img/aerial-ladder.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Aerial Ladder</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.3 min</p>
+            <p class="why">An aerial device, where the platform is the thing that has to be set level before anyone is on it.</p>
+            <ul class="st-std"><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1002 — Fire Apparatus Driver/Operator Professional Qualifications</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NFPA — NFPA 1901 — Automotive Fire Apparatus (now consolidated in the NFPA 1900 series)</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=aerial-ladder"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L9, L19</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L10</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=pad-sinking"><span class="chip interrupt">interruption: pad sinking</span></a><span class="st-meta">L12, L15, L17</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;interrupt=gust-rock"><span class="chip interrupt">interruption: gust rock</span></a><span class="st-meta">L14, L16</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=aerial-ladder&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=aerial-ladder">Launch Aerial Ladder</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Leading Edge &amp; Horizontal Lifeline</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person&#39;s design before anyone clips on.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>ASME — ASME B30.5 — Mobile and locomotive cranes</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1926.501 — Duty to have fall protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5, L19</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7, L9</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8, L16</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L17</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;interrupt=welding-over-line"><span class="chip interrupt">interruption: welding over line</span></a><span class="st-meta">L12, L18</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;interrupt=bundle-over-edge"><span class="chip interrupt">interruption: bundle over edge</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=leading-edge-and-horizontal-lifeline">Launch Leading Edge &amp; Horizontal Lifeline</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ASSP A10.8 — Scaffolding safety requirements</td><td class="n">all 20</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ASSP Z359 — Fall Protection Code</td><td class="n">all 20</td></tr>
+          <tr><td>ASME</td><td>ASME B30.5 — Mobile and locomotive cranes</td><td class="n">all 20</td></tr>
+          <tr><td>FCC</td><td>FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)</td><td class="n">all 20</td></tr>
+          <tr><td>NATE</td><td>NATE tower climber fall-protection and climber safety training</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1002 — Fire Apparatus Driver/Operator Professional Qualifications</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1901 — Automotive Fire Apparatus (now consolidated in the NFPA 1900 series)</td><td class="n">all 20</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.268 — Telecommunications</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.451 — Scaffolds, general requirements</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.501 — Duty to have fall protection</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.502 — Fall protection systems criteria and practices</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>CWA member training for outside-plant, tower and broadcast work</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>IAFF training programmes, including Fire Ground Survival and the peer support model</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Work at height on a fall-arrest system the worker has proven</h3>
+        <p>Demonstrated with a mastery run on 3 of its 6 stations, against OSHA 29 CFR 1926 Subpart M Fall protection; OSHA 29 CFR 1926 Subpart L Scaffolds; ANSI/ASSP Z359 Fall Protection Code.</p>
+        <p>These stations also count toward:</p><ul><li>Fall Protection <span class="st-meta">(5 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

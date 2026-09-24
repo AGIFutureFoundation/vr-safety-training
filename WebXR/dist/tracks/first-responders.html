@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>First Responders — Fire, EMS, Police, Crisis and Relief — training track</title>
+<meta name="description" content="First Responders — Fire, EMS, Police, Crisis and Relief: a twenty-level training track, 1705 lessons across 16 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#f0645b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 16 stations · 20 levels · 1705 lessons</p>
+    <h1>First Responders — Fire, EMS, Police, Crisis and Relief</h1>
+    <p class="union">IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce</p>
+    <p class="cert">NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International&#39;s crisis intervention model, the NASW Code of Ethics and SAMHSA&#39;s trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030</p>
+    <p class="summary">Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew&#39;s own check-in and the peer-support line the department uses.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1705</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=triage-point">Triage Point <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=psychological-first-aid">Psychological First Aid <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone">Overdose Response — Naloxone <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector">Firefighter Rehab Sector <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew">Cardiac Arrest — Pit Crew <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup">Structure Fire Size-Up <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=triage-point&amp;time=day">Triage Point <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=psychological-first-aid&amp;time=day">Psychological First Aid <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=day">Overdose Response — Naloxone <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=day">Firefighter Rehab Sector <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=day">Cardiac Arrest — Pit Crew <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=day">Structure Fire Size-Up <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=triage-point">Triage Point <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=psychological-first-aid">Psychological First Aid <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone">Overdose Response — Naloxone <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector">Firefighter Rehab Sector <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew">Cardiac Arrest — Pit Crew <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup">Structure Fire Size-Up <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=triage-point&amp;time=dusk">Triage Point <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=psychological-first-aid&amp;time=dusk">Psychological First Aid <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=dusk">Overdose Response — Naloxone <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=dusk">Firefighter Rehab Sector <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=dusk">Cardiac Arrest — Pit Crew <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=dusk">Structure Fire Size-Up <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=psychological-first-aid&amp;time=day">Psychological First Aid <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=day">Overdose Response — Naloxone <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=day">Firefighter Rehab Sector <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew">Cardiac Arrest — Pit Crew <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup">Structure Fire Size-Up <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface">Wildland-Urban Interface <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>25 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=dusk">Overdose Response — Naloxone <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;weather=rain">Firefighter Rehab Sector <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=dusk">Cardiac Arrest — Pit Crew <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=dusk">Structure Fire Size-Up <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;time=dusk">Wildland-Urban Interface <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;time=dusk">Damage Assessment Team <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=day">Overdose Response — Naloxone <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=day">Firefighter Rehab Sector <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=day">Cardiac Arrest — Pit Crew <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;weather=wind">Structure Fire Size-Up <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=wind">Wildland-Urban Interface <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=wind">Damage Assessment Team <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=dusk">Firefighter Rehab Sector <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=dusk">Cardiac Arrest — Pit Crew <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=dusk">Structure Fire Size-Up <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=fog">Wildland-Urban Interface <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=fog">Damage Assessment Team <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;time=dusk">Shelter Intake Operations <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>85</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=day">Cardiac Arrest — Pit Crew <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=day">Structure Fire Size-Up <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;time=day">Wildland-Urban Interface <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=storm">Damage Assessment Team <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;time=day">Shelter Intake Operations <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;weather=storm">Ambulance Scene Safety <span class="chip weather">storm</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>22 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=structure-fire-sizeup&amp;weather=smoke">Structure Fire Size-Up <span class="chip weather">wildfire smoke</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=overcast">Wildland-Urban Interface <span class="chip weather">overcast</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=smoke">Damage Assessment Team <span class="chip weather">wildfire smoke</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;time=dusk">Shelter Intake Operations <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;time=dusk">Ambulance Scene Safety <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=dusk">Critical Incident Debrief <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>25 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wildland-urban-interface&amp;hazard=assess">Wildland-Urban Interface <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;hazard=assess">Damage Assessment Team <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;hazard=assess">Shelter Intake Operations <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;hazard=assess">Ambulance Scene Safety <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;hazard=assess">Critical Incident Debrief <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;hazard=assess">Crisis Intervention Call <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;interrupt=downed-line-energized">Damage Assessment Team <span class="chip interrupt">interruption: downed line energized</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;interrupt=resident-no-id">Shelter Intake Operations <span class="chip interrupt">interruption: resident no id</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;interrupt=car-crosses-cone-line">Ambulance Scene Safety <span class="chip interrupt">interruption: car crosses cone line</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;interrupt=supervisor-wants-the-report">Critical Incident Debrief <span class="chip interrupt">interruption: supervisor wants the report</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=object-picked-up-partner-closes">Crisis Intervention Call <span class="chip interrupt">interruption: object picked up partner closes</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=second-line-rings">Crisis Line Shift <span class="chip interrupt">interruption: second line rings</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=damage-assessment-team&amp;hazard=assess">Damage Assessment Team <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;hazard=assess">Shelter Intake Operations <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;hazard=assess">Ambulance Scene Safety <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;hazard=assess">Critical Incident Debrief <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;hazard=assess">Crisis Intervention Call <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;hazard=assess">Crisis Line Shift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>88</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-intake-operations&amp;interrupt=fire-alarm-test">Shelter Intake Operations <span class="chip interrupt">interruption: fire alarm test</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;interrupt=partner-freezes">Ambulance Scene Safety <span class="chip interrupt">interruption: partner freezes</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;interrupt=reaching-for-the-keys">Critical Incident Debrief <span class="chip interrupt">interruption: reaching for the keys</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=neighbour-shouting-advice">Crisis Intervention Call <span class="chip interrupt">interruption: neighbour shouting advice</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=caller-goes-silent">Crisis Line Shift <span class="chip interrupt">interruption: caller goes silent</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;interrupt=car-into-the-taper">Traffic Incident Management <span class="chip interrupt">interruption: car into the taper</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>19 standards evidenced</span><a href="../smartcity-x.html?programme=first-responders&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ambulance-scene-safety&amp;weather=rain">Ambulance Scene Safety <span class="chip weather">rain</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=day">Critical Incident Debrief <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;weather=rain">Crisis Intervention Call <span class="chip weather">rain</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=second-line-rings">Crisis Line Shift <span class="chip interrupt">interruption: second line rings</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;weather=wind">Traffic Incident Management <span class="chip weather">high wind</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;interrupt=client-dissociates">Trauma-Informed Intake <span class="chip interrupt">interruption: client dissociates</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=dusk">Critical Incident Debrief <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;hazard=assess">Crisis Intervention Call <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=caller-goes-silent">Crisis Line Shift <span class="chip interrupt">interruption: caller goes silent</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;time=dusk">Traffic Incident Management <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;interrupt=colleague-opens-door">Trauma-Informed Intake <span class="chip interrupt">interruption: colleague opens door</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=home-visit-safety&amp;hazard=assess">Home Visit Safety <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;interrupt=supervisor-wants-the-report">Critical Incident Debrief <span class="chip interrupt">interruption: supervisor wants the report</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;weather=fog">Crisis Intervention Call <span class="chip weather">fog</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=second-line-rings">Crisis Line Shift <span class="chip interrupt">interruption: second line rings</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;interrupt=driver-toward-the-lane">Traffic Incident Management <span class="chip interrupt">interruption: driver toward the lane</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;hazard=assess">Trauma-Informed Intake <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=home-visit-safety&amp;interrupt=second-adult-arrives">Home Visit Safety <span class="chip interrupt">interruption: second adult arrives</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=day">Critical Incident Debrief <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=object-picked-up-partner-closes">Crisis Intervention Call <span class="chip interrupt">interruption: object picked up partner closes</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;hazard=assess">Crisis Line Shift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;time=day">Traffic Incident Management <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;interrupt=client-dissociates">Trauma-Informed Intake <span class="chip interrupt">interruption: client dissociates</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=home-visit-safety&amp;weather=storm">Home Visit Safety <span class="chip weather">storm</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=dusk">Critical Incident Debrief <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=neighbour-shouting-advice">Crisis Intervention Call <span class="chip interrupt">interruption: neighbour shouting advice</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=caller-goes-silent">Crisis Line Shift <span class="chip interrupt">interruption: caller goes silent</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;weather=rain">Traffic Incident Management <span class="chip weather">rain</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;time=day">Trauma-Informed Intake <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=home-visit-safety">Home Visit Safety <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>89</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=critical-incident-debrief&amp;variant=assessment">Critical Incident Debrief <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-intervention-call&amp;variant=assessment">Crisis Intervention Call <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=crisis-line-shift&amp;variant=assessment">Crisis Line Shift <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=traffic-incident-management&amp;variant=assessment">Traffic Incident Management <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=trauma-informed-intake&amp;variant=assessment">Trauma-Informed Intake <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=home-visit-safety&amp;variant=assessment">Home Visit Safety <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=first-responders&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f0645b">
+          <img class="shot" src="img/triage-point.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Triage Point</h3>
+            <p class="st-meta">10 steps · 4 hazards · 2 interruptions · par 3.5 min</p>
+            <p class="why">The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you.</p>
+            <ul class="st-std"><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1006 — Technical Rescue Personnel Professional Qualifications</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>NREMT — NREMT national EMS certification at the EMT and Paramedic levels</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=triage-point"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=triage-point&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=triage-point&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=triage-point">Launch Triage Point</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d2532b">
+          <img class="shot" src="img/structure-fire-sizeup.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Structure Fire Size-Up</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The first ten minutes of a residential fire: the 360, the report that puts a picture in every radio on the channel, the mode called out loud, and the accountability check that proves everyone who went in is still there.</p>
+            <ul class="st-std"><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1001 — Fire Fighter Professional Qualifications</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NFPA — NFPA 1710 — Organization and Deployment of Fire Suppression, EMS and Special Operations by Career Fire Departments</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=structure-fire-sizeup"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L9</span> <a href="../smartcity-x.html?sim=structure-fire-sizeup&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8</span> <a href="../smartcity-x.html?sim=structure-fire-sizeup&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=structure-fire-sizeup&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=structure-fire-sizeup">Launch Structure Fire Size-Up</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#2e9e77">
+          <img class="shot" src="img/firefighter-rehab-sector.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Firefighter Rehab Sector</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The sector behind the fire where the crew itself is the patient: vitals read against a real release criterion, and a member held back for re-evaluation no matter who is asking for him back on the line.</p>
+            <ul class="st-std"><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NFPA — NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=firefighter-rehab-sector"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L8</span> <a href="../smartcity-x.html?sim=firefighter-rehab-sector&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=firefighter-rehab-sector">Launch Firefighter Rehab Sector</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c98a2f">
+          <img class="shot" src="img/wildland-urban-interface.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Wildland-Urban Interface</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.2 min</p>
+            <p class="why">A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so.</p>
+            <ul class="st-std"><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1140 — Standard for Wildland Fire Protection</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NFPA — NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>NWCG — NWCG wildland firefighter training (S-130/S-190) and the Incident Response Pocket Guide</li><li>OSHA — 29 CFR 1910.156 — Fire brigades</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=wildland-urban-interface"><span class="chip base">base run</span></a><span class="st-meta">L5</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;weather=overcast"><span class="chip weather">overcast</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=wildland-urban-interface&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wildland-urban-interface">Launch Wildland-Urban Interface</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0524a">
+          <img class="shot" src="img/cardiac-arrest-pit-crew.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Cardiac Arrest — Pit Crew</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The call this whole series trains toward running as a team instead of a crowd: roles called on arrival, compressions that never really stop, and the swap caught before anybody has to be told the depth already went shallow.</p>
+            <ul class="st-std"><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>union — IAFF training programmes, including Fire Ground Survival and the peer support model</li><li>NFPA — NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=cardiac-arrest-pit-crew"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7, L9</span> <a href="../smartcity-x.html?sim=cardiac-arrest-pit-crew&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cardiac-arrest-pit-crew">Launch Cardiac Arrest — Pit Crew</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5aa8e0">
+          <img class="shot" src="img/overdose-response-naloxone.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Overdose Response — Naloxone</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">A reversal that is not over at the first dose: rescue breaths that buy the time naloxone needs, a second stop in breathing caught before it becomes the story, and a bystander&#39;s own dose thanked instead of overlooked.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=overdose-response-naloxone"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=overdose-response-naloxone&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=overdose-response-naloxone">Launch Overdose Response — Naloxone</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <img class="shot" src="img/ambulance-scene-safety.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Ambulance Scene Safety</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The call that starts before anyone is even out of the cab: the truck itself as the block, the light pattern that warns without blinding, and an agitated occupant approached from the one side traffic cannot reach.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NREMT — NREMT national EMS certification at the EMT and Paramedic levels</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;interrupt=car-crosses-cone-line"><span class="chip interrupt">interruption: car crosses cone line</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;interrupt=partner-freezes"><span class="chip interrupt">interruption: partner freezes</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=ambulance-scene-safety&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L15</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ambulance-scene-safety">Launch Ambulance Scene Safety</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5aa9e6">
+          <img class="shot" src="img/crisis-intervention-call.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Crisis Intervention Call</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 6 min</p>
+            <p class="why">The call where the words are the tactic: the approach slowed, one speaker, the gap held, time given, and a stabilisation unit at the end of it instead of a cell.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>CIT — CIT International&#39;s Crisis Intervention Team core elements for response to people in crisis</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>WHO — World Health Organization technical and field guidance for health emergencies and outbreak response</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=crisis-intervention-call&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13, L16</span> <a href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=object-picked-up-partner-closes"><span class="chip interrupt">interruption: object picked up partner closes</span></a><span class="st-meta">L12, L18</span> <a href="../smartcity-x.html?sim=crisis-intervention-call&amp;interrupt=neighbour-shouting-advice"><span class="chip interrupt">interruption: neighbour shouting advice</span></a><span class="st-meta">L14, L19</span> <a href="../smartcity-x.html?sim=crisis-intervention-call&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=crisis-intervention-call&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=crisis-intervention-call&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=crisis-intervention-call">Launch Crisis Intervention Call</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8fb8d8">
+          <img class="shot" src="img/critical-incident-debrief.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Critical Incident Debrief</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.8 min · indoors</p>
+            <p class="why">What the shift costs, four hours later: the signs named, the confidentiality rule said out loud with its limits, and the duty question kept out of the room.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>WHO — World Health Organization technical and field guidance for health emergencies and outbreak response</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L10, L16, L19</span> <a href="../smartcity-x.html?sim=critical-incident-debrief&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=critical-incident-debrief&amp;interrupt=supervisor-wants-the-report"><span class="chip interrupt">interruption: supervisor wants the report</span></a><span class="st-meta">L12, L17</span> <a href="../smartcity-x.html?sim=critical-incident-debrief&amp;interrupt=reaching-for-the-keys"><span class="chip interrupt">interruption: reaching for the keys</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=critical-incident-debrief&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15, L18</span> <a href="../smartcity-x.html?sim=critical-incident-debrief&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=critical-incident-debrief">Launch Critical Incident Debrief</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2a23b">
+          <img class="shot" src="img/traffic-incident-management.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Traffic Incident Management</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 6.3 min</p>
+            <p class="why">Three services under one plan on a wet shoulder: the block upstream, the taper to the posted speed, a driver in shock kept out of the live lane, and the lane given back.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>NFPA — NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=traffic-incident-management&amp;interrupt=car-into-the-taper"><span class="chip interrupt">interruption: car into the taper</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;interrupt=driver-toward-the-lane"><span class="chip interrupt">interruption: driver toward the lane</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=traffic-incident-management&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=traffic-incident-management">Launch Traffic Incident Management</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fbfa0">
+          <img class="shot" src="img/trauma-informed-intake.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Trauma-Informed Intake</h3>
+            <p class="st-meta">15 steps · 5 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">A first intake where the room, the permission and the pace all belong to the client, and the reporting limits are said plainly before a disclosure makes them urgent.</p>
+            <ul class="st-std"><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — NASW Code of Ethics and the association&#39;s practice standards for social work and crisis counselling</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li>WHO — World Health Organization technical and field guidance for health emergencies and outbreak response</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=trauma-informed-intake&amp;interrupt=client-dissociates"><span class="chip interrupt">interruption: client dissociates</span></a><span class="st-meta">L15, L18</span> <a href="../smartcity-x.html?sim=trauma-informed-intake&amp;interrupt=colleague-opens-door"><span class="chip interrupt">interruption: colleague opens door</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=trauma-informed-intake&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=trauma-informed-intake&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=trauma-informed-intake&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=trauma-informed-intake">Launch Trauma-Informed Intake</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8f9ae8">
+          <img class="shot" src="img/crisis-line-shift.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Crisis Line Shift</h3>
+            <p class="st-meta">14 steps · 5 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">One call worked all the way through: asked directly, reflected back, planned together, the dispatch decision said out loud to the caller, and taken to a supervisor afterwards.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>CIT — CIT International&#39;s Crisis Intervention Team core elements for response to people in crisis</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — NASW Code of Ethics and the association&#39;s practice standards for social work and crisis counselling</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=second-line-rings"><span class="chip interrupt">interruption: second line rings</span></a><span class="st-meta">L12, L15, L17</span> <a href="../smartcity-x.html?sim=crisis-line-shift&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13, L18</span> <a href="../smartcity-x.html?sim=crisis-line-shift&amp;interrupt=caller-goes-silent"><span class="chip interrupt">interruption: caller goes silent</span></a><span class="st-meta">L14, L16, L19</span> <a href="../smartcity-x.html?sim=crisis-line-shift&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=crisis-line-shift">Launch Crisis Line Shift</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a86a">
+          <img class="shot" src="img/home-visit-safety.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Home Visit Safety</h3>
+            <p class="st-meta">15 steps · 5 hazards · 2 interruptions · par 5.7 min</p>
+            <p class="why">The unaccompanied visit, where the address, the check-in times and the word for send help are agreed before the car moves and the exit is taken on the plan rather than on the atmosphere.</p>
+            <ul class="st-std"><li>CIT — CIT International&#39;s Crisis Intervention Team core elements for response to people in crisis</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — NASW Code of Ethics and the association&#39;s practice standards for social work and crisis counselling</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=home-visit-safety&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=home-visit-safety&amp;interrupt=second-adult-arrives"><span class="chip interrupt">interruption: second adult arrives</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=home-visit-safety&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=home-visit-safety"><span class="chip base">base run</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=home-visit-safety&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=home-visit-safety">Launch Home Visit Safety</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5ec9a0">
+          <img class="shot" src="img/shelter-intake-operations.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Shelter Intake Operations</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=shelter-intake-operations&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8, L10</span> <a href="../smartcity-x.html?sim=shelter-intake-operations&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=shelter-intake-operations&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=shelter-intake-operations&amp;interrupt=resident-no-id"><span class="chip interrupt">interruption: resident no id</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=shelter-intake-operations&amp;interrupt=fire-alarm-test"><span class="chip interrupt">interruption: fire alarm test</span></a><span class="st-meta">L14</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=shelter-intake-operations">Launch Shelter Intake Operations</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d98f4f">
+          <img class="shot" src="img/damage-assessment-team.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Damage Assessment Team</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>IEEE — IEEE C2 — National Electrical Safety Code (NESC)</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>OSHA — 29 CFR 1926.416 — General requirements for electrical work practices in construction</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=damage-assessment-team&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=damage-assessment-team&amp;interrupt=downed-line-energized"><span class="chip interrupt">interruption: downed line energized</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=damage-assessment-team">Launch Damage Assessment Team</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9fb8d8">
+          <img class="shot" src="img/psychological-first-aid.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Emergency Services</p>
+            <h3>Psychological First Aid</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">Look, listen, link at the family assistance centre: practical needs met first, a person&#39;s own words reflected, and a reporter turned away from a family that never agreed to be quoted.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>FEMA — FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>union — NASW Code of Ethics and the association&#39;s practice standards for social work and crisis counselling</li><li>NIMS/ICS — NIMS incident command system — the structure a multi-agency response runs inside</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li>WHO — World Health Organization technical and field guidance for health emergencies and outbreak response</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=psychological-first-aid"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=psychological-first-aid&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5</span> <a href="../smartcity-x.html?sim=psychological-first-aid&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=psychological-first-aid">Launch Psychological First Aid</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ISEA 107 — High-visibility safety apparel and accessories</td><td class="n">12 levels</td></tr>
+          <tr><td>CDC</td><td>CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</td><td class="n">16 levels</td></tr>
+          <tr><td>CIT</td><td>CIT International&#39;s Crisis Intervention Team core elements for response to people in crisis</td><td class="n">10 levels</td></tr>
+          <tr><td>DOJ</td><td>Americans with Disabilities Act Title II — programme accessibility for public entities and their services</td><td class="n">18 levels</td></tr>
+          <tr><td>FEMA</td><td>FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS</td><td class="n">all 20</td></tr>
+          <tr><td>HHS</td><td>HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</td><td class="n">16 levels</td></tr>
+          <tr><td>IEEE</td><td>IEEE C2 — National Electrical Safety Code (NESC)</td><td class="n">8 levels</td></tr>
+          <tr><td>NCTSN</td><td>Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</td><td class="n">16 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1001 — Fire Fighter Professional Qualifications</td><td class="n">10 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1006 — Technical Rescue Personnel Professional Qualifications</td><td class="n">L1, L2, L3, L4</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1140 — Standard for Wildland Fire Protection</td><td class="n">7 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1584 — Rehabilitation Process for Members during Emergency Operations and Training Exercises</td><td class="n">9 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1710 — Organization and Deployment of Fire Suppression, EMS and Special Operations by Career Fire Departments</td><td class="n">10 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting</td><td class="n">7 levels</td></tr>
+          <tr><td>NIMS/ICS</td><td>NIMS incident command system — the structure a multi-agency response runs inside</td><td class="n">all 20</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">8 levels</td></tr>
+          <tr><td>NREMT</td><td>NREMT national EMS certification at the EMT and Paramedic levels</td><td class="n">11 levels</td></tr>
+          <tr><td>NWCG</td><td>NWCG wildland firefighter training (S-130/S-190) and the Incident Response Pocket Guide</td><td class="n">7 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.132 — Personal protective equipment, general requirements</td><td class="n">12 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.134 — Respiratory protection</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.156 — Fire brigades</td><td class="n">7 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.416 — General requirements for electrical work practices in construction</td><td class="n">8 levels</td></tr>
+          <tr><td>Red Cross</td><td>American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</td><td class="n">14 levels</td></tr>
+          <tr><td>SAMHSA</td><td>SAMHSA&#39;s six principles of a trauma-informed approach</td><td class="n">18 levels</td></tr>
+          <tr><td>union</td><td>AFSCME member education and safety training for public-service and air-district members</td><td class="n">15 levels</td></tr>
+          <tr><td>union</td><td>IAFF training programmes, including Fire Ground Survival and the peer support model</td><td class="n">11 levels</td></tr>
+          <tr><td>union</td><td>LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</td><td class="n">14 levels</td></tr>
+          <tr><td>union</td><td>NASW Code of Ethics and the association&#39;s practice standards for social work and crisis counselling</td><td class="n">14 levels</td></tr>
+          <tr><td>union</td><td>SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</td><td class="n">14 levels</td></tr>
+          <tr><td>WHO</td><td>World Health Organization technical and field guidance for health emergencies and outbreak response</td><td class="n">16 levels</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Take command of a scene and care for the people in it</h3>
+        <p>Demonstrated with a mastery run on 6 of its 16 stations, against NFPA 1500 Standard on Fire Department Occupational Safety, Health, and Wellness Program; NFPA 1584 Standard on the Rehabilitation Process for Members During Emergency Operations and Training Exercises; FEMA NIMS/ICS foundation, IS-100 and IS-700; SAMHSA Concept of Trauma and Guidance for a Trauma-Informed Approach; WHO and NCTSN Psychological First Aid field guidance — look, listen, link; OSHA 29 CFR 1910.134 Respiratory protection.</p>
+        <p>These stations also count toward:</p><ul><li>Respiratory Protection — selection, proving and working on air <span class="st-meta">(2 of this track's stations count toward it)</span></li><li>Emergency Response — the first five minutes <span class="st-meta">(5 of this track's stations count toward it)</span></li><li>Trauma-informed Practice — consent, dignity and de-escalation <span class="st-meta">(2 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International&#39;s crisis intervention model, the NASW Code of Ethics and SAMHSA&#39;s trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine — training track</title>
+<meta name="description" content="Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine: a twenty-level training track, 1616 lessons across 36 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#e8552d">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 36 stations · 20 levels · 1616 lessons</p>
+    <h1>Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine</h1>
+    <p class="union">SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen&#39;s Union of the ILWU, MEBA and SIU, with the Pile Drivers&#39; commercial divers for the underwater work</p>
+    <p class="cert">SMART&#39;s International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving</p>
+    <p class="summary">One Bay Area tool for four union families: the sheet metal shop and the duct run, the Golden Gate Bridge tower, cable and paint programme, the terminal&#39;s cranes, fenders and reefer power, and the water itself: ferries, mooring, oil transfer, and the dive stage down to the piles and the hull.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1616</b><span>lessons across the track</span></div>
+      <div class="stat"><b>123</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line">Mooring Line <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector">Steel Erector <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=press-brake">Press Brake <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing">Container Lashing <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-chassis-and-genset-yard">Chassis &amp; Genset Yard <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection">Dock Fender &amp; Bollard Inspection <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel">Reefer Plug &amp; Power Panel <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line&amp;time=day">Mooring Line <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector&amp;time=day">Steel Erector <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=press-brake&amp;time=day">Press Brake <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=day">Container Lashing <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-chassis-and-genset-yard&amp;time=day">Chassis &amp; Genset Yard <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection&amp;time=day">Dock Fender &amp; Bollard Inspection <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel&amp;time=day">Reefer Plug &amp; Power Panel <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>87</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=steel-erector">Steel Erector <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=press-brake">Press Brake <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing">Container Lashing <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-chassis-and-genset-yard">Chassis &amp; Genset Yard <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection">Dock Fender &amp; Bollard Inspection <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel">Reefer Plug &amp; Power Panel <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal">Stormwater at the Terminal <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>76</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=dusk">Container Lashing <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-chassis-and-genset-yard&amp;time=dusk">Chassis &amp; Genset Yard <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection&amp;time=dusk">Dock Fender &amp; Bollard Inspection <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel&amp;time=dusk">Reefer Plug &amp; Power Panel <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal&amp;time=dusk">Stormwater at the Terminal <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety&amp;time=dusk">Ferry Deckhand &amp; Passenger Safety <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection">Dock Fender &amp; Bollard Inspection <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel">Reefer Plug &amp; Power Panel <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal">Stormwater at the Terminal <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety&amp;time=day">Ferry Deckhand &amp; Passenger Safety <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling&amp;time=day">Workboat Towing &amp; Line Handling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service&amp;time=day">Crane Boom Hoist Brake Service <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal&amp;time=dusk">Stormwater at the Terminal <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety&amp;time=dusk">Ferry Deckhand &amp; Passenger Safety <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling&amp;time=dusk">Workboat Towing &amp; Line Handling <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service&amp;weather=rain">Crane Boom Hoist Brake Service <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;weather=rain">Straddle Carrier Hydraulics <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;weather=rain">Terminal Lighting Mast Service <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling&amp;time=day">Workboat Towing &amp; Line Handling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service&amp;time=day">Crane Boom Hoist Brake Service <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;time=day">Straddle Carrier Hydraulics <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;weather=wind">Terminal Lighting Mast Service <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;weather=wind">Dive Supervisor &amp; Dive Plan <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;weather=wind">Hull Inspection &amp; Cleaning Dive <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>19 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;time=dusk">Straddle Carrier Hydraulics <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;time=dusk">Terminal Lighting Mast Service <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;time=dusk">Dive Supervisor &amp; Dive Plan <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;weather=fog">Hull Inspection &amp; Cleaning Dive <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;weather=fog">Oil Transfer Watch &amp; Boom <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=fog">Pier Pile Inspection Dive <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;time=day">Dive Supervisor &amp; Dive Plan <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;time=day">Hull Inspection &amp; Cleaning Dive <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;time=day">Oil Transfer Watch &amp; Boom <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=storm">Pier Pile Inspection Dive <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;weather=storm">Deck Lane Closure &amp; Traveller <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;weather=storm">Tower Climb &amp; Tie-Off <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;weather=smoke">Oil Transfer Watch &amp; Boom <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=overcast">Pier Pile Inspection Dive <span class="chip weather">overcast</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;weather=smoke">Deck Lane Closure &amp; Traveller <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;weather=rain">Tower Climb &amp; Tie-Off <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;time=dusk">Diver Emergency &amp; Recovery <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;weather=rain">Spreader &amp; Twist-lock Inspection <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;hazard=assess">Deck Lane Closure &amp; Traveller <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;hazard=assess">Tower Climb &amp; Tie-Off <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;hazard=assess">Diver Emergency &amp; Recovery <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;hazard=assess">Spreader &amp; Twist-lock Inspection <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-shop-layout-and-shear&amp;hazard=assess">Shop Layout and Shear <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-plasma-table-and-fume&amp;hazard=assess">Plasma Table and Fume <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>29 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;interrupt=screw-overhead">Diver Emergency &amp; Recovery <span class="chip interrupt">interruption: screw overhead</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;interrupt=boom-overhead">Spreader &amp; Twist-lock Inspection <span class="chip interrupt">interruption: boom overhead</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-shop-layout-and-shear&amp;interrupt=helper-behind">Shop Layout and Shear <span class="chip interrupt">interruption: helper behind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-plasma-table-and-fume&amp;interrupt=filter-alarm">Plasma Table and Fume <span class="chip interrupt">interruption: filter alarm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;interrupt=fog-bank-closes">Fog &amp; Wind Work Stop <span class="chip interrupt">interruption: fog bank closes</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;interrupt=inspector-seam-class">Duct Fabrication and Seams <span class="chip interrupt">interruption: inspector seam class</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>29 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sm-shop-layout-and-shear&amp;hazard=assess">Shop Layout and Shear <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-plasma-table-and-fume&amp;hazard=assess">Plasma Table and Fume <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;hazard=assess">Fog &amp; Wind Work Stop <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;hazard=assess">Duct Fabrication and Seams <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;hazard=assess">Air Balancing and Testing <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;hazard=assess">TIG and Spot Welding <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>27 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;interrupt=gust-on-the-return">Fog &amp; Wind Work Stop <span class="chip interrupt">interruption: gust on the return</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;interrupt=coil-line-start">Duct Fabrication and Seams <span class="chip interrupt">interruption: coil line start</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;interrupt=damper-closes">Air Balancing and Testing <span class="chip interrupt">interruption: damper closes</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;interrupt=fire-watch-away">TIG and Spot Welding <span class="chip interrupt">interruption: fire watch away</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;interrupt=fog-on-the-steel">International Orange Recoat <span class="chip interrupt">interruption: fog on the steel</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;interrupt=gust-on-the-cable">Main Cable Band Inspection <span class="chip interrupt">interruption: gust on the cable</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>29 standards evidenced</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;interrupt=guard-off-fan">Air Balancing and Testing <span class="chip interrupt">interruption: guard off fan</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;time=day">TIG and Spot Welding <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;interrupt=gust-on-the-spray">International Orange Recoat <span class="chip interrupt">interruption: gust on the spray</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;weather=rain">Main Cable Band Inspection <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;time=day">Pile Driver Fender Repair <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=rain">Architectural Panels at Height <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>31 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;time=dusk">International Orange Recoat <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;hazard=assess">Main Cable Band Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;interrupt=boat-under-the-lift">Pile Driver Fender Repair <span class="chip interrupt">interruption: boat under the lift</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;time=dusk">Architectural Panels at Height <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=tilt-alarm">Duct Hanging and Seismic Bracing <span class="chip interrupt">interruption: tilt alarm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;hazard=assess">Kitchen Exhaust and Fire Wrap <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>26 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;hazard=assess">Pile Driver Fender Repair <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=fog">Architectural Panels at Height <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=helper-loads-early">Duct Hanging and Seismic Bracing <span class="chip interrupt">interruption: helper loads early</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;interrupt=fire-watch-gone">Kitchen Exhaust and Fire Wrap <span class="chip interrupt">interruption: fire watch gone</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;interrupt=boat-under-containment">Paint Containment on the Deck <span class="chip interrupt">interruption: boat under containment</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;weather=fog">Suspender Rope Replacement <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>27 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=storm">Architectural Panels at Height <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=tilt-alarm">Duct Hanging and Seismic Bracing <span class="chip interrupt">interruption: tilt alarm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;time=day">Kitchen Exhaust and Fire Wrap <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;interrupt=gust-on-the-tarps">Paint Containment on the Deck <span class="chip interrupt">interruption: gust on the tarps</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;weather=storm">Suspender Rope Replacement <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting&amp;hazard=assess">Underwater Welding &amp; Cutting <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>30 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;time=dusk">Architectural Panels at Height <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=helper-loads-early">Duct Hanging and Seismic Bracing <span class="chip interrupt">interruption: helper loads early</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;hazard=assess">Kitchen Exhaust and Fire Wrap <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;weather=rain">Paint Containment on the Deck <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;time=day">Suspender Rope Replacement <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting">Underwater Welding &amp; Cutting <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>30 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;variant=assessment">Architectural Panels at Height <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;variant=assessment">Duct Hanging and Seismic Bracing <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;variant=assessment">Kitchen Exhaust and Fire Wrap <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;variant=assessment">Paint Containment on the Deck <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;variant=assessment">Suspender Rope Replacement <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting&amp;variant=assessment">Underwater Welding &amp; Cutting <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>30 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bay-area-union-edition&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#d9a441">
+          <img class="shot" src="img/press-brake.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Press Brake</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4 min · indoors</p>
+            <p class="why">The shared opener for the shop: a brake, a guard and a hand position are the first sheet metal lesson.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI B11.3 — Safety requirements for power press brakes</li><li>union — IAM — the William W. Winpisinger Education and Technology Center&#39;s machinist and transportation training</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=press-brake"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=press-brake&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=press-brake">Launch Press Brake</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d88a3a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Shop Layout and Shear</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.5 min · indoors</p>
+            <p class="why">The shop&#39;s first machine: a cut list laid out square and sheared with the guards walked, hands behind the finger guard and the drops hooked, never grabbed.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)</li><li>OSHA — 29 CFR 1910.138 — Hand protection</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>SMACNA — SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-shop-layout-and-shear&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=sm-shop-layout-and-shear&amp;interrupt=helper-behind"><span class="chip interrupt">interruption: helper behind</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-shop-layout-and-shear">Launch Shop Layout and Shear</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fa8c8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Duct Fabrication and Seams</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">The fitting itself: pressure and seal class off the drawing, a Pittsburgh lock rolled and closed, the flange cornered and the seams sealed to class before the section is stencilled.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)</li><li>OSHA — 29 CFR 1910.138 — Hand protection</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>SMACNA — SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;interrupt=inspector-seam-class"><span class="chip interrupt">interruption: inspector seam class</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams&amp;interrupt=coil-line-start"><span class="chip interrupt">interruption: coil line start</span></a><span class="st-meta">L14</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-duct-fabrication-and-seams">Launch Duct Fabrication and Seams</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e07a3c">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Plasma Table and Fume</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.6 min · indoors</p>
+            <p class="why">The CNC plasma table where the fume control is proven on the manometer before the arc, the zone kept clear through the cut, and the parts hooked off after the cool timer.</p>
+            <ul class="st-std"><li>ACGIH — ACGIH Threshold Limit Values and Biological Exposure Indices</li><li>NFPA — NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.1000 — Air contaminants and the permissible exposure limits</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>OSHA — 29 CFR 1910.252 — Welding, cutting and brazing, general requirements</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-plasma-table-and-fume&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=sm-plasma-table-and-fume&amp;interrupt=filter-alarm"><span class="chip interrupt">interruption: filter alarm</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-plasma-table-and-fume">Launch Plasma Table and Fume</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9fb4c8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>TIG and Spot Welding</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">A stainless seam run to the shop&#39;s procedure under AWS D9.1 with the fume arm on the arc, a fire watch behind the screen and the weld read against the code afterwards.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/AWS Z49.1 — Safety in welding, cutting and allied processes</li><li>AWS — AWS D9.1/D9.1M — Sheet Metal Welding Code</li><li>NFPA — NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work</li><li>OSHA — 29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel)</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1910.252 — Welding, cutting and brazing, general requirements</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;interrupt=fire-watch-away"><span class="chip interrupt">interruption: fire watch away</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=sm-tig-and-spot-welding&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-tig-and-spot-welding">Launch TIG and Spot Welding</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8fc47a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Duct Hanging and Seismic Bracing</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">The run going up on a lift: the anchor&#39;s cure card read before any load, trapeze hung and locked, the section levelled and the seismic braces set to the drawing&#39;s angle.</p>
+            <ul class="st-std"><li>OSHA — 29 CFR 1926.451 — Scaffolds, general requirements</li><li>OSHA — 29 CFR 1926.453 — Aerial lifts</li><li>OSHA — 29 CFR 1926.501 — Duty to have fall protection</li><li>SMACNA — SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)</li><li>SMACNA — SMACNA Seismic Restraint Manual — guidelines for mechanical systems (bracing of duct, pipe and equipment)</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=tilt-alarm"><span class="chip interrupt">interruption: tilt alarm</span></a><span class="st-meta">L16, L18</span> <a href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;interrupt=helper-loads-early"><span class="chip interrupt">interruption: helper loads early</span></a><span class="st-meta">L17, L19</span> <a href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-duct-hanging-and-seismic-bracing">Launch Duct Hanging and Seismic Bracing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c9b27a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Architectural Panels at Height</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The trade&#39;s finish work on a boom lift: wind read against the rating, harness on the anchor, panels carried by their returns, clipped, clamped and sealed with nothing loose on the rail.</p>
+            <ul class="st-std"><li>OSHA — 29 CFR 1926.453 — Aerial lifts</li><li>OSHA — 29 CFR 1926.501 — Duty to have fall protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li><li>SMACNA — SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16, L19</span> <a href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=sm-architectural-panels-at-height&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-architectural-panels-at-height">Launch Architectural Panels at Height</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fc6b8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Air Balancing and Testing</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">Testing, adjusting and balancing to ASHRAE 111 and the NEBB procedure: instruments proven, static and flows read at a held fan speed, and the duct walked for the leaks behind the numbers.</p>
+            <ul class="st-std"><li>ASHRAE — ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems</li><li>NEBB — NEBB Procedural Standard for Testing, Adjusting and Balancing of Environmental Systems, and NEBB TAB technician certification</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>OSHA — 29 CFR 1910.23 — Ladders</li><li>OSHA — 29 CFR 1910.28 — Duty to have fall protection and falling object protection</li><li>SMACNA — SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;interrupt=damper-closes"><span class="chip interrupt">interruption: damper closes</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=sm-air-balancing-and-testing&amp;interrupt=guard-off-fan"><span class="chip interrupt">interruption: guard off fan</span></a><span class="st-meta">L15</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-air-balancing-and-testing">Launch Air Balancing and Testing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d66a4a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Kitchen Exhaust and Fire Wrap</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">A grease duct built to NFPA 96: the joint welded liquid-tight and light-tested, a listed door with listed sealant, clearance measured and the wrap put on layer by layer under a fire watch.</p>
+            <ul class="st-std"><li>AWS — AWS D9.1/D9.1M — Sheet Metal Welding Code</li><li>NFPA — NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work</li><li>NFPA — NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1910.252 — Welding, cutting and brazing, general requirements</li><li>union — SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L16, L19</span> <a href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;interrupt=fire-watch-gone"><span class="chip interrupt">interruption: fire watch gone</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sm-kitchen-exhaust-and-fire-wrap">Launch Kitchen Exhaust and Fire Wrap</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ffcc00">
+          <img class="shot" src="img/steel-erector.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Steel Erector</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 3.9 min</p>
+            <p class="why">The shared opener for the bridge: connecting steel at height is where every bridge crew starts.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>ASME — ASME B30.5 — Mobile and locomotive cranes</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=steel-erector"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=steel-erector&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=steel-erector">Launch Steel Erector</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0662e">
+          <img class="shot" src="img/gg-tower-climb-and-tie-off.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Tower Climb &amp; Tie-Off</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">Up a tower leg on a rope grab and across to the platform on a twin-leg lanyard: the permit and rescue plan read, the wind taken, and one leg always on something rated at the transfer.</p>
+            <ul class="st-std"><li>AASHTO — AASHTO Maintenance Manual for Roadways and Bridges</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.501 — Duty to have fall protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-tower-climb-and-tie-off">Launch Tower Climb &amp; Tie-Off</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d9572a">
+          <img class="shot" src="img/gg-main-cable-band-inspection.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Main Cable Band Inspection</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A cable band from the traveller: the seam and end joints walked for water, the slip read at the witness mark, and the band bolts brought to tension in the charted order, never one slackened out of turn.</p>
+            <ul class="st-std"><li>AASHTO — AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>NBIS — 23 CFR Part 650 Subpart C — National Bridge Inspection Standards</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;interrupt=gust-on-the-cable"><span class="chip interrupt">interruption: gust on the cable</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=gg-main-cable-band-inspection&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L16</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-main-cable-band-inspection">Launch Main Cable Band Inspection</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e3743a">
+          <img class="shot" src="img/gg-suspender-rope-replacement.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Suspender Rope Replacement</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">A suspender changed under load: the temporary jacks carrying before the old socket is touched, the new rope tensioned to the engineer&#39;s figure, pinned, cottered and confirmed.</p>
+            <ul class="st-std"><li>AASHTO — AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications</li><li>AASHTO — AASHTO Maintenance Manual for Roadways and Bridges</li><li>ASME — ASME B30.26 — Rigging hardware</li><li>ASME — ASME B30.9 — Slings</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>MUTCD — Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=gg-suspender-rope-replacement&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-suspender-rope-replacement">Launch Suspender Rope Replacement</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f08a24">
+          <img class="shot" src="img/gg-deck-lane-closure-and-traveller.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Deck Lane Closure &amp; Traveller</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The lanes closed before the cable is worked: advance sign, arrow board and a taper measured to the plan, set with the traffic and taken down against it, and the traveller run and parked.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>MUTCD — Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-deck-lane-closure-and-traveller">Launch Deck Lane Closure &amp; Traveller</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3fa7c9">
+          <img class="shot" src="img/gg-paint-containment-on-the-deck.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Paint Containment on the Deck</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">Old coatings taken off inside a sealed enclosure: held negative, the strait-side seams smoke-tested before removal, nothing swept dry, and nothing reaching the water.</p>
+            <ul class="st-std"><li>BCDC — San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</li><li>union — IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1926.62 — Lead in construction</li><li>SSPC — SSPC Guide 6 — Guide for containing surface preparation debris generated during paint removal operations</li><li>SSPC — SSPC-QP 2 — Qualification procedure for painting contractors removing hazardous coatings in the field from complex structures, now administered by AMPP</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;interrupt=boat-under-containment"><span class="chip interrupt">interruption: boat under containment</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;interrupt=gust-on-the-tarps"><span class="chip interrupt">interruption: gust on the tarps</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-paint-containment-on-the-deck">Launch Paint Containment on the Deck</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8541e">
+          <img class="shot" src="img/gg-international-orange-recoat.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>International Orange Recoat</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A blasted patch brought back to International Orange to the specification: the dew point margin taken, the prep and profile checked, edges striped, and the airless pump relieved before its tip is touched.</p>
+            <ul class="st-std"><li>union — IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li><li>SSPC — SSPC-QP 1 — Qualification procedure for painting contractors doing field application on complex industrial structures, now administered by AMPP</li><li>SSPC — SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;interrupt=fog-on-the-steel"><span class="chip interrupt">interruption: fog on the steel</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;interrupt=gust-on-the-spray"><span class="chip interrupt">interruption: gust on the spray</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=gg-international-orange-recoat&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-international-orange-recoat">Launch International Orange Recoat</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8fb3c4">
+          <img class="shot" src="img/gg-fog-and-wind-work-stop.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Fog &amp; Wind Work Stop</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.2 min</p>
+            <p class="why">The foreman&#39;s call when the weather turns: everyone aloft down in order of exposure, the deck cleared of what the wind takes first, the traveller brought home and the restart held on the trend.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>union — IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training</li><li>MUTCD — Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.21 — Safety training and education in construction</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;interrupt=fog-bank-closes"><span class="chip interrupt">interruption: fog bank closes</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop&amp;interrupt=gust-on-the-return"><span class="chip interrupt">interruption: gust on the return</span></a><span class="st-meta">L14</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-fog-and-wind-work-stop">Launch Fog &amp; Wind Work Stop</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3f9c6a">
+          <img class="shot" src="img/gg-pile-driver-fender-repair.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Pile Driver Fender Repair</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The deck side of a pier fender repair: a new panel bolted up, test-lifted and lowered over the rail on the tag line to the barge, with the water below held clear.</p>
+            <ul class="st-std"><li>ASME — ASME B30.26 — Rigging hardware</li><li>ASME — ASME B30.5 — Mobile and locomotive cranes</li><li>ASME — ASME B30.9 — Slings</li><li>BCDC — San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1926.106 — Working over or near water</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;interrupt=boat-under-the-lift"><span class="chip interrupt">interruption: boat under the lift</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=gg-pile-driver-fender-repair&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L17</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=gg-pile-driver-fender-repair">Launch Pile Driver Fender Repair</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4f9dde">
+          <img class="shot" src="img/container-lashing.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Container Lashing</h3>
+            <p class="st-meta">11 steps · 5 hazards · 2 interruptions · par 4 min</p>
+            <p class="why">The shared opener for the port: the lashing deck is where maintenance meets the working terminal.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — IMO Cargo Securing Manual requirements</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>OSHA — 29 CFR 1918 — Safety and health regulations for longshoring</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=container-lashing"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=container-lashing&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=container-lashing&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=container-lashing">Launch Container Lashing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3fa7c9">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Spreader &amp; Twist-lock Inspection</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">The spreader on its stands: a below-the-hook device isolated, cycled by hand, measured against its limit and caught lying on its indicator before it goes back on the crane.</p>
+            <ul class="st-std"><li>ASME — ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)</li><li>ASME — ASME B30.20 — Below-the-hook lifting devices</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span> <a href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection&amp;interrupt=boom-overhead"><span class="chip interrupt">interruption: boom overhead</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-spreader-and-twistlock-inspection">Launch Spreader &amp; Twist-lock Inspection</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d9903a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Crane Boom Hoist Brake Service</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The machinery house: the latch proven before the drive is locked, the brake gap a measured number, and the release pressure held under test while the terminal&#39;s storm procedure fires.</p>
+            <ul class="st-std"><li>ASME — ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)</li><li>ASME — ASME B30.20 — Below-the-hook lifting devices</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5, L7</span> <a href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-crane-boom-hoist-brake-service">Launch Crane Boom Hoist Brake Service</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fb35a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Straddle Carrier Hydraulics</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">Stored hydraulic energy as the whole lesson: accumulators bled to zero and proven before a fitting is cracked, the leak found with dye and never a hand.</p>
+            <ul class="st-std"><li>ASME — ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-straddle-carrier-hydraulics">Launch Straddle Carrier Hydraulics</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fc3d6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Reefer Plug &amp; Power Panel</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">The reefer row worked to NFPA 70E: the unit down at its own controller before the breaker opens, the plug out dead, and every contact proven live-dead-live.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-reefer-plug-and-power-panel">Launch Reefer Plug &amp; Power Panel</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#2f8f9d">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Dock Fender &amp; Bollard Inspection</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">The wharf edge in a berth window: the vest before the cope, the fender pad measured and slung in, and the bollard&#39;s anchors tensioned by the number.</p>
+            <ul class="st-std"><li>ASME — ASME B30.5 — Mobile and locomotive cranes</li><li>ASME — ASME B30.9 — Slings</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-dock-fender-and-bollard-inspection">Launch Dock Fender &amp; Bollard Inspection</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Terminal Lighting Mast Service</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The yard&#39;s lighting as its traffic control after dark: the mast tested dead at the handhole, the platform tied off before it moves, and the wind limit read rather than guessed.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training</li><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L6</span> <a href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-terminal-lighting-mast-service">Launch Terminal Lighting Mast Service</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3f9f8a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Stormwater at the Terminal</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">The permit&#39;s plan as a procedure: the sheen watched, traced upstream and pumped with the outfall gated before the storm&#39;s first flush reaches the bay.</p>
+            <ul class="st-std"><li>EPA — 40 CFR 122.26 — Storm water discharges under the NPDES permit programme</li><li>EPA — 40 CFR Part 136 — Test procedures for the analysis of pollutants</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal"><span class="chip base">base run</span></a><span class="st-meta">L3, L5</span> <a href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-stormwater-at-the-terminal">Launch Stormwater at the Terminal</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c86a3c">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Chassis &amp; Genset Yard</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">A chassis worked chocked or not at all, and its genset isolated before the fuel system opens: the two energies a chassis yard puts in the same bay.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pt-chassis-and-genset-yard"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=pt-chassis-and-genset-yard&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=pt-chassis-and-genset-yard&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pt-chassis-and-genset-yard">Launch Chassis &amp; Genset Yard</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb3e8">
+          <img class="shot" src="img/mooring-line.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Mooring Line</h3>
+            <p class="st-meta">10 steps · 4 hazards · 2 interruptions · par 3.8 min</p>
+            <p class="why">The shared opener for the water: the line under load teaches the snap-back zone before anything else.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>OSHA — 29 CFR 1917 — Marine terminals</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mooring-line"><span class="chip base">base run</span></a><span class="st-meta">L1</span> <a href="../smartcity-x.html?sim=mooring-line&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mooring-line">Launch Mooring Line</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#2fa3c4">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Ferry Deckhand &amp; Passenger Safety</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The Inlandboatmen&#39;s deckhand at the float: the station bill read, the gangway landed before anyone crosses, every passenger counted against the certificate, and the ring buoy to a person in the gap before anything else.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — MARPOL — International Convention for the Prevention of Pollution from Ships</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>IMO — STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers</li><li>union — MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span> <a href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-ferry-deckhand-and-passenger-safety">Launch Ferry Deckhand &amp; Passenger Safety</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0873a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Workboat Towing &amp; Line Handling</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">Making up to a barge astern under Subchapter M: the hawser walked and the winch brake set, the eye passed from outside the bight, and the pay-out stopped the moment the wheelhouse goes silent.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — MARPOL — International Convention for the Prevention of Pollution from Ships</li><li>IMO — STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers</li><li>union — MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li><li>USCG — 46 CFR Subchapter M — Inspection of towing vessels</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5, L7</span> <a href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-workboat-towing-and-line-handling">Launch Workboat Towing &amp; Line Handling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3fb58a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Oil Transfer Watch &amp; Boom</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The person in charge of a transfer: the declaration signed before the pump, the boom streamed from upcurrent, the flange watched through the slow start, and a sheen stopped at the source rather than dispersed.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — MARPOL — International Convention for the Prevention of Pollution from Ships</li><li>union — MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li><li>USCG — 33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer</li><li>USCG — 33 CFR 156.150 — Declaration of inspection before an oil transfer</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a><span class="st-meta">L10</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-oil-transfer-watch-and-boom">Launch Oil Transfer Watch &amp; Boom</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2b33d">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Dive Supervisor &amp; Dive Plan</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The dive station at the surface: the plan briefed, the screw locked out, the standby dressed, the panel never left, and the decompression obligation read from the tables the supervisor holds.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-dive-supervisor-and-dive-plan">Launch Dive Supervisor &amp; Dive Plan</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fd0c0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Pier Pile Inspection Dive</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The Pile Drivers&#39; diver under the pier: the umbilical proven by hand, the spall and the section loss found and measured, and every defect photographed against a scale without passing inside a brace.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive&amp;weather=overcast"><span class="chip weather">overcast</span></a><span class="st-meta">L10</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-pier-pile-inspection-dive">Launch Pier Pile Inspection Dive</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fc3e8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Hull Inspection &amp; Cleaning Dive</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">Under a ship&#39;s stern with the shaft and sea suctions locked out: the anodes and coating surveyed, the brush opened only on the plate, and the grating touched only behind its confirmed tag.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>union — MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L7</span> <a href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-hull-inspection-and-cleaning-dive">Launch Hull Inspection &amp; Cleaning Dive</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f0a04b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Underwater Welding &amp; Cutting</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">Wet cutting and welding to AWS D3.6: the sealed void found, the ground on clean steel before &#39;make it hot&#39;, &#39;make it cold&#39; before every rod change, and never the diver between the ground and the work.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>AWS — AWS D3.6M — Underwater Welding Code</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting"><span class="chip base">base run</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-underwater-welding-and-cutting">Launch Underwater Welding &amp; Cutting</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8665a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Diver Emergency &amp; Recovery</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The standby&#39;s dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor&#39;s call rather than flown up on a bag.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span> <a href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery&amp;interrupt=screw-overhead"><span class="chip interrupt">interruption: screw overhead</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mw-diver-emergency-and-recovery">Launch Diver Emergency &amp; Recovery</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>AASHTO</td><td>AASHTO Maintenance Manual for Roadways and Bridges</td><td class="n">7 levels</td></tr>
+          <tr><td>AASHTO</td><td>AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications</td><td class="n">7 levels</td></tr>
+          <tr><td>ACGIH</td><td>ACGIH Threshold Limit Values and Biological Exposure Indices</td><td class="n">L11, L12, L13</td></tr>
+          <tr><td>ADCI</td><td>Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</td><td class="n">9 levels</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI B11.3 — Safety requirements for power press brakes</td><td class="n">L1, L2, L3</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ASSP Z359 — Fall Protection Code</td><td class="n">L1, L2, L3, L6, L7, L8</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/AWS Z49.1 — Safety in welding, cutting and allied processes</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ISEA 107 — High-visibility safety apparel and accessories</td><td class="n">L9, L10, L11, L12, L13, L14</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/SAIA A92 — Mobile elevating work platforms: design, safe use and training</td><td class="n">L6, L7, L8</td></tr>
+          <tr><td>ASHRAE</td><td>ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>ASME</td><td>ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)</td><td class="n">7 levels</td></tr>
+          <tr><td>ASME</td><td>ASME B30.20 — Below-the-hook lifting devices</td><td class="n">L5, L6, L7, L10, L11, L12</td></tr>
+          <tr><td>ASME</td><td>ASME B30.26 — Rigging hardware</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>ASME</td><td>ASME B30.5 — Mobile and locomotive cranes</td><td class="n">8 levels</td></tr>
+          <tr><td>ASME</td><td>ASME B30.9 — Slings</td><td class="n">11 levels</td></tr>
+          <tr><td>AWS</td><td>AWS D3.6M — Underwater Welding Code</td><td class="n">L18, L19, L20</td></tr>
+          <tr><td>AWS</td><td>AWS D9.1/D9.1M — Sheet Metal Welding Code</td><td class="n">8 levels</td></tr>
+          <tr><td>BCDC</td><td>San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>EPA</td><td>40 CFR 122.26 — Storm water discharges under the NPDES permit programme</td><td class="n">L3, L4, L5, L6</td></tr>
+          <tr><td>EPA</td><td>40 CFR Part 136 — Test procedures for the analysis of pollutants</td><td class="n">L3, L4, L5, L6</td></tr>
+          <tr><td>IMO</td><td>IMO Cargo Securing Manual requirements</td><td class="n">L1, L2, L3, L4</td></tr>
+          <tr><td>IMO</td><td>MARPOL — International Convention for the Prevention of Pollution from Ships</td><td class="n">7 levels</td></tr>
+          <tr><td>IMO</td><td>SOLAS — International Convention for the Safety of Life at Sea</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+          <tr><td>IMO</td><td>STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers</td><td class="n">L4, L5, L6, L7</td></tr>
+          <tr><td>MUTCD</td><td>Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</td><td class="n">10 levels</td></tr>
+          <tr><td>NBIS</td><td>23 CFR Part 650 Subpart C — National Bridge Inspection Standards</td><td class="n">L14, L15, L16</td></tr>
+          <tr><td>NEBB</td><td>NEBB Procedural Standard for Testing, Adjusting and Balancing of Environmental Systems, and NEBB TAB technician certification</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>NFPA</td><td>NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work</td><td class="n">10 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 70E — Standard for Electrical Safety in the Workplace</td><td class="n">8 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</td><td class="n">L16, L17, L18, L19, L20</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">L11, L12, L13</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1000 — Air contaminants and the permissible exposure limits</td><td class="n">L11, L12, L13</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel)</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1200 — Hazard communication</td><td class="n">L14, L15, L16</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.132 — Personal protective equipment, general requirements</td><td class="n">8 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.134 — Respiratory protection</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.138 — Hand protection</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">14 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.212 — General requirements for all machines (machine guarding)</td><td class="n">L11, L12, L13, L14, L15</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.23 — Ladders</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.252 — Welding, cutting and brazing, general requirements</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.28 — Duty to have fall protection and falling object protection</td><td class="n">L13, L14, L15</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1917 — Marine terminals</td><td class="n">11 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1918 — Safety and health regulations for longshoring</td><td class="n">L1, L2, L3, L4</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.106 — Working over or near water</td><td class="n">12 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.21 — Safety training and education in construction</td><td class="n">L12, L13, L14</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.451 — Scaffolds, general requirements</td><td class="n">L16, L17, L18, L19, L20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.453 — Aerial lifts</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.501 — Duty to have fall protection</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.502 — Fall protection systems criteria and practices</td><td class="n">12 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.62 — Lead in construction</td><td class="n">L17, L18, L19, L20</td></tr>
+          <tr><td>SMACNA</td><td>SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>SMACNA</td><td>SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)</td><td class="n">10 levels</td></tr>
+          <tr><td>SMACNA</td><td>SMACNA Seismic Restraint Manual — guidelines for mechanical systems (bracing of duct, pipe and equipment)</td><td class="n">L16, L17, L18, L19, L20</td></tr>
+          <tr><td>SSPC</td><td>SSPC Guide 6 — Guide for containing surface preparation debris generated during paint removal operations</td><td class="n">L17, L18, L19, L20</td></tr>
+          <tr><td>SSPC</td><td>SSPC-QP 1 — Qualification procedure for painting contractors doing field application on complex industrial structures, now administered by AMPP</td><td class="n">L14, L15, L16</td></tr>
+          <tr><td>SSPC</td><td>SSPC-QP 2 — Qualification procedure for painting contractors removing hazardous coatings in the field from complex structures, now administered by AMPP</td><td class="n">L17, L18, L19, L20</td></tr>
+          <tr><td>SSPC</td><td>SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning</td><td class="n">L14, L15, L16</td></tr>
+          <tr><td>union</td><td>IAM — the William W. Winpisinger Education and Technology Center&#39;s machinist and transportation training</td><td class="n">L1, L2, L3</td></tr>
+          <tr><td>union</td><td>ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</td><td class="n">12 levels</td></tr>
+          <tr><td>union</td><td>Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</td><td class="n">15 levels</td></tr>
+          <tr><td>union</td><td>IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</td><td class="n">11 levels</td></tr>
+          <tr><td>union</td><td>IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training</td><td class="n">9 levels</td></tr>
+          <tr><td>union</td><td>MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</td><td class="n">7 levels</td></tr>
+          <tr><td>union</td><td>SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</td><td class="n">9 levels</td></tr>
+          <tr><td>union</td><td>SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship</td><td class="n">10 levels</td></tr>
+          <tr><td>union</td><td>United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</td><td class="n">12 levels</td></tr>
+          <tr><td>USCG</td><td>33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer</td><td class="n">L8, L9, L10</td></tr>
+          <tr><td>USCG</td><td>33 CFR 156.150 — Declaration of inspection before an oil transfer</td><td class="n">L8, L9, L10</td></tr>
+          <tr><td>USCG</td><td>46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</td><td class="n">9 levels</td></tr>
+          <tr><td>USCG</td><td>46 CFR Subchapter M — Inspection of towing vessels</td><td class="n">L5, L6, L7</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Work the Bay Area&#39;s sheet metal, bridge, port maintenance and marine trades to their unions&#39; standards</h3>
+        <p>Demonstrated with a mastery run on 6 of its 36 stations, against OSHA 29 CFR 1926 Subpart R Steel erection; OSHA 29 CFR 1926 Subpart M Fall protection; OSHA 29 CFR 1910.134 Respiratory protection.</p>
+        <p>These stations also count toward:</p><ul><li>Fall Protection <span class="st-meta">(1 of this track's stations count toward it)</span></li><li>Lockout/Tagout and the control of hazardous energy <span class="st-meta">(1 of this track's stations count toward it)</span></li><li>Crane and Rigging — the lift plan, the load and the landing <span class="st-meta">(1 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: SMART&#39;s International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

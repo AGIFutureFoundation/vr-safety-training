@@ -542,6 +542,7 @@
       "union": "IBEW — International Brotherhood of Electrical Workers",
       "certification": "NFPA 70E work practices and OSHA 1910.147 control of hazardous energy, as taught in an IBEW/NECA JATC first-period block",
       "summary": "The isolation habit, built four ways: a panel, a substation feeder, an overhead circuit and a live-load charger. Every station in this block ends with something proven dead before it is touched.",
+      "accent": "#5aa9ff",
       "stations": [
         {
           "app": "trades",
@@ -584,7 +585,17 @@
           "why": "The isolation habit turned around: building a service worth trusting in the first place, grounded and GFCI-protected before anyone plugs a tool into it."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1631,
+        "tasks": 128,
+        "atBar": 19,
+        "partial": 1,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "confined-space",
@@ -592,6 +603,7 @@
       "union": "LIUNA, UA, IUOE and IAFF technical rescue",
       "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with NFPA 1006 rescue technician for the last station",
       "summary": "Four spaces and the rescue. The first three build the permit, the atmosphere and the attendant; the last one is what happens when all of that failed for somebody else.",
+      "accent": "#4fd1ff",
       "stations": [
         {
           "app": "smartcity",
@@ -619,7 +631,17 @@
           "why": "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1200,
+        "tasks": 100,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "fall-protection",
@@ -627,6 +649,7 @@
       "union": "Ironworkers, Carpenters, CWA and NATE climbers",
       "certification": "OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems",
       "summary": "Anchor, connect, and the thing you are standing on. Four heights, four different reasons the system has to be right before the first step off the deck.",
+      "accent": "#f2c14b",
       "stations": [
         {
           "app": "smartcity",
@@ -659,7 +682,17 @@
           "why": "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1480,
+        "tasks": 120,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 1,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "hazmat-environmental",
@@ -667,6 +700,7 @@
       "union": "LIUNA hazmat and environmental crews, IAFF, and environmental technicians",
       "certification": "OSHA 29 CFR 1910.120 HAZWOPER, NFPA 470 hazardous materials response, and Clean Water Act / Clean Air Act monitoring practice",
       "summary": "Containment, decontamination and the numbers a neighbourhood relies on. This block runs from the release to the sample bottle, and opens with the real history of one site.",
+      "accent": "#78c8a0",
       "stations": [
         {
           "app": "smartcity",
@@ -704,7 +738,17 @@
           "why": "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1380,
+        "tasks": 120,
+        "atBar": 4,
+        "partial": 16,
+        "stationsNeeded": 3,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "rigging-lifting",
@@ -712,6 +756,7 @@
       "union": "Ironworkers, IUOE crane operators, ILWU and IATSE riggers",
       "certification": "ASME B30 rigging and crane practice, NCCCO operator knowledge, and ETCP entertainment rigging for the theatre station",
       "summary": "Load, radius, chart, and what is under the load. Five lifts in five industries that all fail the same way.",
+      "accent": "#a079ff",
       "stations": [
         {
           "app": "smartcity",
@@ -739,7 +784,17 @@
           "why": "Counterweight: the one rigging system where the operator is holding the other half of the load in their hands."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1300,
+        "tasks": 100,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 1,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "stationary-engineer",
@@ -747,6 +802,7 @@
       "union": "IUOE — International Union of Operating Engineers, stationary locals",
       "certification": "State stationary engineer licence, ASME boiler practice, ASHRAE 188 water management and NFPA 25 fire-pump testing",
       "summary": "The four plants a building engineer is responsible for at two in the morning, and the tests that prove each one will work when it is needed.",
+      "accent": "#6fc9e8",
       "stations": [
         {
           "app": "smartcity",
@@ -774,7 +830,17 @@
           "why": "The pit: a confined space with a moving car above it, entered by the person who maintains it."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1220,
+        "tasks": 100,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "port-operations",
@@ -782,6 +848,7 @@
       "union": "ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers",
       "certification": "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",
       "summary": "A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.",
+      "accent": "#3fa9d8",
       "stations": [
         {
           "app": "smartcity",
@@ -809,7 +876,17 @@
           "why": "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1220,
+        "tasks": 100,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "transit-ramp",
@@ -817,6 +894,7 @@
       "union": "ATU, TWU, IAM and IBEW signal locals",
       "certification": "FRA roadway-worker protection, FTA rail transit safety practice, FAA 14 CFR 139 airfield operations and OSHA 1910.178 for powered equipment",
       "summary": "Four places where a vehicle that weighs tonnes moves near people on foot, and the protection that has to exist before anyone steps out.",
+      "accent": "#63b5f0",
       "stations": [
         {
           "app": "smartcity",
@@ -849,7 +927,17 @@
           "why": "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1420,
+        "tasks": 120,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 1,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "energy-transition",
@@ -857,6 +945,7 @@
       "union": "IBEW outside construction and utility locals",
       "certification": "NFPA 70E, NFPA 855 energy storage, NEC Article 690 photovoltaic systems and utility interconnection practice",
       "summary": "The plant a utility is building now: solar, storage, charging and the substation that ties them together. Direct current behaves differently, and every station here is about that difference.",
+      "accent": "#9fd84f",
       "stations": [
         {
           "app": "smartcity",
@@ -889,7 +978,17 @@
           "why": "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1420,
+        "tasks": 120,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 1,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "live-events",
@@ -897,6 +996,7 @@
       "union": "IATSE — International Alliance of Theatrical Stage Employees",
       "certification": "ETCP Certified Rigger and Certified Entertainment Electrician, ANSI E1.4-1 counterweight rigging and NFPA 70E for the power tie-in",
       "summary": "A load-in from the truck to the house lights, in the order a call actually runs, with the two things that kill on a stage: what is overhead and what is energised.",
+      "accent": "#c58cff",
       "stations": [
         {
           "app": "smartcity",
@@ -924,7 +1024,17 @@
           "why": "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1220,
+        "tasks": 100,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "hunters-point-bay-restoration",
@@ -932,6 +1042,7 @@
       "union": "LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen's Union of the Pacific",
       "certification": "OSHA 29 CFR 1910.120 HAZWOPER as the floor for everyone inside the fence; MARSSIM radiological survey practice and NRC 10 CFR 20 for the survey crew; EPA RCRA 40 CFR 262 manifests for the haul; U.S. Army Corps of Engineers Section 404, BCDC and Regional Water Board 401 permit conditions for every hour of in-water work",
       "summary": "A Superfund shoreline and the bay beside it, worked in the order a cleanup actually runs: the record first, then survey, then excavation and haul, then the groundwater that stays behind, then the water's edge given back — sediment out, tide back in, marsh planted. The first station is a sourced briefing on the real site and the data-integrity case at the centre of it; every station after it is a union trade doing its part of the work, and the discipline that made the case is taught as procedure: an instrument source-checked before and after, a sample that is the place it came from, and a split for a lab that does not work for you.",
+      "accent": "#8fd18b",
       "stations": [
         {
           "app": "smartcity",
@@ -1064,7 +1175,17 @@
           "why": "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1590,
+        "tasks": 122,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "culinary-kitchen",
@@ -1072,6 +1193,7 @@
       "union": "UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service",
       "certification": "The FDA Food Code as adopted in the California Retail Food Code, the California Food Handler card and ServSafe manager certification, NFPA 96 for the hood and suppression system, Cal/OSHA's kitchen safety orders, and OSHA 1910.147 for every machine that gets cleaned",
       "summary": "Fifteen stations in one kitchen, from the receiving dock to the dish pit. The hazards are the ones a cook actually meets — heat, blades, chemicals, cold, gas and the clock — and the standard behind every step is the one an inspector or a union steward would cite.",
+      "accent": "#f2a23b",
       "stations": [
         {
           "app": "trades",
@@ -1154,7 +1276,17 @@
           "why": "The grill and sauté station's own hazard, worked as a drill: handles in, a dry pan, a flambé cleared of the filters, and cool water run the full twenty minutes."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1610,
+        "tasks": 122,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "dental-hygiene-unspoken-smiles",
@@ -1162,6 +1294,7 @@
       "union": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
       "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
       "summary": "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+      "accent": "#7fd1c9",
       "stations": [
         {
           "app": "trades",
@@ -1244,7 +1377,17 @@
           "why": "The screening every adult recall should already include: a fixed extraoral-to-intraoral order, a finding described in terms a surgeon can act on, and the two-week rule that decides whether it waits or it's referred today."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1591,
+        "tasks": 118,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "dental-careers-unspoken-smiles",
@@ -1252,6 +1395,7 @@
       "union": "SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential",
       "certification": "The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance",
       "summary": "The careers a student can step into from the Unspoken Smiles clinic: dental assisting at the chair, sterilisation and instrument processing, radiography, the laboratory bench, orthodontic and surgical assisting, the front office and treatment coordination, and community outreach — with the ladder from assistant to hygienist to dentist laid out as a station of its own.",
+      "accent": "#f0b86e",
       "stations": [
         {
           "app": "smartcity",
@@ -1334,7 +1478,17 @@
           "why": "The visit that happens down a camera: a platform the practice may lawfully use, images worth reading, the emergency criteria worked airway first, and the limits of a remote look written into the note."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1627,
+        "tasks": 113,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "civic-leadership-and-ei",
@@ -1342,6 +1496,7 @@
       "union": "SEIU and AFSCME public-service staff, the trades' own apprenticeship coordinators, and community organisations that train residents for public life",
       "certification": "The Brown Act and public-meeting law, the Political Reform Act's conflict-of-interest rules, the city charter's ethics provisions, and the principles of civic leadership the module states; the foundation whose principles the module draws on is not sourced in this repository and is named only as an attribution to verify",
       "summary": "Ten stations that teach the decisions a leader makes in public: listening before speaking, naming the interest behind a position, running a meeting people trust, spending a budget in the open, taking a hard call and owning it, and the emotional intelligence that makes each of those possible.",
+      "accent": "#c9a34a",
       "stations": [
         {
           "app": "smartcity",
@@ -1399,7 +1554,17 @@
           "why": "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1549,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "property-management",
@@ -1407,6 +1572,7 @@
       "union": "SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association's certified apartment manager and maintenance technician credentials",
       "certification": "OSHA 29 CFR 1910 general industry, NFPA 72 and 25 for fire alarm and sprinkler systems, the state elevator code, the Fair Housing Act, the state landlord-tenant statute, the local housing code, and EPA lead and asbestos rules for pre-1978 buildings",
       "summary": "A working building as twenty zones, each its own station: lobby to roof, boiler room to trash room, leasing office to fire panel, with the tenant, the inspector and the contractor in the scene.",
+      "accent": "#6fa8dc",
       "stations": [
         {
           "app": "smartcity",
@@ -1514,7 +1680,17 @@
           "why": "Zone twenty, the basement: fuel pulled out of the storage cages, boxes brought below the sprinklers, the flow alarm proven with the monitoring company told and the old pipe lagging left for the licensed crew."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1590,
+        "tasks": 124,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "outbreak-response-who",
@@ -1522,6 +1698,7 @@
       "union": "SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters",
       "certification": "WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice",
       "summary": "Ten stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.",
+      "accent": "#4fb0a0",
       "stations": [
         {
           "app": "smartcity",
@@ -1579,7 +1756,17 @@
           "why": "The last station: a no-blame review once the outbreak is over, the frontline heard first, planned set against actual, and every lesson turned into an action with an owner and a date."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1548,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "job-readiness-edition",
@@ -1587,6 +1774,7 @@
       "union": "Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff",
       "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, FMCSA 49 CFR 380 Subpart F entry-level driver training, 49 CFR 393 cargo securement and 49 CFR 395 hours of service, CVSA roadside inspection practice, the apprenticeship standards of the trades the edition prepares people for, OSHA 10, CFPB and IRS consumer guidance for the financial coaching stations, and SAMHSA guidance for the wellness stations",
       "summary": "The programmes wojrc.org describes, as simulators: warehouse and Commercial Class A driving under the TDL pre-apprenticeship, navigating and enrolling in a union construction apprenticeship, financial coaching that builds credit, reduces debt and builds savings, and the wellness resource centre. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+      "accent": "#e07a3f",
       "stations": [
         {
           "app": "smartcity",
@@ -1719,7 +1907,17 @@
           "why": "The week your own life goes sideways: the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, and the follow-up booked."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1610,
+        "tasks": 129,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "bay-area-union-edition",
@@ -1727,6 +1925,7 @@
       "union": "SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen's Union of the ILWU, MEBA and SIU, with the Pile Drivers' commercial divers for the underwater work",
       "certification": "SMART's International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving",
       "summary": "One Bay Area tool for four union families: the sheet metal shop and the duct run, the Golden Gate Bridge tower, cable and paint programme, the terminal's cranes, fenders and reefer power, and the water itself: ferries, mooring, oil transfer, and the dive stage down to the piles and the hull.",
+      "accent": "#e8552d",
       "stations": [
         {
           "app": "smartcity",
@@ -1909,7 +2108,17 @@
           "why": "The standby's dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor's call rather than flown up on a bag."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1616,
+        "tasks": 123,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "bartending-course",
@@ -1917,6 +2126,7 @@
       "union": "UNITE HERE Local 2 bartenders and barbacks",
       "certification": "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
       "summary": "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+      "accent": "#b8862b",
       "stations": [
         {
           "app": "trades",
@@ -1999,7 +2209,17 @@
           "why": "The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1661,
+        "tasks": 125,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "hunters-point-can-we-live",
@@ -2007,6 +2227,7 @@
       "union": "Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway",
       "certification": "EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule",
       "summary": "A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.",
+      "accent": "#f2c14b",
       "stations": [
         {
           "app": "smartcity",
@@ -2139,7 +2360,17 @@
           "why": "A community centre's own drill for a dust or fire event next door: the alert taken seriously, every door and window closed, the HVAC to recirculate, the air cleaner on high, a real headcount, the hotline and the Air District both called, residents with respiratory needs checked by name, and the all-clear recorded rather than assumed."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1615,
+        "tasks": 125,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "sewing-garment-trades",
@@ -2147,6 +2378,7 @@
       "union": "Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service",
       "certification": "OSHA 29 CFR 1910.212 machine guarding and 1910.147 lockout for industrial sewing, cutting and pressing equipment, 1910.1200 hazard communication for solvents and spot cleaners, NIOSH ergonomics guidance for seated repetitive work, the state apprenticeship standards for industrial sewing machine operators",
       "summary": "A separate trade series that teaches sewing as a trade: threading and needle changes, straight and zigzag seams behind the guard, the serger, the cutting table and rotary cutter, pattern marking, hems and buttonholes, the industrial press, ergonomics, alterations and repair, and inspection and finishing.",
+      "accent": "#b86bd6",
       "stations": [
         {
           "app": "trades",
@@ -2204,7 +2436,17 @@
           "why": "The last bench a piece crosses: the light box and the spec sheet catch what a bare eye and a tape alone would miss before it ever reaches the box."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1578,
+        "tasks": 123,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "bridge-and-structural",
@@ -2212,6 +2454,7 @@
       "union": "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck",
       "certification": "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
       "summary": "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
+      "accent": "#8a9bb0",
       "stations": [
         {
           "app": "smartcity",
@@ -2234,7 +2477,17 @@
           "why": "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1040,
+        "tasks": 80,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "hotel-workers",
@@ -2242,6 +2495,7 @@
       "union": "UNITE HERE hotel housekeepers, laundry and banquet staff",
       "certification": "Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant",
       "summary": "The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state's own hotel ergonomics rule and a panic button on the belt, the laundry plant's chemicals and folder, and a banquet changeover lifted right.",
+      "accent": "#d67b6b",
       "stations": [
         {
           "app": "smartcity",
@@ -2264,7 +2518,17 @@
           "why": "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1120,
+        "tasks": 80,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "builders-trades",
@@ -2272,6 +2536,7 @@
       "union": "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators",
       "certification": "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
       "summary": "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
+      "accent": "#c9a36b",
       "stations": [
         {
           "app": "smartcity",
@@ -2294,7 +2559,17 @@
           "why": "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1080,
+        "tasks": 80,
+        "atBar": 0,
+        "partial": 20,
+        "stationsNeeded": 2,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "first-responders",
@@ -2302,6 +2577,7 @@
       "union": "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce",
       "certification": "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
       "summary": "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
+      "accent": "#f0645b",
       "stations": [
         {
           "app": "smartcity",
@@ -2384,7 +2660,17 @@
           "why": "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1705,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "situational-awareness",
@@ -2392,6 +2678,7 @@
       "union": "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals",
       "certification": "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
       "summary": "Twenty-two procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+      "accent": "#f0645b",
       "stations": [
         {
           "app": "trades",
@@ -2504,7 +2791,17 @@
           "why": "The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1628,
+        "tasks": 133,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "ports-maritime-ecology",
@@ -2512,6 +2809,7 @@
       "union": "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay",
       "certification": "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
       "summary": "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+      "accent": "#4fb8c9",
       "stations": [
         {
           "app": "smartcity",
@@ -2569,7 +2867,17 @@
           "why": "The dangerous-goods box on the apron before it ever reaches the crane: placards checked against the declaration, a leak found through the door seam from a safe standoff, and the Coast Guard notified."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1619,
+        "tasks": 126,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     },
     {
       "id": "air-quality-monitoring",
@@ -2577,6 +2885,7 @@
       "union": "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews",
       "certification": "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
       "summary": "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
+      "accent": "#9fd8ff",
       "stations": [
         {
           "app": "smartcity",
@@ -2609,7 +2918,17 @@
           "why": "Where the dust a monitor reads can start: an excavation zoned by the wind, wetted at the face, and stopped the moment its own alarm says so."
         }
       ],
-      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1540,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     }
   ],
   "stations": [
@@ -25514,7 +25833,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26174,7 +26493,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Job Readiness Edition — wojrc.org programmes — training track</title>
+<meta name="description" content="Job Readiness Edition — wojrc.org programmes: a twenty-level training track, 1610 lessons across 26 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#e07a3f">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 26 stations · 20 levels · 1610 lessons</p>
+    <h1>Job Readiness Edition — wojrc.org programmes</h1>
+    <p class="union">Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff</p>
+    <p class="cert">OSHA 29 CFR 1910.178 powered industrial trucks, FMCSA 49 CFR 380 Subpart F entry-level driver training, 49 CFR 393 cargo securement and 49 CFR 395 hours of service, CVSA roadside inspection practice, the apprenticeship standards of the trades the edition prepares people for, OSHA 10, CFPB and IRS consumer guidance for the financial coaching stations, and SAMHSA guidance for the wellness stations</p>
+    <p class="summary">The programmes wojrc.org describes, as simulators: warehouse and Commercial Class A driving under the TDL pre-apprenticeship, navigating and enrolling in a union construction apprenticeship, financial coaching that builds credit, reduces debt and builds savings, and the wellness resource centre. Only the sponsor&#39;s own words describe the organisation; everything else here is a procedure with its standard.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1610</b><span>lessons across the track</span></div>
+      <div class="stat"><b>129</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>80</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=trades-lineage-briefing">Trades Lineage Briefing <span class="chip base">base run</span> <span class="st">8</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-standards-reading">Reading an Apprenticeship Standard <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=forklift-dock">Forklift Dock <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics">Lifting and Ergonomics <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan">Pick, Pack and Scan <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test">Apprenticeship Application &amp; Test <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income">Budget With Irregular Income <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>24 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>80</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=trades-lineage-briefing&amp;time=day">Trades Lineage Briefing <span class="chip time">daylight</span> <span class="st">8</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-standards-reading&amp;time=day">Reading an Apprenticeship Standard <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=forklift-dock&amp;time=day">Forklift Dock <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics&amp;time=day">Lifting and Ergonomics <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan&amp;time=day">Pick, Pack and Scan <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=day">Apprenticeship Application &amp; Test <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=day">Budget With Irregular Income <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>24 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>80</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=trades-lineage-briefing">Trades Lineage Briefing <span class="chip base">base run</span> <span class="st">8</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-standards-reading">Reading an Apprenticeship Standard <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=forklift-dock">Forklift Dock <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics">Lifting and Ergonomics <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan">Pick, Pack and Scan <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test">Apprenticeship Application &amp; Test <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income">Budget With Irregular Income <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>24 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-standards-reading&amp;time=dusk">Reading an Apprenticeship Standard <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=forklift-dock&amp;time=dusk">Forklift Dock <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics&amp;time=dusk">Lifting and Ergonomics <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan&amp;time=dusk">Pick, Pack and Scan <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=dusk">Apprenticeship Application &amp; Test <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=dusk">Budget With Irregular Income <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=credit-report-reading&amp;time=dusk">Credit Report Reading <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>22 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics">Lifting and Ergonomics <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan">Pick, Pack and Scan <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test">Apprenticeship Application &amp; Test <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=day">Budget With Irregular Income <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=credit-report-reading&amp;time=day">Credit Report Reading <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=day">Debt Reduction Plan <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=day">Emergency Savings &amp; Predatory Lending <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan&amp;time=dusk">Pick, Pack and Scan <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=dusk">Apprenticeship Application &amp; Test <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=dusk">Budget With Irregular Income <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=credit-report-reading&amp;time=dusk">Credit Report Reading <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=dusk">Debt Reduction Plan <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=dusk">Emergency Savings &amp; Predatory Lending <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=dusk">Pallet Jack and Racking <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>19 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=day">Apprenticeship Application &amp; Test <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=day">Budget With Irregular Income <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=credit-report-reading&amp;time=day">Credit Report Reading <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=day">Debt Reduction Plan <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=day">Emergency Savings &amp; Predatory Lending <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=day">Pallet Jack and Racking <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=day">Union Hall &amp; Dispatch <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=credit-report-reading&amp;time=dusk">Credit Report Reading <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=dusk">Debt Reduction Plan <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=dusk">Emergency Savings &amp; Predatory Lending <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=dusk">Pallet Jack and Racking <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=dusk">Union Hall &amp; Dispatch <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=first-period-evaluation&amp;time=dusk">First-Period Evaluation <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;weather=fog">Jobsite Orientation &amp; OSHA 10 <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=day">Debt Reduction Plan <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=day">Emergency Savings &amp; Predatory Lending <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=day">Pallet Jack and Racking <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=day">Union Hall &amp; Dispatch <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=first-period-evaluation&amp;time=day">First-Period Evaluation <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;time=day">Jobsite Orientation &amp; OSHA 10 <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;time=day">Trailer Loading and Dock Plate <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>24 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=dusk">Pallet Jack and Racking <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=dusk">Union Hall &amp; Dispatch <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=first-period-evaluation&amp;time=dusk">First-Period Evaluation <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;weather=rain">Jobsite Orientation &amp; OSHA 10 <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;time=dusk">Trailer Loading and Dock Plate <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;weather=rain">Backing and Docking <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>23 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;hazard=assess">Union Hall &amp; Dispatch <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=first-period-evaluation&amp;hazard=assess">First-Period Evaluation <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;hazard=assess">Jobsite Orientation &amp; OSHA 10 <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;hazard=assess">Trailer Loading and Dock Plate <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;hazard=assess">Backing and Docking <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;hazard=assess">Hazmat Labeling and Segregation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>26 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;interrupt=jso-foreman-skip">Jobsite Orientation &amp; OSHA 10 <span class="chip interrupt">interruption: jso foreman skip</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;interrupt=yard-truck-early">Trailer Loading and Dock Plate <span class="chip interrupt">interruption: yard truck early</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;interrupt=spotter-out-of-view">Backing and Docking <span class="chip interrupt">interruption: spotter out of view</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;interrupt=jug-weeping">Hazmat Labeling and Segregation <span class="chip interrupt">interruption: jug weeping</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;interrupt=pys-irs-caller">Pay Stub &amp; Withholding <span class="chip interrupt">interruption: pys irs caller</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;interrupt=strap-slack">Cargo Securement and Hours <span class="chip interrupt">interruption: strap slack</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>28 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;hazard=assess">Trailer Loading and Dock Plate <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;hazard=assess">Backing and Docking <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;hazard=assess">Hazmat Labeling and Segregation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;hazard=assess">Pay Stub &amp; Withholding <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;hazard=assess">Cargo Securement and Hours <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;hazard=assess">Coupling and Uncoupling <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>20 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;interrupt=placard-falls">Hazmat Labeling and Segregation <span class="chip interrupt">interruption: placard falls</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;interrupt=pys-refund-pitch">Pay Stub &amp; Withholding <span class="chip interrupt">interruption: pys refund pitch</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;interrupt=truck-passes-close">Cargo Securement and Hours <span class="chip interrupt">interruption: truck passes close</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;interrupt=worker-between">Coupling and Uncoupling <span class="chip interrupt">interruption: worker between</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;interrupt=yard-tractor-backing">Pre-Trip Inspection <span class="chip interrupt">interruption: yard tractor backing</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=gladhand-blows">Air Brake Test <span class="chip interrupt">interruption: gladhand blows</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;interrupt=pys-irs-caller">Pay Stub &amp; Withholding <span class="chip interrupt">interruption: pys irs caller</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;weather=wind">Cargo Securement and Hours <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;interrupt=coworker-on-catwalk">Coupling and Uncoupling <span class="chip interrupt">interruption: coworker on catwalk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;weather=rain">Pre-Trip Inspection <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;time=day">Air Brake Test <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;time=day">Wellness — Asking for Help and Resources <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>19 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;hazard=assess">Cargo Securement and Hours <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;interrupt=worker-between">Coupling and Uncoupling <span class="chip interrupt">interruption: worker between</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;time=dusk">Pre-Trip Inspection <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=worker-between">Air Brake Test <span class="chip interrupt">interruption: worker between</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;hazard=assess">Wellness — Asking for Help and Resources <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;time=dusk">Wellness — Shift Work, Sleep and Stress <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;hazard=assess">Pre-Trip Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;weather=fog">Air Brake Test <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;interrupt=coworker-within-earshot">Wellness — Asking for Help and Resources <span class="chip interrupt">interruption: coworker within earshot</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;hazard=assess">Wellness — Shift Work, Sleep and Stress <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;interrupt=chat-photo">Wellness — Substance Use and the Job <span class="chip interrupt">interruption: chat photo</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;interrupt=instructor-at-the-door">Wellness — Peer Support Conversation <span class="chip interrupt">interruption: instructor at the door</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;weather=storm">Pre-Trip Inspection <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=gladhand-blows">Air Brake Test <span class="chip interrupt">interruption: gladhand blows</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;hazard=assess">Wellness — Asking for Help and Resources <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;time=day">Wellness — Shift Work, Sleep and Stress <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;interrupt=he-heads-for-the-dock">Wellness — Substance Use and the Job <span class="chip interrupt">interruption: he heads for the dock</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;time=day">Wellness — Peer Support Conversation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;time=dusk">Pre-Trip Inspection <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=worker-between">Air Brake Test <span class="chip interrupt">interruption: worker between</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;interrupt=landlord-on-the-other-line">Wellness — Asking for Help and Resources <span class="chip interrupt">interruption: landlord on the other line</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;hazard=assess">Wellness — Shift Work, Sleep and Stress <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;time=day">Wellness — Substance Use and the Job <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-peer-support-conversation">Wellness — Peer Support Conversation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;variant=assessment">Pre-Trip Inspection <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tdl-air-brake-test&amp;variant=assessment">Air Brake Test <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;variant=assessment">Wellness — Asking for Help and Resources <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;variant=assessment">Wellness — Shift Work, Sleep and Stress <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;variant=assessment">Wellness — Substance Use and the Job <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;variant=assessment">Wellness — Peer Support Conversation <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=job-readiness-edition&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f2a23b">
+          <img class="shot" src="img/forklift-dock.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Manufacturing &amp; Automation</p>
+            <h3>Forklift Dock</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4 min · indoors</p>
+            <p class="why">The shared opener: the forklift and the dock are where warehouse training starts and where the first credential is earned.</p>
+            <ul class="st-std"><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li><li>union — UFCW member training for retail food, clinic and dental support work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=forklift-dock"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=forklift-dock&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=forklift-dock&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=forklift-dock">Launch Forklift Dock</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f0a13a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Pallet Jack and Racking</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">The walkie pallet jack and the rack it feeds: a pre-use inspection that takes a truck out of service, a pallet checked against the truck&#39;s rating and the rack plaque, the horn at every aisle end, and a rack walk that finds the damage before a bay comes down.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>NIOSH — Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</li><li>OSHA — 29 CFR 1910.157 — Portable fire extinguishers</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6, L8, L10</span> <a href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L7, L9</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-pallet-jack-and-racking">Launch Pallet Jack and Racking</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb8c9">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Pick, Pack and Scan</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.2 min · indoors</p>
+            <p class="why">One pick wave from scanner to shipping label, with the forklift lane respected at the aisle end and a jammed conveyor stopped, disconnected and locked before any hand goes near it.</p>
+            <ul class="st-std"><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>NIOSH — Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>PHMSA — 49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-pick-pack-and-scan"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=tdl-pick-pack-and-scan&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=tdl-pick-pack-and-scan&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-pick-pack-and-scan">Launch Pick, Pack and Scan</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e2b33c">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Trailer Loading and Dock Plate</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min · indoors</p>
+            <p class="why">A dropped trailer loaded through a plate door: walked for a soft floor, chocked and jacked at the nose, the restraint held until it grips, a plate rated for truck and load together, and a release that never leaves a plate on a trailer that can move.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate&amp;interrupt=yard-truck-early"><span class="chip interrupt">interruption: yard truck early</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-trailer-loading-and-dock-plate">Launch Trailer Loading and Dock Plate</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0663a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Hazmat Labeling and Segregation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">The hazmat cage at an outbound door, where the shipping paper, the labels, the segregation of acid from oxidizer and the placards on every side are all checked by the person whose signature goes on the shipper&#39;s certification.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>PHMSA — 49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training</li><li>PHMSA — 49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;interrupt=jug-weeping"><span class="chip interrupt">interruption: jug weeping</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation&amp;interrupt=placard-falls"><span class="chip interrupt">interruption: placard falls</span></a><span class="st-meta">L14</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-hazmat-labeling-and-segregation">Launch Hazmat Labeling and Segregation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8fc45a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Lifting and Ergonomics</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.2 min · indoors</p>
+            <p class="why">The manual handling under every warehouse job, scored the way the Revised NIOSH Lifting Equation scores it, with the station changed to fit the worker, the team lift called on a count, and discomfort reported while it is still only discomfort.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>NIOSH — Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</li><li>OSHA — 29 CFR 1904 — Recording and reporting occupational injuries and illnesses</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-lifting-and-ergonomics">Launch Lifting and Ergonomics</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#58a6e8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Pre-Trip Inspection</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The Class A pre-trip that entry-level driver training starts from: the last report read, the engine bay walked cold, tread measured, lights and brake lights walked, and every defect written in the driver vehicle inspection report before the truck moves.</p>
+            <ul class="st-std"><li>CVSA — CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>FMCSA — 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices</li><li>FMCSA — 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;interrupt=yard-tractor-backing"><span class="chip interrupt">interruption: yard tractor backing</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16, L19</span> <a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;weather=storm"><span class="chip weather">storm</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=tdl-pretrip-inspection&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-pretrip-inspection">Launch Pre-Trip Inspection</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Air Brake Test</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The in-cab air brake check a skills examiner watches, with the build rate, governor cut-out, static and applied leak rates, low-air warning and pop-out read against the manual&#39;s figures and written down.</p>
+            <ul class="st-std"><li>CVSA — CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>FMCSA — 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=gladhand-blows"><span class="chip interrupt">interruption: gladhand blows</span></a><span class="st-meta">L14, L18</span> <a href="../smartcity-x.html?sim=tdl-air-brake-test&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=tdl-air-brake-test&amp;interrupt=worker-between"><span class="chip interrupt">interruption: worker between</span></a><span class="st-meta">L16, L19</span> <a href="../smartcity-x.html?sim=tdl-air-brake-test&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=tdl-air-brake-test&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-air-brake-test">Launch Air Brake Test</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fd0b4">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Coupling and Uncoupling</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">Hooking and dropping a trailer the manual&#39;s way — fifth wheel inspected, height checked, lines on and trailer brakes set before backing under, the tug test and the get-out-and-look — so a high hook never leaves the yard.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>CVSA — CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>FMCSA — 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;interrupt=worker-between"><span class="chip interrupt">interruption: worker between</span></a><span class="st-meta">L14, L16</span> <a href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling&amp;interrupt=coworker-on-catwalk"><span class="chip interrupt">interruption: coworker on catwalk</span></a><span class="st-meta">L15</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-coupling-and-uncoupling">Launch Coupling and Uncoupling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b88cf0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Backing and Docking</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The alley dock that range training drills, taken from the sight side with two get-out-and-look walks, a spotter who stops the truck the moment they leave the mirror, and a trailer chocked and handed over at the door.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ISEA 107 — High-visibility safety apparel and accessories</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>FMCSA — 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices</li><li>OSHA — 29 CFR 1910.178 — Powered industrial trucks</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11, L13</span> <a href="../smartcity-x.html?sim=tdl-backing-and-docking&amp;interrupt=spotter-out-of-view"><span class="chip interrupt">interruption: spotter out of view</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-backing-and-docking">Launch Backing and Docking</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5ec2d6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Cargo Securement and Hours</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">A flatbed load secured by count and by working load limit under 49 CFR 393, re-checked after the first miles, protected on the shoulder, and driven inside an eleven-hour, fourteen-hour day the electronic log can certify.</p>
+            <ul class="st-std"><li>CVSA — CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles</li><li>FMCSA — 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</li><li>FMCSA — 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</li><li>FMCSA — 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices</li><li>FMCSA — 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;interrupt=strap-slack"><span class="chip interrupt">interruption: strap slack</span></a><span class="st-meta">L12</span> <a href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13, L16</span> <a href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;interrupt=truck-passes-close"><span class="chip interrupt">interruption: truck passes close</span></a><span class="st-meta">L14</span> <a href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours&amp;weather=wind"><span class="chip weather">high wind</span></a><span class="st-meta">L15</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tdl-cargo-securement-and-hours">Launch Cargo Securement and Hours</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0b04a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Reading an Apprenticeship Standard</h3>
+            <p class="st-meta">10 steps · 4 hazards · 0 interruptions · par 5 min</p>
+            <p class="why">The briefing that opens the apprenticeship steps: how to read a registered standard, the ladder from pre-apprentice to journey level, the aptitude test, the tool list and where OSHA 10 fits, sourced and flat.</p>
+            <ul class="st-std"><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1926.21 — Safety training and education in construction</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=apprenticeship-standards-reading"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=apprenticeship-standards-reading&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span> <a href="../smartcity-x.html?sim=apprenticeship-standards-reading&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=apprenticeship-standards-reading">Launch Reading an Apprenticeship Standard</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f0c05a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Apprenticeship Application &amp; Test</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">The way in: a recruitment notice read for what it asks, the documents gathered, an application read before it is signed and handed in on time, and an aptitude test sat at a steady pace.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=apprenticeship-application-and-test"><span class="chip base">base run</span></a><span class="st-meta">L1, L3, L5</span> <a href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L7</span> <a href="../smartcity-x.html?sim=apprenticeship-application-and-test&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=apprenticeship-application-and-test">Launch Apprenticeship Application &amp; Test</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2a43a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Jobsite Orientation &amp; OSHA 10</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The first morning on site: the OSHA 10 card understood as awareness, the site orientation 29 CFR 1926.21 owes every new hand, a ladder set, a harness on and tied off, and water on the saw before the cut.</p>
+            <ul class="st-std"><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li><li>OSHA — 29 CFR 1926.21 — Safety training and education in construction</li><li>OSHA — 29 CFR 1926.416 — General requirements for electrical work practices in construction</li><li>OSHA — 29 CFR 1926.501 — Duty to have fall protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;weather=fog"><span class="chip weather">fog</span></a><span class="st-meta">L8</span> <a href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;weather=rain"><span class="chip weather">rain</span></a><span class="st-meta">L10</span> <a href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span> <a href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10&amp;interrupt=jso-foreman-skip"><span class="chip interrupt">interruption: jso foreman skip</span></a><span class="st-meta">L12</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=jobsite-orientation-and-osha-10">Launch Jobsite Orientation &amp; OSHA 10</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fa8dc">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Union Hall &amp; Dispatch</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">The hall between jobs: the book signed in your own name, a dispatch slip read at the window, the morning planned back from the report time, and a job outside the apprenticeship taken to the coordinator.</p>
+            <ul class="st-std"><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L7, L9</span> <a href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8, L10</span> <a href="../smartcity-x.html?sim=union-hall-and-dispatch&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=union-hall-and-dispatch">Launch Union Hall &amp; Dispatch</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c98f5a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>First-Period Evaluation</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The end of the first period: a logbook with no gaps, a guarded skills demonstration, an evaluation read before it is signed, and the next rate read off the standard&#39;s wage schedule.</p>
+            <ul class="st-std"><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.21 — Safety training and education in construction</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=first-period-evaluation&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L8, L10</span> <a href="../smartcity-x.html?sim=first-period-evaluation&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L9</span> <a href="../smartcity-x.html?sim=first-period-evaluation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L11</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=first-period-evaluation">Launch First-Period Evaluation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fc2b0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Credit Report Reading</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">The free report pulled from the right place, every line read, the errors disputed with both the credit reporting company and the furnisher, and a date set for the answer.</p>
+            <ul class="st-std"><li>CFPB — Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</li><li>CFPB — The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information</li><li>CFPB — The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=credit-report-reading&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6, L8</span> <a href="../smartcity-x.html?sim=credit-report-reading&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5, L7</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=credit-report-reading">Launch Credit Report Reading</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a85a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Debt Reduction Plan</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">Every debt on the table with its APR and minimum, sorted highest rate first, a monthly amount that holds, and a finish date that a threatening collector and a settlement contract do not get to change.</p>
+            <ul class="st-std"><li>CFPB — Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</li><li>CFPB — The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information</li><li>CFPB — The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5, L7, L9</span> <a href="../smartcity-x.html?sim=debt-reduction-plan&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6, L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=debt-reduction-plan">Launch Debt Reduction Plan</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#8fb8e8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Pay Stub &amp; Withholding</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The first stub read properly: the rate held against the wage schedule, the hours against your own log, every deduction named, and the W-4 checked with the IRS&#39;s own estimator.</p>
+            <ul class="st-std"><li>CFPB — Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</li><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;interrupt=pys-irs-caller"><span class="chip interrupt">interruption: pys irs caller</span></a><span class="st-meta">L12, L15</span> <a href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L13</span> <a href="../smartcity-x.html?sim=pay-stub-and-withholding&amp;interrupt=pys-refund-pitch"><span class="chip interrupt">interruption: pys refund pitch</span></a><span class="st-meta">L14</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pay-stub-and-withholding">Launch Pay Stub &amp; Withholding</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9ac46a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Budget With Irregular Income</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">Construction pay budgeted on the lean month: essentials first, the good months feeding a buffer, the tax on side work set aside, and a car repair paid without a payday loan.</p>
+            <ul class="st-std"><li>CFPB — Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</li><li>CFPB — The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit</li><li>DOL — Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=budget-with-irregular-income"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2, L5, L7</span> <a href="../smartcity-x.html?sim=budget-with-irregular-income&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L4, L6</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=budget-with-irregular-income">Launch Budget With Irregular Income</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d88ab8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Emergency Savings &amp; Predatory Lending</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">An emergency fund built automatically and fed by the refund, and every loan offer read by its APR, finance charge and total before anything is signed on somebody else&#39;s deadline.</p>
+            <ul class="st-std"><li>CFPB — Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</li><li>CFPB — The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information</li><li>CFPB — The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit</li><li>IRS — Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L5, L7, L9</span> <a href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L6, L8</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=emergency-savings-and-predatory-lending">Launch Emergency Savings &amp; Predatory Lending</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e07a3f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Trades Lineage Briefing</h3>
+            <p class="st-meta">8 steps · 4 hazards · 0 interruptions · par 5 min</p>
+            <p class="why">The heritage opener: the trades as a lineage, a bridge that opened in 1937, an article listed as reading rather than retold, and a plain line around what this edition does and does not know.</p>
+            <ul class="st-std"><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910 — Occupational safety and health standards for general industry</li><li>OSHA — OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>PHMSA — 49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=trades-lineage-briefing"><span class="chip base">base run</span></a><span class="st-meta">L1, L3</span> <a href="../smartcity-x.html?sim=trades-lineage-briefing&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L2</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=trades-lineage-briefing">Launch Trades Lineage Briefing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fb7d6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Wellness — Shift Work, Sleep and Stress</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The week the roster flips to nights: the traps read off the roster, a stress check rated honestly, one block of anchor sleep held against the extra shift, and the drive home decided by a check instead of by pride.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910 — Occupational safety and health standards for general industry</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;time=dusk"><span class="chip time">dusk</span></a><span class="st-meta">L16</span> <a href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L17, L19</span> <a href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wellness-shift-work-sleep-and-stress">Launch Wellness — Shift Work, Sleep and Stress</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9fb0e0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Wellness — Peer Support Conversation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min · indoors</p>
+            <p class="why">A cohort-mate says he cannot keep doing this: the signs noticed first, the rule said with its limits, their pace followed, the direct question asked when the words call for it, and three real doors named.</p>
+            <ul class="st-std"><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;interrupt=instructor-at-the-door"><span class="chip interrupt">interruption: instructor at the door</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=wellness-peer-support-conversation"><span class="chip base">base run</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=wellness-peer-support-conversation&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wellness-peer-support-conversation">Launch Wellness — Peer Support Conversation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d8a447">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Wellness — Substance Use and the Job</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.6 min · indoors</p>
+            <p class="why">Four in the morning on the dock: the forklift key taken before the conversation, what you saw said plainly, whose decision the test is, and the doors a crew-mate can take without losing the job.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1904 — Recording and reporting occupational injuries and illnesses</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;interrupt=chat-photo"><span class="chip interrupt">interruption: chat photo</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;interrupt=he-heads-for-the-dock"><span class="chip interrupt">interruption: he heads for the dock</span></a><span class="st-meta">L18</span> <a href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=wellness-substance-use-and-the-job&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wellness-substance-use-and-the-job">Launch Wellness — Substance Use and the Job</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fc4a0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Wellness — Asking for Help and Resources</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The week your own life goes sideways: the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, and the follow-up booked.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li><li>NCTSN — Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</li><li>Red Cross — American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</li><li>SAMHSA — SAMHSA&#39;s six principles of a trauma-informed approach</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><a href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;time=day"><span class="chip time">daylight</span></a><span class="st-meta">L15</span> <a href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a><span class="st-meta">L16, L18</span> <a href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;interrupt=coworker-within-earshot"><span class="chip interrupt">interruption: coworker within earshot</span></a><span class="st-meta">L17</span> <a href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;interrupt=landlord-on-the-other-line"><span class="chip interrupt">interruption: landlord on the other line</span></a><span class="st-meta">L19</span> <a href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources&amp;variant=assessment"><span class="chip variant">assessment variant</span></a><span class="st-meta">L20</span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wellness-asking-for-help-and-resources">Launch Wellness — Asking for Help and Resources</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ISEA 107 — High-visibility safety apparel and accessories</td><td class="n">7 levels</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks</td><td class="n">13 levels</td></tr>
+          <tr><td>CDC</td><td>CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</td><td class="n">L16, L17, L18, L19, L20</td></tr>
+          <tr><td>CFPB</td><td>Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans</td><td class="n">13 levels</td></tr>
+          <tr><td>CFPB</td><td>The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information</td><td class="n">L4, L5, L6, L7, L8, L9</td></tr>
+          <tr><td>CFPB</td><td>The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit</td><td class="n">9 levels</td></tr>
+          <tr><td>CVSA</td><td>CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles</td><td class="n">9 levels</td></tr>
+          <tr><td>DOJ</td><td>Americans with Disabilities Act Title II — programme accessibility for public entities and their services</td><td class="n">11 levels</td></tr>
+          <tr><td>DOL</td><td>Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure</td><td class="n">15 levels</td></tr>
+          <tr><td>FMCSA</td><td>49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry</td><td class="n">all 20</td></tr>
+          <tr><td>FMCSA</td><td>49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo</td><td class="n">12 levels</td></tr>
+          <tr><td>FMCSA</td><td>49 CFR Part 395 — Hours of service of drivers, including electronic logging devices</td><td class="n">11 levels</td></tr>
+          <tr><td>FMCSA</td><td>49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report</td><td class="n">9 levels</td></tr>
+          <tr><td>HHS</td><td>HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>IRS</td><td>Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers</td><td class="n">15 levels</td></tr>
+          <tr><td>NCTSN</td><td>Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide</td><td class="n">9 levels</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">16 levels</td></tr>
+          <tr><td>NIOSH</td><td>Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1904 — Recording and reporting occupational injuries and illnesses</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910 — Occupational safety and health standards for general industry</td><td class="n">8 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1200 — Hazard communication</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.132 — Personal protective equipment, general requirements</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.151 — Medical services and first aid</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.157 — Portable fire extinguishers</td><td class="n">L6, L7, L8, L9, L10</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.178 — Powered industrial trucks</td><td class="n">14 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.22 — Walking-working surfaces, general requirements</td><td class="n">13 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">L8, L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.1153 — Respirable crystalline silica in construction</td><td class="n">L8, L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.21 — Safety training and education in construction</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.416 — General requirements for electrical work practices in construction</td><td class="n">L8, L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.501 — Duty to have fall protection</td><td class="n">L8, L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.502 — Fall protection systems criteria and practices</td><td class="n">L8, L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer&#39;s own training</td><td class="n">12 levels</td></tr>
+          <tr><td>PHMSA</td><td>49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training</td><td class="n">10 levels</td></tr>
+          <tr><td>PHMSA</td><td>49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle</td><td class="n">L11, L12, L13, L14</td></tr>
+          <tr><td>Red Cross</td><td>American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards</td><td class="n">9 levels</td></tr>
+          <tr><td>SAMHSA</td><td>SAMHSA&#39;s six principles of a trauma-informed approach</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>AFSCME member education and safety training for public-service and air-district members</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>union</td><td>IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</td><td class="n">11 levels</td></tr>
+          <tr><td>union</td><td>LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</td><td class="n">15 levels</td></tr>
+          <tr><td>union</td><td>SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</td><td class="n">L15, L16, L17, L18, L19, L20</td></tr>
+          <tr><td>union</td><td>Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>UFCW member training for retail food, clinic and dental support work</td><td class="n">L1, L2, L3, L4</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Get and keep a job: warehouse and Class A driving, apprenticeship entry, financial footing and wellness</h3>
+        <p>Demonstrated with a mastery run on 6 of its 26 stations, against OSHA 29 CFR 1910.178 Powered industrial trucks; SAMHSA Concept of Trauma and Guidance for a Trauma-Informed Approach.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OSHA 29 CFR 1910.178 powered industrial trucks, FMCSA 49 CFR 380 Subpart F entry-level driver training, 49 CFR 393 cargo securement and 49 CFR 395 hours of service, CVSA roadside inspection practice, the apprenticeship standards of the trades the edition prepares people for, OSHA 10, CFPB and IRS consumer guidance for the financial coaching stations, and SAMHSA guidance for the wellness stations. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>
