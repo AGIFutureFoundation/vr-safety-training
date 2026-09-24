@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cs-non-entry-retrieval-and-tripod",
+    "index": "323",
+    "domain": "Water & Environmental",
+    "trade": "Confined-space attendant — LIUNA, UA or IUOE crew rigging a tripod and winch for non-entry retrieval",
+    "category": "Water & Environmental",
+    "certification": "OSHA 29 CFR 1910.146(k) rescue and emergency services — retrieval systems for non-entry rescue, a full-body harness with the line at the centre of the back, and a mechanical retrieval device for vertical spaces; OSHA 29 CFR 1926 Subpart AA where the entry is construction work; ANSI Z359 fall protection and rescue code for the tripod, winch and harness; ANSI Z117.1 confined-space practice; NIOSH confined-space criteria on would-be rescuers; LIUNA, UA and IUOE confined-space training",
+    "name": "Non-Entry Retrieval & Tripod",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Non-Entry Retrieval & Tripod VR",
+    "tagline": "The rescue that needs no rescuer: the kit inspected, the tripod set square over a storm drain structure, legs pinned and chained, the winch mounted and reeved, the brake proven under a test weight while a coworker tries to hoist tools on it, the harness fitted and the line on the back D-ring before entry, the lower tended through a slip, the line kept clear, the drill haul cranked, the entrant brought over the lip, and the drill logged",
+    "accent": 15773771,
+    "accentCss": "#f0b04b",
+    "parSeconds": 280,
+    "badge": {
+      "id": "out-without-going-in",
+      "name": "Out Without Going In",
+      "note": "A tripod set square and proven, the line on before entry, and the entrant brought out and over the lip with nobody leaning into the hole"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Retrieval Rig",
+      "currency": "HAULS",
+      "ranks": [
+        "Tripod Hand",
+        "Attendant",
+        "Retrieval Lead",
+        "Entry Supervisor",
+        "Non-Entry Rescue Qualified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

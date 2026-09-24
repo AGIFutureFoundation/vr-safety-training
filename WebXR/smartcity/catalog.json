@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -84,6 +84,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "cs-non-entry-retrieval-and-tripod",
         "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
         "manhole-entry-and-atmospheric-monitoring",
@@ -6737,6 +6738,88 @@
     },
     {
       "app": "smartcity",
+      "id": "cs-non-entry-retrieval-and-tripod",
+      "name": "Non-Entry Retrieval & Tripod",
+      "title": "SmartCiti.X~ Non-Entry Retrieval & Tripod VR",
+      "tagline": "The rescue that needs no rescuer: the kit inspected, the tripod set square over a storm drain structure, legs pinned and chained, the winch mounted and reeved, the brake proven under a test weight while a coworker tries to hoist tools on it, the harness fitted and the line on the back D-ring before entry, the lower tended through a slip, the line kept clear, the drill haul cranked, the entrant brought over the lip, and the drill logged",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space attendant — LIUNA, UA or IUOE crew rigging a tripod and winch for non-entry retrieval",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146(k) rescue and emergency services — retrieval systems for non-entry rescue, a full-body harness with the line at the centre of the back, and a mechanical retrieval device for vertical spaces; OSHA 29 CFR 1926 Subpart AA where the entry is construction work; ANSI Z359 fall protection and rescue code for the tripod, winch and harness; ANSI Z117.1 confined-space practice; NIOSH confined-space criteria on would-be rescuers; LIUNA, UA and IUOE confined-space training",
+      "accent": "#f0b04b",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "out-without-going-in",
+        "name": "Out Without Going In",
+        "note": "A tripod set square and proven, the line on before entry, and the entrant brought out and over the lip with nobody leaning into the hole"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Retrieval Rig",
+      "currency": "HAULS",
+      "ranks": [
+        "Tripod Hand",
+        "Attendant",
+        "Retrieval Lead",
+        "Entry Supervisor",
+        "Non-Entry Rescue Qualified"
+      ],
+      "awards": [
+        {
+          "id": "line-before-boots",
+          "name": "Line Before Boots",
+          "note": "The retrieval line on the back D-ring before the entrant crossed the opening"
+        },
+        {
+          "id": "never-leaned-in",
+          "name": "Never Leaned In",
+          "note": "No handrail anchor, no belt clip, no leaning over the hole, no leg on the grating"
+        },
+        {
+          "id": "clean-rig",
+          "name": "Clean Rig",
+          "note": "No corrections from the rescue plan to the log"
+        },
+        {
+          "id": "tended-line",
+          "name": "Tended Line",
+          "note": "The lower tended in band all the way"
+        },
+        {
+          "id": "drill-time",
+          "name": "Drill Time",
+          "note": "Rescue plan to log inside 80% of par"
+        },
+        {
+          "id": "eight-clean",
+          "name": "Eight Clean",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-non-entry-retrieval-and-tripod"
+    },
+    {
+      "app": "smartcity",
       "id": "cs-ventilation-and-air-monitoring-plan",
       "name": "Ventilation & Air Monitoring Plan",
       "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
@@ -6769,7 +6852,7 @@
         "name": "Air to the Corners",
         "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
       },
-      "meshes": 170,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "322",
@@ -25933,7 +26016,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26593,7 +26676,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "100",
