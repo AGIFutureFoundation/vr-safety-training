@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 332
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-footwork-pivots-and-jump-stops",
         "bb-stance-and-ball-handling",
         "bb-warmup-injury-prevention-and-hydration"
       ]
@@ -6736,6 +6737,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-footwork-pivots-and-jump-stops",
+      "name": "Footwork: Pivots and Jump Stops",
+      "title": "SmartCiti.X~ Footwork: Pivots and Jump Stops VR",
+      "tagline": "The floor felt for sticky and slick patches, the pivot-foot rule explained, a jump stop landed soft and balanced, a half-turn pivot on the ball of the foot, a steady agility ladder, a jump count kept, and a rolled ankle cared for properly",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on landing mechanics, jump volume and rest for growing players; NFHS basketball rules on the pivot foot and travelling; CDC Heads Up for the head knocks a fall on a landing can bring; the U.S. Center for SafeSport for verified pick-up and two adults present; the American Red Cross first aid course for rest, ice, support and elevation of a sprained ankle",
+      "accent": "#9b7bff",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "soft-landings",
+        "name": "Soft Landings",
+        "note": "Every landing balanced and every knee over its toes, with the jump count kept and nobody walking off a sore ankle"
+      },
+      "meshes": 228,
+      "lights": 0,
+      "overBudget": false,
+      "index": "333",
+      "flat": false,
+      "system": "Footwork Ladder",
+      "currency": "STEPS",
+      "ranks": [
+        "Floor Helper",
+        "Footwork Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Movement Mentor"
+      ],
+      "awards": [
+        {
+          "id": "true-floor",
+          "name": "True Floor",
+          "note": "Every sticky or slick patch found on the first pass"
+        },
+        {
+          "id": "no-bad-landings",
+          "name": "No Bad Landings",
+          "note": "No unsafe action in the whole footwork block"
+        },
+        {
+          "id": "soft-knees",
+          "name": "Soft Knees",
+          "note": "Landing bend and ladder cadence both inside the band"
+        },
+        {
+          "id": "clean-feet",
+          "name": "Clean Feet",
+          "note": "No corrections anywhere in the block"
+        },
+        {
+          "id": "steady-feet",
+          "name": "Steady Feet",
+          "note": "Held the ladder cadence in band the whole time"
+        },
+        {
+          "id": "brisk-block",
+          "name": "Brisk Block",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-footwork-pivots-and-jump-stops"
     },
     {
       "app": "smartcity",
@@ -25687,7 +25771,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26347,7 +26431,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

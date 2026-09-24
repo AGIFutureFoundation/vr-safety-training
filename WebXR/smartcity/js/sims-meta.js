@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-footwork-pivots-and-jump-stops",
+    "index": "333",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on landing mechanics, jump volume and rest for growing players; NFHS basketball rules on the pivot foot and travelling; CDC Heads Up for the head knocks a fall on a landing can bring; the U.S. Center for SafeSport for verified pick-up and two adults present; the American Red Cross first aid course for rest, ice, support and elevation of a sprained ankle",
+    "name": "Footwork: Pivots and Jump Stops",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Footwork: Pivots and Jump Stops VR",
+    "tagline": "The floor felt for sticky and slick patches, the pivot-foot rule explained, a jump stop landed soft and balanced, a half-turn pivot on the ball of the foot, a steady agility ladder, a jump count kept, and a rolled ankle cared for properly",
+    "accent": 10189823,
+    "accentCss": "#9b7bff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "soft-landings",
+      "name": "Soft Landings",
+      "note": "Every landing balanced and every knee over its toes, with the jump count kept and nobody walking off a sore ankle"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Footwork Ladder",
+      "currency": "STEPS",
+      "ranks": [
+        "Floor Helper",
+        "Footwork Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Movement Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
