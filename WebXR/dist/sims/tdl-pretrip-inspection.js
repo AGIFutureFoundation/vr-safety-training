@@ -24,7 +24,6 @@ import { simTitle, system, AWARD } from "../gamify.js";
 
 const PTI_ACCENT = 0x58a6e8;
 const PTI_CAB = 0xb8322c;
-const PTI_TIRE = 0x1a1d21;
 
 export const SIM_TDL_PRETRIP_INSPECTION = {
   id: "tdl-pretrip-inspection",

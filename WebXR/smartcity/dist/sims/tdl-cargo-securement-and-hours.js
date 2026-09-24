@@ -24,7 +24,6 @@ import { simTitle, system, AWARD } from "../gamify.js";
 
 const CSH_ACCENT = 0x5ec2d6;
 const CSH_CAB = 0x2f7f5f;
-const CSH_TIRE = 0x1a1d21;
 const CSH_CRATE = 0xb8925e;
 
 export const SIM_TDL_CARGO_SECUREMENT_AND_HOURS = {
