@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-derelict-vessel-salvage-rigging",
         "vessel-gangway-and-hatch-cover-safety",
         "mw-diver-emergency-and-recovery",
         "mw-underwater-welding-and-cutting",
@@ -6729,6 +6730,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-derelict-vessel-salvage-rigging",
+      "name": "Derelict Vessel Salvage Rigging",
+      "title": "SmartCiti.X~ Derelict Vessel Salvage Rigging VR",
+      "tagline": "A sunken derelict lifted from the Bay: PFD on at the ladder head, the salvage plan read, the wreck surveyed from the barge, boom closed round her fuel, the slings inspected and the radius read off the chart, the slings passed at the marked points and shackled, tag lines on, the fall zone flagged, a strain taken through a hull still full of water, the tag line held as she breaks the surface through a tide that sets the skiff in, and the lift logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 (UBC) salvage rigger on a crane barge, with an IUOE Local 3 crane operator in the cab and an Inlandboatmen's Union (IBU) deckhand on the skiff",
+      "union": null,
+      "certification": "Pile Drivers Local 34 (UBC) rigging and marine construction training; IUOE Local 3 crane operator training and NCCCO certification; Inlandboatmen's Union (IBU) deck and skiff practice; OSHA 29 CFR 1926.1437 cranes on barges and 29 CFR 1926.106 work over water; ASME B30.8 floating cranes, ASME B30.9 slings and ASME B30.26 rigging hardware; USCG 33 CFR 153 discharge removal under the Area Contingency Plan; NOAA Office of Response and Restoration spill guidance; the removal authorised under the BCDC permit and the salvage plan",
+      "accent": "#d98a2b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "never-under-the-hook",
+        "name": "Never Under The Hook",
+        "note": "Nobody under the load, nobody aboard the wreck, no sling on a rotten cleat, and both the waterlogged hull and the drifting skiff answered"
+      },
+      "meshes": 234,
+      "lights": 0,
+      "overBudget": false,
+      "index": "325",
+      "flat": false,
+      "system": "Salvage Deck",
+      "currency": "SHACKLE",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Lead Rigger",
+        "Salvage Foreman",
+        "Salvage Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "survey-first",
+          "name": "Survey First",
+          "note": "The wreck walked from the barge before any sling went near her"
+        },
+        {
+          "id": "radius-true",
+          "name": "Radius True",
+          "note": "Load chart read inside the band first time"
+        },
+        {
+          "id": "clear-of-the-bight",
+          "name": "Clear Of The Bight",
+          "note": "Never under the hook, never a hand in a bight, never aboard the wreck"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "slow-strain",
+          "name": "Slow Strain",
+          "note": "Hoist load held in band the whole way through the strain"
+        },
+        {
+          "id": "on-the-slack",
+          "name": "On The Slack",
+          "note": "Lift logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-derelict-vessel-salvage-rigging"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25598,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",

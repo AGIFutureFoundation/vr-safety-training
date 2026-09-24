@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-derelict-vessel-salvage-rigging",
+    "index": "325",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 (UBC) salvage rigger on a crane barge, with an IUOE Local 3 crane operator in the cab and an Inlandboatmen's Union (IBU) deckhand on the skiff",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 (UBC) rigging and marine construction training; IUOE Local 3 crane operator training and NCCCO certification; Inlandboatmen's Union (IBU) deck and skiff practice; OSHA 29 CFR 1926.1437 cranes on barges and 29 CFR 1926.106 work over water; ASME B30.8 floating cranes, ASME B30.9 slings and ASME B30.26 rigging hardware; USCG 33 CFR 153 discharge removal under the Area Contingency Plan; NOAA Office of Response and Restoration spill guidance; the removal authorised under the BCDC permit and the salvage plan",
+    "name": "Derelict Vessel Salvage Rigging",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Derelict Vessel Salvage Rigging VR",
+    "tagline": "A sunken derelict lifted from the Bay: PFD on at the ladder head, the salvage plan read, the wreck surveyed from the barge, boom closed round her fuel, the slings inspected and the radius read off the chart, the slings passed at the marked points and shackled, tag lines on, the fall zone flagged, a strain taken through a hull still full of water, the tag line held as she breaks the surface through a tide that sets the skiff in, and the lift logged",
+    "accent": 14256683,
+    "accentCss": "#d98a2b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-under-the-hook",
+      "name": "Never Under The Hook",
+      "note": "Nobody under the load, nobody aboard the wreck, no sling on a rotten cleat, and both the waterlogged hull and the drifting skiff answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Salvage Deck",
+      "currency": "SHACKLE",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Lead Rigger",
+        "Salvage Foreman",
+        "Salvage Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

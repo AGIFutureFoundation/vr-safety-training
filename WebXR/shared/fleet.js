@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, hose, group, mat, mergeStatic, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
+import { box, cyl, ball, torus, hose, group, mat, mergeStatic, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
 
 // Shared fleet kit — every vehicle a station parks, drives or inspects.
 //
