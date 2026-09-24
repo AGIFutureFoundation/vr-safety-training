@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-digital-intraoral-scanning-and-cad-cam",
+    "index": "318",
+    "domain": "Dental",
+    "trade": "Dental assistant — digital scanning and chairside CAD/CAM (expanded-function assistant where the state allows it)",
+    "category": "Dental & Oral Health",
+    "certification": "The state dental board's allowable-duties list for assistants, which decides whether an assistant may take a digital impression at all and under what supervision; the ADA's guidance on the dental team and the ADA's CDT code set for the restoration the dentist records; the CDC's dental infection-control guidelines for a semi-critical scanner tip reprocessed to its manufacturer's instructions; OSHA 29 CFR 1910.1030 bloodborne pathogens for the saliva and blood the tip carries; NIOSH guidance on dust from grinding milled ceramic; HIPAA's privacy and security rules for a scan file that identifies a person; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Digital Intraoral Scanning & CAD/CAM",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Digital Intraoral Scanning & CAD/CAM VR",
+    "tagline": "A crown made in one visit, done properly: a reprocessed tip, a scanner proved ready, one steady scan path, a margin checked before anybody designs to it, a block milled behind a closed door and a file that never leaves the record",
+    "accent": 7259112,
+    "accentCss": "#6ec3e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-visit-crown",
+      "name": "One-Visit Crown",
+      "note": "A scan, a margin check, a design and a mill carried end to end without a remake"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Digital Chairside",
+      "currency": "SCAN",
+      "ranks": [
+        "Assisting Student",
+        "Scanning Assistant",
+        "CAD/CAM Assistant",
+        "Digital Lead",
+        "Digital Chairside Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
