@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 332
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-debris-skimmer-vessel-operations",
         "br-workboat-crane-lift-from-water",
         "br-derelict-vessel-salvage-rigging",
         "vessel-gangway-and-hatch-cover-safety",
@@ -6734,6 +6735,89 @@
     },
     {
       "app": "smartcity",
+      "id": "br-debris-skimmer-vessel-operations",
+      "name": "Debris Skimmer Vessel Operations",
+      "title": "SmartCiti.X~ Debris Skimmer Vessel Operations VR",
+      "tagline": "Working a storm's trash line on the Bay: PFD and cut gloves on at the boarding gate, the work plan read, the conveyor walked, sweeps swung out and the conveyor set to depth, the belt matched to the boat through an unknown drum riding up it, the basket sorted for sharps and a battery, a jam cleared under lockout, the conveyor raised as a harbor seal surfaces between the sweeps, decon, sweeps stowed and the haul tallied",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union (IBU) deckhand running the conveyor and sorting the basket on a debris skimmer, with the master at the helm, a MEBA engineer on watch and an IBU skiff herding the debris line",
+      "union": null,
+      "certification": "Inlandboatmen's Union (IBU) deck practice; MEBA engineering watch; OSHA 29 CFR 1910.147 lockout of the conveyor's hydraulics and 29 CFR 1910.212 guarding; OSHA 29 CFR 1910.1030 sharps and 29 CFR 1910.120 HAZWOPER awareness for unknown containers; OSHA 29 CFR 1910.138 hand protection; USCG 46 CFR 25 lifesaving equipment aboard; NOAA marine forecast and NOAA Fisheries marine mammal guidance; trash recovery reported under the Regional Water Quality Control Board's trash provisions",
+      "accent": "#2fbf9f",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "gauge",
+        "track",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "nothing-sorted-by-hand",
+        "name": "Nothing Sorted By Hand",
+        "note": "No hand in the belt, no sharp touched, no drum opened, no step onto the conveyor, and both the drum and the seal answered"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "327",
+      "flat": false,
+      "system": "Skimmer Deck",
+      "currency": "HAUL",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Conveyor Hand",
+        "Lead Deckhand",
+        "Skimmer Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "guard-first",
+          "name": "Guard First",
+          "note": "The conveyor walked before it ran"
+        },
+        {
+          "id": "depth-true",
+          "name": "Depth True",
+          "note": "Conveyor depth set inside the band first time"
+        },
+        {
+          "id": "tongs-not-hands",
+          "name": "Tongs Not Hands",
+          "note": "Never a hand in the belt or the pile, never a drum opened, never out on the conveyor"
+        },
+        {
+          "id": "clean-haul",
+          "name": "Clean Haul",
+          "note": "No corrections from the plan to the tally"
+        },
+        {
+          "id": "matched-belt",
+          "name": "Matched Belt",
+          "note": "Belt held in band all the way through the debris line"
+        },
+        {
+          "id": "before-the-ebb",
+          "name": "Before The Ebb",
+          "note": "Haul tallied inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-debris-skimmer-vessel-operations"
+    },
+    {
+      "app": "smartcity",
       "id": "br-workboat-crane-lift-from-water",
       "name": "Workboat Crane Lift From Water",
       "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
@@ -6766,7 +6850,7 @@
         "name": "Heavier Out Of The Water",
         "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
       },
-      "meshes": 177,
+      "meshes": 180,
       "lights": 0,
       "overBudget": false,
       "index": "326",
@@ -25682,7 +25766,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26342,7 +26426,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

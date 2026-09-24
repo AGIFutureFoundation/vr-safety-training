@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-debris-skimmer-vessel-operations",
+    "index": "327",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand running the conveyor and sorting the basket on a debris skimmer, with the master at the helm, a MEBA engineer on watch and an IBU skiff herding the debris line",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice; MEBA engineering watch; OSHA 29 CFR 1910.147 lockout of the conveyor's hydraulics and 29 CFR 1910.212 guarding; OSHA 29 CFR 1910.1030 sharps and 29 CFR 1910.120 HAZWOPER awareness for unknown containers; OSHA 29 CFR 1910.138 hand protection; USCG 46 CFR 25 lifesaving equipment aboard; NOAA marine forecast and NOAA Fisheries marine mammal guidance; trash recovery reported under the Regional Water Quality Control Board's trash provisions",
+    "name": "Debris Skimmer Vessel Operations",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Debris Skimmer Vessel Operations VR",
+    "tagline": "Working a storm's trash line on the Bay: PFD and cut gloves on at the boarding gate, the work plan read, the conveyor walked, sweeps swung out and the conveyor set to depth, the belt matched to the boat through an unknown drum riding up it, the basket sorted for sharps and a battery, a jam cleared under lockout, the conveyor raised as a harbor seal surfaces between the sweeps, decon, sweeps stowed and the haul tallied",
+    "accent": 3129247,
+    "accentCss": "#2fbf9f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-sorted-by-hand",
+      "name": "Nothing Sorted By Hand",
+      "note": "No hand in the belt, no sharp touched, no drum opened, no step onto the conveyor, and both the drum and the seal answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Skimmer Deck",
+      "currency": "HAUL",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Conveyor Hand",
+        "Lead Deckhand",
+        "Skimmer Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
