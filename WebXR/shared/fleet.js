@@ -263,6 +263,18 @@ export function flDone(rig, meta = {}) {
   return rig.root;
 }
 
+/**
+ * A switch for a lamp part (a beacon, a light bar, a work light): returns
+ * `(on) => void`, which paints every mesh in the part with `lit` when on and
+ * puts its own baked material back when off. For stations that light a
+ * vehicle's beacon or warning lights when an interruption fires.
+ */
+export function lightSwitch(part, lit) {
+  const own = [];
+  part?.traverse?.((o) => { if (o.isMesh) own.push([o, o.material]); });
+  return (on) => { for (const [o, m] of own) o.material = on ? lit : m; };
+}
+
 // ----------------------------------------------------------------- livery
 
 /**
