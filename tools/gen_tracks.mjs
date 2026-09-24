@@ -230,6 +230,8 @@ const CSS = `
   .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
   .st-std li{margin:1px 0}
   .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
   .runs a:hover{text-decoration:none; filter:brightness(1.15)}
   .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
   .launch::after{content:" \\2192"}
@@ -295,7 +297,7 @@ function stationCard(prog, ladder, s, standards, thumbs) {
   for (const lv of ladder.levels) for (const t of lv.tasks) if (t.app === s.app && t.id === s.id) runs.push({ n: lv.n, condition: t.condition });
   const byCond = new Map();
   for (const r of runs) { if (!byCond.has(r.condition)) byCond.set(r.condition, []); byCond.get(r.condition).push(r.n); }
-  const runChips = [...byCond].map(([c, ns]) => `<a href="${taskHref(s.app, s.id, c)}">${chip(c)}</a><span class="st-meta">L${ns.join(", L")}</span>`).join(" ");
+  const runChips = [...byCond].map(([c, ns]) => `<span class="run"><a href="${taskHref(s.app, s.id, c)}">${chip(c)}</a> <span class="st-meta">L${ns.join(", L")}</span></span>`).join(" ");
   const thumb = thumbs.has(s.id)
     ? `<img class="shot" src="img/${slug(s.id, "station id")}.jpg" alt="" loading="lazy" width="480" height="270">`
     : `<div class="noshot">No screenshot in docs/screenshots yet</div>`;
@@ -340,7 +342,7 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
     .map((c) => (c === "interrupt:x" ? `<span class="chip interrupt">interruption</span>` : chip(c))).join(" ");
   const gapNote = g.full === LADDER_LEVELS
     ? `<p class="gapnote"><b>Every level reaches ${LESSON_BAR} lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>`
-    : `<p class="gapnote"><b>${g.partial} of ${LADDER_LEVELS} levels are partial</b> — ${g.shortfall} lessons short in total. ${g.stationsNeeded ? `About <b>${g.stationsNeeded} more station${g.stationsNeeded === 1 ? "" : "s"}</b> of 13 steps would bring every level to ${LESSON_BAR}; content teams write them, and nothing on this page is padded to hide the gap.` : ""}${g.overridePartial.length ? ` Level${g.overridePartial.length === 1 ? "" : "s"} ${g.overridePartial.join(", ")} ${g.overridePartial.length === 1 ? "is" : "are"} hand-tuned and short by choice until the override is edited.` : ""}</p>`;
+    : `<p class="gapnote"><b>${g.partial} of ${LADDER_LEVELS} levels ${g.partial === 1 ? "is" : "are"} partial</b> — ${g.shortfall} lessons short in total. ${g.stationsNeeded ? `About <b>${g.stationsNeeded} more station${g.stationsNeeded === 1 ? "" : "s"}</b> of 13 steps would bring every level to ${LESSON_BAR}; content teams write them, and nothing on this page is padded to hide the gap.` : ""}${g.overridePartial.length ? ` Level${g.overridePartial.length === 1 ? "" : "s"} ${g.overridePartial.join(", ")} ${g.overridePartial.length === 1 ? "is" : "are"} hand-tuned and short by choice until the override is edited.` : ""}</p>`;
   const compStd = (competency?.standards ?? []).map((sid) => compStandard(sid));
   const cores = coreCompetencies.map((c) => `<li>${esc(c.title)} <span class="st-meta">(${c.shared} of this track's stations count toward it)</span></li>`).join("");
   return `<!doctype html>
@@ -375,7 +377,7 @@ ${ladder.levels.filter((lv) => lv.n >= a && lv.n <= b).map((lv) => levelRow(prog
       <div class="stat${g.full < LADDER_LEVELS ? " warn" : ""}"><b>${g.full} / ${LADDER_LEVELS}</b><span>levels at ${LESSON_BAR}+ lessons</span></div>
       <div class="stat"><b>${ladder.lessons}</b><span>lessons across the track</span></div>
       <div class="stat"><b>${ladder.levels.reduce((a, lv) => a + lv.tasks.length, 0)}</b><span>tasks: a station under a condition</span></div>
-      <div class="stat${g.stationsNeeded ? " warn" : ""}"><b>${g.stationsNeeded ?? "60+"}</b><span>more stations needed to fill it</span></div>
+      <div class="stat${g.stationsNeeded ? " warn" : ""}"><b>${g.stationsNeeded ?? "60+"}</b><span>${g.stationsNeeded === 0 && g.partial ? "more stations needed: the short level is a hand-tuned override" : "more stations needed to fill it"}</span></div>
     </div>
     ${gapNote}
   </section>
