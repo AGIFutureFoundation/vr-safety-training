@@ -1,5 +1,5 @@
 {
-  "note": "Hand-tuned ladder levels. An entry here wins over the level tools/gen_ladders.mjs generates for the same programme and level number: title, tasks (\"app:id\" or a bare id from the programme), weather and a note. Step totals, par and standards are recomputed from the tasks named, and tools/check_ladders.mjs validates every entry. Keep the reason in the note.",
+  "note": "Hand-tuned ladder levels. An entry here wins over the level tools/gen_ladders.mjs generates for the same programme and level number: title, tasks (\"app:id\" or a bare id from the programme, with \"@condition\" after it for anything but the base run — conditions are listed in WebXR/shared/ladder.js) and a note. The level after an override is built against its pairs. Lesson totals, par and standards are recomputed from the tasks named, and tools/check_ladders.mjs validates every entry. Keep the reason in the note.",
   "programmes": {
     "electrical-first-period": {
       "1": {
