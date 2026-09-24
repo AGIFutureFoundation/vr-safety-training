@@ -14518,5 +14518,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-scrimmage-and-sportsmanship-debrief",
+    "index": "340",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on shorter periods, equal playing time, fair teams and a positive, development-first game; NFHS basketball rules and its sportsmanship expectations for players, coaches and spectators; CDC Heads Up for a fall to the head in game play — recognise, remove, refer; the U.S. Center for SafeSport for calm, observable handling of conflict and emotional well-being; the American Red Cross first aid course for a player hurt in the scrimmage",
+    "name": "Scrimmage and Sportsmanship Debrief",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Scrimmage and Sportsmanship Debrief VR",
+    "tagline": "The sideline checked, ground rules said, fair teams, short periods, the game's temperature held, minutes shared, tired players rested, sportsmanship noticed, a handshake line, a debrief in order, and a check-in on how everyone is",
+    "accent": 13142783,
+    "accentCss": "#c88aff",
+    "parSeconds": 340,
+    "badge": {
+      "id": "good-game",
+      "name": "Good Game",
+      "note": "A scrimmage played hard and fair, every flare-up cooled, and every player leaving heard and in one piece"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Box Score",
+      "currency": "GOOD GAMES",
+      "ranks": [
+        "Scorekeeper",
+        "Bench Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
