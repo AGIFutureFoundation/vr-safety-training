@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bt-formwork-stripping-and-reshoring",
+    "index": "321",
+    "domain": "Construction & Structural Trades",
+    "trade": "Carpenter — UBC, with LIUNA laborers — stripping deck forms and reshoring",
+    "category": "Construction & Structural Trades",
+    "certification": "UBC carpentry apprenticeship formwork curriculum through the Carpenters International Training Fund, and LIUNA Training laborer curricula; ACI 347 Guide to Formwork for Concrete, including removal of forms and reshoring; OSHA 29 CFR 1926.703 formwork and shoring — forms removed only once the concrete has the strength the engineer requires, and reshoring — under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; the engineer of record's strength ticket and reshoring plan",
+    "name": "Formwork Stripping & Reshoring",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Formwork Stripping & Reshoring VR",
+    "tagline": "Stripping a deck bay the day the engineer says it may go: the strength ticket read, the bay walked, the exclusion zone signed, one shore's screw jack eased, the panel lowered on its line, a reshore in before the next strip comes out, each reshore snugged and never jacked, the strips stripped and reshored in turn, the stripped forms checked and carried off, and the reshores watched while the floor above is poured",
+    "accent": 13209419,
+    "accentCss": "#c98f4b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "reshored-before-load",
+      "name": "Reshored Before Load",
+      "note": "A bay stripped strip by strip on the engineer's ticket, a reshore in behind every strip, and the reshores watched through the pour above"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Strip Crew",
+      "currency": "FORM",
+      "ranks": [
+        "Apprentice",
+        "Stripper",
+        "Reshore Hand",
+        "Deck Foreman",
+        "Strip Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bt-formwork-stripping-and-reshoring",
         "bs-bearing-replacement-and-jacking",
         "bs-tandem-lift-girder-set",
         "bs-structural-bolting-and-torque",
@@ -2310,6 +2311,11 @@
           "app": "smartcity",
           "id": "masonry-silica-scaffold",
           "why": "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1."
+        },
+        {
+          "app": "smartcity",
+          "id": "bt-formwork-stripping-and-reshoring",
+          "why": "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6747,6 +6753,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-formwork-stripping-and-reshoring",
+      "name": "Formwork Stripping & Reshoring",
+      "title": "SmartCiti.X~ Formwork Stripping & Reshoring VR",
+      "tagline": "Stripping a deck bay the day the engineer says it may go: the strength ticket read, the bay walked, the exclusion zone signed, one shore's screw jack eased, the panel lowered on its line, a reshore in before the next strip comes out, each reshore snugged and never jacked, the strips stripped and reshored in turn, the stripped forms checked and carried off, and the reshores watched while the floor above is poured",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Carpenter — UBC, with LIUNA laborers — stripping deck forms and reshoring",
+      "union": null,
+      "certification": "UBC carpentry apprenticeship formwork curriculum through the Carpenters International Training Fund, and LIUNA Training laborer curricula; ACI 347 Guide to Formwork for Concrete, including removal of forms and reshoring; OSHA 29 CFR 1926.703 formwork and shoring — forms removed only once the concrete has the strength the engineer requires, and reshoring — under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; the engineer of record's strength ticket and reshoring plan",
+      "accent": "#c98f4b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "hold",
+        "drag",
+        "gauge",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "reshored-before-load",
+        "name": "Reshored Before Load",
+        "note": "A bay stripped strip by strip on the engineer's ticket, a reshore in behind every strip, and the reshores watched through the pour above"
+      },
+      "meshes": 197,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Strip Crew",
+      "currency": "FORM",
+      "ranks": [
+        "Apprentice",
+        "Stripper",
+        "Reshore Hand",
+        "Deck Foreman",
+        "Strip Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "ticket-first",
+          "name": "Ticket First",
+          "note": "Not a single form moved before the strength ticket was read"
+        },
+        {
+          "id": "watched-the-pour",
+          "name": "Watched The Pour",
+          "note": "The reshores watched in band through the whole pour above"
+        },
+        {
+          "id": "nothing-overhead",
+          "name": "Nothing Overhead",
+          "note": "Never under a lowering panel, never prying overhead, never stripping ahead of a ticket, never pulling a reshore"
+        },
+        {
+          "id": "clean-strip",
+          "name": "Clean Strip",
+          "note": "No corrections through the whole bay"
+        },
+        {
+          "id": "snug-not-jacked",
+          "name": "Snug Not Jacked",
+          "note": "The reshore snugged inside the band first time"
+        },
+        {
+          "id": "bay-by-break",
+          "name": "Bay By Break",
+          "note": "Bay stripped, reshored and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bt-formwork-stripping-and-reshoring"
     },
     {
       "app": "smartcity",
@@ -25781,7 +25870,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26441,7 +26530,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",
