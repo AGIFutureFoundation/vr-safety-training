@@ -14182,5 +14182,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-turbidity-curtain-deployment",
+    "index": "BR-D2",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+    "name": "Turbidity Curtain Deployment",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+    "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "closed-loop",
+      "name": "Closed Loop",
+      "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Curtain Line",
+      "currency": "SECTION",
+      "ranks": [
+        "Float Hand",
+        "Curtain Hand",
+        "Curtain Lead",
+        "Containment Foreman",
+        "Curtain Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-sediment-chain-of-custody-and-lab-prep",
+    "index": "BR-D3",
+    "domain": "Environmental",
+    "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+    "name": "Sediment Chain of Custody & Lab Prep",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+    "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+    "accent": 9418842,
+    "accentCss": "#8fb85a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "unbroken-custody",
+      "name": "Unbroken Custody",
+      "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Custody Bench",
+      "currency": "JAR",
+      "ranks": [
+        "Bench Hand",
+        "Sample Tech",
+        "Field Custodian",
+        "Sample Coordinator",
+        "Custody Bench Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

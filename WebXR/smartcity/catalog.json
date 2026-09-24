@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 331
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -281,6 +281,8 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "br-turbidity-curtain-deployment",
         "br-dredge-spoils-dewatering-pad",
         "drum-sampling-and-overpack",
         "mobile-air-lab",
@@ -6730,6 +6732,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep",
+      "name": "Sediment Chain of Custody & Lab Prep",
+      "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+      "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+      "union": null,
+      "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+      "accent": "#8fb85a",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "track",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "unbroken-custody",
+        "name": "Unbroken Custody",
+        "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+      },
+      "meshes": 209,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D3",
+      "flat": false,
+      "system": "Custody Bench",
+      "currency": "JAR",
+      "ranks": [
+        "Bench Hand",
+        "Sample Tech",
+        "Field Custodian",
+        "Sample Coordinator",
+        "Custody Bench Certified"
+      ],
+      "awards": [
+        {
+          "id": "signed-in-clean",
+          "name": "Signed In Clean",
+          "note": "The plan read and the incoming cores checked and signed for without a correction"
+        },
+        {
+          "id": "nothing-topped-off",
+          "name": "Nothing Topped Off",
+          "note": "Never a jar topped from another core, never a knife pulled toward a hand, never a cooler handed over unsigned"
+        },
+        {
+          "id": "recovery-true",
+          "name": "Recovery True",
+          "note": "Recovery committed and the mix held inside their bands"
+        },
+        {
+          "id": "clean-bench",
+          "name": "Clean Bench",
+          "note": "No corrections from the plan to the check-in"
+        },
+        {
+          "id": "even-mix",
+          "name": "Even Mix",
+          "note": "Held the homogenising in band the whole time"
+        },
+        {
+          "id": "courier-on-time",
+          "name": "Courier On Time",
+          "note": "Cooler relinquished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-sediment-chain-of-custody-and-lab-prep"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-turbidity-curtain-deployment",
+      "name": "Turbidity Curtain Deployment",
+      "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+      "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+      "union": null,
+      "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+      "accent": "#3fa9c9",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "closed-loop",
+        "name": "Closed Loop",
+        "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+      },
+      "meshes": 251,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D2",
+      "flat": false,
+      "system": "Curtain Line",
+      "currency": "SECTION",
+      "ranks": [
+        "Float Hand",
+        "Curtain Hand",
+        "Curtain Lead",
+        "Containment Foreman",
+        "Curtain Line Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-tide",
+          "name": "Read The Tide",
+          "note": "The design read and the skirt set against the tide table clean"
+        },
+        {
+          "id": "never-in-the-bight",
+          "name": "Never In The Bight",
+          "note": "Never in a bight, never a hand on a running line, never the curtain opened for a shortcut"
+        },
+        {
+          "id": "true-background",
+          "name": "True Background",
+          "note": "Tide and background both committed inside their bands"
+        },
+        {
+          "id": "clean-deploy",
+          "name": "Clean Deploy",
+          "note": "No corrections from the design to the check-in"
+        },
+        {
+          "id": "slow-tow",
+          "name": "Slow Tow",
+          "note": "The tow held in band the whole way out"
+        },
+        {
+          "id": "released-early",
+          "name": "Released Early",
+          "note": "Curtain logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-turbidity-curtain-deployment"
     },
     {
       "app": "smartcity",
@@ -25598,7 +25766,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 238,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26258,7 +26426,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
