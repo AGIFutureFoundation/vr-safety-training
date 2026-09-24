@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-free-throw-routine",
+    "index": "336",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on building routines, managing fatigue and rest between efforts; NFHS basketball rules on free-throw lane positions and when lane players may move; CDC Heads Up for the knocks a crowded lane can bring; the U.S. Center for SafeSport for parents kept welcome but outside the drill and every conversation in view; the American Red Cross first aid course for heat and dehydration signs",
+    "name": "Free Throw Routine",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Free Throw Routine VR",
+    "tagline": "The line and lane checked, the lane rules explained, the same routine every time, the shooting foot lined up, a steady tempo, composure held on tired legs, water between rounds and shooters rotated to rest",
+    "accent": 14730058,
+    "accentCss": "#e0c34a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "same-every-time",
+      "name": "Same Every Time",
+      "note": "One routine, held the same way through fatigue and pressure, with water, rest and a clear lane"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Routine",
+      "currency": "SWISHES",
+      "ranks": [
+        "Rebound Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Routine Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
