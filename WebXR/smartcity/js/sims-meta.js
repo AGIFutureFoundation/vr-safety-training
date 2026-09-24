@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-restorative-justice-circle-facilitation",
+    "index": "321",
+    "domain": "Civic",
+    "trade": "Restorative circle keeper — community programme",
+    "category": "Community Environmental Justice",
+    "certification": "SAMHSA's trauma-informed principles — safety, trustworthiness and transparency, peer support, collaboration, empowerment and voice, and cultural responsiveness — for a circle where harm is named; Psychological First Aid (NCTSN and the National Center for PTSD) for a participant overwhelmed mid-circle; the California Child Abuse and Neglect Reporting Act (CANRA), named as a body, for the limit of any confidentiality promised to a minor when a keeper or co-keeper is a mandated reporter; the NASW Code of Ethics for the social worker co-keeping; Title II of the ADA for access to a city-run programme; SEIU and AFSCME for the recreation-centre staff who host community programmes. The restorative questions are stated generically; no restorative-justice programme's curriculum is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Restorative Justice Circle",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Restorative Justice Circle VR",
+    "tagline": "A mural painted over, and the people it hurt in one circle: consent checked, the talking piece's rule held, the artist and the young person each heard whole, speaking time kept fair, the heat taken out without the truth — and an agreement he owns",
+    "accent": 11569872,
+    "accentCss": "#b08ad0",
+    "parSeconds": 340,
+    "badge": {
+      "id": "circle-kept",
+      "name": "Circle Kept",
+      "note": "A whole circle held fair: every voice heard, nobody shamed, nothing promised that was not yours to promise"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Talking Piece",
+      "currency": "REPAIR",
+      "ranks": [
+        "Circle Member",
+        "Co-Keeper",
+        "Circle Keeper",
+        "Lead Keeper",
+        "Keeper Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
