@@ -481,9 +481,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-r", "osha-1926-62", "aws-d1-5", "ansi-z359"],
     stations: [
-      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement"
+      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement",
+      "bs-structural-bolting-and-torque", "bs-tandem-lift-girder-set"
     ],
-    require: 2,
+    require: 3,
   },
   {
     id: "hotel-workers",

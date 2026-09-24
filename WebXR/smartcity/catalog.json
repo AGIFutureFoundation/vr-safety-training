@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 331
+      "stations": 332
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bs-tandem-lift-girder-set",
         "bs-structural-bolting-and-torque",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
@@ -2233,6 +2234,16 @@
           "app": "smartcity",
           "id": "deck-joint-replacement",
           "why": "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it."
+        },
+        {
+          "app": "smartcity",
+          "id": "bs-structural-bolting-and-torque",
+          "why": "The bolt-up the connecting leaves behind: a girder field splice verified in the calibrator, snugged from the middle out, turned from its match marks, and the one bolt that spun found before the inspector reads the rest."
+        },
+        {
+          "app": "smartcity",
+          "id": "bs-tandem-lift-girder-set",
+          "why": "The pick that bolting follows: one girder on two IUOE-flown cranes under a multiple-crane lift plan, kept level on the hoist, stopped for the wind, and braced to its neighbour before either hook lets go."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6733,6 +6744,89 @@
     },
     {
       "app": "smartcity",
+      "id": "bs-tandem-lift-girder-set",
+      "name": "Tandem Lift & Girder Set",
+      "title": "SmartCiti.X~ Tandem Lift & Girder Set VR",
+      "tagline": "Two cranes, one girder: the multiple-crane lift plan read, the rigging walked, the wind taken, tag lines on, the connector tied off in the basket, slack taken and a trial pick held, both cranes kept level through the hoist, the girder swung on its tag lines, landed on its bearings, braced to the first girder and bolted before the hooks come off",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Ironworker raising gang with IUOE crane operators — two-crane girder set",
+      "union": null,
+      "certification": "Ironworkers IMPACT raising-gang and connector training and IUOE crane operator apprenticeship with NCCCO operator and signalperson certification; OSHA 29 CFR 1926.1432 multiple-crane lifts (the lift plan and the lift director) under 29 CFR 1926 Subpart CC, 29 CFR 1926.453 aerial lifts and Subpart R steel erection; ASME B30.5 mobile cranes; ANSI A92 mobile elevating work platforms; ANSI Z359 fall protection",
+      "accent": "#e0a83a",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "sequence",
+        "track",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "two-hooks-one-plan",
+        "name": "Two Hooks, One Plan",
+        "note": "A tandem pick flown to the plan: level the whole way, nobody under it, stopped for the wind, braced before release"
+      },
+      "meshes": 280,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Raising Gang",
+      "currency": "PICK",
+      "ranks": [
+        "Apprentice",
+        "Tag Line Hand",
+        "Connector",
+        "Signal Person",
+        "Lift Director"
+      ],
+      "awards": [
+        {
+          "id": "level-all-the-way",
+          "name": "Level All The Way",
+          "note": "The girder held level with each crane inside its share throughout the hoist"
+        },
+        {
+          "id": "rigging-read",
+          "name": "Rigging Read",
+          "note": "Every rigging defect found first look"
+        },
+        {
+          "id": "nobody-under-it",
+          "name": "Nobody Under It",
+          "note": "No one under the load, no hand on the steel, no step into the swing radius, no climb on the basket rail"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections through the whole set"
+        },
+        {
+          "id": "wind-read-true",
+          "name": "Wind Read True",
+          "note": "The wind reading committed inside the band first time"
+        },
+        {
+          "id": "set-by-noon",
+          "name": "Set By Noon",
+          "note": "Girder set and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bs-tandem-lift-girder-set"
+    },
+    {
+      "app": "smartcity",
       "id": "bs-structural-bolting-and-torque",
       "name": "Structural Bolting & Torque",
       "title": "SmartCiti.X~ Structural Bolting & Torque VR",
@@ -6757,14 +6851,15 @@
         "sequence",
         "turn",
         "hold",
-        "track"
+        "track",
+        "drag"
       ],
       "badge": {
         "id": "tensioned-to-spec",
         "name": "Tensioned To Spec",
         "note": "Every bolt in the splice snug, marked, turned and inspected the way the bolt spec says — and the one that spun found before the inspector did"
       },
-      "meshes": 304,
+      "meshes": 274,
       "lights": 0,
       "overBudget": false,
       "index": "318",
@@ -25597,7 +25692,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 246,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26257,7 +26352,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",

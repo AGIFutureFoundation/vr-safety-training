@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bs-tandem-lift-girder-set",
+    "index": "319",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker raising gang with IUOE crane operators — two-crane girder set",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT raising-gang and connector training and IUOE crane operator apprenticeship with NCCCO operator and signalperson certification; OSHA 29 CFR 1926.1432 multiple-crane lifts (the lift plan and the lift director) under 29 CFR 1926 Subpart CC, 29 CFR 1926.453 aerial lifts and Subpart R steel erection; ASME B30.5 mobile cranes; ANSI A92 mobile elevating work platforms; ANSI Z359 fall protection",
+    "name": "Tandem Lift & Girder Set",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Tandem Lift & Girder Set VR",
+    "tagline": "Two cranes, one girder: the multiple-crane lift plan read, the rigging walked, the wind taken, tag lines on, the connector tied off in the basket, slack taken and a trial pick held, both cranes kept level through the hoist, the girder swung on its tag lines, landed on its bearings, braced to the first girder and bolted before the hooks come off",
+    "accent": 14723130,
+    "accentCss": "#e0a83a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "two-hooks-one-plan",
+      "name": "Two Hooks, One Plan",
+      "note": "A tandem pick flown to the plan: level the whole way, nobody under it, stopped for the wind, braced before release"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Raising Gang",
+      "currency": "PICK",
+      "ranks": [
+        "Apprentice",
+        "Tag Line Hand",
+        "Connector",
+        "Signal Person",
+        "Lift Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -238,12 +238,12 @@ export const SIM_BS_STRUCTURAL_BOLTING_AND_TORQUE = {
     reg(hits, gap, "missing-midrail");
 
     // ------------------------------------------------ the girder and the splice
-    const webMat = texturedMat(surfaceTexture((cx, w, h) => paintedSteelFace(cx, w, h, { base: "#7c858a", base2: "#6f787d", cols: 6, rows: 2, pitch: 18 }), { repeat: 1, px: 512 }), { rough: 0.55, metal: 0.45, color: 0xdadada });
+    const webMat = texturedMat(surfaceTexture((cx, w, h) => paintedSteelFace(cx, w, h, { base: "#98a6ad", base2: "#8b99a0", cols: 6, rows: 2, pitch: 18 }), { repeat: 1, px: 512 }), { rough: 0.55, metal: 0.45, color: 0xdadada });
     const girder = group(g, 0, 0, BST_GZ);
     const web = box(girder, 8.6, 1.3, 0.03, 0, 1.6, 0, 0xffffff);
     web.material = webMat;
-    box(girder, 8.6, 0.05, 0.45, 0, 0.95, 0, 0x6c757a, { rough: 0.55, metal: 0.45 });
-    box(girder, 8.6, 0.05, 0.45, 0, 2.25, 0, 0x6c757a, { rough: 0.55, metal: 0.45 });
+    box(girder, 8.6, 0.05, 0.45, 0, 0.95, 0, 0x8d9aa1, { rough: 0.55, metal: 0.45 });
+    box(girder, 8.6, 0.05, 0.45, 0, 2.25, 0, 0x8d9aa1, { rough: 0.55, metal: 0.45 });
     box(girder, 0.012, 1.3, 0.04, 0, 1.6, 0, 0x1a1d20, { rough: 0.9, cast: false });
     for (const x of [-3.2, -1.6, 1.6, 3.2]) box(girder, 0.18, 1.2, 0.012, x, 1.6, 0.022, 0x737c81, { rough: 0.55, metal: 0.45 });
     // Web splice plate (near side) and the flange splice plates.
