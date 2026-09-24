@@ -14266,5 +14266,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-water-quality-sonde-calibration-and-deploy",
+    "index": "BR-D4",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+    "name": "Water Quality Sonde Calibration & Deploy",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+    "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+    "accent": 5226928,
+    "accentCss": "#4fc1b0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "defensible-number",
+      "name": "Defensible Number",
+      "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sonde Deck",
+      "currency": "READING",
+      "ranks": [
+        "Probe Hand",
+        "Monitoring Tech",
+        "Sonde Lead",
+        "Water Quality Coordinator",
+        "Sonde Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+    "index": "BR-D5",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+    "name": "Legacy Mercury & PCB Hotspot Handling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+    "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+    "accent": 12624088,
+    "accentCss": "#c0a0d8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "kept-apart",
+      "name": "Kept Apart",
+      "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hotspot Cell",
+      "currency": "CUT",
+      "ranks": [
+        "Hazmat Hand",
+        "Cut Signaller",
+        "Hotspot Lead",
+        "Remediation Foreman",
+        "Hotspot Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

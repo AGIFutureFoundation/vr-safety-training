@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -281,6 +281,8 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "br-water-quality-sonde-calibration-and-deploy",
         "br-sediment-chain-of-custody-and-lab-prep",
         "br-turbidity-curtain-deployment",
         "br-dredge-spoils-dewatering-pad",
@@ -6732,6 +6734,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+      "name": "Legacy Mercury & PCB Hotspot Handling",
+      "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+      "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+      "union": null,
+      "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+      "accent": "#c0a0d8",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "kept-apart",
+        "name": "Kept Apart",
+        "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+      },
+      "meshes": 229,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D5",
+      "flat": false,
+      "system": "Hotspot Cell",
+      "currency": "CUT",
+      "ranks": [
+        "Hazmat Hand",
+        "Cut Signaller",
+        "Hotspot Lead",
+        "Remediation Foreman",
+        "Hotspot Cell Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-before-cut",
+          "name": "Read Before Cut",
+          "note": "The hotspot page read and the vapour baseline taken clean before the first bucket"
+        },
+        {
+          "id": "no-vacuum-no-broom",
+          "name": "No Vacuum, No Broom",
+          "note": "Never a shop vacuum on the beads, never a mask down, never under the bucket, never a side-cast on bare ground"
+        },
+        {
+          "id": "scans-true",
+          "name": "Scans True",
+          "note": "Baseline and release scans both committed inside their bands"
+        },
+        {
+          "id": "clean-cell",
+          "name": "Clean Cell",
+          "note": "No corrections from the plan to the check-in"
+        },
+        {
+          "id": "thin-cuts",
+          "name": "Thin Cuts",
+          "note": "Held the cut call in band the whole time"
+        },
+        {
+          "id": "out-by-the-tide",
+          "name": "Out By The Tide",
+          "note": "Cell logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-legacy-mercury-and-pcb-hotspot-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-water-quality-sonde-calibration-and-deploy",
+      "name": "Water Quality Sonde Calibration & Deploy",
+      "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+      "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+      "union": null,
+      "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+      "accent": "#4fc1b0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "hold",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "defensible-number",
+        "name": "Defensible Number",
+        "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+      },
+      "meshes": 243,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D4",
+      "flat": false,
+      "system": "Sonde Deck",
+      "currency": "READING",
+      "ranks": [
+        "Probe Hand",
+        "Monitoring Tech",
+        "Sonde Lead",
+        "Water Quality Coordinator",
+        "Sonde Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-then-probe",
+          "name": "Plan Then Probe",
+          "note": "The monitoring plan read and the sonde inspected clean before any calibration"
+        },
+        {
+          "id": "nothing-over-the-side",
+          "name": "Nothing Over The Side",
+          "note": "Never a buffer poured overboard, never a lean over the rail, never a cable round the hand, never under the swing"
+        },
+        {
+          "id": "checks-in-band",
+          "name": "Checks In Band",
+          "note": "The turbidity check and the telemetry match both committed inside their bands"
+        },
+        {
+          "id": "clean-cal",
+          "name": "Clean Cal",
+          "note": "No corrections from the plan to the check-in"
+        },
+        {
+          "id": "steady-comparison",
+          "name": "Steady Comparison",
+          "note": "Held the side-by-side in band the whole time"
+        },
+        {
+          "id": "on-station",
+          "name": "On Station",
+          "note": "Sonde deployed and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-water-quality-sonde-calibration-and-deploy"
     },
     {
       "app": "smartcity",
@@ -25766,7 +25934,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
