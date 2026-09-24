@@ -348,9 +348,9 @@ export const SIM_CS_PERMIT_ENTRY_AND_ATTENDANT_DUTIES = {
     reg(hits, countMark, "count-zero");
 
     // ------------------------------------------------------ perimeter changes
-    const truck = pickup(g, 3.5, 0, 0.3, { ry: 0 });
+    const truck = pickup(g, 4.4, 0, -1.0, { ry: 0 });
     reg(hits, truck, "idling-truck");
-    holoTag(g, "idling upwind", 3.5, 2.2, 0.3, { css: CPE_WARN, w: 0.3 });
+    holoTag(g, "idling upwind", 4.4, 2.2, -1.0, { css: CPE_WARN, w: 0.3 });
     const visitor = standingFigure(g, -0.9, -0.2, { ry: 2.8, cloth: 0xdfe4e8, trousers: 0x3a4148, atStation: true });
     holoTag(visitor, "visitor — inside the barrier", 0, 1.95, 0, { css: CPE_WARN, w: 0.44 });
     reg(hits, visitor, "visitor-in-barrier");
@@ -391,7 +391,7 @@ export const SIM_CS_PERMIT_ENTRY_AND_ATTENDANT_DUTIES = {
         if (step.id === "roles-signed") { for (const m of [supSign, attInit, entInit]) m.material = mat(0x2f7d4a, { opacity: 0.8, transparent: true }); }
         if (step.id === "post-opening") { chain.visible = true; sign.visible = true; barrierHit.visible = false; }
         if (step.id === "tag-in") { tag.position.x = 0.12; entrant.visible = true; }
-        if (step.id === "perimeter") { truck.position.x = 4.6; visitor.visible = false; hoseHit.visible = false; washHose.visible = false; }
+        if (step.id === "perimeter") { truck.position.x = 5.6; visitor.visible = false; hoseHit.visible = false; washHose.visible = false; }
         if (step.id === "tag-out") { tag.position.x = -0.12; entrant.visible = false; cover.position.set(0, 1.2, 1.22); }
       },
       onInterrupt(it) {
