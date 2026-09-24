@@ -14330,7 +14330,7 @@ export const SIMS_META = [
       "name": "Always in the Mirror",
       "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
     },
-    "stepCount": 12,
+    "stepCount": 13,
     "interruptCount": 2,
     "game": {
       "system": "Range",
@@ -14341,6 +14341,48 @@ export const SIMS_META = [
         "Backing Driver",
         "Yard Lead",
         "Range Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drive-light-vehicle-fleet-and-forklift-course",
+    "index": "323",
+    "domain": "Commercial Driving",
+    "trade": "Freight terminal new hire, Job Readiness Edition deep driving — a Teamsters terminal's fleet check-ride and forklift course, building on the habits the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) teaches",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial truck operator training, with formal instruction, practical training and an evaluation of the operator in the workplace, and a truck examined before use; ANSI B56.1 for the counterbalance truck's safe operation; ANSI/ISEA 107 high-visibility apparel on the warehouse floor; the employer's fleet policy for a pool car, built on the state CDL handbook's space-management habits and the same conduct 49 CFR 392 asks of commercial drivers; FMCSA 49 CFR 380 Subpart F entry-level driver training as the Class A path this job leads to; Teamsters (IBT) terminal locals' training",
+    "name": "Light Vehicle Fleet and Forklift Course",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Light Vehicle Fleet and Forklift Course VR",
+    "tagline": "Two check-rides before the keys: a pool car walked round, pulled out, stopped fully and backed into its space, then a forklift checked, forks low and tilted back, horn at the aisle end and in reverse behind a tall load",
+    "accent": 6279364,
+    "accentCss": "#5fd0c4",
+    "parSeconds": 340,
+    "badge": {
+      "id": "keys-earned",
+      "name": "Keys Earned",
+      "note": "Both check-rides clean: the car backed into its space and the forklift driven load-low, horn at every corner and trailing its tall load — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Check-ride",
+      "currency": "LAP",
+      "ranks": [
+        "New Hire",
+        "Yard Trainee",
+        "Fleet Driver",
+        "Terminal Operator",
+        "Course Certified"
       ],
       "rankAt": [
         0,
