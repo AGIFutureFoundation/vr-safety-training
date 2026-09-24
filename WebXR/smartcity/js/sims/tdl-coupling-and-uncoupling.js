@@ -23,7 +23,6 @@ import { simTitle, system, AWARD } from "../gamify.js";
 
 const CPL_ACCENT = 0x6fd0b4;
 const CPL_CAB = 0x3a3f45;
-const CPL_TIRE = 0x1a1d21;
 
 export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
   id: "tdl-coupling-and-uncoupling",

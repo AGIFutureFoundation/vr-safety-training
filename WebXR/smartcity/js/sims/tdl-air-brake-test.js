@@ -25,7 +25,6 @@ import { simTitle, system, AWARD } from "../gamify.js";
 
 const ABT_ACCENT = 0xf2c14b;
 const ABT_CAB = 0x2f5f9e;
-const ABT_TIRE = 0x1a1d21;
 
 export const SIM_TDL_AIR_BRAKE_TEST = {
   id: "tdl-air-brake-test",
