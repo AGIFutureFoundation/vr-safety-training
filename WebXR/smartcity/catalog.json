@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -84,6 +84,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
         "manhole-entry-and-atmospheric-monitoring",
         "oyster-reef-monitoring",
@@ -6733,6 +6734,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-ventilation-and-air-monitoring-plan",
+      "name": "Ventilation & Air Monitoring Plan",
+      "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
+      "tagline": "A pump station dry well ventilated to a plan: the dead corners found, the blower set upwind with its intake in clean air, the duct run to the bottom far corner, the purge run for the time the permit sets while the wind swings an exhaust plume over the intake, four-gas readings top, middle and bottom, the alarms matched to the permit, monitoring kept up until the blower dies, the duct walked, and the shutdown done in order",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space entry crew — LIUNA or IUOE pump station crew, gas tester and blower operator, with a UA fitter entering",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — forced-air ventilation, pre-entry testing and continuous or periodic monitoring against the permit's acceptable conditions; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its emphasis on continuous monitoring; ANSI Z117.1 ventilation and testing practice; NIOSH confined-space criteria on stratified atmospheres and short-circuited ventilation; LIUNA, IUOE and UA confined-space training",
+      "accent": "#62c2a8",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "sequence",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "air-to-the-corners",
+        "name": "Air to the Corners",
+        "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Dry Well Air",
+      "currency": "PURGES",
+      "ranks": [
+        "Blower Hand",
+        "Gas Tester",
+        "Ventilation Lead",
+        "Entry Supervisor",
+        "Confined Space Air Qualified"
+      ],
+      "awards": [
+        {
+          "id": "clean-intake",
+          "name": "Clean Intake",
+          "note": "No generator at the intake, no duct left at the collar, no entry before the purge, no monitor left topside"
+        },
+        {
+          "id": "every-level",
+          "name": "Every Level",
+          "note": "Top, middle and bottom read in order, first time"
+        },
+        {
+          "id": "clean-plan",
+          "name": "Clean Plan",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "The monitoring held in band the whole entry"
+        },
+        {
+          "id": "worst-reading",
+          "name": "Worst Reading",
+          "note": "The bottom reading committed inside the band first time"
+        },
+        {
+          "id": "pumps-back",
+          "name": "Pumps Back",
+          "note": "Plan to log inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-ventilation-and-air-monitoring-plan"
     },
     {
       "app": "smartcity",
@@ -25849,7 +25933,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26509,7 +26593,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",

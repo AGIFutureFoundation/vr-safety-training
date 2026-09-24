@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cs-ventilation-and-air-monitoring-plan",
+    "index": "322",
+    "domain": "Water & Environmental",
+    "trade": "Confined-space entry crew — LIUNA or IUOE pump station crew, gas tester and blower operator, with a UA fitter entering",
+    "category": "Water & Environmental",
+    "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — forced-air ventilation, pre-entry testing and continuous or periodic monitoring against the permit's acceptable conditions; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its emphasis on continuous monitoring; ANSI Z117.1 ventilation and testing practice; NIOSH confined-space criteria on stratified atmospheres and short-circuited ventilation; LIUNA, IUOE and UA confined-space training",
+    "name": "Ventilation & Air Monitoring Plan",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
+    "tagline": "A pump station dry well ventilated to a plan: the dead corners found, the blower set upwind with its intake in clean air, the duct run to the bottom far corner, the purge run for the time the permit sets while the wind swings an exhaust plume over the intake, four-gas readings top, middle and bottom, the alarms matched to the permit, monitoring kept up until the blower dies, the duct walked, and the shutdown done in order",
+    "accent": 6472360,
+    "accentCss": "#62c2a8",
+    "parSeconds": 280,
+    "badge": {
+      "id": "air-to-the-corners",
+      "name": "Air to the Corners",
+      "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dry Well Air",
+      "currency": "PURGES",
+      "ranks": [
+        "Blower Hand",
+        "Gas Tester",
+        "Ventilation Lead",
+        "Entry Supervisor",
+        "Confined Space Air Qualified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
