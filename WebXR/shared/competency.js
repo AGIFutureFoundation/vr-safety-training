@@ -171,6 +171,9 @@ export const STANDARDS = Object.fromEntries([
   S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
   S("calosha-8-ccr-5141-1", "Cal/OSHA", "8 CCR 5141.1 Protection from wildfire smoke", ["Air Quality"]),
   S("abc-rbs-training", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
+  S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
+  S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
+  S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
