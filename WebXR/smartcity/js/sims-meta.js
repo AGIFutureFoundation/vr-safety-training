@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-workboat-crane-lift-from-water",
+    "index": "326",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand qualified on a workboat's knuckle-boom crane, with a second IBU deckhand on the tag line, the master at the helm and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and crane practice; MEBA engineering watch; ASME B30.22 articulating boom cranes and ASME B30.9 slings; OSHA 29 CFR 1926.1437 cranes afloat and 29 CFR 1926.106 work over water; USCG 46 CFR 25 lifesaving equipment on the workboat; NOAA marine forecast for the sea state; debris removal under the BCDC permit and the vessel's crane manual",
+    "name": "Workboat Crane Lift From Water",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
+    "tagline": "A waterlogged drift log lifted aboard a workboat: PFD and gloves on at the wheelhouse door, the lift plan read, the crane walked, hydraulics opened, the chart read for this boat, the choker passed, tag line and dunnage set, the swing path cleared, the log hoisted through the surface as a swell slackens the hook, swung inboard on the tag line through a roll that sends it at the rail, landed, lashed and logged",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 290,
+    "badge": {
+      "id": "heavier-out-of-the-water",
+      "name": "Heavier Out Of The Water",
+      "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crane Deck",
+      "currency": "PICK",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Crane Deckhand",
+        "Lead Deckhand",
+        "Deck Crane Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

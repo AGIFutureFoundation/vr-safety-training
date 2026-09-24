@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 331
+      "stations": 332
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-workboat-crane-lift-from-water",
         "br-derelict-vessel-salvage-rigging",
         "vessel-gangway-and-hatch-cover-safety",
         "mw-diver-emergency-and-recovery",
@@ -6730,6 +6731,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-workboat-crane-lift-from-water",
+      "name": "Workboat Crane Lift From Water",
+      "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
+      "tagline": "A waterlogged drift log lifted aboard a workboat: PFD and gloves on at the wheelhouse door, the lift plan read, the crane walked, hydraulics opened, the chart read for this boat, the choker passed, tag line and dunnage set, the swing path cleared, the log hoisted through the surface as a swell slackens the hook, swung inboard on the tag line through a roll that sends it at the rail, landed, lashed and logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union (IBU) deckhand qualified on a workboat's knuckle-boom crane, with a second IBU deckhand on the tag line, the master at the helm and a MEBA engineer on watch",
+      "union": null,
+      "certification": "Inlandboatmen's Union (IBU) deck and crane practice; MEBA engineering watch; ASME B30.22 articulating boom cranes and ASME B30.9 slings; OSHA 29 CFR 1926.1437 cranes afloat and 29 CFR 1926.106 work over water; USCG 46 CFR 25 lifesaving equipment on the workboat; NOAA marine forecast for the sea state; debris removal under the BCDC permit and the vessel's crane manual",
+      "accent": "#3fa9c9",
+      "parSeconds": 290,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "gauge",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "heavier-out-of-the-water",
+        "name": "Heavier Out Of The Water",
+        "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
+      },
+      "meshes": 177,
+      "lights": 0,
+      "overBudget": false,
+      "index": "326",
+      "flat": false,
+      "system": "Crane Deck",
+      "currency": "PICK",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Crane Deckhand",
+        "Lead Deckhand",
+        "Deck Crane Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-crane",
+          "name": "Walked The Crane",
+          "note": "The crane walked before the hydraulics were opened"
+        },
+        {
+          "id": "chart-true",
+          "name": "Chart True",
+          "note": "Capacity read inside the band first time"
+        },
+        {
+          "id": "hands-off-the-log",
+          "name": "Hands Off The Log",
+          "note": "Never under the load, never a hand on the log, never out through the gate, never the limiter bypassed"
+        },
+        {
+          "id": "clean-pick",
+          "name": "Clean Pick",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "smooth-hoist",
+          "name": "Smooth Hoist",
+          "note": "Hoist held in band all the way through the surface"
+        },
+        {
+          "id": "on-station",
+          "name": "On Station",
+          "note": "Lift logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-workboat-crane-lift-from-water"
     },
     {
       "app": "smartcity",
@@ -25598,7 +25682,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
