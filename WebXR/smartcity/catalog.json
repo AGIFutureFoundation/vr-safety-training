@@ -623,6 +623,21 @@
           "app": "smartcity",
           "id": "manhole-entry-and-atmospheric-monitoring",
           "why": "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-permit-entry-and-attendant-duties",
+          "why": "The permit as a document and the attendant as a job: every blank caught before anyone signs, the count kept on a tag board, and the post held when a foreman wants an errand run."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-ventilation-and-air-monitoring-plan",
+          "why": "Ventilation as a plan rather than a fan: the dead corners found, the duct run to sweep them, the purge run for the permit's time, and the entrant recalled the moment the blower stops."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-non-entry-retrieval-and-tripod",
+          "why": "The rescue that needs no rescuer: a tripod set square, a winch proven under a test weight, the line on the back D-ring before entry, and a drill haul cranked from outside the hole."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -2268,6 +2283,21 @@
           "app": "smartcity",
           "id": "banquet-setup-lift",
           "why": "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-housekeeping-cart-and-chemical-safety",
+          "why": "The stockroom before the first room: the new product looked up on its SDS, every bottle filled at the dispenser and labelled, the cart loaded heavy-low to its plate, and nothing ever mixed."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-banquet-room-flip-and-staging",
+          "why": "The banquet floor against the clock: rounds rolled onto the truck, stage decks lifted by a called team, cables ramped and the exits walked, with the doors held rather than a corner cut."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-flatwork-ironer-and-folder-guarding",
+          "why": "The laundry's most dangerous machine on a bad day: a wrapped sheet cleared under the operator's own lock at the disconnect and the steam valve, the heat waited out, and the guards back before the restart."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6769,7 +6799,7 @@
         "name": "Out Without Going In",
         "note": "A tripod set square and proven, the line on before entry, and the entrant brought out and over the lip with nobody leaning into the hole"
       },
-      "meshes": 156,
+      "meshes": 198,
       "lights": 0,
       "overBudget": false,
       "index": "323",
@@ -26016,7 +26046,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26676,7 +26706,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 256,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",
