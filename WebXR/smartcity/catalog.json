@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -293,6 +293,12 @@
         "rad-survey",
         "stack-test",
         "landfill-gas"
+      ]
+    },
+    {
+      "name": "Youth Sports & Coaching",
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration"
       ]
     },
     {
@@ -6729,6 +6735,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-warmup-injury-prevention-and-hydration",
+      "name": "Warm-Up, Injury Prevention and Hydration",
+      "title": "SmartCiti.X~ Warm-Up, Injury Prevention and Hydration VR",
+      "tagline": "The first fifteen minutes of practice: the floor walked dry and clear, the emergency plan read, a health check-in at the door, water at the bench, a dynamic warm-up in order, shoes and jewellery checked and a water break called by the clock",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines for age-appropriate practice length, warm-up and rest; NFHS sports medicine guidance on heat, hydration and a written emergency action plan for school sport; CDC Heads Up for the coach's duty to recognise and remove; the U.S. Center for SafeSport for observable, interruptible practices with two adults present; the American Red Cross first aid course for check, call and care until the athletic trainer or emergency services take over",
+      "accent": "#4fb3ff",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "ready-to-play",
+        "name": "Ready to Play",
+        "note": "The floor, the players and the water all ready before the first drill, and nobody pushed past what their body said"
+      },
+      "meshes": 241,
+      "lights": 0,
+      "overBudget": false,
+      "index": "331",
+      "flat": false,
+      "system": "Practice Plan",
+      "currency": "REPS",
+      "ranks": [
+        "Volunteer Helper",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Lead",
+        "Coach Educator"
+      ],
+      "awards": [
+        {
+          "id": "dry-floor",
+          "name": "Dry Floor",
+          "note": "Every floor hazard found on the first walk"
+        },
+        {
+          "id": "nobody-pushed",
+          "name": "Nobody Pushed",
+          "note": "No unsafe action anywhere in the warm-up"
+        },
+        {
+          "id": "right-tempo",
+          "name": "Right Tempo",
+          "note": "Warm-up intensity and build-up tempo both inside the band"
+        },
+        {
+          "id": "clean-start",
+          "name": "Clean Start",
+          "note": "No corrections anywhere in the opening block"
+        },
+        {
+          "id": "steady-build",
+          "name": "Steady Build",
+          "note": "Held the build-up tempo in band the whole time"
+        },
+        {
+          "id": "on-the-clock",
+          "name": "On the Clock",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-warmup-injury-prevention-and-hydration"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25603,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 249,
       "lights": 0,
       "overBudget": false,
       "index": "92",
