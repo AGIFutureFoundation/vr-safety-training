@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -84,6 +84,9 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "cs-non-entry-retrieval-and-tripod",
+        "cs-ventilation-and-air-monitoring-plan",
+        "cs-permit-entry-and-attendant-duties",
         "manhole-entry-and-atmospheric-monitoring",
         "oyster-reef-monitoring",
         "spartina-removal",
@@ -296,6 +299,47 @@
       ]
     },
     {
+      "name": "Culinary & Hospitality",
+      "stations": [
+        "hw-flatwork-ironer-and-folder-guarding",
+        "hw-banquet-room-flip-and-staging",
+        "hw-housekeeping-cart-and-chemical-safety",
+        "banquet-setup-lift",
+        "laundry-plant-chemicals",
+        "housekeeping-room-turn",
+        "rbs-service-capstone",
+        "wvpp-panic-button",
+        "tip-pool-labor",
+        "draught-line-cleaning",
+        "ice-well-breakage",
+        "keg-cellar-co2",
+        "last-call-lockup",
+        "allergen-cocktail",
+        "till-drop-robbery",
+        "patron-deescalation",
+        "spiked-drink-response",
+        "cutoff-overservice",
+        "jigger-pour-spec",
+        "id-check-underage",
+        "bar-well-setup",
+        "kitchen-gas-shutoff",
+        "hood-suppression",
+        "fryer-oil-change",
+        "bakery-mixer",
+        "slicer-lockout",
+        "knife-skills",
+        "prep-cooling",
+        "receiving-dock-food",
+        "walk-in-cooler",
+        "allergen-control",
+        "grease-trap",
+        "dish-pit",
+        "grill-line-burns",
+        "cafeteria-serving",
+        "banquet-hot-hold"
+      ]
+    },
+    {
       "name": "Community Environmental Justice",
       "stations": [
         "emergency-savings-and-predatory-lending",
@@ -384,44 +428,6 @@
         "amalgam-waste-handling",
         "chairside-emergency",
         "nitrous-oxide-monitoring"
-      ]
-    },
-    {
-      "name": "Culinary & Hospitality",
-      "stations": [
-        "banquet-setup-lift",
-        "laundry-plant-chemicals",
-        "housekeeping-room-turn",
-        "rbs-service-capstone",
-        "wvpp-panic-button",
-        "tip-pool-labor",
-        "draught-line-cleaning",
-        "ice-well-breakage",
-        "keg-cellar-co2",
-        "last-call-lockup",
-        "allergen-cocktail",
-        "till-drop-robbery",
-        "patron-deescalation",
-        "spiked-drink-response",
-        "cutoff-overservice",
-        "jigger-pour-spec",
-        "id-check-underage",
-        "bar-well-setup",
-        "kitchen-gas-shutoff",
-        "hood-suppression",
-        "fryer-oil-change",
-        "bakery-mixer",
-        "slicer-lockout",
-        "knife-skills",
-        "prep-cooling",
-        "receiving-dock-food",
-        "walk-in-cooler",
-        "allergen-control",
-        "grease-trap",
-        "dish-pit",
-        "grill-line-burns",
-        "cafeteria-serving",
-        "banquet-hot-hold"
       ]
     },
     {
@@ -629,16 +635,31 @@
           "app": "smartcity",
           "id": "manhole-entry-and-atmospheric-monitoring",
           "why": "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-permit-entry-and-attendant-duties",
+          "why": "The permit as a document and the attendant as a job: every blank caught before anyone signs, the count kept on a tag board, and the post held when a foreman wants an errand run."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-ventilation-and-air-monitoring-plan",
+          "why": "Ventilation as a plan rather than a fan: the dead corners found, the duct run to sweep them, the purge run for the permit's time, and the entrant recalled the moment the blower stops."
+        },
+        {
+          "app": "smartcity",
+          "id": "cs-non-entry-retrieval-and-tripod",
+          "why": "The rescue that needs no rescuer: a tripod set square, a winch proven under a test weight, the line on the back D-ring before entry, and a drill haul cranked from outside the hole."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1200,
-        "tasks": 100,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1627,
+        "tasks": 128,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -2516,16 +2537,31 @@
           "app": "smartcity",
           "id": "banquet-setup-lift",
           "why": "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-housekeeping-cart-and-chemical-safety",
+          "why": "The stockroom before the first room: the new product looked up on its SDS, every bottle filled at the dispenser and labelled, the cart loaded heavy-low to its plate, and nothing ever mixed."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-banquet-room-flip-and-staging",
+          "why": "The banquet floor against the clock: rounds rolled onto the truck, stage decks lifted by a called team, cables ramped and the exits walked, with the doors held rather than a corner cut."
+        },
+        {
+          "app": "smartcity",
+          "id": "hw-flatwork-ironer-and-folder-guarding",
+          "why": "The laundry's most dangerous machine on a bad day: a wrapped sheet cleared under the operator's own lock at the disconnect and the steam valve, the heat waited out, and the guards back before the restart."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1120,
-        "tasks": 80,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1660,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -7048,6 +7084,502 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-non-entry-retrieval-and-tripod",
+      "name": "Non-Entry Retrieval & Tripod",
+      "title": "SmartCiti.X~ Non-Entry Retrieval & Tripod VR",
+      "tagline": "The rescue that needs no rescuer: the kit inspected, the tripod set square over a storm drain structure, legs pinned and chained, the winch mounted and reeved, the brake proven under a test weight while a coworker tries to hoist tools on it, the harness fitted and the line on the back D-ring before entry, the lower tended through a slip, the line kept clear, the drill haul cranked, the entrant brought over the lip, and the drill logged",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space attendant — LIUNA, UA or IUOE crew rigging a tripod and winch for non-entry retrieval",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146(k) rescue and emergency services — retrieval systems for non-entry rescue, a full-body harness with the line at the centre of the back, and a mechanical retrieval device for vertical spaces; OSHA 29 CFR 1926 Subpart AA where the entry is construction work; ANSI Z359 fall protection and rescue code for the tripod, winch and harness; ANSI Z117.1 confined-space practice; NIOSH confined-space criteria on would-be rescuers; LIUNA, UA and IUOE confined-space training",
+      "accent": "#f0b04b",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "out-without-going-in",
+        "name": "Out Without Going In",
+        "note": "A tripod set square and proven, the line on before entry, and the entrant brought out and over the lip with nobody leaning into the hole"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Retrieval Rig",
+      "currency": "HAULS",
+      "ranks": [
+        "Tripod Hand",
+        "Attendant",
+        "Retrieval Lead",
+        "Entry Supervisor",
+        "Non-Entry Rescue Qualified"
+      ],
+      "awards": [
+        {
+          "id": "line-before-boots",
+          "name": "Line Before Boots",
+          "note": "The retrieval line on the back D-ring before the entrant crossed the opening"
+        },
+        {
+          "id": "never-leaned-in",
+          "name": "Never Leaned In",
+          "note": "No handrail anchor, no belt clip, no leaning over the hole, no leg on the grating"
+        },
+        {
+          "id": "clean-rig",
+          "name": "Clean Rig",
+          "note": "No corrections from the rescue plan to the log"
+        },
+        {
+          "id": "tended-line",
+          "name": "Tended Line",
+          "note": "The lower tended in band all the way"
+        },
+        {
+          "id": "drill-time",
+          "name": "Drill Time",
+          "note": "Rescue plan to log inside 80% of par"
+        },
+        {
+          "id": "eight-clean",
+          "name": "Eight Clean",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-non-entry-retrieval-and-tripod"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-ventilation-and-air-monitoring-plan",
+      "name": "Ventilation & Air Monitoring Plan",
+      "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
+      "tagline": "A pump station dry well ventilated to a plan: the dead corners found, the blower set upwind with its intake in clean air, the duct run to the bottom far corner, the purge run for the time the permit sets while the wind swings an exhaust plume over the intake, four-gas readings top, middle and bottom, the alarms matched to the permit, monitoring kept up until the blower dies, the duct walked, and the shutdown done in order",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space entry crew — LIUNA or IUOE pump station crew, gas tester and blower operator, with a UA fitter entering",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — forced-air ventilation, pre-entry testing and continuous or periodic monitoring against the permit's acceptable conditions; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its emphasis on continuous monitoring; ANSI Z117.1 ventilation and testing practice; NIOSH confined-space criteria on stratified atmospheres and short-circuited ventilation; LIUNA, IUOE and UA confined-space training",
+      "accent": "#62c2a8",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "sequence",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "air-to-the-corners",
+        "name": "Air to the Corners",
+        "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Dry Well Air",
+      "currency": "PURGES",
+      "ranks": [
+        "Blower Hand",
+        "Gas Tester",
+        "Ventilation Lead",
+        "Entry Supervisor",
+        "Confined Space Air Qualified"
+      ],
+      "awards": [
+        {
+          "id": "clean-intake",
+          "name": "Clean Intake",
+          "note": "No generator at the intake, no duct left at the collar, no entry before the purge, no monitor left topside"
+        },
+        {
+          "id": "every-level",
+          "name": "Every Level",
+          "note": "Top, middle and bottom read in order, first time"
+        },
+        {
+          "id": "clean-plan",
+          "name": "Clean Plan",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "The monitoring held in band the whole entry"
+        },
+        {
+          "id": "worst-reading",
+          "name": "Worst Reading",
+          "note": "The bottom reading committed inside the band first time"
+        },
+        {
+          "id": "pumps-back",
+          "name": "Pumps Back",
+          "note": "Plan to log inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-ventilation-and-air-monitoring-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-permit-entry-and-attendant-duties",
+      "name": "Permit Entry & Attendant Duties",
+      "title": "SmartCiti.X~ Permit Entry & Attendant Duties VR",
+      "tagline": "The attendant's shift at a tank manway: the permit read field by field and its blanks caught, roles signed, the opening barricaded and posted, the comms checked from inside, the entrant tagged in, the retrieval line on, a continuous watch the foreman tries to pull you off, a comm check that goes unanswered, the perimeter kept, the entrant tagged out, and the permit cancelled and filed",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space attendant — LIUNA laborer at the manway, with a UA pipefitter entrant and an IUOE operator as entry supervisor",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — the entry permit's required fields, the duties of the entrant, attendant and entry supervisor, and rescue and emergency services; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its coordination between employers on a shared site; ANSI Z117.1 confined-space entry practice; OSHA 29 CFR 1910.147 for the isolations the permit lists; NIOSH confined-space criteria; LIUNA, UA and IUOE confined-space training",
+      "accent": "#4fb3d9",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "never-left-the-hole",
+        "name": "Never Left the Hole",
+        "note": "The permit complete before entry, the count always right, the attendant never off the opening and never inside it"
+      },
+      "meshes": 219,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Permit Space",
+      "currency": "ENTRIES",
+      "ranks": [
+        "Hole Watch Trainee",
+        "Attendant",
+        "Lead Attendant",
+        "Entry Supervisor",
+        "Permit Space Qualified"
+      ],
+      "awards": [
+        {
+          "id": "stayed-outside",
+          "name": "Stayed Outside",
+          "note": "Never went in, never left the post, never let an unsigned entry or an untrained helper through"
+        },
+        {
+          "id": "blank-means-stop",
+          "name": "Blank Means Stop",
+          "note": "Every blank on the permit caught before the entry"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the permit to the file"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The watch held in band the whole time"
+        },
+        {
+          "id": "clear-comms",
+          "name": "Clear Comms",
+          "note": "The comm check committed inside the band first time"
+        },
+        {
+          "id": "tight-entry",
+          "name": "Tight Entry",
+          "note": "Permit to file inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-permit-entry-and-attendant-duties"
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-flatwork-ironer-and-folder-guarding",
+      "name": "Flatwork Ironer & Folder Guarding",
+      "title": "SmartCiti.X~ Flatwork Ironer & Folder Guarding VR",
+      "tagline": "The hotel laundry's flatwork line: guards walked and a bypassed interlock found, dressed for a nip point, the chest read against the machine card, sheets fed flat and steady while a coworker reaches into the folder, a wrapped sheet cleared under lockout at the disconnect and the steam valve with the heat waited out, the guards back before the lock comes off, and the jam logged",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Hotel laundry ironer operator — UNITE HERE laundry, flatwork line",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.212 machine guarding for the ironer's nip point and the folder's moving parts; OSHA 29 CFR 1910.147 control of hazardous energy for clearing a jam — electrical, steam and the heat no lock isolates; 29 CFR 1910.132 for dress and PPE at a nip point; ANSI Z8.1 commercial laundry equipment safety practice behind the finger guard and folder interlocks; Cal/OSHA's injury and illness prevention program, 8 CCR 3203; NIOSH guidance on heat in hot workplaces; UNITE HERE laundry training on the flatwork line",
+      "accent": "#8fa3c7",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "hands-whole",
+        "name": "Hands Whole",
+        "note": "Every jam cleared under your own lock, every guard back before the restart, and nobody reached into a running nip"
+      },
+      "meshes": 177,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Flatwork Line",
+      "currency": "SHEETS",
+      "ranks": [
+        "Feeder",
+        "Ironer Operator",
+        "Line Lead",
+        "Laundry Supervisor",
+        "Flatwork Line Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-in-the-nip",
+          "name": "Never in the Nip",
+          "note": "No reach past the finger guard, no gloves at the feed, no jam cleared on a stop button, no leaning on the chest"
+        },
+        {
+          "id": "own-lock",
+          "name": "Own Lock",
+          "note": "The jam cleared under your own lock with the stop proven dead"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections from the machine card to the log"
+        },
+        {
+          "id": "flat-feed",
+          "name": "Flat Feed",
+          "note": "The feed held in band all the way"
+        },
+        {
+          "id": "read-the-chest",
+          "name": "Read the Chest",
+          "note": "The chest reading committed inside the band first time"
+        },
+        {
+          "id": "back-in-production",
+          "name": "Back in Production",
+          "note": "The jam cleared and the line restarted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hw-flatwork-ironer-and-folder-guarding"
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-banquet-room-flip-and-staging",
+      "name": "Banquet Room Flip & Staging",
+      "title": "SmartCiti.X~ Banquet Room Flip & Staging VR",
+      "tagline": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Banquet houseman — UNITE HERE banquet crew, room flip and staging",
+      "union": null,
+      "certification": "NFPA 101 Life Safety Code for the aisles, exit access and exit signs of an assembly room set to the approved floor plan; OSHA 29 CFR 1910.36 on exit routes kept unobstructed, and 29 CFR 1910.22 on walking-working surfaces kept free of trip hazards such as loose cable; the Revised NIOSH Lifting Equation behind team lifts of stage decks and folded rounds; Cal/OSHA's injury and illness prevention program, 8 CCR 3203, for the hazards of a room flip; UNITE HERE banquet training on lifting, carts and staffing a flip",
+      "accent": "#c79a4a",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "flipped-not-rushed",
+        "name": "Flipped, Not Rushed",
+        "note": "The room turned on the plan with every lift called, every cable ramped and every exit clear, and the doors held rather than a corner cut"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Banquet Flip",
+      "currency": "COVERS",
+      "ranks": [
+        "Banquet Extra",
+        "Houseman",
+        "Set-up Lead",
+        "Banquet Captain",
+        "Room Flip Certified"
+      ],
+      "awards": [
+        {
+          "id": "every-lift-called",
+          "name": "Every Lift Called",
+          "note": "No deck carried alone, no cart ridden, no cable under the carpet, nothing parked in the exit corridor"
+        },
+        {
+          "id": "doors-held",
+          "name": "Doors Held",
+          "note": "The early-doors push answered by holding the doors, not by skipping the ramps"
+        },
+        {
+          "id": "on-the-plan",
+          "name": "On the Plan",
+          "note": "No corrections from the event order to the log"
+        },
+        {
+          "id": "flip-window",
+          "name": "Inside the Window",
+          "note": "Room flipped inside 80% of par"
+        },
+        {
+          "id": "steady-cart",
+          "name": "Steady Cart",
+          "note": "The riser cart held in band the whole push"
+        },
+        {
+          "id": "aisle-true",
+          "name": "Aisle True",
+          "note": "The aisle read against the plan inside the band first time"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hw-banquet-room-flip-and-staging"
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-housekeeping-cart-and-chemical-safety",
+      "name": "Housekeeping Cart & Chemical Safety",
+      "title": "SmartCiti.X~ Housekeeping Cart & Chemical Safety VR",
+      "tagline": "The stockroom before the first room: the new product looked up on its SDS, the dilution dispenser set and the bottle filled and labelled, a coworker stopped from mixing, the cart loaded heavy-low and inside its plate, pushed rather than pulled to the service lift past a leak, sprayed onto the cloth, gloves changed between bathroom and bedroom, and the shift logged",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Hotel room attendant — UNITE HERE housekeeping, stockroom and service corridor",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1200 hazard communication — the safety data sheet for every product on the cart and a label on every secondary bottle; 29 CFR 1910.132 and 29 CFR 1910.138 for the gloves the SDS calls for; ANSI Z358.1 for the eyewash beside the dilution sink; Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard, 8 CCR 3345, whose worksite evaluation covers the loaded cart a room attendant pushes all shift; UNITE HERE hospitality training on chemical safety and cart handling",
+      "accent": "#6fa89a",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "hold",
+        "sequence",
+        "gauge",
+        "find",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "labelled-and-loaded",
+        "name": "Labelled and Loaded",
+        "note": "Every bottle labelled, nothing mixed, the cart inside its rating and pushed, and the leak dealt with before anyone walked through it"
+      },
+      "meshes": 180,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Stockroom Shift",
+      "currency": "BOTTLES",
+      "ranks": [
+        "New Attendant",
+        "Room Attendant",
+        "Stockroom Lead",
+        "Housekeeping Inspector",
+        "Cart and Chemicals Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-mixed",
+          "name": "Never Mixed",
+          "note": "No product poured into another, no spray at face height, no cart pulled backwards"
+        },
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "The new product's SDS read before the bottle was filled"
+        },
+        {
+          "id": "clean-stockroom",
+          "name": "Clean Stockroom",
+          "note": "No corrections from the board to the log"
+        },
+        {
+          "id": "on-the-floor-early",
+          "name": "On the Floor Early",
+          "note": "Cart at the service lift inside 80% of par"
+        },
+        {
+          "id": "steady-push",
+          "name": "Steady Push",
+          "note": "The corridor push held in band all the way"
+        },
+        {
+          "id": "inside-the-plate",
+          "name": "Inside the Plate",
+          "note": "The cart's load committed inside the band first time"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hw-housekeeping-cart-and-chemical-safety"
     },
     {
       "app": "smartcity",
@@ -25833,7 +26365,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26493,7 +27025,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "100",
