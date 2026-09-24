@@ -5177,6 +5177,82 @@ function workboat(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.workboat.footprint, livery: lv, draft: 0.45 });
 }
 
+// -------------------------------------------------------------- deck barge
+
+/**
+ * Sectional spud barge, the small flat-deck work barge a bay restoration job
+ * floats an excavator or a sediment load on: three bolted sections, 12.2 m
+ * by 6.1 m by 1.5 m deep, a raked bow at +Z, a sealed spill coaming round the
+ * deck so wet sediment drains to the deck's own sump rather than over the
+ * side, two spud wells at the stern with their spuds (raised; lower them by
+ * moving each spud's y down by up to `userData.lift`), four mooring bitts and
+ * sidelights for when a tug has it alongside. y = 0 is the keel; a station
+ * floats it by setting y to minus its draft (about 0.6 m light). Parts:
+ * spuds [spudP, spudS], bitts [bittFP, bittFS, bittAP, bittAS], coaming,
+ * sump, navLights {portLight, starboardLight}.
+ */
+function deckBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3d4f5c, fleetName: "BAY WORKS", unitNumber: "SB-12", accent: 0xe0b12a });
+  const L = 12.2, W = 6.1, D = 1.52, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "deckBarge");
+  const S = rig.shell, hw = W / 2;
+  // Hull: a box with a raked bow, three sections, the joins painted.
+  flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
+  const hullSide = flCanvasMat(`bargeSide|${lv.key}`, 512, 64, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.1))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.08, tone: "0,0,0" });
+    for (const k of [1 / 3, 2 / 3]) { g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(k * w - 2, 0, 4, h); }
+    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.08, w, h * 0.1);
+    for (let i = 0; i < 9; i++) { g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(w * 0.06, h * 0.3 + i * h * 0.07, 10, 2); }
+    g.fillStyle = "#f2f2ee"; g.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`; g.textBaseline = "middle";
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w * 0.4, h * 0.56);
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 10, alpha: 0.22 });
+  }, { rough: 0.55, metal: 0.3 });
+  for (const sx of [1, -1]) flPanel(S, L - 1.5, D - 0.36, sx * (hw + 0.005), 0.36 + (D - 0.36) / 2, Z(1.4 + (L - 1.4) / 2), hullSide, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.1, 0.03, L - 0.3, 0, D + 0.015, Z(L / 2 + 0.1), flTreadMat());
+  // Rub rails along both sides and across the stern.
+  for (const sx of [1, -1]) flRod(S, 0.09, L - 0.4, sx * (hw + 0.05), D - 0.25, Z(L / 2 + 0.2), "z", ...FL.black);
+  flRod(S, 0.09, W, 0, D - 0.25, Z(L) + 0.09, "x", ...FL.black);
+  // Spud wells: steel boxes through the stern corners.
+  for (const sx of [1, -1]) box(S, 0.8, 0.9, 0.8, sx * (hw - 0.55), D + 0.45, Z(L - 0.6), ...FL.steel);
+  // Spill coaming: a low sealed curb round the deck edge, and its sump.
+  const co = rig.part("coaming", 0, D, 0);
+  for (const sx of [1, -1]) box(co, 0.1, 0.3, L - 2.2, sx * (hw - 0.1), 0.15, Z(L / 2 + 0.5), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 0.3, 0.3, 0.1, 0, 0.15, Z(0.9), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 1.9, 0.3, 0.1, 0, 0.15, Z(L - 1.1), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  const sump = rig.part("sump", hw - 0.7, D + 0.02, Z(L - 1.6));
+  box(sump, 0.5, 0.04, 0.5, 0, 0.02, 0, ...FL.frame);
+  box(sump, 0.44, 0.02, 0.44, 0, 0.05, 0, ...FL.steel);
+  // Spuds, raised: square-section piles standing in the wells.
+  const spudH = 6.0;
+  const spuds = [];
+  for (const [name, sx] of [["spudP", -1], ["spudS", 1]]) {
+    const sp = rig.part(name, sx * (hw - 0.55), D - 0.8, Z(L - 0.6));
+    box(sp, 0.46, spudH, 0.46, 0, spudH / 2, 0, 0x6b7178, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+    box(sp, 0.5, 0.18, 0.5, 0, spudH - 0.09, 0, 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+    sp.userData.lift = spudH - 1.4;
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Mooring bitts, a double post at each corner.
+  const bitts = [];
+  for (const [name, sx, s] of [["bittFP", -1, 1.1], ["bittFS", 1, 1.1], ["bittAP", -1, L - 1.6], ["bittAS", 1, L - 1.6]]) {
+    const b = rig.part(name, sx * (hw - 0.45), D, Z(s));
+    for (const dz of [-0.16, 0.16]) cyl(b, 0.08, 0.09, 0.4, 0, 0.2, dz, ...FL.frame, { seg: 10 });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", -hw + 0.3, D + 0.9, Z(0.9), nav);
+  cyl(port, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(port, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", hw - 0.3, D + 0.9, Z(0.9), nav);
+  cyl(stbd, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(stbd, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.green);
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.deckBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -5205,12 +5281,13 @@ const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
+  deckBarge: { build: "deckBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
-  bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
+  bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat, deckBarge,
 };
 
 
@@ -26747,6 +26824,300 @@ const SIMS_META = [
         "Commissioning Tech",
         "Lead Commissioning Tech",
         "Storage Commissioning Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-spoils-dewatering-pad",
+    "index": "BR-D1",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+    "name": "Dredge Spoils Dewatering Pad",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+    "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+    "accent": 12159566,
+    "accentCss": "#b98a4e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-unfiltered",
+      "name": "Nothing Back Unfiltered",
+      "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decant Control",
+      "currency": "CELL",
+      "ranks": [
+        "Pad Hand",
+        "Decant Tender",
+        "Pad Lead",
+        "Rehandle Foreman",
+        "Decant Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-turbidity-curtain-deployment",
+    "index": "BR-D2",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+    "name": "Turbidity Curtain Deployment",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+    "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "closed-loop",
+      "name": "Closed Loop",
+      "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Curtain Line",
+      "currency": "SECTION",
+      "ranks": [
+        "Float Hand",
+        "Curtain Hand",
+        "Curtain Lead",
+        "Containment Foreman",
+        "Curtain Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-sediment-chain-of-custody-and-lab-prep",
+    "index": "BR-D3",
+    "domain": "Environmental",
+    "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+    "name": "Sediment Chain of Custody & Lab Prep",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+    "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+    "accent": 9418842,
+    "accentCss": "#8fb85a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "unbroken-custody",
+      "name": "Unbroken Custody",
+      "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Custody Bench",
+      "currency": "JAR",
+      "ranks": [
+        "Bench Hand",
+        "Sample Tech",
+        "Field Custodian",
+        "Sample Coordinator",
+        "Custody Bench Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-water-quality-sonde-calibration-and-deploy",
+    "index": "BR-D4",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+    "name": "Water Quality Sonde Calibration & Deploy",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+    "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+    "accent": 5226928,
+    "accentCss": "#4fc1b0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "defensible-number",
+      "name": "Defensible Number",
+      "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sonde Deck",
+      "currency": "READING",
+      "ranks": [
+        "Probe Hand",
+        "Monitoring Tech",
+        "Sonde Lead",
+        "Water Quality Coordinator",
+        "Sonde Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+    "index": "BR-D5",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+    "name": "Legacy Mercury & PCB Hotspot Handling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+    "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+    "accent": 12624088,
+    "accentCss": "#c0a0d8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "kept-apart",
+      "name": "Kept Apart",
+      "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hotspot Cell",
+      "currency": "CUT",
+      "ranks": [
+        "Hazmat Hand",
+        "Cut Signaller",
+        "Hotspot Lead",
+        "Remediation Foreman",
+        "Hotspot Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-trash-capture-device-service",
+    "index": "BR-D6",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+    "name": "Trash Capture Device Service",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Trash Capture Device Service VR",
+    "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+    "accent": 14721088,
+    "accentCss": "#e0a040",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-in",
+      "name": "Nothing Back In",
+      "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Net Service",
+      "currency": "BAG",
+      "ranks": [
+        "Net Hand",
+        "Tag Line Hand",
+        "Service Lead",
+        "Stormwater Foreman",
+        "Net Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-material-screening-and-disposal-decision",
+    "index": "BR-D7",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the material screener; IUOE Local 3 operating engineer apprenticeship for the dredge's excavator; the DMMO suitability determination for each dredge unit and the Army Corps Section 404 permit conditions it sits under; the Regional Water Quality Control Board's Section 401 water quality certification; BCDC permit conditions for the placement sites; OSHA HAZWOPER, 29 CFR 1910.120, for screening and sampling material that may be contaminated; EPA QA/G-5 chain-of-custody practice for the unexpected-material sample; RCRA 40 CFR 262 and DTSC rules if the work plan's profile makes any of it hazardous waste",
+    "name": "Dredge Material Screening & Disposal Decision",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Material Screening & Disposal Decision VR",
+    "tagline": "Matching every bite to the decision already made about it: the work plan's dredge-unit map and the suitability determination read, the dredge's position confirmed inside the unit, the scow walked and its drain shut, bites called while unexpected oily material comes up, the material sampled while the tug wants to leave, it reported in order, the scow placarded on hold, its draft read, the load ticket written, the deck walked, logged and the crew checked in",
+    "accent": 10128088,
+    "accentCss": "#9a8ad8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "held-for-the-decision",
+      "name": "Held For The Decision",
+      "note": "Stopped the dig on material the characterisation did not describe, sampled it under custody and kept the scow from leaving until the work plan's people decided"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scow Screen",
+      "currency": "BITE",
+      "ranks": [
+        "Deck Hand",
+        "Screener",
+        "Senior Screener",
+        "Dredge Inspector",
+        "Scow Screen Certified"
       ],
       "rankAt": [
         0,
