@@ -1,6 +1,6 @@
 # Robot training
 
-The fifteen dental stations of **Dental Hygiene — Unspoken Smiles** are also a
+The eighteen dental stations of **Dental Hygiene — Unspoken Smiles** are also a
 robot training simulator. A chairside assistant or hygiene-support robot runs
 the same procedure engine a student runs, on the same scored steps, in the same
 room — and because the room is a real 3D scene rather than a decision tree, each
@@ -149,8 +149,11 @@ Where the metadata landed, station by station:
 | Mobile Dental Outreach | head volume at the portable chair, staff | 1 | headrest barrier (light) |
 | Pediatric Visit | child patient, staff | 5 | light aim (light), cooperation cues (none) |
 | Oral Cancer Screening | patient, staff | 6 | light aim (light) |
+| Medical History & Medication Review | patient, staff | 1 | — |
+| Oral Hygiene Instruction & Motivational Interviewing | patient, staff | 2 | — |
+| Public Health Dentistry & Fluoridation Advocacy | staff | 2 | — |
 
-Forty-six steps across the block are ones a robot must never perform. That
+Fifty-one steps across the block are ones a robot must never perform. That
 number is the point of the exercise, not a shortfall: it is the boundary between
 the work a hygiene-support robot can take off a clinician's hands and the work
 that is the clinician's.

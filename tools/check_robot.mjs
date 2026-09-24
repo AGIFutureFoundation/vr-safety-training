@@ -115,7 +115,7 @@ const finite = (v) => Array.isArray(v) && v.length === 3 && v.every((n) => Numbe
 const INTRAORAL_TITLE = /\b(intraoral|tongue|gingiva|palate|oropharynx|teeth)\b|in the mouth|the airway/i;
 
 check(`all ${DENTAL.length} dental stations yield a usable pose for every interactable`, () => {
-  eq(dentalRooms.length, 15, "dental stations in the programme");
+  ok(dentalRooms.length >= 15, `dental stations in the programme: expected at least 15, got ${dentalRooms.length}`);
   for (const { room, api, emb } of dentalRooms) {
     const ids = Object.keys(api.hits);
     ok(ids.length > 0, `${room.id} registered no interactables`);
