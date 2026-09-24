@@ -14392,5 +14392,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-dive-tender-and-umbilical-management",
+    "index": "324",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 diver-tender keeping a surface-supplied diver's umbilical on a Bay restoration dive, with the dive supervisor, the diver and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.425 surface-supplied air diving (each diver continuously tended, the standby diver), 29 CFR 1910.422 procedures during the dive and 29 CFR 1910.423 post-dive procedures (the diver's condition); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the employer's safe practices manual for line-pull signals; depth, gas, bottom time and working radius per the dive plan",
+    "name": "Dive Tender & Umbilical Management",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Tender & Umbilical Management VR",
+    "tagline": "The diver's line for the whole dive: the tender brief taken, the harness strap and the strain relief found, the neck clamp latched and pinned, the umbilical led over the roller, paid out steady while a bight drifts toward the crew boat's outboards, the times called, the diver felt working while the standby is ordered dressed, the marks read against the plan, the wash-down opened, the chafe and the kink found, the diver helped out and watched, the umbilical flaked and the log written — every step in a PFD",
+    "accent": 6277352,
+    "accentCss": "#5fc8e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-untended",
+      "name": "Never Untended",
+      "note": "The diver's umbilical in the tender's hands from the ladder to the flake box, never wrapped, tied off or stood in, and never a slack bight near a propeller"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tending",
+      "currency": "FATHOM LINE",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Diver-Tender",
+        "Lead Tender",
+        "Tending Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
