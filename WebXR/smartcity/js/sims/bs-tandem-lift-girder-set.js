@@ -195,9 +195,10 @@ export const SIM_BS_TANDEM_LIFT_GIRDER_SET = {
       turn: { turns: 1, label: "CROSS-FRAME", readout: (t) => (t < 0.95 ? "running bolts up" : "snug — connection made") },
     },
     {
-      id: "release", kind: "select", target: "release-signal",
-      title: "Release both hooks together",
-      cue: "With the girder braced and the connection bolted, signal both cranes to slack off together and let the connector unhook.",
+      id: "release", kind: "hold", target: "release-signal", seconds: 4,
+      title: "Hold the slack-off signal until both slings go loose",
+      cue: "With the girder braced and the connection bolted, give both cranes the one slack-off signal and hold it until both sets of slings hang loose, then let the connector unhook.",
+      holdBreakNote: "The signal dropped before both slings were loose — one crane is still carrying part of the girder. Give the signal again and hold it.",
       why: "The hooks come off only when the girder is stable on its own — braced and bolted — and they come off together, so that neither crane is briefly carrying the whole piece. The lift director gives one signal for both, the operators slack off until the slings go loose, and only then does the connector take the rigging off from the basket.",
     },
     {

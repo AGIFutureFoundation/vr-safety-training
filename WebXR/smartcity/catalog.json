@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 332
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bs-bearing-replacement-and-jacking",
         "bs-tandem-lift-girder-set",
         "bs-structural-bolting-and-torque",
         "leading-edge-and-horizontal-lifeline",
@@ -2244,6 +2245,11 @@
           "app": "smartcity",
           "id": "bs-tandem-lift-girder-set",
           "why": "The pick that bolting follows: one girder on two IUOE-flown cranes under a multiple-crane lift plan, kept level on the hoist, stopped for the wind, and braced to its neighbour before either hook lets go."
+        },
+        {
+          "app": "smartcity",
+          "id": "bs-bearing-replacement-and-jacking",
+          "why": "The maintenance the bearings eventually need: the lane under the span closed, a girder jacked on the engineer's plan with cribbing tight beside the jack, and the girder let down onto its new bearing without ever hanging on oil alone."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6741,6 +6747,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-bearing-replacement-and-jacking",
+      "name": "Bearing Replacement & Jacking",
+      "title": "SmartCiti.X~ Bearing Replacement & Jacking VR",
+      "tagline": "A girder lifted off its bearing to the engineer's plan: the lane under the span closed, the seat and the kit inspected, the jack set on its point, cribbing built beside it, the load watched on the gauge, the lift read on the dial, the lock ring run down, the old bearing out and the new one in, and the girder let down again slowly",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Ironworker bridge maintenance crew with LIUNA traffic control — girder jacking and bearing replacement",
+      "union": null,
+      "certification": "Ironworkers IMPACT bridge and structural maintenance training and the LIUNA Training and Education Fund flagger and work-zone curriculum; the engineer of record's jacking plan; OSHA 29 CFR 1926.305 jacks (rated capacity, firm footing, blocking) and 29 CFR 1926 Subpart R; the MUTCD temporary traffic control plan for the lane under the span; AASHTO bridge maintenance practice for bearing replacement",
+      "accent": "#5fb3a8",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "track",
+        "gauge",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "cribbed-and-locked",
+        "name": "Cribbed And Locked",
+        "note": "A girder that never hung on hydraulics alone: cribbing tight under it, the lock ring down, and the lift held to the plan"
+      },
+      "meshes": 219,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Bearing Crew",
+      "currency": "LIFT",
+      "ranks": [
+        "Apprentice",
+        "Jack Hand",
+        "Bearing Setter",
+        "Jacking Lead",
+        "Bearing Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "load-on-the-gauge",
+          "name": "Load On The Gauge",
+          "note": "The jack's load held inside the plan's band the whole lift"
+        },
+        {
+          "id": "seat-read",
+          "name": "Seat Read",
+          "note": "Every defect in the seat and the kit found first look"
+        },
+        {
+          "id": "never-on-hydraulics",
+          "name": "Never On Hydraulics",
+          "note": "No hand under the girder, no work beside a jack with no crib, no step into the live lane, no pumping past the plan"
+        },
+        {
+          "id": "clean-swap",
+          "name": "Clean Swap",
+          "note": "No corrections through the whole bearing swap"
+        },
+        {
+          "id": "lift-on-the-mark",
+          "name": "Lift On The Mark",
+          "note": "The lift committed inside the plan's band first time"
+        },
+        {
+          "id": "lane-back-early",
+          "name": "Lane Back Early",
+          "note": "Bearing logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bs-bearing-replacement-and-jacking"
     },
     {
       "app": "smartcity",
@@ -25692,7 +25781,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26352,7 +26441,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bs-bearing-replacement-and-jacking",
+    "index": "320",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker bridge maintenance crew with LIUNA traffic control — girder jacking and bearing replacement",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT bridge and structural maintenance training and the LIUNA Training and Education Fund flagger and work-zone curriculum; the engineer of record's jacking plan; OSHA 29 CFR 1926.305 jacks (rated capacity, firm footing, blocking) and 29 CFR 1926 Subpart R; the MUTCD temporary traffic control plan for the lane under the span; AASHTO bridge maintenance practice for bearing replacement",
+    "name": "Bearing Replacement & Jacking",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bearing Replacement & Jacking VR",
+    "tagline": "A girder lifted off its bearing to the engineer's plan: the lane under the span closed, the seat and the kit inspected, the jack set on its point, cribbing built beside it, the load watched on the gauge, the lift read on the dial, the lock ring run down, the old bearing out and the new one in, and the girder let down again slowly",
+    "accent": 6271912,
+    "accentCss": "#5fb3a8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "cribbed-and-locked",
+      "name": "Cribbed And Locked",
+      "note": "A girder that never hung on hydraulics alone: cribbing tight under it, the lock ring down, and the lift held to the plan"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bearing Crew",
+      "currency": "LIFT",
+      "ranks": [
+        "Apprentice",
+        "Jack Hand",
+        "Bearing Setter",
+        "Jacking Lead",
+        "Bearing Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

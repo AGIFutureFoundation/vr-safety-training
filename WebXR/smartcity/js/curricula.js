@@ -568,6 +568,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "deck-joint-replacement", why: "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it." },
       { app: "smartcity", id: "bs-structural-bolting-and-torque", why: "The bolt-up the connecting leaves behind: a girder field splice verified in the calibrator, snugged from the middle out, turned from its match marks, and the one bolt that spun found before the inspector reads the rest." },
       { app: "smartcity", id: "bs-tandem-lift-girder-set", why: "The pick that bolting follows: one girder on two IUOE-flown cranes under a multiple-crane lift plan, kept level on the hoist, stopped for the wind, and braced to its neighbour before either hook lets go." },
+      { app: "smartcity", id: "bs-bearing-replacement-and-jacking", why: "The maintenance the bearings eventually need: the lane under the span closed, a girder jacked on the engineer's plan with cribbing tight beside the jack, and the girder let down onto its new bearing without ever hanging on oil alone." },
     ],
   },
   {
