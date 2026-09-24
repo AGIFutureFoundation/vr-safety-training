@@ -444,7 +444,7 @@ export const SIM_DN_DENTAL_CODING_BILLING_AND_PREAUTHORISATION = {
     const log = board(0.4, 0.3, 0.95, 1.95, -2.35, paperFace("BILLING LOG", ["Eligibility · query", "Pre-auth ref · appeal ref", "Posted"], { band: CBP_CSS }));
     reg(hits, log.userData.face, "cbp-billing-log");
 
-    const manager = standingFigure(g, -2.3, 0.55, { ry: 1.8, cloth: 0x3a4a5a });
+    const manager = standingFigure(g, -1.9, 1.15, { ry: 1.8, cloth: 0x3a4a5a });
     holoTag(manager, "office manager", 0, 1.86, 0, { css: CBP_CSS, w: 0.32 }).rotation.y = -1.8;
 
     const panel = holoPanel(g, 0.8, 0.5, -0.4, 2.2, -2.5, (cx, w, h) => {

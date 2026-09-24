@@ -436,7 +436,7 @@ export const SIM_DN_PUBLIC_HEALTH_DENTISTRY_AND_FLUORIDATION_ADVOCACY = {
     // ---------------------------------------------------------------- crew
     const lead = standingFigure(g, 2.0, 1.6, { ry: -2.5, cloth: 0x2f5f70 });
     holoTag(lead, "programme lead", 0, 1.86, 0, { css: PHD_CSS, w: 0.32 }).rotation.y = 2.5;
-    const clerkFig = standingFigure(g, 1.95, -1.35, { ry: -0.6, cloth: 0x4a4a5a });
+    const clerkFig = standingFigure(g, 1.6, -1.1, { ry: -0.6, cloth: 0x4a4a5a });
     holoTag(clerkFig, "the clerk", 0, 1.86, 0, { css: PHD_CSS, w: 0.24 }).rotation.y = 0.6;
 
     const panel = holoPanel(g, 0.8, 0.5, 1.3, 2.35, -2.45, (cx, w, h) => {

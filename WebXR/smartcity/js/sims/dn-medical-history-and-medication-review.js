@@ -452,7 +452,7 @@ export const SIM_DN_MEDICAL_HISTORY_AND_MEDICATION_REVIEW = {
     const log = board(0.4, 0.3, 0.4, 1.72, -2.35, paperFace("HISTORY LOG", ["Reviewed · reconciled", "Flags · consult per dentist", "Signed"], { band: MHR_CSS }));
     reg(hits, log.userData.face, "mhr-history-log");
 
-    const dentist = standingFigure(g, 2.15, 0.6, { ry: -1.9, cloth: 0x2f5f70 });
+    const dentist = standingFigure(g, 2.55, 0.9, { ry: -1.9, cloth: 0x2f5f70 });
     holoTag(dentist, "the dentist", 0, 1.86, 0, { css: MHR_CSS, w: 0.28 }).rotation.y = 1.9;
 
     const panel = holoPanel(g, 0.8, 0.5, -1.2, 1.98, -2.5, (cx, w, h) => {
