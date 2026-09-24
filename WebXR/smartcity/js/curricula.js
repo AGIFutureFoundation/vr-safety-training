@@ -327,6 +327,12 @@ export const CURRICULA = [
       { app: "smartcity", id: "community-listening-session", why: "A listening session with nothing to defend is where bringing people in rather than shutting them out is practised as a skill rather than a slogan." },
       { app: "smartcity", id: "conflict-mediation-room", why: "Mediating between two neighbours trains the emotional intelligence underneath every other station: hear each side whole, take the blame out, and keep the room level." },
       { app: "smartcity", id: "mentorship-and-succession", why: "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you." },
+      { app: "smartcity", id: "cv-open-meeting-law-and-agenda-notice", why: "The clerk's side of the open meeting, where the Brown Act is kept or lost before the chair ever speaks: an agenda the public could actually read, a quorum counted honestly, and a closed session kept to what was noticed and reported out." },
+      { app: "smartcity", id: "cv-voter-registration-drive-and-nonpartisan-conduct", why: "A registration table on a Saturday plaza is where bringing people in rather than shutting them out is practised one voter at a time, with the table belonging to every party and to none." },
+      { app: "smartcity", id: "cv-neighborhood-emergency-block-captain", why: "The morning after an earthquake, leadership is a block captain working inside the volunteer's role: rescuer safety first, a report up one chain, and the list of who needs help kept off the group chat." },
+      { app: "smartcity", id: "cv-restorative-justice-circle-facilitation", why: "Keeping a restorative circle is listening first taken as far as it goes, with the talking piece's rule held, speaking time kept fair and the harm named without shaming the person who did it." },
+      { app: "smartcity", id: "cv-grant-application-and-nonprofit-compliance", why: "Asking for public money and accounting for it is the other side of spending it in the open: a budget that means something, a conflict disclosed and recused, and a report that claims only what it can prove." },
+      { app: "smartcity", id: "cv-difficult-conversation-across-difference", why: "The hardest seat in the programme is the one where the harm was yours, and owning it across language, age and experience is where emotional intelligence stops being a slogan." },
     ],
   },
   {

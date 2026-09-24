@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "cv-difficult-conversation-across-difference",
         "cv-grant-application-and-nonprofit-compliance",
         "cv-restorative-justice-circle-facilitation",
         "cv-neighborhood-emergency-block-captain",
@@ -1402,6 +1403,36 @@
           "app": "smartcity",
           "id": "mentorship-and-succession",
           "why": "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-open-meeting-law-and-agenda-notice",
+          "why": "The clerk's side of the open meeting, where the Brown Act is kept or lost before the chair ever speaks: an agenda the public could actually read, a quorum counted honestly, and a closed session kept to what was noticed and reported out."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+          "why": "A registration table on a Saturday plaza is where bringing people in rather than shutting them out is practised one voter at a time, with the table belonging to every party and to none."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-neighborhood-emergency-block-captain",
+          "why": "The morning after an earthquake, leadership is a block captain working inside the volunteer's role: rescuer safety first, a report up one chain, and the list of who needs help kept off the group chat."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-restorative-justice-circle-facilitation",
+          "why": "Keeping a restorative circle is listening first taken as far as it goes, with the talking piece's rule held, speaking time kept fair and the harm named without shaming the person who did it."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-grant-application-and-nonprofit-compliance",
+          "why": "Asking for public money and accounting for it is the other side of spending it in the open: a budget that means something, a conflict disclosed and recused, and a report that claims only what it can prove."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-difficult-conversation-across-difference",
+          "why": "The hardest seat in the programme is the one where the harm was yours, and owning it across language, age and experience is where emotional intelligence stops being a slogan."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6734,6 +6765,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-difficult-conversation-across-difference",
+      "name": "Difficult Conversation Across Difference",
+      "title": "SmartCiti.X~ Difficult Conversation Across Difference VR",
+      "tagline": "You cut her off last week, and she has asked to meet: your own state named first, a qualified interpreter on the line, her account heard whole, her son's anger met without a counter-attack, an apology with no \"if\" in it — and a change she can hold you to",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Neighbourhood services liaison — repair conversation",
+      "union": null,
+      "certification": "Title VI of the Civil Rights Act for meaningful language access in a federally funded city programme — a qualified interpreter, not a family member and never a child; Title II of the ADA for the same access for a resident with a disability; SAMHSA's trauma-informed principles of safety, trustworthiness and transparency, and cultural, historical and gender responsiveness for a resident who has felt dismissed by institutions before; Psychological First Aid (NCTSN and the National Center for PTSD) for calm, practical presence with someone upset; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a threat to staff is reported and followed up; SEIU and AFSCME for the city staff who hold these conversations. The emotional-intelligence steps follow the programme's own guide. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#d98a7a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "owned-it",
+        "name": "Owned It",
+        "note": "A whole repair conversation held: nothing defended, nobody talked over, and a change promised that can be checked"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Repair",
+      "currency": "TRUST",
+      "ranks": [
+        "Liaison",
+        "Senior Liaison",
+        "Community Lead",
+        "Neighbourhood Manager",
+        "Mentor"
+      ],
+      "awards": [
+        {
+          "id": "arrived-honest",
+          "name": "Arrived Honest",
+          "note": "Your own state named before the conversation began"
+        },
+        {
+          "id": "no-defence",
+          "name": "No Defence",
+          "note": "No unsafe action anywhere in the conversation"
+        },
+        {
+          "id": "room-ready",
+          "name": "Room Ready",
+          "note": "Every part of the room set up for her first time"
+        },
+        {
+          "id": "clean-repair",
+          "name": "Clean Repair",
+          "note": "No corrections anywhere in the conversation"
+        },
+        {
+          "id": "slow-breath",
+          "name": "Slow Breath",
+          "note": "Your breathing brought inside the band"
+        },
+        {
+          "id": "stayed-present",
+          "name": "Stayed Present",
+          "note": "Both holds and the de-escalation carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-difficult-conversation-across-difference"
     },
     {
       "app": "smartcity",
@@ -25934,7 +26048,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26594,7 +26708,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-difficult-conversation-across-difference",
+    "index": "323",
+    "domain": "Civic",
+    "trade": "Neighbourhood services liaison — repair conversation",
+    "category": "Community Environmental Justice",
+    "certification": "Title VI of the Civil Rights Act for meaningful language access in a federally funded city programme — a qualified interpreter, not a family member and never a child; Title II of the ADA for the same access for a resident with a disability; SAMHSA's trauma-informed principles of safety, trustworthiness and transparency, and cultural, historical and gender responsiveness for a resident who has felt dismissed by institutions before; Psychological First Aid (NCTSN and the National Center for PTSD) for calm, practical presence with someone upset; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a threat to staff is reported and followed up; SEIU and AFSCME for the city staff who hold these conversations. The emotional-intelligence steps follow the programme's own guide. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Difficult Conversation Across Difference",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Difficult Conversation Across Difference VR",
+    "tagline": "You cut her off last week, and she has asked to meet: your own state named first, a qualified interpreter on the line, her account heard whole, her son's anger met without a counter-attack, an apology with no \"if\" in it — and a change she can hold you to",
+    "accent": 14256762,
+    "accentCss": "#d98a7a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "owned-it",
+      "name": "Owned It",
+      "note": "A whole repair conversation held: nothing defended, nobody talked over, and a change promised that can be checked"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Repair",
+      "currency": "TRUST",
+      "ranks": [
+        "Liaison",
+        "Senior Liaison",
+        "Community Lead",
+        "Neighbourhood Manager",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
