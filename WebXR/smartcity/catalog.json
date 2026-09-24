@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -296,6 +296,45 @@
       ]
     },
     {
+      "name": "Culinary & Hospitality",
+      "stations": [
+        "hw-housekeeping-cart-and-chemical-safety",
+        "banquet-setup-lift",
+        "laundry-plant-chemicals",
+        "housekeeping-room-turn",
+        "rbs-service-capstone",
+        "wvpp-panic-button",
+        "tip-pool-labor",
+        "draught-line-cleaning",
+        "ice-well-breakage",
+        "keg-cellar-co2",
+        "last-call-lockup",
+        "allergen-cocktail",
+        "till-drop-robbery",
+        "patron-deescalation",
+        "spiked-drink-response",
+        "cutoff-overservice",
+        "jigger-pour-spec",
+        "id-check-underage",
+        "bar-well-setup",
+        "kitchen-gas-shutoff",
+        "hood-suppression",
+        "fryer-oil-change",
+        "bakery-mixer",
+        "slicer-lockout",
+        "knife-skills",
+        "prep-cooling",
+        "receiving-dock-food",
+        "walk-in-cooler",
+        "allergen-control",
+        "grease-trap",
+        "dish-pit",
+        "grill-line-burns",
+        "cafeteria-serving",
+        "banquet-hot-hold"
+      ]
+    },
+    {
       "name": "Community Environmental Justice",
       "stations": [
         "emergency-savings-and-predatory-lending",
@@ -384,44 +423,6 @@
         "amalgam-waste-handling",
         "chairside-emergency",
         "nitrous-oxide-monitoring"
-      ]
-    },
-    {
-      "name": "Culinary & Hospitality",
-      "stations": [
-        "banquet-setup-lift",
-        "laundry-plant-chemicals",
-        "housekeeping-room-turn",
-        "rbs-service-capstone",
-        "wvpp-panic-button",
-        "tip-pool-labor",
-        "draught-line-cleaning",
-        "ice-well-breakage",
-        "keg-cellar-co2",
-        "last-call-lockup",
-        "allergen-cocktail",
-        "till-drop-robbery",
-        "patron-deescalation",
-        "spiked-drink-response",
-        "cutoff-overservice",
-        "jigger-pour-spec",
-        "id-check-underage",
-        "bar-well-setup",
-        "kitchen-gas-shutoff",
-        "hood-suppression",
-        "fryer-oil-change",
-        "bakery-mixer",
-        "slicer-lockout",
-        "knife-skills",
-        "prep-cooling",
-        "receiving-dock-food",
-        "walk-in-cooler",
-        "allergen-control",
-        "grease-trap",
-        "dish-pit",
-        "grill-line-burns",
-        "cafeteria-serving",
-        "banquet-hot-hold"
       ]
     },
     {
@@ -6729,6 +6730,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-housekeeping-cart-and-chemical-safety",
+      "name": "Housekeeping Cart & Chemical Safety",
+      "title": "SmartCiti.X~ Housekeeping Cart & Chemical Safety VR",
+      "tagline": "The stockroom before the first room: the new product looked up on its SDS, the dilution dispenser set and the bottle filled and labelled, a coworker stopped from mixing, the cart loaded heavy-low and inside its plate, pushed rather than pulled to the service lift past a leak, sprayed onto the cloth, gloves changed between bathroom and bedroom, and the shift logged",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Hotel room attendant — UNITE HERE housekeeping, stockroom and service corridor",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1200 hazard communication — the safety data sheet for every product on the cart and a label on every secondary bottle; 29 CFR 1910.132 and 29 CFR 1910.138 for the gloves the SDS calls for; ANSI Z358.1 for the eyewash beside the dilution sink; Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard, 8 CCR 3345, whose worksite evaluation covers the loaded cart a room attendant pushes all shift; UNITE HERE hospitality training on chemical safety and cart handling",
+      "accent": "#6fa89a",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "hold",
+        "sequence",
+        "gauge",
+        "find",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "labelled-and-loaded",
+        "name": "Labelled and Loaded",
+        "note": "Every bottle labelled, nothing mixed, the cart inside its rating and pushed, and the leak dealt with before anyone walked through it"
+      },
+      "meshes": null,
+      "lights": null,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Stockroom Shift",
+      "currency": "BOTTLES",
+      "ranks": [
+        "New Attendant",
+        "Room Attendant",
+        "Stockroom Lead",
+        "Housekeeping Inspector",
+        "Cart and Chemicals Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-mixed",
+          "name": "Never Mixed",
+          "note": "No product poured into another, no spray at face height, no cart pulled backwards"
+        },
+        {
+          "id": "read-it-first",
+          "name": "Read It First",
+          "note": "The new product's SDS read before the bottle was filled"
+        },
+        {
+          "id": "clean-stockroom",
+          "name": "Clean Stockroom",
+          "note": "No corrections from the board to the log"
+        },
+        {
+          "id": "on-the-floor-early",
+          "name": "On the Floor Early",
+          "note": "Cart at the service lift inside 80% of par"
+        },
+        {
+          "id": "steady-push",
+          "name": "Steady Push",
+          "note": "The corridor push held in band all the way"
+        },
+        {
+          "id": "inside-the-plate",
+          "name": "Inside the Plate",
+          "note": "The cart's load committed inside the band first time"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hw-housekeeping-cart-and-chemical-safety"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25598,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
