@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-open-meeting-law-and-agenda-notice",
+    "index": "318",
+    "domain": "Civic",
+    "trade": "Clerk of the board — open-meeting compliance",
+    "category": "Community Environmental Justice",
+    "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following), stated as a body and as principles: the agenda posted in advance in a place the public can reach, each item briefly described, the public's right to address the body, closed session only for the subjects the Act allows, and a public report of action taken there; the California Public Records Act for the agenda packet and any writing handed to a majority of the body; Robert's Rules of Order as the parliamentary practice the board adopts in its own rules, not a law; Title II of the ADA for a remote member's and the public's access to the meeting; the Political Reform Act for what a member discloses before voting; the municipal ethics code for confidential information; SEIU and AFSCME for the clerks and staff who run the room. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Open Meeting Law and Agenda Notice",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Open Meeting Law and Agenda Notice VR",
+    "tagline": "Clerk a board meeting that is lawful from the posting to the report out: the agenda up where anyone can read it, each item described so a neighbour could tell, a quorum counted honestly, closed session kept to what was noticed — and every action said aloud when the doors open again",
+    "accent": 9418713,
+    "accentCss": "#8fb7d9",
+    "parSeconds": 340,
+    "badge": {
+      "id": "posted-and-proper",
+      "name": "Posted and Proper",
+      "note": "A whole meeting clerked in the open: noticed right, a real quorum, closed session kept narrow and every action reported out"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Door",
+      "currency": "NOTICE",
+      "ranks": [
+        "Deputy Clerk",
+        "Clerk",
+        "Board Secretary",
+        "Clerk of the Board",
+        "Mentor Clerk"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

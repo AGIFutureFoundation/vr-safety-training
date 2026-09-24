@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 330
+      "stations": 331
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "cv-open-meeting-law-and-agenda-notice",
         "emergency-savings-and-predatory-lending",
         "budget-with-irregular-income",
         "pay-stub-and-withholding",
@@ -6729,6 +6730,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-open-meeting-law-and-agenda-notice",
+      "name": "Open Meeting Law and Agenda Notice",
+      "title": "SmartCiti.X~ Open Meeting Law and Agenda Notice VR",
+      "tagline": "Clerk a board meeting that is lawful from the posting to the report out: the agenda up where anyone can read it, each item described so a neighbour could tell, a quorum counted honestly, closed session kept to what was noticed — and every action said aloud when the doors open again",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Clerk of the board — open-meeting compliance",
+      "union": null,
+      "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following), stated as a body and as principles: the agenda posted in advance in a place the public can reach, each item briefly described, the public's right to address the body, closed session only for the subjects the Act allows, and a public report of action taken there; the California Public Records Act for the agenda packet and any writing handed to a majority of the body; Robert's Rules of Order as the parliamentary practice the board adopts in its own rules, not a law; Title II of the ADA for a remote member's and the public's access to the meeting; the Political Reform Act for what a member discloses before voting; the municipal ethics code for confidential information; SEIU and AFSCME for the clerks and staff who run the room. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#8fb7d9",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "gauge",
+        "drag",
+        "select",
+        "turn",
+        "hold",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "posted-and-proper",
+        "name": "Posted and Proper",
+        "note": "A whole meeting clerked in the open: noticed right, a real quorum, closed session kept narrow and every action reported out"
+      },
+      "meshes": 299,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Open Door",
+      "currency": "NOTICE",
+      "ranks": [
+        "Deputy Clerk",
+        "Clerk",
+        "Board Secretary",
+        "Clerk of the Board",
+        "Mentor Clerk"
+      ],
+      "awards": [
+        {
+          "id": "posted-right",
+          "name": "Posted Right",
+          "note": "Every posting condition found first time"
+        },
+        {
+          "id": "nothing-leaked",
+          "name": "Nothing Leaked",
+          "note": "No unsafe action anywhere in the meeting"
+        },
+        {
+          "id": "narrow-door",
+          "name": "Narrow Door",
+          "note": "Everything that did not belong in closed session found first time"
+        },
+        {
+          "id": "clean-record",
+          "name": "Clean Record",
+          "note": "No corrections anywhere in the meeting"
+        },
+        {
+          "id": "plain-words",
+          "name": "Plain Words",
+          "note": "The item description set inside the band"
+        },
+        {
+          "id": "held-the-line",
+          "name": "Held the Line",
+          "note": "The listening and the closed-session focus both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-open-meeting-law-and-agenda-notice"
     },
     {
       "app": "smartcity",
@@ -25514,7 +25598,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26174,7 +26258,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",
