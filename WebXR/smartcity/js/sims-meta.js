@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+    "index": "319",
+    "domain": "Civic",
+    "trade": "Voter registration drive lead — nonpartisan community organisation",
+    "category": "Community Environmental Justice",
+    "certification": "The National Voter Registration Act (NVRA), named as a body, for the mail-in registration system and the agency-based registration a drive sits beside; the California Secretary of State's voter registration guidance, as a body, for the official card, the rules for people who collect completed cards — return them promptly to the elections office and keep them confidential — and the official voter information guide; the IRS rules for 501(c)(3) organisations, which bar any partisan campaign activity and allow voter registration only when it is nonpartisan in who is served and what is said; Title VI of the Civil Rights Act for language access where a programme takes federal money; SEIU and AFSCME for the public-assistance and motor-vehicle office staff who offer registration under the NVRA every day. Where a deadline or section number is not certain, the station names the body and not the number. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Voter Registration Drive",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Voter Registration Drive VR",
+    "tagline": "Run a registration table that belongs to every voter: the campaign flyer off the table, the card filled in by the person it belongs to, \"who should I vote for\" answered with the official guide, completed cards locked, logged and returned — and a heckler met without an argument",
+    "accent": 7325600,
+    "accentCss": "#6fc7a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "every-voter-table",
+      "name": "Every Voter's Table",
+      "note": "A whole drive run nonpartisan: nobody steered, nothing kept, every card returned"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Table",
+      "currency": "VOICE",
+      "ranks": [
+        "Volunteer",
+        "Table Lead",
+        "Drive Lead",
+        "Field Coordinator",
+        "Volunteer Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

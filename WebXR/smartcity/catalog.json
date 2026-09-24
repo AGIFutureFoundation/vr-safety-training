@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 331
+      "stations": 332
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "cv-voter-registration-drive-and-nonpartisan-conduct",
         "cv-open-meeting-law-and-agenda-notice",
         "emergency-savings-and-predatory-lending",
         "budget-with-irregular-income",
@@ -6733,6 +6734,89 @@
     },
     {
       "app": "smartcity",
+      "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+      "name": "Voter Registration Drive",
+      "title": "SmartCiti.X~ Voter Registration Drive VR",
+      "tagline": "Run a registration table that belongs to every voter: the campaign flyer off the table, the card filled in by the person it belongs to, \"who should I vote for\" answered with the official guide, completed cards locked, logged and returned — and a heckler met without an argument",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Voter registration drive lead — nonpartisan community organisation",
+      "union": null,
+      "certification": "The National Voter Registration Act (NVRA), named as a body, for the mail-in registration system and the agency-based registration a drive sits beside; the California Secretary of State's voter registration guidance, as a body, for the official card, the rules for people who collect completed cards — return them promptly to the elections office and keep them confidential — and the official voter information guide; the IRS rules for 501(c)(3) organisations, which bar any partisan campaign activity and allow voter registration only when it is nonpartisan in who is served and what is said; Title VI of the Civil Rights Act for language access where a programme takes federal money; SEIU and AFSCME for the public-assistance and motor-vehicle office staff who offer registration under the NVRA every day. Where a deadline or section number is not certain, the station names the body and not the number. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#6fc7a0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "drag",
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "every-voter-table",
+        "name": "Every Voter's Table",
+        "note": "A whole drive run nonpartisan: nobody steered, nothing kept, every card returned"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Open Table",
+      "currency": "VOICE",
+      "ranks": [
+        "Volunteer",
+        "Table Lead",
+        "Drive Lead",
+        "Field Coordinator",
+        "Volunteer Mentor"
+      ],
+      "awards": [
+        {
+          "id": "table-ready",
+          "name": "Table Ready",
+          "note": "Every part of the table set up right first time"
+        },
+        {
+          "id": "no-side-taken",
+          "name": "No Side Taken",
+          "note": "No unsafe action anywhere in the drive"
+        },
+        {
+          "id": "complete-cards",
+          "name": "Complete Cards",
+          "note": "Every missing field found first time"
+        },
+        {
+          "id": "clean-drive",
+          "name": "Clean Drive",
+          "note": "No corrections anywhere in the drive"
+        },
+        {
+          "id": "easy-pace",
+          "name": "Easy Pace",
+          "note": "Your explanation paced inside the band"
+        },
+        {
+          "id": "calm-table",
+          "name": "Calm Table",
+          "note": "The listening and the calm both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-voter-registration-drive-and-nonpartisan-conduct"
+    },
+    {
+      "app": "smartcity",
       "id": "cv-open-meeting-law-and-agenda-notice",
       "name": "Open Meeting Law and Agenda Notice",
       "title": "SmartCiti.X~ Open Meeting Law and Agenda Notice VR",
@@ -6765,7 +6849,7 @@
         "name": "Posted and Proper",
         "note": "A whole meeting clerked in the open: noticed right, a real quorum, closed session kept narrow and every action reported out"
       },
-      "meshes": 299,
+      "meshes": 268,
       "lights": 0,
       "overBudget": false,
       "index": "318",
@@ -25598,7 +25682,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26258,7 +26342,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",
