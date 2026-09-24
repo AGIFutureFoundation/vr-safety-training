@@ -503,7 +503,7 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
       "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
-      "bt-formwork-stripping-and-reshoring"
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection"
     ],
     require: 3,
   },

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bt-rebar-tying-and-impalement-protection",
         "bt-formwork-stripping-and-reshoring",
         "bs-bearing-replacement-and-jacking",
         "bs-tandem-lift-girder-set",
@@ -2316,6 +2317,11 @@
           "app": "smartcity",
           "id": "bt-formwork-stripping-and-reshoring",
           "why": "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it."
+        },
+        {
+          "app": "smartcity",
+          "id": "bt-rebar-tying-and-impalement-protection",
+          "why": "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6753,6 +6759,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-rebar-tying-and-impalement-protection",
+      "name": "Rebar Tying & Impalement Protection",
+      "title": "SmartCiti.X~ Rebar Tying & Impalement Protection VR",
+      "tagline": "Placing and tying a slab mat beside a footing full of dowels: the placing drawing read, the dowels and chairs walked, rated impalement caps fitted, walk boards laid, chairs then bottom bars then top bars, the spacing checked, ties made with the tying tool, the column cage guyed, a bundle carried as a pair, the ties inspected and the mat tagged for the inspector",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Reinforcing ironworker with LIUNA laborers — placing and tying a slab mat, guarding dowels",
+      "union": null,
+      "certification": "Ironworkers IMPACT reinforcing (rodbuster) apprenticeship and LIUNA Training laborer curricula; OSHA 29 CFR 1926.701 — protruding reinforcing steel guarded to eliminate the hazard of impalement — and 29 CFR 1926.703 for vertical reinforcing steel supported against collapse, under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; ACI 347 for the formwork the mat is tied into; the engineer's placing drawings and bar list",
+      "accent": "#d06a3a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "capped-and-tied",
+        "name": "Capped And Tied",
+        "note": "Every dowel guarded against impalement, every intersection tied, and never a boot on a bar"
+      },
+      "meshes": 200,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Rod Gang",
+      "currency": "TIE",
+      "ranks": [
+        "Apprentice",
+        "Tier",
+        "Placer",
+        "Rod Gang Lead",
+        "Rodbuster Certified"
+      ],
+      "awards": [
+        {
+          "id": "rated-caps-only",
+          "name": "Rated Caps Only",
+          "note": "The mushroom caps and the bare dowel found first look"
+        },
+        {
+          "id": "carried-as-a-pair",
+          "name": "Carried As A Pair",
+          "note": "The bundle kept level between you and your partner all the way"
+        },
+        {
+          "id": "never-on-the-bars",
+          "name": "Never On The Bars",
+          "note": "No boot on the bars, no hand in the tier, no grinder without its guard, no bundle carried alone"
+        },
+        {
+          "id": "clean-mat",
+          "name": "Clean Mat",
+          "note": "No corrections through the whole mat"
+        },
+        {
+          "id": "spacing-on-the-drawing",
+          "name": "Spacing On The Drawing",
+          "note": "The spacing committed inside the band first time"
+        },
+        {
+          "id": "mat-by-noon",
+          "name": "Mat By Noon",
+          "note": "Mat tied and tagged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bt-rebar-tying-and-impalement-protection"
     },
     {
       "app": "smartcity",
@@ -25870,7 +25959,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 246,
       "lights": 0,
       "overBudget": false,
       "index": "92",

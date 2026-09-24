@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bt-rebar-tying-and-impalement-protection",
+    "index": "322",
+    "domain": "Construction & Structural Trades",
+    "trade": "Reinforcing ironworker with LIUNA laborers — placing and tying a slab mat, guarding dowels",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT reinforcing (rodbuster) apprenticeship and LIUNA Training laborer curricula; OSHA 29 CFR 1926.701 — protruding reinforcing steel guarded to eliminate the hazard of impalement — and 29 CFR 1926.703 for vertical reinforcing steel supported against collapse, under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; ACI 347 for the formwork the mat is tied into; the engineer's placing drawings and bar list",
+    "name": "Rebar Tying & Impalement Protection",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Rebar Tying & Impalement Protection VR",
+    "tagline": "Placing and tying a slab mat beside a footing full of dowels: the placing drawing read, the dowels and chairs walked, rated impalement caps fitted, walk boards laid, chairs then bottom bars then top bars, the spacing checked, ties made with the tying tool, the column cage guyed, a bundle carried as a pair, the ties inspected and the mat tagged for the inspector",
+    "accent": 13658682,
+    "accentCss": "#d06a3a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "capped-and-tied",
+      "name": "Capped And Tied",
+      "note": "Every dowel guarded against impalement, every intersection tied, and never a boot on a bar"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rod Gang",
+      "currency": "TIE",
+      "ranks": [
+        "Apprentice",
+        "Tier",
+        "Placer",
+        "Rod Gang Lead",
+        "Rodbuster Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
