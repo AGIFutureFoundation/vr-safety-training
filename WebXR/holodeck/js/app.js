@@ -3,7 +3,8 @@ import {
   box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
   GESTURE_HINTS,
 } from "../../shared/kit.js";
-import { Sfx, Session, Progress } from "../../shared/game.js";
+import { Sfx, Session, Progress, placeVehicle } from "../../shared/game.js";
+import { driveActionForKey, driveInputFrom, DRIVE_ACTIONS } from "../../shared/input.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { Identity } from "../../shared/identity.js";
@@ -915,6 +916,8 @@ function enterTraining(room, buildFn) {
   positionTrainingCamera(room.footprint);
 
   trainingSession = new Session(room, {
+    // A real station's drive step moves its own registered vehicle.
+    onDrive: (step, s, ds) => { if (hits[step.target] && s.drive?.pose) placeVehicle(hits[step.target], s.drive.pose, ds); },
     onStep: (step, s) => {
       trainingRefs.onStep?.(step, s);
       kbCursor.set(targetsForStep(step));
@@ -1584,6 +1587,8 @@ renderer.setAnimationLoop(() => {
     }
   }
   if (mode === "training" && trainingSession && !trainingSession.finished && !trainingHeld) {
+    // A drive step is driven from the keys (shared/input.js's drive table).
+    if (trainingSession.step?.kind === "drive") trainingSession.driveInput(driveInputFrom({ held: holoDriveHeld }));
     trainingSession.tick(dt);
     const snap = observerSnapshot();
     if (snap) observer.state(snap);
@@ -1678,6 +1683,8 @@ function kbAdjust(delta) {
   return false;
 }
 
+const HOLO_DRIVE_CONTINUOUS = new Set(DRIVE_ACTIONS.filter((a) => a.continuous).map((a) => a.id));
+const holoDriveHeld = Object.create(null);
 addEventListener("keydown", (e) => {
   const tag = e.target?.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
@@ -1685,6 +1692,15 @@ addEventListener("keydown", (e) => {
   if (e.code === "KeyM") Sfx.muted = !Sfx.muted;
   // --- keyboard operation of the running procedure ---
   if (!trainingSession || renderer.xr.isPresenting) return;
+  if (trainingSession.step?.kind === "drive") {
+    const da = driveActionForKey(e.code);
+    if (da) {
+      e.preventDefault();
+      if (HOLO_DRIVE_CONTINUOUS.has(da)) holoDriveHeld[da] = true;
+      else if (!e.repeat) { if (da === "radio") trainingSession.driveControl("radio"); else trainingSession.driveCheck(da); syncTrainingHud(); }
+      return;
+    }
+  }
   if (e.code === "Tab") { e.preventDefault(); kbStep(e.shiftKey ? -1 : 1); return; }
   if (e.code === "Enter" || e.code === "NumpadEnter") { e.preventDefault(); kbActivate(); return; }
   if (e.code === "Space") { e.preventDefault(); if (!e.repeat && kbCursor.current) pressStart(kbCursor.current); return; }
@@ -1694,5 +1710,7 @@ addEventListener("keydown", (e) => {
 addEventListener("keyup", (e) => {
   const tag = e.target?.tagName;
   if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  const da = driveActionForKey(e.code);
+  if (da && HOLO_DRIVE_CONTINUOUS.has(da)) holoDriveHeld[da] = false;
   if (e.code === "Space" && trainingSession) { e.preventDefault(); pressEnd(); }
 });
