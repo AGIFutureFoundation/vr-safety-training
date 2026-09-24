@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-derelict-gear-recovery-dive",
+    "index": "322",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver recovering derelict fishing gear for a Bay restoration, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver) and 29 CFR 1910.420 the employer's safe practices manual for lift bag and cutting work; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Derelict Gear Recovery Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
+    "tagline": "On the bottom beside the ghost net: on-bottom report, the billowing net and the taut groundline found, station held up-current while a panel of net wraps the umbilical, the live crabs let out of the pot, the net cut free from the pile, bagged and cinched, the lift bag filled to just neutral, the shackle and the lift line checked, the pot walked to the downline while the bag tries to run, the pot's tag read, the net sent up and the recovery read up for the dive log",
+    "accent": 14711391,
+    "accentCss": "#e07a5f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gear-out-diver-clear",
+      "name": "Gear Out, Diver Clear",
+      "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Gear Recovery",
+      "currency": "MESH",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Recovery Diver",
+        "Lead Recovery Diver",
+        "Gear Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

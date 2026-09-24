@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-derelict-gear-recovery-dive",
         "br-underwater-sediment-core-sampling",
         "br-underwater-debris-survey-and-mapping",
         "br-surface-supplied-dive-station-setup",
@@ -6736,6 +6737,89 @@
     },
     {
       "app": "smartcity",
+      "id": "br-derelict-gear-recovery-dive",
+      "name": "Derelict Gear Recovery Dive",
+      "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
+      "tagline": "On the bottom beside the ghost net: on-bottom report, the billowing net and the taut groundline found, station held up-current while a panel of net wraps the umbilical, the live crabs let out of the pot, the net cut free from the pile, bagged and cinched, the lift bag filled to just neutral, the shackle and the lift line checked, the pot walked to the downline while the bag tries to run, the pot's tag read, the net sent up and the recovery read up for the dive log",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver recovering derelict fishing gear for a Bay restoration, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver) and 29 CFR 1910.420 the employer's safe practices manual for lift bag and cutting work; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#e07a5f",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "turn",
+        "drag",
+        "sequence",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "gear-out-diver-clear",
+        "name": "Gear Out, Diver Clear",
+        "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Gear Recovery",
+      "currency": "MESH",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Recovery Diver",
+        "Lead Recovery Diver",
+        "Gear Recovery Certified"
+      ],
+      "awards": [
+        {
+          "id": "sized-up",
+          "name": "Sized Up",
+          "note": "The net and the groundline found before anything was touched"
+        },
+        {
+          "id": "neutral-first",
+          "name": "Neutral First",
+          "note": "The lift bag filled inside the band first time"
+        },
+        {
+          "id": "nothing-on-the-diver",
+          "name": "Nothing On The Diver",
+          "note": "No bag clipped to the harness, no haul on the groundline, never down-current of the net, never cutting toward the umbilical"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections from the on-bottom report to the read-up"
+        },
+        {
+          "id": "controlled-lift",
+          "name": "Controlled Lift",
+          "note": "The pot walked in band the whole way to the downline"
+        },
+        {
+          "id": "recovered-in-time",
+          "name": "Recovered In Time",
+          "note": "Recovery read up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-derelict-gear-recovery-dive"
+    },
+    {
+      "app": "smartcity",
       "id": "br-underwater-sediment-core-sampling",
       "name": "Underwater Sediment Core Sampling",
       "title": "SmartCiti.X~ Underwater Sediment Core Sampling VR",
@@ -6768,7 +6852,7 @@
         "name": "Clean Core",
         "note": "A full, capped, labelled core from a clear spot, the bailout used without a pause and never a bare hand in the mud"
       },
-      "meshes": 115,
+      "meshes": 191,
       "lights": 0,
       "overBudget": false,
       "index": "321",
@@ -6851,7 +6935,7 @@
         "name": "Mapped, Not Moved",
         "note": "Every item placed on the baseline and written up, and nothing hazardous touched, lifted or opened on the bottom"
       },
-      "meshes": 132,
+      "meshes": 184,
       "lights": 0,
       "overBudget": false,
       "index": "320",
@@ -25850,7 +25934,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
