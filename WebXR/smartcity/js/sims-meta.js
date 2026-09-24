@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-stance-and-ball-handling",
+    "index": "332",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate ball size, skill progression and work-to-rest balance; NFHS basketball rules for the dribble and a school-sport standard of safe equipment; CDC Heads Up for recognising a knock to the head in a crowded drill; the U.S. Center for SafeSport for calm, observable correction of young players; the American Red Cross first aid course for the sprains and jammed fingers ball-handling drills produce",
+    "name": "Stance and Ball Handling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Stance and Ball Handling VR",
+    "tagline": "Balls checked before they are handed out, lanes spaced wide, the triple-threat stance built from the feet up, a pound dribble with the eyes up, work and rest on a timer, and every loose ball racked",
+    "accent": 15899448,
+    "accentCss": "#f29b38",
+    "parSeconds": 320,
+    "badge": {
+      "id": "eyes-up",
+      "name": "Eyes Up",
+      "note": "A whole ball-handling block run with the heads up, the lanes clear and nobody pushed past their rest"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Handle Series",
+      "currency": "TOUCHES",
+      "ranks": [
+        "Ball Boy or Girl",
+        "Drill Helper",
+        "Skills Coach",
+        "Head Coach",
+        "Skills Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

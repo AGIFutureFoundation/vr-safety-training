@@ -66,6 +66,15 @@
   #hud-dive{ top:118px; right:14px; text-align:right; min-width:156px; border-right:3px solid #4fd6c8; }
   #hud-dive[data-state="warn"]{ border-right-color:var(--warn, #f2c14b); }
   #hud-dive[data-state="over"]{ border-right-color:var(--danger, #f0645b); }
+  #hud-court{ top:118px; right:14px; text-align:right; min-width:156px; border-right:3px solid #c8a24a; }
+  #hud-court[data-state="warn"]{ border-right-color:var(--warn, #f2c14b); }
+  #hud-court[data-state="over"]{ border-right-color:var(--danger, #f0645b); }
+  #hud-court .court-row{ display:flex; gap:12px; justify-content:flex-end; margin:1px 0 2px; }
+  #hud-court .court-cell{ display:flex; flex-direction:column; align-items:flex-end; }
+  #hud-court .court-label{ font-size:10px; letter-spacing:.12em; text-transform:uppercase; opacity:.75; }
+  #hud-drills, #hud-fouls, #hud-court-clock{ font-family:var(--cond); font-weight:700; font-size:20px; letter-spacing:.04em; line-height:1.1;
+    font-variant-numeric:tabular-nums; }
+  #hud-fouls{ color:#ff8a6a; }
   #hud-depth, #hud-bottom{ font-family:var(--cond); font-weight:700; font-size:20px; letter-spacing:.04em; line-height:1.1;
     font-variant-numeric:tabular-nums; margin:1px 0 4px; }
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
@@ -656,6 +665,7 @@
     #hud-mission{ left:max(14px, env(safe-area-inset-left)) }
     #hud-metrics{ right:max(14px, env(safe-area-inset-right)) }
     #hud-dive{ right:max(14px, env(safe-area-inset-right)) }
+    #hud-court{ right:max(14px, env(safe-area-inset-right)) }
     #hud-hint{ left:max(14px, env(safe-area-inset-left)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #hud-rail{ bottom:max(14px, env(safe-area-inset-bottom)) }
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
@@ -13161,7 +13171,7 @@ function reduceRoster(roster, ev, { staleMs = 45000 } = {}) {
  * docs/signage.md.
  */
 const UNIONS = [
-  {"id":"afscme","abbrev":"AFSCME","name":"American Federation of State, County and Municipal Employees","aliases":["AFSCME"],"local":null,"colors":null,"trainingBody":"afscme-training","trainingTitle":"AFSCME member education and safety training for public-service and air-district members","scope":["Emergency Services","Environmental Monitoring","Culinary & Hospitality","Water & Environmental","Dental & Oral Health","Community Environmental Justice","Maritime & Ports"],"note":"Public-service, public-health and air-district members."},
+  {"id":"afscme","abbrev":"AFSCME","name":"American Federation of State, County and Municipal Employees","aliases":["AFSCME"],"local":null,"colors":null,"trainingBody":"afscme-training","trainingTitle":"AFSCME member education and safety training for public-service and air-district members","scope":["Emergency Services","Environmental Monitoring","Culinary & Hospitality","Water & Environmental","Dental & Oral Health","Community Environmental Justice","Maritime & Ports","Youth Sports & Coaching"],"note":"Public-service, public-health and air-district members."},
   {"id":"atu","abbrev":"ATU","name":"Amalgamated Transit Union","aliases":["ATU"],"local":null,"colors":null,"trainingBody":"atu-training","trainingTitle":"ATU member training for bus and rail transit operations","scope":["Mobility & Transit"],"note":"Bus and rail transit operations."},
   {"id":"bac","abbrev":"BAC","name":"International Union of Bricklayers and Allied Craftworkers","aliases":["BAC"],"local":null,"colors":null,"trainingBody":"bac-imi","trainingTitle":"BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship","scope":["Construction & Structural Trades","Building Systems & Facilities","Surface Prep & Coatings"],"note":"Training through the International Masonry Institute."},
   {"id":"bctgm","abbrev":"BCTGM","name":"Bakery, Confectionery, Tobacco Workers and Grain Millers International Union","aliases":["BCTGM"],"local":null,"colors":null,"trainingBody":"bctgm-training","trainingTitle":"BCTGM apprenticeship and safety training for bakery, confectionery and grain milling work","scope":["Manufacturing & Automation","Culinary & Hospitality"],"note":"Bakery and grain-handling work."},
@@ -13181,8 +13191,8 @@ const UNIONS = [
   {"id":"meba","abbrev":"MEBA","name":"Marine Engineers' Beneficial Association","aliases":["MEBA"],"local":null,"colors":null,"trainingBody":"meba-calhoon-school","trainingTitle":"MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training","scope":["Maritime & Ports"],"note":"Licensed marine engineers, trained at the Calhoon MEBA Engineering School."},
   {"id":"naemt","abbrev":"NAEMT","name":"National Association of Emergency Medical Technicians","aliases":["NAEMT"],"local":null,"colors":null,"trainingBody":"naemt-courses","trainingTitle":"NAEMT course programmes — PHTLS, AMLS and EMS Safety","scope":["Emergency Services"],"note":"A professional association rather than a union; listed because the registry files its course programmes under the union body."},
   {"id":"nasw","abbrev":"NASW","name":"National Association of Social Workers","aliases":["NASW"],"local":null,"colors":null,"trainingBody":"nasw-code-of-ethics","trainingTitle":"NASW Code of Ethics and the association's practice standards for social work and crisis counselling","scope":["Emergency Services","Community Environmental Justice","Dental & Oral Health"],"note":"A professional association rather than a union; listed because the registry files its Code of Ethics under the union body."},
-  {"id":"seiu","abbrev":"SEIU","name":"Service Employees International Union","aliases":["SEIU"],"local":null,"colors":null,"trainingBody":"seiu-training","trainingTitle":"SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members","scope":["Dental & Oral Health","Sewing & Garment Trades","Culinary & Hospitality","Emergency Services","Community Environmental Justice","Environmental Monitoring","Building Systems & Facilities"],"note":"Clinic, food-service, janitorial and public-service members. The repository names SEIU 87, SEIU-USWW and SEIU 1021, so no single local is carried."},
-  {"id":"workers-united","abbrev":"WORKERS UNITED","name":"Workers United","aliases":["Workers United"],"local":null,"colors":null,"trainingBody":"seiu-training","trainingTitle":"SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members","scope":["Dental & Oral Health","Sewing & Garment Trades","Culinary & Hospitality","Emergency Services","Community Environmental Justice","Environmental Monitoring","Building Systems & Facilities"],"note":"Garment and textile workers; an SEIU affiliate, trained through the SEIU and Workers United education funds."},
+  {"id":"seiu","abbrev":"SEIU","name":"Service Employees International Union","aliases":["SEIU"],"local":null,"colors":null,"trainingBody":"seiu-training","trainingTitle":"SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members","scope":["Dental & Oral Health","Sewing & Garment Trades","Culinary & Hospitality","Emergency Services","Community Environmental Justice","Environmental Monitoring","Building Systems & Facilities","Youth Sports & Coaching"],"note":"Clinic, food-service, janitorial and public-service members. The repository names SEIU 87, SEIU-USWW and SEIU 1021, so no single local is carried."},
+  {"id":"workers-united","abbrev":"WORKERS UNITED","name":"Workers United","aliases":["Workers United"],"local":null,"colors":null,"trainingBody":"seiu-training","trainingTitle":"SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members","scope":["Dental & Oral Health","Sewing & Garment Trades","Culinary & Hospitality","Emergency Services","Community Environmental Justice","Environmental Monitoring","Building Systems & Facilities","Youth Sports & Coaching"],"note":"Garment and textile workers; an SEIU affiliate, trained through the SEIU and Workers United education funds."},
   {"id":"siu","abbrev":"SIU","name":"Seafarers International Union","aliases":["SIU"],"local":null,"colors":null,"trainingBody":"siu-paul-hall-center","trainingTitle":"SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes","scope":["Maritime & Ports"],"note":"Unlicensed mariners, trained at the Paul Hall Center."},
   {"id":"smart","abbrev":"SMART","name":"International Association of Sheet Metal, Air, Rail and Transportation Workers","aliases":["SMART"],"local":null,"colors":null,"trainingBody":"smart-iti","trainingTitle":"SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship","scope":["Mobility & Transit","Building Systems & Facilities","Manufacturing & Automation","Construction & Structural Trades","Trade Skills Simulator"],"note":"Sheet metal and rail transportation, trained through the International Training Institute."},
   {"id":"teamsters","abbrev":"IBT","name":"International Brotherhood of Teamsters","aliases":["Teamsters","IBT"],"local":null,"colors":null,"trainingBody":"teamsters-training","trainingTitle":"Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work","scope":["Environmental Monitoring","Mobility & Transit","Manufacturing & Automation","Culinary & Hospitality","Community Environmental Justice","Maritime & Ports"],"note":"Warehouse, driving and regulated-soil haul."},
@@ -13265,6 +13275,7 @@ const HAZARD_BY_CATEGORY = {
   "Culinary & Hospitality": { header: "CAUTION", text: "Hot surfaces and wet floors. Cut-resistant gloves at the slicer.", pictogram: "hazard" },
   "Sewing & Garment Trades": { header: "CAUTION", text: "Pinch points. Keep hands clear of the needle and the feed.", pictogram: "hazard" },
   "Surface Prep & Coatings": { header: "WARNING", text: "Lead and silica dust. Respirator and containment required.", pictogram: "mandatory" },
+  "Youth Sports & Coaching": { header: "CAUTION", text: "Wet floor stops play. Report spills, injuries and head knocks to the coach.", pictogram: "hazard" },
 };
 const HAZARD_DEFAULT = { header: "NOTICE", text: "Authorised personnel only. Sign in at the gate before entering.", pictogram: "none" };
 
@@ -13278,6 +13289,7 @@ const CATEGORY_DEFAULT_UNION = {
   "Entertainment & Live Events": "iatse", "Maritime & Ports": "ilwu", "Environmental Monitoring": "afscme",
   "Community Environmental Justice": "liuna", "Dental & Oral Health": "seiu", "Culinary & Hospitality": "unite-here",
   "Sewing & Garment Trades": "workers-united", "Surface Prep & Coatings": "iupat",
+  "Youth Sports & Coaching": "afscme",
 };
 
 // ------------------------------------------------------------- resolution
@@ -15598,6 +15610,215 @@ function bayUnderwater(g, env) {
   };
 }
 
+// ------------------------------------------------------------------ gym-court
+//
+// An indoor school or recreation-centre gym, generic: a maple floor with the
+// lines of a high-school-sized court, a hoop on a stanchion behind each
+// baseline, folding bleachers down both sidelines, padded walls, exit doors,
+// and a scoreboard on the far wall. The learner stands on the floor at the
+// centre circle; the station is built on top of it. Nothing here is any real
+// gym. Court markings are drawn to the familiar proportions and are scenery,
+// not a rules reference — no dimension in the station text rests on them.
+const GYM = {
+  halfL: 13, halfW: 7.5,      // the court lines
+  floorL: 32, floorW: 20,     // the maple, wall to wall
+  wallH: 9, rim: 3.05,
+  basket: 11.75,              // basket centre from the half-court line
+};
+
+/** Maple strip flooring: narrow boards in slightly varied tones, staggered
+ *  end joints and a fine grain, under a satin finish. */
+function hardwoodFace(g, w, h) {
+  const boards = 16, bw = w / boards;
+  for (let i = 0; i < boards; i++) {
+    let y = -((i * 37) % 97);
+    while (y < h) {
+      const len = 90 + ((i * 53 + y * 7) % 110);
+      const tone = 196 + ((i * 31 + Math.round(y) * 3) % 26);
+      g.fillStyle = `rgb(${tone},${Math.round(tone * 0.74)},${Math.round(tone * 0.46)})`;
+      g.fillRect(i * bw, y, bw, len);
+      g.fillStyle = "rgba(90,52,20,0.18)";
+      for (let k = 0; k < 4; k++) g.fillRect(i * bw + 2 + k * (bw / 4), y + 4, 1, len - 8);
+      g.fillStyle = "rgba(60,34,12,0.55)";
+      g.fillRect(i * bw, y + len - 1, bw, 1.5);
+      y += len;
+    }
+    g.fillStyle = "rgba(60,34,12,0.4)";
+    g.fillRect(i * bw, 0, 1, h);
+  }
+}
+
+/** Painted concrete block: a warm off-white with the mortar grid. */
+function blockWallFace(g, w, h) {
+  g.fillStyle = "#d9d4c8"; g.fillRect(0, 0, w, h);
+  const rows = 8, bh = h / rows, bl = w / 4;
+  g.fillStyle = "rgba(120,112,98,0.55)";
+  for (let r = 0; r < rows; r++) {
+    g.fillRect(0, r * bh, w, 2);
+    const off = r % 2 ? bl / 2 : 0;
+    for (let x = off; x < w; x += bl) g.fillRect(x, r * bh, 2, bh);
+  }
+}
+
+function scoreboardFace(g, w, h, clock = "00:00") {
+  g.fillStyle = "#0b0d10"; g.fillRect(0, 0, w, h);
+  g.strokeStyle = "#c8a24a"; g.lineWidth = Math.max(3, h * 0.02); g.strokeRect(6, 6, w - 12, h - 12);
+  g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillStyle = "#f2efe6"; g.font = `700 ${Math.round(h * 0.12)}px 'Barlow Condensed', Arial, sans-serif`;
+  g.fillText("HOME", w * 0.18, h * 0.2); g.fillText("GUEST", w * 0.82, h * 0.2); g.fillText("PRACTICE", w * 0.5, h * 0.2);
+  g.fillStyle = "#ff5a36"; g.font = `700 ${Math.round(h * 0.34)}px 'Courier New', monospace`;
+  g.fillText("00", w * 0.18, h * 0.55); g.fillText("00", w * 0.82, h * 0.55);
+  g.fillStyle = "#ffcf4a"; g.fillText(clock, w * 0.5, h * 0.55);
+  g.fillStyle = "#9fe0a8"; g.font = `700 ${Math.round(h * 0.1)}px Arial, sans-serif`;
+  g.fillText("PERIOD 1", w * 0.5, h * 0.85);
+}
+
+/** One hoop on a padded stanchion behind the baseline at x = side·halfL. */
+function gymHoop(g, side) {
+  const bx = side * GYM.basket, bb = side * (GYM.basket + 0.38);
+  const base = side * (GYM.halfL + 1.5);
+  box(g, 1.2, 0.5, 1.4, base, 0.25, 0, 0x1f3a6b, { rough: 0.8 });
+  box(g, 0.5, 1.9, 0.5, base, 1.2, 0, 0x1f3a6b, { rough: 0.85 });
+  cyl(g, 0.09, 0.11, 2.6, base, 3.1, 0, 0x3a3f46, { rough: 0.5, metal: 0.6, seg: 12 });
+  const arm = box(g, Math.abs(base - bb), 0.14, 0.14, (base + bb) / 2, 3.65, 0, 0x3a3f46, { rough: 0.5, metal: 0.6 });
+  arm.rotation.z = side * 0.06;
+  const board = box(g, 0.04, 1.07, 1.83, bb, 3.45, 0, 0xdfe8ee, { rough: 0.1, metal: 0.1, opacity: 0.55, transparent: true, cast: false });
+  void board;
+  box(g, 0.05, 0.45, 0.59, bb - side * 0.01, 3.27, 0, 0xf4f4f4, { rough: 0.5, emissive: 0xffffff, ei: 0.15, cast: false });
+  const rim = torus(g, 0.23, 0.012, bx, GYM.rim, 0, 0xff6a1a, { rough: 0.4, metal: 0.5, seg: 8, seg2: 24 });
+  rim.rotation.x = Math.PI / 2;
+  cyl(g, 0.23, 0.15, 0.42, bx, GYM.rim - 0.22, 0, 0xf2f2f2, { rough: 0.9, open: true, opacity: 0.55, transparent: true, seg: 14, cast: false });
+}
+
+/**
+ * gym-court: the indoor court a youth-sports station stands on. Returns the
+ * frame animation: the scoreboard's practice clock, repainted once a second.
+ */
+function gymCourt(g, env) {
+  const day = env.time === "day";
+  // Two lights of its own: a broad fill from the roof fixtures and a warmer
+  // key from the clerestory side so the far wall and bleachers read.
+  flood(g, 0, 8.6, 6, 0xfff2dc, day ? 1.0 : 0.85);
+  flood(g, -10, 7, -4, 0xffe6c0, 0.55);
+
+  // ---- the floor: maple wall to wall, a satin finish that holds the light
+  const woodTex = surfaceTexture(hardwoodFace, { px: 512, repeat: 8 });
+  woodTex.repeat?.set?.(10, 6);
+  const floor = box(g, GYM.floorL, 0.1, GYM.floorW, 0, -0.05, 0, 0xc89a62, { cast: false });
+  floor.material = texturedMat(woodTex, { rough: 0.42, metal: 0.04, color: 0xf2e2c8 });
+  floor.receiveShadow = true;
+
+  // Painted lanes and the centre circle, in the home colour.
+  bake(g, mat(0x7a1f2b, { rough: 0.5 }), (t) => {
+    for (const side of [-1, 1]) box(t, 5.8, 0.006, 4.9, side * (GYM.halfL - 2.9), 0.004, 0, 0);
+    cyl(t, 1.8, 1.8, 0.006, 0, 0.004, 0, 0, { seg: 40 });
+  }, { receive: true });
+
+  // Every line on the court in one mesh.
+  bake(g, mat(0xf6f4ee, { rough: 0.5 }), (t) => {
+    const L = (w, d, x, z) => box(t, w, 0.008, d, x, 0.006, z, 0);
+    // A painted circle as short chords: flat parts the layout checker reads
+    // as floor markings rather than as a ring standing up.
+    const ring = (cx, cz, r) => {
+      const n = 28, chord = 2 * r * Math.sin(Math.PI / n) + 0.01;
+      for (let k = 0; k < n; k++) {
+        const a = (k / n) * Math.PI * 2;
+        box(t, 0.05, 0.008, chord, cx + Math.cos(a) * r, 0.006, cz + Math.sin(a) * r, 0).rotation.y = -a;
+      }
+    };
+    for (const s of [-1, 1]) {
+      L(GYM.halfL * 2 + 0.05, 0.05, 0, s * GYM.halfW);                     // sideline
+      L(0.05, GYM.halfW * 2, s * GYM.halfL, 0);                             // baseline
+      for (const zz of [-2.45, 2.45]) L(5.8, 0.05, s * (GYM.halfL - 2.9), zz); // lane lines
+      L(0.05, 4.9, s * (GYM.halfL - 5.8), 0);                               // free-throw line
+      ring(s * (GYM.halfL - 5.8), 0, 1.8);
+      // The arc, as short chords around the basket.
+      const R = 6.02, bx = s * GYM.basket;
+      for (let k = 0; k <= 18; k++) {
+        const a = -1.35 + (k / 18) * 2.7;
+        const seg = box(t, 0.05, 0.008, 0.72, bx - s * Math.cos(a) * R, 0.006, Math.sin(a) * R, 0);
+        seg.rotation.y = s * a;
+      }
+      for (const zz of [-1, 1]) L(Math.max(0.05, GYM.halfL - GYM.basket), 0.05, s * (GYM.halfL - (GYM.halfL - GYM.basket) / 2), zz * 6.02);
+    }
+    L(0.05, GYM.halfW * 2, 0, 0);                                           // half-court line
+    ring(0, 0, 1.8);
+  }, { receive: true });
+
+  // ---- walls, wall pads, ceiling and trusses
+  const wallTex = surfaceTexture(blockWallFace, { px: 256, repeat: 6 });
+  bake(g, texturedMat(wallTex, { rough: 0.9, color: 0xffffff }), (t) => {
+    box(t, GYM.floorL, GYM.wallH, 0.3, 0, GYM.wallH / 2, -GYM.floorW / 2 - 0.15, 0);
+    box(t, GYM.floorL, GYM.wallH, 0.3, 0, GYM.wallH / 2, GYM.floorW / 2 + 0.15, 0);
+    box(t, 0.3, GYM.wallH, GYM.floorW, -GYM.floorL / 2 - 0.15, GYM.wallH / 2, 0, 0);
+    box(t, 0.3, GYM.wallH, GYM.floorW, GYM.floorL / 2 + 0.15, GYM.wallH / 2, 0, 0);
+  }, { receive: true });
+  bake(g, mat(0x1f3a6b, { rough: 0.85 }), (t) => {
+    // Padding on the end walls behind the baskets, where a player running
+    // out the baseline actually lands.
+    for (const s of [-1, 1]) box(t, 0.12, 1.9, 12, s * (GYM.floorL / 2 - 0.06), 1.15, 0, 0);
+  });
+  box(g, GYM.floorL + 0.6, 0.25, GYM.floorW + 0.6, 0, GYM.wallH + 0.12, 0, 0x2a2d31, { rough: 0.9, cast: false });
+  bake(g, mat(0x4a4f56, { rough: 0.6, metal: 0.5 }), (t) => {
+    for (let i = -3; i <= 3; i++) box(t, 0.18, 0.5, GYM.floorW, i * 4.4, GYM.wallH - 0.3, 0, 0);
+  }, { receive: false });
+  bake(g, mat(0xfff6e0, { emissive: 0xfff6e0, ei: 1.6, rough: 0.4 }), (t) => {
+    for (let i = -3; i <= 3; i++) for (const z of [-5, 0, 5]) box(t, 0.9, 0.08, 0.9, i * 4.4 + 2.2, GYM.wallH - 0.7, z, 0);
+  }, { receive: false });
+
+  // ---- bleachers: five rows on the far side, three behind the learner
+  const bleacherRows = (t, zFront, dir, rows) => {
+    for (let r = 0; r < rows; r++) box(t, 20, 0.45 * (r + 1), 0.8, 0, 0.225 * (r + 1), zFront + dir * (0.4 + r * 0.8), 0);
+  };
+  bake(g, mat(0x6b7078, { rough: 0.7, metal: 0.3 }), (t) => { bleacherRows(t, -8.6, -1, 5); bleacherRows(t, 8.6, 1, 3); });
+  bake(g, mat(0xb88a54, { rough: 0.55 }), (t) => {
+    for (let r = 0; r < 5; r++) box(t, 20, 0.05, 0.34, 0, 0.45 * (r + 1) + 0.03, -8.6 - (0.25 + r * 0.8), 0);
+    for (let r = 0; r < 3; r++) box(t, 20, 0.05, 0.34, 0, 0.45 * (r + 1) + 0.03, 8.6 + (0.25 + r * 0.8), 0);
+  });
+  bake(g, mat(0xc9ced4, { rough: 0.4, metal: 0.7 }), (t) => {
+    for (const x of [-10, 10]) {
+      box(t, 0.05, 1.0, 4.0, x, 2.1, -10.6 + 2.0, 0).rotation.x = -0.51;
+      box(t, 0.05, 0.9, 2.4, x, 1.3, 8.6 + 1.2, 0).rotation.x = 0.51;
+    }
+  }, { receive: false });
+
+  // ---- the scoreboard on the far wall, and the banners either side of it
+  box(g, 5.2, 2.2, 0.3, 0, 6.1, -GYM.floorW / 2 + 0.05, 0x14171b, { rough: 0.6, metal: 0.3, cast: false });
+  const sb = decal(g, 4.9, 1.95, 0, 6.1, -GYM.floorW / 2 + 0.22, (c, w, h) => scoreboardFace(c, w, h), { px: 512, glow: true, ei: 1.1 });
+  for (const [x, text] of [[-8.5, "FUNDAMENTALS FIRST"], [8.5, "HYDRATE · REST · RESPECT"]]) {
+    decal(g, 3.6, 0.9, x, 6.4, -GYM.floorW / 2 + 0.2, gymBanner(text), { px: 384 });
+  }
+
+  // ---- doors: two exits on the end walls, each lit
+  for (const s of [-1, 1]) {
+    box(g, 0.12, 2.2, 1.8, s * (GYM.floorL / 2 - 0.02), 1.1, -7.2, 0x6b4a2e, { rough: 0.6 });
+    box(g, 0.1, 0.3, 0.7, s * (GYM.floorL / 2 - 0.06), 2.55, -7.2, 0xd8261e, { emissive: 0xff3a2a, ei: 1.8, rough: 0.4, cast: false });
+  }
+
+  gymHoop(g, -1); gymHoop(g, 1);
+
+  let lastSecond = -1;
+  return (tt) => {
+    const sec = Math.floor(tt);
+    if (sec === lastSecond) return;
+    lastSecond = sec;
+    const left = Math.max(0, 8 * 60 - (sec % (8 * 60)));
+    const clock = `${String(Math.floor(left / 60)).padStart(2, "0")}:${String(left % 60).padStart(2, "0")}`;
+    if (sb.userData?.ctx) repaint(sb, (c, w, h) => scoreboardFace(c, w, h, clock));
+  };
+}
+
+/** A plain painted banner. */
+function gymBanner(text) {
+  return (c, w, h) => {
+    c.fillStyle = "#7a1f2b"; c.fillRect(0, 0, w, h);
+    c.fillStyle = "#f2efe6"; c.fillRect(0, h * 0.08, w, h * 0.04); c.fillRect(0, h * 0.88, w, h * 0.04);
+    c.textAlign = "center"; c.textBaseline = "middle";
+    c.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`;
+    c.fillText(text, w / 2, h * 0.52);
+  };
+}
+
 // ------------------------------------------------------------------ table
 
 const DEFAULT ={ sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
@@ -15863,6 +16084,34 @@ const DISTRICTS = {
     spawn: { x: 0, z: 5.2, ry: 0 },
     roam: 7,
     build(g, _accent, env = {}) { return bayUnderwater(g, env); },
+  },
+  "gym-court": {
+    // An indoor gym: the maple floor is the ground, so no plaza, masts,
+    // marquee, apron or skyline. Its own light at every hour, its own
+    // conditions whatever the station or the URL asks (there is no rain on
+    // a gym floor), and a scoreboard chip on the HUD (react-ui.js
+    // courtReadout) that shows the run's own drills, fouls and clock.
+    plaza: false,
+    sky: 0x1c1814, fog: 0x1c1814, mast: 0xfff2dc,
+    skyByTime: {
+      night: { sky: 0x1a1612, fog: 0x1a1612 },
+      dusk: { sky: 0x1e1a15, fog: 0x1e1a15 },
+      day: { sky: 0x24201a, fog: 0x24201a },
+    },
+    hemi: [0xfff4e2, 0x5a4a36],
+    key: 0xfff2dc,
+    fogRange: [40, 95],
+    far: 90,
+    skyline: false,
+    forceWeather: true, weather: "clear",
+    weatherKind: "clear", weatherLabel: "Indoor court",
+    weatherNote: "Climate-controlled gym floor. Heat and hydration still follow the session plan and the athletic trainer: a cool gym does not replace water breaks, and a wet patch on the maple is the hazard to watch.",
+    // The scoreboard chip: the labels are the district's, every number is the run's own.
+    scoreboard: { period: "Practice", home: "Drills", guest: "Fouls" },
+    // On the floor in front of the near bleachers, facing the station at centre court.
+    spawn: { x: 0, z: 6.2, ry: 0 },
+    roam: 7.2,
+    build(g, _accent, env = {}) { return gymCourt(g, env); },
   },
 };
 
@@ -16997,6 +17246,9 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null, we
 
   return {
     root: g, ar, roam, spawn, merged, signage, far: district.far ?? null,
+    // A district may carry a HUD chip of its own: gym-court's scoreboard
+    // (react-ui.js courtReadout). Only its labels come from here.
+    scoreboard: district.scoreboard ?? null,
     // A forced district weather reports the district's own conditions.
     weather: district.forceWeather && district.weatherLabel
       ? { kind: district.weatherKind ?? wx.kind, label: district.weatherLabel, note: district.weatherNote ?? wx.note }
@@ -31168,6 +31420,48 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-warmup-injury-prevention-and-hydration",
+    "index": "331",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for age-appropriate practice length, warm-up and rest; NFHS sports medicine guidance on heat, hydration and a written emergency action plan for school sport; CDC Heads Up for the coach's duty to recognise and remove; the U.S. Center for SafeSport for observable, interruptible practices with two adults present; the American Red Cross first aid course for check, call and care until the athletic trainer or emergency services take over",
+    "name": "Warm-Up, Injury Prevention and Hydration",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Warm-Up, Injury Prevention and Hydration VR",
+    "tagline": "The first fifteen minutes of practice: the floor walked dry and clear, the emergency plan read, a health check-in at the door, water at the bench, a dynamic warm-up in order, shoes and jewellery checked and a water break called by the clock",
+    "accent": 5223423,
+    "accentCss": "#4fb3ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ready-to-play",
+      "name": "Ready to Play",
+      "note": "The floor, the players and the water all ready before the first drill, and nobody pushed past what their body said"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Practice Plan",
+      "currency": "REPS",
+      "ranks": [
+        "Volunteer Helper",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Lead",
+        "Coach Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -32894,6 +33188,7 @@ const CATEGORY_ORDER = [
   "Emergency Services", "Maritime & Ports", "Entertainment & Live Events",
   "Environmental Monitoring", "Surface Prep & Coatings", "Culinary & Hospitality",
   "Dental & Oral Health", "Community Environmental Justice", "Sewing & Garment Trades",
+  "Youth Sports & Coaching",
 ];
 const INTRO_FOOT_HTML = `
   <p class="fineprint" style="margin-top:6px">New here? <b style="color:var(--text)">Start guided tour</b> plays all
@@ -33003,6 +33298,42 @@ function DiveChip({ dive }) {
     h("div", { id: "hud-bottom" }, dive.bottom));
 }
 
+/**
+ * The scoreboard chip for a station standing in the gym-court district. The
+ * district names the labels (`scoreboard = { period, home, guest }`); every
+ * number is this run's own: drills cleared out of the station's steps, fouls
+ * as the run's unsafe actions, and the session clock against the station's
+ * par. Nothing is invented — no scoreboard, no chip.
+ */
+function courtReadout(scoreboard, session) {
+  if (!scoreboard || typeof scoreboard !== "object" || !session) return null;
+  const total = session.steps?.length ?? 0;
+  const done = session.finished ? total : Math.min(session.index ?? 0, total);
+  const fouls = session.hazardHits | 0;
+  const on = Math.max(0, session.elapsed || 0);
+  const par = session.room?.parSeconds > 0 ? session.room.parSeconds : null;
+  return {
+    period: String(scoreboard.period ?? "Practice"),
+    home: String(scoreboard.home ?? "Home"), guest: String(scoreboard.guest ?? "Guest"),
+    drills: `${String(done).padStart(2, "0")}/${String(total).padStart(2, "0")}`,
+    fouls: String(fouls).padStart(2, "0"),
+    clock: par ? `${diveClock(on)} / ${diveClock(par)}` : diveClock(on),
+    // A foul on the board turns the chip amber; past par it turns red.
+    state: par && on > par ? "over" : fouls ? "warn" : "ok",
+  };
+}
+
+/** The HUD chip for courtReadout(); nothing at all when there is no readout. */
+function CourtChip({ court }) {
+  if (!court) return null;
+  return h("div", { className: "chip", id: "hud-court", "data-state": court.state, role: "status", "aria-label": `${court.period}: ${court.home} ${court.drills}, ${court.guest} ${court.fouls}, clock ${court.clock}` },
+    h("div", { className: "eyebrow" }, court.period),
+    h("div", { className: "court-row" },
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.home), h("span", { id: "hud-drills" }, court.drills)),
+      h("span", { className: "court-cell" }, h("span", { className: "court-label" }, court.guest), h("span", { id: "hud-fouls" }, court.fouls))),
+    h("div", { id: "hud-court-clock" }, court.clock));
+}
+
 function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -33027,6 +33358,11 @@ function mountUI(store, actions) {
   function HudDive() {
     const hud = useSlice("hud");
     return h(DiveChip, { dive: hud.dive ?? null });
+  }
+
+  function HudCourt() {
+    const hud = useSlice("hud");
+    return h(CourtChip, { court: hud.court ?? null });
   }
 
   function HudObjective() {
@@ -33892,7 +34228,7 @@ function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudDive), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudCourt), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
@@ -34069,6 +34405,7 @@ const store = createStore({
     railState: "neutral", feedbackHtml: "Loading the training campus…",
     scorePops: [],
     dive: null,
+    court: null,
   },
   gestureTip: { html: "", show: false },
   arPrompt: { visible: false },
@@ -34194,6 +34531,7 @@ function syncHud() {
       timer: "",
       gestureVisible: false,
       dive: null,
+      court: null,
     });
     vrHudDirty = true;
     return;
@@ -34216,6 +34554,9 @@ function syncHud() {
     // room.underwater = { depthLabel, bottomTimeSeconds }; the chip shows
     // exactly that against this run's own clock, and nothing when it is unset.
     dive: diveReadout(s.room.underwater, s.elapsed),
+    // A station on the gym-court district gets the scoreboard chip: the
+    // district names the labels, and drills, fouls and clock are this run's.
+    court: courtReadout(state.stage?.scoreboard, s),
   };
   const step = s.step;
   if (step) {
@@ -37861,7 +38202,7 @@ renderer.setAnimationLoop((_, frame) => {
       syncAlarm(state.session);
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
       // The bottom-time chip counts in whole seconds; refresh it once a second.
-      else if (state.room?.underwater && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
+      else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
     }
   }
 

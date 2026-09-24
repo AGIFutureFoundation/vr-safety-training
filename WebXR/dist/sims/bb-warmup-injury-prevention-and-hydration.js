@@ -449,8 +449,8 @@ export const SIM_BB_WARMUP_INJURY_PREVENTION_AND_HYDRATION = {
 
     // ------------------------------------------------------------ crew
     // Sited on spots tools/briefs/clear_spot.mjs reports clear of every control.
-    const coach = standingFigure(g, 0.9, 2.3, { ry: Math.PI + 0.5, cloth: 0x1f2a36, trousers: 0x2b2f35 });
-    holoTag(g, "Head coach", 0.9, 2.1, 2.3, { css: "#7fc4d8", w: 0.28 });
+    const coach = standingFigure(g, 0.0, 2.1, { ry: Math.PI, cloth: 0x1f2a36, trousers: 0x2b2f35 });
+    holoTag(g, "Head coach", 0.0, 2.1, 2.1, { css: "#7fc4d8", w: 0.28 });
     const assistant = standingFigure(g, -3.3, -2.5, { ry: 0.7, cloth: 0x2f5f8f, trousers: 0x2b2f35 });
     holoTag(g, "Assistant coach", -3.3, 2.1, -2.5, { css: "#7fc4d8", w: 0.34 });
     const trainer = standingFigure(g, 3.35, 2.6, { ry: -2.4, cloth: 0xd8261e, trousers: 0x2b2f35 });

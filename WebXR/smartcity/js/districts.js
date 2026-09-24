@@ -1289,7 +1289,10 @@ function gymBanner(text) {
     c.fillStyle = "#7a1f2b"; c.fillRect(0, 0, w, h);
     c.fillStyle = "#f2efe6"; c.fillRect(0, h * 0.08, w, h * 0.04); c.fillRect(0, h * 0.88, w, h * 0.04);
     c.textAlign = "center"; c.textBaseline = "middle";
-    c.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`;
+    let px = Math.round(h * 0.34);
+    c.font = `700 ${px}px 'Barlow Condensed', Arial, sans-serif`;
+    const tw = c.measureText?.(text)?.width;
+    if (tw && tw > w * 0.9) { px = Math.floor(px * (w * 0.9) / tw); c.font = `700 ${px}px 'Barlow Condensed', Arial, sans-serif`; }
     c.fillText(text, w / 2, h * 0.52);
   };
 }
