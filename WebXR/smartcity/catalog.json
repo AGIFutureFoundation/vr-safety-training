@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 338
+      "stations": 339
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-team-offense-spacing-and-screens",
         "bb-rebounding-and-boxing-out",
         "bb-defensive-stance-and-closeouts",
         "bb-free-throw-routine",
@@ -6742,6 +6743,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-team-offense-spacing-and-screens",
+      "name": "Team Offense: Spacing and Screens",
+      "title": "SmartCiti.X~ Team Offense: Spacing and Screens VR",
+      "tagline": "Five spots on the floor, the action drawn first, spacing fixed, an on-ball screen built and held still, the ball kept moving, illegal and blind screens caught, the reads walked, and a rotation with water in it",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on age-appropriate team concepts, equal playing time and rest; NFHS basketball rules on legal screens — stationary, within the screener's own space, and room given to a player screened from behind; CDC Heads Up for the head knocks an illegal screen can cause; the U.S. Center for SafeSport for a programme's photo and filming policy and adults kept in view; the American Red Cross first aid course for a player hurt on a screen",
+      "accent": "#6fa8ff",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "legal-and-spaced",
+        "name": "Legal and Spaced",
+        "note": "Every screen legal and still, every player on a spot, and every player rotated and watered"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "339",
+      "flat": false,
+      "system": "Playbook",
+      "currency": "ACTIONS",
+      "ranks": [
+        "Clipboard Helper",
+        "Offence Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Director"
+      ],
+      "awards": [
+        {
+          "id": "five-spots",
+          "name": "Five Spots",
+          "note": "Every spacing spot found first time"
+        },
+        {
+          "id": "legal-screens",
+          "name": "Legal Screens",
+          "note": "No unsafe action in the whole offence block"
+        },
+        {
+          "id": "spaced-and-moving",
+          "name": "Spaced and Moving",
+          "note": "Spacing, screen contact and ball movement all inside the band"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections anywhere in the block"
+        },
+        {
+          "id": "ball-never-sticks",
+          "name": "Ball Never Sticks",
+          "note": "Held ball movement in band the whole time"
+        },
+        {
+          "id": "quick-set",
+          "name": "Quick Set",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-team-offense-spacing-and-screens"
     },
     {
       "app": "smartcity",
@@ -26191,7 +26275,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26851,7 +26935,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -14476,5 +14476,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-team-offense-spacing-and-screens",
+    "index": "339",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate team concepts, equal playing time and rest; NFHS basketball rules on legal screens — stationary, within the screener's own space, and room given to a player screened from behind; CDC Heads Up for the head knocks an illegal screen can cause; the U.S. Center for SafeSport for a programme's photo and filming policy and adults kept in view; the American Red Cross first aid course for a player hurt on a screen",
+    "name": "Team Offense: Spacing and Screens",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Team Offense: Spacing and Screens VR",
+    "tagline": "Five spots on the floor, the action drawn first, spacing fixed, an on-ball screen built and held still, the ball kept moving, illegal and blind screens caught, the reads walked, and a rotation with water in it",
+    "accent": 7317759,
+    "accentCss": "#6fa8ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "legal-and-spaced",
+      "name": "Legal and Spaced",
+      "note": "Every screen legal and still, every player on a spot, and every player rotated and watered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Playbook",
+      "currency": "ACTIONS",
+      "ranks": [
+        "Clipboard Helper",
+        "Offence Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
