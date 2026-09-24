@@ -215,18 +215,19 @@ const SAMPLE = [
   { id: "m1", at: "2026-09-01T09:00:00.000Z", app: "smartcity", simId: "valve-vault", simName: "Valve Vault", learner: "ADA", learnerName: "Ada Lovelace", category: "Water & Environmental", score: 2400, stars: 3, errors: 0, hazardHits: 0, seconds: 180, parSeconds: 240, interrupts: { answered: 2, wrong: 0, missed: 0 }, passed: true },
   { id: "m2", at: "2026-09-02T09:00:00.000Z", app: "smartcity", simId: "lift-station", simName: "Lift Station", learner: "ADA", learnerName: "Ada Lovelace", category: "Water & Environmental", score: 2100, stars: 2, errors: 1, hazardHits: 0, seconds: 300, parSeconds: 260, interrupts: { answered: 1, wrong: 0, missed: 0 }, passed: true },
   { id: "m4", at: "2026-09-02T09:00:00.000Z", app: "smartcity", simId: "manhole-entry-and-atmospheric-monitoring", simName: "Manhole Entry & Atmospheric Monitoring", learner: "ADA", learnerName: "Ada Lovelace", category: "Water & Environmental", score: 2500, stars: 3, errors: 0, hazardHits: 0, seconds: 260, parSeconds: 300, interrupts: { answered: 2, wrong: 0, missed: 0 }, passed: true },
+  { id: "m5", at: "2026-09-02T09:00:00.000Z", app: "smartcity", simId: "cs-permit-entry-and-attendant-duties", simName: "Permit Entry & Attendant Duties", learner: "ADA", learnerName: "Ada Lovelace", category: "Water & Environmental", score: 2450, stars: 3, errors: 0, hazardHits: 0, seconds: 250, parSeconds: 280, interrupts: { answered: 2, wrong: 0, missed: 0 }, passed: true },
   { id: "n1", at: "2026-09-03T09:00:00.000Z", app: "smartcity", simId: "chlorine-room", simName: "Chlorine Room", learner: "ADA", learnerName: "Ada Lovelace", category: "Water & Environmental", score: 2600, stars: 3, errors: 0, hazardHits: 1, seconds: 210, parSeconds: 250, interrupts: { answered: 1, wrong: 0, missed: 1 }, passed: false },
 ];
 
 await check("competencyStatus() demonstrates on the require-th station and dates it by the evidence", () => {
   const st = competencyStatus(SAMPLE);
   const cs = st["confined-space"];
-  eq(cs.require, 3, "confined-space require — half of five, rounded up");
-  eq(cs.stationsMet, 3, "three stations mastered");
+  eq(cs.require, 4, "confined-space require — half of eight");
+  eq(cs.stationsMet, 4, "four stations mastered");
   eq(cs.demonstrated, true, "demonstrated");
   eq(cs.consistent, false, "two days is not consistent");
   eq(cs.status, "demonstrated", "status");
-  eq(cs.earnedAt, "2026-09-02T09:00:00.000Z", "dated by the third station's mastery run, not by today");
+  eq(cs.earnedAt, "2026-09-02T09:00:00.000Z", "dated by the fourth station's mastery run, not by today");
   eq(cs.stations["chlorine-room"].masteryAt, null, "the near miss earned nothing");
   eq(cs.stations["chlorine-room"].best.reason !== null, true, "the near miss carries its reason");
   eq(cs.stations["valve-vault"].best.mastery, true, "best attempt on a mastered station is the mastery run");
@@ -259,10 +260,10 @@ await check("transcript() renders rows with evidence, par ratios and the near mi
   assert(cs, "no confined-space row");
   eq(cs.learner, "Ada Lovelace", "learner");
   eq(cs.status, "demonstrated", "status");
-  eq(`${cs.stationsMet}/${cs.require}`, "3/3", "stations met of required");
+  eq(`${cs.stationsMet}/${cs.require}`, "4/4", "stations met of required");
   assert(cs.standards.length >= 1 && cs.standards[0].body, "standards are named, not just cited by id");
   eq(cs.masteryRule, MASTERY.text, "the rule travels with the row");
-  eq(cs.evidence.length, 4, "four attempts on this competency's stations");
+  eq(cs.evidence.length, 5, "five attempts on this competency's stations");
   eq(cs.evidence[0].at, "2026-09-03T09:00:00.000Z", "newest evidence first");
   const near = cs.evidence.find((e) => e.attemptId === "n1");
   eq(near.mastery, false, "the near miss did not count");
@@ -302,8 +303,8 @@ await check("toCompetencyBadges() emits Open Badges 2.0 the verifier accepts", (
   eq(cs.competency.id, "confined-space", "carries the competency");
   assert(cs.badge.alignment.length >= 1 && cs.badge.alignment[0].targetCode, "carries the standards as OB alignments");
   assert(cs.competency.standards.every((s) => s.body && s.title), "standards named with body and title");
-  eq(JSON.stringify(cs.competency.stationsDemonstrated), JSON.stringify(["valve-vault", "lift-station", "manhole-entry-and-atmospheric-monitoring"]), "carries the station ids");
-  eq(JSON.stringify(cs.competency.attempts), JSON.stringify(["m1", "m2", "m4"]), "carries the attempt ids");
+  eq(JSON.stringify(cs.competency.stationsDemonstrated), JSON.stringify(["valve-vault", "lift-station", "manhole-entry-and-atmospheric-monitoring", "cs-permit-entry-and-attendant-duties"]), "carries the station ids");
+  eq(JSON.stringify(cs.competency.attempts), JSON.stringify(["m1", "m2", "m4", "m5"]), "carries the attempt ids");
   eq(cs.competency.masteryRule.text, MASTERY.text, "carries the mastery rule text");
   assert(cs.badge.criteria.narrative.includes("two or more stars"), "the criteria narrative states the rule");
   // And it must be a real assertion to anyone outside this repository.
@@ -329,7 +330,7 @@ await check("toCompetencyXAPI() emits achieved statements an LRS de-duplicates",
   const ext = st.result.extensions;
   eq(ext["https://hall.example/xapi/ext/competency"], "confined-space", "competency extension");
   eq(ext["https://hall.example/xapi/ext/mastery-rule"], MASTERY.text, "rule extension");
-  eq(JSON.stringify(ext["https://hall.example/xapi/ext/attempts"]), JSON.stringify(["m1", "m2", "m4"]), "attempt ids");
+  eq(JSON.stringify(ext["https://hall.example/xapi/ext/attempts"]), JSON.stringify(["m1", "m2", "m4", "m5"]), "attempt ids");
   assert(ext["https://hall.example/xapi/ext/open-badge"]?.type === "Assertion", "the badge rides along");
   assert(ext["https://hall.example/xapi/ext/standards"].every((s) => typeof s === "string" && s.includes("-")), "standards as registry slugs");
   JSON.stringify(statements);

@@ -214,9 +214,9 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-146", "nfpa-1006", "osha-1910-134"],
     stations: [
       "valve-vault", "lift-station", "chlorine-room", "confined-rescue",
-      "manhole-entry-and-atmospheric-monitoring"
+      "manhole-entry-and-atmospheric-monitoring", "cs-permit-entry-and-attendant-duties", "cs-ventilation-and-air-monitoring-plan", "cs-non-entry-retrieval-and-tripod"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "fall-protection",
@@ -491,9 +491,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["cal-osha-3345", "calosha-8-ccr-3342", "osha-1910-1200", "osha-1910-1030"],
     stations: [
-      "banquet-hot-hold", "housekeeping-room-turn", "laundry-plant-chemicals", "banquet-setup-lift"
+      "banquet-hot-hold", "housekeeping-room-turn", "laundry-plant-chemicals", "banquet-setup-lift",
+      "hw-housekeeping-cart-and-chemical-safety", "hw-banquet-room-flip-and-staging", "hw-flatwork-ironer-and-folder-guarding"
     ],
-    require: 2,
+    require: 4,
   },
   {
     id: "builders-trades",

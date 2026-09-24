@@ -54,6 +54,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "chlorine-room", why: "A space you do not enter blind: the monitor and the air pack are read and staged from outside the door." },
       { app: "smartcity", id: "confined-rescue", why: "The rescue, including the part where the first job is stopping a coworker from becoming the second patient." },
       { app: "smartcity", id: "manhole-entry-and-atmospheric-monitoring", why: "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls." },
+      { app: "smartcity", id: "cs-permit-entry-and-attendant-duties", why: "The permit as a document and the attendant as a job: every blank caught before anyone signs, the count kept on a tag board, and the post held when a foreman wants an errand run." },
+      { app: "smartcity", id: "cs-ventilation-and-air-monitoring-plan", why: "Ventilation as a plan rather than a fan: the dead corners found, the duct run to sweep them, the purge run for the permit's time, and the entrant recalled the moment the blower stops." },
+      { app: "smartcity", id: "cs-non-entry-retrieval-and-tripod", why: "The rescue that needs no rescuer: a tripod set square, a winch proven under a test weight, the line on the back D-ring before entry, and a drill haul cranked from outside the hole." },
     ],
   },
   {
@@ -581,6 +584,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "housekeeping-room-turn", why: "The room itself, turned under the state's own hotel ergonomics rule: the cart staged outside, the belt panic device proven, and the bed walked around rather than reached across." },
       { app: "smartcity", id: "laundry-plant-chemicals", why: "The plant behind every room on the floor: dosing lines checked against the SDS, the washer loaded to the scale, and the ironer's guard proven before a hand ever gets near the rollers." },
       { app: "smartcity", id: "banquet-setup-lift", why: "The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded." },
+      { app: "smartcity", id: "hw-housekeeping-cart-and-chemical-safety", why: "The stockroom before the first room: the new product looked up on its SDS, every bottle filled at the dispenser and labelled, the cart loaded heavy-low to its plate, and nothing ever mixed." },
+      { app: "smartcity", id: "hw-banquet-room-flip-and-staging", why: "The banquet floor against the clock: rounds rolled onto the truck, stage decks lifted by a called team, cables ramped and the exits walked, with the doors held rather than a corner cut." },
+      { app: "smartcity", id: "hw-flatwork-ironer-and-folder-guarding", why: "The laundry's most dangerous machine on a bad day: a wrapped sheet cleared under the operator's own lock at the disconnect and the steam valve, the heat waited out, and the guards back before the restart." },
     ],
   },
   {
