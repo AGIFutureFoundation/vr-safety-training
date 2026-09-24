@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "drive-mountain-grade-and-engine-brake",
+    "index": "320",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters linehaul in the mountains: grades, the engine brake and brake fade under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes speed management and hazardous conditions such as mountain grades; 49 CFR 383 for the skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle in hazardous conditions; 49 CFR 393 for brakes, including the adjustment a long grade depends on; 49 CFR 396 for writing a brake defect in the driver vehicle inspection report; 49 CFR 395 for the duty status at the bottom; the state CDL handbook's mountain driving and snub braking guidance; CVSA brake out-of-service criteria; Teamsters (IBT) freight locals' driver training",
+    "name": "Mountain Grade and Engine Brake",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
+    "tagline": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+    "accent": 14721354,
+    "accentCss": "#e0a14a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "low-gear-first",
+      "name": "Low Gear First",
+      "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade",
+      "currency": "PERCENT",
+      "ranks": [
+        "Permit Holder",
+        "Grade Trainee",
+        "Mountain Driver",
+        "Pass Lead",
+        "Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 332
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -62,6 +62,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "drive-mountain-grade-and-engine-brake",
         "drive-freeway-merge-and-following-distance",
         "drive-city-route-and-turns",
         "bus-yard-fuelling-and-brake-check",
@@ -6734,6 +6735,89 @@
     },
     {
       "app": "smartcity",
+      "id": "drive-mountain-grade-and-engine-brake",
+      "name": "Mountain Grade and Engine Brake",
+      "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
+      "tagline": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters linehaul in the mountains: grades, the engine brake and brake fade under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes speed management and hazardous conditions such as mountain grades; 49 CFR 383 for the skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle in hazardous conditions; 49 CFR 393 for brakes, including the adjustment a long grade depends on; 49 CFR 396 for writing a brake defect in the driver vehicle inspection report; 49 CFR 395 for the duty status at the bottom; the state CDL handbook's mountain driving and snub braking guidance; CVSA brake out-of-service criteria; Teamsters (IBT) freight locals' driver training",
+      "accent": "#e0a14a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "gauge",
+        "track",
+        "find",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "low-gear-first",
+        "name": "Low Gear First",
+        "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
+      },
+      "meshes": 266,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Grade",
+      "currency": "PERCENT",
+      "ranks": [
+        "Permit Holder",
+        "Grade Trainee",
+        "Mountain Driver",
+        "Pass Lead",
+        "Grade Certified"
+      ],
+      "awards": [
+        {
+          "id": "engine-does-it",
+          "name": "The Engine Does It",
+          "note": "Crest and descent driven with every check on time"
+        },
+        {
+          "id": "cool-brakes",
+          "name": "Cool Brakes",
+          "note": "Never started down in the climbing gear, rode the brakes, coasted or reached for the phone"
+        },
+        {
+          "id": "snub-not-ride",
+          "name": "Snub, Not Ride",
+          "note": "Every drive and the snub braking in band with no excursion"
+        },
+        {
+          "id": "clean-grade",
+          "name": "Clean Grade",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "right-gear",
+          "name": "Right Gear",
+          "note": "Gear choice and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-mountain-grade-and-engine-brake"
+    },
+    {
+      "app": "smartcity",
       "id": "drive-freeway-merge-and-following-distance",
       "name": "Freeway Merge and Following Distance",
       "title": "SmartCiti.X~ Freeway Merge and Following Distance VR",
@@ -6767,7 +6851,7 @@
         "name": "Seven Seconds",
         "note": "A clean merge, a full space cushion held, a car cutting in handled without drama and the exit queue warned — first time"
       },
-      "meshes": 285,
+      "meshes": 277,
       "lights": 0,
       "overBudget": false,
       "index": "319",
@@ -25684,7 +25768,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 247,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26344,7 +26428,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",
