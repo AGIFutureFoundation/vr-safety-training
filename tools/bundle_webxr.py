@@ -95,6 +95,7 @@ APPS = {
             SHARED / "platform.js",
             SHARED / "flowhub.js",
             SHARED / "ladder.js",
+            SHARED / "variants.js",
             SHARED / "robot.js",
             SHARED / "robot-embodiment.js",
             SHARED / "perf.js",
@@ -397,6 +398,20 @@ def build_combined() -> int:
     DIST.mkdir(parents=True, exist_ok=True)
     (DIST / "index.html").write_text(home.read_text())
     copied = 1
+    # The training-track pages (tools/gen_tracks.mjs) are written for this
+    # folder already — one level below the bundles, linking ../smartcity-x.html
+    # and img/<station>.jpg — so they and their thumbnails are copied as-is.
+    tracks = WEBXR / "home" / "tracks"
+    if not tracks.is_dir():
+        print("[dist] WebXR/home/tracks is missing — run tools/gen_tracks.mjs "
+              "(tools/gen_catalog.mjs runs it) before bundling.", file=sys.stderr)
+        return 1
+    for page in sorted(tracks.rglob("*")):
+        if page.is_file() and page.suffix in (".html", ".jpg"):
+            dest = DIST / "tracks" / page.relative_to(tracks)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(page.read_bytes())
+            copied += 1
     for app, page in DIST_PAGES.items():
         src = WEBXR / app / "dist" / page
         if not src.exists():

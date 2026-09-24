@@ -30,7 +30,9 @@ import { LADDER_BY_PROGRAMME, LADDER_STANDARDS } from "./ladders.js";
 import {
   levelState, levelBadge, levelXAPI, nextTask, startLevelRun, recordTask, levelResult, levelTag,
   parseLevelRef, readLevelRun, writeLevelRun, clearLevelRun, ladderLevel,
+  LADDER_LEVELS, LESSON_BAR, CONDITION_KEYS, conditionParams, conditionFromQuery, conditionLabel,
 } from "../../shared/ladder.js";
+import { makeVariant } from "../../shared/variants.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
 import { WEATHER_KINDS } from "../../shared/weather.js";
 import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice, DEVICES, PROFILES } from "../../shared/devices.js";
@@ -648,9 +650,25 @@ let enterSimToken = 0;
 async function enterSim(id, { briefed = false } = {}) {
   const myToken = ++enterSimToken;
   setRail("neutral", "<b>Loading station…</b>");
-  const room = await findSim(id);
+  let room = await findSim(id);
   if (myToken !== enterSimToken) return; // superseded by a later pick
   if (!room) { enterHub(); return; }
+  // The run's condition (shared/ladder.js), read from the query a ladder task
+  // or a track page's deep link set: ?time= and ?weather= are read by the
+  // stage itself; ?variant= builds a shared/variants.js assessment variant
+  // (same procedure, no hints, tighter clock, alarms rehung) that keeps the
+  // station's id so the record and the level still name the station;
+  // ?hazard=assess pins assessed hazard mode; ?interrupt=<id> fires one
+  // declared interruption off its authored step (see onStep below).
+  const urlQuery = new URLSearchParams(location.search);
+  state.condition = conditionFromQuery(location.search);
+  state.hazardPinned = urlQuery.get("hazard") === "assess";
+  state.urlInterrupt = urlQuery.get("interrupt");
+  const variantLevel = urlQuery.get("variant");
+  if (variantLevel && room.steps?.length && !room.isVariant) {
+    const v = makeVariant(room, { seed: urlQuery.get("seed") ?? room.id, level: variantLevel });
+    if (v) room = { ...v, id: room.id, variantId: v.id };
+  }
   const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
   if (flat && state.mode !== "flat") {
     // A dossier card cannot be shown inside an immersive session; say so
@@ -677,7 +695,7 @@ async function enterSim(id, { briefed = false } = {}) {
     const device = deviceForInstructor(instructorDeviceId);
     if (device) { DEVICE = device; PROFILE = applyProfile(DEVICE, { renderer }); }
   }
-  const stationWeather = instructorWeather ?? levelWeatherFor(room) ?? room.weather;
+  const stationWeather = instructorWeather ?? room.weather;
   coachedHazards.clear();
   const envSpec = state.mode !== "ar" ? environmentFor(room) : null;
   const horizon = { skyline: PROFILE.skyline && (envSpec ? !!envSpec.skyline : true), district: PROFILE.skyline && (envSpec ? !!envSpec.district : true) };
@@ -740,6 +758,14 @@ async function enterSim(id, { briefed = false } = {}) {
   state.session = new Session(room, {
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
+      // ?interrupt=<id>: the declared interruption is armed on the first step
+      // after the opening one that neither is its authored step nor holds the
+      // control that answers it — the same arm-now path CMD_INTERRUPT takes —
+      // and re-armed on each later step until it has fired.
+      const inj = state.urlInterrupt ? s.interrupts?.find((i) => i.id === state.urlInterrupt) : null;
+      if (inj && !inj.fired && (s.index | 0) >= 1 && step.id !== inj.after && step.target !== inj.target && !(step.targets ?? []).includes(inj.target)) {
+        inj.armedAt = s.elapsed + (inj.delay ?? 3);
+      }
       // A new step means a new set of controls; re-point the keyboard cursor
       // and read the step out for anyone not watching the screen.
       kbCursor.set(targetsForStep(step));
@@ -797,7 +823,7 @@ async function enterSim(id, { briefed = false } = {}) {
       // the station's own call-out already ran — but it is taken back off the
       // unsafe count, so the run can still end as a pass and the learner works
       // on through it. The same hazard twice is explained once.
-      if (hazardMode === "coach" && !levelNoCoaching()) {
+      if (hazardMode === "coach" && !levelNoCoaching() && !state.hazardPinned) {
         s.hazardHits = Math.max(0, (s.hazardHits | 0) - 1);
         s.stepHazards = Math.max(0, (s.stepHazards | 0) - 1);
         const firstTime = !coachedHazards.has(hitId);
@@ -972,7 +998,9 @@ function showResults(s, summary) {
     // driven from a console is auditable as such: what was sent, when, and
     // with what detail (see shared/observer.js, docs/instructor-console.md).
     instructorActions: [...instructorActions],
-    hazardMode: inLevel && !state.level.coaching ? "assess" : hazardMode,
+    hazardMode: (inLevel && !state.level.coaching) || state.hazardPinned ? "assess" : hazardMode,
+    condition: state.condition ?? "base",
+    ...(room.variant ? { variant: { level: room.variant.level, seed: room.variant.seed, differs: room.variant.differs } } : {}),
     ...(inLevel ? { ladder: levelTag(state.level, levelTask.index) } : {}),
   });
   instructorActions = [];
@@ -1401,11 +1429,11 @@ observer.onCommand((cmd) => {
     const here = !taskPart || taskPart === s?.room?.id;
     const it = here ? s?.interrupts?.find((i) => i.id === idPart) : null;
     if (!s || s.finished || !it) {
-      // Mid-chain: a level 7+ chain declares every task's interruptions, so one
+      // Mid-chain: a level 15+ chain declares every task's interruptions, so one
       // belonging to a task still to come is queued and fires the moment that
       // task's station starts — the same arm-now path as a live one.
       const run = state.level;
-      const t = run && run.level >= 7 ? nextTask(run) : null;
+      const t = run && run.level >= 15 ? nextTask(run) : null;
       const later = t ? run.tasks.slice(t.index + (s && !s.finished && s.room.id === t.id ? 1 : 0)).map((x) => x.id) : [];
       const q = t ? run.interruptions.find((i) => i.id === idPart && (!taskPart || i.task === taskPart) && later.includes(i.task)) : null;
       if (q) {
@@ -1551,7 +1579,7 @@ function levelDescription() {
   return {
     level: `${run.programme}:${run.level}`,
     levelTask: t ? `${t.index + 1}/${t.of}` : "results",
-    levelInterrupts: run.level >= 7 ? run.interruptions.map((i) => {
+    levelInterrupts: run.level >= 15 ? run.interruptions.map((i) => {
       const row = Object.entries(ladder?.stations ?? {}).find(([k]) => k.endsWith(`:${i.task}`))?.[1];
       const decl = row?.interrupts?.find((d) => d.id === i.id);
       return { task: i.task, id: i.id, kind: decl?.kind ?? "Interruption", ref: `${i.task}/${i.id}` };
@@ -1837,7 +1865,7 @@ function programStart(app, id) {
 
 // ---------------------------------------------------------------- ladders
 //
-// Every programme is a ten-level ladder (smartcity/js/ladders.js, generated by
+// Every programme is a twenty-level ladder (smartcity/js/ladders.js, generated by
 // tools/gen_ladders.mjs; the rules in shared/ladder.js). A level is a chain of
 // tasks run back to back like the guided tour — one shared score, one results
 // card, one badge — and it passes only when every task in one run of it is a
@@ -1849,17 +1877,20 @@ function programStart(app, id) {
 // that app records the task into the same run and sends the learner back here
 // with ?level_resume=1.
 
-/** The ten rungs of one programme's ladder, for the Ladder view. Plain data only. */
+/** The twenty rungs of one programme's ladder, for the Ladder view. Plain data only. */
 function ladderRows(programmeId, records) {
   const ladder = LADDER_BY_PROGRAMME[programmeId];
   if (!ladder) return [];
   const states = levelState(ladder, records);
   return ladder.levels.map((lv, i) => ({
     n: lv.n, title: lv.title, state: states[i].state, passedAt: states[i].passedAt,
-    steps: lv.steps, partial: !!lv.partial, shortfall: lv.shortfall | 0,
-    coaching: lv.coaching !== false, weather: lv.weather ?? null,
+    steps: lv.steps, lessons: lv.lessons ?? lv.steps, partial: !!lv.partial, shortfall: lv.shortfall | 0,
+    coaching: lv.coaching !== false, band: lv.band,
     interruptions: (lv.interruptions ?? []).length, standards: (lv.standards ?? []).length,
-    tasks: lv.tasks.map((t) => ({ app: t.app, id: t.id, steps: t.steps, name: ladder.stations[`${t.app}:${t.id}`]?.name ?? t.id })),
+    tasks: lv.tasks.map((t) => ({
+      app: t.app, id: t.id, steps: t.steps, condition: t.condition ?? "base", conditionLabel: conditionLabel(t.condition ?? "base"),
+      name: ladder.stations[`${t.app}:${t.id}`]?.name ?? t.id,
+    })),
   }));
 }
 function toggleLadder(id) { ladderOpen = ladderOpen === id ? null : id; renderPrograms(); }
@@ -1885,11 +1916,19 @@ function levelNoCoaching() {
   const t = state.level && !state.level.coaching ? nextTask(state.level) : null;
   return !!t && t.id === state.room?.id;
 }
-/** A level 4–6 runs its outdoor tasks in the level's weather; an indoor task keeps its own. */
-function levelWeatherFor(room) {
-  const t = state.level?.weather ? nextTask(state.level) : null;
-  if (!t || t.id !== room.id || room.indoor === true) return null;
-  return state.level.weather;
+/**
+ * Put a level task's condition on the address bar (shared/ladder.js
+ * conditionParams): every condition key cleared, then the task's own set, so
+ * the stage, the variant builder and the hazard and interruption hooks read
+ * the same query a track page's deep link carries. `null` clears them all.
+ */
+function setConditionQuery(condition, { seed = null } = {}) {
+  try {
+    const url = new URL(location.href);
+    for (const k of CONDITION_KEYS) url.searchParams.delete(k);
+    for (const [k, v] of condition ? conditionParams(condition, { seed }) : []) url.searchParams.set(k, v);
+    history.replaceState(history.state, "", url);
+  } catch (_) { /* a sandboxed frame may refuse; the station runs as authored */ }
 }
 
 /** Start level `n` of a programme's ladder from task 1. Refused, with the reason, while it is locked. */
@@ -1917,9 +1956,9 @@ function startLevel(programmeId, n) {
   Sfx.ensure();
   const program = CURRICULA.find((c) => c.id === programmeId);
   setRail("neutral", `<b>${escapeHtml(program?.name ?? programmeId)} — Level ${n}: ${escapeHtml(level.title)}.</b> ` +
-    `${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"}, ${level.steps} steps, one shared score.` +
+    `${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"}, ${level.lessons ?? level.steps} lessons, one shared score.` +
     (level.coaching === false ? " No coaching: no hint ring, no pre-brief, every unsafe action counts." : ""));
-  announce(`Level ${n}, ${level.title}. ${level.tasks.length} tasks, ${level.steps} steps.`);
+  announce(`Level ${n}, ${level.title}. ${level.tasks.length} tasks, ${level.lessons ?? level.steps} lessons.`);
   runLevelTask();
   return true;
 }
@@ -1930,6 +1969,9 @@ function runLevelTask() {
   const t = nextTask(run);
   if (!run) return;
   if (!t) { showLevelResults(); return; }
+  // A variant's seed is the run's own, so a retry of the level meets new
+  // alarm positions and one run is reproducible from its record.
+  setConditionQuery(t.condition ?? "base", { seed: `${run.id}-${t.index}` });
   if (t.app !== "smartcity") {
     writeLevelRun(run);
     setRail("neutral", `<b>Level ${run.level}:</b> task ${t.index + 1} is ${escapeHtml(levelTaskName(t))} in Trade Skills — opening it. You come back here after it.`);
@@ -1944,6 +1986,7 @@ function runLevelTask() {
 /** Leave a level run (back to the campus): the run is dropped, the attempts already played stay on the record. */
 function abandonLevel() {
   if (!state.level && !levelCard) return;
+  setConditionQuery(null);
   state.level = null;
   levelCard = null;
   levelQueued.clear();
@@ -2003,7 +2046,7 @@ function showLevelResults() {
     const ivText = iv ? `${iv.answered}/${iv.answered + iv.wrong + iv.missed}` : "—";
     return `<tr class="${r.mastery ? "ok" : "bad"}">
       <td>${i + 1}</td>
-      <td>${escapeHtml(ladder.stations[`${r.app}:${r.id}`]?.name ?? r.id)}${r.app === "trades" ? ' <span class="muted">Trade Skills</span>' : ""}</td>
+      <td>${escapeHtml(ladder.stations[`${r.app}:${r.id}`]?.name ?? r.id)}${r.app === "trades" ? ' <span class="muted">Trade Skills</span>' : ""} <span class="muted">· ${escapeHtml(conditionLabel(r.condition))}</span></td>
       <td>${r.steps}</td><td>${r.played ? r.score : "—"}</td><td>${r.played ? "★".repeat(r.stars) || "☆" : "—"}</td>
       <td>${r.played ? r.hazardHits : "—"}</td><td>${ivText}</td>
       <td>${r.played ? `${mmss(r.seconds)} / ${r.parSeconds ? mmss(r.parSeconds) : "—"}` : "—"}</td>
@@ -2012,13 +2055,13 @@ function showLevelResults() {
   }).join("");
   const stdNames = level.standards.map((id) => LADDER_STANDARDS[id] ? `${LADDER_STANDARDS[id].body} ${LADDER_STANDARDS[id].title}` : id);
   const nextLine = result.passed
-    ? (run.level < 10 ? `Level ${run.level + 1} is open.` : "That was the capstone — the whole ladder is climbed.")
-    : `Level ${run.level + 1 <= 10 ? run.level + 1 : run.level} stays ${run.level < 10 ? "locked" : "unearned"} until every task in one run of this level is a mastery run. First miss: <b>${escapeHtml(ladder.stations[`smartcity:${result.shortfall?.task}`]?.name ?? ladder.stations[`trades:${result.shortfall?.task}`]?.name ?? result.shortfall?.task ?? "")}</b> — ${escapeHtml(result.shortfall?.reason ?? "")}`;
+    ? (run.level < LADDER_LEVELS ? `Level ${run.level + 1} is open.` : "That was the capstone — the whole ladder is climbed.")
+    : `Level ${run.level + 1 <= LADDER_LEVELS ? run.level + 1 : run.level} stays ${run.level < LADDER_LEVELS ? "locked" : "unearned"} until every task in one run of this level is a mastery run. First miss: <b>${escapeHtml(ladder.stations[`smartcity:${result.shortfall?.task}`]?.name ?? ladder.stations[`trades:${result.shortfall?.task}`]?.name ?? result.shortfall?.task ?? "")}</b> — ${escapeHtml(result.shortfall?.reason ?? "")}`;
   const html = `
     <div class="rank-up${result.passed ? "" : " lvl-miss"}">${result.passed ? `LEVEL ${run.level} PASSED` : `LEVEL ${run.level} NOT YET`}</div>
     <p class="res-trade">${escapeHtml(ladder.name)} · ladder</p>
     <h2>Level ${run.level}: ${escapeHtml(level.title)}</h2>
-    <p class="res-note">${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"} back to back · ${level.steps} steps${level.coaching === false ? " · no coaching" : ""}${level.weather ? ` · outdoor tasks in ${escapeHtml(level.weather)}` : ""}${level.partial ? ` · <b>partial</b>: ${level.shortfall} steps short of the 50-step bar` : ""}</p>
+    <p class="res-note">${level.tasks.length} task${level.tasks.length === 1 ? "" : "s"} back to back · ${level.lessons ?? level.steps} lessons${level.coaching === false ? " · no coaching" : ""}${level.partial ? ` · <b>partial</b>: ${level.shortfall} lessons short of the ${LESSON_BAR}-lesson bar` : ""}</p>
     <dl class="res-grid">
       <div><dt>Level score</dt><dd>${result.score}</dd></div>
       <div><dt>Time</dt><dd>${mmss(result.seconds)}</dd></div>
@@ -2038,18 +2081,19 @@ function showLevelResults() {
     <p class="res-note muted">${escapeHtml(MASTERY.text)}</p>`;
   levelCard = { programme: run.programme, level: run.level, passed: result.passed };
   state.level = null;
+  setConditionQuery(null);
   clearLevelRun();
   levelQueued.clear();
   renderPrograms();
   store.patch("results", {
     visible: true, html,
-    showNext: result.passed && run.level < 10,
+    showNext: result.passed && run.level < LADDER_LEVELS,
     retryPrimary: !result.passed,
     nextLabel: `Start level ${run.level + 1} →`,
   });
   state.paused = true;
   announce(result.passed
-    ? `Level ${run.level} passed. Level score ${result.score}. ${run.level < 10 ? `Level ${run.level + 1} is open.` : "Ladder complete."}`
+    ? `Level ${run.level} passed. Level score ${result.score}. ${run.level < LADDER_LEVELS ? `Level ${run.level + 1} is open.` : "Ladder complete."}`
     : `Level ${run.level} not yet. ${result.mastered} of ${result.rows.length} tasks at mastery.`);
 }
 
@@ -3543,6 +3587,12 @@ let deepLink = new URLSearchParams(location.search).get("sim");
 let programmeLink = new URLSearchParams(location.search).get("programme");
 if (!CURRICULA.some((c) => c.id === programmeLink)) programmeLink = null;
 if (programmeLink) { assignedProgram = programmeLink; assignedBy = "link"; }
+// ?programme=<id>&level=<n> (a track page's level link) also opens that
+// programme's ladder at that rung. Like CMD_ASSIGN it never unlocks anything.
+{
+  const n = Number(new URLSearchParams(location.search).get("level"));
+  if (programmeLink && Number.isInteger(n) && n >= 1 && n <= LADDER_LEVELS) { assignedLevel = n; ladderOpen = programmeLink; }
+}
 let pendingEnter = null; // set by the scenario editor's "Save & play" / "Play"
 // Back from a Trade Skills task inside a level (?level_resume=1): the run in
 // storage already carries that task's attempt, so the chain carries on here.

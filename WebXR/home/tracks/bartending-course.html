@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bartending — Behind the Bar — training track</title>
+<meta name="description" content="Bartending — Behind the Bar: a twenty-level training track, 1661 lessons across 16 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#b8862b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 16 stations · 20 levels · 1661 lessons</p>
+    <h1>Bartending — Behind the Bar</h1>
+    <p class="union">UNITE HERE Local 2 bartenders and barbacks</p>
+    <p class="cert">California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA&#39;s workplace violence prevention plan requirement, and California Labor Code 351 on tips</p>
+    <p class="summary">Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1661</b><span>lessons across the track</span></div>
+      <div class="stat"><b>125</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bar-well-setup">Opening the Well <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2">Keg Cellar CO2 <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../trade-skills-simulator.html?room=kitchen">Hot Line (Trade Skills) <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning">Draught Line Cleaning <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec">Pouring to Spec <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage">Ice Well Breakage <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation">Patron De-escalation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>87</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bar-well-setup&amp;time=day">Opening the Well <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=day">Keg Cellar CO2 <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=day">Draught Line Cleaning <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=day">Pouring to Spec <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=day">Ice Well Breakage <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=day">Patron De-escalation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=day">Spiked Drink Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bar-well-setup">Opening the Well <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2">Keg Cellar CO2 <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../trade-skills-simulator.html?room=kitchen">Hot Line (Trade Skills) <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning">Draught Line Cleaning <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec">Pouring to Spec <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage">Ice Well Breakage <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation">Patron De-escalation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>87</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bar-well-setup&amp;time=dusk">Opening the Well <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=dusk">Keg Cellar CO2 <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=dusk">Draught Line Cleaning <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=dusk">Pouring to Spec <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=dusk">Ice Well Breakage <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=dusk">Patron De-escalation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=dusk">Spiked Drink Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bar-well-setup&amp;time=day">Opening the Well <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=day">Keg Cellar CO2 <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../trade-skills-simulator.html?room=kitchen">Hot Line (Trade Skills) <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=day">Draught Line Cleaning <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec">Pouring to Spec <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage">Ice Well Breakage <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation">Patron De-escalation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>18 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=dusk">Keg Cellar CO2 <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=dusk">Draught Line Cleaning <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=dusk">Pouring to Spec <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=dusk">Ice Well Breakage <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=dusk">Patron De-escalation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=dusk">Spiked Drink Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=day">Draught Line Cleaning <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=day">Pouring to Spec <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=day">Ice Well Breakage <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=day">Patron De-escalation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=day">Spiked Drink Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;time=day">Cut-Off / Overservice <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=dusk">Draught Line Cleaning <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=dusk">Pouring to Spec <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=dusk">Ice Well Breakage <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=dusk">Patron De-escalation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=dusk">Spiked Drink Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;time=dusk">Cut-Off / Overservice <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=day">Pouring to Spec <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=day">Ice Well Breakage <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=day">Patron De-escalation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=day">Spiked Drink Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;time=day">Cut-Off / Overservice <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;time=day">Checking ID <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>10 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ice-well-breakage&amp;time=dusk">Ice Well Breakage <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;time=dusk">Patron De-escalation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;time=dusk">Spiked Drink Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;time=dusk">Cut-Off / Overservice <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;time=dusk">Checking ID <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=dusk">WVPP &amp; Panic Button <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>10 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=patron-deescalation&amp;hazard=assess">Patron De-escalation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;hazard=assess">Spiked Drink Response <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;hazard=assess">Cut-Off / Overservice <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;hazard=assess">Checking ID <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;hazard=assess">WVPP &amp; Panic Button <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;hazard=assess">Tip Pool &amp; Labor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;interrupt=stranger-offers-to-walk-out">Spiked Drink Response <span class="chip interrupt">interruption: stranger offers to walk out</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;interrupt=friend-second-round">Cut-Off / Overservice <span class="chip interrupt">interruption: friend second round</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;interrupt=customer-pressure-waving-card">Checking ID <span class="chip interrupt">interruption: customer pressure waving card</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;interrupt=button-test-fail">WVPP &amp; Panic Button <span class="chip interrupt">interruption: button test fail</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=manager-reach">Tip Pool &amp; Labor <span class="chip interrupt">interruption: manager reach</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=after-hours-request">Last Call &amp; Lockup <span class="chip interrupt">interruption: after hours request</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spiked-drink-response&amp;hazard=assess">Spiked Drink Response <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;hazard=assess">Cut-Off / Overservice <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;hazard=assess">Checking ID <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;hazard=assess">WVPP &amp; Panic Button <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;hazard=assess">Tip Pool &amp; Labor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;hazard=assess">Last Call &amp; Lockup <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cutoff-overservice&amp;interrupt=customer-stands-to-leave">Cut-Off / Overservice <span class="chip interrupt">interruption: customer stands to leave</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;interrupt=friend-passes-drink">Checking ID <span class="chip interrupt">interruption: friend passes drink</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;interrupt=customer-blocks-gate">WVPP &amp; Panic Button <span class="chip interrupt">interruption: customer blocks gate</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=grat-dispute">Tip Pool &amp; Labor <span class="chip interrupt">interruption: grat dispute</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=sleeping-patron">Last Call &amp; Lockup <span class="chip interrupt">interruption: sleeping patron</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;interrupt=wet-orgeat-shaker">Allergens &amp; Honest Drinks <span class="chip interrupt">interruption: wet orgeat shaker</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>85</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=id-check-underage&amp;time=day">Checking ID <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=day">WVPP &amp; Panic Button <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;time=day">Tip Pool &amp; Labor <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=after-hours-request">Last Call &amp; Lockup <span class="chip interrupt">interruption: after hours request</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;time=day">Allergens &amp; Honest Drinks <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;interrupt=customer-watching">Till Drop &amp; Robbery Response <span class="chip interrupt">interruption: customer watching</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=dusk">WVPP &amp; Panic Button <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;hazard=assess">Tip Pool &amp; Labor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=sleeping-patron">Last Call &amp; Lockup <span class="chip interrupt">interruption: sleeping patron</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;time=dusk">Allergens &amp; Honest Drinks <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;interrupt=back-door-propped">Till Drop &amp; Robbery Response <span class="chip interrupt">interruption: back door propped</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rbs-service-capstone&amp;hazard=assess">RBS Service Capstone <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;interrupt=button-test-fail">WVPP &amp; Panic Button <span class="chip interrupt">interruption: button test fail</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=manager-reach">Tip Pool &amp; Labor <span class="chip interrupt">interruption: manager reach</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=after-hours-request">Last Call &amp; Lockup <span class="chip interrupt">interruption: after hours request</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;interrupt=shot-as-joke">Allergens &amp; Honest Drinks <span class="chip interrupt">interruption: shot as joke</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;hazard=assess">Till Drop &amp; Robbery Response <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rbs-service-capstone&amp;interrupt=slide-to-minor">RBS Service Capstone <span class="chip interrupt">interruption: slide to minor</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=day">WVPP &amp; Panic Button <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=grat-dispute">Tip Pool &amp; Labor <span class="chip interrupt">interruption: grat dispute</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;hazard=assess">Last Call &amp; Lockup <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;time=day">Allergens &amp; Honest Drinks <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;interrupt=customer-watching">Till Drop &amp; Robbery Response <span class="chip interrupt">interruption: customer watching</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rbs-service-capstone&amp;time=day">RBS Service Capstone <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=dusk">WVPP &amp; Panic Button <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=manager-reach">Tip Pool &amp; Labor <span class="chip interrupt">interruption: manager reach</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=sleeping-patron">Last Call &amp; Lockup <span class="chip interrupt">interruption: sleeping patron</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;hazard=assess">Allergens &amp; Honest Drinks <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;time=day">Till Drop &amp; Robbery Response <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rbs-service-capstone">RBS Service Capstone <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>86</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=wvpp-panic-button&amp;variant=assessment">WVPP &amp; Panic Button <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=tip-pool-labor&amp;variant=assessment">Tip Pool &amp; Labor <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=last-call-lockup&amp;variant=assessment">Last Call &amp; Lockup <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=allergen-cocktail&amp;variant=assessment">Allergens &amp; Honest Drinks <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=till-drop-robbery&amp;variant=assessment">Till Drop &amp; Robbery Response <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rbs-service-capstone&amp;variant=assessment">RBS Service Capstone <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=bartending-course&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f2894b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Trade Skills room</p>
+            <h3>Hot Line</h3>
+            <p class="st-meta">11 steps · 5 hazards · 2 interruptions · par 3.9 min</p>
+            <p class="why">The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured.</p>
+            <ul class="st-std"><li>FDA — FDA Food Code — the model code for retail food establishments</li><li>NFPA — NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</li><li>NSF — NSF/ANSI 2 — Food equipment</li><li>NSF — NSF/ANSI 7 — Commercial refrigerators and freezers</li><li>OSHA — 29 CFR 1910.157 — Portable fire extinguishers</li><li>ServSafe — ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</li></ul>
+            <div class="runs"><span class="run"><a href="../trade-skills-simulator.html?room=kitchen"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span></div>
+            <a class="launch" href="../trade-skills-simulator.html?room=kitchen">Launch Hot Line</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b8862b">
+          <img class="shot" src="img/bar-well-setup.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Opening the Well</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in.</p>
+            <ul class="st-std"><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>Cal. Labor Code — California Labor Code §351 — gratuities are the sole property of the employee</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bar-well-setup"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=bar-well-setup&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=bar-well-setup&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bar-well-setup">Launch Opening the Well</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b8862b">
+          <img class="shot" src="img/id-check-underage.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Checking ID</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.5 min · indoors</p>
+            <p class="why">The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar.</p>
+            <ul class="st-std"><li>Cal. ABC — California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21</li><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>ServSafe — ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=id-check-underage&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=id-check-underage&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=id-check-underage&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=id-check-underage&amp;interrupt=customer-pressure-waving-card"><span class="chip interrupt">interruption: customer pressure waving card</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=id-check-underage&amp;interrupt=friend-passes-drink"><span class="chip interrupt">interruption: friend passes drink</span></a> <span class="st-meta">L14</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=id-check-underage">Launch Checking ID</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b8862b">
+          <img class="shot" src="img/jigger-pour-spec.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Pouring to Spec</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects.</p>
+            <ul class="st-std"><li>Cal. ABC — California Business and Professions Code §25602 — sale to an obviously intoxicated person</li><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>Cal. Labor Code — California Labor Code §351 — gratuities are the sole property of the employee</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=jigger-pour-spec"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=jigger-pour-spec&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=jigger-pour-spec">Launch Pouring to Spec</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2a23b">
+          <img class="shot" src="img/cutoff-overservice.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Cut-Off / Overservice</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">The RBS cues read in a real guest, the pour slowed before it is refused outright, and the cutoff itself said quietly once, backed by §25602 and the dram-shop exposure it carries for the licence.</p>
+            <ul class="st-std"><li>Cal. ABC — California Business and Professions Code §25602 — sale to an obviously intoxicated person</li><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cutoff-overservice&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cutoff-overservice&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cutoff-overservice&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=cutoff-overservice&amp;interrupt=friend-second-round"><span class="chip interrupt">interruption: friend second round</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=cutoff-overservice&amp;interrupt=customer-stands-to-leave"><span class="chip interrupt">interruption: customer stands to leave</span></a> <span class="st-meta">L14</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cutoff-overservice">Launch Cut-Off / Overservice</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#2fb8a3">
+          <img class="shot" src="img/spiked-drink-response.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Spiked Drink Response</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">Patron safety when the cues are somebody else&#39;s drink, not his own tab: the rail watched, the safe-word scheme posted, and a suspect glass retained rather than rinsed the moment a guest is not the person her count says she should be.</p>
+            <ul class="st-std"><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=spiked-drink-response&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=spiked-drink-response&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=spiked-drink-response&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=spiked-drink-response&amp;interrupt=stranger-offers-to-walk-out"><span class="chip interrupt">interruption: stranger offers to walk out</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=spiked-drink-response">Launch Spiked Drink Response</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8542f">
+          <img class="shot" src="img/patron-deescalation.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Patron De-escalation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min · indoors</p>
+            <p class="why">A confrontation worked from behind the bar&#39;s own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind.</p>
+            <ul class="st-std"><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>NFPA — NFPA 101 — Life Safety Code</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=patron-deescalation"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=patron-deescalation&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=patron-deescalation&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=patron-deescalation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=patron-deescalation">Launch Patron De-escalation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d99a4e">
+          <img class="shot" src="img/keg-cellar-co2.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Keg Cellar CO2</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.4 min · indoors</p>
+            <p class="why">The barback&#39;s own cellar: CO2 and nitrogen chained upright, the room monitor read before the door ever opens, and the change worked coupler off, coupler on, leak-checked at the gauge.</p>
+            <ul class="st-std"><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=keg-cellar-co2"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=keg-cellar-co2&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=keg-cellar-co2">Launch Keg Cellar CO2</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fb0c9">
+          <img class="shot" src="img/ice-well-breakage.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Ice Well Breakage</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">A glass breaks into the well mid-service: the well stopped and marked, the ice burned down rather than picked through, and the cut it leaves you treated to the same bloodborne-pathogens plan as any other bar-top spill.</p>
+            <ul class="st-std"><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>FDA — FDA Food Code — the model code for retail food establishments</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ice-well-breakage"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ice-well-breakage&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ice-well-breakage&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ice-well-breakage">Launch Ice Well Breakage</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9fc94f">
+          <img class="shot" src="img/draught-line-cleaning.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Draught Line Cleaning</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.6 min · indoors</p>
+            <p class="why">The lines cleaned to the cleaner&#39;s own SDS: taps tagged before the chemical goes in, contact time held, and nothing reconnected until the strip reads a neutral pH.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 5194 — Hazard Communication</li><li>NSF — NSF/ANSI 18 — Manual food and beverage dispensing equipment</li><li>OSHA — 29 CFR 1910.133 — Eye and face protection</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=draught-line-cleaning"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=draught-line-cleaning&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=draught-line-cleaning">Launch Draught Line Cleaning</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d6455a">
+          <img class="shot" src="img/till-drop-robbery.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Till Drop &amp; Robbery Response</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The till counted down with a witness and dropped with an escort, and the plan for the night somebody demands it instead: comply, don&#39;t chase, and let the alarm and the police do the rest.</p>
+            <ul class="st-std"><li>Cal. Labor Code — California Labor Code §351 — gratuities are the sole property of the employee</li><li>OSHA — 29 CFR 1904 — Recording and reporting occupational injuries and illnesses</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=till-drop-robbery&amp;interrupt=customer-watching"><span class="chip interrupt">interruption: customer watching</span></a> <span class="st-meta">L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=till-drop-robbery&amp;interrupt=back-door-propped"><span class="chip interrupt">interruption: back door propped</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=till-drop-robbery&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=till-drop-robbery&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=till-drop-robbery&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=till-drop-robbery">Launch Till Drop &amp; Robbery Response</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fd18a">
+          <img class="shot" src="img/allergen-cocktail.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Allergens &amp; Honest Drinks</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The nut liqueurs, the egg white, the dairy and the gluten a label — not a memory — actually discloses, dedicated tools for the order that needs them, and the auto-injector found fast if it ever comes to that.</p>
+            <ul class="st-std"><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>FDA — 21 CFR Part 101 — Food labeling, including the major food allergens</li><li>TTB — TTB alcohol labelling and standards of fill (27 CFR Part 5)</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;interrupt=wet-orgeat-shaker"><span class="chip interrupt">interruption: wet orgeat shaker</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;interrupt=shot-as-joke"><span class="chip interrupt">interruption: shot as joke</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=allergen-cocktail&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=allergen-cocktail">Launch Allergens &amp; Honest Drinks</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5c6bc0">
+          <img class="shot" src="img/last-call-lockup.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Last Call &amp; Lockup</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">The last hour of the shift as its own procedure: last call on the ABC&#39;s clock, the &quot;one more&quot; refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together.</p>
+            <ul class="st-std"><li>Cal. ABC — California Business and Professions Code §25602 — sale to an obviously intoxicated person</li><li>Cal. ABC — California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages</li><li>OSHA — 29 CFR 1904 — Recording and reporting occupational injuries and illnesses</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=after-hours-request"><span class="chip interrupt">interruption: after hours request</span></a> <span class="st-meta">L12, L15, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=last-call-lockup&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=last-call-lockup&amp;interrupt=sleeping-patron"><span class="chip interrupt">interruption: sleeping patron</span></a> <span class="st-meta">L14, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=last-call-lockup&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=last-call-lockup">Launch Last Call &amp; Lockup</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <img class="shot" src="img/tip-pool-labor.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Tip Pool &amp; Labor</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The paycheck the drinks pay for: the jar counted in the open, a lawful pool with no manager&#39;s hand in it, the breaks and the split shift entered honest, and the steward standing behind the sheet.</p>
+            <ul class="st-std"><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>DOL — 29 CFR 531.52 — General characteristics of tips</li><li>IWC — California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping</li><li>Cal. Labor Code — California Labor Code §351 — gratuities are the sole property of the employee</li><li>Cal. Labor Code — California Labor Code §512 — meal periods</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=tip-pool-labor&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=manager-reach"><span class="chip interrupt">interruption: manager reach</span></a> <span class="st-meta">L12, L17, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=tip-pool-labor&amp;interrupt=grat-dispute"><span class="chip interrupt">interruption: grat dispute</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=tip-pool-labor&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=tip-pool-labor&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=tip-pool-labor">Launch Tip Pool &amp; Labor</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f0645b">
+          <img class="shot" src="img/wvpp-panic-button.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>WVPP &amp; Panic Button</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The workplace violence prevention plan proven rather than filed: the panic button tested to dispatch, the hazard walk run before the smoking area goes dark, and the log kept honest enough for the safety committee to trust.</p>
+            <ul class="st-std"><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>Cal. Labor Code — California Labor Code §6310 — no retaliation for reporting an unsafe condition</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L10, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;interrupt=button-test-fail"><span class="chip interrupt">interruption: button test fail</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;interrupt=customer-blocks-gate"><span class="chip interrupt">interruption: customer blocks gate</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=wvpp-panic-button&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=wvpp-panic-button">Launch WVPP &amp; Panic Button</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb8c9">
+          <img class="shot" src="img/rbs-service-capstone.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>RBS Service Capstone</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.7 min · indoors</p>
+            <p class="why">The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back.</p>
+            <ul class="st-std"><li>Cal. ABC — California Business and Professions Code §25602 — sale to an obviously intoxicated person</li><li>Cal. ABC — California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages</li><li>Cal. ABC — California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21</li><li>Cal. ABC — California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</li><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=rbs-service-capstone&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=rbs-service-capstone&amp;interrupt=slide-to-minor"><span class="chip interrupt">interruption: slide to minor</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=rbs-service-capstone&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=rbs-service-capstone"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=rbs-service-capstone&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=rbs-service-capstone">Launch RBS Service Capstone</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>Cal. ABC</td><td>California Business and Professions Code §25602 — sale to an obviously intoxicated person</td><td class="n">all 20</td></tr>
+          <tr><td>Cal. ABC</td><td>California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages</td><td class="n">9 levels</td></tr>
+          <tr><td>Cal. ABC</td><td>California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21</td><td class="n">12 levels</td></tr>
+          <tr><td>Cal. ABC</td><td>California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol</td><td class="n">all 20</td></tr>
+          <tr><td>Cal. Labor Code</td><td>California Labor Code §351 — gratuities are the sole property of the employee</td><td class="n">19 levels</td></tr>
+          <tr><td>Cal. Labor Code</td><td>California Labor Code §512 — meal periods</td><td class="n">10 levels</td></tr>
+          <tr><td>Cal. Labor Code</td><td>California Labor Code §6310 — no retaliation for reporting an unsafe condition</td><td class="n">11 levels</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 5194 — Hazard Communication</td><td class="n">8 levels</td></tr>
+          <tr><td>CalCode</td><td>California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</td><td class="n">all 20</td></tr>
+          <tr><td>DOL</td><td>29 CFR 531.52 — General characteristics of tips</td><td class="n">10 levels</td></tr>
+          <tr><td>FDA</td><td>21 CFR Part 101 — Food labeling, including the major food allergens</td><td class="n">7 levels</td></tr>
+          <tr><td>FDA</td><td>FDA Food Code — the model code for retail food establishments</td><td class="n">10 levels</td></tr>
+          <tr><td>IWC</td><td>California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping</td><td class="n">10 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 101 — Life Safety Code</td><td class="n">11 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</td><td class="n">L1, L3, L5</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+          <tr><td>NSF</td><td>NSF/ANSI 18 — Manual food and beverage dispensing equipment</td><td class="n">8 levels</td></tr>
+          <tr><td>NSF</td><td>NSF/ANSI 2 — Food equipment</td><td class="n">L1, L3, L5</td></tr>
+          <tr><td>NSF</td><td>NSF/ANSI 7 — Commercial refrigerators and freezers</td><td class="n">L1, L3, L5</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1904 — Recording and reporting occupational injuries and illnesses</td><td class="n">9 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">14 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1200 — Hazard communication</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.133 — Eye and face protection</td><td class="n">8 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.157 — Portable fire extinguishers</td><td class="n">L1, L3, L5</td></tr>
+          <tr><td>ServSafe</td><td>ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</td><td class="n">10 levels</td></tr>
+          <tr><td>TTB</td><td>TTB alcohol labelling and standards of fill (27 CFR Part 5)</td><td class="n">7 levels</td></tr>
+          <tr><td>union</td><td>UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Serve alcohol responsibly and handle the room behind the bar</h3>
+        <p>Demonstrated with a mastery run on 6 of its 16 stations, against California ABC Responsible Beverage Service Training Program Act; Cal/OSHA 8 CCR 3342 Workplace violence prevention plan; FDA Food Code, as adopted in the California Retail Food Code.</p>
+        <p>These stations also count toward:</p><ul><li>Hazard Communication — the label, the sheet and the dose <span class="st-meta">(3 of this track's stations count toward it)</span></li><li>Trauma-informed Practice — consent, dignity and de-escalation <span class="st-meta">(3 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA&#39;s workplace violence prevention plan requirement, and California Labor Code 351 on tips. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

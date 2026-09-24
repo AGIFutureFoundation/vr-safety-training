@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hunters Point Edition — Can We Live? — training track</title>
+<meta name="description" content="Hunters Point Edition — Can We Live?: a twenty-level training track, 1615 lessons across 26 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#f2c14b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 26 stations · 20 levels · 1615 lessons</p>
+    <h1>Hunters Point Edition — Can We Live?</h1>
+    <p class="union">Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway</p>
+    <p class="cert">EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA&#39;s wildfire smoke rule</p>
+    <p class="summary">A flagship built to be offered to the foundation and its partners: the sourced story of Marie Harrison and the foundation that carries her name, then twenty-five stations in the skills a community science programme actually uses — air sensors, pollution patrol, biomonitoring with consent, fence-line dust and haul-route observation, split samples, radiological literacy, the HAZWOPER gate into cleanup work, and turning data into testimony. Every station is sited generically; the edition does not speak for the foundation.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1615</b><span>lessons across the track</span></div>
+      <div class="stat"><b>125</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>83</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=can-we-live-story">Can We Live? — The Story <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=odor-complaint-log">Pollution Patrol <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=decon-support-laborer">Decon Support Laborer <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=discharge-photo-doc">Discharge Photo Doc <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split">Community Soil Split <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab">Shoreline Sediment Grab <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa">Network Data Review <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>83</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=can-we-live-story&amp;time=day">Can We Live? — The Story <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=odor-complaint-log&amp;time=day">Pollution Patrol <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=decon-support-laborer&amp;time=day">Decon Support Laborer <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=discharge-photo-doc&amp;time=day">Discharge Photo Doc <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split&amp;time=day">Community Soil Split <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab&amp;time=day">Shoreline Sediment Grab <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa&amp;time=day">Network Data Review <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>83</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=can-we-live-story">Can We Live? — The Story <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=odor-complaint-log">Pollution Patrol <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=decon-support-laborer">Decon Support Laborer <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=discharge-photo-doc">Discharge Photo Doc <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split">Community Soil Split <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab">Shoreline Sediment Grab <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa">Network Data Review <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=odor-complaint-log&amp;time=dusk">Pollution Patrol <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=decon-support-laborer&amp;time=dusk">Decon Support Laborer <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=discharge-photo-doc&amp;time=dusk">Discharge Photo Doc <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split&amp;time=dusk">Community Soil Split <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab&amp;time=dusk">Shoreline Sediment Grab <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa&amp;time=dusk">Network Data Review <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=dusk">HAZWOPER Site Orientation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>87</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=discharge-photo-doc">Discharge Photo Doc <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split">Community Soil Split <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab">Shoreline Sediment Grab <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa&amp;time=day">Network Data Review <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=day">HAZWOPER Site Orientation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=garden-soil-screen&amp;time=day">Garden Soil Screen <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sensor-colocation-check&amp;time=day">Sensor Co-Location Check <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>75</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=community-soil-split&amp;time=dusk">Community Soil Split <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shoreline-sediment-grab&amp;time=dusk">Shoreline Sediment Grab <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa&amp;time=dusk">Network Data Review <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=dusk">HAZWOPER Site Orientation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=garden-soil-screen&amp;weather=rain">Garden Soil Screen <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sensor-colocation-check&amp;weather=rain">Sensor Co-Location Check <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=air-network-data-qa&amp;time=day">Network Data Review <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=day">HAZWOPER Site Orientation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=garden-soil-screen&amp;weather=wind">Garden Soil Screen <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sensor-colocation-check&amp;time=day">Sensor Co-Location Check <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=youth-patrol-training&amp;time=day">Youth Patrol Training <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;time=day">Abatement Perimeter Awareness <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=dusk">HAZWOPER Site Orientation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=garden-soil-screen&amp;time=dusk">Garden Soil Screen <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sensor-colocation-check&amp;time=dusk">Sensor Co-Location Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=fog">Youth Patrol Training <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=fog">Abatement Perimeter Awareness <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-sensor-install&amp;weather=fog">Neighbourhood Air Sensor <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sensor-colocation-check&amp;weather=storm">Sensor Co-Location Check <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=storm">Youth Patrol Training <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=storm">Abatement Perimeter Awareness <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-sensor-install&amp;time=day">Neighbourhood Air Sensor <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rad-meter-basics&amp;time=day">Rad Meter Basics <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=biomonitoring-consent&amp;time=day">Biomonitoring Consent <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=smoke">Youth Patrol Training <span class="chip weather">wildfire smoke</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=overcast">Abatement Perimeter Awareness <span class="chip weather">overcast</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-sensor-install&amp;weather=smoke">Neighbourhood Air Sensor <span class="chip weather">wildfire smoke</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rad-meter-basics&amp;weather=rain">Rad Meter Basics <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=biomonitoring-consent&amp;time=dusk">Biomonitoring Consent <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=haul-route-observation&amp;weather=rain">Haul Route Observation <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;hazard=assess">Abatement Perimeter Awareness <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=air-sensor-install&amp;hazard=assess">Neighbourhood Air Sensor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=rad-meter-basics&amp;hazard=assess">Rad Meter Basics <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=biomonitoring-consent&amp;hazard=assess">Biomonitoring Consent <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=haul-route-observation&amp;hazard=assess">Haul Route Observation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=parcel-status-walk&amp;hazard=assess">Parcel Status Walk <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=rad-meter-basics&amp;interrupt=pocket-source">Rad Meter Basics <span class="chip interrupt">interruption: pocket source</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=biomonitoring-consent&amp;interrupt=family-answers-for-participant">Biomonitoring Consent <span class="chip interrupt">interruption: family answers for participant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=haul-route-observation&amp;interrupt=half-open-tarp">Haul Route Observation <span class="chip interrupt">interruption: half open tarp</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=parcel-status-walk&amp;interrupt=open-gate">Parcel Status Walk <span class="chip interrupt">interruption: open gate</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;interrupt=flagged-sensor-number">Public Comment Prep <span class="chip interrupt">interruption: flagged sensor number</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=results-return-visit&amp;interrupt=wrong-id-on-page">Results Return Visit <span class="chip interrupt">interruption: wrong id on page</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>10 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=biomonitoring-consent&amp;hazard=assess">Biomonitoring Consent <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=haul-route-observation&amp;hazard=assess">Haul Route Observation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=parcel-status-walk&amp;hazard=assess">Parcel Status Walk <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;hazard=assess">Public Comment Prep <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=results-return-visit&amp;hazard=assess">Results Return Visit <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=retest-witnessing&amp;hazard=assess">Retest Witnessing <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=parcel-status-walk&amp;interrupt=resident-question">Parcel Status Walk <span class="chip interrupt">interruption: resident question</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;interrupt=comment-period-moved">Public Comment Prep <span class="chip interrupt">interruption: comment period moved</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=results-return-visit&amp;interrupt=neighbour-wants-results">Results Return Visit <span class="chip interrupt">interruption: neighbour wants results</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=retest-witnessing&amp;interrupt=moved-point">Retest Witnessing <span class="chip interrupt">interruption: moved point</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;interrupt=label-peels">Sample Kit Shipping <span class="chip interrupt">interruption: label peels</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=oxygen-power-flicker">Smoke Day Outreach <span class="chip interrupt">interruption: oxygen power flicker</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=public-comment-prep&amp;interrupt=flagged-sensor-number">Public Comment Prep <span class="chip interrupt">interruption: flagged sensor number</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=results-return-visit&amp;time=day">Results Return Visit <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=retest-witnessing&amp;interrupt=sign-unread">Retest Witnessing <span class="chip interrupt">interruption: sign unread</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=day">Sample Kit Shipping <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;time=day">Smoke Day Outreach <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;weather=rain">Fenceline Dust Monitor <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=results-return-visit&amp;hazard=assess">Results Return Visit <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=retest-witnessing&amp;interrupt=moved-point">Retest Witnessing <span class="chip interrupt">interruption: moved point</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=dusk">Sample Kit Shipping <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=aqi-spike-midshift">Smoke Day Outreach <span class="chip interrupt">interruption: aqi spike midshift</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;hazard=assess">Fenceline Dust Monitor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-in-place-drill&amp;time=dusk">Shelter-in-Place Drill <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;hazard=assess">Sample Kit Shipping <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;weather=fog">Smoke Day Outreach <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;interrupt=wind-shift">Fenceline Dust Monitor <span class="chip interrupt">interruption: wind shift</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-in-place-drill&amp;hazard=assess">Shelter-in-Place Drill <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=met-station-siting&amp;interrupt=gust-off-plumb">Met Station Siting <span class="chip interrupt">interruption: gust off plumb</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dust-plan-review&amp;interrupt=monitor-photo-mismatch">Dust Plan Review <span class="chip interrupt">interruption: monitor photo mismatch</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=day">Sample Kit Shipping <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=oxygen-power-flicker">Smoke Day Outreach <span class="chip interrupt">interruption: oxygen power flicker</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;hazard=assess">Fenceline Dust Monitor <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-in-place-drill&amp;time=day">Shelter-in-Place Drill <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=met-station-siting&amp;interrupt=clock-drift">Met Station Siting <span class="chip interrupt">interruption: clock drift</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dust-plan-review&amp;time=day">Dust Plan Review <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=dusk">Sample Kit Shipping <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=aqi-spike-midshift">Smoke Day Outreach <span class="chip interrupt">interruption: aqi spike midshift</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;interrupt=dry-cut-exceedance">Fenceline Dust Monitor <span class="chip interrupt">interruption: dry cut exceedance</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-in-place-drill&amp;hazard=assess">Shelter-in-Place Drill <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=met-station-siting&amp;time=day">Met Station Siting <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dust-plan-review">Dust Plan Review <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=sample-kit-shipping&amp;variant=assessment">Sample Kit Shipping <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=smoke-day-outreach&amp;variant=assessment">Smoke Day Outreach <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;variant=assessment">Fenceline Dust Monitor <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shelter-in-place-drill&amp;variant=assessment">Shelter-in-Place Drill <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=met-station-siting&amp;variant=assessment">Met Station Siting <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dust-plan-review&amp;variant=assessment">Dust Plan Review <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hunters-point-can-we-live&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Can We Live? — The Story</h3>
+            <p class="st-meta">10 steps · 4 hazards · 0 interruptions · par 5.3 min</p>
+            <p class="why">The story first: the foundation, the woman it is named for, and the record the neighbourhood works against — sourced, flat, and honest about what this edition is not.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>HHS — 45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li><li>union — Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=can-we-live-story"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=can-we-live-story&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=can-we-live-story">Launch Can We Live? — The Story</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fd48a">
+          <img class="shot" src="img/air-sensor-install.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Neighbourhood Air Sensor</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.3 min</p>
+            <p class="why">The network starts on a resident&#39;s own wall: siting by the rules, a weatherproof mount, and a first reading proven against a handheld before it ever reports for the block.</p>
+            <ul class="st-std"><li>HHS — 45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.23 — Ladders</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=air-sensor-install&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=air-sensor-install&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=air-sensor-install&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=air-sensor-install&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=air-sensor-install">Launch Neighbourhood Air Sensor</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb3d9">
+          <img class="shot" src="img/sensor-colocation-check.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Sensor Co-Location Check</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">A week beside the Air District&#39;s own reference monitor is what earns the correction factor every sensor this network installs actually relies on.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=sensor-colocation-check&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=sensor-colocation-check&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=sensor-colocation-check&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=sensor-colocation-check&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sensor-colocation-check">Launch Sensor Co-Location Check</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d98f4f">
+          <img class="shot" src="img/air-network-data-qa.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Network Data Review</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">The map only means what it says if somebody reads it honestly every week — a smoke day told from a local source, a stuck sensor caught, and a real finding reported rather than sat on.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>Cal/OSHA — 8 CCR 5141.1 — Protection from wildfire smoke</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=air-network-data-qa"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=air-network-data-qa&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=air-network-data-qa&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=air-network-data-qa">Launch Network Data Review</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e4622a">
+          <img class="shot" src="img/odor-complaint-log.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Pollution Patrol</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.2 min</p>
+            <p class="why">The patrol that turns a smell into a record: logged completely, filed with the Air District, and walked from the public side of the fence every time.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=odor-complaint-log"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=odor-complaint-log&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=odor-complaint-log&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=odor-complaint-log">Launch Pollution Patrol</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a23c">
+          <img class="shot" src="img/biomonitoring-consent.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Biomonitoring Consent</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">Before any tube is opened: the study explained, the consent form&#39;s rights read aloud, the signature witnessed, and a participant ID assigned so no sample ever carries a name.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>HHS — 45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=biomonitoring-consent&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=biomonitoring-consent&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=biomonitoring-consent&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=biomonitoring-consent&amp;interrupt=family-answers-for-participant"><span class="chip interrupt">interruption: family answers for participant</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=biomonitoring-consent">Launch Biomonitoring Consent</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb0a8">
+          <img class="shot" src="img/sample-kit-shipping.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Sample Kit Shipping</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">What consent buys the sample: labels matched to IDs, the cold chain running, UN3373 packing, and the chain of custody signed before a courier ever touches the box.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>HHS — 45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=sample-kit-shipping&amp;interrupt=label-peels"><span class="chip interrupt">interruption: label peels</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=sample-kit-shipping&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=sample-kit-shipping&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=sample-kit-shipping&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=sample-kit-shipping">Launch Sample Kit Shipping</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fb0e0">
+          <img class="shot" src="img/results-return-visit.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Results Return Visit</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The other half of the promise 45 CFR 46 makes: a result explained against reference ranges, without alarm or dismissal, to the participant it actually belongs to.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>HHS — 45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=results-return-visit&amp;interrupt=wrong-id-on-page"><span class="chip interrupt">interruption: wrong id on page</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=results-return-visit&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=results-return-visit&amp;interrupt=neighbour-wants-results"><span class="chip interrupt">interruption: neighbour wants results</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=results-return-visit&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=results-return-visit">Launch Results Return Visit</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d88a4a">
+          <img class="shot" src="img/smoke-day-outreach.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Smoke Day Outreach</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The patrol network on the day the air itself is the hazard: the vulnerable list worked first, N95s actually fit, and the patrol&#39;s own masks on when the AQI says so.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 5141.1 — Protection from wildfire smoke</li><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=oxygen-power-flicker"><span class="chip interrupt">interruption: oxygen power flicker</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=smoke-day-outreach&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=smoke-day-outreach&amp;interrupt=aqi-spike-midshift"><span class="chip interrupt">interruption: aqi spike midshift</span></a> <span class="st-meta">L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=smoke-day-outreach&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=smoke-day-outreach&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=smoke-day-outreach">Launch Smoke Day Outreach</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d98c3f">
+          <img class="shot" src="img/fenceline-dust-monitor.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Fenceline Dust Monitor</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The instrument the patrol reads: a PM10 monitor sited downwind, levelled and guyed, proven at zero and flow, alarmed to the site&#39;s own action level, and an exceedance reported without ever crossing the fence.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L16, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;interrupt=wind-shift"><span class="chip interrupt">interruption: wind shift</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;interrupt=dry-cut-exceedance"><span class="chip interrupt">interruption: dry cut exceedance</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=fenceline-dust-monitor&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=fenceline-dust-monitor">Launch Fenceline Dust Monitor</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5ec2d6">
+          <img class="shot" src="img/haul-route-observation.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Haul Route Observation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The sidewalk&#39;s own record of what leaves the gate: the tarp, the wheel wash, the manifest placard and the residential speed limit, each truck logged with a plate, a time and a photo for the Air District and the site&#39;s own line.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li><li>RCRA — 40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=haul-route-observation&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=haul-route-observation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=haul-route-observation&amp;interrupt=half-open-tarp"><span class="chip interrupt">interruption: half open tarp</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=haul-route-observation">Launch Haul Route Observation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fb8e0">
+          <img class="shot" src="img/met-station-siting.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Met Station Siting</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.2 min</p>
+            <p class="why">The instrument every other reading on this list leans on: the network&#39;s own weather station, sited clear of obstructions, turned to true north and checked against the airport before anyone trusts a wind direction off it.</p>
+            <ul class="st-std"><li>NFPA — NFPA 780 — Installation of Lightning Protection Systems</li><li>NOAA — NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=met-station-siting&amp;interrupt=gust-off-plumb"><span class="chip interrupt">interruption: gust off plumb</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=met-station-siting&amp;interrupt=clock-drift"><span class="chip interrupt">interruption: clock drift</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=met-station-siting&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=met-station-siting&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=met-station-siting">Launch Met Station Siting</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9a7fd6">
+          <img class="shot" src="img/dust-plan-review.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Dust Plan Review</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">The desk work behind the patrol: a contractor&#39;s own dust control plan held against what the patrol actually saw, and the gaps written into a comment letter the regulator has to answer.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=dust-plan-review&amp;interrupt=monitor-photo-mismatch"><span class="chip interrupt">interruption: monitor photo mismatch</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=dust-plan-review&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=dust-plan-review"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=dust-plan-review&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=dust-plan-review">Launch Dust Plan Review</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d88a4a">
+          <img class="shot" src="img/community-soil-split.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Community Soil Split</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The split sample is community science&#39;s founding move: the same core an agency cuts, witnessed and divided in front of both parties, so the neighbourhood&#39;s own answer never depends on trusting the agency&#39;s lab alone.</p>
+            <ul class="st-std"><li>EPA — EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=community-soil-split"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=community-soil-split&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=community-soil-split&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=community-soil-split">Launch Community Soil Split</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fbf6a">
+          <img class="shot" src="img/garden-soil-screen.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Garden Soil Screen</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The patrol network&#39;s other daily work: a handheld XRF, a proven check standard and an honest action-level call turn a family&#39;s garden bed from a guess into a result they can act on.</p>
+            <ul class="st-std"><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.1096 — Ionizing radiation</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=garden-soil-screen&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=garden-soil-screen&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=garden-soil-screen&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=garden-soil-screen&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=garden-soil-screen">Launch Garden Soil Screen</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5a9fc9">
+          <img class="shot" src="img/shoreline-sediment-grab.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Shoreline Sediment Grab</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The bay&#39;s edge gets the same discipline as the fenced parcel: a tide window read like a clock, a grab from the top two centimetres, and a transect that moves the moment a listed bird says it should.</p>
+            <ul class="st-std"><li>BCDC — San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</li><li>EPA — EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it</li><li>NOAA — NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work</li><li>USFWS — Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=shoreline-sediment-grab"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=shoreline-sediment-grab&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=shoreline-sediment-grab&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=shoreline-sediment-grab">Launch Shoreline Sediment Grab</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d2745b">
+          <img class="shot" src="img/discharge-photo-doc.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Discharge Photo Doc</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">A patrol&#39;s whole job in one station: dry boots, the right bottle, a photo an inspector can actually use, and both hotlines called before the sheen has washed out on the next tide.</p>
+            <ul class="st-std"><li>union — CWA member training for outside-plant, tower and broadcast work</li><li>EPA — EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>RWQCB — Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=discharge-photo-doc"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=discharge-photo-doc&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=discharge-photo-doc&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=discharge-photo-doc">Launch Discharge Photo Doc</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d9a02c">
+          <img class="shot" src="img/rad-meter-basics.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Rad Meter Basics</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The meter itself, taught honestly: background counted first, the check source proven, counts per minute told apart from microsieverts per hour, a grid walked at a set pace and height, and what a hand-held reading can never say on its own — which isotope, and how deep.</p>
+            <ul class="st-std"><li>EPA — MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual</li><li>NRC — 10 CFR Part 20 — Standards for protection against radiation</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=rad-meter-basics&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=rad-meter-basics&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=rad-meter-basics&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span> <span class="run"><a href="../smartcity-x.html?sim=rad-meter-basics&amp;interrupt=pocket-source"><span class="chip interrupt">interruption: pocket source</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=rad-meter-basics">Launch Rad Meter Basics</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c98a2b">
+          <img class="shot" src="img/parcel-status-walk.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Parcel Status Walk</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The regulator&#39;s own map carried down the block: which parcel transferred, which is still under cleanup, which is being retested, the institutional controls a transfer doesn&#39;t erase, and an honest answer for the resident who just wants to know if her street is done.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=parcel-status-walk&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=parcel-status-walk&amp;interrupt=open-gate"><span class="chip interrupt">interruption: open gate</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=parcel-status-walk&amp;interrupt=resident-question"><span class="chip interrupt">interruption: resident question</span></a> <span class="st-meta">L14</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=parcel-status-walk">Launch Parcel Status Walk</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b8862b">
+          <img class="shot" src="img/retest-witnessing.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Retest Witnessing</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">Standing at the fence for someone else&#39;s retest: the grid checked against the work plan, the split sample asked for in writing, the custody form actually read, and a statement written the same day while it&#39;s still exact.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>EPA — EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=retest-witnessing&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=retest-witnessing&amp;interrupt=moved-point"><span class="chip interrupt">interruption: moved point</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=retest-witnessing&amp;interrupt=sign-unread"><span class="chip interrupt">interruption: sign unread</span></a> <span class="st-meta">L15</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=retest-witnessing">Launch Retest Witnessing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8b64a">
+          <img class="shot" src="img/abatement-perimeter-awareness.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Abatement Perimeter Awareness</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.3 min</p>
+            <p class="why">The first rung of the trained-worker pathway: a new laborer&#39;s fence-line watch on a demolition perimeter, reading the postings and the controls without ever crossing the tape.</p>
+            <ul class="st-std"><li>EPA — 40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>OSHA — 29 CFR 1926.1101 — Asbestos in construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=abatement-perimeter-awareness&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=abatement-perimeter-awareness">Launch Abatement Perimeter Awareness</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5cc8e0">
+          <img class="shot" src="img/hazwoper-site-orientation.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>HAZWOPER Site Orientation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">The gate itself, walked through in full: the plan signed, the zones and the PPE level confirmed, and a buddy assigned before a HAZWOPER-trained laborer&#39;s first shift on the parcel begins.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 3203 — Injury and Illness Prevention Program</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazwoper-site-orientation&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L5, L7</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hazwoper-site-orientation">Launch HAZWOPER Site Orientation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fd4b0">
+          <img class="shot" src="img/decon-support-laborer.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Decon Support Laborer</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">The corridor from the clean side: a laborer stocking it, containing the water, washing entrants and tools in order, and drumming the wastewater so the line&#39;s own record holds up.</p>
+            <ul class="st-std"><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>RWQCB — Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=decon-support-laborer"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=decon-support-laborer&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=decon-support-laborer&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=decon-support-laborer">Launch Decon Support Laborer</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <img class="shot" src="img/public-comment-prep.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Public Comment Prep</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">A month of patrol logs and monitor data turned into testimony a regulator&#39;s hearing can actually use: every claim tied to a dated record, the chart pulled from the network&#39;s own numbers, a three-minute statement timed to the clock, a written comment filed with its exhibits, a speaker card at registration, and nothing said that the record cannot back up.</p>
+            <ul class="st-std"><li>DOJ — Americans with Disabilities Act Title II — programme accessibility for public entities and their services</li><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=public-comment-prep&amp;interrupt=flagged-sensor-number"><span class="chip interrupt">interruption: flagged sensor number</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=public-comment-prep&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=public-comment-prep&amp;interrupt=comment-period-moved"><span class="chip interrupt">interruption: comment period moved</span></a> <span class="st-meta">L14</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=public-comment-prep">Launch Public Comment Prep</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#59c97b">
+          <img class="shot" src="img/youth-patrol-training.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Youth Patrol Training</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">A youth patrol team&#39;s first shift on the public sidewalk beside a fenced parcel: roles assigned, the route and the fence line&#39;s boundary walked, the buddy rule kept, sun and smoke gear staged, a real observation logged, the calm answer at the fence, and a debrief that closes the shift out loud.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=youth-patrol-training&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=youth-patrol-training&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=youth-patrol-training">Launch Youth Patrol Training</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fd1c9">
+          <img class="shot" src="img/shelter-in-place-drill.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Community Environmental Justice</p>
+            <h3>Shelter-in-Place Drill</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">A community centre&#39;s own drill for a dust or fire event next door: the alert taken seriously, every door and window closed, the HVAC to recirculate, the air cleaner on high, a real headcount, the hotline and the Air District both called, residents with respiratory needs checked by name, and the all-clear recorded rather than assumed.</p>
+            <ul class="st-std"><li>BAAQMD — Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</li><li>Cal/OSHA — 8 CCR 5141.1 — Protection from wildfire smoke</li><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=shelter-in-place-drill&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=shelter-in-place-drill&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L17, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=shelter-in-place-drill&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=shelter-in-place-drill&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=shelter-in-place-drill">Launch Shelter-in-Place Drill</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>BAAQMD</td><td>Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process</td><td class="n">all 20</td></tr>
+          <tr><td>BCDC</td><td>San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3203 — Injury and Illness Prevention Program</td><td class="n">L4, L5, L6, L7, L8</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 5141.1 — Protection from wildfire smoke</td><td class="n">14 levels</td></tr>
+          <tr><td>CDC</td><td>CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</td><td class="n">12 levels</td></tr>
+          <tr><td>DOJ</td><td>Americans with Disabilities Act Title II — programme accessibility for public entities and their services</td><td class="n">L12, L13, L14, L15</td></tr>
+          <tr><td>EPA</td><td>40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP</td><td class="n">L7, L8, L9, L10, L11</td></tr>
+          <tr><td>EPA</td><td>EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it</td><td class="n">10 levels</td></tr>
+          <tr><td>EPA</td><td>MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual</td><td class="n">L9, L10, L11, L12</td></tr>
+          <tr><td>HHS</td><td>45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)</td><td class="n">16 levels</td></tr>
+          <tr><td>HHS</td><td>HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</td><td class="n">8 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 780 — Installation of Lightning Protection Systems</td><td class="n">L17, L18, L19, L20</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">18 levels</td></tr>
+          <tr><td>NOAA</td><td>NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work</td><td class="n">10 levels</td></tr>
+          <tr><td>NRC</td><td>10 CFR Part 20 — Standards for protection against radiation</td><td class="n">L9, L10, L11, L12</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">7 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1096 — Ionizing radiation</td><td class="n">L5, L6, L7, L8</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.132 — Personal protective equipment, general requirements</td><td class="n">L1, L2, L3, L4, L5</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.134 — Respiratory protection</td><td class="n">18 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.23 — Ladders</td><td class="n">L8, L9, L10, L11</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">L17, L18, L19, L20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.1101 — Asbestos in construction</td><td class="n">L7, L8, L9, L10, L11</td></tr>
+          <tr><td>RCRA</td><td>40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest</td><td class="n">L10, L11, L12, L13</td></tr>
+          <tr><td>RWQCB</td><td>Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements</td><td class="n">L1, L2, L3, L4, L5</td></tr>
+          <tr><td>union</td><td>AFSCME member education and safety training for public-service and air-district members</td><td class="n">L5, L6, L7, L8, L9</td></tr>
+          <tr><td>union</td><td>CWA member training for outside-plant, tower and broadcast work</td><td class="n">L1, L2, L3, L4, L5</td></tr>
+          <tr><td>union</td><td>IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</td><td class="n">L1, L2, L3</td></tr>
+          <tr><td>union</td><td>LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</td><td class="n">11 levels</td></tr>
+          <tr><td>union</td><td>SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</td><td class="n">8 levels</td></tr>
+          <tr><td>union</td><td>Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</td><td class="n">L1, L2, L3</td></tr>
+          <tr><td>USFWS</td><td>Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service</td><td class="n">L1, L2, L3, L4, L5, L6</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Run community air, soil and biomonitoring science to a defensible record</h3>
+        <p>Demonstrated with a mastery run on 6 of its 26 stations, against HHS 45 CFR 46 Protection of human subjects — informed consent; OSHA 29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER); OSHA 29 CFR 1910.134 Respiratory protection; Cal/OSHA 8 CCR 5141.1 Protection from wildfire smoke; EPA 40 CFR 58 Ambient air quality surveillance.</p>
+        <p>These stations also count toward:</p><ul><li>Respiratory Protection — selection, proving and working on air <span class="st-meta">(3 of this track's stations count toward it)</span></li><li>Emergency Response — the first five minutes <span class="st-meta">(1 of this track's stations count toward it)</span></li><li>Trauma-informed Practice — consent, dignity and de-escalation <span class="st-meta">(3 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA&#39;s wildfire smoke rule. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

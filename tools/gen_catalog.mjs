@@ -20,6 +20,14 @@ const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
   .split(",").map((k) => k.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
 
 const OUT = join(WEBXR, "smartcity", "catalog.json");
+// The twenty-level ladders are generated from the same programmes and the
+// same station modules, so a station added to a programme lands on its
+// ladder in the same run (tools/gen_ladders.mjs, docs/ladders.md). They are
+// written first so each programme's entry below can carry its ladder's
+// counts, which the homepage's training-tracks section reads.
+const { writeLadders } = await import("./gen_ladders.mjs");
+const { ladders: LADDER_LIST } = await writeLadders();
+const LADDER_OF = new Map(LADDER_LIST.map((l) => [l.programme, l]));
 const city = await loadSmartCity();
 const trades = await loadTrades();
 
@@ -66,6 +74,16 @@ const rooms = trades.ROOMS.map((r) => ({
   deepLink: `trades/index.html?room=${r.id}`,
 }));
 
+/** A programme's twenty-level track in numbers: what the homepage card and a platform indexing the roster need. */
+function ladderSummary(l) {
+  if (!l) return null;
+  return {
+    levels: l.levels.length, lessons: l.lessons, tasks: l.levels.reduce((a, lv) => a + lv.tasks.length, 0),
+    atBar: l.gap.full, partial: l.gap.partial, stationsNeeded: l.gap.stationsNeeded,
+    lessonBar: 75, note: "a lesson is one station step under one condition; see docs/ladders.md",
+  };
+}
+
 const catalog = {
   protocol: 2,
   network: "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
@@ -99,22 +117,22 @@ const catalog = {
   records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
   performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass" },
   curricula: CURRICULA.map((c) => ({
-    id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary,
+    id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary, accent: c.accent ?? null,
     stations: c.stations.map((s) => ({ app: s.app, id: s.id, why: s.why })),
     completionRule: "every station has a passing attempt (stars >= 2, no unsafe action)",
+    ladder: ladderSummary(LADDER_OF.get(c.id)),
   })),
   stations: [...stations, ...rooms],
 };
 writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
 console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);
 await import("./gen_competency_programmes.mjs");
-// The ten-level ladders are generated from the same programmes and the same
-// station modules, so a station added to a programme lands on its ladder in
-// the same run (tools/gen_ladders.mjs, docs/ladders.md).
-const { writeLadders } = await import("./gen_ladders.mjs");
-await writeLadders();
 // The homepage is generated from the catalog that was just written, so a
 // station, category or programme can never exist in the roster and be missing
 // from the page a learner actually lands on.
 const { writeHome } = await import("./gen_home.mjs");
 writeHome();
+// One training-track page per programme, from the ladders and the catalog
+// just written (tools/gen_tracks.mjs; bundled into WebXR/dist/tracks/).
+const { writeTracks } = await import("./gen_tracks.mjs");
+await writeTracks();

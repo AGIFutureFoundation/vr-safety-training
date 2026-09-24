@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ports, Maritime and Bay Ecology — training track</title>
+<meta name="description" content="Ports, Maritime and Bay Ecology: a twenty-level training track, 1619 lessons across 11 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#4fb8c9">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 11 stations · 20 levels · 1619 lessons</p>
+    <h1>Ports, Maritime and Bay Ecology</h1>
+    <p class="union">ILWU, the Inlandboatmen&#39;s Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay</p>
+    <p class="cert">OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers&#39; Section 404 permit conditions for work at the water&#39;s edge</p>
+    <p class="summary">A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1619</b><span>lessons across the track</span></div>
+      <div class="stat"><b>126</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line">Mooring Line <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch">Bunkering Watch <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing">Container Lashing <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup">Shore Power Hookup <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane">Dock Crane <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy">Spill Boom Deploy <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling">Ballast Water Sampling <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line&amp;time=day">Mooring Line <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;time=day">Bunkering Watch <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=day">Container Lashing <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;time=day">Shore Power Hookup <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;time=day">Dock Crane <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=day">Spill Boom Deploy <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day">Ballast Water Sampling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line">Mooring Line <span class="chip base">base run</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch">Bunkering Watch <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing">Container Lashing <span class="chip base">base run</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup">Shore Power Hookup <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane">Dock Crane <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy">Spill Boom Deploy <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling">Ballast Water Sampling <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line&amp;time=dusk">Mooring Line <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;time=dusk">Bunkering Watch <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=dusk">Container Lashing <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;time=dusk">Shore Power Hookup <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;time=dusk">Dock Crane <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=dusk">Spill Boom Deploy <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=dusk">Ballast Water Sampling <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line&amp;time=day">Mooring Line <span class="chip time">daylight</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;time=day">Bunkering Watch <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=day">Container Lashing <span class="chip time">daylight</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup">Shore Power Hookup <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane">Dock Crane <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy">Spill Boom Deploy <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day">Ballast Water Sampling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>86</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=mooring-line&amp;time=dusk">Mooring Line <span class="chip time">dusk</span> <span class="st">10</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;time=dusk">Bunkering Watch <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=dusk">Container Lashing <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=rain">Shore Power Hookup <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;weather=rain">Dock Crane <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=rain">Spill Boom Deploy <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=rain">Ballast Water Sampling <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>76</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;weather=wind">Bunkering Watch <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;weather=wind">Container Lashing <span class="chip weather">high wind</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=wind">Shore Power Hookup <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;time=day">Dock Crane <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=day">Spill Boom Deploy <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day">Ballast Water Sampling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>76</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bunkering-watch&amp;time=dusk">Bunkering Watch <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;time=dusk">Container Lashing <span class="chip time">dusk</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;time=dusk">Shore Power Hookup <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;weather=fog">Dock Crane <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=fog">Spill Boom Deploy <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=fog">Ballast Water Sampling <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>21 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;weather=storm">Container Lashing <span class="chip weather">storm</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=storm">Shore Power Hookup <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;weather=storm">Dock Crane <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=day">Spill Boom Deploy <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day">Ballast Water Sampling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;time=day">Hazmat Container Inspection <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=container-lashing&amp;weather=rain">Container Lashing <span class="chip weather">rain</span> <span class="st">11</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;time=dusk">Shore Power Hookup <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;weather=rain">Dock Crane <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=smoke">Spill Boom Deploy <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=overcast">Ballast Water Sampling <span class="chip weather">overcast</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;weather=smoke">Hazmat Container Inspection <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=shore-power-hookup&amp;hazard=assess">Shore Power Hookup <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;hazard=assess">Dock Crane <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;hazard=assess">Spill Boom Deploy <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;hazard=assess">Ballast Water Sampling <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;hazard=assess">Hazmat Container Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;hazard=assess">Reefer Yard Monitoring <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;interrupt=red-zone-breached">Dock Crane <span class="chip interrupt">interruption: red zone breached</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;interrupt=apex-drift">Spill Boom Deploy <span class="chip interrupt">interruption: apex drift</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=valve-passing">Ballast Water Sampling <span class="chip interrupt">interruption: valve passing</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=driver-hookup">Hazmat Container Inspection <span class="chip interrupt">interruption: driver hookup</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=stacker-between-boxes">Reefer Yard Monitoring <span class="chip interrupt">interruption: stacker between boxes</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=lashing-hand-crossing">Straddle Carrier Ops <span class="chip interrupt">interruption: lashing hand crossing</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=dock-crane&amp;hazard=assess">Dock Crane <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;hazard=assess">Spill Boom Deploy <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;hazard=assess">Ballast Water Sampling <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;hazard=assess">Hazmat Container Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;hazard=assess">Reefer Yard Monitoring <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;hazard=assess">Straddle Carrier Ops <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;interrupt=shore-crew-no-ppe">Spill Boom Deploy <span class="chip interrupt">interruption: shore crew no ppe</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=tank-entry">Ballast Water Sampling <span class="chip interrupt">interruption: tank entry</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=second-clerk-door">Hazmat Container Inspection <span class="chip interrupt">interruption: second clerk door</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=compressor-trip">Reefer Yard Monitoring <span class="chip interrupt">interruption: compressor trip</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=midlift-unlock-flag">Straddle Carrier Ops <span class="chip interrupt">interruption: midlift unlock flag</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;interrupt=boat-early">Pilot Transfer <span class="chip interrupt">interruption: boat early</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=rain">Spill Boom Deploy <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day">Ballast Water Sampling <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;weather=rain">Hazmat Container Inspection <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=stacker-between-boxes">Reefer Yard Monitoring <span class="chip interrupt">interruption: stacker between boxes</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;weather=wind">Straddle Carrier Ops <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;interrupt=lashing-surge">Pilot Transfer <span class="chip interrupt">interruption: lashing surge</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;hazard=assess">Spill Boom Deploy <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=dusk">Ballast Water Sampling <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;hazard=assess">Hazmat Container Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=compressor-trip">Reefer Yard Monitoring <span class="chip interrupt">interruption: compressor trip</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;time=dusk">Straddle Carrier Ops <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;interrupt=boat-early">Pilot Transfer <span class="chip interrupt">interruption: boat early</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=fog">Spill Boom Deploy <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;hazard=assess">Ballast Water Sampling <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=driver-hookup">Hazmat Container Inspection <span class="chip interrupt">interruption: driver hookup</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;hazard=assess">Reefer Yard Monitoring <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=lashing-hand-crossing">Straddle Carrier Ops <span class="chip interrupt">interruption: lashing hand crossing</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;weather=fog">Pilot Transfer <span class="chip weather">fog</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=storm">Spill Boom Deploy <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=valve-passing">Ballast Water Sampling <span class="chip interrupt">interruption: valve passing</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;hazard=assess">Hazmat Container Inspection <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;time=day">Reefer Yard Monitoring <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=midlift-unlock-flag">Straddle Carrier Ops <span class="chip interrupt">interruption: midlift unlock flag</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;weather=storm">Pilot Transfer <span class="chip weather">storm</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=dusk">Spill Boom Deploy <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=tank-entry">Ballast Water Sampling <span class="chip interrupt">interruption: tank entry</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=second-clerk-door">Hazmat Container Inspection <span class="chip interrupt">interruption: second clerk door</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;weather=rain">Reefer Yard Monitoring <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;time=day">Straddle Carrier Ops <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer">Pilot Transfer <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>80</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=spill-boom-deploy&amp;variant=assessment">Spill Boom Deploy <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ballast-water-sampling&amp;variant=assessment">Ballast Water Sampling <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hazmat-container-inspection&amp;variant=assessment">Hazmat Container Inspection <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;variant=assessment">Reefer Yard Monitoring <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=straddle-carrier-ops&amp;variant=assessment">Straddle Carrier Ops <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=pilot-transfer&amp;variant=assessment">Pilot Transfer <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>12 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=ports-maritime-ecology&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#3a7ca5">
+          <img class="shot" src="img/dock-crane.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Dock Crane</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4 min</p>
+            <p class="why">The crane over all of it, with the wind limit and the lashing gang&#39;s positions as the hard constraints on every lift.</p>
+            <ul class="st-std"><li>ASME — ASME B30.4 — Portal and pedestal cranes</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1917 — Marine terminals</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=dock-crane"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=dock-crane&amp;interrupt=red-zone-breached"><span class="chip interrupt">interruption: red zone breached</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=dock-crane">Launch Dock Crane</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4f9dde">
+          <img class="shot" src="img/container-lashing.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Container Lashing</h3>
+            <p class="st-meta">11 steps · 5 hazards · 2 interruptions · par 4 min</p>
+            <p class="why">Deck stow: every twist-lock proven and the rods to the pattern the ship&#39;s own manual calls for, crane held off the bay until the gang is clear.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — IMO Cargo Securing Manual requirements</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>OSHA — 29 CFR 1918 — Safety and health regulations for longshoring</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=container-lashing"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=container-lashing&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=container-lashing&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=container-lashing&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=container-lashing&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=container-lashing&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=container-lashing">Launch Container Lashing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#2e8fd6">
+          <img class="shot" src="img/shore-power-hookup.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Shore Power Hookup</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.3 min</p>
+            <p class="why">Cold ironing a berthed ship: ground landed first, the breaker closed only on the port&#39;s order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists.</p>
+            <ul class="st-std"><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>IEEE — IEC/IEEE 80005 — Utility connections in port: high-voltage shore connection systems</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=shore-power-hookup&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=shore-power-hookup">Launch Shore Power Hookup</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3fa9d8">
+          <img class="shot" src="img/bunkering-watch.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Bunkering Watch</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.5 min</p>
+            <p class="why">Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to.</p>
+            <ul class="st-std"><li>IMO — MARPOL — International Convention for the Prevention of Pollution from Ships</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>IMO — STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers</li><li>union — MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li><li>USCG — 33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer</li><li>USCG — 33 CFR 156.150 — Declaration of inspection before an oil transfer</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bunkering-watch"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=bunkering-watch&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=bunkering-watch&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=bunkering-watch&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bunkering-watch">Launch Bunkering Watch</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3c7ea8">
+          <img class="shot" src="img/ballast-water-sampling.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Ballast Water Sampling</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The inspection that happens before that same ship ever reaches a working berth: record book and treatment certificate checked, a sample drawn under chain of custody, and the discharge held until the number comes back.</p>
+            <ul class="st-std"><li>union — AFSCME member education and safety training for public-service and air-district members</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — IMO Ballast Water Management Convention</li><li>OSHA — 29 CFR 1915 — Occupational safety and health standards for shipyard employment</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=valve-passing"><span class="chip interrupt">interruption: valve passing</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;interrupt=tank-entry"><span class="chip interrupt">interruption: tank entry</span></a> <span class="st-meta">L14, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ballast-water-sampling&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ballast-water-sampling">Launch Ballast Water Sampling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e8722a">
+          <img class="shot" src="img/spill-boom-deploy.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Spill Boom Deploy</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it.</p>
+            <ul class="st-std"><li>EPA — 40 CFR Part 300 — National Oil and Hazardous Substances Pollution Contingency Plan</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;interrupt=apex-drift"><span class="chip interrupt">interruption: apex drift</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;interrupt=shore-crew-no-ppe"><span class="chip interrupt">interruption: shore crew no ppe</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=spill-boom-deploy&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=spill-boom-deploy">Launch Spill Boom Deploy</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ffd166">
+          <img class="shot" src="img/pilot-transfer.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Pilot Transfer</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=pilot-transfer&amp;interrupt=boat-early"><span class="chip interrupt">interruption: boat early</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=pilot-transfer&amp;interrupt=lashing-surge"><span class="chip interrupt">interruption: lashing surge</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=pilot-transfer&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=pilot-transfer&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=pilot-transfer"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=pilot-transfer&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=pilot-transfer">Launch Pilot Transfer</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb3e8">
+          <img class="shot" src="img/mooring-line.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Mooring Line</h3>
+            <p class="st-meta">10 steps · 4 hazards · 2 interruptions · par 3.8 min</p>
+            <p class="why">Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>IMO — SOLAS — International Convention for the Safety of Life at Sea</li><li>OSHA — 29 CFR 1917 — Marine terminals</li><li>union — SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=mooring-line"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=mooring-line&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=mooring-line&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mooring-line">Launch Mooring Line</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fc9dd">
+          <img class="shot" src="img/reefer-yard-monitoring.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Reefer Yard Monitoring</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The rack these boxes sit on between the crane and the gate: ground proven before the plug goes in, set point and return air read against the manifest, and a leak isolated before anyone else gets near it.</p>
+            <ul class="st-std"><li>EPA — Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification</li><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1918 — Safety and health regulations for longshoring</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=stacker-between-boxes"><span class="chip interrupt">interruption: stacker between boxes</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;interrupt=compressor-trip"><span class="chip interrupt">interruption: compressor trip</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=reefer-yard-monitoring&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=reefer-yard-monitoring">Launch Reefer Yard Monitoring</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e4a13a">
+          <img class="shot" src="img/straddle-carrier-ops.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Straddle Carrier Ops</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The machine that moves a box between the stack and the quay: twist-locks proven before the lift, the load carried low down the row, and the wind read the same way the crane reads it.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1918 — Safety and health regulations for longshoring</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=lashing-hand-crossing"><span class="chip interrupt">interruption: lashing hand crossing</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;interrupt=midlift-unlock-flag"><span class="chip interrupt">interruption: midlift unlock flag</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=straddle-carrier-ops&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=straddle-carrier-ops">Launch Straddle Carrier Ops</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d88a3a">
+          <img class="shot" src="img/hazmat-container-inspection.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Hazmat Container Inspection</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The dangerous-goods box on the apron before it ever reaches the crane: placards checked against the declaration, a leak found through the door seam from a safe standoff, and the Coast Guard notified.</p>
+            <ul class="st-std"><li>union — ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</li><li>OSHA — 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=driver-hookup"><span class="chip interrupt">interruption: driver hookup</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;interrupt=second-clerk-door"><span class="chip interrupt">interruption: second clerk door</span></a> <span class="st-meta">L14, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=hazmat-container-inspection&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hazmat-container-inspection">Launch Hazmat Container Inspection</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ASME</td><td>ASME B30.4 — Portal and pedestal cranes</td><td class="n">13 levels</td></tr>
+          <tr><td>EPA</td><td>40 CFR Part 300 — National Oil and Hazardous Substances Pollution Contingency Plan</td><td class="n">all 20</td></tr>
+          <tr><td>EPA</td><td>Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification</td><td class="n">10 levels</td></tr>
+          <tr><td>IEEE</td><td>IEC/IEEE 80005 — Utility connections in port: high-voltage shore connection systems</td><td class="n">11 levels</td></tr>
+          <tr><td>IMO</td><td>IMO Ballast Water Management Convention</td><td class="n">all 20</td></tr>
+          <tr><td>IMO</td><td>IMO Cargo Securing Manual requirements</td><td class="n">10 levels</td></tr>
+          <tr><td>IMO</td><td>MARPOL — International Convention for the Prevention of Pollution from Ships</td><td class="n">8 levels</td></tr>
+          <tr><td>IMO</td><td>SOLAS — International Convention for the Safety of Life at Sea</td><td class="n">17 levels</td></tr>
+          <tr><td>IMO</td><td>STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers</td><td class="n">8 levels</td></tr>
+          <tr><td>NFPA</td><td>NFPA 70E — Standard for Electrical Safety in the Workplace</td><td class="n">11 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1915 — Occupational safety and health standards for shipyard employment</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1917 — Marine terminals</td><td class="n">13 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1918 — Safety and health regulations for longshoring</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>AFSCME member education and safety training for public-service and air-district members</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</td><td class="n">11 levels</td></tr>
+          <tr><td>union</td><td>ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen&#39;s Union marine division</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>MEBA — the Calhoon MEBA Engineering School&#39;s licensed marine engineer training</td><td class="n">8 levels</td></tr>
+          <tr><td>union</td><td>SIU — the Paul Hall Center for Maritime Training and Education&#39;s unlicensed mariner programmes</td><td class="n">all 20</td></tr>
+          <tr><td>USCG</td><td>33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer</td><td class="n">8 levels</td></tr>
+          <tr><td>USCG</td><td>33 CFR 156.150 — Declaration of inspection before an oil transfer</td><td class="n">8 levels</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Work the waterfront without putting it in the bay</h3>
+        <p>Demonstrated with a mastery run on 6 of its 11 stations, against OSHA 29 CFR 1918 Safety and health regulations for longshoring; CARB At-Berth Regulation for ocean-going vessels; OSHA 29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER); US Army Corps of Engineers Clean Water Act Section 404 permit programme.</p>
+        <p>These stations also count toward:</p><ul><li>Confined Space entry, attendance and atmosphere <span class="st-meta">(1 of this track's stations count toward it)</span></li><li>Crane and Rigging — the lift plan, the load and the landing <span class="st-meta">(2 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers&#39; Section 404 permit conditions for work at the water&#39;s edge. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

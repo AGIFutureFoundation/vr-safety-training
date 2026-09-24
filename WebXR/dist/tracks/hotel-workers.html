@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hotel Workers — Back of House — training track</title>
+<meta name="description" content="Hotel Workers — Back of House: a twenty-level training track, 1120 lessons across 4 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#d67b6b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 4 stations · 20 levels · 1120 lessons</p>
+    <h1>Hotel Workers — Back of House</h1>
+    <p class="union">UNITE HERE hotel housekeepers, laundry and banquet staff</p>
+    <p class="cert">Cal/OSHA&#39;s hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant</p>
+    <p class="summary">The hotel jobs that carry the injuries: turning a room with a housekeeping cart under the state&#39;s own hotel ergonomics rule and a panic button on the belt, the laundry plant&#39;s chemicals and folder, and a banquet changeover lifted right.</p>
+    <div class="stats">
+      <div class="stat warn"><b>0 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1120</b><span>lessons across the track</span></div>
+      <div class="stat"><b>80</b><span>tasks: a station under a condition</span></div>
+      <div class="stat warn"><b>2</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>20 of 20 levels are partial</b> — 380 lessons short in total. About <b>2 more stations</b> of 13 steps would bring every level to 75; content teams write them, and nothing on this page is padded to hide the gap.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold">Banquet Hot Hold <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals">Laundry Plant Chemicals <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift">Banquet Setup Lift <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn">Housekeeping Room Turn <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=day">Banquet Hot Hold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day">Banquet Setup Lift <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=day">Housekeeping Room Turn <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold">Banquet Hot Hold <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals">Laundry Plant Chemicals <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift">Banquet Setup Lift <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn">Housekeeping Room Turn <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=dusk">Banquet Hot Hold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=dusk">Laundry Plant Chemicals <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=dusk">Banquet Setup Lift <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk">Housekeeping Room Turn <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold">Banquet Hot Hold <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day">Banquet Setup Lift <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn">Housekeeping Room Turn <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=dusk">Banquet Hot Hold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=dusk">Laundry Plant Chemicals <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=dusk">Banquet Setup Lift <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk">Housekeeping Room Turn <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=day">Banquet Hot Hold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day">Banquet Setup Lift <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=day">Housekeeping Room Turn <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=dusk">Banquet Hot Hold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=dusk">Laundry Plant Chemicals <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=dusk">Banquet Setup Lift <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk">Housekeeping Room Turn <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=day">Banquet Hot Hold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day">Banquet Setup Lift <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=day">Housekeeping Room Turn <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=dusk">Banquet Hot Hold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=dusk">Laundry Plant Chemicals <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=dusk">Banquet Setup Lift <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk">Housekeeping Room Turn <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;hazard=assess">Banquet Hot Hold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;hazard=assess">Laundry Plant Chemicals <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;hazard=assess">Banquet Setup Lift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;hazard=assess">Housekeeping Room Turn <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=pan-cold">Banquet Hot Hold <span class="chip interrupt">interruption: pan cold</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;interrupt=dosing-leak">Laundry Plant Chemicals <span class="chip interrupt">interruption: dosing leak</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=coworker-solo-carry">Banquet Setup Lift <span class="chip interrupt">interruption: coworker solo carry</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=guest-returns">Housekeeping Room Turn <span class="chip interrupt">interruption: guest returns</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;hazard=assess">Banquet Hot Hold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;hazard=assess">Laundry Plant Chemicals <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;hazard=assess">Banquet Setup Lift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;hazard=assess">Housekeeping Room Turn <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=runner-refuel">Banquet Hot Hold <span class="chip interrupt">interruption: runner refuel</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;interrupt=coworker-reach">Laundry Plant Chemicals <span class="chip interrupt">interruption: coworker reach</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=riser-unlocked">Banquet Setup Lift <span class="chip interrupt">interruption: riser unlocked</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=sharp-found">Housekeeping Room Turn <span class="chip interrupt">interruption: sharp found</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=day">Banquet Hot Hold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=coworker-solo-carry">Banquet Setup Lift <span class="chip interrupt">interruption: coworker solo carry</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=day">Housekeeping Room Turn <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=pan-cold">Banquet Hot Hold <span class="chip interrupt">interruption: pan cold</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;hazard=assess">Laundry Plant Chemicals <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=riser-unlocked">Banquet Setup Lift <span class="chip interrupt">interruption: riser unlocked</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk">Housekeeping Room Turn <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=runner-refuel">Banquet Hot Hold <span class="chip interrupt">interruption: runner refuel</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;interrupt=dosing-leak">Laundry Plant Chemicals <span class="chip interrupt">interruption: dosing leak</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;hazard=assess">Banquet Setup Lift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=guest-returns">Housekeeping Room Turn <span class="chip interrupt">interruption: guest returns</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;hazard=assess">Banquet Hot Hold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day">Laundry Plant Chemicals <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day">Banquet Setup Lift <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=sharp-found">Housekeeping Room Turn <span class="chip interrupt">interruption: sharp found</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=pan-cold">Banquet Hot Hold <span class="chip interrupt">interruption: pan cold</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;hazard=assess">Laundry Plant Chemicals <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;hazard=assess">Banquet Setup Lift <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn">Housekeeping Room Turn <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>56</b> lessons · 4 tasks</span><span class="flag warn">partial · 19 lessons short</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-hot-hold&amp;variant=assessment">Banquet Hot Hold <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;variant=assessment">Laundry Plant Chemicals <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=banquet-setup-lift&amp;variant=assessment">Banquet Setup Lift <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=housekeeping-room-turn&amp;variant=assessment">Housekeeping Room Turn <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=hotel-workers&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#e0972e">
+          <img class="shot" src="img/banquet-hot-hold.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Banquet Hot Hold</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.3 min · indoors</p>
+            <p class="why">The banquet floor the series shares with the kitchen: hot boxes, chafers and the room set that has to be right before the doors open.</p>
+            <ul class="st-std"><li>CalCode — California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</li><li>FDA — FDA Food Code — the model code for retail food establishments</li><li>NSF — NSF/ANSI 4 — Commercial cooking, rethermalization and powered hot food holding equipment</li><li>OSHA — 29 CFR 1910.157 — Portable fire extinguishers</li><li>ServSafe — ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=pan-cold"><span class="chip interrupt">interruption: pan cold</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;interrupt=runner-refuel"><span class="chip interrupt">interruption: runner refuel</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-hot-hold&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=banquet-hot-hold">Launch Banquet Hot Hold</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b08a5a">
+          <img class="shot" src="img/housekeeping-room-turn.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Housekeeping Room Turn</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 4.7 min · indoors</p>
+            <p class="why">The room itself, turned under the state&#39;s own hotel ergonomics rule: the cart staged outside, the belt panic device proven, and the bed walked around rather than reached across.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 3345 — Hotel housekeeping musculoskeletal injury prevention programme</li><li>IWC — California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=guest-returns"><span class="chip interrupt">interruption: guest returns</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;interrupt=sharp-found"><span class="chip interrupt">interruption: sharp found</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=housekeeping-room-turn&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=housekeeping-room-turn">Launch Housekeeping Room Turn</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fb3c9">
+          <img class="shot" src="img/laundry-plant-chemicals.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Laundry Plant Chemicals</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 4.8 min · indoors</p>
+            <p class="why">The plant behind every room on the floor: dosing lines checked against the SDS, the washer loaded to the scale, and the ironer&#39;s guard proven before a hand ever gets near the rollers.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 3203 — Injury and Illness Prevention Program</li><li>IWC — California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping</li><li>NFPA — NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;interrupt=dosing-leak"><span class="chip interrupt">interruption: dosing leak</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;interrupt=coworker-reach"><span class="chip interrupt">interruption: coworker reach</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=laundry-plant-chemicals&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=laundry-plant-chemicals">Launch Laundry Plant Chemicals</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c98a4a">
+          <img class="shot" src="img/banquet-setup-lift.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Culinary &amp; Hospitality</p>
+            <h3>Banquet Setup Lift</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The other end of the banquet floor from the hot line: tables lifted two-handed, chairs stacked to the limit, and the risers locked before the stage is loaded.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 3203 — Injury and Illness Prevention Program</li><li>NFPA — NFPA 101 — Life Safety Code</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>union — UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=coworker-solo-carry"><span class="chip interrupt">interruption: coworker solo carry</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;interrupt=riser-unlocked"><span class="chip interrupt">interruption: riser unlocked</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=banquet-setup-lift&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=banquet-setup-lift">Launch Banquet Setup Lift</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3203 — Injury and Illness Prevention Program</td><td class="n">all 20</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3345 — Hotel housekeeping musculoskeletal injury prevention programme</td><td class="n">all 20</td></tr>
+          <tr><td>CalCode</td><td>California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it</td><td class="n">all 20</td></tr>
+          <tr><td>FDA</td><td>FDA Food Code — the model code for retail food establishments</td><td class="n">all 20</td></tr>
+          <tr><td>IWC</td><td>California Industrial Welfare Commission wage orders, including Wage Order 5 for public housekeeping</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 101 — Life Safety Code</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations</td><td class="n">all 20</td></tr>
+          <tr><td>NSF</td><td>NSF/ANSI 4 — Commercial cooking, rethermalization and powered hot food holding equipment</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1200 — Hazard communication</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.157 — Portable fire extinguishers</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.22 — Walking-working surfaces, general requirements</td><td class="n">all 20</td></tr>
+          <tr><td>ServSafe</td><td>ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Turn rooms and run back-of-house plant under the housekeeping and violence-prevention standards</h3>
+        <p>Demonstrated with a mastery run on 2 of its 4 stations, against Cal/OSHA 8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention; Cal/OSHA 8 CCR 3342 Workplace violence prevention plan; OSHA 29 CFR 1910.1200 Hazard communication; OSHA 29 CFR 1910.1030 Bloodborne pathogens.</p>
+        <p>These stations also count toward:</p><ul><li>Hazard Communication — the label, the sheet and the dose <span class="st-meta">(2 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: Cal/OSHA&#39;s hotel housekeeping musculoskeletal injury prevention standard (8 CCR 3345), the workplace violence prevention plan (8 CCR 3342), 1910.1200 hazard communication for room and laundry chemicals, OSHA 1910.1030 bloodborne pathogens for sharps found in rooms, NFPA 96 where the laundry and kitchen share a plant. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Builders — Carpenters, Laborers and Masons — training track</title>
+<meta name="description" content="Builders — Carpenters, Laborers and Masons: a twenty-level training track, 1080 lessons across 4 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#c9a36b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 4 stations · 20 levels · 1080 lessons</p>
+    <h1>Builders — Carpenters, Laborers and Masons</h1>
+    <p class="union">UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators</p>
+    <p class="cert">OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer&#39;s shoring and reshoring drawings</p>
+    <p class="summary">The building trades&#39; own stations: formwork and shoring to the engineer&#39;s drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.</p>
+    <div class="stats">
+      <div class="stat warn"><b>0 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1080</b><span>lessons across the track</span></div>
+      <div class="stat"><b>80</b><span>tasks: a station under a condition</span></div>
+      <div class="stat warn"><b>2</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>20 of 20 levels are partial</b> — 420 lessons short in total. About <b>2 more stations</b> of 13 steps would bring every level to 75; content teams write them, and nothing on this page is padded to hide the gap.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour">Concrete Pour <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring">Formwork Shoring <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold">Masonry Silica Scaffold <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set">Mass Timber Panel Set <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;time=day">Concrete Pour <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;time=day">Formwork Shoring <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=day">Masonry Silica Scaffold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=day">Mass Timber Panel Set <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour">Concrete Pour <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring">Formwork Shoring <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold">Masonry Silica Scaffold <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set">Mass Timber Panel Set <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;time=dusk">Concrete Pour <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;time=dusk">Formwork Shoring <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=dusk">Masonry Silica Scaffold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk">Mass Timber Panel Set <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour">Concrete Pour <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;time=day">Formwork Shoring <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=day">Masonry Silica Scaffold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set">Mass Timber Panel Set <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;time=dusk">Concrete Pour <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=rain">Formwork Shoring <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=rain">Masonry Silica Scaffold <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk">Mass Timber Panel Set <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;time=day">Concrete Pour <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=wind">Formwork Shoring <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=wind">Masonry Silica Scaffold <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=day">Mass Timber Panel Set <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;weather=fog">Concrete Pour <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=fog">Formwork Shoring <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=dusk">Masonry Silica Scaffold <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk">Mass Timber Panel Set <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;weather=storm">Concrete Pour <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=storm">Formwork Shoring <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=day">Masonry Silica Scaffold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=day">Mass Timber Panel Set <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;weather=overcast">Concrete Pour <span class="chip weather">overcast</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=smoke">Formwork Shoring <span class="chip weather">wildfire smoke</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=rain">Masonry Silica Scaffold <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk">Mass Timber Panel Set <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;hazard=assess">Concrete Pour <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;hazard=assess">Formwork Shoring <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;hazard=assess">Masonry Silica Scaffold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;hazard=assess">Mass Timber Panel Set <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=remote-dropout">Concrete Pour <span class="chip interrupt">interruption: remote dropout</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;interrupt=corner-pin-out">Formwork Shoring <span class="chip interrupt">interruption: corner pin out</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=water-runs-dry">Masonry Silica Scaffold <span class="chip interrupt">interruption: water runs dry</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=gust-spin">Mass Timber Panel Set <span class="chip interrupt">interruption: gust spin</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;hazard=assess">Concrete Pour <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;hazard=assess">Formwork Shoring <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;hazard=assess">Masonry Silica Scaffold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;hazard=assess">Mass Timber Panel Set <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=crane-swing">Concrete Pour <span class="chip interrupt">interruption: crane swing</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;interrupt=truck-early">Formwork Shoring <span class="chip interrupt">interruption: truck early</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=tender-dry-sweep">Masonry Silica Scaffold <span class="chip interrupt">interruption: tender dry sweep</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=walk-under-load">Mass Timber Panel Set <span class="chip interrupt">interruption: walk under load</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;time=day">Concrete Pour <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=wind">Formwork Shoring <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=water-runs-dry">Masonry Silica Scaffold <span class="chip interrupt">interruption: water runs dry</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;weather=rain">Mass Timber Panel Set <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=remote-dropout">Concrete Pour <span class="chip interrupt">interruption: remote dropout</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;hazard=assess">Formwork Shoring <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=tender-dry-sweep">Masonry Silica Scaffold <span class="chip interrupt">interruption: tender dry sweep</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk">Mass Timber Panel Set <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=crane-swing">Concrete Pour <span class="chip interrupt">interruption: crane swing</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=fog">Formwork Shoring <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;hazard=assess">Masonry Silica Scaffold <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=gust-spin">Mass Timber Panel Set <span class="chip interrupt">interruption: gust spin</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level partial" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;hazard=assess">Concrete Pour <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;time=day">Formwork Shoring <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=storm">Masonry Silica Scaffold <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=walk-under-load">Mass Timber Panel Set <span class="chip interrupt">interruption: walk under load</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=remote-dropout">Concrete Pour <span class="chip interrupt">interruption: remote dropout</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;weather=rain">Formwork Shoring <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=day">Masonry Silica Scaffold <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set">Mass Timber Panel Set <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level partial" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>54</b> lessons · 4 tasks</span><span class="flag warn">partial · 21 lessons short</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=concrete-pour&amp;variant=assessment">Concrete Pour <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=formwork-shoring&amp;variant=assessment">Formwork Shoring <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;variant=assessment">Masonry Silica Scaffold <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=mass-timber-panel-set&amp;variant=assessment">Mass Timber Panel Set <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>8 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=builders-trades&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#c9c2b4">
+          <img class="shot" src="img/concrete-pour.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Concrete Pour</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 4.7 min</p>
+            <p class="why">The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real.</p>
+            <ul class="st-std"><li>ACI — ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</li><li>union — LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=concrete-pour"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=remote-dropout"><span class="chip interrupt">interruption: remote dropout</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;interrupt=crane-swing"><span class="chip interrupt">interruption: crane swing</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=concrete-pour&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=concrete-pour">Launch Concrete Pour</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c9a36b">
+          <img class="shot" src="img/formwork-shoring.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Formwork Shoring</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.8 min</p>
+            <p class="why">The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip.</p>
+            <ul class="st-std"><li>ACI — ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</li><li>ANSI/ASSP — ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=formwork-shoring"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;interrupt=corner-pin-out"><span class="chip interrupt">interruption: corner pin out</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;interrupt=truck-early"><span class="chip interrupt">interruption: truck early</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=formwork-shoring&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=formwork-shoring">Launch Formwork Shoring</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fa8d8">
+          <img class="shot" src="img/mass-timber-panel-set.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Mass Timber Panel Set</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The carpenters&#39; own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go.</p>
+            <ul class="st-std"><li>ASME — ASME B30.9 — Slings</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>union — IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</li><li>NCCCO — NCCCO mobile crane, tower crane and rigger/signalperson certification</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=gust-spin"><span class="chip interrupt">interruption: gust spin</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;interrupt=walk-under-load"><span class="chip interrupt">interruption: walk under load</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=mass-timber-panel-set&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=mass-timber-panel-set">Launch Mass Timber Panel Set</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b2492f">
+          <img class="shot" src="img/masonry-silica-scaffold.jpg" alt="" loading="lazy" width="480" height="270">
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Masonry Silica Scaffold</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 4.9 min</p>
+            <p class="why">The bricklayers&#39; station the programme&#39;s silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1.</p>
+            <ul class="st-std"><li>union — BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship</li><li>NIOSH — NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li><li>OSHA — 29 CFR 1926.451 — Scaffolds, general requirements</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L9, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=water-runs-dry"><span class="chip interrupt">interruption: water runs dry</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;interrupt=tender-dry-sweep"><span class="chip interrupt">interruption: tender dry sweep</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=masonry-silica-scaffold&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=masonry-silica-scaffold">Launch Masonry Silica Scaffold</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ACI</td><td>ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</td><td class="n">all 20</td></tr>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements</td><td class="n">all 20</td></tr>
+          <tr><td>ASME</td><td>ASME B30.9 — Slings</td><td class="n">all 20</td></tr>
+          <tr><td>NCCCO</td><td>NCCCO mobile crane, tower crane and rigger/signalperson certification</td><td class="n">all 20</td></tr>
+          <tr><td>NIOSH</td><td>NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.1153 — Respirable crystalline silica in construction</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.451 — Scaffolds, general requirements</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Form, shore, set and cut to the engineer&#39;s drawings without breathing silica</h3>
+        <p>Demonstrated with a mastery run on 2 of its 4 stations, against OSHA 29 CFR 1926 Subpart Q Concrete and masonry construction; OSHA 29 CFR 1926 Subpart L Scaffolds; OSHA 29 CFR 1926.1153 Respirable crystalline silica; ANSI/ASSP A10.9 Safety Requirements for Concrete and Masonry Work.</p>
+        <p>These stations also count toward:</p><ul><li>Fall Protection <span class="st-meta">(2 of this track's stations count toward it)</span></li><li>Crane and Rigging — the lift plan, the load and the landing <span class="st-meta">(1 of this track's stations count toward it)</span></li><li>Respiratory Protection — selection, proving and working on air <span class="st-meta">(1 of this track's stations count toward it)</span></li></ul>
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer&#39;s shoring and reshoring drawings. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

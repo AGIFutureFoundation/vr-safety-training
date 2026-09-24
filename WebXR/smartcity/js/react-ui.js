@@ -453,16 +453,17 @@ export function mountUI(store, actions) {
           "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
   }
 
-  /** A programme's ten-level ladder (shared/ladder.js), top rung first: each
-   * level's tasks, steps, state and partial flag, and Start on an open one.
-   * A locked rung says what opens it; nothing on this card unlocks anything. */
+  /** A programme's twenty-level ladder (shared/ladder.js), top rung first:
+   * each level's lessons, its tasks with a chip for the condition each runs
+   * under, state and partial flag, and Start on an open one. A locked rung
+   * says what opens it; nothing on this card unlocks anything. */
   function LadderView({ p }) {
     const rows = [...(p.ladder ?? [])].reverse();
     const passed = rows.filter((r) => r.state === "passed").length;
-    return h("div", { className: "ladder", role: "list", "aria-label": `${p.name} — ten-level ladder` },
+    return h("div", { className: "ladder", role: "list", "aria-label": `${p.name} — ${rows.length}-level ladder` },
       h("div", { className: "ladder-head" },
         h("b", null, "Ladder"),
-        h("span", null, `${passed} of 10 passed · a level passes when every task in one run of it is a mastery run`)),
+        h("span", null, `${passed} of ${rows.length} passed · a lesson is one step under one condition · a level passes when every task in one run of it is a mastery run`)),
       rows.map((r) => h("div", {
         key: r.n, role: "listitem", id: `rung-${p.id}-${r.n}`,
         className: `rung ${r.state}${r.partial ? " partial" : ""}${p.assignedLevel === r.n ? " assigned" : ""}`,
@@ -471,12 +472,13 @@ export function mountUI(store, actions) {
         h("div", null,
           h("div", { className: "rung-title" }, r.title,
             !r.coaching && h("span", { className: "rung-tag" }, "no coaching"),
-            r.weather && h("span", { className: "rung-tag" }, r.weather),
-            r.partial && h("span", { className: "rung-tag warn" }, `partial · ${r.shortfall} steps short`),
+            r.partial && h("span", { className: "rung-tag warn" }, `partial · ${r.shortfall} lessons short`),
             p.assignedLevel === r.n && h("span", { className: "rung-tag pin" }, "assigned")),
-          h("div", { className: "rung-tasks" }, r.tasks.map((t) => t.name + (t.app === "trades" ? " (Trade Skills)" : "")).join(" → ")),
+          h("ol", { className: "rung-tasks", "aria-label": `Level ${r.n} tasks` }, r.tasks.map((t, i) => h("li", { key: `${t.id}-${i}` },
+            t.name + (t.app === "trades" ? " (Trade Skills)" : ""),
+            h("span", { className: `cond-chip cond-${t.condition.split(":")[0]}`, title: t.condition }, t.conditionLabel)))),
           h("div", { className: "rung-meta" },
-            `${r.tasks.length} task${r.tasks.length === 1 ? "" : "s"} · ${r.steps} steps · ${r.standards} standard${r.standards === 1 ? "" : "s"} evidenced` +
+            `${r.lessons} lessons · ${r.tasks.length} task${r.tasks.length === 1 ? "" : "s"} · ${r.standards} standard${r.standards === 1 ? "" : "s"} evidenced` +
             (r.interruptions ? ` · ${r.interruptions} injectable interruptions` : ""))),
         h("span", { className: `rung-state ${r.state}` }, r.state),
         r.state === "locked"
@@ -541,7 +543,7 @@ export function mountUI(store, actions) {
             p.ladder?.length ? h("button", {
               id: `prog-ladder-${p.id}`, "aria-expanded": p.ladderOpen ? "true" : "false",
               onClick: () => actions.toggleLadder(p.id),
-            }, p.ladderOpen ? "Hide ladder" : `Ladder · ${p.ladder.filter((r) => r.state === "passed").length}/10`) : null),
+            }, p.ladderOpen ? "Hide ladder" : `Ladder · ${p.ladder.filter((r) => r.state === "passed").length}/${p.ladder.length}`) : null),
           p.ladderOpen && h(LadderView, { p })))),
         h("div", { className: "btnrow" },
           h("button", { id: "prog-close", onClick: actions.closePrograms }, "Close"))));

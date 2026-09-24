@@ -412,6 +412,202 @@
     </div>
   </section>
 
+  <section class="tracks" id="tracks">
+    <style>
+  .tracks{margin:34px 0 0}
+  .tracks h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .track-grid{display:grid; gap:10px; margin:14px 0 0; grid-template-columns:1fr}
+  .track-card{display:block; padding:13px 14px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--accent)); border-radius:var(--r-sm); color:inherit}
+  .track-card:hover{background:var(--raised); text-decoration:none}
+  .track-card b{display:block; font-family:var(--cond); font-weight:600; font-size:17px; letter-spacing:.02em}
+  .track-card .u{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+  .track-card .n{display:block; margin-top:8px; font-size:12.5px; color:var(--text); font-variant-numeric:tabular-nums}
+  .track-card .n em{font-style:normal; color:var(--warn)}
+  .track-meter{display:block; height:4px; margin-top:8px; border-radius:2px; background:var(--edge); overflow:hidden}
+  .track-meter i{display:block; height:100%; background:var(--tint,var(--accent))}
+  @media (min-width:560px){ .track-grid{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .track-grid{grid-template-columns:repeat(3,1fr)} }
+</style>
+    <h2>Training tracks</h2>
+    <p class="sub">Every programme as a twenty-level track: 29 tracks, 42408 lessons. A lesson is one station step under one condition — the hour, the weather, hazard mode, an injected interruption or an assessment variant — and each page shows the ladder, the stations, the standards and the gaps still to fill.</p>
+    <div class="track-grid">
+      <a class="track-card" style="--tint:#5aa9ff" href="dist/tracks/electrical-first-period.html">
+        <b>Inside Wireman — First Period</b>
+        <span class="u">IBEW — International Brotherhood of Electrical Workers</span>
+        <span class="n">20 levels · 1631 lessons · <em>19 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:95%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#4fd1ff" href="dist/tracks/confined-space.html">
+        <b>Confined Space — Entry and Rescue</b>
+        <span class="u">LIUNA, UA, IUOE and IAFF technical rescue</span>
+        <span class="n">20 levels · 1200 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f2c14b" href="dist/tracks/fall-protection.html">
+        <b>Working at Height — Fall Protection</b>
+        <span class="u">Ironworkers, Carpenters, CWA and NATE climbers</span>
+        <span class="n">20 levels · 1480 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#78c8a0" href="dist/tracks/hazmat-environmental.html">
+        <b>Hazmat and Environmental Response</b>
+        <span class="u">LIUNA hazmat and environmental crews, IAFF, and environmental technicians</span>
+        <span class="n">20 levels · 1380 lessons · <em>4 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:20%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#a079ff" href="dist/tracks/rigging-lifting.html">
+        <b>Rigging and Lifting</b>
+        <span class="u">Ironworkers, IUOE crane operators, ILWU and IATSE riggers</span>
+        <span class="n">20 levels · 1300 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#6fc9e8" href="dist/tracks/stationary-engineer.html">
+        <b>Stationary Engineer — Building Plant</b>
+        <span class="u">IUOE — International Union of Operating Engineers, stationary locals</span>
+        <span class="n">20 levels · 1220 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#3fa9d8" href="dist/tracks/port-operations.html">
+        <b>Port and Terminal Operations</b>
+        <span class="u">ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers</span>
+        <span class="n">20 levels · 1220 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#63b5f0" href="dist/tracks/transit-ramp.html">
+        <b>Transit and Ramp Operations</b>
+        <span class="u">ATU, TWU, IAM and IBEW signal locals</span>
+        <span class="n">20 levels · 1420 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#9fd84f" href="dist/tracks/energy-transition.html">
+        <b>Energy Transition Systems</b>
+        <span class="u">IBEW outside construction and utility locals</span>
+        <span class="n">20 levels · 1420 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#c58cff" href="dist/tracks/live-events.html">
+        <b>Live Events Production</b>
+        <span class="u">IATSE — International Alliance of Theatrical Stage Employees</span>
+        <span class="n">20 levels · 1220 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#8fd18b" href="dist/tracks/hunters-point-bay-restoration.html">
+        <b>Hunters Point Clean-up and Bay Restoration</b>
+        <span class="u">LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen&#39;s Union of the Pacific</span>
+        <span class="n">20 levels · 1590 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f2a23b" href="dist/tracks/culinary-kitchen.html">
+        <b>Culinary — The Working Kitchen</b>
+        <span class="u">UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service</span>
+        <span class="n">20 levels · 1610 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#7fd1c9" href="dist/tracks/dental-hygiene-unspoken-smiles.html">
+        <b>Dental Hygiene — Unspoken Smiles</b>
+        <span class="u">SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession&#39;s body</span>
+        <span class="n">20 levels · 1591 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f0b86e" href="dist/tracks/dental-careers-unspoken-smiles.html">
+        <b>Dental Careers — Unspoken Smiles</b>
+        <span class="u">SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions&#39; bodies, DANB as the assisting credential</span>
+        <span class="n">20 levels · 1627 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#c9a34a" href="dist/tracks/civic-leadership-and-ei.html">
+        <b>Civic Leadership and Emotional Intelligence</b>
+        <span class="u">SEIU and AFSCME public-service staff, the trades&#39; own apprenticeship coordinators, and community organisations that train residents for public life</span>
+        <span class="n">20 levels · 1549 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#6fa8dc" href="dist/tracks/property-management.html">
+        <b>Property Management — Twenty Zones</b>
+        <span class="u">SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association&#39;s certified apartment manager and maintenance technician credentials</span>
+        <span class="n">20 levels · 1590 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#4fb0a0" href="dist/tracks/outbreak-response-who.html">
+        <b>Outbreak and Disease Response — WHO and UN Practice</b>
+        <span class="u">SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters</span>
+        <span class="n">20 levels · 1548 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#e07a3f" href="dist/tracks/job-readiness-edition.html">
+        <b>Job Readiness Edition — wojrc.org programmes</b>
+        <span class="u">Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff</span>
+        <span class="n">20 levels · 1610 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#e8552d" href="dist/tracks/bay-area-union-edition.html">
+        <b>Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine</b>
+        <span class="u">SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen&#39;s Union of the ILWU, MEBA and SIU, with the Pile Drivers&#39; commercial divers for the underwater work</span>
+        <span class="n">20 levels · 1616 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#b8862b" href="dist/tracks/bartending-course.html">
+        <b>Bartending — Behind the Bar</b>
+        <span class="u">UNITE HERE Local 2 bartenders and barbacks</span>
+        <span class="n">20 levels · 1661 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f2c14b" href="dist/tracks/hunters-point-can-we-live.html">
+        <b>Hunters Point Edition — Can We Live?</b>
+        <span class="u">Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway</span>
+        <span class="n">20 levels · 1615 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#b86bd6" href="dist/tracks/sewing-garment-trades.html">
+        <b>Sewing and Garment Trades</b>
+        <span class="u">Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service</span>
+        <span class="n">20 levels · 1578 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#8a9bb0" href="dist/tracks/bridge-and-structural.html">
+        <b>Bridge and Structural Trades</b>
+        <span class="u">Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck</span>
+        <span class="n">20 levels · 1040 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#d67b6b" href="dist/tracks/hotel-workers.html">
+        <b>Hotel Workers — Back of House</b>
+        <span class="u">UNITE HERE hotel housekeepers, laundry and banquet staff</span>
+        <span class="n">20 levels · 1120 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#c9a36b" href="dist/tracks/builders-trades.html">
+        <b>Builders — Carpenters, Laborers and Masons</b>
+        <span class="u">UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators</span>
+        <span class="n">20 levels · 1080 lessons · <em>0 of 20 at 75+</em></span>
+        <span class="track-meter"><i style="width:0%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f0645b" href="dist/tracks/first-responders.html">
+        <b>First Responders — Fire, EMS, Police, Crisis and Relief</b>
+        <span class="u">IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce</span>
+        <span class="n">20 levels · 1705 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#f0645b" href="dist/tracks/situational-awareness.html">
+        <b>Situational Awareness — Interruption Drill</b>
+        <span class="u">Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals</span>
+        <span class="n">20 levels · 1628 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#4fb8c9" href="dist/tracks/ports-maritime-ecology.html">
+        <b>Ports, Maritime and Bay Ecology</b>
+        <span class="u">ILWU, the Inlandboatmen&#39;s Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay</span>
+        <span class="n">20 levels · 1619 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+      <a class="track-card" style="--tint:#9fd8ff" href="dist/tracks/air-quality-monitoring.html">
+        <b>Air Quality — Monitoring and Control</b>
+        <span class="u">AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews</span>
+        <span class="n">20 levels · 1540 lessons · all 20 at 75+</span>
+        <span class="track-meter"><i style="width:100%"></i></span>
+      </a>
+    </div>
+  </section>
+
   <div id="catalog">
     <section class="cat">
       <h2>Energy &amp; Power</h2>
