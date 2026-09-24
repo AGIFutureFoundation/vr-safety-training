@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hw-banquet-room-flip-and-staging",
+    "index": "319",
+    "domain": "Culinary & Hospitality",
+    "trade": "Banquet houseman — UNITE HERE banquet crew, room flip and staging",
+    "category": "Culinary & Hospitality",
+    "certification": "NFPA 101 Life Safety Code for the aisles, exit access and exit signs of an assembly room set to the approved floor plan; OSHA 29 CFR 1910.36 on exit routes kept unobstructed, and 29 CFR 1910.22 on walking-working surfaces kept free of trip hazards such as loose cable; the Revised NIOSH Lifting Equation behind team lifts of stage decks and folded rounds; Cal/OSHA's injury and illness prevention program, 8 CCR 3203, for the hazards of a room flip; UNITE HERE banquet training on lifting, carts and staffing a flip",
+    "name": "Banquet Room Flip & Staging",
+    "weather": "clear",
+    "indoor": "hotel",
+    "district": null,
+    "title": "SmartCiti.X~ Banquet Room Flip & Staging VR",
+    "tagline": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
+    "accent": 13081162,
+    "accentCss": "#c79a4a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "flipped-not-rushed",
+      "name": "Flipped, Not Rushed",
+      "note": "The room turned on the plan with every lift called, every cable ramped and every exit clear, and the doors held rather than a corner cut"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Banquet Flip",
+      "currency": "COVERS",
+      "ranks": [
+        "Banquet Extra",
+        "Houseman",
+        "Set-up Lead",
+        "Banquet Captain",
+        "Room Flip Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

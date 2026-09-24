@@ -242,7 +242,6 @@ export const SIM_HW_HOUSEKEEPING_CART_AND_CHEMICAL_SAFETY = {
     // Back wall of the stockroom.
     box(g, 4.4, 2.4, 0.1, -0.4, 1.2, -2.5, 0xe4e0d6, { rough: 0.85 });
     box(g, 4.4, 0.12, 0.12, -0.4, 0.06, -2.43, 0x6b6258, { rough: 0.7 });
-    cyl(g, 0.14, 0.14, 0.03, 1.2, 2.0, -2.44, 0xf4f4f0, { rough: 0.5, seg: 18 }).rotation.x = Math.PI / 2;
 
     // ------------------------------------------------------------ the board
     const board = holoPanel(g, 0.8, 0.52, -2.3, 1.55, -2.3, (ctx, w, h) => {
@@ -314,13 +313,6 @@ export const SIM_HW_HOUSEKEEPING_CART_AND_CHEMICAL_SAFETY = {
     for (const sx of [-0.68, 0.68]) for (const sz of [-0.2, 0.2]) box(shelf, 0.03, 1.9, 0.03, sx, 0.95, sz, 0x7d858c, { rough: 0.4, metal: 0.6 });
     for (let i = 0; i < 3; i++) slab(shelf, 0.38, 0.22, 0.34, -0.45 + i * 0.45, 0.28, 0, 0xf2eee4, { radius: 0.03, rough: 0.85 });
     for (let i = 0; i < 3; i++) slab(shelf, 0.38, 0.18, 0.34, -0.45 + i * 0.45, 0.81, 0, 0xe9f0f2, { radius: 0.03, rough: 0.85 });
-    for (let i = 0; i < 2; i++) slab(shelf, 0.38, 0.14, 0.34, -0.45 + i * 0.45, 1.34, 0, 0xf6efe0, { radius: 0.03, rough: 0.85 });
-    for (let i = 0; i < 3; i++) slab(shelf, 0.38, 0.12, 0.34, -0.45 + i * 0.45, 1.88, 0, 0xdfe9ee, { radius: 0.03, rough: 0.85 });
-    // Soiled-linen hamper at the shelf end, lid shut.
-    const hamper = group(g, -2.3, 0, 0.9);
-    cyl(hamper, 0.26, 0.24, 0.7, 0, 0.35, 0, 0x5b6a7a, { rough: 0.85, seg: 16 });
-    cyl(hamper, 0.27, 0.27, 0.04, 0, 0.72, 0, 0x3f4a55, { rough: 0.7, seg: 16 });
-    decal(hamper, 0.24, 0.08, 0, 0.5, 0.25, signFace("SOILED", { bg: "#1b1e22", accent: "#e0664f", scale: 0.44 }));
     const gloveBox = box(shelf, 0.26, 0.12, 0.14, 0.3, 1.33, 0.05, 0x3a6fc9, { rough: 0.6 });
     decal(gloveBox, 0.2, 0.06, 0, 0, 0.071, signFace("NITRILE M", { bg: "#eef2f8", accent: "#3a6fc9", fg: "#1b2a4a", scale: 0.4 }));
     const splitGlove = box(shelf, 0.12, 0.02, 0.06, 0.3, 1.41, 0.05, 0x5b8ee0, { rough: 0.6 });
@@ -406,7 +398,7 @@ export const SIM_HW_HOUSEKEEPING_CART_AND_CHEMICAL_SAFETY = {
     // --------------------------------------------- the demonstration vanity
     const vanity = group(g, -1.7, 0, 1.2, 0.6);
     box(vanity, 0.8, 0.82, 0.46, 0, 0.41, 0, 0xdfe4e8, { rough: 0.4, metal: 0.2 });
-    box(vanity, 0.7, 0.55, 0.03, 0, 1.35, -0.21, 0xe4f1f6, { rough: 0.1, metal: 0.15 });
+    box(vanity, 0.7, 0.55, 0.03, 0, 1.35, -0.21, 0xcfe3ea, { rough: 0.08, metal: 0.4 });
     const cloth = box(vanity, 0.2, 0.02, 0.16, 0.2, 0.84, 0.05, 0x6fa8d6, { rough: 0.9 });
     const clothSocket = box(vanity, 0.3, 0.12, 0.3, 0.2, 0.9, 0.05, 0xffffff, { opacity: 0.001, transparent: true, cast: false });
     hits["cloth-socket"] = clothSocket;

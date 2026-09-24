@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 331
+      "stations": 332
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Culinary & Hospitality",
       "stations": [
+        "hw-banquet-room-flip-and-staging",
         "hw-housekeeping-cart-and-chemical-safety",
         "banquet-setup-lift",
         "laundry-plant-chemicals",
@@ -6733,6 +6734,89 @@
     },
     {
       "app": "smartcity",
+      "id": "hw-banquet-room-flip-and-staging",
+      "name": "Banquet Room Flip & Staging",
+      "title": "SmartCiti.X~ Banquet Room Flip & Staging VR",
+      "tagline": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
+      "category": "Culinary & Hospitality",
+      "domain": "Culinary & Hospitality",
+      "trade": "Banquet houseman — UNITE HERE banquet crew, room flip and staging",
+      "union": null,
+      "certification": "NFPA 101 Life Safety Code for the aisles, exit access and exit signs of an assembly room set to the approved floor plan; OSHA 29 CFR 1910.36 on exit routes kept unobstructed, and 29 CFR 1910.22 on walking-working surfaces kept free of trip hazards such as loose cable; the Revised NIOSH Lifting Equation behind team lifts of stage decks and folded rounds; Cal/OSHA's injury and illness prevention program, 8 CCR 3203, for the hazards of a room flip; UNITE HERE banquet training on lifting, carts and staffing a flip",
+      "accent": "#c79a4a",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "hotel",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "flipped-not-rushed",
+        "name": "Flipped, Not Rushed",
+        "note": "The room turned on the plan with every lift called, every cable ramped and every exit clear, and the doors held rather than a corner cut"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Banquet Flip",
+      "currency": "COVERS",
+      "ranks": [
+        "Banquet Extra",
+        "Houseman",
+        "Set-up Lead",
+        "Banquet Captain",
+        "Room Flip Certified"
+      ],
+      "awards": [
+        {
+          "id": "every-lift-called",
+          "name": "Every Lift Called",
+          "note": "No deck carried alone, no cart ridden, no cable under the carpet, nothing parked in the exit corridor"
+        },
+        {
+          "id": "doors-held",
+          "name": "Doors Held",
+          "note": "The early-doors push answered by holding the doors, not by skipping the ramps"
+        },
+        {
+          "id": "on-the-plan",
+          "name": "On the Plan",
+          "note": "No corrections from the event order to the log"
+        },
+        {
+          "id": "flip-window",
+          "name": "Inside the Window",
+          "note": "Room flipped inside 80% of par"
+        },
+        {
+          "id": "steady-cart",
+          "name": "Steady Cart",
+          "note": "The riser cart held in band the whole push"
+        },
+        {
+          "id": "aisle-true",
+          "name": "Aisle True",
+          "note": "The aisle read against the plan inside the band first time"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hw-banquet-room-flip-and-staging"
+    },
+    {
+      "app": "smartcity",
       "id": "hw-housekeeping-cart-and-chemical-safety",
       "name": "Housekeeping Cart & Chemical Safety",
       "title": "SmartCiti.X~ Housekeeping Cart & Chemical Safety VR",
@@ -6765,8 +6849,8 @@
         "name": "Labelled and Loaded",
         "note": "Every bottle labelled, nothing mixed, the cart inside its rating and pushed, and the leak dealt with before anyone walked through it"
       },
-      "meshes": null,
-      "lights": null,
+      "meshes": 180,
+      "lights": 0,
       "overBudget": false,
       "index": "318",
       "flat": false,
@@ -25598,7 +25682,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 250,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26258,7 +26342,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
