@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-passing-and-catching",
         "bb-footwork-pivots-and-jump-stops",
         "bb-stance-and-ball-handling",
         "bb-warmup-injury-prevention-and-hydration"
@@ -6737,6 +6738,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-passing-and-catching",
+      "name": "Passing and Catching",
+      "title": "SmartCiti.X~ Passing and Catching VR",
+      "tagline": "Every receiver's background checked, names called before passes, a chest pass built in order, target hands up, speed matched to the catcher, the bounce spot set, and any ball to the face taken seriously",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on age-appropriate ball size, partner distance and skill progression; NFHS guidance on a safe playing area and hydration in school sport; CDC Heads Up for a ball to the head — recognise, remove, refer; the U.S. Center for SafeSport for correcting a young player calmly and in view; the American Red Cross first aid course for cold on a jammed finger and never pulling it",
+      "accent": "#3fd0a8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "soft-hands",
+        "name": "Soft Hands",
+        "note": "Every pass seen, every catch made with the fingers up, and no knock to the head shrugged off"
+      },
+      "meshes": 236,
+      "lights": 0,
+      "overBudget": false,
+      "index": "334",
+      "flat": false,
+      "system": "Pass Chain",
+      "currency": "ASSISTS",
+      "ranks": [
+        "Rebound Helper",
+        "Drill Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Offence Educator"
+      ],
+      "awards": [
+        {
+          "id": "clear-background",
+          "name": "Clear Background",
+          "note": "Everything behind the receivers found first time"
+        },
+        {
+          "id": "nobody-hit",
+          "name": "Nobody Hit",
+          "note": "No unsafe action in the whole passing block"
+        },
+        {
+          "id": "catchable",
+          "name": "Catchable",
+          "note": "Pass speed and partner rhythm both inside the band"
+        },
+        {
+          "id": "clean-chain",
+          "name": "Clean Chain",
+          "note": "No corrections anywhere in the block"
+        },
+        {
+          "id": "steady-chain",
+          "name": "Steady Chain",
+          "note": "Held the partner rhythm in band the whole time"
+        },
+        {
+          "id": "sharp-chain",
+          "name": "Sharp Chain",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-passing-and-catching"
     },
     {
       "app": "smartcity",
@@ -25771,7 +25855,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",

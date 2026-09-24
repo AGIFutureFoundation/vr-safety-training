@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-passing-and-catching",
+    "index": "334",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate ball size, partner distance and skill progression; NFHS guidance on a safe playing area and hydration in school sport; CDC Heads Up for a ball to the head — recognise, remove, refer; the U.S. Center for SafeSport for correcting a young player calmly and in view; the American Red Cross first aid course for cold on a jammed finger and never pulling it",
+    "name": "Passing and Catching",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Passing and Catching VR",
+    "tagline": "Every receiver's background checked, names called before passes, a chest pass built in order, target hands up, speed matched to the catcher, the bounce spot set, and any ball to the face taken seriously",
+    "accent": 4182184,
+    "accentCss": "#3fd0a8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "soft-hands",
+      "name": "Soft Hands",
+      "note": "Every pass seen, every catch made with the fingers up, and no knock to the head shrugged off"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pass Chain",
+      "currency": "ASSISTS",
+      "ranks": [
+        "Rebound Helper",
+        "Drill Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Offence Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
