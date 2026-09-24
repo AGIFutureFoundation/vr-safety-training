@@ -179,6 +179,47 @@ export function mountUI(store, actions) {
     return h(DiveChip, { dive: hud.dive ?? null });
   }
 
+  /** The drive HUD, for a 'drive' step: speed against the band, the vehicle's
+   * place in its lane, how far along the route, and the next check — plus a
+   * button per check, and on a touch screen the pedals and the wheel. */
+  function HudDrive() {
+    const d = useSlice("drive");
+    if (!d?.visible) return null;
+    const off = (patch) => Object.fromEntries(Object.keys(patch).map((k) => [k, k === "steer" ? 0 : false]));
+    const hold = (patch) => ({
+      onPointerDown: (e) => { e.preventDefault(); actions.driveTouch(patch); },
+      onPointerUp: () => actions.driveTouch(off(patch)),
+      onPointerLeave: () => actions.driveTouch(off(patch)),
+      onPointerCancel: () => actions.driveTouch(off(patch)),
+    });
+    const markLeft = `${50 + Math.max(-1.6, Math.min(1.6, d.offset)) * 28}%`;
+    return h(Fragment, null,
+      h("div", { className: "chip", id: "hud-drive", "data-band": d.bandState, "data-lane": d.laneState, role: "status",
+        "aria-label": `${d.label}: ${d.speed} ${d.units}, band ${d.band}. ${d.laneState === "ok" ? "In lane" : "Out of lane"}. ${d.next ? `Next: ${d.next.name}` : "No checks left"}` },
+        h("div", { className: "eyebrow" }, d.reverse ? "Reverse" : d.label),
+        h("div", { id: "hud-speed" }, String(d.speed), h("small", null, ` ${d.units}`)),
+        h("div", { id: "hud-band" }, `band ${d.band}${d.bandLabel ? ` · ${d.bandLabel}` : ""}`),
+        h("div", { id: "hud-lane", "aria-hidden": "true" },
+          h("div", { className: "lane-edge l" }), h("div", { className: "lane-edge r" }),
+          h("div", { id: "hud-lane-mark", style: { left: markLeft } })),
+        h("div", { id: "hud-route" }, h("div", { style: { width: `${d.progressPct}%` } })),
+        h("div", { id: "hud-next", "data-now": d.next?.now ? "1" : "0" },
+          !d.started ? `Press ${d.goKey} to pull away`
+            : d.next ? (d.next.now ? `NOW: ${d.next.name} — ${d.next.key}` : `Next: ${d.next.name} (${d.next.key}) in ${d.next.metres} m`)
+              : `Checks ${d.done}/${d.total} · drive it home`),
+        h("div", { id: "hud-drive-keys" }, `${d.goKey} go · ${d.brakeKey} brake · ${d.steerKeys} steer`)),
+      h("div", { id: "drive-checks", role: "group", "aria-label": "Driving checks" },
+        (d.checks ?? []).map((c) => h("button", {
+          key: c.id, type: "button", className: [d.next?.kind === c.id && d.next?.now ? "due" : "", d.flash === c.id ? "flash" : ""].join(" "),
+          onClick: () => actions.driveCheck(c.id), title: `${c.label} (${c.key})`,
+        }, h("b", null, c.key), " ", c.label.replace(/^Check the /, "")))),
+      d.touch ? h("div", { id: "drive-touch", "aria-label": "On-screen driving controls" },
+        h("button", { type: "button", className: "steer", ...hold({ steer: -1 }) }, "◀"),
+        h("button", { type: "button", className: "brake", ...hold({ brake: true }) }, "Brake"),
+        h("button", { type: "button", className: "go", ...hold({ throttle: true }) }, d.reverse ? "Back" : "Go"),
+        h("button", { type: "button", className: "steer", ...hold({ steer: 1 }) }, "▶")) : null);
+  }
+
   function HudObjective() {
     const hud = useSlice("hud");
     return h("div", { id: "hud-objective" },
@@ -1042,7 +1083,7 @@ export function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudDive), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
