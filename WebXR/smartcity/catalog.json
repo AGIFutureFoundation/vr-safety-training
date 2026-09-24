@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "cv-grant-application-and-nonprofit-compliance",
         "cv-restorative-justice-circle-facilitation",
         "cv-neighborhood-emergency-block-captain",
         "cv-voter-registration-drive-and-nonpartisan-conduct",
@@ -6733,6 +6734,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-grant-application-and-nonprofit-compliance",
+      "name": "Grant Application and Nonprofit Compliance",
+      "title": "SmartCiti.X~ Grant Application and Nonprofit Compliance VR",
+      "tagline": "Ask for public money honestly and account for every dollar: papers in order, a budget narrative that means something, an indirect rate inside the cap, a board member's conflict disclosed and recused, a report that claims only what it can prove — and the charity's status kept out of a campaign",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Programme and grants manager — community nonprofit",
+      "union": null,
+      "certification": "The IRS rules for 501(c)(3) organisations, named as a body: the determination letter from the Form 1023 application, annual Form 990 reporting and its governance questions on a written conflict-of-interest policy, and the absolute bar on campaign activity for or against a candidate; 2 CFR 200, OMB's Uniform Guidance, where a city grant passes through federal money — allowable costs, indirect rates, documentation and no charging one cost twice; the California Attorney General's Registry of Charitable Trusts, as a body, for the charity's state registration and annual reports; the Political Reform Act and the municipal ethics code for the city officials who review and award the grant; SEIU and AFSCME for the city grants staff on the other side of the application. The city, its notice and its cap are invented. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#5fb0b8",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "every-dollar-open",
+        "name": "Every Dollar Open",
+        "note": "A grant asked for and reported honestly: no conflict hidden, no cost charged twice, no claim you could not prove"
+      },
+      "meshes": 184,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Open Books",
+      "currency": "TRUST",
+      "ranks": [
+        "Programme Assistant",
+        "Grants Writer",
+        "Grants Manager",
+        "Director of Programmes",
+        "Mentor Director"
+      ],
+      "awards": [
+        {
+          "id": "papers-in-order",
+          "name": "Papers in Order",
+          "note": "Every eligibility document found first time"
+        },
+        {
+          "id": "nothing-hidden",
+          "name": "Nothing Hidden",
+          "note": "No unsafe action anywhere in the grant cycle"
+        },
+        {
+          "id": "claims-proven",
+          "name": "Claims Proven",
+          "note": "Every unsupported claim found first time"
+        },
+        {
+          "id": "clean-books",
+          "name": "Clean Books",
+          "note": "No corrections anywhere in the grant cycle"
+        },
+        {
+          "id": "honest-rate",
+          "name": "Honest Rate",
+          "note": "The indirect rate set inside the band"
+        },
+        {
+          "id": "steady-spend",
+          "name": "Steady Spend",
+          "note": "The listening and the spend-down both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-grant-application-and-nonprofit-compliance"
     },
     {
       "app": "smartcity",
@@ -25850,7 +25934,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26510,7 +26594,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

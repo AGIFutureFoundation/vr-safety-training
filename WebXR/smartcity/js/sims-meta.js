@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-grant-application-and-nonprofit-compliance",
+    "index": "322",
+    "domain": "Civic",
+    "trade": "Programme and grants manager — community nonprofit",
+    "category": "Community Environmental Justice",
+    "certification": "The IRS rules for 501(c)(3) organisations, named as a body: the determination letter from the Form 1023 application, annual Form 990 reporting and its governance questions on a written conflict-of-interest policy, and the absolute bar on campaign activity for or against a candidate; 2 CFR 200, OMB's Uniform Guidance, where a city grant passes through federal money — allowable costs, indirect rates, documentation and no charging one cost twice; the California Attorney General's Registry of Charitable Trusts, as a body, for the charity's state registration and annual reports; the Political Reform Act and the municipal ethics code for the city officials who review and award the grant; SEIU and AFSCME for the city grants staff on the other side of the application. The city, its notice and its cap are invented. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Grant Application and Nonprofit Compliance",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Grant Application and Nonprofit Compliance VR",
+    "tagline": "Ask for public money honestly and account for every dollar: papers in order, a budget narrative that means something, an indirect rate inside the cap, a board member's conflict disclosed and recused, a report that claims only what it can prove — and the charity's status kept out of a campaign",
+    "accent": 6271160,
+    "accentCss": "#5fb0b8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "every-dollar-open",
+      "name": "Every Dollar Open",
+      "note": "A grant asked for and reported honestly: no conflict hidden, no cost charged twice, no claim you could not prove"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Open Books",
+      "currency": "TRUST",
+      "ranks": [
+        "Programme Assistant",
+        "Grants Writer",
+        "Grants Manager",
+        "Director of Programmes",
+        "Mentor Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
