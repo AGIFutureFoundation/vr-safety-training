@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-public-health-dentistry-and-fluoridation-advocacy",
+    "index": "323",
+    "domain": "Dental",
+    "trade": "Public-health dental hygienist — community oral health and advocacy (RDH with the state's public-health permit where it has one), AFSCME public-health staff, SEIU and UFCW clinic staff",
+    "category": "Dental & Oral Health",
+    "certification": "The CDC's community water fluoridation guidance and its dental infection-control guidelines for the outreach table; the recommendation on fluoride in community water published by HHS; the ADA's policy supporting community water fluoridation and the ADA's CDT code set under which the programme's preventive services are reported; the ADHA's standards on the hygienist's role in community health; the state dental board's rules for hygienists practising in public-health settings; HIPAA's de-identification standard for screening data; Title II of the ADA for an accessible public meeting; OSHA 29 CFR 1910.1030 for outreach staff; AFSCME, SEIU and UFCW public-health and clinic staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Public Health Dentistry & Fluoridation Advocacy",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Public Health Dentistry & Fluoridation Advocacy VR",
+    "tagline": "Community water fluoridation at a public meeting, argued honestly: data with no child in it, your own slides checked for overclaims, a worried resident heard, three minutes at the podium and every question answered in writing",
+    "accent": 6273238,
+    "accentCss": "#5fb8d6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "honest-case",
+      "name": "Honest Case",
+      "note": "A public-health case made with de-identified data, sourced claims and the evidence stated at its real strength"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Community Case",
+      "currency": "CASE",
+      "ranks": [
+        "Outreach Volunteer",
+        "Community Hygienist",
+        "Public-Health Hygienist",
+        "Programme Lead",
+        "Community Case Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "dn-public-health-dentistry-and-fluoridation-advocacy",
         "dn-dental-coding-billing-and-preauthorisation",
         "dn-oral-hygiene-instruction-and-motivational-interviewing",
         "dn-medical-history-and-medication-review",
@@ -6737,6 +6738,89 @@
     },
     {
       "app": "smartcity",
+      "id": "dn-public-health-dentistry-and-fluoridation-advocacy",
+      "name": "Public Health Dentistry & Fluoridation Advocacy",
+      "title": "SmartCiti.X~ Public Health Dentistry & Fluoridation Advocacy VR",
+      "tagline": "Community water fluoridation at a public meeting, argued honestly: data with no child in it, your own slides checked for overclaims, a worried resident heard, three minutes at the podium and every question answered in writing",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Public-health dental hygienist — community oral health and advocacy (RDH with the state's public-health permit where it has one), AFSCME public-health staff, SEIU and UFCW clinic staff",
+      "union": null,
+      "certification": "The CDC's community water fluoridation guidance and its dental infection-control guidelines for the outreach table; the recommendation on fluoride in community water published by HHS; the ADA's policy supporting community water fluoridation and the ADA's CDT code set under which the programme's preventive services are reported; the ADHA's standards on the hygienist's role in community health; the state dental board's rules for hygienists practising in public-health settings; HIPAA's de-identification standard for screening data; Title II of the ADA for an accessible public meeting; OSHA 29 CFR 1910.1030 for outreach staff; AFSCME, SEIU and UFCW public-health and clinic staff; Unspoken Smiles, the programme this platform is built for",
+      "accent": "#5fb8d6",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "gauge",
+        "select",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "honest-case",
+        "name": "Honest Case",
+        "note": "A public-health case made with de-identified data, sourced claims and the evidence stated at its real strength"
+      },
+      "meshes": 191,
+      "lights": 1,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Community Case",
+      "currency": "CASE",
+      "ranks": [
+        "Outreach Volunteer",
+        "Community Hygienist",
+        "Public-Health Hygienist",
+        "Programme Lead",
+        "Community Case Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-child-in-it",
+          "name": "No Child In It",
+          "note": "Both identifiers found in the data before it went on a slide"
+        },
+        {
+          "id": "straight-dealer",
+          "name": "Straight Dealer",
+          "note": "No unsafe action anywhere at the meeting"
+        },
+        {
+          "id": "held-the-floor",
+          "name": "Held The Floor",
+          "note": "The listening and the testimony carried without a break"
+        },
+        {
+          "id": "clean-meeting",
+          "name": "Clean Meeting",
+          "note": "No corrections anywhere at the meeting"
+        },
+        {
+          "id": "right-confidence",
+          "name": "Right Confidence",
+          "note": "Both dials set near the middle of their bands"
+        },
+        {
+          "id": "under-the-bell",
+          "name": "Under The Bell",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dn-public-health-dentistry-and-fluoridation-advocacy"
+    },
+    {
+      "app": "smartcity",
       "id": "dn-dental-coding-billing-and-preauthorisation",
       "name": "Dental Coding, Billing & Pre-authorisation",
       "title": "SmartCiti.X~ Dental Coding, Billing & Pre-authorisation VR",
@@ -6769,7 +6853,7 @@
         "name": "Clean Claim",
         "note": "A claim and a pre-authorisation built only on what the signed record supports, sent securely and paid to the contract"
       },
-      "meshes": 149,
+      "meshes": 182,
       "lights": 1,
       "overBudget": false,
       "index": "322",
@@ -25934,7 +26018,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26594,7 +26678,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",
