@@ -14392,5 +14392,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-defensive-stance-and-closeouts",
+    "index": "337",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on defensive fundamentals, work-to-rest ratios and never using conditioning as punishment; NFHS basketball rules protecting an airborne shooter's landing space and on legal guarding position; CDC Heads Up for the collisions a closeout can cause; the U.S. Center for SafeSport for de-escalating a heated moment calmly and in view; the American Red Cross first aid course for a player down with a rolled ankle",
+    "name": "Defensive Stance and Closeouts",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Defensive Stance and Closeouts VR",
+    "tagline": "Room to slide checked, active hands instead of reaching, a stance built and held, slides without crossing the feet, closeouts chopped under control and never into a shooter's landing, hips opened to run, and rest between reps",
+    "accent": 5951610,
+    "accentCss": "#5ad07a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "under-control",
+      "name": "Under Control",
+      "note": "Every closeout chopped, every shooter's landing respected and every heated moment cooled without a scene"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Stops",
+      "currency": "STOPS",
+      "ranks": [
+        "Drill Helper",
+        "Defensive Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Defence Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
