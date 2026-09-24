@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-boom-towing-between-two-vessels",
+    "index": "328",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand on the lead workboat of a two-boat boom tow, with an IBU crew on the skiff towing the other leg and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and spill response practice; MEBA engineering watch; OSHA 29 CFR 1910.120 HAZWOPER for oil spill responders; EPA National Contingency Plan (40 CFR 300) and the USCG Area Contingency Plan, with discharge removal under 33 CFR 153; NIMS ICS incident command; NOAA Office of Response and Restoration spill guidance; USCG 46 CFR 25 lifesaving equipment and a lookout kept under the Inland Navigation Rules",
+    "name": "Boom Towing Between Two Vessels",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Boom Towing Between Two Vessels VR",
+    "tagline": "Two boats towing boom in a U through a fresh sheen: PFD and oil-resistant gloves on, the tow plan read, the bridle and connector walked, the air read at the rail, the tow line made fast and paid out, a radio check with the skiff, the U held on the capstan through oil escaping under the apex, splash-over and a twisted section spotted, the apex buoyed for the skimmer, tension held as the skiff's outboard quits, oiled waste bagged and the tow logged",
+    "accent": 15769648,
+    "accentCss": "#f0a030",
+    "parSeconds": 300,
+    "badge": {
+      "id": "the-u-held",
+      "name": "The U Held",
+      "note": "Never in the bight, never a line near the screw, no flame near the slick, no hand in the oil, and both the escaping oil and the dead outboard answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boom Tow",
+      "currency": "SWEEP",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Boom Hand",
+        "Lead Deckhand",
+        "Boom Tow Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

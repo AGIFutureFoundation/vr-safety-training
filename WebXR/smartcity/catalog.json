@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-boom-towing-between-two-vessels",
         "br-debris-skimmer-vessel-operations",
         "br-workboat-crane-lift-from-water",
         "br-derelict-vessel-salvage-rigging",
@@ -6732,6 +6733,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-boom-towing-between-two-vessels",
+      "name": "Boom Towing Between Two Vessels",
+      "title": "SmartCiti.X~ Boom Towing Between Two Vessels VR",
+      "tagline": "Two boats towing boom in a U through a fresh sheen: PFD and oil-resistant gloves on, the tow plan read, the bridle and connector walked, the air read at the rail, the tow line made fast and paid out, a radio check with the skiff, the U held on the capstan through oil escaping under the apex, splash-over and a twisted section spotted, the apex buoyed for the skimmer, tension held as the skiff's outboard quits, oiled waste bagged and the tow logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union (IBU) deckhand on the lead workboat of a two-boat boom tow, with an IBU crew on the skiff towing the other leg and a MEBA engineer on watch",
+      "union": null,
+      "certification": "Inlandboatmen's Union (IBU) deck and spill response practice; MEBA engineering watch; OSHA 29 CFR 1910.120 HAZWOPER for oil spill responders; EPA National Contingency Plan (40 CFR 300) and the USCG Area Contingency Plan, with discharge removal under 33 CFR 153; NIMS ICS incident command; NOAA Office of Response and Restoration spill guidance; USCG 46 CFR 25 lifesaving equipment and a lookout kept under the Inland Navigation Rules",
+      "accent": "#f0a030",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "the-u-held",
+        "name": "The U Held",
+        "note": "Never in the bight, never a line near the screw, no flame near the slick, no hand in the oil, and both the escaping oil and the dead outboard answered"
+      },
+      "meshes": 188,
+      "lights": 0,
+      "overBudget": false,
+      "index": "328",
+      "flat": false,
+      "system": "Boom Tow",
+      "currency": "SWEEP",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Boom Hand",
+        "Lead Deckhand",
+        "Boom Tow Certified"
+      ],
+      "awards": [
+        {
+          "id": "air-first",
+          "name": "Air First",
+          "note": "The air read at the rail before anyone worked near the slick"
+        },
+        {
+          "id": "apex-true",
+          "name": "Apex True",
+          "note": "LEL reading committed inside the band first time"
+        },
+        {
+          "id": "out-of-the-bight",
+          "name": "Out Of The Bight",
+          "note": "Never in the bight, never a line near the screw, no flame, no hand in the oil"
+        },
+        {
+          "id": "clean-sweep",
+          "name": "Clean Sweep",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-u",
+          "name": "Steady U",
+          "note": "The apex held in band all the way through the sweep"
+        },
+        {
+          "id": "before-it-spreads",
+          "name": "Before It Spreads",
+          "note": "Tow logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-boom-towing-between-two-vessels"
     },
     {
       "app": "smartcity",
@@ -25766,7 +25850,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
