@@ -296,7 +296,7 @@ it again on arrival, and the app's answer — started, or refused with the reaso
 
 ## 6. The example flows
 
-All three are in `WebXR/flows/` and all three are validated by
+All four are in `WebXR/flows/` and all four are validated by
 `tools/check_flowhub.mjs` against the real catalog, with every edge condition
 proven reachable.
 
@@ -362,6 +362,25 @@ The external node is why this example exists. `ref` is
 `cognitionx:assessment/first-responder-refresher` — an opaque string the host
 resolves; this repository asserts nothing about how it runs it, only that
 nothing moves here until `smartcitix:flow.resume` arrives for that node.
+
+### `basketball-fundamentals` — Basketball Fundamentals, Programme Hand-off
+
+The basketball programme → a mastery gate over three safety stations → an
+**external** hand-off → a check-in. See `docs/basketball.md`.
+
+```mermaid
+flowchart LR
+    P["prog-basketball<br/>(programme)"] --> G{{"gate-safe-session<br/>mastery over three stations"}}
+    G -- competency demonstrated --> X[["ext-handoff<br/>host: external platform"]]
+    G -- not yet --> P
+    X -- "host says passed" --> K["checkin-close"]
+    X -- "host says not passed" --> P
+```
+
+The destination the user named for this hand-off is the RBI platform (named by
+the user; not described in this repository). The flow uses only the existing
+contract: `ref` is the opaque string `host:basketball-fundamentals/handoff`,
+and nothing here assumes how that platform, or any other host, receives it.
 
 ---
 

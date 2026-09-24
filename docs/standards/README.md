@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 331 entries across 89 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-24: 336 entries across 92 bodies, over the 18 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -14,42 +14,42 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ✓ | 29 CFR 1904 — Recording and reporting occupational injuries and illnesses | `osha-1904` | all 17 categories | `29 CFR 1904` |
-| ✓ | 29 CFR 1910 — Occupational safety and health standards for general industry | `osha-1910` | all 17 categories | `29 CFR 1910` |
-| ✓ | 29 CFR 1910.1000 — Air contaminants and the permissible exposure limits | `osha-1910-1000` | all 17 categories | `29 CFR 1910.1000` |
+| ✓ | 29 CFR 1904 — Recording and reporting occupational injuries and illnesses | `osha-1904` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1904` |
+| ✓ | 29 CFR 1910 — Occupational safety and health standards for general industry | `osha-1910` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910` |
+| ✓ | 29 CFR 1910.1000 — Air contaminants and the permissible exposure limits | `osha-1910-1000` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.1000` |
 | ✓ | 29 CFR 1910.1026 — Chromium (VI) (hexavalent chromium exposure in welding and cutting of stainless and chromate-coated steel) | `osha-1910-1026` | Construction & Structural Trades, Manufacturing & Automation, Maritime & Ports, Trade Skills Simulator | `29 CFR 1910.1026` |
-| ✓ | 29 CFR 1910.1030 — Bloodborne pathogens | `osha-1910-1030` | all 17 categories | `29 CFR 1910.1030` |
+| ✓ | 29 CFR 1910.1030 — Bloodborne pathogens | `osha-1910-1030` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.1030` |
 | ✓ | 29 CFR 1910.109 — Explosives and blasting agents | `osha-1910-109` | Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Maritime & Ports | `29 CFR 1910.109` |
 | ✓ | 29 CFR 1910.1096 — Ionizing radiation | `osha-1910-1096` | Building Systems & Facilities, Community Environmental Justice, Dental & Oral Health, Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910.1096` |
 | ✓ | 29 CFR 1910.119 — Process safety management of highly hazardous chemicals | `osha-1910-119` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Water & Environmental | `29 CFR 1910.119` |
 | ✓ | 29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER) | `osha-1910-120` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `29 CFR 1910.120`, `HAZWOPER` |
-| ✓ | 29 CFR 1910.1200 — Hazard communication | `osha-1910-1200` | all 17 categories | `29 CFR 1910.1200` |
-| ✓ | 29 CFR 1910.132 — Personal protective equipment, general requirements | `osha-1910-132` | all 17 categories | `29 CFR 1910.132` |
-| ✓ | 29 CFR 1910.133 — Eye and face protection | `osha-1910-133` | all 17 categories | `29 CFR 1910.133` |
-| ✓ | 29 CFR 1910.134 — Respiratory protection | `osha-1910-134` | all 17 categories | `29 CFR 1910.134` |
-| ✓ | 29 CFR 1910.138 — Hand protection | `osha-1910-138` | all 17 categories | `29 CFR 1910.138` |
+| ✓ | 29 CFR 1910.1200 — Hazard communication | `osha-1910-1200` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.1200` |
+| ✓ | 29 CFR 1910.132 — Personal protective equipment, general requirements | `osha-1910-132` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.132` |
+| ✓ | 29 CFR 1910.133 — Eye and face protection | `osha-1910-133` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.133` |
+| ✓ | 29 CFR 1910.134 — Respiratory protection | `osha-1910-134` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.134` |
+| ✓ | 29 CFR 1910.138 — Hand protection | `osha-1910-138` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.138` |
 | ✓ | 29 CFR 1910.146 — Permit-required confined spaces | `osha-1910-146` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Culinary & Hospitality, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.146` |
 | ✓ | 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout) | `osha-1910-147` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.147` |
-| ✓ | 29 CFR 1910.151 — Medical services and first aid | `osha-1910-151` | all 17 categories | `29 CFR 1910.151` |
+| ✓ | 29 CFR 1910.151 — Medical services and first aid | `osha-1910-151` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.151` |
 | ✓ | 29 CFR 1910.156 — Fire brigades | `osha-1910-156` | Building Systems & Facilities, Emergency Services, Energy & Power, Manufacturing & Automation, Maritime & Ports | `29 CFR 1910.156` |
-| ✓ | 29 CFR 1910.157 — Portable fire extinguishers | `osha-1910-157` | all 17 categories | `29 CFR 1910.157` |
+| ✓ | 29 CFR 1910.157 — Portable fire extinguishers | `osha-1910-157` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.157` |
 | ✓ | 29 CFR 1910.178 — Powered industrial trucks | `osha-1910-178` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.178` |
 | ✓ | 29 CFR 1910.212 — General requirements for all machines (machine guarding) | `osha-1910-212` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Sewing & Garment Trades, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.212` |
 | ✓ | 29 CFR 1910.217 — Mechanical power presses | `osha-1910-217` | Manufacturing & Automation, Sewing & Garment Trades, Trade Skills Simulator | `29 CFR 1910.217` |
-| ✓ | 29 CFR 1910.22 — Walking-working surfaces, general requirements | `osha-1910-22` | all 17 categories | `29 CFR 1910.22` |
-| ✓ | 29 CFR 1910.23 — Ladders | `osha-1910-23` | all 17 categories | `29 CFR 1910.23` |
+| ✓ | 29 CFR 1910.22 — Walking-working surfaces, general requirements | `osha-1910-22` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.22` |
+| ✓ | 29 CFR 1910.23 — Ladders | `osha-1910-23` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.23` |
 | ✓ | 29 CFR 1910.242 — Hand and portable powered tools and equipment, general | `osha-1910-242` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.242` |
 | ✓ | 29 CFR 1910.252 — Welding, cutting and brazing, general requirements | `osha-1910-252` | Building Systems & Facilities, Construction & Structural Trades, Energy & Power, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.252` |
 | ✓ | 29 CFR 1910.268 — Telecommunications | `osha-1910-268` | Connectivity & Telecom, Energy & Power, Entertainment & Live Events, Mobility & Transit | `29 CFR 1910.268` |
 | ✓ | 29 CFR 1910.269 — Electric power generation, transmission and distribution | `osha-1910-269` | Building Systems & Facilities, Connectivity & Telecom, Emergency Services, Energy & Power, Maritime & Ports | `29 CFR 1910.269` |
 | ✓ | 29 CFR 1910.272 — Grain handling facilities | `osha-1910-272` | Culinary & Hospitality, Environmental Monitoring, Manufacturing & Automation, Water & Environmental | `29 CFR 1910.272` |
-| ✓ | 29 CFR 1910.28 — Duty to have fall protection and falling object protection | `osha-1910-28` | all 17 categories | `29 CFR 1910.28` |
+| ✓ | 29 CFR 1910.28 — Duty to have fall protection and falling object protection | `osha-1910-28` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.28` |
 | ✓ | 29 CFR 1910.305 — Wiring methods, components and equipment for general use | `osha-1910-305` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator | `29 CFR 1910.305` |
 | ✓ | 29 CFR 1910.333 — Selection and use of work practices for electrical safety | `osha-1910-333` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Entertainment & Live Events, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Trade Skills Simulator | `29 CFR 1910.333` |
-| ✓ | 29 CFR 1910.36 — Design and construction requirements for exit routes | `osha-1910-36` | all 17 categories | `29 CFR 1910.36` |
-| ✓ | 29 CFR 1910.38 — Emergency action plans | `osha-1910-38` | all 17 categories | `29 CFR 1910.38` |
+| ✓ | 29 CFR 1910.36 — Design and construction requirements for exit routes | `osha-1910-36` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.36` |
+| ✓ | 29 CFR 1910.38 — Emergency action plans | `osha-1910-38` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.38` |
 | ✓ | 29 CFR 1910.424 — SCUBA diving | `osha-1910-424` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910.424` |
-| ✓ | 29 CFR 1910.95 — Occupational noise exposure | `osha-1910-95` | all 17 categories | `29 CFR 1910.95` |
+| ✓ | 29 CFR 1910.95 — Occupational noise exposure | `osha-1910-95` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `29 CFR 1910.95` |
 | ✓ | 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record) | `osha-1910-subpart-t` | Environmental Monitoring, Maritime & Ports, Water & Environmental | `29 CFR 1910 Subpart T` |
 | ✓ | 29 CFR 1915 — Occupational safety and health standards for shipyard employment | `osha-1915` | Maritime & Ports, Water & Environmental | `29 CFR 1915` |
 | ✓ | 29 CFR 1915.12 — Precautions before entering a shipyard confined or enclosed space | `osha-1915-12` | Maritime & Ports | `29 CFR 1915.12` |
@@ -125,7 +125,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ? | AFSCME member education and safety training for public-service and air-district members | `afscme-training` | Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Maritime & Ports, Water & Environmental | `AFSCME` |
+| ? | AFSCME member education and safety training for public-service and air-district members | `afscme-training` | Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Maritime & Ports, Water & Environmental, Youth Sports & Coaching | `AFSCME` |
 | ? | ATU member training for bus and rail transit operations | `atu-training` | Mobility & Transit | `ATU` |
 | ✓ | BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship | `bac-imi` | Building Systems & Facilities, Construction & Structural Trades, Surface Prep & Coatings | `International Masonry Institute`, `BAC` |
 | ? | BCTGM apprenticeship and safety training for bakery, confectionery and grain milling work | `bctgm-training` | Culinary & Hospitality, Manufacturing & Automation | `BCTGM` |
@@ -144,7 +144,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training | `meba-calhoon-school` | Maritime & Ports | `MEBA` |
 | ? | NAEMT course programmes — PHTLS, AMLS and EMS Safety | `naemt-courses` | Emergency Services | `NAEMT` |
 | ✓ | NASW Code of Ethics and the association's practice standards for social work and crisis counselling | `nasw-code-of-ethics` | Community Environmental Justice, Dental & Oral Health, Emergency Services | `NASW Code of Ethics`, `NASW` |
-| ? | SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members | `seiu-training` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Sewing & Garment Trades | `SEIU`, `Workers United` |
+| ? | SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members | `seiu-training` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Sewing & Garment Trades, Youth Sports & Coaching | `SEIU`, `Workers United` |
 | ✓ | SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes | `siu-paul-hall-center` | Maritime & Ports | `SIU` |
 | ✓ | SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship | `smart-iti` | Building Systems & Facilities, Construction & Structural Trades, Manufacturing & Automation, Mobility & Transit, Trade Skills Simulator | `SMART` |
 | ? | Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work | `teamsters-training` | Community Environmental Justice, Culinary & Hospitality, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit | `Teamsters`, `IBT` |
@@ -177,7 +177,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | ANSI/ASSP Z117.1 — Safety requirements for entering confined spaces | `ansi-z117-1` | Building Systems & Facilities, Construction & Structural Trades, Culinary & Hospitality, Emergency Services, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `ANSI Z117.1` |
 | ✓ | ANSI Z136 — Safe use of lasers, including Z136.2 for optical-fibre communication systems | `ansi-z136` | Building Systems & Facilities, Connectivity & Telecom, Dental & Oral Health, Entertainment & Live Events, Manufacturing & Automation, Trade Skills Simulator | `ANSI Z136` |
 | ✓ | ANSI Z223.1 / NFPA 54 — National Fuel Gas Code | `ansi-z223-1` | Building Systems & Facilities, Culinary & Hospitality, Energy & Power, Trade Skills Simulator | `ANSI Z223.1` |
-| ✓ | ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment | `ansi-z358-1` | all 17 categories | `ANSI Z358.1` |
+| ✓ | ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment | `ansi-z358-1` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `ANSI Z358.1` |
 | ✓ | ANSI/ASSP Z359 — Fall Protection Code | `ansi-z359` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `ANSI Z359` |
 | ✓ | ANSI/AWS Z49.1 — Safety in welding, cutting and allied processes | `ansi-z49-1` | Building Systems & Facilities, Construction & Structural Trades, Energy & Power, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `ANSI Z49.1` |
 | ✓ | ANSI Z535.4 — Product safety signs and labels | `ansi-z535-4` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `ANSI Z535.4` |
@@ -223,13 +223,13 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ✓ | 8 CCR 3203 — Injury and Illness Prevention Program | `cal-osha-3203` | all 17 categories | `8 CCR 3203` |
+| ✓ | 8 CCR 3203 — Injury and Illness Prevention Program | `cal-osha-3203` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `8 CCR 3203` |
 | ✓ | 8 CCR 3342 — Workplace violence prevention plan | `cal-osha-3342` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Maritime & Ports, Mobility & Transit | `8 CCR 3342` |
 | ✓ | 8 CCR 3345 — Hotel housekeeping musculoskeletal injury prevention programme | `cal-osha-3345` | Building Systems & Facilities, Culinary & Hospitality | `8 CCR 3345` |
 | ✓ | 8 CCR 5110 — Repetitive motion injuries | `cal-osha-5110` | Building Systems & Facilities, Culinary & Hospitality, Dental & Oral Health, Manufacturing & Automation, Sewing & Garment Trades, Trade Skills Simulator | `8 CCR 5110` |
 | ✓ | 8 CCR 5141 — Control of harmful exposure to employees | `cal-osha-5141` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `8 CCR 5141` |
 | ✓ | 8 CCR 5141.1 — Protection from wildfire smoke | `cal-osha-5141-1` | Community Environmental Justice, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `8 CCR 5141.1`, `wildfire-smoke rule`, `wildfire smoke rule` |
-| ✓ | 8 CCR 5194 — Hazard Communication | `cal-osha-5194` | all 17 categories | `8 CCR 5194` |
+| ✓ | 8 CCR 5194 — Hazard Communication | `cal-osha-5194` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `8 CCR 5194` |
 
 ### NSF (6)
 
@@ -349,7 +349,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | California Labor Code §351 — gratuities are the sole property of the employee | `labor-code-351` | Culinary & Hospitality | `Labor Code §351`, `Cal. Labor Code §351` |
 | ✓ | California Labor Code §512 — meal periods | `labor-code-512` | Culinary & Hospitality | `Labor Code §512`, `Cal. Labor Code §512` |
-| ✓ | California Labor Code §6310 — no retaliation for reporting an unsafe condition | `labor-code-6310` | all 17 categories | `Labor Code §6310`, `Cal. Labor Code §6310` |
+| ✓ | California Labor Code §6310 — no retaliation for reporting an unsafe condition | `labor-code-6310` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `Labor Code §6310`, `Cal. Labor Code §6310` |
 
 ### CFPB (3)
 
@@ -387,7 +387,7 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | all 17 categories | `NIOSH` |
+| ✓ | NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards | `niosh-criteria` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `NIOSH` |
 | ? | NIOSH Ergonomics guidance for seated repetitive work | `niosh-ergonomics` | Sewing & Garment Trades, Trade Skills Simulator | `Ergonomics guidance for seated repetitive work` |
 | ✓ | Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting | `niosh-lifting-equation` | Culinary & Hospitality, Manufacturing & Automation, Maritime & Ports, Mobility & Transit | `Revised NIOSH Lifting Equation`, `NIOSH Lifting Equation` |
 
@@ -422,6 +422,13 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications | `aashto-bridge-inspection` | Construction & Structural Trades, Mobility & Transit | `AASHTO` |
 | ? | AASHTO Maintenance Manual for Roadways and Bridges | `aashto-maintenance-manual` | Construction & Structural Trades, Mobility & Transit, Surface Prep & Coatings | `AASHTO Maintenance Manual` |
 
+### CDC (2)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance | `cdc-guidance` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Trade Skills Simulator, Water & Environmental | `CDC` |
+| ? | CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance | `cdc-heads-up` | Youth Sports & Coaching | `CDC Heads Up` |
+
 ### FAA (2)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -449,6 +456,13 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 |---|---|---|---|---|
 | ✓ | 40 CFR Part 261 — Identification and listing of hazardous waste | `rcra-40-cfr-261` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Dental & Oral Health, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `40 CFR 261` |
 | ✓ | 40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest | `rcra-40-cfr-262` | Building Systems & Facilities, Community Environmental Justice, Construction & Structural Trades, Dental & Oral Health, Energy & Power, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Surface Prep & Coatings, Water & Environmental | `40 CFR 262`, `RCRA` |
+
+### Red Cross (2)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards | `red-cross-disaster-services` | Community Environmental Justice, Emergency Services | `Red Cross` |
+| ? | American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services | `red-cross-first-aid-course` | Youth Sports & Coaching | `American Red Cross first aid` |
 
 ### AAPD (1)
 
@@ -533,12 +547,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | CARB At-Berth Regulation for ocean-going vessels | `carb-at-berth` | Maritime & Ports | `At-Berth Regulation for ocean-going vessels` |
-
-### CDC (1)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance | `cdc-guidance` | Building Systems & Facilities, Community Environmental Justice, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Environmental Monitoring, Trade Skills Simulator, Water & Environmental | `CDC` |
 
 ### CIT (1)
 
@@ -670,13 +678,19 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
-| ✓ | NFPA 70 — National Electrical Code | `nec-nfpa-70` | all 17 categories | `NFPA 70`, `NEC` |
+| ✓ | NFPA 70 — National Electrical Code | `nec-nfpa-70` | Building Systems & Facilities, Community Environmental Justice, Connectivity & Telecom, Construction & Structural Trades, Culinary & Hospitality, Dental & Oral Health, Emergency Services, Energy & Power, Entertainment & Live Events, Environmental Monitoring, Manufacturing & Automation, Maritime & Ports, Mobility & Transit, Sewing & Garment Trades, Surface Prep & Coatings, Trade Skills Simulator, Water & Environmental | `NFPA 70`, `NEC` |
 
 ### NETA (1)
 
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ✓ | NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment | `neta-ats` | Building Systems & Facilities, Connectivity & Telecom, Construction & Structural Trades, Energy & Power, Maritime & Ports | `NETA` |
+
+### NFHS (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport | `nfhs-basketball-rules` | Youth Sports & Coaching | `NFHS`, `National Federation of State High School Associations` |
 
 ### NIMS/ICS (1)
 
@@ -713,12 +727,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | PTI field personnel certification and unbonded post-tensioning practice | `pti-post-tensioning` | Construction & Structural Trades | `PTI` |
-
-### Red Cross (1)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards | `red-cross-disaster-services` | Community Environmental Justice, Emergency Services | `Red Cross` |
 
 ### RETA (1)
 
@@ -767,6 +775,18 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | TTB alcohol labelling and standards of fill (27 CFR Part 5) | `ttb-labeling` | Culinary & Hospitality | `TTB` |
+
+### U.S. Center for SafeSport (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting | `safesport-code` | Youth Sports & Coaching | `U.S. Center for SafeSport` |
+
+### USA Basketball (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them | `usa-basketball-youth-guidelines` | Youth Sports & Coaching | `USA Basketball` |
 
 ### USACE (1)
 
@@ -1262,4 +1282,18 @@ What governs each training programme in `WebXR/smartcity/js/curricula.js`, as it
 - ✓ Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process (`baaqmd-regulations`)
 - ✓ EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it (`epa-qa-g5`)
 - ✓ NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards (`niosh-criteria`)
+
+### Basketball Fundamentals
+
+`basketball-fundamentals` · AFSCME and SEIU parks-and-recreation staff where a public gym runs the league; the programme itself is taught against USA Basketball's youth guidelines rather than a union apprenticeship
+
+**Union and trade guide.** AFSCME member education and safety training for public-service and air-district members · SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members
+
+**Standards.**
+
+- ? USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them (`usa-basketball-youth-guidelines`)
+- ? National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport (`nfhs-basketball-rules`)
+- ? CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance (`cdc-heads-up`)
+- ? U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting (`safesport-code`)
+- ? American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services (`red-cross-first-aid-course`)
 

@@ -556,6 +556,18 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 3,
   },
+  {
+    id: "basketball-fundamentals",
+    title: "Teach basketball fundamentals and run a youth session nobody gets hurt in",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "cdc-heads-up", "safesport-code"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
+      "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
+    ],
+    require: 5,
+  },
 ];
 
 /**
