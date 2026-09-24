@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace } from "../../../shared/kit.js";
+import { forkliftCounterbalance } from "../../../shared/fleet.js";
 import { CITY, stationPad, holoPanel, holoTag, cone, instrument, standingFigure, rackFrame, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -221,43 +222,39 @@ export const SIM_FORKLIFT_DOCK = {
     creep.visible = false;
     const creepHit = box(g, 1.6, 0.14, 0.2, 0, 0.13, -2.9, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, creepHit, "trailer-creep");
-    // Forklift: body, overhead guard, mast, carriage, forks, seat and belt, pallet load.
+    // Forklift: the kit's 5,000 lb LPG counterbalance truck (shared/fleet.js),
+    // forks toward the dock. Its mast tilts, its carriage lifts and the forks
+    // ride the carriage; the inspection points sit on those parts.
     const fl = group(g, 1.2, 0.1, 0.9, -0.4);
-    box(fl, 1.1, 0.7, 1.6, 0, 0.55, 0.2, 0xf2a23b, { rough: 0.5, metal: 0.3 });
-    box(fl, 0.9, 0.5, 0.6, 0, 0.75, 0.7, 0x2b2f34, { rough: 0.7 });
-    for (const [x, z] of [[-0.45, -0.4], [0.45, -0.4], [-0.45, 0.8], [0.45, 0.8]]) cyl(fl, 0.06, 0.06, 1.3, x, 1.5, z, 0x2b2f34, { rough: 0.6, metal: 0.5, seg: 8 });
-    box(fl, 1.05, 0.05, 1.4, 0, 2.15, 0.2, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    const seat = box(fl, 0.5, 0.12, 0.5, 0, 0.95, 0.2, 0x1b1e23, { rough: 0.9 });
-    const belt = box(fl, 0.5, 0.04, 0.06, 0, 1.05, 0.2, 0xd2312b, { rough: 0.7 });
-    holoTag(fl, "seatbelt", 0, 1.3, 0.2, { css: "#f2a23b", w: 0.18 });
+    const truck = forkliftCounterbalance(fl, 0, 0, -0.6, { ry: Math.PI, livery: { colour: 0xf2a23b, unitNumber: "12" } });
+    const TP = truck.userData.parts;
+    const seat = TP.seat;
+    const belt = box(fl, 0.5, 0.04, 0.06, 0, 1.2, 0.02, 0xd2312b, { rough: 0.7 });
+    holoTag(fl, "seatbelt", 0, 1.45, 0.02, { css: "#f2a23b", w: 0.18 });
     reg(hits, belt, "seatbelt");
-    const mast = group(fl, 0, 0, -0.75);
-    for (const sx of [-1, 1]) box(mast, 0.08, 2.4, 0.1, sx * 0.3, 1.2, 0, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    const chains = box(mast, 0.02, 2.0, 0.02, 0, 1.2, 0.08, 0x8b98a5, { rough: 0.4, metal: 0.8 });
-    holoTag(mast, "mast chains and hoses", 0, 2.6, 0, { css: "#f2a23b", w: 0.4 });
+    const mast = TP.mast;
+    const chains = box(mast, 0.02, 1.7, 0.02, 0.16, 0.95, 0.1, 0x8b98a5, { rough: 0.4, metal: 0.8 });
+    holoTag(mast, "mast chains and hoses", 0, 2.3, 0, { css: "#f2a23b", w: 0.4 });
     reg(hits, chains, "mast-chains");
-    const carriage = group(mast, 0, 0.12, -0.1);
-    box(carriage, 0.9, 0.5, 0.06, 0, 0.25, 0, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    const forks = group(carriage, 0, 0, 0);
-    for (const sx of [-1, 1]) { box(forks, 0.1, 0.04, 1.1, sx * 0.3, 0.02, -0.55, 0x8b98a5, { rough: 0.4, metal: 0.7 }); box(forks, 0.1, 0.5, 0.04, sx * 0.3, 0.25, 0, 0x8b98a5, { rough: 0.4, metal: 0.7 }); }
-    holoTag(forks, "forks and heel", 0, -0.1, -0.9, { css: "#f2a23b", w: 0.28 });
-    const forkHit = box(forks, 0.9, 0.12, 1.1, 0, 0.02, -0.55, 0xffffff, { opacity: 0.001, transparent: true, cast: false });
+    const carriage = TP.carriage;
+    const forks = TP.forks;
+    holoTag(forks, "forks and heel", 0, -0.1, 0.9, { css: "#f2a23b", w: 0.28 });
+    const forkHit = box(forks, 0.9, 0.12, 1.1, 0, -0.02, 0.56, 0xffffff, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, forkHit, "forks");
-    const rider = standingFigure(forks, 0, -0.8, { ry: 0, cloth: 0x37505f, atStation: true });
+    const rider = standingFigure(forks, 0, 0.75, { ry: Math.PI, cloth: 0x37505f, atStation: true });
     rider.scale.setScalar(0.85);
     holoTag(rider, "ride the forks?", 0, 1.9, 0, { css: "#d2312b", w: 0.3 });
     reg(hits, rider, "ride-forks");
-    for (const [x, z] of [[-0.5, -0.55], [0.5, -0.55], [-0.5, 0.9], [0.5, 0.9]]) { const w = cyl(fl, 0.2, 0.2, 0.2, x, 0.2, z, 0x1a1e23, { rough: 0.9, seg: 14 }); w.rotation.z = Math.PI / 2; if (z < 0 && x < 0) reg(hits, w, "tires"); }
-    holoTag(fl, "tires", -0.5, 0.5, -0.55, { css: "#f2a23b", w: 0.14 });
-    const horn = box(fl, 0.14, 0.08, 0.1, 0.3, 1.1, 0.75, 0x1b1e23, { rough: 0.6 });
-    box(fl, 0.12, 0.08, 0.06, -0.35, 0.9, 1.0, 0xffe9a8, { emissive: 0xffe9a8, ei: 1.0, rough: 0.4, cast: false });
-    holoTag(fl, "horn and lights", 0.3, 1.3, 0.75, { css: "#f2a23b", w: 0.28 });
+    reg(hits, TP.wheels[0], "tires");
+    holoTag(fl, "tires", -0.62, 0.75, -0.93, { css: "#f2a23b", w: 0.14 });
+    const horn = cyl(fl, 0.05, 0.05, 0.03, 0, 1.39, -0.68, 0x1b1e23, { rough: 0.6, seg: 12 });
+    holoTag(fl, "horn and lights", 0.3, 1.6, -0.68, { css: "#f2a23b", w: 0.28 });
     reg(hits, horn, "horn-lights");
-    const throttle = cyl(fl, 0.03, 0.03, 0.2, 0.25, 1.0, 0.45, 0x1b1e23, { rough: 0.5, seg: 10 });
-    holoTag(fl, "throttle", 0.25, 1.22, 0.45, { css: "#f2a23b", w: 0.18 });
+    const throttle = cyl(fl, 0.03, 0.03, 0.2, 0.25, 1.2, -0.45, 0x1b1e23, { rough: 0.5, seg: 10 });
+    holoTag(fl, "throttle", 0.25, 1.42, -0.45, { css: "#f2a23b", w: 0.18 });
     reg(hits, throttle, "throttle");
-    const liftLever = instrument(fl, -0.25, 1.0, 0.45, { idle: "0 in", color: 0xf2a23b, w: 0.12, d: 0.18 });
-    holoTag(fl, "lift / tilt", -0.25, 1.22, 0.45, { css: "#f2a23b", w: 0.2 });
+    const liftLever = instrument(fl, -0.3, 1.2, -0.45, { idle: "0 in", color: 0xf2a23b, w: 0.12, d: 0.18 });
+    holoTag(fl, "lift / tilt", -0.3, 1.42, -0.45, { css: "#f2a23b", w: 0.2 });
     reg(hits, liftLever, "rack-height");
     // Pallet load in front of the forks, capacity plate, pick markers.
     const pallet = group(g, -0.9, 0.1, 0.6, 0.2);
@@ -273,8 +270,8 @@ export const SIM_FORKLIFT_DOCK = {
       holoTag(m, label, 0, 0.25, 0, { css: "#f2a23b", w: 0.32 });
       reg(hits, m, id);
     }
-    const capPlate = instrument(fl, 0.42, 0.9, 0.2, { idle: "-- lb", color: 0xf2a23b, w: 0.13, d: 0.2, ry: Math.PI / 2 });
-    holoTag(fl, "capacity plate 4,000 lb @ 24 in", 0.7, 1.15, 0.2, { css: "#f2a23b", w: 0.5 });
+    const capPlate = instrument(fl, 0.6, 0.85, -0.2, { idle: "-- lb", color: 0xf2a23b, w: 0.13, d: 0.2, ry: Math.PI / 2 });
+    holoTag(fl, "capacity plate 4,000 lb @ 24 in", 0.85, 1.1, -0.2, { css: "#f2a23b", w: 0.5 });
     reg(hits, capPlate, "capacity-plate");
     // Ramp choice markers, rack, pedestrian zone, pre-shift board.
     const rampBad = slab(g, 0.8, 0.02, 0.5, -2.2, 0.11, -1.2, 0xd2312b, { radius: 0.02, rough: 0.7, opacity: 0.45, transparent: true, cast: false });
@@ -313,7 +310,7 @@ export const SIM_FORKLIFT_DOCK = {
         if (step.id === "belt") belt.position.y = 1.02;
         if (step.id === "trailer") { chock.visible = true; chockPick.visible = false; lockArm.visible = true; }
         if (step.id === "plate") { plate.parent.remove(plate); g.add(plate); plate.position.set(0, 0.12, -2.45); plate.rotation.set(-0.12, 0, 0); }
-        if (step.id === "lift") { pallet.parent.remove(pallet); forks.add(pallet); pallet.position.set(0, 0.05, -0.6); pallet.rotation.set(0, 0, 0); pallet.scale.setScalar(0.9); lifted = 0.12; tilt = 0.08; }
+        if (step.id === "lift") { pallet.parent.remove(pallet); forks.add(pallet); pallet.position.set(0, 0.0, 0.6); pallet.rotation.set(0, 0, 0); pallet.scale.setScalar(0.9); lifted = 0.12; tilt = 0.08; }
         if (step.id === "walk") { creepHit.visible = false; creep.visible = false; }
         void seat;
       },
@@ -338,8 +335,8 @@ export const SIM_FORKLIFT_DOCK = {
         if (gg && !gg.committed && step?.id === "rack") { rackLift = Math.max(0, gg.t - 0.3) * 2.0; repaint(liftLever.userData.screen, signFace(`${((gg.t - 0.5) * 40).toFixed(0)} in`, { bg: "#1c1408", accent: gg.t >= 0.5 && gg.t <= 0.64 ? "#59c97b" : "#f2ae14", fg: "#fff0d6", scale: 0.62 })); }
         if (step?.id === "travel" && session.holding) travelled = Math.min(1, travelled + dt / 6);
         if (step?.id === "walk") creep.visible = true;
-        carriage.position.y = 0.12 + lifted + rackLift;
-        mast.rotation.x = tilt;
+        carriage.position.y = 0.1 + lifted + rackLift;
+        mast.rotation.x = -tilt;
         fl.position.z = 0.9 - travelled * 1.6;
         rig.position.z = 1.75 + (creep.visible ? 0.3 : 0);
       },
