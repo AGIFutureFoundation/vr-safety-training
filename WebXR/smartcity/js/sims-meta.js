@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-dental-trauma-and-avulsed-tooth-response",
+    "index": "319",
+    "domain": "Dental",
+    "trade": "Dental assistant — emergency and trauma chairside (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "The AAPD's reference-manual guidance on acute dental trauma, which follows the International Association of Dental Traumatology's avulsion protocol; the state dental board's practice act, under which replantation, splinting and prescribing are the dentist's; the CDC's dental infection-control guidelines and OSHA 29 CFR 1910.1030 bloodborne pathogens for a bleeding socket; the ADA's guidance and the ADA's CDT code set for how the trauma visit is recorded; HIPAA's privacy rule for clinical photographs of a minor; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Dental Trauma & Avulsed Tooth Response",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Trauma & Avulsed Tooth Response VR",
+    "tagline": "A knocked-out front tooth and an hour on the clock: head injury ruled out first, the root rinsed and never scrubbed, the tooth carried by its crown into a medium that keeps it alive, and the dentist at the chair to replant it",
+    "accent": 15245402,
+    "accentCss": "#e8a05a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "root-kept-alive",
+      "name": "Root Kept Alive",
+      "note": "An avulsed permanent tooth handled by its crown, stored wet and handed to the dentist inside the window"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Golden Hour",
+      "currency": "ROOT",
+      "ranks": [
+        "Assisting Student",
+        "Chairside Assistant",
+        "Emergency Assistant",
+        "Trauma Lead",
+        "Golden Hour Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
