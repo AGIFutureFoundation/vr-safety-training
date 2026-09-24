@@ -795,7 +795,9 @@ export class Session {
     const d = this.drive;
     if (!d || !this.activeInterrupt) return null;
     const id = d.controls?.[name];
-    if (!id) return null;
+    // Only the control the interruption asks for answers it: braking is never
+    // punished as a "wrong response" to an alarm that wanted the horn.
+    if (!id || id !== this.activeInterrupt.target) return null;
     return this.resolveInterrupt(id);
   }
 
@@ -806,7 +808,7 @@ export class Session {
     if (this.finished || !d || this.step?.kind !== "drive" || !kind) return null;
     // A check key that is also a named cab control (the horn, the flashers, a
     // gear for the engine brake) answers a live interruption that wants it.
-    if (this.activeInterrupt && d.controls?.[kind]) return this.resolveInterrupt(d.controls[kind]);
+    if (this.activeInterrupt && d.controls?.[kind] && d.controls[kind] === this.activeInterrupt.target) return this.resolveInterrupt(d.controls[kind]);
     const due = d.plan.find((c) => !c.done && !c.missed && c.kind === kind && d.s >= c.from && d.s <= c.to);
     const name = DRIVE_CHECK_NAMES[kind] ?? kind;
     if (due) {

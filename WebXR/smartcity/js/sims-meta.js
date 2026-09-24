@@ -14182,5 +14182,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "drive-freeway-merge-and-following-distance",
+    "index": "319",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters over-the-road freight: merging, space management and following distance under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes space management, speed management and visual search; 49 CFR 383 for the Class A skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone and texting prohibitions; 49 CFR 393 for mirrors, lamps and the four-way flashers; 49 CFR 395 for the duty status at the end of the leg; the state CDL handbook's following-distance rule and merging guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Freeway Merge and Following Distance",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Freeway Merge and Following Distance VR",
+    "tagline": "Up the ramp and into traffic: build speed, signal, take a gap you found in the mirror, count your seconds of space, move over for the next merge, and come off at an exit where the queue is round the bend",
+    "accent": 8374650,
+    "accentCss": "#7fc97a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seven-seconds",
+      "name": "Seven Seconds",
+      "note": "A clean merge, a full space cushion held, a car cutting in handled without drama and the exit queue warned — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Space",
+      "currency": "SECOND",
+      "ranks": [
+        "Permit Holder",
+        "Highway Trainee",
+        "Freeway Driver",
+        "Linehaul Lead",
+        "Space Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
