@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
+import { forkliftCounterbalance, yardHustler, lightSwitch } from "../../../shared/fleet.js";
 import {
   stationPad, holoPanel, holoTag, instrument, standingFigure,
   surfaceTexture, texturedMat, pavingFace, deckPlateFace, reg,
@@ -233,8 +234,8 @@ export const SIM_TDL_TRAILER_LOADING_AND_DOCK_PLATE = {
     reg2(engageBtn, "tld-restraint-button");
     const releaseBtn = box(ctl, 0.08, 0.06, 0.05, 0.07, 1.2, 0.08, 0xd2312b, { rough: 0.5 });
     reg2(releaseBtn, "tld-restraint-release");
-    const lightSwitch = box(ctl, 0.06, 0.1, 0.05, 0, 1.05, 0.08, 0xf2c14b, { rough: 0.5 });
-    reg2(lightSwitch, "tld-light-switch");
+    const signalSwitch = box(ctl, 0.06, 0.1, 0.05, 0, 1.05, 0.08, 0xf2c14b, { rough: 0.5 });
+    reg2(signalSwitch, "tld-light-switch");
     holoTag(ctl, "restraint · signal", 0, 1.62, 0.05, { css: "#e2b33c", w: 0.32 });
 
     // ------------------------------------------------------------ the dropped van trailer
@@ -341,20 +342,15 @@ export const SIM_TDL_TRAILER_LOADING_AND_DOCK_PLATE = {
     reg2(seal, "tld-seal");
 
     // ------------------------------------------------------------ the forklift you drive
+    // The kit's LPG counterbalance truck (shared/fleet.js), forks toward the
+    // trailer; `fl` is the frame the load-in drives forward.
     const fl = group(g, 0.9, 0.1, 0.9);
-    box(fl, 0.95, 0.62, 1.4, 0, 0.47, 0.15, TLD_ACCENT, { rough: 0.5, metal: 0.3 });
-    box(fl, 0.9, 0.5, 0.35, 0, 0.6, 0.78, 0x2b2f34, { rough: 0.7 });
-    for (const [x, z] of [[-0.42, -0.35], [0.42, -0.35], [-0.42, 0.7], [0.42, 0.7]]) cyl(fl, 0.05, 0.05, 1.15, x, 1.35, z, 0x2b2f34, { rough: 0.6, metal: 0.5, seg: 8 });
-    box(fl, 0.95, 0.04, 1.2, 0, 1.93, 0.18, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    for (const sx of [-1, 1]) box(fl, 0.07, 2.1, 0.08, sx * 0.28, 1.05, -0.62, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    for (const sx of [-1, 1]) box(fl, 0.1, 0.04, 1.0, sx * 0.25, 0.1, -1.1, 0x8b98a5, { rough: 0.4, metal: 0.7 });
-    for (const [x, z] of [[-0.45, -0.4], [0.45, -0.4], [-0.45, 0.65], [0.45, 0.65]]) cyl(fl, 0.2, 0.2, 0.18, x, 0.2, z, 0x1a1e23, { rough: 0.9, seg: 14 }).rotation.z = Math.PI / 2;
-    box(fl, 0.45, 0.12, 0.45, 0, 0.84, 0.25, 0x1b1e23, { rough: 0.9 });
-    const horn = box(fl, 0.12, 0.07, 0.08, -0.25, 1.05, -0.05, 0xf2c14b, { rough: 0.5 });
+    const truck = forkliftCounterbalance(fl, 0, 0, 0, { ry: Math.PI, livery: { colour: TLD_ACCENT, unitNumber: "FL-6" } });
+    const horn = cyl(fl, 0.04, 0.04, 0.03, 0, 1.39, -0.08, 0xf2c14b, { rough: 0.5, seg: 12 });
     reg2(horn, "tld-horn");
-    const throttle = cyl(fl, 0.03, 0.03, 0.2, 0.25, 1.0, -0.05, 0x1b1e23, { rough: 0.5, seg: 10 });
+    const throttle = truck.userData.parts.controls;
     reg2(throttle, "tld-throttle");
-    holoTag(fl, "horn · throttle", 0, 1.28, -0.05, { css: "#e2b33c", w: 0.28 });
+    holoTag(fl, "horn · throttle", 0, 1.62, -0.05, { css: "#e2b33c", w: 0.28 });
 
     // A second forklift parked down the dock, and the yard truck in the yard.
     const fl2 = group(g, -3.4, 0.1, -0.5, Math.PI / 2);
@@ -363,12 +359,11 @@ export const SIM_TDL_TRAILER_LOADING_AND_DOCK_PLATE = {
     box(fl2, 0.9, 0.04, 1.0, 0, 1.86, 0.08, 0x2b2f34, { rough: 0.6 });
     box(fl2, 0.9, 0.8, 0.9, 0, 0.55, -1.2, 0xc9a978, { rough: 0.85 });
     const fl2Lamp = cyl(fl2, 0.05, 0.05, 0.08, 0, 1.94, 0.3, 0x59636d, { rough: 0.4, seg: 12 });
-    const yard = group(g, 3.6, 0.1, -6.8, 0);
-    box(yard, 1.6, 1.4, 1.2, 0, 1.0, 0, 0xf2f5f7, { rough: 0.5, metal: 0.3 });
-    box(yard, 1.4, 0.5, 0.05, 0, 1.35, -0.62, 0x2b3a44, { rough: 0.2, metal: 0.5 });
-    box(yard, 1.8, 0.2, 2.2, 0, 0.35, 0.6, 0x2b2f34, { rough: 0.6, metal: 0.4 });
-    for (const sx of [-1, 1]) for (const dz of [-0.2, 1.2]) cyl(yard, 0.42, 0.42, 0.3, sx * 0.85, 0.42, dz, 0x1a1e23, { rough: 0.9, seg: 16 }).rotation.z = Math.PI / 2;
-    const yardBeacon = cyl(yard, 0.07, 0.07, 0.12, 0, 1.78, 0, 0x59636d, { rough: 0.4, seg: 12 });
+    // The kit's terminal tractor, out of the picture until it backs up to the
+    // trailer's nose.
+    const yard = yardHustler(g, 0, 0.1, -9.3, { ry: Math.PI });
+    yard.visible = false;
+    const yardBeacon = lightSwitch(yard.userData.parts.beacon, mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.5, rough: 0.4 }));
 
     // ------------------------------------------------------------ boards
     const plan = holoPanel(g, 0.8, 0.52, -2.45, 1.5, -0.05, (ctx, w, h) => {
@@ -435,12 +430,12 @@ export const SIM_TDL_TRAILER_LOADING_AND_DOCK_PLATE = {
       // The yard truck really backs under the nose with its beacon going; the
       // second forklift really crosses behind the doors.
       onInterrupt(it) {
-        if (it.id === "yard-truck-early") { yard.position.set(0, 0.1, -7.0); yardBeacon.material = mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.5, rough: 0.4 }); yardDriver.position.set(1.4, 0, -6.4); }
+        if (it.id === "yard-truck-early") { yard.visible = true; yardBeacon(true); yardDriver.position.set(1.95, 0, -7.2); }
         if (it.id === "forklift-behind") { fl2.position.set(-0.8, 0.1, 0.1); fl2Lamp.material = mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.5, rough: 0.4 }); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "yard-truck-early") { yard.position.set(3.6, 0.1, -6.8); redLamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.5, rough: 0.4 }); yardDriver.position.set(2.2, 0, -4.9); }
+        if (it.id === "yard-truck-early") { yard.visible = false; yardBeacon(false); redLamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.5, rough: 0.4 }); yardDriver.position.set(2.2, 0, -4.9); }
         if (it.id === "forklift-behind") { fl2.position.set(-3.4, 0.1, 1.6); fl2Lamp.material = mat(0x59636d, { rough: 0.4 }); }
       },
       animate(t, dt, session) {
