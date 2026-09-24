@@ -402,7 +402,7 @@
   .prog-app{ display:inline-block; margin-left:7px; padding:1px 6px; border-radius:5px; background:var(--edge); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase }
   .prog-why{ display:block; color:var(--muted); margin-top:2px }
   .prog-done{ color:var(--good); font-size:13px; font-weight:600; margin:0 }
-  /* Ladder view (shared/ladder.js): ten rungs, top rung first, locked / open / passed. */
+  /* Ladder view (shared/ladder.js): twenty rungs, top rung first, locked / open / passed. */
   .prog-actions{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
   .ladder{ display:grid; gap:5px; margin:12px 0 2px; padding:10px; border-radius:10px; background:var(--surface);
     border-left:3px solid var(--prog, var(--accent)); }
@@ -420,7 +420,16 @@
     letter-spacing:.04em; text-transform:uppercase; color:var(--muted) }
   .rung-tag.warn{ background:rgba(242,193,75,.16); color:var(--warn) }
   .rung-tag.pin{ background:rgba(79,209,255,.16); color:var(--accent) }
-  .rung-tasks{ color:var(--muted); margin-top:2px; line-height:1.45 }
+  .rung-tasks{ color:var(--muted); margin:3px 0 0; padding:0; list-style:none; line-height:1.45; display:flex; flex-wrap:wrap; gap:3px 10px }
+  .rung-tasks li{ display:inline-flex; align-items:center; gap:5px }
+  /* One chip per task: the condition it runs under (shared/ladder.js conditions). */
+  .cond-chip{ display:inline-block; padding:0 6px; border-radius:9px; font-size:10.5px; font-weight:600; letter-spacing:.02em;
+    background:var(--edge); color:var(--text); white-space:nowrap }
+  .cond-chip.cond-time{ background:rgba(242,193,75,.16); color:#f2d27f }
+  .cond-chip.cond-weather{ background:rgba(79,209,255,.16); color:#8fe0ff }
+  .cond-chip.cond-hazard{ background:rgba(240,100,91,.18); color:#ff9b93 }
+  .cond-chip.cond-interrupt{ background:rgba(160,121,255,.2); color:#c7b2ff }
+  .cond-chip.cond-variant{ background:rgba(89,201,123,.18); color:#8fe3a8 }
   .rung-meta{ color:var(--dim); font-size:11.5px; margin-top:2px }
   .rung-state{ font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap }
   .rung-state.passed{ color:var(--good) } .rung-state.open{ color:var(--accent) } .rung-state.locked{ color:var(--dim) }

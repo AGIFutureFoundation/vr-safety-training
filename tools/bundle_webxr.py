@@ -95,6 +95,7 @@ APPS = {
             SHARED / "platform.js",
             SHARED / "flowhub.js",
             SHARED / "ladder.js",
+            SHARED / "variants.js",
             SHARED / "robot.js",
             SHARED / "robot-embodiment.js",
             SHARED / "perf.js",
