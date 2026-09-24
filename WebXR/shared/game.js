@@ -407,7 +407,9 @@ export function placeVehicle(obj, pose, ds = 0) {
   if (art?.pivot) {
     if (art.yaw == null || ds === null) art.yaw = pose.heading;
     const scale = obj.scale?.x || 1;
-    const L = Math.max(0.5, (art.length ?? 8) * scale);
+    // Backing, the trailer leads and the driver is steering it onto the path,
+    // so it is drawn settling onto the line faster than it trails going forward.
+    const L = Math.max(0.5, (art.length ?? 8) * scale * (pose.reverse ? 0.35 : 1));
     art.yaw += (Math.abs(ds || 0) / L) * Math.sin(wrapAngle(pose.heading - art.yaw));
     art.pivot.rotation.y = wrapAngle(art.yaw - pose.heading);
   }
@@ -764,7 +766,7 @@ export class Session {
     // Offset is to the driver's right of the direction of travel; the right
     // of a vector (tx, tz) in this frame is (-tz, tx).
     const x = p.x + -p.tz * d.offset, z = p.z + p.tx * d.offset;
-    return { x, z, heading: d.reverse ? wrapAngle(p.heading + Math.PI) : p.heading, s: d.s, total: d.total };
+    return { x, z, heading: d.reverse ? wrapAngle(p.heading + Math.PI) : p.heading, s: d.s, total: d.total, reverse: d.reverse };
   }
 
   /**

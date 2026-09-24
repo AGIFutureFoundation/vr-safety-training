@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -62,6 +62,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "drive-backing-serpentine-and-alley-dock",
         "drive-night-fog-and-rail-crossing",
         "drive-mountain-grade-and-engine-brake",
         "drive-freeway-merge-and-following-distance",
@@ -6733,6 +6734,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-backing-serpentine-and-alley-dock",
+      "name": "Backing Serpentine and Alley Dock",
+      "title": "SmartCiti.X~ Backing Serpentine and Alley Dock VR",
+      "tagline": "You back it: signals agreed with the spotter, a serpentine through the cones, a pull-up and a sight-side alley dock between two trailers — with a forklift behind you and a spotter who steps out of the mirror",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters yard and range work: backing with a spotter under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes backing exercises and the alley dock; 49 CFR 383 for the basic control skills test the range prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors, lamps and horn backing depends on; 49 CFR 395 for the duty status at the dock; the state CDL handbook's backing guidance — get out and look, back toward the driver's side, use a helper; OSHA 29 CFR 1910.178 for the forklift that shares the yard; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#f07fa8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "find",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "in-the-mirror",
+        "name": "Always in the Mirror",
+        "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
+      },
+      "meshes": 286,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Range",
+      "currency": "CONE",
+      "ranks": [
+        "Permit Holder",
+        "Range Trainee",
+        "Backing Driver",
+        "Yard Lead",
+        "Range Certified"
+      ],
+      "awards": [
+        {
+          "id": "weaver",
+          "name": "Weaver",
+          "note": "The serpentine and the alley dock backed with every check on time"
+        },
+        {
+          "id": "helper-safe",
+          "name": "Helper Safe",
+          "note": "Never pushed a jackknife, backed fast, put the spotter behind the trailer or reached for the phone"
+        },
+        {
+          "id": "creep",
+          "name": "Creep",
+          "note": "Every drive held in lane and band with no excursion"
+        },
+        {
+          "id": "clean-range",
+          "name": "Clean Range",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "on-the-line",
+          "name": "On the Line",
+          "note": "Pull-up point and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-backing-serpentine-and-alley-dock"
     },
     {
       "app": "smartcity",
@@ -25853,7 +25936,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26513,7 +26596,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",

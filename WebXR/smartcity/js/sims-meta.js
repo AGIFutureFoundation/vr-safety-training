@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "drive-backing-serpentine-and-alley-dock",
+    "index": "322",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters yard and range work: backing with a spotter under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes backing exercises and the alley dock; 49 CFR 383 for the basic control skills test the range prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors, lamps and horn backing depends on; 49 CFR 395 for the duty status at the dock; the state CDL handbook's backing guidance — get out and look, back toward the driver's side, use a helper; OSHA 29 CFR 1910.178 for the forklift that shares the yard; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Backing Serpentine and Alley Dock",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Backing Serpentine and Alley Dock VR",
+    "tagline": "You back it: signals agreed with the spotter, a serpentine through the cones, a pull-up and a sight-side alley dock between two trailers — with a forklift behind you and a spotter who steps out of the mirror",
+    "accent": 15761320,
+    "accentCss": "#f07fa8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "in-the-mirror",
+      "name": "Always in the Mirror",
+      "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Range",
+      "currency": "CONE",
+      "ranks": [
+        "Permit Holder",
+        "Range Trainee",
+        "Backing Driver",
+        "Yard Lead",
+        "Range Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
