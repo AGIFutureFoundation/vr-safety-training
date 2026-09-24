@@ -566,6 +566,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bridge-cable-inspection", why: "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion." },
       { app: "smartcity", id: "bridge-lead-containment", why: "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below." },
       { app: "smartcity", id: "deck-joint-replacement", why: "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it." },
+      { app: "smartcity", id: "bs-structural-bolting-and-torque", why: "The bolt-up the connecting leaves behind: a girder field splice verified in the calibrator, snugged from the middle out, turned from its match marks, and the one bolt that spun found before the inspector reads the rest." },
     ],
   },
   {

@@ -14140,5 +14140,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bs-structural-bolting-and-torque",
+    "index": "318",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker — structural bolting crew on a bridge girder field splice",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT apprenticeship bolting and connecting practice; the RCSC Specification for Structural Joints Using High-Strength Bolts (snug-tight, pretensioned and slip-critical joints, pre-installation verification, turn-of-nut and calibrated wrench installation, inspection); the AISC Code of Standard Practice for Steel Buildings and Bridges; AASHTO bridge construction practice for girder field splices; OSHA 29 CFR 1926 Subpart R steel erection and 29 CFR 1926.451 scaffolds; ANSI Z359 fall protection",
+    "name": "Structural Bolting & Torque",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Structural Bolting & Torque VR",
+    "tagline": "A girder field splice bolted to the spec: fasteners checked, the calibrated wrench set in the tension calibrator, drift pins and fit-up, snug-tight from the middle out, match marks, turn-of-nut with a back-up wrench, the flange splice run at the calibrated pressure, a spun bolt found and replaced, and the inspector's marks logged",
+    "accent": 8366281,
+    "accentCss": "#7fa8c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tensioned-to-spec",
+      "name": "Tensioned To Spec",
+      "note": "Every bolt in the splice snug, marked, turned and inspected the way the bolt spec says — and the one that spun found before the inspector did"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bolt-Up Crew",
+      "currency": "BOLT",
+      "ranks": [
+        "Apprentice",
+        "Bolter",
+        "Connector",
+        "Bolting Foreman",
+        "Splice Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
