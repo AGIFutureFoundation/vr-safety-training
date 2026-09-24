@@ -1755,9 +1755,11 @@ export function deckBarge(parent, x, y, z, opts = {}) {
  * crane aft, its boom luffed over the bow. The crane's house slews on its
  * turntable, the boom luffs about its foot pin, and the hook block hangs
  * plumb under the boom tip on its fall — a separate part, so a station can
- * lower it without it swinging with the boom. Parts: house, boom, hook,
- * hoistLine, counterweight, cabDoor, spuds, bitts, ladder. `boom.userData.len`
- * and `.angle` give the tip for a station that moves the hook to follow.
+ * lower it without it swinging with the boom. `opts.boomAngle` luffs the
+ * boom (radians above horizontal), `opts.slew` turns the house, and
+ * `opts.hookDrop` sets the fall; `userData.tip` is the boom tip in the
+ * builder's frame. Parts: house, boom, hook, hoistLine, counterweight,
+ * cabDoor, spuds, bitts, ladder.
  */
 export function salvageCraneBarge(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0x3a3f46, fleetName: "BAY MARINE", unitNumber: "CB-4", accent: 0xe8b02e });
@@ -1797,17 +1799,21 @@ export function salvageCraneBarge(parent, x, y, z, opts = {}) {
   for (let i = 1; i < 6; i++) for (const sx of [1, -1]) flStrut(boom, [sx * 0.55, 0, i * len / 6 - 1], [sx * 0.42, 0.9, i * len / 6 + 0.9], 0.03, 0xe8b02e, { rough: 0.45, metal: 0.4 });
   box(boom, 1.0, 0.8, 0.6, 0, 0.45, len, 0x2b3138, { rough: 0.5, metal: 0.5 });
   boom.userData.len = len; boom.userData.angle = angle;
-  // Pendants from the gantry to the tip.
-  const tipY = D + 0.5 + 1.2 + Math.sin(angle) * len, tipZ = cz + 1.1 + Math.cos(angle) * len;
-  flStrut(rig.shell, [0, D + 0.5 + 4.2, cz - 1.2], [0, tipY + 0.9, tipZ], 0.03, 0x9aa1a8, { rough: 0.5, metal: 0.6 });
-  // Hook block on its fall, plumb under the tip.
+  // Pendants from the gantry to the tip, slewing with the house.
+  const reach = 1.1 + Math.cos(angle) * len, tipY = D + 0.5 + 1.2 + Math.sin(angle) * len;
+  flStrut(house, [0, 4.2, -1.2], [0, tipY - D - 0.5 + 0.9, reach], 0.03, 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  // `opts.slew` turns the house on its turntable (radians about Y, 0 = boom
+  // over the bow); the hook block hangs plumb under wherever the tip is.
+  const slew = opts.slew ?? 0;
+  house.rotation.y = slew;
+  const tipX = Math.sin(slew) * reach, tipZ = cz + Math.cos(slew) * reach;
   const fall = opts.hookDrop ?? 5.5;
-  const hoist = rig.part("hoistLine", 0, tipY, tipZ);
+  const hoist = rig.part("hoistLine", tipX, tipY, tipZ);
   flRod(hoist, 0.02, fall, 0, -fall / 2, 0, "y", 0x9aa1a8, { rough: 0.5, metal: 0.6 });
-  const hook = rig.part("hook", 0, tipY - fall, tipZ);
+  const hook = rig.part("hook", tipX, tipY - fall, tipZ);
   box(hook, 0.45, 0.6, 0.3, 0, -0.3, 0, 0xe8b02e, { rough: 0.45, metal: 0.4, finish: "painted" });
   torus(hook, 0.13, 0.04, 0, -0.75, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 8, seg2: 14 });
-  return flDone(rig, { footprint: FLEET_BUDGET.salvageCraneBarge.footprint, livery: lv, deckY: D, hookTop: tipY, hookZ: tipZ + 0.6 });
+  return flDone(rig, { footprint: FLEET_BUDGET.salvageCraneBarge.footprint, livery: lv, deckY: D, tip: [tipX, tipY, tipZ] });
 }
 
 // ------------------------------------------------- marine: skimmer vessel
