@@ -688,7 +688,10 @@ async function enterSim(id, { briefed = false } = {}) {
   // The stage stands the station's union sign and safety sign beside the
   // pad (shared/signage.js); the safety sign is confirmed or taken down
   // below once the station has been built and its mesh count is known.
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room });
+  // A driving course is its own site: a station that declares `apron: false`
+  // keeps the plaza but not the gate, laydown and fence the apron lays across
+  // the ground its route is driven over.
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
   state.stage = stage;
   applyStageCamera(stage);
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
@@ -3162,6 +3165,23 @@ function driveCamera(dt) {
   if (!driving() || renderer.xr.isPresenting || state.mode === "ar" || dragging) return;
   const vehicle = state.hits[state.session.step.target];
   if (!vehicle) return;
+  // Walk the learner to the edge of the pad nearest the vehicle — the spot a
+  // road trainer would stand to watch — so a route that starts across the
+  // yard is not driven from the gate. The roam clamp still applies.
+  vehicle.getWorldPosition(_scratchV1);
+  if (state.roomRoot) {
+    state.roomRoot.getWorldPosition(_scratchV2);
+    const vx = _scratchV1.x - _scratchV2.x, vz = _scratchV1.z - _scratchV2.z;
+    const dist = Math.hypot(vx, vz);
+    if (dist > 0.5) {
+      const reach = Math.min(Math.max(0, dist - 3), (state.room?.footprint ?? 2) - 0.2);
+      const tx = _scratchV2.x + (vx / dist) * reach, tz = _scratchV2.z + (vz / dist) * reach;
+      const km = Math.min(1, dt * 1.6);
+      rig.position.x += (tx - rig.position.x) * km;
+      rig.position.z += (tz - rig.position.z) * km;
+      clampRoam();
+    }
+  }
   vehicle.getWorldPosition(_scratchV1);
   rig.worldToLocal(_scratchV1);
   const dx = _scratchV1.x - camera.position.x, dz = _scratchV1.z - camera.position.z;
@@ -4084,7 +4104,7 @@ window.__smartcityTest = {
   // A drive step's live state, and the on-screen pedals, for a live test.
   drive: () => {
     const d = state.session?.drive;
-    return d ? { s: d.s, total: d.total, speed: d.speed, offset: d.offset, band: d.band, started: d.started, pose: d.pose, plan: d.plan.map((c) => ({ kind: c.kind, done: c.done, missed: c.missed })) } : null;
+    return d ? { s: d.s, total: d.total, speed: d.speed, offset: d.offset, band: d.band, started: d.started, pose: d.pose, plan: d.plan.map((c) => ({ kind: c.kind, done: c.done, missed: c.missed })), live: driving(), lookingRound: dragging, yaw, paused: state.paused } : null;
   },
   driveTouch: (patch) => { Object.assign(driveTouch, patch ?? {}); return { ...driveTouch }; },
   driveCheck: (kind) => driveDiscrete(kind),

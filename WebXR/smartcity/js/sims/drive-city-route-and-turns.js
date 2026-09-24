@@ -42,6 +42,8 @@ export const SIM_DRIVE_CITY_ROUTE_AND_TURNS = {
   accentCss: DRC_CSS,
   parSeconds: 300,
   footprint: 2.6,
+  // The route is driven over the ground the site apron would fill.
+  apron: false,
   badge: { id: "tight-to-the-curb", name: "Tight to the Curb", note: "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time" },
 
   game: system({
@@ -239,7 +241,9 @@ export const SIM_DRIVE_CITY_ROUTE_AND_TURNS = {
 
   build(root) {
     const hits = {};
-    const g = group(root);
+    // The whole course stands on its own ground a hand's width above the plaza
+    // deck, so the streets never fight the deck's paving for the same plane.
+    const g = group(root, 0, 0.06, 0);
     const reg2 = (obj, id) => reg(hits, obj, id);
     stationPad(g, 2.6, DRC_ACCENT);
 
@@ -254,7 +258,7 @@ export const SIM_DRIVE_CITY_ROUTE_AND_TURNS = {
     drcRoadTex.repeat?.set?.(1, 4);
     const roadMat = texturedMat(drcRoadTex, { rough: 0.92, metal: 0.02 });
     const walkTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 4, base: "#8f8c86", base2: "#86837d", seam: "rgba(0,0,0,0.35)" }), { repeat: 8, px: 256 });
-    const ground = box(g, 26, 0.1, 24, 0.5, -0.05, -5.5, 0xffffff, { rough: 0.95 });
+    const ground = box(g, 26, 0.06, 24, 0.5, -0.03, -5.5, 0xffffff, { rough: 0.95 });
     ground.material = texturedMat(walkTex, { rough: 0.95, metal: 0.02, color: 0xb4b0a8 });
     const road = (x, z, w, len, ry) => { const r = box(g, w, 0.04, len, x, 0.02, z, 0xffffff, { rough: 0.9, cast: false }); r.material = roadMat; r.rotation.y = ry; return r; };
     road(1.5, -4.4, 3.6, 21, Math.PI / 2);       // the street past the pad, east–west

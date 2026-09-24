@@ -804,7 +804,9 @@ export class Session {
   driveCheck(kind) {
     const d = this.drive;
     if (this.finished || !d || this.step?.kind !== "drive" || !kind) return null;
-    if (this.activeInterrupt && kind === "horn" && d.controls?.horn) return this.resolveInterrupt(d.controls.horn);
+    // A check key that is also a named cab control (the horn, the flashers, a
+    // gear for the engine brake) answers a live interruption that wants it.
+    if (this.activeInterrupt && d.controls?.[kind]) return this.resolveInterrupt(d.controls[kind]);
     const due = d.plan.find((c) => !c.done && !c.missed && c.kind === kind && d.s >= c.from && d.s <= c.to);
     const name = DRIVE_CHECK_NAMES[kind] ?? kind;
     if (due) {
