@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 336
+      "stations": 337
     },
     "trades": {
       "entry": "trades/index.html",
@@ -281,6 +281,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-dredge-material-screening-and-disposal-decision",
         "br-trash-capture-device-service",
         "br-legacy-mercury-and-pcb-hotspot-handling",
         "br-water-quality-sonde-calibration-and-deploy",
@@ -6738,6 +6739,89 @@
     },
     {
       "app": "smartcity",
+      "id": "br-dredge-material-screening-and-disposal-decision",
+      "name": "Dredge Material Screening & Disposal Decision",
+      "title": "SmartCiti.X~ Dredge Material Screening & Disposal Decision VR",
+      "tagline": "Matching every bite to the decision already made about it: the work plan's dredge-unit map and the suitability determination read, the dredge's position confirmed inside the unit, the scow walked and its drain shut, bites called while unexpected oily material comes up, the material sampled while the tug wants to leave, it reported in order, the scow placarded on hold, its draft read, the load ticket written, the deck walked, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by",
+      "union": null,
+      "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the material screener; IUOE Local 3 operating engineer apprenticeship for the dredge's excavator; the DMMO suitability determination for each dredge unit and the Army Corps Section 404 permit conditions it sits under; the Regional Water Quality Control Board's Section 401 water quality certification; BCDC permit conditions for the placement sites; OSHA HAZWOPER, 29 CFR 1910.120, for screening and sampling material that may be contaminated; EPA QA/G-5 chain-of-custody practice for the unexpected-material sample; RCRA 40 CFR 262 and DTSC rules if the work plan's profile makes any of it hazardous waste",
+      "accent": "#9a8ad8",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "find",
+        "turn",
+        "track",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "held-for-the-decision",
+        "name": "Held For The Decision",
+        "note": "Stopped the dig on material the characterisation did not describe, sampled it under custody and kept the scow from leaving until the work plan's people decided"
+      },
+      "meshes": 230,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D7",
+      "flat": false,
+      "system": "Scow Screen",
+      "currency": "BITE",
+      "ranks": [
+        "Deck Hand",
+        "Screener",
+        "Senior Screener",
+        "Dredge Inspector",
+        "Scow Screen Certified"
+      ],
+      "awards": [
+        {
+          "id": "in-the-unit",
+          "name": "In The Unit",
+          "note": "The determination read and the dredge's position confirmed inside the unit clean"
+        },
+        {
+          "id": "never-sniffed",
+          "name": "Never Sniffed",
+          "note": "Never under the bucket, never a nose in the sample, never on the coaming, never a sheen washed overboard"
+        },
+        {
+          "id": "fix-and-draft",
+          "name": "Fix And Draft",
+          "note": "Position and draft both committed inside their bands"
+        },
+        {
+          "id": "clean-screen",
+          "name": "Clean Screen",
+          "note": "No corrections from the determination to the check-in"
+        },
+        {
+          "id": "closed-bucket",
+          "name": "Closed Bucket",
+          "note": "Held the bite call in band the whole time"
+        },
+        {
+          "id": "ticket-written",
+          "name": "Ticket Written",
+          "note": "Scow ticketed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-dredge-material-screening-and-disposal-decision"
+    },
+    {
+      "app": "smartcity",
       "id": "br-trash-capture-device-service",
       "name": "Trash Capture Device Service",
       "title": "SmartCiti.X~ Trash Capture Device Service VR",
@@ -6770,7 +6854,7 @@
         "name": "Nothing Back In",
         "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
       },
-      "meshes": 165,
+      "meshes": 197,
       "lights": 0,
       "overBudget": false,
       "index": "BR-D6",
@@ -26018,7 +26102,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
