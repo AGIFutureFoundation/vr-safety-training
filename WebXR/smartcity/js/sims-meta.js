@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-trash-capture-device-service",
+    "index": "BR-D6",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+    "name": "Trash Capture Device Service",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Trash Capture Device Service VR",
+    "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+    "accent": 14721088,
+    "accentCss": "#e0a040",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-in",
+      "name": "Nothing Back In",
+      "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Net Service",
+      "currency": "BAG",
+      "ranks": [
+        "Net Hand",
+        "Tag Line Hand",
+        "Service Lead",
+        "Stormwater Foreman",
+        "Net Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

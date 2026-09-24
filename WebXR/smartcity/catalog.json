@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -281,6 +281,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-trash-capture-device-service",
         "br-legacy-mercury-and-pcb-hotspot-handling",
         "br-water-quality-sonde-calibration-and-deploy",
         "br-sediment-chain-of-custody-and-lab-prep",
@@ -6734,6 +6735,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service",
+      "name": "Trash Capture Device Service",
+      "title": "SmartCiti.X~ Trash Capture Device Service VR",
+      "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental",
+      "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+      "union": null,
+      "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+      "accent": "#e0a040",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "nothing-back-in",
+        "name": "Nothing Back In",
+        "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "BR-D6",
+      "flat": false,
+      "system": "Net Service",
+      "currency": "BAG",
+      "ranks": [
+        "Net Hand",
+        "Tag Line Hand",
+        "Service Lead",
+        "Stormwater Foreman",
+        "Net Service Certified"
+      ],
+      "awards": [
+        {
+          "id": "eye-checked",
+          "name": "Eye Checked",
+          "note": "The order read and the net and lifting eye inspected clean before the hook went on"
+        },
+        {
+          "id": "clear-of-the-load",
+          "name": "Clear Of The Load",
+          "note": "Never under the bag, never a hand in the catch, never on the headwall edge, never a net shaken over the water"
+        },
+        {
+          "id": "honest-catch",
+          "name": "Honest Catch",
+          "note": "Tide and catch estimate both committed inside their bands"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "No corrections from the order to the check-in"
+        },
+        {
+          "id": "steady-tag",
+          "name": "Steady Tag",
+          "note": "Held the tag line in band the whole lift"
+        },
+        {
+          "id": "before-the-storm",
+          "name": "Before The Storm",
+          "note": "Service logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-trash-capture-device-service"
     },
     {
       "app": "smartcity",
@@ -25934,7 +26018,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26594,7 +26678,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",
