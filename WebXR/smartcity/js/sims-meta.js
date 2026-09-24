@@ -14140,5 +14140,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-dive-site-hazard-assessment-and-jsa",
+    "index": "318",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as dive supervisor, running the site hazard assessment and job safety analysis for a Bay restoration dive with the tender, the standby diver and an Inlandboatmen's Union deckhand",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby, the emergency aid list, the team briefing and the warning signal), 29 CFR 1910.420 the employer's safe practices manual and 29 CFR 1910.410 the qualified dive team; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Dive Site Hazard Assessment & JSA",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Site Hazard Assessment & JSA VR",
+    "tagline": "Before anyone dresses: the JSA opened with the whole team, the outfall intake and the pile hammer found, the current read against the plan, the sheen and the discharge notice seen, the pump station locked out on the radio while the hammer starts up next door, the decon set, the boat's key pulled, the flag up, the oxygen at the ladder, the downline lowered while a kayak paddles into the site, the emergency list confirmed, the read-backs heard and the JSA signed and logged — every step in a PFD",
+    "accent": 15246141,
+    "accentCss": "#e8a33d",
+    "parSeconds": 300,
+    "badge": {
+      "id": "site-read-first",
+      "name": "Site Read First",
+      "note": "Every hazard on the site named, controlled and signed for before a diver was dressed, and never a PFD off on deck"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Assessment",
+      "currency": "SOUNDING",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Supervisor",
+        "Site Assessment Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-surface-supplied-dive-station-setup",
+    "index": "319",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as lead diver setting up a surface-supplied air dive station on a Bay workboat, with the dive supervisor, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; supply, depth and time per the dive plan",
+    "name": "Surface-Supplied Dive Station Setup",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Surface-Supplied Dive Station Setup VR",
+    "tagline": "An hour before the first dive: the setup taken from the supervisor, the compressor intake run upwind, the filter and the belt guard found, the volume tank drained, the primary and secondary lined up, the bailout read, the helmet's non-return valve proven while the crew boat's exhaust drifts over the intake, the umbilical's pneumo and comms ends found, the panel brought up steady while the compressor overheats, the pneumo zeroed, the standby's rig staged and the station logged ready — every step in a PFD",
+    "accent": 7321576,
+    "accentCss": "#6fb7e8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-air-station",
+      "name": "Clean Air Station",
+      "note": "Intake upwind, condensate out, both supplies proven and the non-return valve holding before a diver dressed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Station Setup",
+      "currency": "CHARGE",
+      "ranks": [
+        "Tender",
+        "Diver-Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Station Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
