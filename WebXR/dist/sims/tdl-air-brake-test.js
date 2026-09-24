@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace, mat, hose } from "../../../shared/kit.js";
+import { tractorTrailer, trailer } from "../../../shared/fleet.js";
 import {
   stationPad, holoPanel, holoTag, instrument, standingFigure, cone,
   surfaceTexture, texturedMat, pavingFace, reg,
@@ -221,65 +222,53 @@ export const SIM_TDL_AIR_BRAKE_TEST = {
 
     // ------------------------------------------------------------ yard surface
     const yardTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#3f4246", base2: "#36393d", seam: "rgba(0,0,0,0.45)" }), { repeat: 5, px: 512 });
-    const yard = box(g, 11, 0.12, 8, 0, 0.06, -0.6, 0xffffff, { rough: 0.95 });
+    const yard = box(g, 11, 0.12, 8.6, 0, 0.06, -0.9, 0xffffff, { rough: 0.95 });
+    // The pup runs past the yard's edge; the slab runs on under it.
+    box(g, 3.6, 0.12, 3.2, 7.3, 0.06, -0.9, 0xffffff, { rough: 0.95 }).material = texturedMat(yardTex, { rough: 0.95, metal: 0.02, color: 0xabafb4 });
     yard.material = texturedMat(yardTex, { rough: 0.95, metal: 0.02, color: 0xabafb4 });
     for (const x of [-4.8, 4.8]) box(g, 0.1, 0.006, 6, x, 0.123, -0.6, 0xf2f5f7, { rough: 0.6, cast: false });
 
-    // ------------------------------------------------------------ tractor, side-on, front to the left
+    // ------------------------------------------------------------ the rig, side-on, front to the left
+    // The kit's day cab coupled to a 28 ft pup (shared/fleet.js), at real
+    // size. `tr` is the tractor's own frame: x runs front (-) to back (+),
+    // z is the driver's side (+); the tractor's front is at x -3.43 in it.
+    const rig = tractorTrailer(g, 2.11, 0.12, -0.9, {
+      trailer: "pup", ry: -Math.PI / 2,
+      livery: { colour: ABT_CAB, fleetName: "CITY LINEHAUL", unitNumber: "2208" },
+      trailerLivery: { colour: 0xe8eef2, fleetName: "CITY LINEHAUL", unitNumber: "P-318" },
+    });
+    const TP = rig.userData.parts.tractor.userData.parts;
     const tr = group(g, -1.0, 0.12, -0.9);
-    for (const sz of [-0.45, 0.45]) box(tr, 4.4, 0.24, 0.1, 0.4, 0.78, sz, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    box(tr, 1.6, 1.8, 2.4, -0.8, 2.0, 0, ABT_CAB, { rough: 0.4, metal: 0.4 });
-    box(tr, 0.05, 0.75, 2.2, -1.62, 2.45, 0, 0x22303a, { rough: 0.15, metal: 0.6 });
-    box(tr, 1.0, 0.7, 0.05, -0.8, 2.35, 1.21, 0x22303a, { rough: 0.15, metal: 0.6 });
-    box(tr, 1.5, 0.9, 2.0, -2.35, 1.45, 0, ABT_CAB, { rough: 0.4, metal: 0.4 });
-    box(tr, 0.05, 0.75, 1.3, -3.12, 1.42, 0, 0x8b949d, { rough: 0.4, metal: 0.7 });
-    box(tr, 0.22, 0.3, 2.5, -3.25, 0.7, 0, 0xc9ced2, { rough: 0.3, metal: 0.8 });
-    const wheel = (x, z, w) => { const c = cyl(tr, 0.5, 0.5, w, x, 0.5, z, ABT_TIRE, { rough: 0.9, seg: 20 }); c.rotation.x = Math.PI / 2; cyl(tr, 0.24, 0.24, w + 0.02, x, 0.5, z, 0x8b949d, { rough: 0.3, metal: 0.8, seg: 14 }).rotation.x = Math.PI / 2; return c; };
-    wheel(-2.3, 1.1, 0.32); wheel(-2.3, -1.1, 0.32);
-    wheel(0.9, 1.05, 0.55); wheel(0.9, -1.05, 0.55); wheel(2.1, 1.05, 0.55); wheel(2.1, -1.05, 0.55);
-    const chockSocket = box(tr, 0.3, 0.2, 0.3, 0.3, 0.1, 1.05, 0xffffff, { rough: 0.5 });
+    TP.doorL.rotation.y = -0.6;
+    const chockSocket = box(tr, 0.3, 0.2, 0.3, 0.85, 0.1, 1.0, 0xffffff, { rough: 0.5 });
     chockSocket.visible = false; hits["abt-chock-socket"] = chockSocket;
-    cyl(tr, 0.08, 0.08, 1.8, 0.05, 2.6, 1.15, 0xc9ced2, { rough: 0.3, metal: 0.8, seg: 12 });
-    for (const sz of [-1, 1]) box(tr, 0.06, 0.5, 0.2, -1.8, 2.4, sz * 1.4, 0x2b2f34, { rough: 0.4, metal: 0.4 });
-    // Air tanks under the frame with their drains.
+    // Air tanks slung under the frame, inboard of the fuel tank, with their drains.
     const tanks = [];
-    for (const [x, c] of [[-0.9, 0x8b949d], [-0.2, 0x8b949d], [0.35, 0x59636d]]) { const t = cyl(tr, 0.2, 0.2, 0.6, x, 0.55, 0.7, c, { rough: 0.4, metal: 0.6, seg: 14 }); t.rotation.z = Math.PI / 2; tanks.push(t); }
-    const sludge = box(tr, 0.14, 0.02, 0.14, -0.9, 0.13, 0.75, 0xc8c0a0, { rough: 0.2, opacity: 0.85 });
+    for (const [x, c] of [[-0.9, 0x8b949d], [-0.2, 0x8b949d], [0.35, 0x59636d]]) { const t = cyl(tr, 0.19, 0.19, 0.6, x, 0.46, 0.3, c, { rough: 0.4, metal: 0.6, seg: 14 }); t.rotation.z = Math.PI / 2; tanks.push(t); }
+    const sludge = box(tr, 0.14, 0.02, 0.14, -0.9, 0.2, 0.42, 0xc8c0a0, { rough: 0.2, opacity: 0.85 });
     reg2(sludge, "abt-sludge-tank");
-    const cable = box(tr, 0.02, 0.02, 0.4, -0.2, 0.36, 0.95, 0xd98a3a, { rough: 0.6 });
+    const cable = box(tr, 0.02, 0.02, 0.4, -0.2, 0.3, 0.62, 0xd98a3a, { rough: 0.6 });
     cable.rotation.x = 0.6;
     reg2(cable, "abt-drain-cable");
-    const drainValve = box(tr, 0.06, 0.06, 0.06, 0.35, 0.33, 0.75, 0xd2312b, { emissive: 0xd2312b, ei: 0.3, rough: 0.5 });
+    const drainValve = box(tr, 0.06, 0.06, 0.06, 0.35, 0.24, 0.42, 0xd2312b, { emissive: 0xd2312b, ei: 0.3, rough: 0.5 });
     reg2(drainValve, "abt-leak-drain");
-    // Drive-axle brake chamber, slack adjuster.
-    const chamber = group(tr, 1.5, 0.55, 0.62);
+    // Drive-axle brake chamber and slack adjuster, just ahead of the duals.
+    const chamber = group(tr, 1.2, 0.6, 0.48);
     cyl(chamber, 0.13, 0.13, 0.28, 0, 0, 0, 0x2b2f34, { rough: 0.6, metal: 0.4, seg: 14 }).rotation.z = Math.PI / 2;
-    cyl(chamber, 0.12, 0.12, 0.2, 0.22, 0, 0, 0x3a3f45, { rough: 0.6, metal: 0.4, seg: 14 }).rotation.z = Math.PI / 2;
-    holoTag(tr, "spring chamber — open it up?", 1.7, 1.05, 1.1, { css: "#d2312b", w: 0.46 });
+    cyl(chamber, 0.12, 0.12, 0.2, -0.22, 0, 0, 0x3a3f45, { rough: 0.6, metal: 0.4, seg: 14 }).rotation.z = Math.PI / 2;
+    holoTag(tr, "spring chamber — open it up?", 1.25, 1.2, 1.5, { css: "#d2312b", w: 0.46 });
     reg2(chamber, "abt-spring-chamber");
-    const chamberLeak = box(tr, 0.08, 0.08, 0.08, 1.35, 0.55, 0.78, 0x6fc4f0, { emissive: 0x6fc4f0, ei: 0.5, rough: 0.4 });
+    const chamberLeak = box(tr, 0.08, 0.08, 0.08, 0.92, 0.6, 0.62, 0x6fc4f0, { emissive: 0x6fc4f0, ei: 0.5, rough: 0.4 });
     reg2(chamberLeak, "abt-leak-chamber");
-    const slack = box(tr, 0.05, 0.28, 0.05, 1.1, 0.42, 0.72, 0xd9a13a, { rough: 0.5, metal: 0.5 });
-    holoTag(tr, "wind the automatic slack in?", 0.95, 0.2, 1.35, { css: "#d2312b", w: 0.46 });
+    const slack = box(tr, 0.05, 0.28, 0.05, 1.42, 0.42, 0.6, 0xd9a13a, { rough: 0.5, metal: 0.5 });
+    holoTag(tr, "wind the automatic slack in?", 1.9, 0.2, 1.5, { css: "#d2312b", w: 0.46 });
     reg2(slack, "abt-manual-slack");
-    // Fifth wheel, catwalk and the air lines to the trailer.
-    box(tr, 1.2, 0.12, 1.4, 1.6, 1.08, 0, 0x2b2f34, { rough: 0.5, metal: 0.6 });
-    box(tr, 0.8, 0.04, 1.2, 0.35, 1.0, 0, 0x59636d, { rough: 0.6, metal: 0.5 });
-    const blueLine = hose(tr, [[0.05, 1.6, -0.25], [0.8, 1.4, -0.25], [1.9, 1.6, -0.25]], 0.02, 0x2f7fbf, { steps: 10, rough: 0.6 });
-    void blueLine;
-    const redLine = hose(tr, [[0.05, 1.6, 0.25], [0.8, 1.4, 0.25], [1.9, 1.6, 0.25]], 0.02, 0xd2312b, { steps: 10, rough: 0.6 });
-    const blownLine = hose(tr, [[0.05, 1.6, 0.25], [0.6, 1.1, 0.45], [0.9, 0.5, 0.7]], 0.02, 0xd2312b, { steps: 10, rough: 0.6 });
+    // The kit's glad-hand lines run from the back of the cab to the pup's
+    // nose; the emergency (red) line is the one that blows off and hangs.
+    const blownLine = hose(tr, [[0.78, 1.95, 0.32], [0.95, 1.2, 0.62], [1.1, 0.45, 0.85]], 0.02, 0xd2312b, { steps: 10, rough: 0.6 });
     blownLine.visible = false;
-    const gladhand = box(tr, 0.1, 0.06, 0.1, 1.95, 1.6, 0.25, 0xd2312b, { rough: 0.5, metal: 0.4 });
+    const gladhand = box(tr, 0.1, 0.07, 0.1, 1.12, 1.66, 0.57, 0xd2312b, { rough: 0.5, metal: 0.4 });
     reg2(gladhand, "abt-leak-gladhand");
-
-    // ------------------------------------------------------------ trailer, coupled
-    const van = group(g, 3.4, 0.12, -0.9);
-    box(van, 4.6, 2.6, 2.55, 0.9, 2.55, 0, 0xe8eef2, { rough: 0.6, metal: 0.2 });
-    box(van, 4.6, 0.12, 2.3, 0.9, 1.2, 0, 0x59636d, { rough: 0.6, metal: 0.4 });
-    for (const sz of [-1, 1]) box(van, 0.1, 0.9, 0.1, -0.9, 0.7, sz * 0.8, 0x3a3f45, { rough: 0.5, metal: 0.5 });
-    decal(van, 2.2, 0.5, 0.9, 2.7, 1.28, signFace("LINEHAUL", { bg: "#e8eef2", fg: "#2b3a48", accent: "#f2c14b", scale: 0.6 }), { px: 256 });
-    for (let i = 0; i < 4; i++) box(van, 0.06, 0.06, 0.1, -1.1 + i * 1.3, 3.8, 1.28, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.5, rough: 0.3 });
 
     // ------------------------------------------------------------ the in-cab controls, laid out at the open door
     const dash = group(g, -1.2, 0.12, 1.45, 0.2);
@@ -362,18 +351,8 @@ export const SIM_TDL_AIR_BRAKE_TEST = {
     cone(g, -4.2, 2.0);
     cone(g, 4.4, 1.6);
 
-    // ------------------------------------------------------------ the rest of the yard: parked trailers, a light mast, the fence
-    const parked = (x, z, tone, label) => {
-      const p = group(g, x, 0.12, z);
-      box(p, 3.6, 2.5, 2.5, 0, 2.5, 0, tone, { rough: 0.6, metal: 0.2 });
-      box(p, 3.6, 0.1, 2.2, 0, 1.2, 0, 0x59636d, { rough: 0.6, metal: 0.4 });
-      for (const sx of [-1, 1]) box(p, 0.1, 0.9, 0.1, -1.2, 0.7, sx * 0.8, 0x3a3f45, { rough: 0.5, metal: 0.5 });
-      for (const sx of [-1, 1]) for (const dx of [0.9, 1.5]) cyl(p, 0.48, 0.48, 0.3, dx, 0.48, sx * 1.0, ABT_TIRE, { rough: 0.9, seg: 16 }).rotation.x = Math.PI / 2;
-      decal(p, 1.6, 0.4, 0, 2.6, 1.26, signFace(label, { bg: "#e8eef2", fg: "#2b3a48", accent: "#f2c14b", scale: 0.55 }), { px: 256 });
-      return p;
-    };
-    parked(-3.0, -4.3, 0xdfe4e8, "DROP 12");
-    parked(1.2, -4.3, 0xe8e2d4, "DROP 13");
+    // ------------------------------------------------------------ the rest of the yard: a dropped pup, a light mast, the fence
+    trailer(g, -1.2, 0.12, -4.0, { kind: "pup", ry: -Math.PI / 2, livery: { colour: 0xdfe4e8, fleetName: "CITY LINEHAUL", unitNumber: "DROP 12" } });
     const mast = group(g, 4.9, 0.12, -3.2);
     cyl(mast, 0.08, 0.1, 6.0, 0, 3.0, 0, 0x8b949d, { rough: 0.4, metal: 0.7, seg: 10 });
     box(mast, 0.9, 0.15, 0.3, 0, 6.0, 0, 0x3a3f45, { rough: 0.5, metal: 0.5 });
@@ -391,7 +370,7 @@ export const SIM_TDL_AIR_BRAKE_TEST = {
       footprint: 2.6,
       spawnLook: new THREE.Vector3(-0.9, 1.1, 0.2),
       onStepComplete(step) {
-        if (step.id === "chock") { chock.parent.remove(chock); tr.add(chock); chock.position.set(0.3, 0.1, 1.05); }
+        if (step.id === "chock") { chock.parent.remove(chock); tr.add(chock); chock.position.set(0.85, 0.1, 1.0); }
         if (step.id === "build-air") psi = 0.7;
         if (step.id === "release") { yellow.position.z = 0.09; red.position.z = 0.09; }
         if (step.id === "fan-down") { lamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.3, rough: 0.4 }); yellow.position.z = 0.14; red.position.z = 0.14; }
@@ -411,12 +390,12 @@ export const SIM_TDL_AIR_BRAKE_TEST = {
       // The glad-hand line really blows off and hangs; the warning lamp really
       // lights. The yard worker really steps in between the units.
       onInterrupt(it) {
-        if (it.id === "gladhand-blows") { redLine.visible = false; blownLine.visible = true; lamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.3, rough: 0.4 }); }
-        if (it.id === "worker-between") { worker.position.set(1.05, 0, -0.9); worker.rotation.y = Math.PI / 2; }
+        if (it.id === "gladhand-blows") { TP.gladHandEmergency.visible = false; blownLine.visible = true; lamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.3, rough: 0.4 }); }
+        if (it.id === "worker-between") { worker.position.set(-0.13, 0, 0.3); worker.rotation.y = Math.PI; }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "gladhand-blows") { yellow.position.z = 0.14; redLine.visible = true; blownLine.visible = false; lamp.material = mat(0x5a1a1a, { rough: 0.4 }); }
+        if (it.id === "gladhand-blows") { yellow.position.z = 0.14; TP.gladHandEmergency.visible = true; blownLine.visible = false; lamp.material = mat(0x5a1a1a, { rough: 0.4 }); }
         if (it.id === "worker-between") { worker.position.set(3.3, 0, 1.35); worker.rotation.y = -2.4; }
       },
       animate(t, dt, session) {
