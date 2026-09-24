@@ -204,7 +204,7 @@ export function mountUI(store, actions) {
           h("div", { id: "hud-lane-mark", style: { left: markLeft } })),
         h("div", { id: "hud-route" }, h("div", { style: { width: `${d.progressPct}%` } })),
         h("div", { id: "hud-next", "data-now": d.next?.now ? "1" : "0" },
-          !d.started ? `Press ${d.goKey} to pull away`
+          !d.started ? (d.next?.now ? `First: ${d.next.name} (${d.next.key}), then ${d.goKey} to pull away` : `Press ${d.goKey} to pull away`)
             : d.next ? (d.next.now ? `NOW: ${d.next.name} — ${d.next.key}` : `Next: ${d.next.name} (${d.next.key}) in ${d.next.metres} m`)
               : `Checks ${d.done}/${d.total} · drive it home`),
         h("div", { id: "hud-drive-keys" }, `${d.goKey} go · ${d.brakeKey} brake · ${d.steerKeys} steer`)),
