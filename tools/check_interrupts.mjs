@@ -44,6 +44,13 @@ function audit(app, suite, r) {
     if (onStep && (onStep.target === it.target || (onStep.targets ?? []).includes(it.target))) {
       note(tag, `answers with "${it.target}", which is the target of the step it interrupts — that is not an interruption, it is a nudge`);
     }
+    // On a drive step the learner's hands are on the wheel, so the answer has
+    // to be a cab control the step names (drive.controls) — the brake, the
+    // horn, the CB radio — which a key or a pad button reaches without
+    // letting go of the drive to go and click something.
+    if (onStep?.kind === "drive" && !Object.values(onStep.drive?.controls ?? {}).includes(it.target)) {
+      note(tag, `is armed on the drive step "${onStep.id}" but wants "${it.target}", which is not one of that step's drive.controls — a driver could only answer it by letting go of the wheel`);
+    }
     if (!(it.seconds >= 6 && it.seconds <= 30)) note(tag, `gives ${it.seconds}s: under 6 is a reflex test, over 30 is not an interruption`);
     if (!(it.delay >= 2)) note(tag, `fires ${it.delay}s into the step — give the learner time to be busy first`);
 
@@ -115,6 +122,35 @@ if (withInterrupts) {
   if (s2.activeInterrupt) note(`engine/${withInterrupts.id}`, "answering did not clear the alarm");
 }
 
+// And one armed on a drive step: it fires while the vehicle is moving, the
+// cab control it names answers it (the brake from the brake edge, anything
+// else from its check key or its control), and the route carries on to the
+// end clean afterwards.
+const drivers = [...city.ROOMS].filter((r) => (r.interrupts ?? []).some((i) => r.steps.find((st) => st.id === i.after)?.kind === "drive"));
+let driveArmed = 0;
+for (const r of drivers) {
+  for (const it of r.interrupts) {
+    const host = r.steps.find((st) => st.id === it.after);
+    if (host?.kind !== "drive") continue;
+    driveArmed += 1;
+    const s = new city.Session(r, {});
+    s.start();
+    s.index = r.steps.indexOf(host); s.enterStep();
+    for (let i = 0; i < 4000 && !s.activeInterrupt && s.step === host; i++) { const a = city.drivePolicy(s); s.driveInput(a); if (a.check) s.driveCheck(a.check); s.tick(0.05); }
+    if (!s.activeInterrupt) { note(`engine/${r.id}/${it.id}`, "armed on a drive step but never fired while the vehicle was driven — the route is shorter than its fuse"); continue; }
+    const name = Object.entries(host.drive?.controls ?? {}).find(([, id]) => id === it.target)?.[0];
+    const before = s.score;
+    if (name === "brake") { s.driveInput({ throttle: 0.2 }); s.driveInput({ throttle: -1 }); }
+    else if (name === "radio") s.driveControl("radio");
+    else if (name) s.driveCheck(name);
+    if (s.activeInterrupt || s.interruptLog.at(-1)?.outcome !== "answered" || s.score <= before) { note(`engine/${r.id}/${it.id}`, `the cab control "${name}" did not answer the interruption on the drive step`); continue; }
+    const hz = s.hazardHits;
+    for (let i = 0; i < 4000 && s.step === host; i++) { const a = city.drivePolicy(s); s.driveInput(a); if (a.check) s.driveCheck(a.check); s.tick(0.05); }
+    if (s.step === host) note(`engine/${r.id}/${it.id}`, "after the interruption the drive never reached the end of its route");
+    else if (s.hazardHits !== hz) note(`engine/${r.id}/${it.id}`, "answering the interruption left the driver out of lane or band long enough to be scored unsafe");
+  }
+}
+
 // Every interruption must visibly change the world. A banner on its own is a
 // caption: the skill being taught is noticing something, and there has to be
 // something to notice. tools/interrupt_react.mjs is the detailed report; this
@@ -129,5 +165,5 @@ if (react) {
 
 console.log(failures
   ? `\n${failures} interruption problem(s) found.`
-  : `\n${total} interruption${total === 1 ? "" : "s"} across ${withAny} procedure${withAny === 1 ? "" : "s"} check out: the engine fires, times out and scores them, and all ${react?.reacting ?? 0} visibly change the world.`);
+  : `\n${total} interruption${total === 1 ? "" : "s"} across ${withAny} procedure${withAny === 1 ? "" : "s"} check out: the engine fires, times out and scores them, ${driveArmed} armed on drive steps are answered from the cab, and all ${react?.reacting ?? 0} visibly change the world.`);
 process.exit(failures ? 1 : 0);

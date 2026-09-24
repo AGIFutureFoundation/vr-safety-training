@@ -37,7 +37,7 @@ const trades = await loadTrades();
 
 // ------------------------------------------------------------------ helpers
 
-const KINDS = ["select", "sequence", "find", "gauge", "hold", "track", "turn", "drag"];
+const KINDS = ["select", "sequence", "find", "gauge", "hold", "track", "turn", "drag", "drive"];
 
 // ------------------------------------------------------- the standards registry
 //
@@ -167,11 +167,15 @@ function prose(r) {
 
 function variety(r) {
   const kinds = (r.steps ?? []).map((s) => s.kind);
-  const distinct = new Set(kinds).size;
+  // Only the kinds the engine runs count toward the spread: an unknown kind is
+  // a typo the procedure engine would stall on, not variety.
+  const distinct = new Set(kinds.filter((k) => KINDS.includes(k))).size;
   let run = 1, worst = 1;
   for (let i = 1; i < kinds.length; i++) { run = kinds[i] === kinds[i - 1] ? run + 1 : 1; worst = Math.max(worst, run); }
-  // Eight kinds exist. Using six or more is full marks; a run of four
-  // identical kinds in a row is what a row of clicks feels like.
+  // Nine kinds exist (KINDS above; 'drive' is the vehicle at the wheel). Using
+  // six or more is full marks; a run of four identical kinds in a row is what a
+  // row of clicks feels like — and three drive steps back to back is a route
+  // with nothing to decide between the turns, so it counts the same.
   const spread = clamp01((distinct - 1) / 5);
   const monotony = clamp01((worst - 2) / 4);
   return { score: clamp01(spread * 0.75 + (1 - monotony) * 0.25), distinct, longestRun: worst };
@@ -250,6 +254,7 @@ function feedback(r) {
     if (s.kind === "track") { want++; if (s.holdBreakNote) got++; }
     if (s.kind === "hold") { want++; if (s.holdBreakNote) got++; }
     if (s.kind === "drag") { want++; if (s.drag?.missNote) got++; }
+    if (s.kind === "drive") { want++; if (s.holdBreakNote && (s.drive?.checks ?? []).some((c) => c.note)) got++; }
     if (s.kind === "sequence" && !s.anyOrder) { want++; if (s.outOfOrderNote) got++; }
     if (s.kind === "find") { want++; if (s.itemNotes && Object.keys(s.itemNotes).length) got++; }
   }

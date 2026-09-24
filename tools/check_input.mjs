@@ -29,6 +29,8 @@ import {
   detectPadVendor, padButtonLabel, describeGamepadMap,
   VOICE_GRAMMAR, VOICE_HELP_LINE, parseVoice, resolveMenuItem, matchTargetName,
   describeInputs, CHECKIN_REPLIES,
+  DRIVE_ACTIONS, DRIVE_ACTION_IDS, DRIVE_CHECK_ACTIONS, DRIVE_KEYS, DRIVE_GAMEPAD_MAP, DRIVE_PAD_AXES,
+  DRIVE_PAD_BRAKE_BUTTONS, driveActionForKey, driveInputFrom, describeDriveBindings,
 } from "../WebXR/shared/input.js";
 import { DEVICES, PROFILES } from "../WebXR/shared/devices.js";
 
@@ -429,6 +431,70 @@ function padRig({ id, xr = false } = {}) {
     "every run profile resolves to at least one tab");
 }
 
+
+// ------------------------------------------------------------ driving
+//
+// A drive step (shared/game.js) reads a second, smaller table while it is
+// live. The same rules hold for it — every action reachable from the
+// keyboard, no key or button twice — plus the mapping the brief names:
+// mirrors Q/E or the bumpers, signals the arrows or the d-pad, horn H or Y,
+// gears Z/X or the triggers, lights L or X. And every check the engine can
+// ask for must have an action, or a route could demand a check nobody can
+// give.
+{
+  const { DRIVE_CHECKS } = await import("../WebXR/shared/game.js");
+  const unbound = DRIVE_ACTION_IDS.filter((a) => !(DRIVE_KEYS[a] ?? []).length);
+  check(!unbound.length, `every one of ${DRIVE_ACTIONS.length} drive actions has a key`, `drive actions with no key: ${unbound.join(", ")}`);
+  const dupes = duplicateKeys(DRIVE_KEYS);
+  check(!dupes.length, "no key is bound twice in the drive table", `drive keys bound twice: ${dupes.map((d) => d.token).join(", ")}`);
+  const missingChecks = DRIVE_CHECKS.filter((c) => !DRIVE_CHECK_ACTIONS.includes(c));
+  check(!missingChecks.length, `every check the engine can ask for (${DRIVE_CHECKS.length}) has a drive action`, `checks with no action: ${missingChecks.join(", ")}`);
+  const want = {
+    "mirror-left": ["KeyQ", 4], "mirror-right": ["KeyE", 5], "signal-left": ["ArrowLeft", 14], "signal-right": ["ArrowRight", 15],
+    horn: ["KeyH", 3], "gear-down": ["KeyZ", 6], "gear-up": ["KeyX", 7], lights: ["KeyL", 2],
+  };
+  const wrong = Object.entries(want).filter(([a, [key, btn]]) => !(DRIVE_KEYS[a] ?? []).includes(key) || !DRIVE_GAMEPAD_MAP.some((b) => b.index === btn && b.action === a));
+  check(!wrong.length, "mirrors Q/E or bumpers, signals arrows or d-pad, horn H or Y, gears Z/X or triggers, lights L or X",
+    `drive mapping off the brief for: ${wrong.map(([a]) => a).join(", ")}`);
+  check(DRIVE_KEYS.throttle.includes("KeyW") && DRIVE_KEYS.brake.includes("KeyS") && DRIVE_KEYS.steerLeft.includes("KeyA") && DRIVE_KEYS.steerRight.includes("KeyD"),
+    "W, S, A and D are throttle, brake and steer");
+  const idx = DRIVE_GAMEPAD_MAP.map((b) => b.index);
+  check(new Set(idx).size === idx.length, "no pad button is bound twice in the drive map");
+  const padOnly = DRIVE_GAMEPAD_MAP.filter((b) => !DRIVE_KEYS[b.action] && !ACTION_IDS.includes(b.action));
+  check(!padOnly.length, "every drive pad button's action also has a key", `pad-only drive actions: ${padOnly.map((b) => b.action).join(", ")}`);
+  check(driveActionForKey("KeyE") === "mirror-right" && driveActionForKey("Shift+KeyS") === "brake" && driveActionForKey("KeyP") === null,
+    "a key resolves to its drive action, Shift is ignored, and an unbound key resolves to nothing");
+
+  const idle = driveInputFrom({});
+  check(idle.throttle === 0 && idle.steer === 0 && !idle.brake, "nothing held is no throttle and no steer");
+  const keysIn = driveInputFrom({ held: { throttle: true, steerRight: true } });
+  check(keysIn.throttle === 1 && keysIn.steer === 1, "W and D held are full throttle and full right steer");
+  const braking = driveInputFrom({ held: { throttle: true, brake: true } });
+  check(braking.throttle <= 0, "the brake held with the throttle never reads as going faster");
+  const snap = (over) => ({ connected: true, buttons: Array.from({ length: 17 }, (_, i) => ({ index: i, pressed: !!over.pressed?.includes(i), value: over.pressed?.includes(i) ? 1 : 0 })), axes: [0, 1, 2, 3].map((i) => ({ index: i, value: over.axes?.[i] ?? 0 })) });
+  const stick = driveInputFrom({ pad: snap({ axes: { [DRIVE_PAD_AXES.steer]: -0.9, [DRIVE_PAD_AXES.throttle]: -0.8 } }) });
+  check(stick.steer < -0.8 && stick.throttle > 0.7, "left stick steers and right stick forward is throttle");
+  const drift = driveInputFrom({ pad: snap({ axes: { [DRIVE_PAD_AXES.steer]: 0.1 } }) });
+  check(drift.steer === 0, "a resting stick inside the dead zone steers nothing");
+  const padBrake = driveInputFrom({ pad: snap({ pressed: [DRIVE_PAD_BRAKE_BUTTONS[1]] }) });
+  check(padBrake.throttle === -1 && padBrake.brake, "d-pad down is a brake you can hold");
+  const touch = driveInputFrom({ touch: { throttle: true, steer: -1 } });
+  check(touch.throttle === 1 && touch.steer === -1, "the on-screen pedal and wheel drive a phone");
+
+  // The edge detector over the drive map: one press, one check.
+  const pad = fakePad();
+  const fired = [];
+  let clock = 1000;
+  const dp = createGamepad({ getGamepads: () => [pad], bindings: DRIVE_GAMEPAD_MAP, axisBindings: [], onAction: (a) => fired.push(a), now: () => clock });
+  dp.poll(); pad.buttons[5] = { pressed: true, value: 1 };
+  for (let i = 0; i < 5; i++) { clock += 16; dp.poll(); }
+  pad.buttons[5] = { pressed: false, value: 0 }; clock += 16; dp.poll();
+  check(fired.filter((a) => a === "mirror-right").length === 1, "a held right bumper checks the right mirror once, not every frame");
+  const rows = describeDriveBindings("xbox");
+  check(rows.length === DRIVE_ACTIONS.length && rows.find((r) => r.action === "horn").pad.includes("Y") && rows.find((r) => r.action === "lights").pad.includes("X"),
+    "the drive table describes itself with each vendor's button names");
+}
+
 console.log("");
 if (failures) {
   console.log(`${failures} input check(s) failed.`);
@@ -436,4 +502,5 @@ if (failures) {
 }
 console.log(`All input checks pass: ${PRESET_IDS.length} keyboard presets × ${ACTION_IDS.length} actions, `
   + `${GAMEPAD_MAP.length} gamepad buttons + ${GAMEPAD_AXIS_MAP.length} sticks by index with ${Object.keys(PAD_LABELS).length} vendor label sets, `
-  + `${VOICE_GRAMMAR.length} voice commands, none of which completes a step.`);
+  + `${VOICE_GRAMMAR.length} voice commands, none of which completes a step; `
+  + `${DRIVE_ACTIONS.length} drive actions on keys and ${DRIVE_GAMEPAD_MAP.length} pad buttons for a drive step.`);

@@ -85,7 +85,7 @@ await check("the cursor walks a step's controls and keeps its place", () => {
 });
 
 await check("every step kind says how to work it from the keyboard", () => {
-  const kinds = ["select", "sequence", "find", "gauge", "turn", "hold", "track", "drag"];
+  const kinds = ["select", "sequence", "find", "gauge", "turn", "hold", "track", "drag", "drive"];
   for (const kind of kinds) {
     const text = describeTarget("valve-wheel", { kind, target: "valve-wheel" }, { position: [2, 5] });
     assert(text.startsWith("valve wheel."), `${kind}: the id is read as words, got ${text}`);
@@ -138,6 +138,9 @@ await check("every graded control reads its value out as text, not colour alone"
   for (const r of all) for (const st of r.steps) {
     if (st.kind === "gauge" && typeof st.gauge?.readout !== "function") silent.push(`${r.id}/${st.id} gauge`);
     if (st.kind === "track" && typeof st.track?.readout !== "function") silent.push(`${r.id}/${st.id} track`);
+    // A drive step's readout is the drive HUD: speed against the band, and the
+    // band's own words (bandLabel) so the number is never the only cue.
+    if (st.kind === "drive" && !(typeof st.drive?.bandLabel === "string" && st.drive.bandLabel.length > 3)) silent.push(`${r.id}/${st.id} drive band`);
   }
   assert(silent.length === 0, `${silent.length} controls with no text readout: ${silent.slice(0, 5).join(", ")}`);
 });
