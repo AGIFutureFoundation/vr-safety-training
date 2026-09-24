@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-medical-history-and-medication-review",
+    "index": "320",
+    "domain": "Dental",
+    "trade": "Dental hygienist or assistant — medical history and medication review (RDH, DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "The state dental board's practice act, under which the decision to consult a physician, change a plan or prescribe is the dentist's, and the history is taken and recorded by the team; the ADHA's standards for clinical dental hygiene practice on assessment; the ADA's guidance on patients taking anticoagulants and antiresorptive bone medicines, and the ADA's CDT code set for the evaluation the dentist records; HIPAA's privacy rule and its minimum-necessary standard for a medication list; OSHA 29 CFR 1910.1030 for a used lancet; the CDC's dental infection-control guidelines for a latex-free setup; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Medical History & Medication Review",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Medical History & Medication Review VR",
+    "tagline": "A history reviewed before anybody picks up an instrument: the door closed, the bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read, and the consult decision recorded — per the dentist",
+    "accent": 10457056,
+    "accentCss": "#9f8fe0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-missed",
+      "name": "Nothing Missed",
+      "note": "Every medicine in the bag on the list, every flag in front of the dentist, and nothing decided that was the dentist's to decide"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "History First",
+      "currency": "HIST",
+      "ranks": [
+        "Clinical Student",
+        "History Taker",
+        "Clinical Reviewer",
+        "Hygiene Lead",
+        "History First Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
