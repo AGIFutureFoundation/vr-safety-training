@@ -190,6 +190,31 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # The Easter egg (WebXR/race): an arcade racer on the platform's own fleet.
+    # Tracks are data modules under race/tracks/, one per course; a new course
+    # is a new file here, in race/js/tracks.js and in tools/check_race.mjs.
+    "race": {
+        "out": "race.html",
+        "modules": [
+            SHARED / "input.js",
+            SHARED / "kit.js",
+            SHARED / "fleet.js",
+            SHARED / "equipment.js",
+            WEBXR / "race/tracks/night-highway.js",
+            WEBXR / "race/tracks/port-terminal.js",
+            WEBXR / "race/tracks/bay-fog-span.js",
+            WEBXR / "race/tracks/quarry-haul.js",
+            WEBXR / "race/tracks/downtown-site.js",
+            WEBXR / "race/js/tracks.js",
+            WEBXR / "race/js/track.js",
+            WEBXR / "race/js/sim.js",
+            WEBXR / "race/js/world.js",
+            WEBXR / "race/js/audio.js",
+            WEBXR / "race/js/net.js",
+            WEBXR / "race/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
 }
 
 # Cross-app links (e.g. trades' intro pointing at "../smartcity/index.html")
@@ -367,6 +392,7 @@ DIST_PAGES = {
     "trades": "trade-skills-simulator.html",
     "holodeck": "holodeck.html",
     "instructor": "instructor-console.html",
+    "race": "race.html",
 }
 DIST_SHARED = ["auth.js", "identity.js", "records.js"]
 

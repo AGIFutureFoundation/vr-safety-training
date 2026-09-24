@@ -71,5 +71,5 @@ export const TRACK_QUARRY_HAUL = {
     { kind: "dust" },
     { kind: "haulSigns", u: [14.1, 15.1] },
   ],
-  grid: { back: 12, rows: 4, cols: 2, spacing: 8, gap: 6 },
+  grid: { back: 12, rows: 4, cols: 2, spacing: 10, gap: 6 },
 };

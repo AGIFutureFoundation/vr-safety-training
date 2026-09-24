@@ -89,5 +89,5 @@ export const TRACK_NIGHT_HIGHWAY = {
     { kind: "overheadSign", u: 0.6, text: "CIRCUIT  LAP LINE" },
     { kind: "overheadSign", u: 13.6, text: "OVERPASS  KEEP RIGHT" },
   ],
-  grid: { back: 12, rows: 4, cols: 2, spacing: 8, gap: 7 },
+  grid: { back: 12, rows: 4, cols: 2, spacing: 10, gap: 7 },
 };

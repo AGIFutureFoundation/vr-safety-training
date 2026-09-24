@@ -154,18 +154,23 @@ export function rcCreateRace({ track, cls, laps = 3, racers = [], field = 8, mod
     }
   }
   const names = RC_NAMES.slice();
+  // Grid slots: AI drivers from the front, local players at the back, the
+  // way an arcade grid starts you with the field ahead to chase.
+  const order = [...list.keys()].sort((a, b) => (list[a].human ? 1 : 0) - (list[b].human ? 1 : 0) || a - b);
+  const slotOf = new Map(order.map((k, slot) => [k, slot]));
   list.forEach((spec, k) => {
     const vehicle = RC_VEHICLES.find((v) => v.id === spec.vehicle) ?? RC_VEHICLES[0];
-    const row = Math.floor(k / tr.grid.cols), col = k % tr.grid.cols;
+    const slot = slotOf.get(k);
+    const row = Math.floor(slot / tr.grid.cols), col = slot % tr.grid.cols;
     const s = tr.L - tr.grid.back - row * tr.grid.spacing - col * 3.5;
     const d = (tr.grid.cols === 1 ? 0 : (col === 0 ? 1 : -1) * tr.grid.gap / 2);
     const pt = rcPointAt(tr, s, d);
     const name = spec.name ?? names.splice(Math.floor(rng() * names.length), 1)[0] ?? `Racer ${k + 1}`;
     race.racers.push({
       id: k, name, vehicle: vehicle.id, veh: vehicle, human: !!spec.human, player: spec.player ?? null, remote: !!spec.remote,
-      p: rcParams(vehicle, klass), grid: k,
+      p: rcParams(vehicle, klass), grid: slot,
       x: pt.x, y: pt.y, z: pt.z, h: pt.head, m: pt.head, v: 0, s, d, idx: rcIndexAt(tr, s), prevS: s,
-      crossings: 0, half: false, lapStart: 0, lapTimes: [], bestLap: null, finishT: null, place: k + 1, progress: s - tr.L,
+      crossings: 0, half: false, lapStart: 0, lapTimes: [], bestLap: null, finishT: null, place: slot + 1, progress: s - tr.L,
       item: null, rolling: null, rollT: 0, itemsUsed: 0, shieldT: 0, boostT: 0, spinT: 0, spinDir: 1, slickT: 0, towT: 0, towTarget: null,
       drifting: false, driftDir: 0, driftCharge: 0, driftHeld: false, hopT: 0,
       signal: null, lookT: -99, safety: 0, safetyT: -99, stuckT: 0, wrongT: 0, wrong: false, thrAt: null, startBoost: false,
@@ -623,6 +628,7 @@ export function rcRecover(race, r) {
 
 function rcLaps(race, r) {
   const tr = race.track, L = tr.L;
+  if (r.finishT != null) return;      // home: the count stops at the flag
   if (r.prevS > L * 0.75 && r.s < L * 0.25) {
     if (r.undo) {
       // Back over the line and forward again: restore, never a new lap.

@@ -72,5 +72,5 @@ export const TRACK_PORT_TERMINAL = {
     { kind: "reeferRow", from: [60, 180], to: [170, 180], count: 5 },
     { kind: "masts", every: 70, height: 26, colour: "#ffd29a" },
   ],
-  grid: { back: 12, rows: 4, cols: 2, spacing: 8, gap: 6 },
+  grid: { back: 12, rows: 4, cols: 2, spacing: 10, gap: 6 },
 };

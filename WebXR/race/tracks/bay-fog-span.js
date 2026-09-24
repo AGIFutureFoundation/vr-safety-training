@@ -75,5 +75,5 @@ export const TRACK_BAY_FOG_SPAN = {
     { kind: "hills", at: [[0, 640], [0, -640], [-260, 560], [260, -560]] },
     { kind: "lamps", every: 30, height: 9, colour: "#ffb45c" },
   ],
-  grid: { back: 12, rows: 4, cols: 2, spacing: 8, gap: 5.5 },
+  grid: { back: 12, rows: 4, cols: 2, spacing: 10, gap: 5.5 },
 };

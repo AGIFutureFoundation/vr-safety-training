@@ -39,10 +39,10 @@ export const TRACK_DOWNTOWN_SITE = {
     [-84, 68, 6],
     [-124, 70, 4.5],
     [-154, 40, 1.4],    // 13 down the ramp
-    [-156, -12, 0.2],
-    [-124, -46, 0.2],   // 15 trench-box run on the right
+    [-156, -12, 0.2],   // 14 trench-box run on the right
+    [-124, -46, 0.2],   // 15 the concrete pour
     [-84, -40, 0.2],
-    [-62, -78, 0.2],    // 17 the concrete pour
+    [-62, -78, 0.2],
     [-32, -96, 0.2],
   ],
   zones: [{ kind: "podium", from: 9, to: 13 }],
@@ -60,16 +60,16 @@ export const TRACK_DOWNTOWN_SITE = {
       kind: "traffic", count: 4, mix: { pickup: 2, dumpTruck: 2 }, speed: [7, 10],
       lanes: [{ d: -3.3, dir: 1 }, { d: 3.3, dir: -1 }],
     },
-    { kind: "trench", from: 14.4, to: 15.9, d: -5.7, w: 2.4 },
-    { kind: "slick", from: 16.9, to: 17.35, d: 1.5, w: 9, what: "wet concrete" },
-    { kind: "cones", from: 16.75, to: 17.5, d: -5.5, taper: 0, spacing: 5 },
+    { kind: "trench", from: 13.9, to: 15.0, d: -5.7, w: 2.4 },
+    { kind: "slick", from: 15.7, to: 16.15, d: 1.5, w: 9, what: "wet concrete" },
+    { kind: "cones", from: 15.55, to: 16.3, d: -5.5, taper: 0, spacing: 5 },
   ],
   scenery: [
     { kind: "towerCranes", at: [[70, 12, 62, 0.6], [-100, -4, 70, 2.4]] },
     { kind: "frames", at: [[180, -40, 40, 30, 7], [40, 150, 50, 30, 9], [-200, 90, 36, 36, 6], [-40, -170, 60, 26, 5]] },
     { kind: "skyline", count: 34, area: [-320, -300, 320, 300], height: [40, 130], avoid: 60, seed: 51 },
-    { kind: "pour", u: 17.1, d: 1.5 },
+    { kind: "pour", u: 15.9, d: 1.5 },
     { kind: "lamps", every: 30, height: 7, colour: "#dfe8ff" },
   ],
-  grid: { back: 12, rows: 4, cols: 2, spacing: 8, gap: 5.5 },
+  grid: { back: 12, rows: 4, cols: 2, spacing: 10, gap: 5.5 },
 };
