@@ -601,6 +601,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "masonry-silica-scaffold", why: "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1." },
       { app: "smartcity", id: "bt-formwork-stripping-and-reshoring", why: "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it." },
       { app: "smartcity", id: "bt-rebar-tying-and-impalement-protection", why: "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch." },
+      { app: "smartcity", id: "bt-masonry-wall-layout-and-mortar", why: "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone." },
     ],
   },
   {

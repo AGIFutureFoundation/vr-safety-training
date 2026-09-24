@@ -436,6 +436,18 @@ export const SIM_BS_STRUCTURAL_BOLTING_AND_TORQUE = {
     box(painters, 0.5, 0.3, 0.35, 1.5, 0.15, -3.0, 0xe8e4dc, { rough: 0.8 });
     painters.visible = false;
 
+    // The signage pad: an ANSI Z535-format sign for this station's hazard.
+    const signPad = group(g, -3.7, 0, -2.9, 0.4);
+    box(signPad, 0.6, 0.04, 0.4, 0, 0.02, 0, 0x3a4550, { rough: 0.8 });
+    cyl(signPad, 0.025, 0.025, 1.4, 0, 0.7, 0, 0x8b949d, { rough: 0.5, metal: 0.6, seg: 8 });
+    decal(signPad, 0.5, 0.36, 0, 1.4, 0.03, (cx, w, h) => {
+      cx.fillStyle = "#000"; cx.fillRect(0, 0, w, h); cx.fillStyle = "#fff"; cx.fillRect(4, 4, w - 8, h - 8);
+      cx.fillStyle = "#ff8200"; cx.fillRect(4, 4, w - 8, h * 0.3);
+      cx.fillStyle = "#000"; cx.font = `800 ${Math.round(h * 0.2)}px Arial`; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("WARNING", w / 2, h * 0.19);
+      cx.fillStyle = "#000"; cx.font = `700 ${Math.round(h * 0.11)}px Arial`;
+      cx.fillText("OVERHEAD BOLTING", w / 2, h * 0.50); cx.fillText("DROP ZONE BELOW", w / 2, h * 0.67); cx.fillText("KEEP OUT", w / 2, h * 0.84); 
+    }, { px: 320 });
+
     // ------------------------------------------------ crew
     const partner = standingFigure(g, 0.2, 1.05, { ry: 2.8, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2c14b, harness: true, gloves: true });
     partner.position.y = BST_DECK;

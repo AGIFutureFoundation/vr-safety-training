@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "bt-masonry-wall-layout-and-mortar",
         "bt-rebar-tying-and-impalement-protection",
         "bt-formwork-stripping-and-reshoring",
         "bs-bearing-replacement-and-jacking",
@@ -2322,6 +2323,11 @@
           "app": "smartcity",
           "id": "bt-rebar-tying-and-impalement-protection",
           "why": "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch."
+        },
+        {
+          "app": "smartcity",
+          "id": "bt-masonry-wall-layout-and-mortar",
+          "why": "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)"
@@ -6762,6 +6768,89 @@
     },
     {
       "app": "smartcity",
+      "id": "bt-masonry-wall-layout-and-mortar",
+      "name": "Masonry Wall Layout & Mortar",
+      "title": "SmartCiti.X~ Masonry Wall Layout & Mortar VR",
+      "tagline": "A block wall started right: the layout drawing and the bracing plan read, the wall line snapped and squared from the benchmarks, the first course dry-bonded, the site walked, the limited access zone set, the mortar batched to the spec's proportions with the dust kept down, the story pole set, the line run and trigged, a course laid to it, the wall braced per the bracing plan, and the day logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Bricklayer — BAC, with LIUNA mason tenders — block wall layout, mortar and bracing",
+      "union": null,
+      "certification": "BAC bricklayer apprenticeship through the International Masonry Institute, and LIUNA Training mason tender curricula; OSHA 29 CFR 1926.706 — the limited access zone for a masonry wall under construction and bracing of masonry walls against overturning and collapse — under 29 CFR 1926 Subpart Q; 29 CFR 1926.1153 respirable crystalline silica, dust from mixing and cleanup kept down by wet methods; ANSI A10.9 concrete and masonry construction safety; the project's mortar specification and the wall bracing plan",
+      "accent": "#8fa65a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "gauge",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "to-the-line-and-braced",
+        "name": "To The Line And Braced",
+        "note": "A wall laid out square, laid to its line, batched to the spec and braced per the plan, with nobody inside its limited access zone"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Wall Gang",
+      "currency": "COURSE",
+      "ranks": [
+        "Apprentice",
+        "Mason Tender",
+        "Layout Mason",
+        "Lead Mason",
+        "Wall Gang Certified"
+      ],
+      "awards": [
+        {
+          "id": "square-from-the-start",
+          "name": "Square From The Start",
+          "note": "Wall line snapped and squared without a correction"
+        },
+        {
+          "id": "true-to-the-line",
+          "name": "True To The Line",
+          "note": "The course laid to the line throughout"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "No shortcut through the zone, no extra course over the plan, no leaning on the green wall, no bare hands in mortar"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections through the whole lift"
+        },
+        {
+          "id": "batched-to-spec",
+          "name": "Batched To Spec",
+          "note": "The mortar proportioned inside the band first time"
+        },
+        {
+          "id": "lift-by-lunch",
+          "name": "Lift By Lunch",
+          "note": "Wall braced and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bt-masonry-wall-layout-and-mortar"
+    },
+    {
+      "app": "smartcity",
       "id": "bt-rebar-tying-and-impalement-protection",
       "name": "Rebar Tying & Impalement Protection",
       "title": "SmartCiti.X~ Rebar Tying & Impalement Protection VR",
@@ -6960,7 +7049,7 @@
         "name": "Cribbed And Locked",
         "note": "A girder that never hung on hydraulics alone: cribbing tight under it, the lock ring down, and the lift held to the plan"
       },
-      "meshes": 219,
+      "meshes": 222,
       "lights": 0,
       "overBudget": false,
       "index": "320",
@@ -7043,7 +7132,7 @@
         "name": "Two Hooks, One Plan",
         "note": "A tandem pick flown to the plan: level the whole way, nobody under it, stopped for the wind, braced before release"
       },
-      "meshes": 280,
+      "meshes": 275,
       "lights": 0,
       "overBudget": false,
       "index": "319",
@@ -7126,7 +7215,7 @@
         "name": "Tensioned To Spec",
         "note": "Every bolt in the splice snug, marked, turned and inspected the way the bolt spec says — and the one that spun found before the inspector did"
       },
-      "meshes": 274,
+      "meshes": 277,
       "lights": 0,
       "overBudget": false,
       "index": "318",
@@ -25959,7 +26048,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 246,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",

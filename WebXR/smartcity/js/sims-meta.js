@@ -14350,5 +14350,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bt-masonry-wall-layout-and-mortar",
+    "index": "323",
+    "domain": "Construction & Structural Trades",
+    "trade": "Bricklayer — BAC, with LIUNA mason tenders — block wall layout, mortar and bracing",
+    "category": "Construction & Structural Trades",
+    "certification": "BAC bricklayer apprenticeship through the International Masonry Institute, and LIUNA Training mason tender curricula; OSHA 29 CFR 1926.706 — the limited access zone for a masonry wall under construction and bracing of masonry walls against overturning and collapse — under 29 CFR 1926 Subpart Q; 29 CFR 1926.1153 respirable crystalline silica, dust from mixing and cleanup kept down by wet methods; ANSI A10.9 concrete and masonry construction safety; the project's mortar specification and the wall bracing plan",
+    "name": "Masonry Wall Layout & Mortar",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Masonry Wall Layout & Mortar VR",
+    "tagline": "A block wall started right: the layout drawing and the bracing plan read, the wall line snapped and squared from the benchmarks, the first course dry-bonded, the site walked, the limited access zone set, the mortar batched to the spec's proportions with the dust kept down, the story pole set, the line run and trigged, a course laid to it, the wall braced per the bracing plan, and the day logged",
+    "accent": 9414234,
+    "accentCss": "#8fa65a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "to-the-line-and-braced",
+      "name": "To The Line And Braced",
+      "note": "A wall laid out square, laid to its line, batched to the spec and braced per the plan, with nobody inside its limited access zone"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wall Gang",
+      "currency": "COURSE",
+      "ranks": [
+        "Apprentice",
+        "Mason Tender",
+        "Layout Mason",
+        "Lead Mason",
+        "Wall Gang Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
