@@ -1,6 +1,6 @@
 # Standards registry
 
-_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-23: 331 entries across 89 bodies, over the 17 catalog categories. Never edit this page by hand._
+_Rendered from `tools/standards.json` by `node tools/check_standards.mjs --docs` on 2026-09-24: 334 entries across 90 bodies, over the 17 catalog categories. Never edit this page by hand._
 
 This is the one place a standard this platform teaches against is written down: the body that publishes it, its title, the catalog categories it governs, and the forms a station's own text is matched against. `tools/eval_content.mjs` scores every station on the share of its cited authorities that resolve to an entry in scope for that station's category, and `tools/check_standards.mjs` gates on every station citing at least one in-scope entry and every programme guide naming a real one.
 
@@ -231,6 +231,17 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | 8 CCR 5141.1 — Protection from wildfire smoke | `cal-osha-5141-1` | Community Environmental Justice, Construction & Structural Trades, Emergency Services, Energy & Power, Environmental Monitoring, Maritime & Ports, Mobility & Transit, Surface Prep & Coatings, Water & Environmental | `8 CCR 5141.1`, `wildfire-smoke rule`, `wildfire smoke rule` |
 | ✓ | 8 CCR 5194 — Hazard Communication | `cal-osha-5194` | all 17 categories | `8 CCR 5194` |
 
+### FMCSA (6)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ✓ | 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry | `fmcsa-49-cfr-380-subpart-f` | Maritime & Ports, Mobility & Transit | `49 CFR 380 Subpart F`, `49 CFR 380` |
+| ✓ | 49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests | `fmcsa-49-cfr-383` | Maritime & Ports, Mobility & Transit | `49 CFR 383` |
+| ✓ | 49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions | `fmcsa-49-cfr-392` | Maritime & Ports, Mobility & Transit | `49 CFR 392` |
+| ✓ | 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo | `fmcsa-49-cfr-393` | Maritime & Ports, Mobility & Transit | `49 CFR 393` |
+| ✓ | 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices | `fmcsa-49-cfr-395` | Maritime & Ports, Mobility & Transit | `49 CFR 395` |
+| ✓ | 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report | `fmcsa-49-cfr-396` | Maritime & Ports, Mobility & Transit | `49 CFR 396` |
+
 ### NSF (6)
 
 | | Standard or programme | Registry id | Governs | Cited as |
@@ -300,15 +311,6 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | ✓ | California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages | `abc-25631` | Culinary & Hospitality | `Cal. Bus. & Prof. Code §25631`, `§25631`, `25631` |
 | ✓ | California Business and Professions Code §25658 — sale or furnishing of alcohol to a person under 21 | `abc-25658` | Culinary & Hospitality | `Cal. Bus. & Prof. Code §25658`, `§25658`, `25658` |
 | ✓ | California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol | `abc-rbs-training` | Culinary & Hospitality | `RBS` |
-
-### FMCSA (4)
-
-| | Standard or programme | Registry id | Governs | Cited as |
-|---|---|---|---|---|
-| ✓ | 49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry | `fmcsa-49-cfr-380-subpart-f` | Maritime & Ports, Mobility & Transit | `49 CFR 380 Subpart F`, `49 CFR 380` |
-| ✓ | 49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo | `fmcsa-49-cfr-393` | Maritime & Ports, Mobility & Transit | `49 CFR 393` |
-| ✓ | 49 CFR Part 395 — Hours of service of drivers, including electronic logging devices | `fmcsa-49-cfr-395` | Maritime & Ports, Mobility & Transit | `49 CFR 395` |
-| ✓ | 49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report | `fmcsa-49-cfr-396` | Maritime & Ports, Mobility & Transit | `49 CFR 396` |
 
 ### FRA (4)
 
@@ -755,6 +757,12 @@ Scope is a judgement about what a standard governs, not a record of who cites it
 | | Standard or programme | Registry id | Governs | Cited as |
 |---|---|---|---|---|
 | ? | The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response | `sphere-handbook` | Emergency Services | `Sphere Handbook` |
+
+### state CDL handbook (1)
+
+| | Standard or programme | Registry id | Governs | Cited as |
+|---|---|---|---|---|
+| ? | The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing | `state-cdl-handbook` | Mobility & Transit | `state CDL handbook` |
 
 ### SWANA (1)
 
