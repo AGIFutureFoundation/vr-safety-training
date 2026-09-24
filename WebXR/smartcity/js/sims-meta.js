@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-dental-coding-billing-and-preauthorisation",
+    "index": "322",
+    "domain": "Dental",
+    "trade": "Dental billing and insurance coordinator — coding, claims and pre-authorisation, SEIU and UFCW clinic and front-office staff",
+    "category": "Dental & Oral Health",
+    "certification": "The ADA's Code on Dental Procedures and Nomenclature (CDT), cited as the code set and never by a number, and the ADA's dental claim form; the state dental board's rules that the dentist's signed clinical record is what every claim must be supported by; HIPAA's privacy and security rules, including access controls, the minimum-necessary standard and the standard electronic transactions a claim travels in; OSHA 29 CFR 1910.1030 for the front-office staff named in the exposure control plan who help when a patient collapses; SEIU and UFCW clinic and front-office staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Dental Coding, Billing & Pre-authorisation",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Coding, Billing & Pre-authorisation VR",
+    "tagline": "A crown and two dental plans turned into an honest claim: eligibility first, the note read for what it supports, a gap sent back to the dentist, the current CDT, payers in order, a portal rather than a fax, and an appeal made on the facts",
+    "accent": 14268506,
+    "accentCss": "#d9b85a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-claim",
+      "name": "Clean Claim",
+      "note": "A claim and a pre-authorisation built only on what the signed record supports, sent securely and paid to the contract"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Claim",
+      "currency": "CLAIM",
+      "ranks": [
+        "Front-Office Trainee",
+        "Insurance Clerk",
+        "Billing Coordinator",
+        "Revenue Lead",
+        "Clean Claim Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

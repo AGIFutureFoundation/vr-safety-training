@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "dn-dental-coding-billing-and-preauthorisation",
         "dn-oral-hygiene-instruction-and-motivational-interviewing",
         "dn-medical-history-and-medication-review",
         "dn-dental-trauma-and-avulsed-tooth-response",
@@ -6736,6 +6737,89 @@
     },
     {
       "app": "smartcity",
+      "id": "dn-dental-coding-billing-and-preauthorisation",
+      "name": "Dental Coding, Billing & Pre-authorisation",
+      "title": "SmartCiti.X~ Dental Coding, Billing & Pre-authorisation VR",
+      "tagline": "A crown and two dental plans turned into an honest claim: eligibility first, the note read for what it supports, a gap sent back to the dentist, the current CDT, payers in order, a portal rather than a fax, and an appeal made on the facts",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental billing and insurance coordinator — coding, claims and pre-authorisation, SEIU and UFCW clinic and front-office staff",
+      "union": null,
+      "certification": "The ADA's Code on Dental Procedures and Nomenclature (CDT), cited as the code set and never by a number, and the ADA's dental claim form; the state dental board's rules that the dentist's signed clinical record is what every claim must be supported by; HIPAA's privacy and security rules, including access controls, the minimum-necessary standard and the standard electronic transactions a claim travels in; OSHA 29 CFR 1910.1030 for the front-office staff named in the exposure control plan who help when a patient collapses; SEIU and UFCW clinic and front-office staff; Unspoken Smiles, the programme this platform is built for",
+      "accent": "#d9b85a",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "select",
+        "gauge",
+        "drag",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "clean-claim",
+        "name": "Clean Claim",
+        "note": "A claim and a pre-authorisation built only on what the signed record supports, sent securely and paid to the contract"
+      },
+      "meshes": 149,
+      "lights": 1,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Clean Claim",
+      "currency": "CLAIM",
+      "ranks": [
+        "Front-Office Trainee",
+        "Insurance Clerk",
+        "Billing Coordinator",
+        "Revenue Lead",
+        "Clean Claim Certified"
+      ],
+      "awards": [
+        {
+          "id": "note-first",
+          "name": "Note First",
+          "note": "Both documentation gaps found before a code was looked up"
+        },
+        {
+          "id": "honest-books",
+          "name": "Honest Books",
+          "note": "No unsafe action anywhere in the claim"
+        },
+        {
+          "id": "steady-call",
+          "name": "Steady Call",
+          "note": "The shredder and the appeal call carried without a break"
+        },
+        {
+          "id": "zero-rework",
+          "name": "Zero Rework",
+          "note": "No corrections anywhere in the claim"
+        },
+        {
+          "id": "right-length",
+          "name": "Right Length",
+          "note": "The narrative set near the middle of its band"
+        },
+        {
+          "id": "same-day",
+          "name": "Same Day",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dn-dental-coding-billing-and-preauthorisation"
+    },
+    {
+      "app": "smartcity",
       "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
       "name": "Oral Hygiene Instruction & Motivational Interviewing",
       "title": "SmartCiti.X~ Oral Hygiene Instruction & Motivational Interviewing VR",
@@ -6768,7 +6852,7 @@
         "name": "His Goal",
         "note": "A home-care goal the patient chose himself, written in his words, reached without a single lecture"
       },
-      "meshes": 176,
+      "meshes": 181,
       "lights": 1,
       "overBudget": false,
       "index": "321",
@@ -25850,7 +25934,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 269,
+      "meshes": 253,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26510,7 +26594,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
