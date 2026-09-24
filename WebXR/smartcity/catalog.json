@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-shooting-form-and-arc",
         "bb-passing-and-catching",
         "bb-footwork-pivots-and-jump-stops",
         "bb-stance-and-ball-handling",
@@ -6738,6 +6739,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-shooting-form-and-arc",
+      "name": "Shooting Form and Arc",
+      "title": "SmartCiti.X~ Shooting Form and Arc VR",
+      "tagline": "A practice hoop inspected and set to the right height, the ball sized to the hands, the shot built from balance up, the arc held in a band that drops, the release timed at the top, the lane clear and a shot count with rest",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on ball size and rim height scaled to age, shooting progressions and managing repetition with rest; NFHS guidance on equipment in safe condition and padded goal supports; CDC Heads Up for a knock to the head under a crowded rim; the U.S. Center for SafeSport for observable, encouraging correction; the American Red Cross first aid course for a player down under the basket",
+      "accent": "#ff7a3b",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "turn",
+        "sequence",
+        "hold",
+        "track",
+        "gauge",
+        "drag"
+      ],
+      "badge": {
+        "id": "nothing-but-arc",
+        "name": "Nothing but Arc",
+        "note": "The shot built right, the arc and release in band, and nobody under the rim or shooting on empty"
+      },
+      "meshes": 200,
+      "lights": 0,
+      "overBudget": false,
+      "index": "335",
+      "flat": false,
+      "system": "Shot Chart",
+      "currency": "MAKES",
+      "ranks": [
+        "Rebounder",
+        "Shooting Helper",
+        "Assistant Coach",
+        "Shooting Coach",
+        "Skills Director"
+      ],
+      "awards": [
+        {
+          "id": "safe-hoop",
+          "name": "Safe Hoop",
+          "note": "Every defect on the practice hoop found first time"
+        },
+        {
+          "id": "clear-lane",
+          "name": "Clear Lane",
+          "note": "No unsafe action in the whole shooting block"
+        },
+        {
+          "id": "true-arc",
+          "name": "True Arc",
+          "note": "Arc and release timing both inside the band"
+        },
+        {
+          "id": "clean-form",
+          "name": "Clean Form",
+          "note": "No corrections anywhere in the block"
+        },
+        {
+          "id": "steady-arc",
+          "name": "Steady Arc",
+          "note": "Held the arc in band the whole time"
+        },
+        {
+          "id": "quick-release",
+          "name": "Quick Release",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-shooting-form-and-arc"
     },
     {
       "app": "smartcity",
@@ -25855,7 +25939,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 241,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26515,7 +26599,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-shooting-form-and-arc",
+    "index": "335",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on ball size and rim height scaled to age, shooting progressions and managing repetition with rest; NFHS guidance on equipment in safe condition and padded goal supports; CDC Heads Up for a knock to the head under a crowded rim; the U.S. Center for SafeSport for observable, encouraging correction; the American Red Cross first aid course for a player down under the basket",
+    "name": "Shooting Form and Arc",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Shooting Form and Arc VR",
+    "tagline": "A practice hoop inspected and set to the right height, the ball sized to the hands, the shot built from balance up, the arc held in a band that drops, the release timed at the top, the lane clear and a shot count with rest",
+    "accent": 16742971,
+    "accentCss": "#ff7a3b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "nothing-but-arc",
+      "name": "Nothing but Arc",
+      "note": "The shot built right, the arc and release in band, and nobody under the rim or shooting on empty"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shot Chart",
+      "currency": "MAKES",
+      "ranks": [
+        "Rebounder",
+        "Shooting Helper",
+        "Assistant Coach",
+        "Shooting Coach",
+        "Skills Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
