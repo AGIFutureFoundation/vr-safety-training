@@ -14224,5 +14224,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cv-neighborhood-emergency-block-captain",
+    "index": "320",
+    "domain": "Civic",
+    "trade": "Neighbourhood emergency block captain — CERT-trained volunteer",
+    "category": "Community Environmental Justice",
+    "certification": "FEMA's Community Emergency Response Team (CERT) programme, named as a body, for the volunteer's role and its limits: rescuer safety first, size-up, utility control, light search and marking, simple triage, bleeding control, cribbing, disaster psychology and team organisation; NIMS and ICS for checking in, reporting up one chain and keeping an activity log, as taught in the FEMA IS-100 and IS-700 courses; Red Cross shelter and first-aid practice for the neighbours sent onward; Psychological First Aid (NCTSN and the National Center for PTSD) for the frightened and the grieving; SAMHSA's trauma-informed principles for a neighbourhood after a disaster. The gas utility's rule that only the utility or a qualified professional restores gas is stated generically. No local neighbourhood programme is named because none is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+    "name": "Neighborhood Emergency Block Captain",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Neighborhood Emergency Block Captain VR",
+    "tagline": "The morning after the quake, one block and one captain: checked in, sized up, gas shut where it hisses, the damaged house marked, bleeding stopped, a leg freed an inch at a time, a frightened neighbour steadied — and the roster of who needs help kept off the group chat",
+    "accent": 14721088,
+    "accentCss": "#e0a040",
+    "parSeconds": 340,
+    "badge": {
+      "id": "block-held",
+      "name": "Block Held",
+      "note": "A whole block worked inside the volunteer's role: nobody hurt helping, nobody exposed, nobody left alone"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Block by Block",
+      "currency": "READY",
+      "ranks": [
+        "Team Member",
+        "Buddy Lead",
+        "Block Captain",
+        "Area Coordinator",
+        "Team Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

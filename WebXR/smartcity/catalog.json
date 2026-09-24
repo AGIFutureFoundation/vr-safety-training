@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 332
+      "stations": 333
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Community Environmental Justice",
       "stations": [
+        "cv-neighborhood-emergency-block-captain",
         "cv-voter-registration-drive-and-nonpartisan-conduct",
         "cv-open-meeting-law-and-agenda-notice",
         "emergency-savings-and-predatory-lending",
@@ -6731,6 +6732,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-neighborhood-emergency-block-captain",
+      "name": "Neighborhood Emergency Block Captain",
+      "title": "SmartCiti.X~ Neighborhood Emergency Block Captain VR",
+      "tagline": "The morning after the quake, one block and one captain: checked in, sized up, gas shut where it hisses, the damaged house marked, bleeding stopped, a leg freed an inch at a time, a frightened neighbour steadied — and the roster of who needs help kept off the group chat",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Neighbourhood emergency block captain — CERT-trained volunteer",
+      "union": null,
+      "certification": "FEMA's Community Emergency Response Team (CERT) programme, named as a body, for the volunteer's role and its limits: rescuer safety first, size-up, utility control, light search and marking, simple triage, bleeding control, cribbing, disaster psychology and team organisation; NIMS and ICS for checking in, reporting up one chain and keeping an activity log, as taught in the FEMA IS-100 and IS-700 courses; Red Cross shelter and first-aid practice for the neighbours sent onward; Psychological First Aid (NCTSN and the National Center for PTSD) for the frightened and the grieving; SAMHSA's trauma-informed principles for a neighbourhood after a disaster. The gas utility's rule that only the utility or a qualified professional restores gas is stated generically. No local neighbourhood programme is named because none is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#e0a040",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "block-held",
+        "name": "Block Held",
+        "note": "A whole block worked inside the volunteer's role: nobody hurt helping, nobody exposed, nobody left alone"
+      },
+      "meshes": 231,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Block by Block",
+      "currency": "READY",
+      "ranks": [
+        "Team Member",
+        "Buddy Lead",
+        "Block Captain",
+        "Area Coordinator",
+        "Team Mentor"
+      ],
+      "awards": [
+        {
+          "id": "kitted-up",
+          "name": "Kitted Up",
+          "note": "Every piece of personal safety kit found first time"
+        },
+        {
+          "id": "nobody-hurt-helping",
+          "name": "Nobody Hurt Helping",
+          "note": "No unsafe action anywhere on the block"
+        },
+        {
+          "id": "hazards-named",
+          "name": "Hazards Named",
+          "note": "Every hazard on the block found first time"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere on the block"
+        },
+        {
+          "id": "inch-at-a-time",
+          "name": "An Inch at a Time",
+          "note": "The lift set inside the band"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "The pressure and the calm both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-neighborhood-emergency-block-captain"
     },
     {
       "app": "smartcity",
@@ -25682,7 +25766,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26342,7 +26426,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
