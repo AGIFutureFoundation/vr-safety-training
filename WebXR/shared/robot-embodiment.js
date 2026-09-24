@@ -52,6 +52,7 @@ export const GRASP_BY_KIND = {
   gauge: "continuous-adjustment",      // set a dial, then commit
   turn: "wrist-rotation",              // torque about the approach axis
   drag: "pick-and-place",              // lift here, place there
+  drive: "vehicle-control",            // throttle, brake and steer through the vehicle's own controls
 };
 
 /** Max contact force classes, weakest first. */
@@ -62,6 +63,10 @@ export const FORCE_CLASSES = ["none", "light", "firm"];
 export const FORCE_BY_KIND = {
   select: "light", sequence: "light", find: "light", hold: "light",
   press: "light", track: "light", gauge: "light", turn: "firm", drag: "firm",
+  // A drive step is performed through the vehicle's controls, never by
+  // pushing on the world: the robot may drive (noRobot stays false), and the
+  // force it may put on anything outside the cab is none.
+  drive: "none",
 };
 
 /** Default keep-out radii, in metres, by what the volume is around. */
@@ -295,6 +300,14 @@ export function stepEmbodiment(step, poses, o = {}) {
   if (step.kind === "hold") emb.seconds = step.seconds ?? null;
   if (step.kind === "track") { emb.seconds = step.seconds ?? null; emb.band = step.track?.green ?? [0.42, 0.62]; }
   if (step.kind === "gauge") emb.band = step.gauge?.green ?? [0.44, 0.62];
+  if (step.kind === "drive") {
+    emb.band = step.drive?.speedBand ?? null;
+    emb.drive = {
+      path: step.drive?.path ?? [], laneWidth: step.drive?.laneWidth ?? null, reverse: !!step.drive?.reverse,
+      checks: (step.drive?.checks ?? []).map((c) => ({ at: c.at, kind: c.kind })),
+      units: step.drive?.units ?? "mph",
+    };
+  }
   if (step.kind === "drag") {
     const to = step.drag?.to;
     emb.place = { id: to ?? null, pose: to ? poses[to] ?? null : null, radius: step.drag?.radius ?? 0.35 };
@@ -319,6 +332,7 @@ export function observationSchema() {
       pose: "{ position[3], normal[3], approach[3], standoff, euler[3] } for the step's primary target, in station metres",
       poses: "one pose per target of this step, in the order the step names them",
       place: "pick-and-place only: the drop pose and its radius",
+      drive: "vehicle-control only: the path, lane width, speed band and the checks the route asks for",
       keepOut: "{ zones, inside, part, authorised, nearest: { id, clearance } } for the pose the robot is working",
     },
   };
@@ -334,6 +348,7 @@ export function actionSpace() {
       release: "{} — end sustained contact",
       rotate: "{ id, delta } — signed fraction of a turn about the approach axis",
       drop: "{ id, distance } — release a carried object `distance` metres from its socket",
+      drive: "{ throttle, steer, check } — throttle in [-1, 1] (below zero brakes), steer in [-1, 1] (positive to the right of travel), and a check kind (mirror-left | mirror-right | signal-left | signal-right | horn | gear-down | gear-up | lights) or null",
       wait: "{} — no motion this tick",
     },
     grasps: GRASP_BY_KIND,
