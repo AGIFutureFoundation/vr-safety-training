@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 335
+      "stations": 336
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-hyperbaric-chamber-standby",
         "br-derelict-gear-recovery-dive",
         "br-underwater-sediment-core-sampling",
         "br-underwater-debris-survey-and-mapping",
@@ -6737,6 +6738,89 @@
     },
     {
       "app": "smartcity",
+      "id": "br-hyperbaric-chamber-standby",
+      "name": "Hyperbaric Chamber Standby",
+      "title": "SmartCiti.X~ Hyperbaric Chamber Standby VR",
+      "tagline": "The chamber ready before the diver needs it: the standby brief taken, the door seal and the lighter found, the air lined up, the chamber taken to test pressure and held for leaks while the oxygen climbs, the breathing masks checked, vented to surface before the door opens, the medical kit locked in, the stopwatches set, the diver blown down at the tables' rate while they report a painful shoulder, the viewport watched, and the chamber log written — every step in a PFD",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver as chamber operator standing by a deck decompression chamber during a Bay restoration dive, with the dive supervisor, the tender and the standby diver",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (decompression chambers), 29 CFR 1910.423 post-dive procedures (the recompression chamber and the diver's condition) and 29 CFR 1910.440 the dive record; ASME PVHO-1 pressure vessels for human occupancy; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; pressures, times and treatment per the tables the supervisor holds, the chamber manual and the diving physician",
+      "accent": "#9d8cf0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "gauge",
+        "hold",
+        "sequence",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "chamber-ready",
+        "name": "Chamber Ready",
+        "note": "The chamber tested, clean of fire load and manned at the console for every minute the diver was in it, and never a door opened under pressure"
+      },
+      "meshes": 231,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Chamber Standby",
+      "currency": "LOCK",
+      "ranks": [
+        "Outside Tender",
+        "Inside Tender",
+        "Chamber Operator",
+        "Lead Chamber Operator",
+        "Chamber Standby Certified"
+      ],
+      "awards": [
+        {
+          "id": "brief-first",
+          "name": "Brief First",
+          "note": "The standby brief taken before the chamber was touched"
+        },
+        {
+          "id": "test-true",
+          "name": "Test True",
+          "note": "The test pressure committed inside the band first time"
+        },
+        {
+          "id": "no-fire-load",
+          "name": "No Fire Load",
+          "note": "No hydrocarbon on the door, no phone into the chamber, never off the console, never a door under pressure"
+        },
+        {
+          "id": "clean-standby",
+          "name": "Clean Standby",
+          "note": "No corrections from the brief to the chamber log"
+        },
+        {
+          "id": "steady-blowdown",
+          "name": "Steady Blow-down",
+          "note": "The chamber pressed down in band the whole way"
+        },
+        {
+          "id": "logged-in-time",
+          "name": "Logged In Time",
+          "note": "Chamber log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-hyperbaric-chamber-standby"
+    },
+    {
+      "app": "smartcity",
       "id": "br-derelict-gear-recovery-dive",
       "name": "Derelict Gear Recovery Dive",
       "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
@@ -6769,7 +6853,7 @@
         "name": "Gear Out, Diver Clear",
         "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
       },
-      "meshes": 172,
+      "meshes": 189,
       "lights": 0,
       "overBudget": false,
       "index": "322",
