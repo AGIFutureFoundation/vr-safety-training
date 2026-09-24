@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -84,6 +84,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "cs-permit-entry-and-attendant-duties",
         "manhole-entry-and-atmospheric-monitoring",
         "oyster-reef-monitoring",
         "spartina-removal",
@@ -6735,6 +6736,88 @@
     },
     {
       "app": "smartcity",
+      "id": "cs-permit-entry-and-attendant-duties",
+      "name": "Permit Entry & Attendant Duties",
+      "title": "SmartCiti.X~ Permit Entry & Attendant Duties VR",
+      "tagline": "The attendant's shift at a tank manway: the permit read field by field and its blanks caught, roles signed, the opening barricaded and posted, the comms checked from inside, the entrant tagged in, the retrieval line on, a continuous watch the foreman tries to pull you off, a comm check that goes unanswered, the perimeter kept, the entrant tagged out, and the permit cancelled and filed",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Confined-space attendant — LIUNA laborer at the manway, with a UA pipefitter entrant and an IUOE operator as entry supervisor",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — the entry permit's required fields, the duties of the entrant, attendant and entry supervisor, and rescue and emergency services; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its coordination between employers on a shared site; ANSI Z117.1 confined-space entry practice; OSHA 29 CFR 1910.147 for the isolations the permit lists; NIOSH confined-space criteria; LIUNA, UA and IUOE confined-space training",
+      "accent": "#4fb3d9",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "never-left-the-hole",
+        "name": "Never Left the Hole",
+        "note": "The permit complete before entry, the count always right, the attendant never off the opening and never inside it"
+      },
+      "meshes": 219,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Permit Space",
+      "currency": "ENTRIES",
+      "ranks": [
+        "Hole Watch Trainee",
+        "Attendant",
+        "Lead Attendant",
+        "Entry Supervisor",
+        "Permit Space Qualified"
+      ],
+      "awards": [
+        {
+          "id": "stayed-outside",
+          "name": "Stayed Outside",
+          "note": "Never went in, never left the post, never let an unsigned entry or an untrained helper through"
+        },
+        {
+          "id": "blank-means-stop",
+          "name": "Blank Means Stop",
+          "note": "Every blank on the permit caught before the entry"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the permit to the file"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The watch held in band the whole time"
+        },
+        {
+          "id": "clear-comms",
+          "name": "Clear Comms",
+          "note": "The comm check committed inside the band first time"
+        },
+        {
+          "id": "tight-entry",
+          "name": "Tight Entry",
+          "note": "Permit to file inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cs-permit-entry-and-attendant-duties"
+    },
+    {
+      "app": "smartcity",
       "id": "hw-flatwork-ironer-and-folder-guarding",
       "name": "Flatwork Ironer & Folder Guarding",
       "title": "SmartCiti.X~ Flatwork Ironer & Folder Guarding VR",
@@ -6767,7 +6850,7 @@
         "name": "Hands Whole",
         "note": "Every jam cleared under your own lock, every guard back before the restart, and nobody reached into a running nip"
       },
-      "meshes": 152,
+      "meshes": 177,
       "lights": 0,
       "overBudget": false,
       "index": "320",
@@ -25766,7 +25849,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26426,7 +26509,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

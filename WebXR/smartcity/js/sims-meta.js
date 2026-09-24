@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cs-permit-entry-and-attendant-duties",
+    "index": "321",
+    "domain": "Water & Environmental",
+    "trade": "Confined-space attendant — LIUNA laborer at the manway, with a UA pipefitter entrant and an IUOE operator as entry supervisor",
+    "category": "Water & Environmental",
+    "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — the entry permit's required fields, the duties of the entrant, attendant and entry supervisor, and rescue and emergency services; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its coordination between employers on a shared site; ANSI Z117.1 confined-space entry practice; OSHA 29 CFR 1910.147 for the isolations the permit lists; NIOSH confined-space criteria; LIUNA, UA and IUOE confined-space training",
+    "name": "Permit Entry & Attendant Duties",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Permit Entry & Attendant Duties VR",
+    "tagline": "The attendant's shift at a tank manway: the permit read field by field and its blanks caught, roles signed, the opening barricaded and posted, the comms checked from inside, the entrant tagged in, the retrieval line on, a continuous watch the foreman tries to pull you off, a comm check that goes unanswered, the perimeter kept, the entrant tagged out, and the permit cancelled and filed",
+    "accent": 5223385,
+    "accentCss": "#4fb3d9",
+    "parSeconds": 280,
+    "badge": {
+      "id": "never-left-the-hole",
+      "name": "Never Left the Hole",
+      "note": "The permit complete before entry, the count always right, the attendant never off the opening and never inside it"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Permit Space",
+      "currency": "ENTRIES",
+      "ranks": [
+        "Hole Watch Trainee",
+        "Attendant",
+        "Lead Attendant",
+        "Entry Supervisor",
+        "Permit Space Qualified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
