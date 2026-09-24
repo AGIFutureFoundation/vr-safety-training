@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 333
+      "stations": 334
     },
     "trades": {
       "entry": "trades/index.html",
@@ -298,6 +298,7 @@
     {
       "name": "Dental & Oral Health",
       "stations": [
+        "dn-oral-hygiene-instruction-and-motivational-interviewing",
         "dn-medical-history-and-medication-review",
         "dn-dental-trauma-and-avulsed-tooth-response",
         "dn-digital-intraoral-scanning-and-cad-cam",
@@ -6735,6 +6736,89 @@
     },
     {
       "app": "smartcity",
+      "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+      "name": "Oral Hygiene Instruction & Motivational Interviewing",
+      "title": "SmartCiti.X~ Oral Hygiene Instruction & Motivational Interviewing VR",
+      "tagline": "The flossing talk that finally works: at eye level, permission first, his story heard to the end, his own reasons noticed, technique shown on a model, and one small goal he chose — in his words",
+      "category": "Dental & Oral Health",
+      "domain": "Dental",
+      "trade": "Dental hygienist — patient education and motivational interviewing (RDH), SEIU and UFCW clinic and dental staff, AFSCME public-health hygienists",
+      "union": null,
+      "certification": "The ADHA's standards for clinical dental hygiene practice, which put patient education and a care plan the patient agrees to at the centre of hygiene care; the state dental board's practice act for the hygienist's scope; the ADA's guidance on home care and the ADA's CDT code set under which the dentist's office records oral hygiene instruction; the CDC's dental infection-control guidelines on keeping aerosol-generating procedures to those actually needed; OSHA 29 CFR 1910.1030 for a scaler, which is a sharp and never a pointer; HIPAA's privacy rule for intraoral photographs; SEIU, UFCW and AFSCME clinic and public-health dental staff; Unspoken Smiles, the programme this platform is built for",
+      "accent": "#7fd1a0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "turn",
+        "sequence",
+        "hold",
+        "find",
+        "gauge",
+        "select",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "his-goal",
+        "name": "His Goal",
+        "note": "A home-care goal the patient chose himself, written in his words, reached without a single lecture"
+      },
+      "meshes": 176,
+      "lights": 1,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Change Talk",
+      "currency": "TALK",
+      "ranks": [
+        "Hygiene Student",
+        "Hygiene Educator",
+        "Motivational Clinician",
+        "Hygiene Lead",
+        "Change Talk Certified"
+      ],
+      "awards": [
+        {
+          "id": "permission-first",
+          "name": "Permission First",
+          "note": "The opening worked in order: permission, an open question, an affirmation"
+        },
+        {
+          "id": "no-lecture",
+          "name": "No Lecture",
+          "note": "No unsafe action anywhere in the visit"
+        },
+        {
+          "id": "stayed-with-him",
+          "name": "Stayed With Him",
+          "note": "Both listening holds and the goal-setting carried without a break"
+        },
+        {
+          "id": "clean-visit",
+          "name": "Clean Visit",
+          "note": "No corrections anywhere in the visit"
+        },
+        {
+          "id": "one-small-piece",
+          "name": "One Small Piece",
+          "note": "The information dose set near the middle of its band"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=dn-oral-hygiene-instruction-and-motivational-interviewing"
+    },
+    {
+      "app": "smartcity",
       "id": "dn-medical-history-and-medication-review",
       "name": "Medical History & Medication Review",
       "title": "SmartCiti.X~ Medical History & Medication Review VR",
@@ -6767,7 +6851,7 @@
         "name": "Nothing Missed",
         "note": "Every medicine in the bag on the list, every flag in front of the dentist, and nothing decided that was the dentist's to decide"
       },
-      "meshes": 177,
+      "meshes": 182,
       "lights": 1,
       "overBudget": false,
       "index": "320",
@@ -25766,7 +25850,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26426,7 +26510,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

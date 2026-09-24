@@ -14266,5 +14266,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+    "index": "321",
+    "domain": "Dental",
+    "trade": "Dental hygienist — patient education and motivational interviewing (RDH), SEIU and UFCW clinic and dental staff, AFSCME public-health hygienists",
+    "category": "Dental & Oral Health",
+    "certification": "The ADHA's standards for clinical dental hygiene practice, which put patient education and a care plan the patient agrees to at the centre of hygiene care; the state dental board's practice act for the hygienist's scope; the ADA's guidance on home care and the ADA's CDT code set under which the dentist's office records oral hygiene instruction; the CDC's dental infection-control guidelines on keeping aerosol-generating procedures to those actually needed; OSHA 29 CFR 1910.1030 for a scaler, which is a sharp and never a pointer; HIPAA's privacy rule for intraoral photographs; SEIU, UFCW and AFSCME clinic and public-health dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Oral Hygiene Instruction & Motivational Interviewing",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Oral Hygiene Instruction & Motivational Interviewing VR",
+    "tagline": "The flossing talk that finally works: at eye level, permission first, his story heard to the end, his own reasons noticed, technique shown on a model, and one small goal he chose — in his words",
+    "accent": 8376736,
+    "accentCss": "#7fd1a0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "his-goal",
+      "name": "His Goal",
+      "note": "A home-care goal the patient chose himself, written in his words, reached without a single lecture"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Change Talk",
+      "currency": "TALK",
+      "ranks": [
+        "Hygiene Student",
+        "Hygiene Educator",
+        "Motivational Clinician",
+        "Hygiene Lead",
+        "Change Talk Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
