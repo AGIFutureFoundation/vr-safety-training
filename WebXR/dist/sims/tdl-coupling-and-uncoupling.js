@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace, mat, hose } from "../../../shared/kit.js";
+import { semiTractor, trailer } from "../../../shared/fleet.js";
 import {
   stationPad, holoPanel, holoTag, standingFigure, cone, instrument,
   surfaceTexture, texturedMat, pavingFace, deckPlateFace, reg,
@@ -216,98 +217,78 @@ export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
     const yard = box(g, 12, 0.12, 8, 0.5, 0.06, -0.6, 0xffffff, { rough: 0.95 });
     yard.material = texturedMat(yardTex, { rough: 0.95, metal: 0.02, color: 0xabafb4 });
     for (const z of [-2.3, 1.1]) box(g, 12, 0.006, 0.1, 0.5, 0.123, z, 0xf2f5f7, { rough: 0.6, cast: false });
+    // The rig is longer than the yard: the slab runs on under the tractor's
+    // nose and the pup's tail.
+    for (const [w, x] of [[1.3, -6.1], [1.9, 7.4]]) box(g, w, 0.12, 3.4, x, 0.06, -0.6, 0xffffff, { rough: 0.95 }).material = yard.material;
 
     // ------------------------------------------------------------ tractor, front to the left, fifth wheel toward the trailer
-    const tr = group(g, -2.3, 0.12, -0.6);
-    for (const sz of [-0.45, 0.45]) box(tr, 4.4, 0.24, 0.1, 0.4, 0.78, sz, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    box(tr, 1.6, 1.8, 2.4, -0.8, 2.0, 0, CPL_CAB, { rough: 0.4, metal: 0.4 });
-    box(tr, 0.05, 0.75, 2.2, -1.62, 2.45, 0, 0x22303a, { rough: 0.15, metal: 0.6 });
-    box(tr, 1.0, 0.7, 0.05, -0.8, 2.35, 1.21, 0x22303a, { rough: 0.15, metal: 0.6 });
-    box(tr, 1.5, 0.9, 2.0, -2.35, 1.45, 0, CPL_CAB, { rough: 0.4, metal: 0.4 });
-    box(tr, 0.22, 0.3, 2.5, -3.25, 0.7, 0, 0xc9ced2, { rough: 0.3, metal: 0.8 });
-    const wheel = (parent, x, z, w, r = 0.5) => { const c = cyl(parent, r, r, w, x, r, z, CPL_TIRE, { rough: 0.9, seg: 20 }); c.rotation.x = Math.PI / 2; cyl(parent, r * 0.48, r * 0.48, w + 0.02, x, r, z, 0x8b949d, { rough: 0.3, metal: 0.8, seg: 14 }).rotation.x = Math.PI / 2; return c; };
-    wheel(tr, -2.3, 1.1, 0.32); wheel(tr, -2.3, -1.1, 0.32);
-    wheel(tr, 0.9, 1.05, 0.55); wheel(tr, 0.9, -1.05, 0.55); wheel(tr, 2.1, 1.05, 0.55); wheel(tr, 2.1, -1.05, 0.55);
-    cyl(tr, 0.08, 0.08, 1.8, 0.05, 2.6, 1.15, 0xc9ced2, { rough: 0.3, metal: 0.8, seg: 12 });
-    for (const sz of [-1, 1]) box(tr, 0.06, 0.5, 0.2, -1.8, 2.4, sz * 1.4, 0x2b2f34, { rough: 0.4, metal: 0.4 });
-    const catwalk = box(tr, 0.8, 0.04, 1.2, 0.35, 1.0, 0, 0xffffff, { rough: 0.6 });
-    catwalk.material = texturedMat(surfaceTexture((cx, w, h) => deckPlateFace(cx, w, h), { repeat: 2, px: 256 }), { rough: 0.6, metal: 0.5, color: 0xb8c0c8 });
-    // The fifth wheel: plate, jaws, release handle, mounting.
-    const fw = group(tr, 1.7, 1.02, 0);
-    const plate = box(fw, 1.2, 0.1, 1.4, 0, 0.05, 0, 0x6a6f75, { rough: 0.7, metal: 0.6 });
-    plate.rotation.z = 0.06;
-    reg2(plate, "cpl-dry-plate");
+    // The kit's day cab (shared/fleet.js) at real size, in `tr`, the frame
+    // that backs under: x runs front (-) to back (+), z is the driver's side.
+    // It starts 1.25 m short of the kingpin and backs the rest.
+    const TR_X = -2.87;
+    const tr = group(g, TR_X, 0.12, -0.6);
+    const tractor = semiTractor(tr, 0, 0, 0, { ry: -Math.PI / 2, livery: { colour: CPL_CAB, fleetName: "CITY FREIGHT", unitNumber: "3106" } });
+    const TP = tractor.userData.parts;
+    // The fifth wheel is the kit's; the jaws, the lock mark and the mounting
+    // bolts the procedure checks sit on it.
+    reg2(TP.fifthWheel, "cpl-dry-plate");
+    const fw = group(tr, 2.025, 1.1, 0);
     const jaws = box(fw, 0.3, 0.08, 0.3, 0.35, 0.12, 0, 0xd98a3a, { rough: 0.5, metal: 0.6 });
     reg2(jaws, "cpl-jaws-closed");
-    const throat = box(fw, 0.45, 0.02, 0.2, 0.55, 0.1, 0, 0x1b1e23, { rough: 0.8 });
-    void throat;
-    const handleArm = group(fw, 0.1, 0.0, 0.72);
-    box(handleArm, 0.5, 0.04, 0.04, 0.25, 0, 0, 0xd2312b, { rough: 0.5, metal: 0.4 });
-    box(handleArm, 0.05, 0.12, 0.05, 0.5, 0, 0, 0xd2312b, { rough: 0.5 });
+    const handleArm = TP.fifthWheelRelease;
     reg2(handleArm, "cpl-release-handle");
-    const lockedMark = box(fw, 0.12, 0.12, 0.08, 0.1, 0.05, 0.78, 0x6fd0b4, { emissive: 0x6fd0b4, ei: 0.4, rough: 0.5 });
+    const lockedMark = box(fw, 0.12, 0.12, 0.08, 0.1, 0.02, 0.64, 0x6fd0b4, { emissive: 0x6fd0b4, ei: 0.4, rough: 0.5 });
     reg2(lockedMark, "cpl-release-locked");
-    const bracketL = box(fw, 0.9, 0.3, 0.08, 0, -0.14, 0.62, 0x3a3f45, { rough: 0.6, metal: 0.5 });
-    void bracketL;
-    const missingBolt = cyl(fw, 0.04, 0.04, 0.1, -0.3, -0.14, 0.67, 0x1b1e23, { rough: 0.9, seg: 10 });
+    box(fw, 0.9, 0.26, 0.06, 0, -0.14, 0.52, 0x3a3f45, { rough: 0.6, metal: 0.5 });
+    const missingBolt = cyl(fw, 0.04, 0.04, 0.1, -0.3, -0.14, 0.57, 0x1b1e23, { rough: 0.9, seg: 10 });
     missingBolt.rotation.x = Math.PI / 2;
     reg2(missingBolt, "cpl-mount-bolt");
-    for (const dx of [-0.1, 0.1, 0.3]) { const b = cyl(fw, 0.035, 0.035, 0.08, dx, -0.14, 0.67, 0xd9dde2, { rough: 0.3, metal: 0.8, seg: 8 }); b.rotation.x = Math.PI / 2; }
-    holoTag(tr, "fifth wheel", 1.7, 1.6, 0.8, { css: "#6fd0b4", w: 0.24 });
-    // Tractor-side air lines and electrical cord, coiled on the back of the cab.
-    const lineRed = hose(tr, [[0.02, 1.7, 0.3], [0.5, 1.25, 0.35], [0.9, 1.3, 0.3]], 0.022, 0xd2312b, { steps: 10, rough: 0.6 });
-    const lineBlue = hose(tr, [[0.02, 1.7, -0.1], [0.5, 1.25, -0.05], [0.9, 1.3, -0.1]], 0.022, 0x2f7fbf, { steps: 10, rough: 0.6 });
-    hose(tr, [[0.02, 1.8, 0.1], [0.5, 1.4, 0.12], [0.9, 1.45, 0.1]], 0.018, 0x2b2f34, { steps: 10, rough: 0.6 });
-    void lineRed; void lineBlue;
+    for (const dx of [-0.1, 0.1, 0.3]) { const b = cyl(fw, 0.035, 0.035, 0.08, dx, -0.14, 0.57, 0xd9dde2, { rough: 0.3, metal: 0.8, seg: 8 }); b.rotation.x = Math.PI / 2; }
+    holoTag(tr, "fifth wheel", 2.0, 1.7, 0.8, { css: "#6fd0b4", w: 0.24 });
 
     // ------------------------------------------------------------ the dropped trailer, nose toward the tractor
-    const van = group(g, 1.5, 0.12, -0.6);
-    const vanBody = box(van, 5.0, 2.6, 2.55, 2.5, 2.65, 0, 0xe8eef2, { rough: 0.6, metal: 0.2 });
-    void vanBody;
-    box(van, 5.0, 0.12, 2.3, 2.5, 1.3, 0, 0x59636d, { rough: 0.6, metal: 0.4 });
+    // The kit's 28 ft pup, nose at x -0.5. `van` is its own frame: x runs
+    // back from the nose, z is the driver's side.
+    const VAN_X = -0.5;
+    const pup = trailer(g, VAN_X + 4.265, 0.12, -0.6, { kind: "pup", ry: -Math.PI / 2, livery: { colour: 0xe8eef2, fleetName: "CITY FREIGHT", unitNumber: "53-221" } });
+    const VP = pup.userData.parts;
+    const van = group(g, VAN_X, 0.12, -0.6);
     decal(van, 0.6, 0.3, -0.01, 3.2, 0, signFace("53-221", { bg: "#e8eef2", fg: "#1b2a34", accent: "#6fd0b4", scale: 0.55 }), { px: 160 }).rotation.y = -Math.PI / 2;
-    const apron = box(van, 1.4, 0.06, 2.2, 0.7, 1.21, 0, 0x3a3f45, { rough: 0.6, metal: 0.5 });
-    void apron;
-    const kingpin = cyl(van, 0.05, 0.05, 0.14, 0.45, 1.12, 0, 0x8b949d, { rough: 0.3, metal: 0.8, seg: 10 });
-    void kingpin;
-    const gapHit = box(van, 0.6, 0.12, 0.6, 0.45, 1.18, 0.9, 0x6fd0b4, { opacity: 0.25, cast: false });
+    const gapHit = box(van, 0.6, 0.12, 0.6, 0.91, 1.16, 0.9, 0x6fd0b4, { opacity: 0.25, cast: false });
     reg2(gapHit, "cpl-no-gap");
-    const shankHit = box(van, 0.2, 0.2, 0.2, 0.45, 1.1, 0.95, 0x6fd0b4, { opacity: 0.2, cast: false });
+    const shankHit = box(van, 0.2, 0.2, 0.2, 0.91, 1.1, 0.95, 0x6fd0b4, { opacity: 0.2, cast: false });
     reg2(shankHit, "cpl-jaws-shank");
-    // Landing gear with its crank, legs lowered for the drop at the start.
-    const gear = group(van, 1.8, 0, 0);
-    const legs = [];
-    for (const sz of [-1, 1]) { legs.push(box(gear, 0.12, 1.1, 0.12, 0, 0.65, sz * 0.95, 0x3a3f45, { rough: 0.5, metal: 0.5 })); box(gear, 0.3, 0.04, 0.3, 0, 0.1, sz * 0.95, 0x2b2f34, { rough: 0.7 }); }
-    const crank = group(gear, 0, 1.0, 1.1);
+    // Landing gear: the kit's legs, lowered for the drop at the start; the
+    // crank handle and the height gauge are the station's.
+    const gear = group(van, 2.4, 0, 0);
+    const crank = group(gear, 0, 0.75, 1.12);
     box(crank, 0.04, 0.04, 0.3, 0, 0, 0.15, 0xc9ced2, { rough: 0.4, metal: 0.7 });
     box(crank, 0.04, 0.2, 0.04, 0, -0.1, 0.3, 0xc9ced2, { rough: 0.4, metal: 0.7 });
     reg2(crank, "cpl-landing-crank");
     const legsDown = box(gear, 0.4, 0.3, 0.3, 0, 0.3, 1.1, 0x6fd0b4, { opacity: 0.25, cast: false });
     holoTag(gear, "landing gear", 0, 1.45, 1.2, { css: "#6fd0b4", w: 0.26 });
     reg2(legsDown, "cpl-lower-legs");
-    const heightGauge = instrument(gear, 0, 1.25, 1.3, { idle: "HEIGHT", color: CPL_ACCENT, w: 0.14, d: 0.16 });
+    const heightGauge = instrument(gear, 0, 1.25, 1.35, { idle: "HEIGHT", color: CPL_ACCENT, w: 0.14, d: 0.16 });
     reg2(heightGauge, "cpl-trailer-height");
-    // Glad-hands and the electrical socket on the trailer nose.
-    const gladRed = box(van, 0.08, 0.1, 0.12, -0.02, 1.8, 0.45, 0xd2312b, { rough: 0.5, metal: 0.4 });
-    reg2(gladRed, "cpl-emergency-gladhand");
-    const gladBlue = box(van, 0.08, 0.1, 0.12, -0.02, 1.8, 0.2, 0x2f7fbf, { rough: 0.5, metal: 0.4 });
-    reg2(gladBlue, "cpl-service-gladhand");
-    const socket = cyl(van, 0.06, 0.06, 0.08, -0.03, 2.0, 0.32, 0x2b2f34, { rough: 0.5, seg: 12 });
+    const setLegs = (down) => { VP.landingGear.position.y = down ? 0 : 0.45; crank.position.y = down ? 0.75 : 1.0; };
+    // Glad-hands and the electrical socket on the trailer nose: the kit's.
+    reg2(VP.gladHandEmergency, "cpl-emergency-gladhand");
+    reg2(VP.gladHandService, "cpl-service-gladhand");
+    const socket = cyl(van, 0.07, 0.07, 0.08, -0.05, 1.45, 0.1, 0x2b2f34, { rough: 0.5, seg: 12 });
     socket.rotation.z = Math.PI / 2;
     reg2(socket, "cpl-pigtail");
-    holoTag(van, "red · blue · cord", -0.05, 2.25, 0.35, { css: "#6fd0b4", w: 0.28 });
-    const crossed = box(van, 0.3, 0.2, 0.2, -0.1, 1.55, 0.7, 0xd2312b, { opacity: 0.3, cast: false });
-    holoTag(van, "blue line to the red glad-hand?", -0.1, 1.4, 0.95, { css: "#d2312b", w: 0.5 });
+    holoTag(van, "red · blue · cord", -0.05, 1.9, 0.35, { css: "#6fd0b4", w: 0.28 });
+    const crossed = box(van, 0.3, 0.2, 0.2, -0.12, 1.45, 0.72, 0xd2312b, { opacity: 0.3, cast: false });
+    holoTag(van, "blue line to the red glad-hand?", -0.12, 1.2, 1.0, { css: "#d2312b", w: 0.5 });
     reg2(crossed, "cpl-crossed-lines");
-    // Rear tandem, and the chock socket there.
-    for (const sz of [-1, 1]) for (const dx of [3.9, 4.6]) wheel(van, dx, sz * 1.0, 0.3, 0.48);
-    const chockSocket = box(van, 0.3, 0.2, 0.3, 3.45, 0.1, 1.0, 0xffffff, { rough: 0.5 });
+    // The chock socket, ahead of the pup's axle.
+    const chockSocket = box(van, 0.3, 0.2, 0.3, 6.85, 0.1, 1.0, 0xffffff, { rough: 0.5 });
     chockSocket.visible = false; hits["cpl-chock-socket"] = chockSocket;
     const underMark = box(van, 1.2, 0.5, 1.2, 1.0, 0.35, 0, 0xd2312b, { opacity: 0.25, cast: false });
     holoTag(van, "crawl under — rig live?", 1.0, 0.75, 1.2, { css: "#d2312b", w: 0.4 });
     reg2(underMark, "cpl-under-trailer");
-    const highMark = box(van, 0.5, 0.2, 2.2, 0.2, 1.55, 0, 0xd2312b, { opacity: 0.2, cast: false });
-    holoTag(van, "back under at this height?", 0.2, 1.72, -1.2, { css: "#d2312b", w: 0.44 });
+    const highMark = box(van, 0.5, 0.2, 2.2, 0.2, 1.3, 0, 0xd2312b, { opacity: 0.2, cast: false });
+    holoTag(van, "back under at this height?", 0.2, 1.5, -1.2, { css: "#d2312b", w: 0.44 });
     reg2(highMark, "cpl-high-hook");
 
     // ------------------------------------------------------------ the cab controls, at the open door
@@ -338,7 +319,7 @@ export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
     const chock = box(g, 0.28, 0.2, 0.26, 3.2, 0.22, 1.9, 0xf2c14b, { rough: 0.8 });
     holoTag(g, "wheel chock", 3.2, 0.55, 1.9, { css: "#6fd0b4", w: 0.22 });
     reg2(chock, "cpl-trailer-chock");
-    const chockPull = box(van, 0.4, 0.3, 0.4, 3.45, 0.15, 1.3, 0xffffff, { opacity: 0.001, cast: false });
+    const chockPull = box(van, 0.4, 0.3, 0.4, 6.85, 0.15, 1.3, 0xffffff, { opacity: 0.001, cast: false });
     reg2(chockPull, "cpl-chock-pull");
     const card = holoPanel(g, 0.8, 0.52, -1.3, 1.55, 2.3, (ctx, w, h) => {
       ctx.fillStyle = "#061612"; ctx.fillRect(0, 0, w, h);
@@ -386,12 +367,12 @@ export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
       spawnLook: new THREE.Vector3(-0.4, 1.2, -0.4),
       onStepComplete(step) {
         if (step.id === "fifth-wheel-check") { jaws.position.x = 0.5; handleArm.rotation.y = -0.5; }
-        if (step.id === "trailer-chock") { chock.parent.remove(chock); van.add(chock); chock.position.set(3.45, 0.1, 1.0); }
+        if (step.id === "trailer-chock") { chock.parent.remove(chock); van.add(chock); chock.position.set(6.85, 0.1, 1.0); }
         if (step.id === "trailer-height") repaint(heightGauge.userData.screen, signFace("SET", { bg: "#061612", accent: "#59c97b", fg: "#eefbf6", scale: 0.55 }));
-        if (step.id === "back-under") { tr.position.x = -2.3 + 1.25; jaws.position.x = 0.35; handleArm.rotation.y = 0; }
-        if (step.id === "finish-hook") { for (const l of legs) l.scale.y = 0.6; chock.visible = false; }
-        if (step.id === "lower-legs") for (const l of legs) l.scale.y = 1;
-        if (step.id === "release-handle") { tr.position.x = -2.3 + 0.6; handleArm.rotation.y = -0.5; }
+        if (step.id === "back-under") { tr.position.x = TR_X + 1.25; jaws.position.x = 0.35; handleArm.rotation.y = 0; }
+        if (step.id === "finish-hook") { setLegs(false); chock.visible = false; }
+        if (step.id === "lower-legs") setLegs(true);
+        if (step.id === "release-handle") { tr.position.x = TR_X + 0.6; handleArm.rotation.y = -0.5; }
         if (step.id === "dvir") {
           repaint(dvir.userData.face, (ctx, w, h) => {
             ctx.fillStyle = "rgba(8,26,14,0.94)"; ctx.fillRect(0, 0, w, h);
@@ -407,8 +388,8 @@ export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
       // The worker really walks into the gap; the coworker really climbs up
       // onto the catwalk behind the cab.
       onInterrupt(it) {
-        if (it.id === "worker-between") { worker.position.set(0.6, 0, -0.1); worker.rotation.y = Math.PI / 2; }
-        if (it.id === "coworker-on-catwalk") { helper.position.set(tr.position.x + 0.35, 1.02, -0.6); helper.rotation.y = Math.PI; }
+        if (it.id === "worker-between") { worker.position.set(-0.75, 0, 0.78); worker.rotation.y = Math.PI; }
+        if (it.id === "coworker-on-catwalk") { helper.position.set(tr.position.x + 0.95, 1.34, -0.6); helper.rotation.y = Math.PI; }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
@@ -422,7 +403,7 @@ export const SIM_TDL_COUPLING_AND_UNCOUPLING = {
           const ok = gg.t >= 0.38 && gg.t <= 0.58;
           repaint(heightGauge.userData.screen, signFace(ok ? "JUST BELOW" : gg.t < 0.38 ? "LOW" : "HIGH", { bg: "#061612", accent: ok ? "#59c97b" : "#f2ae14", fg: "#eefbf6", scale: 0.45 }));
         }
-        if (step?.id === "back-under" && session.holding) { backed = Math.min(1, backed + dt / 8); tr.position.x = -2.3 + backed * 1.25; }
+        if (step?.id === "back-under" && session.holding) { backed = Math.min(1, backed + dt / 8); tr.position.x = TR_X + backed * 1.25; }
         if (session?.turn && step?.id === "release-handle") handleArm.rotation.y = -session.turn.amount * 2;
         void t;
       },
