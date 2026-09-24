@@ -14308,5 +14308,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-barge-loading-of-contaminated-sediment",
+    "index": "329",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) barge deckhand loading contaminated sediment at a pier, with an IUOE Local 3 excavator operator and LIUNA Local 261 hazmat laborers on the pier",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) barge deck practice; IUOE Local 3 excavator operation; LIUNA Local 261 hazmat laborer training; OSHA 29 CFR 1910.120 HAZWOPER under the site health and safety plan; OSHA 29 CFR 1918 longshoring and 29 CFR 1926.106 work over water; RCRA waste determination and the disposal destination per the work plan; no discharge from the barge under the Regional Water Quality Control Board's requirements and the BCDC permit",
+    "name": "Barge Loading of Contaminated Sediment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Barge Loading of Contaminated Sediment VR",
+    "tagline": "Contaminated sediment loaded from a pier into a lined hopper barge: PFD over coveralls at the ladder head, the loading plan read, the liner and scuppers walked, the spill apron rigged across the gap, the spring line made fast, a radio check with the operator, the barge loaded level through a bucket spilling over her far side, the deck and coaming walked, the spring line tended as the load slumps and she lists, her drafts read against the plan, the hopper covered, decon and the load logged",
+    "accent": 12093002,
+    "accentCss": "#b8864a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "loaded-level",
+      "name": "Loaded Level",
+      "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing, and both the spill and the list answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hopper Deck",
+      "currency": "LOAD",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Barge Hand",
+        "Lead Deckhand",
+        "Barge Loading Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

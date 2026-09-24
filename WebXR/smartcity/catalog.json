@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 334
+      "stations": 335
     },
     "trades": {
       "entry": "trades/index.html",
@@ -244,6 +244,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-barge-loading-of-contaminated-sediment",
         "br-boom-towing-between-two-vessels",
         "br-debris-skimmer-vessel-operations",
         "br-workboat-crane-lift-from-water",
@@ -6733,6 +6734,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-barge-loading-of-contaminated-sediment",
+      "name": "Barge Loading of Contaminated Sediment",
+      "title": "SmartCiti.X~ Barge Loading of Contaminated Sediment VR",
+      "tagline": "Contaminated sediment loaded from a pier into a lined hopper barge: PFD over coveralls at the ladder head, the loading plan read, the liner and scuppers walked, the spill apron rigged across the gap, the spring line made fast, a radio check with the operator, the barge loaded level through a bucket spilling over her far side, the deck and coaming walked, the spring line tended as the load slumps and she lists, her drafts read against the plan, the hopper covered, decon and the load logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union (IBU) barge deckhand loading contaminated sediment at a pier, with an IUOE Local 3 excavator operator and LIUNA Local 261 hazmat laborers on the pier",
+      "union": null,
+      "certification": "Inlandboatmen's Union (IBU) barge deck practice; IUOE Local 3 excavator operation; LIUNA Local 261 hazmat laborer training; OSHA 29 CFR 1910.120 HAZWOPER under the site health and safety plan; OSHA 29 CFR 1918 longshoring and 29 CFR 1926.106 work over water; RCRA waste determination and the disposal destination per the work plan; no discharge from the barge under the Regional Water Quality Control Board's requirements and the BCDC permit",
+      "accent": "#b8864a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "loaded-level",
+        "name": "Loaded Level",
+        "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing, and both the spill and the list answered"
+      },
+      "meshes": 201,
+      "lights": 0,
+      "overBudget": false,
+      "index": "329",
+      "flat": false,
+      "system": "Hopper Deck",
+      "currency": "LOAD",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Barge Hand",
+        "Lead Deckhand",
+        "Barge Loading Certified"
+      ],
+      "awards": [
+        {
+          "id": "liner-first",
+          "name": "Liner First",
+          "note": "The liner and scuppers walked before the first bucket"
+        },
+        {
+          "id": "draft-true",
+          "name": "Draft True",
+          "note": "Drafts read inside the band first time"
+        },
+        {
+          "id": "out-of-the-swing",
+          "name": "Out Of The Swing",
+          "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing"
+        },
+        {
+          "id": "clean-load",
+          "name": "Clean Load",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "level-load",
+          "name": "Level Load",
+          "note": "Barge held level in band all the way through loading"
+        },
+        {
+          "id": "on-the-tide",
+          "name": "On The Tide",
+          "note": "Load logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-barge-loading-of-contaminated-sediment"
     },
     {
       "app": "smartcity",
@@ -25850,7 +25934,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -26510,7 +26594,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "100",
