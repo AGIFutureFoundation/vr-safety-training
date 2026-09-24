@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
+import { semiTractor, boxTruck, flWheel } from "../../../shared/fleet.js";
 import {
   stationPad, holoPanel, holoTag, standingFigure, cone, instrument,
   surfaceTexture, texturedMat, pavingFace, reg,
@@ -226,8 +227,14 @@ export const SIM_TDL_CARGO_SECUREMENT_AND_HOURS = {
     deck.material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 6, base: "#7a5a3a", base2: "#6a4c30", seam: "rgba(0,0,0,0.45)" }), { repeat: 3, px: 256 }), { rough: 0.85, color: 0xd8c0a0 });
     for (const sz of [-1, 1]) box(fb, 5.6, 0.14, 0.08, 0, 1.2, sz * 1.25, 0x3a3f45, { rough: 0.5, metal: 0.6 });
     box(fb, 5.4, 0.24, 0.5, 0, 1.05, 0, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    for (const sz of [-1, 1]) for (const dx of [-2.0, -1.3]) cyl(fb, 0.48, 0.48, 0.3, dx, 0.48, sz * 1.0, CSH_TIRE, { rough: 0.9, seg: 16 }).rotation.x = Math.PI / 2;
-    for (const sz of [-1, 1]) box(fb, 0.1, 0.9, 0.1, 1.9, 0.7, sz * 0.8, 0x3a3f45, { rough: 0.5, metal: 0.5 });
+    // The deck is the station's (the crates, rails and winches the steps use
+    // are built on it; the kit's 48 ft flatbed is 14.7 m and does not fit the
+    // pull-off), but it rides on the kit's dual wheels at a real tandem spread.
+    for (const dx of [-2.25, -1.02]) {
+      const ax = group(fb, dx, 0, 0, Math.PI / 2);
+      for (const sz of [-1, 1]) flWheel(ax, -sz * 1.0, 0.5, 0, 0.5, 0.6, { side: -sz, dual: true, style: "steel" });
+    }
+    for (const sz of [-1, 1]) box(fb, 0.1, 0.9, 0.1, 0.1, 0.7, sz * 0.8, 0x3a3f45, { rough: 0.5, metal: 0.5 });
     // Winches along the shoulder-side rail.
     const winches = [];
     for (const dx of [-2.2, -1.5, -0.2, 0.5]) { const w = cyl(fb, 0.07, 0.07, 0.2, dx, 1.02, 1.3, 0x8b949d, { rough: 0.4, metal: 0.7, seg: 12 }); w.rotation.z = Math.PI / 2; winches.push(w); }
@@ -276,14 +283,9 @@ export const SIM_TDL_CARGO_SECUREMENT_AND_HOURS = {
     reg2(recheckHit, "csh-recheck");
 
     // ------------------------------------------------------------ the tractor, ahead of the trailer
-    const trac = group(g, 2.6, 0.12, -0.8);
-    for (const sz of [-0.45, 0.45]) box(trac, 3.4, 0.24, 0.1, 0.4, 0.78, sz, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    box(trac, 1.5, 1.8, 2.4, 1.0, 2.0, 0, CSH_CAB, { rough: 0.4, metal: 0.4 });
-    box(trac, 0.05, 0.75, 2.2, 1.77, 2.45, 0, 0x22303a, { rough: 0.15, metal: 0.6 });
-    box(trac, 1.3, 0.9, 2.0, 2.4, 1.45, 0, CSH_CAB, { rough: 0.4, metal: 0.4 });
-    for (const sz of [-1, 1]) { cyl(trac, 0.5, 0.5, 0.32, 2.3, 0.5, sz * 1.1, CSH_TIRE, { rough: 0.9, seg: 18 }).rotation.x = Math.PI / 2; cyl(trac, 0.5, 0.5, 0.55, -0.3, 0.5, sz * 1.05, CSH_TIRE, { rough: 0.9, seg: 18 }).rotation.x = Math.PI / 2; }
-    for (const sz of [-1, 1]) box(trac, 0.06, 0.5, 0.2, 1.8, 2.4, sz * 1.4, 0x2b2f34, { rough: 0.4, metal: 0.4 });
-    cyl(trac, 0.08, 0.08, 1.8, 0.2, 2.6, 1.15, 0xc9ced2, { rough: 0.3, metal: 0.8, seg: 12 });
+    // The kit's day cab (shared/fleet.js), fifth wheel under the deck's
+    // kingpin, facing +x: its driver's side is to the road.
+    semiTractor(g, 2.515, 0.12, -0.8, { ry: Math.PI / 2, livery: { colour: CSH_CAB, fleetName: "CITY HEAVY HAUL", unitNumber: "5520" } });
 
     // ------------------------------------------------------------ the strap bin, the bad straps, the cheater bar
     const bin = group(g, -3.6, 0.12, 1.5, 0.5);
@@ -406,10 +408,9 @@ export const SIM_TDL_CARGO_SECUREMENT_AND_HOURS = {
     cone(g, 5.2, 2.6);
 
     // ------------------------------------------------------------ the passing truck, the shipper's loader
-    const passer = group(g, -7.5, 0.12, -3.6);
-    box(passer, 3.2, 2.4, 2.2, 0, 1.9, 0, 0xdfe4e8, { rough: 0.6, metal: 0.2 });
-    box(passer, 1.2, 1.6, 2.1, 2.2, 1.5, 0, 0x8a2a2a, { rough: 0.4, metal: 0.4 });
-    for (const sz of [-1, 1]) for (const dx of [-1.0, 2.3]) cyl(passer, 0.45, 0.45, 0.3, dx, 0.45, sz * 0.95, CSH_TIRE, { rough: 0.9, seg: 14 }).rotation.x = Math.PI / 2;
+    // The kit's box truck, out of sight until it comes by in the near lane.
+    const passer = boxTruck(g, -3.0, 0.12, -3.35, { ry: Math.PI / 2, livery: { colour: 0xdfe4e8, fleetName: "METRO DELIVERY", unitNumber: "118" } });
+    passer.visible = false;
     const loader = standingFigure(g, -4.3, -0.1, { ry: 1.4, cloth: 0x37505f, vest: 0xd8e24a });
     void loader;
 
@@ -439,12 +440,12 @@ export const SIM_TDL_CARGO_SECUREMENT_AND_HOURS = {
       // passing truck really swings in close to the shoulder.
       onInterrupt(it) {
         if (it.id === "strap-slack") { setRear.visible = false; slackStrap.visible = true; rearCrate.position.z = 0.25; }
-        if (it.id === "truck-passes-close") { passer.position.set(-1.5, 0.12, -3.1); }
+        if (it.id === "truck-passes-close") { passer.visible = true; passer.position.set(-1.5, 0.12, -3.35); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
         if (it.id === "strap-slack") { setRear.visible = true; slackStrap.visible = false; rearCrate.position.z = 0; flashers.material = mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.3, rough: 0.5 }); }
-        if (it.id === "truck-passes-close") { passer.position.set(7.5, 0.12, -3.6); for (const t of placed) t.visible = true; triKit.visible = false; }
+        if (it.id === "truck-passes-close") { passer.visible = false; passer.position.set(-3.0, 0.12, -3.35); for (const t of placed) t.visible = true; triKit.visible = false; }
       },
       animate(t, dt, session) {
         const step = session?.step;
