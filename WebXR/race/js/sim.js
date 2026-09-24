@@ -303,7 +303,7 @@ function rcAIInput(race, r, dt) {
     const cands = [-1, -0.55, -0.2, 0.2, 0.55, 1].map((k) => k * lim);
     let curvAhead = 0;
     for (let a = 10; a <= 60; a += 10) curvAhead += rcFrame(tr, r.s + a).curv;
-    let best = ai.lane, bestScore = Infinity, curDanger = 0;
+    let best = ai.lane, bestScore = Infinity, curDanger = 0, curScore = Infinity;
     for (const c of cands) {
       let danger = 0;
       for (const o of obs) {
@@ -319,10 +319,11 @@ function rcAIInput(race, r, dt) {
       }
       const inside = -Math.sign(curvAhead) * lim * 0.5;
       const score = danger + Math.abs(c - r.d) * 0.9 + Math.abs(c - (inside + ai.pref * lim)) * 0.5;
-      if (Math.abs(c - ai.lane) < 0.1) curDanger = danger;
+      if (Math.abs(c - ai.lane) < 0.1) { curDanger = danger; curScore = score; }
       if (score < bestScore) { bestScore = score; best = c; }
     }
-    if (Math.abs(best - ai.lane) > 2.5) {
+    // Hysteresis: only move for a clearly better lane, so the field does not weave.
+    if (Math.abs(best - ai.lane) > 2.5 && (curScore === Infinity || bestScore < curScore - 12)) {
       const urgent = curDanger > 60;
       if (urgent) { ai.lane = best; ai.pending = null; }
       else if (!ai.pending) {
@@ -782,7 +783,7 @@ function rcSafety(race, r, inp) {
   if (inp.lookback) r.lookT = race.t;
   if (!r.signal) return;
   if (race.t - r.signal.t > 3.5) { r.signal = null; return; }
-  if ((r.d - r.signal.d0) * r.signal.dir >= 3.2 && race.t - r.safetyT > 2 && race.phase === "race") {
+  if ((r.d - r.signal.d0) * r.signal.dir >= 3.2 && race.t - r.safetyT > 6 && race.phase === "race") {
     const mirrors = r.lookT >= r.signal.t - 3 && race.t - r.lookT < 3.5;
     r.boostT = Math.max(r.boostT, mirrors ? 1.0 : 0.55);
     r.safety += mirrors ? 2 : 1;

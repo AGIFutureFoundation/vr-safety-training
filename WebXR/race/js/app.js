@@ -413,7 +413,8 @@ function rcMakeViews(followIds, playerIdx) {
   app.views = followIds.map((rid, k) => {
     const cam = new THREE.PerspectiveCamera(68, 1, 0.3, 2400);
     const el = document.createElement("div");
-    el.className = `hud${followIds.length > 1 ? " small" : ""}`;
+    const n = followIds.length;
+    el.className = `hud${n > 1 ? " small" : ""}${n >= 3 ? (k % 2 ? " col-r" : " col-l") : ""}`;
     el.innerHTML = `<div class="pos"></div><div class="tag-p"></div><div class="lap"></div><div class="delta"></div><div class="item empty"></div><div class="item-name"></div>
       <div class="speed"></div><div class="msg"></div><div class="sig l">◀</div><div class="sig r">▶</div><div class="rear" hidden>Mirrors · rear view</div>`;
     huds.append(el);
@@ -439,10 +440,10 @@ function rcPlaceHuds() {
   if (app.overview) app.overview.rect = rects[3];
   const mm = $("minimap");
   const n = app.views.length, W = window.innerWidth, H = window.innerHeight;
-  const size = n === 1 ? Math.min(210, Math.round(Math.min(W, H) * 0.3)) : n === 2 ? 170 : Math.min(240, Math.round(Math.min(W, H) * 0.4));
+  const size = n === 1 ? Math.min(210, Math.round(Math.min(W, H) * 0.3)) : n === 2 ? 150 : n === 3 ? Math.min(240, Math.round(Math.min(W, H) * 0.4)) : 150;
   mm.style.width = mm.style.height = `${size}px`;
   if (n === 1) { mm.style.left = `${W - size - 14}px`; mm.style.top = `${Math.min(110, H * 0.16)}px`; }
-  else if (n === 2) { mm.style.left = `${W - size - 14}px`; mm.style.top = `${H / 2 - size / 2}px`; }
+  else if (n === 2) { mm.style.left = `${W / 2 - size / 2}px`; mm.style.top = `${H / 2 - size / 2}px`; }
   else if (n === 3) { mm.style.left = `${W * 0.75 - size / 2}px`; mm.style.top = `${H * 0.75 - size / 2}px`; }
   else { mm.style.left = `${W / 2 - size / 2}px`; mm.style.top = `${H / 2 - size / 2}px`; }
   const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -950,13 +951,15 @@ const rcTmp = new THREE.Vector3();
 function rcFollow(v, r, dt, lookBack) {
   const veh = r.veh;
   const l = veh.dims[2] * veh.scale, h = veh.dims[1] * veh.scale;
-  v.camH = v.camPos ? v.camH + Math.atan2(Math.sin(r.h - v.camH), Math.cos(r.h - v.camH)) * Math.min(1, 6 * dt) : r.h;
+  // Follow the travel direction more than the nose, so a drift reads as a drift.
+  const hm = r.m + Math.atan2(Math.sin(r.h - r.m), Math.cos(r.h - r.m)) * 0.35;
+  v.camH = v.camPos ? v.camH + Math.atan2(Math.sin(hm - v.camH), Math.cos(hm - v.camH)) * Math.min(1, 5 * dt) : hm;
   const dirX = Math.sin(v.camH), dirZ = Math.cos(v.camH);
   const back = 5.0 + l * 0.5 + Math.max(0, r.v) * 0.04;
   const up = 2.1 + h * 0.5;
   const sgn = lookBack ? -1 : 1;
   rcTmp.set(r.x - dirX * back * sgn, r.y + up, r.z - dirZ * back * sgn);
-  if (!v.camPos) v.camPos = rcTmp.clone();
+  if (!v.camPos || v.camPos.distanceTo(rcTmp) > 40) { v.camPos = rcTmp.clone(); v.camH = hm; }
   else v.camPos.lerp(rcTmp, lookBack ? 1 : Math.min(1, 9 * dt));
   v.cam.position.copy(v.camPos);
   v.cam.lookAt(r.x + dirX * 6 * sgn, r.y + 1.4, r.z + dirZ * 6 * sgn);
@@ -1100,7 +1103,11 @@ function rcTick(real, now, draw = true) {
         rcRenderer.setViewport(x, H - y - h, w, h);
         rcRenderer.setScissor(x, H - y - h, w, h);
         v.cam.aspect = w / h; v.cam.updateProjectionMatrix();
+        // Your own marker would sit in front of your camera; the others see it.
+        const own = app.world.racerModels[v.racer]?.userData.fx.marker;
+        if (own) own.visible = false;
         rcRenderer.render(app.scene, v.cam);
+        if (own) own.visible = true;
         if (!app.demo || app.views.length) {
           const r0 = r;
           if (r0.human && !r0.remote && app.views.length <= 4 && !app.paused) rcAudio.engine(v.player, Math.min(1, Math.abs(r0.v) / (r0.p.top * 1.2)), r0.boostT > 0, app.screen === "race");

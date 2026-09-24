@@ -9432,7 +9432,7 @@ function rcFollow(v, r, dt, lookBack) {
   const up = 2.1 + h * 0.5;
   const sgn = lookBack ? -1 : 1;
   rcTmp.set(r.x - dirX * back * sgn, r.y + up, r.z - dirZ * back * sgn);
-  if (!v.camPos) v.camPos = rcTmp.clone();
+  if (!v.camPos || v.camPos.distanceTo(rcTmp) > 40) { v.camPos = rcTmp.clone(); v.camH = r.h; }
   else v.camPos.lerp(rcTmp, lookBack ? 1 : Math.min(1, 9 * dt));
   v.cam.position.copy(v.camPos);
   v.cam.lookAt(r.x + dirX * 6 * sgn, r.y + 1.4, r.z + dirZ * 6 * sgn);

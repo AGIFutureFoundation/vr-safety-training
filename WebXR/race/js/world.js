@@ -197,8 +197,8 @@ function rcRacerModel(parent, r, night) {
     rcGlowMat(0xffd23a, 0.28));
   shield.visible = false; wrap.add(shield);
   // Boost flare behind the vehicle.
-  const flare = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.55, 2.4, 10, 1, true), rcGlowMat(0x5fd8ff, 0.7));
-  flare.rotation.x = -Math.PI / 2; flare.position.set(0, 0.6, -l / 2 - 1.1); flare.visible = false; wrap.add(flare);
+  const flare = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.32, 1.5, 10, 1, true), rcGlowMat(0x5fd8ff, 0.45));
+  flare.rotation.x = -Math.PI / 2; flare.position.set(0, 0.55, -l / 2 - 0.7); flare.visible = false; wrap.add(flare);
   // Turn signals: two amber lamps a side, blinking.
   const sigMat = new THREE.MeshBasicMaterial({ color: 0xffa21a });
   const sigL = new THREE.Group(), sigR = new THREE.Group();
@@ -213,15 +213,15 @@ function rcRacerModel(parent, r, night) {
   // Headlight pool on the road ahead, at night.
   let beam = null;
   if (night) {
-    beam = new THREE.Mesh(new THREE.PlaneGeometry(w * 2.6, 16), rcGlowMat(0xfff0c8, 0.22, rcBeamTex()));
-    beam.rotation.x = -Math.PI / 2; beam.position.set(0, 0.08, l / 2 + 8.5);
+    beam = new THREE.Mesh(new THREE.PlaneGeometry(w * 2.2, 12), rcGlowMat(0xffd9a0, 0.1, rcBeamTex()));
+    beam.rotation.x = -Math.PI / 2; beam.position.set(0, 0.08, l / 2 + 6.2);
     wrap.add(beam);
   }
   // A marker over each human's vehicle, in the player's colour.
   let marker = null;
   if (r.human) {
-    marker = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0, 1.1, 4), new THREE.MeshBasicMaterial({ color: RC_PLAYER_COLOURS[r.player ?? 0] ?? 0xffffff }));
-    marker.position.set(0, h + 1.6, 0);
+    marker = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0, 0.8, 4), new THREE.MeshBasicMaterial({ color: RC_PLAYER_COLOURS[r.player ?? 0] ?? 0xffffff }));
+    marker.position.set(0, h + 1.8, 0);
     wrap.add(marker);
   }
   wrap.userData.fx = { shield, flare, sigL, sigR, beam, marker, h, l, w };
@@ -1138,7 +1138,7 @@ export function rcBuildWorld(root, race, opts = {}) {
     const n = 360, arr = new Float32Array(n * 3).fill(-999);
     const dg = new THREE.BufferGeometry();
     dg.setAttribute("position", new THREE.BufferAttribute(arr, 3));
-    dust = { points: new THREE.Points(dg, new THREE.PointsMaterial({ color: 0xc9a27a, size: 2.6, transparent: true, opacity: 0.35, depthWrite: false })), arr, life: new Float32Array(n), vel: new Float32Array(n * 3), next: 0, n };
+    dust = { points: new THREE.Points(dg, new THREE.PointsMaterial({ color: 0xb08a64, size: 2.2, map: rcPoolTex(), transparent: true, opacity: 0.45, depthWrite: false })), arr, life: new Float32Array(n), vel: new Float32Array(n * 3), next: 0, n };
     dust.points.frustumCulled = false;
     root.add(dust.points);
   }
@@ -1151,7 +1151,7 @@ export function rcBuildWorld(root, race, opts = {}) {
       race.racers.forEach((r, i) => {
         const m = racerModels[i];
         m.position.set(r.x, r.y + (r.hopT > 0 ? Math.sin((r.hopT / 0.2) * Math.PI) * 0.35 : 0), r.z);
-        m.rotation.set(-(r.pitch ?? 0), r.h + (r.drifting ? r.driftDir * 0.28 : 0), r.roll ?? 0, "YXZ");
+        m.rotation.set(-(r.pitch ?? 0), r.h + (r.drifting ? r.driftDir * 0.16 : 0), r.roll ?? 0, "YXZ");
         const fx = m.userData.fx;
         fx.shield.visible = r.shieldT > 0;
         fx.flare.visible = r.boostT > 0;
