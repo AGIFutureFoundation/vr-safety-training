@@ -305,7 +305,7 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
     stations: [
       "stage-power", "fly-system", "rigging-loft", "chain-hoist",
-      "stage-load-in-and-truss-rigging"
+      "stage-load-in-and-truss-rigging", "le-followspot-and-truss-access-at-height"
     ],
     require: 3,
   },

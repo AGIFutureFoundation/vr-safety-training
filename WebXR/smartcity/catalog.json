@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 352
+      "stations": 353
     },
     "trades": {
       "entry": "trades/index.html",
@@ -240,6 +240,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "le-followspot-and-truss-access-at-height",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
@@ -1064,16 +1065,21 @@
           "app": "smartcity",
           "id": "stage-load-in-and-truss-rigging",
           "why": "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel."
+        },
+        {
+          "app": "smartcity",
+          "id": "le-followspot-and-truss-access-at-height",
+          "why": "A spot tower before doors: the lift ridden held, the tower anchor clipped before the gate opens, a cracked coupler caught, and the lamp struck from its own switch clear of the housing."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1220,
-        "tasks": 100,
+        "lessons": 1460,
+        "tasks": 120,
         "atBar": 0,
         "partial": 20,
-        "stationsNeeded": 2,
+        "stationsNeeded": 1,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -7206,6 +7212,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height",
+      "name": "Followspot & Truss Access at Height",
+      "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+      "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+      "union": null,
+      "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+      "accent": "#c58cff",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "spot-struck-and-safe",
+        "name": "Spot Struck and Safe",
+        "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Spot Tower",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Hand",
+        "Spot Trainee",
+        "Followspot Operator",
+        "Lead Spot Operator",
+        "Arena Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "clipped-first",
+          "name": "Clipped First",
+          "note": "Never off the lift gate before the tower anchor was clipped"
+        },
+        {
+          "id": "beam-answered",
+          "name": "Beam Answered",
+          "note": "The douser hit before the rigger below was blinded a second longer"
+        },
+        {
+          "id": "never-in-the-lamp",
+          "name": "Never in the Lamp",
+          "note": "Never reached into the lamp housing, never rode the lift ungated, never on the truss frame itself"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "No corrections anywhere in the climb or the cue"
+        },
+        {
+          "id": "field-on-the-plot",
+          "name": "Field On The Plot",
+          "note": "Iris field size committed inside the band first time"
+        },
+        {
+          "id": "doors-on-time",
+          "name": "Doors On Time",
+          "note": "Position logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=le-followspot-and-truss-access-at-height"
     },
     {
       "app": "smartcity",
@@ -26487,7 +26576,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27147,7 +27236,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

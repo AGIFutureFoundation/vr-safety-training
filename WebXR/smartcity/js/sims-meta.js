@@ -15064,5 +15064,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "le-followspot-and-truss-access-at-height",
+    "index": "318",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+    "name": "Followspot & Truss Access at Height",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+    "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "spot-struck-and-safe",
+      "name": "Spot Struck and Safe",
+      "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spot Tower",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Hand",
+        "Spot Trainee",
+        "Followspot Operator",
+        "Lead Spot Operator",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
