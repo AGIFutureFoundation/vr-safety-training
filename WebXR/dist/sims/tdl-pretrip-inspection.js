@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, slab, group, decal, repaint, signFace, paperFace, mat, particles } from "../../../shared/kit.js";
+import { tractorTrailer, yardHustler, lightSwitch } from "../../../shared/fleet.js";
 import {
   stationPad, holoPanel, holoTag, instrument, standingFigure, cone,
   surfaceTexture, texturedMat, pavingFace, reg,
@@ -17,13 +18,12 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // reached, the engine started and watched, the tires and air lines walked,
 // and the report written — including the defects — before the truck moves.
 //
-// The tractor is drawn shorter than a real one so it fits the station; the
-// procedure is full length. Sited generically: no real carrier, no clause
+// The rig is the fleet kit's Class 8 day cab at real size, coupled to a
+// 28 ft pup so it parks inside the yard; the procedure is full length. Sited generically: no real carrier, no clause
 // number the registry is not sure of.
 
 const PTI_ACCENT = 0x58a6e8;
 const PTI_CAB = 0xb8322c;
-const PTI_TIRE = 0x1a1d21;
 
 export const SIM_TDL_PRETRIP_INSPECTION = {
   id: "tdl-pretrip-inspection",
@@ -213,101 +213,70 @@ export const SIM_TDL_PRETRIP_INSPECTION = {
 
     // ------------------------------------------------------------ yard surface
     const yardTex = surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#3c3f43", base2: "#34373b", seam: "rgba(0,0,0,0.45)" }), { repeat: 5, px: 512 });
-    const yard = box(g, 11, 0.12, 8, 0, 0.06, -0.6, 0xffffff, { rough: 0.95 });
+    const yard = box(g, 11, 0.12, 9, 0, 0.06, -1.1, 0xffffff, { rough: 0.95 });
+    // The pup runs past the yard's edge; the slab runs on under it.
+    box(g, 4.2, 0.12, 3.4, 7.6, 0.06, -0.6, 0xffffff, { rough: 0.95 }).material = texturedMat(yardTex, { rough: 0.95, metal: 0.02, color: 0xa9adb2 });
     yard.material = texturedMat(yardTex, { rough: 0.95, metal: 0.02, color: 0xa9adb2 });
     for (const z of [-3.1, 1.9]) box(g, 11, 0.006, 0.1, 0, 0.123, z, 0xf2f5f7, { rough: 0.6, cast: false });
 
-    // ------------------------------------------------------------ the tractor, side-on, front to the left
+    // ------------------------------------------------------------ the rig, side-on, front to the left
+    // The kit's day cab coupled to a 28 ft pup (shared/fleet.js), at real
+    // size. `tr` is the tractor's own frame: x runs front (-) to back (+),
+    // z is the driver's side (+), so every defect below sits on the kit
+    // truck's own surfaces. The tractor's front is at x -3.43 in it.
+    const rig = tractorTrailer(g, 2.51, 0.12, -0.6, {
+      trailer: "pup", ry: -Math.PI / 2,
+      livery: { colour: PTI_CAB, fleetName: "CITY FREIGHT", unitNumber: "4417" },
+      trailerLivery: { colour: 0xe8eef2, fleetName: "CITY FREIGHT", unitNumber: "P-212" },
+    });
+    const TP = rig.userData.parts.tractor.userData.parts;
     const tr = group(g, -0.6, 0.12, -0.6);
-    for (const sz of [-0.45, 0.45]) box(tr, 4.4, 0.24, 0.1, 0.4, 0.78, sz, 0x2b2f34, { rough: 0.6, metal: 0.5 });
-    const cab = box(tr, 1.6, 1.8, 2.4, -0.8, 2.0, 0, PTI_CAB, { rough: 0.4, metal: 0.4 });
-    void cab;
-    box(tr, 0.05, 0.75, 2.2, -1.62, 2.45, 0, 0x22303a, { rough: 0.15, metal: 0.6 });
-    for (const sz of [-1, 1]) box(tr, 1.0, 0.7, 0.05, -0.8, 2.35, sz * 1.21, 0x22303a, { rough: 0.15, metal: 0.6 });
-    // A conventional hood hinges at the front bumper and tilts forward.
-    const hood = group(tr, -3.15, 0.95, 0);
-    box(hood, 1.5, 0.9, 2.0, 0.75, 0.45, 0, PTI_CAB, { rough: 0.4, metal: 0.4 });
-    box(hood, 0.05, 0.75, 1.3, -0.02, 0.42, 0, 0x8b949d, { rough: 0.4, metal: 0.7 });
-    hood.rotation.z = 1.9;
-    const latch = box(tr, 0.08, 0.1, 0.12, -3.05, 1.05, 1.02, 0x2b2f34, { rough: 0.5 });
+    // The hood tilts forward once the rig is secured; until then it is shut.
+    const hood = TP.hood;
+    const latch = box(tr, 0.06, 0.12, 0.16, -1.5, 1.4, 0.95, 0x2b2f34, { rough: 0.5 });
     reg2(latch, "pti-hood-latch");
-    box(tr, 0.22, 0.3, 2.5, -3.25, 0.7, 0, 0xc9ced2, { rough: 0.3, metal: 0.8 });
-    const headlight = box(tr, 0.06, 0.16, 0.3, -3.16, 1.1, 0.85, 0xfff4d8, { emissive: 0xfff4d8, ei: 0.6, rough: 0.3 });
-    reg2(headlight, "pti-headlight");
-    box(tr, 0.06, 0.16, 0.3, -3.16, 1.1, -0.85, 0xfff4d8, { emissive: 0xfff4d8, ei: 0.6, rough: 0.3 });
-    const signal = box(tr, 0.06, 0.1, 0.14, -3.16, 1.1, 1.12, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.5, rough: 0.3 });
+    reg2(TP.headlights, "pti-headlight");
+    const signal = box(tr, 0.08, 0.1, 0.16, -3.33, 1.22, 1.02, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.5, rough: 0.3 });
     reg2(signal, "pti-turn-signal");
-    // Engine compartment, visible under the tipped hood.
-    const engine = group(tr, -2.4, 0.9, 0);
-    box(engine, 1.1, 0.7, 0.9, 0, 0.35, 0, 0x3a3f45, { rough: 0.6, metal: 0.5 });
-    const belt = box(engine, 0.04, 0.4, 0.3, -0.58, 0.45, 0.25, 0x1b1e23, { rough: 0.8 });
-    const crack = box(engine, 0.05, 0.08, 0.1, -0.6, 0.55, 0.3, 0xd98a3a, { emissive: 0xd98a3a, ei: 0.4, rough: 0.6 });
-    void belt;
+    // Engine compartment, under the hood and in view once it tips.
+    const engine = group(tr, -2.35, 0.95, 0);
+    box(engine, 1.1, 0.62, 0.8, 0, 0.31, 0, 0x3a3f45, { rough: 0.6, metal: 0.5 });
+    const crack = box(engine, 0.05, 0.08, 0.1, -0.58, 0.45, 0.28, 0xd98a3a, { emissive: 0xd98a3a, ei: 0.4, rough: 0.6 });
     reg2(crack, "pti-belt-crack");
-    const hose = cyl(engine, 0.05, 0.05, 0.6, -0.3, 0.8, 0.4, 0x1b1e23, { rough: 0.7, seg: 10 });
+    const hose = cyl(engine, 0.05, 0.05, 0.6, -0.3, 0.72, 0.36, 0x1b1e23, { rough: 0.7, seg: 10 });
     hose.rotation.z = Math.PI / 2;
-    const weep = box(engine, 0.1, 0.1, 0.1, -0.05, 0.8, 0.42, 0x6fc4a8, { emissive: 0x6fc4a8, ei: 0.4, rough: 0.3 });
+    const weep = box(engine, 0.1, 0.1, 0.1, -0.05, 0.72, 0.38, 0x6fc4a8, { emissive: 0x6fc4a8, ei: 0.4, rough: 0.3 });
     reg2(weep, "pti-hose-leak");
-    const dip = group(engine, 0.3, 0.7, 0.5);
-    cyl(dip, 0.012, 0.012, 0.5, 0, 0.25, 0, 0xf2c14b, { rough: 0.4, metal: 0.6, seg: 8 });
-    box(dip, 0.06, 0.04, 0.02, 0, 0.52, 0, 0xf2c14b, { rough: 0.5 });
+    const dip = group(engine, 0.3, 0.55, 0.42);
+    cyl(dip, 0.012, 0.012, 0.45, 0, 0.22, 0, 0xf2c14b, { rough: 0.4, metal: 0.6, seg: 8 });
     reg2(dip, "pti-oil-low");
-    const radCap = cyl(engine, 0.07, 0.07, 0.05, -0.4, 0.75, -0.2, 0xd9dde2, { rough: 0.3, metal: 0.8, seg: 12 });
-    holoTag(tr, "radiator cap — open it hot?", -2.8, 2.05, -0.2, { css: "#d2312b", w: 0.46 });
+    const radCap = cyl(engine, 0.07, 0.07, 0.05, -0.4, 0.66, -0.2, 0xd9dde2, { rough: 0.3, metal: 0.8, seg: 12 });
+    holoTag(tr, "radiator cap — open it hot?", -2.8, 2.35, -0.2, { css: "#d2312b", w: 0.46 });
     reg2(radCap, "pti-hot-radiator");
     const steam = particles(tr, 18, 0xeef2f4, { size: 0.06, life: 0.8, additive: false, opacity: 0.5 });
     steam.visible = false;
-    // Wheels: steer and two drive axles, fuel tank, steps, stack, mirrors.
-    const wheel = (x, z, w) => { const c = cyl(tr, 0.5, 0.5, w, x, 0.5, z, PTI_TIRE, { rough: 0.9, seg: 20 }); c.rotation.x = Math.PI / 2; cyl(tr, 0.24, 0.24, w + 0.02, x, 0.5, z, 0x8b949d, { rough: 0.3, metal: 0.8, seg: 14 }).rotation.x = Math.PI / 2; return c; };
-    const steerL = wheel(-2.3, 1.1, 0.32);
-    wheel(-2.3, -1.1, 0.32);
-    const driveA = wheel(0.9, 1.05, 0.55);
-    wheel(0.9, -1.05, 0.55);
-    wheel(2.1, 1.05, 0.55);
-    wheel(2.1, -1.05, 0.55);
-    const treadGauge = instrument(tr, -2.3, 1.2, 1.35, { idle: "--/32", color: PTI_ACCENT, w: 0.12, d: 0.14 });
+    // Tires: the steer tire is gauged, a drive tire bulges, a lug weeps rust.
+    const treadGauge = instrument(tr, -2.37, 1.2, 1.42, { idle: "--/32", color: PTI_ACCENT, w: 0.12, d: 0.14 });
     reg2(treadGauge, "pti-tread-gauge");
-    holoTag(tr, "steer tire tread", -2.3, 1.42, 1.35, { css: "#58a6e8", w: 0.3 });
-    void steerL;
-    const bulge = box(tr, 0.2, 0.2, 0.08, 0.9, 0.55, 1.35, 0x2b2f34, { rough: 0.9 });
+    holoTag(tr, "steer tire tread", -2.37, 1.42, 1.42, { css: "#58a6e8", w: 0.3 });
+    const bulge = box(tr, 0.22, 0.2, 0.08, 1.53, 0.42, 1.32, 0x2b2f34, { rough: 0.9 });
     reg2(bulge, "pti-sidewall-bulge");
-    const rust = box(tr, 0.03, 0.14, 0.02, 2.2, 0.4, 1.34, 0xa0522d, { rough: 0.9 });
+    const rust = box(tr, 0.03, 0.14, 0.02, 2.9, 0.44, 1.31, 0xa0522d, { rough: 0.9 });
     reg2(rust, "pti-lug-rust");
-    const tank = cyl(tr, 0.33, 0.33, 1.2, -0.4, 0.75, 1.0, 0xc9ced2, { rough: 0.25, metal: 0.8, seg: 18 });
-    tank.rotation.z = Math.PI / 2;
-    for (const y of [0.45, 0.85]) box(tr, 0.4, 0.05, 0.25, -1.3, y, 1.25, 0x8b949d, { rough: 0.4, metal: 0.7 });
-    const jumpMark = slab(g, 0.8, 0.02, 0.5, -1.9, 0.13, 1.25, 0xd2312b, { radius: 0.02, rough: 0.6, opacity: 0.35, cast: false });
-    holoTag(g, "jump down from the cab?", -1.9, 0.34, 1.25, { css: "#d2312b", w: 0.42 });
+    const jumpMark = slab(g, 0.8, 0.02, 0.5, -1.1, 0.13, 1.2, 0xd2312b, { radius: 0.02, rough: 0.6, opacity: 0.35, cast: false });
+    holoTag(g, "jump down from the cab?", -1.1, 0.34, 1.2, { css: "#d2312b", w: 0.42 });
     reg2(jumpMark, "pti-jump-cab");
-    cyl(tr, 0.08, 0.08, 1.8, 0.05, 2.6, 1.15, 0xc9ced2, { rough: 0.3, metal: 0.8, seg: 12 });
-    for (const sz of [-1, 1]) {
-      box(tr, 0.06, 0.5, 0.2, -1.8, 2.4, sz * 1.4, 0x2b2f34, { rough: 0.4, metal: 0.4 });
-      box(tr, 0.3, 0.03, 0.03, -1.7, 2.4, sz * 1.3, 0x2b2f34, { rough: 0.5 });
-    }
-    const mirrorHit = box(tr, 0.2, 0.55, 0.25, -1.8, 2.4, 1.4, 0xffffff, { opacity: 0.001, cast: false });
-    reg2(mirrorHit, "pti-mirrors");
-    const clearance = box(tr, 0.06, 0.06, 0.1, -1.66, 2.95, 0.9, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.6, rough: 0.3 });
-    reg2(clearance, "pti-clearance-light");
-    for (const sz of [0, -0.9]) box(tr, 0.06, 0.06, 0.1, -1.66, 2.95, sz, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.6, rough: 0.3 });
-    // Fifth wheel, catwalk, and the air lines to the trailer.
-    box(tr, 1.2, 0.12, 1.4, 1.6, 1.08, 0, 0x2b2f34, { rough: 0.5, metal: 0.6 });
-    box(tr, 0.8, 0.04, 1.2, 0.35, 1.0, 0, 0x59636d, { rough: 0.6, metal: 0.5 });
-    const redLine = cyl(tr, 0.02, 0.02, 1.4, 0.6, 1.4, 0.25, 0xd2312b, { rough: 0.6, seg: 8 });
-    redLine.rotation.z = 1.2;
-    cyl(tr, 0.02, 0.02, 1.4, 0.6, 1.4, -0.25, 0x2f7fbf, { rough: 0.6, seg: 8 }).rotation.z = 1.2;
-    const chafe = box(tr, 0.12, 0.08, 0.08, 0.45, 1.12, 0.25, 0xd98a3a, { emissive: 0xd98a3a, ei: 0.3, rough: 0.6 });
+    reg2(TP.mirrorL, "pti-mirrors");
+    reg2(TP.markerLights, "pti-clearance-light");
+    // The driver's door stands open onto the cab controls laid out below it.
+    TP.doorL.rotation.y = -0.6;
+    // The trailer air lines hang from the back of the cab; the chafe is where
+    // the emergency line rubs the catwalk edge.
+    const chafe = box(tr, 0.12, 0.08, 0.08, 0.93, 1.3, 0.36, 0xd98a3a, { emissive: 0xd98a3a, ei: 0.3, rough: 0.6 });
     reg2(chafe, "pti-chafed-line");
     const underMark = box(tr, 1.8, 0.35, 0.8, 0.3, 0.3, 0, 0xd2312b, { opacity: 0.25, cast: false });
-    holoTag(tr, "crawl under — engine running?", 0.3, 0.72, 0.9, { css: "#d2312b", w: 0.48 });
+    holoTag(tr, "crawl under — engine running?", 0.3, 0.72, 1.45, { css: "#d2312b", w: 0.48 });
     reg2(underMark, "pti-under-running");
-
-    // ------------------------------------------------------------ the trailer, coupled, running off to the right
-    const van = group(g, 3.8, 0.12, -0.6);
-    box(van, 5.0, 2.6, 2.55, 0.9, 2.55, 0, 0xe8eef2, { rough: 0.6, metal: 0.2 });
-    box(van, 5.0, 0.12, 2.3, 0.9, 1.2, 0, 0x59636d, { rough: 0.6, metal: 0.4 });
-    for (const sz of [-1, 1]) box(van, 0.1, 0.9, 0.1, -1.2, 0.7, sz * 0.8, 0x3a3f45, { rough: 0.5, metal: 0.5 });
-    for (let i = 0; i < 4; i++) box(van, 0.06, 0.06, 0.1, -1.4 + i * 1.5, 3.8, 1.28, 0xf2a23b, { emissive: 0xf2a23b, ei: 0.5, rough: 0.3 });
-    decal(van, 2.2, 0.5, 0.9, 2.7, 1.28, signFace("FREIGHT", { bg: "#e8eef2", fg: "#2b3a48", accent: "#58a6e8", scale: 0.6 }), { px: 256 });
 
     // ------------------------------------------------------------ the in-cab controls, laid out at the open door
     const dash = group(g, -1.35, 0.12, 1.55, 0.25);
@@ -385,11 +354,10 @@ export const SIM_TDL_PRETRIP_INSPECTION = {
     cone(g, 4.6, 1.2);
 
     // ------------------------------------------------------------ the yard tractor that backs in
-    const yt = group(g, -4.6, 0.12, -3.9, 0);
-    box(yt, 1.3, 1.4, 1.6, 0, 1.1, 0, 0xf2f5f7, { rough: 0.5, metal: 0.3 });
-    box(yt, 2.4, 0.3, 1.8, 0.6, 0.55, 0, 0x2b2f34, { rough: 0.6, metal: 0.4 });
-    for (const sx of [-0.4, 1.4]) for (const sz of [-1, 1]) cyl(yt, 0.42, 0.42, 0.3, sx, 0.42, sz * 0.85, PTI_TIRE, { rough: 0.9, seg: 16 }).rotation.x = Math.PI / 2;
-    const ytBeacon = cyl(yt, 0.08, 0.08, 0.14, 0, 1.9, 0, 0x59636d, { rough: 0.4, seg: 12 });
+    // The kit's terminal tractor in the slot behind the rig, facing +x; it
+    // backs toward the front of your tractor when the interruption fires.
+    const yt = yardHustler(g, 0.6, 0.12, -3.9, { ry: Math.PI / 2 });
+    const setBeacon = lightSwitch(yt.userData.parts.beacon, mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.5, rough: 0.4 }));
     const yardDriver = standingFigure(g, -4.3, 2.3, { ry: 0.8, cloth: 0x2b3138, vest: 0xf2a23b });
     void yardDriver;
 
@@ -399,7 +367,7 @@ export const SIM_TDL_PRETRIP_INSPECTION = {
       footprint: 2.6,
       spawnLook: new THREE.Vector3(-0.6, 1.2, -0.6),
       onStepComplete(step) {
-        if (step.id === "secure") { chock.position.set(1.5, 0.22, 0.5); }
+        if (step.id === "secure") { chock.position.set(1.1, 0.22, 0.85); hood.rotation.x = hood.userData.openAngle; }
         if (step.id === "key-on") repaint(gauges.userData.screen, signFace("LAMPS OK", { bg: "#07121c", accent: "#59c97b", fg: "#f0f7fd", scale: 0.42 }));
         if (step.id === "triangles") { kit.parent.remove(kit); dash.add(kit); kit.position.set(-0.35, 0.45, 0.22); kit.rotation.set(0, 0, 0); kit.scale.setScalar(0.5); }
         if (step.id === "dvir-submit") {
@@ -417,12 +385,12 @@ export const SIM_TDL_PRETRIP_INSPECTION = {
       // The yard tractor really backs toward the gap with its beacon on; the
       // steam really comes out from under the hood.
       onInterrupt(it) {
-        if (it.id === "yard-tractor-backing") { yt.position.set(-4.6, 0.12, -2.4); ytBeacon.material = mat(0xf2a23b, { emissive: 0xf2a23b, ei: 1.5, rough: 0.4 }); }
+        if (it.id === "yard-tractor-backing") { yt.position.set(-1.4, 0.12, -3.9); setBeacon(true); }
         if (it.id === "coolant-steam") { steam.visible = true; weep.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.2, rough: 0.3 }); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "yard-tractor-backing") { yt.position.set(-4.6, 0.12, -3.9); ytBeacon.material = mat(0x59636d, { rough: 0.4 }); }
+        if (it.id === "yard-tractor-backing") { yt.position.set(0.6, 0.12, -3.9); setBeacon(false); }
         if (it.id === "coolant-steam") { steam.visible = false; repaint(gauges.userData.screen, signFace("ENGINE OFF", { bg: "#1c0e0e", accent: "#f0645b", fg: "#fbe4e4", scale: 0.4 })); }
       },
       animate(t, dt, session) {
@@ -435,7 +403,6 @@ export const SIM_TDL_PRETRIP_INSPECTION = {
         if (session?.turn && step?.id === "key-on") key.rotation.z = -session.turn.amount * Math.PI * 2;
         if (step?.id === "warm-up" && session.holding) warm = Math.min(1, warm + dt / 8);
         if (steam.visible) steam.userData.step?.(dt, new THREE.Vector3(-2.4, 1.9, 0.3), 0.15, 0.5, 0.6);
-        driveA.rotation.y = 0;
         void t; void warm;
       },
     };

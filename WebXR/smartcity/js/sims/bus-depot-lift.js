@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, slab, group, decal, repaint, signFace, particles } from "../../../shared/kit.js";
+import { busTransit } from "../../../shared/fleet.js";
 import { CITY, stationPad, holoPanel, holoTag, toolChest, cone, instrument, lockTag, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -161,33 +162,32 @@ export const SIM_BUS_DEPOT_LIFT = {
     const hits = {};
     const g = group(root);
     stationPad(g, 2.6, BD_ACCENT);
-    box(g, 6.0, 0.1, 5.2, 0, 0.05, 0, 0x4a4e52, { rough: 0.9 });
-    // The bus, four mobile columns, chocks.
+    box(g, 13.6, 0.1, 4.8, 0, 0.05, -0.2, 0x4a4e52, { rough: 0.9 });
+    // The bus, four mobile columns, chocks. The bus is the kit's 40 ft
+    // low-floor (shared/fleet.js), front to -x, driver's side toward you;
+    // `bus` is the frame the columns raise. Axles at x -3.65 and +3.0.
     const bus = group(g, 0, 0.1, -0.6);
-    box(bus, 4.6, 1.2, 1.6, 0, 1.2, 0, 0x2f6f8c, { rough: 0.55, metal: 0.3 });
-    box(bus, 4.6, 0.5, 1.62, 0, 1.55, 0, 0x9fc3d8, { rough: 0.2, metal: 0.2 });
-    box(bus, 4.4, 0.3, 1.2, 0, 0.55, 0, 0x2b2f34, { rough: 0.7, metal: 0.4 });     // frame
-    for (const [x, z] of [[-1.5, -0.8], [1.5, -0.8], [-1.5, 0.8], [1.5, 0.8]]) cyl(bus, 0.3, 0.3, 0.3, x, 0.3, z, 0x1b1e22, { rough: 0.8, seg: 18 }).rotation.x = Math.PI / 2;
-    const hvCable = cyl(bus, 0.02, 0.02, 3.0, 0, 0.42, 0.55, 0xff7a1a, { rough: 0.6, seg: 8 });
+    busTransit(bus, 0, 0, 0, { ry: -Math.PI / 2, livery: { unitNumber: "4471", fleetName: "CITI TRANSIT" }, route: "BEB", destination: "OUT OF SERVICE" });
+    const hvCable = cyl(bus, 0.02, 0.02, 3.0, 0, 0.22, 0.9, 0xff7a1a, { rough: 0.6, seg: 8 });
     hvCable.rotation.z = Math.PI / 2;
     reg(hits, hvCable, "hv-bare");
-    const chafe = box(bus, 0.12, 0.05, 0.05, 1.2, 0.42, 0.55, 0x1b1e22, { rough: 0.9 });
+    const chafe = box(bus, 0.12, 0.05, 0.05, 1.2, 0.22, 0.9, 0x1b1e22, { rough: 0.9 });
     reg(hits, chafe, "cracked-hose");
-    const motor = cyl(bus, 0.18, 0.18, 0.4, 1.4, 0.45, 0, 0x8a949d, { rough: 0.4, metal: 0.7, seg: 16 });
+    const motor = cyl(bus, 0.18, 0.18, 0.4, 2.2, 0.3, 0, 0x8a949d, { rough: 0.4, metal: 0.7, seg: 16 });
     motor.rotation.z = Math.PI / 2;
-    holoTag(bus, "drive motor", 1.4, 0.15, 0, { css: "#7bd389", w: 0.24 });
+    holoTag(bus, "drive motor", 2.2, 0.1, 1.1, { css: "#7bd389", w: 0.24 });
     reg(hits, motor, "drive-motor");
-    const underZone = box(bus, 3.0, 0.3, 1.0, 0, 0.2, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
-    holoTag(bus, "under the bus — on hydraulics?", 0, 0.05, 0.9, { css: "#d2312b", w: 0.5 });
+    const underZone = box(bus, 8.0, 0.24, 2.0, 0, 0.12, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
+    holoTag(bus, "under the bus — on hydraulics?", 0, 0.05, 1.45, { css: "#d2312b", w: 0.5 });
     reg(hits, underZone, "under-hydraulic");
-    const skirt = box(bus, 0.3, 0.1, 0.05, -0.6, 0.62, 0.82, 0xd2312b, { rough: 0.6, opacity: 0.35, transparent: true });
-    holoTag(bus, "body skirt — not a lift point", -0.6, 0.85, 0.9, { css: "#d2312b", w: 0.44 });
+    const skirt = box(bus, 0.3, 0.1, 0.05, -1.0, 0.45, 1.31, 0xd2312b, { rough: 0.6, opacity: 0.35, transparent: true });
+    holoTag(bus, "body skirt — not a lift point", -1.0, 0.7, 1.4, { css: "#d2312b", w: 0.44 });
     reg(hits, skirt, "pad-on-body");
-    const liftPoint = box(bus, 0.3, 0.02, 0.3, -1.9, 0.4, 0.55, 0xffffff, { rough: 0.5 });
+    const liftPoint = box(bus, 0.3, 0.02, 0.3, -3.1, 0.2, 0.9, 0xffffff, { rough: 0.5 });
     liftPoint.visible = false; hits["lift-point-socket"] = liftPoint;
-    const liftMark = decal(bus, 0.3, 0.1, -1.9, 0.62, 0.81, signFace("LIFT POINT", { bg: "#1b1e22", accent: "#7bd389", scale: 0.5 }));
+    const liftMark = decal(bus, 0.3, 0.1, -3.1, 0.5, 1.29, signFace("LIFT POINT", { bg: "#1b1e22", accent: "#7bd389", scale: 0.5 }));
     const columns = [];
-    for (const [x, z] of [[-2.0, -1.2], [2.0, -1.2], [-2.0, 1.2], [2.0, 1.2]]) {
+    for (const [x, z] of [[-3.65, -1.63], [3.0, -1.63], [-3.65, 1.63], [3.0, 1.63]]) {
       const c = group(g, x, 0.1, -0.6 + z);
       box(c, 0.4, 2.6, 0.4, 0, 1.3, 0, 0xe8b02e, { rough: 0.55, metal: 0.3 });
       const carriage = box(c, 0.5, 0.2, 0.9, 0, 0.35, -z * 0.35, 0x2b2f34, { rough: 0.6, metal: 0.5 });
@@ -198,8 +198,8 @@ export const SIM_BUS_DEPOT_LIFT = {
     holoTag(pad, "lift pad", 0, 0.14, 0, { css: "#7bd389", w: 0.2 });
     reg(hits, pad, "lift-pad");
     const chocks = {};
-    for (const [id, x] of [["chock-front", 1.5], ["chock-rear", -1.5]]) {
-      const ch = group(bus, x, 0.05, 1.0);
+    for (const [id, x] of [["chock-front", -3.03], ["chock-rear", 2.3]]) {
+      const ch = group(bus, x, 0.05, 1.35);
       box(ch, 0.2, 0.15, 0.15, 0, 0.07, 0, 0xe8b02e, { rough: 0.7 });
       holoTag(ch, id === "chock-front" ? "front chocks" : "rear chocks", 0, 0.3, 0, { css: "#7bd389", w: 0.26 });
       reg(hits, ch, id); chocks[id] = ch;
@@ -219,13 +219,13 @@ export const SIM_BUS_DEPOT_LIFT = {
     const noChock = box(ctrl, 0.16, 0.06, 0.03, 0, 0.45, 0.16, 0x22262b, { rough: 0.5 });
     decal(ctrl, 0.16, 0.04, 0, 0.53, 0.16, signFace("RAISE — UNCHOCKED", { bg: "#22262b", accent: "#d2312b", scale: 0.42 }));
     reg(hits, noChock, "raise-no-chock");
-    const dash = group(bus, -2.2, 1.3, 0.85, 0.2);
+    const dash = group(bus, -5.3, 1.3, 1.32, 0.2);
     const master = group(dash, 0, 0, 0);
     cyl(master, 0.04, 0.04, 0.03, 0, 0, 0, 0x22262b, { rough: 0.5, seg: 12 }).rotation.x = Math.PI / 2;
     const masterHandle = box(master, 0.02, 0.07, 0.02, 0, 0, 0.02, 0xd2312b, { rough: 0.5 });
     holoTag(master, "master switch", 0, 0.12, 0, { css: "#7bd389", w: 0.26 });
     reg(hits, master, "master-switch");
-    const plug = group(bus, 0.4, 1.0, 0.85);
+    const plug = group(bus, 0.4, 1.0, 1.32);
     box(plug, 0.12, 0.1, 0.06, 0, 0, 0, 0xff7a1a, { rough: 0.6 });
     holoTag(plug, "HV service disconnect", 0, 0.14, 0, { css: "#ff7a1a", w: 0.4 });
     reg(hits, plug, "hv-service-plug");
@@ -242,7 +242,7 @@ export const SIM_BUS_DEPOT_LIFT = {
     }, { accent: BD_ACCENT });
     const ro = box(chest, 0.6, 0.42, 0.04, -0.6, 1.3, 0.1, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, ro, "repair-order");
-    cone(g, 2.8, -2.2); cone(g, -2.8, -2.2);
+    cone(g, 4.9, -2.5); cone(g, -4.9, -2.5);
 
     let height = 0, locked = false;
     return {
@@ -251,8 +251,8 @@ export const SIM_BUS_DEPOT_LIFT = {
       onStep() {},
       onStepComplete(step) {
         if (step.id === "hv-disable") { masterHandle.rotation.z = Math.PI / 2; plug.visible = false; }
-        if (step.id === "chock") for (const ch of Object.values(chocks)) ch.position.z = 0.75;
-        if (step.id === "pads") { pad.parent.remove(pad); bus.add(pad); pad.position.set(-1.9, 0.37, 0.55); pad.rotation.set(0, 0, 0); }
+        if (step.id === "chock") for (const ch of Object.values(chocks)) ch.position.z = 1.08;
+        if (step.id === "pads") { pad.parent.remove(pad); bus.add(pad); pad.position.set(-3.1, 0.18, 0.9); pad.rotation.set(0, 0, 0); }
         if (step.id === "locks") locked = true;
         if (step.id === "walk") chafe.visible = false;
         if (step.id === "lower") { height = 0; locked = false; plug.visible = true; }
@@ -262,12 +262,12 @@ export const SIM_BUS_DEPOT_LIFT = {
       // slides on the rail, the instant each interruption fires.
       onInterrupt(it) {
         if (it.id === "coworker-reaches-for-master") masterHandle.rotation.z = Math.PI / 4;
-        if (it.id === "pad-slip-warning") pad.position.x = -1.75;
+        if (it.id === "pad-slip-warning") pad.position.x = -2.95;
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
         if (it.id === "coworker-reaches-for-master") masterHandle.rotation.z = Math.PI / 2;
-        if (it.id === "pad-slip-warning") pad.position.x = -1.9;
+        if (it.id === "pad-slip-warning") pad.position.x = -3.1;
       },
       animate(t, dt, session) {
         const step = session?.step;

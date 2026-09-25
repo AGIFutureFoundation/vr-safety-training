@@ -4360,6 +4360,18 @@ function flDone(rig, meta = {}) {
   return rig.root;
 }
 
+/**
+ * A switch for a lamp part (a beacon, a light bar, a work light): returns
+ * `(on) => void`, which paints every mesh in the part with `lit` when on and
+ * puts its own baked material back when off. For stations that light a
+ * vehicle's beacon or warning lights when an interruption fires.
+ */
+function lightSwitch(part, lit) {
+  const own = [];
+  part?.traverse?.((o) => { if (o.isMesh) own.push([o, o.material]); });
+  return (on) => { for (const [o, m] of own) o.material = on ? lit : m; };
+}
+
 // ----------------------------------------------------------------- livery
 
 /**
@@ -4678,7 +4690,7 @@ const FL_TRACTOR = {
  * fairing (day) or a 3.95 m raised-roof sleeper; exhaust stack to 3.95 m.
  * Fifth wheel top at 1.22 m. Parts: doorL/doorR, mirrorL/mirrorR,
  * wheels [wheelFL, wheelFR, axle2, axle3], lights {headlights, markerLights,
- * tailLights}, fifthWheel, fifthWheelRelease, gladHandService, gladHandEmergency.
+ * tailLights}, hood (tilts forward about X by userData.openAngle), fifthWheel, fifthWheelRelease, gladHandService, gladHandEmergency.
  * `userData.fifthWheelZ` is the kingpin point, for coupling a trailer.
  */
 function semiTractor(parent, x, y, z, opts = {}) {
@@ -4694,10 +4706,13 @@ function semiTractor(parent, x, y, z, opts = {}) {
   // Frame rails and cross members.
   for (const sx of [1, -1]) box(S, 0.1, 0.28, L - 0.35, sx * 0.43, 0.98, Z((0.3 + L - 0.05) / 2), ...FL.frame);
   for (const s of [0.5, cabBack + 0.2, T.fifth, L - 0.12]) box(S, 0.86, 0.14, 0.1, 0, 0.98, Z(s), ...FL.frame);
-  // Bumper, hood, grille, fenders.
+  // Bumper, fenders, and the hood with its grille: a part hinged at the
+  // bumper, so a station can tilt it forward for an engine-bay walk.
   box(S, 2.44, 0.36, 0.22, 0, 0.56, Z(0.11), ...FL.chrome);
-  flSide(S, [[0.16, 0.78], [0.13, 1.5], [0.2, 1.76], [0.5, 1.9], [2.05, 2.08], [2.05, 1.0], [0.9, 1.0], [0.6, 0.78]], 1.86, 0, 0, Z(0) , ...P, { bevel: 0.06 });
-  flPanel(S, 1.2, 0.86, 0, 1.3, Z(0.1), flGrilleMat("truck"), "+z");
+  const hood = rig.part("hood", 0, 0.78, Z(0.16));
+  flSide(hood, [[0.16, 0.78], [0.13, 1.5], [0.2, 1.76], [0.5, 1.9], [2.05, 2.08], [2.05, 1.0], [0.9, 1.0], [0.6, 0.78]].map(([b, y]) => [b - 0.16, y - 0.78]), 1.86, 0, 0, 0, ...P, { bevel: 0.06 });
+  flPanel(hood, 1.2, 0.86, 0, 1.3 - 0.78, 0.06, flGrilleMat("truck"), "+z");
+  hood.userData.openAngle = 1.35;               // about X: the top tips forward over the bumper
   for (const sx of [1, -1]) {
     const arc = [];
     for (let i = 0; i <= 8; i++) { const a = Math.PI * (0.06 + 0.88 * i / 8); arc.push([1.05 - 0.64 * Math.cos(a), 0.52 + 0.64 * Math.sin(a)]); }
@@ -4786,12 +4801,16 @@ const FL_TRAILERS = {
   reefer: { L: 16.15, axles: [13.62, 14.85], landing: 3.8 },
   flatbed: { L: 14.63, axles: [12.2, 13.43], landing: 3.6 },
   tanker: { L: 12.8, axles: [10.9, 12.13], landing: 3.2 },
+  // A 28 ft pup: the short single-axle van LTL carriers pull as doubles, and
+  // the length a station can park side-on inside the site apron's fence.
+  pup: { L: 8.53, axles: [7.45], landing: 2.4 },
 };
 
 /**
  * Semi-trailer. `opts.kind` "dryVan" (53 ft, 4.11 m), "reefer" (53 ft with a
  * nose-mounted refrigeration unit), "flatbed" (48 ft, deck 1.52 m, stake
- * pockets and winches) or "tanker" (42 ft DOT-406 style, elliptical barrel).
+ * pockets and winches), "tanker" (42 ft DOT-406 style, elliptical barrel) or
+ * "pup" (28 ft single-axle dry van).
  * Kingpin 0.91 m behind the nose at y 1.2. Parts: wheels [axle1, axle2],
  * landingGear, gladHands (gladHandService + gladHandEmergency), lights
  * {markerLights, tailLights}; van kinds add doorL/doorR (rear swing doors),
@@ -4807,7 +4826,8 @@ function trailer(parent, x, y, z, opts = {}) {
   const rig = flRig(parent, x, y, z, opts, `trailer-${kind}`);
   const S = rig.shell;
   const W = 2.59;
-  const van = kind === "dryVan" || kind === "reefer";
+  const van = kind === "dryVan" || kind === "reefer" || kind === "pup";
+  const axMid = T.axles.reduce((a, b) => a + b, 0) / T.axles.length, axLast = T.axles[T.axles.length - 1];
 
   // Kingpin, upper coupler, running gear, landing gear.
   cyl(S, 0.045, 0.045, 0.12, 0, 1.14, Z(0.91), ...FL.steel, { seg: 10 });
@@ -4816,11 +4836,11 @@ function trailer(parent, x, y, z, opts = {}) {
   const deckY = kind === "flatbed" ? 1.37 : 1.2;
   for (const sx of [1, -1]) box(S, 0.08, 0.3, L - 0.6, sx * 0.45, deckY - 0.12, Z(L / 2 + 0.2), ...FL.frame);
   for (const s of T.axles) box(S, 1.3, 0.2, 0.2, 0, 0.5, Z(s), ...FL.frame);
-  box(S, 1.0, 0.5, 2.6, 0, deckY - 0.45, Z((T.axles[0] + T.axles[1]) / 2), ...FL.frame);
+  box(S, 1.0, 0.5, T.axles.length > 1 ? 2.6 : 1.4, 0, deckY - 0.45, Z(axMid), ...FL.frame);
   // Rear underride guard and mud flaps.
   box(S, 2.3, 0.12, 0.12, 0, 0.52, Z(L - 0.08), ...FL.frame);
   for (const sx of [1, -1]) box(S, 0.1, 0.62, 0.1, sx * 0.8, 0.85, Z(L - 0.12), ...FL.frame);
-  for (const sx of [1, -1]) box(S, 0.62, 0.6, 0.02, sx * 1.0, 0.5, Z(T.axles[1] + 0.7), ...FL.frame);
+  for (const sx of [1, -1]) box(S, 0.62, 0.6, 0.02, sx * 1.0, 0.5, Z(axLast + 0.7), ...FL.frame);
 
   const lg = rig.part("landingGear", 0, 0, Z(T.landing));
   for (const sx of [1, -1]) {
@@ -4848,7 +4868,7 @@ function trailer(parent, x, y, z, opts = {}) {
     // Body with its aluminium side posts, livery and conspicuity tape.
     const H = 4.11 - deckY;
     box(S, W - 0.02, H, L - 0.05, 0, deckY + H / 2, Z(L / 2), ...flPaint(lv.colour));
-    const side = flLiveryMat(lv, `van:${kind}`, { base: lv.colour, posts: 40, tape: true, pw: 2048, ph: 360, titleScale: 0.26, titleY: 0.36, stripeY: 0.6 });
+    const side = flLiveryMat(lv, `van:${kind}`, { base: lv.colour, posts: Math.round(40 * L / 16.15), tape: true, pw: 2048, ph: 360, titleScale: 0.26, titleY: 0.36, stripeY: 0.6 });
     for (const sx of [1, -1]) flPanel(S, L - 0.1, H, sx * (W / 2 + 0.004), deckY + H / 2, Z(L / 2), side, sx > 0 ? "+x" : "-x");
     // Rear frame around the doors.
     box(S, W, 0.16, 0.08, 0, 4.03, Z(L - 0.02), ...FL.steel);
@@ -5728,13 +5748,14 @@ function workboat(parent, x, y, z, opts = {}) {
  * options the entry is built with.
  */
 const FLEET_BUDGET = {
-  semiTractor: { build: "semiTractor", meshes: 23, footprint: [3.02, 3.95, 6.86], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "headlights", "markerLights", "tailLights", "fifthWheel", "fifthWheelRelease", "gladHandService", "gladHandEmergency"], note: "Class 8 day cab, tandem drive, fifth wheel, air lines and glad hands" },
-  "semiTractor:sleeper": { build: "semiTractor", opts: { cab: "sleeper" }, meshes: 23, footprint: [3.02, 4, 8.66], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "fifthWheel", "gladHandService", "gladHandEmergency"], note: "Class 8 raised-roof sleeper" },
+  semiTractor: { build: "semiTractor", meshes: 24, footprint: [3.02, 3.95, 6.86], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "hood", "wheels", "lights", "headlights", "markerLights", "tailLights", "fifthWheel", "fifthWheelRelease", "gladHandService", "gladHandEmergency"], note: "Class 8 day cab, tandem drive, fifth wheel, air lines and glad hands" },
+  "semiTractor:sleeper": { build: "semiTractor", opts: { cab: "sleeper" }, meshes: 24, footprint: [3.02, 4, 8.66], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "fifthWheel", "gladHandService", "gladHandEmergency"], note: "Class 8 raised-roof sleeper" },
   "trailer:dryVan": { build: "trailer", opts: { kind: "dryVan" }, meshes: 14, footprint: [2.63, 4.11, 16.27], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights"], note: "53 ft dry van, swing doors, conspicuity tape" },
   "trailer:flatbed": { build: "trailer", opts: { kind: "flatbed" }, meshes: 13, footprint: [2.66, 1.53, 14.69], parts: ["wheels", "landingGear", "gladHands", "lights", "stakePockets", "winches"], note: "48 ft flatbed with stake pockets and winches" },
   "trailer:reefer": { build: "trailer", opts: { kind: "reefer" }, meshes: 17, footprint: [2.63, 4.11, 16.7], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights", "reeferUnit"], note: "53 ft reefer with nose-mounted unit" },
   "trailer:tanker": { build: "trailer", opts: { kind: "tanker" }, meshes: 14, footprint: [2.63, 3.26, 12.94], parts: ["wheels", "landingGear", "gladHands", "lights", "manholes", "valves"], note: "42 ft DOT-406 style tanker, placarded 3 / 1203" },
-  tractorTrailer: { build: "tractorTrailer", meshes: 37, footprint: [3.02, 4.11, 20.71], parts: ["tractor", "trailer"], note: "day cab coupled to a 53 ft dry van" },
+  "trailer:pup": { build: "trailer", opts: { kind: "pup" }, meshes: 13, footprint: [2.63, 4.11, 8.65], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights"], note: "28 ft single-axle pup van" },
+  tractorTrailer: { build: "tractorTrailer", meshes: 38, footprint: [3.02, 4.11, 20.71], parts: ["tractor", "trailer"], note: "day cab coupled to a 53 ft dry van" },
   boxTruck: { build: "boxTruck", meshes: 21, footprint: [3.02, 4.05, 10], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "rearDoor"], note: "Class 6, 26 ft box, roll-up door" },
   pickup: { build: "pickup", meshes: 17, footprint: [2.39, 1.93, 5.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "tailgate"], note: "full-size crew cab" },
   sedan: { build: "sedan", meshes: 17, footprint: [2.23, 1.45, 4.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "trunk"], note: "mid-size four-door" },

@@ -3,6 +3,7 @@ import {
   box, cyl, ball, torus, slab, hose, group, decal, repaint, signFace, particles, mat,
   seatedFigure,
 } from "../../../shared/kit.js";
+import { ambulance } from "../../../shared/fleet.js";
 import {
   CITY, stationPad, holoPanel, holoTag, toolChest, instrument, valveWheel,
   standingFigure, pavingFace, reg, surfaceTexture, texturedMat,
@@ -327,11 +328,10 @@ export const SIM_FIREFIGHTER_REHAB_SECTOR = {
     void chief;
 
     // EMS marker and the deferral radio.
-    const ems = group(g, -2.6, 0, 2.3);
-    box(ems, 1.3, 0.9, 0.7, 0, 0.55, 0, 0xdfe4e8, { rough: 0.4, metal: 0.3 });
-    box(ems, 0.6, 0.06, 0.7, 0, 1.03, 0, 0xf0645b, { emissive: 0xf0645b, ei: 0.4, rough: 0.5, cast: false });
-    for (const wx of [-0.5, 0.5]) { const wheel = cyl(ems, 0.18, 0.18, 0.16, wx, 0.18, 0.3, 0x1a1e23, { rough: 0.9, seg: 12 }); wheel.rotation.x = Math.PI / 2; }
-    holoTag(ems, "EMS transport", 0, 1.2, 0, { css: "#f0645b", w: 0.34 });
+    // The kit's Type III ambulance (shared/fleet.js), staged alongside with
+    // its rear doors toward the rehab tent.
+    const ems = ambulance(g, -4.3, 0, 2.4, { livery: { unitNumber: "14" } });
+    holoTag(ems, "EMS transport", 0, 3.5, -2.6, { css: "#f0645b", w: 0.34 });
     reg(hits, ems, "ems-transport");
     const deferRadio = group(g, 2.7, 0, 1.6);
     box(deferRadio, 0.08, 0.15, 0.05, 0, 0.9, 0, 0x2b3138, { rough: 0.5 });
