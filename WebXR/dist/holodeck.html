@@ -8470,7 +8470,8 @@ const PROGRAMME_COMPETENCIES = [
       "phlebotomy", "operatory-turnover", "instrument-reprocessing", "sharps-exposure-response",
       "patient-intake-screening", "radiograph-safety", "periodontal-charting", "ultrasonic-scaling",
       "aerosol-management", "fluoride-and-sealants", "nitrous-oxide-monitoring", "chairside-emergency",
-      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening"
+      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening",
+      "dn-medical-history-and-medication-review", "dn-oral-hygiene-instruction-and-motivational-interviewing", "dn-public-health-dentistry-and-fluoridation-advocacy"
     ],
     require: 6,
   },
@@ -8483,7 +8484,8 @@ const PROGRAMME_COMPETENCIES = [
       "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
       "sterilisation-technician-cycle", "dental-lab-bench", "orthodontic-assisting", "oral-surgery-assisting",
       "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach", "implant-surgery-assisting",
-      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage"
+      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage",
+      "dn-digital-intraoral-scanning-and-cad-cam", "dn-dental-trauma-and-avulsed-tooth-response", "dn-dental-coding-billing-and-preauthorisation"
     ],
     require: 6,
   },
@@ -28491,6 +28493,258 @@ const SIMS_META = [
         "Community Lead",
         "Neighbourhood Manager",
         "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-digital-intraoral-scanning-and-cad-cam",
+    "index": "318",
+    "domain": "Dental",
+    "trade": "Dental assistant — digital scanning and chairside CAD/CAM (expanded-function assistant where the state allows it)",
+    "category": "Dental & Oral Health",
+    "certification": "The state dental board's allowable-duties list for assistants, which decides whether an assistant may take a digital impression at all and under what supervision; the ADA's guidance on the dental team and the ADA's CDT code set for the restoration the dentist records; the CDC's dental infection-control guidelines for a semi-critical scanner tip reprocessed to its manufacturer's instructions; OSHA 29 CFR 1910.1030 bloodborne pathogens for the saliva and blood the tip carries; NIOSH guidance on dust from grinding milled ceramic; HIPAA's privacy and security rules for a scan file that identifies a person; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Digital Intraoral Scanning & CAD/CAM",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Digital Intraoral Scanning & CAD/CAM VR",
+    "tagline": "A crown made in one visit, done properly: a reprocessed tip, a scanner proved ready, one steady scan path, a margin checked before anybody designs to it, a block milled behind a closed door and a file that never leaves the record",
+    "accent": 7259112,
+    "accentCss": "#6ec3e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-visit-crown",
+      "name": "One-Visit Crown",
+      "note": "A scan, a margin check, a design and a mill carried end to end without a remake"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Digital Chairside",
+      "currency": "SCAN",
+      "ranks": [
+        "Assisting Student",
+        "Scanning Assistant",
+        "CAD/CAM Assistant",
+        "Digital Lead",
+        "Digital Chairside Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-dental-trauma-and-avulsed-tooth-response",
+    "index": "319",
+    "domain": "Dental",
+    "trade": "Dental assistant — emergency and trauma chairside (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "The AAPD's reference-manual guidance on acute dental trauma, which follows the International Association of Dental Traumatology's avulsion protocol; the state dental board's practice act, under which replantation, splinting and prescribing are the dentist's; the CDC's dental infection-control guidelines and OSHA 29 CFR 1910.1030 bloodborne pathogens for a bleeding socket; the ADA's guidance and the ADA's CDT code set for how the trauma visit is recorded; HIPAA's privacy rule for clinical photographs of a minor; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Dental Trauma & Avulsed Tooth Response",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Trauma & Avulsed Tooth Response VR",
+    "tagline": "A knocked-out front tooth and an hour on the clock: head injury ruled out first, the root rinsed and never scrubbed, the tooth carried by its crown into a medium that keeps it alive, and the dentist at the chair to replant it",
+    "accent": 15245402,
+    "accentCss": "#e8a05a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "root-kept-alive",
+      "name": "Root Kept Alive",
+      "note": "An avulsed permanent tooth handled by its crown, stored wet and handed to the dentist inside the window"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Golden Hour",
+      "currency": "ROOT",
+      "ranks": [
+        "Assisting Student",
+        "Chairside Assistant",
+        "Emergency Assistant",
+        "Trauma Lead",
+        "Golden Hour Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-medical-history-and-medication-review",
+    "index": "320",
+    "domain": "Dental",
+    "trade": "Dental hygienist or assistant — medical history and medication review (RDH, DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+    "category": "Dental & Oral Health",
+    "certification": "The state dental board's practice act, under which the decision to consult a physician, change a plan or prescribe is the dentist's, and the history is taken and recorded by the team; the ADHA's standards for clinical dental hygiene practice on assessment; the ADA's guidance on patients taking anticoagulants and antiresorptive bone medicines, and the ADA's CDT code set for the evaluation the dentist records; HIPAA's privacy rule and its minimum-necessary standard for a medication list; OSHA 29 CFR 1910.1030 for a used lancet; the CDC's dental infection-control guidelines for a latex-free setup; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Medical History & Medication Review",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Medical History & Medication Review VR",
+    "tagline": "A history reviewed before anybody picks up an instrument: the door closed, the bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read, and the consult decision recorded — per the dentist",
+    "accent": 10457056,
+    "accentCss": "#9f8fe0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-missed",
+      "name": "Nothing Missed",
+      "note": "Every medicine in the bag on the list, every flag in front of the dentist, and nothing decided that was the dentist's to decide"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "History First",
+      "currency": "HIST",
+      "ranks": [
+        "Clinical Student",
+        "History Taker",
+        "Clinical Reviewer",
+        "Hygiene Lead",
+        "History First Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+    "index": "321",
+    "domain": "Dental",
+    "trade": "Dental hygienist — patient education and motivational interviewing (RDH), SEIU and UFCW clinic and dental staff, AFSCME public-health hygienists",
+    "category": "Dental & Oral Health",
+    "certification": "The ADHA's standards for clinical dental hygiene practice, which put patient education and a care plan the patient agrees to at the centre of hygiene care; the state dental board's practice act for the hygienist's scope; the ADA's guidance on home care and the ADA's CDT code set under which the dentist's office records oral hygiene instruction; the CDC's dental infection-control guidelines on keeping aerosol-generating procedures to those actually needed; OSHA 29 CFR 1910.1030 for a scaler, which is a sharp and never a pointer; HIPAA's privacy rule for intraoral photographs; SEIU, UFCW and AFSCME clinic and public-health dental staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Oral Hygiene Instruction & Motivational Interviewing",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Oral Hygiene Instruction & Motivational Interviewing VR",
+    "tagline": "The flossing talk that finally works: at eye level, permission first, his story heard to the end, his own reasons noticed, technique shown on a model, and one small goal he chose — in his words",
+    "accent": 8376736,
+    "accentCss": "#7fd1a0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "his-goal",
+      "name": "His Goal",
+      "note": "A home-care goal the patient chose himself, written in his words, reached without a single lecture"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Change Talk",
+      "currency": "TALK",
+      "ranks": [
+        "Hygiene Student",
+        "Hygiene Educator",
+        "Motivational Clinician",
+        "Hygiene Lead",
+        "Change Talk Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-dental-coding-billing-and-preauthorisation",
+    "index": "322",
+    "domain": "Dental",
+    "trade": "Dental billing and insurance coordinator — coding, claims and pre-authorisation, SEIU and UFCW clinic and front-office staff",
+    "category": "Dental & Oral Health",
+    "certification": "The ADA's Code on Dental Procedures and Nomenclature (CDT), cited as the code set and never by a number, and the ADA's dental claim form; the state dental board's rules that the dentist's signed clinical record is what every claim must be supported by; HIPAA's privacy and security rules, including access controls, the minimum-necessary standard and the standard electronic transactions a claim travels in; OSHA 29 CFR 1910.1030 for the front-office staff named in the exposure control plan who help when a patient collapses; SEIU and UFCW clinic and front-office staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Dental Coding, Billing & Pre-authorisation",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Dental Coding, Billing & Pre-authorisation VR",
+    "tagline": "A crown and two dental plans turned into an honest claim: eligibility first, the note read for what it supports, a gap sent back to the dentist, the current CDT, payers in order, a portal rather than a fax, and an appeal made on the facts",
+    "accent": 14268506,
+    "accentCss": "#d9b85a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-claim",
+      "name": "Clean Claim",
+      "note": "A claim and a pre-authorisation built only on what the signed record supports, sent securely and paid to the contract"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean Claim",
+      "currency": "CLAIM",
+      "ranks": [
+        "Front-Office Trainee",
+        "Insurance Clerk",
+        "Billing Coordinator",
+        "Revenue Lead",
+        "Clean Claim Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "dn-public-health-dentistry-and-fluoridation-advocacy",
+    "index": "323",
+    "domain": "Dental",
+    "trade": "Public-health dental hygienist — community oral health and advocacy (RDH with the state's public-health permit where it has one), AFSCME public-health staff, SEIU and UFCW clinic staff",
+    "category": "Dental & Oral Health",
+    "certification": "The CDC's community water fluoridation guidance and its dental infection-control guidelines for the outreach table; the recommendation on fluoride in community water published by HHS; the ADA's policy supporting community water fluoridation and the ADA's CDT code set under which the programme's preventive services are reported; the ADHA's standards on the hygienist's role in community health; the state dental board's rules for hygienists practising in public-health settings; HIPAA's de-identification standard for screening data; Title II of the ADA for an accessible public meeting; OSHA 29 CFR 1910.1030 for outreach staff; AFSCME, SEIU and UFCW public-health and clinic staff; Unspoken Smiles, the programme this platform is built for",
+    "name": "Public Health Dentistry & Fluoridation Advocacy",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Public Health Dentistry & Fluoridation Advocacy VR",
+    "tagline": "Community water fluoridation at a public meeting, argued honestly: data with no child in it, your own slides checked for overclaims, a worried resident heard, three minutes at the podium and every question answered in writing",
+    "accent": 6273238,
+    "accentCss": "#5fb8d6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "honest-case",
+      "name": "Honest Case",
+      "note": "A public-health case made with de-identified data, sourced claims and the evidence stated at its real strength"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Community Case",
+      "currency": "CASE",
+      "ranks": [
+        "Outreach Volunteer",
+        "Community Hygienist",
+        "Public-Health Hygienist",
+        "Programme Lead",
+        "Community Case Certified"
       ],
       "rankAt": [
         0,
