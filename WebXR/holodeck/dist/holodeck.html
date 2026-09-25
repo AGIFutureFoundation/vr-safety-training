@@ -8362,7 +8362,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
     stations: [
       "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
-      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack"
+      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack", "hz-level-b-entry-and-scba-change-out"
     ],
     require: 4,
   },
@@ -28237,6 +28237,48 @@ const SIMS_META = [
         "Assistant Coach",
         "Head Coach",
         "Programme Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hz-level-b-entry-and-scba-change-out",
+    "index": "341",
+    "domain": "Environmental Monitoring",
+    "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+    "category": "Environmental Monitoring",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; IAFF technical-rescue backup training",
+    "name": "Level B Entry & SCBA Change-Out",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+    "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+    "accent": 5230986,
+    "accentCss": "#4fd18a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "in-and-out-on-air",
+      "name": "In and Out on Air",
+      "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Entry Team",
+      "currency": "TAG",
+      "ranks": [
+        "Line Watcher",
+        "Entry Hand",
+        "Entry Team Lead",
+        "Backup Qualified",
+        "Level B Certified"
       ],
       "rankAt": [
         0,

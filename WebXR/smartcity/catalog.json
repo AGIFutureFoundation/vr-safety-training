@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 352
+      "stations": 353
     },
     "trades": {
       "entry": "trades/index.html",
@@ -290,6 +290,7 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "hz-level-b-entry-and-scba-change-out",
         "drum-sampling-and-overpack",
         "mobile-air-lab",
         "opacity-reading",
@@ -778,16 +779,21 @@
           "app": "smartcity",
           "id": "drum-sampling-and-overpack",
           "why": "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest."
+        },
+        {
+          "app": "smartcity",
+          "id": "hz-level-b-entry-and-scba-change-out",
+          "why": "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1380,
-        "tasks": 120,
-        "atBar": 4,
-        "partial": 16,
-        "stationsNeeded": 3,
+        "lessons": 1613,
+        "tasks": 135,
+        "atBar": 17,
+        "partial": 3,
+        "stationsNeeded": 1,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -7206,6 +7212,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out",
+      "name": "Level B Entry & SCBA Change-Out",
+      "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+      "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; technical-rescue backup training",
+      "accent": "#4fd18a",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "in-and-out-on-air",
+        "name": "In and Out on Air",
+        "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+      },
+      "meshes": 186,
+      "lights": 0,
+      "overBudget": false,
+      "index": "341",
+      "flat": false,
+      "system": "Entry Team",
+      "currency": "TAG",
+      "ranks": [
+        "Line Watcher",
+        "Entry Hand",
+        "Entry Team Lead",
+        "Backup Qualified",
+        "Level B Certified"
+      ],
+      "awards": [
+        {
+          "id": "sealed-before-entry",
+          "name": "Sealed Before Entry",
+          "note": "The facepiece seal held its full check before the line was crossed"
+        },
+        {
+          "id": "swap-before-empty",
+          "name": "Swap Before Empty",
+          "note": "Broke off the valve work and reached the change-out point on the first alarm"
+        },
+        {
+          "id": "line-discipline",
+          "name": "Line Discipline",
+          "note": "Never crossed without backup's word, never a loose seal, never the wrong cylinder off the cart"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Entry",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "flow-held-to-zero",
+          "name": "Flow Held to Zero",
+          "note": "Held the valve's flow reading through the whole watch"
+        },
+        {
+          "id": "board-closed-fast",
+          "name": "Board Closed Fast",
+          "note": "Entry board closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hz-level-b-entry-and-scba-change-out"
     },
     {
       "app": "smartcity",
@@ -26487,7 +26576,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27147,7 +27236,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",

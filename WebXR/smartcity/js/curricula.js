@@ -92,6 +92,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "stormwater-outfall", why: "The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence." },
       { app: "trades", id: "pressure-washer", why: "Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment." },
       { app: "smartcity", id: "drum-sampling-and-overpack", why: "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest." },
+      { app: "smartcity", id: "hz-level-b-entry-and-scba-change-out", why: "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone." },
     ],
   },
   {
