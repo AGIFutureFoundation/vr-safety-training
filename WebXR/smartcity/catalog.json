@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 352
+      "stations": 358
     },
     "trades": {
       "entry": "trades/index.html",
@@ -398,7 +398,13 @@
         "results-return-visit",
         "sample-kit-shipping",
         "biomonitoring-consent",
-        "can-we-live-story"
+        "can-we-live-story",
+        "cv-difficult-conversation-across-difference",
+        "cv-grant-application-and-nonprofit-compliance",
+        "cv-restorative-justice-circle-facilitation",
+        "cv-neighborhood-emergency-block-captain",
+        "cv-voter-registration-drive-and-nonpartisan-conduct",
+        "cv-open-meeting-law-and-agenda-notice"
       ]
     },
     {
@@ -1594,12 +1600,42 @@
           "app": "smartcity",
           "id": "mentorship-and-succession",
           "why": "The programme ends where leadership does, with the seat handed on to somebody who can do the job without you."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-open-meeting-law-and-agenda-notice",
+          "why": "The clerk's side of the open meeting, where the Brown Act is kept or lost before the chair ever speaks: an agenda the public could actually read, a quorum counted honestly, and a closed session kept to what was noticed and reported out."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+          "why": "A registration table on a Saturday plaza is where bringing people in rather than shutting them out is practised one voter at a time, with the table belonging to every party and to none."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-neighborhood-emergency-block-captain",
+          "why": "The morning after an earthquake, leadership is a block captain working inside the volunteer's role: rescuer safety first, a report up one chain, and the list of who needs help kept off the group chat."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-restorative-justice-circle-facilitation",
+          "why": "Keeping a restorative circle is listening first taken as far as it goes, with the talking piece's rule held, speaking time kept fair and the harm named without shaming the person who did it."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-grant-application-and-nonprofit-compliance",
+          "why": "Asking for public money and accounting for it is the other side of spending it in the open: a budget that means something, a conflict disclosed and recused, and a report that claims only what it can prove."
+        },
+        {
+          "app": "smartcity",
+          "id": "cv-difficult-conversation-across-difference",
+          "why": "The hardest seat in the programme is the one where the harm was yours, and owning it across language, age and experience is where emotional intelligence stops being a slogan."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1549,
+        "lessons": 1600,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -26487,7 +26523,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32244,6 +32280,504 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=bb-warmup-injury-prevention-and-hydration"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-difficult-conversation-across-difference",
+      "name": "Difficult Conversation Across Difference",
+      "title": "SmartCiti.X~ Difficult Conversation Across Difference VR",
+      "tagline": "You cut her off last week, and she has asked to meet: your own state named first, a qualified interpreter on the line, her account heard whole, her son's anger met without a counter-attack, an apology with no \"if\" in it — and a change she can hold you to",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Neighbourhood services liaison — repair conversation",
+      "union": null,
+      "certification": "Title VI of the Civil Rights Act of 1964 for meaningful language access in a federally funded city programme — a qualified interpreter, not a family member and never a child; Title II of the ADA for the same access for a resident with a disability; SAMHSA's trauma-informed principles of safety, trustworthiness and transparency, and cultural, historical and gender responsiveness for a resident who has felt dismissed by institutions before; Psychological First Aid (NCTSN and the National Center for PTSD) for calm, practical presence with someone upset; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a threat to staff is reported and followed up; SEIU and AFSCME for the city staff who hold these conversations. The emotional-intelligence steps follow the programme's own guide. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#d98a7a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "owned-it",
+        "name": "Owned It",
+        "note": "A whole repair conversation held: nothing defended, nobody talked over, and a change promised that can be checked"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Repair",
+      "currency": "TRUST",
+      "ranks": [
+        "Liaison",
+        "Senior Liaison",
+        "Community Lead",
+        "Neighbourhood Manager",
+        "Mentor"
+      ],
+      "awards": [
+        {
+          "id": "arrived-honest",
+          "name": "Arrived Honest",
+          "note": "Your own state named before the conversation began"
+        },
+        {
+          "id": "no-defence",
+          "name": "No Defence",
+          "note": "No unsafe action anywhere in the conversation"
+        },
+        {
+          "id": "room-ready",
+          "name": "Room Ready",
+          "note": "Every part of the room set up for her first time"
+        },
+        {
+          "id": "clean-repair",
+          "name": "Clean Repair",
+          "note": "No corrections anywhere in the conversation"
+        },
+        {
+          "id": "slow-breath",
+          "name": "Slow Breath",
+          "note": "Your breathing brought inside the band"
+        },
+        {
+          "id": "stayed-present",
+          "name": "Stayed Present",
+          "note": "Both holds and the de-escalation carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-difficult-conversation-across-difference"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-grant-application-and-nonprofit-compliance",
+      "name": "Grant Application and Nonprofit Compliance",
+      "title": "SmartCiti.X~ Grant Application and Nonprofit Compliance VR",
+      "tagline": "Ask for public money honestly and account for every dollar: papers in order, a budget narrative that means something, an indirect rate inside the cap, a board member's conflict disclosed and recused, a report that claims only what it can prove — and the charity's status kept out of a campaign",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Programme and grants manager — community nonprofit",
+      "union": null,
+      "certification": "The IRS rules for 501(c)(3) organisations, named as a body: the determination letter from the Form 1023 application, annual Form 990 reporting and its governance questions on a written conflict-of-interest policy, and the absolute bar on campaign activity for or against a candidate; 2 CFR 200, OMB's Uniform Guidance, where a city grant passes through federal money — allowable costs, indirect rates, documentation and no charging one cost twice; the California Attorney General's Registry of Charitable Trusts, as a body, for the charity's state registration and annual reports; the Political Reform Act and the municipal ethics code for the city officials who review and award the grant; SEIU and AFSCME for the city grants staff on the other side of the application. The city, its notice and its cap are invented. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#5fb0b8",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "every-dollar-open",
+        "name": "Every Dollar Open",
+        "note": "A grant asked for and reported honestly: no conflict hidden, no cost charged twice, no claim you could not prove"
+      },
+      "meshes": 184,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Open Books",
+      "currency": "TRUST",
+      "ranks": [
+        "Programme Assistant",
+        "Grants Writer",
+        "Grants Manager",
+        "Director of Programmes",
+        "Mentor Director"
+      ],
+      "awards": [
+        {
+          "id": "papers-in-order",
+          "name": "Papers in Order",
+          "note": "Every eligibility document found first time"
+        },
+        {
+          "id": "nothing-hidden",
+          "name": "Nothing Hidden",
+          "note": "No unsafe action anywhere in the grant cycle"
+        },
+        {
+          "id": "claims-proven",
+          "name": "Claims Proven",
+          "note": "Every unsupported claim found first time"
+        },
+        {
+          "id": "clean-books",
+          "name": "Clean Books",
+          "note": "No corrections anywhere in the grant cycle"
+        },
+        {
+          "id": "honest-rate",
+          "name": "Honest Rate",
+          "note": "The indirect rate set inside the band"
+        },
+        {
+          "id": "steady-spend",
+          "name": "Steady Spend",
+          "note": "The listening and the spend-down both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-grant-application-and-nonprofit-compliance"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-restorative-justice-circle-facilitation",
+      "name": "Restorative Justice Circle",
+      "title": "SmartCiti.X~ Restorative Justice Circle VR",
+      "tagline": "A mural painted over, and the people it hurt in one circle: consent checked, the talking piece's rule held, the artist and the young person each heard whole, speaking time kept fair, the heat taken out without the truth — and an agreement he owns",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Restorative circle keeper — community programme",
+      "union": null,
+      "certification": "SAMHSA's trauma-informed principles — safety, trustworthiness and transparency, peer support, collaboration, empowerment and voice, and cultural responsiveness — for a circle where harm is named; Psychological First Aid (NCTSN and the National Center for PTSD) for a participant overwhelmed mid-circle; the California Child Abuse and Neglect Reporting Act (CANRA), named as a body, for the limit of any confidentiality promised to a minor when a keeper or co-keeper is a mandated reporter; the NASW Code of Ethics for the social worker co-keeping; Title II of the ADA for access to a city-run programme; SEIU and AFSCME for the recreation-centre staff who host community programmes. The restorative questions are stated generically; no restorative-justice programme's curriculum is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#b08ad0",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "turn",
+        "sequence",
+        "hold",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "circle-kept",
+        "name": "Circle Kept",
+        "note": "A whole circle held fair: every voice heard, nobody shamed, nothing promised that was not yours to promise"
+      },
+      "meshes": 229,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Talking Piece",
+      "currency": "REPAIR",
+      "ranks": [
+        "Circle Member",
+        "Co-Keeper",
+        "Circle Keeper",
+        "Lead Keeper",
+        "Keeper Mentor"
+      ],
+      "awards": [
+        {
+          "id": "circle-ready",
+          "name": "Circle Ready",
+          "note": "Every part of the circle set up first time"
+        },
+        {
+          "id": "nobody-shamed",
+          "name": "Nobody Shamed",
+          "note": "No unsafe action anywhere in the circle"
+        },
+        {
+          "id": "harm-seen",
+          "name": "Harm Seen",
+          "note": "Everyone the harm reached found first time"
+        },
+        {
+          "id": "clean-circle",
+          "name": "Clean Circle",
+          "note": "No corrections anywhere in the circle"
+        },
+        {
+          "id": "fair-share",
+          "name": "Fair Share",
+          "note": "Speaking time set inside the band"
+        },
+        {
+          "id": "deep-listening",
+          "name": "Deep Listening",
+          "note": "Both listening holds and the temperature carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-restorative-justice-circle-facilitation"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-neighborhood-emergency-block-captain",
+      "name": "Neighborhood Emergency Block Captain",
+      "title": "SmartCiti.X~ Neighborhood Emergency Block Captain VR",
+      "tagline": "The morning after the quake, one block and one captain: checked in, sized up, gas shut where it hisses, the damaged house marked, bleeding stopped, a leg freed an inch at a time, a frightened neighbour steadied — and the roster of who needs help kept off the group chat",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Neighbourhood emergency block captain — CERT-trained volunteer",
+      "union": null,
+      "certification": "FEMA's Community Emergency Response Team (CERT) programme, named as a body, for the volunteer's role and its limits: rescuer safety first, size-up, utility control, light search and marking, simple triage, bleeding control, cribbing, disaster psychology and team organisation; NIMS and ICS for checking in, reporting up one chain and keeping an activity log, as taught in the FEMA IS-100 and IS-700 courses; Red Cross shelter and first-aid practice for the neighbours sent onward; Psychological First Aid (NCTSN and the National Center for PTSD) for the frightened and the grieving; SAMHSA's trauma-informed principles for a neighbourhood after a disaster. The gas utility's rule that only the utility or a qualified professional restores gas is stated generically. No local neighbourhood programme is named because none is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#e0a040",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "block-held",
+        "name": "Block Held",
+        "note": "A whole block worked inside the volunteer's role: nobody hurt helping, nobody exposed, nobody left alone"
+      },
+      "meshes": 231,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Block by Block",
+      "currency": "READY",
+      "ranks": [
+        "Team Member",
+        "Buddy Lead",
+        "Block Captain",
+        "Area Coordinator",
+        "Team Mentor"
+      ],
+      "awards": [
+        {
+          "id": "kitted-up",
+          "name": "Kitted Up",
+          "note": "Every piece of personal safety kit found first time"
+        },
+        {
+          "id": "nobody-hurt-helping",
+          "name": "Nobody Hurt Helping",
+          "note": "No unsafe action anywhere on the block"
+        },
+        {
+          "id": "hazards-named",
+          "name": "Hazards Named",
+          "note": "Every hazard on the block found first time"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere on the block"
+        },
+        {
+          "id": "inch-at-a-time",
+          "name": "An Inch at a Time",
+          "note": "The lift set inside the band"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "The pressure and the calm both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-neighborhood-emergency-block-captain"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+      "name": "Voter Registration Drive",
+      "title": "SmartCiti.X~ Voter Registration Drive VR",
+      "tagline": "Run a registration table that belongs to every voter: the campaign flyer off the table, the card filled in by the person it belongs to, \"who should I vote for\" answered with the official guide, completed cards locked, logged and returned — and a heckler met without an argument",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Voter registration drive lead — nonpartisan community organisation",
+      "union": null,
+      "certification": "The National Voter Registration Act (NVRA), named as a body, for the mail-in registration system and the agency-based registration a drive sits beside; the California Secretary of State's voter registration guidance, as a body, for the official card, the rules for people who collect completed cards — return them promptly to the elections office and keep them confidential — and the official voter information guide; the IRS rules for 501(c)(3) organisations, which bar any partisan campaign activity and allow voter registration only when it is nonpartisan in who is served and what is said; Title VI of the Civil Rights Act of 1964 for language access where a programme takes federal money; SEIU and AFSCME for the public-assistance and motor-vehicle office staff who offer registration under the NVRA every day. Where a deadline or section number is not certain, the station names the body and not the number. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#6fc7a0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "drag",
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "every-voter-table",
+        "name": "Every Voter's Table",
+        "note": "A whole drive run nonpartisan: nobody steered, nothing kept, every card returned"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Open Table",
+      "currency": "VOICE",
+      "ranks": [
+        "Volunteer",
+        "Table Lead",
+        "Drive Lead",
+        "Field Coordinator",
+        "Volunteer Mentor"
+      ],
+      "awards": [
+        {
+          "id": "table-ready",
+          "name": "Table Ready",
+          "note": "Every part of the table set up right first time"
+        },
+        {
+          "id": "no-side-taken",
+          "name": "No Side Taken",
+          "note": "No unsafe action anywhere in the drive"
+        },
+        {
+          "id": "complete-cards",
+          "name": "Complete Cards",
+          "note": "Every missing field found first time"
+        },
+        {
+          "id": "clean-drive",
+          "name": "Clean Drive",
+          "note": "No corrections anywhere in the drive"
+        },
+        {
+          "id": "easy-pace",
+          "name": "Easy Pace",
+          "note": "Your explanation paced inside the band"
+        },
+        {
+          "id": "calm-table",
+          "name": "Calm Table",
+          "note": "The listening and the calm both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-voter-registration-drive-and-nonpartisan-conduct"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-open-meeting-law-and-agenda-notice",
+      "name": "Open Meeting Law and Agenda Notice",
+      "title": "SmartCiti.X~ Open Meeting Law and Agenda Notice VR",
+      "tagline": "Clerk a board meeting that is lawful from the posting to the report out: the agenda up where anyone can read it, each item described so a neighbour could tell, a quorum counted honestly, closed session kept to what was noticed — and every action said aloud when the doors open again",
+      "category": "Community Environmental Justice",
+      "domain": "Civic",
+      "trade": "Clerk of the board — open-meeting compliance",
+      "union": null,
+      "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following), stated as a body and as principles: the agenda posted in advance in a place the public can reach, each item briefly described, the public's right to address the body, closed session only for the subjects the Act allows, and a public report of action taken there; the California Public Records Act for the agenda packet and any writing handed to a majority of the body; Robert's Rules of Order as the parliamentary practice the board adopts in its own rules, not a law; Title II of the ADA for a remote member's and the public's access to the meeting; the Political Reform Act for what a member discloses before voting; the municipal ethics code for confidential information; SEIU and AFSCME for the clerks and staff who run the room. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+      "accent": "#8fb7d9",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "gauge",
+        "drag",
+        "select",
+        "turn",
+        "hold",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "posted-and-proper",
+        "name": "Posted and Proper",
+        "note": "A whole meeting clerked in the open: noticed right, a real quorum, closed session kept narrow and every action reported out"
+      },
+      "meshes": 268,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Open Door",
+      "currency": "NOTICE",
+      "ranks": [
+        "Deputy Clerk",
+        "Clerk",
+        "Board Secretary",
+        "Clerk of the Board",
+        "Mentor Clerk"
+      ],
+      "awards": [
+        {
+          "id": "posted-right",
+          "name": "Posted Right",
+          "note": "Every posting condition found first time"
+        },
+        {
+          "id": "nothing-leaked",
+          "name": "Nothing Leaked",
+          "note": "No unsafe action anywhere in the meeting"
+        },
+        {
+          "id": "narrow-door",
+          "name": "Narrow Door",
+          "note": "Everything that did not belong in closed session found first time"
+        },
+        {
+          "id": "clean-record",
+          "name": "Clean Record",
+          "note": "No corrections anywhere in the meeting"
+        },
+        {
+          "id": "plain-words",
+          "name": "Plain Words",
+          "note": "The item description set inside the band"
+        },
+        {
+          "id": "held-the-line",
+          "name": "Held the Line",
+          "note": "The listening and the closed-session focus both carried their full count"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cv-open-meeting-law-and-agenda-notice"
     },
     {
       "app": "trades",

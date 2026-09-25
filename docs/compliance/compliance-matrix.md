@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-25: 361 procedures, 208 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-25: 367 procedures, 208 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -24,8 +24,8 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.22 | 15: Banquet Room Flip & Staging, Banquet Setup Lift, Fryer Oil Change, Hot Line, Lifting and Ergonomics, Loading Dock & Moves, Lobby and Front Desk, Mail & Package Room, Pallet Jack and Racking, Parking Garage, Pick, Pack and Scan, Playground & Courtyard, Receiving Dock Food, Sprinkler Riser Room, Trailer Loading and Dock Plate |
 | California Retail Food Code | 15: Allergen Control, Allergens & Honest Drinks, Banquet Hot Hold, Cafeteria Serving, Cut-Off / Overservice, Dish Pit, Fryer Oil Change, Ice Well Breakage, Knife Skills, Opening the Well, Pouring to Spec, Prep Cooling, RBS Service Capstone, Receiving Dock Food, Walk-In Cooler |
 | 29 CFR 1910.146 | 14: Confined Rescue, Digester Gas, Gas Leak Survey, Grain Bin, Grease Trap, Landfill Gas, Lift Station, Manhole Entry & Atmospheric Monitoring, Non-Entry Retrieval & Tripod, Permit Entry & Attendant Duties, Stormwater Outfall, Tank Lining, Valve Vault, Ventilation & Air Monitoring Plan |
+| 8 CCR 3203 | 14: Banquet Room Flip & Staging, Banquet Setup Lift, Crisis Line Shift, Difficult Conversation Across Difference, Flatwork Ironer & Folder Guarding, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Leasing Office and Fair Housing, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | 49 CFR 393 | 13: Air Brake Test, Backing Serpentine and Alley Dock, Backing and Docking, Bus Yard Fuelling & Brake Check, Cargo Securement and Hours, City Route and Turns, Coupling and Uncoupling, Freeway Merge and Following Distance, Mountain Grade and Engine Brake, Night Fog and Rail Crossing, Pre-Trip Inspection, Trades Lineage Briefing, Trailer Loading and Dock Plate |
-| 8 CCR 3203 | 13: Banquet Room Flip & Staging, Banquet Setup Lift, Crisis Line Shift, Flatwork Ironer & Folder Guarding, HAZWOPER Site Orientation, Home Visit Safety, Ice Well Breakage, Laundry Plant Chemicals, Leasing Office and Fair Housing, Opening the Well, Pouring to Spec, Till Drop & Robbery Response, WVPP & Panic Button |
 | ANSI Z359 | 13: Bridge Cable Inspection, Confined Rescue, International Orange Recoat, Leading Edge & Horizontal Lifeline, Main Cable Band Inspection, Non-Entry Retrieval & Tripod, Roof and Drains, Solar Deck, Steel Erector, Suspender Rope Replacement, Terminal Lighting Mast Service, Tower Climb, Tower Climb & Tie-Off |
 | 29 CFR 1910.178 | 12: Airport Ramp, Backing Serpentine and Alley Dock, Backing and Docking, Forklift Dock, Hazmat Labeling and Segregation, Lifting and Ergonomics, Light Vehicle Fleet and Forklift Course, Loading Dock & Moves, Pallet Jack and Racking, Pick, Pack and Scan, Trades Lineage Briefing, Trailer Loading and Dock Plate |
 | 29 CFR 1917 | 11: Chassis & Genset Yard, Crane Boom Hoist Brake Service, Dock Crane, Dock Fender & Bollard Inspection, Mooring Line, Reefer Plug & Power Panel, Spreader & Twist-lock Inspection, Stormwater at the Terminal, Straddle Carrier Hydraulics, Terminal Lighting Mast Service, Vessel Gangway & Hatch Cover Safety |
@@ -471,6 +471,12 @@ Every station names the union and the certification a worker in that role holds,
 | Community Listening Session | Community engagement facilitator | — |
 | Conflict Mediation Room | Community mediator | — |
 | Mentorship and Succession | Outgoing commission chair — mentor | — |
+| Open Meeting Law and Agenda Notice | Clerk of the board — open-meeting compliance | — |
+| Voter Registration Drive | Voter registration drive lead — nonpartisan community organisation | — |
+| Neighborhood Emergency Block Captain | Neighbourhood emergency block captain — CERT-trained volunteer | — |
+| Restorative Justice Circle | Restorative circle keeper — community programme | — |
+| Grant Application and Nonprofit Compliance | Programme and grants manager — community nonprofit | — |
+| Difficult Conversation Across Difference | Neighbourhood services liaison — repair conversation | 8 CCR 3203 |
 
 ### Property Management — Twenty Zones
 
@@ -907,6 +913,12 @@ Every station names the union and the certification a worker in that role holds,
 - Footwork: Pivots and Jump Stops (smartcity): none
 - Stance and Ball Handling (smartcity): none
 - Warm-Up, Injury Prevention and Hydration (smartcity): none
+- Difficult Conversation Across Difference (smartcity): 8 CCR 3203
+- Grant Application and Nonprofit Compliance (smartcity): none
+- Restorative Justice Circle (smartcity): none
+- Neighborhood Emergency Block Captain (smartcity): none
+- Voter Registration Drive (smartcity): none
+- Open Meeting Law and Agenda Notice (smartcity): none
 - Deploy Bay (trades): IEC 27001
 - Wash-Down Yard (trades): 29 CFR 1910.133
 
