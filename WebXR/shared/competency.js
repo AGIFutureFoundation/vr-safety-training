@@ -347,7 +347,8 @@ export const PROGRAMME_COMPETENCIES = [
       "phlebotomy", "operatory-turnover", "instrument-reprocessing", "sharps-exposure-response",
       "patient-intake-screening", "radiograph-safety", "periodontal-charting", "ultrasonic-scaling",
       "aerosol-management", "fluoride-and-sealants", "nitrous-oxide-monitoring", "chairside-emergency",
-      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening"
+      "amalgam-waste-handling", "mobile-dental-outreach", "pediatric-visit", "oral-cancer-screening",
+      "dn-medical-history-and-medication-review", "dn-oral-hygiene-instruction-and-motivational-interviewing", "dn-public-health-dentistry-and-fluoridation-advocacy"
     ],
     require: 6,
   },
@@ -360,7 +361,8 @@ export const PROGRAMME_COMPETENCIES = [
       "patient-intake-screening", "dental-careers-pathway", "four-handed-dentistry", "dental-radiography-fmx",
       "sterilisation-technician-cycle", "dental-lab-bench", "orthodontic-assisting", "oral-surgery-assisting",
       "front-office-treatment-coordination", "infection-control-audit", "school-screening-outreach", "implant-surgery-assisting",
-      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage"
+      "endodontic-assisting", "denture-delivery-and-adjustment", "special-needs-and-geriatric-dentistry", "teledentistry-and-triage",
+      "dn-digital-intraoral-scanning-and-cad-cam", "dn-dental-trauma-and-avulsed-tooth-response", "dn-dental-coding-billing-and-preauthorisation"
     ],
     require: 6,
   },

@@ -261,8 +261,8 @@ export const CURRICULA = [
     name: "Dental Hygiene — Unspoken Smiles",
     union: "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
     certification: "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
-    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908"],
-    summary: "Fifteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908", "ada-cdt-code", "state-dental-board"],
+    summary: "Eighteen stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
     accent: "#7fd1c9",
     stations: [
       { app: "trades", id: "phlebotomy", why: "The bench case every clinical trade shares: sharps, bloodborne pathogens and the exposure control plan, before a single dental instrument is picked up." },
@@ -281,6 +281,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "mobile-dental-outreach", why: "The clinical day carried off the operatory entirely: an RDHAP's community-practice rules and the CDC's mobile-setting guidance, run from a van's side door rather than a fixed room." },
       { app: "smartcity", id: "pediatric-visit", why: "The youngest patient this programme sees: tell-show-do and a plan that bends to a five-year-old's cooperation, with the referral as the answer when a parent asks for more than a hygienist's scope allows." },
       { app: "smartcity", id: "oral-cancer-screening", why: "The screening every adult recall should already include: a fixed extraoral-to-intraoral order, a finding described in terms a surgeon can act on, and the two-week rule that decides whether it waits or it's referred today." },
+      { app: "smartcity", id: "dn-medical-history-and-medication-review", why: "The review behind every safe appointment: the bag of bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read with their reactions, and the consult decision recorded as the dentist's." },
+      { app: "smartcity", id: "dn-oral-hygiene-instruction-and-motivational-interviewing", why: "The flossing talk that finally changes something: permission before advice, the patient's own reasons heard and drawn out, technique shown on a model, and one small goal he chose written in his words." },
+      { app: "smartcity", id: "dn-public-health-dentistry-and-fluoridation-advocacy", why: "The hygienist's work carried out to the whole community: screening data with no child left in it, the team's own claims checked first, and three honest minutes at the water board's podium." },
     ],
   },
   {
@@ -288,7 +291,7 @@ export const CURRICULA = [
     name: "Dental Careers — Unspoken Smiles",
     union: "SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions' bodies, DANB as the assisting credential",
     certification: "The state dental practice act and its allowable duties for assistants and hygienists, DANB's CDA components (radiation health and safety, infection control, general chairside), CODA-accredited programme standards, the CDC's dental infection-control guidelines, OSHA 29 CFR 1910.1030 and 1910.1200, HIPAA's privacy and security rules, and the ADA's radiographic guidance",
-    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908"],
+    guides: ["seiu-training", "ufcw-training", "afscme-training", "adha-standards", "cdc-guidance", "osha-1910-1030", "osha-1910-1200", "epa-40-cfr-441", "ada-radiographic-guidance", "aapd-reference-manual", "hipaa-privacy-rule", "iso-23908", "ada-cdt-code", "state-dental-board"],
     summary: "The careers a student can step into from the Unspoken Smiles clinic: dental assisting at the chair, sterilisation and instrument processing, radiography, the laboratory bench, orthodontic and surgical assisting, the front office and treatment coordination, and community outreach — with the ladder from assistant to hygienist to dentist laid out as a station of its own.",
     accent: "#f0b86e",
     stations: [
@@ -308,6 +311,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "denture-delivery-and-adjustment", why: "Where the laboratory bench meets the chair: the case matched to its prescription, the fit proved with paste, the spot cut under a guard and extraction, and the appliance marked with its owner's identity." },
       { app: "smartcity", id: "special-needs-and-geriatric-dentistry", why: "The patients the schedule makes least room for: a transfer done with equipment rather than backs, consent taken from the patient and not around them, a swallow-safe position, and a dry mouth treated as a disease." },
       { app: "smartcity", id: "teledentistry-and-triage", why: "The visit that happens down a camera: a platform the practice may lawfully use, images worth reading, the emergency criteria worked airway first, and the limits of a remote look written into the note." },
+      { app: "smartcity", id: "dn-digital-intraoral-scanning-and-cad-cam", why: "The digital chairside career: a reprocessed tip and a calibrated scanner, one steady scan path, the margin checked on screen before anybody designs to it, and a block milled behind a latched door." },
+      { app: "smartcity", id: "dn-dental-trauma-and-avulsed-tooth-response", why: "The emergency every assistant should be ready for: a knocked-out front tooth handled by its crown, stored wet in the right medium, and handed to the dentist inside the hour the root cells have." },
+      { app: "smartcity", id: "dn-dental-coding-billing-and-preauthorisation", why: "The billing office behind the front desk as a career of its own: eligibility before codes, a gap in the note sent back to the dentist, this year's CDT, and an appeal won on the record." },
     ],
   },
   {
