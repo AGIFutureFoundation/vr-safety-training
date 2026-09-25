@@ -15568,5 +15568,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-tidal-marsh-grading-amphibious-excavator",
+    "index": "br-c1",
+    "domain": "Environmental",
+    "trade": "Operating engineer — amphibious excavator, wetland restoration crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineer — amphibious excavator; LIUNA Local 261 laborers — ground crew and spotter; OSHA 29 CFR 1926 Subpart P excavations and grading; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+    "name": "Tidal Marsh Grading — Amphibious Excavator",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Tidal Marsh Grading — Amphibious Excavator VR",
+    "tagline": "Grading a tidal marsh bench to design elevation on a pontoon excavator: permit and buffer checked, mats laid ahead of the machine, the swing worked to a controlled arc clear of the nesting closure, grade cut to the laser, spoil bins loaded instead of the water, and the bench walked and logged before the crew stands down",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "grade-to-line",
+      "name": "Grade To The Line",
+      "note": "The whole bench cut to design elevation, buffer never crossed, nothing dumped but into the bins — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grading Crew",
+      "currency": "BENCH",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Amphibious Excavator Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

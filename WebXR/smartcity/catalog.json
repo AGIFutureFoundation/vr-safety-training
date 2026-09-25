@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 364
+      "stations": 365
     },
     "trades": {
       "entry": "trades/index.html",
@@ -90,6 +90,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "br-tidal-marsh-grading-amphibious-excavator",
         "cs-non-entry-retrieval-and-tripod",
         "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
@@ -7278,6 +7279,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "name": "Tidal Marsh Grading — Amphibious Excavator",
+      "title": "SmartCiti.X~ Tidal Marsh Grading — Amphibious Excavator VR",
+      "tagline": "Grading a tidal marsh bench to design elevation on a pontoon excavator: permit and buffer checked, mats laid ahead of the machine, the swing worked to a controlled arc clear of the nesting closure, grade cut to the laser, spoil bins loaded instead of the water, and the bench walked and logged before the crew stands down",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Operating engineer — amphibious excavator, wetland restoration crew",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer — amphibious excavator; LIUNA Local 261 laborers — ground crew and spotter; OSHA 29 CFR 1926 Subpart P excavations and grading; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "grade-to-line",
+        "name": "Grade To The Line",
+        "note": "The whole bench cut to design elevation, buffer never crossed, nothing dumped but into the bins — first time"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c1",
+      "flat": false,
+      "system": "Grading Crew",
+      "currency": "BENCH",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Amphibious Excavator Certified"
+      ],
+      "awards": [
+        {
+          "id": "buffer-held",
+          "name": "Buffer Held",
+          "note": "Never a hazard, never a swing past the nesting closure"
+        },
+        {
+          "id": "grade-clean",
+          "name": "Grade Clean",
+          "note": "Swing rate and laser grade both read inside the working band"
+        },
+        {
+          "id": "bench-first",
+          "name": "Bench Read Clean",
+          "note": "Permit and buffer both read clean before the first cut"
+        },
+        {
+          "id": "clean-bench",
+          "name": "Clean Bench",
+          "note": "No corrections across the whole grading run"
+        },
+        {
+          "id": "steady-swing",
+          "name": "Steady Swing",
+          "note": "Held the boom swing inside the working band the whole pass"
+        },
+        {
+          "id": "bench-fast",
+          "name": "Bench Closed Fast",
+          "note": "Grading closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-tidal-marsh-grading-amphibious-excavator"
     },
     {
       "app": "smartcity",
@@ -27219,7 +27303,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "100",

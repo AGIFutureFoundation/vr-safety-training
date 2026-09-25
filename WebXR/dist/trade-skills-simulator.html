@@ -5704,6 +5704,86 @@ function excavator(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.excavator.footprint, livery: lv });
 }
 
+// ------------------------------------------------------ amphibious excavator
+
+// The pontoons sit 0.38 m taller than the standard machine's 0.92 m crawler
+// tracks, so the carbody and everything it carries — house, boom, stick,
+// bucket, counterweight, lights, unchanged from excavator() above — is raised
+// by the same amount to sit on the new deck.
+const AEX_DY = 0.38;
+
+/**
+ * Amphibious (pontoon) excavator: the same 20 t upperstructure as
+ * `excavator()` above, carried on a pair of wide steel flotation pontoons in
+ * place of conventional crawler tracks — the "swamp buggy" or "marsh buggy"
+ * a shoreline and wetland crew calls in where the ground will not carry a
+ * wheeled or standard tracked machine at all, spreading the same weight over
+ * a wider, buoyant undercarriage instead of a narrow steel shoe. 4.6 m across
+ * the pontoons (versus 3.05 m on steel tracks), 5.6 m pontoon length, cab and
+ * boom geometry unchanged. Parts: pontoonL, pontoonR, house, door, boom,
+ * stick, bucket, lights, counterweight.
+ */
+function amphibiousExcavator(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "AEX-1" });
+  const rig = flRig(parent, x, y, z, opts, "amphibiousExcavator", [0, 0, -2.66]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Undercarriage: a wide carrier deck on twin flotation pontoons — 1.85 m
+  // off centre each way, well outside the 1.195 m gauge of the standard
+  // machine's steel tracks — so the whole rig floats or spreads its weight
+  // across soft mud a normal track sinks straight through.
+  box(S, 1.5, 0.55, 1.6, 0, 0.72 + AEX_DY, 0, ...FL.frame);
+  cyl(S, 0.95, 0.95, 0.14, 0, 1.03 + AEX_DY, 0, ...FL.frame, { seg: 24 });
+  eqTrack(rig, "pontoonL", 1.85, 5.6, 1.3, 0.85);
+  eqTrack(rig, "pontoonR", -1.85, 5.6, 1.3, 0.85);
+  // Flat deck cap along each pontoon (a crew's own walkway) and a tapered bow
+  // fender at the forward end, so the pontoon reads as a hull and not just an
+  // overgrown track.
+  for (const sx of [1, -1]) {
+    box(S, 0.95, 0.05, 5.0, sx * 1.85, 1.68, -0.15, ...FL.frame);
+    flSide(S, [[0.35, 1.3], [0.15, 1.55], [-0.1, 1.6], [-0.1, 1.05], [0.35, 1.05]], 0.9, sx * 1.85, 0, 2.6, 0, ...FL.frame, { bevel: 0.03 });
+  }
+  const house = rig.part("house", 0, 1.1 + AEX_DY, 0);
+  box(house, 2.54, 0.28, 3.6, 0, 0.14, -0.3, ...P);
+  flSide(house, [[-0.95, 0.28], [-0.85, 1.05], [0.6, 1.1], [1.4, 1.1], [1.4, 0.28]], 1.45, -0.54, 0, 0, ...P, { bevel: 0.05 });  // engine hood, right rear
+  box(house, 1.0, 0.78, 1.55, 0.76, 0.67, -0.97, ...P);                 // left-side tool compartment
+  const cab = [[-2.05, 0.28], [-2.02, 1.35], [-1.85, 1.95], [0.1, 1.95], [0.15, 0.28]];
+  flSide(house, cab, 1.0, 0.72, 0, 0, ...P, { bevel: 0.05 });
+  const glass = flGlassMat();
+  flPanel(house, 0.86, 0.95, 0.72, 1.25, 2.065, glass, "+z", 0.03);
+  flPanel(house, 1.6, 0.8, 0.21, 1.45, 1.0, glass, "-x");
+  flPanel(house, 0.8, 0.55, 0.72, 1.6, -0.16, glass, "-z");
+  const cw = rig.part("counterweight", 0, 0, 0, house);
+  const arc = [];
+  for (let i = 0; i <= 10; i++) { const xx = -1.27 + 2.54 * i / 10; arc.push([xx, -Math.sqrt(2.75 * 2.75 - xx * xx)]); }
+  flPlan(cw, [[1.27, -1.75], ...arc.reverse(), [-1.27, -1.75]], 1.0, 0, 0.28, 0, ...P, { bevel: 0.05 });
+  const cwMark = flCanvasMat("cwStripesAex", 256, 64, (g, w, h) => {
+    g.fillStyle = "#15171a"; g.fillRect(0, 0, w, h);
+    for (let i = -4; i < 20; i++) { g.fillStyle = flCss(lv.colour); g.beginPath?.(); g.moveTo?.(i * 24, h); g.lineTo?.(i * 24 + 12, h); g.lineTo?.(i * 24 + 12 + h, 0); g.lineTo?.(i * 24 + h, 0); g.closePath?.(); g.fill?.(); }
+  }, { rough: 0.5 });
+  flPanel(cw, 1.0, 0.2, 0, 0.5, -2.765, cwMark, "-z");
+  for (const xx of [-0.6, -0.25]) flRod(house, 0.02, 1.8, xx, 1.45, -0.6, "z", ...FL.black);
+  flPanel(house, 1.3, 0.3, 1.264, 0.7, -0.97, flLiveryMat(lv, "aexSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  flDoor(rig, "door", 1, 1.22, 0.3, 1.9, 0.95, 1.6, flDoorMat(lv, "L", { window: 0.62, marks: "none" }), { host: house });
+  // Boom (foot pin ahead of the cab, right of it), stick, bucket — identical
+  // to the standard machine, since only the undercarriage changes.
+  const boom = rig.part("boom", -0.12, 0.85, 1.35, house);
+  flBeam(boom, [0, 0, 0], [0, 2.4, 2.3], 0.5, 0.62, ...P);
+  flBeam(boom, [0, 2.4, 2.3], [0, 1.6, 5.3], 0.46, 0.55, ...P);
+  for (const sx of [1, -1]) eqRam(boom, [sx * 0.34, -0.55, 0.45], [sx * 0.34, 1.25, 1.75], 0.09, lv.colour);
+  eqRam(boom, [0, 2.8, 2.1], [0, 2.1, 5.0], 0.08, lv.colour);
+  flStrut(boom, [0.18, 0.3, 0.3], [0.18, 2.75, 2.4], 0.025, ...FL.black);
+  flStrut(boom, [0.18, 2.75, 2.4], [0.18, 1.95, 5.2], 0.025, ...FL.black);
+  const stick = rig.part("stick", 0, 1.6, 5.3, boom);
+  flBeam(stick, [0, 0.55, -0.35], [0, -2.1, 0.9], 0.36, 0.48, ...P);
+  eqRam(stick, [0, 0.7, 0.05], [0, -1.6, 1.15], 0.07, lv.colour);
+  const bucket = rig.part("bucket", 0, -2.1, 0.9, stick);
+  eqBucket(bucket, 1.2, 1.0);
+  const lights = rig.part("lights", 0, 0, 0, house);
+  box(lights, 0.16, 0.12, 0.08, 0.95, 1.98, 2.0, ...FL.lamp);
+  box(lights, 0.16, 0.12, 0.08, -0.12, 2.35, 3.4, ...FL.lamp);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.amphibiousExcavator.footprint, livery: lv });
+}
+
 // ----------------------------------------------------------------- backhoe
 
 /**
@@ -6282,6 +6362,7 @@ function craneSpreader(parent, x, y, z, opts = {}) {
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
 const EQUIPMENT_BUDGET = {
   excavator: { build: "excavator", meshes: 21, footprint: [3.05, 4.83, 10.78], parts: ["trackL", "trackR", "house", "door", "boom", "stick", "bucket", "lights", "counterweight"], note: "20 t tracked excavator, dig-ready" },
+  amphibiousExcavator: { build: "amphibiousExcavator", meshes: 22, footprint: [4.65, 5.21, 10.81], parts: ["pontoonL", "pontoonR", "house", "door", "boom", "stick", "bucket", "lights", "counterweight"], note: "amphibious pontoon excavator, dig-ready" },
   backhoe: { build: "backhoe", meshes: 23, footprint: [2.36, 3.75, 7.46], parts: ["loaderArms", "loaderBucket", "swingFrame", "boom", "stick", "bucket", "stabilizers", "wheels", "door", "lights"], note: "loader backhoe, travel pose" },
   skidSteer: { build: "skidSteer", meshes: 12, footprint: [1.83, 2.07, 3.31], parts: ["arms", "bucket", "wheelsL", "wheelsR", "wheels", "door", "lights"], note: "wheeled skid steer" },
   dumpTruck: { build: "dumpTruck", meshes: 20, footprint: [3.02, 3.26, 9.57], parts: ["bed", "tailgate", "hoist", "doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights"], note: "tri-axle dump truck" },
@@ -6298,7 +6379,7 @@ const EQUIPMENT_BUDGET = {
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
-  excavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
+  excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
