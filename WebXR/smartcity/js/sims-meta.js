@@ -15568,5 +15568,257 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bs-structural-bolting-and-torque",
+    "index": "318",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker — structural bolting crew on a bridge girder field splice",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT apprenticeship bolting and connecting practice; the RCSC Specification for Structural Joints Using High-Strength Bolts (snug-tight, pretensioned and slip-critical joints, pre-installation verification, turn-of-nut and calibrated wrench installation, inspection); the AISC Code of Standard Practice for Steel Buildings and Bridges; AASHTO bridge construction practice for girder field splices; OSHA 29 CFR 1926 Subpart R steel erection and 29 CFR 1926.451 scaffolds; ANSI Z359 fall protection",
+    "name": "Structural Bolting & Torque",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Structural Bolting & Torque VR",
+    "tagline": "A girder field splice bolted to the spec: fasteners checked, the calibrated wrench set in the tension calibrator, drift pins and fit-up, snug-tight from the middle out, match marks, turn-of-nut with a back-up wrench, the flange splice run at the calibrated pressure, a spun bolt found and replaced, and the inspector's marks logged",
+    "accent": 8366281,
+    "accentCss": "#7fa8c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tensioned-to-spec",
+      "name": "Tensioned To Spec",
+      "note": "Every bolt in the splice snug, marked, turned and inspected the way the bolt spec says — and the one that spun found before the inspector did"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bolt-Up Crew",
+      "currency": "BOLT",
+      "ranks": [
+        "Apprentice",
+        "Bolter",
+        "Connector",
+        "Bolting Foreman",
+        "Splice Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bs-tandem-lift-girder-set",
+    "index": "319",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker raising gang with IUOE crane operators — two-crane girder set",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT raising-gang and connector training and IUOE crane operator apprenticeship with NCCCO operator and signalperson certification; OSHA 29 CFR 1926.1432 multiple-crane lifts (the lift plan and the lift director) under 29 CFR 1926 Subpart CC, 29 CFR 1926.453 aerial lifts and Subpart R steel erection; ASME B30.5 mobile cranes; ANSI A92 mobile elevating work platforms; ANSI Z359 fall protection",
+    "name": "Tandem Lift & Girder Set",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Tandem Lift & Girder Set VR",
+    "tagline": "Two cranes, one girder: the multiple-crane lift plan read, the rigging walked, the wind taken, tag lines on, the connector tied off in the basket, slack taken and a trial pick held, both cranes kept level through the hoist, the girder swung on its tag lines, landed on its bearings, braced to the first girder and bolted before the hooks come off",
+    "accent": 14723130,
+    "accentCss": "#e0a83a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "two-hooks-one-plan",
+      "name": "Two Hooks, One Plan",
+      "note": "A tandem pick flown to the plan: level the whole way, nobody under it, stopped for the wind, braced before release"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Raising Gang",
+      "currency": "PICK",
+      "ranks": [
+        "Apprentice",
+        "Tag Line Hand",
+        "Connector",
+        "Signal Person",
+        "Lift Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bs-bearing-replacement-and-jacking",
+    "index": "320",
+    "domain": "Construction & Structural Trades",
+    "trade": "Ironworker bridge maintenance crew with LIUNA traffic control — girder jacking and bearing replacement",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT bridge and structural maintenance training and the LIUNA Training and Education Fund flagger and work-zone curriculum; the engineer of record's jacking plan; OSHA 29 CFR 1926.305 jacks (rated capacity, firm footing, blocking) and 29 CFR 1926 Subpart R; the MUTCD temporary traffic control plan for the lane under the span; AASHTO bridge maintenance practice for bearing replacement",
+    "name": "Bearing Replacement & Jacking",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Bearing Replacement & Jacking VR",
+    "tagline": "A girder lifted off its bearing to the engineer's plan: the lane under the span closed, the seat and the kit inspected, the jack set on its point, cribbing built beside it, the load watched on the gauge, the lift read on the dial, the lock ring run down, the old bearing out and the new one in, and the girder let down again slowly",
+    "accent": 6271912,
+    "accentCss": "#5fb3a8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "cribbed-and-locked",
+      "name": "Cribbed And Locked",
+      "note": "A girder that never hung on hydraulics alone: cribbing tight under it, the lock ring down, and the lift held to the plan"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bearing Crew",
+      "currency": "LIFT",
+      "ranks": [
+        "Apprentice",
+        "Jack Hand",
+        "Bearing Setter",
+        "Jacking Lead",
+        "Bearing Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bt-formwork-stripping-and-reshoring",
+    "index": "321",
+    "domain": "Construction & Structural Trades",
+    "trade": "Carpenter — UBC, with LIUNA laborers — stripping deck forms and reshoring",
+    "category": "Construction & Structural Trades",
+    "certification": "UBC carpentry apprenticeship formwork curriculum through the Carpenters International Training Fund, and LIUNA Training laborer curricula; ACI 347 Guide to Formwork for Concrete, including removal of forms and reshoring; OSHA 29 CFR 1926.703 formwork and shoring — forms removed only once the concrete has the strength the engineer requires, and reshoring — under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; the engineer of record's strength ticket and reshoring plan",
+    "name": "Formwork Stripping & Reshoring",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Formwork Stripping & Reshoring VR",
+    "tagline": "Stripping a deck bay the day the engineer says it may go: the strength ticket read, the bay walked, the exclusion zone signed, one shore's screw jack eased, the panel lowered on its line, a reshore in before the next strip comes out, each reshore snugged and never jacked, the strips stripped and reshored in turn, the stripped forms checked and carried off, and the reshores watched while the floor above is poured",
+    "accent": 13209419,
+    "accentCss": "#c98f4b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "reshored-before-load",
+      "name": "Reshored Before Load",
+      "note": "A bay stripped strip by strip on the engineer's ticket, a reshore in behind every strip, and the reshores watched through the pour above"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Strip Crew",
+      "currency": "FORM",
+      "ranks": [
+        "Apprentice",
+        "Stripper",
+        "Reshore Hand",
+        "Deck Foreman",
+        "Strip Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bt-rebar-tying-and-impalement-protection",
+    "index": "322",
+    "domain": "Construction & Structural Trades",
+    "trade": "Reinforcing ironworker with LIUNA laborers — placing and tying a slab mat, guarding dowels",
+    "category": "Construction & Structural Trades",
+    "certification": "Ironworkers IMPACT reinforcing (rodbuster) apprenticeship and LIUNA Training laborer curricula; OSHA 29 CFR 1926.701 — protruding reinforcing steel guarded to eliminate the hazard of impalement — and 29 CFR 1926.703 for vertical reinforcing steel supported against collapse, under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; ACI 347 for the formwork the mat is tied into; the engineer's placing drawings and bar list",
+    "name": "Rebar Tying & Impalement Protection",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Rebar Tying & Impalement Protection VR",
+    "tagline": "Placing and tying a slab mat beside a footing full of dowels: the placing drawing read, the dowels and chairs walked, rated impalement caps fitted, walk boards laid, chairs then bottom bars then top bars, the spacing checked, ties made with the tying tool, the column cage guyed, a bundle carried as a pair, the ties inspected and the mat tagged for the inspector",
+    "accent": 13658682,
+    "accentCss": "#d06a3a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "capped-and-tied",
+      "name": "Capped And Tied",
+      "note": "Every dowel guarded against impalement, every intersection tied, and never a boot on a bar"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rod Gang",
+      "currency": "TIE",
+      "ranks": [
+        "Apprentice",
+        "Tier",
+        "Placer",
+        "Rod Gang Lead",
+        "Rodbuster Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bt-masonry-wall-layout-and-mortar",
+    "index": "323",
+    "domain": "Construction & Structural Trades",
+    "trade": "Bricklayer — BAC, with LIUNA mason tenders — block wall layout, mortar and bracing",
+    "category": "Construction & Structural Trades",
+    "certification": "BAC bricklayer apprenticeship through the International Masonry Institute, and LIUNA Training mason tender curricula; OSHA 29 CFR 1926.706 — the limited access zone for a masonry wall under construction and bracing of masonry walls against overturning and collapse — under 29 CFR 1926 Subpart Q; 29 CFR 1926.1153 respirable crystalline silica, dust from mixing and cleanup kept down by wet methods; ANSI A10.9 concrete and masonry construction safety; the project's mortar specification and the wall bracing plan",
+    "name": "Masonry Wall Layout & Mortar",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Masonry Wall Layout & Mortar VR",
+    "tagline": "A block wall started right: the layout drawing and the bracing plan read, the wall line snapped and squared from the benchmarks, the first course dry-bonded, the site walked, the limited access zone set, the mortar batched to the spec's proportions with the dust kept down, the story pole set, the line run and trigged, a course laid to it, the wall braced per the bracing plan, and the day logged",
+    "accent": 9414234,
+    "accentCss": "#8fa65a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "to-the-line-and-braced",
+      "name": "To The Line And Braced",
+      "note": "A wall laid out square, laid to its line, batched to the spec and braced per the plan, with nobody inside its limited access zone"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wall Gang",
+      "currency": "COURSE",
+      "ranks": [
+        "Apprentice",
+        "Mason Tender",
+        "Layout Mason",
+        "Lead Mason",
+        "Wall Gang Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

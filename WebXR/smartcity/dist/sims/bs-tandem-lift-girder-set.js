@@ -1,7 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, torus, hose, group, decal, repaint, signFace, mat } from "../../../shared/kit.js";
 import {
-  CITY, stationPad, holoPanel, holoTag, standingFigure, barrierPanel,
+  CITY, stationPad, holoPanel, holoTag, standingFigure,
   reg, surfaceTexture, texturedMat, pavingFace, mudflatFace,
 } from "../citykit.js";
 import { mobileCrane, aerialBoomLift } from "../../../shared/equipment.js";
@@ -338,7 +338,8 @@ export const SIM_BS_TANDEM_LIFT_GIRDER_SET = {
     reg(hits, shackle, "unmoused-shackle");
     // Crane A's counterweight swing radius, barricaded.
     const swing = group(g, -3.3, 0, -5.1);
-    barrierPanel(swing, 0, 0, { ry: 0.5, w: 1.2 });
+    for (const dx of [-0.55, 0.55]) cyl(swing, 0.025, 0.03, 1.0, dx * Math.cos(0.5), 0.5, -dx * Math.sin(0.5), 0xe4622a, { rough: 0.7, seg: 8 });
+    hose(swing, [[-0.55 * Math.cos(0.5), 0.9, 0.55 * Math.sin(0.5)], [0, 0.84, 0], [0.55 * Math.cos(0.5), 0.9, -0.55 * Math.sin(0.5)]], 0.012, 0xd2312b, { steps: 6, rough: 0.6 });
     const swingHit = box(swing, 1.2, 0.6, 0.3, 0, 0.5, 0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     swingHit.rotation.y = 0.5;
     holoTag(swing, "step into the swing radius?", 0, 1.2, 0, { css: "#d2312b", w: 0.48 });
@@ -435,6 +436,18 @@ export const SIM_BS_TANDEM_LIFT_GIRDER_SET = {
     box(log, 0.03, 1.1, 0.03, 0, 0.55, -0.02, 0x8b949d, { rough: 0.5, metal: 0.6 });
     log.userData.face = decal(log, 0.6, 0.42, 0, 1.3, 0.01, panelDraw("LIFT LOG — G2", ["Wind: —", "Shares on trial pick: —", "Rigging: —", "Stops: —"]), { px: 384, glow: true, ei: 0.6 });
     reg(hits, log, "lift-log");
+
+    // The signage pad: an ANSI Z535-format sign for this station's hazard.
+    const signPad = group(g, 3.9, 0, -0.9, -0.6);
+    box(signPad, 0.6, 0.04, 0.4, 0, 0.02, 0, 0x3a4550, { rough: 0.8 });
+    cyl(signPad, 0.025, 0.025, 1.4, 0, 0.7, 0, 0x8b949d, { rough: 0.5, metal: 0.6, seg: 8 });
+    decal(signPad, 0.5, 0.36, 0, 1.4, 0.03, (cx, w, h) => {
+      cx.fillStyle = "#000"; cx.fillRect(0, 0, w, h); cx.fillStyle = "#fff"; cx.fillRect(4, 4, w - 8, h - 8);
+      cx.fillStyle = "#c8102e"; cx.fillRect(4, 4, w - 8, h * 0.3);
+      cx.fillStyle = "#fff"; cx.font = `800 ${Math.round(h * 0.2)}px Arial`; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("DANGER", w / 2, h * 0.19);
+      cx.fillStyle = "#000"; cx.font = `700 ${Math.round(h * 0.11)}px Arial`;
+      cx.fillText("SUSPENDED LOAD", w / 2, h * 0.50); cx.fillText("TWO-CRANE LIFT", w / 2, h * 0.67); cx.fillText("STAY OUT FROM UNDER", w / 2, h * 0.84); 
+    }, { px: 320 });
 
     // ----------------------------------------------- crew
     const tagHand = standingFigure(g, 3.9, 0.6, { ry: -2.4, cloth: 0x2b3138, vest: 0xd8f23a, helmet: 0xf2c14b, gloves: true });

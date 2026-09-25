@@ -405,6 +405,18 @@ export const SIM_BS_BEARING_REPLACEMENT_AND_JACKING = {
     holoTag(g, "crew radio", 2.15, 1.25, 1.45, { css: BBJ_CSS, w: 0.2 });
     reg(hits, crewRadio, "crew-radio");
 
+    // The signage pad: an ANSI Z535-format sign for this station's hazard.
+    const signPad = group(g, -3.4, 0, 0.3, 0.7);
+    box(signPad, 0.6, 0.04, 0.4, 0, 0.02, 0, 0x3a4550, { rough: 0.8 });
+    cyl(signPad, 0.025, 0.025, 1.4, 0, 0.7, 0, 0x8b949d, { rough: 0.5, metal: 0.6, seg: 8 });
+    decal(signPad, 0.5, 0.36, 0, 1.4, 0.03, (cx, w, h) => {
+      cx.fillStyle = "#000"; cx.fillRect(0, 0, w, h); cx.fillStyle = "#fff"; cx.fillRect(4, 4, w - 8, h - 8);
+      cx.fillStyle = "#ffd100"; cx.fillRect(4, 4, w - 8, h * 0.3);
+      cx.fillStyle = "#000"; cx.font = `800 ${Math.round(h * 0.2)}px Arial`; cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("CAUTION", w / 2, h * 0.19);
+      cx.fillStyle = "#000"; cx.font = `700 ${Math.round(h * 0.11)}px Arial`;
+      cx.fillText("GIRDER ON JACKS", w / 2, h * 0.50); cx.fillText("CRIBBING REQUIRED", w / 2, h * 0.67); cx.fillText("NO HANDS UNDER", w / 2, h * 0.84); 
+    }, { px: 320 });
+
     // ----------------------------------------------- crew
     const partner = standingFigure(g, -0.9, 1.4, { ry: 2.7, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2c14b, gloves: true });
     holoTag(partner, "jack partner", 0, 1.95, 0, { css: BBJ_CSS, w: 0.24 });
