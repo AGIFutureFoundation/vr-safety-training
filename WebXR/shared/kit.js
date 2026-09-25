@@ -29,6 +29,7 @@ export const GESTURE_HINTS = {
   track: { verb: "HOLD TO CORRECT", tip: "Hold to raise the value, release to let it fall, and keep it inside the band." },
   turn: { verb: "CLICK & DRAG TO TURN", tip: "Click the control and drag in a circle around it, like turning a real wheel or handle." },
   drag: { verb: "CLICK & DRAG TO CARRY", tip: "Click and hold the object, drag it to the marker, then let go." },
+  drive: { verb: "DRIVE THE ROUTE", tip: "W to go, S to brake, A and D to steer. Q/E mirrors, the arrows signal, H horn, Z/X gears, L lights — each at its marked point on the route." },
 };
 
 const materialCache = new Map();

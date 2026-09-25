@@ -911,6 +911,28 @@ export function tractorTrailer(parent, x, y, z, opts = {}) {
   return root;
 }
 
+/**
+ * Make a tractorTrailer() drivable: the rig's origin moves to the kingpin (so
+ * the tractor turns about its drive axles, the way a real one does) and the
+ * trailer is re-hung from a pivot there. `userData.articulation` is what
+ * shared/game.js placeVehicle() reads to swing the trailer behind the tractor
+ * on a drive step — the off-tracking a right turn is planned around. Nothing
+ * is added to the scene but one empty group, so the mesh count is unchanged.
+ */
+export function flArticulate(rig) {
+  const { tractor, trailer: tr } = rig?.userData?.parts ?? {};
+  if (!tractor || !tr) return rig;
+  const kz = tractor.position.z + (tractor.userData.fifthWheelZ ?? 0);
+  for (const c of [tractor, tr]) c.position.z -= kz;
+  const pivot = group(rig, 0, 0, 0);
+  pivot.name = "trailerPivot";
+  rig.remove(tr);
+  pivot.add(tr);
+  const spec = FL_TRAILERS[tr.userData.trailerKind] ?? FL_TRAILERS.dryVan;
+  rig.userData.articulation = { pivot, length: (spec.axles[0] + spec.axles[1]) / 2 - 0.91 };
+  return rig;
+}
+
 // ------------------------------------------------------- straight trucks
 
 /**

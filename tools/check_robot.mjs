@@ -91,6 +91,25 @@ check("an expert passes every SmartCiti.X station, including the flat briefing, 
   }
 });
 
+check("drive steps embody as vehicle control: the robot may drive (noRobot false) and may put no force on the world (none)", () => {
+  const drivers = city.ROOMS.filter((r) => r.steps.some((st) => st.kind === "drive"));
+  ok(drivers.length >= 6, `expected the deep driving stations, found ${drivers.length}`);
+  for (const room of drivers) {
+    const api = build(city, room);
+    const emb = city.buildEmbodiment(room, api, {});
+    for (const st of room.steps.filter((x) => x.kind === "drive")) {
+      const se = emb.steps[st.id];
+      eq(se.grasp, "vehicle-control", `${room.id}/${st.id} grasp`);
+      eq(se.noRobot, false, `${room.id}/${st.id} noRobot`);
+      eq(se.maxForce, "none", `${room.id}/${st.id} force ceiling`);
+      ok(se.drive && se.drive.path.length >= 2 && Array.isArray(se.band), `${room.id}/${st.id} carries its path and band`);
+    }
+    const { records, summary } = city.runEmbodiedEpisode(room, api, { skill: 1, seed: 4, SessionClass: city.Session });
+    ok(summary.finished && summary.keepOutViolations === 0 && summary.hazardHits === 0, `${room.id} embodied expert run`);
+    ok(records.some((r) => r.action.type === "drive" && r.obs.drive && typeof r.obs.drive.offset === "number"), `${room.id} trajectories carry drive actions and the drive observation`);
+  }
+});
+
 // ------------------------------------------------------------- embodiment
 //
 // The dental programme's own stations, read from curricula.js rather than

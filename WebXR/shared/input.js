@@ -559,6 +559,124 @@ export function describeGamepadMap(vendor = "generic") {
   return rows;
 }
 
+// ------------------------------------------------------------ driving
+//
+// A 'drive' step (shared/game.js) is the one place a learner operates a
+// vehicle rather than a control, so while one is live the keys and the pad
+// speak a second, smaller vocabulary: throttle, brake and steer as continuous
+// inputs, and the discrete checks a route asks for — mirrors, signals, the
+// horn, a gear, the lights — plus the CB radio an interruption may call for.
+// The table is the same shape as the ones above, and the same two rules hold:
+// every drive action is reachable from the keyboard, and no key or button is
+// bound twice inside it. It only applies while a drive step is live, so it
+// can reuse keys the presets give to step actions a drive step never asks
+// for (Q/E turn a valve; there is no valve to turn at the wheel). The step
+// actions that still matter while driving — the controls panel, mute, back —
+// keep their own keys, which is why none of them appears here.
+
+export const DRIVE_ACTIONS = [
+  { id: "throttle", group: "drive", continuous: true, label: "Throttle", what: "Hold to speed up; let go and the vehicle coasts down. In reverse it backs." },
+  { id: "brake", group: "drive", continuous: true, label: "Brake", what: "Hold to slow and stop. A fresh press also answers an interruption that asks you to stop." },
+  { id: "steerLeft", group: "drive", continuous: true, label: "Steer left", what: "Moves the vehicle toward the left of its lane." },
+  { id: "steerRight", group: "drive", continuous: true, label: "Steer right", what: "Moves the vehicle toward the right of its lane." },
+  { id: "mirror-left", group: "check", label: "Check the left mirror", what: "A mirror check on the driver's side, where the route calls for one." },
+  { id: "mirror-right", group: "check", label: "Check the right mirror", what: "A mirror check on the passenger side — the side a right turn and a trailer's cut-in live on." },
+  { id: "signal-left", group: "check", label: "Signal left", what: "The left turn signal, before a left turn, a lane change or a pull-out." },
+  { id: "signal-right", group: "check", label: "Signal right", what: "The right turn signal." },
+  { id: "horn", group: "check", label: "Horn", what: "A tap of the horn: before backing, at a blind corner, to warn a person in the path." },
+  { id: "gear-down", group: "check", label: "Gear down", what: "Down a gear: before a grade, before a crossing, before a stop." },
+  { id: "gear-up", group: "check", label: "Gear up", what: "Up a gear once the vehicle is moving and settled." },
+  { id: "lights", group: "check", label: "Lights", what: "Headlamps on (low beams in fog), or the four-way flashers where the route says so." },
+  { id: "radio", group: "control", label: "CB radio", what: "Keys the CB or company radio — for a call an interruption says you must make." },
+];
+export const DRIVE_ACTION_IDS = DRIVE_ACTIONS.map((a) => a.id);
+export const DRIVE_CHECK_ACTIONS = DRIVE_ACTIONS.filter((a) => a.group === "check").map((a) => a.id);
+
+/** Keys while a drive step is live. Arrows left/right are the signals, as a
+ *  stalk is under the left hand; up and down double for throttle and brake. */
+export const DRIVE_KEYS = {
+  throttle: ["KeyW", "ArrowUp"],
+  brake: ["KeyS", "ArrowDown", "Space"],
+  steerLeft: ["KeyA"],
+  steerRight: ["KeyD"],
+  "mirror-left": ["KeyQ"],
+  "mirror-right": ["KeyE"],
+  "signal-left": ["ArrowLeft"],
+  "signal-right": ["ArrowRight"],
+  horn: ["KeyH"],
+  "gear-down": ["KeyZ"],
+  "gear-up": ["KeyX"],
+  lights: ["KeyL"],
+  radio: ["KeyR"],
+};
+
+/** Which drive action a key runs, or null. Shift is ignored: a learner
+ *  holding Shift to walk faster still reaches the brake. */
+export function driveActionForKey(token) {
+  if (!token) return null;
+  const bare = token.startsWith("Shift+") ? token.slice(6) : token;
+  for (const id of DRIVE_ACTION_IDS) if ((DRIVE_KEYS[id] ?? []).includes(bare)) return id;
+  return null;
+}
+
+/** Buttons while a drive step is live, by Standard Gamepad index. `back`
+ *  and `controls` stay where they always are, so a pad can still leave. */
+export const DRIVE_GAMEPAD_MAP = [
+  { index: 4, mode: "edge", action: "mirror-left", note: "Left bumper: the left mirror." },
+  { index: 5, mode: "edge", action: "mirror-right", note: "Right bumper: the right mirror." },
+  { index: 14, mode: "edge", action: "signal-left", note: "D-pad left: signal left." },
+  { index: 15, mode: "edge", action: "signal-right", note: "D-pad right: signal right." },
+  { index: 3, mode: "edge", action: "horn", note: "Top face (Y / Triangle): the horn." },
+  { index: 6, mode: "edge", action: "gear-down", note: "Left trigger: down a gear." },
+  { index: 7, mode: "edge", action: "gear-up", note: "Right trigger: up a gear." },
+  { index: 2, mode: "edge", action: "lights", note: "Left face (X / Square): the lights." },
+  { index: 12, mode: "edge", action: "radio", note: "D-pad up: key the radio." },
+  { index: 1, mode: "edge", action: "back", note: "Leaves the station, the Escape path." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens the controls panel." },
+];
+/** Continuous pad input while driving: the left stick steers, the right
+ *  stick's forward and back are throttle and brake, and the bottom face and
+ *  d-pad down are a brake you can hold without a stick. */
+export const DRIVE_PAD_AXES = { steer: 0, throttle: 3 };
+export const DRIVE_PAD_BRAKE_BUTTONS = [0, 13];
+
+/**
+ * One throttle and steer from everything that can drive: `held` is the set
+ * of drive actions whose keys are down ({ throttle: true, … }), `pad` a
+ * createGamepad() snapshot, `touch` the on-screen controls ({ throttle,
+ * brake, steer }). Pure, so the checker drives it with plain objects.
+ */
+export function driveInputFrom({ held = {}, pad = null, touch = null, deadzone = GAMEPAD_DEADZONE } = {}) {
+  let throttle = (held.throttle ? 1 : 0) - (held.brake ? 1 : 0);
+  let steer = (held.steerRight ? 1 : 0) - (held.steerLeft ? 1 : 0);
+  let brake = !!held.brake;
+  if (pad?.connected) {
+    const axis = (i) => applyDeadzone(pad.axes?.find((a) => a.index === i)?.value ?? 0, deadzone);
+    const sx = axis(DRIVE_PAD_AXES.steer);
+    const ty = axis(DRIVE_PAD_AXES.throttle);
+    if (sx) steer = sx;
+    if (ty) throttle = -ty;          // stick forward reads negative
+    if (DRIVE_PAD_BRAKE_BUTTONS.some((i) => pad.buttons?.find((b) => b.index === i)?.pressed)) { throttle = -1; brake = true; }
+  }
+  if (touch) {
+    if (touch.throttle) throttle = 1;
+    if (touch.brake) { throttle = -1; brake = true; }
+    if (touch.steer) steer = Math.max(-1, Math.min(1, touch.steer));
+  }
+  return { throttle: Math.max(-1, Math.min(1, throttle)), steer: Math.max(-1, Math.min(1, steer)), brake: brake || throttle <= -1 };
+}
+
+/** The driving table as rows for the controls panel and docs/controls.md. */
+export function describeDriveBindings(vendor = "generic") {
+  return DRIVE_ACTIONS.map((a) => {
+    const buttons = DRIVE_GAMEPAD_MAP.filter((b) => b.action === a.id).map((b) => padButtonLabel(b.index, vendor));
+    if (a.id === "brake") buttons.push(...DRIVE_PAD_BRAKE_BUTTONS.map((i) => padButtonLabel(i, vendor)), `${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} back`);
+    if (a.id === "throttle") buttons.push(`${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} forward`);
+    if (a.id === "steerLeft" || a.id === "steerRight") buttons.push(padAxisLabel(DRIVE_PAD_AXES.steer, vendor));
+    return { action: a.id, label: a.label, what: a.what, group: a.group, keys: [...(DRIVE_KEYS[a.id] ?? [])], pretty: (DRIVE_KEYS[a.id] ?? []).map(prettyKey), pad: buttons };
+  });
+}
+
 // ----------------------------------------------------------- the voice grammar
 //
 // Navigation, focus, read-back and panels. Nothing here completes a step:

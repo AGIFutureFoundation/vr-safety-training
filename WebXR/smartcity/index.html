@@ -71,6 +71,39 @@
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
     margin-top:3px; transition:color .15s, transform .15s; }
 
+  /* Drive HUD: a 'drive' step's speed against its band, the lane bar, the
+     route progress and the next check; the check buttons along the bottom
+     edge, and on a touch screen the pedals and the wheel. */
+  #hud-drive{ top:118px; left:14px; min-width:210px; max-width:260px; border-left:3px solid #59c97b; pointer-events:none; }
+  #hud-drive[data-band="fast"], #hud-drive[data-band="slow"], #hud-drive[data-lane="out"]{ border-left-color:var(--danger, #f0645b); }
+  #hud-speed{ font-family:var(--cond); font-weight:700; font-size:34px; line-height:1; font-variant-numeric:tabular-nums; margin-top:2px; }
+  #hud-speed small{ font-size:14px; font-weight:600; color:var(--muted); letter-spacing:.08em; }
+  #hud-drive[data-band="fast"] #hud-speed, #hud-drive[data-band="slow"] #hud-speed{ color:var(--danger, #f0645b); }
+  #hud-band{ font-family:var(--cond); font-size:12.5px; letter-spacing:.08em; color:var(--muted); margin:2px 0 6px; }
+  #hud-lane{ position:relative; height:14px; border-radius:7px; background:rgba(255,255,255,.08); margin:4px 0; overflow:hidden; }
+  #hud-lane .lane-edge{ position:absolute; top:0; bottom:0; width:2px; background:#f2c14b; }
+  #hud-lane .lane-edge.l{ left:22% } #hud-lane .lane-edge.r{ right:22% }
+  #hud-lane-mark{ position:absolute; top:1px; width:12px; height:12px; margin-left:-6px; border-radius:50%; background:#59c97b; transition:left .1s linear; }
+  #hud-drive[data-lane="out"] #hud-lane-mark{ background:var(--danger, #f0645b); }
+  #hud-route{ height:4px; border-radius:2px; background:rgba(255,255,255,.1); margin:6px 0; }
+  #hud-route > div{ height:100%; border-radius:2px; background:var(--accent); }
+  #hud-next{ font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.04em; }
+  #hud-next[data-now="1"]{ color:#f2c14b; }
+  #hud-drive-keys{ font-size:11.5px; color:var(--muted); margin-top:4px; }
+  #drive-checks{ position:fixed; right:14px; top:128px; display:flex; flex-direction:column; align-items:stretch; gap:4px; z-index:6; }
+  #drive-checks button{ font-family:var(--cond); font-weight:600; font-size:12px; letter-spacing:.04em; text-transform:none; text-align:left;
+    padding:4px 9px; min-height:0; line-height:1.25; border-radius:7px; border:1px solid var(--edge);
+    background:var(--surface-chip); color:inherit; cursor:pointer; backdrop-filter:blur(10px); box-shadow:none; }
+  #drive-checks button b{ display:inline-block; min-width:14px; color:var(--accent); margin-right:4px; }
+  #drive-checks button.due{ border-color:#f2c14b; box-shadow:0 0 0 2px rgba(242,193,75,.35); }
+  #drive-checks button.flash{ background:rgba(89,201,123,.35); }
+  #drive-touch{ position:fixed; left:0; right:0; bottom:170px; display:flex; justify-content:space-between; padding:0 16px; z-index:6; pointer-events:none; }
+  #drive-touch button{ min-height:0; padding:0; pointer-events:auto; touch-action:none; user-select:none; -webkit-user-select:none; width:74px; height:74px; border-radius:18px;
+    border:1px solid var(--edge); background:var(--surface-chip); color:inherit; font:700 16px var(--cond); letter-spacing:.06em; }
+  #drive-touch .go{ background:rgba(89,201,123,.28); } #drive-touch .brake{ background:rgba(240,100,91,.28); }
+  @media (max-width:640px){ #hud-drive{ top:auto; bottom:250px; left:max(10px, env(safe-area-inset-left)); min-width:0; max-width:48vw; padding:8px 10px; }
+    #hud-speed{ font-size:26px } #hud-drive-keys{ display:none } #drive-checks{ top:auto; right:auto; left:50%; transform:translateX(-50%); bottom:96px; flex-direction:row; flex-wrap:wrap; justify-content:center; max-width:94vw; gap:4px } #drive-checks button{ padding:4px 6px; font-size:11px } }
+
   /* Interruption alarm: something is happening to the learner right now and
      they have to break off and deal with it. Deliberately loud, deliberately
      not where the step cue is, and it carries its own clock. */

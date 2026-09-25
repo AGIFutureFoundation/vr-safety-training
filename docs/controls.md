@@ -69,6 +69,35 @@ Polled in flat/desktop mode only, from the W3C Standard Gamepad mapping and **by
 
 Buttons are edge-detected: one physical press produces one action however many frames it is held, except for the two kinds that are meant to repeat (the bumpers and the d-pad's up/down) and the two analogue triggers. The Gamepad tab draws the pad out of plain DOM shapes and lights up whatever is pressed, with the raw button and axis values underneath — which is how a learner checks a pad that is behaving oddly, and how a trainer checks a hall's spare pads before a session.
 
+## Driving
+
+A **drive** step (`step.kind === "drive"` in `WebXR/shared/game.js`) puts the learner at the wheel of the vehicle the station registered — the fleet kit's articulated tractor-trailer, a pool car or a forklift — and moves it along the step's path as they drive it. While a drive step is live the keys and the pad read a second, smaller table (`DRIVE_KEYS` and `DRIVE_GAMEPAD_MAP` in `shared/input.js`) before the step-action presets, so `W A S D` drive the vehicle instead of walking the learner, and the camera eases to the edge of the pad nearest the vehicle and keeps it in view (drag with the mouse to look round). `/`, `M` and `Esc` keep working.
+
+| Action | Keys | Xbox | PlayStation | Generic |
+|---|---|---|---|---|
+| Throttle (hold; let go to coast) | `W` / `↑` | Right stick forward | Right stick forward | Right stick forward |
+| Brake (hold; a fresh press also answers an interruption that asks you to stop) | `S` / `↓` / `Space` | Right stick back, A, D-pad down | Right stick back, Cross, D-pad down | Right stick back, Bottom face, D-pad down |
+| Steer left / right | `A` / `D` | Left stick | Left stick | Left stick |
+| Left / right mirror | `Q` / `E` | LB / RB | L1 / R1 | Left / right bumper |
+| Signal left / right | `←` / `→` | D-pad left / right | D-pad left / right | D-pad left / right |
+| Horn | `H` | Y | Triangle | Top face |
+| Gear down / up | `Z` / `X` | LT / RT | L2 / R2 | Left / right trigger |
+| Lights (low beams, flashers, the forklift's beacon) | `L` | X | Square | Left face |
+| CB radio | `R` | D-pad up | D-pad up | D-pad up |
+| Back · controls panel | `Esc` · `/` | B · Menu | Circle · Options | Right face · Start |
+
+**Touch.** On a phone or tablet the drive HUD adds on-screen pedals and a wheel — ◀, **Brake**, **Go** (or **Back** on a reversing step), ▶ — held down like the keys, and every check has its own button in the column on the right (along the bottom on a narrow screen). A mouse user can click those buttons too.
+
+**In a headset.** Either controller's thumbstick drives instead of walking — forward to go, back to brake, sideways to steer — and the trigger brakes. The checks are the same buttons on the drive HUD, reached with the controller ray.
+
+**The drive HUD** shows the speed against the step's band (with the band's own words — "turning speed, per the posted limit"), a lane bar with the vehicle's place between the lane edges, how far along the route it is, and the next check: *Next: right mirror (E) in 2.4 m*, then *NOW: right mirror — E* while its window is open. The vehicle waits at the start until the first touch of the throttle, so nothing is scored while a learner reads the cue.
+
+**Scoring** is the track kind's, continuously: time in the lane and in the band. Each check (`mirror-left`, `mirror-right`, `signal-left`, `signal-right`, `horn`, `gear-down`, `gear-up`, `lights`) must land inside a window around its point on the path; a missed check is an error, a signal the wrong way inside another signal's window is an error, and a control the step forbids (shifting on a rail crossing) is an error. Out of the lane or the band for longer than the step's `graceSeconds` is an unsafe action, counted like a hazard. An interruption armed on a drive step is answered by the cab control it names in `drive.controls` — the brake edge, the horn key, the flashers, a gear for the engine brake, the CB radio — and braking is never scored as the wrong answer to an alarm that wanted something else.
+
+**Headless.** `applyAction(session, { type: "drive", throttle, steer, check })` in `shared/robot.js` drives the kind, and `drivePolicy()` in `shared/game.js` is the policy runner's driver: it follows the path centre at the band's midpoint and triggers each check in its window. `tools/check_verify.mjs` holds the scoring to all of the above, `tools/check_interrupts.mjs` answers every drive-step interruption from the cab, `tools/check_input.mjs` holds the drive table to the keyboard-reachability and no-duplicate rules, and the embodiment layer (`shared/robot-embodiment.js`) maps the kind to `vehicle-control` with `noRobot: false` and a force ceiling of `none`.
+
+![A tractor-trailer mid-turn on the city route with the drive HUD: speed against the band, the lane bar and the next check](screenshots/drive/drive-city-route-and-turns.png)
+
 ## Voice
 
 Navigation, focus, description, read-back and panels. A station name is still the fastest way in: say the name on a kiosk. Everything else:

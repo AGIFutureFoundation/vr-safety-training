@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
-import { Session, Progress, Sfx, UNIVERSAL_AWARDS } from "../../shared/game.js";
+import { Session, Progress, Sfx, UNIVERSAL_AWARDS, placeVehicle, DRIVE_CHECK_NAMES } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
 import {
@@ -42,6 +42,7 @@ import {
   loadBindings, saveBindings, resetBindings, remapAction, actionForKey, keyToken, prettyKey,
   parseVoice, matchTargetName, INPUT_ACTIONS, KEYBOARD_PRESETS, PRESET_IDS, PAD_LABELS,
   VOICE_GRAMMAR, VOICE_HELP_LINE, CHECKIN_QUESTION, CHECKIN_REPLIES,
+  DRIVE_ACTIONS, DRIVE_KEYS, DRIVE_GAMEPAD_MAP, driveActionForKey, driveInputFrom, describeDriveBindings,
 } from "../../shared/input.js";
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
@@ -215,6 +216,8 @@ const store = createStore({
     dive: null,
   },
   gestureTip: { html: "", show: false },
+  // The drive HUD (a 'drive' step): speed and band, lane offset, next check.
+  drive: { visible: false },
   arPrompt: { visible: false },
   scaleRow: { visible: false },
   intro: {
@@ -367,6 +370,7 @@ function syncHud() {
     if (step.kind === "sequence" || step.kind === "find") cue += `  (${s.sequence.length}/${step.targets.length})`;
     if (step.kind === "hold" || step.kind === "track") cue += `  (${s.holdFor.toFixed(1)}s / ${step.seconds}s)`;
     if (step.kind === "turn" && s.turn) cue += `  (${Math.round((s.turn.amount / s.turn.required) * 100)}%)`;
+    if (step.kind === "drive" && s.drive) cue += `  (${Math.round((s.drive.s / Math.max(0.01, s.drive.total)) * 100)}% of the route)`;
     const hint = GESTURE_HINTS[step.kind];
     patch.step = step.title;
     patch.cue = cue;
@@ -702,7 +706,10 @@ async function enterSim(id, { briefed = false } = {}) {
   // The stage stands the station's union sign and safety sign beside the
   // pad (shared/signage.js); the safety sign is confirmed or taken down
   // below once the station has been built and its mesh count is known.
-  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room });
+  // A driving course is its own site: a station that declares `apron: false`
+  // keeps the plaza but not the gate, laydown and fence the apron lays across
+  // the ground its route is driven over.
+  const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
   state.stage = stage;
   applyStageCamera(stage);
   if (state.mode !== "ar") themeScene(PROFILE, scene, stage.root, THREE);
@@ -756,6 +763,13 @@ async function enterSim(id, { briefed = false } = {}) {
   store.patch("scaleRow", { visible: state.mode === "ar" });
 
   state.session = new Session(room, {
+    // A drive step reports the vehicle's pose every tick; the vehicle is the
+    // station's own registered group, moved where the engine says it is.
+    onDrive: (step, s, ds) => {
+      const vehicle = state.hits[step.target];
+      if (vehicle && s.drive?.pose) placeVehicle(vehicle, s.drive.pose, ds);
+      state.api.onDrive?.(step, s);
+    },
     onStep: (step, s) => {
       state.api.onStep?.(step, s);
       // ?interrupt=<id>: the declared interruption is armed on the first step
@@ -3125,6 +3139,146 @@ function runAction(action, info = {}) {
   }
 }
 
+// ------------------------------------------------------------ driving
+//
+// A drive step (shared/game.js) is the learner at the wheel. Throttle, brake
+// and steer are continuous, read every frame from whatever is driving — the
+// keys held down, the pad's sticks, the on-screen pedals on a phone, or a
+// controller's thumbstick in a headset — and handed to Session.driveInput().
+// The checks (mirrors, signals, horn, gears, lights) and the radio are
+// discrete, from shared/input.js's drive table. The vehicle itself is moved
+// by the onDrive hook above; the camera eases round to keep it in view.
+
+const DRIVE_CONTINUOUS = new Set(DRIVE_ACTIONS.filter((a) => a.continuous).map((a) => a.id));
+const driveHeld = Object.create(null);
+const driveTouch = { throttle: false, brake: false, steer: 0, active: false };
+let xrDrive = null;
+let driveWasOn = false;
+let driveHudAt = 0;
+let lastDriveCheck = null;
+
+function driving() {
+  return !!(state.session && !state.session.finished && state.session.step?.kind === "drive" && state.session.drive);
+}
+
+/** A check, the radio, or the two pad buttons that leave. */
+function driveDiscrete(action) {
+  if (action === "back" || action === "controls") { runAction(action); return; }
+  const s = state.session;
+  if (!driving() || !canOperate()) return;
+  if (action === "radio") {
+    const fb = s.driveControl("radio");
+    if (!fb) setRail("neutral", "Radio keyed — nothing on this stretch of the route needs a call.");
+  } else {
+    s.driveCheck(action);
+    lastDriveCheck = { kind: action, at: elapsedTotal };
+  }
+  state.api.onDriveCheck?.(action, s);
+  syncDriveHud(true);
+  syncHud();
+}
+
+const drivePad = createGamepad({
+  getGamepads: () => fakePads ?? (navigator.getGamepads ? navigator.getGamepads() : []),
+  bindings: DRIVE_GAMEPAD_MAP,
+  axisBindings: [],
+  shouldPoll: () => !renderer.xr.isPresenting && driving(),
+  onAction: (action) => driveDiscrete(action),
+});
+
+/** Once per frame, before the Session ticks. */
+function driveFrame() {
+  const s = state.session;
+  if (!driving()) {
+    if (driveWasOn) {
+      driveWasOn = false;
+      for (const k of Object.keys(driveHeld)) driveHeld[k] = false;
+      store.patch("drive", { visible: false });
+    }
+    return;
+  }
+  if (!driveWasOn) { driveWasOn = true; syncDriveHud(true); }
+  const pad = drivePad.snapshot();
+  let input = driveInputFrom({ held: driveHeld, pad: pad?.connected ? pad : null, touch: driveTouch.active ? driveTouch : null });
+  if (renderer.xr.isPresenting && xrDrive) input = { ...xrDrive };
+  s.driveInput(input);
+}
+
+/** Keep the vehicle in view in flat mode, unless the learner is looking round. */
+function driveCamera(dt) {
+  if (!driving() || renderer.xr.isPresenting || state.mode === "ar" || dragging) return;
+  const vehicle = state.hits[state.session.step.target];
+  if (!vehicle) return;
+  // Walk the learner to the edge of the pad nearest the vehicle — the spot a
+  // road trainer would stand to watch — so a route that starts across the
+  // yard is not driven from the gate. The roam clamp still applies.
+  vehicle.getWorldPosition(_scratchV1);
+  if (state.roomRoot) {
+    state.roomRoot.getWorldPosition(_scratchV2);
+    const vx = _scratchV1.x - _scratchV2.x, vz = _scratchV1.z - _scratchV2.z;
+    const dist = Math.hypot(vx, vz);
+    if (dist > 0.5) {
+      const reach = Math.min(Math.max(0, dist - 3), (state.room?.footprint ?? 2) - 0.2);
+      const tx = _scratchV2.x + (vx / dist) * reach, tz = _scratchV2.z + (vz / dist) * reach;
+      const km = Math.min(1, dt * 1.6);
+      rig.position.x += (tx - rig.position.x) * km;
+      rig.position.z += (tz - rig.position.z) * km;
+      clampRoam();
+    }
+  }
+  vehicle.getWorldPosition(_scratchV1);
+  rig.worldToLocal(_scratchV1);
+  const dx = _scratchV1.x - camera.position.x, dz = _scratchV1.z - camera.position.z;
+  const dy = (_scratchV1.y + 0.8) - camera.position.y;
+  const wantYaw = Math.atan2(-dx, -dz);
+  const wantPitch = clamp(Math.atan2(dy, Math.hypot(dx, dz)), -0.9, 0.4);
+  let dyaw = wantYaw - yaw;
+  while (dyaw > Math.PI) dyaw -= Math.PI * 2;
+  while (dyaw < -Math.PI) dyaw += Math.PI * 2;
+  const k = Math.min(1, dt * 2.2);
+  yaw += dyaw * k;
+  pitch += (wantPitch - pitch) * k;
+  camera.rotation.set(pitch, yaw, 0);
+}
+
+/** The drive HUD: speed against the band, where the vehicle sits in its
+ * lane, how far along the route, and the next check the route asks for. */
+function syncDriveHud(force = false) {
+  const s = state.session;
+  const d = s?.drive;
+  if (!d || !driving()) return;
+  if (!force && elapsedTotal - driveHudAt < 0.1) return;
+  driveHudAt = elapsedTotal;
+  const [lo, hi] = d.band;
+  const next = d.plan.find((c) => !c.done && !c.missed) ?? null;
+  const keyFor = (id) => prettyKey((DRIVE_KEYS[id] ?? [])[0] ?? "");
+  store.patch("drive", {
+    visible: true,
+    label: d.label,
+    reverse: d.reverse,
+    started: d.started,
+    units: d.units,
+    speed: Math.round(d.speed),
+    band: `${lo}–${hi}`,
+    bandLabel: d.bandLabel ?? "",
+    bandState: d.speed > hi ? "fast" : d.speed < lo ? (d.reachedBand ? "slow" : "ramp") : "ok",
+    offset: clamp(d.offset / (d.laneWidth / 2), -1.6, 1.6),
+    laneState: Math.abs(d.offset) <= d.laneWidth / 2 ? "ok" : "out",
+    progressPct: Math.round((d.s / Math.max(0.01, d.total)) * 100),
+    next: next ? {
+      kind: next.kind, name: DRIVE_CHECK_NAMES[next.kind] ?? next.kind, key: keyFor(next.kind),
+      now: d.s >= next.from && d.s <= next.to,
+      metres: Math.max(0, Math.round((next.from - d.s) * 10) / 10),
+    } : null,
+    done: d.plan.filter((c) => c.done).length,
+    total: d.plan.length,
+    flash: lastDriveCheck && elapsedTotal - lastDriveCheck.at < 0.6 ? lastDriveCheck.kind : null,
+    touch: driveTouch.active || (typeof matchMedia === "function" && matchMedia("(pointer: coarse)").matches),
+    goKey: keyFor("throttle"), brakeKey: keyFor("brake"), steerKeys: `${keyFor("steerLeft")}/${keyFor("steerRight")}`,
+    checks: DRIVE_ACTIONS.filter((a) => a.group !== "drive").map((a) => ({ id: a.id, label: a.label, key: keyFor(a.id) })),
+  });
+}
+
 function onKeyDown(e) {
   if (isTypingTarget(e)) return;
   keys[e.code] = true;
@@ -3141,6 +3295,18 @@ function onKeyDown(e) {
     syncControlsPanel({ remapNote: `${prettyKey(token)} now runs “${ACTION_LABELS[action] ?? action}”.` });
     return;
   }
+  // While a drive step is live the drive table is read first: WASD drive the
+  // vehicle instead of walking the learner, and the checks have their keys.
+  if (driving() && canOperate()) {
+    const da = driveActionForKey(token);
+    if (da) {
+      e.preventDefault?.();
+      keys[e.code] = false;
+      if (DRIVE_CONTINUOUS.has(da)) driveHeld[da] = true;
+      else if (!e.repeat) driveDiscrete(da);
+      return;
+    }
+  }
   const action = actionForKey(bindings, token);
   if (!action) return;
   // Tab must not walk the browser's own focus while it is walking the step's
@@ -3152,6 +3318,8 @@ function onKeyDown(e) {
 function onKeyUp(e) {
   if (isTypingTarget(e)) return;
   keys[e.code] = false;
+  const da = driveActionForKey(e.code ?? "");
+  if (da && DRIVE_CONTINUOUS.has(da) && driveHeld[da]) { driveHeld[da] = false; e.preventDefault?.(); return; }
   if (actionForKey(bindings, keyToken(e)) === "hold" && state.session) { e.preventDefault?.(); pressEnd(); }
 }
 
@@ -3256,7 +3424,7 @@ function padWalk({ dx = 0, dy = 0, dt = 1 / 60 } = {}) {
 
 const gamepad = createGamepad({
   getGamepads: () => fakePads ?? (navigator.getGamepads ? navigator.getGamepads() : []),
-  shouldPoll: () => !renderer.xr.isPresenting,
+  shouldPoll: () => !renderer.xr.isPresenting && !driving(),
   onAction: (action, info) => {
     if (action === "look") { padLook(info); return; }
     if (action === "walk") { padWalk(info); return; }
@@ -3272,6 +3440,8 @@ const gamepad = createGamepad({
 });
 
 function pollGamepad(dt) {
+  // While a drive step is live the drive table owns the pad (see driveFrame).
+  if (driving()) { const ds = drivePad.poll(dt); return ds; }
   const snap = gamepad.poll(dt);
   // The live readout only matters while the panel is open, and a React render
   // per frame for a button nobody is watching is pure waste.
@@ -3449,6 +3619,23 @@ function xrMove(dt) {
   if (state.mode === "ar") return; // AR: the learner physically walks
   const session = renderer.xr.getSession();
   if (!session) return;
+  // At the wheel the thumbsticks drive instead of walking: either stick
+  // forward to go and back to brake, sideways to steer; a trigger brakes.
+  if (driving()) {
+    let throttle = 0, steer = 0, brake = false;
+    for (const source of session.inputSources) {
+      const gp = source.gamepad;
+      if (!gp || gp.axes.length < 2) continue;
+      const fourAxis = gp.axes.length >= 4;
+      const ax = fourAxis ? gp.axes[2] : gp.axes[0], ay = fourAxis ? gp.axes[3] : gp.axes[1];
+      if (Math.abs(ax) > 0.2) steer = ax;
+      if (Math.abs(ay) > 0.2) throttle = -ay;
+      if (gp.buttons?.[0]?.pressed) brake = true;
+    }
+    xrDrive = { throttle: brake ? -1 : throttle, steer, brake };
+    return;
+  }
+  xrDrive = null;
   for (const source of session.inputSources) {
     const gp = source.gamepad;
     if (!gp || gp.axes.length < 2) continue;
@@ -3910,6 +4097,10 @@ const uiActions = {
   scaleUp, scaleDown, toggleVoice,
   speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
   openControls, closeControls, controlsTab, controlsPreset, controlsRemap, controlsResetBindings,
+  // The drive HUD's buttons: on-screen pedals and wheel for a phone, and a
+  // button per check for anyone without the keys to hand.
+  driveTouch: (patch) => { Object.assign(driveTouch, { active: true }, patch ?? {}); },
+  driveCheck: (kind) => driveDiscrete(kind),
 };
 mountUI(store, uiActions);
 
@@ -3960,6 +4151,13 @@ window.__smartcityInputTest = {
 // UI reacts correctly without needing to replicate the camera projection.
 // Same pattern as Holodeck's window.__holodeckTest.
 window.__smartcityTest = {
+  // A drive step's live state, and the on-screen pedals, for a live test.
+  drive: () => {
+    const d = state.session?.drive;
+    return d ? { s: d.s, total: d.total, speed: d.speed, offset: d.offset, band: d.band, started: d.started, pose: d.pose, plan: d.plan.map((c) => ({ kind: c.kind, done: c.done, missed: c.missed })), live: driving(), lookingRound: dragging, yaw, paused: state.paused } : null;
+  },
+  driveTouch: (patch) => { Object.assign(driveTouch, patch ?? {}); return { ...driveTouch }; },
+  driveCheck: (kind) => driveDiscrete(kind),
   select: (id) => state.session?.select(id),
   rotate: (id, delta) => state.session?.rotate(id, delta),
   press: (id) => pressStart(id),
@@ -4047,11 +4245,13 @@ renderer.setAnimationLoop((_, frame) => {
   if (!presenting) pollGamepad(dt);
 
   if (!state.paused) {
-    if (presenting) { xrMove(dt); handInput.update(); } else desktopMove(dt);
+    if (presenting) { xrMove(dt); handInput.update(); } else if (!driving()) desktopMove(dt);
+    driveFrame();
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
       syncAlarm(state.session);
-      if (state.session.step?.kind === "hold" || state.session.step?.kind === "track") syncHud();
+      if (driving()) { driveCamera(dt); syncDriveHud(); }
+      if (state.session.step?.kind === "hold" || state.session.step?.kind === "track" || state.session.step?.kind === "drive") syncHud();
       // The bottom-time chip counts in whole seconds; refresh it once a second.
       else if (state.room?.underwater && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
     }

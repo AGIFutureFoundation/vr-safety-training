@@ -58,6 +58,10 @@ const GENERIC = new Set([
   // without it here "we need more parking at the union hall" scored as a
   // report against that station.
   "union",
+  // "course" is a golf course, a training course and a course of action long
+  // before it is the forklift course, so it names nothing on its own. It
+  // became reachable with drive-light-vehicle-fleet-and-forklift-course.
+  "course",
 ]);
 
 const STOP = new Set([

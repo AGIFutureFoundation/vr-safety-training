@@ -16,6 +16,8 @@
 // a station lands in a target success band — the "optimal level" where a
 // learner is neither bored nor lost — and reports it per station.
 
+import { drivePolicy } from "./game.js";
+
 /** Deterministic PRNG (mulberry32), so a dataset can be regenerated exactly. */
 export function rng(seed = 1) {
   let a = seed >>> 0;
@@ -49,6 +51,13 @@ export function observe(session) {
     track: session.track ? { v: +session.track.v.toFixed(3), green: session.track.green, inBand: +session.track.inBand.toFixed(2), holding: session.holding } : null,
     hold: step.kind === "hold" ? { holdFor: +session.holdFor.toFixed(2), seconds: step.seconds, holding: session.holding } : null,
     turn: session.turn ? { amount: +session.turn.amount.toFixed(3), required: session.turn.required } : null,
+    drive: session.drive ? {
+      s: +session.drive.s.toFixed(2), total: +session.drive.total.toFixed(2),
+      speed: +session.drive.speed.toFixed(2), band: session.drive.band,
+      offset: +session.drive.offset.toFixed(3), laneWidth: session.drive.laneWidth,
+      curvature: +session.drive.curvature.toFixed(3), reverse: session.drive.reverse,
+      nextCheck: (session.drive.plan.find((c) => !c.done && !c.missed) ?? null)?.kind ?? null,
+    } : null,
     interrupt,
     score: session.score, streak: session.streak, errors: session.errors, hazardHits: session.hazardHits,
     elapsed: +session.elapsed.toFixed(2),
@@ -150,6 +159,12 @@ export class RobotAgent {
       if (lapse) return { type: "select", id: this.pickWrong([step.target]) };
       return { type: "rotate", id: step.target, delta: 0.25 + this.random() * 0.25 };
     }
+    if (step.kind === "drive") {
+      // Follow the lane centre at the middle of the band and take every check
+      // in its window; skill below 1 wanders in the lane and skips checks.
+      const a = drivePolicy(session, { skill: this.skill, random: this.random });
+      return { type: "drive", throttle: +a.throttle.toFixed(3), steer: +a.steer.toFixed(3), check: a.check };
+    }
     if (step.kind === "drag") {
       if (lapse) return { type: "select", id: this.pickWrong([step.target]) };
       const radius = step.drag?.radius ?? 0.35;
@@ -169,6 +184,10 @@ export function applyAction(session, action) {
     case "release": session.setHolding(false); return null;
     case "rotate": return session.rotate(action.id, action.delta);
     case "drop": return session.dropAt(action.id, action.distance);
+    case "drive": {
+      const fb = session.driveInput({ throttle: action.throttle, steer: action.steer });
+      return action.check ? session.driveCheck(action.check) ?? fb : fb;
+    }
     default: return null;
   }
 }

@@ -297,6 +297,153 @@ export const Sfx = {
   alarm() { [0, 1, 2].forEach((i) => setTimeout(() => this.blip(220, 0.16, "square", 0.05), i * 190)); },
 };
 
+// ------------------------------------------------------------ the drive kind
+//
+// A 'drive' step puts the learner at the controls of a vehicle the station
+// registered (step.target is its hit id) and asks for a route driven the way
+// the handbook teaches it: inside the lane, inside the speed band, and with
+// every mirror check, signal, horn tap, gear change and light switch done at
+// the point on the route where it belongs.
+//
+//   step.drive = {
+//     path: [[x, z], …],          // the lane centre, in the station's own metres
+//     speedBand: [lo, hi],        // in `units` (mph unless the step says so)
+//     laneWidth: 1.4,             // metres across the lane, in the scene
+//     checks: [{ at: 2, kind: "mirror-right" }, …],   // at = path index
+//     reverse: false,             // backing: the vehicle faces against the path
+//     graceSeconds: 1.5,          // out of lane or band longer than this = unsafe
+//     controls: { brake: "<hitId>", radio: "<hitId>" },  // cab controls an
+//                                 // interruption on this step may be answered by
+//     sceneRate: 0.2,             // scene metres per second per unit of speed
+//     checkWindow,                // metres either side of a check's point
+//     forbid: { "gear-up": note },  // controls that are a mistake on this stretch
+//     label, bandLabel, units, laneNote, speedNote, checkNotes: { kind: note },
+//   }
+//
+// Nothing here knows three.js. The Session integrates throttle and steer into
+// a distance along the path and a lateral offset from its centre, turns that
+// into a pose { x, z, heading }, and reports it through hooks.onDrive; the app
+// moves the vehicle with placeVehicle() below. The scoring is track's —
+// continuous, on time in band — with the checks as discrete events on top.
+// The vehicle waits at the start of the route until the learner first puts a
+// foot down, so nothing is scored against a learner who is still reading.
+
+export const DRIVE_CHECKS = ["mirror-left", "mirror-right", "signal-left", "signal-right", "horn", "gear-down", "gear-up", "lights"];
+export const DRIVE_CHECK_NAMES = {
+  "mirror-left": "left mirror", "mirror-right": "right mirror",
+  "signal-left": "left signal", "signal-right": "right signal",
+  horn: "horn", "gear-down": "gear down", "gear-up": "gear up", lights: "lights",
+};
+
+/** Cumulative distance along a path of [x, z] points. */
+export function drivePathInfo(path = []) {
+  const cum = [0];
+  for (let i = 1; i < path.length; i++) {
+    const [ax, az] = path[i - 1], [bx, bz] = path[i];
+    cum.push(cum[i - 1] + Math.hypot(bx - ax, bz - az));
+  }
+  return { cum, total: cum[cum.length - 1] ?? 0 };
+}
+
+function wrapAngle(a) {
+  let v = a;
+  while (v > Math.PI) v -= Math.PI * 2;
+  while (v < -Math.PI) v += Math.PI * 2;
+  return v;
+}
+
+/** The point, unit tangent and heading at distance `s` along the path. */
+export function drivePointAt(path, cum, s) {
+  const n = path.length;
+  if (n < 2) return { x: path[0]?.[0] ?? 0, z: path[0]?.[1] ?? 0, tx: 0, tz: 1, heading: 0, seg: 0 };
+  const total = cum[n - 1];
+  const d = Math.max(0, Math.min(total, s));
+  let i = 1;
+  while (i < n - 1 && cum[i] < d) i++;
+  const [ax, az] = path[i - 1], [bx, bz] = path[i];
+  const len = Math.max(1e-6, cum[i] - cum[i - 1]);
+  const u = (d - cum[i - 1]) / len;
+  const tx = (bx - ax) / len, tz = (bz - az) / len;
+  return { x: ax + (bx - ax) * u, z: az + (bz - az) * u, tx, tz, heading: Math.atan2(tx, tz), seg: i - 1 };
+}
+
+/** Signed turn rate (radians per metre) around distance `s`: negative is a
+ * right-hander, the way the vehicle's heading turns. */
+export function driveCurvature(path, cum, s, span = 1.2) {
+  const a = drivePointAt(path, cum, s - span / 2).heading;
+  const b = drivePointAt(path, cum, s + span / 2).heading;
+  return wrapAngle(b - a) / span;
+}
+
+/** Where along the path each check sits, and the window it may be done in. */
+function driveCheckPlan(cfg, cum, total) {
+  const w = cfg.checkWindow ?? Math.max(1.2, total * 0.12);
+  return (cfg.checks ?? []).map((c, i) => {
+    const at = Math.max(0, Math.min(cum.length - 1, c.at | 0));
+    const d = cum[at] ?? 0;
+    return {
+      i, kind: c.kind, at, d, from: Math.max(0, d - w), to: Math.min(total, d + w),
+      done: false, missed: false, note: c.note ?? cfg.checkNotes?.[c.kind] ?? null,
+    };
+  });
+}
+
+/**
+ * Put a registered vehicle at a drive pose. Works on any object with
+ * position/rotation (a three.js Group in the app, the stub in the checkers).
+ * An articulated rig declares `userData.articulation = { pivot, length }`:
+ * the pivot is the group that turns about the kingpin, `length` the kingpin
+ * to trailer-axle distance in the rig's own metres, and the trailer follows
+ * the tractor the way a real one off-tracks — which is the tail swing and the
+ * cut-in a right turn has to be planned around. Pass ds === null to snap the
+ * trailer straight behind (a new route starting).
+ */
+export function placeVehicle(obj, pose, ds = 0) {
+  if (!obj || !pose) return;
+  obj.position.x = pose.x;
+  obj.position.z = pose.z;
+  obj.rotation.y = pose.heading;
+  const art = obj.userData?.articulation;
+  if (art?.pivot) {
+    if (art.yaw == null || ds === null) art.yaw = pose.heading;
+    const scale = obj.scale?.x || 1;
+    // Backing, the trailer leads and the driver is steering it onto the path,
+    // so it is drawn settling onto the line faster than it trails going forward.
+    const L = Math.max(0.5, (art.length ?? 8) * scale * (pose.reverse ? 0.35 : 1));
+    art.yaw += (Math.abs(ds || 0) / L) * Math.sin(wrapAngle(pose.heading - art.yaw));
+    art.pivot.rotation.y = wrapAngle(art.yaw - pose.heading);
+  }
+}
+
+/**
+ * The policy runner's driver: follow the path centre at the band midpoint and
+ * trigger every check inside its window. `skill` below 1 wanders and skips —
+ * the same lapse model shared/robot.js uses for every other kind. Returns
+ * { throttle, steer, check } where check is a check kind or null.
+ */
+export function drivePolicy(session, { skill = 1, random = Math.random } = {}) {
+  const d = session?.drive;
+  const step = session?.step;
+  if (!d || !step || step.kind !== "drive") return { throttle: 0, steer: 0, check: null };
+  const [lo, hi] = d.band;
+  const aim = (lo + hi) / 2 + (1 - skill) * (random() * 2 - 1) * (hi - lo) * 0.9;
+  const throttle = Math.max(-1, Math.min(1, (aim - d.speed) * 1.5 / Math.max(1, hi - lo)));
+  const drift = d.curvature * d.speed * d.sceneRate * d.driftK;
+  // A lapse is a slow wander off the centre line, not a twitch: the aim point
+  // random-walks, and a novice's walks further before it is pulled back.
+  d.policyAim = (d.policyAim ?? 0) * 0.97 + (random() * 2 - 1) * (1 - skill) * d.laneWidth * 0.12;
+  const want = -(d.offset - d.policyAim) * 3 - drift;
+  const steer = Math.max(-1, Math.min(1, want / d.steerRate));
+  let check = null;
+  const due = d.plan.find((c) => !c.done && !c.missed && d.s >= c.from + (c.d - c.from) * 0.4 && d.s <= c.to);
+  // Each check is decided once: a novice who forgets a mirror forgets it.
+  if (due) {
+    if (due.policyRoll == null) due.policyRoll = random();
+    if (due.policyRoll >= (1 - skill) * 0.6) check = due.kind;
+  }
+  return { throttle, steer, check };
+}
+
 // ---------------------------------------------------------------- the session
 
 /**
@@ -321,6 +468,7 @@ export class Session {
     this.gauge = null;       // live gauge state for a 'gauge' step
     this.track = null;       // live state for a 'track' step
     this.turn = null;        // live state for a 'turn' step
+    this.drive = null;       // live state for a 'drive' step
     this.stars = 0;
     this.badgeEarned = null;
     this.hazardHits = 0;      // unsafe-action selections in this run
@@ -388,6 +536,7 @@ export class Session {
     this.gauge = null;
     this.track = null;
     this.turn = null;
+    this.drive = null;
     if (!step) return;
     // Anything scheduled to interrupt this step starts its fuse now.
     this.armInterrupt(step.id);
@@ -425,7 +574,9 @@ export class Session {
         readout: step.turn?.readout ?? null,
       };
     }
+    if (step.kind === "drive") this.drive = this.makeDrive(step);
     this.hooks.onStep?.(step, this);
+    if (this.drive) this.hooks.onDrive?.(step, this, null);
   }
 
   /** Player selected an interactable by id. Returns a feedback record. */
@@ -455,6 +606,13 @@ export class Session {
 
     if (step.kind === "drag") {
       if (hitId === step.target) return null; // driven by dropAt(), a pick-up-and-carry gesture
+      return this.wrong(hitId);
+    }
+
+    if (step.kind === "drive") {
+      // Driven by driveInput()/driveCheck(); the vehicle and its own cab
+      // controls are live, so touching them is not a mistake.
+      if (hitId === step.target || Object.values(step.drive?.controls ?? {}).includes(hitId)) return null;
       return this.wrong(hitId);
     }
 
@@ -568,6 +726,225 @@ export class Session {
     const feedback = { kind: "partial", text: this.step.drag?.missNote ?? "Not quite lined up — line it up with the marker and try again." };
     this.hooks.onFeedback?.(feedback, this);
     return feedback;
+  }
+
+  /** Live state for a 'drive' step, from its declaration. */
+  makeDrive(step) {
+    const cfg = step.drive ?? {};
+    const path = Array.isArray(cfg.path) && cfg.path.length >= 2 ? cfg.path : [[0, 0], [0, 4]];
+    const { cum, total } = drivePathInfo(path);
+    const band = Array.isArray(cfg.speedBand) ? [+cfg.speedBand[0], +cfg.speedBand[1]] : [3, 8];
+    const width = Math.max(1, band[1] - band[0]);
+    const laneWidth = cfg.laneWidth ?? 1.4;
+    const d = {
+      path, cum, total, band, laneWidth,
+      reverse: !!cfg.reverse,
+      units: cfg.units ?? "mph",
+      label: cfg.label ?? (cfg.reverse ? "REVERSE" : "DRIVE"),
+      bandLabel: cfg.bandLabel ?? null,
+      grace: cfg.graceSeconds ?? 1.5,
+      ramp: cfg.rampSeconds ?? 4,
+      sceneRate: cfg.sceneRate ?? 0.2,
+      accel: cfg.accel ?? Math.max(2, width * 1.2),
+      maxSpeed: cfg.maxSpeed ?? band[1] * 1.6 + 2,
+      steerRate: cfg.steerRate ?? laneWidth * 0.9,
+      driftK: cfg.driftK ?? 0.35,
+      controls: cfg.controls ?? {},
+      plan: driveCheckPlan(cfg, cum, total),
+      s: 0, ds: 0, speed: 0, offset: 0, throttle: 0, steer: 0, curvature: 0,
+      started: false, startedAt: null, reachedBand: false,
+      outLane: 0, outBand: 0, laneFlagged: false, bandFlagged: false,
+      inBand: 0, driven: 0, dropouts: 0, wasIn: true, braking: false,
+      quietUntil: -1, pose: null, done: false,
+    };
+    d.pose = this.drivePose(d);
+    return d;
+  }
+
+  drivePose(d) {
+    const p = drivePointAt(d.path, d.cum, d.s);
+    // Offset is to the driver's right of the direction of travel; the right
+    // of a vector (tx, tz) in this frame is (-tz, tx).
+    const x = p.x + -p.tz * d.offset, z = p.z + p.tx * d.offset;
+    return { x, z, heading: d.reverse ? wrapAngle(p.heading + Math.PI) : p.heading, s: d.s, total: d.total, reverse: d.reverse };
+  }
+
+  /**
+   * Continuous vehicle input: throttle in [-1, 1] (below zero is the brake),
+   * steer in [-1, 1] (positive steers to the right of the direction of
+   * travel). The app calls this every frame from the keys, the pad and the
+   * touch controls; the policy runner calls it through applyAction.
+   */
+  driveInput({ throttle = 0, steer = 0, brake = false } = {}) {
+    const d = this.drive;
+    if (this.finished || !d || this.step?.kind !== "drive") return null;
+    const t = brake ? -1 : Math.max(-1, Math.min(1, +throttle || 0));
+    d.throttle = t;
+    d.steer = Math.max(-1, Math.min(1, +steer || 0));
+    if (!d.started && t > 0.05) { d.started = true; d.startedAt = this.elapsed; }
+    // A fresh press of the brake is also a control: an interruption on this
+    // step that wants the brake is answered by braking, not by finding a
+    // pedal to click.
+    const braking = t < -0.4;
+    let fb = null;
+    if (braking && !d.braking) fb = this.driveControl("brake");
+    d.braking = braking;
+    return fb;
+  }
+
+  /** A named cab control on a drive step ("brake", "radio"): answers a live
+   * interruption that wants that control, and is otherwise harmless. */
+  driveControl(name) {
+    const d = this.drive;
+    if (!d || !this.activeInterrupt) return null;
+    const id = d.controls?.[name];
+    // Only the control the interruption asks for answers it: braking is never
+    // punished as a "wrong response" to an alarm that wanted the horn.
+    if (!id || id !== this.activeInterrupt.target) return null;
+    return this.resolveInterrupt(id);
+  }
+
+  /** A discrete check on a drive step — a mirror, a signal, the horn, a gear,
+   * the lights. Credited when it lands inside that check's window. */
+  driveCheck(kind) {
+    const d = this.drive;
+    if (this.finished || !d || this.step?.kind !== "drive" || !kind) return null;
+    // A check key that is also a named cab control (the horn, the flashers, a
+    // gear for the engine brake) answers a live interruption that wants it.
+    if (this.activeInterrupt && d.controls?.[kind] && d.controls[kind] === this.activeInterrupt.target) return this.resolveInterrupt(d.controls[kind]);
+    const due = d.plan.find((c) => !c.done && !c.missed && c.kind === kind && d.s >= c.from && d.s <= c.to);
+    const name = DRIVE_CHECK_NAMES[kind] ?? kind;
+    // A step may forbid a control outright — shifting on a rail crossing is the
+    // textbook case — and then using it is a mistake, not just out of place.
+    const forbidden = this.step.drive?.forbid?.[kind];
+    if (forbidden && !due) return this.wrong(this.step.target, forbidden);
+    if (due) {
+      due.done = true;
+      Sfx.tick();
+      const left = d.plan.filter((c) => !c.done && !c.missed).length;
+      const feedback = { kind: "partial", text: `<b>${name[0].toUpperCase()}${name.slice(1)} — on time.</b>${due.note ? `<br>${due.note}` : left ? " Keep driving." : ""}` };
+      this.hooks.onFeedback?.(feedback, this);
+      return feedback;
+    }
+    // Signalling the wrong way is the one check that misleads everyone round
+    // you, so it costs; any other check out of place is just early or late.
+    const opposite = { "signal-left": "signal-right", "signal-right": "signal-left" }[kind];
+    if (opposite && d.plan.some((c) => !c.done && !c.missed && c.kind === opposite && d.s >= c.from && d.s <= c.to)) {
+      return this.wrong(this.step.target, this.step.drive?.wrongSignalNote
+        ?? "Wrong signal. A signal tells every driver and pedestrian round you where you are about to go, and this one told them the opposite.");
+    }
+    const feedback = { kind: "partial", text: `Nothing on this stretch calls for the ${name}.` };
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  /** An unsafe drive: out of lane or band past the grace, or a check missed
+   * that the handbook calls a safety check. Counted like a hazard hit. */
+  driveHazard(note) {
+    const step = this.step;
+    this.score = Math.max(0, this.score - HAZARD_PENALTY);
+    this.streak = 0;
+    this.errors += 1;
+    this.stepErrors += 1;
+    this.stepHazards += 1;
+    this.hazardHits += 1;
+    this.log.push({ step: step?.id, ok: false, hit: step?.target });
+    const feedback = {
+      kind: "danger", hazard: true,
+      text: `<b>−${HAZARD_PENALTY} — Unsafe driving</b><br>${note}`,
+      speech: `Unsafe driving. ${note}`,
+    };
+    Sfx.alarm();
+    this.hooks.onHazard?.(step?.target, this);
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  driveMissed(check) {
+    const name = DRIVE_CHECK_NAMES[check.kind] ?? check.kind;
+    this.score = Math.max(0, this.score - WRONG_STEP_PENALTY);
+    this.streak = 0;
+    this.errors += 1;
+    this.stepErrors += 1;
+    this.log.push({ step: this.step?.id, ok: false, hit: `check:${check.kind}` });
+    const body = check.note ?? `The ${name} belonged back there, before the point on the route that needed it.`;
+    const feedback = { kind: "warn", text: `<b>−${WRONG_STEP_PENALTY} — Missed the ${name}</b><br>${body}`, speech: `Missed the ${name}. ${body}` };
+    Sfx.bad();
+    this.hooks.onFeedback?.(feedback, this);
+    return feedback;
+  }
+
+  tickDrive(dt) {
+    const d = this.drive;
+    const step = this.step;
+    // Sub-stepped, so a long frame (or a checker winding the clock) integrates
+    // the same way sixty short ones would.
+    let left = dt;
+    while (left > 1e-9 && this.step === step && !this.finished) {
+      const h = Math.min(0.05, left);
+      left -= h;
+      if (!d.started) continue;
+      const t = d.throttle;
+      const coast = d.accel * 0.3;
+      d.speed += (t >= 0 ? t * d.accel - coast : t * d.accel * 2.5) * h;
+      d.speed = Math.max(0, Math.min(d.maxSpeed, d.speed));
+      const ds = d.speed * d.sceneRate * h;
+      d.s = Math.min(d.total, d.s + ds);
+      d.ds = ds;
+      d.curvature = driveCurvature(d.path, d.cum, d.s);
+      // The road pulls a vehicle to the outside of a bend unless it is steered
+      // round it, and a little crown and crosswind wander on the straights.
+      const drift = d.curvature * d.speed * d.sceneRate * d.driftK
+        + Math.sin((this.elapsed + d.s) * 1.3) * 0.04 * d.laneWidth * (d.speed > 0.1 ? 1 : 0);
+      d.offset += (d.steer * d.steerRate + drift) * h;
+      d.offset = Math.max(-d.laneWidth * 1.5, Math.min(d.laneWidth * 1.5, d.offset));
+      d.pose = this.drivePose(d);
+      d.driven += h;
+
+      const quiet = this.activeInterrupt || this.elapsed < d.quietUntil;
+      const inLane = Math.abs(d.offset) <= d.laneWidth / 2;
+      const [lo, hi] = d.band;
+      if (d.speed >= lo && d.speed <= hi) d.reachedBand = true;
+      const early = !d.reachedBand && this.elapsed - (d.startedAt ?? this.elapsed) < d.ramp;
+      const inBandNow = d.speed <= hi && (d.speed >= lo || early);
+      const inside = inLane && inBandNow;
+      if (inside) d.inBand += h;
+      else if (d.wasIn) { d.dropouts += 1; this.holdBreaks += 1; }
+      d.wasIn = inside;
+
+      if (!inLane && !quiet) {
+        d.outLane += h;
+        if (d.outLane > d.grace && !d.laneFlagged) {
+          d.laneFlagged = true;
+          this.driveHazard(step.drive?.laneNote ?? "You left the lane and stayed out of it. On a real road that is the curb, the next lane's traffic or the ditch.");
+        }
+      } else if (inLane) { d.outLane = 0; d.laneFlagged = false; }
+      if (!inBandNow && !quiet) {
+        d.outBand += h;
+        if (d.outBand > d.grace && !d.bandFlagged) {
+          d.bandFlagged = true;
+          this.driveHazard(step.drive?.speedNote ?? (d.speed > hi
+            ? "Too fast for this stretch, and for long enough to matter. Speed is the one thing that turns every other mistake into a crash."
+            : "Too slow for this stretch, and for long enough to matter: a vehicle far under the flow of traffic is one the traffic behind has to swerve round."));
+        }
+      } else if (inBandNow) { d.outBand = 0; d.bandFlagged = false; }
+
+      for (const c of d.plan) {
+        if (!c.done && !c.missed && d.s > c.to) { c.missed = true; this.driveMissed(c); }
+      }
+
+      if (d.s >= d.total - 1e-6 && this.step === step) {
+        for (const c of d.plan) if (!c.done && !c.missed) { c.missed = true; this.driveMissed(c); }
+        this.hooks.onDrive?.(step, this, ds);
+        const share = d.driven > 0 ? d.inBand / d.driven : 1;
+        this.gaugeScores.push(Math.max(0, Math.min(1, share)));
+        const clean = Math.max(0, 40 - d.dropouts * 12);
+        d.done = true;
+        this.advance(STEP_POINTS + 20 + clean, d.dropouts === 0 ? "In the lane and in the band the whole way." : null);
+        return;
+      }
+      this.hooks.onDrive?.(step, this, ds);
+    }
   }
 
   advance(points, extraNote = null) {
@@ -714,6 +1091,9 @@ export class Session {
     this.activeInterrupt = null;
     const took = Math.round((this.elapsed - it.firedAt) * 10) / 10;
     const ok = hitId === it.target;
+    // A driver who brakes for a car cutting in has left the speed band on
+    // purpose; give them a moment to get back into it before it counts.
+    if (this.drive) { this.drive.quietUntil = this.elapsed + 3; this.drive.outBand = 0; this.drive.outLane = 0; }
     it.resolved = ok ? "answered" : hitId ? "wrong" : "missed";
     this.interruptLog.push({ id: it.id, alert: it.alert, outcome: it.resolved, seconds: took });
 
@@ -771,6 +1151,8 @@ export class Session {
     this.tickInterrupts(dt);
     const step = this.step;
     if (!step) return;
+
+    if (step.kind === "drive" && this.drive) { this.tickDrive(dt); return; }
 
     if (step.kind === "gauge" && this.gauge && !this.gauge.committed) {
       this.gauge.t += this.gauge.dir * this.gauge.speed * dt;

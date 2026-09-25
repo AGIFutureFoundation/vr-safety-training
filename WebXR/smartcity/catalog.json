@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 336
+      "stations": 342
     },
     "trades": {
       "entry": "trades/index.html",
@@ -73,7 +73,13 @@
         "tdl-trailer-loading-and-dock-plate",
         "tdl-pick-pack-and-scan",
         "tdl-pallet-jack-and-racking",
-        "rcl-switching"
+        "rcl-switching",
+        "drive-light-vehicle-fleet-and-forklift-course",
+        "drive-backing-serpentine-and-alley-dock",
+        "drive-night-fog-and-rail-crossing",
+        "drive-mountain-grade-and-engine-brake",
+        "drive-freeway-merge-and-following-distance",
+        "drive-city-route-and-turns"
       ]
     },
     {
@@ -1854,6 +1860,36 @@
         },
         {
           "app": "smartcity",
+          "id": "drive-city-route-and-turns",
+          "why": "The first time the learner drives the rig themselves: a block of right turns with the trailer behind, signalled early, swung late, kept tight to the curb and watched in the right mirror where the tandem cuts in."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-freeway-merge-and-following-distance",
+          "why": "Up the ramp and into traffic at the wheel, with the handbook's seconds-per-ten-feet space cushion counted, a lane change for the next merge, a car cutting in and an exit queue warned with the flashers."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-mountain-grade-and-engine-brake",
+          "why": "A long downgrade driven on the engine: brakes checked at the pull-out, the low gear chosen before the crest, snub braking instead of riding the pedal, and a brake-fade warning answered with the engine brake."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-night-fog-and-rail-crossing",
+          "why": "A placarded tank at night in fog: low beams, a speed inside the sight distance, the window down, the crossing stop 49 CFR 392 requires, and across both tracks in one gear without shifting."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-backing-serpentine-and-alley-dock",
+          "why": "The backing the yard station reads, driven: signals agreed with the spotter, a serpentine through the cones, a sight-side alley dock, and the truck stopped the moment the spotter leaves the mirror."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-light-vehicle-fleet-and-forklift-course",
+          "why": "The two check-rides a terminal gives before the keys: a pool car walked round, stopped fully and backed into its space, and a forklift driven load-low with the horn at every aisle end and in reverse behind a tall load."
+        },
+        {
+          "app": "smartcity",
           "id": "apprenticeship-standards-reading",
           "why": "The briefing that opens the apprenticeship steps: how to read a registered standard, the ladder from pre-apprentice to journey level, the aptitude test, the tool list and where OSHA 10 fits, sourced and flat."
         },
@@ -1931,8 +1967,8 @@
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1610,
-        "tasks": 129,
+        "lessons": 1593,
+        "tasks": 127,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -26365,7 +26401,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 268,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27025,7 +27061,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 266,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -30791,6 +30827,507 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=transformer-vault"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-light-vehicle-fleet-and-forklift-course",
+      "name": "Light Vehicle Fleet and Forklift Course",
+      "title": "SmartCiti.X~ Light Vehicle Fleet and Forklift Course VR",
+      "tagline": "Two check-rides before the keys: a pool car walked round, pulled out, stopped fully and backed into its space, then a forklift checked, forks low and tilted back, horn at the aisle end and in reverse behind a tall load",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Freight terminal new hire, Job Readiness Edition deep driving — a Teamsters terminal's fleet check-ride and forklift course, building on the habits the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) teaches",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.178 powered industrial truck operator training, with formal instruction, practical training and an evaluation of the operator in the workplace, and a truck examined before use; ANSI B56.1 for the counterbalance truck's safe operation; ANSI/ISEA 107 high-visibility apparel on the warehouse floor; the employer's fleet policy for a pool car, built on the state CDL handbook's space-management habits and the same conduct 49 CFR 392 asks of commercial drivers; FMCSA 49 CFR 380 Subpart F entry-level driver training as the Class A path this job leads to; Teamsters (IBT) terminal locals' training",
+      "accent": "#5fd0c4",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drive",
+        "hold",
+        "sequence",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "keys-earned",
+        "name": "Keys Earned",
+        "note": "Both check-rides clean: the car backed into its space and the forklift driven load-low, horn at every corner and trailing its tall load — first time"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "323",
+      "flat": false,
+      "system": "Check-ride",
+      "currency": "LAP",
+      "ranks": [
+        "New Hire",
+        "Yard Trainee",
+        "Fleet Driver",
+        "Terminal Operator",
+        "Course Certified"
+      ],
+      "awards": [
+        {
+          "id": "two-rides",
+          "name": "Two Rides",
+          "note": "Car and forklift drives all finished with every check on time"
+        },
+        {
+          "id": "no-riders",
+          "name": "No Riders",
+          "note": "Never used the phone, gave a ride on the forks, travelled with the load high or jumped from the truck"
+        },
+        {
+          "id": "smooth-course",
+          "name": "Smooth Course",
+          "note": "Every drive and the mast tilt in band with no excursion"
+        },
+        {
+          "id": "clean-rides",
+          "name": "Clean Rides",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "just-clear",
+          "name": "Just Clear",
+          "note": "Fork height and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-light-vehicle-fleet-and-forklift-course"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-backing-serpentine-and-alley-dock",
+      "name": "Backing Serpentine and Alley Dock",
+      "title": "SmartCiti.X~ Backing Serpentine and Alley Dock VR",
+      "tagline": "You back it: signals agreed with the spotter, a serpentine through the cones, a pull-up and a sight-side alley dock between two trailers — with a forklift behind you and a spotter who steps out of the mirror",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters yard and range work: backing with a spotter under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes backing exercises and the alley dock; 49 CFR 383 for the basic control skills test the range prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors, lamps and horn backing depends on; 49 CFR 395 for the duty status at the dock; the state CDL handbook's backing guidance — get out and look, back toward the driver's side, use a helper; OSHA 29 CFR 1910.178 for the forklift that shares the yard; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#f07fa8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "in-the-mirror",
+        "name": "Always in the Mirror",
+        "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
+      },
+      "meshes": 280,
+      "lights": 0,
+      "overBudget": false,
+      "index": "322",
+      "flat": false,
+      "system": "Range",
+      "currency": "CONE",
+      "ranks": [
+        "Permit Holder",
+        "Range Trainee",
+        "Backing Driver",
+        "Yard Lead",
+        "Range Certified"
+      ],
+      "awards": [
+        {
+          "id": "weaver",
+          "name": "Weaver",
+          "note": "The serpentine and the alley dock backed with every check on time"
+        },
+        {
+          "id": "helper-safe",
+          "name": "Helper Safe",
+          "note": "Never pushed a jackknife, backed fast, followed a stranger's waves or reached for the phone"
+        },
+        {
+          "id": "creep",
+          "name": "Creep",
+          "note": "Every drive held in lane and band with no excursion"
+        },
+        {
+          "id": "clean-range",
+          "name": "Clean Range",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "on-the-line",
+          "name": "On the Line",
+          "note": "Pull-up point and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-backing-serpentine-and-alley-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-night-fog-and-rail-crossing",
+      "name": "Night Fog and Rail Crossing",
+      "title": "SmartCiti.X~ Night Fog and Rail Crossing VR",
+      "tagline": "A placarded tank at night into fog and over the tracks: low beams, a speed inside your sight distance, the window down, the stop the rule requires, both tracks and the far side checked, across in one gear",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters tank and hazmat freight at night: fog, lights and railroad crossings under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes night operation, extreme driving conditions and railroad-highway grade crossings; 49 CFR 383 for the skills test; 49 CFR 392 for driving a commercial motor vehicle, including the stop a hazmat cargo tank must make at a rail crossing and the no-shifting rule on the tracks; 49 CFR 393 for headlamps and lamps; PHMSA 49 CFR 177 for the shipping papers' place in the cab; 49 CFR 395 for the duty status; the state CDL handbook's night, fog and railroad-crossing guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#9aa8ff",
+      "parSeconds": 320,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "turn",
+        "gauge",
+        "hold",
+        "find",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "one-gear-across",
+        "name": "One Gear Across",
+        "note": "Lights right for the fog, the stop in the band, both tracks looked for and across without a shift — first time"
+      },
+      "meshes": 265,
+      "lights": 0,
+      "overBudget": false,
+      "index": "321",
+      "flat": false,
+      "system": "Crossing",
+      "currency": "RAIL",
+      "ranks": [
+        "Permit Holder",
+        "Night Trainee",
+        "Tank Driver",
+        "Hazmat Lead",
+        "Crossing Certified"
+      ],
+      "awards": [
+        {
+          "id": "low-beams",
+          "name": "Low Beams",
+          "note": "All three drives with every check on time"
+        },
+        {
+          "id": "never-on-the-tracks",
+          "name": "Never on the Tracks",
+          "note": "Never used high beams in fog, raced the train, stopped on the tracks or reached for the phone"
+        },
+        {
+          "id": "sight-distance",
+          "name": "Inside Sight Distance",
+          "note": "Every drive and the fog speed held in band with no excursion"
+        },
+        {
+          "id": "clean-night",
+          "name": "Clean Night",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "fifteen-to-fifty",
+          "name": "Fifteen to Fifty",
+          "note": "The stop point and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-night-fog-and-rail-crossing"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-mountain-grade-and-engine-brake",
+      "name": "Mountain Grade and Engine Brake",
+      "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
+      "tagline": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters linehaul in the mountains: grades, the engine brake and brake fade under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes speed management and hazardous conditions such as mountain grades; 49 CFR 383 for the skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle in hazardous conditions; 49 CFR 393 for brakes, including the adjustment a long grade depends on; 49 CFR 396 for writing a brake defect in the driver vehicle inspection report; 49 CFR 395 for the duty status at the bottom; the state CDL handbook's mountain driving and snub braking guidance; CVSA brake out-of-service criteria; Teamsters (IBT) freight locals' driver training",
+      "accent": "#e0a14a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "gauge",
+        "track",
+        "find",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "low-gear-first",
+        "name": "Low Gear First",
+        "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
+      },
+      "meshes": 267,
+      "lights": 0,
+      "overBudget": false,
+      "index": "320",
+      "flat": false,
+      "system": "Grade",
+      "currency": "PERCENT",
+      "ranks": [
+        "Permit Holder",
+        "Grade Trainee",
+        "Mountain Driver",
+        "Pass Lead",
+        "Grade Certified"
+      ],
+      "awards": [
+        {
+          "id": "engine-does-it",
+          "name": "The Engine Does It",
+          "note": "Crest and descent driven with every check on time"
+        },
+        {
+          "id": "cool-brakes",
+          "name": "Cool Brakes",
+          "note": "Never started down in the climbing gear, rode the brakes, coasted or reached for the phone"
+        },
+        {
+          "id": "snub-not-ride",
+          "name": "Snub, Not Ride",
+          "note": "Every drive and the snub braking in band with no excursion"
+        },
+        {
+          "id": "clean-grade",
+          "name": "Clean Grade",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "right-gear",
+          "name": "Right Gear",
+          "note": "Gear choice and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-mountain-grade-and-engine-brake"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-freeway-merge-and-following-distance",
+      "name": "Freeway Merge and Following Distance",
+      "title": "SmartCiti.X~ Freeway Merge and Following Distance VR",
+      "tagline": "Up the ramp and into traffic: build speed, signal, take a gap you found in the mirror, count your seconds of space, move over for the next merge, and come off at an exit where the queue is round the bend",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters over-the-road freight: merging, space management and following distance under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes space management, speed management and visual search; 49 CFR 383 for the Class A skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone and texting prohibitions; 49 CFR 393 for mirrors, lamps and the four-way flashers; 49 CFR 395 for the duty status at the end of the leg; the state CDL handbook's following-distance rule and merging guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#7fc97a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "drive",
+        "gauge",
+        "find",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "seven-seconds",
+        "name": "Seven Seconds",
+        "note": "A clean merge, a full space cushion held, a car cutting in handled without drama and the exit queue warned — first time"
+      },
+      "meshes": 277,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Space",
+      "currency": "SECOND",
+      "ranks": [
+        "Permit Holder",
+        "Highway Trainee",
+        "Freeway Driver",
+        "Linehaul Lead",
+        "Space Certified"
+      ],
+      "awards": [
+        {
+          "id": "gap-finder",
+          "name": "Gap Finder",
+          "note": "The merge and the lane change done with every mirror and signal on time"
+        },
+        {
+          "id": "cushion",
+          "name": "Cushion Keeper",
+          "note": "Never tailgated, passed on the shoulder, stopped at the ramp end or reached for the phone"
+        },
+        {
+          "id": "steady-foot",
+          "name": "Steady Foot",
+          "note": "Every drive and the speed hold in band with no excursion"
+        },
+        {
+          "id": "clean-leg",
+          "name": "Clean Leg",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "right-count",
+          "name": "Right Count",
+          "note": "Following distance and drives near the centre of their bands"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-freeway-merge-and-following-distance"
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-city-route-and-turns",
+      "name": "City Route and Turns",
+      "title": "SmartCiti.X~ City Route and Turns VR",
+      "tagline": "A block of right turns with a trailer behind you: signal early, hold your lane, swing wide only as you finish, keep the rear tight to the curb, and live in the right mirror where the tandem cuts in",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters freight driving on city streets under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and road curriculum covers turning, space management and visual search; 49 CFR 383 for the Class A skills test the road portion prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors and turn signals the route depends on; 49 CFR 395 for the duty status logged at the end; the state CDL handbook's turning and space-management guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+      "accent": "#5fb8f0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Mobility & Transit",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drive",
+        "find",
+        "gauge",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "tight-to-the-curb",
+        "name": "Tight to the Curb",
+        "note": "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time"
+      },
+      "meshes": 271,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Road",
+      "currency": "BLOCK",
+      "ranks": [
+        "Permit Holder",
+        "Road Trainee",
+        "City Driver",
+        "Route Lead",
+        "Road Certified"
+      ],
+      "awards": [
+        {
+          "id": "mirror-eyes",
+          "name": "Mirror Eyes",
+          "note": "Every drive step finished with no check missed"
+        },
+        {
+          "id": "no-squeeze",
+          "name": "No Squeeze Play",
+          "note": "Never swung left, cut the corner, rolled a red or picked up the phone"
+        },
+        {
+          "id": "smooth-hands",
+          "name": "Smooth Hands",
+          "note": "Every drive held in lane and band with no excursion"
+        },
+        {
+          "id": "clean-block",
+          "name": "Clean Block",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "centre-line",
+          "name": "Centre of the Lane",
+          "note": "Drives and the swing-point read near the centre of their bands"
+        },
+        {
+          "id": "on-schedule",
+          "name": "On Schedule",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=drive-city-route-and-turns"
     },
     {
       "app": "trades",

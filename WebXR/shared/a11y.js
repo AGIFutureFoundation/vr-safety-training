@@ -122,6 +122,7 @@ export function describeTarget(id, step, { names = {}, position = null } = {}) {
     hold: "Hold the space bar to keep it held, release to stop.",
     track: "Hold the space bar and use the arrows to keep the reading in the band.",
     drag: "Press Enter to pick it up, then Enter again on the place it belongs.",
+    drive: "Hold W to drive and S or the space bar to brake, A and D steer; Q and E check the mirrors, the left and right arrows signal, H is the horn, Z and X change gear, L is the lights.",
   }[step.kind] ?? "Press Enter to act on it.";
   return `${name}.${where} ${how}`;
 }

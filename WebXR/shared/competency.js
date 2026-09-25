@@ -387,11 +387,12 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "forklift-dock", "tdl-pallet-jack-and-racking", "tdl-pick-pack-and-scan", "tdl-trailer-loading-and-dock-plate",
       "tdl-hazmat-labeling-and-segregation", "tdl-lifting-and-ergonomics", "tdl-pretrip-inspection", "tdl-air-brake-test",
-      "tdl-coupling-and-uncoupling", "tdl-backing-and-docking", "tdl-cargo-securement-and-hours", "apprenticeship-standards-reading",
-      "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10", "union-hall-and-dispatch", "first-period-evaluation",
-      "credit-report-reading", "debt-reduction-plan", "pay-stub-and-withholding", "budget-with-irregular-income",
-      "emergency-savings-and-predatory-lending", "trades-lineage-briefing", "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation",
-      "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
+      "tdl-coupling-and-uncoupling", "tdl-backing-and-docking", "tdl-cargo-securement-and-hours", "drive-city-route-and-turns",
+      "drive-freeway-merge-and-following-distance", "drive-mountain-grade-and-engine-brake", "drive-night-fog-and-rail-crossing", "drive-backing-serpentine-and-alley-dock",
+      "drive-light-vehicle-fleet-and-forklift-course", "apprenticeship-standards-reading", "apprenticeship-application-and-test", "jobsite-orientation-and-osha-10",
+      "union-hall-and-dispatch", "first-period-evaluation", "credit-report-reading", "debt-reduction-plan",
+      "pay-stub-and-withholding", "budget-with-irregular-income", "emergency-savings-and-predatory-lending", "trades-lineage-briefing",
+      "wellness-shift-work-sleep-and-stress", "wellness-peer-support-conversation", "wellness-substance-use-and-the-job", "wellness-asking-for-help-and-resources"
     ],
     require: 6,
   },

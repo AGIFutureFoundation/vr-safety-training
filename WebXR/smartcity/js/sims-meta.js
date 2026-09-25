@@ -14142,163 +14142,37 @@ export const SIMS_META = [
     }
   },
   {
-    "id": "hw-housekeeping-cart-and-chemical-safety",
+    "id": "drive-city-route-and-turns",
     "index": "318",
-    "domain": "Culinary & Hospitality",
-    "trade": "Hotel room attendant — UNITE HERE housekeeping, stockroom and service corridor",
-    "category": "Culinary & Hospitality",
-    "certification": "OSHA 29 CFR 1910.1200 hazard communication — the safety data sheet for every product on the cart and a label on every secondary bottle; 29 CFR 1910.132 and 29 CFR 1910.138 for the gloves the SDS calls for; ANSI Z358.1 for the eyewash beside the dilution sink; Cal/OSHA's hotel housekeeping musculoskeletal injury prevention standard, 8 CCR 3345, whose worksite evaluation covers the loaded cart a room attendant pushes all shift; UNITE HERE hospitality training on chemical safety and cart handling",
-    "name": "Housekeeping Cart & Chemical Safety",
-    "weather": "clear",
-    "indoor": "hotel",
-    "district": null,
-    "title": "SmartCiti.X~ Housekeeping Cart & Chemical Safety VR",
-    "tagline": "The stockroom before the first room: the new product looked up on its SDS, the dilution dispenser set and the bottle filled and labelled, a coworker stopped from mixing, the cart loaded heavy-low and inside its plate, pushed rather than pulled to the service lift past a leak, sprayed onto the cloth, gloves changed between bathroom and bedroom, and the shift logged",
-    "accent": 7317658,
-    "accentCss": "#6fa89a",
-    "parSeconds": 270,
-    "badge": {
-      "id": "labelled-and-loaded",
-      "name": "Labelled and Loaded",
-      "note": "Every bottle labelled, nothing mixed, the cart inside its rating and pushed, and the leak dealt with before anyone walked through it"
-    },
-    "stepCount": 14,
-    "interruptCount": 2,
-    "game": {
-      "system": "Stockroom Shift",
-      "currency": "BOTTLES",
-      "ranks": [
-        "New Attendant",
-        "Room Attendant",
-        "Stockroom Lead",
-        "Housekeeping Inspector",
-        "Cart and Chemicals Certified"
-      ],
-      "rankAt": [
-        0,
-        900,
-        2200,
-        4000,
-        6500
-      ]
-    }
-  },
-  {
-    "id": "hw-banquet-room-flip-and-staging",
-    "index": "319",
-    "domain": "Culinary & Hospitality",
-    "trade": "Banquet houseman — UNITE HERE banquet crew, room flip and staging",
-    "category": "Culinary & Hospitality",
-    "certification": "NFPA 101 Life Safety Code for the aisles, exit access and exit signs of an assembly room set to the approved floor plan; OSHA 29 CFR 1910.36 on exit routes kept unobstructed, and 29 CFR 1910.22 on walking-working surfaces kept free of trip hazards such as loose cable; the Revised NIOSH Lifting Equation behind team lifts of stage decks and folded rounds; Cal/OSHA's injury and illness prevention program, 8 CCR 3203, for the hazards of a room flip; UNITE HERE banquet training on lifting, carts and staffing a flip",
-    "name": "Banquet Room Flip & Staging",
-    "weather": "clear",
-    "indoor": "hotel",
-    "district": null,
-    "title": "SmartCiti.X~ Banquet Room Flip & Staging VR",
-    "tagline": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
-    "accent": 13081162,
-    "accentCss": "#c79a4a",
-    "parSeconds": 280,
-    "badge": {
-      "id": "flipped-not-rushed",
-      "name": "Flipped, Not Rushed",
-      "note": "The room turned on the plan with every lift called, every cable ramped and every exit clear, and the doors held rather than a corner cut"
-    },
-    "stepCount": 14,
-    "interruptCount": 2,
-    "game": {
-      "system": "Banquet Flip",
-      "currency": "COVERS",
-      "ranks": [
-        "Banquet Extra",
-        "Houseman",
-        "Set-up Lead",
-        "Banquet Captain",
-        "Room Flip Certified"
-      ],
-      "rankAt": [
-        0,
-        900,
-        2200,
-        4000,
-        6500
-      ]
-    }
-  },
-  {
-    "id": "hw-flatwork-ironer-and-folder-guarding",
-    "index": "320",
-    "domain": "Culinary & Hospitality",
-    "trade": "Hotel laundry ironer operator — UNITE HERE laundry, flatwork line",
-    "category": "Culinary & Hospitality",
-    "certification": "OSHA 29 CFR 1910.212 machine guarding for the ironer's nip point and the folder's moving parts; OSHA 29 CFR 1910.147 control of hazardous energy for clearing a jam — electrical, steam and the heat no lock isolates; 29 CFR 1910.132 for dress and PPE at a nip point; ANSI Z8.1 commercial laundry equipment safety practice behind the finger guard and folder interlocks; Cal/OSHA's injury and illness prevention program, 8 CCR 3203; NIOSH guidance on heat in hot workplaces; UNITE HERE laundry training on the flatwork line",
-    "name": "Flatwork Ironer & Folder Guarding",
-    "weather": "clear",
-    "indoor": "plant",
-    "district": null,
-    "title": "SmartCiti.X~ Flatwork Ironer & Folder Guarding VR",
-    "tagline": "The hotel laundry's flatwork line: guards walked and a bypassed interlock found, dressed for a nip point, the chest read against the machine card, sheets fed flat and steady while a coworker reaches into the folder, a wrapped sheet cleared under lockout at the disconnect and the steam valve with the heat waited out, the guards back before the lock comes off, and the jam logged",
-    "accent": 9413575,
-    "accentCss": "#8fa3c7",
-    "parSeconds": 270,
-    "badge": {
-      "id": "hands-whole",
-      "name": "Hands Whole",
-      "note": "Every jam cleared under your own lock, every guard back before the restart, and nobody reached into a running nip"
-    },
-    "stepCount": 13,
-    "interruptCount": 2,
-    "game": {
-      "system": "Flatwork Line",
-      "currency": "SHEETS",
-      "ranks": [
-        "Feeder",
-        "Ironer Operator",
-        "Line Lead",
-        "Laundry Supervisor",
-        "Flatwork Line Certified"
-      ],
-      "rankAt": [
-        0,
-        900,
-        2200,
-        4000,
-        6500
-      ]
-    }
-  },
-  {
-    "id": "cs-permit-entry-and-attendant-duties",
-    "index": "321",
-    "domain": "Water & Environmental",
-    "trade": "Confined-space attendant — LIUNA laborer at the manway, with a UA pipefitter entrant and an IUOE operator as entry supervisor",
-    "category": "Water & Environmental",
-    "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — the entry permit's required fields, the duties of the entrant, attendant and entry supervisor, and rescue and emergency services; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its coordination between employers on a shared site; ANSI Z117.1 confined-space entry practice; OSHA 29 CFR 1910.147 for the isolations the permit lists; NIOSH confined-space criteria; LIUNA, UA and IUOE confined-space training",
-    "name": "Permit Entry & Attendant Duties",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters freight driving on city streets under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and road curriculum covers turning, space management and visual search; 49 CFR 383 for the Class A skills test the road portion prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors and turn signals the route depends on; 49 CFR 395 for the duty status logged at the end; the state CDL handbook's turning and space-management guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "City Route and Turns",
     "weather": "overcast",
     "indoor": null,
-    "district": null,
-    "title": "SmartCiti.X~ Permit Entry & Attendant Duties VR",
-    "tagline": "The attendant's shift at a tank manway: the permit read field by field and its blanks caught, roles signed, the opening barricaded and posted, the comms checked from inside, the entrant tagged in, the retrieval line on, a continuous watch the foreman tries to pull you off, a comm check that goes unanswered, the perimeter kept, the entrant tagged out, and the permit cancelled and filed",
-    "accent": 5223385,
-    "accentCss": "#4fb3d9",
-    "parSeconds": 280,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ City Route and Turns VR",
+    "tagline": "A block of right turns with a trailer behind you: signal early, hold your lane, swing wide only as you finish, keep the rear tight to the curb, and live in the right mirror where the tandem cuts in",
+    "accent": 6273264,
+    "accentCss": "#5fb8f0",
+    "parSeconds": 300,
     "badge": {
-      "id": "never-left-the-hole",
-      "name": "Never Left the Hole",
-      "note": "The permit complete before entry, the count always right, the attendant never off the opening and never inside it"
+      "id": "tight-to-the-curb",
+      "name": "Tight to the Curb",
+      "note": "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time"
     },
     "stepCount": 13,
     "interruptCount": 2,
     "game": {
-      "system": "Permit Space",
-      "currency": "ENTRIES",
+      "system": "Road",
+      "currency": "BLOCK",
       "ranks": [
-        "Hole Watch Trainee",
-        "Attendant",
-        "Lead Attendant",
-        "Entry Supervisor",
-        "Permit Space Qualified"
+        "Permit Holder",
+        "Road Trainee",
+        "City Driver",
+        "Route Lead",
+        "Road Certified"
       ],
       "rankAt": [
         0,
@@ -14310,79 +14184,205 @@ export const SIMS_META = [
     }
   },
   {
-    "id": "cs-ventilation-and-air-monitoring-plan",
-    "index": "322",
-    "domain": "Water & Environmental",
-    "trade": "Confined-space entry crew — LIUNA or IUOE pump station crew, gas tester and blower operator, with a UA fitter entering",
-    "category": "Water & Environmental",
-    "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — forced-air ventilation, pre-entry testing and continuous or periodic monitoring against the permit's acceptable conditions; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its emphasis on continuous monitoring; ANSI Z117.1 ventilation and testing practice; NIOSH confined-space criteria on stratified atmospheres and short-circuited ventilation; LIUNA, IUOE and UA confined-space training",
-    "name": "Ventilation & Air Monitoring Plan",
-    "weather": "wind",
-    "indoor": null,
-    "district": null,
-    "title": "SmartCiti.X~ Ventilation & Air Monitoring Plan VR",
-    "tagline": "A pump station dry well ventilated to a plan: the dead corners found, the blower set upwind with its intake in clean air, the duct run to the bottom far corner, the purge run for the time the permit sets while the wind swings an exhaust plume over the intake, four-gas readings top, middle and bottom, the alarms matched to the permit, monitoring kept up until the blower dies, the duct walked, and the shutdown done in order",
-    "accent": 6472360,
-    "accentCss": "#62c2a8",
-    "parSeconds": 280,
-    "badge": {
-      "id": "air-to-the-corners",
-      "name": "Air to the Corners",
-      "note": "The dry well ventilated to its plan, read at every level, watched the whole entry, and emptied the moment the blower stopped"
-    },
-    "stepCount": 14,
-    "interruptCount": 2,
-    "game": {
-      "system": "Dry Well Air",
-      "currency": "PURGES",
-      "ranks": [
-        "Blower Hand",
-        "Gas Tester",
-        "Ventilation Lead",
-        "Entry Supervisor",
-        "Confined Space Air Qualified"
-      ],
-      "rankAt": [
-        0,
-        900,
-        2200,
-        4000,
-        6500
-      ]
-    }
-  },
-  {
-    "id": "cs-non-entry-retrieval-and-tripod",
-    "index": "323",
-    "domain": "Water & Environmental",
-    "trade": "Confined-space attendant — LIUNA, UA or IUOE crew rigging a tripod and winch for non-entry retrieval",
-    "category": "Water & Environmental",
-    "certification": "OSHA 29 CFR 1910.146(k) rescue and emergency services — retrieval systems for non-entry rescue, a full-body harness with the line at the centre of the back, and a mechanical retrieval device for vertical spaces; OSHA 29 CFR 1926 Subpart AA where the entry is construction work; ANSI Z359 fall protection and rescue code for the tripod, winch and harness; ANSI Z117.1 confined-space practice; NIOSH confined-space criteria on would-be rescuers; LIUNA, UA and IUOE confined-space training",
-    "name": "Non-Entry Retrieval & Tripod",
+    "id": "drive-freeway-merge-and-following-distance",
+    "index": "319",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters over-the-road freight: merging, space management and following distance under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes space management, speed management and visual search; 49 CFR 383 for the Class A skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone and texting prohibitions; 49 CFR 393 for mirrors, lamps and the four-way flashers; 49 CFR 395 for the duty status at the end of the leg; the state CDL handbook's following-distance rule and merging guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Freeway Merge and Following Distance",
     "weather": "clear",
     "indoor": null,
-    "district": null,
-    "title": "SmartCiti.X~ Non-Entry Retrieval & Tripod VR",
-    "tagline": "The rescue that needs no rescuer: the kit inspected, the tripod set square over a storm drain structure, legs pinned and chained, the winch mounted and reeved, the brake proven under a test weight while a coworker tries to hoist tools on it, the harness fitted and the line on the back D-ring before entry, the lower tended through a slip, the line kept clear, the drill haul cranked, the entrant brought over the lip, and the drill logged",
-    "accent": 15773771,
-    "accentCss": "#f0b04b",
-    "parSeconds": 280,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Freeway Merge and Following Distance VR",
+    "tagline": "Up the ramp and into traffic: build speed, signal, take a gap you found in the mirror, count your seconds of space, move over for the next merge, and come off at an exit where the queue is round the bend",
+    "accent": 8374650,
+    "accentCss": "#7fc97a",
+    "parSeconds": 300,
     "badge": {
-      "id": "out-without-going-in",
-      "name": "Out Without Going In",
-      "note": "A tripod set square and proven, the line on before entry, and the entrant brought out and over the lip with nobody leaning into the hole"
+      "id": "seven-seconds",
+      "name": "Seven Seconds",
+      "note": "A clean merge, a full space cushion held, a car cutting in handled without drama and the exit queue warned — first time"
     },
-    "stepCount": 14,
+    "stepCount": 13,
     "interruptCount": 2,
     "game": {
-      "system": "Retrieval Rig",
-      "currency": "HAULS",
+      "system": "Space",
+      "currency": "SECOND",
       "ranks": [
-        "Tripod Hand",
-        "Attendant",
-        "Retrieval Lead",
-        "Entry Supervisor",
-        "Non-Entry Rescue Qualified"
+        "Permit Holder",
+        "Highway Trainee",
+        "Freeway Driver",
+        "Linehaul Lead",
+        "Space Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drive-mountain-grade-and-engine-brake",
+    "index": "320",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters linehaul in the mountains: grades, the engine brake and brake fade under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes speed management and hazardous conditions such as mountain grades; 49 CFR 383 for the skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle in hazardous conditions; 49 CFR 393 for brakes, including the adjustment a long grade depends on; 49 CFR 396 for writing a brake defect in the driver vehicle inspection report; 49 CFR 395 for the duty status at the bottom; the state CDL handbook's mountain driving and snub braking guidance; CVSA brake out-of-service criteria; Teamsters (IBT) freight locals' driver training",
+    "name": "Mountain Grade and Engine Brake",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
+    "tagline": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+    "accent": 14721354,
+    "accentCss": "#e0a14a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "low-gear-first",
+      "name": "Low Gear First",
+      "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade",
+      "currency": "PERCENT",
+      "ranks": [
+        "Permit Holder",
+        "Grade Trainee",
+        "Mountain Driver",
+        "Pass Lead",
+        "Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drive-night-fog-and-rail-crossing",
+    "index": "321",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters tank and hazmat freight at night: fog, lights and railroad crossings under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes night operation, extreme driving conditions and railroad-highway grade crossings; 49 CFR 383 for the skills test; 49 CFR 392 for driving a commercial motor vehicle, including the stop a hazmat cargo tank must make at a rail crossing and the no-shifting rule on the tracks; 49 CFR 393 for headlamps and lamps; PHMSA 49 CFR 177 for the shipping papers' place in the cab; 49 CFR 395 for the duty status; the state CDL handbook's night, fog and railroad-crossing guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Night Fog and Rail Crossing",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Night Fog and Rail Crossing VR",
+    "tagline": "A placarded tank at night into fog and over the tracks: low beams, a speed inside your sight distance, the window down, the stop the rule requires, both tracks and the far side checked, across in one gear",
+    "accent": 10135807,
+    "accentCss": "#9aa8ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-gear-across",
+      "name": "One Gear Across",
+      "note": "Lights right for the fog, the stop in the band, both tracks looked for and across without a shift — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crossing",
+      "currency": "RAIL",
+      "ranks": [
+        "Permit Holder",
+        "Night Trainee",
+        "Tank Driver",
+        "Hazmat Lead",
+        "Crossing Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drive-backing-serpentine-and-alley-dock",
+    "index": "322",
+    "domain": "Commercial Driving",
+    "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters yard and range work: backing with a spotter under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes backing exercises and the alley dock; 49 CFR 383 for the basic control skills test the range prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors, lamps and horn backing depends on; 49 CFR 395 for the duty status at the dock; the state CDL handbook's backing guidance — get out and look, back toward the driver's side, use a helper; OSHA 29 CFR 1910.178 for the forklift that shares the yard; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+    "name": "Backing Serpentine and Alley Dock",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Backing Serpentine and Alley Dock VR",
+    "tagline": "You back it: signals agreed with the spotter, a serpentine through the cones, a pull-up and a sight-side alley dock between two trailers — with a forklift behind you and a spotter who steps out of the mirror",
+    "accent": 15761320,
+    "accentCss": "#f07fa8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "in-the-mirror",
+      "name": "Always in the Mirror",
+      "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Range",
+      "currency": "CONE",
+      "ranks": [
+        "Permit Holder",
+        "Range Trainee",
+        "Backing Driver",
+        "Yard Lead",
+        "Range Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "drive-light-vehicle-fleet-and-forklift-course",
+    "index": "323",
+    "domain": "Commercial Driving",
+    "trade": "Freight terminal new hire, Job Readiness Edition deep driving — a Teamsters terminal's fleet check-ride and forklift course, building on the habits the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) teaches",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial truck operator training, with formal instruction, practical training and an evaluation of the operator in the workplace, and a truck examined before use; ANSI B56.1 for the counterbalance truck's safe operation; ANSI/ISEA 107 high-visibility apparel on the warehouse floor; the employer's fleet policy for a pool car, built on the state CDL handbook's space-management habits and the same conduct 49 CFR 392 asks of commercial drivers; FMCSA 49 CFR 380 Subpart F entry-level driver training as the Class A path this job leads to; Teamsters (IBT) terminal locals' training",
+    "name": "Light Vehicle Fleet and Forklift Course",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Mobility & Transit",
+    "title": "SmartCiti.X~ Light Vehicle Fleet and Forklift Course VR",
+    "tagline": "Two check-rides before the keys: a pool car walked round, pulled out, stopped fully and backed into its space, then a forklift checked, forks low and tilted back, horn at the aisle end and in reverse behind a tall load",
+    "accent": 6279364,
+    "accentCss": "#5fd0c4",
+    "parSeconds": 340,
+    "badge": {
+      "id": "keys-earned",
+      "name": "Keys Earned",
+      "note": "Both check-rides clean: the car backed into its space and the forklift driven load-low, horn at every corner and trailing its tall load — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Check-ride",
+      "currency": "LAP",
+      "ranks": [
+        "New Hire",
+        "Yard Trainee",
+        "Fleet Driver",
+        "Terminal Operator",
+        "Course Certified"
       ],
       "rankAt": [
         0,
