@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Night Highway Circuit</title>
+<meta name="description" content="The training platform's Easter egg: an arcade racer on five original courses, driven in the platform's own fleet. Local multiplayer only: split-screen on one machine, or two tabs in one browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#04060c; --panel:#0c1220; --glass:rgba(8,12,22,.84); --raised:#141d31; --raised-2:#1b2740;
+    --text:#f1f5fb; --muted:#9aa9c4; --dim:#6b7a96; --accent:#4fd1ff; --amber:#ffc93c; --pink:#ff5a7a; --green:#8cff5a;
+    --edge:rgba(120,160,220,.22); --edge-strong:rgba(120,160,220,.42);
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:var(--void);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;width:100%;height:100%}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  /* ---------- screens ---------- */
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;
+    background:radial-gradient(1200px 700px at 50% 120%, rgba(79,209,255,.10), transparent 60%), linear-gradient(180deg, rgba(4,6,12,.35), rgba(4,6,12,.72));}
+  .card{width:min(980px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);
+    border-radius:14px;padding:22px 22px 18px;backdrop-filter:blur(6px);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-family:var(--cond);font-style:italic;font-weight:700;text-transform:uppercase;letter-spacing:.01em;margin:6px 0 2px;
+    font-size:clamp(38px,8vw,78px);line-height:.92;background:linear-gradient(92deg,var(--amber),#ff8a3c 45%,var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 40px rgba(255,160,60,.18)}
+  .stripe{height:6px;width:220px;margin:10px 0 14px;background:repeating-linear-gradient(-45deg,var(--amber) 0 12px,#15171a 12px 24px);border-radius:2px}
+  h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:28px;margin:4px 0 12px}
+  p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.5}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:14px 0 0;max-width:86ch}
+  .note b{color:var(--muted)}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+    font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#ffd862,var(--amber));color:#1b1300;border-color:transparent}
+  .btn.ghost{background:transparent}
+  a.btn{display:inline-block;text-decoration:none;color:var(--text)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .modes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:6px 0 4px}
+  .mode{text-align:left;padding:14px;border-radius:10px;border:1px solid var(--edge);background:linear-gradient(180deg,var(--raised),var(--panel));cursor:pointer}
+  .mode:hover,.mode:focus-visible{border-color:var(--amber)}
+  .mode b{display:block;font-family:var(--cond);font-size:20px;letter-spacing:.03em;text-transform:uppercase}
+  .mode span{display:block;font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .pick{text-align:left;padding:12px;border-radius:10px;border:1px solid var(--edge);background:var(--panel);cursor:pointer;position:relative}
+  .pick.on{border-color:var(--amber);box-shadow:0 0 0 2px rgba(255,201,60,.25) inset}
+  .pick[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+  .pick b{display:block;font-family:var(--cond);font-size:19px;letter-spacing:.03em;text-transform:uppercase}
+  .pick span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+  .pick canvas{display:block;width:100%;height:auto;border-radius:6px;background:#070b14;margin-bottom:8px}
+  .lock{position:absolute;top:10px;right:10px;font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--pink)}
+  .tag{display:inline-block;font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    padding:3px 8px;border-radius:4px;background:rgba(255,201,60,.14);color:var(--amber);border:1px solid rgba(255,201,60,.4)}
+  .tag.cyan{background:rgba(79,209,255,.12);color:var(--accent);border-color:rgba(79,209,255,.4)}
+  .players{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-top:10px}
+  .pcard{border:1px solid var(--edge);border-radius:10px;padding:12px;background:var(--panel);border-top:3px solid var(--pc,#4fd1ff)}
+  .pcard .who{font-family:var(--cond);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pc);font-size:13px}
+  .pcard .veh{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:6px 0}
+  .pcard .veh b{font-family:var(--cond);font-size:22px;text-transform:uppercase;letter-spacing:.02em}
+  .pcard .arrow{width:34px;height:34px;padding:0;border-radius:6px}
+  .stat{display:grid;grid-template-columns:70px 1fr;gap:6px;align-items:center;font-size:12px;color:var(--muted);margin:3px 0}
+  .bar{height:7px;border-radius:4px;background:#1b2436;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--green))}
+  .keys{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.45}
+  .seg{display:inline-flex;border:1px solid var(--edge-strong);border-radius:8px;overflow:hidden}
+  .seg button{background:transparent;border:0;padding:8px 14px;cursor:pointer;font-family:var(--cond);font-weight:700;letter-spacing:.06em}
+  .seg button.on{background:var(--amber);color:#1b1300}
+  table.res{width:100%;border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+  table.res th{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:6px 8px;border-bottom:1px solid var(--edge)}
+  table.res td{padding:8px;border-bottom:1px solid rgba(120,160,220,.1);font-size:15px}
+  table.res tr.me td{background:rgba(255,201,60,.08)}
+  table.res td.pos{font-family:var(--cond);font-weight:700;font-size:20px;width:48px}
+  .chip{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+  .kbd{display:inline-block;min-width:22px;padding:1px 6px;border-radius:4px;border:1px solid var(--edge-strong);background:#0e1526;font-family:var(--cond);font-weight:600;font-size:13px;text-align:center}
+  .help-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .help-grid div{border:1px solid var(--edge);border-radius:10px;padding:12px;background:var(--panel);font-size:13.5px;color:var(--muted);line-height:1.6}
+  .help-grid h3{margin:0 0 6px;font-family:var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--text);font-size:17px}
+  .item-row{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+  .item-row svg{flex:0 0 34px}
+
+  /* ---------- HUD ---------- */
+  #huds{position:fixed;inset:0;z-index:10;pointer-events:none}
+  .hud{position:absolute;overflow:hidden;font-family:var(--cond);text-transform:uppercase}
+  .hud .pos{position:absolute;left:14px;top:8px;font-weight:700;font-style:italic;font-size:64px;line-height:1;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.5),0 0 18px rgba(0,0,0,.4)}
+  .hud .pos small{font-size:.42em;margin-left:2px;color:var(--amber)}
+  .hud .pos em{display:block;font-style:normal;font-size:13px;letter-spacing:.18em;color:var(--muted);margin-top:2px}
+  .hud .lap{position:absolute;right:14px;top:12px;text-align:right;font-weight:700;font-size:26px;letter-spacing:.04em;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+  .hud .lap span{display:block;font-size:15px;color:var(--muted);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  .hud .item{position:absolute;left:14px;bottom:14px;width:78px;height:78px;border-radius:12px;background:rgba(8,12,22,.66);border:2px solid rgba(255,201,60,.6);display:flex;align-items:center;justify-content:center}
+  .hud .item.empty{border-color:rgba(255,255,255,.18)}
+  .hud .item svg{width:56px;height:56px}
+  .hud .item-name{position:absolute;left:100px;bottom:18px;font-weight:600;font-size:15px;letter-spacing:.08em;color:var(--amber);text-shadow:0 2px 0 rgba(0,0,0,.6)}
+  .hud .speed{position:absolute;right:16px;bottom:10px;text-align:right;font-weight:700;font-style:italic;font-size:44px;line-height:1;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+  .hud .speed span{font-size:14px;font-style:normal;letter-spacing:.14em;color:var(--muted);margin-left:4px}
+  .hud .msg{position:absolute;left:50%;top:30%;transform:translateX(-50%);font-weight:700;font-size:30px;letter-spacing:.06em;color:var(--amber);text-shadow:0 3px 0 rgba(0,0,0,.6);white-space:nowrap;opacity:0;transition:opacity .2s}
+  .hud .msg.on{opacity:1}
+  .hud .msg.safety{color:var(--green)}
+  .hud .msg.warn{color:var(--pink)}
+  .hud .sig{position:absolute;top:50%;font-size:40px;font-weight:700;color:#ffa21a;text-shadow:0 0 12px rgba(255,160,20,.8);opacity:0}
+  .hud .sig.l{left:18px}.hud .sig.r{right:18px}
+  .hud .sig.on{opacity:1}
+  .hud .rear{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-weight:700;letter-spacing:.2em;font-size:15px;color:#fff;background:rgba(0,0,0,.45);padding:3px 10px;border-radius:4px}
+  .hud .tag-p{position:absolute;left:14px;top:96px;font-size:12px;letter-spacing:.18em;font-weight:700}
+  .hud .delta{position:absolute;right:14px;top:74px;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+  .hud.small .pos{font-size:44px}.hud.small .speed{font-size:32px}.hud.small .item{width:60px;height:60px}.hud.small .item svg{width:42px;height:42px}.hud.small .item-name{left:82px}.hud.small .tag-p{top:76px}
+  .hud.col-l .lap,.hud.col-l .speed,.hud.col-l .delta{right:96px}
+  .hud.col-r .pos,.hud.col-r .item,.hud.col-r .tag-p{left:96px}.hud.col-r .item-name{left:166px}
+  .divider{position:absolute;background:#04060c}
+  #minimap{position:fixed;z-index:11;pointer-events:none;border-radius:10px;background:rgba(6,10,18,.62);border:1px solid var(--edge)}
+  #count{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:12;pointer-events:none;font-family:var(--cond);font-weight:700;font-style:italic;
+    font-size:min(22vw,180px);color:#fff;text-shadow:0 6px 0 rgba(0,0,0,.45),0 0 40px rgba(255,160,60,.5);opacity:0;transition:opacity .15s}
+  #count.on{opacity:1}
+  #count.go{color:var(--green)}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;background:var(--glass);border:1px solid var(--edge-strong);border-radius:8px;
+    padding:10px 16px;font-size:14px;color:var(--text);max-width:min(620px,calc(100vw - 32px));text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+  #toast.on{opacity:1}
+  #brand{position:fixed;left:14px;bottom:10px;z-index:9;font-family:var(--cond);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.35);text-transform:uppercase;pointer-events:none}
+  @media (max-width:640px){ .hud .pos{font-size:44px} .hud .speed{font-size:30px} h2{font-size:22px} .card{padding:16px} }
+</style>
+</head>
+<body>
+<div id="stage" aria-hidden="true"></div>
+<div id="huds" aria-live="off"></div>
+<canvas id="minimap" width="220" height="220" hidden></canvas>
+<div id="count" aria-live="assertive"></div>
+<div id="toast" role="status"></div>
+<div id="brand">Night Highway Circuit · all courses, vehicles, items and sounds are original to this platform</div>
+
+<section class="screen" id="scr-menu" aria-labelledby="t-menu">
+  <div class="card">
+    <p class="eyebrow">You found the Easter egg</p>
+    <h1 class="logo" id="t-menu">Night Highway Circuit</h1>
+    <div class="stripe"></div>
+    <p class="lead">An arcade racer in the fleet the training stations use: sedans and pickups, a bobtail tractor, a forklift, a skid steer, a dump truck, a bucket truck and the night bus. Five original courses, boost pads, supply crates, six construction-site items, and real traffic. Signal and check your mirrors before a lane change for a safety boost — the joke still teaches.</p>
+    <div class="modes" role="list">
+      <button class="mode" data-go="race" role="listitem"><b>Single race</b><span>Pick a class and a course. One to four players split-screen on this machine; AI drivers fill the grid of eight.</span></button>
+      <button class="mode" data-go="gp" role="listitem"><b>Grand Prix</b><span>All five courses in a row for points. Finish in the top three to open the next engine class.</span></button>
+      <button class="mode" data-go="tt" role="listitem"><b>Time trial</b><span>Alone on an empty course against the ghost of your best lap, kept in this browser.</span></button>
+      <button class="mode" data-go="net" role="listitem"><b>Two-tab race</b><span>Two tabs of this browser race each other through a local channel. Not online play: there is no server.</span></button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" data-go="help">Controls and items</button>
+      <button class="btn ghost" id="btn-music" aria-pressed="true">Music: on</button>
+      <button class="btn ghost" id="btn-watch">Watch the AI race</button>
+      <a class="btn ghost" id="btn-home" href="../index.html">Back to the training platform</a>
+    </div>
+    <p class="note"><b>Local multiplayer only.</b> Up to four players share this screen, each on their own keys or gamepad, or two tabs in the same browser link up over BroadcastChannel. Nothing is sent over the network and there is no server. Unlocks, Grand Prix bests and time-trial ghosts stay in this browser.</p>
+  </div>
+</section>
+
+<section class="screen" id="scr-class" hidden aria-labelledby="t-class">
+  <div class="card">
+    <p class="eyebrow" id="class-step">Step 1 · engine class</p>
+    <h2 id="t-class">Choose an engine class</h2>
+    <div class="grid" id="class-list"></div>
+    <p class="note" id="class-note"></p>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="class-next">Next</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-track" hidden aria-labelledby="t-track">
+  <div class="card">
+    <p class="eyebrow" id="track-step">Step 2 · course</p>
+    <h2 id="t-track">Choose a course</h2>
+    <div class="grid" id="track-list"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="track-next">Next</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-garage" hidden aria-labelledby="t-garage">
+  <div class="card">
+    <p class="eyebrow" id="garage-step">Step 3 · drivers</p>
+    <h2 id="t-garage">Drivers and vehicles</h2>
+    <div class="row" id="count-row"><span class="eyebrow">Players on this machine</span><div class="seg" id="pcount"></div></div>
+    <div class="players" id="player-cards"></div>
+    <p class="note">Each player steers with their own keys, or the gamepad with the same number. Cycle your vehicle with your own left and right keys. The other seats on the grid of eight are AI drivers.</p>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="garage-go">To the grid</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-net" hidden aria-labelledby="t-net">
+  <div class="card">
+    <p class="eyebrow">Two-tab race · local multiplayer</p>
+    <h2 id="t-net">Two tabs, one browser</h2>
+    <p class="lead">Open this page in a second tab of the same browser. In one tab choose <b>Host</b>, in the other choose <b>Join</b>. The host tab runs the race and the AI; the joining tab sends its controls and draws what the host sends back. The two tabs talk through the browser's BroadcastChannel — nothing leaves this machine, and there is no server.</p>
+    <div class="row"><button class="btn primary" id="net-host">Host a race</button><button class="btn" id="net-join">Join a race</button><button class="btn ghost" data-back>Back</button></div>
+    <p class="note" id="net-status">Class, course and your vehicle come from your last selections (currently shown below).</p>
+    <p class="note" id="net-sel"></p>
+  </div>
+</section>
+
+<section class="screen" id="scr-help" hidden aria-labelledby="t-help">
+  <div class="card">
+    <p class="eyebrow">How to drive</p>
+    <h2 id="t-help">Controls and items</h2>
+    <div class="help-grid" id="help-grid"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-results" hidden aria-labelledby="t-results">
+  <div class="card">
+    <div class="badges" id="res-badges"></div>
+    <h2 id="t-results">Results</h2>
+    <table class="res" id="res-table"></table>
+    <p class="note" id="res-note"></p>
+    <div class="row" style="margin-top:14px" id="res-actions"></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-pause" hidden aria-labelledby="t-pause">
+  <div class="card" style="width:min(420px,100%)">
+    <h2 id="t-pause">Paused</h2>
+    <div class="row"><button class="btn primary" id="pause-resume">Resume</button><button class="btn" id="pause-restart">Restart</button><button class="btn ghost" id="pause-quit">Quit to menu</button></div>
+  </div>
+</section>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

@@ -111,6 +111,7 @@ const LAYOUTS = {
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
     catalog: "smartcity/catalog.json",
+    egg: "race/index.html",
     note: "Deep links, categories and launch parameters for every station are in",
   },
   flat: {
@@ -123,6 +124,7 @@ const LAYOUTS = {
     doc: (name) => `${REPO}/blob/main/docs/${name}`,
     accessibility: `${REPO}/blob/main/WebXR/ACCESSIBILITY.md`,
     catalog: `${REPO}/blob/main/WebXR/smartcity/catalog.json`,
+    egg: "race.html",
     note: "Deep links, categories and launch parameters for every station are in",
   },
 };
@@ -306,6 +308,12 @@ const CSS = `
   .foot ul{list-style:none; margin:0 0 18px; padding:0; display:grid; gap:8px; grid-template-columns:1fr}
   .foot li{font-size:14px}
   .foot p{margin:0 0 8px; font-size:13px; color:var(--dim); max-width:80ch}
+  .egg{background:none; border:0; padding:4px; margin:6px 0 0; cursor:pointer; opacity:.55; line-height:0; border-radius:var(--r-sm)}
+  .egg:hover{opacity:.9}
+  .egg svg{width:22px; height:22px; display:block}
+  .egg-toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:60; max-width:calc(100vw - 32px);
+    background:var(--panel-2); border:1px solid var(--warn); border-radius:var(--r-sm); padding:10px 16px;
+    font-size:14px; color:var(--text); box-shadow:var(--shadow-2)}
 
   /* ---- sign-in dialog ---- */
   dialog{
@@ -460,6 +468,36 @@ const SCRIPT = `
     openBtn.hidden = false;
     showWho();
   }).catch(() => { openBtn.hidden = true; });
+
+  // The Easter egg: the classic up-up-down-down-left-right-left-right-B-A
+  // key sequence, five taps on the hard hat in the footer, or ?egg=race opens
+  // the platform's arcade racer with a one-line toast. Typing in the search
+  // box never counts toward the sequence.
+  const egg = document.getElementById("egg");
+  const eggToast = document.getElementById("egg-toast");
+  let eggGoing = false;
+  function openEgg() {
+    if (eggGoing) return;
+    eggGoing = true;
+    eggToast.hidden = false;
+    setTimeout(() => { location.href = egg.dataset.egg; }, 1200);
+  }
+  const eggCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "KeyB", "KeyA"];
+  const eggKeys = [];
+  document.addEventListener("keydown", (e) => {
+    if (e.target && e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+    eggKeys.push(e.code);
+    if (eggKeys.length > eggCode.length) eggKeys.shift();
+    if (eggKeys.join() === eggCode.join()) openEgg();
+  });
+  let eggTaps = [];
+  egg.addEventListener("click", () => {
+    const now = Date.now();
+    eggTaps = eggTaps.filter((t) => now - t < 3000);
+    eggTaps.push(now);
+    if (eggTaps.length >= 5) openEgg();
+  });
+  if (new URLSearchParams(location.search).get("egg") === "race") openEgg();
 `;
 
 function appCard(layout, { href, tint: t, count, name, blurb, go }) {
@@ -635,8 +673,10 @@ ${docs}
     without loading an app. Progress, records and badges stay in this browser until you export them.</p>
     <p>See the <a href="${layout.accessibility}">accessibility statement</a> and
     <a href="${REPO}">the repository</a>. ${esc(catalog.network ?? "")}</p>
+    <button class="egg" id="egg" type="button" data-egg="${layout.egg}" aria-label="Hard hat" title="Hard hat"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 32 C9 20 16 12 24 12 C32 12 39 20 39 32 Z" fill="#f2c14b"/><rect x="5" y="31" width="38" height="5" rx="2" fill="#c99a2e"/><rect x="21" y="12" width="6" height="19" rx="2" fill="#ffd97a"/></svg></button>
   </div>
 </footer>
+<div class="egg-toast" id="egg-toast" role="status" hidden>Night Highway Circuit — the hidden arcade racer, local multiplayer. Opening…</div>
 
 <dialog id="signin-dialog" aria-labelledby="dlg-title">
   <div class="dlg">
