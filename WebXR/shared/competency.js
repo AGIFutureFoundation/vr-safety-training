@@ -305,9 +305,9 @@ export const PROGRAMME_COMPETENCIES = [
     standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
     stations: [
       "stage-power", "fly-system", "rigging-loft", "chain-hoist",
-      "stage-load-in-and-truss-rigging", "le-followspot-and-truss-access-at-height"
+      "stage-load-in-and-truss-rigging", "le-followspot-and-truss-access-at-height", "le-crowd-barricade-and-show-stop-call"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "hunters-point-bay-restoration",

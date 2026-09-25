@@ -15106,5 +15106,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "le-crowd-barricade-and-show-stop-call",
+    "index": "319",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+    "name": "Crowd Barricade & Show-Stop Call",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+    "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "line-held-call-made",
+      "name": "Line Held, Call Made",
+      "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Barricade Line",
+      "currency": "POINT",
+      "ranks": [
+        "Line Hand",
+        "Barricade Crew",
+        "Barricade Lead",
+        "FOH Security Liaison",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

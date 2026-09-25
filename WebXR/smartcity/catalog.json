@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 353
+      "stations": 354
     },
     "trades": {
       "entry": "trades/index.html",
@@ -240,6 +240,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "le-crowd-barricade-and-show-stop-call",
         "le-followspot-and-truss-access-at-height",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
@@ -1070,16 +1071,21 @@
           "app": "smartcity",
           "id": "le-followspot-and-truss-access-at-height",
           "why": "A spot tower before doors: the lift ridden held, the tower anchor clipped before the gate opens, a cracked coupler caught, and the lamp struck from its own switch clear of the housing."
+        },
+        {
+          "app": "smartcity",
+          "id": "le-crowd-barricade-and-show-stop-call",
+          "why": "The front-of-house rail before doors: a bent pin caught, the line built and gauged to the plan, and the show-stop chain briefed and used when the load gauge spikes."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1460,
-        "tasks": 120,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 1,
+        "lessons": 1620,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -7212,6 +7218,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call",
+      "name": "Crowd Barricade & Show-Stop Call",
+      "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+      "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+      "union": null,
+      "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+      "accent": "#c58cff",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "line-held-call-made",
+        "name": "Line Held, Call Made",
+        "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Barricade Line",
+      "currency": "POINT",
+      "ranks": [
+        "Line Hand",
+        "Barricade Crew",
+        "Barricade Lead",
+        "FOH Security Liaison",
+        "Arena Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "pinned-clean",
+          "name": "Pinned Clean",
+          "note": "Every coupling pin locked home, no shortcut"
+        },
+        {
+          "id": "line-held",
+          "name": "Line Held",
+          "note": "The rail held steady through the load spike"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never an unrated clip, never over the rail, never the medical lane blocked"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections building or running the line"
+        },
+        {
+          "id": "gap-on-the-plan",
+          "name": "Gap On The Plan",
+          "note": "Mixed zone gap committed inside the band first time"
+        },
+        {
+          "id": "doors-on-time",
+          "name": "Doors On Time",
+          "note": "Shift logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=le-crowd-barricade-and-show-stop-call"
     },
     {
       "app": "smartcity",
@@ -26576,7 +26665,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27236,7 +27325,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "100",

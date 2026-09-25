@@ -191,6 +191,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "chain-hoist", why: "Motors: inspection, capacity and never leaving a load hanging on a brake." },
       { app: "smartcity", id: "stage-load-in-and-truss-rigging", why: "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel." },
       { app: "smartcity", id: "le-followspot-and-truss-access-at-height", why: "A spot tower before doors: the lift ridden held, the tower anchor clipped before the gate opens, a cracked coupler caught, and the lamp struck from its own switch clear of the housing." },
+      { app: "smartcity", id: "le-crowd-barricade-and-show-stop-call", why: "The front-of-house rail before doors: a bent pin caught, the line built and gauged to the plan, and the show-stop chain briefed and used when the load gauge spikes." },
     ],
   },
   {
