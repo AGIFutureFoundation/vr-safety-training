@@ -4,7 +4,7 @@ import {
   CITY, stationPad, holoTag, standingFigure, reg,
   surfaceTexture, texturedMat, pavingFace, waterFace,
 } from "../citykit.js";
-import { workboat, deckBarge } from "../../../shared/fleet.js";
+import { workboat, spudBarge } from "../../../shared/fleet.js";
 import { excavator } from "../../../shared/equipment.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -234,7 +234,7 @@ export const SIM_BR_WATER_QUALITY_SONDE_CALIBRATION_AND_DEPLOY = {
     skipper.position.y = 0.72;
     holoTag(g, "workboat skipper", -2.0, 2.8, -4.1, { css: "#4fc1b0", w: 0.32 });
 
-    const barge = deckBarge(g, 1.6, -0.6, -11.5, { ry: Math.PI / 2 });
+    const barge = spudBarge(g, 1.6, -0.6, -11.5, { ry: Math.PI / 2 });
     void barge;
     const exc = excavator(g, 1.4, 0.95, -11.5, { ry: -Math.PI / 2 });
     const { house, bucket } = exc.userData.parts;

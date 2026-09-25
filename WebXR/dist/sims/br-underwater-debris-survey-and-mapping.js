@@ -19,7 +19,7 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // the tables the supervisor holds. What happens to anything hazardous is
 // decided per the work plan, not on the bottom.
 
-const BRDS_ACCENT = 0x7fd6a8;
+const BRDS_ACCENT_BRUNDERWATER = 0x7fd6a8;
 const BRDS_CSS = "#7fd6a8";
 
 /** The HUD's comms face, repainted when the supervisor reads back. */
@@ -49,7 +49,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
   name: "Underwater Debris Survey & Mapping",
   title: simTitle("Underwater Debris Survey & Mapping"),
   tagline: "On the bottom before anything is lifted: on-bottom report, the baseline's bearing set, the tape run out to the far stake, the baseline swum steady while the silt blows out the visibility, the drum and the battery found and left alone, the offset read, the item floated and written up, the rebar and the skiff found, position held while fishing line wraps a fin, the hazards reported for the work plan, the survey bag sent up and the map read up for the dive log",
-  accent: BRDS_ACCENT,
+  accent: BRDS_ACCENT_BRUNDERWATER,
   accentCss: BRDS_CSS,
   parSeconds: 290,
   footprint: 2.6,
@@ -231,7 +231,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
     holoTag(zeroStake, "baseline zero", 0, 0.85, 0, { css: BRDS_CSS, w: 0.26 });
     const farStake = group(g, 2.1, 0, -1.3);
     cyl(farStake, 0.015, 0.015, 0.7, 0, 0.35, 0, 0x8a949d, { rough: 0.5, metal: 0.6, seg: 6 });
-    const farRing = torus(farStake, 0.16, 0.01, 0, 0.5, 0, BRDS_ACCENT, { emissive: BRDS_ACCENT, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 20 });
+    const farRing = torus(farStake, 0.16, 0.01, 0, 0.5, 0, BRDS_ACCENT_BRUNDERWATER, { emissive: BRDS_ACCENT_BRUNDERWATER, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 20 });
     void farRing;
     holoTag(farStake, "far stake", 0, 0.85, 0, { css: BRDS_CSS, w: 0.2 });
     reg(hits, farStake, "far-stake");
@@ -250,7 +250,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
     holoTag(g, "baseline tape", 0.2, 0.6, -0.2, { css: BRDS_CSS, w: 0.26 });
     reg(hits, tapeHit, "baseline-tape");
     const swim = group(g, -0.9, 0.7, 0.2);
-    for (let i = 0; i < 3; i++) { const chev = box(swim, 0.12, 0.012, 0.03, i * 0.22, 0, -i * 0.11, BRDS_ACCENT, { emissive: BRDS_ACCENT, ei: 1.4, rough: 0.4, cast: false }); chev.rotation.y = 0.6; }
+    for (let i = 0; i < 3; i++) { const chev = box(swim, 0.12, 0.012, 0.03, i * 0.22, 0, -i * 0.11, BRDS_ACCENT_BRUNDERWATER, { emissive: BRDS_ACCENT_BRUNDERWATER, ei: 1.4, rough: 0.4, cast: false }); chev.rotation.y = 0.6; }
     holoTag(swim, "swim the baseline", 0.2, 0.18, -0.1, { css: BRDS_CSS, w: 0.32 });
     reg(hits, swim, "tape-swim");
 
@@ -342,13 +342,13 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
     holoTag(cutter, "line cutter on harness", 0, 0.16, 0, { css: BRDS_CSS, w: 0.42 });
     reg(hits, cutter, "line-cutter");
     const holdMark = group(g, -0.4, 0.55, -1.2);
-    const holdRing = torus(holdMark, 0.18, 0.01, 0, 0, 0, BRDS_ACCENT, { emissive: BRDS_ACCENT, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 20 });
+    const holdRing = torus(holdMark, 0.18, 0.01, 0, 0, 0, BRDS_ACCENT_BRUNDERWATER, { emissive: BRDS_ACCENT_BRUNDERWATER, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 20 });
     holdRing.rotation.x = Math.PI / 2;
     holoTag(holdMark, "hold here — read-back", 0, 0.2, 0, { css: BRDS_CSS, w: 0.42 });
     reg(hits, holdMark, "hold-position");
     const reportTag = holoTag(g, "report drum + battery", 1.3, 1.0, 0.3, { css: BRDS_CSS, w: 0.42 });
     reg(hits, reportTag, "hazard-report");
-    const comms = holoPanel(g, 0.5, 0.3, 1.6, 1.6, 1.1, brdsCommsFace(["Supervisor · topside", "Press to talk"]), { ry: -0.5, accent: BRDS_ACCENT });
+    const comms = holoPanel(g, 0.5, 0.3, 1.6, 1.6, 1.1, brdsCommsFace(["Supervisor · topside", "Press to talk"]), { ry: -0.5, accent: BRDS_ACCENT_BRUNDERWATER });
     reg(hits, comms, "diver-comms");
     holoPanel(g, 0.44, 0.26, -1.7, 1.6, 1.1, (cx, w, h) => {
       cx.fillStyle = "rgba(6,20,22,0.9)"; cx.fillRect(0, 0, w, h); cx.fillStyle = "#59c97b"; cx.fillRect(0, 0, w, 6);
@@ -363,7 +363,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
     box(downline, 0.4, 0.2, 0.4, 0, 0.1, 0, 0x3a3f45, { rough: 0.8, metal: 0.3 });
     cyl(downline, 0.012, 0.012, 8, 0, 4.1, 0, 0xe8dcb8, { rough: 0.8, seg: 6 });
     const clip = group(downline, 0, 1.1, 0);
-    const clipRing = torus(clip, 0.14, 0.01, 0, 0, 0, BRDS_ACCENT, { emissive: BRDS_ACCENT, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 20 });
+    const clipRing = torus(clip, 0.14, 0.01, 0, 0, 0, BRDS_ACCENT_BRUNDERWATER, { emissive: BRDS_ACCENT_BRUNDERWATER, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 20 });
     clipRing.rotation.x = Math.PI / 2;
     holoTag(clip, "downline clip", 0, 0.2, 0, { css: BRDS_CSS, w: 0.26 });
     reg(hits, clip, "downline-clip");
@@ -374,7 +374,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
     reg(hits, bag, "survey-bag");
     hose(g, [[-3.6, 1.2, 2.5], [-2.8, 0.25, 2.0], [-1.2, 0.2, 1.6], [-0.2, 0.3, 1.4], [0.1, 0.9, 1.4]], 0.03, 0xf2c14b, { steps: 16, rough: 0.8 });
     const stageCheck = group(g, -3.4, 1.4, 2.1);
-    const stageRing = torus(stageCheck, 0.2, 0.01, 0, 0, 0, BRDS_ACCENT, { emissive: BRDS_ACCENT, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 24 });
+    const stageRing = torus(stageCheck, 0.2, 0.01, 0, 0, 0, BRDS_ACCENT_BRUNDERWATER, { emissive: BRDS_ACCENT_BRUNDERWATER, ei: 1.6, rough: 0.4, cast: false, seg: 6, seg2: 24 });
     void stageRing;
     holoTag(stageCheck, "stage — check in", 0, 0.3, 0, { css: BRDS_CSS, w: 0.3 });
     reg(hits, stageCheck, "stage-checkin");

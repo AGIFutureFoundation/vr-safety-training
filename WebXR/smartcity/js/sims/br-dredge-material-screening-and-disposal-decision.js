@@ -5,7 +5,7 @@ import {
   surfaceTexture, texturedMat, deckPlateFace, waterFace,
 } from "../citykit.js";
 import { excavator } from "../../../shared/equipment.js";
-import { deckBarge, workboat } from "../../../shared/fleet.js";
+import { spudBarge, workboat } from "../../../shared/fleet.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Dredge Material Screening & Disposal Decision VR — SF Bay
@@ -246,7 +246,7 @@ export const SIM_BR_DREDGE_MATERIAL_SCREENING_AND_DISPOSAL_DECISION = {
     reg(hits, underHit, "under-the-bucket");
 
     // ------------------------------------------------------------ the scow
-    const scow = deckBarge(g, 3.2, -0.6, -7.6, { ry: Math.PI / 2, livery: { fleetName: "BAY WORKS", unitNumber: "SCOW 4" } });
+    const scow = spudBarge(g, 3.2, -0.6, -7.6, { ry: Math.PI / 2, livery: { fleetName: "BAY WORKS", unitNumber: "SCOW 4" } });
     void scow;
     const load = box(g, 7.5, 0.5, 4.4, 3.2, 1.2, -7.6, 0x5a5448, { rough: 0.95 });
     const blackPatch = box(g, 1.8, 0.06, 1.4, 1.6, 1.48, -6.4, 0x141414, { rough: 0.2, metal: 0.5, emissive: 0x2a1a3a, ei: 0.3 });

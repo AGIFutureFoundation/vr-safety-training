@@ -4,7 +4,7 @@ import {
   CITY, stationPad, holoTag, standingFigure, reg,
   surfaceTexture, texturedMat, deckPlateFace, waterFace,
 } from "../citykit.js";
-import { workboat, deckBarge } from "../../../shared/fleet.js";
+import { workboat, spudBarge } from "../../../shared/fleet.js";
 import { excavator } from "../../../shared/equipment.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -254,7 +254,7 @@ export const SIM_BR_TURBIDITY_CURTAIN_DEPLOYMENT = {
     ropeWrap.visible = false;
 
     // ------------------------------------------------ barge and excavator
-    const barge = deckBarge(g, -1.0, -0.6, -11.0, { ry: Math.PI / 2 });
+    const barge = spudBarge(g, -1.0, -0.6, -11.0, { ry: Math.PI / 2 });
     void barge;
     const exc = excavator(g, -1.2, 0.95, -11.0, { ry: -Math.PI / 2 });
     const { house } = exc.userData.parts;

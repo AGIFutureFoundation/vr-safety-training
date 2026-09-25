@@ -15820,5 +15820,845 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-dive-site-hazard-assessment-and-jsa",
+    "index": "318",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as dive supervisor, running the site hazard assessment and job safety analysis for a Bay restoration dive with the tender, the standby diver and an Inlandboatmen's Union deckhand",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby, the emergency aid list, the team briefing and the warning signal), 29 CFR 1910.420 the employer's safe practices manual and 29 CFR 1910.410 the qualified dive team; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Dive Site Hazard Assessment & JSA",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Site Hazard Assessment & JSA VR",
+    "tagline": "Before anyone dresses: the JSA opened with the whole team, the outfall intake and the pile hammer found, the current read against the plan, the sheen and the discharge notice seen, the pump station locked out on the radio while the hammer starts up next door, the decon set, the boat's key pulled, the flag up, the oxygen at the ladder, the downline lowered while a kayak paddles into the site, the emergency list confirmed, the read-backs heard and the JSA signed and logged — every step in a PFD",
+    "accent": 15246141,
+    "accentCss": "#e8a33d",
+    "parSeconds": 300,
+    "badge": {
+      "id": "site-read-first",
+      "name": "Site Read First",
+      "note": "Every hazard on the site named, controlled and signed for before a diver was dressed, and never a PFD off on deck"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Assessment",
+      "currency": "SOUNDING",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Supervisor",
+        "Site Assessment Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-surface-supplied-dive-station-setup",
+    "index": "319",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as lead diver setting up a surface-supplied air dive station on a Bay workboat, with the dive supervisor, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; supply, depth and time per the dive plan",
+    "name": "Surface-Supplied Dive Station Setup",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Surface-Supplied Dive Station Setup VR",
+    "tagline": "An hour before the first dive: the setup taken from the supervisor, the compressor intake run upwind, the filter and the belt guard found, the volume tank drained, the primary and secondary lined up, the bailout read, the helmet's non-return valve proven while the crew boat's exhaust drifts over the intake, the umbilical's pneumo and comms ends found, the panel brought up steady while the compressor overheats, the pneumo zeroed, the standby's rig staged and the station logged ready — every step in a PFD",
+    "accent": 7321576,
+    "accentCss": "#6fb7e8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-air-station",
+      "name": "Clean Air Station",
+      "note": "Intake upwind, condensate out, both supplies proven and the non-return valve holding before a diver dressed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Station Setup",
+      "currency": "CHARGE",
+      "ranks": [
+        "Tender",
+        "Diver-Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Station Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-underwater-debris-survey-and-mapping",
+    "index": "320",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a surface-supplied debris survey for a Bay restoration removal plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver, termination of the dive) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; hazardous debris handled per the work plan",
+    "name": "Underwater Debris Survey & Mapping",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Debris Survey & Mapping VR",
+    "tagline": "On the bottom before anything is lifted: on-bottom report, the baseline's bearing set, the tape run out to the far stake, the baseline swum steady while the silt blows out the visibility, the drum and the battery found and left alone, the offset read, the item floated and written up, the rebar and the skiff found, position held while fishing line wraps a fin, the hazards reported for the work plan, the survey bag sent up and the map read up for the dive log",
+    "accent": 8378024,
+    "accentCss": "#7fd6a8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "mapped-not-moved",
+      "name": "Mapped, Not Moved",
+      "note": "Every item placed on the baseline and written up, and nothing hazardous touched, lifted or opened on the bottom"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Debris Survey",
+      "currency": "CHAINAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Debris Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-underwater-sediment-core-sampling",
+    "index": "321",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver taking push cores of Bay sediment for a restoration's sampling plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, termination of the dive), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan; the sediment handled per the sampling and work plans",
+    "name": "Underwater Sediment Core Sampling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Sediment Core Sampling VR",
+    "tagline": "On the bottom at the sampling station: on-bottom report, the cable and the buried metal found, the tube carried to a clear spot, the core pushed steady while the gas supply stops, the top capped before the bottom, the core drawn out while the supervisor calls a recall, the recovery read, the core labelled and latched in the rack, yourself checked for contamination, the rack sent up the downline and the core log read up for the chain of custody",
+    "accent": 13215850,
+    "accentCss": "#c9a86a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-core",
+      "name": "Clean Core",
+      "note": "A full, capped, labelled core from a clear spot, the bailout used without a pause and never a bare hand in the mud"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Core Sampling",
+      "currency": "CORE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Sampling Diver",
+        "Lead Sampling Diver",
+        "Core Sampling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-derelict-gear-recovery-dive",
+    "index": "322",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver recovering derelict fishing gear for a Bay restoration, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver) and 29 CFR 1910.420 the employer's safe practices manual for lift bag and cutting work; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Derelict Gear Recovery Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
+    "tagline": "On the bottom beside the ghost net: on-bottom report, the billowing net and the taut groundline found, station held up-current while a panel of net wraps the umbilical, the live crabs let out of the pot, the net cut free from the pile, bagged and cinched, the lift bag filled to just neutral, the shackle and the lift line checked, the pot walked to the downline while the bag tries to run, the pot's tag read, the net sent up and the recovery read up for the dive log",
+    "accent": 14711391,
+    "accentCss": "#e07a5f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gear-out-diver-clear",
+      "name": "Gear Out, Diver Clear",
+      "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Gear Recovery",
+      "currency": "MESH",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Recovery Diver",
+        "Lead Recovery Diver",
+        "Gear Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-hyperbaric-chamber-standby",
+    "index": "323",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as chamber operator standing by a deck decompression chamber during a Bay restoration dive, with the dive supervisor, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (decompression chambers), 29 CFR 1910.423 post-dive procedures (the recompression chamber and the diver's condition) and 29 CFR 1910.440 the dive record; ASME PVHO-1 pressure vessels for human occupancy; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; pressures, times and treatment per the tables the supervisor holds, the chamber manual and the diving physician",
+    "name": "Hyperbaric Chamber Standby",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Hyperbaric Chamber Standby VR",
+    "tagline": "The chamber ready before the diver needs it: the standby brief taken, the door seal and the lighter found, the air lined up, the chamber taken to test pressure and held for leaks while the oxygen climbs, the breathing masks checked, vented to surface before the door opens, the medical kit locked in, the stopwatches set, the diver blown down at the tables' rate while they report a painful shoulder, the viewport watched, and the chamber log written — every step in a PFD",
+    "accent": 10325232,
+    "accentCss": "#9d8cf0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "chamber-ready",
+      "name": "Chamber Ready",
+      "note": "The chamber tested, clean of fire load and manned at the console for every minute the diver was in it, and never a door opened under pressure"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chamber Standby",
+      "currency": "LOCK",
+      "ranks": [
+        "Outside Tender",
+        "Inside Tender",
+        "Chamber Operator",
+        "Lead Chamber Operator",
+        "Chamber Standby Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dive-tender-and-umbilical-management",
+    "index": "324",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 diver-tender keeping a surface-supplied diver's umbilical on a Bay restoration dive, with the dive supervisor, the diver and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.425 surface-supplied air diving (each diver continuously tended, the standby diver), 29 CFR 1910.422 procedures during the dive and 29 CFR 1910.423 post-dive procedures (the diver's condition); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the employer's safe practices manual for line-pull signals; depth, gas, bottom time and working radius per the dive plan",
+    "name": "Dive Tender & Umbilical Management",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Tender & Umbilical Management VR",
+    "tagline": "The diver's line for the whole dive: the tender brief taken, the harness strap and the strain relief found, the neck clamp latched and pinned, the umbilical led over the roller, paid out steady while a bight drifts toward the crew boat's outboards, the times called, the diver felt working while the standby is ordered dressed, the marks read against the plan, the wash-down opened, the chafe and the kink found, the diver helped out and watched, the umbilical flaked and the log written — every step in a PFD",
+    "accent": 6277352,
+    "accentCss": "#5fc8e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-untended",
+      "name": "Never Untended",
+      "note": "The diver's umbilical in the tender's hands from the ladder to the flake box, never wrapped, tied off or stood in, and never a slack bight near a propeller"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tending",
+      "currency": "FATHOM LINE",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Diver-Tender",
+        "Lead Tender",
+        "Tending Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-derelict-vessel-salvage-rigging",
+    "index": "325",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 (UBC) salvage rigger on a crane barge, with an IUOE Local 3 crane operator in the cab and an Inlandboatmen's Union (IBU) deckhand on the skiff",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 (UBC) rigging and marine construction training; IUOE Local 3 crane operator training and NCCCO certification; Inlandboatmen's Union (IBU) deck and skiff practice; OSHA 29 CFR 1926.1437 cranes on barges and 29 CFR 1926.106 work over water; ASME B30.8 floating cranes, ASME B30.9 slings and ASME B30.26 rigging hardware; USCG 33 CFR 153 discharge removal under the Area Contingency Plan; NOAA Office of Response and Restoration spill guidance; the removal authorised under the BCDC permit and the salvage plan",
+    "name": "Derelict Vessel Salvage Rigging",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Derelict Vessel Salvage Rigging VR",
+    "tagline": "A sunken derelict lifted from the Bay: PFD on at the ladder head, the salvage plan read, the wreck surveyed from the barge, boom closed round her fuel, the slings inspected and the radius read off the chart, the slings passed at the marked points and shackled, tag lines on, the fall zone flagged, a strain taken through a hull still full of water, the tag line held as she breaks the surface through a tide that sets the skiff in, and the lift logged",
+    "accent": 14256683,
+    "accentCss": "#d98a2b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-under-the-hook",
+      "name": "Never Under The Hook",
+      "note": "Nobody under the load, nobody aboard the wreck, no sling on a rotten cleat, and both the waterlogged hull and the drifting skiff answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Salvage Deck",
+      "currency": "SHACKLE",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Lead Rigger",
+        "Salvage Foreman",
+        "Salvage Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-workboat-crane-lift-from-water",
+    "index": "326",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand qualified on a workboat's knuckle-boom crane, with a second IBU deckhand on the tag line, the master at the helm and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and crane practice; MEBA engineering watch; ASME B30.22 articulating boom cranes and ASME B30.9 slings; OSHA 29 CFR 1926.1437 cranes afloat and 29 CFR 1926.106 work over water; USCG 46 CFR 25 lifesaving equipment on the workboat; NOAA marine forecast for the sea state; debris removal under the BCDC permit and the vessel's crane manual",
+    "name": "Workboat Crane Lift From Water",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
+    "tagline": "A waterlogged drift log lifted aboard a workboat: PFD and gloves on at the wheelhouse door, the lift plan read, the crane walked, hydraulics opened, the chart read for this boat, the choker passed, tag line and dunnage set, the swing path cleared, the log hoisted through the surface as a swell slackens the hook, swung inboard on the tag line through a roll that sends it at the rail, landed, lashed and logged",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 290,
+    "badge": {
+      "id": "heavier-out-of-the-water",
+      "name": "Heavier Out Of The Water",
+      "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crane Deck",
+      "currency": "PICK",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Crane Deckhand",
+        "Lead Deckhand",
+        "Deck Crane Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-debris-skimmer-vessel-operations",
+    "index": "327",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand running the conveyor and sorting the basket on a debris skimmer, with the master at the helm, a MEBA engineer on watch and an IBU skiff herding the debris line",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice; MEBA engineering watch; OSHA 29 CFR 1910.147 lockout of the conveyor's hydraulics and 29 CFR 1910.212 guarding; OSHA 29 CFR 1910.1030 sharps and 29 CFR 1910.120 HAZWOPER awareness for unknown containers; OSHA 29 CFR 1910.138 hand protection; USCG 46 CFR 25 lifesaving equipment aboard; NOAA marine forecast and NOAA Fisheries marine mammal guidance; trash recovery reported under the Regional Water Quality Control Board's trash provisions",
+    "name": "Debris Skimmer Vessel Operations",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Debris Skimmer Vessel Operations VR",
+    "tagline": "Working a storm's trash line on the Bay: PFD and cut gloves on at the boarding gate, the work plan read, the conveyor walked, sweeps swung out and the conveyor set to depth, the belt matched to the boat through an unknown drum riding up it, the basket sorted for sharps and a battery, a jam cleared under lockout, the conveyor raised as a harbor seal surfaces between the sweeps, decon, sweeps stowed and the haul tallied",
+    "accent": 3129247,
+    "accentCss": "#2fbf9f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-sorted-by-hand",
+      "name": "Nothing Sorted By Hand",
+      "note": "No hand in the belt, no sharp touched, no drum opened, no step onto the conveyor, and both the drum and the seal answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Skimmer Deck",
+      "currency": "HAUL",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Conveyor Hand",
+        "Lead Deckhand",
+        "Skimmer Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-boom-towing-between-two-vessels",
+    "index": "328",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand on the lead workboat of a two-boat boom tow, with an IBU crew on the skiff towing the other leg and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and spill response practice; MEBA engineering watch; OSHA 29 CFR 1910.120 HAZWOPER for oil spill responders; EPA National Contingency Plan (40 CFR 300) and the USCG Area Contingency Plan, with discharge removal under 33 CFR 153; NIMS ICS incident command; NOAA Office of Response and Restoration spill guidance; USCG 46 CFR 25 lifesaving equipment and a lookout kept under the Inland Navigation Rules",
+    "name": "Boom Towing Between Two Vessels",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Boom Towing Between Two Vessels VR",
+    "tagline": "Two boats towing boom in a U through a fresh sheen: PFD and oil-resistant gloves on, the tow plan read, the bridle and connector walked, the air read at the rail, the tow line made fast and paid out, a radio check with the skiff, the U held on the capstan through oil escaping under the apex, splash-over and a twisted section spotted, the apex buoyed for the skimmer, tension held as the skiff's outboard quits, oiled waste bagged and the tow logged",
+    "accent": 15769648,
+    "accentCss": "#f0a030",
+    "parSeconds": 300,
+    "badge": {
+      "id": "the-u-held",
+      "name": "The U Held",
+      "note": "Never in the bight, never a line near the screw, no flame near the slick, no hand in the oil, and both the escaping oil and the dead outboard answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boom Tow",
+      "currency": "SWEEP",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Boom Hand",
+        "Lead Deckhand",
+        "Boom Tow Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-barge-loading-of-contaminated-sediment",
+    "index": "329",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) barge deckhand loading contaminated sediment at a pier, with an IUOE Local 3 excavator operator and LIUNA Local 261 hazmat laborers on the pier",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) barge deck practice; IUOE Local 3 excavator operation; LIUNA Local 261 hazmat laborer training; OSHA 29 CFR 1910.120 HAZWOPER under the site health and safety plan; OSHA 29 CFR 1918 longshoring and 29 CFR 1926.106 work over water; RCRA waste determination and the disposal destination per the work plan; no discharge from the barge under the Regional Water Quality Control Board's requirements and the BCDC permit",
+    "name": "Barge Loading of Contaminated Sediment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Barge Loading of Contaminated Sediment VR",
+    "tagline": "Contaminated sediment loaded from a pier into a lined hopper barge: PFD over coveralls at the ladder head, the loading plan read, the liner and scuppers walked, the spill apron rigged across the gap, the spring line made fast, a radio check with the operator, the barge loaded level through a bucket spilling over her far side, the deck and coaming walked, the spring line tended as the load slumps and she lists, her drafts read against the plan, the hopper covered, decon and the load logged",
+    "accent": 12093002,
+    "accentCss": "#b8864a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "loaded-level",
+      "name": "Loaded Level",
+      "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing, and both the spill and the list answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hopper Deck",
+      "currency": "LOAD",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Barge Hand",
+        "Lead Deckhand",
+        "Barge Loading Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-spoils-dewatering-pad",
+    "index": "BR-D1",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+    "name": "Dredge Spoils Dewatering Pad",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+    "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+    "accent": 12159566,
+    "accentCss": "#b98a4e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-unfiltered",
+      "name": "Nothing Back Unfiltered",
+      "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decant Control",
+      "currency": "CELL",
+      "ranks": [
+        "Pad Hand",
+        "Decant Tender",
+        "Pad Lead",
+        "Rehandle Foreman",
+        "Decant Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-turbidity-curtain-deployment",
+    "index": "BR-D2",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+    "name": "Turbidity Curtain Deployment",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+    "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "closed-loop",
+      "name": "Closed Loop",
+      "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Curtain Line",
+      "currency": "SECTION",
+      "ranks": [
+        "Float Hand",
+        "Curtain Hand",
+        "Curtain Lead",
+        "Containment Foreman",
+        "Curtain Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-sediment-chain-of-custody-and-lab-prep",
+    "index": "BR-D3",
+    "domain": "Environmental",
+    "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+    "name": "Sediment Chain of Custody & Lab Prep",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+    "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+    "accent": 9418842,
+    "accentCss": "#8fb85a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "unbroken-custody",
+      "name": "Unbroken Custody",
+      "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Custody Bench",
+      "currency": "JAR",
+      "ranks": [
+        "Bench Hand",
+        "Sample Tech",
+        "Field Custodian",
+        "Sample Coordinator",
+        "Custody Bench Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-water-quality-sonde-calibration-and-deploy",
+    "index": "BR-D4",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+    "name": "Water Quality Sonde Calibration & Deploy",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+    "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+    "accent": 5226928,
+    "accentCss": "#4fc1b0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "defensible-number",
+      "name": "Defensible Number",
+      "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sonde Deck",
+      "currency": "READING",
+      "ranks": [
+        "Probe Hand",
+        "Monitoring Tech",
+        "Sonde Lead",
+        "Water Quality Coordinator",
+        "Sonde Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+    "index": "BR-D5",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+    "name": "Legacy Mercury & PCB Hotspot Handling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+    "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+    "accent": 12624088,
+    "accentCss": "#c0a0d8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "kept-apart",
+      "name": "Kept Apart",
+      "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hotspot Cell",
+      "currency": "CUT",
+      "ranks": [
+        "Hazmat Hand",
+        "Cut Signaller",
+        "Hotspot Lead",
+        "Remediation Foreman",
+        "Hotspot Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-trash-capture-device-service",
+    "index": "BR-D6",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+    "name": "Trash Capture Device Service",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Trash Capture Device Service VR",
+    "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+    "accent": 14721088,
+    "accentCss": "#e0a040",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-in",
+      "name": "Nothing Back In",
+      "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Net Service",
+      "currency": "BAG",
+      "ranks": [
+        "Net Hand",
+        "Tag Line Hand",
+        "Service Lead",
+        "Stormwater Foreman",
+        "Net Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-material-screening-and-disposal-decision",
+    "index": "BR-D7",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the material screener; IUOE Local 3 operating engineer apprenticeship for the dredge's excavator; the DMMO suitability determination for each dredge unit and the Army Corps Section 404 permit conditions it sits under; the Regional Water Quality Control Board's Section 401 water quality certification; BCDC permit conditions for the placement sites; OSHA HAZWOPER, 29 CFR 1910.120, for screening and sampling material that may be contaminated; EPA QA/G-5 chain-of-custody practice for the unexpected-material sample; RCRA 40 CFR 262 and DTSC rules if the work plan's profile makes any of it hazardous waste",
+    "name": "Dredge Material Screening & Disposal Decision",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Material Screening & Disposal Decision VR",
+    "tagline": "Matching every bite to the decision already made about it: the work plan's dredge-unit map and the suitability determination read, the dredge's position confirmed inside the unit, the scow walked and its drain shut, bites called while unexpected oily material comes up, the material sampled while the tug wants to leave, it reported in order, the scow placarded on hold, its draft read, the load ticket written, the deck walked, logged and the crew checked in",
+    "accent": 10128088,
+    "accentCss": "#9a8ad8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "held-for-the-decision",
+      "name": "Held For The Decision",
+      "note": "Stopped the dig on material the characterisation did not describe, sampled it under custody and kept the scow from leaving until the work plan's people decided"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scow Screen",
+      "currency": "BITE",
+      "ranks": [
+        "Deck Hand",
+        "Screener",
+        "Senior Screener",
+        "Dredge Inspector",
+        "Scow Screen Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-cold-water-immersion-and-mob-recovery",
+    "index": "330",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand recovering a crewmate from cold Bay water by the vessel's man-overboard drill, with the master at the helm and a MEBA engineer on deck",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice and drills; MEBA engineering; IMO STCW basic safety training in personal survival; USCG 46 CFR 160 approved personal flotation devices and 46 CFR 25 lifesaving equipment; OSHA 29 CFR 1926.106 and 29 CFR 1915.158 lifesaving equipment where work is over water; FCC 47 CFR 80 marine VHF for the distress call; the vessel's own man-overboard drill on her station bill",
+    "name": "Cold Water Immersion & MOB Recovery",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Cold Water Immersion & MOB Recovery VR",
+    "tagline": "A crewmate over the side into cold Bay water, recovered by the vessel's drill: inflatable PFD on and strapped at the door, the rescue gear checked, the station bill read, the alarm raised and the position marked, the ring buoy thrown, eyes kept on him as the wake takes the buoy, the master called alongside, the sling passed, the davit taken up and a horizontal lift as he goes limp, hypothermia signs checked on deck, the distress call made and the drill logged",
+    "accent": 5214176,
+    "accentCss": "#4f8fe0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "eyes-on-him",
+      "name": "Eyes On Him",
+      "note": "Nobody jumped in, nobody hauled him over the rail, the spotter never looked away, he came up horizontal and was never walked, and both the lost buoy and the limp lift answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rescue Deck",
+      "currency": "BUOY",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Rescue Hand",
+        "Lead Deckhand",
+        "MOB Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

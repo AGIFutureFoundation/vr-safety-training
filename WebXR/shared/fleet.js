@@ -1663,7 +1663,6 @@ export function workboat(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.workboat.footprint, livery: lv, draft: 0.45 });
 }
 
-<<<<<<< HEAD
 // ------------------------------------------------------- marine: skiff
 
 /**
@@ -2025,8 +2024,9 @@ export function derelictBoat(parent, x, y, z, opts = {}) {
   const vent = rig.part("fuelVent", -hw + 0.05, 1.9, Z(7.2));
   cyl(vent, 0.04, 0.04, 0.06, 0, 0, 0, ...FL.chrome, { seg: 10 });
   return flDone(rig, { footprint: FLEET_BUDGET.derelictBoat.footprint });
-=======
-// -------------------------------------------------------------- deck barge
+}
+
+// -------------------------------------------------------------- spud barge
 
 /**
  * Sectional spud barge, the small flat-deck work barge a bay restoration job
@@ -2040,10 +2040,10 @@ export function derelictBoat(parent, x, y, z, opts = {}) {
  * spuds [spudP, spudS], bitts [bittFP, bittFS, bittAP, bittAS], coaming,
  * sump, navLights {portLight, starboardLight}.
  */
-export function deckBarge(parent, x, y, z, opts = {}) {
+export function spudBarge(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0x3d4f5c, fleetName: "BAY WORKS", unitNumber: "SB-12", accent: 0xe0b12a });
   const L = 12.2, W = 6.1, D = 1.52, Z = (s) => L / 2 - s;
-  const rig = flRig(parent, x, y, z, opts, "deckBarge");
+  const rig = flRig(parent, x, y, z, opts, "spudBarge");
   const S = rig.shell, hw = W / 2;
   // Hull: a box with a raked bow, three sections, the joins painted.
   flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
@@ -2099,8 +2099,7 @@ export function deckBarge(parent, x, y, z, opts = {}) {
   cyl(stbd, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
   box(stbd, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.green);
   rig.set("lights", nav);
-  return flDone(rig, { footprint: FLEET_BUDGET.deckBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
->>>>>>> worktree-agent-ad80d529671d7e0f4
+  return flDone(rig, { footprint: FLEET_BUDGET.spudBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
 }
 
 // ------------------------------------------------------------------ budget
@@ -2132,7 +2131,6 @@ export const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
-<<<<<<< HEAD
   skiff: { build: "skiff", meshes: 17, footprint: [2.11, 1.79, 5.69], parts: ["outboard", "console", "killSwitch", "bowCleat", "sternCleat", "navLights", "portLight", "starboardLight", "sternLight"], note: "5.2 m aluminium centre-console skiff" },
   deckBarge: { build: "deckBarge", meshes: 13, footprint: [6.24, 2.7, 16], parts: ["bitts", "ladder"], note: "16 m flat steel deck barge, raked ends" },
   "deckBarge:hopper": { build: "deckBarge", opts: { kind: "hopper" }, meshes: 16, footprint: [6.24, 3.1, 16], parts: ["bitts", "ladder", "coaming", "liner", "load"], note: "deck barge with a lined sediment hopper" },
@@ -2140,18 +2138,12 @@ export const FLEET_BUDGET = {
   skimmerVessel: { build: "skimmerVessel", meshes: 20, footprint: [4.22, 4.1, 12.21], parts: ["conveyor", "basket", "sweepArms", "tankHatch", "wheelhouseDoor", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "11 m catamaran debris and oil skimmer" },
   deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
   derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
-=======
-  deckBarge: { build: "deckBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
->>>>>>> worktree-agent-ad80d529671d7e0f4
+  spudBarge: { build: "spudBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
-<<<<<<< HEAD
   bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
-  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat,
-=======
-  bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat, deckBarge,
->>>>>>> worktree-agent-ad80d529671d7e0f4
+  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };

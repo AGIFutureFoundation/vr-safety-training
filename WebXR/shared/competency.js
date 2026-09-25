@@ -108,6 +108,8 @@ export const STANDARDS = Object.fromEntries([
   S("osha-1910-1200", "OSHA", "29 CFR 1910.1200 Hazard communication", ["Hospitality", "Health & Clinical", "Garment Trades"]),
   S("hipaa-privacy-rule", "HHS", "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)", ["Dental & Oral Health", "Emergency Services", "Community Environmental Justice", "Trade Skills Simulator"]),
   S("osha-1910-1030", "OSHA", "29 CFR 1910.1030 Bloodborne pathogens", ["Health & Clinical", "Hospitality"]),
+  S("osha-1910-subpart-t", "OSHA", "29 CFR 1910 Subpart T \u2014 Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("adci-consensus-standards", "ADCI", "Association of Diving Contractors International \u2014 International Consensus Standards for Commercial Diving and Underwater Operations", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"], "unverified"),
   S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
   S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
   S("osha-1910-212", "OSHA", "29 CFR 1910.212 General requirements for all machines", ["Manufacturing", "Garment Trades"]),
@@ -578,6 +580,20 @@ export const PROGRAMME_COMPETENCIES = [
       "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
     ],
     require: 5,
+  },
+  {
+    id: "bay-restoration-maritime-underwater",
+    title: "Work the water side of a Bay restoration and clean-up job: dive, vessel, sediment, shoreline and monitoring crews",
+    kind: "programme",
+    standards: ["osha-1910-subpart-t", "adci-consensus-standards", "osha-1910-120", "usace-section-404"],
+    stations: [
+      "br-dive-site-hazard-assessment-and-jsa", "br-surface-supplied-dive-station-setup", "br-underwater-debris-survey-and-mapping", "br-underwater-sediment-core-sampling",
+      "br-derelict-gear-recovery-dive", "br-hyperbaric-chamber-standby", "br-dive-tender-and-umbilical-management", "br-derelict-vessel-salvage-rigging",
+      "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
+      "br-cold-water-immersion-and-mob-recovery", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment", "br-sediment-chain-of-custody-and-lab-prep",
+      "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision"
+    ],
+    require: 6,
   },
 ];
 

@@ -5,7 +5,7 @@ import {
   surfaceTexture, texturedMat, pavingFace, waterFace, mudflatFace,
 } from "../citykit.js";
 import { excavator } from "../../../shared/equipment.js";
-import { deckBarge } from "../../../shared/fleet.js";
+import { spudBarge } from "../../../shared/fleet.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Dredge Spoils Dewatering Pad VR — SF Bay Restoration &
@@ -231,7 +231,7 @@ export const SIM_BR_DREDGE_SPOILS_DEWATERING_PAD = {
     box(g, 16, 0.05, 0.12, 0, 0.42, -4.86, CITY.hiVis, { rough: 0.6 });
 
     // --------------------------------------------------------- barge alongside
-    const barge = deckBarge(g, 0.8, -0.6, -8.45, { ry: Math.PI / 2 });
+    const barge = spudBarge(g, 0.8, -0.6, -8.45, { ry: Math.PI / 2 });
     const bargeSpoils = box(g, 6.2, 0.55, 3.6, 0.6, 1.2, -8.45, 0xffffff, { rough: 0.98, cast: false });
     bargeSpoils.material = texturedMat(surfaceTexture((cx, w, h) => mudflatFace(cx, w, h, { base: "#3b342a", base2: "#2e2821", pools: 8 }), { repeat: 2, px: 256 }), { rough: 0.98, color: 0xb8ac98 });
     void barge;

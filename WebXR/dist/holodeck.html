@@ -5339,6 +5339,445 @@ function workboat(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.workboat.footprint, livery: lv, draft: 0.45 });
 }
 
+// ------------------------------------------------------- marine: skiff
+
+/**
+ * Aluminium centre-console skiff: 5.2 m × 2.0 m, keel at y 0, gunwale at
+ * about 0.8 m, console and grab rail to 1.4 m, one outboard on the transom.
+ * Used as a rescue boat, a boom-tending boat and a survey tender. A station
+ * floats it by setting y to minus its draft (about 0.3 m). Parts: outboard,
+ * console, killSwitch, bowCleat, sternCleat, navLights {portLight,
+ * starboardLight, sternLight}. Port is +X, as the driver's side is on the
+ * road vehicles: facing the bow (+Z), port is on the left.
+ */
+function skiff(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xc8ced4, fleetName: "HARBOR WORKS", unitNumber: "SK-1", accent: 0xe0592a });
+  const L = 5.2, W = 2.0, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "skiff", [0, 0, 0.24]);
+  const S = rig.shell;
+  const plan = (k) => [[k * hw, -L / 2], [k * hw, L / 2 - 1.5], [k * hw * 0.7, L / 2 - 0.55], [k * hw * 0.25, L / 2 - 0.1], [0, L / 2], [-k * hw * 0.25, L / 2 - 0.1], [-k * hw * 0.7, L / 2 - 0.55], [-k * hw, L / 2 - 1.5], [-k * hw, -L / 2]];
+  flPlan(S, plan(0.78), 0.32, 0, 0, 0, ...FL.alu, { bevel: 0.05 });
+  flPlan(S, plan(1.0), 0.48, 0, 0.3, 0, lv.colour, { rough: 0.35, metal: 0.6, finish: "brushed", bevel: 0.03 });
+  const side = flLiveryMat(lv, "skiff", { title: lv.fleetName, sub: lv.unitNumber, titleScale: 0.34, titleY: 0.42, stripeY: 0.8 });
+  for (const sx of [1, -1]) flPanel(S, 2.8, 0.36, sx * (hw + 0.012), 0.56, Z(2.2), side, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.2, 0.025, L - 1.3, 0, 0.79, Z(L / 2 + 0.45), flTreadMat());
+  // Gunwale rub rail and the bow grab rail.
+  for (const sx of [1, -1]) flRod(S, 0.035, L - 1.2, sx * (hw + 0.02), 0.78, Z(L / 2 + 0.5), "z", ...FL.black);
+  flStrut(S, [0.55, 1.05, Z(0.6)], [-0.55, 1.05, Z(0.6)], 0.02, ...FL.alu);
+  // Centre console with its windscreen, and the leaning post behind it.
+  const con = rig.part("console", 0, 0.8, Z(2.6));
+  box(con, 0.62, 0.62, 0.55, 0, 0.31, 0, 0xe9ecee, { rough: 0.45, metal: 0.15, finish: "painted" });
+  flPanel(con, 0.58, 0.26, 0, 0.74, 0.2, flGlassMat(), "+z", 0.5);
+  const kill = rig.part("killSwitch", 0.2, 0.64, 0.28, con);
+  cyl(kill, 0.03, 0.03, 0.03, 0, 0, 0, ...FL.red, { seg: 10 });
+  box(S, 0.5, 0.5, 0.36, 0, 1.05, Z(3.25), 0x2b3138, { rough: 0.7, finish: "rubber" });
+  // Cleats, bow and stern.
+  const bc = rig.part("bowCleat", 0, 0.82, Z(0.35));
+  box(bc, 0.16, 0.04, 0.05, 0, 0.02, 0, ...FL.steel);
+  const sc = rig.part("sternCleat", 0.7, 0.82, Z(L - 0.2));
+  box(sc, 0.16, 0.04, 0.05, 0, 0.02, 0, ...FL.steel);
+  // Outboard on the transom: cowl, leg and skeg.
+  const ob = rig.part("outboard", 0, 0.62, Z(L) - 0.02);
+  box(ob, 0.4, 0.55, 0.5, 0, 0.45, -0.22, 0x1b1e22, { rough: 0.45, metal: 0.3, finish: "painted" });
+  box(ob, 0.12, 0.85, 0.18, 0, -0.2, -0.2, 0x1b1e22, { rough: 0.45, metal: 0.3 });
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", hw * 0.55, 0.9, Z(0.7), nav);
+  box(port, 0.06, 0.06, 0.08, 0, 0, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", -hw * 0.55, 0.9, Z(0.7), nav);
+  box(stbd, 0.06, 0.06, 0.08, 0, 0, 0, ...FL.green);
+  const stern = rig.part("sternLight", -0.6, 0.8, Z(L - 0.15), nav);
+  flRod(stern, 0.015, 0.9, 0, 0.45, 0, "y", ...FL.alu);
+  cyl(stern, 0.04, 0.04, 0.08, 0, 0.94, 0, ...FL.lamp, { seg: 10 });
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.skiff.footprint, livery: lv, draft: 0.3 });
+}
+
+// ----------------------------------------------------- marine: barges
+
+/**
+ * The shared hull of a deck barge: a box hull with raked bow and stern, a
+ * steel deck, hull-side livery with draft marks, four double bitts and a
+ * boarding ladder. `L`, `W`, `D` are length, beam and depth. Adds its parts
+ * to `rig` and returns the deck height.
+ */
+function flBargeHull(rig, lv, L, W, D, o = {}) {
+  const S = rig.shell, Z = (s) => L / 2 - s, hw = W / 2;
+  const rake = Math.min(1.8, L * 0.1);
+  flSide(S, [[0, D], [rake, 0.15], [rake + 0.4, 0], [L - rake - 0.4, 0], [L - rake, 0.15], [L, D]], W, 0, 0, Z(0), 0x3b4148, { rough: 0.62, metal: 0.45, finish: "painted", bevel: 0.05 });
+  const deckMat = flCanvasMat(`barge-deck:${L}x${W}`, 256, 256, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#6f757b"], [1, "#5b6167"]]);
+    noiseTexture(g, w, h, { density: 3200, alpha: 0.12 });
+    g.strokeStyle = "rgba(20,22,24,0.55)"; g.lineWidth = 2;
+    for (let i = 1; i < 4; i++) { g.beginPath?.(); g.moveTo?.(i * w / 4, 0); g.lineTo?.(i * w / 4, h); g.stroke?.(); }
+    for (let i = 1; i < 2; i++) { g.beginPath?.(); g.moveTo?.(0, i * h / 2); g.lineTo?.(w, i * h / 2); g.stroke?.(); }
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 4, alpha: 0.14 });
+  }, { rough: 0.7, metal: 0.4, repeat: [Math.max(1, Math.round(W / 3)), Math.max(1, Math.round(L / 4))] });
+  flPanel(S, W - 0.1, L - 0.1, 0, D + 0.012, 0, deckMat, "+y");
+  const side = flCanvasMat(`barge-side:${lv.key}`, 1024, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.05))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 1400, alpha: 0.06 });
+    g.fillStyle = "#f3f5f7"; g.textAlign = "center"; g.textBaseline = "middle";
+    flTextFit(g, `${lv.fleetName}  ${lv.unitNumber}`, w * 0.5, Math.round(h * 0.34), 800);
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w / 2, h * 0.4);
+    // Draft marks at each end: white numerals up the side, read at the waterline.
+    g.font = `700 ${Math.round(h * 0.16)}px Arial, sans-serif`;
+    for (const mx of [w * 0.05, w * 0.95]) for (let i = 0; i < 4; i++) g.fillText(String(2 + i * 2), mx, h * (0.9 - i * 0.22));
+    grimeOverlay(g, w, h, { blotches: 5, streaks: 8, alpha: 0.12 });
+  }, { rough: 0.6, metal: 0.35 });
+  for (const sx of [1, -1]) flPanel(S, L - 2 * rake - 0.2, D * 0.72, sx * (hw + 0.012), D * 0.55, 0, side, sx > 0 ? "+x" : "-x");
+  // Bullnose rub bar along each side at the deck edge.
+  for (const sx of [1, -1]) flRod(S, 0.07, L - 2 * rake, sx * (hw + 0.05), D - 0.08, 0, "z", 0x22262a, { rough: 0.7, metal: 0.4 });
+  const bitts = [];
+  for (const [bx, s] of [[hw - 0.5, 0.9], [-(hw - 0.5), 0.9], [hw - 0.5, L - 0.9], [-(hw - 0.5), L - 0.9]]) {
+    const b = rig.part(`bitt${bitts.length + 1}`, bx, D, Z(s));
+    for (const dz of [-0.2, 0.2]) cyl(b, 0.11, 0.12, 0.42, 0, 0.21, dz, 0x25292e, { rough: 0.55, metal: 0.5, seg: 12 });
+    box(b, 0.14, 0.05, 0.62, 0, 0.44, 0, 0xe8b02e, { rough: 0.5, metal: 0.3, finish: "painted" });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const ladder = rig.part("ladder", hw + 0.06, 0, Z(L / 2 - 1.5));
+  for (const dz of [-0.2, 0.2]) flRod(ladder, 0.018, D + 0.9, 0.02, (D + 0.9) / 2, dz, "y", ...FL.steel);
+  for (let r = 0; r < 5; r++) flRod(ladder, 0.014, 0.4, 0.02, D * (r + 0.5) / 5, 0, "z", ...FL.steel);
+  return D;
+}
+
+/**
+ * Flat steel deck barge, 16 m × 6 m × 1.8 m deep, raked both ends, four
+ * double bitts and a side ladder; `opts.kind: "hopper"` adds a lined
+ * sediment hopper — a coaming round the hold with a watertight liner and a
+ * load that a station raises as it fills (`load.scale.y`). A station floats
+ * it by setting y to minus the draft it wants. Parts: bitts, ladder, and for
+ * the hopper coaming, liner, load.
+ */
+function deckBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x31465c, fleetName: "BAY MARINE", unitNumber: "DB-12", accent: 0xe8b02e });
+  const L = 16, W = 6, D = 1.8;
+  const rig = flRig(parent, x, y, z, opts, "deckBarge");
+  flBargeHull(rig, lv, L, W, D);
+  if (opts.kind === "hopper") {
+    const HL = 10, HW = 4.6, HH = 1.3;
+    const co = rig.part("coaming", 0, D, 0);
+    for (const sx of [1, -1]) box(co, 0.12, HH, HL, sx * HW / 2, HH / 2, 0, 0x8a4a2a, { rough: 0.6, metal: 0.4, finish: "painted" });
+    for (const sz of [1, -1]) box(co, HW, HH, 0.12, 0, HH / 2, sz * HL / 2, 0x8a4a2a, { rough: 0.6, metal: 0.4, finish: "painted" });
+    const liner = rig.part("liner", 0, D + 0.02, 0);
+    box(liner, HW - 0.2, 0.02, HL - 0.2, 0, 0, 0, 0x1d2a22, { rough: 0.35, metal: 0.05 });
+    const load = rig.part("load", 0, D + 0.03, 0);
+    box(load, HW - 0.3, 1.0, HL - 0.4, 0, 0.5, 0, 0x4a3f33, { rough: 0.95, finish: "concrete" });
+    load.scale.y = 0.25;
+  }
+  return flDone(rig, { footprint: FLEET_BUDGET[opts.kind === "hopper" ? "deckBarge:hopper" : "deckBarge"].footprint, livery: lv, deckY: D });
+}
+
+/**
+ * Salvage crane barge: an 18 m spud barge carrying a revolving lattice-boom
+ * crane aft, its boom luffed over the bow. The crane's house slews on its
+ * turntable, the boom luffs about its foot pin, and the hook block hangs
+ * plumb under the boom tip on its fall — a separate part, so a station can
+ * lower it without it swinging with the boom. `opts.boomAngle` luffs the
+ * boom (radians above horizontal), `opts.slew` turns the house, and
+ * `opts.hookDrop` sets the fall; `userData.tip` is the boom tip in the
+ * builder's frame. Parts: house, boom, hook, hoistLine, counterweight,
+ * cabDoor, spuds, bitts, ladder.
+ */
+function salvageCraneBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3a3f46, fleetName: "BAY MARINE", unitNumber: "CB-4", accent: 0xe8b02e });
+  const L = 18, W = 7, D = 1.9, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "salvageCraneBarge");
+  flBargeHull(rig, lv, L, W, D);
+  // Spuds in their wells at the stern corners, pinned up.
+  const spuds = [];
+  for (const sx of [1, -1]) {
+    const sp = rig.part(`spud${spuds.length + 1}`, sx * (W / 2 - 0.55), D, Z(L - 0.55));
+    box(sp, 0.7, 0.9, 0.7, 0, 0.45, 0, 0x5b6167, { rough: 0.6, metal: 0.45, finish: "painted" });
+    box(sp, 0.42, 7.4, 0.42, 0, 1.9, 0, 0xe0892a, { rough: 0.5, metal: 0.4, finish: "painted" });
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Revolving crane: turntable, house, cab, A-frame gantry and counterweight.
+  const cz = Z(L - 4.2);
+  box(rig.shell, 2.6, 0.5, 2.6, 0, D + 0.25, cz, 0x2b3138, { rough: 0.6, metal: 0.5 });
+  const house = rig.part("house", 0, D + 0.5, cz);
+  box(house, 3.0, 1.9, 4.2, 0, 0.95, -0.4, 0xe8b02e, { rough: 0.45, metal: 0.3, finish: "painted" });
+  flBox(house, 1.0, 1.5, 1.3, 1.95, 0.95, 0.9, flCanvasMat("crane-cab", 128, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#f0c13a"], [1, "#d59e22"]]);
+    g.fillStyle = "#15191d"; g.fillRect(w * 0.08, h * 0.08, w * 0.84, h * 0.46);
+    flGlassPaint(g, w * 0.1, h * 0.1, w * 0.8, h * 0.42);
+  }));
+  const cabDoor = rig.part("cabDoor", 2.46, 0.3, 0.6, house);
+  box(cabDoor, 0.04, 1.3, 0.6, 0, 0.65, 0, 0xd59e22, { rough: 0.45, metal: 0.3, finish: "painted" });
+  cabDoor.userData.openAngle = 1.3;
+  for (const sx of [1, -1]) flStrut(house, [sx * 1.1, 1.9, -1.8], [sx * 0.6, 4.2, -1.2], 0.08, 0x2b3138, { rough: 0.5, metal: 0.5 });
+  const cw = rig.part("counterweight", 0, 0.2, -2.5, house);
+  box(cw, 2.8, 1.5, 0.9, 0, 0.75, 0, 0x2b3138, { rough: 0.6, metal: 0.4, finish: "painted" });
+  // Lattice boom: two chords each side with lacing, luffed by `angle`.
+  const len = 13, angle = opts.boomAngle ?? 0.75;
+  const boom = rig.part("boom", 0, 1.2, 1.1, house);
+  boom.rotation.x = -angle;
+  for (const sx of [1, -1]) for (const sy of [0, 0.9]) flRod(boom, 0.06, len, sx * 0.55 * (1 - sy * 0.3), sy, len / 2, "z", 0xe8b02e, { rough: 0.45, metal: 0.4, finish: "painted" });
+  for (let i = 1; i < 6; i++) for (const sx of [1, -1]) flStrut(boom, [sx * 0.55, 0, i * len / 6 - 1], [sx * 0.42, 0.9, i * len / 6 + 0.9], 0.03, 0xe8b02e, { rough: 0.45, metal: 0.4 });
+  box(boom, 1.0, 0.8, 0.6, 0, 0.45, len, 0x2b3138, { rough: 0.5, metal: 0.5 });
+  boom.userData.len = len; boom.userData.angle = angle;
+  // Pendants from the gantry to the tip, slewing with the house.
+  const reach = 1.1 + Math.cos(angle) * len, tipY = D + 0.5 + 1.2 + Math.sin(angle) * len;
+  flStrut(house, [0, 4.2, -1.2], [0, tipY - D - 0.5 + 0.9, reach], 0.03, 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  // `opts.slew` turns the house on its turntable (radians about Y, 0 = boom
+  // over the bow); the hook block hangs plumb under wherever the tip is.
+  const slew = opts.slew ?? 0;
+  house.rotation.y = slew;
+  const tipX = Math.sin(slew) * reach, tipZ = cz + Math.cos(slew) * reach;
+  const fall = opts.hookDrop ?? 5.5;
+  const hoist = rig.part("hoistLine", tipX, tipY, tipZ);
+  flRod(hoist, 0.02, fall, 0, -fall / 2, 0, "y", 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  const hook = rig.part("hook", tipX, tipY - fall, tipZ);
+  box(hook, 0.45, 0.6, 0.3, 0, -0.3, 0, 0xe8b02e, { rough: 0.45, metal: 0.4, finish: "painted" });
+  torus(hook, 0.13, 0.04, 0, -0.75, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 8, seg2: 14 });
+  return flDone(rig, { footprint: FLEET_BUDGET.salvageCraneBarge.footprint, livery: lv, deckY: D, tip: [tipX, tipY, tipZ] });
+}
+
+// ------------------------------------------------- marine: skimmer vessel
+
+/**
+ * Debris and oil skimming vessel: an 11 m aluminium catamaran with a bow
+ * conveyor that lowers into the water and carries floating debris up into a
+ * collection basket, two sweep arms that swing out to funnel a slick or a
+ * trash line to the bow, a recovered-product tank with its hatch, and the
+ * wheelhouse aft. A station floats it at about 0.6 m draft. Parts: conveyor
+ * (pivots at its deck end; rotation.x lowers it), basket, sweepArms
+ * [port, starboard] (rotation.y swings them out), tankHatch, wheelhouseDoor,
+ * navLights {portLight, starboardLight, mastheadLight}.
+ */
+function skimmerVessel(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x2a6f8f, fleetName: "BAY CLEANUP", unitNumber: "SV-2", accent: 0xf2c14b });
+  const L = 11, W = 4.2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "skimmerVessel", [0, 0, -0.6]);
+  const S = rig.shell;
+  // Twin demihulls and the bridging deck.
+  for (const sx of [1, -1]) {
+    const h = 0.55, cx = sx * (W / 2 - h);
+    flPlan(S, [[cx + h, -L / 2], [cx + h, L / 2 - 1.2], [cx, L / 2 - 0.1], [cx - h, L / 2 - 1.2], [cx - h, -L / 2]], 1.0, 0, 0, 0, lv.colour, { rough: 0.4, metal: 0.55, finish: "brushed", bevel: 0.05 });
+  }
+  const side = flLiveryMat(lv, "skimmer", { title: lv.fleetName, sub: lv.unitNumber, titleScale: 0.34, stripeY: 0.78 });
+  for (const sx of [1, -1]) flPanel(S, 5.6, 0.6, sx * (W / 2 + 0.012), 0.55, Z(5.4), side, sx > 0 ? "+x" : "-x");
+  flBox(S, W, 0.3, L - 1.6, 0, 1.12, Z((L + 1.6) / 2), 0xc8ced4, { rough: 0.4, metal: 0.6 });
+  flBox(S, W - 0.2, 0.02, L - 1.8, 0, 1.28, Z((L + 1.8) / 2), flTreadMat());
+  for (const sx of [1, -1]) flRod(S, 0.025, L - 2.6, sx * (W / 2 - 0.08), 2.0, Z(L / 2 + 1.1), "z", ...FL.alu);
+  for (const sx of [1, -1]) for (let s = 2.2; s < L - 0.5; s += 1.4) flRod(S, 0.022, 0.72, sx * (W / 2 - 0.08), 1.64, Z(s), "y", ...FL.alu);
+  // Recovered-product tank amidships, hatch on top.
+  box(S, 2.2, 1.0, 2.4, 0, 1.8, Z(5.3), 0x6f7a83, { rough: 0.5, metal: 0.45, finish: "painted" });
+  const hatch = rig.part("tankHatch", 0, 2.32, Z(5.3));
+  cyl(hatch, 0.32, 0.32, 0.08, 0, 0, 0, 0xe8b02e, { rough: 0.5, metal: 0.3, seg: 16 });
+  // Wheelhouse aft of the tank.
+  const wh0 = 7.0, wh1 = 9.4;
+  flSide(S, [[wh0, 1.3], [wh0 - 0.15, 2.5], [wh0 + 0.1, 3.2], [wh1, 3.2], [wh1, 1.3]], 2.4, 0, 0, Z(0), 0xf0f1ee, { rough: 0.4, metal: 0.2, finish: "painted", bevel: 0.04 });
+  const glass = flGlassMat();
+  flPanel(S, 2.0, 0.6, 0, 2.85, Z(wh0 - 0.03) + 0.05, glass, "+z", 0.43);
+  for (const sx of [1, -1]) flPanel(S, 1.8, 0.6, sx * 1.22, 2.7, Z(8.2), glass, sx > 0 ? "+x" : "-x");
+  flRod(S, 0.04, 0.8, 0, 3.6, Z(8.4), "y", ...FL.alu);
+  const door = rig.part("wheelhouseDoor", 1.21, 1.3, Z(9.1));
+  flBox(door, 0.04, 1.6, 0.62, 0, 0.8, 0.31, flDoorMat(lv, "L", { window: 0.4, marks: "none", body: 0xf0f1ee }));
+  door.userData.openAngle = 1.4;
+  // Bow conveyor between the hulls, pivoting at its deck end.
+  const conv = rig.part("conveyor", 0, 1.3, Z(1.4));
+  const beltMat = flCanvasMat("skimmer-belt", 128, 256, (g, w, h) => {
+    g.fillStyle = "#1b1e22"; g.fillRect(0, 0, w, h);
+    g.fillStyle = "#3a4046"; for (let yy = 0; yy < h; yy += 16) g.fillRect(4, yy, w - 8, 5);
+  }, { rough: 0.7, metal: 0.2 });
+  const CL = 2.6;
+  conv.rotation.x = opts.conveyorDown ? 0.55 : 0.05;
+  flBox(conv, 1.9, 0.08, CL, 0, 0, CL / 2, beltMat);
+  for (const sx of [1, -1]) box(conv, 0.08, 0.35, CL, sx * 1.0, 0.1, CL / 2, 0xe8b02e, { rough: 0.5, metal: 0.4, finish: "painted" });
+  const basket = rig.part("basket", 0, 1.3, Z(3.0));
+  box(basket, 2.0, 0.9, 1.2, 0, 0.45, 0, 0x7d858d, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  // Sweep arms, stowed fore-and-aft along each hull.
+  const arms = [];
+  for (const sx of [1, -1]) {
+    const arm = rig.part(sx > 0 ? "sweepPort" : "sweepStarboard", sx * (W / 2 - 0.1), 1.35, Z(2.2));
+    box(arm, 0.14, 0.14, 3.2, 0, 0, 1.5, 0xf2c14b, { rough: 0.5, metal: 0.3, finish: "painted" });
+    box(arm, 0.06, 0.5, 3.0, sx * 0.05, -0.3, 1.5, 0xe8722a, { rough: 0.7 });
+    arm.userData.deploy = sx * 0.9;
+    arms.push(arm);
+  }
+  rig.set("sweepArms", arms);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", 1.23, 3.1, Z(wh0 + 0.3), nav);
+  box(port, 0.08, 0.08, 0.1, 0, 0, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", -1.23, 3.1, Z(wh0 + 0.3), nav);
+  box(stbd, 0.08, 0.08, 0.1, 0, 0, 0, ...FL.green);
+  const mh = rig.part("mastheadLight", 0, 4.05, Z(8.4), nav);
+  cyl(mh, 0.05, 0.05, 0.1, 0, 0, 0, ...FL.lamp, { seg: 10 });
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.skimmerVessel.footprint, livery: lv, draft: 0.6 });
+}
+
+// ------------------------------------------------ marine: knuckle crane
+
+/**
+ * Marine knuckle-boom deck crane, pedestal mounted, for a workboat's or a
+ * barge's deck: slewing column, main boom, knuckle jib and hook on its fall,
+ * with the operator's lever bank on the pedestal. Stands at y 0 on the deck
+ * it is bolted to; the main boom is raised and the jib folded out forward
+ * (+Z). Nested parts pivot where the real ones do: `slew` turns about Y,
+ * `mainBoom` and `jib` luff about X, and `hook` hangs off the jib tip (a
+ * station keeps it plumb by countering the luff). Parts: slew, mainBoom, jib,
+ * hook, controls.
+ */
+function deckCrane(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "deckCrane", [-0.06, 0, -1.77]);
+  const S = rig.shell;
+  const paint = [0xe8b02e, { rough: 0.45, metal: 0.3, finish: "painted" }];
+  cyl(S, 0.36, 0.42, 0.9, 0, 0.45, 0, 0x2b3138, { rough: 0.55, metal: 0.5, seg: 16 });
+  const slew = rig.part("slew", 0, 0.9, 0);
+  cyl(slew, 0.34, 0.34, 1.1, 0, 0.55, 0, ...paint, { seg: 16 });
+  box(slew, 0.5, 0.3, 0.7, 0, 1.0, -0.2, 0x2b3138, { rough: 0.5, metal: 0.4 });
+  const main = rig.part("mainBoom", 0, 1.05, 0.1, slew);
+  main.rotation.x = -(opts.boomAngle ?? 0.85);
+  box(main, 0.3, 0.34, 2.9, 0, 0, 1.45, ...paint);
+  flStrut(slew, [0, 0.35, 0.3], [0, 1.2, 1.1], 0.07, ...FL.chrome);
+  const jib = rig.part("jib", 0, 0, 2.9, main);
+  jib.rotation.x = opts.jibAngle ?? 1.35;
+  box(jib, 0.24, 0.28, 2.3, 0, 0, 1.15, ...paint);
+  flStrut(main, [0, 0.2, 2.0], [0, 0.3, 3.2], 0.05, ...FL.chrome);
+  const hook = rig.part("hook", 0, 0, 2.3, jib);
+  hook.rotation.x = -(main.rotation.x + jib.rotation.x);   // hangs plumb
+  flRod(hook, 0.012, 1.0, 0, -0.5, 0, "y", 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  box(hook, 0.16, 0.22, 0.12, 0, -1.1, 0, ...paint);
+  torus(hook, 0.06, 0.02, 0, -1.28, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 8, seg2: 12 });
+  const ctl = rig.part("controls", 0.44, 0.7, -0.2);
+  box(ctl, 0.18, 0.3, 0.34, 0, 0, 0, 0x2b3138, { rough: 0.6, metal: 0.3 });
+  for (let i = 0; i < 4; i++) flRod(ctl, 0.008, 0.16, 0.05, 0.22, -0.12 + i * 0.08, "y", ...FL.red);
+  return flDone(rig, { footprint: FLEET_BUDGET.deckCrane.footprint });
+}
+
+// ----------------------------------------------- marine: derelict vessel
+
+/**
+ * A derelict fibreglass sailboat, 9 m, dismasted, the kind that drags its
+ * anchor onto a mudflat or sinks at a mooring: faded gelcoat, a band of
+ * marine growth at the waterline, a stump of mast, open companionway, bow
+ * and stern cleats, a fuel vent on the quarter, and two marked sling points
+ * where a salvage rigger passes the lifting slings. Keel at y 0 (the fin keel
+ * included); a station sinks, lists or trims it by its own transform. Parts:
+ * hatch, cleats, slingPoints [bow, stern], fuelVent.
+ */
+function derelictBoat(parent, x, y, z, opts = {}) {
+  const L = 9, W = 2.9, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "derelictBoat");
+  const S = rig.shell;
+  // Fin keel and skeg under the hull.
+  box(S, 0.18, 0.9, 1.4, 0, 0.45, Z(4.2), 0x2b2f33, { rough: 0.8 });
+  box(S, 0.12, 0.6, 0.5, 0, 0.6, Z(7.8), 0x2b2f33, { rough: 0.8 });
+  const plan = (k) => [[k * hw * 0.8, -L / 2], [k * hw, -L / 2 + 2.2], [k * hw, L / 2 - 3.0], [k * hw * 0.65, L / 2 - 1.2], [0, L / 2], [-k * hw * 0.65, L / 2 - 1.2], [-k * hw, L / 2 - 3.0], [-k * hw, -L / 2 + 2.2], [-k * hw * 0.8, -L / 2]];
+  flPlan(S, plan(0.72), 0.5, 0, 0.85, 0, 0x5b6d52, { rough: 0.9, bevel: 0.08 });
+  flPlan(S, plan(1.0), 0.95, 0, 1.3, 0, 0xd9d4c6, { rough: 0.75, metal: 0.05, bevel: 0.05 });
+  const topside = flCanvasMat("derelict-topside", 512, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#e2ddce"], [0.7, "#c9c2ae"], [1, "#6d7a5a"]]);
+    noiseTexture(g, w, h, { density: 2400, alpha: 0.12 });
+    g.fillStyle = "rgba(60,80,50,0.7)"; g.fillRect(0, h * 0.82, w, h * 0.18);   // growth band
+    g.fillStyle = "rgba(120,70,40,0.35)"; for (let i = 0; i < 9; i++) g.fillRect(w * (0.08 + i * 0.1), h * 0.1, 4, h * 0.7);   // rust streaks
+    g.fillStyle = "#2b2f33"; g.font = "700 26px Arial, sans-serif"; g.textAlign = "left"; g.fillText("CF 0000 XX", w * 0.1, h * 0.35);
+    grimeOverlay(g, w, h, { blotches: 8, streaks: 10, alpha: 0.2 });
+  }, { rough: 0.8 });
+  for (const sx of [1, -1]) flPanel(S, 5.4, 0.9, sx * (hw + 0.012), 1.75, Z(4.6), topside, sx > 0 ? "+x" : "-x");
+  // Cabin trunk and the stump of the mast.
+  box(S, 1.8, 0.5, 3.0, 0, 2.5, Z(4.0), 0xcfc9b8, { rough: 0.75 });
+  flRod(S, 0.07, 1.2, 0, 3.3, Z(3.2), "y", 0xa7adb3, { rough: 0.5, metal: 0.4 });
+  const hatch = rig.part("hatch", 0, 2.76, Z(5.3));
+  box(hatch, 0.7, 0.05, 0.6, 0, 0, 0, 0x7a6a52, { rough: 0.8 });
+  const cleats = [];
+  for (const s of [0.5, L - 0.4]) {
+    const c = rig.part(`cleat${cleats.length + 1}`, 0, 2.27, Z(s));
+    box(c, 0.2, 0.05, 0.06, 0, 0.03, 0, ...FL.steel);
+    cleats.push(c);
+  }
+  rig.set("cleats", cleats);
+  const slings = [];
+  for (const s of [2.4, 6.6]) {
+    const sp = rig.part(slings.length ? "slingStern" : "slingBow", 0, 1.3, Z(s));
+    for (const sx of [1, -1]) box(sp, 0.03, 0.9, 0.16, sx * (hw + 0.03), 0.45, 0, 0xf2c14b, { rough: 0.6, emissive: 0x6a5010, ei: 0.3 });
+    slings.push(sp);
+  }
+  rig.set("slingPoints", slings);
+  const vent = rig.part("fuelVent", -hw + 0.05, 1.9, Z(7.2));
+  cyl(vent, 0.04, 0.04, 0.06, 0, 0, 0, ...FL.chrome, { seg: 10 });
+  return flDone(rig, { footprint: FLEET_BUDGET.derelictBoat.footprint });
+}
+
+// -------------------------------------------------------------- spud barge
+
+/**
+ * Sectional spud barge, the small flat-deck work barge a bay restoration job
+ * floats an excavator or a sediment load on: three bolted sections, 12.2 m
+ * by 6.1 m by 1.5 m deep, a raked bow at +Z, a sealed spill coaming round the
+ * deck so wet sediment drains to the deck's own sump rather than over the
+ * side, two spud wells at the stern with their spuds (raised; lower them by
+ * moving each spud's y down by up to `userData.lift`), four mooring bitts and
+ * sidelights for when a tug has it alongside. y = 0 is the keel; a station
+ * floats it by setting y to minus its draft (about 0.6 m light). Parts:
+ * spuds [spudP, spudS], bitts [bittFP, bittFS, bittAP, bittAS], coaming,
+ * sump, navLights {portLight, starboardLight}.
+ */
+function spudBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3d4f5c, fleetName: "BAY WORKS", unitNumber: "SB-12", accent: 0xe0b12a });
+  const L = 12.2, W = 6.1, D = 1.52, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "spudBarge");
+  const S = rig.shell, hw = W / 2;
+  // Hull: a box with a raked bow, three sections, the joins painted.
+  flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
+  const hullSide = flCanvasMat(`bargeSide|${lv.key}`, 512, 64, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.1))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.08, tone: "0,0,0" });
+    for (const k of [1 / 3, 2 / 3]) { g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(k * w - 2, 0, 4, h); }
+    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.08, w, h * 0.1);
+    for (let i = 0; i < 9; i++) { g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(w * 0.06, h * 0.3 + i * h * 0.07, 10, 2); }
+    g.fillStyle = "#f2f2ee"; g.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`; g.textBaseline = "middle";
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w * 0.4, h * 0.56);
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 10, alpha: 0.22 });
+  }, { rough: 0.55, metal: 0.3 });
+  for (const sx of [1, -1]) flPanel(S, L - 1.5, D - 0.36, sx * (hw + 0.005), 0.36 + (D - 0.36) / 2, Z(1.4 + (L - 1.4) / 2), hullSide, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.1, 0.03, L - 0.3, 0, D + 0.015, Z(L / 2 + 0.1), flTreadMat());
+  // Rub rails along both sides and across the stern.
+  for (const sx of [1, -1]) flRod(S, 0.09, L - 0.4, sx * (hw + 0.05), D - 0.25, Z(L / 2 + 0.2), "z", ...FL.black);
+  flRod(S, 0.09, W, 0, D - 0.25, Z(L) + 0.09, "x", ...FL.black);
+  // Spud wells: steel boxes through the stern corners.
+  for (const sx of [1, -1]) box(S, 0.8, 0.9, 0.8, sx * (hw - 0.55), D + 0.45, Z(L - 0.6), ...FL.steel);
+  // Spill coaming: a low sealed curb round the deck edge, and its sump.
+  const co = rig.part("coaming", 0, D, 0);
+  for (const sx of [1, -1]) box(co, 0.1, 0.3, L - 2.2, sx * (hw - 0.1), 0.15, Z(L / 2 + 0.5), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 0.3, 0.3, 0.1, 0, 0.15, Z(0.9), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 1.9, 0.3, 0.1, 0, 0.15, Z(L - 1.1), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  const sump = rig.part("sump", hw - 0.7, D + 0.02, Z(L - 1.6));
+  box(sump, 0.5, 0.04, 0.5, 0, 0.02, 0, ...FL.frame);
+  box(sump, 0.44, 0.02, 0.44, 0, 0.05, 0, ...FL.steel);
+  // Spuds, raised: square-section piles standing in the wells.
+  const spudH = 6.0;
+  const spuds = [];
+  for (const [name, sx] of [["spudP", -1], ["spudS", 1]]) {
+    const sp = rig.part(name, sx * (hw - 0.55), D - 0.8, Z(L - 0.6));
+    box(sp, 0.46, spudH, 0.46, 0, spudH / 2, 0, 0x6b7178, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+    box(sp, 0.5, 0.18, 0.5, 0, spudH - 0.09, 0, 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+    sp.userData.lift = spudH - 1.4;
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Mooring bitts, a double post at each corner.
+  const bitts = [];
+  for (const [name, sx, s] of [["bittFP", -1, 1.1], ["bittFS", 1, 1.1], ["bittAP", -1, L - 1.6], ["bittAS", 1, L - 1.6]]) {
+    const b = rig.part(name, sx * (hw - 0.45), D, Z(s));
+    for (const dz of [-0.16, 0.16]) cyl(b, 0.08, 0.09, 0.4, 0, 0.2, dz, ...FL.frame, { seg: 10 });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", -hw + 0.3, D + 0.9, Z(0.9), nav);
+  cyl(port, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(port, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", hw - 0.3, D + 0.9, Z(0.9), nav);
+  cyl(stbd, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(stbd, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.green);
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.spudBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -5368,12 +5807,21 @@ const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
+  skiff: { build: "skiff", meshes: 17, footprint: [2.11, 1.79, 5.69], parts: ["outboard", "console", "killSwitch", "bowCleat", "sternCleat", "navLights", "portLight", "starboardLight", "sternLight"], note: "5.2 m aluminium centre-console skiff" },
+  deckBarge: { build: "deckBarge", meshes: 13, footprint: [6.24, 2.7, 16], parts: ["bitts", "ladder"], note: "16 m flat steel deck barge, raked ends" },
+  "deckBarge:hopper": { build: "deckBarge", opts: { kind: "hopper" }, meshes: 16, footprint: [6.24, 3.1, 16], parts: ["bitts", "ladder", "coaming", "liner", "load"], note: "deck barge with a lined sediment hopper" },
+  salvageCraneBarge: { build: "salvageCraneBarge", meshes: 30, footprint: [7.24, 13.59, 18], parts: ["house", "boom", "hook", "hoistLine", "counterweight", "cabDoor", "spuds", "bitts", "ladder"], note: "18 m spud barge with a revolving lattice-boom crane" },
+  skimmerVessel: { build: "skimmerVessel", meshes: 20, footprint: [4.22, 4.1, 12.21], parts: ["conveyor", "basket", "sweepArms", "tankHatch", "wheelhouseDoor", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "11 m catamaran debris and oil skimmer" },
+  deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
+  derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
+  spudBarge: { build: "spudBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
   bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
+  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };
 
 
@@ -8231,6 +8679,8 @@ const STANDARDS = Object.fromEntries([
   S("osha-1910-1200", "OSHA", "29 CFR 1910.1200 Hazard communication", ["Hospitality", "Health & Clinical", "Garment Trades"]),
   S("hipaa-privacy-rule", "HHS", "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)", ["Dental & Oral Health", "Emergency Services", "Community Environmental Justice", "Trade Skills Simulator"]),
   S("osha-1910-1030", "OSHA", "29 CFR 1910.1030 Bloodborne pathogens", ["Health & Clinical", "Hospitality"]),
+  S("osha-1910-subpart-t", "OSHA", "29 CFR 1910 Subpart T \u2014 Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("adci-consensus-standards", "ADCI", "Association of Diving Contractors International \u2014 International Consensus Standards for Commercial Diving and Underwater Operations", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"], "unverified"),
   S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
   S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
   S("osha-1910-212", "OSHA", "29 CFR 1910.212 General requirements for all machines", ["Manufacturing", "Garment Trades"]),
@@ -8701,6 +9151,20 @@ const PROGRAMME_COMPETENCIES = [
       "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
     ],
     require: 5,
+  },
+  {
+    id: "bay-restoration-maritime-underwater",
+    title: "Work the water side of a Bay restoration and clean-up job: dive, vessel, sediment, shoreline and monitoring crews",
+    kind: "programme",
+    standards: ["osha-1910-subpart-t", "adci-consensus-standards", "osha-1910-120", "usace-section-404"],
+    stations: [
+      "br-dive-site-hazard-assessment-and-jsa", "br-surface-supplied-dive-station-setup", "br-underwater-debris-survey-and-mapping", "br-underwater-sediment-core-sampling",
+      "br-derelict-gear-recovery-dive", "br-hyperbaric-chamber-standby", "br-dive-tender-and-umbilical-management", "br-derelict-vessel-salvage-rigging",
+      "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
+      "br-cold-water-immersion-and-mob-recovery", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment", "br-sediment-chain-of-custody-and-lab-prep",
+      "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision"
+    ],
+    require: 6,
   },
 ];
 
@@ -28999,6 +29463,846 @@ const SIMS_META = [
         "Layout Mason",
         "Lead Mason",
         "Wall Gang Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dive-site-hazard-assessment-and-jsa",
+    "index": "318",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as dive supervisor, running the site hazard assessment and job safety analysis for a Bay restoration dive with the tender, the standby diver and an Inlandboatmen's Union deckhand",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby, the emergency aid list, the team briefing and the warning signal), 29 CFR 1910.420 the employer's safe practices manual and 29 CFR 1910.410 the qualified dive team; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Dive Site Hazard Assessment & JSA",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Site Hazard Assessment & JSA VR",
+    "tagline": "Before anyone dresses: the JSA opened with the whole team, the outfall intake and the pile hammer found, the current read against the plan, the sheen and the discharge notice seen, the pump station locked out on the radio while the hammer starts up next door, the decon set, the boat's key pulled, the flag up, the oxygen at the ladder, the downline lowered while a kayak paddles into the site, the emergency list confirmed, the read-backs heard and the JSA signed and logged — every step in a PFD",
+    "accent": 15246141,
+    "accentCss": "#e8a33d",
+    "parSeconds": 300,
+    "badge": {
+      "id": "site-read-first",
+      "name": "Site Read First",
+      "note": "Every hazard on the site named, controlled and signed for before a diver was dressed, and never a PFD off on deck"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Site Assessment",
+      "currency": "SOUNDING",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Supervisor",
+        "Site Assessment Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-surface-supplied-dive-station-setup",
+    "index": "319",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as lead diver setting up a surface-supplied air dive station on a Bay workboat, with the dive supervisor, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; supply, depth and time per the dive plan",
+    "name": "Surface-Supplied Dive Station Setup",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Surface-Supplied Dive Station Setup VR",
+    "tagline": "An hour before the first dive: the setup taken from the supervisor, the compressor intake run upwind, the filter and the belt guard found, the volume tank drained, the primary and secondary lined up, the bailout read, the helmet's non-return valve proven while the crew boat's exhaust drifts over the intake, the umbilical's pneumo and comms ends found, the panel brought up steady while the compressor overheats, the pneumo zeroed, the standby's rig staged and the station logged ready — every step in a PFD",
+    "accent": 7321576,
+    "accentCss": "#6fb7e8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-air-station",
+      "name": "Clean Air Station",
+      "note": "Intake upwind, condensate out, both supplies proven and the non-return valve holding before a diver dressed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Station Setup",
+      "currency": "CHARGE",
+      "ranks": [
+        "Tender",
+        "Diver-Tender",
+        "Diver",
+        "Lead Diver",
+        "Dive Station Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-underwater-debris-survey-and-mapping",
+    "index": "320",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a surface-supplied debris survey for a Bay restoration removal plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver, termination of the dive) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; hazardous debris handled per the work plan",
+    "name": "Underwater Debris Survey & Mapping",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Debris Survey & Mapping VR",
+    "tagline": "On the bottom before anything is lifted: on-bottom report, the baseline's bearing set, the tape run out to the far stake, the baseline swum steady while the silt blows out the visibility, the drum and the battery found and left alone, the offset read, the item floated and written up, the rebar and the skiff found, position held while fishing line wraps a fin, the hazards reported for the work plan, the survey bag sent up and the map read up for the dive log",
+    "accent": 8378024,
+    "accentCss": "#7fd6a8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "mapped-not-moved",
+      "name": "Mapped, Not Moved",
+      "note": "Every item placed on the baseline and written up, and nothing hazardous touched, lifted or opened on the bottom"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Debris Survey",
+      "currency": "CHAINAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Debris Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-underwater-sediment-core-sampling",
+    "index": "321",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver taking push cores of Bay sediment for a restoration's sampling plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, termination of the dive), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan; the sediment handled per the sampling and work plans",
+    "name": "Underwater Sediment Core Sampling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Sediment Core Sampling VR",
+    "tagline": "On the bottom at the sampling station: on-bottom report, the cable and the buried metal found, the tube carried to a clear spot, the core pushed steady while the gas supply stops, the top capped before the bottom, the core drawn out while the supervisor calls a recall, the recovery read, the core labelled and latched in the rack, yourself checked for contamination, the rack sent up the downline and the core log read up for the chain of custody",
+    "accent": 13215850,
+    "accentCss": "#c9a86a",
+    "parSeconds": 290,
+    "badge": {
+      "id": "clean-core",
+      "name": "Clean Core",
+      "note": "A full, capped, labelled core from a clear spot, the bailout used without a pause and never a bare hand in the mud"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Core Sampling",
+      "currency": "CORE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Sampling Diver",
+        "Lead Sampling Diver",
+        "Core Sampling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-derelict-gear-recovery-dive",
+    "index": "322",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver recovering derelict fishing gear for a Bay restoration, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver) and 29 CFR 1910.420 the employer's safe practices manual for lift bag and cutting work; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Derelict Gear Recovery Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
+    "tagline": "On the bottom beside the ghost net: on-bottom report, the billowing net and the taut groundline found, station held up-current while a panel of net wraps the umbilical, the live crabs let out of the pot, the net cut free from the pile, bagged and cinched, the lift bag filled to just neutral, the shackle and the lift line checked, the pot walked to the downline while the bag tries to run, the pot's tag read, the net sent up and the recovery read up for the dive log",
+    "accent": 14711391,
+    "accentCss": "#e07a5f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gear-out-diver-clear",
+      "name": "Gear Out, Diver Clear",
+      "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Gear Recovery",
+      "currency": "MESH",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Recovery Diver",
+        "Lead Recovery Diver",
+        "Gear Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-hyperbaric-chamber-standby",
+    "index": "323",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver as chamber operator standing by a deck decompression chamber during a Bay restoration dive, with the dive supervisor, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (decompression chambers), 29 CFR 1910.423 post-dive procedures (the recompression chamber and the diver's condition) and 29 CFR 1910.440 the dive record; ASME PVHO-1 pressure vessels for human occupancy; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; pressures, times and treatment per the tables the supervisor holds, the chamber manual and the diving physician",
+    "name": "Hyperbaric Chamber Standby",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Hyperbaric Chamber Standby VR",
+    "tagline": "The chamber ready before the diver needs it: the standby brief taken, the door seal and the lighter found, the air lined up, the chamber taken to test pressure and held for leaks while the oxygen climbs, the breathing masks checked, vented to surface before the door opens, the medical kit locked in, the stopwatches set, the diver blown down at the tables' rate while they report a painful shoulder, the viewport watched, and the chamber log written — every step in a PFD",
+    "accent": 10325232,
+    "accentCss": "#9d8cf0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "chamber-ready",
+      "name": "Chamber Ready",
+      "note": "The chamber tested, clean of fire load and manned at the console for every minute the diver was in it, and never a door opened under pressure"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Chamber Standby",
+      "currency": "LOCK",
+      "ranks": [
+        "Outside Tender",
+        "Inside Tender",
+        "Chamber Operator",
+        "Lead Chamber Operator",
+        "Chamber Standby Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dive-tender-and-umbilical-management",
+    "index": "324",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 diver-tender keeping a surface-supplied diver's umbilical on a Bay restoration dive, with the dive supervisor, the diver and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.425 surface-supplied air diving (each diver continuously tended, the standby diver), 29 CFR 1910.422 procedures during the dive and 29 CFR 1910.423 post-dive procedures (the diver's condition); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the employer's safe practices manual for line-pull signals; depth, gas, bottom time and working radius per the dive plan",
+    "name": "Dive Tender & Umbilical Management",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Tender & Umbilical Management VR",
+    "tagline": "The diver's line for the whole dive: the tender brief taken, the harness strap and the strain relief found, the neck clamp latched and pinned, the umbilical led over the roller, paid out steady while a bight drifts toward the crew boat's outboards, the times called, the diver felt working while the standby is ordered dressed, the marks read against the plan, the wash-down opened, the chafe and the kink found, the diver helped out and watched, the umbilical flaked and the log written — every step in a PFD",
+    "accent": 6277352,
+    "accentCss": "#5fc8e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-untended",
+      "name": "Never Untended",
+      "note": "The diver's umbilical in the tender's hands from the ladder to the flake box, never wrapped, tied off or stood in, and never a slack bight near a propeller"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tending",
+      "currency": "FATHOM LINE",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Diver-Tender",
+        "Lead Tender",
+        "Tending Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-derelict-vessel-salvage-rigging",
+    "index": "325",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 (UBC) salvage rigger on a crane barge, with an IUOE Local 3 crane operator in the cab and an Inlandboatmen's Union (IBU) deckhand on the skiff",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 (UBC) rigging and marine construction training; IUOE Local 3 crane operator training and NCCCO certification; Inlandboatmen's Union (IBU) deck and skiff practice; OSHA 29 CFR 1926.1437 cranes on barges and 29 CFR 1926.106 work over water; ASME B30.8 floating cranes, ASME B30.9 slings and ASME B30.26 rigging hardware; USCG 33 CFR 153 discharge removal under the Area Contingency Plan; NOAA Office of Response and Restoration spill guidance; the removal authorised under the BCDC permit and the salvage plan",
+    "name": "Derelict Vessel Salvage Rigging",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Derelict Vessel Salvage Rigging VR",
+    "tagline": "A sunken derelict lifted from the Bay: PFD on at the ladder head, the salvage plan read, the wreck surveyed from the barge, boom closed round her fuel, the slings inspected and the radius read off the chart, the slings passed at the marked points and shackled, tag lines on, the fall zone flagged, a strain taken through a hull still full of water, the tag line held as she breaks the surface through a tide that sets the skiff in, and the lift logged",
+    "accent": 14256683,
+    "accentCss": "#d98a2b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "never-under-the-hook",
+      "name": "Never Under The Hook",
+      "note": "Nobody under the load, nobody aboard the wreck, no sling on a rotten cleat, and both the waterlogged hull and the drifting skiff answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Salvage Deck",
+      "currency": "SHACKLE",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Lead Rigger",
+        "Salvage Foreman",
+        "Salvage Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-workboat-crane-lift-from-water",
+    "index": "326",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand qualified on a workboat's knuckle-boom crane, with a second IBU deckhand on the tag line, the master at the helm and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and crane practice; MEBA engineering watch; ASME B30.22 articulating boom cranes and ASME B30.9 slings; OSHA 29 CFR 1926.1437 cranes afloat and 29 CFR 1926.106 work over water; USCG 46 CFR 25 lifesaving equipment on the workboat; NOAA marine forecast for the sea state; debris removal under the BCDC permit and the vessel's crane manual",
+    "name": "Workboat Crane Lift From Water",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
+    "tagline": "A waterlogged drift log lifted aboard a workboat: PFD and gloves on at the wheelhouse door, the lift plan read, the crane walked, hydraulics opened, the chart read for this boat, the choker passed, tag line and dunnage set, the swing path cleared, the log hoisted through the surface as a swell slackens the hook, swung inboard on the tag line through a roll that sends it at the rail, landed, lashed and logged",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 290,
+    "badge": {
+      "id": "heavier-out-of-the-water",
+      "name": "Heavier Out Of The Water",
+      "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crane Deck",
+      "currency": "PICK",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Crane Deckhand",
+        "Lead Deckhand",
+        "Deck Crane Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-debris-skimmer-vessel-operations",
+    "index": "327",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand running the conveyor and sorting the basket on a debris skimmer, with the master at the helm, a MEBA engineer on watch and an IBU skiff herding the debris line",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice; MEBA engineering watch; OSHA 29 CFR 1910.147 lockout of the conveyor's hydraulics and 29 CFR 1910.212 guarding; OSHA 29 CFR 1910.1030 sharps and 29 CFR 1910.120 HAZWOPER awareness for unknown containers; OSHA 29 CFR 1910.138 hand protection; USCG 46 CFR 25 lifesaving equipment aboard; NOAA marine forecast and NOAA Fisheries marine mammal guidance; trash recovery reported under the Regional Water Quality Control Board's trash provisions",
+    "name": "Debris Skimmer Vessel Operations",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Debris Skimmer Vessel Operations VR",
+    "tagline": "Working a storm's trash line on the Bay: PFD and cut gloves on at the boarding gate, the work plan read, the conveyor walked, sweeps swung out and the conveyor set to depth, the belt matched to the boat through an unknown drum riding up it, the basket sorted for sharps and a battery, a jam cleared under lockout, the conveyor raised as a harbor seal surfaces between the sweeps, decon, sweeps stowed and the haul tallied",
+    "accent": 3129247,
+    "accentCss": "#2fbf9f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-sorted-by-hand",
+      "name": "Nothing Sorted By Hand",
+      "note": "No hand in the belt, no sharp touched, no drum opened, no step onto the conveyor, and both the drum and the seal answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Skimmer Deck",
+      "currency": "HAUL",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Conveyor Hand",
+        "Lead Deckhand",
+        "Skimmer Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-boom-towing-between-two-vessels",
+    "index": "328",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand on the lead workboat of a two-boat boom tow, with an IBU crew on the skiff towing the other leg and a MEBA engineer on watch",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck and spill response practice; MEBA engineering watch; OSHA 29 CFR 1910.120 HAZWOPER for oil spill responders; EPA National Contingency Plan (40 CFR 300) and the USCG Area Contingency Plan, with discharge removal under 33 CFR 153; NIMS ICS incident command; NOAA Office of Response and Restoration spill guidance; USCG 46 CFR 25 lifesaving equipment and a lookout kept under the Inland Navigation Rules",
+    "name": "Boom Towing Between Two Vessels",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Boom Towing Between Two Vessels VR",
+    "tagline": "Two boats towing boom in a U through a fresh sheen: PFD and oil-resistant gloves on, the tow plan read, the bridle and connector walked, the air read at the rail, the tow line made fast and paid out, a radio check with the skiff, the U held on the capstan through oil escaping under the apex, splash-over and a twisted section spotted, the apex buoyed for the skimmer, tension held as the skiff's outboard quits, oiled waste bagged and the tow logged",
+    "accent": 15769648,
+    "accentCss": "#f0a030",
+    "parSeconds": 300,
+    "badge": {
+      "id": "the-u-held",
+      "name": "The U Held",
+      "note": "Never in the bight, never a line near the screw, no flame near the slick, no hand in the oil, and both the escaping oil and the dead outboard answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boom Tow",
+      "currency": "SWEEP",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Boom Hand",
+        "Lead Deckhand",
+        "Boom Tow Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-barge-loading-of-contaminated-sediment",
+    "index": "329",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) barge deckhand loading contaminated sediment at a pier, with an IUOE Local 3 excavator operator and LIUNA Local 261 hazmat laborers on the pier",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) barge deck practice; IUOE Local 3 excavator operation; LIUNA Local 261 hazmat laborer training; OSHA 29 CFR 1910.120 HAZWOPER under the site health and safety plan; OSHA 29 CFR 1918 longshoring and 29 CFR 1926.106 work over water; RCRA waste determination and the disposal destination per the work plan; no discharge from the barge under the Regional Water Quality Control Board's requirements and the BCDC permit",
+    "name": "Barge Loading of Contaminated Sediment",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Barge Loading of Contaminated Sediment VR",
+    "tagline": "Contaminated sediment loaded from a pier into a lined hopper barge: PFD over coveralls at the ladder head, the loading plan read, the liner and scuppers walked, the spill apron rigged across the gap, the spring line made fast, a radio check with the operator, the barge loaded level through a bucket spilling over her far side, the deck and coaming walked, the spring line tended as the load slumps and she lists, her drafts read against the plan, the hopper covered, decon and the load logged",
+    "accent": 12093002,
+    "accentCss": "#b8864a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "loaded-level",
+      "name": "Loaded Level",
+      "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing, and both the spill and the list answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hopper Deck",
+      "currency": "LOAD",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Barge Hand",
+        "Lead Deckhand",
+        "Barge Loading Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-spoils-dewatering-pad",
+    "index": "BR-D1",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+    "name": "Dredge Spoils Dewatering Pad",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+    "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+    "accent": 12159566,
+    "accentCss": "#b98a4e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-unfiltered",
+      "name": "Nothing Back Unfiltered",
+      "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decant Control",
+      "currency": "CELL",
+      "ranks": [
+        "Pad Hand",
+        "Decant Tender",
+        "Pad Lead",
+        "Rehandle Foreman",
+        "Decant Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-turbidity-curtain-deployment",
+    "index": "BR-D2",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 curtain crew lead on the staging float, with an Inlandboatmen's Union skipper on the workboat and an IUOE Local 3 operator on the barge-mounted excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline and environmental remediation crew training (LIUNA Training and Education Fund); Inlandboatmen's Union deck practice for the workboat skipper; IUOE Local 3 operating engineer on the barge-mounted excavator the curtain encloses; the Regional Water Quality Control Board's Section 401 water quality certification, which judges turbidity at the compliance point against background; Army Corps Section 404 permit conditions for the dredging; BCDC permit conditions for work in the Bay; NOAA tide predictions for the skirt clearance; OSHA HAZWOPER, 29 CFR 1910.120, for work over contaminated sediment; DMMO testing of the material the curtain keeps in place; EPA QA/G-5 field records for the turbidity readings",
+    "name": "Turbidity Curtain Deployment",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Turbidity Curtain Deployment VR",
+    "tagline": "Closing the water round a dredge before it digs: the curtain design and the certification read, sections checked on the float, the skirt read against the tide table, the upcurrent anchor lowered and the lead end shackled, the curtain towed out slow while a line fouls the prop, anchors set down the line, the skirt sounded while the shore end opens, background read, the dredge released, the line walked, logged and the crew checked in",
+    "accent": 4172233,
+    "accentCss": "#3fa9c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "closed-loop",
+      "name": "Closed Loop",
+      "note": "The curtain closed from anchor to shore with the skirt clear of the bottom before the first bucket, and the shore gap sealed the moment it opened"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Curtain Line",
+      "currency": "SECTION",
+      "ranks": [
+        "Float Hand",
+        "Curtain Hand",
+        "Curtain Lead",
+        "Containment Foreman",
+        "Curtain Line Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-sediment-chain-of-custody-and-lab-prep",
+    "index": "BR-D3",
+    "domain": "Environmental",
+    "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+    "name": "Sediment Chain of Custody & Lab Prep",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+    "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+    "accent": 9418842,
+    "accentCss": "#8fb85a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "unbroken-custody",
+      "name": "Unbroken Custody",
+      "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Custody Bench",
+      "currency": "JAR",
+      "ranks": [
+        "Bench Hand",
+        "Sample Tech",
+        "Field Custodian",
+        "Sample Coordinator",
+        "Custody Bench Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-water-quality-sonde-calibration-and-deploy",
+    "index": "BR-D4",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 monitoring technician calibrating and deploying the compliance sonde, working from a pier beside an Inlandboatmen's Union workboat, with an IUOE Local 3 operator running the dredge the sonde watches",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 environmental remediation and monitoring training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer on the barge-mounted dredge the monitoring governs; the Regional Water Quality Control Board's Section 401 water quality certification and its monitoring and reporting requirements; Army Corps Section 404 permit conditions; EPA QA/G-5 quality assurance project plan practice for calibration records and field checks; 40 CFR 136 for the grab samples that verify the sonde; OSHA HAZWOPER, 29 CFR 1910.120, for work at a contaminated-sediment site; BCDC permit conditions for the monitoring pile in the Bay; DMMO dredging the readings are reported against",
+    "name": "Water Quality Sonde Calibration & Deploy",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Water Quality Sonde Calibration & Deploy VR",
+    "tagline": "The instrument the whole certification leans on: the monitoring plan read, the sonde inspected, pH calibrated seven then ten with a rinse between, the turbidity check standard read, oxygen calibrated in saturated air while an expired buffer turns up, the sonde lowered and locked on the compliance pile, a side-by-side held while the telemetry trips, the live feed confirmed, the deployment walked, the kit put away, the calibration logged and the crew checked in",
+    "accent": 5226928,
+    "accentCss": "#4fc1b0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "defensible-number",
+      "name": "Defensible Number",
+      "note": "Every sensor calibrated against in-date standards, checked side by side and logged before the first reading counted"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sonde Deck",
+      "currency": "READING",
+      "ranks": [
+        "Probe Hand",
+        "Monitoring Tech",
+        "Sonde Lead",
+        "Water Quality Coordinator",
+        "Sonde Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+    "index": "BR-D5",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+    "name": "Legacy Mercury & PCB Hotspot Handling",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+    "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+    "accent": 12624088,
+    "accentCss": "#c0a0d8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "kept-apart",
+      "name": "Kept Apart",
+      "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hotspot Cell",
+      "currency": "CUT",
+      "ranks": [
+        "Hazmat Hand",
+        "Cut Signaller",
+        "Hotspot Lead",
+        "Remediation Foreman",
+        "Hotspot Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-trash-capture-device-service",
+    "index": "BR-D6",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+    "name": "Trash Capture Device Service",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Trash Capture Device Service VR",
+    "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+    "accent": 14721088,
+    "accentCss": "#e0a040",
+    "parSeconds": 300,
+    "badge": {
+      "id": "nothing-back-in",
+      "name": "Nothing Back In",
+      "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Net Service",
+      "currency": "BAG",
+      "ranks": [
+        "Net Hand",
+        "Tag Line Hand",
+        "Service Lead",
+        "Stormwater Foreman",
+        "Net Service Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-dredge-material-screening-and-disposal-decision",
+    "index": "BR-D7",
+    "domain": "Environmental",
+    "trade": "LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by",
+    "category": "Environmental Monitoring",
+    "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the material screener; IUOE Local 3 operating engineer apprenticeship for the dredge's excavator; the DMMO suitability determination for each dredge unit and the Army Corps Section 404 permit conditions it sits under; the Regional Water Quality Control Board's Section 401 water quality certification; BCDC permit conditions for the placement sites; OSHA HAZWOPER, 29 CFR 1910.120, for screening and sampling material that may be contaminated; EPA QA/G-5 chain-of-custody practice for the unexpected-material sample; RCRA 40 CFR 262 and DTSC rules if the work plan's profile makes any of it hazardous waste",
+    "name": "Dredge Material Screening & Disposal Decision",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Dredge Material Screening & Disposal Decision VR",
+    "tagline": "Matching every bite to the decision already made about it: the work plan's dredge-unit map and the suitability determination read, the dredge's position confirmed inside the unit, the scow walked and its drain shut, bites called while unexpected oily material comes up, the material sampled while the tug wants to leave, it reported in order, the scow placarded on hold, its draft read, the load ticket written, the deck walked, logged and the crew checked in",
+    "accent": 10128088,
+    "accentCss": "#9a8ad8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "held-for-the-decision",
+      "name": "Held For The Decision",
+      "note": "Stopped the dig on material the characterisation did not describe, sampled it under custody and kept the scow from leaving until the work plan's people decided"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scow Screen",
+      "currency": "BITE",
+      "ranks": [
+        "Deck Hand",
+        "Screener",
+        "Senior Screener",
+        "Dredge Inspector",
+        "Scow Screen Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-cold-water-immersion-and-mob-recovery",
+    "index": "330",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand recovering a crewmate from cold Bay water by the vessel's man-overboard drill, with the master at the helm and a MEBA engineer on deck",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice and drills; MEBA engineering; IMO STCW basic safety training in personal survival; USCG 46 CFR 160 approved personal flotation devices and 46 CFR 25 lifesaving equipment; OSHA 29 CFR 1926.106 and 29 CFR 1915.158 lifesaving equipment where work is over water; FCC 47 CFR 80 marine VHF for the distress call; the vessel's own man-overboard drill on her station bill",
+    "name": "Cold Water Immersion & MOB Recovery",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Cold Water Immersion & MOB Recovery VR",
+    "tagline": "A crewmate over the side into cold Bay water, recovered by the vessel's drill: inflatable PFD on and strapped at the door, the rescue gear checked, the station bill read, the alarm raised and the position marked, the ring buoy thrown, eyes kept on him as the wake takes the buoy, the master called alongside, the sling passed, the davit taken up and a horizontal lift as he goes limp, hypothermia signs checked on deck, the distress call made and the drill logged",
+    "accent": 5214176,
+    "accentCss": "#4f8fe0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "eyes-on-him",
+      "name": "Eyes On Him",
+      "note": "Nobody jumped in, nobody hauled him over the rail, the spotter never looked away, he came up horizontal and was never walked, and both the lost buoy and the limp lift answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rescue Deck",
+      "currency": "BUOY",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Rescue Hand",
+        "Lead Deckhand",
+        "MOB Recovery Certified"
       ],
       "rankAt": [
         0,
