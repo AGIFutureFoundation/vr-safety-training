@@ -489,9 +489,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-r", "osha-1926-62", "aws-d1-5", "ansi-z359"],
     stations: [
-      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement"
+      "steel-erector", "bridge-cable-inspection", "bridge-lead-containment", "deck-joint-replacement",
+      "bs-structural-bolting-and-torque", "bs-tandem-lift-girder-set", "bs-bearing-replacement-and-jacking"
     ],
-    require: 2,
+    require: 4,
   },
   {
     id: "hotel-workers",
@@ -510,9 +511,10 @@ export const PROGRAMME_COMPETENCIES = [
     kind: "programme",
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
-      "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold"
+      "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar"
     ],
-    require: 2,
+    require: 4,
   },
   {
     id: "first-responders",

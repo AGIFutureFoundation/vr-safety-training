@@ -587,6 +587,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "bridge-cable-inspection", why: "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion." },
       { app: "smartcity", id: "bridge-lead-containment", why: "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below." },
       { app: "smartcity", id: "deck-joint-replacement", why: "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it." },
+      { app: "smartcity", id: "bs-structural-bolting-and-torque", why: "The bolt-up the connecting leaves behind: a girder field splice verified in the calibrator, snugged from the middle out, turned from its match marks, and the one bolt that spun found before the inspector reads the rest." },
+      { app: "smartcity", id: "bs-tandem-lift-girder-set", why: "The pick that bolting follows: one girder on two IUOE-flown cranes under a multiple-crane lift plan, kept level on the hoist, stopped for the wind, and braced to its neighbour before either hook lets go." },
+      { app: "smartcity", id: "bs-bearing-replacement-and-jacking", why: "The maintenance the bearings eventually need: the lane under the span closed, a girder jacked on the engineer's plan with cribbing tight beside the jack, and the girder let down onto its new bearing without ever hanging on oil alone." },
     ],
   },
   {
@@ -620,6 +623,9 @@ export const CURRICULA = [
       { app: "smartcity", id: "formwork-shoring", why: "The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip." },
       { app: "smartcity", id: "mass-timber-panel-set", why: "The carpenters' own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go." },
       { app: "smartcity", id: "masonry-silica-scaffold", why: "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1." },
+      { app: "smartcity", id: "bt-formwork-stripping-and-reshoring", why: "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it." },
+      { app: "smartcity", id: "bt-rebar-tying-and-impalement-protection", why: "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch." },
+      { app: "smartcity", id: "bt-masonry-wall-layout-and-mortar", why: "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone." },
     ],
   },
   {
