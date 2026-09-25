@@ -1663,6 +1663,7 @@ export function workboat(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.workboat.footprint, livery: lv, draft: 0.45 });
 }
 
+<<<<<<< HEAD
 // ------------------------------------------------------- marine: skiff
 
 /**
@@ -2024,6 +2025,82 @@ export function derelictBoat(parent, x, y, z, opts = {}) {
   const vent = rig.part("fuelVent", -hw + 0.05, 1.9, Z(7.2));
   cyl(vent, 0.04, 0.04, 0.06, 0, 0, 0, ...FL.chrome, { seg: 10 });
   return flDone(rig, { footprint: FLEET_BUDGET.derelictBoat.footprint });
+=======
+// -------------------------------------------------------------- deck barge
+
+/**
+ * Sectional spud barge, the small flat-deck work barge a bay restoration job
+ * floats an excavator or a sediment load on: three bolted sections, 12.2 m
+ * by 6.1 m by 1.5 m deep, a raked bow at +Z, a sealed spill coaming round the
+ * deck so wet sediment drains to the deck's own sump rather than over the
+ * side, two spud wells at the stern with their spuds (raised; lower them by
+ * moving each spud's y down by up to `userData.lift`), four mooring bitts and
+ * sidelights for when a tug has it alongside. y = 0 is the keel; a station
+ * floats it by setting y to minus its draft (about 0.6 m light). Parts:
+ * spuds [spudP, spudS], bitts [bittFP, bittFS, bittAP, bittAS], coaming,
+ * sump, navLights {portLight, starboardLight}.
+ */
+export function deckBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3d4f5c, fleetName: "BAY WORKS", unitNumber: "SB-12", accent: 0xe0b12a });
+  const L = 12.2, W = 6.1, D = 1.52, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "deckBarge");
+  const S = rig.shell, hw = W / 2;
+  // Hull: a box with a raked bow, three sections, the joins painted.
+  flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
+  const hullSide = flCanvasMat(`bargeSide|${lv.key}`, 512, 64, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.1))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.08, tone: "0,0,0" });
+    for (const k of [1 / 3, 2 / 3]) { g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(k * w - 2, 0, 4, h); }
+    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.08, w, h * 0.1);
+    for (let i = 0; i < 9; i++) { g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(w * 0.06, h * 0.3 + i * h * 0.07, 10, 2); }
+    g.fillStyle = "#f2f2ee"; g.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`; g.textBaseline = "middle";
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w * 0.4, h * 0.56);
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 10, alpha: 0.22 });
+  }, { rough: 0.55, metal: 0.3 });
+  for (const sx of [1, -1]) flPanel(S, L - 1.5, D - 0.36, sx * (hw + 0.005), 0.36 + (D - 0.36) / 2, Z(1.4 + (L - 1.4) / 2), hullSide, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.1, 0.03, L - 0.3, 0, D + 0.015, Z(L / 2 + 0.1), flTreadMat());
+  // Rub rails along both sides and across the stern.
+  for (const sx of [1, -1]) flRod(S, 0.09, L - 0.4, sx * (hw + 0.05), D - 0.25, Z(L / 2 + 0.2), "z", ...FL.black);
+  flRod(S, 0.09, W, 0, D - 0.25, Z(L) + 0.09, "x", ...FL.black);
+  // Spud wells: steel boxes through the stern corners.
+  for (const sx of [1, -1]) box(S, 0.8, 0.9, 0.8, sx * (hw - 0.55), D + 0.45, Z(L - 0.6), ...FL.steel);
+  // Spill coaming: a low sealed curb round the deck edge, and its sump.
+  const co = rig.part("coaming", 0, D, 0);
+  for (const sx of [1, -1]) box(co, 0.1, 0.3, L - 2.2, sx * (hw - 0.1), 0.15, Z(L / 2 + 0.5), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 0.3, 0.3, 0.1, 0, 0.15, Z(0.9), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 1.9, 0.3, 0.1, 0, 0.15, Z(L - 1.1), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  const sump = rig.part("sump", hw - 0.7, D + 0.02, Z(L - 1.6));
+  box(sump, 0.5, 0.04, 0.5, 0, 0.02, 0, ...FL.frame);
+  box(sump, 0.44, 0.02, 0.44, 0, 0.05, 0, ...FL.steel);
+  // Spuds, raised: square-section piles standing in the wells.
+  const spudH = 6.0;
+  const spuds = [];
+  for (const [name, sx] of [["spudP", -1], ["spudS", 1]]) {
+    const sp = rig.part(name, sx * (hw - 0.55), D - 0.8, Z(L - 0.6));
+    box(sp, 0.46, spudH, 0.46, 0, spudH / 2, 0, 0x6b7178, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+    box(sp, 0.5, 0.18, 0.5, 0, spudH - 0.09, 0, 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+    sp.userData.lift = spudH - 1.4;
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Mooring bitts, a double post at each corner.
+  const bitts = [];
+  for (const [name, sx, s] of [["bittFP", -1, 1.1], ["bittFS", 1, 1.1], ["bittAP", -1, L - 1.6], ["bittAS", 1, L - 1.6]]) {
+    const b = rig.part(name, sx * (hw - 0.45), D, Z(s));
+    for (const dz of [-0.16, 0.16]) cyl(b, 0.08, 0.09, 0.4, 0, 0.2, dz, ...FL.frame, { seg: 10 });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", -hw + 0.3, D + 0.9, Z(0.9), nav);
+  cyl(port, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(port, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", hw - 0.3, D + 0.9, Z(0.9), nav);
+  cyl(stbd, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(stbd, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.green);
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.deckBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
+>>>>>>> worktree-agent-ad80d529671d7e0f4
 }
 
 // ------------------------------------------------------------------ budget
@@ -2055,6 +2132,7 @@ export const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
+<<<<<<< HEAD
   skiff: { build: "skiff", meshes: 17, footprint: [2.11, 1.79, 5.69], parts: ["outboard", "console", "killSwitch", "bowCleat", "sternCleat", "navLights", "portLight", "starboardLight", "sternLight"], note: "5.2 m aluminium centre-console skiff" },
   deckBarge: { build: "deckBarge", meshes: 13, footprint: [6.24, 2.7, 16], parts: ["bitts", "ladder"], note: "16 m flat steel deck barge, raked ends" },
   "deckBarge:hopper": { build: "deckBarge", opts: { kind: "hopper" }, meshes: 16, footprint: [6.24, 3.1, 16], parts: ["bitts", "ladder", "coaming", "liner", "load"], note: "deck barge with a lined sediment hopper" },
@@ -2062,11 +2140,18 @@ export const FLEET_BUDGET = {
   skimmerVessel: { build: "skimmerVessel", meshes: 20, footprint: [4.22, 4.1, 12.21], parts: ["conveyor", "basket", "sweepArms", "tankHatch", "wheelhouseDoor", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "11 m catamaran debris and oil skimmer" },
   deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
   derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
+=======
+  deckBarge: { build: "deckBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
+>>>>>>> worktree-agent-ad80d529671d7e0f4
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
+<<<<<<< HEAD
   bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
   skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat,
+=======
+  bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat, deckBarge,
+>>>>>>> worktree-agent-ad80d529671d7e0f4
 };
