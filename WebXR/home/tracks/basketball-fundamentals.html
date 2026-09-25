@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Basketball Fundamentals — training track</title>
+<meta name="description" content="Basketball Fundamentals: a twenty-level training track, 1680 lessons across 10 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#ff7a3b">
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 10 stations · 20 levels · 1680 lessons</p>
+    <h1>Basketball Fundamentals</h1>
+    <p class="union">AFSCME and SEIU parks-and-recreation staff where a public gym runs the league; the programme itself is taught against USA Basketball&#39;s youth guidelines rather than a union apprenticeship</p>
+    <p class="cert">USA Basketball youth development guidelines for age-appropriate play, practice and rest; NFHS basketball rules and sports medicine guidance; CDC Heads Up concussion training; U.S. Center for SafeSport abuse-prevention policies; the American Red Cross first aid, CPR and AED course</p>
+    <p class="summary">Ten stations on an indoor court that teach players the fundamentals and teach coaches to run a session nobody gets hurt in: the floor walked before anyone runs on it, contact introduced by size and stage, every knock to the head taken out of play, water and rest on the clock, and every heated moment, alarm and parent at the door handled calmly and in view.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1680</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops">Footwork: Pivots and Jump Stops <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine">Free Throw Routine <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching">Passing and Catching <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling">Stance and Ball Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts">Defensive Stance and Closeouts <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out">Rebounding and Boxing Out <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=day">Footwork: Pivots and Jump Stops <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=day">Free Throw Routine <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=day">Passing and Catching <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=day">Stance and Ball Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=day">Rebounding and Boxing Out <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops">Footwork: Pivots and Jump Stops <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine">Free Throw Routine <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching">Passing and Catching <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling">Stance and Ball Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts">Defensive Stance and Closeouts <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out">Rebounding and Boxing Out <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted — a busy gym</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=dusk">Footwork: Pivots and Jump Stops <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=dusk">Free Throw Routine <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=dusk">Passing and Catching <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=dusk">Stance and Ball Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk">Defensive Stance and Closeouts <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk">Rebounding and Boxing Out <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted — late in practice</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops">Footwork: Pivots and Jump Stops <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine">Free Throw Routine <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=day">Passing and Catching <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=day">Stance and Ball Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out">Rebounding and Boxing Out <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted — two teams on the floor</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=dusk">Footwork: Pivots and Jump Stops <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=dusk">Free Throw Routine <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=dusk">Passing and Catching <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=dusk">Stance and Ball Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk">Defensive Stance and Closeouts <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk">Rebounding and Boxing Out <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=day">Footwork: Pivots and Jump Stops <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=day">Free Throw Routine <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=day">Passing and Catching <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=day">Stance and Ball Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=day">Rebounding and Boxing Out <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=dusk">Free Throw Routine <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=dusk">Passing and Catching <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=dusk">Stance and Ball Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk">Defensive Stance and Closeouts <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk">Rebounding and Boxing Out <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=dusk">Shooting Form and Arc <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=day">Free Throw Routine <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=day">Passing and Catching <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=day">Stance and Ball Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=day">Rebounding and Boxing Out <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=day">Shooting Form and Arc <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=dusk">Passing and Catching <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=dusk">Stance and Ball Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk">Defensive Stance and Closeouts <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk">Rebounding and Boxing Out <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=dusk">Shooting Form and Arc <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;time=dusk">Team Offense: Spacing and Screens <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-passing-and-catching&amp;hazard=assess">Passing and Catching <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;hazard=assess">Stance and Ball Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;hazard=assess">Defensive Stance and Closeouts <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;hazard=assess">Rebounding and Boxing Out <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;hazard=assess">Shooting Form and Arc <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;hazard=assess">Team Offense: Spacing and Screens <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;interrupt=shove-over-a-loose-ball">Stance and Ball Handling <span class="chip interrupt">interruption: shove over a loose ball</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;interrupt=shove-after-a-closeout">Defensive Stance and Closeouts <span class="chip interrupt">interruption: shove after a closeout</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=heads-collide-on-a-rebound">Rebounding and Boxing Out <span class="chip interrupt">interruption: heads collide on a rebound</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=rebounder-down-under-the-rim">Shooting Form and Arc <span class="chip interrupt">interruption: rebounder down under the rim</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=parent-filming-at-the-door">Team Offense: Spacing and Screens <span class="chip interrupt">interruption: parent filming at the door</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=parent-at-the-side-door">Warm-Up, Injury Prevention and Hydration <span class="chip interrupt">interruption: parent at the side door</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;hazard=assess">Stance and Ball Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;hazard=assess">Defensive Stance and Closeouts <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;hazard=assess">Rebounding and Boxing Out <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;hazard=assess">Shooting Form and Arc <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;hazard=assess">Team Offense: Spacing and Screens <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;hazard=assess">Warm-Up, Injury Prevention and Hydration <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;interrupt=defender-down-on-a-landing">Defensive Stance and Closeouts <span class="chip interrupt">interruption: defender down on a landing</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=parent-demands-rougher-drills">Rebounding and Boxing Out <span class="chip interrupt">interruption: parent demands rougher drills</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=fire-alarm-at-the-hoop">Shooting Form and Arc <span class="chip interrupt">interruption: fire alarm at the hoop</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=flare-up-after-a-screen">Team Offense: Spacing and Screens <span class="chip interrupt">interruption: flare up after a screen</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=player-down-on-the-baseline">Warm-Up, Injury Prevention and Hydration <span class="chip interrupt">interruption: player down on the baseline</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=hard-foul-and-a-shove">Scrimmage and Sportsmanship Debrief <span class="chip interrupt">interruption: hard foul and a shove</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=day">Rebounding and Boxing Out <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=day">Shooting Form and Arc <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=parent-filming-at-the-door">Team Offense: Spacing and Screens <span class="chip interrupt">interruption: parent filming at the door</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;time=day">Warm-Up, Injury Prevention and Hydration <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=fire-alarm-mid-game">Scrimmage and Sportsmanship Debrief <span class="chip interrupt">interruption: fire alarm mid game</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;hazard=assess">Defensive Stance and Closeouts <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk">Rebounding and Boxing Out <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;hazard=assess">Shooting Form and Arc <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=flare-up-after-a-screen">Team Offense: Spacing and Screens <span class="chip interrupt">interruption: flare up after a screen</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;time=dusk">Warm-Up, Injury Prevention and Hydration <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=hard-foul-and-a-shove">Scrimmage and Sportsmanship Debrief <span class="chip interrupt">interruption: hard foul and a shove</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;interrupt=shove-after-a-closeout">Defensive Stance and Closeouts <span class="chip interrupt">interruption: shove after a closeout</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;hazard=assess">Rebounding and Boxing Out <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=rebounder-down-under-the-rim">Shooting Form and Arc <span class="chip interrupt">interruption: rebounder down under the rim</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;hazard=assess">Team Offense: Spacing and Screens <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=parent-at-the-side-door">Warm-Up, Injury Prevention and Hydration <span class="chip interrupt">interruption: parent at the side door</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=fire-alarm-mid-game">Scrimmage and Sportsmanship Debrief <span class="chip interrupt">interruption: fire alarm mid game</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day">Defensive Stance and Closeouts <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=heads-collide-on-a-rebound">Rebounding and Boxing Out <span class="chip interrupt">interruption: heads collide on a rebound</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;hazard=assess">Shooting Form and Arc <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;time=day">Team Offense: Spacing and Screens <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=player-down-on-the-baseline">Warm-Up, Injury Prevention and Hydration <span class="chip interrupt">interruption: player down on the baseline</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;time=day">Scrimmage and Sportsmanship Debrief <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk">Defensive Stance and Closeouts <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=parent-demands-rougher-drills">Rebounding and Boxing Out <span class="chip interrupt">interruption: parent demands rougher drills</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=fire-alarm-at-the-hoop">Shooting Form and Arc <span class="chip interrupt">interruption: fire alarm at the hoop</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;hazard=assess">Team Offense: Spacing and Screens <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;time=day">Warm-Up, Injury Prevention and Hydration <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief">Scrimmage and Sportsmanship Debrief <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;variant=assessment">Defensive Stance and Closeouts <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;variant=assessment">Rebounding and Boxing Out <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;variant=assessment">Shooting Form and Arc <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;variant=assessment">Team Offense: Spacing and Screens <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;variant=assessment">Warm-Up, Injury Prevention and Hydration <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;variant=assessment">Scrimmage and Sportsmanship Debrief <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=basketball-fundamentals&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#4fb3ff">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Warm-Up, Injury Prevention and Hydration</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The first fifteen minutes that decide the rest: the floor walked dry, the emergency plan read, a dynamic warm-up in order and water called by the clock.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=parent-at-the-side-door"><span class="chip interrupt">interruption: parent at the side door</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;interrupt=player-down-on-the-baseline"><span class="chip interrupt">interruption: player down on the baseline</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-warmup-injury-prevention-and-hydration">Launch Warm-Up, Injury Prevention and Hydration</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f29b38">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Stance and Ball Handling</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">The ball in the hands for the first time: balls checked, lanes spaced wide, the triple-threat stance built from the feet up and the eyes kept off the ball.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-stance-and-ball-handling"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-stance-and-ball-handling&amp;interrupt=shove-over-a-loose-ball"><span class="chip interrupt">interruption: shove over a loose ball</span></a> <span class="st-meta">L12</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-stance-and-ball-handling">Launch Stance and Ball Handling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9b7bff">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Footwork: Pivots and Jump Stops</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">The lower body every later skill stands on: soft, balanced landings with knees over toes, a legal pivot on the ball of the foot and a jump count that is kept.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-footwork-pivots-and-jump-stops">Launch Footwork: Pivots and Jump Stops</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3fd0a8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Passing and Catching</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">Two players and one ball in the air: a name before every pass, fingers up on every catch, speed matched to the receiver and any ball to the head taken seriously.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-passing-and-catching"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-passing-and-catching&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-passing-and-catching&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-passing-and-catching">Launch Passing and Catching</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ff7a3b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Shooting Form and Arc</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The shot built from balance up on a hoop set to the player&#39;s age, with the arc and the release held in band and the lane under the rim kept clear.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=rebounder-down-under-the-rim"><span class="chip interrupt">interruption: rebounder down under the rim</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;interrupt=fire-alarm-at-the-hoop"><span class="chip interrupt">interruption: fire alarm at the hoop</span></a> <span class="st-meta">L14, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-shooting-form-and-arc&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-shooting-form-and-arc">Launch Shooting Form and Arc</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0c34a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Free Throw Routine</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">One routine held the same way through fatigue and pressure, with a dry line, a lane that waits for the release, water between rounds and shooters rotated to rest.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-free-throw-routine"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-free-throw-routine&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-free-throw-routine">Launch Free Throw Routine</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5ad07a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Defensive Stance and Closeouts</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The hardest work in practice done safely: room to slide, active hands instead of reaching, and closeouts chopped under control and never into a shooter&#39;s landing.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;interrupt=shove-after-a-closeout"><span class="chip interrupt">interruption: shove after a closeout</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;interrupt=defender-down-on-a-landing"><span class="chip interrupt">interruption: defender down on a landing</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-defensive-stance-and-closeouts">Launch Defensive Stance and Closeouts</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#ff5d8f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Rebounding and Boxing Out</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">The first real contact, introduced by size: the box-out built and sealed, contact kept controlled, and the signs of a concussion recognised and removed from play.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=heads-collide-on-a-rebound"><span class="chip interrupt">interruption: heads collide on a rebound</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;interrupt=parent-demands-rougher-drills"><span class="chip interrupt">interruption: parent demands rougher drills</span></a> <span class="st-meta">L14, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-rebounding-and-boxing-out">Launch Rebounding and Boxing Out</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fa8ff">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Team Offense: Spacing and Screens</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.5 min · indoors</p>
+            <p class="why">Five players moving together: spacing that keeps the paint clear, screens that are legal and still, and a rotation with water in it for everyone.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=parent-filming-at-the-door"><span class="chip interrupt">interruption: parent filming at the door</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;interrupt=flare-up-after-a-screen"><span class="chip interrupt">interruption: flare up after a screen</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-team-offense-spacing-and-screens">Launch Team Offense: Spacing and Screens</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c88aff">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Youth Sports &amp; Coaching</p>
+            <h3>Scrimmage and Sportsmanship Debrief</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.7 min · indoors</p>
+            <p class="why">Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is.</p>
+            <ul class="st-std"><li>CDC — CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</li><li>NFHS — National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</li><li>Red Cross — American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</li><li>U.S. Center for SafeSport — U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</li><li>USA Basketball — USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=hard-foul-and-a-shove"><span class="chip interrupt">interruption: hard foul and a shove</span></a> <span class="st-meta">L14, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;interrupt=fire-alarm-mid-game"><span class="chip interrupt">interruption: fire alarm mid game</span></a> <span class="st-meta">L15, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=bb-scrimmage-and-sportsmanship-debrief">Launch Scrimmage and Sportsmanship Debrief</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>CDC</td><td>CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance</td><td class="n">all 20</td></tr>
+          <tr><td>NFHS</td><td>National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport</td><td class="n">all 20</td></tr>
+          <tr><td>Red Cross</td><td>American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services</td><td class="n">all 20</td></tr>
+          <tr><td>U.S. Center for SafeSport</td><td>U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting</td><td class="n">all 20</td></tr>
+          <tr><td>USA Basketball</td><td>USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Teach basketball fundamentals and run a youth session nobody gets hurt in</h3>
+        <p>Demonstrated with a mastery run on 5 of its 10 stations, against USA Basketball Youth development guidelines: age-appropriate play, practice, rest and coach licensing; CDC Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance; U.S. Center for SafeSport Abuse-prevention training and policies for adults who work with young athletes.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: USA Basketball youth development guidelines for age-appropriate play, practice and rest; NFHS basketball rules and sports medicine guidance; CDC Heads Up concussion training; U.S. Center for SafeSport abuse-prevention policies; the American Red Cross first aid, CPR and AED course. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

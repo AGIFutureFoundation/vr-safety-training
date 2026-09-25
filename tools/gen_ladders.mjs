@@ -127,6 +127,8 @@ function registryHits(app, id, category) {
 // -------------------------------------------------------------------- metrics
 
 /** Every station's real numbers, keyed "app:id". */
+const INDOOR_DISTRICTS = new Set(["gym-court"]);
+
 export async function stationMetrics() {
   const city = await loadSmartCity();
   const trades = await loadTrades();
@@ -139,7 +141,9 @@ export async function stationMetrics() {
       hazards: Object.keys(r.hazards ?? {}).length,
       interrupts: (r.interrupts ?? []).map((i) => ({ id: i.id, kind: i.kind ?? "Interruption" })),
       parSeconds: r.parSeconds ?? 150,
-      indoor: r.indoor ?? null,
+      // An interior kind, or a district that is a building in its own right (the
+      // gym-court is an indoor gym): either way no weather is honest here.
+      indoor: r.indoor ?? (INDOOR_DISTRICTS.has(r.district) ? `district:${r.district}` : null),
       category,
       standards: registryHits(app, r.id, category),
     };

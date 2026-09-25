@@ -255,6 +255,8 @@ export function mountUI(store, actions) {
         h("button", { type: "button", className: "brake", ...hold({ brake: true }) }, "Brake"),
         h("button", { type: "button", className: "go", ...hold({ throttle: true }) }, d.reverse ? "Back" : "Go"),
         h("button", { type: "button", className: "steer", ...hold({ steer: 1 }) }, "▶")) : null);
+  }
+
   function HudCourt() {
     const hud = useSlice("hud");
     return h(CourtChip, { court: hud.court ?? null });

@@ -8294,6 +8294,9 @@ const STANDARDS = Object.fromEntries([
   S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
   S("calosha-8-ccr-5141-1", "Cal/OSHA", "8 CCR 5141.1 Protection from wildfire smoke", ["Air Quality"]),
   S("abc-rbs-training", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
+  S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
+  S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
+  S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -8680,6 +8683,18 @@ const PROGRAMME_COMPETENCIES = [
       "landfill-gas", "soil-loadout"
     ],
     require: 3,
+  },
+  {
+    id: "basketball-fundamentals",
+    title: "Teach basketball fundamentals and run a youth session nobody gets hurt in",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "cdc-heads-up", "safesport-code"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
+      "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
+    ],
+    require: 5,
   },
 ];
 
@@ -27802,6 +27817,426 @@ const SIMS_META = [
         "Fleet Driver",
         "Terminal Operator",
         "Course Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-warmup-injury-prevention-and-hydration",
+    "index": "331",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for age-appropriate practice length, warm-up and rest; NFHS sports medicine guidance on heat, hydration and a written emergency action plan for school sport; CDC Heads Up for the coach's duty to recognise and remove; the U.S. Center for SafeSport for observable, interruptible practices with two adults present; the American Red Cross first aid course for check, call and care until the athletic trainer or emergency services take over",
+    "name": "Warm-Up, Injury Prevention and Hydration",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Warm-Up, Injury Prevention and Hydration VR",
+    "tagline": "The first fifteen minutes of practice: the floor walked dry and clear, the emergency plan read, a health check-in at the door, water at the bench, a dynamic warm-up in order, shoes and jewellery checked and a water break called by the clock",
+    "accent": 5223423,
+    "accentCss": "#4fb3ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ready-to-play",
+      "name": "Ready to Play",
+      "note": "The floor, the players and the water all ready before the first drill, and nobody pushed past what their body said"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Practice Plan",
+      "currency": "REPS",
+      "ranks": [
+        "Volunteer Helper",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Lead",
+        "Coach Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-stance-and-ball-handling",
+    "index": "332",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate ball size, skill progression and work-to-rest balance; NFHS basketball rules for the dribble and a school-sport standard of safe equipment; CDC Heads Up for recognising a knock to the head in a crowded drill; the U.S. Center for SafeSport for calm, observable correction of young players; the American Red Cross first aid course for the sprains and jammed fingers ball-handling drills produce",
+    "name": "Stance and Ball Handling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Stance and Ball Handling VR",
+    "tagline": "Balls checked before they are handed out, lanes spaced wide, the triple-threat stance built from the feet up, a pound dribble with the eyes up, work and rest on a timer, and every loose ball racked",
+    "accent": 15899448,
+    "accentCss": "#f29b38",
+    "parSeconds": 320,
+    "badge": {
+      "id": "eyes-up",
+      "name": "Eyes Up",
+      "note": "A whole ball-handling block run with the heads up, the lanes clear and nobody pushed past their rest"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Handle Series",
+      "currency": "TOUCHES",
+      "ranks": [
+        "Ball Boy or Girl",
+        "Drill Helper",
+        "Skills Coach",
+        "Head Coach",
+        "Skills Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-footwork-pivots-and-jump-stops",
+    "index": "333",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on landing mechanics, jump volume and rest for growing players; NFHS basketball rules on the pivot foot and travelling; CDC Heads Up for the head knocks a fall on a landing can bring; the U.S. Center for SafeSport for verified pick-up and two adults present; the American Red Cross first aid course for rest, ice, support and elevation of a sprained ankle",
+    "name": "Footwork: Pivots and Jump Stops",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Footwork: Pivots and Jump Stops VR",
+    "tagline": "The floor felt for sticky and slick patches, the pivot-foot rule explained, a jump stop landed soft and balanced, a half-turn pivot on the ball of the foot, a steady agility ladder, a jump count kept, and a rolled ankle cared for properly",
+    "accent": 10189823,
+    "accentCss": "#9b7bff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "soft-landings",
+      "name": "Soft Landings",
+      "note": "Every landing balanced and every knee over its toes, with the jump count kept and nobody walking off a sore ankle"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Footwork Ladder",
+      "currency": "STEPS",
+      "ranks": [
+        "Floor Helper",
+        "Footwork Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Movement Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-passing-and-catching",
+    "index": "334",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate ball size, partner distance and skill progression; NFHS guidance on a safe playing area and hydration in school sport; CDC Heads Up for a ball to the head — recognise, remove, refer; the U.S. Center for SafeSport for correcting a young player calmly and in view; the American Red Cross first aid course for cold on a jammed finger and never pulling it",
+    "name": "Passing and Catching",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Passing and Catching VR",
+    "tagline": "Every receiver's background checked, names called before passes, a chest pass built in order, target hands up, speed matched to the catcher, the bounce spot set, and any ball to the face taken seriously",
+    "accent": 4182184,
+    "accentCss": "#3fd0a8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "soft-hands",
+      "name": "Soft Hands",
+      "note": "Every pass seen, every catch made with the fingers up, and no knock to the head shrugged off"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pass Chain",
+      "currency": "ASSISTS",
+      "ranks": [
+        "Rebound Helper",
+        "Drill Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Offence Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-shooting-form-and-arc",
+    "index": "335",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on ball size and rim height scaled to age, shooting progressions and managing repetition with rest; NFHS guidance on equipment in safe condition and padded goal supports; CDC Heads Up for a knock to the head under a crowded rim; the U.S. Center for SafeSport for observable, encouraging correction; the American Red Cross first aid course for a player down under the basket",
+    "name": "Shooting Form and Arc",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Shooting Form and Arc VR",
+    "tagline": "A practice hoop inspected and set to the right height, the ball sized to the hands, the shot built from balance up, the arc held in a band that drops, the release timed at the top, the lane clear and a shot count with rest",
+    "accent": 16742971,
+    "accentCss": "#ff7a3b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "nothing-but-arc",
+      "name": "Nothing but Arc",
+      "note": "The shot built right, the arc and release in band, and nobody under the rim or shooting on empty"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shot Chart",
+      "currency": "MAKES",
+      "ranks": [
+        "Rebounder",
+        "Shooting Helper",
+        "Assistant Coach",
+        "Shooting Coach",
+        "Skills Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-free-throw-routine",
+    "index": "336",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on building routines, managing fatigue and rest between efforts; NFHS basketball rules on free-throw lane positions and when lane players may move; CDC Heads Up for the knocks a crowded lane can bring; the U.S. Center for SafeSport for parents kept welcome but outside the drill and every conversation in view; the American Red Cross first aid course for heat and dehydration signs",
+    "name": "Free Throw Routine",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Free Throw Routine VR",
+    "tagline": "The line and lane checked, the lane rules explained, the same routine every time, the shooting foot lined up, a steady tempo, composure held on tired legs, water between rounds and shooters rotated to rest",
+    "accent": 14730058,
+    "accentCss": "#e0c34a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "same-every-time",
+      "name": "Same Every Time",
+      "note": "One routine, held the same way through fatigue and pressure, with water, rest and a clear lane"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Routine",
+      "currency": "SWISHES",
+      "ranks": [
+        "Rebound Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Routine Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-defensive-stance-and-closeouts",
+    "index": "337",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on defensive fundamentals, work-to-rest ratios and never using conditioning as punishment; NFHS basketball rules protecting an airborne shooter's landing space and on legal guarding position; CDC Heads Up for the collisions a closeout can cause; the U.S. Center for SafeSport for de-escalating a heated moment calmly and in view; the American Red Cross first aid course for a player down with a rolled ankle",
+    "name": "Defensive Stance and Closeouts",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Defensive Stance and Closeouts VR",
+    "tagline": "Room to slide checked, active hands instead of reaching, a stance built and held, slides without crossing the feet, closeouts chopped under control and never into a shooter's landing, hips opened to run, and rest between reps",
+    "accent": 5951610,
+    "accentCss": "#5ad07a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "under-control",
+      "name": "Under Control",
+      "note": "Every closeout chopped, every shooter's landing respected and every heated moment cooled without a scene"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Stops",
+      "currency": "STOPS",
+      "ranks": [
+        "Drill Helper",
+        "Defensive Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Defence Educator"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-rebounding-and-boxing-out",
+    "index": "338",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on introducing contact progressively and matching players by size and maturity; NFHS basketball rules on legal contact and displacement under the basket; CDC Heads Up for concussion signs and the recognise, remove, refer action plan with no same-day return; the U.S. Center for SafeSport for keeping a parent's concern out of the drill and in the open; the American Red Cross first aid course for a player down after a collision",
+    "name": "Rebounding and Boxing Out",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Rebounding and Boxing Out VR",
+    "tagline": "The paint cleared, pairs matched by size, the box-out built and the seal held, the jump timed, contact kept controlled, concussion signs recognised, and any knock to the head taken out of play",
+    "accent": 16735631,
+    "accentCss": "#ff5d8f",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sealed-and-safe",
+      "name": "Sealed and Safe",
+      "note": "Contact taught under control, pairs matched, and every knock to the head recognised and removed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boards",
+      "currency": "BOARDS",
+      "ranks": [
+        "Rebound Helper",
+        "Contact Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Player-Safety Lead"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-team-offense-spacing-and-screens",
+    "index": "339",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on age-appropriate team concepts, equal playing time and rest; NFHS basketball rules on legal screens — stationary, within the screener's own space, and room given to a player screened from behind; CDC Heads Up for the head knocks an illegal screen can cause; the U.S. Center for SafeSport for a programme's photo and filming policy and adults kept in view; the American Red Cross first aid course for a player hurt on a screen",
+    "name": "Team Offense: Spacing and Screens",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Team Offense: Spacing and Screens VR",
+    "tagline": "Five spots on the floor, the action drawn first, spacing fixed, an on-ball screen built and held still, the ball kept moving, illegal and blind screens caught, the reads walked, and a rotation with water in it",
+    "accent": 7317759,
+    "accentCss": "#6fa8ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "legal-and-spaced",
+      "name": "Legal and Spaced",
+      "note": "Every screen legal and still, every player on a spot, and every player rotated and watered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Playbook",
+      "currency": "ACTIONS",
+      "ranks": [
+        "Clipboard Helper",
+        "Offence Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Director"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-scrimmage-and-sportsmanship-debrief",
+    "index": "340",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on shorter periods, equal playing time, fair teams and a positive, development-first game; NFHS basketball rules and its sportsmanship expectations for players, coaches and spectators; CDC Heads Up for a fall to the head in game play — recognise, remove, refer; the U.S. Center for SafeSport for calm, observable handling of conflict and emotional well-being; the American Red Cross first aid course for a player hurt in the scrimmage",
+    "name": "Scrimmage and Sportsmanship Debrief",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Scrimmage and Sportsmanship Debrief VR",
+    "tagline": "The sideline checked, ground rules said, fair teams, short periods, the game's temperature held, minutes shared, tired players rested, sportsmanship noticed, a handshake line, a debrief in order, and a check-in on how everyone is",
+    "accent": 13142783,
+    "accentCss": "#c88aff",
+    "parSeconds": 340,
+    "badge": {
+      "id": "good-game",
+      "name": "Good Game",
+      "note": "A scrimmage played hard and fair, every flare-up cooled, and every player leaving heard and in one piece"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Box Score",
+      "currency": "GOOD GAMES",
+      "ranks": [
+        "Scorekeeper",
+        "Bench Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Programme Mentor"
       ],
       "rankAt": [
         0,
