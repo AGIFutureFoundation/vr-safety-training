@@ -608,7 +608,7 @@ function rcViewFor(id) { return app.views.find((v) => v.racer === id); }
 function rcSay(id, text, cls = "", ms = 1600) {
   const v = rcViewFor(id);
   if (!v) return;
-  v.msg = { text, cls, until: performance.now() + ms };
+  v.msg = { text, cls, until: rcClock + ms };
 }
 
 function rcHandleEvent(e) {

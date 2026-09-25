@@ -368,7 +368,7 @@ function rcBarriers(root, tr) {
     const tex = rcCanvas(512, 128, (g, w, h) => {
       g.fillStyle = "#1d3a5c"; g.fillRect(0, 0, w, h);
       g.fillStyle = "#f2c230"; g.fillRect(0, h - 18, w, 18);
-      g.fillStyle = "#f4f6f8"; g.font = "700 46px 'Barlow Condensed', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillStyle = "#f4f6f8"; g.font = "700 36px 'Barlow Condensed', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
       g.fillText("SITE SAFETY  ·  HARD HATS ON", w / 2, h / 2 - 8);
     });
     const hoard = new RcMesh();

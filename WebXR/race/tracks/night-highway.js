@@ -25,7 +25,7 @@ export const TRACK_NIGHT_HIGHWAY = {
   markings: { centre: "yellow", dashes: [-5.5, 5.5], edge: true },
   env: {
     sky: ["#03060f", "#16203b"], fog: ["#0a0f1e", 160, 820],
-    hemi: ["#7f93c8", "#141824", 0.7], sun: { colour: "#c9d6ff", intensity: 0.75, dir: [-0.7, 0.55, 0.15] },
+    hemi: ["#8a9ed6", "#1a1e2c", 0.95], sun: { colour: "#c9d6ff", intensity: 0.95, dir: [-0.7, 0.55, 0.15] },
     stars: true, moon: { dir: [-1, 0.28, 0.05], size: 34 }, ground: "#090c13", exposure: 1.15,
   },
   points: [
