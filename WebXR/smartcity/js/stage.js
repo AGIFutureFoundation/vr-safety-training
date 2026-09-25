@@ -343,6 +343,9 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
 
   return {
     root: g, ar, roam, spawn, merged, signage, far: district.far ?? null,
+    // A district may carry a HUD chip of its own: gym-court's scoreboard
+    // (react-ui.js courtReadout). Only its labels come from here.
+    scoreboard: district.scoreboard ?? null,
     // A forced district weather reports the district's own conditions.
     weather: district.forceWeather && district.weatherLabel
       ? { kind: district.weatherKind ?? wx.kind, label: district.weatherLabel, note: district.weatherNote ?? wx.note }

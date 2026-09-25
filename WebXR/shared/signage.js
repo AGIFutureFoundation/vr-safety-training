@@ -65,6 +65,7 @@ export const HAZARD_BY_CATEGORY = {
   "Culinary & Hospitality": { header: "CAUTION", text: "Hot surfaces and wet floors. Cut-resistant gloves at the slicer.", pictogram: "hazard" },
   "Sewing & Garment Trades": { header: "CAUTION", text: "Pinch points. Keep hands clear of the needle and the feed.", pictogram: "hazard" },
   "Surface Prep & Coatings": { header: "WARNING", text: "Lead and silica dust. Respirator and containment required.", pictogram: "mandatory" },
+  "Youth Sports & Coaching": { header: "CAUTION", text: "Wet floor stops play. Report spills, injuries and head knocks to the coach.", pictogram: "hazard" },
 };
 const HAZARD_DEFAULT = { header: "NOTICE", text: "Authorised personnel only. Sign in at the gate before entering.", pictogram: "none" };
 
@@ -78,6 +79,7 @@ export const CATEGORY_DEFAULT_UNION = {
   "Entertainment & Live Events": "iatse", "Maritime & Ports": "ilwu", "Environmental Monitoring": "afscme",
   "Community Environmental Justice": "liuna", "Dental & Oral Health": "seiu", "Culinary & Hospitality": "unite-here",
   "Sewing & Garment Trades": "workers-united", "Surface Prep & Coatings": "iupat",
+  "Youth Sports & Coaching": "afscme",
 };
 
 // ------------------------------------------------------------- resolution

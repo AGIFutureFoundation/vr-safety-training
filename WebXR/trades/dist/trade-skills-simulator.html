@@ -8502,6 +8502,9 @@ const STANDARDS = Object.fromEntries([
   S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
   S("calosha-8-ccr-5141-1", "Cal/OSHA", "8 CCR 5141.1 Protection from wildfire smoke", ["Air Quality"]),
   S("abc-rbs-training", "California ABC", "Responsible Beverage Service Training Program Act", ["Food Service"]),
+  S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
+  S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
+  S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -8888,6 +8891,18 @@ const PROGRAMME_COMPETENCIES = [
       "landfill-gas", "soil-loadout"
     ],
     require: 3,
+  },
+  {
+    id: "basketball-fundamentals",
+    title: "Teach basketball fundamentals and run a youth session nobody gets hurt in",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "cdc-heads-up", "safesport-code"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
+      "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
+    ],
+    require: 5,
   },
 ];
 

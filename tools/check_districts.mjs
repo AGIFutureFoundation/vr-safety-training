@@ -235,7 +235,10 @@ for (const id of S.SCENIC_DISTRICTS) {
         if (stage.weather.kind !== (d.weatherKind ?? d.weather)) fail(id, `weather came out "${stage.weather.kind}" for station ${weather} / url "${url}" — it is forced to its own`);
       }
       const { stage } = build(id);
-      if (!/dive plan/.test(stage.weather.note) || /\d/.test(stage.weather.note)) fail(id, "its conditions note must defer limits to the dive plan and state no figure");
+      // Underwater, the note defers every limit to the dive plan; any forced
+      // conditions note states no figure the repository cannot source.
+      if (d.weatherKind === "underwater" && !/dive plan/.test(stage.weather.note)) fail(id, "its conditions note must defer limits to the dive plan");
+      if (/\d/.test(stage.weather.note)) fail(id, "its conditions note must state no figure");
     } else if (d.weather) {
       if (build(id).stage.weather.kind !== d.weather) fail(id, `no station weather should give the district's own "${d.weather}"`);
       if (build(id, { weather: "wind" }).stage.weather.kind !== "wind") fail(id, "a station's own weather must replace the district default");
@@ -266,11 +269,32 @@ else {
   if (!text(findId(tree, "hud-bottom")).includes("01:15 / 20:00")) fail("hud", "the chip does not show the bottom time against the plan");
 }
 if (UI.DiveChip({ dive: null }) !== null) fail("hud", "DiveChip must render nothing when there is no readout");
+// ---- the gym-court scoreboard chip: the district's labels, the run's numbers
+{
+  const board = S.DISTRICTS["gym-court"]?.scoreboard;
+  if (!board) fail("gym-court", "carries no scoreboard labels for its HUD chip");
+  const run = { steps: new Array(14), index: 5, finished: false, hazardHits: 1, elapsed: 75, room: { parSeconds: 300 } };
+  const c1 = UI.courtReadout(board, run);
+  if (!c1 || c1.drills !== "05/14" || c1.fouls !== "01" || c1.clock !== "01:15 / 05:00" || c1.state !== "warn") fail("hud", `courtReadout gave ${JSON.stringify(c1)} for a run five drills in with one foul at 75s`);
+  if (UI.courtReadout(board, { ...run, hazardHits: 0 })?.state !== "ok") fail("hud", "a clean run inside par should read ok");
+  if (UI.courtReadout(board, { ...run, hazardHits: 0, elapsed: 301 })?.state !== "over") fail("hud", "past par should turn the scoreboard chip red");
+  if (UI.courtReadout(null, run) !== null || UI.courtReadout(board, null) !== null) fail("hud", "no scoreboard or no run must give no readout");
+  const courtTree = UI.CourtChip({ court: c1 });
+  if (!findId(courtTree, "hud-court")) fail("hud", "CourtChip rendered no #hud-court");
+  else if (!text(findId(courtTree, "hud-drills")).includes("05/14") || !text(findId(courtTree, "hud-fouls")).includes("01")) fail("hud", "the scoreboard chip does not show drills and fouls");
+  if (UI.CourtChip({ court: null }) !== null) fail("hud", "CourtChip must render nothing when there is no readout");
+  const built = build("gym-court").stage;
+  if (built.scoreboard !== board) fail("gym-court", "the stage does not hand the district's scoreboard back to the app");
+  if (build("golden-gate-deck").stage.scoreboard !== null) fail("golden-gate-deck", "a district with no scoreboard handed one back");
+}
 const appSrc = readFileSync(join(WEBXR, "smartcity/js/app.js"), "utf8");
 const uiSrc = readFileSync(join(WEBXR, "smartcity/js/react-ui.js"), "utf8");
 const cssSrc = readFileSync(join(WEBXR, "smartcity/index.html"), "utf8");
 if (!/dive:\s*diveReadout\(s\.room\.underwater,\s*s\.elapsed\)/.test(appSrc)) fail("hud", "app.js syncHud() does not put diveReadout(room.underwater, elapsed) in the HUD state");
 if (!/h\(HudDive\)/.test(uiSrc)) fail("hud", "react-ui.js App does not render HudDive");
+if (!/court:\s*courtReadout\(state\.stage\?\.scoreboard,\s*s\)/.test(appSrc)) fail("hud", "app.js syncHud() does not put courtReadout(stage.scoreboard, session) in the HUD state");
+if (!/h\(HudCourt\)/.test(uiSrc)) fail("hud", "react-ui.js App does not render HudCourt");
+if (!/#hud-court\s*\{/.test(cssSrc)) fail("hud", "index.html has no #hud-court style");
 if (!/#hud-dive\s*\{/.test(cssSrc)) fail("hud", "index.html has no #hud-dive style");
 if (!/enterDistrictPreview/.test(appSrc) || !/get\("district"\)/.test(appSrc)) fail("preview", "app.js has no ?district= preview");
 // A station that declares a dive readout must stand in the district that shows one.
@@ -282,5 +306,5 @@ for (const f of readdirSync(join(WEBXR, "smartcity/js/sims")).filter((n) => n.en
 const summary = rows.map((r) => `${r.id} ${r.meshes}/${S.SCENIC_BUDGET} meshes, roam ${r.roam.toFixed(1)}m`).join("; ");
 console.log(failures
   ? `\n${failures} district problem(s) found.`
-  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater HUD chip renders.`);
+  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater and scoreboard HUD chips render.`);
 process.exit(failures ? 1 : 0);
