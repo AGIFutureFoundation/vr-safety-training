@@ -19390,5 +19390,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ed-playground-equipment-inspection",
+    "index": "621",
+    "domain": "Building Systems & Facilities",
+    "trade": "AFT- or CSEA-represented school grounds and facilities worker conducting the daily playground equipment safety inspection",
+    "category": "Building Systems & Facilities",
+    "certification": "AFT and CSEA facilities training; OSHA's walking-working surfaces standard (29 CFR 1910.22) for the fall-zone surfacing and the ground around the equipment; the district's Injury and Illness Prevention Program (8 CCR 3203) for the daily inspection itself; the equipment manufacturer's own maintenance manual for torque values, hardware and replacement parts; the industry's public playground-safety guidance and its voluntary equipment standard, named here as bodies rather than by a clause number; the district's grounds and facilities procedure for tagging equipment out of service",
+    "name": "Playground Equipment Inspection",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Playground Equipment Inspection VR",
+    "tagline": "Before the gate opens: the fence walked, the fall-zone surfacing probed for depth, the structure checked close up, a bolt torqued, an S-hook closed with the tool instead of a thumb, a handrail shake-tested, glass bagged rather than palmed, a broken swing tagged and roped off, and the drain that was clogged left clear",
+    "accent": 6273146,
+    "accentCss": "#5fb87a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "walked-before-opened",
+      "name": "Walked Before It Opened",
+      "note": "The fence, the surfacing and the structure all checked close up, nothing forced with bare hands, and the one thing that failed today tagged out and roped off before the first student arrived"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Morning Walk",
+      "currency": "FT",
+      "ranks": [
+        "Grounds Aide",
+        "Facilities Tech",
+        "Lead Groundskeeper",
+        "Building Engineer",
+        "Facilities Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

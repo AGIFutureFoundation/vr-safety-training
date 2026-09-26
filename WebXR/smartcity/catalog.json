@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 455
+      "stations": 456
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "ed-playground-equipment-inspection",
         "ed-custodial-chemical-dilution-and-floor-machine",
         "pm-storage-and-bike-room",
         "pm-playground-and-courtyard",
@@ -7907,6 +7908,89 @@
     },
     {
       "app": "smartcity",
+      "id": "ed-playground-equipment-inspection",
+      "name": "Playground Equipment Inspection",
+      "title": "SmartCiti.X~ Playground Equipment Inspection VR",
+      "tagline": "Before the gate opens: the fence walked, the fall-zone surfacing probed for depth, the structure checked close up, a bolt torqued, an S-hook closed with the tool instead of a thumb, a handrail shake-tested, glass bagged rather than palmed, a broken swing tagged and roped off, and the drain that was clogged left clear",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "AFT- or CSEA-represented school grounds and facilities worker conducting the daily playground equipment safety inspection",
+      "union": null,
+      "certification": "AFT and CSEA facilities training; OSHA's walking-working surfaces standard (29 CFR 1910.22) for the fall-zone surfacing and the ground around the equipment; the district's Injury and Illness Prevention Program (8 CCR 3203) for the daily inspection itself; the equipment manufacturer's own maintenance manual for torque values, hardware and replacement parts; the industry's public playground-safety guidance and its voluntary equipment standard, named here as bodies rather than by a clause number; the district's grounds and facilities procedure for tagging equipment out of service",
+      "accent": "#5fb87a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "walked-before-opened",
+        "name": "Walked Before It Opened",
+        "note": "The fence, the surfacing and the structure all checked close up, nothing forced with bare hands, and the one thing that failed today tagged out and roped off before the first student arrived"
+      },
+      "meshes": 176,
+      "lights": 0,
+      "overBudget": false,
+      "index": "621",
+      "flat": false,
+      "system": "Morning Walk",
+      "currency": "FT",
+      "ranks": [
+        "Grounds Aide",
+        "Facilities Tech",
+        "Lead Groundskeeper",
+        "Building Engineer",
+        "Facilities Certified"
+      ],
+      "awards": [
+        {
+          "id": "tool-not-thumb",
+          "name": "Tool, Not Thumb",
+          "note": "Never forced a hook or picked up glass bare-handed"
+        },
+        {
+          "id": "clean-walk",
+          "name": "Clean Walk",
+          "note": "No corrections across the whole yard"
+        },
+        {
+          "id": "steady-shake-test",
+          "name": "Steady Shake Test",
+          "note": "The handrail test held in band without a break"
+        },
+        {
+          "id": "gate-open-on-time",
+          "name": "Gate Open on Time",
+          "note": "Whole walk finished inside 80% of par"
+        },
+        {
+          "id": "one-pass-structure",
+          "name": "One-Pass Structure Check",
+          "note": "Close inspection clean on the first pass"
+        },
+        {
+          "id": "nine-in-a-row",
+          "name": "Nine in a Row",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ed-playground-equipment-inspection"
+    },
+    {
+      "app": "smartcity",
       "id": "ed-custodial-chemical-dilution-and-floor-machine",
       "name": "Custodial Chemical Dilution & Floor Machine",
       "title": "SmartCiti.X~ Custodial Chemical Dilution & Floor Machine VR",
@@ -7939,7 +8023,7 @@
         "name": "Metered, Not Guessed",
         "note": "Every dilution off the dispenser's own dial, the machine grounded and chocked with its cord clear of the walkway, and the eyewash proven before the shift ends"
       },
-      "meshes": 147,
+      "meshes": 142,
       "lights": 0,
       "overBudget": false,
       "index": "620",
@@ -28345,7 +28429,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29005,7 +29089,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
