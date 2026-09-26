@@ -175,5 +175,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "plumbers-and-pipefitters",
     "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
     "accent": "#2f6f4a"
+  },
+  {
+    "programme": "glaziers-and-architectural-metal",
+    "name": "Glaziers and Architectural Metal",
+    "accent": "#4fa3d1"
   }
 ];

@@ -407,6 +407,25 @@ export function hoseReel(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: TOOLKIT_BUDGET.hoseReel.footprint });
 }
 
+/** Two-cup manual glass vacuum lifter: a handle crossbar between two rubber
+ *  suction pods, each fed off a hand pump, with a mechanical gauge on the
+ *  crossbar that reads the vacuum actually held. A glazier reads this dial
+ *  before trusting the cups with a lite of glass — the pump can feel firm on
+ *  a cup that is bleeding air through a nicked seal. Parts: gauge (live
+ *  screen, the kPa the cups are holding right now). */
+export function glassVacuumLifter(parent, x, y, z, opts = {}) {
+  const lv = tkBody(opts, 0xd23a2e);
+  const rig = tkRig(parent, x, y, z, opts, "glassVacuumLifter");
+  const S = rig.shell;
+  box(S, 0.5, 0.04, 0.05, 0, 0.2, 0, ...tkPaint(lv.colour));
+  for (const sx of [-0.2, 0.2]) {
+    const cup = cyl(S, 0.075, 0.075, 0.05, sx, 0.06, 0, 0x1b1d20, { rough: 0.75, finish: "rubber", seg: 16 });
+    cup.rotation.x = Math.PI / 2;
+  }
+  tkScreen(rig, "gauge", rig.base, 0.08, 0.03, 0, 0.2, 0.026, tkLcd("VAC", ["-- kPa"], { bezel: "#1b1d20", screenFrac: 0.55 }));
+  return flDone(rig, { footprint: TOOLKIT_BUDGET.glassVacuumLifter.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count (≤ 4), footprint [width X, height Y, length Z] and parts per tool; see FLEET_BUDGET. */
@@ -431,11 +450,13 @@ export const TOOLKIT_BUDGET = {
   tireGauge: { build: "tireGauge", meshes: 3, footprint: [0.03, 0.02, 0.31], parts: ["bar"], note: "dual-foot truck tyre gauge" },
   creeper: { build: "creeper", meshes: 3, footprint: [0.44, 0.13, 0.98], parts: ["casters"], note: "mechanic's creeper" },
   hoseReel: { build: "hoseReel", meshes: 4, footprint: [0.28, 0.37, 0.39], parts: ["drum", "nozzle"], note: "air hose reel" },
+  glassVacuumLifter: { build: "glassVacuumLifter", meshes: 4, footprint: [0.55, 0.24, 0.06], parts: ["gauge"], note: "two-cup manual glass vacuum lifter, live vacuum gauge" },
 };
 
 /** The builders by the name TOOLKIT_BUDGET's `build` field uses. */
 export const TOOLKIT_BUILDERS = {
   drill, angleGrinder, impactWrench, torqueWrench, multimeter, fourGasMeter, radio, flashlight, tapeMeasure,
   level, hammer, wrenchSet, hardHatLamp, chock, tagLine, tieDownStrap, gladHandGauge, tireGauge, creeper, hoseReel,
+  glassVacuumLifter,
 };
 void cyl; void gradientFill;

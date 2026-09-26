@@ -6865,6 +6865,7 @@ const UNIONS = [
   {"id":"ironworkers","abbrev":"IW","name":"International Association of Bridge, Structural, Ornamental and Reinforcing Iron Workers","aliases":["Ironworkers","Iron Workers","IW"],"local":null,"colors":null,"trainingBody":"ironworkers-impact","trainingTitle":"Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork","scope":["Construction & Structural Trades","Maritime & Ports","Building Systems & Facilities","Energy & Power"],"note":"Structural, ornamental and reinforcing ironwork, trained with IMPACT."},
   {"id":"iuoe","abbrev":"IUOE","name":"International Union of Operating Engineers","aliases":["IUOE"],"local":null,"colors":null,"trainingBody":"iuoe-training","trainingTitle":"IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship","scope":["Environmental Monitoring","Building Systems & Facilities","Water & Environmental","Construction & Structural Trades","Maritime & Ports","Energy & Power","Community Environmental Justice","Mobility & Transit"],"note":"Operating and stationary engineers. The repository names both Local 3 (operating) and Local 39 (stationary), so no single local is carried."},
   {"id":"iupat","abbrev":"IUPAT","name":"International Union of Painters and Allied Trades","aliases":["IUPAT"],"local":null,"colors":null,"trainingBody":"iupat-fti","trainingTitle":"IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training","scope":["Surface Prep & Coatings","Construction & Structural Trades","Building Systems & Facilities","Maritime & Ports"],"note":"Industrial painters, glaziers and drywall finishers, trained through the Finishing Trades Institute."},
+  {"id":"iupat-dc16","abbrev":"IUPAT DC 16","name":"IUPAT District Council 16","aliases":["IUPAT DC 16","IUPAT District Council 16"],"local":null,"colors":null,"trainingBody":"iupat-dc16-glaziers","trainingTitle":"IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal","scope":["Construction & Structural Trades","Building Systems & Facilities"],"note":"Glaziers and architectural metal workers, trained through IUPAT District Council 16's apprenticeship."},
   {"id":"liuna","abbrev":"LIUNA","name":"Laborers' International Union of North America","aliases":["LIUNA"],"local":"Local 261","colors":null,"trainingBody":"liuna-training-fund","trainingTitle":"LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula","scope":["Water & Environmental","Environmental Monitoring","Construction & Structural Trades","Emergency Services","Community Environmental Justice","Maritime & Ports","Energy & Power","Building Systems & Facilities","Surface Prep & Coatings"],"note":"Construction craft laborers and hazardous-waste crews. Local 261 is the one LIUNA local the repository names (the Hunters Point programme)."},
   {"id":"meba","abbrev":"MEBA","name":"Marine Engineers' Beneficial Association","aliases":["MEBA"],"local":null,"colors":null,"trainingBody":"meba-calhoon-school","trainingTitle":"MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training","scope":["Maritime & Ports"],"note":"Licensed marine engineers, trained at the Calhoon MEBA Engineering School."},
   {"id":"naemt","abbrev":"NAEMT","name":"National Association of Emergency Medical Technicians","aliases":["NAEMT"],"local":null,"colors":null,"trainingBody":"naemt-courses","trainingTitle":"NAEMT course programmes — PHTLS, AMLS and EMS Safety","scope":["Emergency Services"],"note":"A professional association rather than a union; listed because the registry files its course programmes under the union body."},
@@ -7772,6 +7773,25 @@ const CURRICULA = [
       { app: "smartcity", id: "pl-steam-trap-and-condensate-line-repair", why: "The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe." },
       { app: "smartcity", id: "pl-water-heater-and-tpr-valve-replacement", why: "The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights." },
       { app: "smartcity", id: "pl-natural-gas-pressure-test-and-leak-check", why: "The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas." },
+    ],
+  },
+  {
+    id: "glaziers-and-architectural-metal",
+    name: "Glaziers and Architectural Metal",
+    union: "IUPAT DC 16 — International Union of Painters and Allied Trades, District Council 16 glaziers apprenticeship",
+    certification: "IUPAT District Council 16 glaziers apprenticeship and training in architectural glass and metal, the IUPAT Finishing Trades Institute glazier curriculum, ANSI/ASSP Z97.1 safety glazing materials, and OSHA 29 CFR 1926 Subparts L and M for scaffolds and fall protection",
+    guides: ["iupat-dc16-glaziers", "iupat-fti", "ansi-z97-1", "osha-1926-451", "osha-1926-454", "osha-1926-501", "osha-1926-502", "osha-1926-subpart-l", "osha-1926-subpart-m", "ansi-z359", "smacna-architectural-sheet-metal"],
+    summary: "A glass and metal crew across a whole building: a unit walked off the floor, a storefront glazed with cups, a yard that hands lites from a trailer to a rack, a swing stage over the plaza, a skylight opened only under a screen, a shattered lite cleared and covered, a shop that bends and squares the panel before it ever ships, and the field measure an order is actually cut against.",
+    accent: "#4fa3d1",
+    stations: [
+      { app: "smartcity", id: "gl-curtain-wall-unit-setting-from-the-floor", why: "A pre-glazed unit is walked off the floor stack on a davit and anchored into a bay that is a straight fall to the street for as long as it stays open, so the barrier, the harness and the wind reading all come before the unit does." },
+      { app: "smartcity", id: "gl-storefront-frame-and-glass-set-with-cups", why: "Ground level reads as low-risk right up until a tempered lite meets a gust at a propped entrance door with the sidewalk a metre away, so the cups are proven on scrap and the door prop is checked before the lite ever clears the A-frame." },
+      { app: "smartcity", id: "gl-glass-handling-cart-and-crane-vacuum-lifter", why: "Every lite in the yard changes hands twice before it is cut, and both the crane's vacuum beam and the hand cups fail the same way — a reading trusted without being read — so both get proven empty before either carries a real lite." },
+      { app: "smartcity", id: "gl-swing-stage-glazing-and-sealant", why: "Two wire ropes hold a swing stage over the plaza, and the rope grab on its own separate lifeline is the only thing that holds the person if either one lets go, so it stays clipped and sliding the whole time anyone is on the platform." },
+      { app: "smartcity", id: "gl-skylight-glass-replacement-and-fall-protection", why: "A skylight curb with no glass and no screen in it looks like the rest of the roof from three steps away and is a straight fall through, so the screen and the warning line go up before the old unit ever comes loose and stay up until the new one is sealed." },
+      { app: "smartcity", id: "gl-tempered-glass-breakage-and-cleanup", why: "A tempered lite that lets go on its own still leaves a fringe of glass held in the frame by nothing but its own jagged edges and a bay with no glass in it five storeys up, so the fringe is freed under control and the cover goes up before the sweep even starts." },
+      { app: "smartcity", id: "gl-aluminium-panel-fabrication-and-brake", why: "A press brake closes on tonnes at a pace slow enough to look harmless and fast enough to give a hand no time back, so the two-hand control is proven empty and held through every cycle rather than trusted to a single foot pedal." },
+      { app: "smartcity", id: "gl-shop-drawing-takeoff-and-field-measure", why: "A lite ordered to the drawing instead of the actual opening arrives and does not fit, so the field measurement — width, height and both diagonals, taken from a scaffold that is locked before it is climbed — is what the shop cuts glass against." },
     ],
   },
 ];
@@ -9028,6 +9048,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "plumbers-and-pipefitters",
     "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
     "accent": "#2f6f4a"
+  },
+  {
+    "programme": "glaziers-and-architectural-metal",
+    "name": "Glaziers and Architectural Metal",
+    "accent": "#4fa3d1"
   }
 ];
 

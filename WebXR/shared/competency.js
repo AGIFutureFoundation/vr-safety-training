@@ -148,6 +148,8 @@ export const STANDARDS = Object.fromEntries([
   S("nfpa-1500", "NFPA", "1500 Standard on Fire Department Occupational Safety, Health, and Wellness Program", ["Emergency Response"]),
   S("nfpa-1584", "NFPA", "1584 Standard on the Rehabilitation Process for Members During Emergency Operations and Training Exercises", ["Emergency Response"]),
   S("ansi-z359", "ANSI/ASSP", "Z359 Fall Protection Code", ["Construction", "Telecom"]),
+  S("ansi-z97-1", "ANSI/ASSP", "Z97.1 Safety glazing materials used in buildings", ["Construction"], "unverified"),
+  S("iupat-dc16-glaziers", "union", "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal", ["Construction"], "unverified"),
   S("ansi-z49-1", "ANSI/AWS", "Z49.1 Safety in Welding, Cutting, and Allied Processes", ["Metal Trades"]),
   S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
   S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
@@ -649,6 +651,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "pl-medical-gas-brazing-and-purge", "pl-hydronic-boiler-piping-and-hydrotest", "pl-underground-sewer-lateral-and-trench-shoring", "pl-fire-sprinkler-riser-and-flow-test",
       "pl-copper-press-and-solder-rough-in", "pl-steam-trap-and-condensate-line-repair", "pl-water-heater-and-tpr-valve-replacement", "pl-natural-gas-pressure-test-and-leak-check"
+    ],
+    require: 4,
+  },
+  {
+    id: "glaziers-and-architectural-metal",
+    title: "Set, seal and clear architectural glass under fall protection, from the floor, the yard or a swing stage",
+    kind: "programme",
+    standards: ["iupat-dc16-glaziers", "ansi-z97-1", "osha-1926-subpart-l", "osha-1926-subpart-m", "ansi-z359"],
+    stations: [
+      "gl-curtain-wall-unit-setting-from-the-floor", "gl-storefront-frame-and-glass-set-with-cups", "gl-glass-handling-cart-and-crane-vacuum-lifter", "gl-swing-stage-glazing-and-sealant",
+      "gl-skylight-glass-replacement-and-fall-protection", "gl-tempered-glass-breakage-and-cleanup", "gl-aluminium-panel-fabrication-and-brake", "gl-shop-drawing-takeoff-and-field-measure"
     ],
     require: 4,
   },
