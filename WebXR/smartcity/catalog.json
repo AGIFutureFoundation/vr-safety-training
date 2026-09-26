@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 422
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-torch-applied-membrane-and-fire-watch",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
@@ -7641,6 +7642,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-torch-applied-membrane-and-fire-watch",
+      "name": "Torch-Applied Membrane & Fire Watch",
+      "title": "SmartCiti.X~ Torch-Applied Membrane & Fire Watch VR",
+      "tagline": "The hot work permit read and the extinguisher confirmed, harness clipped, the torch and hose inspected, the cylinder read, the torch lit, a cap-sheet roll rolled to the lap line and welded at a steady pace, the seam rolled and checked, the torch purged cold, the deck scanned, the permit closed and the cylinder shut, with a gust threatening a loose corner and smoke reported two floors down along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer running a torch on a modified-bitumen cap sheet, with a dedicated fire watch on deck",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for hot work, fire watch and extinguishers; ANSI Z359 for the harness and anchor; NRCA torch-application and fire-watch practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "seam-welded-clean",
+        "name": "Seam Welded Clean",
+        "note": "A cap sheet torched on with the fire watch answered, nobody burned, and the permit closed before the cart rolled off"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf1",
+      "flat": false,
+      "system": "Torch Watch",
+      "currency": "SEAM",
+      "ranks": [
+        "Apprentice",
+        "Torch Hand",
+        "Seam Welder",
+        "Lead Mopman",
+        "Fire Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "permit-first",
+          "name": "Permit First",
+          "note": "The hot work permit and the extinguisher confirmed before the torch was ever lit"
+        },
+        {
+          "id": "steady-pass",
+          "name": "Steady Pass",
+          "note": "The torch swept the whole seam without a break in the pace"
+        },
+        {
+          "id": "never-touched-hot",
+          "name": "Never Touched Hot",
+          "note": "No hand near a molten seam, no cylinder left loose, no fume walked through"
+        },
+        {
+          "id": "clean-lap",
+          "name": "Clean Lap",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "on-the-band",
+          "name": "On The Band",
+          "note": "The roller pressure committed inside the bond band first time"
+        },
+        {
+          "id": "course-closed",
+          "name": "Course Closed",
+          "note": "Permit closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-torch-applied-membrane-and-fire-watch"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27669,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28245,7 +28329,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
