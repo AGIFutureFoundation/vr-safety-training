@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 424
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-loader-truck-loading-and-blind-spots",
         "op-dozer-slope-work-and-rollover-protection",
         "op-excavator-trench-and-utility-locate",
         "leading-edge-and-horizontal-lifeline",
@@ -7643,6 +7644,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-loader-truck-loading-and-blind-spots",
+      "name": "Loader Truck Loading & Blind Spots",
+      "title": "SmartCiti.X~ Loader Truck Loading & Blind Spots VR",
+      "tagline": "Wheel loader loading a haul truck: blind zones mapped, the spotter positioned where the cab can see them, the driver clear before the bucket swings, the truck chocked, and every pass counted against the scale",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Wheel loader operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around loading equipment",
+      "accent": "#2f8f5f",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "select",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "load-watch",
+        "name": "Load Watch",
+        "note": "Blind zones mapped, the driver clear of the swing path every pass, the truck chocked, and the load weighed against the ticket"
+      },
+      "meshes": 251,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-3",
+      "flat": false,
+      "system": "Load Watch",
+      "currency": "LOAD",
+      "ranks": [
+        "Ground Hand",
+        "Loader Hand",
+        "Blind-Spot Certified",
+        "Load Authority",
+        "Load Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-over-cab",
+          "name": "Never Over the Cab",
+          "note": "Never swung a loaded bucket over the occupied cab"
+        },
+        {
+          "id": "chocked-first",
+          "name": "Chocked First",
+          "note": "Never loaded a truck that was not chocked"
+        },
+        {
+          "id": "steady-pass",
+          "name": "Steady Pass",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "blind-mapped",
+          "name": "Blind Zones Mapped Clean",
+          "note": "Map every blind zone, first try"
+        },
+        {
+          "id": "quick-load",
+          "name": "Quick Load",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "load-streak",
+          "name": "Load Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-loader-truck-loading-and-blind-spots"
     },
     {
       "app": "smartcity",
@@ -27763,7 +27852,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 248,
       "lights": 0,
       "overBudget": false,
       "index": "92",

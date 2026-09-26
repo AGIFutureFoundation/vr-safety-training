@@ -18046,5 +18046,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-loader-truck-loading-and-blind-spots",
+    "index": "op-3",
+    "domain": "Construction",
+    "trade": "Wheel loader operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around loading equipment",
+    "name": "Loader Truck Loading & Blind Spots",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Loader Truck Loading & Blind Spots VR",
+    "tagline": "Wheel loader loading a haul truck: blind zones mapped, the spotter positioned where the cab can see them, the driver clear before the bucket swings, the truck chocked, and every pass counted against the scale",
+    "accent": 3116895,
+    "accentCss": "#2f8f5f",
+    "parSeconds": 265,
+    "badge": {
+      "id": "load-watch",
+      "name": "Load Watch",
+      "note": "Blind zones mapped, the driver clear of the swing path every pass, the truck chocked, and the load weighed against the ticket"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Load Watch",
+      "currency": "LOAD",
+      "ranks": [
+        "Ground Hand",
+        "Loader Hand",
+        "Blind-Spot Certified",
+        "Load Authority",
+        "Load Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
