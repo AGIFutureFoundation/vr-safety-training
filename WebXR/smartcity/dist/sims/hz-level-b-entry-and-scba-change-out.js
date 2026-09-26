@@ -5,6 +5,7 @@ import {
   standingFigure, lockTag, reg, surfaceTexture, texturedMat, mudflatFace,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Level B Entry & SCBA Change-Out VR — Environmental Monitoring,
 // the hazmat and environmental response block.
@@ -202,6 +203,7 @@ export const SIM_HZ_LEVEL_B_ENTRY_AND_SCBA_CHANGE_OUT = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "hz-level-b-entry-and-scba-change-out", [-2.4, 1.1, -3.0]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.7, HLB_ACCENT);

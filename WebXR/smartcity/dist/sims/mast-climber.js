@@ -7,6 +7,7 @@ import {
   standingFigure, lockTag, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Mast Climber VR — Construction & Structural Trades, station six.
 // Adding a mast section to a mast climbing work platform and taking it up. The
@@ -192,6 +193,7 @@ export const SIM_MAST_CLIMBER = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "mast-climber", [2.2, 1.3, 2.2]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.2, MC_ACCENT);

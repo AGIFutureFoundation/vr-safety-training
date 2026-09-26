@@ -23,20 +23,20 @@ const KEY = "vr-training-hardhats-v1";
  *  counter on the homepage, the unlock rule in the race, and the checker. */
 export const HARD_HAT_TOTAL = 12;
 
-function store(storage) {
+function eggStorage(storage) {
   if (storage) return storage;
   try { return globalThis.localStorage ?? null; } catch (_) { return null; }
 }
 
 function load(storage) {
   try {
-    const raw = JSON.parse(store(storage)?.getItem(KEY) || "[]");
+    const raw = JSON.parse(eggStorage(storage)?.getItem(KEY) || "[]");
     return Array.isArray(raw) ? raw.filter((id) => typeof id === "string") : [];
   } catch (_) { return []; }
 }
 
 function save(list, storage) {
-  try { store(storage)?.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+  try { eggStorage(storage)?.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
 }
 
 /** The ids found so far, oldest first. */
@@ -55,7 +55,7 @@ export function recordHardHat(id, storage) {
 }
 
 /** Clear every find. Used by the checker; not exposed in any app UI. */
-export function clearHardHats(storage) { try { store(storage)?.removeItem(KEY); } catch (_) { /* ignore */ } }
+export function clearHardHats(storage) { try { eggStorage(storage)?.removeItem(KEY); } catch (_) { /* ignore */ } }
 
 // ------------------------------------------------------------------ toast
 
@@ -90,7 +90,7 @@ function activeCamera() {
   return window.__smartcityTest?.camera?.() ?? window.__tradesTest?.camera?.() ?? window.__holodeckTest?.camera?.() ?? null;
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
   window.addEventListener("click", (e) => {
     if (!live || !live.mesh.visible) return;
     const canvas = document.querySelector("canvas");

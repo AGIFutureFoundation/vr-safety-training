@@ -6,6 +6,7 @@ import {
   CITY, stationPad, holoPanel, holoTag, instrument, standingFigure, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Patient Intake Screening VR — Dental & Oral Health, station one.
 // The hygienist's first ten minutes with a patient, before an instrument ever
@@ -203,6 +204,7 @@ export const SIM_PATIENT_INTAKE_SCREENING = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "patient-intake-screening", [-2.8, 1.15, 1.6]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.3, PIS_ACCENT);

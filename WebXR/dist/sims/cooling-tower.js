@@ -2,6 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { box, cyl, ball, slab, hose, group, decal, repaint, signFace, particles, mat } from "../../../shared/kit.js";
 import { CITY, stationPad, holoPanel, holoTag, cone, instrument, standingFigure, valveWheel, lockTag, reg } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Cooling Tower VR — Building Systems & Facilities, station five.
 // A quarterly clean and Legionella control task on a rooftop tower: the
@@ -179,6 +180,7 @@ export const SIM_COOLING_TOWER = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "cooling-tower", [2.6, 1.15, -2.6]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.6, CT2_ACCENT);

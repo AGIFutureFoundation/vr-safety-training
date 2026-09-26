@@ -53,7 +53,7 @@
   .mode b{display:block;font-family:var(--cond);font-size:20px;letter-spacing:.03em;text-transform:uppercase}
   .mode span{display:block;font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4}
   .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
-  .pick{text-align:left;padding:12px;border-radius:10px;border:1px solid var(--edge);background:var(--panel);cursor:pointer;position:relative}
+  .pick{text-align:left;padding:12px;border-radius:10px;border:1px solid var(--edge);border-left:3px solid var(--tint,var(--edge));background:var(--panel);cursor:pointer;position:relative}
   .pick.on{border-color:var(--amber);box-shadow:0 0 0 2px rgba(255,201,60,.25) inset}
   .pick[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
   .pick b{display:block;font-family:var(--cond);font-size:19px;letter-spacing:.03em;text-transform:uppercase}
@@ -190,6 +190,9 @@
     <div class="row" id="count-row"><span class="eyebrow">Players on this machine</span><div class="seg" id="pcount"></div></div>
     <div class="players" id="player-cards"></div>
     <p class="note">Each player steers with their own keys, or the gamepad with the same number. Cycle your vehicle with your own left and right keys. The other seats on the grid of eight are AI drivers.</p>
+    <p class="eyebrow" style="margin-top:18px">Liveries — player 1's car</p>
+    <p class="note" id="livery-note">Paint schemes earned elsewhere on the platform. Locked ones are greyed, with what unlocks them.</p>
+    <div class="grid" id="livery-list"></div>
     <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="garage-go">To the grid</button></div>
   </div>
 </section>
@@ -5984,6 +5987,683 @@ const EQUIPMENT_BUILDERS = {
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
 
+/* ===== shared/eggs.js ===== */
+// Hard Hat Hunt — one of the platform's Easter eggs (see docs/easter-egg.md).
+//
+// A small golden hard hat is hidden in twelve stations, chosen across
+// programmes. A station calls plantHardHat() exactly once from its own
+// build(root), with a spot for the hat, and this module does everything
+// else: the mesh, the click, the localStorage record and the toast.
+//
+// The hard hat is deliberately kept OFF the station's own interaction system
+// (shared/kit.js's markInteractive / state.hits / Session.select): a real
+// station step that is clicked out of order counts as a wrong answer, and
+// finding a hidden collectible must never be able to do that. So this module
+// raycasts for itself, using the read-only camera each app already exposes
+// for its own live tests (window.__smartcityTest.camera(), __tradesTest,
+// __holodeckTest) — the hard hat is never added to state.selectables and
+// never reaches Session.select, so it can never touch a station's steps or
+// scoring.
+//
+// Storage is this browser only, like everything else on this platform.
+
+const KEY = "vr-training-hardhats-v1";
+
+/** How many hard hats there are to find. The single source of truth for the
+ *  counter on the homepage, the unlock rule in the race, and the checker. */
+const HARD_HAT_TOTAL = 12;
+
+function eggStorage(storage) {
+  if (storage) return storage;
+  try { return globalThis.localStorage ?? null; } catch (_) { return null; }
+}
+
+function load(storage) {
+  try {
+    const raw = JSON.parse(eggStorage(storage)?.getItem(KEY) || "[]");
+    return Array.isArray(raw) ? raw.filter((id) => typeof id === "string") : [];
+  } catch (_) { return []; }
+}
+
+function save(list, storage) {
+  try { eggStorage(storage)?.setItem(KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+}
+
+/** The ids found so far, oldest first. */
+function hardHatsFound(storage) { return load(storage); }
+
+/**
+ * Record a find. Idempotent — finding the same hat twice changes nothing.
+ * Returns { found, total, allFound, justCompleted }.
+ */
+function recordHardHat(id, storage) {
+  const list = load(storage);
+  const already = list.includes(id);
+  if (!already && id) { list.push(id); save(list, storage); }
+  const found = list.length;
+  return { found, total: HARD_HAT_TOTAL, allFound: found >= HARD_HAT_TOTAL, justCompleted: !already && found >= HARD_HAT_TOTAL };
+}
+
+/** Clear every find. Used by the checker; not exposed in any app UI. */
+function clearHardHats(storage) { try { eggStorage(storage)?.removeItem(KEY); } catch (_) { /* ignore */ } }
+
+// ------------------------------------------------------------------ toast
+
+let toastEl = null;
+function toast(text) {
+  if (typeof document === "undefined") return;
+  if (!toastEl) {
+    toastEl = document.createElement("div");
+    toastEl.setAttribute("role", "status");
+    toastEl.id = "hardhat-toast";
+    Object.assign(toastEl.style, {
+      position: "fixed", left: "50%", bottom: "22px", transform: "translateX(-50%)",
+      zIndex: "9999", maxWidth: "calc(100vw - 32px)", background: "#101b27",
+      border: "1px solid #f2c14b", borderRadius: "6px", padding: "10px 16px",
+      font: "14px/1.4 system-ui, sans-serif", color: "#edf6fb", boxShadow: "0 24px 60px rgba(0,0,0,.55)",
+      transition: "opacity .25s", opacity: "0", pointerEvents: "none",
+    });
+    document.body.appendChild(toastEl);
+  }
+  toastEl.textContent = text;
+  toastEl.style.opacity = "1";
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => { if (toastEl) toastEl.style.opacity = "0"; }, 2600);
+}
+
+// ------------------------------------------------------------------ raycast
+
+/** The one hard hat live right now — only one station is ever on screen. */
+let live = null;
+
+function activeCamera() {
+  return window.__smartcityTest?.camera?.() ?? window.__tradesTest?.camera?.() ?? window.__holodeckTest?.camera?.() ?? null;
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("click", (e) => {
+    if (!live || !live.mesh.visible) return;
+    const canvas = document.querySelector("canvas");
+    const camera = activeCamera();
+    if (!canvas || !camera) return;
+    const rect = canvas.getBoundingClientRect();
+    if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) return;
+    const THREE = live.THREE;
+    const ndc = new THREE.Vector2(
+      ((e.clientX - rect.left) / rect.width) * 2 - 1,
+      -((e.clientY - rect.top) / rect.height) * 2 + 1,
+    );
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(ndc, camera);
+    const hits = ray.intersectObject(live.mesh, true);
+    if (!hits.length) return;
+    const id = live.id;
+    live.mesh.visible = false;
+    const r = recordHardHat(id);
+    window.__hardHatsTest = { last: id, ...r };
+    toast(r.allFound
+      ? `Hard hat found — ${r.found}/${r.total}, all of them! A livery is waiting in the race.`
+      : `Hard hat found — ${r.found}/${r.total}.`);
+  });
+}
+
+// ------------------------------------------------------------------ plant
+
+/**
+ * A station calls this once from its own build(root):
+ *
+ *     plantHardHat(root, THREE, "cooling-tower", [2.6, 1.15, -2.6]);
+ *
+ * `pos` is [x, y, z] in root's local space. Already found → still built
+ * (so the call stays a plain one-liner with no station-side branching), just
+ * hidden. Returns the group, in case a station wants to nudge it further.
+ */
+function plantHardHat(root, THREE, id, pos = [0, 0, 0]) {
+  const g = new THREE.Group();
+  g.position.set(pos[0] ?? 0, pos[1] ?? 0, pos[2] ?? 0);
+  const shell = new THREE.Mesh(
+    new THREE.SphereGeometry(0.11, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.55),
+    new THREE.MeshStandardMaterial({ color: 0xf2c14b, roughness: 0.35, metalness: 0.15, emissive: 0x5c3f00, emissiveIntensity: 0.3 }),
+  );
+  shell.position.y = 0.05;
+  const brim = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.135, 0.135, 0.018, 20),
+    new THREE.MeshStandardMaterial({ color: 0xc99a2e, roughness: 0.4, metalness: 0.1 }),
+  );
+  brim.position.y = 0.015;
+  const ridge = new THREE.Mesh(
+    new THREE.BoxGeometry(0.02, 0.06, 0.24),
+    new THREE.MeshStandardMaterial({ color: 0xffd97a, roughness: 0.4 }),
+  );
+  ridge.position.y = 0.09;
+  g.add(shell, brim, ridge);
+  g.traverse((o) => { o.userData.hardHatEgg = id; });
+  root.add(g);
+
+  g.visible = !hardHatsFound().includes(id);
+
+  live = { id, mesh: g, THREE };
+
+  // A slow bob and spin, driven off the wall clock rather than the station's
+  // own update loop, so this one line never has to be wired into it.
+  const t0 = (typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000;
+  const spin = () => {
+    if (!g.parent) return; // the station moved on; stop animating a disposed mesh
+    const t = (typeof performance !== "undefined" ? performance.now() : Date.now()) / 1000 - t0;
+    g.rotation.y = t * 0.8;
+    g.position.y = (pos[1] ?? 0) + Math.sin(t * 1.6) * 0.03;
+    requestAnimationFrame(spin);
+  };
+  if (typeof requestAnimationFrame === "function") requestAnimationFrame(spin);
+
+  return g;
+}
+
+
+/* ===== shared/records.js ===== */
+// Training records — the auditable attempt log an employer, union hall or
+// LMS actually needs from a simulator, as opposed to the gamified profile in
+// game.js (XP, ranks, leaderboards) which is there to motivate.
+//
+// Every finished run appends one immutable entry. Entries carry what an
+// assessment record needs (station, category, the real certification the
+// station maps to, score, stars, corrections, unsafe actions, time vs par,
+// pass/fail against a stated rule) and nothing it must not (no biometrics,
+// no free text beyond the learner's own crew tag). Storage is this browser
+// only, like everything else in these apps; export is the hand-off — CSV for
+// a spreadsheet or HR system, xAPI 1.0.3 statements for a Learning Record
+// Store.
+//
+// Shared by every app on this engine; SmartCiti.X is the first to wire it.
+
+const RECORDS_KEY = "vr-training-records-v1";
+const MAX_ENTRIES = 1000;
+
+/**
+ * The pass rule, stated once so the results card, the export and the
+ * summary can never disagree: no unsafe action, at most one correction,
+ * and finished inside 1.5x par (which is exactly the engine's 2-star
+ * threshold, so stars >= 2 already encodes the time and correction limits).
+ */
+function passed(entry) {
+  return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
+}
+
+/**
+ * The interruption tally, lifted onto the record itself from the session's
+ * interruptSummary (game.js) rather than left buried in `debrief.interrupts`.
+ *
+ * The competency layer (shared/competency.js) asks "was every interruption
+ * answered" of every record it judges, and a proof rule should not have to
+ * dig through a debrief object — nor should it break on a record written
+ * before the debrief existed. `null` means no interruption fired in that run,
+ * which the mastery rule reads as nothing to answer.
+ */
+function interruptTally(entry) {
+  const iv = entry?.interrupts ?? entry?.debrief?.interrupts;
+  if (!iv) return null;
+  return { answered: iv.answered | 0, wrong: iv.wrong | 0, missed: iv.missed | 0 };
+}
+
+function loadRecords() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch (_) { return []; }
+}
+
+function saveRecords(list) {
+  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+}
+
+const TrainingRecords = {
+  /** Oldest first. */
+  list() { return loadRecords(); },
+
+  count() { return loadRecords().length; },
+
+  /**
+   * Append one attempt. `entry` is the plain data a finished Session yields
+   * (see SmartCiti.X's showResults); this adds the id, timestamp and the
+   * pass verdict so callers never compute it themselves.
+   */
+  record(entry) {
+    const list = loadRecords();
+    const full = {
+      id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+      at: new Date().toISOString(),
+      ...entry,
+    };
+    full.passed = passed(full);
+    full.interrupts = interruptTally(full);
+    list.push(full);
+    if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
+    saveRecords(list);
+    return full;
+  },
+
+  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
+
+  /**
+   * Per-category roll-up for an instructor view: attempts, passes, distinct
+   * stations passed, best stars. Categories come from the entries themselves
+   * so a record from a since-renamed category still counts.
+   */
+  summary(list = loadRecords()) {
+    const by = new Map();
+    for (const r of list) {
+      const key = r.category ?? "Uncategorized";
+      if (!by.has(key)) by.set(key, { category: key, attempts: 0, passes: 0, stations: new Set(), stationsPassed: new Set(), bestStars: 0 });
+      const s = by.get(key);
+      s.attempts += 1;
+      s.stations.add(r.simId);
+      if (r.passed) { s.passes += 1; s.stationsPassed.add(r.simId); }
+      s.bestStars = Math.max(s.bestStars, r.stars | 0);
+    }
+    return [...by.values()].map((s) => ({
+      category: s.category, attempts: s.attempts, passes: s.passes,
+      stations: s.stations.size, stationsPassed: s.stationsPassed.size, bestStars: s.bestStars,
+    }));
+  },
+};
+
+// -------------------------------------------------------------------- export
+
+const CSV_COLUMNS = [
+  "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
+  "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
+  "badges", "level", "levelName", "id",
+];
+
+function csvCell(v) {
+  if (v == null) return "";
+  const s = Array.isArray(v) ? v.join("; ") : String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** RFC 4180 CSV, one row per attempt, columns in CSV_COLUMNS order. */
+function toCSV(list) {
+  const lines = [CSV_COLUMNS.join(",")];
+  for (const r of list) lines.push(CSV_COLUMNS.map((c) => csvCell(r[c])).join(","));
+  return lines.join("\r\n") + "\r\n";
+}
+
+/** ISO 8601 duration from whole seconds, e.g. 125 -> "PT2M5S". */
+function isoDuration(seconds) {
+  const s = Math.max(0, Math.round(seconds | 0));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return `PT${h ? `${h}H` : ""}${m ? `${m}M` : ""}${sec || (!h && !m) ? `${sec}S` : ""}`;
+}
+
+/**
+ * xAPI 1.0.3 statements — the standard a Learning Record Store ingests.
+ * `homePage` scopes the activity ids and is the fallback actor account
+ * home; a record that carries a launch identity (learnerId/homePage from
+ * shared/identity.js) uses that as the actor account instead, so the LRS
+ * can join it to the LMS user. Extensions carry the assessment detail
+ * (category, certification, stars, unsafe actions) that the core result
+ * object has no field for.
+ */
+function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example" } = {}) {
+  const ext = (k) => `${homePage}/xapi/ext/${k}`;
+  return {
+    statements: list.map((r) => ({
+      id: r.id,
+      timestamp: r.at,
+      actor: {
+        objectType: "Agent",
+        name: r.learnerName ?? r.learner ?? actorName,
+        account: { homePage: r.homePage ?? homePage, name: r.learnerId ?? r.learner ?? actorName },
+      },
+      verb: {
+        id: r.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed",
+        display: { "en-US": r.passed ? "passed" : "failed" },
+      },
+      object: {
+        objectType: "Activity",
+        id: `${homePage}/${r.app ?? "app"}/${r.simId}`,
+        definition: {
+          name: { "en-US": r.simName ?? r.simId },
+          description: { "en-US": `${r.trade ?? ""}${r.certification ? ` — ${r.certification}` : ""}`.trim() },
+          type: "http://adlnet.gov/expapi/activities/simulation",
+        },
+      },
+      result: {
+        score: { raw: r.score | 0, min: 0 },
+        success: !!r.passed,
+        completion: true,
+        duration: isoDuration(r.seconds),
+        extensions: {
+          [ext("stars")]: r.stars | 0,
+          [ext("corrections")]: r.errors | 0,
+          [ext("unsafe-actions")]: r.hazardHits | 0,
+          [ext("hold-breaks")]: r.holdBreaks | 0,
+          // The step-by-step review, so an LRS holds where a run went slow
+          // or wrong rather than only what it scored.
+          ...(r.debrief ? {
+            [ext("clean-steps")]: r.debrief.cleanSteps | 0,
+            [ext("median-step-seconds")]: r.debrief.medianSeconds ?? 0,
+            [ext("slowest-step")]: r.debrief.slowest ? `${r.debrief.slowest.title} (${r.debrief.slowest.seconds}s)` : null,
+            [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
+              id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
+            })),
+            // Interruptions are assessed separately from the procedure: an
+            // LRS should be able to ask "who misses alarms" without unpicking
+            // the step log to find out.
+            ...(r.debrief.interrupts ? {
+              [ext("interrupts-caught")]: r.debrief.interrupts.answered,
+              [ext("interrupts-missed")]: r.debrief.interrupts.missed + r.debrief.interrupts.wrong,
+              [ext("interrupt-log")]: r.debrief.interrupts.log.map((l) => ({
+                id: l.id, outcome: l.outcome, seconds: l.seconds,
+              })),
+            } : {}),
+          } : {}),
+          [ext("par-seconds")]: r.parSeconds ?? null,
+          [ext("badges")]: r.badges ?? [],
+        },
+      },
+      context: {
+        platform: "SmartCiti.X ~VR Simulators",
+        extensions: {
+          [ext("category")]: r.category ?? null,
+          [ext("certification")]: r.certification ?? null,
+          [ext("system")]: r.system ?? null,
+          [ext("learner-level")]: r.level ?? null,
+        },
+      },
+    })),
+  };
+}
+
+// ------------------------------------------------------------- credentials
+
+/** Distinct certifications with a passing attempt — the latest pass for each. */
+function earnedCertifications(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!r.passed || !r.certification) continue;
+    const prev = by.get(r.certification);
+    if (!prev || String(r.at) > String(prev.at)) by.set(r.certification, r);
+  }
+  return [...by.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+function badgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<circle cx="120" cy="104" r="62" fill="none" stroke="#37d6c0" stroke-width="10"/>` +
+    `<text x="120" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions — the portable credential format LMSs, wallets
+ * and other training ecosystems ingest — one per certification with a
+ * passing attempt. These are self-asserted by a static page: an issuer that
+ * hosts the BadgeClass and Assertion URLs is what makes them verifiable, so
+ * the ids are laid out as URLs under `homePage` ready for that host. The
+ * evidence entry points at the same xAPI statement the LRS export carries.
+ */
+function toOpenBadges(list, { issuerName = "SmartCiti.X Training Network", homePage = "https://smartciti.example", actorName = "YOU" } = {}) {
+  return earnedCertifications(list).map((r) => {
+    const home = r.homePage ?? homePage;
+    const who = r.learnerId ?? r.learner ?? actorName;
+    return {
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/${r.id}`,
+      recipient: { type: "url", hashed: false, identity: `${home}/learners/${encodeURIComponent(who)}`, name: r.learnerName ?? r.learner ?? actorName },
+      issuedOn: r.at,
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/${r.app ?? "app"}/${r.simId}`,
+        name: `${r.simName ?? r.simId} — ${r.certification}`,
+        description: `Passed the ${r.simName ?? r.simId} simulator (${r.category ?? "uncategorized"}): ${r.stars | 0} stars, ` +
+          `${r.hazardHits | 0} unsafe actions, ${r.errors | 0} corrections. Maps to: ${r.certification}.`,
+        image: badgeImage(r.simName ?? r.simId),
+        criteria: { narrative: "Two or more stars with no unsafe action on the station's real ordered procedure, assessed by the SmartCiti.X procedure engine. Passing a simulator evidences readiness for the named certification; it is not the certification itself." },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: [r.category, r.trade].filter(Boolean),
+      },
+      evidence: [{ id: `${homePage}/xapi/statements/${r.id}`, narrative: `Score ${r.score | 0}, ${r.stars | 0} stars, ${r.seconds | 0} s against par ${r.parSeconds ?? "—"} s; xAPI statement ${r.id}.` }],
+    };
+  });
+}
+
+/** Browser-only: hand the learner a file. No-op outside a DOM. */
+function download(filename, text, mime = "text/plain") {
+  if (typeof document === "undefined" || typeof URL?.createObjectURL !== "function") return false;
+  const blob = new Blob([text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
+}
+
+
+/* ===== race/js/liveries.js ===== */
+// Liveries the race unlocks from the rest of the platform (docs/easter-egg.md):
+//
+//  - Hard Hat Gold, unlocked when all twelve hard hats (shared/eggs.js) are
+//    found.
+//  - One skin per programme with a twenty-level ladder, named after the
+//    programme, unlocked by a passed attempt tagged as that programme's
+//    level-20 capstone (shared/ladder.js's LADDER_LEVELS) — see
+//    shared/records.js for the `.ladder` tag a station attempt carries, and
+//    shared/ladder.js's levelTag() for where it comes from. "Finishing the
+//    capstone" here means one passed attempt on the capstone level's chain,
+//    not a full mastery run of every task in it (that fuller rule lives in
+//    shared/ladder.js's levelResult, for the ladder itself) — a livery is a
+//    lighter bar than the level badge, honestly stated as such.
+//
+// Pure: no THREE, no DOM, so tools/check_eggs.mjs can grade the unlock rule
+// headless against a fake localStorage.
+
+
+const LADDER_CAPSTONE_LEVEL = 20;
+
+/** True once every attempt record shows a passed attempt on that programme's capstone level. */
+function capstoneUnlocked(records, programme) {
+  return (records ?? []).some((r) => r?.passed && r?.ladder?.programme === programme && r?.ladder?.level === LADDER_CAPSTONE_LEVEL);
+}
+
+/**
+ * Every livery the race can show, in a stable order: Hard Hat Gold first,
+ * then one row per programme with a ladder. Each row is
+ * { id, name, colour, fleetName, unlocked, programme? }.
+ */
+function liveryList(records, hardHatsFoundCount) {
+  const list = [{
+    id: "hardhat-gold", name: "Hard Hat Gold", fleetName: "HARD HAT HUNT",
+    colour: 0xf2c14b, unlocked: (hardHatsFoundCount | 0) >= HARD_HAT_TOTAL,
+    note: `${hardHatsFoundCount | 0}/${HARD_HAT_TOTAL} hard hats found`,
+  }];
+  for (const l of CAPSTONE_LIVERIES) {
+    list.push({
+      id: `capstone:${l.programme}`, name: l.name, fleetName: l.name.toUpperCase(),
+      colour: hexToColour(l.accent), unlocked: capstoneUnlocked(records, l.programme),
+      programme: l.programme, note: `Level ${LADDER_CAPSTONE_LEVEL} capstone, ${l.name}`,
+    });
+  }
+  return list;
+}
+
+function hexToColour(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex ?? ""));
+  return m ? Number.parseInt(m[1], 16) : 0x7ee6ff;
+}
+
+
+/* ===== race/js/capstone-liveries.js ===== */
+// GENERATED FILE — do not hand-edit. Run `node tools/gen_capstone_liveries.mjs`
+// (or `node tools/gen_catalog.mjs`, which runs it, after gen_ladders.mjs).
+//
+// One locked livery per programme with a twenty-level ladder (shared/ladder.js
+// LADDER_LEVELS), named and coloured after the programme itself
+// (WebXR/smartcity/js/ladders.js). See WebXR/race/js/liveries.js for the
+// unlock rule and docs/easter-egg.md for what "finishing the capstone" means.
+const CAPSTONE_LIVERIES = [
+  {
+    "programme": "electrical-first-period",
+    "name": "Inside Wireman — First Period",
+    "accent": "#5aa9ff"
+  },
+  {
+    "programme": "confined-space",
+    "name": "Confined Space — Entry and Rescue",
+    "accent": "#4fd1ff"
+  },
+  {
+    "programme": "fall-protection",
+    "name": "Working at Height — Fall Protection",
+    "accent": "#f2c14b"
+  },
+  {
+    "programme": "hazmat-environmental",
+    "name": "Hazmat and Environmental Response",
+    "accent": "#78c8a0"
+  },
+  {
+    "programme": "rigging-lifting",
+    "name": "Rigging and Lifting",
+    "accent": "#a079ff"
+  },
+  {
+    "programme": "stationary-engineer",
+    "name": "Stationary Engineer — Building Plant",
+    "accent": "#6fc9e8"
+  },
+  {
+    "programme": "port-operations",
+    "name": "Port and Terminal Operations",
+    "accent": "#3fa9d8"
+  },
+  {
+    "programme": "transit-ramp",
+    "name": "Transit and Ramp Operations",
+    "accent": "#63b5f0"
+  },
+  {
+    "programme": "energy-transition",
+    "name": "Energy Transition Systems",
+    "accent": "#9fd84f"
+  },
+  {
+    "programme": "live-events",
+    "name": "Live Events Production",
+    "accent": "#c58cff"
+  },
+  {
+    "programme": "hunters-point-bay-restoration",
+    "name": "Hunters Point Clean-up and Bay Restoration",
+    "accent": "#8fd18b"
+  },
+  {
+    "programme": "culinary-kitchen",
+    "name": "Culinary — The Working Kitchen",
+    "accent": "#f2a23b"
+  },
+  {
+    "programme": "dental-hygiene-unspoken-smiles",
+    "name": "Dental Hygiene — Unspoken Smiles",
+    "accent": "#7fd1c9"
+  },
+  {
+    "programme": "dental-careers-unspoken-smiles",
+    "name": "Dental Careers — Unspoken Smiles",
+    "accent": "#f0b86e"
+  },
+  {
+    "programme": "civic-leadership-and-ei",
+    "name": "Civic Leadership and Emotional Intelligence",
+    "accent": "#c9a34a"
+  },
+  {
+    "programme": "property-management",
+    "name": "Property Management — Twenty Zones",
+    "accent": "#6fa8dc"
+  },
+  {
+    "programme": "outbreak-response-who",
+    "name": "Outbreak and Disease Response — WHO and UN Practice",
+    "accent": "#4fb0a0"
+  },
+  {
+    "programme": "job-readiness-edition",
+    "name": "Job Readiness Edition — wojrc.org programmes",
+    "accent": "#e07a3f"
+  },
+  {
+    "programme": "bay-area-union-edition",
+    "name": "Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine",
+    "accent": "#e8552d"
+  },
+  {
+    "programme": "bartending-course",
+    "name": "Bartending — Behind the Bar",
+    "accent": "#b8862b"
+  },
+  {
+    "programme": "hunters-point-can-we-live",
+    "name": "Hunters Point Edition — Can We Live?",
+    "accent": "#f2c14b"
+  },
+  {
+    "programme": "sewing-garment-trades",
+    "name": "Sewing and Garment Trades",
+    "accent": "#b86bd6"
+  },
+  {
+    "programme": "bridge-and-structural",
+    "name": "Bridge and Structural Trades",
+    "accent": "#8a9bb0"
+  },
+  {
+    "programme": "hotel-workers",
+    "name": "Hotel Workers — Back of House",
+    "accent": "#d67b6b"
+  },
+  {
+    "programme": "builders-trades",
+    "name": "Builders — Carpenters, Laborers and Masons",
+    "accent": "#c9a36b"
+  },
+  {
+    "programme": "first-responders",
+    "name": "First Responders — Fire, EMS, Police, Crisis and Relief",
+    "accent": "#f0645b"
+  },
+  {
+    "programme": "situational-awareness",
+    "name": "Situational Awareness — Interruption Drill",
+    "accent": "#f0645b"
+  },
+  {
+    "programme": "ports-maritime-ecology",
+    "name": "Ports, Maritime and Bay Ecology",
+    "accent": "#4fb8c9"
+  },
+  {
+    "programme": "air-quality-monitoring",
+    "name": "Air Quality — Monitoring and Control",
+    "accent": "#9fd8ff"
+  },
+  {
+    "programme": "basketball-fundamentals",
+    "name": "Basketball Fundamentals",
+    "accent": "#ff7a3b"
+  },
+  {
+    "programme": "bay-restoration-maritime-underwater",
+    "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
+    "accent": "#4fb3c8"
+  }
+];
+
+
 /* ===== race/tracks/night-highway.js ===== */
 // Track: Night Highway Circuit — the original course.
 //
@@ -6843,6 +7523,10 @@ function rcCreateRace({ track, cls, laps = 3, racers = [], field = 8, mode = "ra
     const name = spec.name ?? names.splice(Math.floor(rng() * names.length), 1)[0] ?? `Racer ${k + 1}`;
     race.racers.push({
       id: k, name, vehicle: vehicle.id, veh: vehicle, human: !!spec.human, player: spec.player ?? null, remote: !!spec.remote,
+      // A cosmetic paint override, opaque to the sim itself — see
+      // WebXR/race/js/liveries.js and docs/easter-egg.md. Never read by
+      // anything here; only world.js's rcRacerModel draws from it.
+      eggLivery: spec.eggLivery ?? null,
       p: rcParams(vehicle, klass), grid: slot,
       x: pt.x, y: pt.y, z: pt.z, h: pt.head, m: pt.head, v: 0, s, d, idx: rcIndexAt(tr, s), prevS: s,
       crossings: 0, half: false, lapStart: 0, lapTimes: [], bestLap: null, finishT: null, place: slot + 1, progress: s - tr.L,
@@ -7929,7 +8613,10 @@ function rcBuildVehicle(parent, builder, scale, livery, opts = {}) {
 
 function rcRacerModel(parent, r, night) {
   const veh = r.veh;
-  const wrap = rcBuildVehicle(parent, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(r.id + 1) });
+  // A cosmetic livery earned elsewhere on the platform (docs/easter-egg.md)
+  // repaints the hull and its fleet name; nothing else about the racer changes.
+  const skin = r.eggLivery;
+  const wrap = rcBuildVehicle(parent, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(r.id + 1) });
   const [w, h, l] = veh.dims.map((x) => x * veh.scale);
   // The hard-hat shield: a translucent dome.
   const shield = new THREE.Mesh(new THREE.SphereGeometry(Math.max(w, l) * 0.62, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2),
@@ -9517,7 +10204,47 @@ function rcRenderGarage() {
     c.querySelectorAll("[data-d]").forEach((btn) => btn.addEventListener("click", () => rcCycleVehicle(i, Number(btn.dataset.d))));
     cards.append(c);
   }
+  rcRenderLiveries();
   rcShowroom();
+}
+
+/** Every livery, unlocked or not — see WebXR/race/js/liveries.js. */
+function rcLiveries() {
+  return liveryList(TrainingRecords.list(), hardHatsFound(rcStore).length);
+}
+
+/** Player 1's chosen livery, if any and if it is still unlocked. */
+function rcActiveLivery() {
+  const id = rcSave.settings.livery;
+  if (!id) return null;
+  const l = rcLiveries().find((x) => x.id === id);
+  return l && l.unlocked ? l : null;
+}
+
+function rcRenderLiveries() {
+  const list = $("livery-list");
+  if (!list) return;
+  list.textContent = "";
+  const active = rcSave.settings.livery;
+  for (const l of rcLiveries()) {
+    const b = document.createElement("button");
+    b.className = `pick${active === l.id && l.unlocked ? " on" : ""}`;
+    b.setAttribute("aria-disabled", String(!l.unlocked));
+    b.setAttribute("aria-pressed", String(active === l.id && l.unlocked));
+    b.style.setProperty("--tint", rcCss(l.colour));
+    b.innerHTML = `<b></b><span></span>${l.unlocked ? "" : '<span class="lock">LOCKED</span>'}`;
+    b.querySelector("b").textContent = l.name;
+    b.querySelector("span").textContent = l.unlocked ? "Tap to wear it on the grid." : l.note;
+    b.addEventListener("click", () => {
+      if (!l.unlocked) { rcToast(`${l.name} is locked. ${l.note}.`); return; }
+      rcSave.settings.livery = active === l.id ? null : l.id;
+      rcStoreSave(rcStore, rcSave);
+      rcAudio.play("select");
+      rcRenderLiveries();
+      rcShowroom();
+    });
+    list.append(b);
+  }
 }
 
 function rcCycleVehicle(i, d) {
@@ -9635,7 +10362,7 @@ function rcStartRace({ trackId, mode = "race", humans = 1, demo = 0, drivers = n
   let racers;
   if (drivers) racers = drivers;
   else if (demo) racers = [];
-  else racers = app.players.slice(0, humans).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: humans > 1 ? `P${i + 1}` : "You" }));
+  else racers = app.players.slice(0, humans).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: humans > 1 ? `P${i + 1}` : "You", eggLivery: i === 0 ? rcActiveLivery() : null }));
   if (remote) racers.push(remote);
   app.demo = demo;
   const race = rcCreateRace({
@@ -9701,10 +10428,10 @@ function rcQuitToMenu() {
 
 function rcStartGrandPrix() {
   const seed = rcSeed();
-  const humans = app.players.slice(0, app.nPlayers).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: app.nPlayers > 1 ? `P${i + 1}` : "You" }));
+  const humans = app.players.slice(0, app.nPlayers).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: app.nPlayers > 1 ? `P${i + 1}` : "You", eggLivery: i === 0 ? rcActiveLivery() : null }));
   // Fix the AI field for the whole cup so the points table means something.
   const probe = rcCreateRace({ track: rcTrack(RACE_TRACKS[0].id), cls: app.cls, racers: humans, seed });
-  const drivers = probe.racers.map((r) => ({ vehicle: r.vehicle, human: r.human, player: r.player, name: r.name }));
+  const drivers = probe.racers.map((r) => ({ vehicle: r.vehicle, human: r.human, player: r.player, name: r.name, eggLivery: r.eggLivery ?? null }));
   app.gp = { round: 0, drivers, totals: drivers.map(() => 0), seed, results: [] };
   rcStartGrandPrixRound();
 }
@@ -10033,7 +10760,8 @@ function rcPodium() {
     blk.position.set(xs[k], heights[k] / 2, 0); scene.add(blk);
     const d = gp.drivers[o.i];
     const veh = RC_VEHICLES.find((v) => v.id === d.vehicle);
-    const w = rcBuildVehicle(scene, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(o.i + 1) });
+    const skin = d.eggLivery;
+    const w = rcBuildVehicle(scene, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(o.i + 1) });
     w.position.set(xs[k], heights[k], 0); w.rotation.y = Math.PI * 0.15 * (k === 1 ? 1 : k === 2 ? -1 : 0);
   }
   // Confetti.
@@ -10108,9 +10836,11 @@ function rcShowroom() {
   const light2 = new THREE.PointLight(0x9fc4ff, 250, 60); light2.position.set(-10, 8, -8); g.add(light2);
   const n = app.mode === "tt" || app.mode === "net" ? 1 : app.nPlayers;
   const turn = new THREE.Group(); g.add(turn);
+  const livery = rcActiveLivery();
   for (let i = 0; i < n; i++) {
     const veh = RC_VEHICLES.find((v) => v.id === app.players[i].vehicle);
-    const w = rcBuildVehicle(turn, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(i + 1) });
+    const skin = i === 0 && livery ? livery : null;
+    const w = rcBuildVehicle(turn, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(i + 1) });
     w.position.set((i - (n - 1) / 2) * 6.5, 0, 0);
   }
   app.root.add(g);
