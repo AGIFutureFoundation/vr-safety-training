@@ -345,7 +345,7 @@ export const SIM_RL_CRITICAL_LIFT_PLAN_AND_SIGNALPERSON = {
       },
       onHazard() {},
       onInterrupt(it) {
-        if (it.id === "load-starts-swinging") plumbGauge.material?.emissiveIntensity;
+        if (it.id === "load-starts-swinging") { plumbGauge.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.4 }); repaint(radio.userData.screen, signFace("LOAD SWINGING — ALL STOP", { bg: "#2a0d0d", accent: "#f0645b", fg: "#ffd6d6", scale: 0.4 })); }
         if (it.id === "signalperson-loses-sightline") stopHorn.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.4 });
       },
       onInterruptEnd(it) {

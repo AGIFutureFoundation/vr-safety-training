@@ -338,11 +338,13 @@ export const SIM_PO_LASHING_GEAR_INSPECTION_AND_TAGGING = {
       onHazard() {},
       onInterrupt(it) {
         if (it.id === "spreader-swing-unannounced") clearZone.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.4 });
-        if (it.id === "wind-gust-warning") plan.userData.face.material?.emissiveIntensity;
+        if (it.id === "wind-gust-warning") clearZone.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.4 });
+        if (it.id === "wind-gust-warning") repaint(radio.userData.screen, signFace("WIND WARNING — LIFTS HALT", { bg: "#2a0d0d", accent: "#f0645b", fg: "#ffd6d6", scale: 0.4 }));
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
         if (it.id === "spreader-swing-unannounced") clearZone.material = mat(POL_ACCENT, { emissive: POL_ACCENT, ei: 1.4, rough: 0.4 });
+        if (it.id === "wind-gust-warning") clearZone.material = mat(POL_ACCENT, { emissive: POL_ACCENT, ei: 1.4, rough: 0.4 });
         if (it.id === "wind-gust-warning") repaint(radio.userData.screen, signFace("LIFTS HALTED", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.4 }));
       },
       animate(t, dt, session) {

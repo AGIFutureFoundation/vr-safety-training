@@ -8884,9 +8884,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-m", "osha-1926-subpart-l", "ansi-z359"],
     stations: [
       "scaffold-erection", "steel-erector", "tower-climb", "microwave-backhaul",
-      "aerial-ladder", "leading-edge-and-horizontal-lifeline"
+      "aerial-ladder", "leading-edge-and-horizontal-lifeline", "fp-anchor-selection-and-rescue-plan"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "hazmat-environmental",
@@ -8895,9 +8895,10 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
     stations: [
       "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
-      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack", "hz-level-b-entry-and-scba-change-out"
+      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack", "hz-level-b-entry-and-scba-change-out",
+      "hz-drum-staging-and-compatibility-segregation", "hz-decon-corridor-for-a-mass-casualty-drill"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "rigging-lifting",
@@ -8906,7 +8907,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["asme-b30-16", "osha-1926-subpart-cc", "nccco-certification", "etcp-certification"],
     stations: [
       "crane-yard", "dock-crane", "chain-hoist", "rigging-loft",
-      "fly-system"
+      "fly-system", "rl-critical-lift-plan-and-signalperson"
     ],
     require: 3,
   },
@@ -8917,9 +8918,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["asme-bpvc", "ashrae-188", "nfpa-25"],
     stations: [
       "boiler-room", "chiller-plant", "cooling-tower", "fire-pump",
-      "elevator-pit"
+      "elevator-pit", "se-steam-trap-survey-and-condensate-return", "se-building-automation-alarm-triage"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "port-operations",
@@ -8928,9 +8929,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["uscg-33-cfr-156-150", "imo-csm", "osha-1917"],
     stations: [
       "mooring-line", "bunkering-watch", "container-lashing", "dock-crane",
-      "vessel-gangway-and-hatch-cover-safety"
+      "vessel-gangway-and-hatch-cover-safety", "po-lashing-gear-inspection-and-tagging", "po-yard-hostler-and-pedestrian-separation"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "transit-ramp",
@@ -8939,9 +8940,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["fra-49-cfr-214", "faa-14-cfr-139-303", "osha-1910-178"],
     stations: [
       "track-access", "signal-cabinet", "bus-depot-lift", "airport-ramp",
-      "forklift-dock", "bus-yard-fuelling-and-brake-check"
+      "forklift-dock", "bus-yard-fuelling-and-brake-check", "tr-wheelchair-lift-and-securement-on-a-bus"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "energy-transition",
@@ -8950,9 +8951,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
       "solar-deck", "battery-yard", "charge-point", "substation-switching",
-      "cell-site-battery", "battery-storage-container-commissioning"
+      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "live-events",
@@ -30850,6 +30851,426 @@ const SIMS_META = [
         "Lead Technician",
         "Site Steward",
         "Fish Screen Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hz-drum-staging-and-compatibility-segregation",
+    "index": "342",
+    "domain": "Environmental Monitoring",
+    "trade": "LIUNA hazmat laborer running the forklift on the drum staging apron, with an environmental technician keeping the manifest board",
+    "category": "Environmental Monitoring",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER for the apron's own PPE and monitoring practice, 29 CFR 1910.1200 hazard communication for reading the placard before a drum moves, 29 CFR 1910.134 respiratory protection for the fit-tested half-mask worn on the apron, 40 CFR 262 for the generator accumulation-start-date clock the tag begins, and LIUNA Training's hazardous waste worker curriculum",
+    "name": "Drum Staging & Compatibility Segregation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Drum Staging & Compatibility Segregation VR VR",
+    "tagline": "The apron before the next truck: the compatibility chart read for its cells and aisle minimum, gloves and a face shield on, the delivery checked for a drum that should never have left the dock, the next drum's placard read before it moves, the forklift raised smooth and staged in its own class's cell, a spill pallet confirmed underneath it, the aisle gauged against the chart's minimum, the drum dated for its generator clock, the manifest logged, the spill kit's access checked clear, the extinguisher checked in reach, a PID reading walked and held in band down the row, the crew checked in, and the shift closed",
+    "accent": 7915680,
+    "accentCss": "#78c8a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cell-for-every-drum",
+      "name": "A Cell for Every Drum",
+      "note": "Every drum staged in its own class's cell, on its own pallet, with the aisle never pinched under the chart's minimum"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Staging Apron",
+      "currency": "TAG",
+      "ranks": [
+        "Apron Hand",
+        "Staging Crew",
+        "Segregation Lead",
+        "Manifest Certified",
+        "Hazmat Laborer Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hz-decon-corridor-for-a-mass-casualty-drill",
+    "index": "343",
+    "domain": "Emergency Services",
+    "trade": "IAFF hazmat and technical-rescue firefighter running the decon corridor, with LIUNA hazmat laborers staffing the line and a firefighter running the triage board",
+    "category": "Emergency Services",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER for the corridor's own zones and PPE level, 29 CFR 1910.134 for the air-purifying respirator worn by the wash team, 29 CFR 1910.1030 bloodborne pathogens for direct patient contact once clothing comes off, NFPA 470 hazardous materials response qualifications for the corridor's own set-up order, and IAFF technical-rescue and hazmat response training",
+    "name": "Decon Corridor for a Mass-Casualty Drill",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Decon Corridor for a Mass-Casualty Drill VR VR",
+    "tagline": "The corridor before the first patient: the drill plan read for its zones and PPE level, the splash suit and respirator on, the gross pool built before the rinse pool, the berm checked sealed under both, the wash valve opened, the first patient tagged, a non-ambulatory patient found in the queue before anyone tries to walk them, the screen up and the contaminated clothing bagged in order, the wash held in a steady pattern the full time, the runoff gauged against the berm's capacity, the patient wrapped and moved clean-side, a second wave met without losing the line, a torn glove answered at its own station, the crew checked in, and the drill logged",
+    "accent": 15754331,
+    "accentCss": "#f0645b",
+    "parSeconds": 340,
+    "badge": {
+      "id": "corridor-held-clean",
+      "name": "Corridor Held Clean",
+      "note": "Every patient washed through in order, the berm never breached, and the second wave met without a single patient walking around the line"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Decon Line",
+      "currency": "TAG",
+      "ranks": [
+        "Line Hand",
+        "Wash Team",
+        "Corridor Lead",
+        "Triage Certified",
+        "MCI Decon Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "se-steam-trap-survey-and-condensate-return",
+    "index": "344",
+    "domain": "Facilities",
+    "trade": "IUOE stationary engineer running the annual steam trap survey, with a second engineer logging results at the condensate skid",
+    "category": "Building Systems & Facilities",
+    "certification": "ASME Boiler and Pressure Vessel Code practice for the steam side of this plant, the National Board Inspection Code for the vessels it feeds, ASME B31.9 building services piping for the trap and return lines, 29 CFR 1910.147 control of hazardous energy for isolating a trap before it is opened, and IUOE local training fund stationary engineer curricula",
+    "name": "Steam Trap Survey & Condensate Return",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Steam Trap Survey & Condensate Return VR VR",
+    "tagline": "The annual survey down the steam main: the work order read, gloves and a face shield on, the trap under test locked and tagged out, its differential read across the trap, the acoustic reading held to catch a blow-through, a weeping union found down the line before it is stepped past, the failed trap tagged, swapped and its isolation reopened in order, the condensate tank level and the sight glass read, the return pump primed and held to catch, the crew checked in, and the survey logged",
+    "accent": 7326184,
+    "accentCss": "#6fc9e8",
+    "parSeconds": 330,
+    "badge": {
+      "id": "trap-line-certified",
+      "name": "Trap Line Certified",
+      "note": "Every trap isolated before it was opened, the swap made in order, and the bypass valve never touched without the permit"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Trap Survey",
+      "currency": "TAG",
+      "ranks": [
+        "Plant Hand",
+        "Survey Crew",
+        "Trap Line Lead",
+        "Condensate Certified",
+        "Stationary Engineer Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "se-building-automation-alarm-triage",
+    "index": "345",
+    "domain": "Facilities",
+    "trade": "IUOE stationary engineer triaging the building automation alarm queue, with a control room operator watching the workstation",
+    "category": "Building Systems & Facilities",
+    "certification": "ANSI/ASHRAE 111 measurement, testing and balancing practice for verifying a point against the physical system, NFPA 70 National Electrical Code and NFPA 70E for the arc-flash label and boundary at the AHU-3 panel, 29 CFR 1910.147 control of hazardous energy for locking out the fan motor before a breaker reset, and IUOE local training fund stationary engineer curricula",
+    "name": "Building Automation Alarm Triage",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Building Automation Alarm Triage VR VR",
+    "tagline": "The queue at shift start: the alarm board read and the top alarm acknowledged, glasses and insulated gloves on, the arc-flash label read before the panel door opens, the physical sensor checked against the screen's own reading, AHU-3's fan motor locked out before the breaker is touched, the breaker reset, the airflow watched back into band, the alarm cleared, a freeze-stat alarm found buried lower in the queue and escalated before it is dismissed as noise, a live fire-alarm spike answered at the panel itself, the point log updated, the crew checked in, and the triage closed",
+    "accent": 7326184,
+    "accentCss": "#6fc9e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "queue-triaged-clean",
+      "name": "Queue Triaged Clean",
+      "note": "Every alarm read on its own merits, the panel never opened without PPE, and a buried alarm caught before it was scrolled past"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Alarm Queue",
+      "currency": "TAG",
+      "ranks": [
+        "Control Room Hand",
+        "Triage Crew",
+        "Panel Lead",
+        "BAS Certified",
+        "Stationary Engineer Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "po-lashing-gear-inspection-and-tagging",
+    "index": "346",
+    "domain": "Maritime",
+    "trade": "ILWU lasher inspecting and tagging lashing gear before deck stow, with a checker running the tally",
+    "category": "Maritime & Ports",
+    "certification": "OSHA 29 CFR 1917 marine terminals for the apron work under the crane, 29 CFR 1918 longshoring for the lashing gang's own duties, ASME B30.26 rigging hardware for the rods and turnbuckles under inspection, ILWU-PMA joint training for the lashing gang, and MARAD mariner training for the vessel-side stow this gear secures",
+    "name": "Lashing Gear Inspection & Tagging",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Lashing Gear Inspection & Tagging VR VR",
+    "tagline": "The rack before the first container lands: the lashing plan read for its pattern, hi-vis and a hard hat on, a cracked rod found in the rack before it is ever used, a turnbuckle's threads checked, a twist-lock staged and locked at the corner casting, the rod tensioned to the gauge's band, the gear tagged, the pattern checked against the plan, the crew held clear while the spreader swings a load overhead, the tally logged, the crew checked in, and the shift closed",
+    "accent": 4172248,
+    "accentCss": "#3fa9d8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "gear-tagged-clean",
+      "name": "Gear Tagged Clean",
+      "note": "Every rod and turnbuckle inspected before use, the pattern matched to the plan, and never a body under the spreader while it swung"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lashing Gang",
+      "currency": "TAG",
+      "ranks": [
+        "Deck Hand",
+        "Lashing Crew",
+        "Gang Lead",
+        "Rigging Certified",
+        "Lasher Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "po-yard-hostler-and-pedestrian-separation",
+    "index": "347",
+    "domain": "Maritime",
+    "trade": "IBT yard hostler driver moving a chassis through the container yard, with a ground guide keeping pedestrian separation",
+    "category": "Maritime & Ports",
+    "certification": "OSHA 29 CFR 1917 marine terminals for the yard's own traffic rules, 29 CFR 1918 longshoring for the drivers and ground crew sharing the apron, 29 CFR 1910.178 powered industrial truck practice for the hostler itself, the MUTCD for the yard's marked walkways and lane striping, and Teamsters apprenticeship and yard-driver training",
+    "name": "Yard Hostler & Pedestrian Separation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Yard Hostler & Pedestrian Separation VR VR",
+    "tagline": "The lane before the next move: the yard traffic plan read for its marked walkways and blind corners, a worker spotted crossing at the blind corner before the hustler ever backs, the horn sounded, the chassis coupled and its fifth wheel locked, the air lines connected and the pressure gauged, the backing lane held clean the whole reverse, a stop held for a pedestrian at the marked crossing, the chassis spotted in the drop zone, the tally logged, the crew checked in, and the shift closed",
+    "accent": 4172248,
+    "accentCss": "#3fa9d8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lane-held-clean",
+      "name": "Lane Held Clean",
+      "note": "Every back sounded first, the fifth wheel locked before the pull, and never a wheel moved with a pedestrian in the marked crossing"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Lane",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Hostler Crew",
+        "Lane Lead",
+        "Terminal Certified",
+        "Yard Driver Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "fp-anchor-selection-and-rescue-plan",
+    "index": "348",
+    "domain": "Construction",
+    "trade": "Ironworkers fall-protection competent person selecting anchors and writing the rescue plan before overhead work begins",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 duty to have fall protection, 29 CFR 1926.502 fall protection systems criteria and practices, OSHA 29 CFR 1926 Subpart M fall protection for the competent person's own duties, ANSI/ASSP Z359 fall protection code for the anchor and rescue equipment rated here, and Ironworkers and IMPACT apprenticeship and safety training",
+    "name": "Anchor Selection & Rescue Plan",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Anchor Selection & Rescue Plan VR VR",
+    "tagline": "The edge before the crew ties off: the fall protection plan read for its anchor rating and rescue timeframe, the harness donned and the SRL clipped, a frayed harness found on the rack before anyone else reaches for it, a rated anchor chosen over the handrail beside it, the lifeline tensioned, tie-off held at one hundred percent across the transfer, the fall clearance checked against the drop below, the rescue kit staged at the edge, the rescue plan briefed to the crew, the aerial lift's outriggers set and its basket held to a smooth rescue-height raise, the crew checked in, and the plan logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "anchor-and-plan-certified",
+      "name": "Anchor and Plan Certified",
+      "note": "A rated anchor chosen every time, tie-off never broken across a transfer, and a rescue plan briefed before anyone clipped in"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fall Protection",
+      "currency": "TAG",
+      "ranks": [
+        "Deck Hand",
+        "Tie-Off Crew",
+        "Competent Person Trainee",
+        "Rescue Plan Certified",
+        "Fall Protection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rl-critical-lift-plan-and-signalperson",
+    "index": "349",
+    "domain": "Construction",
+    "trade": "IUOE mobile crane operator running a critical lift with a certified signalperson and an ironworkers rigging crew",
+    "category": "Construction & Structural Trades",
+    "certification": "ASME B30.5 mobile and locomotive cranes, ASME B30.9 slings, ASME B30.26 rigging hardware, NCCCO signalperson certification for the hand and radio signals this lift runs on, and OSHA 29 CFR 1926.1425 keeping clear of the load",
+    "name": "Critical Lift Plan & Signalperson",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Critical Lift Plan & Signalperson VR VR",
+    "tagline": "The pad before the pick: the critical lift plan read for its chart percentage and exclusion zone, hi-vis and a hard hat on, a cracked shackle found in the rigging set before it is used, the load chart read against the plan's own limit, the outriggers set, the signalperson briefed on the channel and the signals, the sling and shackle rigged in order, the slack taken up slow, the lift held for the signalperson's own word before the boom moves, the load watched plumb the whole pick, the exclusion zone cleared, the load landed on its mark, the crew checked in, and the lift logged",
+    "accent": 10516991,
+    "accentCss": "#a079ff",
+    "parSeconds": 340,
+    "badge": {
+      "id": "lift-plan-certified",
+      "name": "Lift Plan Certified",
+      "note": "The chart never pushed past the plan's limit, the load held plumb the whole pick, and the exclusion zone never crossed while the boom was loaded"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Critical Lift",
+      "currency": "TAG",
+      "ranks": [
+        "Rigging Hand",
+        "Signal Crew",
+        "Lift Lead",
+        "Signalperson Certified",
+        "Crane Operator Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+    "index": "350",
+    "domain": "Mobility",
+    "trade": "ATU transit operator running the wheelchair lift and securing a rider, with a road supervisor observing",
+    "category": "Mobility & Transit",
+    "certification": "FTA guidance implementing the Department of Transportation's ADA rules for wheelchair lifts and securement, Title II of the Americans with Disabilities Act for programme accessibility, ATU training for the operator's own duties at the lift, IBEW/NECA JATC practice for the lift's electrical and hydraulic maintenance, and NFPA 70 for the lift's own wiring",
+    "name": "Wheelchair Lift & Securement on a Bus",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Wheelchair Lift & Securement on a Bus VR VR",
+    "tagline": "The stop before the route continues: the ADA procedure read for the securement points and the stop-request rule, the bus kneeled and the lift deployed in order, the boarding pad checked clear before anyone rolls forward, the platform held steady while it lowers, the rider rolled aboard to the securement area, all four points locked and tensioned, the seatbelt fastened, the stop-request procedure briefed, the lift watched clean back into its stow, the mirrors checked for anyone at the curb, the kneel returned to ride height, the road supervisor checked in with, and the trip logged",
+    "accent": 6534640,
+    "accentCss": "#63b5f0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "securement-certified",
+      "name": "Securement Certified",
+      "note": "All four points locked and tensioned, the boarding pad checked clear, and never a pull-away before the lift was fully stowed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lift & Securement",
+      "currency": "TAG",
+      "ranks": [
+        "Route Hand",
+        "Lift Crew",
+        "Securement Lead",
+        "ADA Certified",
+        "Transit Operator Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "et-ev-fleet-depot-charging-and-arc-flash",
+    "index": "351",
+    "domain": "Energy",
+    "trade": "IBEW outside/utility electrician servicing an EV fleet depot's charging dispensers and service panel",
+    "category": "Energy & Power",
+    "certification": "NFPA 70E for the arc-flash boundary and PPE category at this panel, NFPA 70 National Electrical Code for the dispenser circuits, 29 CFR 1910.269 electric power generation, transmission and distribution practice, 29 CFR 1910.333 selection and use of work practices for electrical safety, and IBEW/NECA JATC apprenticeship and journeyman training",
+    "name": "EV Fleet Depot Charging & Arc Flash",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ EV Fleet Depot Charging & Arc Flash VR VR",
+    "tagline": "The row before the fleet plugs in for the night: the depot's energised work permit read, the arc-rated suit and face shield on, a cut charging cable found before anyone plugs into it, the panel's own arc-flash label read, zero energy proven on the meter, the panel locked and tagged, a lug torqued to spec, the dispenser module reconnected, the circuit re-energised and held through a test without a fault, a test charge session watched clean, a blinking ground-fault indicator found on the dispenser down the row before it is ignored, the dispenser tagged back in service, the crew checked in, and the permit closed",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 340,
+    "badge": {
+      "id": "depot-certified",
+      "name": "Depot Certified",
+      "note": "Zero energy proven before the panel was touched, a cut cable and a fault indicator both caught before they reached the fleet, and never a re-energise without the lockout confirmed first"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Depot Row",
+      "currency": "TAG",
+      "ranks": [
+        "Depot Hand",
+        "Charging Crew",
+        "Panel Lead",
+        "Arc-Flash Certified",
+        "Journeyman Certified"
       ],
       "rankAt": [
         0,

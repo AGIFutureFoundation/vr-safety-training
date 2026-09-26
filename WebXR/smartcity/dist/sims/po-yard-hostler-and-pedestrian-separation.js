@@ -241,9 +241,12 @@ export const SIM_PO_YARD_HOSTLER_AND_PEDESTRIAN_SEPARATION = {
     reg(hits, airGauge, "air-gauge");
 
     // -------------------------------------------------------------------- corner
-    const worker = standingFigure(g, 2.6, 2.6, { ry: -2.3, cloth: 0x3a5a7a, vest: 0xd8f23a });
+    const worker = standingFigure(g, 3.4, 3.3, { ry: -2.3, cloth: 0x3a5a7a, vest: 0xd8f23a });
     holoTag(worker, "blind corner", 0, 1.95, 0, { css: "#d2312b", w: 0.32 });
     reg(hits, worker, "worker-at-corner");
+    const hornHit = box(g, 0.3, 0.3, 0.3, -0.9, 1.3, -2.0, 0x000000, { opacity: 0.001, transparent: true, cast: false });
+    holoTag(g, "back up without the horn?", -0.9, 1.75, -2.0, { css: "#d2312b", w: 0.5 });
+    reg(hits, hornHit, "back-without-horn");
     const blindSpotHit = box(g, 0.5, 0.4, 0.4, 0, 0.4, -1.3, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "stand in the blind spot?", 0, 0.85, -1.3, { css: "#d2312b", w: 0.5 });
     reg(hits, blindSpotHit, "stand-in-hustler-blind-spot");

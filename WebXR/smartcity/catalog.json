@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 401
+      "stations": 411
     },
     "trades": {
       "entry": "trades/index.html",
@@ -51,7 +51,8 @@
         "pcb-equipment-removal",
         "gas-leak-survey",
         "wind-nacelle",
-        "transformer-vault"
+        "transformer-vault",
+        "et-ev-fleet-depot-charging-and-arc-flash"
       ]
     },
     {
@@ -79,7 +80,8 @@
         "drive-night-fog-and-rail-crossing",
         "drive-mountain-grade-and-engine-brake",
         "drive-freeway-merge-and-following-distance",
-        "drive-city-route-and-turns"
+        "drive-city-route-and-turns",
+        "tr-wheelchair-lift-and-securement-on-a-bus"
       ]
     },
     {
@@ -158,7 +160,8 @@
         "damage-assessment-team",
         "shelter-intake-operations",
         "ev-extrication",
-        "hazmat-entry"
+        "hazmat-entry",
+        "hz-decon-corridor-for-a-mass-casualty-drill"
       ]
     },
     {
@@ -210,7 +213,9 @@
         "pm-lobby-and-front-desk",
         "vapor-mitigation",
         "cath-lab",
-        "ammonia-plant"
+        "ammonia-plant",
+        "se-building-automation-alarm-triage",
+        "se-steam-trap-survey-and-condensate-return"
       ]
     },
     {
@@ -243,7 +248,9 @@
         "bt-formwork-stripping-and-reshoring",
         "bs-bearing-replacement-and-jacking",
         "bs-tandem-lift-girder-set",
-        "bs-structural-bolting-and-torque"
+        "bs-structural-bolting-and-torque",
+        "rl-critical-lift-plan-and-signalperson",
+        "fp-anchor-selection-and-rescue-plan"
       ]
     },
     {
@@ -309,7 +316,9 @@
         "br-boom-towing-between-two-vessels",
         "br-debris-skimmer-vessel-operations",
         "br-workboat-crane-lift-from-water",
-        "br-derelict-vessel-salvage-rigging"
+        "br-derelict-vessel-salvage-rigging",
+        "po-yard-hostler-and-pedestrian-separation",
+        "po-lashing-gear-inspection-and-tagging"
       ]
     },
     {
@@ -338,7 +347,8 @@
         "br-sediment-chain-of-custody-and-lab-prep",
         "br-turbidity-curtain-deployment",
         "br-dredge-spoils-dewatering-pad",
-        "hz-level-b-entry-and-scba-change-out"
+        "hz-level-b-entry-and-scba-change-out",
+        "hz-drum-staging-and-compatibility-segregation"
       ]
     },
     {
@@ -771,16 +781,21 @@
           "app": "smartcity",
           "id": "leading-edge-and-horizontal-lifeline",
           "why": "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on."
+        },
+        {
+          "app": "smartcity",
+          "id": "fp-anchor-selection-and-rescue-plan",
+          "why": "The step before any of the other five: choosing an anchor that is actually rated, over the handrail beside it, and writing the rescue plan a suspended worker's own clock depends on."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1480,
-        "tasks": 120,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 1,
+        "lessons": 1650,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -832,16 +847,26 @@
           "app": "smartcity",
           "id": "hz-level-b-entry-and-scba-change-out",
           "why": "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone."
+        },
+        {
+          "app": "smartcity",
+          "id": "hz-drum-staging-and-compatibility-segregation",
+          "why": "The apron before any entry happens at all: every drum read, forked into its own class's cell and dated, so the chart that keeps incompatible loads apart is a habit before it is ever tested by a leak."
+        },
+        {
+          "app": "smartcity",
+          "id": "hz-decon-corridor-for-a-mass-casualty-drill",
+          "why": "The corridor run for people instead of equipment: gross and rinse pools built in order, a non-ambulatory patient found in the queue, and a second wave met without ever losing the line."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1613,
-        "tasks": 135,
-        "atBar": 17,
-        "partial": 3,
-        "stationsNeeded": 1,
+        "lessons": 1626,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -878,16 +903,21 @@
           "app": "smartcity",
           "id": "fly-system",
           "why": "Counterweight: the one rigging system where the operator is holding the other half of the load in their hands."
+        },
+        {
+          "app": "smartcity",
+          "id": "rl-critical-lift-plan-and-signalperson",
+          "why": "The lift where the plan and the signalperson are the load path: a chart read against its own limit, one voice running the pick, and the exclusion zone that keeps everyone else out from under it."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1300,
-        "tasks": 100,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 1,
+        "lessons": 1580,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -924,16 +954,26 @@
           "app": "smartcity",
           "id": "elevator-pit",
           "why": "The pit: a confined space with a moving car above it, entered by the person who maintains it."
+        },
+        {
+          "app": "smartcity",
+          "id": "se-steam-trap-survey-and-condensate-return",
+          "why": "The annual survey down the steam main, where a blow-through is read from the trap itself and the swap is made only once the line is actually locked out."
+        },
+        {
+          "app": "smartcity",
+          "id": "se-building-automation-alarm-triage",
+          "why": "The queue at shift start, where the panel's own arc-flash label and a lockout come before a breaker reset, and a buried freeze-stat alarm never gets scrolled past."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1220,
-        "tasks": 100,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1530,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -970,16 +1010,26 @@
           "app": "smartcity",
           "id": "vessel-gangway-and-hatch-cover-safety",
           "why": "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down."
+        },
+        {
+          "app": "smartcity",
+          "id": "po-lashing-gear-inspection-and-tagging",
+          "why": "The gear before it ever carries a load: a cracked rod caught in the rack, the pattern checked against the plan, and the gang held clear while the spreader swings overhead."
+        },
+        {
+          "app": "smartcity",
+          "id": "po-yard-hostler-and-pedestrian-separation",
+          "why": "The yard tractor's own lane, where the horn comes before the back and the marked crossing is the one place a driver and a longshoreman are both expected to be."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1220,
-        "tasks": 100,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1660,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -1021,16 +1071,21 @@
           "app": "smartcity",
           "id": "bus-yard-fuelling-and-brake-check",
           "why": "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road."
+        },
+        {
+          "app": "smartcity",
+          "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+          "why": "The stop that makes the route accessible: the boarding pad checked clear, all four securement points locked and tensioned, and the lift watched clean back into its stow before the bus moves."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1420,
-        "tasks": 120,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 1,
+        "lessons": 1600,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -1072,16 +1127,21 @@
           "app": "smartcity",
           "id": "battery-storage-container-commissioning",
           "why": "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop."
+        },
+        {
+          "app": "smartcity",
+          "id": "et-ev-fleet-depot-charging-and-arc-flash",
+          "why": "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1420,
-        "tasks": 120,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 1,
+        "lessons": 1700,
+        "tasks": 140,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -26967,7 +27027,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 249,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -36625,6 +36685,832 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=br-native-planting-and-erosion-mats"
+    },
+    {
+      "app": "smartcity",
+      "id": "et-ev-fleet-depot-charging-and-arc-flash",
+      "name": "EV Fleet Depot Charging & Arc Flash",
+      "title": "SmartCiti.X~ EV Fleet Depot Charging & Arc Flash VR VR",
+      "tagline": "The row before the fleet plugs in for the night: the depot's energised work permit read, the arc-rated suit and face shield on, a cut charging cable found before anyone plugs into it, the panel's own arc-flash label read, zero energy proven on the meter, the panel locked and tagged, a lug torqued to spec, the dispenser module reconnected, the circuit re-energised and held through a test without a fault, a test charge session watched clean, a blinking ground-fault indicator found on the dispenser down the row before it is ignored, the dispenser tagged back in service, the crew checked in, and the permit closed",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW outside/utility electrician servicing an EV fleet depot's charging dispensers and service panel",
+      "union": null,
+      "certification": "NFPA 70E for the arc-flash boundary and PPE category at this panel, NFPA 70 National Electrical Code for the dispenser circuits, 29 CFR 1910.269 electric power generation, transmission and distribution practice, 29 CFR 1910.333 selection and use of work practices for electrical safety, and IBEW/NECA JATC apprenticeship and journeyman training",
+      "accent": "#9fd84f",
+      "parSeconds": 340,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "depot-certified",
+        "name": "Depot Certified",
+        "note": "Zero energy proven before the panel was touched, a cut cable and a fault indicator both caught before they reached the fleet, and never a re-energise without the lockout confirmed first"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "351",
+      "flat": false,
+      "system": "Depot Row",
+      "currency": "TAG",
+      "ranks": [
+        "Depot Hand",
+        "Charging Crew",
+        "Panel Lead",
+        "Arc-Flash Certified",
+        "Journeyman Certified"
+      ],
+      "awards": [
+        {
+          "id": "zero-energy-proven",
+          "name": "Zero Energy Proven",
+          "note": "The meter proved zero energy before the panel was ever opened up"
+        },
+        {
+          "id": "test-held-clean",
+          "name": "Test Held Clean",
+          "note": "The charge session watch stayed in band the whole test"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never re-energised without the lockout confirmed, never a damaged cable used, never a fault indicator ignored"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Service",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "torque-on-spec",
+          "name": "Torque On Spec",
+          "note": "Lug torque committed inside the band first time"
+        },
+        {
+          "id": "permit-closed-fast",
+          "name": "Permit Closed Fast",
+          "note": "Permit closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=et-ev-fleet-depot-charging-and-arc-flash"
+    },
+    {
+      "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+      "name": "Wheelchair Lift & Securement on a Bus",
+      "title": "SmartCiti.X~ Wheelchair Lift & Securement on a Bus VR VR",
+      "tagline": "The stop before the route continues: the ADA procedure read for the securement points and the stop-request rule, the bus kneeled and the lift deployed in order, the boarding pad checked clear before anyone rolls forward, the platform held steady while it lowers, the rider rolled aboard to the securement area, all four points locked and tensioned, the seatbelt fastened, the stop-request procedure briefed, the lift watched clean back into its stow, the mirrors checked for anyone at the curb, the kneel returned to ride height, the road supervisor checked in with, and the trip logged",
+      "category": "Mobility & Transit",
+      "domain": "Mobility",
+      "trade": "ATU transit operator running the wheelchair lift and securing a rider, with a road supervisor observing",
+      "union": null,
+      "certification": "FTA guidance implementing the Department of Transportation's ADA rules for wheelchair lifts and securement, Title II of the Americans with Disabilities Act for programme accessibility, ATU training for the operator's own duties at the lift, IBEW/NECA JATC practice for the lift's electrical and hydraulic maintenance, and NFPA 70 for the lift's own wiring",
+      "accent": "#63b5f0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "drag",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "securement-certified",
+        "name": "Securement Certified",
+        "note": "All four points locked and tensioned, the boarding pad checked clear, and never a pull-away before the lift was fully stowed"
+      },
+      "meshes": 175,
+      "lights": 0,
+      "overBudget": false,
+      "index": "350",
+      "flat": false,
+      "system": "Lift & Securement",
+      "currency": "TAG",
+      "ranks": [
+        "Route Hand",
+        "Lift Crew",
+        "Securement Lead",
+        "ADA Certified",
+        "Transit Operator Certified"
+      ],
+      "awards": [
+        {
+          "id": "pad-checked-clean",
+          "name": "Pad Checked Clean",
+          "note": "The boarding pad checked clear before the lift ever deployed"
+        },
+        {
+          "id": "tension-held",
+          "name": "Tension Held",
+          "note": "Securement tension committed inside the band first time"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never deployed onto a blocked pad, never fewer than four points locked, never pulled away before the lift stowed"
+        },
+        {
+          "id": "clean-securement",
+          "name": "Clean Securement",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "stow-held-clean",
+          "name": "Stow Held Clean",
+          "note": "The lift-retract watch stayed in band the whole stow"
+        },
+        {
+          "id": "trip-logged-fast",
+          "name": "Trip Logged Fast",
+          "note": "Trip logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tr-wheelchair-lift-and-securement-on-a-bus"
+    },
+    {
+      "app": "smartcity",
+      "id": "rl-critical-lift-plan-and-signalperson",
+      "name": "Critical Lift Plan & Signalperson",
+      "title": "SmartCiti.X~ Critical Lift Plan & Signalperson VR VR",
+      "tagline": "The pad before the pick: the critical lift plan read for its chart percentage and exclusion zone, hi-vis and a hard hat on, a cracked shackle found in the rigging set before it is used, the load chart read against the plan's own limit, the outriggers set, the signalperson briefed on the channel and the signals, the sling and shackle rigged in order, the slack taken up slow, the lift held for the signalperson's own word before the boom moves, the load watched plumb the whole pick, the exclusion zone cleared, the load landed on its mark, the crew checked in, and the lift logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "IUOE mobile crane operator running a critical lift with a certified signalperson and an ironworkers rigging crew",
+      "union": null,
+      "certification": "ASME B30.5 mobile and locomotive cranes, ASME B30.9 slings, ASME B30.26 rigging hardware, NCCCO signalperson certification for the hand and radio signals this lift runs on, and OSHA 29 CFR 1926.1425 keeping clear of the load",
+      "accent": "#a079ff",
+      "parSeconds": 340,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "lift-plan-certified",
+        "name": "Lift Plan Certified",
+        "note": "The chart never pushed past the plan's limit, the load held plumb the whole pick, and the exclusion zone never crossed while the boom was loaded"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "349",
+      "flat": false,
+      "system": "Critical Lift",
+      "currency": "TAG",
+      "ranks": [
+        "Rigging Hand",
+        "Signal Crew",
+        "Lift Lead",
+        "Signalperson Certified",
+        "Crane Operator Certified"
+      ],
+      "awards": [
+        {
+          "id": "rigging-checked-clean",
+          "name": "Rigging Checked Clean",
+          "note": "The cracked shackle found and set aside before it reached the load"
+        },
+        {
+          "id": "plumb-held",
+          "name": "Plumb Held",
+          "note": "The load stayed plumb the whole pick, no correction"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never a damaged shackle used, never the chart pushed past the plan, never a signal taken from anyone but the signalperson"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "chart-on-the-plan",
+          "name": "Chart On The Plan",
+          "note": "Load chart gauge committed inside the band first time"
+        },
+        {
+          "id": "lift-logged-fast",
+          "name": "Lift Logged Fast",
+          "note": "Lift log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rl-critical-lift-plan-and-signalperson"
+    },
+    {
+      "app": "smartcity",
+      "id": "fp-anchor-selection-and-rescue-plan",
+      "name": "Anchor Selection & Rescue Plan",
+      "title": "SmartCiti.X~ Anchor Selection & Rescue Plan VR VR",
+      "tagline": "The edge before the crew ties off: the fall protection plan read for its anchor rating and rescue timeframe, the harness donned and the SRL clipped, a frayed harness found on the rack before anyone else reaches for it, a rated anchor chosen over the handrail beside it, the lifeline tensioned, tie-off held at one hundred percent across the transfer, the fall clearance checked against the drop below, the rescue kit staged at the edge, the rescue plan briefed to the crew, the aerial lift's outriggers set and its basket held to a smooth rescue-height raise, the crew checked in, and the plan logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Ironworkers fall-protection competent person selecting anchors and writing the rescue plan before overhead work begins",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 duty to have fall protection, 29 CFR 1926.502 fall protection systems criteria and practices, OSHA 29 CFR 1926 Subpart M fall protection for the competent person's own duties, ANSI/ASSP Z359 fall protection code for the anchor and rescue equipment rated here, and Ironworkers and IMPACT apprenticeship and safety training",
+      "accent": "#f2c14b",
+      "parSeconds": 330,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "track",
+        "gauge",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "anchor-and-plan-certified",
+        "name": "Anchor and Plan Certified",
+        "note": "A rated anchor chosen every time, tie-off never broken across a transfer, and a rescue plan briefed before anyone clipped in"
+      },
+      "meshes": 169,
+      "lights": 0,
+      "overBudget": false,
+      "index": "348",
+      "flat": false,
+      "system": "Fall Protection",
+      "currency": "TAG",
+      "ranks": [
+        "Deck Hand",
+        "Tie-Off Crew",
+        "Competent Person Trainee",
+        "Rescue Plan Certified",
+        "Fall Protection Certified"
+      ],
+      "awards": [
+        {
+          "id": "rack-checked-clean",
+          "name": "Rack Checked Clean",
+          "note": "The frayed harness found and set aside before it reached the crew"
+        },
+        {
+          "id": "tieoff-unbroken",
+          "name": "Tie-Off Unbroken",
+          "note": "Held at one hundred percent across the whole transfer"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never a handrail clipped as an anchor, never a frayed harness worn, never a body under the rescue lift"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Setup",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "clearance-on-the-band",
+          "name": "Clearance On The Band",
+          "note": "Fall clearance gauge committed inside the band first time"
+        },
+        {
+          "id": "plan-briefed-fast",
+          "name": "Plan Briefed Fast",
+          "note": "Plan logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=fp-anchor-selection-and-rescue-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-yard-hostler-and-pedestrian-separation",
+      "name": "Yard Hostler & Pedestrian Separation",
+      "title": "SmartCiti.X~ Yard Hostler & Pedestrian Separation VR VR",
+      "tagline": "The lane before the next move: the yard traffic plan read for its marked walkways and blind corners, a worker spotted crossing at the blind corner before the hustler ever backs, the horn sounded, the chassis coupled and its fifth wheel locked, the air lines connected and the pressure gauged, the backing lane held clean the whole reverse, a stop held for a pedestrian at the marked crossing, the chassis spotted in the drop zone, the tally logged, the crew checked in, and the shift closed",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "IBT yard hostler driver moving a chassis through the container yard, with a ground guide keeping pedestrian separation",
+      "union": null,
+      "certification": "OSHA 29 CFR 1917 marine terminals for the yard's own traffic rules, 29 CFR 1918 longshoring for the drivers and ground crew sharing the apron, 29 CFR 1910.178 powered industrial truck practice for the hostler itself, the MUTCD for the yard's marked walkways and lane striping, and Teamsters apprenticeship and yard-driver training",
+      "accent": "#3fa9d8",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "lane-held-clean",
+        "name": "Lane Held Clean",
+        "note": "Every back sounded first, the fifth wheel locked before the pull, and never a wheel moved with a pedestrian in the marked crossing"
+      },
+      "meshes": 294,
+      "lights": 0,
+      "overBudget": false,
+      "index": "347",
+      "flat": false,
+      "system": "Yard Lane",
+      "currency": "TAG",
+      "ranks": [
+        "Yard Hand",
+        "Hostler Crew",
+        "Lane Lead",
+        "Terminal Certified",
+        "Yard Driver Certified"
+      ],
+      "awards": [
+        {
+          "id": "coupled-clean",
+          "name": "Coupled Clean",
+          "note": "The fifth wheel locked and the air lines connected before the first pull"
+        },
+        {
+          "id": "lane-held-steady",
+          "name": "Lane Held Steady",
+          "note": "The backing watch stayed inside the lane markers the whole reverse"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never backed without the horn, never the marked crossing driven through occupied, never the fifth wheel trusted unlocked"
+        },
+        {
+          "id": "clean-move",
+          "name": "Clean Move",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "air-on-the-band",
+          "name": "Air On The Band",
+          "note": "Air pressure gauge committed inside the band first time"
+        },
+        {
+          "id": "move-logged-fast",
+          "name": "Move Logged Fast",
+          "note": "Tally logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=po-yard-hostler-and-pedestrian-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "po-lashing-gear-inspection-and-tagging",
+      "name": "Lashing Gear Inspection & Tagging",
+      "title": "SmartCiti.X~ Lashing Gear Inspection & Tagging VR VR",
+      "tagline": "The rack before the first container lands: the lashing plan read for its pattern, hi-vis and a hard hat on, a cracked rod found in the rack before it is ever used, a turnbuckle's threads checked, a twist-lock staged and locked at the corner casting, the rod tensioned to the gauge's band, the gear tagged, the pattern checked against the plan, the crew held clear while the spreader swings a load overhead, the tally logged, the crew checked in, and the shift closed",
+      "category": "Maritime & Ports",
+      "domain": "Maritime",
+      "trade": "ILWU lasher inspecting and tagging lashing gear before deck stow, with a checker running the tally",
+      "union": null,
+      "certification": "OSHA 29 CFR 1917 marine terminals for the apron work under the crane, 29 CFR 1918 longshoring for the lashing gang's own duties, ASME B30.26 rigging hardware for the rods and turnbuckles under inspection, ILWU-PMA joint training for the lashing gang, and MARAD mariner training for the vessel-side stow this gear secures",
+      "accent": "#3fa9d8",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "gear-tagged-clean",
+        "name": "Gear Tagged Clean",
+        "note": "Every rod and turnbuckle inspected before use, the pattern matched to the plan, and never a body under the spreader while it swung"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "346",
+      "flat": false,
+      "system": "Lashing Gang",
+      "currency": "TAG",
+      "ranks": [
+        "Deck Hand",
+        "Lashing Crew",
+        "Gang Lead",
+        "Rigging Certified",
+        "Lasher Certified"
+      ],
+      "awards": [
+        {
+          "id": "rack-checked-clean",
+          "name": "Rack Checked Clean",
+          "note": "The cracked rod found and set aside before it reached the stow"
+        },
+        {
+          "id": "tension-held",
+          "name": "Tension Held",
+          "note": "Turnbuckle tension committed inside the band first time"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never a cracked rod used, never a body under the spreader, never a turnbuckle left without its locking pin"
+        },
+        {
+          "id": "clean-tagging",
+          "name": "Clean Tagging",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "pattern-on-the-plan",
+          "name": "Pattern On The Plan",
+          "note": "Lashing pattern matched the plan on the first check"
+        },
+        {
+          "id": "tally-logged-fast",
+          "name": "Tally Logged Fast",
+          "note": "Tally logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=po-lashing-gear-inspection-and-tagging"
+    },
+    {
+      "app": "smartcity",
+      "id": "se-building-automation-alarm-triage",
+      "name": "Building Automation Alarm Triage",
+      "title": "SmartCiti.X~ Building Automation Alarm Triage VR VR",
+      "tagline": "The queue at shift start: the alarm board read and the top alarm acknowledged, glasses and insulated gloves on, the arc-flash label read before the panel door opens, the physical sensor checked against the screen's own reading, AHU-3's fan motor locked out before the breaker is touched, the breaker reset, the airflow watched back into band, the alarm cleared, a freeze-stat alarm found buried lower in the queue and escalated before it is dismissed as noise, a live fire-alarm spike answered at the panel itself, the point log updated, the crew checked in, and the triage closed",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "IUOE stationary engineer triaging the building automation alarm queue, with a control room operator watching the workstation",
+      "union": null,
+      "certification": "ANSI/ASHRAE 111 measurement, testing and balancing practice for verifying a point against the physical system, NFPA 70 National Electrical Code and NFPA 70E for the arc-flash label and boundary at the AHU-3 panel, 29 CFR 1910.147 control of hazardous energy for locking out the fan motor before a breaker reset, and IUOE local training fund stationary engineer curricula",
+      "accent": "#6fc9e8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "track",
+        "find",
+        "drag"
+      ],
+      "badge": {
+        "id": "queue-triaged-clean",
+        "name": "Queue Triaged Clean",
+        "note": "Every alarm read on its own merits, the panel never opened without PPE, and a buried alarm caught before it was scrolled past"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "345",
+      "flat": false,
+      "system": "Alarm Queue",
+      "currency": "TAG",
+      "ranks": [
+        "Control Room Hand",
+        "Triage Crew",
+        "Panel Lead",
+        "BAS Certified",
+        "Stationary Engineer Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-before-reset",
+          "name": "Locked Before Reset",
+          "note": "AHU-3's fan motor locked out before the breaker was touched"
+        },
+        {
+          "id": "airflow-held-clean",
+          "name": "Airflow Held Clean",
+          "note": "The airflow watch stayed in band the whole restart"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never the panel opened bare, never a breaker reset without lockout, never a freeze-stat alarm silenced unread"
+        },
+        {
+          "id": "clean-triage",
+          "name": "Clean Triage",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "point-on-the-band",
+          "name": "Point On The Band",
+          "note": "Point-value gauge committed inside the band first time"
+        },
+        {
+          "id": "queue-cleared-fast",
+          "name": "Queue Cleared Fast",
+          "note": "Triage log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=se-building-automation-alarm-triage"
+    },
+    {
+      "app": "smartcity",
+      "id": "se-steam-trap-survey-and-condensate-return",
+      "name": "Steam Trap Survey & Condensate Return",
+      "title": "SmartCiti.X~ Steam Trap Survey & Condensate Return VR VR",
+      "tagline": "The annual survey down the steam main: the work order read, gloves and a face shield on, the trap under test locked and tagged out, its differential read across the trap, the acoustic reading held to catch a blow-through, a weeping union found down the line before it is stepped past, the failed trap tagged, swapped and its isolation reopened in order, the condensate tank level and the sight glass read, the return pump primed and held to catch, the crew checked in, and the survey logged",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "IUOE stationary engineer running the annual steam trap survey, with a second engineer logging results at the condensate skid",
+      "union": null,
+      "certification": "ASME Boiler and Pressure Vessel Code practice for the steam side of this plant, the National Board Inspection Code for the vessels it feeds, ASME B31.9 building services piping for the trap and return lines, 29 CFR 1910.147 control of hazardous energy for isolating a trap before it is opened, and IUOE local training fund stationary engineer curricula",
+      "accent": "#6fc9e8",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "find",
+        "drag",
+        "turn",
+        "hold"
+      ],
+      "badge": {
+        "id": "trap-line-certified",
+        "name": "Trap Line Certified",
+        "note": "Every trap isolated before it was opened, the swap made in order, and the bypass valve never touched without the permit"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "344",
+      "flat": false,
+      "system": "Trap Survey",
+      "currency": "TAG",
+      "ranks": [
+        "Plant Hand",
+        "Survey Crew",
+        "Trap Line Lead",
+        "Condensate Certified",
+        "Stationary Engineer Certified"
+      ],
+      "awards": [
+        {
+          "id": "isolated-before-open",
+          "name": "Isolated Before Open",
+          "note": "The trap under test locked and tagged before the swap began"
+        },
+        {
+          "id": "pump-primed-clean",
+          "name": "Pump Primed Clean",
+          "note": "The return pump held to a full catch on the first try"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never the bypass valve touched without a permit, never a bare hand on live steam, never the cutout overridden"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "differential-on-the-band",
+          "name": "Differential On The Band",
+          "note": "Temperature differential committed inside the band first time"
+        },
+        {
+          "id": "survey-logged-fast",
+          "name": "Survey Logged Fast",
+          "note": "Survey log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=se-steam-trap-survey-and-condensate-return"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-decon-corridor-for-a-mass-casualty-drill",
+      "name": "Decon Corridor for a Mass-Casualty Drill",
+      "title": "SmartCiti.X~ Decon Corridor for a Mass-Casualty Drill VR VR",
+      "tagline": "The corridor before the first patient: the drill plan read for its zones and PPE level, the splash suit and respirator on, the gross pool built before the rinse pool, the berm checked sealed under both, the wash valve opened, the first patient tagged, a non-ambulatory patient found in the queue before anyone tries to walk them, the screen up and the contaminated clothing bagged in order, the wash held in a steady pattern the full time, the runoff gauged against the berm's capacity, the patient wrapped and moved clean-side, a second wave met without losing the line, a torn glove answered at its own station, the crew checked in, and the drill logged",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "IAFF hazmat and technical-rescue firefighter running the decon corridor, with LIUNA hazmat laborers staffing the line and a firefighter running the triage board",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.120 HAZWOPER for the corridor's own zones and PPE level, 29 CFR 1910.134 for the air-purifying respirator worn by the wash team, 29 CFR 1910.1030 bloodborne pathogens for direct patient contact once clothing comes off, NFPA 470 hazardous materials response qualifications for the corridor's own set-up order, and IAFF technical-rescue and hazmat response training",
+      "accent": "#f0645b",
+      "parSeconds": 340,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "find",
+        "track",
+        "gauge",
+        "drag"
+      ],
+      "badge": {
+        "id": "corridor-held-clean",
+        "name": "Corridor Held Clean",
+        "note": "Every patient washed through in order, the berm never breached, and the second wave met without a single patient walking around the line"
+      },
+      "meshes": 262,
+      "lights": 0,
+      "overBudget": false,
+      "index": "343",
+      "flat": false,
+      "system": "Decon Line",
+      "currency": "TAG",
+      "ranks": [
+        "Line Hand",
+        "Wash Team",
+        "Corridor Lead",
+        "Triage Certified",
+        "MCI Decon Certified"
+      ],
+      "awards": [
+        {
+          "id": "pools-in-order",
+          "name": "Pools In Order",
+          "note": "The gross pool built and checked before the rinse pool went down"
+        },
+        {
+          "id": "wash-held-steady",
+          "name": "Wash Held Steady",
+          "note": "The wash pattern held in its band the whole time"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never a patient walked around the line, never a mask broken early, never the berm skipped"
+        },
+        {
+          "id": "clean-setup",
+          "name": "Clean Setup",
+          "note": "No corrections building or running the corridor"
+        },
+        {
+          "id": "runoff-on-the-gauge",
+          "name": "Runoff On The Gauge",
+          "note": "Runoff gauge committed inside the band first time"
+        },
+        {
+          "id": "corridor-cleared-fast",
+          "name": "Corridor Cleared Fast",
+          "note": "Drill logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hz-decon-corridor-for-a-mass-casualty-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation",
+      "name": "Drum Staging & Compatibility Segregation",
+      "title": "SmartCiti.X~ Drum Staging & Compatibility Segregation VR VR",
+      "tagline": "The apron before the next truck: the compatibility chart read for its cells and aisle minimum, gloves and a face shield on, the delivery checked for a drum that should never have left the dock, the next drum's placard read before it moves, the forklift raised smooth and staged in its own class's cell, a spill pallet confirmed underneath it, the aisle gauged against the chart's minimum, the drum dated for its generator clock, the manifest logged, the spill kit's access checked clear, the extinguisher checked in reach, a PID reading walked and held in band down the row, the crew checked in, and the shift closed",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "LIUNA hazmat laborer running the forklift on the drum staging apron, with an environmental technician keeping the manifest board",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.120 HAZWOPER for the apron's own PPE and monitoring practice, 29 CFR 1910.1200 hazard communication for reading the placard before a drum moves, 29 CFR 1910.134 respiratory protection for the fit-tested half-mask worn on the apron, 40 CFR 262 for the generator accumulation-start-date clock the tag begins, and LIUNA Training's hazardous waste worker curriculum",
+      "accent": "#78c8a0",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "cell-for-every-drum",
+        "name": "A Cell for Every Drum",
+        "note": "Every drum staged in its own class's cell, on its own pallet, with the aisle never pinched under the chart's minimum"
+      },
+      "meshes": 234,
+      "lights": 0,
+      "overBudget": false,
+      "index": "342",
+      "flat": false,
+      "system": "Staging Apron",
+      "currency": "TAG",
+      "ranks": [
+        "Apron Hand",
+        "Staging Crew",
+        "Segregation Lead",
+        "Manifest Certified",
+        "Hazmat Laborer Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-placement",
+          "name": "Clean Placement",
+          "note": "Every drum forked into its own class's cell, first time"
+        },
+        {
+          "id": "chart-held",
+          "name": "Chart Held",
+          "note": "The PID reading held in band the whole walk down the row"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never a drum forced onto the forks, never a cell doubled up, never the spill kit blocked"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "aisle-on-the-chart",
+          "name": "Aisle On The Chart",
+          "note": "Aisle gauge committed inside the band first time"
+        },
+        {
+          "id": "apron-cleared-fast",
+          "name": "Apron Cleared Fast",
+          "note": "Shift log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hz-drum-staging-and-compatibility-segregation"
     },
     {
       "app": "trades",

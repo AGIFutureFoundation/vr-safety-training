@@ -352,11 +352,13 @@ export const SIM_FP_ANCHOR_SELECTION_AND_RESCUE_PLAN = {
       onHazard() {},
       onInterrupt(it) {
         if (it.id === "arrest-activates-below") crewMember.position.set(-1.9, 0, -0.2);
-        if (it.id === "wind-gust-halts-edge-work") plan.material?.emissiveIntensity;
+        if (it.id === "wind-gust-halts-edge-work") rescuePoint.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 2.0, rough: 0.4 });
+        if (it.id === "wind-gust-halts-edge-work") repaint(radio.userData.screen, signFace("WIND GUST — OFF THE EDGE", { bg: "#2a0d0d", accent: "#f0645b", fg: "#ffd6d6", scale: 0.4 }));
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
         if (it.id === "arrest-activates-below") crewMember.position.set(-1.9, 0, 0.6);
+        if (it.id === "wind-gust-halts-edge-work") rescuePoint.material = mat(FPA_ACCENT, { emissive: FPA_ACCENT, ei: 1.4, rough: 0.4 });
         if (it.id === "wind-gust-halts-edge-work") repaint(radio.userData.screen, signFace("EDGE CLEARED", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.4 }));
       },
       animate(t, dt, session) {
