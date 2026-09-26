@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 395
+      "stations": 396
     },
     "trades": {
       "entry": "trades/index.html",
@@ -262,6 +262,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-marine-mammal-observer-during-pile-driving",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
         "vessel-gangway-and-hatch-cover-safety",
@@ -3351,6 +3352,11 @@
         },
         {
           "app": "smartcity",
+          "id": "br-marine-mammal-observer-during-pile-driving",
+          "why": "A pile-driving crew can only work under NOAA Fisheries' own authorization when its observer scans the shutdown zone clean before every ramp-up and calls an immediate stop the moment a harbor seal or harbor porpoise is inside it."
+        },
+        {
+          "app": "smartcity",
           "id": "br-tidal-marsh-grading-amphibious-excavator",
           "why": "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture."
         }
@@ -3358,7 +3364,7 @@
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1648,
+        "lessons": 1650,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7485,6 +7491,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-marine-mammal-observer-during-pile-driving",
+      "name": "Marine Mammal Observer During Pile Driving",
+      "title": "SmartCiti.X~ Marine Mammal Observer During Pile Driving VR",
+      "tagline": "The watch that lets a pile-driving crew work at all: the shutdown zone scanned clean before the first soft-start strike, the rangefinder used instead of a guess, the soft-start and full-power calls made in order, a harbor seal or harbor porpoise in the zone answered with an immediate shutdown call, a stray boat waved off the safety zone, the wait held out before ramp-up resumes, and every sighting logged the way the authorization requires",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "NOAA-Fisheries-authorized protected species observer, posted on the support workboat for a restoration pile-driving crew — Pile Drivers Local 34 on the derrick, IUOE Local 3 on the crane",
+      "union": null,
+      "certification": "Marine Mammal Protection Act take prohibition and Incidental Harassment Authorization conditions; NOAA Fisheries authorization and monitoring protocol for in-water pile driving; Endangered Species Act consultation behind the same authorization; OSHA 29 CFR 1910.95 occupational noise exposure at the rail near an operating derrick; Pile Drivers Local 34 (UBC) and IUOE Local 3 training standards for the crew the observer works beside; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the work window",
+      "accent": "#e0a23c",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-watch-clean-zone",
+        "name": "Clean Watch, Clean Zone",
+        "note": "The zone was scanned clear before every ramp-up, the rangefinder was used instead of an eyeball guess, the seal sighting got an immediate shutdown, and every entry made it into the log"
+      },
+      "meshes": 271,
+      "lights": 0,
+      "overBudget": false,
+      "index": "343",
+      "flat": false,
+      "system": "Protected Species Watch",
+      "currency": "SIGHTINGS",
+      "ranks": [
+        "Trainee Observer",
+        "Observer",
+        "Lead Observer",
+        "Senior Observer",
+        "Pile-Driving Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-range",
+          "name": "True Range",
+          "note": "The rangefinder read and calibrated before the first scan, never eyeballed"
+        },
+        {
+          "id": "clean-shutdown",
+          "name": "Clean Shutdown",
+          "note": "Never skipped the soft start, never left the post, never logged late"
+        },
+        {
+          "id": "held-the-wait",
+          "name": "Held The Wait",
+          "note": "The post-shutdown clearance wait held inside the correct band, first time"
+        },
+        {
+          "id": "clean-scan",
+          "name": "Clean Scan",
+          "note": "No corrections across the whole watch"
+        },
+        {
+          "id": "steady-eyes",
+          "name": "Steady Eyes",
+          "note": "Held the zone scan in band through both ramp-up and full power"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Watch closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-marine-mammal-observer-during-pile-driving"
     },
     {
       "app": "smartcity",
@@ -26931,7 +27019,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27591,7 +27679,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",

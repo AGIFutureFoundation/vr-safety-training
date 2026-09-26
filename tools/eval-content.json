@@ -6518,6 +6518,58 @@
     },
     {
       "app": "smartcity",
+      "id": "br-marine-mammal-observer-during-pile-driving",
+      "name": "Marine Mammal Observer During Pile Driving",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 332,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 270,
+          "materials": 110,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.5735177865612648,
+          "nearest": "hz-level-b-entry-and-scba-change-out",
+          "similarity": 0.22529644268774704
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "br-cold-water-immersion-and-mob-recovery",
       "name": "Cold Water Immersion & MOB Recovery",
       "category": "Maritime & Ports",
@@ -8845,7 +8897,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 250,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -20321,12 +20373,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 8
         },
         "standards": {
           "score": 1,
-          "cited": 10,
-          "inScope": 10,
+          "cited": 11,
+          "inScope": 11,
           "outOfScope": 0,
           "unregistered": 0
         },
