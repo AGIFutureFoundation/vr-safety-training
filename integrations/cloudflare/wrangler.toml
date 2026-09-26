@@ -1,0 +1,39 @@
+# Cloudflare Workers configuration template for the training-engagement
+# relay (worker.js). Every value below is a placeholder: fill in what your
+# own Cloudflare account and dashboard actually show you, following
+# Cloudflare's current Workers documentation — this file predates, and does
+# not attempt to track, whatever that documentation says today. Nothing here
+# is a real account id, zone, KV namespace, R2 bucket or route.
+#
+#     npx wrangler deploy
+#
+# See README.md for what each binding does and does not do.
+
+name = "PLACEHOLDER-training-share-relay"
+main = "worker.js"
+compatibility_date = "PLACEHOLDER-YYYY-MM-DD"
+
+# Uncomment and fill in exactly one of these two stores for receipts (see
+# worker.js's `store` line — it prefers KV when both are bound). Get the
+# namespace id / bucket name from your own Cloudflare dashboard; the ids
+# below are placeholders, not real values.
+#
+# [[kv_namespaces]]
+# binding = "RECEIPTS_KV"
+# id = "PLACEHOLDER-kv-namespace-id"
+#
+# [[r2_buckets]]
+# binding = "RECEIPTS_R2"
+# bucket_name = "PLACEHOLDER-bucket-name"
+
+[vars]
+# Set to "true" only once you have actually configured a real payment
+# requirement on this relay, per Cloudflare's current documentation for
+# whatever payment or wallet product you use — this template charges nothing
+# and names no token, fee or address on its own.
+PAYMENT_REQUIRED = "false"
+
+# A custom route, and any wallet- or payment-related product Cloudflare
+# offers alongside Workers, are deliberately left out of this template:
+# configure them from your dashboard, following Cloudflare's own current
+# documentation, once you know what your deployment actually needs.
