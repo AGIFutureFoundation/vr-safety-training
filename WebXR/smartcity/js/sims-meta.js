@@ -17962,5 +17962,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-excavator-trench-and-utility-locate",
+    "index": "op-1",
+    "domain": "Construction",
+    "trade": "Excavator operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart P Excavations and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and utility-strike incidents",
+    "name": "Excavator Trench & Utility Locate",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Excavator Trench & Utility Locate VR",
+    "tagline": "Excavator trenching over a located utility: the ticket verified against the paint, the swing radius barricaded, the coupler locked, the line hand-exposed, and a spotter and grade checker both doing their own job",
+    "accent": 14394408,
+    "accentCss": "#dba428",
+    "parSeconds": 280,
+    "badge": {
+      "id": "dig-command",
+      "name": "Dig Command",
+      "note": "Locate verified, swing radius held, coupler locked, and the line exposed before the bucket ever went near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dig Command",
+      "currency": "DIG",
+      "ranks": [
+        "Ground Hand",
+        "Excavator Hand",
+        "Locate Certified",
+        "Swing Authority",
+        "Dig Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
