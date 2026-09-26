@@ -1,10 +1,10 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 424 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 430 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
-Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 37 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
+Every station names the union and the certification a worker in that role holds, cites the standards its steps answer to in the step text a learner reads, is driven end to end in a browser, passes 40 automated checkers (parse, imports, layout, mesh budget, interruption reactions, crew roles, incident replay, curricula, catalog freshness, accessibility, devices, input, standards, console, competency, models) and is graded by `tools/eval_content.mjs` on variety, decisions, explanation, grounding, feedback, scene and originality. Attempts are recorded per learner with xAPI statements to a configured LRS and an LTI 1.3 launch relay; consent, licensing and the site rules for real places are in `WebXR/assets/env/README.md`, `tools/briefs/hp-edition-brief.md` and the flat briefing stations.
 
 ## By standard
 
@@ -861,6 +861,12 @@ Every station names the union and the certification a worker in that role holds,
 | Scrimmage and Sportsmanship Debrief | Youth basketball coach | — |
 | Reset Routine After a Miss | Youth basketball coach | — |
 | Pre-Game Routine and Visualisation | Youth basketball coach | — |
+| Composure with a Hostile Crowd and Officials | Youth basketball coach | — |
+| Teammate Conflict and Accountability | Youth basketball coach | — |
+| Coach Feedback and Growth Mindset | Youth basketball coach | — |
+| Final Possession, Decision Under Pressure | Youth basketball coach | — |
+| Layups and Finishing at the Rim | Youth basketball coach | — |
+| Dribble Moves and Change of Pace | Youth basketball coach | — |
 
 ### SF Bay Restoration & Cleanup — Maritime and Underwater
 
@@ -910,6 +916,12 @@ Every station names the union and the certification a worker in that role holds,
 - Perimeter Air (smartcity): 29 CFR 1910.120
 - Sampling Well (smartcity): 29 CFR 1910.120
 - Microwave Backhaul (smartcity): 29 CFR 1910.268
+- Dribble Moves and Change of Pace (smartcity): none
+- Layups and Finishing at the Rim (smartcity): none
+- Final Possession, Decision Under Pressure (smartcity): none
+- Coach Feedback and Growth Mindset (smartcity): none
+- Teammate Conflict and Accountability (smartcity): none
+- Composure with a Hostile Crowd and Officials (smartcity): none
 - Emergency Savings & Predatory Lending (smartcity): none
 - Budget With Irregular Income (smartcity): none
 - Pay Stub & Withholding (smartcity): none
