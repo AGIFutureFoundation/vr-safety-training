@@ -26,6 +26,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 | [standards/README.md](standards/README.md) | *Generated* (`node tools/check_standards.mjs --docs`). The standards registry: every standard, code and union programme taught against, by body and by programme, with its scope and whether the citation form is verified. |
 | [signage.md](signage.md) | The union sign and ANSI Z535 safety sign at every station pad: the trademark policy (no union logo ships; wordmarks typeset from `tools/unions.json`; a licensed deployment supplies its own files through `WebXR/assets/brand/manifest.json`), how a station's union is chosen, the category hazard table and the mesh budget rule. |
 | [proof-of-training.md](proof-of-training.md) | The mastery rule, the 34 competencies and the standards they evidence, the Proof tab, the CSV, badge and printed exports, and the scoring rubric. |
+| [course-tracking.md](course-tracking.md) | The accountability layer above proof of training: My Training's levels/lessons/time-on-task per programme, refreshers due against a platform-default interval, the printable transcript ("a record of simulator activity, not a certification"), instructor sign-off, and the streak/refresher-XP/clean-run/hazard-free-week gamification. |
 
 ## Running it
 
