@@ -183,7 +183,7 @@ A 20-second clip of AI racing is at `screenshots/race/race-clip.webm`.
 
 # The other Easter egg: Break Room Arcade
 
-There is a second hidden page: a crew break room with three retro cabinets against the wall, each running an original 2D canvas game in the spirit of a classic arcade genre. Every sprite is chunky pixel art drawn in code, every sound and the backing loop are synthesised live with WebAudio, and each cabinet keeps its own high-score table in this browser. A CRT scanline overlay can be toggled on or off from the header.
+There is a second hidden page: a crew break room with four retro cabinets against the wall, each running an original 2D canvas game in the spirit of a classic arcade genre. Every sprite is chunky pixel art drawn in code, every sound and the backing loop are synthesised live with WebAudio, and each cabinet keeps its own high-score table in this browser. A CRT scanline overlay can be toggled on or off from the header.
 
 ## How to open it
 
@@ -191,31 +191,41 @@ Open `WebXR/arcade/index.html` directly from source, or `WebXR/dist/arcade.html`
 
 ## The cabinets
 
+<details><summary>Spoiler — the four cabinets and what each one is</summary>
+
 | Cabinet | Genre | Players | What it is |
 |---|---|---|---|
 | **Spool Yard** | Climbing platformer | 1 | Climb ladders and girders up a steel frame while cable spools roll down off the loading ramps. Tie off at each level's anchor point for a bonus, then reach the crane cab at the top. Four boards, each with a tighter ladder layout and faster spools than the last. |
 | **Crew Run** | Side-scrolling platformer | 1 | A hard-hatted apprentice runs a jobsite: jump the trenches, duck the swinging loads, stomp the hazard icons, and pick up PPE along the way. A foreman checks your PPE count at the end of each of three stages. |
 | **Pallet Stacker** | Falling-block stacker | 1–2 (split screen) | Pallets of different shapes drop into the truck bed; complete a row to ship it. The load shifts if the stack leans too far to one side, and levels speed up. Two players get one independent board each, side by side. |
+| **Forklift Aisle** | Lane-crossing dodger | 1 | Cross a warehouse aisle one marked lane at a time, from the marshalling pad to the shipping dock. Some lanes sweep a forklift or pallet jack back and forth across the aisle; a few are painted, marked crossings with their own stop/go beacon — the whole lane closes while it's red. Grab the hi-vis kit before the dock. Three boards, tighter crossings each time, and every round is capped at a minute. Plays by keyboard, gamepad, or an on-screen d-pad on a touch screen. |
 
 Each cabinet opens on a title card with its genre, controls and a "what this teaches" line, and every run ends on a game-over card with the run's score and, if it qualifies, an entry onto that cabinet's high-score table.
 
+</details>
+
 ## What each one teaches
+
+<details><summary>Spoiler — the real habit behind each cabinet</summary>
 
 - **Spool Yard** — tie off before you climb: an anchored line turns a slip into a stop, not a fall.
 - **Crew Run** — PPE only helps if you're still wearing it when you need it: pick it up, keep it on, get checked.
 - **Pallet Stacker** — a leaning load is an unstable load: keep the stack square, or it comes down on its own schedule, not yours.
+- **Forklift Aisle** — a marked aisle crossing gets right-of-way for a reason: wait for the light, keep your hi-vis on, and the operator can actually see you coming.
+
+</details>
 
 ## Controls
 
-Keyboard and gamepad both work on every cabinet; pad 1 is player 1 and pad 2 is player 2, read through `WebXR/shared/input.js` on the standard gamepad mapping.
+Keyboard and gamepad both work on every cabinet; pad 1 is player 1 and pad 2 is player 2, read through `WebXR/shared/input.js` on the standard gamepad mapping. Forklift Aisle also plays on a touch screen: an on-screen d-pad (up/down/left/right) appears automatically on a coarse-pointer device and drives the very same keys the keyboard does.
 
-| | Spool Yard | Crew Run | Pallet Stacker — P1 | Pallet Stacker — P2 |
-|---|---|---|---|---|
-| Move | ← → or A/D | — | A / D | ← / → |
-| Climb / jump / rotate | ↑ ↓ or W/S (against a ladder) | ↑ / W / Space to jump | W to rotate | ↑ to rotate |
-| Duck / soft drop | — | ↓ / S (hold under a swinging load) | S | ↓ |
-| Hard drop | — | — | Space | Enter |
-| Gamepad | Left stick or D-pad | A jumps, B ducks, D-pad down ducks | Left stick/D-pad move, A rotates, RT hard drops | (pad 2) same buttons |
+| | Spool Yard | Crew Run | Pallet Stacker — P1 | Pallet Stacker — P2 | Forklift Aisle |
+|---|---|---|---|---|---|
+| Move | ← → or A/D | — | A / D | ← / → | ← / → or A/D, or the touch d-pad |
+| Climb / jump / rotate / cross | ↑ ↓ or W/S (against a ladder) | ↑ / W / Space to jump | W to rotate | ↑ to rotate | ↑ or W to cross a lane |
+| Duck / soft drop / step back | — | ↓ / S (hold under a swinging load) | S | ↓ | ↓ or S to step back a lane |
+| Hard drop | — | — | Space | Enter | — |
+| Gamepad | Left stick or D-pad | A jumps, B ducks, D-pad down ducks | Left stick/D-pad move, A rotates, RT hard drops | (pad 2) same buttons | Left stick or D-pad |
 
 Esc pauses any cabinet, and M mutes. The CRT scanline overlay toggle sits in the header and applies while a game is running.
 
@@ -225,7 +235,7 @@ Every cabinet keeps its own top-eight table in this browser under one `localStor
 
 ## Originality
 
-Every sprite, sound, tune, level layout and name in this game is original to this platform. The three genres — a climbing platformer, a side-scrolling runner and a falling-block stacker — are generic arcade genres, not any specific existing game, and no other game's names, characters, sprites, level layouts, music or sounds appear here.
+Every sprite, sound, tune, level layout and name in this game is original to this platform. The four genres — a climbing platformer, a side-scrolling runner, a falling-block stacker and a lane-crossing dodger — are generic arcade genres, not any specific existing game, and no other game's names, characters, sprites, level layouts, music or sounds appear here.
 
 ## Checks
 
@@ -234,14 +244,15 @@ Every sprite, sound, tune, level layout and name in this game is original to thi
 - Each cabinet's engine runs a scripted 30-second session (1800 steps at 1/60 s) with no exception and no non-finite value anywhere in its state.
 - Score never decreases and is never negative; level (board or stage) stays in range and never decreases; lives never go negative; stepping a finished game is a no-op.
 - Pallet Stacker's two boards run independently in split screen, and a deliberately lopsided stack triggers a shift that moves a block without creating, losing or corrupting one.
+- Forklift Aisle's round is capped at 60 seconds; a sweep lane blocks at most one aisle slot at a time, and a marked crossing lane is observed both open and closed over several beacon cycles.
 - The high-score table round-trips through a stubbed `localStorage`, including ranking, the eight-row cap, and a corrupt value falling back to fresh, empty tables.
-- All three cabinets are registered with a genre, a teaching line, controls text and a working engine, and the app is bundled and registered in `check_all`.
+- All four cabinets are registered with a genre, a teaching line, controls text and a working engine, Forklift Aisle declares touch support and the app carries the on-screen d-pad, and the app is bundled and registered in `check_all`.
 
 ## Screenshots
 
 | | |
 |---|---|
-| <img src="screenshots/arcade/row.png" width="420" alt="the three cabinets in the break room"> | <img src="screenshots/arcade/spoolyard.png" width="420" alt="Spool Yard mid-climb"> |
+| <img src="screenshots/arcade/row.png" width="420" alt="the cabinets in the break room"> | <img src="screenshots/arcade/spoolyard.png" width="420" alt="Spool Yard mid-climb"> |
 | <img src="screenshots/arcade/crewrun.png" width="420" alt="Crew Run mid-stage"> | <img src="screenshots/arcade/palletstacker.png" width="420" alt="Pallet Stacker two-player split screen"> |
 
 A 20-second clip of play is at `screenshots/arcade/arcade-clip.webm`.

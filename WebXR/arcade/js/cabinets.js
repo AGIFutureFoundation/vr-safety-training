@@ -1,11 +1,12 @@
-// Break Room Arcade — the cabinet registry. Three original games, each with
+// Break Room Arcade — the cabinet registry. Four original games, each with
 // a pure engine module (create()/step()/render()), a title/controls card and
-// its teaching line. Adding a fourth cabinet means a new games/*.js engine,
+// its teaching line. Adding another cabinet means a new games/*.js engine,
 // an entry here, and a slot in tools/check_arcade.mjs.
 
 import * as SpoolYard from "./games/spoolyard.js";
 import * as CrewRun from "./games/crewrun.js";
 import * as PalletStacker from "./games/palletstacker.js";
+import * as ForkliftAisle from "./games/forkliftaisle.js";
 
 export const ARCADE_CABINETS = [
   {
@@ -43,6 +44,19 @@ export const ARCADE_CABINETS = [
     width: null, // sized from psBoardSize() × player count at run time
     height: null,
     engine: { create: PalletStacker.psCreate, step: PalletStacker.psStep, render: PalletStacker.psRender },
+  },
+  {
+    id: "forkliftaisle",
+    name: "Forklift Aisle",
+    genre: "Lane-crossing dodger",
+    players: 1,
+    blurb: "Cross the aisle one marked lane at a time. Some lanes sweep a forklift back and forth; a few are painted crossings with their own stop/go beacon. Grab the hi-vis kit before the dock. Three boards, tighter crossings each time. Every round is capped at a minute.",
+    teaches: ForkliftAisle.FA_TEACHES,
+    controls: "Move: ← → or A/D. Cross a lane: ↑ or W. Step back: ↓ or S. Esc pauses.",
+    touch: true,
+    width: ForkliftAisle.FA_WIDTH,
+    height: ForkliftAisle.FA_HEIGHT,
+    engine: { create: ForkliftAisle.faCreate, step: ForkliftAisle.faStep, render: ForkliftAisle.faRender },
   },
 ];
 

@@ -7,7 +7,7 @@
 
 export const ARCADE_STORAGE_KEY = "break-room-arcade-v1";
 export const ARCADE_TABLE_SIZE = 8;
-export const ARCADE_GAMES = ["spoolyard", "crewrun", "palletstacker"];
+export const ARCADE_GAMES = ["spoolyard", "crewrun", "palletstacker", "forkliftaisle"];
 
 export function arNewScores() {
   const out = { v: 1 };

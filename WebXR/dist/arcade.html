@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Break Room Arcade</title>
-<meta name="description" content="The training platform's other Easter egg: a row of three retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner and a falling-block stacker — with pixel art, a chiptune soundtrack and local high scores.">
+<meta name="description" content="The training platform's other Easter egg: a row of four retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner, a falling-block stacker and a lane-crossing dodger — with pixel art, a chiptune soundtrack and local high scores.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
@@ -42,7 +42,7 @@
   a.btn{display:inline-block;text-decoration:none;color:var(--text)}
 
   /* ---------- cabinet row ---------- */
-  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(180px,1fr));margin:14px 0 6px}
+  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:14px 0 6px}
   @media (max-width:760px){ .cab-row{grid-template-columns:1fr} }
   .cabinet{text-align:left;cursor:pointer;background:linear-gradient(180deg,#20232c,#14161c);border:2px solid #2c303b;
     border-radius:10px 10px 4px 4px;padding:10px;position:relative;box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 0 0 3px #0a0b0e}
@@ -69,6 +69,20 @@
   #hud-top{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:8;display:flex;gap:8px}
   #hud-top .btn{padding:6px 10px;font-size:12px}
 
+  /* ---------- touch d-pad (solo cabinets only) ---------- */
+  #touch-pad{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:9;
+    display:none;justify-content:center;pointer-events:none}
+  #touch-pad[data-on]{display:flex}
+  #touch-pad .tpad-grid{display:grid;grid-template-columns:56px 56px 56px;grid-template-rows:52px 52px;gap:6px;pointer-events:auto}
+  #touch-pad button{grid-column:auto;background:rgba(20,23,30,.72);border:1px solid var(--edge-strong);border-radius:10px;
+    color:var(--text);font-size:20px;line-height:1;touch-action:none;-webkit-user-select:none;user-select:none}
+  #touch-pad button:active{background:rgba(79,209,255,.35)}
+  #tp-up{grid-column:2;grid-row:1}
+  #tp-left{grid-column:1;grid-row:2}
+  #tp-down{grid-column:2;grid-row:2}
+  #tp-right{grid-column:3;grid-row:2}
+  @media (hover:hover) and (any-pointer:fine){ #touch-pad{display:none !important} }
+
   #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;background:var(--glass);border:1px solid var(--edge-strong);border-radius:8px;
     padding:10px 16px;font-size:14px;color:var(--text);max-width:min(620px,calc(100vw - 32px));text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
   #toast.on{opacity:1}
@@ -93,6 +107,14 @@
 
 <div id="stage-wrap" hidden><canvas id="game" width="256" height="224"></canvas></div>
 <div id="crt" hidden></div>
+<div id="touch-pad" aria-hidden="true">
+  <div class="tpad-grid">
+    <button type="button" id="tp-up" aria-label="Up">&#9650;</button>
+    <button type="button" id="tp-left" aria-label="Left">&#9664;</button>
+    <button type="button" id="tp-down" aria-label="Down">&#9660;</button>
+    <button type="button" id="tp-right" aria-label="Right">&#9654;</button>
+  </div>
+</div>
 <div id="hud-top">
   <button class="btn ghost" id="btn-crt" aria-pressed="true">CRT scanlines: on</button>
 </div>
@@ -103,13 +125,13 @@
     <p class="eyebrow">The crew's other Easter egg</p>
     <h1 class="logo" id="t-menu">BREAK ROOM ARCADE</h1>
     <div class="stripe"></div>
-    <p class="lead">Three retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
+    <p class="lead">Four retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
     <div class="cab-row" id="cab-row"></div>
     <div class="row" style="margin-top:14px">
       <button class="btn" id="btn-scores">High scores</button>
       <a class="btn ghost" href="./index.html">Back to the training platform</a>
     </div>
-    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2). Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
+    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2); Forklift Aisle also plays on a touch screen with an on-screen d-pad. Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
   </div>
 </section>
 
@@ -1042,7 +1064,7 @@ function describeInputs(device = null, profile = null) {
 
 const ARCADE_STORAGE_KEY = "break-room-arcade-v1";
 const ARCADE_TABLE_SIZE = 8;
-const ARCADE_GAMES = ["spoolyard", "crewrun", "palletstacker"];
+const ARCADE_GAMES = ["spoolyard", "crewrun", "palletstacker", "forkliftaisle"];
 
 function arNewScores() {
   const out = { v: 1 };
@@ -1996,11 +2018,296 @@ function psRender(ctx, state, W, H) {
 }
 
 
+/* ===== arcade/js/games/forkliftaisle.js ===== */
+// Forklift Aisle — lane-crossing dodger.
+//
+// Cross a warehouse aisle, one marked lane at a time, from the marshalling
+// pad at the bottom to the shipping dock at the top. Some lanes carry a
+// forklift or pallet jack sweeping back and forth across the three aisle
+// slots; a few are painted, marked crossings with their own stop/go beacon —
+// the whole lane is closed while it is red, open while it is green. A hi-vis
+// kit sits somewhere on each board; grab it before the dock, or the foreman
+// still lets you through, just without the bonus.
+//
+// create()/step() are pure (no DOM, no canvas, no audio); render() draws the
+// pixel art and is the only function that touches a canvas.
+//
+// "What this teaches": right-of-way at a marked aisle crossing is not a
+// suggestion — wait for the light, keep your hi-vis on, and a forklift
+// operator can actually see you coming.
+
+const FA_WIDTH = 180;
+const FA_HEIGHT = 240;
+const FA_TEACHES = "A marked aisle crossing gets right-of-way for a reason: wait for the light, keep your hi-vis on, and the operator can actually see you.";
+const FA_TIME_LIMIT = 60; // seconds — every round is capped, win or lose
+const FA_COLS = 3;
+
+function faRandFn(seed) {
+  let s = (seed >>> 0) || 1;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+const FA_BOARDS = [
+  { name: "Receiving aisle", lanes: 8, sweepPeriod: 1.6, crossingCycle: 3.2, crossingRed: 1.5 },
+  { name: "Pick aisle", lanes: 10, sweepPeriod: 1.25, crossingCycle: 2.6, crossingRed: 1.35 },
+  { name: "Shipping dock apron", lanes: 12, sweepPeriod: 1.0, crossingCycle: 2.2, crossingRed: 1.25 },
+];
+
+const MOVE_COOLDOWN = 0.22;
+const RETREAT_COOLDOWN = 0.16;
+
+function faBoardDef(state) { return FA_BOARDS[Math.min(state.level - 1, FA_BOARDS.length - 1)]; }
+function faSay(state, text, dur = 1.4) { state.message = text; state.messageT = dur; }
+
+/** Every lane on the current board, built once when the board starts so
+ *  step() never has to draw a fresh random number — a lane's own kind, phase
+ *  and (for a crossing) how long it stays red are fixed for the whole board. */
+function buildLanes(state) {
+  const b = faBoardDef(state);
+  const lanes = [];
+  for (let i = 1; i <= b.lanes; i++) {
+    if (i % 4 === 0) {
+      lanes.push({ kind: "crossing", cycle: b.crossingCycle, red: b.crossingRed, phase: state.rng() * b.crossingCycle });
+    } else {
+      lanes.push({ kind: "sweep", period: b.sweepPeriod * (0.85 + state.rng() * 0.3), phase: state.rng() * b.sweepPeriod });
+    }
+  }
+  // One hi-vis kit per board, always on a sweep lane so it is never behind a
+  // closed crossing, in the first half of the board so there is time to grab
+  // it and still make the dock.
+  let kitLane = -1;
+  const candidates = lanes.map((l, i) => i + 1).filter((n) => lanes[n - 1].kind === "sweep" && n <= Math.ceil(b.lanes * 0.7));
+  if (candidates.length) kitLane = candidates[Math.floor(state.rng() * candidates.length)];
+  state.lanes = lanes;
+  state.kitLane = kitLane;
+  state.kitCol = Math.floor(state.rng() * FA_COLS);
+  state.kitTaken = false;
+}
+
+/** The column a sweep lane currently blocks — a smooth triangle wave across
+ *  0..FA_COLS-1 so it reads as a forklift patrolling the aisle back and
+ *  forth, not a hazard that teleports. */
+function sweepBlockedCol(lane, t) {
+  const span = FA_COLS - 1;
+  const phase = ((t + lane.phase) % lane.period) / lane.period; // 0..1
+  const tri = phase < 0.5 ? phase * 2 : 2 - phase * 2; // 0 -> 1 -> 0
+  return Math.round(tri * span);
+}
+
+/** Whether a crossing lane is red (closed, all three slots) right now, and
+ *  how long it has been green when it is not — used for the right-of-way
+ *  timing bonus (a clean crossing taken soon after the light clears). */
+function crossingState(lane, t) {
+  const phase = (t + lane.phase) % lane.cycle;
+  if (phase < lane.red) return { red: true, greenFor: 0 };
+  return { red: false, greenFor: phase - lane.red };
+}
+
+/** Exported for tools/check_arcade.mjs: whether one lane blocks one column at
+ *  one moment in board time. A sweep lane blocks at most one of the three
+ *  columns at once; a crossing lane blocks all three, or none, together. */
+function laneBlocked(lane, col, t) {
+  if (lane.kind === "crossing") return crossingState(lane, t).red;
+  return sweepBlockedCol(lane, t) === col;
+}
+
+function faHit(state, events) {
+  if (state.invuln > 0 || state.over) return;
+  state.lives -= 1;
+  state.invuln = 1.0;
+  events.push({ type: "hit", lives: state.lives });
+  if (state.lives <= 0) { state.over = true; faSay(state, "A forklift operator waved you off — game over.", 3); }
+  else faSay(state, "Watch the crossing!");
+}
+
+function faCreate(opts = {}) {
+  const state = {
+    rng: faRandFn(opts.seed ?? 1),
+    level: 1,
+    row: 0, col: 1,
+    lives: 3,
+    score: 0,
+    ppeCollected: 0,
+    over: false,
+    win: false,
+    timeLeft: FA_TIME_LIMIT,
+    invuln: 0,
+    moveCooldown: 0,
+    boardT: 0,
+    message: "Cross when it's clear!",
+    messageT: 1.6,
+    t: 0,
+  };
+  buildLanes(state);
+  return state;
+}
+
+function faStep(state, dt, input = {}) {
+  const events = [];
+  if (state.over) return events;
+  state.t += dt;
+  state.boardT += dt;
+  if (state.messageT > 0) state.messageT -= dt;
+  if (state.invuln > 0) state.invuln -= dt;
+  if (state.moveCooldown > 0) state.moveCooldown -= dt;
+
+  state.timeLeft -= dt;
+  if (state.timeLeft <= 0) {
+    state.timeLeft = 0;
+    state.over = true;
+    faSay(state, "Shift horn — time's up.", 3);
+    return events;
+  }
+
+  const b = faBoardDef(state);
+
+  if (state.moveCooldown <= 0) {
+    if (input.up) {
+      state.moveCooldown = MOVE_COOLDOWN;
+      const destRow = state.row + 1;
+      if (destRow > b.lanes) {
+        // Reached the dock: the foreman checks for the hi-vis kit, same
+        // honest pass/fail-but-not-blocking pattern as Crew Run's checkpoint.
+        const kitted = state.kitLane < 0 || state.kitTaken;
+        state.score += kitted ? 150 * state.level : 40 * state.level;
+        events.push({ type: "dock", kitted });
+        faSay(state, kitted ? "Dock check: hi-vis on — pass." : "Dock check: no hi-vis — pass, but flagged.", 2);
+        if (state.level >= FA_BOARDS.length) {
+          state.over = true; state.win = true; faSay(state, "Shift complete!", 3);
+        } else {
+          state.level += 1;
+          state.row = 0; state.col = 1;
+          state.boardT = 0;
+          buildLanes(state);
+        }
+      } else {
+        const lane = state.lanes[destRow - 1];
+        if (laneBlocked(lane, state.col, state.boardT)) {
+          faHit(state, events);
+        } else {
+          state.row = destRow;
+          state.score += 10 * state.level;
+          if (lane.kind === "crossing") {
+            const cs = crossingState(lane, state.boardT);
+            if (!cs.red && cs.greenFor < 0.6) { state.score += 30; events.push({ type: "right-of-way" }); }
+          }
+          if (destRow === state.kitLane && state.col === state.kitCol && !state.kitTaken) {
+            state.kitTaken = true; state.ppeCollected += 1; state.score += 20;
+            events.push({ type: "kit" });
+          }
+        }
+      }
+    } else if (input.down) {
+      if (state.row > 0) { state.row -= 1; state.moveCooldown = RETREAT_COOLDOWN; }
+    } else if (input.left || input.right) {
+      const destCol = Math.max(0, Math.min(FA_COLS - 1, state.col + (input.left ? -1 : 1)));
+      if (destCol !== state.col) {
+        state.moveCooldown = MOVE_COOLDOWN * 0.6;
+        if (state.row === 0 || state.row > b.lanes) { state.col = destCol; }
+        else {
+          const lane = state.lanes[state.row - 1];
+          if (laneBlocked(lane, destCol, state.boardT)) faHit(state, events);
+          else state.col = destCol;
+        }
+      }
+    }
+  }
+
+  return events;
+}
+
+// ---------------------------------------------------------------- rendering
+
+const FA_VISIBLE_LANES = 6;
+
+function faRender(ctx, state, W = FA_WIDTH, H = FA_HEIGHT) {
+  const laneH = Math.floor((H - 30) / (FA_VISIBLE_LANES + 1));
+  const colW = W / FA_COLS;
+  const b = faBoardDef(state);
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#101820";
+  ctx.fillRect(0, 0, W, H);
+
+  // Lane index -> screen row, scrolled so the player sits a couple of rows
+  // above the bottom of the visible window.
+  const baseLane = Math.max(0, state.row - 2);
+  const laneY = (lane) => H - 24 - (lane - baseLane + 1) * laneH;
+
+  for (let lane = baseLane; lane <= baseLane + FA_VISIBLE_LANES + 1; lane++) {
+    const y = laneY(lane);
+    if (y < -laneH || y > H) continue;
+    if (lane === 0) {
+      ctx.fillStyle = "#1c2a1f";
+      ctx.fillRect(0, y, W, laneH);
+    } else if (lane > b.lanes) {
+      ctx.fillStyle = lane === b.lanes + 1 ? "#233042" : "#101820";
+      ctx.fillRect(0, y, W, laneH);
+      if (lane === b.lanes + 1) {
+        ctx.fillStyle = "#8b98a5"; ctx.font = "9px monospace"; ctx.textAlign = "center";
+        ctx.fillText("DOCK", W / 2, y + laneH / 2 + 3);
+      }
+    } else {
+      const l = state.lanes[lane - 1];
+      ctx.fillStyle = "#171f26";
+      ctx.fillRect(0, y, W, laneH);
+      if (l.kind === "crossing") {
+        const cs = crossingState(l, state.boardT);
+        ctx.fillStyle = cs.red ? "rgba(240,90,80,0.28)" : "rgba(90,220,120,0.22)";
+        ctx.fillRect(0, y, W, laneH);
+        ctx.fillStyle = cs.red ? "#f0645b" : "#59c97b";
+        ctx.beginPath(); ctx.arc(8, y + laneH / 2, 3, 0, Math.PI * 2); ctx.fill();
+      } else {
+        const blockedCol = sweepBlockedCol(l, state.boardT);
+        ctx.fillStyle = "#caa24a";
+        ctx.fillRect(blockedCol * colW + 4, y + 3, colW - 8, laneH - 6);
+      }
+      if (lane === state.kitLane && !state.kitTaken) {
+        ctx.fillStyle = "#ffc93c";
+        ctx.fillRect(state.kitCol * colW + colW / 2 - 5, y + laneH / 2 - 5, 10, 10);
+      }
+    }
+    for (let c = 1; c < FA_COLS; c++) {
+      ctx.strokeStyle = "#0b1016"; ctx.beginPath();
+      ctx.moveTo(c * colW, y); ctx.lineTo(c * colW, y + laneH); ctx.stroke();
+    }
+  }
+
+  // The player.
+  const py = laneY(state.row) + laneH / 2;
+  const px = state.col * colW + colW / 2;
+  const blink = state.invuln > 0 && Math.floor(state.t * 12) % 2 === 0;
+  if (!blink) {
+    ctx.fillStyle = "#4fd1ff";
+    ctx.fillRect(px - 6, py - 8, 12, 14);
+    ctx.fillStyle = "#ffc93c";
+    ctx.fillRect(px - 6, py - 12, 12, 5);
+  }
+
+  ctx.fillStyle = "#f1f5fb"; ctx.font = "10px monospace"; ctx.textAlign = "left";
+  ctx.fillText(`SCORE ${Math.floor(state.score)}`, 4, 12);
+  ctx.textAlign = "right";
+  ctx.fillText(`${Math.ceil(state.timeLeft)}s`, W - 4, 12);
+  ctx.textAlign = "left";
+  ctx.fillText("♥".repeat(Math.max(0, state.lives)), 4, H - 6);
+  ctx.textAlign = "right";
+  ctx.fillText(`BOARD ${state.level}/${FA_BOARDS.length}`, W - 4, H - 6);
+  if (state.messageT > 0) {
+    ctx.fillStyle = "#ffc93c"; ctx.font = "bold 11px monospace"; ctx.textAlign = "center";
+    ctx.fillText(state.message, W / 2, 24);
+    ctx.textAlign = "left";
+  }
+}
+
+
 /* ===== arcade/js/cabinets.js ===== */
-// Break Room Arcade — the cabinet registry. Three original games, each with
+// Break Room Arcade — the cabinet registry. Four original games, each with
 // a pure engine module (create()/step()/render()), a title/controls card and
-// its teaching line. Adding a fourth cabinet means a new games/*.js engine,
+// its teaching line. Adding another cabinet means a new games/*.js engine,
 // an entry here, and a slot in tools/check_arcade.mjs.
+
 
 
 
@@ -2041,6 +2348,19 @@ const ARCADE_CABINETS = [
     width: null, // sized from psBoardSize() × player count at run time
     height: null,
     engine: { create: PalletStacker.psCreate, step: PalletStacker.psStep, render: PalletStacker.psRender },
+  },
+  {
+    id: "forkliftaisle",
+    name: "Forklift Aisle",
+    genre: "Lane-crossing dodger",
+    players: 1,
+    blurb: "Cross the aisle one marked lane at a time. Some lanes sweep a forklift back and forth; a few are painted crossings with their own stop/go beacon. Grab the hi-vis kit before the dock. Three boards, tighter crossings each time. Every round is capped at a minute.",
+    teaches: ForkliftAisle.FA_TEACHES,
+    controls: "Move: ← → or A/D. Cross a lane: ↑ or W. Step back: ↓ or S. Esc pauses.",
+    touch: true,
+    width: ForkliftAisle.FA_WIDTH,
+    height: ForkliftAisle.FA_HEIGHT,
+    engine: { create: ForkliftAisle.faCreate, step: ForkliftAisle.faStep, render: ForkliftAisle.faRender },
   },
 ];
 
@@ -2102,6 +2422,30 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => aaKeys.delete(e.code));
 window.addEventListener("blur", () => aaKeys.clear());
 window.addEventListener("pointerdown", () => aaAudio.resume(), { passive: true });
+
+// ------------------------------------------------------------- touch d-pad
+// A solo cabinet (spoolyard, crewrun, forkliftaisle) reads up/down/left/right
+// through the very same AA_SOLO_SETS arrow-key entry aaReadSolo() already
+// checks, so a touch button just needs to hold that key "down" in aaKeys for
+// as long as a finger is on it — no separate touch input path to keep in
+// sync with the keyboard one. Palletstacker's two independent key sets have
+// no on-screen pad; it stays keyboard/gamepad only, same as today.
+const AA_TOUCH_KEYS = { "tp-up": "ArrowUp", "tp-down": "ArrowDown", "tp-left": "ArrowLeft", "tp-right": "ArrowRight" };
+for (const [id, code] of Object.entries(AA_TOUCH_KEYS)) {
+  const btn = $(id);
+  if (!btn) continue;
+  const press = (e) => { e.preventDefault(); aaAudio.resume(); aaKeys.add(code); };
+  const release = (e) => { e.preventDefault(); aaKeys.delete(code); };
+  btn.addEventListener("pointerdown", press);
+  btn.addEventListener("pointerup", release);
+  btn.addEventListener("pointercancel", release);
+  btn.addEventListener("pointerleave", release);
+}
+function aaUpdateTouchPad() {
+  const pad = $("touch-pad");
+  const show = aa.screen === "playing" && aa.cabinet?.touch === true;
+  if (show) pad.setAttribute("data-on", ""); else pad.removeAttribute("data-on");
+}
 
 const aaPads = [0, 1].map((i) => createGamepad({
   getGamepads: () => {
@@ -2223,6 +2567,8 @@ function aaShow(name) {
   for (const s of AA_SCREENS) $(`scr-${s}`).hidden = s !== name;
   $("stage-wrap").hidden = !(name === "playing" || name === "pause");
   $("crt").hidden = !(name === "playing" || name === "pause") || !aa.crt;
+  aaUpdateTouchPad();
+  if (name !== "playing") for (const code of Object.values(AA_TOUCH_KEYS)) aaKeys.delete(code);
   if (name === "menu") aaRenderMenu();
   if (name === "title") aaRenderTitle();
   if (name === "scores") aaRenderScores(null);
@@ -2267,6 +2613,7 @@ function aaRenderMenu() {
 function aaAttractInput(id, t) {
   if (id === "spoolyard") return { left: Math.sin(t * 0.7) > 0.25, right: Math.sin(t * 0.7) < -0.25, up: Math.sin(t * 1.3) > 0.55, down: Math.sin(t * 1.3 + 1) > 0.85 };
   if (id === "crewrun") return { up: Math.sin(t * 1.05) > 0.88, down: Math.sin(t * 1.7 + 2) < -0.9 };
+  if (id === "forkliftaisle") return { up: Math.sin(t * 1.4) > 0.15, left: Math.sin(t * 0.6) > 0.6, right: Math.sin(t * 0.6) < -0.6 };
   return { 0: { left: Math.sin(t * 0.9) > 0.35, right: Math.sin(t * 0.9) < -0.35, rotate: Math.sin(t * 2.3) > 0.92, down: Math.sin(t * 1.6) > 0.8 } };
 }
 
@@ -2420,6 +2767,7 @@ const AA_EVENT_SOUND = {
   floor: "step", anchor: "anchor", "board-complete": "levelup",
   hit: "hit", ppe: "ppe", stomp: "stomp", checkpoint: "checkpoint",
   ship: "ship", shift: "shift", lock: null,
+  kit: "ppe", "right-of-way": "anchor", dock: "checkpoint",
 };
 function aaOnEvent(e) {
   if (e.type === "ship" && e.rows >= 4) return aaAudio.play("tetris");

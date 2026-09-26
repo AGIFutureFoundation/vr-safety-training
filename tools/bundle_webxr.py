@@ -218,7 +218,7 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
-    # The other Easter egg (WebXR/arcade): three original 2D canvas games on
+    # The other Easter egg (WebXR/arcade): four original 2D canvas games on
     # retro cabinets in the crew break room. Each game's engine is a pure
     # module under arcade/js/games/; a new cabinet is a new file there, an
     # entry in arcade/js/cabinets.js and a slot in tools/check_arcade.mjs.
@@ -231,6 +231,7 @@ APPS = {
             WEBXR / "arcade/js/games/spoolyard.js",
             WEBXR / "arcade/js/games/crewrun.js",
             WEBXR / "arcade/js/games/palletstacker.js",
+            WEBXR / "arcade/js/games/forkliftaisle.js",
             WEBXR / "arcade/js/cabinets.js",
             WEBXR / "arcade/js/app.js",
         ],
