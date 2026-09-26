@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 422
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -275,6 +275,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "uw-pipeline-crossing-inspection-dive",
         "uw-rov-pre-dive-and-tether-management",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
@@ -7645,6 +7646,89 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-pipeline-crossing-inspection-dive",
+      "name": "Pipeline Crossing Inspection Dive",
+      "title": "SmartCiti.X~ Pipeline Crossing Inspection Dive VR",
+      "tagline": "The crossing surveyed cradle to cradle: on the bottom at the marker chain, the crossing sign and buoy chain found, the locator's gain set, the route swum steady while the current pushes off the pipe, the reference cell read for cathodic protection, the coating holiday and the undermined cradle found, a mat rigged under the free span, the defect held for a photo, the marker floated and logged in order, the loose anode strap and the vent riser found and left alone, position held while the umbilical catches the cradle, the hazards reported for the work plan, the survey bag sent up and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver on a submerged pipeline crossing integrity survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; pipeline defects handled per the work plan",
+      "accent": "#e8a13c",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "track",
+        "gauge",
+        "drag",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "span-marked-not-touched",
+        "name": "Span Marked, Not Touched",
+        "note": "Every defect floated and logged, the free span supported, and never the strap, the riser or the span itself taken as a way through"
+      },
+      "meshes": 139,
+      "lights": 0,
+      "overBudget": false,
+      "index": "353",
+      "flat": false,
+      "system": "Crossing Survey",
+      "currency": "STATIONING",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Pipeline Survey Certified"
+      ],
+      "awards": [
+        {
+          "id": "on-route",
+          "name": "On Route",
+          "note": "The locator gain set first time before the route was swum"
+        },
+        {
+          "id": "true-potential",
+          "name": "True Potential",
+          "note": "The reference cell read inside the band first time"
+        },
+        {
+          "id": "clear-of-the-line",
+          "name": "Clear Of The Line",
+          "note": "Never through the strap, never a hand in the riser, never under the span, never fanning the scour pocket"
+        },
+        {
+          "id": "clean-crossing",
+          "name": "Clean Crossing",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-route",
+          "name": "Steady Route",
+          "note": "The crossing swum in band the whole way"
+        },
+        {
+          "id": "surveyed-in-time",
+          "name": "Surveyed In Time",
+          "note": "Survey bag sent up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-pipeline-crossing-inspection-dive"
+    },
+    {
+      "app": "smartcity",
       "id": "uw-rov-pre-dive-and-tether-management",
       "name": "ROV Pre-Dive & Tether Management",
       "title": "SmartCiti.X~ ROV Pre-Dive & Tether Management VR",
@@ -7677,7 +7761,7 @@
         "name": "Shroud On, Tether Clean",
         "note": "The shroud bolted on before any call for power, the tether never flown over a snag, nothing carried by hand, and never flown on a frozen picture"
       },
-      "meshes": 147,
+      "meshes": 169,
       "lights": 0,
       "overBudget": false,
       "index": "352",
@@ -27669,7 +27753,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 245,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28329,7 +28413,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

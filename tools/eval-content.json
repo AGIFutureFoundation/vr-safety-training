@@ -5010,6 +5010,58 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-pipeline-crossing-inspection-dive",
+      "name": "Pipeline Crossing Inspection Dive",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 382,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9285714285714286,
+          "want": 14,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9800000000000001,
+          "meshes": 172,
+          "materials": 66,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.19930843706777335,
+          "nearest": "br-underwater-debris-survey-and-mapping",
+          "similarity": 0.30013831258644535
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "bb-dribble-moves-and-change-of-pace",
       "name": "Dribble Moves and Change of Pace",
       "category": "Youth Sports & Coaching",
@@ -7134,9 +7186,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.4277701778385773,
-          "nearest": "br-underwater-debris-survey-and-mapping",
-          "similarity": 0.25444596443228457
+          "score": 0.366237113402062,
+          "nearest": "uw-pipeline-crossing-inspection-dive",
+          "similarity": 0.2667525773195876
         }
       }
     },
@@ -9677,7 +9729,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 264,
+          "meshes": 256,
           "materials": 92,
           "interactables": 29
         },
@@ -10569,6 +10621,58 @@
           "score": 0.20000000000000018,
           "nearest": "mw-diver-emergency-and-recovery",
           "similarity": 0.3
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-underwater-debris-survey-and-mapping",
+      "name": "Underwater Debris Survey & Mapping",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 385,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.19930843706777335,
+          "nearest": "uw-pipeline-crossing-inspection-dive",
+          "similarity": 0.30013831258644535
         }
       }
     },
@@ -15977,58 +16081,6 @@
           "score": 0.3718750000000001,
           "nearest": "br-derelict-gear-recovery-dive",
           "similarity": 0.265625
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "br-underwater-debris-survey-and-mapping",
-      "name": "Underwater Debris Survey & Mapping",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 385,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 184,
-          "materials": 75,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.23766617429837544,
-          "nearest": "br-derelict-gear-recovery-dive",
-          "similarity": 0.29246676514032494
         }
       }
     },
