@@ -546,3 +546,89 @@ crane hook only opens the claw on its third real hit (a miss lets the
 station's own click through), Night Shift only ever changes anything inside
 its four-hour window, the Holodeck cabinet opens its game the same way, and
 the printed bingo card escapes untrusted text.
+
+## Coverage by programme
+
+<details>
+<summary><b>Spoiler — every programme's own numbers</b> (click to expand: what
+Foreman's Radio, Toolbox Talk Bingo, Hard Hat Hunt and the level-ladder
+milestones each give every programme in <code>WebXR/smartcity/js/curricula.js</code>,
+including the five that landed most recently)</summary>
+
+**Radio quiz** is the number of distinct, honestly in-scope questions
+`buildQuiz()` can draw for that programme's own catalog category — the
+smallest of its categories, for a programme that spans more than one —
+capped at ten, the quiz's own per-run size. **Toolbox bingo** is
+`PROGRAMME_HAZARDS[id].length` (`WebXR/shared/bingo-hazards-data.js`): the
+number of real, in-trade hazard labels that programme's own stations
+contribute. **Hard Hat Hunt** names the one host station when a programme
+happens to be one of the fourteen — most programmes have none, since the
+hunt was never meant to reach every programme, only to be spread honestly
+across them. **Ladder milestones** is always four: level 5, 10, 15 and 20 of
+that programme's own twenty-level ladder, each with its own real quote.
+
+Every programme clears the six-question radio bar and the 24-cell bingo bar
+this page's own Checks hold it to — including Basketball Fundamentals, the
+thinnest category in the registry today, which still clears both.
+
+| Programme | Radio quiz | Toolbox bingo | Hard Hat Hunt | Ladder milestones |
+|---|---|---|---|---|
+| Air Quality — Monitoring and Control | 10 | 24 | — | 4 |
+| Bartending — Behind the Bar | 10 | 63 | — | 4 |
+| **Basketball Fundamentals** | 8 | 72 | `bb-rebounding-and-boxing-out` | 4 |
+| Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine | 10 | 169 | — | 4 |
+| Bridge and Structural Trades | 10 | 28 | — | 4 |
+| Builders — Carpenters, Laborers and Masons (includes the ranch-road-grading open-range station) | 10 | 32 | — | 4 |
+| Civic Leadership and Emotional Intelligence | 10 | 69 | `cv-restorative-justice-circle-facilitation` | 4 |
+| Confined Space — Entry and Rescue | 10 | 32 | — | 4 |
+| Culinary — The Working Kitchen | 10 | 64 | — | 4 |
+| Dental Careers — Unspoken Smiles | 10 | 76 | `patient-intake-screening` | 4 |
+| Dental Hygiene — Unspoken Smiles | 10 | 76 | `patient-intake-screening` | 4 |
+| Energy Transition Systems (includes two of the four open-range stations) | 10 | 37 | `or-solar-farm-tracker-row-maintenance` | 4 |
+| First Responders — Fire, EMS, Police, Crisis and Relief (includes the wildland-fireline open-range station) | 10 | 70 | — | 4 |
+| Glaziers and Architectural Metal | 10 | 32 | — | 4 |
+| Hazmat and Environmental Response | 10 | 41 | `hz-level-b-entry-and-scba-change-out` | 4 |
+| **Heavy Equipment Operators — IUOE Local 3** | 10 | 31 | — | 4 |
+| Hotel Workers — Back of House | 10 | 28 | — | 4 |
+| Hunters Point Clean-up and Bay Restoration | 10 | 101 | `tide-gate` | 4 |
+| Hunters Point Edition — Can We Live? | 10 | 99 | — | 4 |
+| Inside Wireman — First Period | 10 | 32 | — | 4 |
+| Job Readiness Edition — wojrc.org programmes | 10 | 128 | — | 4 |
+| Live Events Production | 10 | 29 | `stage-load-in-and-truss-rigging` | 4 |
+| Outbreak and Disease Response — WHO and UN Practice | 10 | 44 | — | 4 |
+| **Plumbers and Pipefitters — Journeyman Rough-In and Test Block** | 10 | 32 | — | 4 |
+| Port and Terminal Operations | 10 | 29 | — | 4 |
+| Ports, Maritime and Bay Ecology | 10 | 45 | — | 4 |
+| Property Management — Twenty Zones | 10 | 84 | `pm-unit-turnover` | 4 |
+| **Railroad Crafts — Track, Car and Cab** | 10 | 32 | — | 4 |
+| Rigging and Lifting | 10 | 24 | — | 4 |
+| Sewing and Garment Trades | 10 | 44 | — | 4 |
+| **SF Bay Restoration & Cleanup — Maritime and Underwater** | 10 | 134 | `br-underwater-debris-survey-and-mapping` | 4 |
+| Situational Awareness — Interruption Drill | 10 | 88 | `welding` | 4 |
+| Stationary Engineer — Building Plant | 10 | 28 | `cooling-tower` | 4 |
+| Transit and Ramp Operations | 10 | 29 | — | 4 |
+| Working at Height — Fall Protection | 10 | 28 | — | 4 |
+
+The four open-range (`or-*`) stations sit inside three existing programmes
+rather than a programme of their own: `or-transmission-line-right-of-way-patrol`
+and `or-solar-farm-tracker-row-maintenance` in Energy Transition Systems,
+`or-wildland-fireline-construction-and-lookout` in First Responders, and
+`or-ranch-road-grading-and-culvert` in Builders — Carpenters, Laborers and
+Masons — each already carries its own Hard Hat Hunt eligibility, bingo
+hazards and radio quiz coverage through that programme's own row above.
+
+</details>
+
+### Checks (coverage)
+
+The counts in this table are read from the same generated data every other
+check in this file already holds to the real source: `tools/check_eggs.mjs`
+proves the radio-quiz and bingo bars for the five newest programmes plus the
+open-range stations' own categories; `tools/check_eggs_app.mjs` proves every
+programme in `CURRICULA` yields a full, real bingo card; and
+`tools/check_ladders.mjs` proves all 140 milestone quotes (35 programmes × 4
+levels). This table itself is not regenerated by a script — it is a snapshot
+computed from those same generated files (`WebXR/smartcity/catalog.json`,
+`WebXR/shared/bingo-hazards-data.js`, `tools/standards.json`) when this
+section was last written, so a future contributor changing any of those
+numbers should re-read it rather than trust it blindly.

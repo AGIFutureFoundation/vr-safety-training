@@ -98,9 +98,50 @@ export async function writeLadderMilestonesData() {
   const { milestones, text } = await buildLadderMilestonesData();
   const outPath = join(WEBXR, "shared", "ladder-milestones-data.js");
   writeFileSync(outPath, text);
+  patchLaddersDoc(milestones);
   const total = Object.values(milestones).reduce((a, m) => a + Object.keys(m).length, 0);
   console.log(`Wrote WebXR/shared/ladder-milestones-data.js — ${Object.keys(milestones).length} programmes, ${total} milestone quotes`);
   return outPath;
+}
+
+/**
+ * docs/ladders.md is generated whole by tools/gen_ladders.mjs, which this
+ * script always runs after (tools/gen_catalog.mjs's own order) — so rather
+ * than duplicate that generator's own page, this inserts one more section
+ * into the page it just wrote, right before "## Content gap", every time.
+ * Idempotent: a section already there (from the last run) is replaced, not
+ * duplicated.
+ */
+function patchLaddersDoc(milestones) {
+  const mdPath = join(WEBXR, "..", "docs", "ladders.md");
+  let md;
+  try { md = readFileSync(mdPath, "utf8"); } catch { return; } // no doc yet — gen_ladders.mjs hasn't run
+  const startMarker = "\n## Milestones\n";
+  const endMarker = "\n## Content gap\n";
+  const endAt = md.indexOf(endMarker);
+  if (endAt === -1) return; // the page's own shape changed; nothing safe to anchor on
+  const startAt = md.indexOf(startMarker);
+  const before = startAt === -1 ? md.slice(0, endAt + 1) : md.slice(0, startAt + 1);
+  const after = md.slice(endAt);
+  const example = milestones["railroad-crafts"]?.[5] ?? Object.values(milestones).find((m) => m[5])?.[5] ?? null;
+  const lines = [
+    "## Milestones",
+    "",
+    "Passing level 5, 10, 15 or 20 of any ladder adds one thing to the ordinary results card: a small banner, with a burst of original inline-SVG confetti, quoting one real rule. The quote is never written for the occasion — it is that level's own first task's own first station, its own first step's own reason, lifted verbatim (up to that step's own first sentence) straight out of the station's own source file. A milestone can teach the same rule the level just tested, in the learner's own words for it, or it can teach nothing at all — it never invents a fact or a number to fill the space.",
+    "",
+    "`tools/gen_ladder_milestones.mjs` builds this once as data, `WebXR/shared/ladder-milestones-data.js`, run at the end of `tools/gen_catalog.mjs` (after this generator writes the ladders themselves, so a milestone can never quote a level or a station that has since changed). `WebXR/shared/ladder.js`'s `levelMilestone(programme, n)` is the pure lookup a level 5/10/15/20 pass resolves against, and `milestoneConfettiSvg(programme, n)` draws the burst — deterministically, so the same programme and level always draw the same one. `WebXR/smartcity/js/app.js`'s `showLevelResults()` shows both; the CSS (`smartcity/index.html`, `.milestone-*`) respects `prefers-reduced-motion`.",
+    "",
+  ];
+  if (example) {
+    lines.push(`For example, a level 5 milestone built from ${example.stationName} (\`${example.stationId}\`) quotes: *"${example.quote}"*`, "");
+  }
+  lines.push(
+    "### Checks",
+    "",
+    "`node tools/check_ladders.mjs` holds this to: every ladder's four milestone levels resolve to a quote that is a verbatim prefix of that exact level's own first task's own station's own first step's own `why` text (and any number inside it traces back to that same text); `shared/ladder-milestones-data.js` matches the generator run now; `milestoneConfettiSvg()` is deterministic per programme and level and differs between them; and `smartcity/js/app.js` and `smartcity/index.html` actually show the toast and its confetti, with a reduced-motion override.",
+    "",
+  );
+  writeFileSync(mdPath, before + lines.join("\n") + after);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) writeLadderMilestonesData();

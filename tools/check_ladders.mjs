@@ -469,5 +469,13 @@ if (!/@keyframes milestoneFall/.test(smartcityIndexSrc)) fail("milestones", "sma
 if (!/prefers-reduced-motion:reduce\)\{ \.milestone-piece/.test(smartcityIndexSrc)) fail("milestones", "smartcity/index.html's milestone confetti animation has no reduced-motion override");
 if (failures === before9d) ok("smartcity/js/app.js shows the milestone toast and its confetti, styled with a reduced-motion override");
 
+const before9e = failures;
+const gapAt = md.indexOf("## Content gap");
+const milestonesAt = md.indexOf("## Milestones");
+if (milestonesAt === -1) fail("milestones", 'docs/ladders.md has no "## Milestones" section — tools/gen_ladder_milestones.mjs writes it, run node tools/gen_catalog.mjs');
+else if (milestonesAt >= gapAt) fail("milestones", 'docs/ladders.md\'s "## Milestones" section is not ahead of "## Content gap"');
+else if (!/inline-SVG confetti/.test(md.slice(milestonesAt, gapAt))) fail("milestones", "docs/ladders.md's Milestones section is stale or malformed");
+if (failures === before9e) ok("docs/ladders.md's Milestones section is present, ahead of Content gap");
+
 console.log(failures ? `\n${failures} ladder check(s) failed.` : `\nAll ladder checks pass: ${allLevels.length} levels, ${partial.length} partial, ${milestonesChecked} milestone quotes.`);
 process.exit(failures ? 1 : 0);
