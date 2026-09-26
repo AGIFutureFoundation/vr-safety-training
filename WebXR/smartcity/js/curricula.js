@@ -815,6 +815,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "br-benthic-grab-and-invertebrate-sorting", why: "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade." },
     ],
   },
+  {
+    id: "glaziers-and-architectural-metal",
+    name: "Glaziers and Architectural Metal",
+    union: "IUPAT DC 16 — International Union of Painters and Allied Trades, District Council 16 glaziers apprenticeship",
+    certification: "IUPAT District Council 16 glaziers apprenticeship and training in architectural glass and metal, the IUPAT Finishing Trades Institute glazier curriculum, ANSI/ASSP Z97.1 safety glazing materials, and OSHA 29 CFR 1926 Subparts L and M for scaffolds and fall protection",
+    guides: ["iupat-dc16-glaziers", "iupat-fti", "ansi-z97-1", "osha-1926-451", "osha-1926-454", "osha-1926-501", "osha-1926-502", "osha-1926-subpart-l", "osha-1926-subpart-m", "ansi-z359", "smacna-architectural-sheet-metal"],
+    summary: "A glass and metal crew across a whole building: a unit walked off the floor, a storefront glazed with cups, a yard that hands lites from a trailer to a rack, a swing stage over the plaza, a skylight opened only under a screen, a shattered lite cleared and covered, a shop that bends and squares the panel before it ever ships, and the field measure an order is actually cut against.",
+    accent: "#4fa3d1",
+    stations: [
+      { app: "smartcity", id: "gl-curtain-wall-unit-setting-from-the-floor", why: "A pre-glazed unit is walked off the floor stack on a davit and anchored into a bay that is a straight fall to the street for as long as it stays open, so the barrier, the harness and the wind reading all come before the unit does." },
+      { app: "smartcity", id: "gl-storefront-frame-and-glass-set-with-cups", why: "Ground level reads as low-risk right up until a tempered lite meets a gust at a propped entrance door with the sidewalk a metre away, so the cups are proven on scrap and the door prop is checked before the lite ever clears the A-frame." },
+      { app: "smartcity", id: "gl-glass-handling-cart-and-crane-vacuum-lifter", why: "Every lite in the yard changes hands twice before it is cut, and both the crane's vacuum beam and the hand cups fail the same way — a reading trusted without being read — so both get proven empty before either carries a real lite." },
+      { app: "smartcity", id: "gl-swing-stage-glazing-and-sealant", why: "Two wire ropes hold a swing stage over the plaza, and the rope grab on its own separate lifeline is the only thing that holds the person if either one lets go, so it stays clipped and sliding the whole time anyone is on the platform." },
+      { app: "smartcity", id: "gl-skylight-glass-replacement-and-fall-protection", why: "A skylight curb with no glass and no screen in it looks like the rest of the roof from three steps away and is a straight fall through, so the screen and the warning line go up before the old unit ever comes loose and stay up until the new one is sealed." },
+      { app: "smartcity", id: "gl-tempered-glass-breakage-and-cleanup", why: "A tempered lite that lets go on its own still leaves a fringe of glass held in the frame by nothing but its own jagged edges and a bay with no glass in it five storeys up, so the fringe is freed under control and the cover goes up before the sweep even starts." },
+      { app: "smartcity", id: "gl-aluminium-panel-fabrication-and-brake", why: "A press brake closes on tonnes at a pace slow enough to look harmless and fast enough to give a hand no time back, so the two-hand control is proven empty and held through every cycle rather than trusted to a single foot pedal." },
+      { app: "smartcity", id: "gl-shop-drawing-takeoff-and-field-measure", why: "A lite ordered to the drawing instead of the actual opening arrives and does not fit, so the field measurement — width, height and both diagonals, taken from a scaffold that is locked before it is climbed — is what the shop cuts glass against." },
+    ],
+  },
 ];
 
 /**
