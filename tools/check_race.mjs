@@ -163,9 +163,13 @@ await check("each of the six items fires, drops expire on their timer, and the h
   assert(shooter.shieldT > 0 || race.events.some((e) => e.type === "shield"), "the hard hat gave no shield");
   const drops = race.drops.length;
   assert(drops >= 4, `cones and paint left ${drops} drops`);
-  // Everything left on the road is gone within its lifetime (or when hit).
+  // Everything the shooter left on the road is gone within its lifetime (or
+  // when hit). The AI racers keep racing — and keep dropping their own cones —
+  // so only the drops that existed at the moment of firing are held to it.
+  const firedAt = race.t;
   for (let i = 0; i < 30 * 20; i++) S.rcStep(race, 1 / 30, {});
-  assert(race.drops.length === 0, `${race.drops.length} drops outlived their timer`);
+  const stale = race.drops.filter((h) => h.born <= firedAt);
+  assert(stale.length === 0, `${stale.length} drops outlived their timer`);
   // The hard hat eats exactly one hit.
   const v = race.racers[5];
   v.shieldT = 5;

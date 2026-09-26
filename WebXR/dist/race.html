@@ -114,7 +114,9 @@
   .hud .rear{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-weight:700;letter-spacing:.2em;font-size:15px;color:#fff;background:rgba(0,0,0,.45);padding:3px 10px;border-radius:4px}
   .hud .tag-p{position:absolute;left:14px;top:96px;font-size:12px;letter-spacing:.18em;font-weight:700}
   .hud .delta{position:absolute;right:14px;top:74px;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
-  .hud.small .pos{font-size:44px}.hud.small .speed{font-size:32px}.hud.small .item{width:60px;height:60px}.hud.small .item svg{width:42px;height:42px}.hud.small .item-name{left:82px}.hud.small .tag-p{top:70px}
+  .hud.small .pos{font-size:44px}.hud.small .speed{font-size:32px}.hud.small .item{width:60px;height:60px}.hud.small .item svg{width:42px;height:42px}.hud.small .item-name{left:82px}.hud.small .tag-p{top:76px}
+  .hud.col-l .lap,.hud.col-l .speed,.hud.col-l .delta{right:96px}
+  .hud.col-r .pos,.hud.col-r .item,.hud.col-r .tag-p{left:96px}.hud.col-r .item-name{left:166px}
   .divider{position:absolute;background:#04060c}
   #minimap{position:fixed;z-index:11;pointer-events:none;border-radius:10px;background:rgba(6,10,18,.62);border:1px solid var(--edge)}
   #count{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:12;pointer-events:none;font-family:var(--cond);font-weight:700;font-style:italic;
@@ -792,6 +794,124 @@ function describeGamepadMap(vendor = "generic") {
   return rows;
 }
 
+// ------------------------------------------------------------ driving
+//
+// A 'drive' step (shared/game.js) is the one place a learner operates a
+// vehicle rather than a control, so while one is live the keys and the pad
+// speak a second, smaller vocabulary: throttle, brake and steer as continuous
+// inputs, and the discrete checks a route asks for — mirrors, signals, the
+// horn, a gear, the lights — plus the CB radio an interruption may call for.
+// The table is the same shape as the ones above, and the same two rules hold:
+// every drive action is reachable from the keyboard, and no key or button is
+// bound twice inside it. It only applies while a drive step is live, so it
+// can reuse keys the presets give to step actions a drive step never asks
+// for (Q/E turn a valve; there is no valve to turn at the wheel). The step
+// actions that still matter while driving — the controls panel, mute, back —
+// keep their own keys, which is why none of them appears here.
+
+const DRIVE_ACTIONS = [
+  { id: "throttle", group: "drive", continuous: true, label: "Throttle", what: "Hold to speed up; let go and the vehicle coasts down. In reverse it backs." },
+  { id: "brake", group: "drive", continuous: true, label: "Brake", what: "Hold to slow and stop. A fresh press also answers an interruption that asks you to stop." },
+  { id: "steerLeft", group: "drive", continuous: true, label: "Steer left", what: "Moves the vehicle toward the left of its lane." },
+  { id: "steerRight", group: "drive", continuous: true, label: "Steer right", what: "Moves the vehicle toward the right of its lane." },
+  { id: "mirror-left", group: "check", label: "Check the left mirror", what: "A mirror check on the driver's side, where the route calls for one." },
+  { id: "mirror-right", group: "check", label: "Check the right mirror", what: "A mirror check on the passenger side — the side a right turn and a trailer's cut-in live on." },
+  { id: "signal-left", group: "check", label: "Signal left", what: "The left turn signal, before a left turn, a lane change or a pull-out." },
+  { id: "signal-right", group: "check", label: "Signal right", what: "The right turn signal." },
+  { id: "horn", group: "check", label: "Horn", what: "A tap of the horn: before backing, at a blind corner, to warn a person in the path." },
+  { id: "gear-down", group: "check", label: "Gear down", what: "Down a gear: before a grade, before a crossing, before a stop." },
+  { id: "gear-up", group: "check", label: "Gear up", what: "Up a gear once the vehicle is moving and settled." },
+  { id: "lights", group: "check", label: "Lights", what: "Headlamps on (low beams in fog), or the four-way flashers where the route says so." },
+  { id: "radio", group: "control", label: "CB radio", what: "Keys the CB or company radio — for a call an interruption says you must make." },
+];
+const DRIVE_ACTION_IDS = DRIVE_ACTIONS.map((a) => a.id);
+const DRIVE_CHECK_ACTIONS = DRIVE_ACTIONS.filter((a) => a.group === "check").map((a) => a.id);
+
+/** Keys while a drive step is live. Arrows left/right are the signals, as a
+ *  stalk is under the left hand; up and down double for throttle and brake. */
+const DRIVE_KEYS = {
+  throttle: ["KeyW", "ArrowUp"],
+  brake: ["KeyS", "ArrowDown", "Space"],
+  steerLeft: ["KeyA"],
+  steerRight: ["KeyD"],
+  "mirror-left": ["KeyQ"],
+  "mirror-right": ["KeyE"],
+  "signal-left": ["ArrowLeft"],
+  "signal-right": ["ArrowRight"],
+  horn: ["KeyH"],
+  "gear-down": ["KeyZ"],
+  "gear-up": ["KeyX"],
+  lights: ["KeyL"],
+  radio: ["KeyR"],
+};
+
+/** Which drive action a key runs, or null. Shift is ignored: a learner
+ *  holding Shift to walk faster still reaches the brake. */
+function driveActionForKey(token) {
+  if (!token) return null;
+  const bare = token.startsWith("Shift+") ? token.slice(6) : token;
+  for (const id of DRIVE_ACTION_IDS) if ((DRIVE_KEYS[id] ?? []).includes(bare)) return id;
+  return null;
+}
+
+/** Buttons while a drive step is live, by Standard Gamepad index. `back`
+ *  and `controls` stay where they always are, so a pad can still leave. */
+const DRIVE_GAMEPAD_MAP = [
+  { index: 4, mode: "edge", action: "mirror-left", note: "Left bumper: the left mirror." },
+  { index: 5, mode: "edge", action: "mirror-right", note: "Right bumper: the right mirror." },
+  { index: 14, mode: "edge", action: "signal-left", note: "D-pad left: signal left." },
+  { index: 15, mode: "edge", action: "signal-right", note: "D-pad right: signal right." },
+  { index: 3, mode: "edge", action: "horn", note: "Top face (Y / Triangle): the horn." },
+  { index: 6, mode: "edge", action: "gear-down", note: "Left trigger: down a gear." },
+  { index: 7, mode: "edge", action: "gear-up", note: "Right trigger: up a gear." },
+  { index: 2, mode: "edge", action: "lights", note: "Left face (X / Square): the lights." },
+  { index: 12, mode: "edge", action: "radio", note: "D-pad up: key the radio." },
+  { index: 1, mode: "edge", action: "back", note: "Leaves the station, the Escape path." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens the controls panel." },
+];
+/** Continuous pad input while driving: the left stick steers, the right
+ *  stick's forward and back are throttle and brake, and the bottom face and
+ *  d-pad down are a brake you can hold without a stick. */
+const DRIVE_PAD_AXES = { steer: 0, throttle: 3 };
+const DRIVE_PAD_BRAKE_BUTTONS = [0, 13];
+
+/**
+ * One throttle and steer from everything that can drive: `held` is the set
+ * of drive actions whose keys are down ({ throttle: true, … }), `pad` a
+ * createGamepad() snapshot, `touch` the on-screen controls ({ throttle,
+ * brake, steer }). Pure, so the checker drives it with plain objects.
+ */
+function driveInputFrom({ held = {}, pad = null, touch = null, deadzone = GAMEPAD_DEADZONE } = {}) {
+  let throttle = (held.throttle ? 1 : 0) - (held.brake ? 1 : 0);
+  let steer = (held.steerRight ? 1 : 0) - (held.steerLeft ? 1 : 0);
+  let brake = !!held.brake;
+  if (pad?.connected) {
+    const axis = (i) => applyDeadzone(pad.axes?.find((a) => a.index === i)?.value ?? 0, deadzone);
+    const sx = axis(DRIVE_PAD_AXES.steer);
+    const ty = axis(DRIVE_PAD_AXES.throttle);
+    if (sx) steer = sx;
+    if (ty) throttle = -ty;          // stick forward reads negative
+    if (DRIVE_PAD_BRAKE_BUTTONS.some((i) => pad.buttons?.find((b) => b.index === i)?.pressed)) { throttle = -1; brake = true; }
+  }
+  if (touch) {
+    if (touch.throttle) throttle = 1;
+    if (touch.brake) { throttle = -1; brake = true; }
+    if (touch.steer) steer = Math.max(-1, Math.min(1, touch.steer));
+  }
+  return { throttle: Math.max(-1, Math.min(1, throttle)), steer: Math.max(-1, Math.min(1, steer)), brake: brake || throttle <= -1 };
+}
+
+/** The driving table as rows for the controls panel and docs/controls.md. */
+function describeDriveBindings(vendor = "generic") {
+  return DRIVE_ACTIONS.map((a) => {
+    const buttons = DRIVE_GAMEPAD_MAP.filter((b) => b.action === a.id).map((b) => padButtonLabel(b.index, vendor));
+    if (a.id === "brake") buttons.push(...DRIVE_PAD_BRAKE_BUTTONS.map((i) => padButtonLabel(i, vendor)), `${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} back`);
+    if (a.id === "throttle") buttons.push(`${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} forward`);
+    if (a.id === "steerLeft" || a.id === "steerRight") buttons.push(padAxisLabel(DRIVE_PAD_AXES.steer, vendor));
+    return { action: a.id, label: a.label, what: a.what, group: a.group, keys: [...(DRIVE_KEYS[a.id] ?? [])], pretty: (DRIVE_KEYS[a.id] ?? []).map(prettyKey), pad: buttons };
+  });
+}
+
 // ----------------------------------------------------------- the voice grammar
 //
 // Navigation, focus, read-back and panels. Nothing here completes a step:
@@ -993,6 +1113,7 @@ const GESTURE_HINTS = {
   track: { verb: "HOLD TO CORRECT", tip: "Hold to raise the value, release to let it fall, and keep it inside the band." },
   turn: { verb: "CLICK & DRAG TO TURN", tip: "Click the control and drag in a circle around it, like turning a real wheel or handle." },
   drag: { verb: "CLICK & DRAG TO CARRY", tip: "Click and hold the object, drag it to the marker, then let go." },
+  drive: { verb: "DRIVE THE ROUTE", tip: "W to go, S to brake, A and D to steer. Q/E mirrors, the arrows signal, H horn, Z/X gears, L lights — each at its marked point on the route." },
 };
 
 const materialCache = new Map();
@@ -3175,6 +3296,18 @@ function flDone(rig, meta = {}) {
   return rig.root;
 }
 
+/**
+ * A switch for a lamp part (a beacon, a light bar, a work light): returns
+ * `(on) => void`, which paints every mesh in the part with `lit` when on and
+ * puts its own baked material back when off. For stations that light a
+ * vehicle's beacon or warning lights when an interruption fires.
+ */
+function lightSwitch(part, lit) {
+  const own = [];
+  part?.traverse?.((o) => { if (o.isMesh) own.push([o, o.material]); });
+  return (on) => { for (const [o, m] of own) o.material = on ? lit : m; };
+}
+
 // ----------------------------------------------------------------- livery
 
 /**
@@ -3493,7 +3626,7 @@ const FL_TRACTOR = {
  * fairing (day) or a 3.95 m raised-roof sleeper; exhaust stack to 3.95 m.
  * Fifth wheel top at 1.22 m. Parts: doorL/doorR, mirrorL/mirrorR,
  * wheels [wheelFL, wheelFR, axle2, axle3], lights {headlights, markerLights,
- * tailLights}, fifthWheel, fifthWheelRelease, gladHandService, gladHandEmergency.
+ * tailLights}, hood (tilts forward about X by userData.openAngle), fifthWheel, fifthWheelRelease, gladHandService, gladHandEmergency.
  * `userData.fifthWheelZ` is the kingpin point, for coupling a trailer.
  */
 function semiTractor(parent, x, y, z, opts = {}) {
@@ -3509,10 +3642,13 @@ function semiTractor(parent, x, y, z, opts = {}) {
   // Frame rails and cross members.
   for (const sx of [1, -1]) box(S, 0.1, 0.28, L - 0.35, sx * 0.43, 0.98, Z((0.3 + L - 0.05) / 2), ...FL.frame);
   for (const s of [0.5, cabBack + 0.2, T.fifth, L - 0.12]) box(S, 0.86, 0.14, 0.1, 0, 0.98, Z(s), ...FL.frame);
-  // Bumper, hood, grille, fenders.
+  // Bumper, fenders, and the hood with its grille: a part hinged at the
+  // bumper, so a station can tilt it forward for an engine-bay walk.
   box(S, 2.44, 0.36, 0.22, 0, 0.56, Z(0.11), ...FL.chrome);
-  flSide(S, [[0.16, 0.78], [0.13, 1.5], [0.2, 1.76], [0.5, 1.9], [2.05, 2.08], [2.05, 1.0], [0.9, 1.0], [0.6, 0.78]], 1.86, 0, 0, Z(0) , ...P, { bevel: 0.06 });
-  flPanel(S, 1.2, 0.86, 0, 1.3, Z(0.1), flGrilleMat("truck"), "+z");
+  const hood = rig.part("hood", 0, 0.78, Z(0.16));
+  flSide(hood, [[0.16, 0.78], [0.13, 1.5], [0.2, 1.76], [0.5, 1.9], [2.05, 2.08], [2.05, 1.0], [0.9, 1.0], [0.6, 0.78]].map(([b, y]) => [b - 0.16, y - 0.78]), 1.86, 0, 0, 0, ...P, { bevel: 0.06 });
+  flPanel(hood, 1.2, 0.86, 0, 1.3 - 0.78, 0.06, flGrilleMat("truck"), "+z");
+  hood.userData.openAngle = 1.35;               // about X: the top tips forward over the bumper
   for (const sx of [1, -1]) {
     const arc = [];
     for (let i = 0; i <= 8; i++) { const a = Math.PI * (0.06 + 0.88 * i / 8); arc.push([1.05 - 0.64 * Math.cos(a), 0.52 + 0.64 * Math.sin(a)]); }
@@ -3601,12 +3737,16 @@ const FL_TRAILERS = {
   reefer: { L: 16.15, axles: [13.62, 14.85], landing: 3.8 },
   flatbed: { L: 14.63, axles: [12.2, 13.43], landing: 3.6 },
   tanker: { L: 12.8, axles: [10.9, 12.13], landing: 3.2 },
+  // A 28 ft pup: the short single-axle van LTL carriers pull as doubles, and
+  // the length a station can park side-on inside the site apron's fence.
+  pup: { L: 8.53, axles: [7.45], landing: 2.4 },
 };
 
 /**
  * Semi-trailer. `opts.kind` "dryVan" (53 ft, 4.11 m), "reefer" (53 ft with a
  * nose-mounted refrigeration unit), "flatbed" (48 ft, deck 1.52 m, stake
- * pockets and winches) or "tanker" (42 ft DOT-406 style, elliptical barrel).
+ * pockets and winches), "tanker" (42 ft DOT-406 style, elliptical barrel) or
+ * "pup" (28 ft single-axle dry van).
  * Kingpin 0.91 m behind the nose at y 1.2. Parts: wheels [axle1, axle2],
  * landingGear, gladHands (gladHandService + gladHandEmergency), lights
  * {markerLights, tailLights}; van kinds add doorL/doorR (rear swing doors),
@@ -3622,7 +3762,8 @@ function trailer(parent, x, y, z, opts = {}) {
   const rig = flRig(parent, x, y, z, opts, `trailer-${kind}`);
   const S = rig.shell;
   const W = 2.59;
-  const van = kind === "dryVan" || kind === "reefer";
+  const van = kind === "dryVan" || kind === "reefer" || kind === "pup";
+  const axMid = T.axles.reduce((a, b) => a + b, 0) / T.axles.length, axLast = T.axles[T.axles.length - 1];
 
   // Kingpin, upper coupler, running gear, landing gear.
   cyl(S, 0.045, 0.045, 0.12, 0, 1.14, Z(0.91), ...FL.steel, { seg: 10 });
@@ -3631,11 +3772,11 @@ function trailer(parent, x, y, z, opts = {}) {
   const deckY = kind === "flatbed" ? 1.37 : 1.2;
   for (const sx of [1, -1]) box(S, 0.08, 0.3, L - 0.6, sx * 0.45, deckY - 0.12, Z(L / 2 + 0.2), ...FL.frame);
   for (const s of T.axles) box(S, 1.3, 0.2, 0.2, 0, 0.5, Z(s), ...FL.frame);
-  box(S, 1.0, 0.5, 2.6, 0, deckY - 0.45, Z((T.axles[0] + T.axles[1]) / 2), ...FL.frame);
+  box(S, 1.0, 0.5, T.axles.length > 1 ? 2.6 : 1.4, 0, deckY - 0.45, Z(axMid), ...FL.frame);
   // Rear underride guard and mud flaps.
   box(S, 2.3, 0.12, 0.12, 0, 0.52, Z(L - 0.08), ...FL.frame);
   for (const sx of [1, -1]) box(S, 0.1, 0.62, 0.1, sx * 0.8, 0.85, Z(L - 0.12), ...FL.frame);
-  for (const sx of [1, -1]) box(S, 0.62, 0.6, 0.02, sx * 1.0, 0.5, Z(T.axles[1] + 0.7), ...FL.frame);
+  for (const sx of [1, -1]) box(S, 0.62, 0.6, 0.02, sx * 1.0, 0.5, Z(axLast + 0.7), ...FL.frame);
 
   const lg = rig.part("landingGear", 0, 0, Z(T.landing));
   for (const sx of [1, -1]) {
@@ -3663,7 +3804,7 @@ function trailer(parent, x, y, z, opts = {}) {
     // Body with its aluminium side posts, livery and conspicuity tape.
     const H = 4.11 - deckY;
     box(S, W - 0.02, H, L - 0.05, 0, deckY + H / 2, Z(L / 2), ...flPaint(lv.colour));
-    const side = flLiveryMat(lv, `van:${kind}`, { base: lv.colour, posts: 40, tape: true, pw: 2048, ph: 360, titleScale: 0.26, titleY: 0.36, stripeY: 0.6 });
+    const side = flLiveryMat(lv, `van:${kind}`, { base: lv.colour, posts: Math.round(40 * L / 16.15), tape: true, pw: 2048, ph: 360, titleScale: 0.26, titleY: 0.36, stripeY: 0.6 });
     for (const sx of [1, -1]) flPanel(S, L - 0.1, H, sx * (W / 2 + 0.004), deckY + H / 2, Z(L / 2), side, sx > 0 ? "+x" : "-x");
     // Rear frame around the doors.
     box(S, W, 0.16, 0.08, 0, 4.03, Z(L - 0.02), ...FL.steel);
@@ -3801,6 +3942,28 @@ function tractorTrailer(parent, x, y, z, opts = {}) {
   root.userData.kind = "tractorTrailer";
   root.userData.footprint = FLEET_BUDGET.tractorTrailer.footprint;
   return root;
+}
+
+/**
+ * Make a tractorTrailer() drivable: the rig's origin moves to the kingpin (so
+ * the tractor turns about its drive axles, the way a real one does) and the
+ * trailer is re-hung from a pivot there. `userData.articulation` is what
+ * shared/game.js placeVehicle() reads to swing the trailer behind the tractor
+ * on a drive step — the off-tracking a right turn is planned around. Nothing
+ * is added to the scene but one empty group, so the mesh count is unchanged.
+ */
+function flArticulate(rig) {
+  const { tractor, trailer: tr } = rig?.userData?.parts ?? {};
+  if (!tractor || !tr) return rig;
+  const kz = tractor.position.z + (tractor.userData.fifthWheelZ ?? 0);
+  for (const c of [tractor, tr]) c.position.z -= kz;
+  const pivot = group(rig, 0, 0, 0);
+  pivot.name = "trailerPivot";
+  rig.remove(tr);
+  pivot.add(tr);
+  const spec = FL_TRAILERS[tr.userData.trailerKind] ?? FL_TRAILERS.dryVan;
+  rig.userData.articulation = { pivot, length: (spec.axles[0] + spec.axles[1]) / 2 - 0.91 };
+  return rig;
 }
 
 // ------------------------------------------------------- straight trucks
@@ -4533,6 +4696,445 @@ function workboat(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.workboat.footprint, livery: lv, draft: 0.45 });
 }
 
+// ------------------------------------------------------- marine: skiff
+
+/**
+ * Aluminium centre-console skiff: 5.2 m × 2.0 m, keel at y 0, gunwale at
+ * about 0.8 m, console and grab rail to 1.4 m, one outboard on the transom.
+ * Used as a rescue boat, a boom-tending boat and a survey tender. A station
+ * floats it by setting y to minus its draft (about 0.3 m). Parts: outboard,
+ * console, killSwitch, bowCleat, sternCleat, navLights {portLight,
+ * starboardLight, sternLight}. Port is +X, as the driver's side is on the
+ * road vehicles: facing the bow (+Z), port is on the left.
+ */
+function skiff(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xc8ced4, fleetName: "HARBOR WORKS", unitNumber: "SK-1", accent: 0xe0592a });
+  const L = 5.2, W = 2.0, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "skiff", [0, 0, 0.24]);
+  const S = rig.shell;
+  const plan = (k) => [[k * hw, -L / 2], [k * hw, L / 2 - 1.5], [k * hw * 0.7, L / 2 - 0.55], [k * hw * 0.25, L / 2 - 0.1], [0, L / 2], [-k * hw * 0.25, L / 2 - 0.1], [-k * hw * 0.7, L / 2 - 0.55], [-k * hw, L / 2 - 1.5], [-k * hw, -L / 2]];
+  flPlan(S, plan(0.78), 0.32, 0, 0, 0, ...FL.alu, { bevel: 0.05 });
+  flPlan(S, plan(1.0), 0.48, 0, 0.3, 0, lv.colour, { rough: 0.35, metal: 0.6, finish: "brushed", bevel: 0.03 });
+  const side = flLiveryMat(lv, "skiff", { title: lv.fleetName, sub: lv.unitNumber, titleScale: 0.34, titleY: 0.42, stripeY: 0.8 });
+  for (const sx of [1, -1]) flPanel(S, 2.8, 0.36, sx * (hw + 0.012), 0.56, Z(2.2), side, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.2, 0.025, L - 1.3, 0, 0.79, Z(L / 2 + 0.45), flTreadMat());
+  // Gunwale rub rail and the bow grab rail.
+  for (const sx of [1, -1]) flRod(S, 0.035, L - 1.2, sx * (hw + 0.02), 0.78, Z(L / 2 + 0.5), "z", ...FL.black);
+  flStrut(S, [0.55, 1.05, Z(0.6)], [-0.55, 1.05, Z(0.6)], 0.02, ...FL.alu);
+  // Centre console with its windscreen, and the leaning post behind it.
+  const con = rig.part("console", 0, 0.8, Z(2.6));
+  box(con, 0.62, 0.62, 0.55, 0, 0.31, 0, 0xe9ecee, { rough: 0.45, metal: 0.15, finish: "painted" });
+  flPanel(con, 0.58, 0.26, 0, 0.74, 0.2, flGlassMat(), "+z", 0.5);
+  const kill = rig.part("killSwitch", 0.2, 0.64, 0.28, con);
+  cyl(kill, 0.03, 0.03, 0.03, 0, 0, 0, ...FL.red, { seg: 10 });
+  box(S, 0.5, 0.5, 0.36, 0, 1.05, Z(3.25), 0x2b3138, { rough: 0.7, finish: "rubber" });
+  // Cleats, bow and stern.
+  const bc = rig.part("bowCleat", 0, 0.82, Z(0.35));
+  box(bc, 0.16, 0.04, 0.05, 0, 0.02, 0, ...FL.steel);
+  const sc = rig.part("sternCleat", 0.7, 0.82, Z(L - 0.2));
+  box(sc, 0.16, 0.04, 0.05, 0, 0.02, 0, ...FL.steel);
+  // Outboard on the transom: cowl, leg and skeg.
+  const ob = rig.part("outboard", 0, 0.62, Z(L) - 0.02);
+  box(ob, 0.4, 0.55, 0.5, 0, 0.45, -0.22, 0x1b1e22, { rough: 0.45, metal: 0.3, finish: "painted" });
+  box(ob, 0.12, 0.85, 0.18, 0, -0.2, -0.2, 0x1b1e22, { rough: 0.45, metal: 0.3 });
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", hw * 0.55, 0.9, Z(0.7), nav);
+  box(port, 0.06, 0.06, 0.08, 0, 0, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", -hw * 0.55, 0.9, Z(0.7), nav);
+  box(stbd, 0.06, 0.06, 0.08, 0, 0, 0, ...FL.green);
+  const stern = rig.part("sternLight", -0.6, 0.8, Z(L - 0.15), nav);
+  flRod(stern, 0.015, 0.9, 0, 0.45, 0, "y", ...FL.alu);
+  cyl(stern, 0.04, 0.04, 0.08, 0, 0.94, 0, ...FL.lamp, { seg: 10 });
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.skiff.footprint, livery: lv, draft: 0.3 });
+}
+
+// ----------------------------------------------------- marine: barges
+
+/**
+ * The shared hull of a deck barge: a box hull with raked bow and stern, a
+ * steel deck, hull-side livery with draft marks, four double bitts and a
+ * boarding ladder. `L`, `W`, `D` are length, beam and depth. Adds its parts
+ * to `rig` and returns the deck height.
+ */
+function flBargeHull(rig, lv, L, W, D, o = {}) {
+  const S = rig.shell, Z = (s) => L / 2 - s, hw = W / 2;
+  const rake = Math.min(1.8, L * 0.1);
+  flSide(S, [[0, D], [rake, 0.15], [rake + 0.4, 0], [L - rake - 0.4, 0], [L - rake, 0.15], [L, D]], W, 0, 0, Z(0), 0x3b4148, { rough: 0.62, metal: 0.45, finish: "painted", bevel: 0.05 });
+  const deckMat = flCanvasMat(`barge-deck:${L}x${W}`, 256, 256, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#6f757b"], [1, "#5b6167"]]);
+    noiseTexture(g, w, h, { density: 3200, alpha: 0.12 });
+    g.strokeStyle = "rgba(20,22,24,0.55)"; g.lineWidth = 2;
+    for (let i = 1; i < 4; i++) { g.beginPath?.(); g.moveTo?.(i * w / 4, 0); g.lineTo?.(i * w / 4, h); g.stroke?.(); }
+    for (let i = 1; i < 2; i++) { g.beginPath?.(); g.moveTo?.(0, i * h / 2); g.lineTo?.(w, i * h / 2); g.stroke?.(); }
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 4, alpha: 0.14 });
+  }, { rough: 0.7, metal: 0.4, repeat: [Math.max(1, Math.round(W / 3)), Math.max(1, Math.round(L / 4))] });
+  flPanel(S, W - 0.1, L - 0.1, 0, D + 0.012, 0, deckMat, "+y");
+  const side = flCanvasMat(`barge-side:${lv.key}`, 1024, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.05))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 1400, alpha: 0.06 });
+    g.fillStyle = "#f3f5f7"; g.textAlign = "center"; g.textBaseline = "middle";
+    flTextFit(g, `${lv.fleetName}  ${lv.unitNumber}`, w * 0.5, Math.round(h * 0.34), 800);
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w / 2, h * 0.4);
+    // Draft marks at each end: white numerals up the side, read at the waterline.
+    g.font = `700 ${Math.round(h * 0.16)}px Arial, sans-serif`;
+    for (const mx of [w * 0.05, w * 0.95]) for (let i = 0; i < 4; i++) g.fillText(String(2 + i * 2), mx, h * (0.9 - i * 0.22));
+    grimeOverlay(g, w, h, { blotches: 5, streaks: 8, alpha: 0.12 });
+  }, { rough: 0.6, metal: 0.35 });
+  for (const sx of [1, -1]) flPanel(S, L - 2 * rake - 0.2, D * 0.72, sx * (hw + 0.012), D * 0.55, 0, side, sx > 0 ? "+x" : "-x");
+  // Bullnose rub bar along each side at the deck edge.
+  for (const sx of [1, -1]) flRod(S, 0.07, L - 2 * rake, sx * (hw + 0.05), D - 0.08, 0, "z", 0x22262a, { rough: 0.7, metal: 0.4 });
+  const bitts = [];
+  for (const [bx, s] of [[hw - 0.5, 0.9], [-(hw - 0.5), 0.9], [hw - 0.5, L - 0.9], [-(hw - 0.5), L - 0.9]]) {
+    const b = rig.part(`bitt${bitts.length + 1}`, bx, D, Z(s));
+    for (const dz of [-0.2, 0.2]) cyl(b, 0.11, 0.12, 0.42, 0, 0.21, dz, 0x25292e, { rough: 0.55, metal: 0.5, seg: 12 });
+    box(b, 0.14, 0.05, 0.62, 0, 0.44, 0, 0xe8b02e, { rough: 0.5, metal: 0.3, finish: "painted" });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const ladder = rig.part("ladder", hw + 0.06, 0, Z(L / 2 - 1.5));
+  for (const dz of [-0.2, 0.2]) flRod(ladder, 0.018, D + 0.9, 0.02, (D + 0.9) / 2, dz, "y", ...FL.steel);
+  for (let r = 0; r < 5; r++) flRod(ladder, 0.014, 0.4, 0.02, D * (r + 0.5) / 5, 0, "z", ...FL.steel);
+  return D;
+}
+
+/**
+ * Flat steel deck barge, 16 m × 6 m × 1.8 m deep, raked both ends, four
+ * double bitts and a side ladder; `opts.kind: "hopper"` adds a lined
+ * sediment hopper — a coaming round the hold with a watertight liner and a
+ * load that a station raises as it fills (`load.scale.y`). A station floats
+ * it by setting y to minus the draft it wants. Parts: bitts, ladder, and for
+ * the hopper coaming, liner, load.
+ */
+function deckBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x31465c, fleetName: "BAY MARINE", unitNumber: "DB-12", accent: 0xe8b02e });
+  const L = 16, W = 6, D = 1.8;
+  const rig = flRig(parent, x, y, z, opts, "deckBarge");
+  flBargeHull(rig, lv, L, W, D);
+  if (opts.kind === "hopper") {
+    const HL = 10, HW = 4.6, HH = 1.3;
+    const co = rig.part("coaming", 0, D, 0);
+    for (const sx of [1, -1]) box(co, 0.12, HH, HL, sx * HW / 2, HH / 2, 0, 0x8a4a2a, { rough: 0.6, metal: 0.4, finish: "painted" });
+    for (const sz of [1, -1]) box(co, HW, HH, 0.12, 0, HH / 2, sz * HL / 2, 0x8a4a2a, { rough: 0.6, metal: 0.4, finish: "painted" });
+    const liner = rig.part("liner", 0, D + 0.02, 0);
+    box(liner, HW - 0.2, 0.02, HL - 0.2, 0, 0, 0, 0x1d2a22, { rough: 0.35, metal: 0.05 });
+    const load = rig.part("load", 0, D + 0.03, 0);
+    box(load, HW - 0.3, 1.0, HL - 0.4, 0, 0.5, 0, 0x4a3f33, { rough: 0.95, finish: "concrete" });
+    load.scale.y = 0.25;
+  }
+  return flDone(rig, { footprint: FLEET_BUDGET[opts.kind === "hopper" ? "deckBarge:hopper" : "deckBarge"].footprint, livery: lv, deckY: D });
+}
+
+/**
+ * Salvage crane barge: an 18 m spud barge carrying a revolving lattice-boom
+ * crane aft, its boom luffed over the bow. The crane's house slews on its
+ * turntable, the boom luffs about its foot pin, and the hook block hangs
+ * plumb under the boom tip on its fall — a separate part, so a station can
+ * lower it without it swinging with the boom. `opts.boomAngle` luffs the
+ * boom (radians above horizontal), `opts.slew` turns the house, and
+ * `opts.hookDrop` sets the fall; `userData.tip` is the boom tip in the
+ * builder's frame. Parts: house, boom, hook, hoistLine, counterweight,
+ * cabDoor, spuds, bitts, ladder.
+ */
+function salvageCraneBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3a3f46, fleetName: "BAY MARINE", unitNumber: "CB-4", accent: 0xe8b02e });
+  const L = 18, W = 7, D = 1.9, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "salvageCraneBarge");
+  flBargeHull(rig, lv, L, W, D);
+  // Spuds in their wells at the stern corners, pinned up.
+  const spuds = [];
+  for (const sx of [1, -1]) {
+    const sp = rig.part(`spud${spuds.length + 1}`, sx * (W / 2 - 0.55), D, Z(L - 0.55));
+    box(sp, 0.7, 0.9, 0.7, 0, 0.45, 0, 0x5b6167, { rough: 0.6, metal: 0.45, finish: "painted" });
+    box(sp, 0.42, 7.4, 0.42, 0, 1.9, 0, 0xe0892a, { rough: 0.5, metal: 0.4, finish: "painted" });
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Revolving crane: turntable, house, cab, A-frame gantry and counterweight.
+  const cz = Z(L - 4.2);
+  box(rig.shell, 2.6, 0.5, 2.6, 0, D + 0.25, cz, 0x2b3138, { rough: 0.6, metal: 0.5 });
+  const house = rig.part("house", 0, D + 0.5, cz);
+  box(house, 3.0, 1.9, 4.2, 0, 0.95, -0.4, 0xe8b02e, { rough: 0.45, metal: 0.3, finish: "painted" });
+  flBox(house, 1.0, 1.5, 1.3, 1.95, 0.95, 0.9, flCanvasMat("crane-cab", 128, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#f0c13a"], [1, "#d59e22"]]);
+    g.fillStyle = "#15191d"; g.fillRect(w * 0.08, h * 0.08, w * 0.84, h * 0.46);
+    flGlassPaint(g, w * 0.1, h * 0.1, w * 0.8, h * 0.42);
+  }));
+  const cabDoor = rig.part("cabDoor", 2.46, 0.3, 0.6, house);
+  box(cabDoor, 0.04, 1.3, 0.6, 0, 0.65, 0, 0xd59e22, { rough: 0.45, metal: 0.3, finish: "painted" });
+  cabDoor.userData.openAngle = 1.3;
+  for (const sx of [1, -1]) flStrut(house, [sx * 1.1, 1.9, -1.8], [sx * 0.6, 4.2, -1.2], 0.08, 0x2b3138, { rough: 0.5, metal: 0.5 });
+  const cw = rig.part("counterweight", 0, 0.2, -2.5, house);
+  box(cw, 2.8, 1.5, 0.9, 0, 0.75, 0, 0x2b3138, { rough: 0.6, metal: 0.4, finish: "painted" });
+  // Lattice boom: two chords each side with lacing, luffed by `angle`.
+  const len = 13, angle = opts.boomAngle ?? 0.75;
+  const boom = rig.part("boom", 0, 1.2, 1.1, house);
+  boom.rotation.x = -angle;
+  for (const sx of [1, -1]) for (const sy of [0, 0.9]) flRod(boom, 0.06, len, sx * 0.55 * (1 - sy * 0.3), sy, len / 2, "z", 0xe8b02e, { rough: 0.45, metal: 0.4, finish: "painted" });
+  for (let i = 1; i < 6; i++) for (const sx of [1, -1]) flStrut(boom, [sx * 0.55, 0, i * len / 6 - 1], [sx * 0.42, 0.9, i * len / 6 + 0.9], 0.03, 0xe8b02e, { rough: 0.45, metal: 0.4 });
+  box(boom, 1.0, 0.8, 0.6, 0, 0.45, len, 0x2b3138, { rough: 0.5, metal: 0.5 });
+  boom.userData.len = len; boom.userData.angle = angle;
+  // Pendants from the gantry to the tip, slewing with the house.
+  const reach = 1.1 + Math.cos(angle) * len, tipY = D + 0.5 + 1.2 + Math.sin(angle) * len;
+  flStrut(house, [0, 4.2, -1.2], [0, tipY - D - 0.5 + 0.9, reach], 0.03, 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  // `opts.slew` turns the house on its turntable (radians about Y, 0 = boom
+  // over the bow); the hook block hangs plumb under wherever the tip is.
+  const slew = opts.slew ?? 0;
+  house.rotation.y = slew;
+  const tipX = Math.sin(slew) * reach, tipZ = cz + Math.cos(slew) * reach;
+  const fall = opts.hookDrop ?? 5.5;
+  const hoist = rig.part("hoistLine", tipX, tipY, tipZ);
+  flRod(hoist, 0.02, fall, 0, -fall / 2, 0, "y", 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  const hook = rig.part("hook", tipX, tipY - fall, tipZ);
+  box(hook, 0.45, 0.6, 0.3, 0, -0.3, 0, 0xe8b02e, { rough: 0.45, metal: 0.4, finish: "painted" });
+  torus(hook, 0.13, 0.04, 0, -0.75, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 8, seg2: 14 });
+  return flDone(rig, { footprint: FLEET_BUDGET.salvageCraneBarge.footprint, livery: lv, deckY: D, tip: [tipX, tipY, tipZ] });
+}
+
+// ------------------------------------------------- marine: skimmer vessel
+
+/**
+ * Debris and oil skimming vessel: an 11 m aluminium catamaran with a bow
+ * conveyor that lowers into the water and carries floating debris up into a
+ * collection basket, two sweep arms that swing out to funnel a slick or a
+ * trash line to the bow, a recovered-product tank with its hatch, and the
+ * wheelhouse aft. A station floats it at about 0.6 m draft. Parts: conveyor
+ * (pivots at its deck end; rotation.x lowers it), basket, sweepArms
+ * [port, starboard] (rotation.y swings them out), tankHatch, wheelhouseDoor,
+ * navLights {portLight, starboardLight, mastheadLight}.
+ */
+function skimmerVessel(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x2a6f8f, fleetName: "BAY CLEANUP", unitNumber: "SV-2", accent: 0xf2c14b });
+  const L = 11, W = 4.2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "skimmerVessel", [0, 0, -0.6]);
+  const S = rig.shell;
+  // Twin demihulls and the bridging deck.
+  for (const sx of [1, -1]) {
+    const h = 0.55, cx = sx * (W / 2 - h);
+    flPlan(S, [[cx + h, -L / 2], [cx + h, L / 2 - 1.2], [cx, L / 2 - 0.1], [cx - h, L / 2 - 1.2], [cx - h, -L / 2]], 1.0, 0, 0, 0, lv.colour, { rough: 0.4, metal: 0.55, finish: "brushed", bevel: 0.05 });
+  }
+  const side = flLiveryMat(lv, "skimmer", { title: lv.fleetName, sub: lv.unitNumber, titleScale: 0.34, stripeY: 0.78 });
+  for (const sx of [1, -1]) flPanel(S, 5.6, 0.6, sx * (W / 2 + 0.012), 0.55, Z(5.4), side, sx > 0 ? "+x" : "-x");
+  flBox(S, W, 0.3, L - 1.6, 0, 1.12, Z((L + 1.6) / 2), 0xc8ced4, { rough: 0.4, metal: 0.6 });
+  flBox(S, W - 0.2, 0.02, L - 1.8, 0, 1.28, Z((L + 1.8) / 2), flTreadMat());
+  for (const sx of [1, -1]) flRod(S, 0.025, L - 2.6, sx * (W / 2 - 0.08), 2.0, Z(L / 2 + 1.1), "z", ...FL.alu);
+  for (const sx of [1, -1]) for (let s = 2.2; s < L - 0.5; s += 1.4) flRod(S, 0.022, 0.72, sx * (W / 2 - 0.08), 1.64, Z(s), "y", ...FL.alu);
+  // Recovered-product tank amidships, hatch on top.
+  box(S, 2.2, 1.0, 2.4, 0, 1.8, Z(5.3), 0x6f7a83, { rough: 0.5, metal: 0.45, finish: "painted" });
+  const hatch = rig.part("tankHatch", 0, 2.32, Z(5.3));
+  cyl(hatch, 0.32, 0.32, 0.08, 0, 0, 0, 0xe8b02e, { rough: 0.5, metal: 0.3, seg: 16 });
+  // Wheelhouse aft of the tank.
+  const wh0 = 7.0, wh1 = 9.4;
+  flSide(S, [[wh0, 1.3], [wh0 - 0.15, 2.5], [wh0 + 0.1, 3.2], [wh1, 3.2], [wh1, 1.3]], 2.4, 0, 0, Z(0), 0xf0f1ee, { rough: 0.4, metal: 0.2, finish: "painted", bevel: 0.04 });
+  const glass = flGlassMat();
+  flPanel(S, 2.0, 0.6, 0, 2.85, Z(wh0 - 0.03) + 0.05, glass, "+z", 0.43);
+  for (const sx of [1, -1]) flPanel(S, 1.8, 0.6, sx * 1.22, 2.7, Z(8.2), glass, sx > 0 ? "+x" : "-x");
+  flRod(S, 0.04, 0.8, 0, 3.6, Z(8.4), "y", ...FL.alu);
+  const door = rig.part("wheelhouseDoor", 1.21, 1.3, Z(9.1));
+  flBox(door, 0.04, 1.6, 0.62, 0, 0.8, 0.31, flDoorMat(lv, "L", { window: 0.4, marks: "none", body: 0xf0f1ee }));
+  door.userData.openAngle = 1.4;
+  // Bow conveyor between the hulls, pivoting at its deck end.
+  const conv = rig.part("conveyor", 0, 1.3, Z(1.4));
+  const beltMat = flCanvasMat("skimmer-belt", 128, 256, (g, w, h) => {
+    g.fillStyle = "#1b1e22"; g.fillRect(0, 0, w, h);
+    g.fillStyle = "#3a4046"; for (let yy = 0; yy < h; yy += 16) g.fillRect(4, yy, w - 8, 5);
+  }, { rough: 0.7, metal: 0.2 });
+  const CL = 2.6;
+  conv.rotation.x = opts.conveyorDown ? 0.55 : 0.05;
+  flBox(conv, 1.9, 0.08, CL, 0, 0, CL / 2, beltMat);
+  for (const sx of [1, -1]) box(conv, 0.08, 0.35, CL, sx * 1.0, 0.1, CL / 2, 0xe8b02e, { rough: 0.5, metal: 0.4, finish: "painted" });
+  const basket = rig.part("basket", 0, 1.3, Z(3.0));
+  box(basket, 2.0, 0.9, 1.2, 0, 0.45, 0, 0x7d858d, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  // Sweep arms, stowed fore-and-aft along each hull.
+  const arms = [];
+  for (const sx of [1, -1]) {
+    const arm = rig.part(sx > 0 ? "sweepPort" : "sweepStarboard", sx * (W / 2 - 0.1), 1.35, Z(2.2));
+    box(arm, 0.14, 0.14, 3.2, 0, 0, 1.5, 0xf2c14b, { rough: 0.5, metal: 0.3, finish: "painted" });
+    box(arm, 0.06, 0.5, 3.0, sx * 0.05, -0.3, 1.5, 0xe8722a, { rough: 0.7 });
+    arm.userData.deploy = sx * 0.9;
+    arms.push(arm);
+  }
+  rig.set("sweepArms", arms);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", 1.23, 3.1, Z(wh0 + 0.3), nav);
+  box(port, 0.08, 0.08, 0.1, 0, 0, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", -1.23, 3.1, Z(wh0 + 0.3), nav);
+  box(stbd, 0.08, 0.08, 0.1, 0, 0, 0, ...FL.green);
+  const mh = rig.part("mastheadLight", 0, 4.05, Z(8.4), nav);
+  cyl(mh, 0.05, 0.05, 0.1, 0, 0, 0, ...FL.lamp, { seg: 10 });
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.skimmerVessel.footprint, livery: lv, draft: 0.6 });
+}
+
+// ------------------------------------------------ marine: knuckle crane
+
+/**
+ * Marine knuckle-boom deck crane, pedestal mounted, for a workboat's or a
+ * barge's deck: slewing column, main boom, knuckle jib and hook on its fall,
+ * with the operator's lever bank on the pedestal. Stands at y 0 on the deck
+ * it is bolted to; the main boom is raised and the jib folded out forward
+ * (+Z). Nested parts pivot where the real ones do: `slew` turns about Y,
+ * `mainBoom` and `jib` luff about X, and `hook` hangs off the jib tip (a
+ * station keeps it plumb by countering the luff). Parts: slew, mainBoom, jib,
+ * hook, controls.
+ */
+function deckCrane(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "deckCrane", [-0.06, 0, -1.77]);
+  const S = rig.shell;
+  const paint = [0xe8b02e, { rough: 0.45, metal: 0.3, finish: "painted" }];
+  cyl(S, 0.36, 0.42, 0.9, 0, 0.45, 0, 0x2b3138, { rough: 0.55, metal: 0.5, seg: 16 });
+  const slew = rig.part("slew", 0, 0.9, 0);
+  cyl(slew, 0.34, 0.34, 1.1, 0, 0.55, 0, ...paint, { seg: 16 });
+  box(slew, 0.5, 0.3, 0.7, 0, 1.0, -0.2, 0x2b3138, { rough: 0.5, metal: 0.4 });
+  const main = rig.part("mainBoom", 0, 1.05, 0.1, slew);
+  main.rotation.x = -(opts.boomAngle ?? 0.85);
+  box(main, 0.3, 0.34, 2.9, 0, 0, 1.45, ...paint);
+  flStrut(slew, [0, 0.35, 0.3], [0, 1.2, 1.1], 0.07, ...FL.chrome);
+  const jib = rig.part("jib", 0, 0, 2.9, main);
+  jib.rotation.x = opts.jibAngle ?? 1.35;
+  box(jib, 0.24, 0.28, 2.3, 0, 0, 1.15, ...paint);
+  flStrut(main, [0, 0.2, 2.0], [0, 0.3, 3.2], 0.05, ...FL.chrome);
+  const hook = rig.part("hook", 0, 0, 2.3, jib);
+  hook.rotation.x = -(main.rotation.x + jib.rotation.x);   // hangs plumb
+  flRod(hook, 0.012, 1.0, 0, -0.5, 0, "y", 0x9aa1a8, { rough: 0.5, metal: 0.6 });
+  box(hook, 0.16, 0.22, 0.12, 0, -1.1, 0, ...paint);
+  torus(hook, 0.06, 0.02, 0, -1.28, 0, 0x2b3138, { rough: 0.4, metal: 0.7, seg: 8, seg2: 12 });
+  const ctl = rig.part("controls", 0.44, 0.7, -0.2);
+  box(ctl, 0.18, 0.3, 0.34, 0, 0, 0, 0x2b3138, { rough: 0.6, metal: 0.3 });
+  for (let i = 0; i < 4; i++) flRod(ctl, 0.008, 0.16, 0.05, 0.22, -0.12 + i * 0.08, "y", ...FL.red);
+  return flDone(rig, { footprint: FLEET_BUDGET.deckCrane.footprint });
+}
+
+// ----------------------------------------------- marine: derelict vessel
+
+/**
+ * A derelict fibreglass sailboat, 9 m, dismasted, the kind that drags its
+ * anchor onto a mudflat or sinks at a mooring: faded gelcoat, a band of
+ * marine growth at the waterline, a stump of mast, open companionway, bow
+ * and stern cleats, a fuel vent on the quarter, and two marked sling points
+ * where a salvage rigger passes the lifting slings. Keel at y 0 (the fin keel
+ * included); a station sinks, lists or trims it by its own transform. Parts:
+ * hatch, cleats, slingPoints [bow, stern], fuelVent.
+ */
+function derelictBoat(parent, x, y, z, opts = {}) {
+  const L = 9, W = 2.9, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "derelictBoat");
+  const S = rig.shell;
+  // Fin keel and skeg under the hull.
+  box(S, 0.18, 0.9, 1.4, 0, 0.45, Z(4.2), 0x2b2f33, { rough: 0.8 });
+  box(S, 0.12, 0.6, 0.5, 0, 0.6, Z(7.8), 0x2b2f33, { rough: 0.8 });
+  const plan = (k) => [[k * hw * 0.8, -L / 2], [k * hw, -L / 2 + 2.2], [k * hw, L / 2 - 3.0], [k * hw * 0.65, L / 2 - 1.2], [0, L / 2], [-k * hw * 0.65, L / 2 - 1.2], [-k * hw, L / 2 - 3.0], [-k * hw, -L / 2 + 2.2], [-k * hw * 0.8, -L / 2]];
+  flPlan(S, plan(0.72), 0.5, 0, 0.85, 0, 0x5b6d52, { rough: 0.9, bevel: 0.08 });
+  flPlan(S, plan(1.0), 0.95, 0, 1.3, 0, 0xd9d4c6, { rough: 0.75, metal: 0.05, bevel: 0.05 });
+  const topside = flCanvasMat("derelict-topside", 512, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#e2ddce"], [0.7, "#c9c2ae"], [1, "#6d7a5a"]]);
+    noiseTexture(g, w, h, { density: 2400, alpha: 0.12 });
+    g.fillStyle = "rgba(60,80,50,0.7)"; g.fillRect(0, h * 0.82, w, h * 0.18);   // growth band
+    g.fillStyle = "rgba(120,70,40,0.35)"; for (let i = 0; i < 9; i++) g.fillRect(w * (0.08 + i * 0.1), h * 0.1, 4, h * 0.7);   // rust streaks
+    g.fillStyle = "#2b2f33"; g.font = "700 26px Arial, sans-serif"; g.textAlign = "left"; g.fillText("CF 0000 XX", w * 0.1, h * 0.35);
+    grimeOverlay(g, w, h, { blotches: 8, streaks: 10, alpha: 0.2 });
+  }, { rough: 0.8 });
+  for (const sx of [1, -1]) flPanel(S, 5.4, 0.9, sx * (hw + 0.012), 1.75, Z(4.6), topside, sx > 0 ? "+x" : "-x");
+  // Cabin trunk and the stump of the mast.
+  box(S, 1.8, 0.5, 3.0, 0, 2.5, Z(4.0), 0xcfc9b8, { rough: 0.75 });
+  flRod(S, 0.07, 1.2, 0, 3.3, Z(3.2), "y", 0xa7adb3, { rough: 0.5, metal: 0.4 });
+  const hatch = rig.part("hatch", 0, 2.76, Z(5.3));
+  box(hatch, 0.7, 0.05, 0.6, 0, 0, 0, 0x7a6a52, { rough: 0.8 });
+  const cleats = [];
+  for (const s of [0.5, L - 0.4]) {
+    const c = rig.part(`cleat${cleats.length + 1}`, 0, 2.27, Z(s));
+    box(c, 0.2, 0.05, 0.06, 0, 0.03, 0, ...FL.steel);
+    cleats.push(c);
+  }
+  rig.set("cleats", cleats);
+  const slings = [];
+  for (const s of [2.4, 6.6]) {
+    const sp = rig.part(slings.length ? "slingStern" : "slingBow", 0, 1.3, Z(s));
+    for (const sx of [1, -1]) box(sp, 0.03, 0.9, 0.16, sx * (hw + 0.03), 0.45, 0, 0xf2c14b, { rough: 0.6, emissive: 0x6a5010, ei: 0.3 });
+    slings.push(sp);
+  }
+  rig.set("slingPoints", slings);
+  const vent = rig.part("fuelVent", -hw + 0.05, 1.9, Z(7.2));
+  cyl(vent, 0.04, 0.04, 0.06, 0, 0, 0, ...FL.chrome, { seg: 10 });
+  return flDone(rig, { footprint: FLEET_BUDGET.derelictBoat.footprint });
+}
+
+// -------------------------------------------------------------- spud barge
+
+/**
+ * Sectional spud barge, the small flat-deck work barge a bay restoration job
+ * floats an excavator or a sediment load on: three bolted sections, 12.2 m
+ * by 6.1 m by 1.5 m deep, a raked bow at +Z, a sealed spill coaming round the
+ * deck so wet sediment drains to the deck's own sump rather than over the
+ * side, two spud wells at the stern with their spuds (raised; lower them by
+ * moving each spud's y down by up to `userData.lift`), four mooring bitts and
+ * sidelights for when a tug has it alongside. y = 0 is the keel; a station
+ * floats it by setting y to minus its draft (about 0.6 m light). Parts:
+ * spuds [spudP, spudS], bitts [bittFP, bittFS, bittAP, bittAS], coaming,
+ * sump, navLights {portLight, starboardLight}.
+ */
+function spudBarge(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x3d4f5c, fleetName: "BAY WORKS", unitNumber: "SB-12", accent: 0xe0b12a });
+  const L = 12.2, W = 6.1, D = 1.52, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "spudBarge");
+  const S = rig.shell, hw = W / 2;
+  // Hull: a box with a raked bow, three sections, the joins painted.
+  flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
+  const hullSide = flCanvasMat(`bargeSide|${lv.key}`, 512, 64, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.1))], [1, flCss(flShade(lv.colour, 0.8))]]);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.08, tone: "0,0,0" });
+    for (const k of [1 / 3, 2 / 3]) { g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(k * w - 2, 0, 4, h); }
+    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.08, w, h * 0.1);
+    for (let i = 0; i < 9; i++) { g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(w * 0.06, h * 0.3 + i * h * 0.07, 10, 2); }
+    g.fillStyle = "#f2f2ee"; g.font = `700 ${Math.round(h * 0.34)}px 'Barlow Condensed', Arial, sans-serif`; g.textBaseline = "middle";
+    g.fillText(`${lv.fleetName}  ${lv.unitNumber}`, w * 0.4, h * 0.56);
+    grimeOverlay(g, w, h, { blotches: 6, streaks: 10, alpha: 0.22 });
+  }, { rough: 0.55, metal: 0.3 });
+  for (const sx of [1, -1]) flPanel(S, L - 1.5, D - 0.36, sx * (hw + 0.005), 0.36 + (D - 0.36) / 2, Z(1.4 + (L - 1.4) / 2), hullSide, sx > 0 ? "+x" : "-x");
+  flBox(S, W - 0.1, 0.03, L - 0.3, 0, D + 0.015, Z(L / 2 + 0.1), flTreadMat());
+  // Rub rails along both sides and across the stern.
+  for (const sx of [1, -1]) flRod(S, 0.09, L - 0.4, sx * (hw + 0.05), D - 0.25, Z(L / 2 + 0.2), "z", ...FL.black);
+  flRod(S, 0.09, W, 0, D - 0.25, Z(L) + 0.09, "x", ...FL.black);
+  // Spud wells: steel boxes through the stern corners.
+  for (const sx of [1, -1]) box(S, 0.8, 0.9, 0.8, sx * (hw - 0.55), D + 0.45, Z(L - 0.6), ...FL.steel);
+  // Spill coaming: a low sealed curb round the deck edge, and its sump.
+  const co = rig.part("coaming", 0, D, 0);
+  for (const sx of [1, -1]) box(co, 0.1, 0.3, L - 2.2, sx * (hw - 0.1), 0.15, Z(L / 2 + 0.5), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 0.3, 0.3, 0.1, 0, 0.15, Z(0.9), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  box(co, W - 1.9, 0.3, 0.1, 0, 0.15, Z(L - 1.1), 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+  const sump = rig.part("sump", hw - 0.7, D + 0.02, Z(L - 1.6));
+  box(sump, 0.5, 0.04, 0.5, 0, 0.02, 0, ...FL.frame);
+  box(sump, 0.44, 0.02, 0.44, 0, 0.05, 0, ...FL.steel);
+  // Spuds, raised: square-section piles standing in the wells.
+  const spudH = 6.0;
+  const spuds = [];
+  for (const [name, sx] of [["spudP", -1], ["spudS", 1]]) {
+    const sp = rig.part(name, sx * (hw - 0.55), D - 0.8, Z(L - 0.6));
+    box(sp, 0.46, spudH, 0.46, 0, spudH / 2, 0, 0x6b7178, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+    box(sp, 0.5, 0.18, 0.5, 0, spudH - 0.09, 0, 0xe0b12a, { rough: 0.5, metal: 0.3, finish: "painted" });
+    sp.userData.lift = spudH - 1.4;
+    spuds.push(sp);
+  }
+  rig.set("spuds", spuds);
+  // Mooring bitts, a double post at each corner.
+  const bitts = [];
+  for (const [name, sx, s] of [["bittFP", -1, 1.1], ["bittFS", 1, 1.1], ["bittAP", -1, L - 1.6], ["bittAS", 1, L - 1.6]]) {
+    const b = rig.part(name, sx * (hw - 0.45), D, Z(s));
+    for (const dz of [-0.16, 0.16]) cyl(b, 0.08, 0.09, 0.4, 0, 0.2, dz, ...FL.frame, { seg: 10 });
+    bitts.push(b);
+  }
+  rig.set("bitts", bitts);
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", -hw + 0.3, D + 0.9, Z(0.9), nav);
+  cyl(port, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(port, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", hw - 0.3, D + 0.9, Z(0.9), nav);
+  cyl(stbd, 0.03, 0.03, 0.9, 0, -0.45, 0, ...FL.steel, { seg: 6 });
+  box(stbd, 0.12, 0.12, 0.12, 0, 0.05, 0, ...FL.green);
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.spudBarge.footprint, livery: lv, draft: 0.6, deckY: D + 0.03 });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -4543,13 +5145,14 @@ function workboat(parent, x, y, z, opts = {}) {
  * options the entry is built with.
  */
 const FLEET_BUDGET = {
-  semiTractor: { build: "semiTractor", meshes: 23, footprint: [3.02, 3.95, 6.86], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "headlights", "markerLights", "tailLights", "fifthWheel", "fifthWheelRelease", "gladHandService", "gladHandEmergency"], note: "Class 8 day cab, tandem drive, fifth wheel, air lines and glad hands" },
-  "semiTractor:sleeper": { build: "semiTractor", opts: { cab: "sleeper" }, meshes: 23, footprint: [3.02, 4, 8.66], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "fifthWheel", "gladHandService", "gladHandEmergency"], note: "Class 8 raised-roof sleeper" },
+  semiTractor: { build: "semiTractor", meshes: 24, footprint: [3.02, 3.95, 6.86], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "hood", "wheels", "lights", "headlights", "markerLights", "tailLights", "fifthWheel", "fifthWheelRelease", "gladHandService", "gladHandEmergency"], note: "Class 8 day cab, tandem drive, fifth wheel, air lines and glad hands" },
+  "semiTractor:sleeper": { build: "semiTractor", opts: { cab: "sleeper" }, meshes: 24, footprint: [3.02, 4, 8.66], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "fifthWheel", "gladHandService", "gladHandEmergency"], note: "Class 8 raised-roof sleeper" },
   "trailer:dryVan": { build: "trailer", opts: { kind: "dryVan" }, meshes: 14, footprint: [2.63, 4.11, 16.27], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights"], note: "53 ft dry van, swing doors, conspicuity tape" },
   "trailer:flatbed": { build: "trailer", opts: { kind: "flatbed" }, meshes: 13, footprint: [2.66, 1.53, 14.69], parts: ["wheels", "landingGear", "gladHands", "lights", "stakePockets", "winches"], note: "48 ft flatbed with stake pockets and winches" },
   "trailer:reefer": { build: "trailer", opts: { kind: "reefer" }, meshes: 17, footprint: [2.63, 4.11, 16.7], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights", "reeferUnit"], note: "53 ft reefer with nose-mounted unit" },
   "trailer:tanker": { build: "trailer", opts: { kind: "tanker" }, meshes: 14, footprint: [2.63, 3.26, 12.94], parts: ["wheels", "landingGear", "gladHands", "lights", "manholes", "valves"], note: "42 ft DOT-406 style tanker, placarded 3 / 1203" },
-  tractorTrailer: { build: "tractorTrailer", meshes: 37, footprint: [3.02, 4.11, 20.71], parts: ["tractor", "trailer"], note: "day cab coupled to a 53 ft dry van" },
+  "trailer:pup": { build: "trailer", opts: { kind: "pup" }, meshes: 13, footprint: [2.63, 4.11, 8.65], parts: ["doorL", "doorR", "wheels", "landingGear", "gladHands", "lights"], note: "28 ft single-axle pup van" },
+  tractorTrailer: { build: "tractorTrailer", meshes: 38, footprint: [3.02, 4.11, 20.71], parts: ["tractor", "trailer"], note: "day cab coupled to a 53 ft dry van" },
   boxTruck: { build: "boxTruck", meshes: 21, footprint: [3.02, 4.05, 10], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "rearDoor"], note: "Class 6, 26 ft box, roll-up door" },
   pickup: { build: "pickup", meshes: 17, footprint: [2.39, 1.93, 5.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "tailgate"], note: "full-size crew cab" },
   sedan: { build: "sedan", meshes: 17, footprint: [2.23, 1.45, 4.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "trunk"], note: "mid-size four-door" },
@@ -4561,12 +5164,21 @@ const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
+  skiff: { build: "skiff", meshes: 17, footprint: [2.11, 1.79, 5.69], parts: ["outboard", "console", "killSwitch", "bowCleat", "sternCleat", "navLights", "portLight", "starboardLight", "sternLight"], note: "5.2 m aluminium centre-console skiff" },
+  deckBarge: { build: "deckBarge", meshes: 13, footprint: [6.24, 2.7, 16], parts: ["bitts", "ladder"], note: "16 m flat steel deck barge, raked ends" },
+  "deckBarge:hopper": { build: "deckBarge", opts: { kind: "hopper" }, meshes: 16, footprint: [6.24, 3.1, 16], parts: ["bitts", "ladder", "coaming", "liner", "load"], note: "deck barge with a lined sediment hopper" },
+  salvageCraneBarge: { build: "salvageCraneBarge", meshes: 30, footprint: [7.24, 13.59, 18], parts: ["house", "boom", "hook", "hoistLine", "counterweight", "cabDoor", "spuds", "bitts", "ladder"], note: "18 m spud barge with a revolving lattice-boom crane" },
+  skimmerVessel: { build: "skimmerVessel", meshes: 20, footprint: [4.22, 4.1, 12.21], parts: ["conveyor", "basket", "sweepArms", "tankHatch", "wheelhouseDoor", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "11 m catamaran debris and oil skimmer" },
+  deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
+  derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
+  spudBarge: { build: "spudBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
   bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
+  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };
 
 
@@ -5317,7 +5929,7 @@ const TRACK_NIGHT_HIGHWAY = {
   markings: { centre: "yellow", dashes: [-5.5, 5.5], edge: true },
   env: {
     sky: ["#03060f", "#16203b"], fog: ["#0a0f1e", 160, 820],
-    hemi: ["#7f93c8", "#141824", 0.7], sun: { colour: "#c9d6ff", intensity: 0.75, dir: [-0.7, 0.55, 0.15] },
+    hemi: ["#8a9ed6", "#1a1e2c", 0.95], sun: { colour: "#c9d6ff", intensity: 0.95, dir: [-0.7, 0.55, 0.15] },
     stars: true, moon: { dir: [-1, 0.28, 0.05], size: 34 }, ground: "#090c13", exposure: 1.15,
   },
   points: [
@@ -6283,7 +6895,7 @@ function rcAIInput(race, r, dt) {
     const cands = [-1, -0.55, -0.2, 0.2, 0.55, 1].map((k) => k * lim);
     let curvAhead = 0;
     for (let a = 10; a <= 60; a += 10) curvAhead += rcFrame(tr, r.s + a).curv;
-    let best = ai.lane, bestScore = Infinity, curDanger = 0;
+    let best = ai.lane, bestScore = Infinity, curDanger = 0, curScore = Infinity;
     for (const c of cands) {
       let danger = 0;
       for (const o of obs) {
@@ -6299,10 +6911,11 @@ function rcAIInput(race, r, dt) {
       }
       const inside = -Math.sign(curvAhead) * lim * 0.5;
       const score = danger + Math.abs(c - r.d) * 0.9 + Math.abs(c - (inside + ai.pref * lim)) * 0.5;
-      if (Math.abs(c - ai.lane) < 0.1) curDanger = danger;
+      if (Math.abs(c - ai.lane) < 0.1) { curDanger = danger; curScore = score; }
       if (score < bestScore) { bestScore = score; best = c; }
     }
-    if (Math.abs(best - ai.lane) > 2.5) {
+    // Hysteresis: only move for a clearly better lane, so the field does not weave.
+    if (Math.abs(best - ai.lane) > 2.5 && (curScore === Infinity || bestScore < curScore - 12)) {
       const urgent = curDanger > 60;
       if (urgent) { ai.lane = best; ai.pending = null; }
       else if (!ai.pending) {
@@ -6762,7 +7375,7 @@ function rcSafety(race, r, inp) {
   if (inp.lookback) r.lookT = race.t;
   if (!r.signal) return;
   if (race.t - r.signal.t > 3.5) { r.signal = null; return; }
-  if ((r.d - r.signal.d0) * r.signal.dir >= 3.2 && race.t - r.safetyT > 2 && race.phase === "race") {
+  if ((r.d - r.signal.d0) * r.signal.dir >= 3.2 && race.t - r.safetyT > 6 && race.phase === "race") {
     const mirrors = r.lookT >= r.signal.t - 3 && race.t - r.lookT < 3.5;
     r.boostT = Math.max(r.boostT, mirrors ? 1.0 : 0.55);
     r.safety += mirrors ? 2 : 1;
@@ -7240,8 +7853,8 @@ function rcRacerModel(parent, r, night) {
     rcGlowMat(0xffd23a, 0.28));
   shield.visible = false; wrap.add(shield);
   // Boost flare behind the vehicle.
-  const flare = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.55, 2.4, 10, 1, true), rcGlowMat(0x5fd8ff, 0.7));
-  flare.rotation.x = -Math.PI / 2; flare.position.set(0, 0.6, -l / 2 - 1.1); flare.visible = false; wrap.add(flare);
+  const flare = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.32, 1.5, 10, 1, true), rcGlowMat(0x5fd8ff, 0.45));
+  flare.rotation.x = -Math.PI / 2; flare.position.set(0, 0.55, -l / 2 - 0.7); flare.visible = false; wrap.add(flare);
   // Turn signals: two amber lamps a side, blinking.
   const sigMat = new THREE.MeshBasicMaterial({ color: 0xffa21a });
   const sigL = new THREE.Group(), sigR = new THREE.Group();
@@ -7256,15 +7869,15 @@ function rcRacerModel(parent, r, night) {
   // Headlight pool on the road ahead, at night.
   let beam = null;
   if (night) {
-    beam = new THREE.Mesh(new THREE.PlaneGeometry(w * 2.6, 16), rcGlowMat(0xfff0c8, 0.22, rcBeamTex()));
-    beam.rotation.x = -Math.PI / 2; beam.position.set(0, 0.08, l / 2 + 8.5);
+    beam = new THREE.Mesh(new THREE.PlaneGeometry(w * 2.2, 12), rcGlowMat(0xffd9a0, 0.1, rcBeamTex()));
+    beam.rotation.x = -Math.PI / 2; beam.position.set(0, 0.08, l / 2 + 6.2);
     wrap.add(beam);
   }
   // A marker over each human's vehicle, in the player's colour.
   let marker = null;
   if (r.human) {
-    marker = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0, 1.1, 4), new THREE.MeshBasicMaterial({ color: RC_PLAYER_COLOURS[r.player ?? 0] ?? 0xffffff }));
-    marker.position.set(0, h + 1.6, 0);
+    marker = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0, 0.8, 4), new THREE.MeshBasicMaterial({ color: RC_PLAYER_COLOURS[r.player ?? 0] ?? 0xffffff }));
+    marker.position.set(0, h + 1.8, 0);
     wrap.add(marker);
   }
   wrap.userData.fx = { shield, flare, sigL, sigR, beam, marker, h, l, w };
@@ -7411,7 +8024,7 @@ function rcBarriers(root, tr) {
     const tex = rcCanvas(512, 128, (g, w, h) => {
       g.fillStyle = "#1d3a5c"; g.fillRect(0, 0, w, h);
       g.fillStyle = "#f2c230"; g.fillRect(0, h - 18, w, 18);
-      g.fillStyle = "#f4f6f8"; g.font = "700 46px 'Barlow Condensed', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillStyle = "#f4f6f8"; g.font = "700 36px 'Barlow Condensed', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
       g.fillText("SITE SAFETY  ·  HARD HATS ON", w / 2, h / 2 - 8);
     });
     const hoard = new RcMesh();
@@ -8181,7 +8794,7 @@ function rcBuildWorld(root, race, opts = {}) {
     const n = 360, arr = new Float32Array(n * 3).fill(-999);
     const dg = new THREE.BufferGeometry();
     dg.setAttribute("position", new THREE.BufferAttribute(arr, 3));
-    dust = { points: new THREE.Points(dg, new THREE.PointsMaterial({ color: 0xc9a27a, size: 2.6, transparent: true, opacity: 0.35, depthWrite: false })), arr, life: new Float32Array(n), vel: new Float32Array(n * 3), next: 0, n };
+    dust = { points: new THREE.Points(dg, new THREE.PointsMaterial({ color: 0xb08a64, size: 2.2, map: rcPoolTex(), transparent: true, opacity: 0.45, depthWrite: false })), arr, life: new Float32Array(n), vel: new Float32Array(n * 3), next: 0, n };
     dust.points.frustumCulled = false;
     root.add(dust.points);
   }
@@ -8194,7 +8807,7 @@ function rcBuildWorld(root, race, opts = {}) {
       race.racers.forEach((r, i) => {
         const m = racerModels[i];
         m.position.set(r.x, r.y + (r.hopT > 0 ? Math.sin((r.hopT / 0.2) * Math.PI) * 0.35 : 0), r.z);
-        m.rotation.set(-(r.pitch ?? 0), r.h + (r.drifting ? r.driftDir * 0.28 : 0), r.roll ?? 0, "YXZ");
+        m.rotation.set(-(r.pitch ?? 0), r.h + (r.drifting ? r.driftDir * 0.16 : 0), r.roll ?? 0, "YXZ");
         const fx = m.userData.fx;
         fx.shield.visible = r.shieldT > 0;
         fx.flare.visible = r.boostT > 0;
@@ -8889,7 +9502,8 @@ function rcMakeViews(followIds, playerIdx) {
   app.views = followIds.map((rid, k) => {
     const cam = new THREE.PerspectiveCamera(68, 1, 0.3, 2400);
     const el = document.createElement("div");
-    el.className = `hud${followIds.length > 1 ? " small" : ""}`;
+    const n = followIds.length;
+    el.className = `hud${n > 1 ? " small" : ""}${n >= 3 ? (k % 2 ? " col-r" : " col-l") : ""}`;
     el.innerHTML = `<div class="pos"></div><div class="tag-p"></div><div class="lap"></div><div class="delta"></div><div class="item empty"></div><div class="item-name"></div>
       <div class="speed"></div><div class="msg"></div><div class="sig l">◀</div><div class="sig r">▶</div><div class="rear" hidden>Mirrors · rear view</div>`;
     huds.append(el);
@@ -8915,10 +9529,10 @@ function rcPlaceHuds() {
   if (app.overview) app.overview.rect = rects[3];
   const mm = $("minimap");
   const n = app.views.length, W = window.innerWidth, H = window.innerHeight;
-  const size = n === 1 ? Math.min(210, Math.round(Math.min(W, H) * 0.3)) : n === 2 ? 170 : Math.min(240, Math.round(Math.min(W, H) * 0.4));
+  const size = n === 1 ? Math.min(210, Math.round(Math.min(W, H) * 0.3)) : n === 2 ? 150 : n === 3 ? Math.min(240, Math.round(Math.min(W, H) * 0.4)) : 150;
   mm.style.width = mm.style.height = `${size}px`;
   if (n === 1) { mm.style.left = `${W - size - 14}px`; mm.style.top = `${Math.min(110, H * 0.16)}px`; }
-  else if (n === 2) { mm.style.left = `${W - size - 14}px`; mm.style.top = `${H / 2 - size / 2}px`; }
+  else if (n === 2) { mm.style.left = `${W / 2 - size / 2}px`; mm.style.top = `${H / 2 - size / 2}px`; }
   else if (n === 3) { mm.style.left = `${W * 0.75 - size / 2}px`; mm.style.top = `${H * 0.75 - size / 2}px`; }
   else { mm.style.left = `${W / 2 - size / 2}px`; mm.style.top = `${H / 2 - size / 2}px`; }
   const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -9083,7 +9697,7 @@ function rcViewFor(id) { return app.views.find((v) => v.racer === id); }
 function rcSay(id, text, cls = "", ms = 1600) {
   const v = rcViewFor(id);
   if (!v) return;
-  v.msg = { text, cls, until: performance.now() + ms };
+  v.msg = { text, cls, until: rcClock + ms };
 }
 
 function rcHandleEvent(e) {
@@ -9426,13 +10040,15 @@ const rcTmp = new THREE.Vector3();
 function rcFollow(v, r, dt, lookBack) {
   const veh = r.veh;
   const l = veh.dims[2] * veh.scale, h = veh.dims[1] * veh.scale;
-  v.camH = v.camPos ? v.camH + Math.atan2(Math.sin(r.h - v.camH), Math.cos(r.h - v.camH)) * Math.min(1, 6 * dt) : r.h;
+  // Follow the travel direction more than the nose, so a drift reads as a drift.
+  const hm = r.m + Math.atan2(Math.sin(r.h - r.m), Math.cos(r.h - r.m)) * 0.35;
+  v.camH = v.camPos ? v.camH + Math.atan2(Math.sin(hm - v.camH), Math.cos(hm - v.camH)) * Math.min(1, 5 * dt) : hm;
   const dirX = Math.sin(v.camH), dirZ = Math.cos(v.camH);
   const back = 5.0 + l * 0.5 + Math.max(0, r.v) * 0.04;
   const up = 2.1 + h * 0.5;
   const sgn = lookBack ? -1 : 1;
   rcTmp.set(r.x - dirX * back * sgn, r.y + up, r.z - dirZ * back * sgn);
-  if (!v.camPos) v.camPos = rcTmp.clone();
+  if (!v.camPos || v.camPos.distanceTo(rcTmp) > 40) { v.camPos = rcTmp.clone(); v.camH = hm; }
   else v.camPos.lerp(rcTmp, lookBack ? 1 : Math.min(1, 9 * dt));
   v.cam.position.copy(v.camPos);
   v.cam.lookAt(r.x + dirX * 6 * sgn, r.y + 1.4, r.z + dirZ * 6 * sgn);
@@ -9576,7 +10192,11 @@ function rcTick(real, now, draw = true) {
         rcRenderer.setViewport(x, H - y - h, w, h);
         rcRenderer.setScissor(x, H - y - h, w, h);
         v.cam.aspect = w / h; v.cam.updateProjectionMatrix();
+        // Your own marker would sit in front of your camera; the others see it.
+        const own = app.world.racerModels[v.racer]?.userData.fx.marker;
+        if (own) own.visible = false;
         rcRenderer.render(app.scene, v.cam);
+        if (own) own.visible = true;
         if (!app.demo || app.views.length) {
           const r0 = r;
           if (r0.human && !r0.remote && app.views.length <= 4 && !app.paused) rcAudio.engine(v.player, Math.min(1, Math.abs(r0.v) / (r0.p.top * 1.2)), r0.boostT > 0, app.screen === "race");
