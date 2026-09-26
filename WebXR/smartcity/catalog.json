@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 424
+      "stations": 425
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-standing-seam-metal-panel-and-clip",
         "rf-hot-asphalt-kettle-and-mop",
         "rf-single-ply-tpo-heat-welding-and-seam-probe",
         "rf-torch-applied-membrane-and-fire-watch",
@@ -7644,6 +7645,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-standing-seam-metal-panel-and-clip",
+      "name": "Standing-Seam Metal Panel & Clip",
+      "title": "SmartCiti.X~ Standing-Seam Metal Panel & Clip VR",
+      "tagline": "The panel layout and clip plan read, harness clipped, a sharp edge and a bent clip found, the panel's surface temperature checked, a panel carried out of the wind, its clip driven, the panel held aligned, the seam run and its lock checked, the cutting station ventilated, a skipped clip found on the walk-round, offcuts hauled off and the day logged, with a gust catching the panel mid-carry and a coworker cutting coated steel without ventilation along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer installing standing-seam metal panels on concealed clips and running the mechanical seamer",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for coating dust from cutting or grinding; NRCA standing-seam metal roofing practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "seam-locked-clean",
+        "name": "Seam Locked Clean",
+        "note": "Every panel clipped to the plan, every seam locked, and nobody carried a panel across the wind or a lungful of coating fume to do it"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf4",
+      "flat": false,
+      "system": "Seam Run",
+      "currency": "CLIP",
+      "ranks": [
+        "Apprentice",
+        "Panel Hand",
+        "Seam Runner",
+        "Lead Mechanic",
+        "Standing-Seam Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The clip plan read before the first panel was carried"
+        },
+        {
+          "id": "steady-seamer",
+          "name": "Steady Seamer",
+          "note": "The seamer ran the whole panel without a break in pace"
+        },
+        {
+          "id": "never-carried-broadside",
+          "name": "Never Carried Broadside",
+          "note": "No panel walked across the wind, no bare hand on a hot panel, no cutting without ventilation"
+        },
+        {
+          "id": "clean-panel",
+          "name": "Clean Panel",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "locked-tight",
+          "name": "Locked Tight",
+          "note": "The seam-lock reading committed inside the band first time"
+        },
+        {
+          "id": "field-closed",
+          "name": "Field Closed",
+          "note": "Day logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-standing-seam-metal-panel-and-clip"
     },
     {
       "app": "smartcity",
@@ -27837,7 +27921,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28497,7 +28581,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -18088,5 +18088,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rf-standing-seam-metal-panel-and-clip",
+    "index": "rf4",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer installing standing-seam metal panels on concealed clips and running the mechanical seamer",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for coating dust from cutting or grinding; NRCA standing-seam metal roofing practice; Roofers Local 40 apprenticeship and training",
+    "name": "Standing-Seam Metal Panel & Clip",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Standing-Seam Metal Panel & Clip VR",
+    "tagline": "The panel layout and clip plan read, harness clipped, a sharp edge and a bent clip found, the panel's surface temperature checked, a panel carried out of the wind, its clip driven, the panel held aligned, the seam run and its lock checked, the cutting station ventilated, a skipped clip found on the walk-round, offcuts hauled off and the day logged, with a gust catching the panel mid-carry and a coworker cutting coated steel without ventilation along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seam-locked-clean",
+      "name": "Seam Locked Clean",
+      "note": "Every panel clipped to the plan, every seam locked, and nobody carried a panel across the wind or a lungful of coating fume to do it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Seam Run",
+      "currency": "CLIP",
+      "ranks": [
+        "Apprentice",
+        "Panel Hand",
+        "Seam Runner",
+        "Lead Mechanic",
+        "Standing-Seam Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
