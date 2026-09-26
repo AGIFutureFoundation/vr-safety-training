@@ -57,6 +57,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             SHARED / "observer.js",
             SHARED / "perf.js",
@@ -101,6 +102,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             # My Training, refreshers due, sign-offs and the transcript
             # (docs/course-tracking.md); needs a11y.js, records.js and
@@ -185,6 +187,7 @@ APPS = {
             # ladder.js, a11y.js and records.js.
             SHARED / "game.js",
             SHARED / "competency.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             SHARED / "a11y.js",
             SHARED / "records.js",

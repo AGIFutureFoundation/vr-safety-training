@@ -148,3 +148,8 @@ writeCapstoneLiveries();
 // regenerated here too, so it can never drift from a station's own hazards.
 const { writeBingoHazardsData } = await import("./gen_bingo_hazards.mjs");
 await writeBingoHazardsData();
+// The level-ladder milestone quotes (docs/ladders.md) — regenerated after
+// gen_ladders.mjs above has written the ladders themselves, so a milestone
+// can never quote a level or a station that has since changed.
+const { writeLadderMilestonesData } = await import("./gen_ladder_milestones.mjs");
+await writeLadderMilestonesData();

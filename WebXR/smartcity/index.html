@@ -717,6 +717,26 @@
   .res-badge span{ display:block; color:var(--muted); font-size:12px; margin-top:2px }
   .res-note{ font-size:13px !important }
 
+  /* A level-ladder milestone (levels 5, 10, 15, 20 — docs/ladders.md): a
+     small celebration that still teaches, quoting one real rule off that
+     level's own first station. shared/ladder.js's milestoneConfettiSvg()
+     draws the burst; this only styles and animates it. */
+  .milestone-banner{ position:relative; overflow:hidden; margin:2px 0 12px; padding:10px 12px 12px;
+    border:1px solid rgba(242,193,75,.35); border-radius:10px;
+    background:linear-gradient(180deg, rgba(242,193,75,.16), rgba(242,193,75,.05)); text-align:center }
+  .milestone-badge{ font-family:var(--cond); font-weight:700; font-size:13px; letter-spacing:.1em;
+    color:var(--warn); text-transform:uppercase }
+  .milestone-quote{ margin:6px 0 0 !important; font-size:13.5px !important; font-style:italic; color:var(--text) !important }
+  .milestone-quote span.muted{ font-style:normal; display:inline-block; margin-top:2px }
+  .milestone-confetti{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none }
+  .milestone-piece{ transform-origin:center; opacity:0; animation:milestoneFall 1.6s ease-out forwards }
+  @keyframes milestoneFall{
+    0%{ opacity:0; transform:translateY(-14px) rotate(0deg); }
+    12%{ opacity:1; }
+    100%{ opacity:0; transform:translateY(18px) rotate(140deg); }
+  }
+  @media (prefers-reduced-motion:reduce){ .milestone-piece{ animation:none; opacity:.9 } }
+
   body.danger-flash::after{ content:""; position:fixed; inset:0; pointer-events:none; z-index:15;
     background:radial-gradient(circle at 50% 55%, rgba(240,100,91,.34), rgba(240,100,91,0) 62%);
     animation:flash .42s ease-out; }

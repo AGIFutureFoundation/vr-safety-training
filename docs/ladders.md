@@ -54,6 +54,18 @@ Standards evidenced are the union of the tasks' registry hits: entries in `tools
 
 In the app each programme card in *Training programmes* has a **Ladder** view (twenty rungs, locked / open / passed, lessons per level, a condition chip per task, the partial flag). **Start level** runs the chain: each task opens its station with its condition's query parameters, one shared score, a level results card with a row per task, the level badge on a pass. `?programme=<id>&level=<n>` opens that ladder at that rung. An instructor can assign a level with `CMD_ASSIGN programme:level`, and on a level 15+ chain `CMD_INTERRUPT task/id` queues an interruption for a task still to come. Screenshots: [`docs/screenshots/ladders/`](screenshots/ladders/), [`docs/screenshots/tracks/`](screenshots/tracks/).
 
+## Milestones
+
+Passing level 5, 10, 15 or 20 of any ladder adds one thing to the ordinary results card: a small banner, with a burst of original inline-SVG confetti, quoting one real rule. The quote is never written for the occasion — it is that level's own first task's own first station, its own first step's own reason, lifted verbatim (up to that step's own first sentence) straight out of the station's own source file. A milestone can teach the same rule the level just tested, in the learner's own words for it, or it can teach nothing at all — it never invents a fact or a number to fill the space.
+
+`tools/gen_ladder_milestones.mjs` builds this once as data, `WebXR/shared/ladder-milestones-data.js`, run at the end of `tools/gen_catalog.mjs` (after `tools/gen_ladders.mjs` writes the ladders themselves, so a milestone can never quote a level or a station that has since changed). `WebXR/shared/ladder.js`'s `levelMilestone(programme, n)` is the pure lookup a level 5/10/15/20 pass resolves against, and `milestoneConfettiSvg(programme, n)` draws the burst — deterministically, so the same programme and level always draw the same one. `WebXR/smartcity/js/app.js`'s `showLevelResults()` shows both; the CSS (`smartcity/index.html`, `.milestone-*`) respects `prefers-reduced-motion`.
+
+For example, railroad crafts' level 5 milestone quotes its own Roadway Worker Protection & Job Briefing station: *"Under FRA roadway worker protection rules every person on the gang works from the same plan, and a worker who missed the briefing has no way of knowing where the protection actually starts and ends — nor does the rest of the gang have any way of knowing that they do not know."*
+
+### Checks
+
+`node tools/check_ladders.mjs` holds this to: every ladder's four milestone levels resolve to a quote that is a verbatim prefix of that exact level's own first task's own station's own first step's own `why` text (and any number inside it traces back to that same text); `shared/ladder-milestones-data.js` matches the generator run now; `milestoneConfettiSvg()` is deterministic per programme and level and differs between them; and `smartcity/js/app.js` and `smartcity/index.html` actually show the toast and its confetti, with a reduced-motion override.
+
 ## Content gap
 
 How many of each programme's 20 levels reach 75 lessons today, and how many more stations of 13 steps it needs before every level does. The count is simulated, not divided: hypothetical 13-step stations (outdoor, four hazards, two interruptions, difficulty spread across the programme's range) are added one at a time and the ladder regenerated until no level is partial. Writing them is the content teams' work under `tools/briefs/station-brief.md`; nothing here invents one.

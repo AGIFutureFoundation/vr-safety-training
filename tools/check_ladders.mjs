@@ -22,6 +22,14 @@
  *   7. the content gap in docs/ladders.md is the one the generator computes
  *   8. both bundles ship shared/ladder.js; SmartCiti.X ships ladders.js and
  *      variants.js, and reads every condition's query parameter
+ *   9. milestones at levels 5, 10, 15, 20 (docs/ladders.md): every one
+ *      resolves to a real quote that is a verbatim prefix of that level's own
+ *      first station's own first step's own `why` text (never invented,
+ *      never a stray number); shared/ladder-milestones-data.js matches
+ *      tools/gen_ladder_milestones.mjs run now; milestoneConfettiSvg() is
+ *      deterministic per programme and level and varies between them; and
+ *      SmartCiti.X's app.js and index.html actually show the toast and its
+ *      confetti, with a reduced-motion override
  *
  *     node tools/check_ladders.mjs
  */
@@ -34,9 +42,11 @@ import {
   levelState, levelBadge, levelXAPI, nextTask, startLevelRun, recordTask, levelResult, levelTag, parseLevelRef,
   LADDER_LEVELS, LESSON_BAR, readLevelRun, writeLevelRun, clearLevelRun,
   parseCondition, conditionValid, conditionParams, conditionFromQuery, taskKey, CONDITION_WEATHER, CONDITION_TIMES,
+  levelMilestone, milestoneConfettiSvg, LADDER_MILESTONE_LEVELS,
 } from "../WebXR/shared/ladder.js";
 import { makeVariant } from "../WebXR/shared/variants.js";
 import { stationMetrics, buildLadders, readOverrides, overrideProblems, resolveTaskRef, STEP_BAR, difficulty } from "./gen_ladders.mjs";
+import { buildLadderMilestonesData, firstStepWhy } from "./gen_ladder_milestones.mjs";
 
 let failures = 0;
 const fail = (area, msg) => { failures += 1; console.log(`  ✗ [${area}] ${msg}`); };
@@ -391,5 +401,73 @@ if (!/new URLSearchParams\(location\.search\)\.get\("time"\)/.test(stageSrc)) fa
 if (!/new URLSearchParams\(location\.search\)\.get\("weather"\)/.test(weatherSrc)) fail("app", "weather.js no longer reads ?weather=");
 if (failures === before8) ok("SmartCiti.X bundles ladder.js, ladders.js and variants.js; Trade Skills bundles ladder.js; every condition's query parameter is read");
 
-console.log(failures ? `\n${failures} ladder check(s) failed.` : `\nAll ladder checks pass: ${allLevels.length} levels, ${partial.length} partial.`);
+// ------------------------------------------------------------- 9. milestones
+const before9 = failures;
+if (!eq(LADDER_MILESTONE_LEVELS, [5, 10, 15, 20])) fail("milestones", "LADDER_MILESTONE_LEVELS is not exactly [5, 10, 15, 20]");
+for (const n of [1, 2, 4, 6, 9, 11, 14, 16, 19, 21]) {
+  if (levelMilestone("electrical-first-period", n) !== null) fail("milestones", `level ${n} is not a milestone level but levelMilestone() returned one anyway`);
+}
+if (levelMilestone("not-a-real-programme", 5) !== null) fail("milestones", "an unknown programme should have no milestone");
+
+const sourcePathFor = (app, id) => join(WEBXR, app === "trades" ? "trades/js/rooms" : "smartcity/js/sims", `${id}.js`);
+let milestonesChecked = 0;
+for (const ladder of LADDERS) {
+  for (const n of LADDER_MILESTONE_LEVELS) {
+    const level = ladder.levels.find((l) => l.n === n);
+    const task = level?.tasks?.[0];
+    if (!task) continue; // a level with no tasks is caught elsewhere
+    const m = levelMilestone(ladder.programme, n);
+    if (!m) { fail("milestones", `${ladder.programme} level ${n} has a first task but no milestone quote`); continue; }
+    if (!eq(m.stationApp, task.app)) fail("milestones", `${ladder.programme} level ${n}: milestone station app does not match the level's own first task`);
+    if (!eq(m.stationId, task.id)) fail("milestones", `${ladder.programme} level ${n}: milestone station id does not match the level's own first task`);
+    // The one honesty rule that matters: the quote is a real, verbatim
+    // substring of that exact station's own first step's own `why` text —
+    // nothing paraphrased, nothing added, nothing invented.
+    let src;
+    try { src = readFileSync(sourcePathFor(task.app, task.id), "utf8"); } catch { fail("milestones", `${ladder.programme} level ${n}: cannot read ${task.app}/${task.id}'s own source`); continue; }
+    const real = firstStepWhy(src);
+    if (!real || !real.startsWith(m.quote.replace(/…$/, ""))) {
+      fail("milestones", `${ladder.programme} level ${n}: milestone quote is not a verbatim prefix of ${task.id}'s own first step's own why text`);
+    }
+    const numberInQuote = m.quote.match(/\S*\d\S*/)?.[0] ?? null;
+    if (numberInQuote && !(real ?? "").includes(numberInQuote)) {
+      fail("milestones", `${ladder.programme} level ${n}: a number in the quote does not trace back to the station's own text`);
+    }
+    milestonesChecked += 1;
+  }
+}
+if (failures === before9) ok(`${milestonesChecked} milestone quotes across ${LADDERS.length} ladders, every one a verbatim prefix of its own station's own first step`);
+
+const before9b = failures;
+const { text: milestonesText } = await buildLadderMilestonesData();
+const shippedMilestones = readFileSync(join(WEBXR, "shared/ladder-milestones-data.js"), "utf8");
+if (shippedMilestones !== milestonesText) fail("milestones", "shared/ladder-milestones-data.js is stale — run node tools/gen_ladder_milestones.mjs (or node tools/gen_catalog.mjs)");
+if (failures === before9b) ok("shared/ladder-milestones-data.js matches the ladders and the stations' own source exactly");
+
+const before9c = failures;
+const svgA = milestoneConfettiSvg("electrical-first-period", 5);
+const svgA2 = milestoneConfettiSvg("electrical-first-period", 5);
+const svgB = milestoneConfettiSvg("electrical-first-period", 10);
+const svgC = milestoneConfettiSvg("confined-space", 5);
+eq(svgA, svgA2) || fail("milestones", "milestoneConfettiSvg is not deterministic for the same programme and level");
+if (svgA === svgB) fail("milestones", "milestoneConfettiSvg drew the same burst for two different levels");
+if (svgA === svgC) fail("milestones", "milestoneConfettiSvg drew the same burst for two different programmes");
+if (!/^<svg class="milestone-confetti"/.test(svgA)) fail("milestones", "milestoneConfettiSvg does not open with the expected svg element");
+if ((svgA.match(/<rect /g) ?? []).length < 10) fail("milestones", "milestoneConfettiSvg drew too few pieces to read as confetti");
+if (failures === before9c) ok("milestoneConfettiSvg is deterministic per programme and level, and varies between them");
+
+const before9d = failures;
+if (!/import\s*\{[^}]*levelMilestone[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/ladder\.js";/.test(appSrc)) fail("milestones", "smartcity/js/app.js does not import levelMilestone from shared/ladder.js");
+if (!/import\s*\{[^}]*milestoneConfettiSvg[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/ladder\.js";/.test(appSrc)) fail("milestones", "smartcity/js/app.js does not import milestoneConfettiSvg from shared/ladder.js");
+if (!/levelMilestone\(run\.programme, run\.level\)/.test(appSrc)) fail("milestones", "smartcity/js/app.js never calls levelMilestone() with the run's own programme and level");
+if (!/milestoneConfettiSvg\(run\.programme, run\.level\)/.test(appSrc)) fail("milestones", "smartcity/js/app.js never calls milestoneConfettiSvg() with the run's own programme and level");
+const smartcityIndexSrc = readFileSync(join(WEBXR, "smartcity/index.html"), "utf8");
+for (const cls of [".milestone-banner", ".milestone-badge", ".milestone-quote", ".milestone-confetti", ".milestone-piece"]) {
+  if (!smartcityIndexSrc.includes(cls)) fail("milestones", `smartcity/index.html has no ${cls} style`);
+}
+if (!/@keyframes milestoneFall/.test(smartcityIndexSrc)) fail("milestones", "smartcity/index.html has no milestoneFall keyframe animation");
+if (!/prefers-reduced-motion:reduce\)\{ \.milestone-piece/.test(smartcityIndexSrc)) fail("milestones", "smartcity/index.html's milestone confetti animation has no reduced-motion override");
+if (failures === before9d) ok("smartcity/js/app.js shows the milestone toast and its confetti, styled with a reduced-motion override");
+
+console.log(failures ? `\n${failures} ladder check(s) failed.` : `\nAll ladder checks pass: ${allLevels.length} levels, ${partial.length} partial, ${milestonesChecked} milestone quotes.`);
 process.exit(failures ? 1 : 0);
