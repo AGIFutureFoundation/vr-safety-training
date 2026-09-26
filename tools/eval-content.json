@@ -5782,9 +5782,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.604494382022472,
-          "nearest": "hood-suppression",
-          "similarity": 0.21910112359550563
+          "score": 0.5857938718662954,
+          "nearest": "uw-intake-screen-cleaning-with-lockout",
+          "similarity": 0.22284122562674094
         }
       }
     },
@@ -6089,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -7142,6 +7142,58 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-intake-screen-cleaning-with-lockout",
+      "name": "Intake Screen Cleaning With Lockout",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 386,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9230769230769231,
+          "want": 13,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 58,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3005256241787124,
+          "nearest": "uw-pipeline-crossing-inspection-dive",
+          "similarity": 0.27989487516425754
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "uw-underwater-concrete-and-bag-placement",
       "name": "Underwater Concrete & Bag Placement",
       "category": "Maritime & Ports",
@@ -7186,9 +7238,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.3776315789473686,
-          "nearest": "uw-pipeline-crossing-inspection-dive",
-          "similarity": 0.2644736842105263
+          "score": 0.3369863013698632,
+          "nearest": "uw-intake-screen-cleaning-with-lockout",
+          "similarity": 0.2726027397260274
         }
       }
     },
@@ -9781,7 +9833,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 251,
+          "meshes": 265,
           "materials": 92,
           "interactables": 29
         },
