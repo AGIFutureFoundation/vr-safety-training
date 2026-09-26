@@ -17794,5 +17794,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-coach-feedback-and-growth-mindset",
+    "index": "347",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching feedback that builds a young athlete's game rather than their fear of the next mistake; the Association for Applied Sport Psychology's guidance on growth-mindset feedback — the specific behaviour, its impact, one actionable fix, and genuine credit for effort; NFHS basketball rules and its sportsmanship expectations for how a team treats a teammate's mistakes on film as much as on the court; the U.S. Center for SafeSport for private, observable correction rather than a mistake replayed for laughs in front of the team; CDC Heads Up for a knock to the head noticed while walking a correction through at game speed; the American Red Cross first aid course for a player who is unwell or dehydrated sitting through a long review session",
+    "name": "Coach Feedback and Growth Mindset",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Coach Feedback and Growth Mindset VR",
+    "tagline": "The same mistake on film either becomes one specific, fixable thing or a verdict on the player watching it — the difference is entirely in how the correction is given",
+    "accent": 5492928,
+    "accentCss": "#53d0c0",
+    "parSeconds": 335,
+    "badge": {
+      "id": "correction-not-collapse",
+      "name": "Correction, Not Collapse",
+      "note": "A hard mistake on film corrected specifically and taken by the player as something to fix, not as who they are"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Film Room Board",
+      "currency": "GROWTH POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Feedback Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

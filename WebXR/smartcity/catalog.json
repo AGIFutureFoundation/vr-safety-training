@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 417
+      "stations": 418
     },
     "trades": {
       "entry": "trades/index.html",
@@ -356,6 +356,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-coach-feedback-and-growth-mindset",
         "bb-teammate-conflict-and-accountability",
         "bb-composure-with-a-hostile-crowd-and-officials",
         "bb-scrimmage-and-sportsmanship-debrief",
@@ -3314,6 +3315,11 @@
           "app": "smartcity",
           "id": "bb-teammate-conflict-and-accountability",
           "why": "A shove over a loose ball does not end when the whistle blows it dead: separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again."
+        },
+        {
+          "app": "smartcity",
+          "id": "bb-coach-feedback-and-growth-mindset",
+          "why": "The same mistake on film becomes one specific, fixable thing or a verdict on the player watching it, and the difference is entirely in how the correction is given."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -7617,6 +7623,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-coach-feedback-and-growth-mindset",
+      "name": "Coach Feedback and Growth Mindset",
+      "title": "SmartCiti.X~ Coach Feedback and Growth Mindset VR",
+      "tagline": "The same mistake on film either becomes one specific, fixable thing or a verdict on the player watching it — the difference is entirely in how the correction is given",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on coaching feedback that builds a young athlete's game rather than their fear of the next mistake; the Association for Applied Sport Psychology's guidance on growth-mindset feedback — the specific behaviour, its impact, one actionable fix, and genuine credit for effort; NFHS basketball rules and its sportsmanship expectations for how a team treats a teammate's mistakes on film as much as on the court; the U.S. Center for SafeSport for private, observable correction rather than a mistake replayed for laughs in front of the team; CDC Heads Up for a knock to the head noticed while walking a correction through at game speed; the American Red Cross first aid course for a player who is unwell or dehydrated sitting through a long review session",
+      "accent": "#53d0c0",
+      "parSeconds": 335,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "hold",
+        "sequence",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "correction-not-collapse",
+        "name": "Correction, Not Collapse",
+        "note": "A hard mistake on film corrected specifically and taken by the player as something to fix, not as who they are"
+      },
+      "meshes": 195,
+      "lights": 0,
+      "overBudget": false,
+      "index": "347",
+      "flat": false,
+      "system": "Film Room Board",
+      "currency": "GROWTH POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Feedback Mentor"
+      ],
+      "awards": [
+        {
+          "id": "clear-room-first",
+          "name": "Clear Room First",
+          "note": "Every hazard in the film room found before the review starts"
+        },
+        {
+          "id": "no-collapse",
+          "name": "No Collapse",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "steady-review",
+          "name": "Steady Review",
+          "note": "Receptiveness and composure through the review both inside the band"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unshaken",
+          "name": "Unshaken",
+          "note": "Held the player's composure in band through the rest of the review"
+        },
+        {
+          "id": "quick-review",
+          "name": "Quick Review",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-coach-feedback-and-growth-mindset"
     },
     {
       "app": "smartcity",
@@ -27229,7 +27318,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27889,7 +27978,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "100",
