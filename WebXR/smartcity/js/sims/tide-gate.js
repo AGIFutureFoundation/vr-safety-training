@@ -8,6 +8,7 @@ import {
   standingFigure, surfaceTexture, texturedMat, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Tide Gate VR — Water & Environmental, station eighty.
 // Restoring tidal exchange to a diked former wetland: a crew replaces a
@@ -250,6 +251,7 @@ export const SIM_TIDE_GATE = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "tide-gate", [-3.0, 1.1, -2.0]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.7, TG_ACCENT);

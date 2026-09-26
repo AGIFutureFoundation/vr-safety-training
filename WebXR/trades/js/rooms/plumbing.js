@@ -4,6 +4,7 @@ import {
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, spillStation, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // Room 07 — Plumber / pipefitter: a DWV rough-in behind open studs, backflow
 // protection on the one fixture that actually needs it, a solvent-welded PVC
@@ -159,6 +160,7 @@ export const ROOM_PLUMBING = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "plumbing", [-3.4, 1.2, 3.0]); // Hard Hat Hunt — docs/easter-egg.md
     // The shell, the fittings and the shop furniture never move and are
     // never clicked, so they go in one group that is baked into a handful
     // of meshes at the end of the build. See mergeStatic in shared/kit.js.

@@ -4,6 +4,7 @@ import {
   shell, ceilingGrid, spreadLayout, mergeStatic, counter, particles, markInteractive, mat, clamp,
 } from "../../../shared/kit.js";
 import { bottleRack, noticeBoard, racking, shadowBoard, shopFan, sideBench, wallReel, wasteBin , bayCrew, breatheCrew } from "../shopfit.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // Room 05 — Welder / fabricator: hot work permit, fume control, arc-eye
 // protection and a shielded metal arc bead, ending with the fire watch that
@@ -156,6 +157,7 @@ export const ROOM_WELDING = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "welding", [3.4, 1.2, 3.4]); // Hard Hat Hunt — docs/easter-egg.md
     // The shell, the fittings and the shop furniture never move and are
     // never clicked, so they go in one group that is baked into a handful
     // of meshes at the end of the build. See mergeStatic in shared/kit.js.

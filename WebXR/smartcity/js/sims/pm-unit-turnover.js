@@ -7,6 +7,7 @@ import {
   surfaceTexture, texturedMat, pavingFace,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Unit Turnover VR — Building Systems & Facilities, property
 // management programme, zone three of twenty.
@@ -204,6 +205,7 @@ export const SIM_PM_UNIT_TURNOVER = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "pm-unit-turnover", [-2.0, 1.15, 3.0]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.4, PMUT_ACCENT);
