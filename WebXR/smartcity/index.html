@@ -80,6 +80,15 @@
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
     margin-top:3px; transition:color .15s, transform .15s; }
 
+  /* Random events (shared/events.js): the last few ambient beats this run's
+     own seed has staged. Centred above the feedback rail, clear of the
+     corner chips (mission/metrics/dive/court) and the drive HUD either side. */
+  #hud-events{ bottom:150px; left:50%; transform:translateX(-50%); max-width:min(92vw,420px); text-align:center; border-bottom:3px solid #8fa0c9; }
+  #hud-events .eyebrow{ text-align:center; }
+  #hud-events-list{ list-style:none; margin:2px 0 0; padding:0; font-size:12px; line-height:1.35; color:var(--text); }
+  #hud-events-list li{ padding:1px 0; opacity:.85; }
+  #hud-events-list li:last-child{ opacity:1; font-weight:600; }
+
   /* Drive HUD: a 'drive' step's speed against its band, the lane bar, the
      route progress and the next check; the check buttons along the bottom
      edge, and on a touch screen the pedals and the wheel. */

@@ -19,9 +19,10 @@ import { createBroadcaster } from "../../shared/observer.js";
 import { createFlowRunner, outcomeFromRecord, acknowledgedOutcome, parseFlowLink, nodeLabel } from "../../shared/flowhub.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
-import { buildStage } from "./stage.js";
+import { buildStage, timeOfDay } from "./stage.js";
 import { DISTRICTS } from "./districts.js";
 import { CITY, stationPad, standingFigure } from "./citykit.js";
+import { pickup, sedan, cargoVan, boxTruck } from "../../shared/fleet.js";
 import { buildHub } from "./hub.js";
 import { buildGallery, GALLERY_KINDS } from "./gallery.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -34,7 +35,9 @@ import {
 } from "../../shared/ladder.js";
 import { makeVariant } from "../../shared/variants.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
-import { WEATHER_KINDS } from "../../shared/weather.js";
+import { WEATHER_KINDS, buildWeather } from "../../shared/weather.js";
+import { eventsFromQuery, eventsEnabled, varyInterruptTiming, createEventScheduler } from "../../shared/events.js";
+import { splitByRole } from "../../shared/crew.js";
 import { detectDevice, applyProfile, weatherUnder, themeScene, describeDevice, DEVICES, PROFILES } from "../../shared/devices.js";
 import { eiLine, CHECKIN_OPTIONS, checkInPrompt, recordCheckIn } from "../../shared/ei-guide.js";
 import {
@@ -249,6 +252,9 @@ const store = createStore({
     scorePops: [],
     dive: null,
     court: null,
+    // Random events (shared/events.js): what the run's own seed has staged so
+    // far this attempt — the debrief and the events HUD chip both read this.
+    events: [],
   },
   gestureTip: { html: "", show: false },
   // The drive HUD (a 'drive' step): speed and band, lane offset, next check.
@@ -437,6 +443,7 @@ const state = {
   paused: true,
   placed: false,          // AR: has the learner tapped a surface yet
   stage: null,
+  eventsScheduler: null,  // the live run's ambient-event scheduler (shared/events.js), or null when events are off
   tour: null,             // { i } while walking the built-in curriculum in order
   level: null,            // a ladder level run (shared/ladder.js) while a level chain is being played
 };
@@ -544,6 +551,12 @@ function clearRoom() {
   hint.visible = false;
   gauge.visible = false;
   store.patch("flat", { visible: false });
+  // Random events: whatever this run's ambient scheduler had left to fire
+  // dies with the station — an in-flight vehicle or a still-walking crew
+  // figure belonged to the stage just disposed above, so nothing left ticking
+  // in ambientAnimators can safely touch it any more.
+  state.eventsScheduler = null;
+  ambientAnimators.length = 0;
 }
 
 function collectSelectables() {
@@ -715,6 +728,19 @@ async function enterSim(id, { briefed = false } = {}) {
     const v = makeVariant(room, { seed: urlQuery.get("seed") ?? room.id, level: variantLevel });
     if (v) room = { ...v, id: room.id, variantId: v.id };
   }
+  // Random events (shared/events.js, docs/events.md): on by default past
+  // level 10 of a ladder and for an assessment variant, off in the base run,
+  // and always off when the instructor is already driving this run's own
+  // interruption — a live CMD_INTERRUPT, or a ladder task's own ?interrupt=
+  // condition. `?events=` always overrides, except that instructor case.
+  const eventsSeed = urlQuery.get("seed") ?? room.id;
+  const runEventsOn = eventsEnabled({
+    explicit: eventsFromQuery(location.search),
+    ladderLevel: state.level?.level ?? null,
+    isVariant: !!room.isVariant,
+    instructorArmed: !!state.urlInterrupt,
+  });
+  if (runEventsOn && room.steps?.length) room = varyInterruptTiming(room, { seed: eventsSeed });
   const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
   if (flat && state.mode !== "flat") {
     // A dossier card cannot be shown inside an immersive session; say so
@@ -907,6 +933,20 @@ async function enterSim(id, { briefed = false } = {}) {
     },
   });
   state.session.start();
+  // Random events: the ambient half (see the interrupt-timing half above).
+  // Built fresh for every station, always — when events are off this just
+  // holds an empty timeline, so tickAmbientAnimators/performAmbientEvent
+  // never have anything to do.
+  store.patch("hud", { events: [] });
+  state.eventsScheduler = createEventScheduler(room, {
+    seed: eventsSeed,
+    enabled: runEventsOn,
+    parSeconds: room.parSeconds,
+    weatherKinds: room.indoor ? [] : WEATHER_KINDS,
+    night: timeOfDay() === "night",
+    hasRoad: ambientHasRoad(room),
+    radioLine: radioLineFor(room),
+  });
   armQueuedLevelInterrupts(room.id);
   if (robot.active) startRobot(room);
   if (!flat) faceFirstTask();
@@ -944,6 +984,134 @@ function updateHintForStep(step) {
 function flashDanger() {
   document.body.classList.add("danger-flash");
   setTimeout(() => document.body.classList.remove("danger-flash"), 420);
+}
+
+// -------------------------------------------------------------- random events
+//
+// shared/events.js decides WHEN a beat fires and WHICH one; everything here
+// is the other half — turning a fired beat into something the learner can
+// actually see or hear. Every renderer below is deliberately small and
+// disposable: it lives in ambientAnimators only until its own step() says
+// it is done, then removes exactly what it added and nothing else. None of
+// this ever touches state.session, state.hits or the station's own scoring —
+// see shared/events.js's rule 1.
+
+const ambientAnimators = []; // { t, step(elapsed, dt) -> done, cleanup() }
+
+/** Where an ambient prop or light is parented — the stage's own root when the
+ *  station has one (so it is disposed with the stage on the way out), the
+ *  shared world group otherwise. */
+function ambientParent() {
+  return state.stage?.root ?? worldRoot;
+}
+
+function tickAmbientAnimators(dt) {
+  for (let i = ambientAnimators.length - 1; i >= 0; i--) {
+    const a = ambientAnimators[i];
+    a.t += dt;
+    let done = false;
+    try { done = !!a.step(a.t, dt); } catch (_) { done = true; }
+    if (done) { ambientAnimators.splice(i, 1); try { a.cleanup?.(); } catch (_) { /* ignore */ } }
+  }
+}
+
+function shiftAmbientWeather(kind) {
+  if (!kind || !WEATHER_KINDS.includes(kind) || !state.stage) return;
+  const parent = ambientParent();
+  const prev = state.stage.weather;
+  try {
+    const next = buildWeather(parent, scene, kind, {});
+    state.stage.weather = next;
+    if (prev?.root) disposeTree(prev.root);
+  } catch (_) { /* a stage that cannot rebuild its weather just keeps its own */ }
+}
+
+const AMBIENT_VEHICLE_BUILDERS = { pickup, sedan, cargoVan, boxTruck };
+
+/** A kit vehicle crosses well behind the station pad and is gone — never on
+ *  the pad itself, so it can never be mistaken for a registered interactable. */
+function spawnAmbientVehicle(kind) {
+  const build = AMBIENT_VEHICLE_BUILDERS[kind] ?? pickup;
+  const parent = ambientParent();
+  let rig = null;
+  try { rig = build(parent, -13, 0, 9.6, {}); } catch (_) { return; }
+  if (!rig) return;
+  rig.rotation.y = Math.PI / 2;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { rig.position.x = -13 + 26 * Math.min(1, elapsed / 4.5); return elapsed >= 4.5; },
+    cleanup() { try { parent.remove(rig); disposeTree(rig); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A crew figure walks across the background, then turns to watch for a
+ *  moment before the beat ends and it is removed. */
+function spawnAmbientCrew() {
+  const parent = ambientParent();
+  let figure = null;
+  try { figure = standingFigure(parent, -6.5, 8.6, { ry: Math.PI / 2, vest: 0xf2c14b, cloth: 0x2b3138 }); } catch (_) { return; }
+  if (!figure) return;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) {
+      if (elapsed < 2.6) figure.position.x = -6.5 + 5.5 * (elapsed / 2.6);
+      else figure.rotation.y = Math.PI * 1.5; // turns to watch the station
+      return elapsed >= 5.4;
+    },
+    cleanup() { try { parent.remove(figure); disposeTree(figure); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A short-lived point light near the pad, flickering — never one of the
+ *  station's own registered lights, so nothing about the procedure changes. */
+function spawnAmbientMastFlicker() {
+  const parent = ambientParent();
+  let light = null;
+  try { light = new THREE.PointLight(0xfff3d0, 0, 14); light.position.set(0, 4.4, -6); parent.add(light); }
+  catch (_) { return; }
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { light.intensity = elapsed < 1.2 ? (Math.sin(elapsed * 42) > 0 ? 2.2 : 0.1) : 0; return elapsed >= 1.3; },
+    cleanup() { try { parent.remove(light); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** Turn one fired ambient event (shared/events.js) into scene/sound and log
+ *  it on the events HUD chip. Called from the frame loop; never called for a
+ *  station's own declared interruption, which has its own alarm path. */
+function performAmbientEvent(entry) {
+  store.patch("hud", (prev) => ({ events: [...(prev.events ?? []), entry.text].slice(-4) }));
+  switch (entry.kind) {
+    case "weather-shift": shiftAmbientWeather(entry.payload?.weatherKind); break;
+    case "vehicle-pass": spawnAmbientVehicle(entry.payload?.vehicleKind); break;
+    case "crew-walkthrough": spawnAmbientCrew(); break;
+    case "mast-light": spawnAmbientMastFlicker(); break;
+    case "dropped-tool": Sfx.bad(); break;
+    case "radio-call": announce(entry.text); break;
+    default: break;
+  }
+}
+
+/** Whether this station's district has traffic to pass — every outdoor pad
+ *  has a laydown/access road behind it except the two special-cased grounds
+ *  that plainly do not: the bay floor and the gym court. */
+function ambientHasRoad(room) {
+  const d = room.district ?? room.category ?? null;
+  return !room.indoor && d !== "bay-underwater" && d !== "gym-court";
+}
+
+/** A short, real line the station could plausibly say over the radio — its
+ *  own supportLine, or (failing that) the duty the station's own crew split
+ *  (shared/crew.js) hands the counterpart role. Never invented: a station
+ *  with neither gets no radio-call event (see events.js's eligible()). */
+function radioLineFor(room) {
+  const support = room.supportLine ?? SIMS_META_BY_ID[room.baseId ?? room.id]?.supportLine;
+  if (support) return support;
+  try {
+    const split = splitByRole(room);
+    if (split.split) return split.roles[1]?.post ?? split.roles[0]?.post ?? null;
+  } catch (_) { /* a station this cannot read gets no radio-call event */ }
+  return null;
 }
 
 // ------------------------------------------------------------------- results
@@ -987,9 +1155,14 @@ function renderDebrief(s) {
   }).join("") : "";
   const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
     <ol class="db-list">${ivRows}</ol>` : "";
+  // Random events (shared/events.js): named here too, so a run that felt
+  // different is not left unexplained — none of it scored, all of it real.
+  const ev = state.eventsScheduler?.log ?? [];
+  const evBlock = ev.length ? `<p class="res-note"><b>This run's events:</b></p>
+    <ul class="db-list">${ev.map((e) => `<li class="db-row"><span class="db-n">·</span><span class="db-title">${escapeHtml(e.text)}</span></li>`).join("")}</ul>` : "";
   return `<details class="debrief" open>
     <summary>Step-by-step debrief — ${head}</summary>
-    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}${evBlock}
   </details>`;
 }
 
@@ -1056,6 +1229,10 @@ function showResults(s, summary) {
     instructorActions: [...instructorActions],
     hazardMode: (inLevel && !state.level.coaching) || state.hazardPinned ? "assess" : hazardMode,
     condition: state.condition ?? "base",
+    // Random events (shared/events.js): what this run's own seed staged, in
+    // order — never a step, never a hazard, just what the scene did while the
+    // learner worked. Empty whenever events were off for this attempt.
+    events: state.eventsScheduler?.log ?? [],
     ...(room.variant ? { variant: { level: room.variant.level, seed: room.variant.seed, differs: room.variant.differs } } : {}),
     ...(inLevel ? { ladder: levelTag(state.level, levelTask.index) } : {}),
   });
@@ -1507,6 +1684,10 @@ observer.onCommand((cmd) => {
     // layer in shared/game.js). Nothing here shortcuts that path.
     it.armedAt = s.elapsed;
     if (observerFrozen) { observerFrozen = false; state.paused = false; }
+    // From here on the instructor is staging this run's interruptions
+    // themselves — a randomly-timed ambient beat must not land on top of one
+    // they just armed. Whatever already fired stays; nothing more will.
+    state.eventsScheduler?.disable();
     logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the station fires it" });
     return;
   }
@@ -4350,6 +4531,13 @@ window.__smartcityTest = {
   press: (id) => pressStart(id),
   release: () => pressEnd(),
   session: () => state.session,
+  // Random events (shared/events.js): the live run's scheduler, for a live
+  // test to read its timeline/log without waiting out the whole run, and to
+  // render one of the timeline's own (seeded) entries on demand — the same
+  // performAmbientEvent() path the scheduler's own tick() calls — for a
+  // verification screenshot that cannot wait out a real run's clock.
+  events: () => state.eventsScheduler ? { enabled: state.eventsScheduler.enabled, timeline: state.eventsScheduler.timeline, log: state.eventsScheduler.log } : null,
+  fireAmbientForTest: (entry) => performAmbientEvent(entry),
   // Scene and camera for live verification scripts (screenshots of the
   // stage districts, headset-budget spot checks); read-only by convention.
   scene: () => scene,
@@ -4441,7 +4629,13 @@ renderer.setAnimationLoop((_, frame) => {
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track" || state.session.step?.kind === "drive") syncHud();
       // The bottom-time chip counts in whole seconds; refresh it once a second.
       else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
+      // Random events: the ambient scheduler's own clock is the session's —
+      // it never fires once the session is finished or mid-interrupt (see
+      // shared/events.js's tick()), so this can run unconditionally here.
+      const firedAmbient = state.eventsScheduler?.tick(state.session);
+      if (firedAmbient) performAmbientEvent(firedAmbient);
     }
+    tickAmbientAnimators(dt);
   }
 
   // Third-person camera: after driveCamera() (above) has this frame's yaw and

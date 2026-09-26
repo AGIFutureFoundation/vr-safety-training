@@ -101,6 +101,12 @@ APPS = {
             SHARED / "flowhub.js",
             SHARED / "ladder.js",
             SHARED / "variants.js",
+            # Random events (docs/events.md): the seeded ambient scheduler and
+            # the interrupt-timing jitter every station gets for free.
+            SHARED / "events.js",
+            # Crew roles (splitByRole): read here only for a radio-call event's
+            # line — never invented, only lifted from a station that models one.
+            SHARED / "crew.js",
             SHARED / "robot.js",
             SHARED / "robot-embodiment.js",
             SHARED / "perf.js",
