@@ -7659,13 +7659,15 @@
       "weather": "clear",
       "indoor": "service",
       "district": null,
-      "steps": 10,
+      "steps": 13,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
         "select",
         "sequence",
         "find",
+        "drag",
+        "turn",
         "hold",
         "gauge",
         "track"
@@ -7675,7 +7677,7 @@
         "name": "Purged and Proven",
         "note": "A medical gas zone brazed under a continuous purge and cross-tested outlet by outlet before sign-off"
       },
-      "meshes": 146,
+      "meshes": 164,
       "lights": 0,
       "overBudget": false,
       "index": "pl-01",
@@ -27667,7 +27669,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
