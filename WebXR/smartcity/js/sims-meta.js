@@ -17920,5 +17920,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-dribble-moves-and-change-of-pace",
+    "index": "350",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on live, defender-read ball-handling built on top of a player's basic dribble rather than skipped straight to game speed; NFHS basketball rules on legal dribbling and carrying, and its sportsmanship expectations for live moves run near a teammate; CDC Heads Up for a knock to the head taken in a collision between two live-move lines; the U.S. Center for SafeSport for calm, observable correction of a move that breaks down rather than a fault called out in front of the group; the American Red Cross first aid course for a rolled ankle on a hard change of pace",
+    "name": "Dribble Moves and Change of Pace",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Dribble Moves and Change of Pace VR",
+    "tagline": "A crossover only beats a defender because of what happens around it — a believable slow stretch that makes the sudden burst actually sudden, run low and under control the whole way through",
+    "accent": 14191359,
+    "accentCss": "#d88aff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sell-it-then-burst",
+      "name": "Sell It, Then Burst",
+      "note": "A change of pace sharp enough to create separation, run low and under control from the hesitation to the burst"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Change-of-Pace Board",
+      "currency": "SEPARATION POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Handles Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
