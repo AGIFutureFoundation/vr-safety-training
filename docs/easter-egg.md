@@ -484,6 +484,59 @@ the EI guide's opening line for that station quietly adds a rest reminder —
 nothing about the station, its steps or its scoring changes; the run plays
 exactly the same either way.
 
+## Field notes: six more, tied to your own record
+
+<details><summary>Spoiler — what each field note is and how to earn it</summary>
+
+A small **🗒 Field notes** button sits in the corner of every SmartCiti.X
+screen. Click it and it lists six training habits, each locked behind a hint
+until you actually do the thing, unlocked with a lesson once you have. Unlike
+the six eggs above, these six watch `shared/records.js`'s own
+`TrainingRecords` — the real, auditable attempt log — and the live session's
+own read-only interrupt log, **read only**. Nothing here ever writes to a
+record, changes a step, or touches a score; see `shared/eggs-app.js`'s own
+header for exactly what each one reads.
+
+| Field note | Earned by | What it teaches |
+|---|---|---|
+| **Clean Sweep** | A station's latest run: no unsafe action, top marks. | A hazard-free, top-mark run is what a real site's OSHA 300A summary is posted to show: a clean day gets logged, not just remembered. |
+| **Radio Check** | Answering an interruption inside its own step, live. | A fire watch or a confined-space attendant has to notice a check-in without ever putting the job down — answering one in the step, not after it, is that same habit. |
+| **No Reset Needed** | A programme's level-20 capstone passed, with no level of its ladder ever repeated (`shared/ladder.js`'s `levelTag()` — see below). | A registered apprenticeship credits a stage once, not once per attempt — climbing every rung without a repeat is what that progression schedule assumes of you. |
+| **Hot Streak** | The last three attempts anywhere, all passed. | A crew's own safety board tracks consecutive incident-free shifts for the same reason: a streak is what a real habit looks like from the outside. |
+| **First Pass** | A run finished with no correction of any kind — hazard or otherwise. | A work order tracks "first-pass" or "right first time" quality for a plain reason: redone work costs the crew twice — getting it right first is the cheaper habit. |
+| **Cross-Trained** | A passed attempt in several distinct categories. | Registered apprenticeships pair on-the-job hours with related instruction across more than one skill area — working stations from several categories is what that instruction is for. |
+
+**No Reset Needed, honestly:** one trip through a level shares one `run` id
+across every task in it (`shared/ladder.js`'s `levelTag()`); retrying a level
+starts a new `run` id under the same level number. The rule reads that
+straight off the record: for every level 1-20 of the programme, at most one
+`run` id ever appears, and level 20 has a passed attempt.
+
+Each unlock shows a HUD badge (the field-notes panel itself, plus a one-time
+toast naming the lesson) and — through the app's own call to
+`shared/eggs.js`'s `recordLedgerFind()` — a row in the [egg
+ledger](#egg-ledger) below, filed under the programme (its own `category`)
+that earned it.
+
+</details>
+
+## Egg ledger
+
+<details><summary>Spoiler — where the ledger lives and what it shows</summary>
+
+The homepage's hard-hat counter has company: once this browser has earned at
+least one field note, an **Egg ledger** button appears in the footer next to
+it. Opening it lists every field note found so far, grouped by the programme
+that earned it, with the lesson it taught — the same six lessons the
+in-app panel shows, read back from one small localStorage key,
+`vr-training-egg-ledger-v1` (`shared/eggs.js`'s `ledgerByProgramme()`). The
+dialog says plainly that it is a running list of what this browser has
+noticed, not a training record: nothing it shows is written back into
+`TrainingRecords`, and finding the same field note again in a programme
+that already has it changes nothing.
+
+</details>
+
 ## Checks
 
 `node tools/check_eggs_app.mjs` (part of `tools/check_all.mjs`) proves:
@@ -499,3 +552,16 @@ crane hook only opens the claw on its third real hit (a miss lets the
 station's own click through), Night Shift only ever changes anything inside
 its four-hour window, the Holodeck cabinet opens its game the same way, and
 the printed bingo card escapes untrusted text.
+
+It also proves the six field notes: each `fieldNote*` predicate is checked
+directly against hand-built `TrainingRecords` fixtures (a hazard-free top-mark
+run, a run with a correction, three passes and a miss, several categories,
+and a ladder played clean against one played with a retried level), so the
+rule is proven without a browser; `shared/eggs-app.js`'s `FIELD_NOTES` list
+matches `shared/eggs.js`'s `IN_APP_EGGS` id for id, name for name, lesson for
+lesson; and the Field Notes button, panel and toast appear and update against
+the same DOM stub once a fixture's condition is met, without ever writing to
+`TrainingRecords`. `node tools/check_eggs.mjs` proves the ledger itself:
+`recordLedgerFind()` is idempotent per `(id, programme)` pair but adds a new
+row for a new programme, `ledgerByProgramme()` groups and sorts it, and the
+homepage carries the Egg ledger button, dialog and the ledger's storage key.

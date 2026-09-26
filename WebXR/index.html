@@ -185,6 +185,13 @@
     background:var(--panel-2); border:1px solid var(--warn); border-radius:var(--r-sm); padding:10px 16px;
     font-size:14px; color:var(--text); box-shadow:var(--shadow-2)}
   .hardhat-count{display:inline-block; margin:6px 0 0 10px; font-size:12px; color:var(--dim); vertical-align:middle; font-variant-numeric:tabular-nums}
+  .egg-ledger-btn{display:inline-block; margin:6px 0 0 10px; padding:2px 10px; font:600 12px/1.6 inherit; color:var(--dim);
+    background:transparent; border:1px solid currentColor; border-radius:999px; cursor:pointer; vertical-align:middle}
+  .egg-ledger-btn:hover, .egg-ledger-btn:focus-visible{color:var(--text); border-color:var(--text)}
+  #egg-ledger-body h3{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.03em; font-size:14px; margin:14px 0 4px}
+  #egg-ledger-body h3:first-child{margin-top:0}
+  #egg-ledger-body ul{margin:0 0 4px; padding-left:18px; font-size:13px; color:var(--muted)}
+  #egg-ledger-body li{margin:0 0 4px}
 
   /* ---- Foreman's Radio (Easter egg) ---- */
   .radio-card{
@@ -4024,10 +4031,23 @@
     <a href="https://github.com/AGIFutureFoundation/vr-safety-training">the repository</a>. SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
     <button class="egg" id="egg" type="button" data-egg="race/index.html" aria-label="Hard hat" title="Hard hat"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 32 C9 20 16 12 24 12 C32 12 39 20 39 32 Z" fill="#f2c14b"/><rect x="5" y="31" width="38" height="5" rx="2" fill="#c99a2e"/><rect x="21" y="12" width="6" height="19" rx="2" fill="#ffd97a"/></svg></button>
     <span class="hardhat-count" id="hardhat-count" hidden></span>
+    <button type="button" class="egg-ledger-btn" id="egg-ledger-btn" hidden></button>
   </div>
 </footer>
 <div class="egg-toast" id="egg-toast" role="status" hidden>Night Highway Circuit — the hidden arcade racer, local multiplayer. Opening…</div>
 <div id="radio-mount"></div>
+
+<dialog id="egg-ledger-dialog" aria-labelledby="egg-ledger-title">
+  <div class="dlg">
+    <p class="eyebrow">Found so far, in this browser</p>
+    <h2 id="egg-ledger-title">Easter egg ledger</h2>
+    <p>Every training-behaviour field note this browser has actually earned inside SmartCiti.X, grouped by the
+    programme that earned it, with the lesson it taught. Kept only in this browser's <code>vr-training-egg-ledger-v1</code>
+    — this is a running list of what you have noticed, not a training record.</p>
+    <div id="egg-ledger-body"></div>
+    <div class="dlg-row"><button class="btn" id="egg-ledger-close" type="button">Close</button></div>
+  </div>
+</dialog>
 
 <dialog id="signin-dialog" aria-labelledby="dlg-title">
   <div class="dlg">
@@ -4198,6 +4218,49 @@
     const el = document.getElementById("hardhat-count");
     el.textContent = "hard hats found: " + found + "/" + HARDHAT_TOTAL;
     el.hidden = false;
+  })();
+
+  // Egg ledger: what the six SmartCiti.X training-behaviour field notes
+  // (shared/eggs-app.js, docs/easter-egg.md "Field notes") have taught this
+  // browser so far, grouped by the programme that earned each one
+  // (shared/eggs.js's ledgerByProgramme(), reading its own
+  // vr-training-egg-ledger-v1 key). Read once on load, like the hard-hat
+  // counter — the finds themselves always happen on a different page.
+  (function eggLedgerPanel() {
+    const LEDGER_KEY = "vr-training-egg-ledger-v1";
+    let rows = [];
+    try { const raw = JSON.parse(localStorage.getItem(LEDGER_KEY) || "[]"); rows = Array.isArray(raw) ? raw : []; } catch (_) { /* ignore */ }
+    if (!rows.length) return; // nothing earned yet — keep the footer quiet
+    const btn = document.getElementById("egg-ledger-btn");
+    btn.textContent = "egg ledger: " + rows.length + " found";
+    btn.hidden = false;
+    const dlg = document.getElementById("egg-ledger-dialog");
+    const body = document.getElementById("egg-ledger-body");
+    btn.addEventListener("click", () => {
+      body.textContent = "";
+      const byProgramme = new Map();
+      for (const r of rows) {
+        const key = String((r && r.programme) || "General");
+        if (!byProgramme.has(key)) byProgramme.set(key, []);
+        byProgramme.get(key).push(r);
+      }
+      const programmes = [...byProgramme.keys()].sort((a, b) => a.localeCompare(b));
+      for (const programme of programmes) {
+        const h3 = document.createElement("h3");
+        h3.textContent = programme;
+        body.append(h3);
+        const ul = document.createElement("ul");
+        const entries = byProgramme.get(programme).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
+        for (const e of entries) {
+          const li = document.createElement("li");
+          li.textContent = (e.name || e.id) + " — " + e.lesson;
+          ul.append(li);
+        }
+        body.append(ul);
+      }
+      if (typeof dlg.showModal === "function") dlg.showModal();
+    });
+    document.getElementById("egg-ledger-close").addEventListener("click", () => dlg.close());
   })();
 
   // Foreman's Radio: typing "radio" (letters only, same rule as the racer's

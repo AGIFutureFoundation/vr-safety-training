@@ -14384,6 +14384,124 @@ function plantHardHat(root, THREE, id, pos = [0, 0, 0]) {
   return g;
 }
 
+// ==========================================================================
+// The egg ledger — what the six training-behaviour eggs in shared/eggs-app.js
+// (docs/easter-egg.md, "Field notes") have taught this browser, grouped by
+// the programme (a record's own `category`) that earned each one.
+//
+// eggs-app.js takes no imports of its own, so it never calls this module
+// directly: a training app's own main script imports recordLedgerFind() and
+// hands it to mountSmartCityEggs() as `ctx.onEggFound`, the same way every
+// other cross-module fact (THREE, the union lookup, TrainingRecords) reaches
+// that file. eggs-app.js's own FIELD_NOTES list carries the same six ids,
+// names and lessons as IN_APP_EGGS below by hand — tools/check_eggs.mjs
+// checks the two never drift apart — because a module with no imports of its
+// own cannot read this list directly.
+// ==========================================================================
+
+const LEDGER_KEY = "vr-training-egg-ledger-v1";
+
+/**
+ * The six training-behaviour eggs: id, display name and the one lesson each
+ * teaches, phrased against a real label, permit or plan rather than an
+ * invented number. shared/eggs-app.js's FIELD_NOTES list is generated from
+ * this one (see its own header) so the two can never drift.
+ */
+const IN_APP_EGGS = [
+  {
+    id: "clean-sweep",
+    name: "Clean Sweep",
+    hint: "An empty bracket sits under this station's sign — a hazard sweep that comes back with nothing to flag gets a plate mounted there.",
+    lesson: "A hazard-free, top-mark run is what a real site's OSHA 300A summary is posted to show: a clean day gets logged, not just remembered.",
+  },
+  {
+    id: "radio-check",
+    name: "Radio Check",
+    hint: "A handheld radio sits clipped to the rail here, its light dark — answer the next call-in fast enough and it lights up.",
+    lesson: "A fire watch or a confined-space attendant has to notice a check-in without ever putting the job down — answering one in the step, not after it, is that same habit.",
+  },
+  {
+    id: "no-reset",
+    name: "No Reset Needed",
+    hint: "An empty flagpole stands by this programme's kiosk — climb every rung of its ladder clean, with no level ever repeated, and a pennant goes up.",
+    lesson: "A registered apprenticeship credits a stage once, not once per attempt — climbing every rung without a repeat is what that progression schedule assumes of you.",
+  },
+  {
+    id: "hot-streak",
+    name: "Hot Streak",
+    hint: "Three passing runs back to back, anywhere on the campus, chalk a tally mark nobody erases.",
+    lesson: "A crew's own safety board tracks consecutive incident-free shifts for the same reason: a streak is what a real habit looks like from the outside.",
+  },
+  {
+    id: "first-pass",
+    name: "First Pass",
+    hint: "Finish a run with no correction of any kind and the ledger notices — most stations ask for it eventually.",
+    lesson: "A work order tracks 'first-pass' or 'right first time' quality for a plain reason: redone work costs the crew twice — getting it right first is the cheaper habit.",
+  },
+  {
+    id: "cross-trained",
+    name: "Cross-Trained",
+    hint: "Pass stations in enough different categories and this campus starts calling you cross-trained.",
+    lesson: "Registered apprenticeships pair on-the-job hours with related instruction across more than one skill area — working stations from several categories, the way you just did, is what that instruction is for.",
+  },
+];
+
+function ledgerStorage(storage) { return eggStorage(storage); }
+
+function loadLedger(storage) {
+  try {
+    const raw = JSON.parse(ledgerStorage(storage)?.getItem(LEDGER_KEY) || "[]");
+    return Array.isArray(raw) ? raw.filter((r) => r && typeof r.id === "string" && typeof r.programme === "string") : [];
+  } catch (_) { return []; }
+}
+
+function saveLedger(list, storage) {
+  try { ledgerStorage(storage)?.setItem(LEDGER_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+}
+
+/** Every ledger row found so far, oldest first. */
+function ledgerFound(storage) { return loadLedger(storage); }
+
+/**
+ * Record one egg's find for one programme. Idempotent per (id, programme)
+ * pair — the same egg found again in a programme it already taught changes
+ * nothing, but the same egg earned in a NEW programme adds its own row,
+ * which is what makes the homepage's tally read "per programme". An id not
+ * in IN_APP_EGGS is ignored rather than silently invented.
+ */
+function recordLedgerFind(id, programme, storage) {
+  const def = IN_APP_EGGS.find((e) => e.id === id);
+  const prog = String(programme || "").trim() || "General";
+  if (!def) return { found: loadLedger(storage).length, added: false };
+  const list = loadLedger(storage);
+  const already = list.some((r) => r.id === id && r.programme === prog);
+  if (!already) {
+    list.push({ id, programme: prog, name: def.name, lesson: def.lesson, at: new Date().toISOString() });
+    saveLedger(list, storage);
+  }
+  return { found: list.length, added: !already };
+}
+
+/**
+ * The ledger grouped by programme for the homepage: an array of
+ * `{ programme, entries }`, programmes and each programme's entries both
+ * sorted by name so the display order never depends on find order.
+ */
+function ledgerByProgramme(storage) {
+  const list = loadLedger(storage);
+  const by = new Map();
+  for (const r of list) {
+    if (!by.has(r.programme)) by.set(r.programme, []);
+    by.get(r.programme).push(r);
+  }
+  return [...by.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([programme, entries]) => ({ programme, entries: entries.slice().sort((a, b) => a.name.localeCompare(b.name)) }));
+}
+
+/** Clear every ledger row. Used by the checker; not exposed in any app UI. */
+function clearLedger(storage) { try { ledgerStorage(storage)?.removeItem(LEDGER_KEY); } catch (_) { /* ignore */ } }
+
 
 /* ===== trades/js/shopfit.js ===== */
 // What is in a bay besides the job.

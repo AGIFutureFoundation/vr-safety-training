@@ -116,9 +116,21 @@ await check("this checker is registered in check_all.mjs", () => {
 await check("docs/easter-egg.md documents all six eggs under \"Inside the apps\"", () => {
   const docs = read("docs/easter-egg.md");
   assert(/## Inside the apps/.test(docs), 'docs/easter-egg.md has no "Inside the apps" section');
-  const section = docs.slice(docs.indexOf("## Inside the apps"));
+  const insideAt = docs.indexOf("## Inside the apps");
+  const section = docs.slice(insideAt, docs.indexOf("## Field notes", insideAt));
   for (const word of ["Photo Mode", "Golden Wrench", "Crane Claw", "Scaffold Climber", "Toolbox Talk Bingo", "Night Shift"]) {
     assert(section.includes(word), `docs/easter-egg.md's "Inside the apps" section never mentions ${word}`);
+  }
+});
+
+await check("docs/easter-egg.md documents all six field notes and the egg ledger", () => {
+  const docs = read("docs/easter-egg.md");
+  assert(/## Field notes/.test(docs), 'docs/easter-egg.md has no "Field notes" section');
+  assert(/## Egg ledger/.test(docs), 'docs/easter-egg.md has no "Egg ledger" section');
+  const fieldNotesAt = docs.indexOf("## Field notes");
+  const section = docs.slice(fieldNotesAt, docs.indexOf("## Checks", fieldNotesAt));
+  for (const name of ["Clean Sweep", "Radio Check", "No Reset Needed", "Hot Streak", "First Pass", "Cross-Trained"]) {
+    assert(section.includes(name), `docs/easter-egg.md's field-notes section never mentions ${name}`);
   }
 });
 
@@ -164,6 +176,74 @@ await check("a bingo card is a 5x5 with one FREE centre and 24 non-empty cells",
   assert(_internal.EGG_HAZARD_PADDING.length >= 24, "the generic padding list is too short for a full card on a quiet day");
 });
 
+// -------------------------------------------------- 2b. the six field notes
+
+await check("FIELD_NOTES matches shared/eggs.js's IN_APP_EGGS id for id, name for name, lesson for lesson", async () => {
+  const { IN_APP_EGGS } = await import(pathToFileURL(join(WEBXR, "shared", "eggs.js")).href);
+  eq(_internal.FIELD_NOTES.length, IN_APP_EGGS.length, "field-note count");
+  for (const note of _internal.FIELD_NOTES) {
+    const match = IN_APP_EGGS.find((e) => e.id === note.id);
+    assert(match, `eggs-app.js's FIELD_NOTES has an id (${note.id}) that shared/eggs.js's IN_APP_EGGS does not`);
+    eq(note.name, match.name, `${note.id} name`);
+    eq(note.lesson, match.lesson, `${note.id} lesson`);
+  }
+});
+
+await check("Clean Sweep and First Pass read a station's own latest record only", () => {
+  const { fieldNoteCleanSweep, fieldNoteFirstPass } = _internal;
+  assert(!fieldNoteCleanSweep([], "a"), "no records at all should not be a clean sweep");
+  assert(!fieldNoteCleanSweep([{ simId: "a", stars: 3, hazardHits: 1 }], "a"), "a hazard hit must not count as a clean sweep");
+  assert(!fieldNoteCleanSweep([{ simId: "a", stars: 2, hazardHits: 0 }], "a"), "fewer than three stars must not count as a clean sweep");
+  assert(fieldNoteCleanSweep([{ simId: "a", stars: 3, hazardHits: 0 }], "a"), "a hazard-free, top-mark run should be a clean sweep");
+  assert(!fieldNoteCleanSweep([{ simId: "a", stars: 3, hazardHits: 0 }], "b"), "a clean sweep at station a must not count for station b");
+  // Only the LATEST record for the station counts — an old clean run followed
+  // by a messier one should not still read as a clean sweep.
+  assert(!fieldNoteCleanSweep([{ simId: "a", stars: 3, hazardHits: 0 }, { simId: "a", stars: 1, hazardHits: 2 }], "a"), "an older clean run outvoted the station's own latest attempt");
+
+  assert(!fieldNoteFirstPass([{ simId: "a", errors: 1, hazardHits: 0 }], "a"), "a correction must not count as a first pass");
+  assert(fieldNoteFirstPass([{ simId: "a", errors: 0, hazardHits: 0, stars: 1 }], "a"), "zero corrections should be a first pass regardless of stars");
+});
+
+await check("Hot Streak needs the last three attempts anywhere, all passed", () => {
+  const { fieldNoteHotStreak } = _internal;
+  assert(!fieldNoteHotStreak([{ passed: true }, { passed: true }]), "two passes is not yet a streak of three");
+  assert(!fieldNoteHotStreak([{ passed: true }, { passed: false }, { passed: true }]), "a fail inside the last three breaks the streak");
+  assert(fieldNoteHotStreak([{ passed: false }, { passed: true }, { passed: true }, { passed: true }]), "the last three passing should count even after an earlier fail");
+});
+
+await check("Cross-Trained needs a passed attempt in several distinct categories", () => {
+  const { fieldNoteCrossTrained } = _internal;
+  const records = ["A", "B", "C", "D"].map((category) => ({ passed: true, category }));
+  assert(!fieldNoteCrossTrained(records, 5), "four categories should not satisfy a five-category bar");
+  records.push({ passed: true, category: "E" });
+  assert(fieldNoteCrossTrained(records, 5), "five distinct passed categories should satisfy a five-category bar");
+  records.push({ passed: false, category: "F" });
+  assert(!fieldNoteCrossTrained(records, 6), "an unpassed attempt in a new category must not count toward it");
+});
+
+await check("No Reset Needed unlocks only for a programme whose capstone passed with no level ever retried", () => {
+  const { fieldNoteNoResetProgrammes } = _internal;
+  const cleanRun = (level) => ({ passed: true, ladder: { programme: "p", level, run: `r${level}` } });
+  const clean = Array.from({ length: 20 }, (_, i) => cleanRun(i + 1));
+  eq(fieldNoteNoResetProgrammes(clean).join(","), "p", "a full, never-retried run to a passed level 20 should unlock");
+  // The same ladder, but level 5 was retried under a new run id.
+  const retried = [...clean, { passed: false, ladder: { programme: "p", level: 5, run: "r5-retry" } }];
+  eq(fieldNoteNoResetProgrammes(retried).length, 0, "a retried level must block the unlock");
+  // A programme that never reached a passed level 20 at all.
+  const short = clean.slice(0, 19);
+  eq(fieldNoteNoResetProgrammes(short).length, 0, "a programme stuck below level 20 must not unlock");
+  // A record with no ladder tag at all must be ignored, not crash the rule.
+  eq(fieldNoteNoResetProgrammes([{ passed: true }, ...clean]).join(","), "p", "an untagged record broke the rule");
+});
+
+await check("Radio Check fires only for an interruption actually answered", () => {
+  const { fieldNoteRadioAnswered } = _internal;
+  assert(fieldNoteRadioAnswered({ outcome: "answered" }), "an answered interruption should trigger Radio Check");
+  assert(!fieldNoteRadioAnswered({ outcome: "wrong" }), "a wrong answer must not trigger Radio Check");
+  assert(!fieldNoteRadioAnswered({ outcome: "missed" }), "a missed interruption must not trigger Radio Check");
+  assert(!fieldNoteRadioAnswered(null), "no interruption at all must not trigger Radio Check");
+});
+
 // ==================================================== 3. behaviour, stubbed
 
 /** A tiny DOM element: enough of the API every mount*Eggs() call actually
@@ -181,6 +261,7 @@ class FakeEl {
   appendChild(c) { this.children.push(c); c.parentEl = this; return c; }
   append(...items) { for (const i of items) this.appendChild(i); }
   remove() { const p = this.parentEl; if (p) p.children = p.children.filter((c) => c !== this); }
+  setAttribute(k, v) { this[k] = v; }
   addEventListener(type, fn, opts) {
     const capture = opts === true || !!opts?.capture;
     const arr = this._listeners.get(type) ?? [];
@@ -377,7 +458,11 @@ function makeSmartCityFixture() {
   const room = { id: "test-station", title: "Test Station", category: "Energy & Power" };
   const state = { room, mode: "flat", paused: false, hits: {}, session: null, stage: { root: stageRoot, signage: { plan: { unionId: "ilwu" } } } };
   const SIMS_META = [{ id: "test-station" }];
-  return { THREE, win, doc, canvas, renderer, camera, worldRoot, state, store, SIMS_META, hudPatches };
+  let records = [];
+  const TrainingRecords = { list: () => records, setRecords: (r) => { records = r; } };
+  const eggFinds = [];
+  const onEggFound = (id, programme) => eggFinds.push({ id, programme });
+  return { THREE, win, doc, canvas, renderer, camera, worldRoot, state, store, SIMS_META, hudPatches, TrainingRecords, onEggFound, eggFinds };
 }
 
 let capturedInterval = null;
@@ -466,6 +551,50 @@ await check("Crane Claw and the Golden Wrench never arm outside their own statio
   capturedInterval();
   eq(fx.state.stage.root.children.length, 0, "a non-maritime station still got a crane hook");
   eq(fx.state.hits["impact-wrench"].material.color.hex, 0x3a78c9, "a station that is not today's pick still went gold");
+});
+
+await check("Field notes: a qualifying station-enter shows the badge, toasts once, and logs the ledger call", async () => {
+  const fx = makeSmartCityFixture();
+  // errors: 1 keeps this fixture from ALSO qualifying for First Pass, so
+  // only one field note fires and the toast assertion below is unambiguous.
+  fx.TrainingRecords.setRecords([{ simId: "test-station", category: "Energy & Power", stars: 3, hazardHits: 0, errors: 1, passed: true }]);
+  withCapturedInterval(() => mountSmartCityEggs(fx));
+  const btn = fx.doc.body.children.find((c) => c.id === "field-notes-btn");
+  assert(btn, "no Field Notes button was mounted");
+  eq(btn.textContent, "\u{1F5D2} Field notes (0/6)", "the button should start with nothing found");
+  capturedInterval(); // first poll: room "test-station" is entered, Clean Sweep qualifies
+  assert(btn.textContent.includes("(1/6)"), `Clean Sweep never showed as found: ${btn.textContent}`);
+  assert(fx.eggFinds.some((f) => f.id === "clean-sweep" && f.programme === "Energy & Power"), "no ledger call was made for Clean Sweep");
+  const toast = fx.doc.body.children.find((c) => c.id === "field-notes-toast");
+  assert(toast && toast.textContent.includes("Clean Sweep"), "no toast announced the Clean Sweep field note");
+  const findsAfterFirstPoll = fx.eggFinds.length;
+  capturedInterval(); // parked at the same station: must not re-toast or re-log every poll
+  eq(fx.eggFinds.length, findsAfterFirstPoll, "polling again at the same station re-logged the same field note");
+});
+
+await check("Field notes: Hot Streak, No Reset Needed and Cross-Trained are evaluated globally, including at the hub", async () => {
+  const fx = makeSmartCityFixture();
+  fx.TrainingRecords.setRecords([
+    { simId: "a", category: "A", passed: true },
+    { simId: "b", category: "B", passed: true },
+    { simId: "c", category: "C", passed: true },
+  ]);
+  withCapturedInterval(() => mountSmartCityEggs(fx));
+  fx.state.room = null; // the hub — no station to arm, but the global check must still run
+  capturedInterval();
+  assert(fx.eggFinds.some((f) => f.id === "hot-streak"), "Hot Streak was not evaluated at the hub");
+});
+
+await check("Radio Check fires the moment a live interruption resolves as answered, mid-run", async () => {
+  const fx = makeSmartCityFixture();
+  withCapturedInterval(() => mountSmartCityEggs(fx));
+  capturedInterval(); // arm the station, baseline the interrupt log at zero
+  fx.state.session = { interruptLog: [{ outcome: "missed" }] };
+  capturedInterval(); // a miss must not trigger it
+  assert(!fx.eggFinds.some((f) => f.id === "radio-check"), "a missed interruption triggered Radio Check");
+  fx.state.session.interruptLog.push({ outcome: "answered" });
+  capturedInterval();
+  assert(fx.eggFinds.some((f) => f.id === "radio-check"), "an answered interruption never triggered Radio Check");
 });
 
 await check("Night Shift only changes anything inside 00:00-04:00 local", async () => {
