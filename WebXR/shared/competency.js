@@ -129,6 +129,8 @@ export const STANDARDS = Object.fromEntries([
   S("osha-1926-1101", "OSHA", "29 CFR 1926.1101 Asbestos in construction", ["Hazmat & Environmental"]),
   S("osha-1926-1153", "OSHA", "29 CFR 1926.1153 Respirable crystalline silica", ["Construction"]),
   S("osha-1926-20-b-2", "OSHA", "29 CFR 1926.20(b)(2) Competent person accident prevention responsibilities", ["Construction"]),
+  S("opcmia-local-300", "OPCMIA", "OPCMIA Local 300 cement mason and plasterer apprenticeship, as a training body", ["Construction"], "unverified"),
+  S("aci-306", "ACI", "ACI 306 Guide to Cold Weather Concreting", ["Construction"], "unverified"),
   S("nfpa-70e", "NFPA", "70E Standard for Electrical Safety in the Workplace", ["Energy & Power"]),
   S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
   S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
@@ -601,6 +603,17 @@ export const PROGRAMME_COMPETENCIES = [
       "br-restoration-data-qa-and-public-reporting", "br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting"
     ],
     require: 6,
+  },
+  {
+    id: "cement-masons-and-plasterers",
+    title: "Place, finish and protect concrete and plaster to the specification, never to the clock",
+    kind: "programme",
+    standards: ["opcmia-local-300", "osha-1926-subpart-q", "osha-1926-1153", "aci-306"],
+    stations: [
+      "cm-slab-screed-bull-float-and-trowel", "cm-power-trowel-operation-and-guarding", "cm-curb-and-gutter-forms-and-finish", "cm-exterior-plaster-scratch-brown-and-finish-coats",
+      "cm-shotcrete-nozzle-and-rebound", "cm-concrete-saw-cutting-with-water-and-silica-control", "cm-epoxy-floor-coating-and-ventilation", "cm-cold-weather-curing-and-blankets"
+    ],
+    require: 4,
   },
 ];
 

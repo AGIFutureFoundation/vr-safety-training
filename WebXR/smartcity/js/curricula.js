@@ -815,6 +815,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "br-benthic-grab-and-invertebrate-sorting", why: "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade." },
     ],
   },
+  {
+    id: "cement-masons-and-plasterers",
+    name: "Cement Masons and Plasterers",
+    union: "OPCMIA — Operative Plasterers' and Cement Masons' International Association",
+    certification: "OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica",
+    guides: ["opcmia-local-300", "aci-concrete-practice", "aci-302", "aci-318", "aci-306", "osha-1926-subpart-q", "osha-1926-1153", "ansi-a10-9"],
+    summary: "Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "cm-slab-screed-bull-float-and-trowel", why: "A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off." },
+      { app: "smartcity", id: "cm-power-trowel-operation-and-guarding", why: "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade." },
+      { app: "smartcity", id: "cm-curb-and-gutter-forms-and-finish", why: "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane." },
+      { app: "smartcity", id: "cm-exterior-plaster-scratch-brown-and-finish-coats", why: "A plasterer's own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody's hand ever in a running mixer." },
+      { app: "smartcity", id: "cm-shotcrete-nozzle-and-rebound", why: "Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live." },
+      { app: "smartcity", id: "cm-concrete-saw-cutting-with-water-and-silica-control", why: "The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust." },
+      { app: "smartcity", id: "cm-epoxy-floor-coating-and-ventilation", why: "A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected." },
+      { app: "smartcity", id: "cm-cold-weather-curing-and-blankets", why: "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed." },
+    ],
+  },
 ];
 
 /**
