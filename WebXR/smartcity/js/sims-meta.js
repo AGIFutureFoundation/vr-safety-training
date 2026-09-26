@@ -17752,5 +17752,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-teammate-conflict-and-accountability",
+    "index": "346",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching team culture and conflict between young athletes rather than only the skills between them; the Association for Applied Sport Psychology's guidance on accountability that builds rather than shames a young athlete; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other on and off the ball; the U.S. Center for SafeSport for observable, non-shaming correction and for knowing when a physical incident between athletes has to be reported rather than only handled on the floor; CDC Heads Up for a head knock taken in the scramble that led to the shove; the American Red Cross first aid course for checking either player over before play resumes",
+    "name": "Teammate Conflict and Accountability",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Teammate Conflict and Accountability VR",
+    "tagline": "A shove over a loose ball does not end when the whistle blows it dead — separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again",
+    "accent": 16758863,
+    "accentCss": "#ffb84f",
+    "parSeconds": 340,
+    "badge": {
+      "id": "still-teammates",
+      "name": "Still Teammates",
+      "note": "A shove met with a real circle-up instead of a rushed sorry, and both players actually repaired before the next drill"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Circle-Up Board",
+      "currency": "REPAIR POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Culture Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

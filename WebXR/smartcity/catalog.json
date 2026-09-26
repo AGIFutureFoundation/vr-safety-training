@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 416
+      "stations": 417
     },
     "trades": {
       "entry": "trades/index.html",
@@ -356,6 +356,7 @@
     {
       "name": "Youth Sports & Coaching",
       "stations": [
+        "bb-teammate-conflict-and-accountability",
         "bb-composure-with-a-hostile-crowd-and-officials",
         "bb-scrimmage-and-sportsmanship-debrief",
         "bb-team-offense-spacing-and-screens",
@@ -3308,6 +3309,11 @@
           "app": "smartcity",
           "id": "bb-composure-with-a-hostile-crowd-and-officials",
           "why": "A bad call and a heckling parent are not an argument a player can win, so the routine underneath — a breath, a cue word, eyes back on the bench — keeps the game the one thing still in their control."
+        },
+        {
+          "app": "smartcity",
+          "id": "bb-teammate-conflict-and-accountability",
+          "why": "A shove over a loose ball does not end when the whistle blows it dead: separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -7611,6 +7617,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-teammate-conflict-and-accountability",
+      "name": "Teammate Conflict and Accountability",
+      "title": "SmartCiti.X~ Teammate Conflict and Accountability VR",
+      "tagline": "A shove over a loose ball does not end when the whistle blows it dead — separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on coaching team culture and conflict between young athletes rather than only the skills between them; the Association for Applied Sport Psychology's guidance on accountability that builds rather than shames a young athlete; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other on and off the ball; the U.S. Center for SafeSport for observable, non-shaming correction and for knowing when a physical incident between athletes has to be reported rather than only handled on the floor; CDC Heads Up for a head knock taken in the scramble that led to the shove; the American Red Cross first aid course for checking either player over before play resumes",
+      "accent": "#ffb84f",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "hold",
+        "sequence",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "still-teammates",
+        "name": "Still Teammates",
+        "note": "A shove met with a real circle-up instead of a rushed sorry, and both players actually repaired before the next drill"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "346",
+      "flat": false,
+      "system": "Circle-Up Board",
+      "currency": "REPAIR POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Culture Mentor"
+      ],
+      "awards": [
+        {
+          "id": "clear-floor-first",
+          "name": "Clear Floor First",
+          "note": "Every hazard on the floor found before the circle-up starts"
+        },
+        {
+          "id": "no-escalation",
+          "name": "No Escalation",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "steady-circle",
+          "name": "Steady Circle",
+          "note": "Accountability tempo and team trust both inside the band"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unshaken",
+          "name": "Unshaken",
+          "note": "Held team trust in band the whole way back into the drill"
+        },
+        {
+          "id": "quick-repair",
+          "name": "Quick Repair",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-teammate-conflict-and-accountability"
     },
     {
       "app": "smartcity",
@@ -27140,7 +27229,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 247,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
