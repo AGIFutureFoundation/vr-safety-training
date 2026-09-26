@@ -16912,5 +16912,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-bird-nesting-buffer-and-work-window",
+    "index": "344",
+    "domain": "Environmental",
+    "trade": "Wildlife compliance biologist, clearing a shoreline restoration bench for an IUOE Local 3 amphibious-excavator crew and its LIUNA Local 261 ground crew",
+    "category": "Environmental Monitoring",
+    "certification": "Endangered Species Act nesting-buffer conditions and U.S. Fish and Wildlife Service consultation for Ridgway's rail; San Francisco Bay Conservation and Development Commission (BCDC) permit conditions for the work window; San Francisco Bay Regional Water Quality Control Board monitoring conditions; IUOE Local 3 operating-engineer training for the amphibious excavator; LIUNA Local 261 laborer training for the ground crew waiting on the buffer sign-off",
+    "name": "Bird Nesting Buffer & Work Window",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Bird Nesting Buffer & Work Window VR",
+    "tagline": "The sign-off a grading crew waits on: today's date checked against the work-window calendar, the nest found and its buffer confirmed by rangefinder rather than by eye, the flag line actually run out to the confirmed point, the crew briefed and the operator's own acknowledgement heard, the nest watched through the work, a flush answered with an immediate stop, the excavator waved off before it ever reaches the flagged line, and the day's monitoring logged the way the permit requires",
+    "accent": 5938794,
+    "accentCss": "#5a9e6a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-buffer-clean-window",
+      "name": "Clean Buffer, Clean Window",
+      "note": "The buffer was set by rangefinder, the crew heard the brief and the operator answered, the flush got an immediate stop, and the excavator never crossed the flagged line"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buffer Watch",
+      "currency": "SIGN-OFFS",
+      "ranks": [
+        "Field Aide",
+        "Compliance Monitor",
+        "Lead Monitor",
+        "Senior Monitor",
+        "Buffer & Window Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

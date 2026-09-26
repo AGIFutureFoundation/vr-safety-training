@@ -694,6 +694,58 @@
     },
     {
       "app": "smartcity",
+      "id": "br-bird-nesting-buffer-and-work-window",
+      "name": "Bird Nesting Buffer & Work Window",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 317,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 265,
+          "materials": 86,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.030605564648117922,
+          "nearest": "br-marine-mammal-observer-during-pile-driving",
+          "similarity": 0.33387888707037644
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "sterilisation-technician-cycle",
       "name": "Sterilisation Centre",
       "category": "Dental & Oral Health",
@@ -3190,6 +3242,58 @@
     },
     {
       "app": "smartcity",
+      "id": "br-marine-mammal-observer-during-pile-driving",
+      "name": "Marine Mammal Observer During Pile Driving",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 332,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 270,
+          "materials": 110,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.030605564648117922,
+          "nearest": "br-bird-nesting-buffer-and-work-window",
+          "similarity": 0.33387888707037644
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "infection-control-audit",
       "name": "Infection Control Audit",
       "category": "Dental & Oral Health",
@@ -5673,7 +5777,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 269,
+          "meshes": 259,
           "materials": 83,
           "interactables": 28
         },
@@ -6513,58 +6617,6 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "br-marine-mammal-observer-during-pile-driving",
-      "name": "Marine Mammal Observer During Pile Driving",
-      "category": "Maritime & Ports",
-      "steps": 14,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 332,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9681818181818183,
-          "meshes": 270,
-          "materials": 110,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.5735177865612648,
-          "nearest": "hz-level-b-entry-and-scba-change-out",
-          "similarity": 0.22529644268774704
         }
       }
     },
@@ -8897,7 +8949,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 255,
           "materials": 92,
           "interactables": 29
         },
