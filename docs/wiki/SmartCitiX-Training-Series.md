@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 484 SmartCiti.X stations across 17 categories and 37 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 492 SmartCiti.X stations across 17 categories and 38 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -43,6 +43,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Glaziers and Architectural Metal](#glaziers-and-architectural-metal)
 - [Elevator Constructor — IUEC Core Skills](#elevator-constructors)
 - [Insulators and Boilermakers — Building Systems](#insulators-and-boilermakers)
+- [Cement Masons and Plasterers](#cement-masons-and-plasterers)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1230,6 +1231,26 @@ Eight stations across the two trades that keep a plant's pipes, walls and pressu
 | 357 | [Refractory and Castable Installation](../../WebXR/smartcity/index.html?sim=ib-refractory-and-castable-installation) | Boilermaker / insulator, refractory and castable installation — Boilermakers Local 549 and Insulators Local 16 | indoor (plant) | 15 | 2 | — | A furnace wall relined in castable is only as sound as the anchors it was poured over and the dryout ramp that follows, because rushing either one bakes a weak spot into a lining nobody can see the inside of once it cures. |
 | 358 | [Hydrostatic Test and Inspector Witness](../../WebXR/smartcity/index.html?sim=ib-hydrostatic-test-and-inspector-witness) | Boilermaker, hydrostatic testing and inspector witness — Boilermakers Local 549 | indoor (plant) | 15 | 2 | — | A repaired vessel is proven safe by a hydrostatic test only when the trapped air is vented before the fill, the walk for weeps happens from beside every joint rather than in front of it, and an inspector actually witnesses the hold. |
 | 359 | [Spray Foam and Respirator Fit](../../WebXR/smartcity/index.html?sim=ib-spray-foam-and-respirator-fit) | Insulator, spray polyurethane foam application — Insulators Local 16 | indoor (plant) | 14 | 2 | — | Spraying closed-cell foam next to an open isocyanate drum only starts once the respirator has been quantitatively fit-tested on the person wearing it, because a mask nobody has proven seals is a hope, not a control. |
+
+<a id="cement-masons-and-plasterers"></a>
+## Cement Masons and Plasterers
+
+**Union:** OPCMIA — Operative Plasterers' and Cement Masons' International Association
+
+**Certifications and standards:** OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica
+
+Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 700 | [Slab Screed, Bull Float & Trowel](../../WebXR/smartcity/index.html?sim=cm-slab-screed-bull-float-and-trowel) | Cement mason and finisher — OPCMIA Local 300 | overcast | 15 | 2 | — | A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off. |
+| 701 | [Power Trowel Operation & Guarding](../../WebXR/smartcity/index.html?sim=cm-power-trowel-operation-and-guarding) | Cement mason — OPCMIA Local 300, power trowel operator | clear | 13 | 2 | — | The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade. |
+| 702 | [Curb & Gutter Forms & Finish](../../WebXR/smartcity/index.html?sim=cm-curb-and-gutter-forms-and-finish) | Cement mason — OPCMIA Local 300, curb and gutter crew | clear | 14 | 2 | — | Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane. |
+| 703 | [Exterior Plaster Scratch, Brown & Finish Coats](../../WebXR/smartcity/index.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats) | Plasterer — OPCMIA Local 300 | clear | 13 | 2 | — | A plasterer's own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody's hand ever in a running mixer. |
+| 704 | [Shotcrete Nozzle & Rebound](../../WebXR/smartcity/index.html?sim=cm-shotcrete-nozzle-and-rebound) | Cement mason — OPCMIA Local 300, shotcrete nozzleman | clear | 13 | 2 | — | Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live. |
+| 705 | [Concrete Saw Cutting with Water & Silica Control](../../WebXR/smartcity/index.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control) | Cement mason — OPCMIA Local 300, concrete saw operator | indoor (plant) | 13 | 2 | — | The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust. |
+| 706 | [Epoxy Floor Coating & Ventilation](../../WebXR/smartcity/index.html?sim=cm-epoxy-floor-coating-and-ventilation) | Cement mason — OPCMIA Local 300, floor coating crew | indoor (plant) | 13 | 2 | — | A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected. |
+| 707 | [Cold Weather Curing & Blankets](../../WebXR/smartcity/index.html?sim=cm-cold-weather-curing-and-blankets) | Cement mason — OPCMIA Local 300, cold weather protection crew | wind | 13 | 2 | — | The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed. |
 
 ## Real-world environments
 

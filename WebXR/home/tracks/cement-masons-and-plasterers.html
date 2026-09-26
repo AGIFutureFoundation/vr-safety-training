@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cement Masons and Plasterers — training track</title>
+<meta name="description" content="Cement Masons and Plasterers: a twenty-level training track, 1590 lessons across 8 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#f2c14b">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 8 stations · 20 levels · 1590 lessons</p>
+    <h1>Cement Masons and Plasterers</h1>
+    <p class="union">OPCMIA — Operative Plasterers&#39; and Cement Masons&#39; International Association</p>
+    <p class="cert">OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica</p>
+    <p class="summary">Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1590</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation">Epoxy Floor Coating &amp; Ventilation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding">Power Trowel Operation &amp; Guarding <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets">Cold Weather Curing &amp; Blankets <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound">Shotcrete Nozzle &amp; Rebound <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=day">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=day">Epoxy Floor Coating &amp; Ventilation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=day">Power Trowel Operation &amp; Guarding <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=day">Cold Weather Curing &amp; Blankets <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=day">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=day">Shotcrete Nozzle &amp; Rebound <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation">Epoxy Floor Coating &amp; Ventilation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding">Power Trowel Operation &amp; Guarding <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets">Cold Weather Curing &amp; Blankets <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound">Shotcrete Nozzle &amp; Rebound <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=dusk">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=dusk">Epoxy Floor Coating &amp; Ventilation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=dusk">Power Trowel Operation &amp; Guarding <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=dusk">Cold Weather Curing &amp; Blankets <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=dusk">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=dusk">Shotcrete Nozzle &amp; Rebound <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation">Epoxy Floor Coating &amp; Ventilation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=day">Power Trowel Operation &amp; Guarding <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=day">Cold Weather Curing &amp; Blankets <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=day">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound">Shotcrete Nozzle &amp; Rebound <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=dusk">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=dusk">Epoxy Floor Coating &amp; Ventilation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=rain">Power Trowel Operation &amp; Guarding <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=rain">Cold Weather Curing &amp; Blankets <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=rain">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=dusk">Shotcrete Nozzle &amp; Rebound <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=day">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=day">Epoxy Floor Coating &amp; Ventilation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=wind">Power Trowel Operation &amp; Guarding <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=day">Cold Weather Curing &amp; Blankets <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=day">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=day">Shotcrete Nozzle &amp; Rebound <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=dusk">Concrete Saw Cutting with Water &amp; Silica Control <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=dusk">Epoxy Floor Coating &amp; Ventilation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=dusk">Power Trowel Operation &amp; Guarding <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=fog">Cold Weather Curing &amp; Blankets <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=fog">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;weather=fog">Shotcrete Nozzle &amp; Rebound <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>9 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=day">Epoxy Floor Coating &amp; Ventilation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=storm">Power Trowel Operation &amp; Guarding <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=storm">Cold Weather Curing &amp; Blankets <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=day">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=day">Shotcrete Nozzle &amp; Rebound <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;time=day">Curb &amp; Gutter Forms &amp; Finish <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=dusk">Epoxy Floor Coating &amp; Ventilation <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=overcast">Power Trowel Operation &amp; Guarding <span class="chip weather">overcast</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=smoke">Cold Weather Curing &amp; Blankets <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=rain">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=dusk">Shotcrete Nozzle &amp; Rebound <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;weather=rain">Curb &amp; Gutter Forms &amp; Finish <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>79</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;hazard=assess">Epoxy Floor Coating &amp; Ventilation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;hazard=assess">Power Trowel Operation &amp; Guarding <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;hazard=assess">Cold Weather Curing &amp; Blankets <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;hazard=assess">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;hazard=assess">Shotcrete Nozzle &amp; Rebound <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;hazard=assess">Curb &amp; Gutter Forms &amp; Finish <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;interrupt=bystander-near-blades">Power Trowel Operation &amp; Guarding <span class="chip interrupt">interruption: bystander near blades</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=heater-exhaust-fails">Cold Weather Curing &amp; Blankets <span class="chip interrupt">interruption: heater exhaust fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=plank-shifts">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip interrupt">interruption: plank shifts</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;interrupt=coupling-separating">Shotcrete Nozzle &amp; Rebound <span class="chip interrupt">interruption: coupling separating</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=car-enters-work-zone">Curb &amp; Gutter Forms &amp; Finish <span class="chip interrupt">interruption: car enters work zone</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;interrupt=truck-backing-blind">Slab Screed, Bull Float &amp; Trowel <span class="chip interrupt">interruption: truck backing blind</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;hazard=assess">Power Trowel Operation &amp; Guarding <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;hazard=assess">Cold Weather Curing &amp; Blankets <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;hazard=assess">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;hazard=assess">Shotcrete Nozzle &amp; Rebound <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;hazard=assess">Curb &amp; Gutter Forms &amp; Finish <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;hazard=assess">Slab Screed, Bull Float &amp; Trowel <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;interrupt=cord-sparking">Power Trowel Operation &amp; Guarding <span class="chip interrupt">interruption: cord sparking</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=wind-gust-skirt">Cold Weather Curing &amp; Blankets <span class="chip interrupt">interruption: wind gust skirt</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=mixer-jam">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip interrupt">interruption: mixer jam</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;interrupt=laborer-in-rebound">Shotcrete Nozzle &amp; Rebound <span class="chip interrupt">interruption: laborer in rebound</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=grinder-dust-drift">Curb &amp; Gutter Forms &amp; Finish <span class="chip interrupt">interruption: grinder dust drift</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;interrupt=grinder-dust-cloud">Slab Screed, Bull Float &amp; Trowel <span class="chip interrupt">interruption: grinder dust cloud</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=rain">Power Trowel Operation &amp; Guarding <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=heater-exhaust-fails">Cold Weather Curing &amp; Blankets <span class="chip interrupt">interruption: heater exhaust fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=wind">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;interrupt=coupling-separating">Shotcrete Nozzle &amp; Rebound <span class="chip interrupt">interruption: coupling separating</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;weather=rain">Curb &amp; Gutter Forms &amp; Finish <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;time=day">Slab Screed, Bull Float &amp; Trowel <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;hazard=assess">Power Trowel Operation &amp; Guarding <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=dusk">Cold Weather Curing &amp; Blankets <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=plank-shifts">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip interrupt">interruption: plank shifts</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=dusk">Shotcrete Nozzle &amp; Rebound <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=car-enters-work-zone">Curb &amp; Gutter Forms &amp; Finish <span class="chip interrupt">interruption: car enters work zone</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;hazard=assess">Slab Screed, Bull Float &amp; Trowel <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=fog">Power Trowel Operation &amp; Guarding <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;hazard=assess">Cold Weather Curing &amp; Blankets <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=mixer-jam">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip interrupt">interruption: mixer jam</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;weather=fog">Shotcrete Nozzle &amp; Rebound <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=grinder-dust-drift">Curb &amp; Gutter Forms &amp; Finish <span class="chip interrupt">interruption: grinder dust drift</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;weather=fog">Slab Screed, Bull Float &amp; Trowel <span class="chip weather">fog</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=storm">Power Trowel Operation &amp; Guarding <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=wind-gust-skirt">Cold Weather Curing &amp; Blankets <span class="chip interrupt">interruption: wind gust skirt</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;hazard=assess">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=day">Shotcrete Nozzle &amp; Rebound <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;weather=storm">Curb &amp; Gutter Forms &amp; Finish <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;interrupt=truck-backing-blind">Slab Screed, Bull Float &amp; Trowel <span class="chip interrupt">interruption: truck backing blind</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=dusk">Power Trowel Operation &amp; Guarding <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=heater-exhaust-fails">Cold Weather Curing &amp; Blankets <span class="chip interrupt">interruption: heater exhaust fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=plank-shifts">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip interrupt">interruption: plank shifts</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;weather=rain">Shotcrete Nozzle &amp; Rebound <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;time=day">Curb &amp; Gutter Forms &amp; Finish <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel">Slab Screed, Bull Float &amp; Trowel <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;variant=assessment">Power Trowel Operation &amp; Guarding <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;variant=assessment">Cold Weather Curing &amp; Blankets <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;variant=assessment">Exterior Plaster Scratch, Brown &amp; Finish Coats <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;variant=assessment">Shotcrete Nozzle &amp; Rebound <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;variant=assessment">Curb &amp; Gutter Forms &amp; Finish <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;variant=assessment">Slab Screed, Bull Float &amp; Trowel <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>11 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=cement-masons-and-plasterers&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Slab Screed, Bull Float &amp; Trowel</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off.</p>
+            <ul class="st-std"><li>ACI — ACI 302 - Guide for Concrete Floor and Slab Construction</li><li>ACI — ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</li><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li><li>OSHA — 29 CFR 1926.701 — Concrete and masonry construction, general requirements</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;interrupt=truck-backing-blind"><span class="chip interrupt">interruption: truck backing blind</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;interrupt=grinder-dust-cloud"><span class="chip interrupt">interruption: grinder dust cloud</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-slab-screed-bull-float-and-trowel">Launch Slab Screed, Bull Float &amp; Trowel</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Power Trowel Operation &amp; Guarding</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer&#39;s bands with nobody&#39;s hand ever near a turning blade.</p>
+            <ul class="st-std"><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;interrupt=bystander-near-blades"><span class="chip interrupt">interruption: bystander near blades</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;interrupt=cord-sparking"><span class="chip interrupt">interruption: cord sparking</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-power-trowel-operation-and-guarding">Launch Power Trowel Operation &amp; Guarding</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Curb &amp; Gutter Forms &amp; Finish</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">Cement mason&#39;s work beside a live lane: a curb and gutter run set to the grade sheet&#39;s line, struck to the form&#39;s face and broomed, with the crew never in the machine&#39;s path or the travel lane.</p>
+            <ul class="st-std"><li>MUTCD — Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</li><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li><li>OSHA — 29 CFR 1926.701 — Concrete and masonry construction, general requirements</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=car-enters-work-zone"><span class="chip interrupt">interruption: car enters work zone</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;interrupt=grinder-dust-drift"><span class="chip interrupt">interruption: grinder dust drift</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-curb-and-gutter-forms-and-finish">Launch Curb &amp; Gutter Forms &amp; Finish</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Exterior Plaster Scratch, Brown &amp; Finish Coats</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A plasterer&#39;s own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody&#39;s hand ever in a running mixer.</p>
+            <ul class="st-std"><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=plank-shifts"><span class="chip interrupt">interruption: plank shifts</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;interrupt=mixer-jam"><span class="chip interrupt">interruption: mixer jam</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats">Launch Exterior Plaster Scratch, Brown &amp; Finish Coats</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Shotcrete Nozzle &amp; Rebound</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live.</p>
+            <ul class="st-std"><li>ACI — ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</li><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;interrupt=coupling-separating"><span class="chip interrupt">interruption: coupling separating</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;interrupt=laborer-in-rebound"><span class="chip interrupt">interruption: laborer in rebound</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-shotcrete-nozzle-and-rebound">Launch Shotcrete Nozzle &amp; Rebound</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Concrete Saw Cutting with Water &amp; Silica Control</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The cured slab&#39;s control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw&#39;s own exhaust.</p>
+            <ul class="st-std"><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1910.212 — General requirements for all machines (machine guarding)</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.1153 — Respirable crystalline silica in construction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control">Launch Concrete Saw Cutting with Water &amp; Silica Control</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Epoxy Floor Coating &amp; Ventilation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can&#39;s ratio and posted for its full re-entry time before anyone goes back in unprotected.</p>
+            <ul class="st-std"><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.55 - Gases, vapors, fumes, dusts, and mists</li><li>OSHA — 29 CFR 1926.57 - Ventilation</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-epoxy-floor-coating-and-ventilation">Launch Epoxy Floor Coating &amp; Ventilation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Construction &amp; Structural Trades</p>
+            <h3>Cold Weather Curing &amp; Blankets</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The programme&#39;s closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan&#39;s own strength is actually confirmed.</p>
+            <ul class="st-std"><li>ACI — ACI 306 - Guide to Cold Weather Concreting</li><li>union — OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</li><li>OSHA — 29 CFR 1926 — Safety and health regulations for construction</li><li>OSHA — 29 CFR 1926.352 - Fire prevention</li><li>OSHA — 29 CFR 1926.57 - Ventilation</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=heater-exhaust-fails"><span class="chip interrupt">interruption: heater exhaust fails</span></a> <span class="st-meta">L12, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;interrupt=wind-gust-skirt"><span class="chip interrupt">interruption: wind gust skirt</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cm-cold-weather-curing-and-blankets">Launch Cold Weather Curing &amp; Blankets</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ACI</td><td>ACI 302 - Guide for Concrete Floor and Slab Construction</td><td class="n">9 levels</td></tr>
+          <tr><td>ACI</td><td>ACI 306 - Guide to Cold Weather Concreting</td><td class="n">all 20</td></tr>
+          <tr><td>ACI</td><td>ACI concrete field testing technician certification and ACI 301 specifications for structural concrete</td><td class="n">all 20</td></tr>
+          <tr><td>MUTCD</td><td>Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)</td><td class="n">12 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.212 — General requirements for all machines (machine guarding)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926 — Safety and health regulations for construction</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.1153 — Respirable crystalline silica in construction</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.352 - Fire prevention</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.55 - Gases, vapors, fumes, dusts, and mists</td><td class="n">11 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.57 - Ventilation</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.701 — Concrete and masonry construction, general requirements</td><td class="n">12 levels</td></tr>
+          <tr><td>union</td><td>OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Place, finish and protect concrete and plaster to the specification, never to the clock</h3>
+        <p>Demonstrated with a mastery run on 4 of its 8 stations, against OPCMIA OPCMIA Local 300 cement mason and plasterer apprenticeship, as a training body; OSHA 29 CFR 1926 Subpart Q Concrete and masonry construction; OSHA 29 CFR 1926.1153 Respirable crystalline silica; ACI ACI 306 Guide to Cold Weather Concreting.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

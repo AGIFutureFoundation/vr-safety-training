@@ -6888,6 +6888,7 @@ const UNIONS = [
   {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers","Boilermakers Local 549"],"local":"Local 549","colors":null,"trainingBody":"boilermakers-local-549","trainingTitle":"Boilermakers Local 549 apprenticeship and training, as a training body","scope":["Building Systems & Facilities"],"note":"Boilermakers; the shipyard hot-work and the insulators-and-boilermakers stations cite Local 549's apprenticeship and training."},
   {"id":"iuec","abbrev":"IUEC","name":"International Union of Elevator Constructors","aliases":["IUEC","NEIEP"],"local":null,"colors":null,"trainingBody":"neiep-training","trainingTitle":"IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum","scope":["Building Systems & Facilities"],"note":"Elevator constructor and mechanic apprenticeship, taught to the National Elevator Industry Educational Program curriculum."},
   {"id":"insulators","abbrev":"IAHFIAW","name":"International Association of Heat and Frost Insulators and Allied Workers","aliases":["Insulators","Insulators Local 16"],"local":"Local 16","colors":null,"trainingBody":"insulators-local-16","trainingTitle":"Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body","scope":["Building Systems & Facilities"],"note":"Named by the Insulators and Boilermakers pack's mechanical insulation, firestop and abatement stations, carried by the registry as Insulators Local 16."},
+  {"id":"opcmia","abbrev":"OPCMIA","name":"Operative Plasterers' and Cement Masons' International Association","aliases":["OPCMIA"],"local":"Local 300","colors":null,"trainingBody":"opcmia-local-300","trainingTitle":"OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body","scope":["Construction & Structural Trades"],"note":"Cement masons and plasterers. Local 300 is the one OPCMIA local this platform names, as a training body only."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7832,6 +7833,25 @@ const CURRICULA = [
       { app: "smartcity", id: "ib-refractory-and-castable-installation", why: "A furnace wall relined in castable is only as sound as the anchors it was poured over and the dryout ramp that follows, because rushing either one bakes a weak spot into a lining nobody can see the inside of once it cures." },
       { app: "smartcity", id: "ib-hydrostatic-test-and-inspector-witness", why: "A repaired vessel is proven safe by a hydrostatic test only when the trapped air is vented before the fill, the walk for weeps happens from beside every joint rather than in front of it, and an inspector actually witnesses the hold." },
       { app: "smartcity", id: "ib-spray-foam-and-respirator-fit", why: "Spraying closed-cell foam next to an open isocyanate drum only starts once the respirator has been quantitatively fit-tested on the person wearing it, because a mask nobody has proven seals is a hope, not a control." },
+    ],
+  },
+  {
+    id: "cement-masons-and-plasterers",
+    name: "Cement Masons and Plasterers",
+    union: "OPCMIA — Operative Plasterers' and Cement Masons' International Association",
+    certification: "OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica",
+    guides: ["opcmia-local-300", "aci-concrete-practice", "aci-302", "aci-318", "aci-306", "osha-1926-subpart-q", "osha-1926-1153", "ansi-a10-9"],
+    summary: "Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "cm-slab-screed-bull-float-and-trowel", why: "A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off." },
+      { app: "smartcity", id: "cm-power-trowel-operation-and-guarding", why: "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade." },
+      { app: "smartcity", id: "cm-curb-and-gutter-forms-and-finish", why: "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane." },
+      { app: "smartcity", id: "cm-exterior-plaster-scratch-brown-and-finish-coats", why: "A plasterer's own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody's hand ever in a running mixer." },
+      { app: "smartcity", id: "cm-shotcrete-nozzle-and-rebound", why: "Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live." },
+      { app: "smartcity", id: "cm-concrete-saw-cutting-with-water-and-silica-control", why: "The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust." },
+      { app: "smartcity", id: "cm-epoxy-floor-coating-and-ventilation", why: "A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected." },
+      { app: "smartcity", id: "cm-cold-weather-curing-and-blankets", why: "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed." },
     ],
   },
 ];
@@ -9103,6 +9123,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "insulators-and-boilermakers",
     "name": "Insulators and Boilermakers — Building Systems",
     "accent": "#d8663a"
+  },
+  {
+    "programme": "cement-masons-and-plasterers",
+    "name": "Cement Masons and Plasterers",
+    "accent": "#f2c14b"
   }
 ];
 

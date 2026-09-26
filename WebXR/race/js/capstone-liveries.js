@@ -190,5 +190,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "insulators-and-boilermakers",
     "name": "Insulators and Boilermakers — Building Systems",
     "accent": "#d8663a"
+  },
+  {
+    "programme": "cement-masons-and-plasterers",
+    "name": "Cement Masons and Plasterers",
+    "accent": "#f2c14b"
   }
 ];
