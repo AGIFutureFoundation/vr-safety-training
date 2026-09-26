@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 422
     },
     "trades": {
       "entry": "trades/index.html",
@@ -191,6 +191,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "ew-hoistway-false-car-and-rail-setting",
         "pm-storage-and-bike-room",
         "pm-playground-and-courtyard",
         "pm-landscaping-and-irrigation",
@@ -7641,6 +7642,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-hoistway-false-car-and-rail-setting",
+      "name": "Hoistway False Car and Rail Setting",
+      "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
+      "tagline": "Rigging a new hoistway from a false car: secure the platform, rig the monorail hoist, plumb and set the guide rail, gauge it, and log the as-built",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor — new installation, IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for new-installation rigging; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the hoist's own disconnect; OSHA 29 CFR 1926.501 duty to have fall protection at the open landing edge above a working false car; ANSI Z359 fall-protection equipment for anyone tied off at that edge",
+      "accent": "#ff9f43",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "rail-set-certified",
+        "name": "Rail Set Certified",
+        "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
+      },
+      "meshes": 155,
+      "lights": 0,
+      "overBudget": false,
+      "index": "352",
+      "flat": false,
+      "system": "Rail Setting Authority",
+      "currency": "PLUMB",
+      "ranks": [
+        "Helper",
+        "Rail Setter",
+        "Lead Mechanic",
+        "Adjuster",
+        "Rail Setting Certified"
+      ],
+      "awards": [
+        {
+          "id": "false-car-first",
+          "name": "False Car First",
+          "note": "Never worked the shaft before the platform and its own stop switch were confirmed"
+        },
+        {
+          "id": "true-rail",
+          "name": "True Rail",
+          "note": "Held both plumb and gauge readings near band centre"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "Restore in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "hoist-held",
+          "name": "Hoist Held",
+          "note": "Never let the hoist control slip mid-lift"
+        },
+        {
+          "id": "floor-fast",
+          "name": "Floor Fast",
+          "note": "One floor set inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-hoistway-false-car-and-rail-setting"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27668,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28245,7 +28328,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

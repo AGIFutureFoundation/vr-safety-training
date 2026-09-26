@@ -17962,5 +17962,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ew-hoistway-false-car-and-rail-setting",
+    "index": "352",
+    "domain": "Facilities",
+    "trade": "Elevator constructor — new installation, IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for new-installation rigging; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the hoist's own disconnect; OSHA 29 CFR 1926.501 duty to have fall protection at the open landing edge above a working false car; ANSI Z359 fall-protection equipment for anyone tied off at that edge",
+    "name": "Hoistway False Car and Rail Setting",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
+    "tagline": "Rigging a new hoistway from a false car: secure the platform, rig the monorail hoist, plumb and set the guide rail, gauge it, and log the as-built",
+    "accent": 16752451,
+    "accentCss": "#ff9f43",
+    "parSeconds": 260,
+    "badge": {
+      "id": "rail-set-certified",
+      "name": "Rail Set Certified",
+      "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rail Setting Authority",
+      "currency": "PLUMB",
+      "ranks": [
+        "Helper",
+        "Rail Setter",
+        "Lead Mechanic",
+        "Adjuster",
+        "Rail Setting Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

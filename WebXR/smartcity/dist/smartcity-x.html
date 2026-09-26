@@ -16023,6 +16023,7 @@ const UNIONS = [
   {"id":"nage","abbrev":"NAGE","name":"National Association of Government Employees","aliases":["NAGE"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme for EMS locals; an SEIU affiliate. The registry carries no NAGE training entry."},
   {"id":"fop","abbrev":"FOP","name":"Fraternal Order of Police","aliases":["FOP"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme; the registry carries no FOP training entry."},
   {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named by the shipyard hot-work station's certification; the registry carries no IBB training entry."},
+  {"id":"iuec","abbrev":"IUEC","name":"International Union of Elevator Constructors","aliases":["IUEC","NEIEP"],"local":null,"colors":null,"trainingBody":"neiep-training","trainingTitle":"IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum","scope":["Building Systems & Facilities"],"note":"Elevator constructor and mechanic apprenticeship, taught to the National Elevator Industry Educational Program curriculum."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -38496,6 +38497,48 @@ const SIMS_META = [
         "Assistant Coach",
         "Head Coach",
         "Handles Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ew-hoistway-false-car-and-rail-setting",
+    "index": "352",
+    "domain": "Facilities",
+    "trade": "Elevator constructor — new installation, IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for new-installation rigging; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the hoist's own disconnect; OSHA 29 CFR 1926.501 duty to have fall protection at the open landing edge above a working false car; ANSI Z359 fall-protection equipment for anyone tied off at that edge",
+    "name": "Hoistway False Car and Rail Setting",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
+    "tagline": "Rigging a new hoistway from a false car: secure the platform, rig the monorail hoist, plumb and set the guide rail, gauge it, and log the as-built",
+    "accent": 16752451,
+    "accentCss": "#ff9f43",
+    "parSeconds": 260,
+    "badge": {
+      "id": "rail-set-certified",
+      "name": "Rail Set Certified",
+      "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rail Setting Authority",
+      "currency": "PLUMB",
+      "ranks": [
+        "Helper",
+        "Rail Setter",
+        "Lead Mechanic",
+        "Adjuster",
+        "Rail Setting Certified"
       ],
       "rankAt": [
         0,
