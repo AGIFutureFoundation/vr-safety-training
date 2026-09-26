@@ -395,7 +395,7 @@ export const SIM_CM_CURB_AND_GUTTER_FORMS_AND_FINISH = {
       },
       onHazard() {},
       onInterrupt(it) {
-        if (it.id === "car-enters-work-zone") carElapsed = 0;
+        if (it.id === "car-enters-work-zone") { carElapsed = 0; car.position.x = car.userData.startX - 1.2; }
         if (it.id === "grinder-dust-drift") dust.visible = true;
       },
       onInterruptEnd(it) {
