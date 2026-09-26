@@ -7533,8 +7533,6 @@ function compactor(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.compactor.footprint, livery: lv });
 }
 
-// ------------------------------------------------------ towable site plant
-
 /** A single-axle site trailer: frame, A-frame tongue, coupler, fenders, jack and axle. Shared by the towables. */
 function eqTowTrailer(rig, len, width, track, tongue, wheelR = 0.33) {
   const S = rig.shell;
@@ -7826,6 +7824,57 @@ function wheelLoader(parent, x, y, z, opts = {}) {
 // ------------------------------------------------------------------- grader
 
 /**
+ * Motor grader, blade down and squared for a finish pass: tandem rear drive
+ * axle, a single front axle on the long articulated frame, a ROPS cab set
+ * forward of the engine deck, and the moldboard slung from a circle under
+ * mid-frame with its own pair of lift rams. 2.4 m over the tandem tyres,
+ * 3.7 m blade. Parts: rops, seat, controls, wheels (front axle plus the rear
+ * tandem), blade, lights, beacon.
+ */
+function ranchGrader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "GR-6" });
+  const rig = flRig(parent, x, y, z, opts, "ranchGrader", [0, 0, 0.33]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Rear engine deck and hood.
+  flSide(S, [[0.3, 0.68], [0.3, 1.22], [0.55, 1.28], [1.95, 1.28], [2.3, 1.5], [2.3, 0.72], [2.05, 0.62]], 1.3, 0, 0, -2.35, ...P, { bevel: 0.05 });
+  flPanel(S, 1.0, 0.3, 0, 1.32, -3.66, flGrilleMat("vertical", 0x2a2e33), "-z");
+  flPanel(S, 1.05, 0.34, 0.652, 1.35, -2.5, flLiveryMat(lv, "grSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  // ROPS cab, forward of the engine deck.
+  const rops = rig.part("rops", 0, 1.28, -0.55);
+  for (const sx of [1, -1]) for (const zz of [0.5, -0.45]) box(rops, 0.07, 1.5, 0.07, sx * 0.66, 0.75, zz, ...FL.black);
+  box(rops, 1.44, 0.07, 1.05, 0, 1.54, 0.03, ...FL.black);
+  const seat = rig.part("seat", 0, 1.3, -0.5);
+  box(seat, 0.44, 0.1, 0.4, 0, 0.05, 0, ...FL.black);
+  box(seat, 0.44, 0.44, 0.1, 0, 0.28, -0.17, ...FL.black);
+  const ctl = rig.part("controls", 0, 1.3, 0);
+  flStrut(ctl, [0, 0, 0], [0, 0.5, -0.08], 0.03, ...FL.black);
+  flRod(ctl, 0.15, 0.03, 0, 0.5, -0.08, "y", ...FL.black, { seg: 14 });
+  // Main frame beam running forward from the tandem to the front axle.
+  box(S, 0.24, 0.24, 3.5, 0, 0.7, 1.15, ...FL.frame);
+  // Rear tandem drive axle and the front axle, named together as `wheels`.
+  const wheels = [
+    flAxle(rig, "axleRear1", -2.55, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleRear2", -1.95, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleFront", 2.9, 0.5, 1.45, { width: 0.26, style: "equip" }),
+  ];
+  rig.set("wheels", wheels);
+  // Drawbar circle and the moldboard, slung under mid-frame, angled to cast a
+  // finished crown off to one side the way a grader actually runs.
+  cyl(S, 0.5, 0.5, 0.1, 0, 0.5, 0.85, 0x2a2e33, { rough: 0.5, metal: 0.5, seg: 20 });
+  flBeam(S, [0, 0.65, 0.85], [0, 0.32, 1.8], 0.12, 0.12, ...FL.frame);
+  const blade = rig.part("blade", 0, 0.3, 1.85);
+  flSide(blade, [[-1.75, 0], [-1.75, 0.5], [1.75, 0.5], [1.75, 0]], 0.1, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  blade.rotation.y = 0.16;
+  for (const sx of [1, -1]) eqRam(S, [sx * 0.42, 0.85, 0.55], [sx * 0.48, 0.4, 1.65], 0.05, lv.colour);
+  flLights(rig, [[0.55, 1.0, 3.4, 0.12, 0.08], [-0.55, 1.0, 3.4, 0.12, 0.08]], null, [[0.58, 0.85, -3.7, 0.1, 0.08], [-0.58, 0.85, -3.7, 0.1, 0.08]]);
+  const bc = rig.part("beacon", 0, 1.85, -0.55);
+  cyl(bc, 0.06, 0.07, 0.12, 0, 0, 0, ...FL.amber, { seg: 12 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.grader.footprint, livery: lv });
+}
+
+// ------------------------------------------------------ towable site plant
+
+/**
  * Motor grader, blade down: 8.4 m overall on a single steer axle and a rear
  * tandem bogie, 3.7 m moldboard slewed under the belly, ROPS cab to 3.3 m.
  * Parts: moldboard (child of circle, tilts and slews), circle (child of the
@@ -8006,6 +8055,7 @@ const EQUIPMENT_BUDGET = {
   dozer: { build: "dozer", meshes: 20, footprint: [3.2, 3.01, 5.35], parts: ["trackL", "trackR", "blade", "ripper", "rops", "seat", "controls", "lights"], note: "mid-size crawler dozer, blade down" },
   wheelLoader: { build: "wheelLoader", meshes: 17, footprint: [2.6, 3.9, 7.53], parts: ["arms", "bucket", "wheels", "door", "lights"], note: "articulated wheel loader, 3-4 yd bucket" },
   grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
+  ranchGrader: { build: "ranchGrader", meshes: 17, footprint: [2.07, 2.86, 8.24], parts: ["rops", "seat", "controls", "wheels", "blade", "lights", "beacon"], note: "motor grader, blade down for a finish pass" },
   crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
   pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
 };
@@ -8013,7 +8063,7 @@ const EQUIPMENT_BUDGET = {
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
-  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
+  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -10807,9 +10857,10 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
       "solar-deck", "battery-yard", "charge-point", "substation-switching",
-      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash"
+      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash", "or-transmission-line-right-of-way-patrol",
+      "or-solar-farm-tracker-row-maintenance"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "live-events",
@@ -11025,7 +11076,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
       "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
-      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar"
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert"
     ],
     require: 4,
   },
@@ -11038,7 +11089,8 @@ const PROGRAMME_COMPETENCIES = [
       "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector", "wildland-urban-interface",
       "cardiac-arrest-pit-crew", "overdose-response-naloxone", "ambulance-scene-safety", "crisis-intervention-call",
       "critical-incident-debrief", "traffic-incident-management", "trauma-informed-intake", "crisis-line-shift",
-      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid"
+      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid",
+      "or-wildland-fireline-construction-and-lookout"
     ],
     require: 6,
   },
@@ -13756,7 +13808,7 @@ const LEVEL_STATES = ["locked", "open", "passed"];
 
 const CONDITION_TIMES = ["day", "dusk"];
 /** weather.js's WEATHER_KINDS less "clear" (the default); tools/check_ladders.mjs holds the two in step. */
-const CONDITION_WEATHER = ["overcast", "rain", "fog", "wind", "storm", "smoke"];
+const CONDITION_WEATHER = ["overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"];
 const CONDITION_VARIANTS = ["assessment", "pressure"];
 /** The query keys a condition may set; a level task clears all of them before setting its own. */
 const CONDITION_KEYS = ["time", "weather", "hazard", "interrupt", "variant", "seed"];
@@ -15982,7 +16034,7 @@ const Perf = {
 // animated by property writes, so a headset pays almost nothing for it. AR
 // mode gets none of it: the learner's own room is the weather there.
 
-const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke"];
+const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"];
 
 const WEATHER = {
   clear: {
@@ -16022,6 +16074,16 @@ const WEATHER = {
     label: "Wildfire smoke",
     note: "Wildfire smoke — the AQI decides the shift: under Cal/OSHA's wildfire smoke rule, respirators are offered when PM2.5 reaches an AQI of 151 and required above 500, and every instrument on site is reading the plume, not the work.",
     fog: 0.42, light: 0.66, drops: 0, gust: 0.25, wet: 0, sky: 0.8, tint: 0x8a5a33, ash: 240,
+  },
+  // Heat haze over open ground: no rain, a warm low sun, and the ground-level
+  // shimmer of hot, moving air — reusing the same windborne-dust pass that
+  // "wind" uses, because a hot dust devil on open range looks exactly like
+  // one, tinted warm instead of grey. The note defers work/rest and water to
+  // the crew's own heat-illness prevention plan; no figure is guessed here.
+  "heat-haze": {
+    label: "Heat haze",
+    note: "High heat over open ground — the crew's own heat-illness prevention plan sets the work/rest schedule and the water, per the forecast for the day, not a number guessed here.",
+    fog: 0.92, light: 0.94, drops: 0, gust: 0.82, wet: 0, sky: 1, tint: 0xd9b46a,
   },
 };
 
@@ -18575,6 +18637,73 @@ function hill(g, x, z, rx, ry, rz, color = 0x1d2a22) {
   return h;
 }
 
+/** Rolling grass and dirt: mottled olive-tan with dry tufts, sparse bare-dirt
+ *  patches and a fine grain — the range floor a right-of-way patrol, a
+ *  fireline crew or a grading crew actually stands on, not a lawn. */
+function rangeGrassFace(g, w, h) {
+  gradientFill(g, w, h, [[0, "#5a5f38"], [1, "#4a5230"]], { radial: true });
+  noiseTexture(g, w, h, { density: 3200, alpha: 0.13, tone: "28,24,10" });
+  noiseTexture(g, w, h, { density: 1600, alpha: 0.09, tone: "182,190,120" });
+  for (let i = 0; i < 8; i++) {
+    const x = Math.random() * w, y = Math.random() * h, r = 22 + Math.random() * 48;
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (grad && typeof grad.addColorStop === "function") {
+      grad.addColorStop(0, "rgba(140,120,76,0.4)"); grad.addColorStop(1, "rgba(140,120,76,0)");
+      g.fillStyle = grad; g.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+  }
+  g.fillStyle = "rgba(150,162,92,0.35)";
+  for (let i = 0; i < 520; i++) g.fillRect(Math.random() * w, Math.random() * h, 1.4, 3 + Math.random() * 3);
+}
+
+/** The range floor to the horizon: a grass-and-dirt disc under the roam
+ *  circle and well past it, so the learner is never off the edge of it. */
+function rangeGround(g, r = 48) {
+  const tex = surfaceTexture((cx, w, h) => rangeGrassFace(cx, w, h), { repeat: 14, px: 512 });
+  const m = cyl(g, r, r, 0.2, 0, -0.1, 0, 0x545b36, { rough: 0.95, seg: 56, cast: false });
+  m.material = texturedMat(tex, { rough: 0.95, metal: 0.02, color: 0xbdbf98 });
+  m.receiveShadow = true;
+  return tex;
+}
+
+/** A dirt access road running along Z, the way a crew actually drove in. */
+function dirtRoad(g, x = -8, z0 = 11, z1 = -40, width = 4.6) {
+  const len = Math.abs(z1 - z0), cz = (z0 + z1) / 2;
+  const tex = surfaceTexture((cx, w, h) => mudflatFace(cx, w, h, { base: "#8a7a5c", base2: "#6d5f45", cracks: 14, pools: 0 }), { repeat: 3, px: 384 });
+  tex.repeat?.set?.(1, Math.max(3, Math.round(len / 7)));
+  const road = box(g, width, 0.06, len, x, 0.001, cz, 0x8a7a5c, { rough: 0.95, cast: false });
+  road.material = texturedMat(tex, { rough: 0.95, metal: 0.02, color: 0x9a8a68 });
+  road.receiveShadow = true;
+  return road;
+}
+
+/** A wind sock on a pole, reading the day's air — the plain instrument every
+ *  one of these outdoor trades glances at before anything else. */
+function windSock(g, x, z, h = 5) {
+  const s = group(g, x, -0.1, z);
+  cyl(s, 0.04, 0.045, h, 0, h / 2, 0, 0xb8c1c9, { rough: 0.5, seg: 8, cast: false, receive: false });
+  for (const ry of [0, Math.PI / 2]) box(s, 0.5, 0.03, 0.03, 0, h - 0.15, 0, 0xb8c1c9, { rough: 0.5, cast: false, receive: false }).rotation.y = ry;
+  const cone = own(cyl(s, 0.24, 0.08, 1.5, 0.78, h - 0.15, 0, 0xff7a3b, { rough: 0.85, seg: 10, open: true, cast: false, receive: false }));
+  cone.rotation.z = Math.PI / 2;
+  return cone;
+}
+
+/** A utility-scale wind turbine silhouette on the ridge: a tapered tower, a
+ *  nacelle and three blades on a hub, spun slowly by the district's animate. */
+function turbine(g, x, z, h = 28, bladeLen = 6.2) {
+  const t = group(g, x, -1.5, z);
+  cyl(t, 0.34, 0.55, h, 0, h / 2, 0, 0xd8dde2, { rough: 0.5, metal: 0.15, seg: 10, cast: false, receive: false });
+  box(t, 1.05, 0.85, 2.4, 0, h + 0.2, 0.3, 0xc9d0d6, { rough: 0.5, metal: 0.2, cast: false, receive: false });
+  const hub = group(t, 0, h + 0.2, 1.6);
+  for (let i = 0; i < 3; i++) {
+    const spoke = group(hub, 0, 0, 0);
+    spoke.rotation.z = (i / 3) * Math.PI * 2;
+    own(box(spoke, 0.16, bladeLen, 0.42, 0, bladeLen / 2, 0, 0xe8ecef, { rough: 0.55, cast: false, receive: false }));
+  }
+  return hub;
+}
+
 function monitorMast(g, x, z, h = 6) {
   cyl(g, 0.05, 0.07, h, x, h / 2 - 1.5, z, 0xb8c1c9, { rough: 0.5, metal: 0.6, seg: 6, cast: false, receive: false });
   box(g, 0.5, 0.6, 0.35, x, h - 1.9, z, 0xe6ecf1, { rough: 0.5, cast: false, receive: false });
@@ -20049,6 +20178,54 @@ const DISTRICTS = {
     spawn: { x: 0, z: 6.2, ry: 0 },
     roam: 7.2,
     build(g, _accent, env = {}) { return gymCourt(g, env); },
+  },
+  "open-range": {
+    // Outdoor open range: rolling grass and dirt to a long horizon, the
+    // ground itself rather than a horizon behind a plaza, so no plaza deck,
+    // masts, marquee or apron. The sky and fog still follow the hour like any
+    // other district — there is no city out here to hide it behind, only the
+    // ridge, the turbines and the line striding off toward them.
+    plaza: false,
+    sky: 0x223018, fog: 0x2c3820, hemi: [0xaebf7a, 0x2a2410], mast: 0xfff0c8,
+    key: 0xfff2dc,
+    // Sustained wind is the range's own default — the wind sock is never
+    // still out here — replaced by a station's own smoke or heat-haze call,
+    // or by the URL's own `?weather=`.
+    weather: "wind",
+    fogRange: [55, 225],
+    far: 230,
+    skyline: false,
+    roam: 12,
+    spawn: { x: 0, z: 9.6, ry: 0 },
+    // Dressed at the edges, well clear of the roam circle: a fence line, a
+    // light tower, a site office and a fuel tank — the way any of these crews
+    // actually parks a jobsite on open ground.
+    dressing: [
+      { prop: "fencePanel", x: -16.5, z: -8.4, ry: 0.32 },
+      { prop: "fencePanel", x: -13.6, z: -9.6, ry: 0.32 },
+      { prop: "lightMast", x: 16.5, z: -8, lit: true },
+      { prop: "siteOffice", x: 13, z: -10.2, ry: -0.4 },
+      { prop: "fuelTank", x: -18, z: 5, ry: 1.1 },
+    ],
+    build(g) {
+      flood(g, 0, 20, -32, 0xfff2dc, 1.1);
+      rangeGround(g);
+      dirtRoad(g);
+      // The ridge line closing the horizon, hills only — the district builds
+      // no skyline ring out here.
+      hill(g, -32, -42, 34, 9, 16, 0x333d22);
+      hill(g, 6, -50, 40, 11, 18, 0x2e3a20);
+      hill(g, 42, -40, 32, 9, 15, 0x333d22);
+      // The transmission line striding off toward the turbines on the ridge.
+      const arms = [pylon(g, -18, -34, 15, 0.3), pylon(g, 14, -38, 16, -0.15)];
+      for (let k = 0; k < 6; k++) span(g, arms[0][k], arms[1][k], 0.03);
+      const turbines = [turbine(g, -34, -30, 26), turbine(g, 4, -42, 30), turbine(g, 36, -26, 24)];
+      const sockCone = windSock(g, 8, 6.5, 5);
+      return (t) => {
+        for (const hub of turbines) hub.rotation.z = t * 1.3;
+        sockCone.rotation.y = Math.PI / 2 + Math.sin(t * 0.4) * 0.3;
+      };
+    },
   },
 };
 
@@ -40401,6 +40578,174 @@ const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "or-transmission-line-right-of-way-patrol",
+    "index": "260",
+    "domain": "Energy",
+    "trade": "Outside lineworker — IBEW transmission patrol",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+    "name": "Transmission Line ROW Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+    "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "accent": 15905076,
+    "accentCss": "#f2b134",
+    "parSeconds": 300,
+    "badge": {
+      "id": "corridor-cleared",
+      "name": "Corridor Cleared",
+      "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "index": "261",
+    "domain": "Emergency Services",
+    "trade": "Wildland firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+    "name": "Wildland Fireline Construction",
+    "weather": "smoke",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+    "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "accent": 13197871,
+    "accentCss": "#c9622f",
+    "parSeconds": 310,
+    "badge": {
+      "id": "line-holds",
+      "name": "Line Holds",
+      "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fireline Crew",
+      "currency": "LINE",
+      "ranks": [
+        "Crew Member",
+        "Squad Boss",
+        "Crew Boss",
+        "Division Supervisor",
+        "Fireline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-solar-farm-tracker-row-maintenance",
+    "index": "262",
+    "domain": "Energy",
+    "trade": "Solar technician — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+    "name": "Solar Tracker Row Maintenance",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+    "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-returned",
+      "name": "Row Returned",
+      "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-ranch-road-grading-and-culvert",
+    "index": "263",
+    "domain": "Construction",
+    "trade": "Operating engineer — IUOE",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+    "name": "Ranch Road Grading & Culvert",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+    "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "road-restored",
+      "name": "Road Restored",
+      "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
 
@@ -40593,6 +40938,8 @@ const CURRICULA = [
       { app: "smartcity", id: "cell-site-battery", why: "A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night." },
       { app: "smartcity", id: "battery-storage-container-commissioning", why: "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop." },
       { app: "smartcity", id: "et-ev-fleet-depot-charging-and-arc-flash", why: "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them." },
+      { app: "smartcity", id: "or-transmission-line-right-of-way-patrol", why: "The corridor these stations feed and draw from, walked and driven on open range, where a downed conductor is treated as energised from the first look at it, not judged safe by what it looks like lying in the grass." },
+      { app: "smartcity", id: "or-solar-farm-tracker-row-maintenance", why: "The array itself serviced under a real combiner lockout, with the manual override never turning a row until the meter, not the switch position, says the DC is actually dead." },
     ],
   },
   {
@@ -41047,6 +41394,7 @@ const CURRICULA = [
       { app: "smartcity", id: "bt-formwork-stripping-and-reshoring", why: "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it." },
       { app: "smartcity", id: "bt-rebar-tying-and-impalement-protection", why: "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch." },
       { app: "smartcity", id: "bt-masonry-wall-layout-and-mortar", why: "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone." },
+      { app: "smartcity", id: "or-ranch-road-grading-and-culvert", why: "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call." },
     ],
   },
   {
@@ -41074,6 +41422,7 @@ const CURRICULA = [
       { app: "smartcity", id: "shelter-intake-operations", why: "The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real." },
       { app: "smartcity", id: "damage-assessment-team", why: "The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it." },
       { app: "smartcity", id: "psychological-first-aid", why: "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted." },
+      { app: "smartcity", id: "or-wildland-fireline-construction-and-lookout", why: "The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered by the radio instead of by someone deciding alone to keep cutting." },
     ],
   },
   {
@@ -41547,29 +41896,29 @@ const STORED = [
     {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:airport-ramp@time:dusk","smartcity:track-access@interrupt:section-relit","smartcity:forklift-dock@interrupt:trailer-creeping","smartcity:signal-cabinet@weather:rain","smartcity:tr-wheelchair-lift-and-securement-on-a-bus@hazard","smartcity:bus-yard-fuelling-and-brake-check@base"],"source":"generated"},
     {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:airport-ramp@variant:assessment","smartcity:track-access@variant:assessment","smartcity:forklift-dock@variant:assessment","smartcity:signal-cabinet@variant:assessment","smartcity:tr-wheelchair-lift-and-securement-on-a-bus@variant:assessment","smartcity:bus-yard-fuelling-and-brake-check@variant:assessment"],"source":"generated"},
   ] },
-  { programme: "energy-transition", name: "Energy Transition Systems", accent: "#9fd84f", lessons: 1700, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
-    stations: {"smartcity:solar-deck":{"name":"Solar Deck","steps":11,"parSeconds":225,"hazards":5,"indoor":null,"interrupts":[{"id":"array-relit","kind":"Shutdown reset"},{"id":"lanyard-off","kind":"Attachment lost"}],"category":"Energy & Power","standards":["ansi-z359","ibew-neca-jatc","nabcep-pv","nfpa-70e","osha-1910-147","osha-1926-501"],"difficulty":18.25},"smartcity:battery-yard":{"name":"Battery Yard","steps":12,"parSeconds":280,"hazards":4,"indoor":null,"interrupts":[{"id":"residual-offgas","kind":"Gas re-alarm"},{"id":"neighbour-heats-up","kind":"Thermal spike"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nfpa-70e","nfpa-855","osha-1910-147"],"difficulty":18.67},"smartcity:charge-point":{"name":"Charge Point","steps":11,"parSeconds":205,"hazards":4,"indoor":null,"interrupts":[{"id":"bay-encroached","kind":"Bay incursion"},{"id":"handle-moved","kind":"Isolation disturbed"}],"category":"Energy & Power","standards":["evitp-certification","ibew-neca-jatc","nfpa-70e","osha-1910-333"],"difficulty":16.92},"smartcity:substation-switching":{"name":"Substation Switching","steps":11,"parSeconds":245,"hazards":4,"indoor":null,"interrupts":[{"id":"unescorted-visitor","kind":"Yard breach"},{"id":"order-changed","kind":"Control call"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nfpa-70e","osha-1910-269"],"difficulty":17.58},"smartcity:cell-site-battery":{"name":"Cell Site Battery","steps":11,"parSeconds":240,"hazards":4,"indoor":null,"interrupts":[{"id":"cabinet-door-swings-shut","kind":"Hydrogen climbing"},{"id":"backfeed-on-string-1","kind":"Isolation in doubt"}],"category":"Connectivity & Telecom","standards":["cwa-training","ieee-450","nfpa-70e","osha-1910-305"],"difficulty":17.5},"smartcity:battery-storage-container-commissioning":{"name":"Battery Storage Container Commissioning","steps":15,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"off-gas-alarm","kind":"Off-gas detector alarming"},{"id":"cell-group-hot","kind":"Cell group running hot"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nec-nfpa-70","neta-ats","nfpa-69","nfpa-70e","nfpa-855","osha-1910-147","osha-1910-333"],"difficulty":20.5},"smartcity:et-ev-fleet-depot-charging-and-arc-flash":{"name":"EV Fleet Depot Charging & Arc Flash","steps":14,"parSeconds":340,"hazards":4,"indoor":null,"interrupts":[{"id":"driver-tries-to-plug-in","kind":"A fleet driver tries to plug into the dispenser mid-service"},{"id":"ground-fault-trips-elsewhere","kind":"A ground fault trips on a different panel during the test"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nec-nfpa-70","nfpa-70e","osha-1910-269","osha-1910-333"],"difficulty":20.67}},
+  { programme: "energy-transition", name: "Energy Transition Systems", accent: "#9fd84f", lessons: 1642, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
+    stations: {"smartcity:solar-deck":{"name":"Solar Deck","steps":11,"parSeconds":225,"hazards":5,"indoor":null,"interrupts":[{"id":"array-relit","kind":"Shutdown reset"},{"id":"lanyard-off","kind":"Attachment lost"}],"category":"Energy & Power","standards":["ansi-z359","ibew-neca-jatc","nabcep-pv","nfpa-70e","osha-1910-147","osha-1926-501"],"difficulty":18.25},"smartcity:battery-yard":{"name":"Battery Yard","steps":12,"parSeconds":280,"hazards":4,"indoor":null,"interrupts":[{"id":"residual-offgas","kind":"Gas re-alarm"},{"id":"neighbour-heats-up","kind":"Thermal spike"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nfpa-70e","nfpa-855","osha-1910-147"],"difficulty":18.67},"smartcity:charge-point":{"name":"Charge Point","steps":11,"parSeconds":205,"hazards":4,"indoor":null,"interrupts":[{"id":"bay-encroached","kind":"Bay incursion"},{"id":"handle-moved","kind":"Isolation disturbed"}],"category":"Energy & Power","standards":["evitp-certification","ibew-neca-jatc","nfpa-70e","osha-1910-333"],"difficulty":16.92},"smartcity:substation-switching":{"name":"Substation Switching","steps":11,"parSeconds":245,"hazards":4,"indoor":null,"interrupts":[{"id":"unescorted-visitor","kind":"Yard breach"},{"id":"order-changed","kind":"Control call"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nfpa-70e","osha-1910-269"],"difficulty":17.58},"smartcity:cell-site-battery":{"name":"Cell Site Battery","steps":11,"parSeconds":240,"hazards":4,"indoor":null,"interrupts":[{"id":"cabinet-door-swings-shut","kind":"Hydrogen climbing"},{"id":"backfeed-on-string-1","kind":"Isolation in doubt"}],"category":"Connectivity & Telecom","standards":["cwa-training","ieee-450","nfpa-70e","osha-1910-305"],"difficulty":17.5},"smartcity:battery-storage-container-commissioning":{"name":"Battery Storage Container Commissioning","steps":15,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"off-gas-alarm","kind":"Off-gas detector alarming"},{"id":"cell-group-hot","kind":"Cell group running hot"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nec-nfpa-70","neta-ats","nfpa-69","nfpa-70e","nfpa-855","osha-1910-147","osha-1910-333"],"difficulty":20.5},"smartcity:et-ev-fleet-depot-charging-and-arc-flash":{"name":"EV Fleet Depot Charging & Arc Flash","steps":14,"parSeconds":340,"hazards":4,"indoor":null,"interrupts":[{"id":"driver-tries-to-plug-in","kind":"A fleet driver tries to plug into the dispenser mid-service"},{"id":"ground-fault-trips-elsewhere","kind":"A ground fault trips on a different panel during the test"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nec-nfpa-70","nfpa-70e","osha-1910-269","osha-1910-333"],"difficulty":20.67},"smartcity:or-transmission-line-right-of-way-patrol":{"name":"Transmission Line ROW Patrol","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"downed-conductor-found","kind":"Downed conductor across the road"},{"id":"spot-fire-ignites","kind":"Fire starts at the fault"}],"category":"Energy & Power","standards":["ansi-z359","ibew-neca-jatc","ieee-c2-nesc","osha-1910-147","osha-1910-269"],"difficulty":20},"smartcity:or-solar-farm-tracker-row-maintenance":{"name":"Solar Tracker Row Maintenance","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"snake-in-the-row","kind":"A snake in the row"},{"id":"heat-illness-symptom","kind":"Heat-illness symptoms"}],"category":"Energy & Power","standards":["ibew-neca-jatc","nabcep-pv","nec-nfpa-70","nfpa-70e","osha-1910-147"],"difficulty":20}},
     levels: [
-    {"n":1,"title":"Orientation","band":"orientation","coaching":true,"tasks":["smartcity:charge-point@base","smartcity:cell-site-battery@base","smartcity:substation-switching@base","smartcity:solar-deck@base","smartcity:battery-yard@base","smartcity:battery-storage-container-commissioning@base","smartcity:et-ev-fleet-depot-charging-and-arc-flash@base"],"source":"generated"},
-    {"n":2,"title":"Orientation by daylight","band":"orientation","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@time:day","smartcity:solar-deck@time:day","smartcity:battery-yard@time:day","smartcity:battery-storage-container-commissioning@time:day","smartcity:et-ev-fleet-depot-charging-and-arc-flash@time:day"],"source":"generated"},
-    {"n":3,"title":"Single procedures","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@base","smartcity:cell-site-battery@base","smartcity:substation-switching@base","smartcity:solar-deck@base","smartcity:battery-yard@base","smartcity:battery-storage-container-commissioning@base","smartcity:et-ev-fleet-depot-charging-and-arc-flash@base"],"source":"generated"},
-    {"n":4,"title":"Single procedures at dusk","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@time:dusk","smartcity:cell-site-battery@time:dusk","smartcity:substation-switching@time:dusk","smartcity:solar-deck@time:dusk","smartcity:battery-yard@time:dusk","smartcity:battery-storage-container-commissioning@time:dusk","smartcity:et-ev-fleet-depot-charging-and-arc-flash@time:dusk"],"source":"generated"},
-    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@base","smartcity:solar-deck@base","smartcity:battery-yard@time:day","smartcity:battery-storage-container-commissioning@base","smartcity:et-ev-fleet-depot-charging-and-arc-flash@time:day"],"source":"generated"},
-    {"n":6,"title":"Rain","band":"weather","coaching":true,"tasks":["smartcity:charge-point@time:dusk","smartcity:cell-site-battery@time:dusk","smartcity:substation-switching@weather:rain","smartcity:solar-deck@weather:rain","smartcity:battery-yard@weather:rain","smartcity:battery-storage-container-commissioning@time:dusk","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:rain"],"source":"generated"},
-    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@weather:wind","smartcity:solar-deck@weather:wind","smartcity:battery-yard@weather:wind","smartcity:battery-storage-container-commissioning@time:day","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:wind"],"source":"generated"},
-    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:charge-point@weather:fog","smartcity:cell-site-battery@weather:fog","smartcity:substation-switching@weather:fog","smartcity:solar-deck@time:dusk","smartcity:battery-yard@time:dusk","smartcity:battery-storage-container-commissioning@time:dusk","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:fog"],"source":"generated"},
-    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@time:day","smartcity:solar-deck@weather:storm","smartcity:battery-yard@weather:storm","smartcity:battery-storage-container-commissioning@weather:storm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:storm"],"source":"generated"},
-    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:charge-point@weather:rain","smartcity:cell-site-battery@time:dusk","smartcity:substation-switching@weather:rain","smartcity:solar-deck@weather:smoke","smartcity:battery-yard@weather:overcast","smartcity:battery-storage-container-commissioning@weather:smoke","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:overcast"],"source":"generated"},
-    {"n":11,"title":"Hazard mode","band":"hazard","coaching":true,"tasks":["smartcity:charge-point@hazard","smartcity:cell-site-battery@hazard","smartcity:substation-switching@hazard","smartcity:solar-deck@hazard","smartcity:battery-yard@hazard","smartcity:battery-storage-container-commissioning@hazard","smartcity:et-ev-fleet-depot-charging-and-arc-flash@hazard"],"source":"generated"},
-    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:charge-point@interrupt:bay-encroached","smartcity:cell-site-battery@interrupt:cabinet-door-swings-shut","smartcity:substation-switching@interrupt:unescorted-visitor","smartcity:solar-deck@interrupt:array-relit","smartcity:battery-yard@interrupt:residual-offgas","smartcity:battery-storage-container-commissioning@interrupt:off-gas-alarm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@interrupt:driver-tries-to-plug-in"],"source":"generated"},
-    {"n":13,"title":"Hazard mode, harder stations","band":"hazard","coaching":true,"tasks":["smartcity:charge-point@hazard","smartcity:cell-site-battery@hazard","smartcity:substation-switching@hazard","smartcity:solar-deck@hazard","smartcity:battery-yard@hazard","smartcity:battery-storage-container-commissioning@hazard","smartcity:et-ev-fleet-depot-charging-and-arc-flash@hazard"],"source":"generated"},
-    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:charge-point@interrupt:handle-moved","smartcity:cell-site-battery@interrupt:backfeed-on-string-1","smartcity:substation-switching@interrupt:order-changed","smartcity:solar-deck@interrupt:lanyard-off","smartcity:battery-yard@interrupt:neighbour-heats-up","smartcity:battery-storage-container-commissioning@interrupt:cell-group-hot","smartcity:et-ev-fleet-depot-charging-and-arc-flash@interrupt:ground-fault-trips-elsewhere"],"source":"generated"},
-    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:charge-point@weather:wind","smartcity:cell-site-battery@weather:rain","smartcity:substation-switching@interrupt:unescorted-visitor","smartcity:solar-deck@time:day","smartcity:battery-yard@weather:rain","smartcity:battery-storage-container-commissioning@interrupt:off-gas-alarm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:wind"],"source":"generated"},
-    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:charge-point@interrupt:bay-encroached","smartcity:cell-site-battery@hazard","smartcity:substation-switching@time:dusk","smartcity:solar-deck@interrupt:array-relit","smartcity:battery-yard@time:dusk","smartcity:battery-storage-container-commissioning@interrupt:cell-group-hot","smartcity:et-ev-fleet-depot-charging-and-arc-flash@hazard"],"source":"generated"},
-    {"n":17,"title":"Station chain, instructor on","band":"chain","coaching":true,"tasks":["smartcity:charge-point@interrupt:handle-moved","smartcity:cell-site-battery@weather:fog","smartcity:substation-switching@hazard","smartcity:solar-deck@interrupt:lanyard-off","smartcity:battery-yard@weather:fog","smartcity:battery-storage-container-commissioning@interrupt:off-gas-alarm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:fog"],"source":"generated"},
-    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@weather:storm","smartcity:substation-switching@interrupt:order-changed","smartcity:solar-deck@hazard","smartcity:battery-yard@time:day","smartcity:battery-storage-container-commissioning@weather:storm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@interrupt:driver-tries-to-plug-in"],"source":"generated"},
-    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:charge-point@weather:wind","smartcity:cell-site-battery@time:dusk","smartcity:substation-switching@interrupt:unescorted-visitor","smartcity:solar-deck@interrupt:array-relit","smartcity:battery-yard@weather:rain","smartcity:battery-storage-container-commissioning@time:day","smartcity:et-ev-fleet-depot-charging-and-arc-flash@base"],"source":"generated"},
-    {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:charge-point@variant:assessment","smartcity:cell-site-battery@variant:assessment","smartcity:substation-switching@variant:assessment","smartcity:solar-deck@variant:assessment","smartcity:battery-yard@variant:assessment","smartcity:battery-storage-container-commissioning@variant:assessment","smartcity:et-ev-fleet-depot-charging-and-arc-flash@variant:assessment"],"source":"generated"},
+    {"n":1,"title":"Orientation","band":"orientation","coaching":true,"tasks":["smartcity:charge-point@base","smartcity:cell-site-battery@base","smartcity:substation-switching@base","smartcity:solar-deck@base","smartcity:battery-yard@base","smartcity:or-solar-farm-tracker-row-maintenance@base","smartcity:or-transmission-line-right-of-way-patrol@base"],"source":"generated"},
+    {"n":2,"title":"Orientation by daylight","band":"orientation","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@time:day","smartcity:solar-deck@time:day","smartcity:battery-yard@time:day","smartcity:or-solar-farm-tracker-row-maintenance@time:day","smartcity:or-transmission-line-right-of-way-patrol@time:day"],"source":"generated"},
+    {"n":3,"title":"Single procedures","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@base","smartcity:cell-site-battery@base","smartcity:substation-switching@base","smartcity:solar-deck@base","smartcity:battery-yard@base","smartcity:or-solar-farm-tracker-row-maintenance@base","smartcity:or-transmission-line-right-of-way-patrol@base"],"source":"generated"},
+    {"n":4,"title":"Single procedures at dusk","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@time:dusk","smartcity:cell-site-battery@time:dusk","smartcity:substation-switching@time:dusk","smartcity:solar-deck@time:dusk","smartcity:battery-yard@time:dusk","smartcity:or-solar-farm-tracker-row-maintenance@time:dusk","smartcity:or-transmission-line-right-of-way-patrol@time:dusk"],"source":"generated"},
+    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:charge-point@base","smartcity:cell-site-battery@base","smartcity:substation-switching@time:day","smartcity:solar-deck@time:day","smartcity:battery-yard@time:day","smartcity:or-solar-farm-tracker-row-maintenance@base","smartcity:or-transmission-line-right-of-way-patrol@time:day"],"source":"generated"},
+    {"n":6,"title":"Rain","band":"weather","coaching":true,"tasks":["smartcity:charge-point@weather:rain","smartcity:cell-site-battery@weather:rain","smartcity:substation-switching@weather:rain","smartcity:solar-deck@time:dusk","smartcity:battery-yard@time:dusk","smartcity:or-solar-farm-tracker-row-maintenance@time:dusk","smartcity:or-transmission-line-right-of-way-patrol@weather:rain"],"source":"generated"},
+    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:charge-point@time:day","smartcity:cell-site-battery@time:day","smartcity:substation-switching@time:day","smartcity:solar-deck@weather:wind","smartcity:battery-yard@weather:wind","smartcity:or-solar-farm-tracker-row-maintenance@weather:wind","smartcity:or-transmission-line-right-of-way-patrol@weather:wind"],"source":"generated"},
+    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:charge-point@weather:fog","smartcity:cell-site-battery@weather:fog","smartcity:substation-switching@weather:fog","smartcity:solar-deck@weather:fog","smartcity:battery-yard@time:dusk","smartcity:or-solar-farm-tracker-row-maintenance@time:dusk","smartcity:or-transmission-line-right-of-way-patrol@time:dusk"],"source":"generated"},
+    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:cell-site-battery@time:day","smartcity:substation-switching@time:day","smartcity:solar-deck@time:day","smartcity:battery-yard@weather:storm","smartcity:or-solar-farm-tracker-row-maintenance@weather:storm","smartcity:or-transmission-line-right-of-way-patrol@weather:storm","smartcity:battery-storage-container-commissioning@weather:storm"],"source":"generated"},
+    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:cell-site-battery@weather:rain","smartcity:substation-switching@time:dusk","smartcity:solar-deck@weather:rain","smartcity:battery-yard@weather:smoke","smartcity:or-solar-farm-tracker-row-maintenance@weather:overcast","smartcity:or-transmission-line-right-of-way-patrol@weather:smoke","smartcity:battery-storage-container-commissioning@weather:overcast"],"source":"generated"},
+    {"n":11,"title":"Hazard mode","band":"hazard","coaching":true,"tasks":["smartcity:substation-switching@hazard","smartcity:solar-deck@hazard","smartcity:battery-yard@hazard","smartcity:or-solar-farm-tracker-row-maintenance@hazard","smartcity:or-transmission-line-right-of-way-patrol@hazard","smartcity:battery-storage-container-commissioning@hazard"],"source":"generated"},
+    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:substation-switching@interrupt:unescorted-visitor","smartcity:solar-deck@interrupt:array-relit","smartcity:battery-yard@interrupt:residual-offgas","smartcity:or-solar-farm-tracker-row-maintenance@interrupt:snake-in-the-row","smartcity:or-transmission-line-right-of-way-patrol@interrupt:downed-conductor-found","smartcity:battery-storage-container-commissioning@interrupt:off-gas-alarm"],"source":"generated"},
+    {"n":13,"title":"Hazard mode, harder stations","band":"hazard","coaching":true,"tasks":["smartcity:solar-deck@hazard","smartcity:battery-yard@hazard","smartcity:or-solar-farm-tracker-row-maintenance@hazard","smartcity:or-transmission-line-right-of-way-patrol@hazard","smartcity:battery-storage-container-commissioning@hazard","smartcity:et-ev-fleet-depot-charging-and-arc-flash@hazard"],"source":"generated"},
+    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:solar-deck@interrupt:lanyard-off","smartcity:battery-yard@interrupt:neighbour-heats-up","smartcity:or-solar-farm-tracker-row-maintenance@interrupt:heat-illness-symptom","smartcity:or-transmission-line-right-of-way-patrol@interrupt:spot-fire-ignites","smartcity:battery-storage-container-commissioning@interrupt:cell-group-hot","smartcity:et-ev-fleet-depot-charging-and-arc-flash@interrupt:driver-tries-to-plug-in"],"source":"generated"},
+    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:solar-deck@weather:rain","smartcity:battery-yard@interrupt:residual-offgas","smartcity:or-solar-farm-tracker-row-maintenance@weather:wind","smartcity:or-transmission-line-right-of-way-patrol@interrupt:downed-conductor-found","smartcity:battery-storage-container-commissioning@weather:rain","smartcity:et-ev-fleet-depot-charging-and-arc-flash@time:day"],"source":"generated"},
+    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:solar-deck@hazard","smartcity:battery-yard@time:dusk","smartcity:or-solar-farm-tracker-row-maintenance@interrupt:snake-in-the-row","smartcity:or-transmission-line-right-of-way-patrol@time:dusk","smartcity:battery-storage-container-commissioning@interrupt:off-gas-alarm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@hazard"],"source":"generated"},
+    {"n":17,"title":"Station chain, instructor on","band":"chain","coaching":true,"tasks":["smartcity:solar-deck@weather:fog","smartcity:battery-yard@hazard","smartcity:or-solar-farm-tracker-row-maintenance@interrupt:heat-illness-symptom","smartcity:or-transmission-line-right-of-way-patrol@weather:fog","smartcity:battery-storage-container-commissioning@interrupt:cell-group-hot","smartcity:et-ev-fleet-depot-charging-and-arc-flash@weather:fog"],"source":"generated"},
+    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:solar-deck@weather:storm","smartcity:battery-yard@interrupt:neighbour-heats-up","smartcity:or-solar-farm-tracker-row-maintenance@hazard","smartcity:or-transmission-line-right-of-way-patrol@time:day","smartcity:battery-storage-container-commissioning@weather:storm","smartcity:et-ev-fleet-depot-charging-and-arc-flash@interrupt:ground-fault-trips-elsewhere"],"source":"generated"},
+    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:solar-deck@time:dusk","smartcity:battery-yard@interrupt:residual-offgas","smartcity:or-solar-farm-tracker-row-maintenance@interrupt:snake-in-the-row","smartcity:or-transmission-line-right-of-way-patrol@weather:rain","smartcity:battery-storage-container-commissioning@time:day","smartcity:et-ev-fleet-depot-charging-and-arc-flash@base"],"source":"generated"},
+    {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:solar-deck@variant:assessment","smartcity:battery-yard@variant:assessment","smartcity:or-solar-farm-tracker-row-maintenance@variant:assessment","smartcity:or-transmission-line-right-of-way-patrol@variant:assessment","smartcity:battery-storage-container-commissioning@variant:assessment","smartcity:et-ev-fleet-depot-charging-and-arc-flash@variant:assessment"],"source":"generated"},
   ] },
   { programme: "live-events", name: "Live Events Production", accent: "#c58cff", lessons: 1620, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
     stations: {"smartcity:stage-power":{"name":"Stage Power","steps":11,"parSeconds":235,"hazards":5,"indoor":"theatre","interrupts":[{"id":"board-op-early-power","kind":"Board op wants power early"},{"id":"phase-sag-generator","kind":"Voltage sag on the feed"}],"category":"Entertainment & Live Events","standards":["etcp-certification","iatse-training-trust","nec-nfpa-70","nfpa-70e","osha-1910-147","osha-1910-333"],"difficulty":18.42},"smartcity:fly-system":{"name":"Fly System","steps":12,"parSeconds":260,"hazards":4,"indoor":"theatre","interrupts":[{"id":"wander-under-batten","kind":"Body under the pipe"},{"id":"gate-left-open","kind":"Bridge gate open"}],"category":"Entertainment & Live Events","standards":["ansi-e1-4","etcp-certification","iatse-training-trust","osha-1910-28"],"difficulty":18.33},"smartcity:rigging-loft":{"name":"Rigging Loft","steps":14,"parSeconds":265,"hazards":4,"indoor":"theatre","interrupts":[{"id":"deck-under-batten","kind":"Deck breached"},{"id":"arbor-creeping","kind":"Line set running"}],"category":"Entertainment & Live Events","standards":["etcp-certification","iatse-training-trust"],"difficulty":19.42},"smartcity:chain-hoist":{"name":"Chain Hoist","steps":10,"parSeconds":240,"hazards":4,"indoor":"theatre","interrupts":[{"id":"walk-under-truss-flying","kind":"Someone crosses under the flying truss"},{"id":"motor-chain-jam-warning","kind":"Motor 2 chain sounding wrong"}],"category":"Entertainment & Live Events","standards":["ansi-e1-6","asme-b30-16","etcp-certification","iatse-training-trust"],"difficulty":17},"smartcity:stage-load-in-and-truss-rigging":{"name":"Stage Load-In & Truss Rigging","steps":14,"parSeconds":285,"hazards":4,"indoor":"theatre","interrupts":[{"id":"cart-under-load","kind":"Stagehand pushing a cart under the load"},{"id":"motor-out-of-step","kind":"Motor out of step"}],"category":"Entertainment & Live Events","standards":["ansi-e1-6","asme-b30-16","asme-b30-26","asme-b30-9","etcp-certification","iatse-training-trust"],"difficulty":19.75},"smartcity:le-followspot-and-truss-access-at-height":{"name":"Followspot & Truss Access at Height","steps":12,"parSeconds":300,"hazards":4,"indoor":"theatre","interrupts":[{"id":"beam-in-crew-eyes","kind":"Beam sweeps across a rigger's eyes below"},{"id":"second-climber-on-ladder","kind":"Second electrician starts up the same fixed ladder"}],"category":"Entertainment & Live Events","standards":["etcp-certification","iatse-training-trust","nfpa-70e","osha-1910-28"],"difficulty":19},"smartcity:le-crowd-barricade-and-show-stop-call":{"name":"Crowd Barricade & Show-Stop Call","steps":13,"parSeconds":300,"hazards":4,"indoor":"theatre","interrupts":[{"id":"barricade-load-spike","kind":"Load spike at the rail during the opening rush"},{"id":"person-pulled-over-rail","kind":"Crowd member pulled over the barricade"}],"category":"Entertainment & Live Events","standards":["ansi-e1-6","ansi-isea-107","iatse-training-trust","nfpa-101","osha-1910-28"],"difficulty":19.5}},
@@ -41931,52 +42280,52 @@ const STORED = [
     {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:banquet-hot-hold@time:dusk","smartcity:laundry-plant-chemicals@interrupt:dosing-leak","smartcity:hw-housekeeping-cart-and-chemical-safety@interrupt:coworker-mixing","smartcity:hw-banquet-room-flip-and-staging@hazard","smartcity:banquet-setup-lift@hazard","smartcity:housekeeping-room-turn@base"],"source":"generated"},
     {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:banquet-hot-hold@variant:assessment","smartcity:laundry-plant-chemicals@variant:assessment","smartcity:hw-housekeeping-cart-and-chemical-safety@variant:assessment","smartcity:hw-banquet-room-flip-and-staging@variant:assessment","smartcity:banquet-setup-lift@variant:assessment","smartcity:housekeeping-room-turn@variant:assessment"],"source":"generated"},
   ] },
-  { programme: "builders-trades", name: "Builders — Carpenters, Laborers and Masons", accent: "#c9a36b", lessons: 1620, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
-    stations: {"smartcity:concrete-pour":{"name":"Concrete Pour","steps":12,"parSeconds":280,"hazards":4,"indoor":null,"interrupts":[{"id":"remote-dropout","kind":"Remote signal lost"},{"id":"crane-swing","kind":"Load overhead"}],"category":"Construction & Structural Trades","standards":["aci-347","aci-concrete-practice","liuna-training-fund","osha-1926"],"difficulty":18.67},"smartcity:formwork-shoring":{"name":"Formwork Shoring","steps":14,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"corner-pin-out","kind":"Shore unpinned"},{"id":"truck-early","kind":"Pour truck early"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","osha-1926"],"difficulty":19.83},"smartcity:mass-timber-panel-set":{"name":"Mass Timber Panel Set","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"gust-spin","kind":"Panel spinning"},{"id":"walk-under-load","kind":"Person under the load"}],"category":"Construction & Structural Trades","standards":["asme-b30-9","carpenters-ictf","iuoe-training","nccco-certification","osha-1926","osha-1926-1425"],"difficulty":20},"smartcity:masonry-silica-scaffold":{"name":"Masonry Silica Scaffold","steps":14,"parSeconds":295,"hazards":4,"indoor":null,"interrupts":[{"id":"water-runs-dry","kind":"Water line dry"},{"id":"tender-dry-sweep","kind":"Dry sweeping"}],"category":"Construction & Structural Trades","standards":["bac-imi","niosh-criteria","osha-1926","osha-1926-1153","osha-1926-451"],"difficulty":19.92},"smartcity:bt-formwork-stripping-and-reshoring":{"name":"Formwork Stripping & Reshoring","steps":13,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"laborer-under-forms","kind":"Worker inside the exclusion zone"},{"id":"reshore-loose","kind":"Reshore gone loose"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","liuna-training-fund","osha-1926","osha-1926-703"],"difficulty":19.5},"smartcity:bt-rebar-tying-and-impalement-protection":{"name":"Rebar Tying & Impalement Protection","steps":13,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"skid-steer-on-boards","kind":"Machine driving onto the mat"},{"id":"cap-knocked-off","kind":"Dowel cap knocked off"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","ironworkers-impact","liuna-training-fund","osha-1926","osha-1926-701","osha-1926-703"],"difficulty":19.33},"smartcity:bt-masonry-wall-layout-and-mortar":{"name":"Masonry Wall Layout & Mortar","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"dry-sweeping","kind":"Silica dust from dry sweeping"},{"id":"gust-on-green-wall","kind":"Wind over the bracing plan's limit"}],"category":"Construction & Structural Trades","standards":["ansi-a10-9","bac-imi","carpenters-ictf","liuna-training-fund","osha-1926","osha-1926-1153","osha-1926-706"],"difficulty":20}},
+  { programme: "builders-trades", name: "Builders — Carpenters, Laborers and Masons", accent: "#c9a36b", lessons: 1633, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
+    stations: {"smartcity:concrete-pour":{"name":"Concrete Pour","steps":12,"parSeconds":280,"hazards":4,"indoor":null,"interrupts":[{"id":"remote-dropout","kind":"Remote signal lost"},{"id":"crane-swing","kind":"Load overhead"}],"category":"Construction & Structural Trades","standards":["aci-347","aci-concrete-practice","liuna-training-fund","osha-1926"],"difficulty":18.67},"smartcity:formwork-shoring":{"name":"Formwork Shoring","steps":14,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"corner-pin-out","kind":"Shore unpinned"},{"id":"truck-early","kind":"Pour truck early"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","osha-1926"],"difficulty":19.83},"smartcity:mass-timber-panel-set":{"name":"Mass Timber Panel Set","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"gust-spin","kind":"Panel spinning"},{"id":"walk-under-load","kind":"Person under the load"}],"category":"Construction & Structural Trades","standards":["asme-b30-9","carpenters-ictf","iuoe-training","nccco-certification","osha-1926","osha-1926-1425"],"difficulty":20},"smartcity:masonry-silica-scaffold":{"name":"Masonry Silica Scaffold","steps":14,"parSeconds":295,"hazards":4,"indoor":null,"interrupts":[{"id":"water-runs-dry","kind":"Water line dry"},{"id":"tender-dry-sweep","kind":"Dry sweeping"}],"category":"Construction & Structural Trades","standards":["bac-imi","niosh-criteria","osha-1926","osha-1926-1153","osha-1926-451"],"difficulty":19.92},"smartcity:bt-formwork-stripping-and-reshoring":{"name":"Formwork Stripping & Reshoring","steps":13,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"laborer-under-forms","kind":"Worker inside the exclusion zone"},{"id":"reshore-loose","kind":"Reshore gone loose"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","liuna-training-fund","osha-1926","osha-1926-703"],"difficulty":19.5},"smartcity:bt-rebar-tying-and-impalement-protection":{"name":"Rebar Tying & Impalement Protection","steps":13,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"skid-steer-on-boards","kind":"Machine driving onto the mat"},{"id":"cap-knocked-off","kind":"Dowel cap knocked off"}],"category":"Construction & Structural Trades","standards":["aci-347","ansi-a10-9","carpenters-ictf","ironworkers-impact","liuna-training-fund","osha-1926","osha-1926-701","osha-1926-703"],"difficulty":19.33},"smartcity:bt-masonry-wall-layout-and-mortar":{"name":"Masonry Wall Layout & Mortar","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"dry-sweeping","kind":"Silica dust from dry sweeping"},{"id":"gust-on-green-wall","kind":"Wind over the bracing plan's limit"}],"category":"Construction & Structural Trades","standards":["ansi-a10-9","bac-imi","carpenters-ictf","liuna-training-fund","osha-1926","osha-1926-1153","osha-1926-706"],"difficulty":20},"smartcity:or-ranch-road-grading-and-culvert":{"name":"Ranch Road Grading & Culvert","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"school-bus-on-road","kind":"School bus approaching the work zone"},{"id":"cattle-on-road","kind":"Cattle through an open gate"}],"category":"Construction & Structural Trades","standards":["iuoe-training","mutcd","osha-1926","osha-1926-21","osha-1926-subpart-p"],"difficulty":20}},
     levels: [
     {"n":1,"title":"Orientation","band":"orientation","coaching":true,"tasks":["smartcity:concrete-pour@base","smartcity:bt-rebar-tying-and-impalement-protection@base","smartcity:bt-formwork-stripping-and-reshoring@base","smartcity:formwork-shoring@base","smartcity:masonry-silica-scaffold@base","smartcity:bt-masonry-wall-layout-and-mortar@base"],"source":"generated"},
     {"n":2,"title":"Orientation by daylight","band":"orientation","coaching":true,"tasks":["smartcity:concrete-pour@time:day","smartcity:bt-rebar-tying-and-impalement-protection@time:day","smartcity:bt-formwork-stripping-and-reshoring@time:day","smartcity:formwork-shoring@time:day","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@time:day"],"source":"generated"},
     {"n":3,"title":"Single procedures","band":"procedures","coaching":true,"tasks":["smartcity:concrete-pour@base","smartcity:bt-rebar-tying-and-impalement-protection@base","smartcity:bt-formwork-stripping-and-reshoring@base","smartcity:formwork-shoring@base","smartcity:masonry-silica-scaffold@base","smartcity:bt-masonry-wall-layout-and-mortar@base"],"source":"generated"},
     {"n":4,"title":"Single procedures at dusk","band":"procedures","coaching":true,"tasks":["smartcity:concrete-pour@time:dusk","smartcity:bt-rebar-tying-and-impalement-protection@time:dusk","smartcity:bt-formwork-stripping-and-reshoring@time:dusk","smartcity:formwork-shoring@time:dusk","smartcity:masonry-silica-scaffold@time:dusk","smartcity:bt-masonry-wall-layout-and-mortar@time:dusk"],"source":"generated"},
-    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:concrete-pour@time:day","smartcity:bt-rebar-tying-and-impalement-protection@time:day","smartcity:bt-formwork-stripping-and-reshoring@base","smartcity:formwork-shoring@base","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@base"],"source":"generated"},
+    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:concrete-pour@base","smartcity:bt-rebar-tying-and-impalement-protection@base","smartcity:bt-formwork-stripping-and-reshoring@time:day","smartcity:formwork-shoring@time:day","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@base"],"source":"generated"},
     {"n":6,"title":"Rain","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@time:dusk","smartcity:bt-rebar-tying-and-impalement-protection@time:dusk","smartcity:bt-formwork-stripping-and-reshoring@weather:rain","smartcity:formwork-shoring@weather:rain","smartcity:masonry-silica-scaffold@weather:rain","smartcity:bt-masonry-wall-layout-and-mortar@time:dusk"],"source":"generated"},
-    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@time:day","smartcity:bt-rebar-tying-and-impalement-protection@time:day","smartcity:bt-formwork-stripping-and-reshoring@weather:wind","smartcity:formwork-shoring@weather:wind","smartcity:masonry-silica-scaffold@weather:wind","smartcity:bt-masonry-wall-layout-and-mortar@time:day"],"source":"generated"},
-    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@weather:fog","smartcity:bt-rebar-tying-and-impalement-protection@weather:fog","smartcity:bt-formwork-stripping-and-reshoring@weather:fog","smartcity:formwork-shoring@time:dusk","smartcity:masonry-silica-scaffold@time:dusk","smartcity:bt-masonry-wall-layout-and-mortar@time:dusk"],"source":"generated"},
-    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@time:day","smartcity:bt-rebar-tying-and-impalement-protection@time:day","smartcity:bt-formwork-stripping-and-reshoring@time:day","smartcity:formwork-shoring@weather:storm","smartcity:masonry-silica-scaffold@weather:storm","smartcity:bt-masonry-wall-layout-and-mortar@weather:storm"],"source":"generated"},
-    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@weather:rain","smartcity:bt-rebar-tying-and-impalement-protection@time:dusk","smartcity:bt-formwork-stripping-and-reshoring@weather:rain","smartcity:formwork-shoring@weather:smoke","smartcity:masonry-silica-scaffold@weather:overcast","smartcity:bt-masonry-wall-layout-and-mortar@weather:smoke"],"source":"generated"},
+    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@weather:wind","smartcity:bt-rebar-tying-and-impalement-protection@weather:wind","smartcity:bt-formwork-stripping-and-reshoring@weather:wind","smartcity:formwork-shoring@time:day","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@time:day"],"source":"generated"},
+    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:concrete-pour@time:dusk","smartcity:bt-rebar-tying-and-impalement-protection@time:dusk","smartcity:bt-formwork-stripping-and-reshoring@time:dusk","smartcity:formwork-shoring@weather:fog","smartcity:masonry-silica-scaffold@weather:fog","smartcity:bt-masonry-wall-layout-and-mortar@weather:fog"],"source":"generated"},
+    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@weather:storm","smartcity:bt-formwork-stripping-and-reshoring@weather:storm","smartcity:formwork-shoring@weather:storm","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@time:day","smartcity:mass-timber-panel-set@time:day"],"source":"generated"},
+    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@weather:smoke","smartcity:bt-formwork-stripping-and-reshoring@weather:overcast","smartcity:formwork-shoring@weather:smoke","smartcity:masonry-silica-scaffold@weather:rain","smartcity:bt-masonry-wall-layout-and-mortar@time:dusk","smartcity:mass-timber-panel-set@weather:rain"],"source":"generated"},
     {"n":11,"title":"Hazard mode","band":"hazard","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@hazard","smartcity:bt-formwork-stripping-and-reshoring@hazard","smartcity:formwork-shoring@hazard","smartcity:masonry-silica-scaffold@hazard","smartcity:bt-masonry-wall-layout-and-mortar@hazard","smartcity:mass-timber-panel-set@hazard"],"source":"generated"},
-    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@interrupt:skid-steer-on-boards","smartcity:bt-formwork-stripping-and-reshoring@interrupt:laborer-under-forms","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@interrupt:water-runs-dry","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:dry-sweeping","smartcity:mass-timber-panel-set@interrupt:gust-spin"],"source":"generated"},
-    {"n":13,"title":"Hazard mode, harder stations","band":"hazard","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@hazard","smartcity:bt-formwork-stripping-and-reshoring@hazard","smartcity:formwork-shoring@hazard","smartcity:masonry-silica-scaffold@hazard","smartcity:bt-masonry-wall-layout-and-mortar@hazard","smartcity:mass-timber-panel-set@hazard"],"source":"generated"},
-    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@interrupt:cap-knocked-off","smartcity:bt-formwork-stripping-and-reshoring@interrupt:reshore-loose","smartcity:formwork-shoring@interrupt:truck-early","smartcity:masonry-silica-scaffold@interrupt:tender-dry-sweep","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:gust-on-green-wall","smartcity:mass-timber-panel-set@interrupt:walk-under-load"],"source":"generated"},
-    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@weather:rain","smartcity:bt-formwork-stripping-and-reshoring@interrupt:laborer-under-forms","smartcity:formwork-shoring@time:day","smartcity:masonry-silica-scaffold@weather:rain","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:dry-sweeping","smartcity:mass-timber-panel-set@weather:wind"],"source":"generated"},
-    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@hazard","smartcity:bt-formwork-stripping-and-reshoring@time:dusk","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@time:dusk","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:gust-on-green-wall","smartcity:mass-timber-panel-set@hazard"],"source":"generated"},
-    {"n":17,"title":"Station chain, instructor on","band":"chain","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@weather:fog","smartcity:bt-formwork-stripping-and-reshoring@hazard","smartcity:formwork-shoring@interrupt:truck-early","smartcity:masonry-silica-scaffold@weather:fog","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:dry-sweeping","smartcity:mass-timber-panel-set@weather:fog"],"source":"generated"},
-    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@weather:storm","smartcity:bt-formwork-stripping-and-reshoring@interrupt:reshore-loose","smartcity:formwork-shoring@hazard","smartcity:masonry-silica-scaffold@time:day","smartcity:bt-masonry-wall-layout-and-mortar@weather:storm","smartcity:mass-timber-panel-set@interrupt:gust-spin"],"source":"generated"},
-    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@time:dusk","smartcity:bt-formwork-stripping-and-reshoring@interrupt:laborer-under-forms","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@weather:rain","smartcity:bt-masonry-wall-layout-and-mortar@time:day","smartcity:mass-timber-panel-set@base"],"source":"generated"},
-    {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:bt-rebar-tying-and-impalement-protection@variant:assessment","smartcity:bt-formwork-stripping-and-reshoring@variant:assessment","smartcity:formwork-shoring@variant:assessment","smartcity:masonry-silica-scaffold@variant:assessment","smartcity:bt-masonry-wall-layout-and-mortar@variant:assessment","smartcity:mass-timber-panel-set@variant:assessment"],"source":"generated"},
+    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@interrupt:laborer-under-forms","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@interrupt:water-runs-dry","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:dry-sweeping","smartcity:mass-timber-panel-set@interrupt:gust-spin","smartcity:or-ranch-road-grading-and-culvert@interrupt:school-bus-on-road"],"source":"generated"},
+    {"n":13,"title":"Hazard mode, harder stations","band":"hazard","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@hazard","smartcity:formwork-shoring@hazard","smartcity:masonry-silica-scaffold@hazard","smartcity:bt-masonry-wall-layout-and-mortar@hazard","smartcity:mass-timber-panel-set@hazard","smartcity:or-ranch-road-grading-and-culvert@hazard"],"source":"generated"},
+    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@interrupt:reshore-loose","smartcity:formwork-shoring@interrupt:truck-early","smartcity:masonry-silica-scaffold@interrupt:tender-dry-sweep","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:gust-on-green-wall","smartcity:mass-timber-panel-set@interrupt:walk-under-load","smartcity:or-ranch-road-grading-and-culvert@interrupt:cattle-on-road"],"source":"generated"},
+    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@weather:rain","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@weather:wind","smartcity:bt-masonry-wall-layout-and-mortar@interrupt:dry-sweeping","smartcity:mass-timber-panel-set@weather:rain","smartcity:or-ranch-road-grading-and-culvert@time:day"],"source":"generated"},
+    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@hazard","smartcity:formwork-shoring@time:dusk","smartcity:masonry-silica-scaffold@interrupt:water-runs-dry","smartcity:bt-masonry-wall-layout-and-mortar@time:dusk","smartcity:mass-timber-panel-set@interrupt:gust-spin","smartcity:or-ranch-road-grading-and-culvert@hazard"],"source":"generated"},
+    {"n":17,"title":"Station chain, instructor on","band":"chain","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@weather:fog","smartcity:formwork-shoring@hazard","smartcity:masonry-silica-scaffold@interrupt:tender-dry-sweep","smartcity:bt-masonry-wall-layout-and-mortar@weather:fog","smartcity:mass-timber-panel-set@interrupt:walk-under-load","smartcity:or-ranch-road-grading-and-culvert@weather:fog"],"source":"generated"},
+    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@weather:storm","smartcity:formwork-shoring@interrupt:truck-early","smartcity:masonry-silica-scaffold@hazard","smartcity:bt-masonry-wall-layout-and-mortar@time:day","smartcity:mass-timber-panel-set@weather:storm","smartcity:or-ranch-road-grading-and-culvert@interrupt:school-bus-on-road"],"source":"generated"},
+    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@time:dusk","smartcity:formwork-shoring@interrupt:corner-pin-out","smartcity:masonry-silica-scaffold@interrupt:water-runs-dry","smartcity:bt-masonry-wall-layout-and-mortar@weather:rain","smartcity:mass-timber-panel-set@time:day","smartcity:or-ranch-road-grading-and-culvert@base"],"source":"generated"},
+    {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:bt-formwork-stripping-and-reshoring@variant:assessment","smartcity:formwork-shoring@variant:assessment","smartcity:masonry-silica-scaffold@variant:assessment","smartcity:bt-masonry-wall-layout-and-mortar@variant:assessment","smartcity:mass-timber-panel-set@variant:assessment","smartcity:or-ranch-road-grading-and-culvert@variant:assessment"],"source":"generated"},
   ] },
-  { programme: "first-responders", name: "First Responders — Fire, EMS, Police, Crisis and Relief", accent: "#f0645b", lessons: 1705, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
-    stations: {"smartcity:triage-point":{"name":"Triage Point","steps":10,"parSeconds":210,"hazards":4,"indoor":null,"interrupts":[{"id":"green-deteriorating","kind":"Patient deteriorating"},{"id":"debris-shifting","kind":"Scene deteriorating"}],"category":"Emergency Services","standards":["iaff-training","nfpa-1006","nims-ics","nremt-certification","osha-1910-1030"],"difficulty":16.5},"smartcity:structure-fire-sizeup":{"name":"Structure Fire Size-Up","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"bystander-rush","kind":"Bystander breaking the line"},{"id":"mayday-called","kind":"Mayday — another crew"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1001","nfpa-1500","nfpa-1710","nims-ics","osha-1910-134"],"difficulty":20},"smartcity:firefighter-rehab-sector":{"name":"Firefighter Rehab Sector","steps":14,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"co-spike","kind":"CO reading comes back high"},{"id":"ic-wants-crew-early","kind":"IC calls for the crew early"}],"category":"Emergency Services","standards":["iaff-training","nfpa-1500","nfpa-1584","niosh-criteria","osha-1910-134"],"difficulty":19.83},"smartcity:wildland-urban-interface":{"name":"Wildland-Urban Interface","steps":14,"parSeconds":310,"hazards":4,"indoor":null,"interrupts":[{"id":"wind-shift-trigger","kind":"Wind shift — trigger point met"},{"id":"resident-returns-for-pet","kind":"Resident back through the roadblock"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1140","nfpa-1500","nfpa-1977","nims-ics","nwcg-wildland-training","osha-1910-156"],"difficulty":20.17},"smartcity:cardiac-arrest-pit-crew":{"name":"Cardiac Arrest — Pit Crew","steps":14,"parSeconds":300,"hazards":4,"indoor":"hotel","interrupts":[{"id":"compressor-fatigue","kind":"Compression quality degrading"},{"id":"family-in-distress","kind":"Family member entering the room"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1584","nims-ics","osha-1910-1030"],"difficulty":20},"smartcity:overdose-response-naloxone":{"name":"Overdose Response — Naloxone","steps":14,"parSeconds":280,"hazards":4,"indoor":"service","interrupts":[{"id":"renarcotization-apnea","kind":"Patient stops breathing again"},{"id":"bystander-films","kind":"Bystander filming"}],"category":"Emergency Services","standards":["afscme-training","cdc-guidance","osha-1910-1030","samhsa-trauma-informed"],"difficulty":19.67},"smartcity:ambulance-scene-safety":{"name":"Ambulance Scene Safety","steps":15,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"car-crosses-cone-line","kind":"Vehicle crossing the taper"},{"id":"partner-freezes","kind":"Partner freezes"}],"category":"Emergency Services","standards":["afscme-training","ansi-isea-107","nfpa-1500","nremt-certification","osha-1910-1030","osha-1910-132"],"difficulty":20.5},"smartcity:crisis-intervention-call":{"name":"Crisis Intervention Call","steps":15,"parSeconds":360,"hazards":4,"indoor":null,"interrupts":[{"id":"object-picked-up-partner-closes","kind":"Partner closing in"},{"id":"neighbour-shouting-advice","kind":"Bystander interfering"}],"category":"Emergency Services","standards":["ada-title-ii","cit-international-model","fema-is-courses","nims-ics","osha-1910-1030","pfa-field-guide","samhsa-trauma-informed","who-guidance"],"difficulty":21.5},"smartcity:critical-incident-debrief":{"name":"Critical Incident Debrief","steps":15,"parSeconds":345,"hazards":4,"indoor":"service","interrupts":[{"id":"supervisor-wants-the-report","kind":"Supervisor interrupting"},{"id":"reaching-for-the-keys","kind":"Officer disengaging"}],"category":"Emergency Services","standards":["ada-title-ii","fema-is-courses","hipaa-privacy-rule","nfpa-1500","nims-ics","pfa-field-guide","samhsa-trauma-informed","who-guidance"],"difficulty":21.25},"smartcity:traffic-incident-management":{"name":"Traffic Incident Management","steps":15,"parSeconds":375,"hazards":4,"indoor":null,"interrupts":[{"id":"car-into-the-taper","kind":"Vehicle intrusion"},{"id":"driver-toward-the-lane","kind":"Driver in shock"}],"category":"Emergency Services","standards":["ansi-isea-107","fema-is-courses","nfpa-1500","nims-ics","osha-1910-132"],"difficulty":21.75},"smartcity:trauma-informed-intake":{"name":"Trauma-Informed Intake","steps":15,"parSeconds":330,"hazards":5,"indoor":"clinic","interrupts":[{"id":"client-dissociates","kind":"Client dissociating mid-question"},{"id":"colleague-opens-door","kind":"Interruption at the door"}],"category":"Emergency Services","standards":["ca-canra","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training","who-guidance"],"difficulty":22},"smartcity:crisis-line-shift":{"name":"Crisis Line Shift","steps":14,"parSeconds":330,"hazards":5,"indoor":"service","interrupts":[{"id":"second-line-rings","kind":"Second line ringing"},{"id":"caller-goes-silent","kind":"Caller has gone silent"}],"category":"Emergency Services","standards":["cdc-guidance","cit-international-model","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training"],"difficulty":21.5},"smartcity:home-visit-safety":{"name":"Home Visit Safety","steps":15,"parSeconds":340,"hazards":5,"indoor":null,"interrupts":[{"id":"second-adult-arrives","kind":"Second adult arriving angry"},{"id":"checkin-time-passed","kind":"Missed check-in"}],"category":"Emergency Services","standards":["ca-canra","cit-international-model","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training"],"difficulty":22.17},"smartcity:shelter-intake-operations":{"name":"Shelter Intake Operations","steps":14,"parSeconds":320,"hazards":4,"indoor":"service","interrupts":[{"id":"resident-no-id","kind":"Resident arrives in distress, no ID"},{"id":"fire-alarm-test","kind":"Fire alarm test"}],"category":"Emergency Services","standards":["ada-title-ii","afscme-training","fema-is-courses","liuna-training-fund","nims-ics","osha-1910-1030","red-cross-disaster-services"],"difficulty":20.33},"smartcity:damage-assessment-team":{"name":"Damage Assessment Team","steps":14,"parSeconds":320,"hazards":4,"indoor":null,"interrupts":[{"id":"downed-line-energized","kind":"Downed line confirmed energized"},{"id":"resident-wants-entry","kind":"Resident asks the team to go inside"}],"category":"Emergency Services","standards":["afscme-training","fema-is-courses","ieee-c2-nesc","liuna-training-fund","nims-ics","osha-1926-416","red-cross-disaster-services"],"difficulty":20.33},"smartcity:psychological-first-aid":{"name":"Psychological First Aid","steps":13,"parSeconds":300,"hazards":4,"indoor":"service","interrupts":[{"id":"bad-news-call","kind":"Phone call with bad news, mid-conversation"},{"id":"reporter-approaches","kind":"Reporter approaches the family"}],"category":"Emergency Services","standards":["ada-title-ii","afscme-training","fema-is-courses","hipaa-privacy-rule","liuna-training-fund","nasw-code-of-ethics","nims-ics","pfa-field-guide","red-cross-disaster-services","samhsa-trauma-informed","seiu-training","who-guidance"],"difficulty":19.5}},
+  { programme: "first-responders", name: "First Responders — Fire, EMS, Police, Crisis and Relief", accent: "#f0645b", lessons: 1703, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},
+    stations: {"smartcity:triage-point":{"name":"Triage Point","steps":10,"parSeconds":210,"hazards":4,"indoor":null,"interrupts":[{"id":"green-deteriorating","kind":"Patient deteriorating"},{"id":"debris-shifting","kind":"Scene deteriorating"}],"category":"Emergency Services","standards":["iaff-training","nfpa-1006","nims-ics","nremt-certification","osha-1910-1030"],"difficulty":16.5},"smartcity:structure-fire-sizeup":{"name":"Structure Fire Size-Up","steps":14,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"bystander-rush","kind":"Bystander breaking the line"},{"id":"mayday-called","kind":"Mayday — another crew"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1001","nfpa-1500","nfpa-1710","nims-ics","osha-1910-134"],"difficulty":20},"smartcity:firefighter-rehab-sector":{"name":"Firefighter Rehab Sector","steps":14,"parSeconds":290,"hazards":4,"indoor":null,"interrupts":[{"id":"co-spike","kind":"CO reading comes back high"},{"id":"ic-wants-crew-early","kind":"IC calls for the crew early"}],"category":"Emergency Services","standards":["iaff-training","nfpa-1500","nfpa-1584","niosh-criteria","osha-1910-134"],"difficulty":19.83},"smartcity:wildland-urban-interface":{"name":"Wildland-Urban Interface","steps":14,"parSeconds":310,"hazards":4,"indoor":null,"interrupts":[{"id":"wind-shift-trigger","kind":"Wind shift — trigger point met"},{"id":"resident-returns-for-pet","kind":"Resident back through the roadblock"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1140","nfpa-1500","nfpa-1977","nims-ics","nwcg-wildland-training","osha-1910-156"],"difficulty":20.17},"smartcity:cardiac-arrest-pit-crew":{"name":"Cardiac Arrest — Pit Crew","steps":14,"parSeconds":300,"hazards":4,"indoor":"hotel","interrupts":[{"id":"compressor-fatigue","kind":"Compression quality degrading"},{"id":"family-in-distress","kind":"Family member entering the room"}],"category":"Emergency Services","standards":["fema-is-courses","iaff-training","nfpa-1584","nims-ics","osha-1910-1030"],"difficulty":20},"smartcity:overdose-response-naloxone":{"name":"Overdose Response — Naloxone","steps":14,"parSeconds":280,"hazards":4,"indoor":"service","interrupts":[{"id":"renarcotization-apnea","kind":"Patient stops breathing again"},{"id":"bystander-films","kind":"Bystander filming"}],"category":"Emergency Services","standards":["afscme-training","cdc-guidance","osha-1910-1030","samhsa-trauma-informed"],"difficulty":19.67},"smartcity:ambulance-scene-safety":{"name":"Ambulance Scene Safety","steps":15,"parSeconds":300,"hazards":4,"indoor":null,"interrupts":[{"id":"car-crosses-cone-line","kind":"Vehicle crossing the taper"},{"id":"partner-freezes","kind":"Partner freezes"}],"category":"Emergency Services","standards":["afscme-training","ansi-isea-107","nfpa-1500","nremt-certification","osha-1910-1030","osha-1910-132"],"difficulty":20.5},"smartcity:crisis-intervention-call":{"name":"Crisis Intervention Call","steps":15,"parSeconds":360,"hazards":4,"indoor":null,"interrupts":[{"id":"object-picked-up-partner-closes","kind":"Partner closing in"},{"id":"neighbour-shouting-advice","kind":"Bystander interfering"}],"category":"Emergency Services","standards":["ada-title-ii","cit-international-model","fema-is-courses","nims-ics","osha-1910-1030","pfa-field-guide","samhsa-trauma-informed","who-guidance"],"difficulty":21.5},"smartcity:critical-incident-debrief":{"name":"Critical Incident Debrief","steps":15,"parSeconds":345,"hazards":4,"indoor":"service","interrupts":[{"id":"supervisor-wants-the-report","kind":"Supervisor interrupting"},{"id":"reaching-for-the-keys","kind":"Officer disengaging"}],"category":"Emergency Services","standards":["ada-title-ii","fema-is-courses","hipaa-privacy-rule","nfpa-1500","nims-ics","pfa-field-guide","samhsa-trauma-informed","who-guidance"],"difficulty":21.25},"smartcity:traffic-incident-management":{"name":"Traffic Incident Management","steps":15,"parSeconds":375,"hazards":4,"indoor":null,"interrupts":[{"id":"car-into-the-taper","kind":"Vehicle intrusion"},{"id":"driver-toward-the-lane","kind":"Driver in shock"}],"category":"Emergency Services","standards":["ansi-isea-107","fema-is-courses","nfpa-1500","nims-ics","osha-1910-132"],"difficulty":21.75},"smartcity:trauma-informed-intake":{"name":"Trauma-Informed Intake","steps":15,"parSeconds":330,"hazards":5,"indoor":"clinic","interrupts":[{"id":"client-dissociates","kind":"Client dissociating mid-question"},{"id":"colleague-opens-door","kind":"Interruption at the door"}],"category":"Emergency Services","standards":["ca-canra","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training","who-guidance"],"difficulty":22},"smartcity:crisis-line-shift":{"name":"Crisis Line Shift","steps":14,"parSeconds":330,"hazards":5,"indoor":"service","interrupts":[{"id":"second-line-rings","kind":"Second line ringing"},{"id":"caller-goes-silent","kind":"Caller has gone silent"}],"category":"Emergency Services","standards":["cdc-guidance","cit-international-model","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training"],"difficulty":21.5},"smartcity:home-visit-safety":{"name":"Home Visit Safety","steps":15,"parSeconds":340,"hazards":5,"indoor":null,"interrupts":[{"id":"second-adult-arrives","kind":"Second adult arriving angry"},{"id":"checkin-time-passed","kind":"Missed check-in"}],"category":"Emergency Services","standards":["ca-canra","cit-international-model","hipaa-privacy-rule","nasw-code-of-ethics","pfa-field-guide","samhsa-trauma-informed","seiu-training"],"difficulty":22.17},"smartcity:shelter-intake-operations":{"name":"Shelter Intake Operations","steps":14,"parSeconds":320,"hazards":4,"indoor":"service","interrupts":[{"id":"resident-no-id","kind":"Resident arrives in distress, no ID"},{"id":"fire-alarm-test","kind":"Fire alarm test"}],"category":"Emergency Services","standards":["ada-title-ii","afscme-training","fema-is-courses","liuna-training-fund","nims-ics","osha-1910-1030","red-cross-disaster-services"],"difficulty":20.33},"smartcity:damage-assessment-team":{"name":"Damage Assessment Team","steps":14,"parSeconds":320,"hazards":4,"indoor":null,"interrupts":[{"id":"downed-line-energized","kind":"Downed line confirmed energized"},{"id":"resident-wants-entry","kind":"Resident asks the team to go inside"}],"category":"Emergency Services","standards":["afscme-training","fema-is-courses","ieee-c2-nesc","liuna-training-fund","nims-ics","osha-1926-416","red-cross-disaster-services"],"difficulty":20.33},"smartcity:psychological-first-aid":{"name":"Psychological First Aid","steps":13,"parSeconds":300,"hazards":4,"indoor":"service","interrupts":[{"id":"bad-news-call","kind":"Phone call with bad news, mid-conversation"},{"id":"reporter-approaches","kind":"Reporter approaches the family"}],"category":"Emergency Services","standards":["ada-title-ii","afscme-training","fema-is-courses","hipaa-privacy-rule","liuna-training-fund","nasw-code-of-ethics","nims-ics","pfa-field-guide","red-cross-disaster-services","samhsa-trauma-informed","seiu-training","who-guidance"],"difficulty":19.5},"smartcity:or-wildland-fireline-construction-and-lookout":{"name":"Wildland Fireline Construction","steps":14,"parSeconds":310,"hazards":4,"indoor":null,"interrupts":[{"id":"wind-shift","kind":"Wind shift changes fire behaviour"},{"id":"spot-fire-across-line","kind":"Spot fire across the line"}],"category":"Emergency Services","standards":["iaff-training","nfpa-1140","nfpa-1977","nwcg-wildland-training","osha-1910-134"],"difficulty":20.17}},
     levels: [
     {"n":1,"title":"Orientation","band":"orientation","coaching":true,"tasks":["smartcity:triage-point@base","smartcity:psychological-first-aid@base","smartcity:overdose-response-naloxone@base","smartcity:firefighter-rehab-sector@base","smartcity:cardiac-arrest-pit-crew@base","smartcity:structure-fire-sizeup@base"],"source":"generated"},
     {"n":2,"title":"Orientation by daylight","band":"orientation","coaching":true,"tasks":["smartcity:triage-point@time:day","smartcity:psychological-first-aid@time:day","smartcity:overdose-response-naloxone@time:day","smartcity:firefighter-rehab-sector@time:day","smartcity:cardiac-arrest-pit-crew@time:day","smartcity:structure-fire-sizeup@time:day"],"source":"generated"},
     {"n":3,"title":"Single procedures","band":"procedures","coaching":true,"tasks":["smartcity:triage-point@base","smartcity:psychological-first-aid@base","smartcity:overdose-response-naloxone@base","smartcity:firefighter-rehab-sector@base","smartcity:cardiac-arrest-pit-crew@base","smartcity:structure-fire-sizeup@base"],"source":"generated"},
     {"n":4,"title":"Single procedures at dusk","band":"procedures","coaching":true,"tasks":["smartcity:triage-point@time:dusk","smartcity:psychological-first-aid@time:dusk","smartcity:overdose-response-naloxone@time:dusk","smartcity:firefighter-rehab-sector@time:dusk","smartcity:cardiac-arrest-pit-crew@time:dusk","smartcity:structure-fire-sizeup@time:dusk"],"source":"generated"},
-    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:psychological-first-aid@time:day","smartcity:overdose-response-naloxone@time:day","smartcity:firefighter-rehab-sector@time:day","smartcity:cardiac-arrest-pit-crew@base","smartcity:structure-fire-sizeup@base","smartcity:wildland-urban-interface@base"],"source":"generated"},
-    {"n":6,"title":"Rain","band":"weather","coaching":true,"tasks":["smartcity:overdose-response-naloxone@time:dusk","smartcity:firefighter-rehab-sector@weather:rain","smartcity:cardiac-arrest-pit-crew@time:dusk","smartcity:structure-fire-sizeup@time:dusk","smartcity:wildland-urban-interface@time:dusk","smartcity:damage-assessment-team@time:dusk"],"source":"generated"},
-    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:overdose-response-naloxone@time:day","smartcity:firefighter-rehab-sector@time:day","smartcity:cardiac-arrest-pit-crew@time:day","smartcity:structure-fire-sizeup@weather:wind","smartcity:wildland-urban-interface@weather:wind","smartcity:damage-assessment-team@weather:wind"],"source":"generated"},
-    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:firefighter-rehab-sector@time:dusk","smartcity:cardiac-arrest-pit-crew@time:dusk","smartcity:structure-fire-sizeup@time:dusk","smartcity:wildland-urban-interface@weather:fog","smartcity:damage-assessment-team@weather:fog","smartcity:shelter-intake-operations@time:dusk"],"source":"generated"},
-    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:cardiac-arrest-pit-crew@time:day","smartcity:structure-fire-sizeup@time:day","smartcity:wildland-urban-interface@time:day","smartcity:damage-assessment-team@weather:storm","smartcity:shelter-intake-operations@time:day","smartcity:ambulance-scene-safety@weather:storm"],"source":"generated"},
-    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:structure-fire-sizeup@weather:smoke","smartcity:wildland-urban-interface@weather:overcast","smartcity:damage-assessment-team@weather:smoke","smartcity:shelter-intake-operations@time:dusk","smartcity:ambulance-scene-safety@time:dusk","smartcity:critical-incident-debrief@time:dusk"],"source":"generated"},
-    {"n":11,"title":"Hazard mode","band":"hazard","coaching":true,"tasks":["smartcity:wildland-urban-interface@hazard","smartcity:damage-assessment-team@hazard","smartcity:shelter-intake-operations@hazard","smartcity:ambulance-scene-safety@hazard","smartcity:critical-incident-debrief@hazard","smartcity:crisis-intervention-call@hazard"],"source":"generated"},
-    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:damage-assessment-team@interrupt:downed-line-energized","smartcity:shelter-intake-operations@interrupt:resident-no-id","smartcity:ambulance-scene-safety@interrupt:car-crosses-cone-line","smartcity:critical-incident-debrief@interrupt:supervisor-wants-the-report","smartcity:crisis-intervention-call@interrupt:object-picked-up-partner-closes","smartcity:crisis-line-shift@interrupt:second-line-rings"],"source":"generated"},
+    {"n":5,"title":"Day and night on the clock","band":"procedures","coaching":true,"tasks":["smartcity:psychological-first-aid@base","smartcity:overdose-response-naloxone@base","smartcity:firefighter-rehab-sector@base","smartcity:cardiac-arrest-pit-crew@time:day","smartcity:structure-fire-sizeup@time:day","smartcity:or-wildland-fireline-construction-and-lookout@time:day"],"source":"generated"},
+    {"n":6,"title":"Rain","band":"weather","coaching":true,"tasks":["smartcity:overdose-response-naloxone@time:dusk","smartcity:firefighter-rehab-sector@weather:rain","smartcity:cardiac-arrest-pit-crew@time:dusk","smartcity:structure-fire-sizeup@time:dusk","smartcity:or-wildland-fireline-construction-and-lookout@time:dusk","smartcity:wildland-urban-interface@time:dusk"],"source":"generated"},
+    {"n":7,"title":"High wind","band":"weather","coaching":true,"tasks":["smartcity:firefighter-rehab-sector@weather:wind","smartcity:cardiac-arrest-pit-crew@time:day","smartcity:structure-fire-sizeup@weather:wind","smartcity:or-wildland-fireline-construction-and-lookout@time:day","smartcity:wildland-urban-interface@time:day","smartcity:damage-assessment-team@time:day"],"source":"generated"},
+    {"n":8,"title":"Fog","band":"weather","coaching":true,"tasks":["smartcity:cardiac-arrest-pit-crew@time:dusk","smartcity:structure-fire-sizeup@weather:fog","smartcity:or-wildland-fireline-construction-and-lookout@weather:fog","smartcity:wildland-urban-interface@time:dusk","smartcity:damage-assessment-team@time:dusk","smartcity:shelter-intake-operations@time:dusk"],"source":"generated"},
+    {"n":9,"title":"Storm","band":"weather","coaching":true,"tasks":["smartcity:structure-fire-sizeup@weather:storm","smartcity:or-wildland-fireline-construction-and-lookout@weather:storm","smartcity:wildland-urban-interface@weather:storm","smartcity:damage-assessment-team@time:day","smartcity:shelter-intake-operations@time:day","smartcity:ambulance-scene-safety@time:day"],"source":"generated"},
+    {"n":10,"title":"Weather and hour mixed","band":"weather","coaching":true,"tasks":["smartcity:structure-fire-sizeup@weather:rain","smartcity:or-wildland-fireline-construction-and-lookout@time:dusk","smartcity:wildland-urban-interface@weather:rain","smartcity:damage-assessment-team@weather:smoke","smartcity:shelter-intake-operations@time:dusk","smartcity:ambulance-scene-safety@weather:smoke"],"source":"generated"},
+    {"n":11,"title":"Hazard mode","band":"hazard","coaching":true,"tasks":["smartcity:or-wildland-fireline-construction-and-lookout@hazard","smartcity:wildland-urban-interface@hazard","smartcity:damage-assessment-team@hazard","smartcity:shelter-intake-operations@hazard","smartcity:ambulance-scene-safety@hazard","smartcity:critical-incident-debrief@hazard"],"source":"generated"},
+    {"n":12,"title":"Interrupted","band":"interrupted","coaching":true,"tasks":["smartcity:wildland-urban-interface@interrupt:wind-shift-trigger","smartcity:damage-assessment-team@interrupt:downed-line-energized","smartcity:shelter-intake-operations@interrupt:resident-no-id","smartcity:ambulance-scene-safety@interrupt:car-crosses-cone-line","smartcity:critical-incident-debrief@interrupt:supervisor-wants-the-report","smartcity:crisis-intervention-call@interrupt:object-picked-up-partner-closes"],"source":"generated"},
     {"n":13,"title":"Hazard mode, harder stations","band":"hazard","coaching":true,"tasks":["smartcity:damage-assessment-team@hazard","smartcity:shelter-intake-operations@hazard","smartcity:ambulance-scene-safety@hazard","smartcity:critical-incident-debrief@hazard","smartcity:crisis-intervention-call@hazard","smartcity:crisis-line-shift@hazard"],"source":"generated"},
-    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:shelter-intake-operations@interrupt:fire-alarm-test","smartcity:ambulance-scene-safety@interrupt:partner-freezes","smartcity:critical-incident-debrief@interrupt:reaching-for-the-keys","smartcity:crisis-intervention-call@interrupt:neighbour-shouting-advice","smartcity:crisis-line-shift@interrupt:caller-goes-silent","smartcity:traffic-incident-management@interrupt:car-into-the-taper"],"source":"generated"},
-    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:ambulance-scene-safety@weather:rain","smartcity:critical-incident-debrief@time:day","smartcity:crisis-intervention-call@weather:rain","smartcity:crisis-line-shift@interrupt:second-line-rings","smartcity:traffic-incident-management@weather:wind","smartcity:trauma-informed-intake@interrupt:client-dissociates"],"source":"generated"},
-    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:dusk","smartcity:crisis-intervention-call@hazard","smartcity:crisis-line-shift@interrupt:caller-goes-silent","smartcity:traffic-incident-management@time:dusk","smartcity:trauma-informed-intake@interrupt:colleague-opens-door","smartcity:home-visit-safety@hazard"],"source":"generated"},
+    {"n":14,"title":"Interrupted, harder stations","band":"interrupted","coaching":true,"tasks":["smartcity:shelter-intake-operations@interrupt:fire-alarm-test","smartcity:ambulance-scene-safety@interrupt:partner-freezes","smartcity:critical-incident-debrief@interrupt:reaching-for-the-keys","smartcity:crisis-intervention-call@interrupt:neighbour-shouting-advice","smartcity:crisis-line-shift@interrupt:second-line-rings","smartcity:traffic-incident-management@interrupt:car-into-the-taper"],"source":"generated"},
+    {"n":15,"title":"Station chain in weather","band":"chain","coaching":true,"tasks":["smartcity:ambulance-scene-safety@interrupt:car-crosses-cone-line","smartcity:critical-incident-debrief@time:day","smartcity:crisis-intervention-call@interrupt:object-picked-up-partner-closes","smartcity:crisis-line-shift@time:day","smartcity:traffic-incident-management@time:day","smartcity:trauma-informed-intake@time:day"],"source":"generated"},
+    {"n":16,"title":"Station chain at dusk","band":"chain","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:dusk","smartcity:crisis-intervention-call@hazard","smartcity:crisis-line-shift@interrupt:caller-goes-silent","smartcity:traffic-incident-management@time:dusk","smartcity:trauma-informed-intake@interrupt:client-dissociates","smartcity:home-visit-safety@hazard"],"source":"generated"},
     {"n":17,"title":"Station chain, instructor on","band":"chain","coaching":true,"tasks":["smartcity:critical-incident-debrief@interrupt:supervisor-wants-the-report","smartcity:crisis-intervention-call@weather:fog","smartcity:crisis-line-shift@interrupt:second-line-rings","smartcity:traffic-incident-management@interrupt:driver-toward-the-lane","smartcity:trauma-informed-intake@hazard","smartcity:home-visit-safety@interrupt:second-adult-arrives"],"source":"generated"},
-    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:day","smartcity:crisis-intervention-call@interrupt:object-picked-up-partner-closes","smartcity:crisis-line-shift@hazard","smartcity:traffic-incident-management@time:day","smartcity:trauma-informed-intake@interrupt:client-dissociates","smartcity:home-visit-safety@weather:storm"],"source":"generated"},
-    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:dusk","smartcity:crisis-intervention-call@interrupt:neighbour-shouting-advice","smartcity:crisis-line-shift@interrupt:caller-goes-silent","smartcity:traffic-incident-management@weather:rain","smartcity:trauma-informed-intake@time:day","smartcity:home-visit-safety@base"],"source":"generated"},
+    {"n":18,"title":"Station chain in a storm","band":"chain","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:day","smartcity:crisis-intervention-call@interrupt:neighbour-shouting-advice","smartcity:crisis-line-shift@hazard","smartcity:traffic-incident-management@time:day","smartcity:trauma-informed-intake@interrupt:colleague-opens-door","smartcity:home-visit-safety@weather:storm"],"source":"generated"},
+    {"n":19,"title":"Full shift","band":"shift","coaching":true,"tasks":["smartcity:critical-incident-debrief@time:dusk","smartcity:crisis-intervention-call@interrupt:object-picked-up-partner-closes","smartcity:crisis-line-shift@interrupt:caller-goes-silent","smartcity:traffic-incident-management@weather:rain","smartcity:trauma-informed-intake@time:day","smartcity:home-visit-safety@base"],"source":"generated"},
     {"n":20,"title":"Capstone","band":"capstone","coaching":false,"tasks":["smartcity:critical-incident-debrief@variant:assessment","smartcity:crisis-intervention-call@variant:assessment","smartcity:crisis-line-shift@variant:assessment","smartcity:traffic-incident-management@variant:assessment","smartcity:trauma-informed-intake@variant:assessment","smartcity:home-visit-safety@variant:assessment"],"source":"generated"},
   ] },
   { programme: "situational-awareness", name: "Situational Awareness — Interruption Drill", accent: "#f0645b", lessons: 1628, gap: {"full":20,"partial":0,"shortfall":0,"stationsNeeded":0,"overridePartial":[]},

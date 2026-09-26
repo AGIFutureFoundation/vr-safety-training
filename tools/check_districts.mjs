@@ -69,7 +69,7 @@ const fail = (id, msg) => { console.log(`  ✗ ${id}: ${msg}`); failures += 1; }
 
 // The two the brief names must exist and be scenic; anything else scenic is
 // checked the same way.
-for (const id of ["golden-gate-deck", "bay-underwater"]) {
+for (const id of ["golden-gate-deck", "bay-underwater", "open-range"]) {
   if (!S.SCENIC_DISTRICTS.includes(id)) fail(id, "is not a scenic district in js/districts.js");
 }
 

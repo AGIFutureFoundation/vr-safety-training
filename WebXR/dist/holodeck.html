@@ -6936,8 +6936,6 @@ function compactor(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.compactor.footprint, livery: lv });
 }
 
-// ------------------------------------------------------ towable site plant
-
 /** A single-axle site trailer: frame, A-frame tongue, coupler, fenders, jack and axle. Shared by the towables. */
 function eqTowTrailer(rig, len, width, track, tongue, wheelR = 0.33) {
   const S = rig.shell;
@@ -7229,6 +7227,57 @@ function wheelLoader(parent, x, y, z, opts = {}) {
 // ------------------------------------------------------------------- grader
 
 /**
+ * Motor grader, blade down and squared for a finish pass: tandem rear drive
+ * axle, a single front axle on the long articulated frame, a ROPS cab set
+ * forward of the engine deck, and the moldboard slung from a circle under
+ * mid-frame with its own pair of lift rams. 2.4 m over the tandem tyres,
+ * 3.7 m blade. Parts: rops, seat, controls, wheels (front axle plus the rear
+ * tandem), blade, lights, beacon.
+ */
+function ranchGrader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "GR-6" });
+  const rig = flRig(parent, x, y, z, opts, "ranchGrader", [0, 0, 0.33]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Rear engine deck and hood.
+  flSide(S, [[0.3, 0.68], [0.3, 1.22], [0.55, 1.28], [1.95, 1.28], [2.3, 1.5], [2.3, 0.72], [2.05, 0.62]], 1.3, 0, 0, -2.35, ...P, { bevel: 0.05 });
+  flPanel(S, 1.0, 0.3, 0, 1.32, -3.66, flGrilleMat("vertical", 0x2a2e33), "-z");
+  flPanel(S, 1.05, 0.34, 0.652, 1.35, -2.5, flLiveryMat(lv, "grSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  // ROPS cab, forward of the engine deck.
+  const rops = rig.part("rops", 0, 1.28, -0.55);
+  for (const sx of [1, -1]) for (const zz of [0.5, -0.45]) box(rops, 0.07, 1.5, 0.07, sx * 0.66, 0.75, zz, ...FL.black);
+  box(rops, 1.44, 0.07, 1.05, 0, 1.54, 0.03, ...FL.black);
+  const seat = rig.part("seat", 0, 1.3, -0.5);
+  box(seat, 0.44, 0.1, 0.4, 0, 0.05, 0, ...FL.black);
+  box(seat, 0.44, 0.44, 0.1, 0, 0.28, -0.17, ...FL.black);
+  const ctl = rig.part("controls", 0, 1.3, 0);
+  flStrut(ctl, [0, 0, 0], [0, 0.5, -0.08], 0.03, ...FL.black);
+  flRod(ctl, 0.15, 0.03, 0, 0.5, -0.08, "y", ...FL.black, { seg: 14 });
+  // Main frame beam running forward from the tandem to the front axle.
+  box(S, 0.24, 0.24, 3.5, 0, 0.7, 1.15, ...FL.frame);
+  // Rear tandem drive axle and the front axle, named together as `wheels`.
+  const wheels = [
+    flAxle(rig, "axleRear1", -2.55, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleRear2", -1.95, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleFront", 2.9, 0.5, 1.45, { width: 0.26, style: "equip" }),
+  ];
+  rig.set("wheels", wheels);
+  // Drawbar circle and the moldboard, slung under mid-frame, angled to cast a
+  // finished crown off to one side the way a grader actually runs.
+  cyl(S, 0.5, 0.5, 0.1, 0, 0.5, 0.85, 0x2a2e33, { rough: 0.5, metal: 0.5, seg: 20 });
+  flBeam(S, [0, 0.65, 0.85], [0, 0.32, 1.8], 0.12, 0.12, ...FL.frame);
+  const blade = rig.part("blade", 0, 0.3, 1.85);
+  flSide(blade, [[-1.75, 0], [-1.75, 0.5], [1.75, 0.5], [1.75, 0]], 0.1, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  blade.rotation.y = 0.16;
+  for (const sx of [1, -1]) eqRam(S, [sx * 0.42, 0.85, 0.55], [sx * 0.48, 0.4, 1.65], 0.05, lv.colour);
+  flLights(rig, [[0.55, 1.0, 3.4, 0.12, 0.08], [-0.55, 1.0, 3.4, 0.12, 0.08]], null, [[0.58, 0.85, -3.7, 0.1, 0.08], [-0.58, 0.85, -3.7, 0.1, 0.08]]);
+  const bc = rig.part("beacon", 0, 1.85, -0.55);
+  cyl(bc, 0.06, 0.07, 0.12, 0, 0, 0, ...FL.amber, { seg: 12 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.grader.footprint, livery: lv });
+}
+
+// ------------------------------------------------------ towable site plant
+
+/**
  * Motor grader, blade down: 8.4 m overall on a single steer axle and a rear
  * tandem bogie, 3.7 m moldboard slewed under the belly, ROPS cab to 3.3 m.
  * Parts: moldboard (child of circle, tilts and slews), circle (child of the
@@ -7409,6 +7458,7 @@ const EQUIPMENT_BUDGET = {
   dozer: { build: "dozer", meshes: 20, footprint: [3.2, 3.01, 5.35], parts: ["trackL", "trackR", "blade", "ripper", "rops", "seat", "controls", "lights"], note: "mid-size crawler dozer, blade down" },
   wheelLoader: { build: "wheelLoader", meshes: 17, footprint: [2.6, 3.9, 7.53], parts: ["arms", "bucket", "wheels", "door", "lights"], note: "articulated wheel loader, 3-4 yd bucket" },
   grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
+  ranchGrader: { build: "ranchGrader", meshes: 17, footprint: [2.07, 2.86, 8.24], parts: ["rops", "seat", "controls", "wheels", "blade", "lights", "beacon"], note: "motor grader, blade down for a finish pass" },
   crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
   pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
 };
@@ -7416,7 +7466,7 @@ const EQUIPMENT_BUDGET = {
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
-  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
+  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -10210,9 +10260,10 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
       "solar-deck", "battery-yard", "charge-point", "substation-switching",
-      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash"
+      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash", "or-transmission-line-right-of-way-patrol",
+      "or-solar-farm-tracker-row-maintenance"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "live-events",
@@ -10428,7 +10479,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
       "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
-      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar"
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert"
     ],
     require: 4,
   },
@@ -10441,7 +10492,8 @@ const PROGRAMME_COMPETENCIES = [
       "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector", "wildland-urban-interface",
       "cardiac-arrest-pit-crew", "overdose-response-naloxone", "ambulance-scene-safety", "crisis-intervention-call",
       "critical-incident-debrief", "traffic-incident-management", "trauma-informed-intake", "crisis-line-shift",
-      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid"
+      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid",
+      "or-wildland-fireline-construction-and-lookout"
     ],
     require: 6,
   },
@@ -34211,6 +34263,174 @@ const SIMS_META = [
         "Plumber",
         "Lead Plumber",
         "Gas Piping Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-transmission-line-right-of-way-patrol",
+    "index": "260",
+    "domain": "Energy",
+    "trade": "Outside lineworker — IBEW transmission patrol",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+    "name": "Transmission Line ROW Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+    "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "accent": 15905076,
+    "accentCss": "#f2b134",
+    "parSeconds": 300,
+    "badge": {
+      "id": "corridor-cleared",
+      "name": "Corridor Cleared",
+      "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "index": "261",
+    "domain": "Emergency Services",
+    "trade": "Wildland firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+    "name": "Wildland Fireline Construction",
+    "weather": "smoke",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+    "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "accent": 13197871,
+    "accentCss": "#c9622f",
+    "parSeconds": 310,
+    "badge": {
+      "id": "line-holds",
+      "name": "Line Holds",
+      "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fireline Crew",
+      "currency": "LINE",
+      "ranks": [
+        "Crew Member",
+        "Squad Boss",
+        "Crew Boss",
+        "Division Supervisor",
+        "Fireline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-solar-farm-tracker-row-maintenance",
+    "index": "262",
+    "domain": "Energy",
+    "trade": "Solar technician — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+    "name": "Solar Tracker Row Maintenance",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+    "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-returned",
+      "name": "Row Returned",
+      "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-ranch-road-grading-and-culvert",
+    "index": "263",
+    "domain": "Construction",
+    "trade": "Operating engineer — IUOE",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+    "name": "Ranch Road Grading & Culvert",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+    "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "road-restored",
+      "name": "Road Restored",
+      "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
       ],
       "rankAt": [
         0,

@@ -15,7 +15,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 // animated by property writes, so a headset pays almost nothing for it. AR
 // mode gets none of it: the learner's own room is the weather there.
 
-export const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke"];
+export const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"];
 
 export const WEATHER = {
   clear: {
@@ -55,6 +55,16 @@ export const WEATHER = {
     label: "Wildfire smoke",
     note: "Wildfire smoke — the AQI decides the shift: under Cal/OSHA's wildfire smoke rule, respirators are offered when PM2.5 reaches an AQI of 151 and required above 500, and every instrument on site is reading the plume, not the work.",
     fog: 0.42, light: 0.66, drops: 0, gust: 0.25, wet: 0, sky: 0.8, tint: 0x8a5a33, ash: 240,
+  },
+  // Heat haze over open ground: no rain, a warm low sun, and the ground-level
+  // shimmer of hot, moving air — reusing the same windborne-dust pass that
+  // "wind" uses, because a hot dust devil on open range looks exactly like
+  // one, tinted warm instead of grey. The note defers work/rest and water to
+  // the crew's own heat-illness prevention plan; no figure is guessed here.
+  "heat-haze": {
+    label: "Heat haze",
+    note: "High heat over open ground — the crew's own heat-illness prevention plan sets the work/rest schedule and the water, per the forecast for the day, not a number guessed here.",
+    fog: 0.92, light: 0.94, drops: 0, gust: 0.82, wet: 0, sky: 1, tint: 0xd9b46a,
   },
 };
 

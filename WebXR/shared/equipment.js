@@ -576,8 +576,6 @@ export function compactor(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.compactor.footprint, livery: lv });
 }
 
-// ------------------------------------------------------ towable site plant
-
 /** A single-axle site trailer: frame, A-frame tongue, coupler, fenders, jack and axle. Shared by the towables. */
 function eqTowTrailer(rig, len, width, track, tongue, wheelR = 0.33) {
   const S = rig.shell;
@@ -869,6 +867,57 @@ export function wheelLoader(parent, x, y, z, opts = {}) {
 // ------------------------------------------------------------------- grader
 
 /**
+ * Motor grader, blade down and squared for a finish pass: tandem rear drive
+ * axle, a single front axle on the long articulated frame, a ROPS cab set
+ * forward of the engine deck, and the moldboard slung from a circle under
+ * mid-frame with its own pair of lift rams. 2.4 m over the tandem tyres,
+ * 3.7 m blade. Parts: rops, seat, controls, wheels (front axle plus the rear
+ * tandem), blade, lights, beacon.
+ */
+export function ranchGrader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "GR-6" });
+  const rig = flRig(parent, x, y, z, opts, "ranchGrader", [0, 0, 0.33]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Rear engine deck and hood.
+  flSide(S, [[0.3, 0.68], [0.3, 1.22], [0.55, 1.28], [1.95, 1.28], [2.3, 1.5], [2.3, 0.72], [2.05, 0.62]], 1.3, 0, 0, -2.35, ...P, { bevel: 0.05 });
+  flPanel(S, 1.0, 0.3, 0, 1.32, -3.66, flGrilleMat("vertical", 0x2a2e33), "-z");
+  flPanel(S, 1.05, 0.34, 0.652, 1.35, -2.5, flLiveryMat(lv, "grSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  // ROPS cab, forward of the engine deck.
+  const rops = rig.part("rops", 0, 1.28, -0.55);
+  for (const sx of [1, -1]) for (const zz of [0.5, -0.45]) box(rops, 0.07, 1.5, 0.07, sx * 0.66, 0.75, zz, ...FL.black);
+  box(rops, 1.44, 0.07, 1.05, 0, 1.54, 0.03, ...FL.black);
+  const seat = rig.part("seat", 0, 1.3, -0.5);
+  box(seat, 0.44, 0.1, 0.4, 0, 0.05, 0, ...FL.black);
+  box(seat, 0.44, 0.44, 0.1, 0, 0.28, -0.17, ...FL.black);
+  const ctl = rig.part("controls", 0, 1.3, 0);
+  flStrut(ctl, [0, 0, 0], [0, 0.5, -0.08], 0.03, ...FL.black);
+  flRod(ctl, 0.15, 0.03, 0, 0.5, -0.08, "y", ...FL.black, { seg: 14 });
+  // Main frame beam running forward from the tandem to the front axle.
+  box(S, 0.24, 0.24, 3.5, 0, 0.7, 1.15, ...FL.frame);
+  // Rear tandem drive axle and the front axle, named together as `wheels`.
+  const wheels = [
+    flAxle(rig, "axleRear1", -2.55, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleRear2", -1.95, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleFront", 2.9, 0.5, 1.45, { width: 0.26, style: "equip" }),
+  ];
+  rig.set("wheels", wheels);
+  // Drawbar circle and the moldboard, slung under mid-frame, angled to cast a
+  // finished crown off to one side the way a grader actually runs.
+  cyl(S, 0.5, 0.5, 0.1, 0, 0.5, 0.85, 0x2a2e33, { rough: 0.5, metal: 0.5, seg: 20 });
+  flBeam(S, [0, 0.65, 0.85], [0, 0.32, 1.8], 0.12, 0.12, ...FL.frame);
+  const blade = rig.part("blade", 0, 0.3, 1.85);
+  flSide(blade, [[-1.75, 0], [-1.75, 0.5], [1.75, 0.5], [1.75, 0]], 0.1, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  blade.rotation.y = 0.16;
+  for (const sx of [1, -1]) eqRam(S, [sx * 0.42, 0.85, 0.55], [sx * 0.48, 0.4, 1.65], 0.05, lv.colour);
+  flLights(rig, [[0.55, 1.0, 3.4, 0.12, 0.08], [-0.55, 1.0, 3.4, 0.12, 0.08]], null, [[0.58, 0.85, -3.7, 0.1, 0.08], [-0.58, 0.85, -3.7, 0.1, 0.08]]);
+  const bc = rig.part("beacon", 0, 1.85, -0.55);
+  cyl(bc, 0.06, 0.07, 0.12, 0, 0, 0, ...FL.amber, { seg: 12 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.grader.footprint, livery: lv });
+}
+
+// ------------------------------------------------------ towable site plant
+
+/**
  * Motor grader, blade down: 8.4 m overall on a single steer axle and a rear
  * tandem bogie, 3.7 m moldboard slewed under the belly, ROPS cab to 3.3 m.
  * Parts: moldboard (child of circle, tilts and slews), circle (child of the
@@ -1049,6 +1098,7 @@ export const EQUIPMENT_BUDGET = {
   dozer: { build: "dozer", meshes: 20, footprint: [3.2, 3.01, 5.35], parts: ["trackL", "trackR", "blade", "ripper", "rops", "seat", "controls", "lights"], note: "mid-size crawler dozer, blade down" },
   wheelLoader: { build: "wheelLoader", meshes: 17, footprint: [2.6, 3.9, 7.53], parts: ["arms", "bucket", "wheels", "door", "lights"], note: "articulated wheel loader, 3-4 yd bucket" },
   grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
+  ranchGrader: { build: "ranchGrader", meshes: 17, footprint: [2.07, 2.86, 8.24], parts: ["rops", "seat", "controls", "wheels", "blade", "lights", "beacon"], note: "motor grader, blade down for a finish pass" },
   crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
   pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
 };
@@ -1056,6 +1106,6 @@ export const EQUIPMENT_BUDGET = {
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 export const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
-  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
+  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;

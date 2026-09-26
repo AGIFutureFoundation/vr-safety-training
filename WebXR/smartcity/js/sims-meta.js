@@ -19180,5 +19180,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "or-transmission-line-right-of-way-patrol",
+    "index": "260",
+    "domain": "Energy",
+    "trade": "Outside lineworker — IBEW transmission patrol",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+    "name": "Transmission Line ROW Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+    "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "accent": 15905076,
+    "accentCss": "#f2b134",
+    "parSeconds": 300,
+    "badge": {
+      "id": "corridor-cleared",
+      "name": "Corridor Cleared",
+      "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "index": "261",
+    "domain": "Emergency Services",
+    "trade": "Wildland firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+    "name": "Wildland Fireline Construction",
+    "weather": "smoke",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+    "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "accent": 13197871,
+    "accentCss": "#c9622f",
+    "parSeconds": 310,
+    "badge": {
+      "id": "line-holds",
+      "name": "Line Holds",
+      "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fireline Crew",
+      "currency": "LINE",
+      "ranks": [
+        "Crew Member",
+        "Squad Boss",
+        "Crew Boss",
+        "Division Supervisor",
+        "Fireline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-solar-farm-tracker-row-maintenance",
+    "index": "262",
+    "domain": "Energy",
+    "trade": "Solar technician — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+    "name": "Solar Tracker Row Maintenance",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+    "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-returned",
+      "name": "Row Returned",
+      "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-ranch-road-grading-and-culvert",
+    "index": "263",
+    "domain": "Construction",
+    "trade": "Operating engineer — IUOE",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+    "name": "Ranch Road Grading & Culvert",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+    "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "road-restored",
+      "name": "Road Restored",
+      "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, torus, group, hose, decal, repaint, mat, particles } from "../../shared/kit.js";
+import { box, cyl, ball, torus, group, hose, decal, repaint, mat, particles, gradientFill, noiseTexture } from "../../shared/kit.js";
 import {
   CITY, surfaceTexture, texturedMat, waterFace, mudflatFace, paintedSteelFace, roadwayFace, deckPlateFace,
   siltFace, causticFace, growthFace, hullFace, fogPuffFace, glowFace, pavingFace,
@@ -229,6 +229,73 @@ function hill(g, x, z, rx, ry, rz, color = 0x1d2a22) {
   const h = ball(g, 1, x, -1.5, z, color, { rough: 1, cast: false, receive: false, seg: 14, seg2: 10 });
   h.scale.set(rx, ry, rz);
   return h;
+}
+
+/** Rolling grass and dirt: mottled olive-tan with dry tufts, sparse bare-dirt
+ *  patches and a fine grain — the range floor a right-of-way patrol, a
+ *  fireline crew or a grading crew actually stands on, not a lawn. */
+function rangeGrassFace(g, w, h) {
+  gradientFill(g, w, h, [[0, "#5a5f38"], [1, "#4a5230"]], { radial: true });
+  noiseTexture(g, w, h, { density: 3200, alpha: 0.13, tone: "28,24,10" });
+  noiseTexture(g, w, h, { density: 1600, alpha: 0.09, tone: "182,190,120" });
+  for (let i = 0; i < 8; i++) {
+    const x = Math.random() * w, y = Math.random() * h, r = 22 + Math.random() * 48;
+    let grad = null;
+    try { grad = g.createRadialGradient(x, y, 0, x, y, r); } catch { grad = null; }
+    if (grad && typeof grad.addColorStop === "function") {
+      grad.addColorStop(0, "rgba(140,120,76,0.4)"); grad.addColorStop(1, "rgba(140,120,76,0)");
+      g.fillStyle = grad; g.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+  }
+  g.fillStyle = "rgba(150,162,92,0.35)";
+  for (let i = 0; i < 520; i++) g.fillRect(Math.random() * w, Math.random() * h, 1.4, 3 + Math.random() * 3);
+}
+
+/** The range floor to the horizon: a grass-and-dirt disc under the roam
+ *  circle and well past it, so the learner is never off the edge of it. */
+function rangeGround(g, r = 48) {
+  const tex = surfaceTexture((cx, w, h) => rangeGrassFace(cx, w, h), { repeat: 14, px: 512 });
+  const m = cyl(g, r, r, 0.2, 0, -0.1, 0, 0x545b36, { rough: 0.95, seg: 56, cast: false });
+  m.material = texturedMat(tex, { rough: 0.95, metal: 0.02, color: 0xbdbf98 });
+  m.receiveShadow = true;
+  return tex;
+}
+
+/** A dirt access road running along Z, the way a crew actually drove in. */
+function dirtRoad(g, x = -8, z0 = 11, z1 = -40, width = 4.6) {
+  const len = Math.abs(z1 - z0), cz = (z0 + z1) / 2;
+  const tex = surfaceTexture((cx, w, h) => mudflatFace(cx, w, h, { base: "#8a7a5c", base2: "#6d5f45", cracks: 14, pools: 0 }), { repeat: 3, px: 384 });
+  tex.repeat?.set?.(1, Math.max(3, Math.round(len / 7)));
+  const road = box(g, width, 0.06, len, x, 0.001, cz, 0x8a7a5c, { rough: 0.95, cast: false });
+  road.material = texturedMat(tex, { rough: 0.95, metal: 0.02, color: 0x9a8a68 });
+  road.receiveShadow = true;
+  return road;
+}
+
+/** A wind sock on a pole, reading the day's air — the plain instrument every
+ *  one of these outdoor trades glances at before anything else. */
+function windSock(g, x, z, h = 5) {
+  const s = group(g, x, -0.1, z);
+  cyl(s, 0.04, 0.045, h, 0, h / 2, 0, 0xb8c1c9, { rough: 0.5, seg: 8, cast: false, receive: false });
+  for (const ry of [0, Math.PI / 2]) box(s, 0.5, 0.03, 0.03, 0, h - 0.15, 0, 0xb8c1c9, { rough: 0.5, cast: false, receive: false }).rotation.y = ry;
+  const cone = own(cyl(s, 0.24, 0.08, 1.5, 0.78, h - 0.15, 0, 0xff7a3b, { rough: 0.85, seg: 10, open: true, cast: false, receive: false }));
+  cone.rotation.z = Math.PI / 2;
+  return cone;
+}
+
+/** A utility-scale wind turbine silhouette on the ridge: a tapered tower, a
+ *  nacelle and three blades on a hub, spun slowly by the district's animate. */
+function turbine(g, x, z, h = 28, bladeLen = 6.2) {
+  const t = group(g, x, -1.5, z);
+  cyl(t, 0.34, 0.55, h, 0, h / 2, 0, 0xd8dde2, { rough: 0.5, metal: 0.15, seg: 10, cast: false, receive: false });
+  box(t, 1.05, 0.85, 2.4, 0, h + 0.2, 0.3, 0xc9d0d6, { rough: 0.5, metal: 0.2, cast: false, receive: false });
+  const hub = group(t, 0, h + 0.2, 1.6);
+  for (let i = 0; i < 3; i++) {
+    const spoke = group(hub, 0, 0, 0);
+    spoke.rotation.z = (i / 3) * Math.PI * 2;
+    own(box(spoke, 0.16, bladeLen, 0.42, 0, bladeLen / 2, 0, 0xe8ecef, { rough: 0.55, cast: false, receive: false }));
+  }
+  return hub;
 }
 
 function monitorMast(g, x, z, h = 6) {
@@ -1705,6 +1772,54 @@ export const DISTRICTS = {
     spawn: { x: 0, z: 6.2, ry: 0 },
     roam: 7.2,
     build(g, _accent, env = {}) { return gymCourt(g, env); },
+  },
+  "open-range": {
+    // Outdoor open range: rolling grass and dirt to a long horizon, the
+    // ground itself rather than a horizon behind a plaza, so no plaza deck,
+    // masts, marquee or apron. The sky and fog still follow the hour like any
+    // other district — there is no city out here to hide it behind, only the
+    // ridge, the turbines and the line striding off toward them.
+    plaza: false,
+    sky: 0x223018, fog: 0x2c3820, hemi: [0xaebf7a, 0x2a2410], mast: 0xfff0c8,
+    key: 0xfff2dc,
+    // Sustained wind is the range's own default — the wind sock is never
+    // still out here — replaced by a station's own smoke or heat-haze call,
+    // or by the URL's own `?weather=`.
+    weather: "wind",
+    fogRange: [55, 225],
+    far: 230,
+    skyline: false,
+    roam: 12,
+    spawn: { x: 0, z: 9.6, ry: 0 },
+    // Dressed at the edges, well clear of the roam circle: a fence line, a
+    // light tower, a site office and a fuel tank — the way any of these crews
+    // actually parks a jobsite on open ground.
+    dressing: [
+      { prop: "fencePanel", x: -16.5, z: -8.4, ry: 0.32 },
+      { prop: "fencePanel", x: -13.6, z: -9.6, ry: 0.32 },
+      { prop: "lightMast", x: 16.5, z: -8, lit: true },
+      { prop: "siteOffice", x: 13, z: -10.2, ry: -0.4 },
+      { prop: "fuelTank", x: -18, z: 5, ry: 1.1 },
+    ],
+    build(g) {
+      flood(g, 0, 20, -32, 0xfff2dc, 1.1);
+      rangeGround(g);
+      dirtRoad(g);
+      // The ridge line closing the horizon, hills only — the district builds
+      // no skyline ring out here.
+      hill(g, -32, -42, 34, 9, 16, 0x333d22);
+      hill(g, 6, -50, 40, 11, 18, 0x2e3a20);
+      hill(g, 42, -40, 32, 9, 15, 0x333d22);
+      // The transmission line striding off toward the turbines on the ridge.
+      const arms = [pylon(g, -18, -34, 15, 0.3), pylon(g, 14, -38, 16, -0.15)];
+      for (let k = 0; k < 6; k++) span(g, arms[0][k], arms[1][k], 0.03);
+      const turbines = [turbine(g, -34, -30, 26), turbine(g, 4, -42, 30), turbine(g, 36, -26, 24)];
+      const sockCone = windSock(g, 8, 6.5, 5);
+      return (t) => {
+        for (const hub of turbines) hub.rotation.z = t * 1.3;
+        sockCone.rotation.y = Math.PI / 2 + Math.sin(t * 0.4) * 0.3;
+      };
+    },
   },
 };
 
