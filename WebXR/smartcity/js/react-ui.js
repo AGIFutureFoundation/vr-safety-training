@@ -81,6 +81,7 @@ const INTRO_BUTTONS = [
   { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
   { id: "view-flows", label: "Flows", action: "viewFlows" },
   { id: "open-signin", label: "Sign in", action: "viewSignIn" },
+  { id: "open-share", label: "Share to train agents & robots", action: "viewShare" },
   { id: "open-editor", label: "Create a scenario", action: "openEditor" },
   { id: "open-controls", label: "Controls", action: "openControls" },
   { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
@@ -554,6 +555,91 @@ export function mountUI(store, actions) {
           h("button", { id: "signin-close", onClick: actions.closeSignIn }, "Close")),
         h("p", { className: "fineprint" },
           "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
+  }
+
+  /**
+   * Share to train agents & robots (shared/share-engagement.js,
+   * shared/agent-protocols.js, shared/wallet.js). Default is off: opting in
+   * only ever writes a consent record to this browser, and pressing Share is
+   * the one action that sends anything, to the one relay this deployment
+   * configured. Every value here is plain data — a wallet address, a
+   * receipt reason — rendered as text, never markup.
+   */
+  function ShareCard() {
+    const sh = useSlice("share");
+    if (!sh.visible) return h("div", { className: "overlay", id: "share", hidden: true });
+    const optedIn = !!sh.consent?.optIn;
+
+    const walletSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Wallet (optional)"),
+      sh.wallet
+        ? h("p", { className: "signin-msg", role: "status" },
+            `Connected: ${sh.wallet.shortAddress}${sh.wallet.chainId ? ` · chain ${sh.wallet.chainId}` : ""}`)
+        : h("p", { className: "fineprint" },
+            "Connecting a wallet lets your opt-in be signed (personal_sign) so a relay can check who gave it. " +
+            "Without one, opting in still works as a plain, unsigned record kept in this browser. " +
+            "This page never asks for a private key or a seed phrase."),
+      h("div", { className: "btnrow" },
+        sh.wallet
+          ? h("button", { id: "share-wallet-disconnect", onClick: actions.disconnectWallet }, "Disconnect wallet")
+          : h("button", { id: "share-wallet-connect", disabled: sh.walletBusy, onClick: actions.connectWallet }, sh.walletBusy ? "Connecting…" : "Connect wallet")),
+      sh.walletMessage ? h("p", { className: "signin-msg", role: "status" }, sh.walletMessage) : null);
+
+    const licenceOption = (lic, note) => h("label", { key: lic, className: `share-licence-opt${sh.licence === lic ? " on" : ""}` },
+      h("input", { type: "radio", name: "share-licence", value: lic, checked: sh.licence === lic, onChange: () => actions.setShareLicence(lic), disabled: optedIn }),
+      h("span", null, note));
+    const licenceSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Licence"),
+      h("div", { className: "share-licence", role: "radiogroup", "aria-label": "Licence" },
+        licenceOption("CC0", "CC0 — public domain dedication"),
+        licenceOption("CC-BY-4.0", "CC-BY-4.0 — attribution required")));
+
+    const consentRow = optedIn
+      ? h(Fragment, null,
+          h("p", { className: "signin-msg", role: "status" },
+            `Opted in under ${sh.consent.licence} on ${new Date(sh.consent.at).toLocaleDateString()} — ` +
+            `${sh.consent.mode === "wallet" ? `signed by ${sh.consent.address}` : "an unsigned local record"}.`),
+          h("div", { className: "btnrow" },
+            h("button", { className: "primary", id: "share-now", disabled: sh.busy, onClick: actions.shareNow }, sh.busy ? "Sharing…" : "Share"),
+            h("button", { id: "share-revoke", onClick: actions.revokeShare }, "Revoke")))
+      : h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "share-optin", disabled: sh.busy, onClick: actions.optInShare }, sh.busy ? "Working…" : "Opt in"));
+
+    const receiptRows = [...sh.receipts].reverse().slice(0, 20).map((r, i) => h("li", {
+      key: `${r.at}-${i}`, className: r.ok ? "ok" : "fail",
+    }, `${new Date(r.at).toLocaleString()} · ${r.provider} · ${r.ok ? "sent" : (r.reason ?? "failed")}`));
+    const infoSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "What is shared, and what never is"),
+      h("ul", { className: "share-list" },
+        h("li", null, "Shared: anonymised episode digests and the per-category roll-up scores already in Training Records."),
+        h("li", null, "Never shared: your name, crew tag, free text, or any launch identity.")),
+      h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Receipts"),
+      sh.receipts.length
+        ? h("ul", { className: "share-receipts" }, receiptRows)
+        : h("p", { className: "fineprint" }, "Nothing has been shared yet."));
+
+    return h("div", { className: "overlay", id: "share", role: "dialog", "aria-modal": "true", "aria-label": "Share to train agents & robots" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · share to train agents & robots"),
+        h("h1", null, "Help train agents and robots"),
+        h("p", { className: "lead" },
+          "Opt in to share anonymised training engagement — episode digests and roll-up scores only, never your name, " +
+          "free text or launch identity — with agent-protocol platforms (Virtuals Protocol, SingularityNET and others) " +
+          "so they can train software agents and robots on real practice patterns. This is off by default, and nothing " +
+          "is sent until you press Share, below."),
+        walletSection,
+        licenceSection,
+        consentRow,
+        sh.message ? h("p", { className: "signin-msg", role: "status" }, sh.message) : null,
+        infoSection,
+        h("p", { className: "fineprint" },
+          "Sharing is optional and revocable at any time. Revoking removes the local consent record; it does not " +
+          "un-send anything already delivered to a relay. See ",
+          h("a", { href: "../docs/wallets-and-sharing.md", target: "_blank", rel: "noopener" }, "wallets and sharing"),
+          " and ",
+          h("a", { href: "../docs/agent-protocols.md", target: "_blank", rel: "noopener" }, "agent protocols"), "."),
+        h("div", { className: "btnrow" },
+          h("button", { id: "share-close", onClick: actions.closeShare }, "Close"))));
   }
 
   /** A programme's twenty-level ladder (shared/ladder.js), top rung first:
@@ -1166,7 +1252,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard), h(ShareCard),
       h(ControlsCard));
   }
 

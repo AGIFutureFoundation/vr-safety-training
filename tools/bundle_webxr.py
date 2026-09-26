@@ -99,6 +99,14 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "auth.js",
             SHARED / "lrs.js",
+            # Wallet connection and opt-in agent/robot training-data sharing
+            # (docs/wallets-and-sharing.md, docs/agent-protocols.md): wallet.js
+            # first (auth.js's cleanAddress/shortAddress), then the
+            # provider-agnostic adapters, then share-engagement.js, which uses
+            # both plus records.js above.
+            SHARED / "wallet.js",
+            SHARED / "agent-protocols.js",
+            SHARED / "share-engagement.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
             SHARED / "ladder.js",
@@ -463,7 +471,13 @@ DIST_PAGES = {
     "race": "race.html",
     "arcade": "arcade.html",
 }
-DIST_SHARED = ["auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js"]
+DIST_SHARED = [
+    "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
+    # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
+    # docs/agent-protocols.md), lazily imported by the homepage's own script
+    # exactly like radio-quiz.js above.
+    "wallet.js", "share-engagement.js", "agent-protocols.js",
+]
 
 
 def combined_fixup(html: str) -> str:

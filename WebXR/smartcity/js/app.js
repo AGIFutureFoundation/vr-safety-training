@@ -10,6 +10,9 @@ import {
 import { Identity } from "../../shared/identity.js";
 import { Auth, availableProviders, makeAuthEnv, providerById } from "../../shared/auth.js";
 import { Lrs } from "../../shared/lrs.js";
+import { Wallet, makeWalletEnv } from "../../shared/wallet.js";
+import { ShareEngagement, LICENCES as SHARE_LICENCES } from "../../shared/share-engagement.js";
+import { Adapters as AGENT_ADAPTERS } from "../../shared/agent-protocols.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
@@ -292,6 +295,15 @@ const store = createStore({
   // this browser can actually do, plus the one line that says where the
   // credential is verified — which is never here.
   signin: { visible: false, providers: [], session: null, field: "", fieldFor: null, message: "" },
+  // Opt-in sharing of anonymised training engagement with agent-protocol
+  // platforms (shared/share-engagement.js, shared/agent-protocols.js,
+  // shared/wallet.js). Default off; nothing here is sent anywhere until a
+  // press of Share, and this slice only ever mirrors what those modules
+  // already hold.
+  share: {
+    visible: false, wallet: null, walletBusy: false, walletMessage: "",
+    consent: null, licence: "CC0", receipts: [], busy: false, message: "",
+  },
   // The dental programme's robot-training card: a headless calibration of
   // every station in the block, run in slices on this thread so the panel can
   // show the difficulty curve filling in rather than freezing until it is done.
@@ -2791,6 +2803,54 @@ Lrs.listen(() => Identity.current?.homePage, () => { refreshLrs(); Lrs.flush().t
 refreshLrs();
 if (Lrs.pending()) Lrs.flush().then(() => refreshLrs());
 
+// ------------------------------------------------- share to train agents & robots
+//
+// Opt-in sharing of anonymised training engagement (shared/share-engagement.js)
+// with agent-protocol platforms (shared/agent-protocols.js), by way of a
+// wallet a person connects themselves (shared/wallet.js). Default is off;
+// this section only ever mirrors those modules' own state into the "share"
+// slice for react-ui.js, and every network call still happens inside them.
+
+function refreshShare(extra = {}) {
+  store.patch("share", {
+    wallet: Wallet.describe(), consent: ShareEngagement.consent, receipts: ShareEngagement.receipts(),
+    ...extra,
+  });
+}
+function viewShare() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  refreshShare({ visible: true, message: "" });
+}
+function closeShare() { state.paused = pausedBeforeOverlay; store.patch("share", { visible: false }); }
+function setShareLicence(v) { store.patch("share", { licence: SHARE_LICENCES.includes(v) ? v : store.get().share.licence }); }
+
+async function connectWallet() {
+  refreshShare({ walletBusy: true, walletMessage: "" });
+  const result = await Wallet.connect({ env: makeWalletEnv() });
+  refreshShare({ walletBusy: false, walletMessage: result.connected ? "" : (result.reason || "") });
+}
+function disconnectWallet() { Wallet.disconnect(); refreshShare({}); }
+Wallet.onChange = () => refreshShare({});
+
+async function optInShare() {
+  const licence = store.get().share.licence;
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.optIn({ licence, wallet: Wallet });
+  refreshShare({ busy: false, message: result.ok ? "" : (result.reason || "") });
+}
+function revokeShare() {
+  ShareEngagement.revoke();
+  refreshShare({ message: "Consent revoked. Anything already shared is not un-sent." });
+}
+async function shareNow() {
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.share(AGENT_ADAPTERS["cloudflare-relay"]);
+  refreshShare({ busy: false, message: result.ok ? "Shared." : (result.receipt?.reason || result.result?.reason || "Nothing was sent.") });
+}
+
+refreshShare();
+
 // ------------------------------------------------------------- scenario editor
 //
 // A custom scenario never invents new steps or new 3D content — it curates
@@ -4457,6 +4517,7 @@ const uiActions = {
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart, toggleLadder, startLevel,
   viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
+  viewShare, closeShare, connectWallet, disconnectWallet, setShareLicence, optInShare, revokeShare, shareNow,
   startRobotTraining, stopRobotTraining,
   viewFlows, closeFlows, flowContinue, flowRestart, flowSelect,
   prebriefStart, prebriefSkip, prebriefClose,
