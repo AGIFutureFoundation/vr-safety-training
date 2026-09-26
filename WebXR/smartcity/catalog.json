@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 422
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -191,6 +191,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "ew-machine-room-lockout-and-brake-test",
         "ew-hoistway-false-car-and-rail-setting",
         "pm-storage-and-bike-room",
         "pm-playground-and-courtyard",
@@ -7645,6 +7646,87 @@
     },
     {
       "app": "smartcity",
+      "id": "ew-machine-room-lockout-and-brake-test",
+      "name": "Machine Room Lockout and Brake Test",
+      "title": "SmartCiti.X~ Machine Room Lockout and Brake Test VR",
+      "tagline": "Isolate the machine, guard the hand brake-release lever, measure lining and gap against wear limits, and prove the brake on a test run before restoring power",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for machine room maintenance; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the main line disconnect; OSHA 29 CFR 1910.333 electrical safe work practices for the live-dead-live check at the controller",
+      "accent": "#e0522d",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "brake-proven",
+        "name": "Brake Proven",
+        "note": "Isolated, guarded and measured to the manufacturer's wear limits, with a clean stopping test before release"
+      },
+      "meshes": 127,
+      "lights": 0,
+      "overBudget": false,
+      "index": "353",
+      "flat": false,
+      "system": "Brake Authority",
+      "currency": "TORQUE",
+      "ranks": [
+        "Helper",
+        "Machine Room Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Brake Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "guard-first",
+          "name": "Guard First",
+          "note": "Never measured the brake before the hand-release lever was pinned"
+        },
+        {
+          "id": "within-limits",
+          "name": "Within Limits",
+          "note": "Held both lining and gap readings near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "test-held",
+          "name": "Test Held",
+          "note": "Never let the test run button slip mid-hold"
+        },
+        {
+          "id": "machine-fast",
+          "name": "Machine Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-machine-room-lockout-and-brake-test"
+    },
+    {
+      "app": "smartcity",
       "id": "ew-hoistway-false-car-and-rail-setting",
       "name": "Hoistway False Car and Rail Setting",
       "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
@@ -7676,7 +7758,7 @@
         "name": "Rail Set Certified",
         "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
       },
-      "meshes": 155,
+      "meshes": 159,
       "lights": 0,
       "overBudget": false,
       "index": "352",
@@ -27668,7 +27750,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28328,7 +28410,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",

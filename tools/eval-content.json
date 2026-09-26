@@ -13,15 +13,15 @@
   "results": [
     {
       "app": "smartcity",
-      "id": "ew-hoistway-false-car-and-rail-setting",
-      "name": "Hoistway False Car and Rail Setting",
+      "id": "ew-machine-room-lockout-and-brake-test",
+      "name": "Machine Room Lockout and Brake Test",
       "category": "Building Systems & Facilities",
       "steps": 14,
-      "score": 96,
+      "score": 95,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 7,
+          "distinct": 6,
           "longestRun": 2
         },
         "decisions": {
@@ -31,17 +31,17 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 310,
+          "medianWhy": 285,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 4
         },
         "standards": {
           "score": 1,
-          "cited": 5,
-          "inScope": 5,
+          "cited": 4,
+          "inScope": 4,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -51,15 +51,15 @@
           "got": 11
         },
         "scene": {
-          "score": 0.945,
-          "meshes": 158,
-          "materials": 72,
-          "interactables": 22
+          "score": 0.9122727272727272,
+          "meshes": 164,
+          "materials": 73,
+          "interactables": 19
         },
         "originality": {
-          "score": 0.48995433789954357,
+          "score": 0.1380032206119164,
           "nearest": "elevator-pit",
-          "similarity": 0.2420091324200913
+          "similarity": 0.31239935587761675
         }
       }
     }
