@@ -279,11 +279,17 @@ export const SIM_BR_FISH_SCREEN_MAINTENANCE = {
 
     // ---------------------------------------------------------- screen face
     const screenGrp = group(g, 0, 0.05, 0.2);
+    const meshFace = (cx, w, h) => {
+      cx.fillStyle = "#5a6268"; cx.fillRect(0, 0, w, h);
+      cx.fillStyle = "#33383d";
+      const cell = w / 16;
+      for (let r = 0; r < 12; r++) for (let c = 0; c < 16; c++) {
+        cx.beginPath(); cx.arc((c + 0.5) * cell, (r + 0.5) * (h / 12), cell * 0.32, 0, Math.PI * 2); cx.fill();
+      }
+    };
     for (const [id, x] of [["screen-panel-1", -1.6], ["screen-panel-2", 0], ["screen-panel-3", 1.6]]) {
       const panel = box(screenGrp, 1.4, 1.1, 0.06, x, 0.55, 0, 0x7a828a, { rough: 0.6, metal: 0.5 });
-      for (let r = 0; r < 6; r++) for (let c = 0; c < 8; c++) {
-        ball(panel, 0.02, x - 0.6 + c * 0.17, 0.15 + r * 0.16, 0.035, 0x3c444c, { rough: 0.6, metal: 0.3, seg: 6 });
-      }
+      decal(panel, 1.36, 1.06, 0, 0, 0.031, meshFace, { px: 256 });
       const flagLabel = group(g, x, 1.2, 0.2);
       decal(flagLabel, 0.3, 0.1, 0, 0, 0, signFace(id.slice(-1), { bg: "#1b1e12", accent: "#dff3d8", scale: 0.6 }));
       reg(hits, panel, id);
