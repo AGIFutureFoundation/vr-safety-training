@@ -815,6 +815,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "br-benthic-grab-and-invertebrate-sorting", why: "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade." },
     ],
   },
+  {
+    id: "railroad-crafts",
+    name: "Railroad Crafts — Track, Car and Cab",
+    union: "BLET, SMART-TD and BMWED",
+    certification: "FRA 49 CFR Part 213 track safety standards, Part 214 roadway worker protection, Part 218 blue signal protection of workers and Part 232 brake system safety standards, worked the way BLET, SMART-TD and BMWED train their own crafts to work them",
+    guides: ["fra-49-cfr-213", "fra-49-cfr-214", "fra-49-cfr-218", "fra-49-cfr-232", "bmwed-training", "blet-training", "smarttd-training"],
+    summary: "Eight of the jobs a freight railroad runs on every day: the roadway gang's own protection and briefing, a tie and rail change-out with the machines that do the lifting, a switch locked out and proven by gauge, a full air brake test walked car by car, a cut secured on a grade and proven by test, a grade crossing taken down and proven against a shunt, a locomotive proven ready before it moves, and the blue flag that lets two crews share one cut of equipment without either one trusting the other's protection instead of their own.",
+    accent: "#d63b3b",
+    stations: [
+      { app: "smartcity", id: "ra-roadway-worker-protection-and-job-briefing", why: "Every job on the railroad starts with the same habit: a briefing everyone actually signs onto, working limits requested and read back, and a watchman posted at a sighting distance worked back from the timetable speed rather than chosen for convenience." },
+      { app: "smartcity", id: "ra-tie-and-rail-replacement-with-track-machines", why: "The machines that do the actual lifting on a tie and rail change-out — a crane, a saw, a tamper — each carry their own hazard zone, and the gang's protection is proving the crew stayed outside every one of them, not just that the track measures right afterward." },
+      { app: "smartcity", id: "ra-switch-inspection-and-lubrication", why: "A hand-thrown switch gets locked and tagged before a hand goes near the points, and the heater that keeps it free of ice gets proven dead by a hold, not assumed safe from a breaker position." },
+      { app: "smartcity", id: "ra-air-brake-test-and-train-inspection", why: "A brake test is walked and looked at car by car — a set confirmed by eye, not trusted from a gauge in the cab — because a shoe that never actually seated against the wheel reads exactly like a normal brake pipe pressure until somebody looks." },
+      { app: "smartcity", id: "ra-hand-brake-and-securement-on-a-grade", why: "A cut left standing on a grade is held by hand brakes proven by a push-pull test with the air released, never assumed from a count of turns on a wheel, with chocks behind them for the one thing a hand brake alone cannot promise." },
+      { app: "smartcity", id: "ra-crossing-signal-maintenance-and-flagging", why: "Taking a grade crossing's automatic protection down for a test means the road gets protected by hand for as long as the gates and lights cannot be trusted, and the crossing is proven with a real shunt before it goes back to drivers who never knew it was down." },
+      { app: "smartcity", id: "ra-locomotive-cab-startup-and-alerter", why: "A locomotive gets a walk-around before it gets a cab, both brakes tested before the first mile, and the alerter answered on its own schedule for the whole trip because it is the one device built to notice an engineer who has stopped noticing anything else." },
+      { app: "smartcity", id: "ra-blue-flag-protection-in-the-yard", why: "Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the worker who displayed it — never the next person who assumes it also covers them." },
+    ],
+  },
 ];
 
 /**

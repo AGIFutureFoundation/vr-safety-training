@@ -6546,6 +6546,8 @@ const UNIONS = [
   {"id":"bac","abbrev":"BAC","name":"International Union of Bricklayers and Allied Craftworkers","aliases":["BAC"],"local":null,"colors":null,"trainingBody":"bac-imi","trainingTitle":"BAC and the International Masonry Institute — bricklayer, tile and refractory apprenticeship","scope":["Construction & Structural Trades","Building Systems & Facilities","Surface Prep & Coatings"],"note":"Training through the International Masonry Institute."},
   {"id":"bctgm","abbrev":"BCTGM","name":"Bakery, Confectionery, Tobacco Workers and Grain Millers International Union","aliases":["BCTGM"],"local":null,"colors":null,"trainingBody":"bctgm-training","trainingTitle":"BCTGM apprenticeship and safety training for bakery, confectionery and grain milling work","scope":["Manufacturing & Automation","Culinary & Hospitality"],"note":"Bakery and grain-handling work."},
   {"id":"bmwed","abbrev":"BMWED","name":"Brotherhood of Maintenance of Way Employes Division","aliases":["BMWED"],"local":null,"colors":null,"trainingBody":"bmwed-training","trainingTitle":"BMWED roadway worker training for track and structures maintenance","scope":["Mobility & Transit"],"note":"Track and structures maintenance; a division of the Teamsters."},
+  {"id":"blet","abbrev":"BLET","name":"Brotherhood of Locomotive Engineers and Trainmen","aliases":["BLET"],"local":null,"colors":null,"trainingBody":"blet-training","trainingTitle":"BLET certification and training for locomotive engineers and trainmen","scope":["Mobility & Transit"],"note":"Locomotive engineers and trainmen; a division of the Teamsters."},
+  {"id":"smart-td","abbrev":"SMART-TD","name":"SMART Transportation Division","aliases":["SMART-TD","SMART Transportation Division"],"local":null,"colors":null,"trainingBody":"smarttd-training","trainingTitle":"SMART Transportation Division training for conductors, trainmen and yardmasters","scope":["Mobility & Transit"],"note":"Conductors, trainmen, yardmasters and switchmen."},
   {"id":"carpenters","abbrev":"UBC","name":"United Brotherhood of Carpenters and Joiners of America","aliases":["UBC","Carpenters","United Brotherhood of Carpenters","Pile Drivers"],"local":null,"colors":null,"trainingBody":"carpenters-ictf","trainingTitle":"United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship","scope":["Construction & Structural Trades","Water & Environmental","Maritime & Ports","Building Systems & Facilities","Entertainment & Live Events"],"note":"Carpenters, pile drivers and millwrights. The repository names Pile Drivers Local 34 for the marine work only, so no local is carried on the union's general sign."},
   {"id":"cwa","abbrev":"CWA","name":"Communications Workers of America","aliases":["CWA"],"local":null,"colors":null,"trainingBody":"cwa-training","trainingTitle":"CWA member training for outside-plant, tower and broadcast work","scope":["Connectivity & Telecom","Water & Environmental","Maritime & Ports","Entertainment & Live Events","Community Environmental Justice","Environmental Monitoring","Trade Skills Simulator"],"note":"Outside-plant, tower and broadcast work."},
   {"id":"iaff","abbrev":"IAFF","name":"International Association of Fire Fighters","aliases":["IAFF"],"local":null,"colors":null,"trainingBody":"iaff-training","trainingTitle":"IAFF training programmes, including Fire Ground Survival and the peer support model","scope":["Emergency Services"],"note":"Fire and EMS."},
@@ -7397,6 +7399,25 @@ const CURRICULA = [
       { app: "smartcity", id: "br-restoration-data-qa-and-public-reporting", why: "Every field sheet is checked before it's scanned and every suspect value is flagged rather than typed straight in, so the one line the public dashboard is allowed to say about the Bay is a line the reviewed data actually backs up." },
       { app: "smartcity", id: "br-beach-seine-fish-survey-and-handling", why: "The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows." },
       { app: "smartcity", id: "br-benthic-grab-and-invertebrate-sorting", why: "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade." },
+    ],
+  },
+  {
+    id: "railroad-crafts",
+    name: "Railroad Crafts — Track, Car and Cab",
+    union: "BLET, SMART-TD and BMWED",
+    certification: "FRA 49 CFR Part 213 track safety standards, Part 214 roadway worker protection, Part 218 blue signal protection of workers and Part 232 brake system safety standards, worked the way BLET, SMART-TD and BMWED train their own crafts to work them",
+    guides: ["fra-49-cfr-213", "fra-49-cfr-214", "fra-49-cfr-218", "fra-49-cfr-232", "bmwed-training", "blet-training", "smarttd-training"],
+    summary: "Eight of the jobs a freight railroad runs on every day: the roadway gang's own protection and briefing, a tie and rail change-out with the machines that do the lifting, a switch locked out and proven by gauge, a full air brake test walked car by car, a cut secured on a grade and proven by test, a grade crossing taken down and proven against a shunt, a locomotive proven ready before it moves, and the blue flag that lets two crews share one cut of equipment without either one trusting the other's protection instead of their own.",
+    accent: "#d63b3b",
+    stations: [
+      { app: "smartcity", id: "ra-roadway-worker-protection-and-job-briefing", why: "Every job on the railroad starts with the same habit: a briefing everyone actually signs onto, working limits requested and read back, and a watchman posted at a sighting distance worked back from the timetable speed rather than chosen for convenience." },
+      { app: "smartcity", id: "ra-tie-and-rail-replacement-with-track-machines", why: "The machines that do the actual lifting on a tie and rail change-out — a crane, a saw, a tamper — each carry their own hazard zone, and the gang's protection is proving the crew stayed outside every one of them, not just that the track measures right afterward." },
+      { app: "smartcity", id: "ra-switch-inspection-and-lubrication", why: "A hand-thrown switch gets locked and tagged before a hand goes near the points, and the heater that keeps it free of ice gets proven dead by a hold, not assumed safe from a breaker position." },
+      { app: "smartcity", id: "ra-air-brake-test-and-train-inspection", why: "A brake test is walked and looked at car by car — a set confirmed by eye, not trusted from a gauge in the cab — because a shoe that never actually seated against the wheel reads exactly like a normal brake pipe pressure until somebody looks." },
+      { app: "smartcity", id: "ra-hand-brake-and-securement-on-a-grade", why: "A cut left standing on a grade is held by hand brakes proven by a push-pull test with the air released, never assumed from a count of turns on a wheel, with chocks behind them for the one thing a hand brake alone cannot promise." },
+      { app: "smartcity", id: "ra-crossing-signal-maintenance-and-flagging", why: "Taking a grade crossing's automatic protection down for a test means the road gets protected by hand for as long as the gates and lights cannot be trusted, and the crossing is proven with a real shunt before it goes back to drivers who never knew it was down." },
+      { app: "smartcity", id: "ra-locomotive-cab-startup-and-alerter", why: "A locomotive gets a walk-around before it gets a cab, both brakes tested before the first mile, and the alerter answered on its own schedule for the whole trip because it is the one device built to notice an engineer who has stopped noticing anything else." },
+      { app: "smartcity", id: "ra-blue-flag-protection-in-the-yard", why: "Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the worker who displayed it — never the next person who assumes it also covers them." },
     ],
   },
 ];
@@ -8638,6 +8659,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "bay-restoration-maritime-underwater",
     "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
     "accent": "#4fb3c8"
+  },
+  {
+    "programme": "railroad-crafts",
+    "name": "Railroad Crafts — Track, Car and Cab",
+    "accent": "#d63b3b"
   }
 ];
 
