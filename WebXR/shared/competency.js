@@ -144,6 +144,8 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
   S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
   S("asme-bpvc", "ASME", "Boiler and Pressure Vessel Code", ["Building Systems"]),
+  S("asme-a17-1", "ASME", "ASME A17.1 — Safety Code for Elevators and Escalators", ["Building Systems & Facilities"]),
+  S("neiep-training", "union", "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum", ["Building Systems & Facilities"], "unverified"),
   S("aws-d1-5", "AWS", "D1.5 Bridge Welding Code", ["Construction"]),
   S("ansi-e1-4", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
   S("ashrae-188", "ASHRAE", "Standard 188 Legionellosis: Risk Management for Building Water Systems", ["Building Systems"]),
@@ -600,6 +602,17 @@ export const PROGRAMME_COMPETENCIES = [
       "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
     ],
     require: 6,
+  },
+  {
+    id: "elevator-constructors",
+    title: "Isolate, gauge and prove an elevator or escalator machine before returning it to service",
+    kind: "programme",
+    standards: ["asme-a17-1", "osha-1910-147", "neiep-training"],
+    stations: [
+      "ew-hoistway-false-car-and-rail-setting", "ew-machine-room-lockout-and-brake-test", "ew-pit-work-and-buffer-inspection", "ew-car-top-inspection-station-and-ride",
+      "ew-door-operator-adjustment-and-gap", "ew-escalator-step-chain-and-comb-plate", "ew-rope-inspection-and-sheave-wear", "ew-elevator-entrapment-and-rescue-with-fire-service"
+    ],
+    require: 4,
   },
 ];
 

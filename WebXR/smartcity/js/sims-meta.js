@@ -18088,5 +18088,215 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ew-car-top-inspection-station-and-ride",
+    "index": "355",
+    "domain": "Facilities",
+    "trade": "Elevator constructor / mechanic — IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for car-top inspection procedure; ASME A17.1 the safety code for elevators and escalators, whose inspection-operation and clearance provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the car-top station's own stop switch",
+    "name": "Car Top Inspection Station and Ride",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Car Top Inspection Station and Ride VR",
+    "tagline": "Riding the car top on inspection operation: enable, stop switch, direction, crosshead clearance, traveling cable and door hangers checked from above",
+    "accent": 5231103,
+    "accentCss": "#4fd1ff",
+    "parSeconds": 255,
+    "badge": {
+      "id": "cartop-certified",
+      "name": "Car Top Certified",
+      "note": "A full inspection ride with the stop switch never unconfirmed and clearance checked at every stop"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Car Top Authority",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Helper",
+        "Car Top Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Car Top Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ew-escalator-step-chain-and-comb-plate",
+    "index": "357",
+    "domain": "Facilities",
+    "trade": "Elevator constructor / mechanic — IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for escalator maintenance; ASME A17.1 the safety code for elevators and escalators, whose escalator step, comb plate and safety-device provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive machine isolation",
+    "name": "Escalator Step Chain and Comb Plate",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Escalator Step Chain and Comb Plate VR",
+    "tagline": "Isolating the drive, inspecting the step chain and comb teeth, gauging chain tension and skirt clearance, and proving the comb, skirt and handrail safety switches before reopening",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 260,
+    "badge": {
+      "id": "escalator-proven",
+      "name": "Escalator Proven",
+      "note": "Step chain, comb plate and every safety switch proven before the barricades came down"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Comb Plate Authority",
+      "currency": "MESH",
+      "ranks": [
+        "Helper",
+        "Escalator Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Comb Plate Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ew-rope-inspection-and-sheave-wear",
+    "index": "358",
+    "domain": "Facilities",
+    "trade": "Elevator constructor / mechanic — IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for rope and sheave maintenance; ASME A17.1 the safety code for elevators and escalators, whose wire-rope and sheave-wear provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation",
+    "name": "Rope Inspection and Sheave Wear",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Rope Inspection and Sheave Wear VR",
+    "tagline": "Isolating the drive, walking the rope set for broken wires, gauging tension, diameter and groove wear, lubricating and re-equalizing before the car returns to service",
+    "accent": 9414345,
+    "accentCss": "#8fa6c9",
+    "parSeconds": 265,
+    "badge": {
+      "id": "rope-set-proven",
+      "name": "Rope Set Proven",
+      "note": "Every rope inspected, gauged and equalized, with the sheave groove checked against its own wear limit"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rope Authority",
+      "currency": "TENSION",
+      "ranks": [
+        "Helper",
+        "Rope Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Rope Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+    "index": "359",
+    "domain": "Facilities",
+    "trade": "Elevator constructor / mechanic — IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors coordinating with a responding fire company; NEIEP apprenticeship curriculum for entrapment and rescue procedure; ASME A17.1 the safety code for elevators and escalators, whose emergency operation and manual lowering provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation during manual lowering",
+    "name": "Elevator Entrapment and Rescue with Fire Service",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Elevator Entrapment and Rescue with Fire Service VR",
+    "tagline": "Confirming the car's true position before anything else, then a controlled hand-crank lowering, a level check, a bridge across the sill gap and a coordinated release of the passengers",
+    "accent": 14164778,
+    "accentCss": "#d8232a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "rescue-certified",
+      "name": "Rescue Certified",
+      "note": "A passenger rescue completed with the car's position confirmed before every door opened and the brake never released uncontrolled"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rescue Authority",
+      "currency": "LEVEL",
+      "ranks": [
+        "Helper",
+        "Rescue Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Rescue Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ew-door-operator-adjustment-and-gap",
+    "index": "356",
+    "domain": "Facilities",
+    "trade": "Elevator constructor / mechanic — IUEC",
+    "category": "Building Systems & Facilities",
+    "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for door service; ASME A17.1 the safety code for elevators and escalators, whose door reopening-device and interlock provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the door operator's own disconnect",
+    "name": "Door Operator Adjustment and Gap",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Door Operator Adjustment and Gap VR",
+    "tagline": "Isolating the door operator, gauging the interlock gap, adjusting closing force and closing speed, and proving the reopening device before the car returns to service",
+    "accent": 10513621,
+    "accentCss": "#a06cd5",
+    "parSeconds": 245,
+    "badge": {
+      "id": "door-proven",
+      "name": "Door Proven",
+      "note": "Interlock gap, closing force and the reopening device all proven inside spec before the car went back in service"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Door Authority",
+      "currency": "GAP",
+      "ranks": [
+        "Helper",
+        "Door Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Door Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

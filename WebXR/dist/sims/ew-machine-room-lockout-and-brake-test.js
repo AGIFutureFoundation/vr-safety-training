@@ -406,6 +406,15 @@ export const SIM_EW_MACHINE_ROOM_LOCKOUT_AND_BRAKE_TEST = {
     cyl(extinguisher, 0.05, 0.06, 0.28, 0, 0.5, 0, 0xd2312b, { rough: 0.5, metal: 0.3, seg: 12 });
     cyl(extinguisher, 0.015, 0.02, 0.06, 0, 0.67, 0, 0x22272c, { rough: 0.4, metal: 0.6, seg: 10 });
 
+    // ---------------------------------------------------------- room dressing
+    const secondTray = group(g, 0, 2.6, -1.9);
+    box(secondTray, 3.2, 0.06, 0.3, 0, 0, 0, 0x596069, { rough: 0.6, metal: 0.4, cast: false });
+    for (let i = 0; i < 7; i++) box(secondTray, 0.02, 0.05, 0.3, -1.5 + i * 0.5, -0.03, 0, 0x3c444c, { cast: false, receive: false });
+    const secondBench = group(g, 2.2, 0, 1.8, 0.3);
+    box(secondBench, 0.7, 0.4, 0.4, 0, 0.2, 0, 0x8a5a34, { rough: 0.7 });
+    box(secondBench, 0.7, 0.04, 0.42, 0, 0.42, 0, 0x9a6a3e, { rough: 0.6 });
+    for (const [sx, sy] of [[-0.2, 0.46], [0.05, 0.46]]) box(secondBench, 0.12, 0.05, 0.16, sx, sy, 0, 0x2b3138, { rough: 0.55, metal: 0.4 });
+
     const otherMech = standingFigure(g, -0.9, 1.1, { ry: 2.4, cloth: 0x37505f, helmet: 0xe0522d, vest: 0xe4dc3a });
     holoTag(otherMech, "second mechanic", 0, 1.95, 0, { css: "#e0522d", w: 0.36 });
     const mechHome = otherMech.position.clone();
