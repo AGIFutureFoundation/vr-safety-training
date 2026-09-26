@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 422
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -135,6 +135,7 @@
         "decon-line",
         "aerial-ladder",
         "confined-rescue",
+        "or-wildland-fireline-construction-and-lookout",
         "who-after-action-review",
         "who-safe-and-dignified-burial",
         "who-risk-communication-and-community-engagement",
@@ -7646,6 +7647,88 @@
     },
     {
       "app": "smartcity",
+      "id": "or-wildland-fireline-construction-and-lookout",
+      "name": "Wildland Fireline Construction",
+      "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+      "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+      "category": "Emergency Services",
+      "domain": "Emergency Services",
+      "trade": "Wildland firefighter — IAFF",
+      "union": null,
+      "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+      "accent": "#c9622f",
+      "parSeconds": 310,
+      "weather": "smoke",
+      "indoor": null,
+      "district": "open-range",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "line-holds",
+        "name": "Line Holds",
+        "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "261",
+      "flat": false,
+      "system": "Fireline Crew",
+      "currency": "LINE",
+      "ranks": [
+        "Crew Member",
+        "Squad Boss",
+        "Crew Boss",
+        "Division Supervisor",
+        "Fireline Certified"
+      ],
+      "awards": [
+        {
+          "id": "lces-first",
+          "name": "LCES First",
+          "note": "Lookout, communications, escape routes and safety zone all named before the first tool moved"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "wind-answered",
+          "name": "Wind Answered",
+          "note": "The wind shift called the instant it was reported, not after the line was finished"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "line-held",
+          "name": "Line Held",
+          "note": "Every timed task carried its full duration, no early release"
+        },
+        {
+          "id": "line-fast",
+          "name": "Line Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=or-wildland-fireline-construction-and-lookout"
+    },
+    {
+      "app": "smartcity",
       "id": "or-transmission-line-right-of-way-patrol",
       "name": "Transmission Line ROW Patrol",
       "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
@@ -7676,8 +7759,8 @@
         "name": "Corridor Cleared",
         "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
       },
-      "meshes": null,
-      "lights": null,
+      "meshes": 186,
+      "lights": 0,
       "overBudget": false,
       "index": "260",
       "flat": false,
@@ -27668,7 +27751,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28328,7 +28411,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

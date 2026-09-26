@@ -18004,5 +18004,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "or-wildland-fireline-construction-and-lookout",
+    "index": "261",
+    "domain": "Emergency Services",
+    "trade": "Wildland firefighter — IAFF",
+    "category": "Emergency Services",
+    "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+    "name": "Wildland Fireline Construction",
+    "weather": "smoke",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+    "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+    "accent": 13197871,
+    "accentCss": "#c9622f",
+    "parSeconds": 310,
+    "badge": {
+      "id": "line-holds",
+      "name": "Line Holds",
+      "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fireline Crew",
+      "currency": "LINE",
+      "ranks": [
+        "Crew Member",
+        "Squad Boss",
+        "Crew Boss",
+        "Division Supervisor",
+        "Fireline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
