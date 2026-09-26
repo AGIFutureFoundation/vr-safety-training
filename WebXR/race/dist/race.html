@@ -6205,6 +6205,8 @@ const UNIONS = [
   {"id":"nage","abbrev":"NAGE","name":"National Association of Government Employees","aliases":["NAGE"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme for EMS locals; an SEIU affiliate. The registry carries no NAGE training entry."},
   {"id":"fop","abbrev":"FOP","name":"Fraternal Order of Police","aliases":["FOP"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme; the registry carries no FOP training entry."},
   {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named by the shipyard hot-work station's certification; the registry carries no IBB training entry."},
+  {"id":"seiu-uhw","abbrev":"SEIU-UHW","name":"SEIU United Healthcare Workers West","aliases":["SEIU-UHW","SEIU UHW"],"local":null,"colors":null,"trainingBody":"seiu-uhw-training","trainingTitle":"SEIU-UHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"California hospital, clinic and nursing-home support staff."},
+  {"id":"nuhw","abbrev":"NUHW","name":"National Union of Healthcare Workers","aliases":["NUHW"],"local":null,"colors":null,"trainingBody":"nuhw-training","trainingTitle":"NUHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"Healthcare workers, primarily in California, formed after a split from SEIU-UHW."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7132,6 +7134,7 @@ const HAZARD_BY_CATEGORY = {
   "Sewing & Garment Trades": { header: "CAUTION", text: "Pinch points. Keep hands clear of the needle and the feed.", pictogram: "hazard" },
   "Surface Prep & Coatings": { header: "WARNING", text: "Lead and silica dust. Respirator and containment required.", pictogram: "mandatory" },
   "Youth Sports & Coaching": { header: "CAUTION", text: "Wet floor stops play. Report spills, injuries and head knocks to the coach.", pictogram: "hazard" },
+  "Healthcare Support": { header: "CAUTION", text: "Biohazard. Regulated waste and bloodborne pathogens past this point. PPE required.", pictogram: "mandatory" },
 };
 const HAZARD_DEFAULT = { header: "NOTICE", text: "Authorised personnel only. Sign in at the gate before entering.", pictogram: "none" };
 
@@ -7145,7 +7148,7 @@ const CATEGORY_DEFAULT_UNION = {
   "Entertainment & Live Events": "iatse", "Maritime & Ports": "ilwu", "Environmental Monitoring": "afscme",
   "Community Environmental Justice": "liuna", "Dental & Oral Health": "seiu", "Culinary & Hospitality": "unite-here",
   "Sewing & Garment Trades": "workers-united", "Surface Prep & Coatings": "iupat",
-  "Youth Sports & Coaching": "afscme",
+  "Youth Sports & Coaching": "afscme", "Healthcare Support": "seiu-uhw",
 };
 
 // ------------------------------------------------------------- resolution

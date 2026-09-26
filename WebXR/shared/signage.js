@@ -66,6 +66,7 @@ export const HAZARD_BY_CATEGORY = {
   "Sewing & Garment Trades": { header: "CAUTION", text: "Pinch points. Keep hands clear of the needle and the feed.", pictogram: "hazard" },
   "Surface Prep & Coatings": { header: "WARNING", text: "Lead and silica dust. Respirator and containment required.", pictogram: "mandatory" },
   "Youth Sports & Coaching": { header: "CAUTION", text: "Wet floor stops play. Report spills, injuries and head knocks to the coach.", pictogram: "hazard" },
+  "Healthcare Support": { header: "CAUTION", text: "Biohazard. Regulated waste and bloodborne pathogens past this point. PPE required.", pictogram: "mandatory" },
 };
 const HAZARD_DEFAULT = { header: "NOTICE", text: "Authorised personnel only. Sign in at the gate before entering.", pictogram: "none" };
 
@@ -79,7 +80,7 @@ export const CATEGORY_DEFAULT_UNION = {
   "Entertainment & Live Events": "iatse", "Maritime & Ports": "ilwu", "Environmental Monitoring": "afscme",
   "Community Environmental Justice": "liuna", "Dental & Oral Health": "seiu", "Culinary & Hospitality": "unite-here",
   "Sewing & Garment Trades": "workers-united", "Surface Prep & Coatings": "iupat",
-  "Youth Sports & Coaching": "afscme",
+  "Youth Sports & Coaching": "afscme", "Healthcare Support": "seiu-uhw",
 };
 
 // ------------------------------------------------------------- resolution

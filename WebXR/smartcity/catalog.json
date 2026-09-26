@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -351,6 +351,13 @@
         "hz-level-b-entry-and-scba-change-out",
         "hz-drum-staging-and-compatibility-segregation",
         "br-bird-nesting-buffer-and-work-window"
+      ]
+    },
+    {
+      "name": "Healthcare Support",
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-environmental-services-isolation-room-turnover"
       ]
     },
     {
@@ -7641,6 +7648,169 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-sterile-processing-decontamination-and-assembly",
+      "name": "Sterile Processing Decon & Assembly",
+      "title": "SmartCiti.X~ Sterile Processing Decon & Assembly VR",
+      "tagline": "A case cart taken apart and pre-treated, washed to its cycle parameters, counted back against its own count sheet, assembled and latched, and sterilized with the biological indicator that proves it",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Central sterile processing technician",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication for the decontamination area's enzymatic chemicals; the CDC's guideline for disinfection and sterilization in healthcare facilities; ANSI/AAMI ST79 for steam sterilization and sterility assurance; every washer-disinfector and sterilizer's own manufacturer instructions for use; SEIU-UHW and NUHW as the training bodies for central sterile processing staff",
+      "accent": "#4f9fd6",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "gauge",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "tray-verified",
+        "name": "Tray Verified",
+        "note": "A surgical tray decontaminated, counted, assembled and sterilized with nothing skipped and nothing crossed over"
+      },
+      "meshes": 161,
+      "lights": 0,
+      "overBudget": false,
+      "index": "353",
+      "flat": false,
+      "system": "Central Sterile",
+      "currency": "TRAY",
+      "ranks": [
+        "New Tech",
+        "Decon Certified",
+        "Assembly Lead",
+        "SPD Supervisor",
+        "Central Sterile Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-crossed-over",
+          "name": "Never Crossed Over",
+          "note": "The dirty and clean sides of the department never touched"
+        },
+        {
+          "id": "count-matched",
+          "name": "Count Matched",
+          "note": "Every instrument verified against its own count sheet"
+        },
+        {
+          "id": "bio-verified",
+          "name": "Bio Verified",
+          "note": "The load's biological indicator run with its control and logged"
+        },
+        {
+          "id": "clean-load",
+          "name": "Clean Load",
+          "note": "No corrections anywhere in the load"
+        },
+        {
+          "id": "steady-cycle",
+          "name": "Steady Cycle",
+          "note": "Held the washer and the sterilizer the whole cycle, first try"
+        },
+        {
+          "id": "fast-load",
+          "name": "Fast Load",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-sterile-processing-decontamination-and-assembly"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-environmental-services-isolation-room-turnover",
+      "name": "Isolation Room Turnover",
+      "title": "SmartCiti.X~ Isolation Room Turnover VR",
+      "tagline": "PPE donned to the posted precautions, linen bagged not shaken, regulated waste kept separate, every high-touch surface held to its label's wet-contact time, and the room logged clean and released",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Environmental services technician",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and the facility's exposure control plan; the CDC's guidance on cleaning and disinfection of environmental surfaces in healthcare settings and its transmission-based precautions; OSHA 29 CFR 1910.1200 hazard communication for the disinfectant's own label; SEIU-UHW and NUHW as the training bodies for hospital environmental services staff",
+      "accent": "#5fb87e",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "room-released",
+        "name": "Room Released",
+        "note": "An isolation room turned over start to finish with the precautions barrier never broken"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "352",
+      "flat": false,
+      "system": "Turnover Standard",
+      "currency": "ROOM",
+      "ranks": [
+        "New Tech",
+        "Isolation Certified",
+        "Lead Tech",
+        "EVS Supervisor",
+        "Turnover Certified"
+      ],
+      "awards": [
+        {
+          "id": "barrier-held",
+          "name": "Barrier Held",
+          "note": "PPE donned before a single surface was touched"
+        },
+        {
+          "id": "linen-not-shaken",
+          "name": "Linen Not Shaken",
+          "note": "Soiled linen bagged without ever being shaken out"
+        },
+        {
+          "id": "logged-clean",
+          "name": "Logged Clean",
+          "note": "The room closed out on the log the moment it was actually ready"
+        },
+        {
+          "id": "clean-turnover",
+          "name": "Clean Turnover",
+          "note": "No corrections anywhere in the turnover"
+        },
+        {
+          "id": "steady-mop",
+          "name": "Steady Mop",
+          "note": "Held the floor mop the whole pass, first try"
+        },
+        {
+          "id": "fast-turnover",
+          "name": "Fast Turnover",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-environmental-services-isolation-room-turnover"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27755,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
