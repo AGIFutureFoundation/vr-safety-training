@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 476 SmartCiti.X stations across 17 categories and 36 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 484 SmartCiti.X stations across 17 categories and 37 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -42,6 +42,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Plumbers and Pipefitters — Journeyman Rough-In and Test Block](#plumbers-and-pipefitters)
 - [Glaziers and Architectural Metal](#glaziers-and-architectural-metal)
 - [Elevator Constructor — IUEC Core Skills](#elevator-constructors)
+- [Insulators and Boilermakers — Building Systems](#insulators-and-boilermakers)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1209,6 +1210,26 @@ Eight jobs across new installation, machine room, pit, car top, door, escalator,
 | 357 | [Escalator Step Chain and Comb Plate](../../WebXR/smartcity/index.html?sim=ew-escalator-step-chain-and-comb-plate) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Isolating an escalator to gauge its step chain tension and skirt clearance, then proving the comb, skirt and handrail safety switches with an actual test, not a look. |
 | 358 | [Rope Inspection and Sheave Wear](../../WebXR/smartcity/index.html?sim=ew-rope-inspection-and-sheave-wear) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Walking a hoist rope set by gloved hand for broken wire and dry sections, then gauging tension, diameter and the sheave groove against the limits each one is retired at. |
 | 359 | [Elevator Entrapment and Rescue with Fire Service](../../WebXR/smartcity/index.html?sim=ew-elevator-entrapment-and-rescue-with-fire-service) | Elevator constructor / mechanic — IUEC | indoor (service) | 15 | 2 | — | A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill bridged before a passenger ever steps toward the gap. |
+
+<a id="insulators-and-boilermakers"></a>
+## Insulators and Boilermakers — Building Systems
+
+**Union:** Insulators Local 16 and Boilermakers Local 549
+
+**Certifications and standards:** Insulators Local 16 and Boilermakers Local 549 apprenticeship and training, OSHA 29 CFR 1926.1101 asbestos in construction, 29 CFR 1910.146 permit-required confined spaces, ASME Section I and Section IX, and the National Board Inspection Code (NBIC), as taught across mechanical insulation, firestop, abatement, boiler and pressure-vessel repair work
+
+Eight stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 352 | [Mechanical Insulation, Pipe and Jacketing](../../WebXR/smartcity/index.html?sim=ib-mechanical-insulation-pipe-and-jacketing) | Insulator, mechanical insulation and jacketing — Insulators Local 16 | indoor (plant) | 13 | 2 | — | A hot process pipe only gets insulated and jacketed once the bare metal's surface temperature is proven safe to touch, because the burn hazard under an unfinished run is invisible to anyone judging it by eye alone. |
+| 353 | [Firestop and Fire Wrap Installation](../../WebXR/smartcity/index.html?sim=ib-firestop-and-fire-wrap-installation) | Insulator, firestop and fire-wrap installation — Insulators Local 16 | indoor (plant) | 14 | 2 | — | A wall or floor opened for someone else's pipes and cables only goes back to being a rated assembly when it is closed to the exact listed system the annular space and the penetrant mix were tested against, not to whichever detail looks close enough. |
+| 354 | [Asbestos Glovebag Removal on a Pipe](../../WebXR/smartcity/index.html?sim=ib-asbestos-glovebag-removal-on-a-pipe) | Insulator, asbestos abatement by the glovebag method — Insulators Local 16 | indoor (plant) | 14 | 2 | — | Stripping asbestos pipe insulation inside a sealed glovebag while the header stays in service means the seal is proven before a single strip, because a contained job and a fibre release inside that same bag are separated only by whether the bag actually holds. |
+| 355 | [Boiler Tube Replacement and Rolling](../../WebXR/smartcity/index.html?sim=ib-boiler-tube-replacement-and-rolling) | Boilermaker, tube replacement and rolling — Boilermakers Local 549 | indoor (plant) | 14 | 2 | — | A failed firetube only gets replaced by rolling the new stub to a specified expansion and welding it clean, and the drum only closes again once a foreign-object walk proves nothing was left inside it to travel loose at pressure. |
+| 356 | [Pressure Vessel Confined Entry and Hot Work](../../WebXR/smartcity/index.html?sim=ib-pressure-vessel-confined-entry-and-hot-work) | Boilermaker, pressure vessel confined entry and hot work — Boilermakers Local 549 | indoor (plant) | 14 | 2 | — | Welding a patch inside a vessel means the confined-space permit and the hot-work permit are read as one job, because an atmosphere proven safe and a fire watch posted are both preconditions for the same few minutes of work, not separate boxes to check. |
+| 357 | [Refractory and Castable Installation](../../WebXR/smartcity/index.html?sim=ib-refractory-and-castable-installation) | Boilermaker / insulator, refractory and castable installation — Boilermakers Local 549 and Insulators Local 16 | indoor (plant) | 15 | 2 | — | A furnace wall relined in castable is only as sound as the anchors it was poured over and the dryout ramp that follows, because rushing either one bakes a weak spot into a lining nobody can see the inside of once it cures. |
+| 358 | [Hydrostatic Test and Inspector Witness](../../WebXR/smartcity/index.html?sim=ib-hydrostatic-test-and-inspector-witness) | Boilermaker, hydrostatic testing and inspector witness — Boilermakers Local 549 | indoor (plant) | 15 | 2 | — | A repaired vessel is proven safe by a hydrostatic test only when the trapped air is vented before the fill, the walk for weeps happens from beside every joint rather than in front of it, and an inspector actually witnesses the hold. |
+| 359 | [Spray Foam and Respirator Fit](../../WebXR/smartcity/index.html?sim=ib-spray-foam-and-respirator-fit) | Insulator, spray polyurethane foam application — Insulators Local 16 | indoor (plant) | 14 | 2 | — | Spraying closed-cell foam next to an open isocyanate drum only starts once the respirator has been quantitatively fit-tested on the person wearing it, because a mask nobody has proven seals is a hope, not a control. |
 
 ## Real-world environments
 

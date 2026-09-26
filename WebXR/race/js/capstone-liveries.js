@@ -185,5 +185,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "elevator-constructors",
     "name": "Elevator Constructor — IUEC Core Skills",
     "accent": "#ff9f43"
+  },
+  {
+    "programme": "insulators-and-boilermakers",
+    "name": "Insulators and Boilermakers — Building Systems",
+    "accent": "#d8663a"
   }
 ];

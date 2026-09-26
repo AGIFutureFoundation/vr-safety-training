@@ -20272,5 +20272,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ib-mechanical-insulation-pipe-and-jacketing",
+    "index": "352",
+    "domain": "Facilities",
+    "trade": "Insulator, mechanical insulation and jacketing — Insulators Local 16",
+    "category": "Building Systems & Facilities",
+    "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1926.451 scaffolds and ANSI A10.8 scaffolding safety requirements for the rolling tower; 29 CFR 1910.134 respiratory protection against mineral-fibre dust; 29 CFR 1910.1000 air contaminants and the permissible exposure limits for nuisance and fibrous dust",
+    "name": "Mechanical Insulation, Pipe and Jacketing",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Mechanical Insulation, Pipe and Jacketing VR",
+    "tagline": "A hot pipe run insulated and jacketed from a rolling scaffold, with the burn hazard checked before every bare-hand reach",
+    "accent": 14721596,
+    "accentCss": "#e0a23c",
+    "parSeconds": 300,
+    "badge": {
+      "id": "run-sealed",
+      "name": "Run Sealed",
+      "note": "Insulated, jacketed and banded with the surface temperature proven cool before every reach"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Insulation Certified",
+      "currency": "WRAP",
+      "ranks": [
+        "Helper",
+        "Insulator",
+        "Lead Mechanic",
+        "Insulation Foreman",
+        "Insulation Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-firestop-and-fire-wrap-installation",
+    "index": "353",
+    "domain": "Facilities",
+    "trade": "Insulator, firestop and fire-wrap installation — Insulators Local 16",
+    "category": "Building Systems & Facilities",
+    "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1910.1200 hazard communication for the sealant's safety data sheet; 29 CFR 1910.134 respiratory protection against solvent vapour; 29 CFR 1910.1000 air contaminants and the permissible exposure limits; ANSI A10.8 scaffolding safety requirements for the ladder and platform work; NFPA 51B fire prevention during welding, cutting and other hot work for the fire watch coordinated across this wall",
+    "name": "Firestop and Fire Wrap Installation",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Firestop and Fire Wrap Installation VR",
+    "tagline": "A wall and a floor penetration closed back up to the listed firestop system, measured before it is packed and labelled after it is sealed",
+    "accent": 14181946,
+    "accentCss": "#d8663a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "opening-rated",
+      "name": "Opening Rated",
+      "note": "Every penetration closed to the listed system, measured before packing and labelled after sealing"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Firestop Certified",
+      "currency": "SEAL",
+      "ranks": [
+        "Helper",
+        "Firestop Tech",
+        "Lead Installer",
+        "Firestop Foreman",
+        "Firestop Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-asbestos-glovebag-removal-on-a-pipe",
+    "index": "354",
+    "domain": "Facilities",
+    "trade": "Insulator, asbestos abatement by the glovebag method — Insulators Local 16",
+    "category": "Building Systems & Facilities",
+    "certification": "Insulators Local 16 asbestos abatement training; OSHA 29 CFR 1926.1101 asbestos in construction; 29 CFR 1910.134 respiratory protection; 29 CFR 1910.1200 hazard communication for the waste label; 29 CFR 1910.1000 air contaminants and the permissible exposure limits; EPA 40 CFR 61 the asbestos NESHAP governing the sealed waste leaving this pipe; NIOSH criteria for the fibre-counting method behind the clearance sample",
+    "name": "Asbestos Glovebag Removal on a Pipe",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Asbestos Glovebag Removal on a Pipe VR",
+    "tagline": "A short run of pipe insulation stripped inside a sealed glovebag while the header stays in service, closed out on an air sample rather than a look",
+    "accent": 13230693,
+    "accentCss": "#c9e265",
+    "parSeconds": 300,
+    "badge": {
+      "id": "bag-sealed-clean",
+      "name": "Bag Sealed Clean",
+      "note": "Wetted, stripped and encapsulated inside a proven seal, closed out on a passing air sample"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Abatement Certified",
+      "currency": "ABATE",
+      "ranks": [
+        "Bag Handler",
+        "Removal Tech",
+        "Lead Abater",
+        "Abatement Foreman",
+        "Abatement Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-boiler-tube-replacement-and-rolling",
+    "index": "355",
+    "domain": "Facilities",
+    "trade": "Boilermaker, tube replacement and rolling — Boilermakers Local 549",
+    "category": "Building Systems & Facilities",
+    "certification": "Boilermakers Local 549 apprenticeship and training; ASME Section I rules for the construction and repair of power boilers; ASME Section IX welding qualification for the seal weld; National Board Inspection Code (NBIC) repair and alteration practice; OSHA 29 CFR 1910.147 the control of hazardous energy",
+    "name": "Boiler Tube Replacement and Rolling",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Boiler Tube Replacement and Rolling VR",
+    "tagline": "A failed firetube cut out and a new stub bevelled, rolled to the tube sheet and seal-welded, closed out on a foreign-object check before the manway shuts",
+    "accent": 14164778,
+    "accentCss": "#d8232a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tube-rolled-true",
+      "name": "Tube Rolled True",
+      "note": "Cut, bevelled, rolled to the specified expansion and seal-welded, with nothing left behind in the drum"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boilermaker Certified",
+      "currency": "RIVET",
+      "ranks": [
+        "Helper",
+        "Boilermaker",
+        "Lead Mechanic",
+        "Repair Foreman",
+        "Boilermaker Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-pressure-vessel-confined-entry-and-hot-work",
+    "index": "356",
+    "domain": "Facilities",
+    "trade": "Boilermaker, pressure vessel confined entry and hot work — Boilermakers Local 549",
+    "category": "Building Systems & Facilities",
+    "certification": "Boilermakers Local 549 apprenticeship and training; OSHA 29 CFR 1910.146 permit-required confined spaces; 29 CFR 1910.252 welding, cutting and brazing general requirements; NFPA 51B fire prevention during welding, cutting and other hot work; ASME Section IX welding qualification for the patch",
+    "name": "Pressure Vessel Confined Entry and Hot Work",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Pressure Vessel Confined Entry and Hot Work VR",
+    "tagline": "A patch weld inside a process vessel, entered on a proven atmosphere and welded behind a posted fire watch with the combustibles already cleared",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "vessel-entered-safe",
+      "name": "Vessel Entered Safe",
+      "note": "Isolated, tested, fire-watched and walked clear before the manway closed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Confined Entry Certified",
+      "currency": "ENTRY",
+      "ranks": [
+        "Hole Watch",
+        "Entrant",
+        "Lead Entrant",
+        "Entry Supervisor",
+        "Confined Entry Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-refractory-and-castable-installation",
+    "index": "357",
+    "domain": "Facilities",
+    "trade": "Boilermaker / insulator, refractory and castable installation — Boilermakers Local 549 and Insulators Local 16",
+    "category": "Building Systems & Facilities",
+    "certification": "Boilermakers Local 549 and Insulators Local 16 apprenticeship and training; OSHA 29 CFR 1910.134 respiratory protection against castable dust; 29 CFR 1910.1000 air contaminants and the permissible exposure limits; 29 CFR 1926.451 scaffolds for the furnace wall access; NIOSH criteria for silica exposure in the mixed and cured castable; ANSI A10.8 scaffolding safety requirements for the access platform",
+    "name": "Refractory and Castable Installation",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Refractory and Castable Installation VR",
+    "tagline": "A furnace wall relined in castable refractory, mixed to the data sheet, formed, placed and vibrated, then brought up on a controlled dryout ramp rather than a shortcut",
+    "accent": 14967338,
+    "accentCss": "#e4622a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lining-cured-true",
+      "name": "Lining Cured True",
+      "note": "Anchored, formed, placed on the mix ratio and brought up on the dryout schedule with nothing rushed"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Refractory Certified",
+      "currency": "CAST",
+      "ranks": [
+        "Helper",
+        "Refractory Mechanic",
+        "Lead Installer",
+        "Refractory Foreman",
+        "Refractory Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-hydrostatic-test-and-inspector-witness",
+    "index": "358",
+    "domain": "Facilities",
+    "trade": "Boilermaker, hydrostatic testing and inspector witness — Boilermakers Local 549",
+    "category": "Building Systems & Facilities",
+    "certification": "Boilermakers Local 549 apprenticeship and training; ASME Section I rules for the hydrostatic test of power boilers and pressure vessels; National Board Inspection Code (NBIC) repair and alteration practice; OSHA 29 CFR 1910.147 the control of hazardous energy; OSHA 29 CFR 1910.146 permit-required confined spaces for the post-test inspection",
+    "name": "Hydrostatic Test and Inspector Witness",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Hydrostatic Test and Inspector Witness VR",
+    "tagline": "A repaired vessel proven on a hydrostatic test, vented of trapped air before pressurising, walked for weeps at the hold, and signed by the inspector who watched it",
+    "accent": 5231103,
+    "accentCss": "#4fd1ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "test-witnessed-clean",
+      "name": "Test Witnessed Clean",
+      "note": "Filled, vented, pressurised and held clean, with the inspector's own signature on the result"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Test Certified",
+      "currency": "PSI",
+      "ranks": [
+        "Helper",
+        "Test Technician",
+        "Lead Tester",
+        "Test Foreman",
+        "Test Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ib-spray-foam-and-respirator-fit",
+    "index": "359",
+    "domain": "Facilities",
+    "trade": "Insulator, spray polyurethane foam application — Insulators Local 16",
+    "category": "Building Systems & Facilities",
+    "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1910.134 respiratory protection and quantitative fit testing; 29 CFR 1910.1000 air contaminants and the permissible exposure limits for isocyanates; 29 CFR 1910.1200 hazard communication for the two-component system; 29 CFR 1926.451 scaffolds and ANSI A10.8 scaffolding safety requirements for the ceiling-pass platform; NIOSH criteria behind the quantitative fit-test protocol and the isocyanate exposure limits",
+    "name": "Spray Foam and Respirator Fit",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Spray Foam and Respirator Fit VR",
+    "tagline": "A mechanical room sprayed in closed-cell foam behind a respirator fitted and quantitatively tested before the isocyanate component is ever opened",
+    "accent": 15900730,
+    "accentCss": "#f2a03a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "fit-proven-foam-held",
+      "name": "Fit Proven, Foam Held",
+      "note": "Respirator quantitatively fit-tested, ratio balanced and the pass held to specified thickness with the room posted for its re-entry time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spray Foam Certified",
+      "currency": "MIL",
+      "ranks": [
+        "Helper",
+        "Applicator",
+        "Lead Applicator",
+        "Spray Foam Foreman",
+        "Spray Foam Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

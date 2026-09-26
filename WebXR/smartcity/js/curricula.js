@@ -920,6 +920,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "ew-elevator-entrapment-and-rescue-with-fire-service", why: "A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill bridged before a passenger ever steps toward the gap." },
     ],
   },
+  {
+    id: "insulators-and-boilermakers",
+    name: "Insulators and Boilermakers — Building Systems",
+    union: "Insulators Local 16 and Boilermakers Local 549",
+    certification: "Insulators Local 16 and Boilermakers Local 549 apprenticeship and training, OSHA 29 CFR 1926.1101 asbestos in construction, 29 CFR 1910.146 permit-required confined spaces, ASME Section I and Section IX, and the National Board Inspection Code (NBIC), as taught across mechanical insulation, firestop, abatement, boiler and pressure-vessel repair work",
+    guides: ["insulators-local-16", "boilermakers-local-549", "osha-1926-1101", "osha-1910-146", "asme-bpvc", "asme-section-i", "asme-section-ix", "nbic"],
+    summary: "Eight stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.",
+    accent: "#d8663a",
+    stations: [
+      { app: "smartcity", id: "ib-mechanical-insulation-pipe-and-jacketing", why: "A hot process pipe only gets insulated and jacketed once the bare metal's surface temperature is proven safe to touch, because the burn hazard under an unfinished run is invisible to anyone judging it by eye alone." },
+      { app: "smartcity", id: "ib-firestop-and-fire-wrap-installation", why: "A wall or floor opened for someone else's pipes and cables only goes back to being a rated assembly when it is closed to the exact listed system the annular space and the penetrant mix were tested against, not to whichever detail looks close enough." },
+      { app: "smartcity", id: "ib-asbestos-glovebag-removal-on-a-pipe", why: "Stripping asbestos pipe insulation inside a sealed glovebag while the header stays in service means the seal is proven before a single strip, because a contained job and a fibre release inside that same bag are separated only by whether the bag actually holds." },
+      { app: "smartcity", id: "ib-boiler-tube-replacement-and-rolling", why: "A failed firetube only gets replaced by rolling the new stub to a specified expansion and welding it clean, and the drum only closes again once a foreign-object walk proves nothing was left inside it to travel loose at pressure." },
+      { app: "smartcity", id: "ib-pressure-vessel-confined-entry-and-hot-work", why: "Welding a patch inside a vessel means the confined-space permit and the hot-work permit are read as one job, because an atmosphere proven safe and a fire watch posted are both preconditions for the same few minutes of work, not separate boxes to check." },
+      { app: "smartcity", id: "ib-refractory-and-castable-installation", why: "A furnace wall relined in castable is only as sound as the anchors it was poured over and the dryout ramp that follows, because rushing either one bakes a weak spot into a lining nobody can see the inside of once it cures." },
+      { app: "smartcity", id: "ib-hydrostatic-test-and-inspector-witness", why: "A repaired vessel is proven safe by a hydrostatic test only when the trapped air is vented before the fill, the walk for weeps happens from beside every joint rather than in front of it, and an inspector actually witnesses the hold." },
+      { app: "smartcity", id: "ib-spray-foam-and-respirator-fit", why: "Spraying closed-cell foam next to an open isocyanate drum only starts once the respirator has been quantitatively fit-tested on the person wearing it, because a mask nobody has proven seals is a hope, not a control." },
+    ],
+  },
 ];
 
 /**
