@@ -22,17 +22,17 @@ export function makeRng(seed = null) {
   };
 }
 
-function shuffle(arr, rng) {
+function shuffle(arr, rand) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
+    const j = Math.floor(rand() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-function pick(arr, n, rng) {
-  return shuffle(arr, rng).slice(0, n);
+function pick(arr, n, rand) {
+  return shuffle(arr, rand).slice(0, n);
 }
 
 /** The question text for one standard: the clause if its title states one plainly, else the full title. */
@@ -46,12 +46,12 @@ export function questionText(standard) {
  * two drawn from the same standard. `choices` has one correct body plus three
  * distractor bodies, in a random order; `rng` defaults to Math.random.
  */
-export function buildQuiz(count = 10, { rng = Math.random, standards = RADIO_STANDARDS, bodies = RADIO_BODIES } = {}) {
+export function buildQuiz(count = 10, { rng: rand = Math.random, standards = RADIO_STANDARDS, bodies = RADIO_BODIES } = {}) {
   const pool = standards.filter((s) => s.body && s.title);
-  const chosen = pick(pool, Math.min(count, pool.length), rng);
+  const chosen = pick(pool, Math.min(count, pool.length), rand);
   return chosen.map((s, i) => {
-    const distractors = pick(bodies.filter((b) => b !== s.body), 3, rng);
-    const choices = shuffle([s.body, ...distractors], rng);
+    const distractors = pick(bodies.filter((b) => b !== s.body), 3, rand);
+    const choices = shuffle([s.body, ...distractors], rand);
     return {
       id: `q${i + 1}-${s.id}`,
       text: questionText(s),

@@ -13007,7 +13007,7 @@ function activeCamera() {
   return window.__smartcityTest?.camera?.() ?? window.__tradesTest?.camera?.() ?? window.__holodeckTest?.camera?.() ?? null;
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
   window.addEventListener("click", (e) => {
     if (!live || !live.mesh.visible) return;
     const canvas = document.querySelector("canvas");
