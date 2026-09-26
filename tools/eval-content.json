@@ -6089,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 270,
+          "meshes": 265,
           "materials": 83,
           "interactables": 28
         },
@@ -7137,6 +7137,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-roof-tear-off-and-debris-chute",
+      "name": "Roof Tear-Off & Debris Chute",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9075,
+          "meshes": 143,
+          "materials": 79,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.37107195301027907,
+          "nearest": "rf-below-grade-waterproofing-and-drainage-board",
+          "similarity": 0.2657856093979442
         }
       }
     },
@@ -9833,7 +9885,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 260,
           "materials": 92,
           "interactables": 29
         },

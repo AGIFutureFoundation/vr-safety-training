@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 426
+      "stations": 427
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-roof-tear-off-and-debris-chute",
         "rf-below-grade-waterproofing-and-drainage-board",
         "rf-standing-seam-metal-panel-and-clip",
         "rf-hot-asphalt-kettle-and-mop",
@@ -7646,6 +7647,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-roof-tear-off-and-debris-chute",
+      "name": "Roof Tear-Off & Debris Chute",
+      "title": "SmartCiti.X~ Roof Tear-Off & Debris Chute VR",
+      "tagline": "The tear-off plan and the extinguisher read, harness clipped, a popped nail and a hidden conduit found, the wind read, old fasteners backed out, debris carted to the chute and fed down at a steady rate, the strip cut to its line, the exposed deck scanned and dried in, a missed fastener and leftover debris found on the walk-round, and the day logged, with a gust scattering staged debris and a second crew member flagging an uncovered hole along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer tearing off an old built-up roof and running debris down a chute to the dumpster",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and any hole opened in the deck, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for silica dust from cutting into a concrete curb or nailer; NRCA tear-off and dry-in practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "deck-scanned-clean",
+        "name": "Deck Scanned Clean",
+        "note": "A strip torn off, scanned and dried in with nobody stepping on an open hole or a fastener left in the chute's path"
+      },
+      "meshes": 142,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf6",
+      "flat": false,
+      "system": "Tear-Off Run",
+      "currency": "STRIP",
+      "ranks": [
+        "Apprentice",
+        "Tear-Off Hand",
+        "Chute Runner",
+        "Lead Stripper",
+        "Tear-Off Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The tear-off plan read before the first fastener came out"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "The cut line ran the whole strip without a break in pace"
+        },
+        {
+          "id": "never-stepped-the-hole",
+          "name": "Never Stepped The Hole",
+          "note": "No boot on a rotted section, no spark into the debris, no cutting dust without a respirator"
+        },
+        {
+          "id": "clean-strip",
+          "name": "Clean Strip",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "chute-steady",
+          "name": "Chute Steady",
+          "note": "The chute load held inside the band the whole feed"
+        },
+        {
+          "id": "strip-closed",
+          "name": "Strip Closed",
+          "note": "Dried in and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-roof-tear-off-and-debris-chute"
     },
     {
       "app": "smartcity",
@@ -28005,7 +28089,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
