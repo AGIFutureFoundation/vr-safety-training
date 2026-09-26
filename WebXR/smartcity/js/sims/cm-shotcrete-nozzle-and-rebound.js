@@ -99,6 +99,12 @@ export const SIM_CM_SHOTCRETE_NOZZLE_AND_REBOUND = {
       why: "Spotting a gap on the walk and then leaving it alone is arguably worse than missing it, because the crew now treats the wall and the line as ready on the strength of a note rather than an actual fix. The clearance has to be really set, the whip check really fitted and the zone really barriered before the pump starts, not just written down as done.",
     },
     {
+      id: "clear-crew", kind: "select", target: "nozzle-trigger-zone",
+      title: "Clear the crew from the panel before the line charges",
+      cue: "Move anyone not on the nozzle back from the panel before the pump line is pressurized.",
+      why: "A charged shotcrete line delivers mix and rebound at the same velocity the moment the trigger is pulled, and nobody standing close to the panel for a last-minute look has any warning before that happens. The panel is cleared while the line is still dead, which is the only point anyone can be certain of where the crew actually is.",
+    },
+    {
       id: "pressure-check", kind: "gauge", target: "pressure-gauge",
       title: "Set the nozzle air pressure",
       cue: "Adjust the compressor's air pressure and commit inside the equipment manual's band before the line is charged.",
