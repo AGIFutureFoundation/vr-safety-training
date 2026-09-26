@@ -1669,8 +1669,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 257,
-          "materials": 74,
+          "meshes": 260,
+          "materials": 77,
           "interactables": 24
         },
         "originality": {
@@ -1833,6 +1833,110 @@
           "score": 0.6858906525573194,
           "nearest": "substation-switching",
           "similarity": 0.20282186948853614
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "se-building-automation-alarm-triage",
+      "name": "Building Automation Alarm Triage",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 273,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 0.7142857142857143,
+          "cited": 7,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 77,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3846543001686342,
+          "nearest": "et-ev-fleet-depot-charging-and-arc-flash",
+          "similarity": 0.2630691399662732
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "se-steam-trap-survey-and-condensate-return",
+      "name": "Steam Trap Survey & Condensate Return",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 304,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 77,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5239538239538241,
+          "nearest": "ammonia-plant",
+          "similarity": 0.2352092352092352
         }
       }
     },
@@ -2873,6 +2977,58 @@
           "score": 0.6553314121037465,
           "nearest": "stage-power",
           "similarity": 0.20893371757925072
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "po-yard-hostler-and-pedestrian-separation",
+      "name": "Yard Hostler & Pedestrian Separation",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 263,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 294,
+          "materials": 86,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5593750000000001,
+          "nearest": "straddle-carrier-ops",
+          "similarity": 0.228125
         }
       }
     },
@@ -4386,6 +4542,110 @@
     },
     {
       "app": "smartcity",
+      "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+      "name": "Wheelchair Lift & Securement on a Bus",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.75,
+          "cited": 6,
+          "inScope": 5,
+          "outOfScope": 1,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9556818181818181,
+          "meshes": 175,
+          "materials": 82,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.6010067114093961,
+          "nearest": "po-yard-hostler-and-pedestrian-separation",
+          "similarity": 0.2197986577181208
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-marine-mammal-observer-during-pile-driving",
+      "name": "Marine Mammal Observer During Pile Driving",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 332,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 270,
+          "materials": 110,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.0224222585924716,
+          "nearest": "br-bird-nesting-buffer-and-work-window",
+          "similarity": 0.3355155482815057
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "robot-cell",
       "name": "Robot Cell",
       "category": "Manufacturing & Automation",
@@ -5106,9 +5366,9 @@
           "interactables": 26
         },
         "originality": {
-          "score": 0.5157894736842107,
-          "nearest": "decon-line",
-          "similarity": 0.23684210526315788
+          "score": 0.48676470588235304,
+          "nearest": "hz-decon-corridor-for-a-mass-casualty-drill",
+          "similarity": 0.2426470588235294
         }
       }
     },
@@ -5673,14 +5933,14 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 264,
           "materials": 83,
           "interactables": 28
         },
         "originality": {
-          "score": 0.42478386167147,
-          "nearest": "br-tidal-marsh-grading-amphibious-excavator",
-          "similarity": 0.25504322766570603
+          "score": 0.3925287356321841,
+          "nearest": "br-intertidal-invasive-removal-by-hand-crew",
+          "similarity": 0.2614942528735632
         }
       }
     },
@@ -6206,6 +6466,214 @@
     },
     {
       "app": "smartcity",
+      "id": "br-intertidal-invasive-removal-by-hand-crew",
+      "name": "Intertidal Invasive Removal By Hand Crew",
+      "category": "Water & Environmental",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 97,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "br-native-planting-and-erosion-mats",
+          "similarity": 0.447900466562986
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "et-ev-fleet-depot-charging-and-arc-flash",
+      "name": "EV Fleet Depot Charging & Arc Flash",
+      "category": "Energy & Power",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.899090909090909,
+          "meshes": 146,
+          "materials": 76,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.3846543001686342,
+          "nearest": "se-building-automation-alarm-triage",
+          "similarity": 0.2630691399662732
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "po-lashing-gear-inspection-and-tagging",
+      "name": "Lashing Gear Inspection & Tagging",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.9072727272727272,
+          "meshes": 162,
+          "materials": 68,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.42321428571428593,
+          "nearest": "rl-critical-lift-plan-and-signalperson",
+          "similarity": 0.25535714285714284
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-bird-nesting-buffer-and-work-window",
+      "name": "Bird Nesting Buffer & Work Window",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 321,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 265,
+          "materials": 86,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.0224222585924716,
+          "nearest": "br-marine-mammal-observer-during-pile-driving",
+          "similarity": 0.3355155482815057
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "track-access",
       "name": "Track Access",
       "category": "Mobility & Transit",
@@ -6513,58 +6981,6 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hz-drum-staging-and-compatibility-segregation",
-      "name": "Drum Staging & Compatibility Segregation",
-      "category": "Environmental Monitoring",
-      "steps": 15,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 314,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 234,
-          "materials": 98,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.4809647979139506,
-          "nearest": "hz-level-b-entry-and-scba-change-out",
-          "similarity": 0.2438070404172099
         }
       }
     },
@@ -7914,9 +8330,9 @@
           "interactables": 30
         },
         "originality": {
-          "score": 0.42197309417040363,
-          "nearest": "steel-erector",
-          "similarity": 0.2556053811659193
+          "score": 0.40941558441558445,
+          "nearest": "rl-critical-lift-plan-and-signalperson",
+          "similarity": 0.25811688311688313
         }
       }
     },
@@ -8897,7 +9313,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 263,
+          "meshes": 253,
           "materials": 92,
           "interactables": 29
         },
@@ -9157,8 +9573,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 186,
-          "materials": 76,
+          "meshes": 189,
+          "materials": 79,
           "interactables": 34
         },
         "originality": {
@@ -9370,9 +9786,9 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.5243831640058056,
-          "nearest": "chiller-plant",
-          "similarity": 0.2351233671988389
+          "score": 0.5239538239538241,
+          "nearest": "se-steam-trap-survey-and-condensate-return",
+          "similarity": 0.2352092352092352
         }
       }
     },
@@ -9833,13 +10249,429 @@
         },
         "scene": {
           "score": 0.9840909090909091,
-          "meshes": 186,
-          "materials": 89,
+          "meshes": 189,
+          "materials": 92,
           "interactables": 21
         },
         "originality": {
+          "score": 0.4719298245614037,
+          "nearest": "hz-decon-corridor-for-a-mass-casualty-drill",
+          "similarity": 0.24561403508771928
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "name": "Tidal Marsh Grading — Amphibious Excavator",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 299,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 101,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "br-culvert-retrofit-for-fish-passage",
+          "similarity": 0.3691860465116279
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance",
+      "name": "Fish Screen Maintenance",
+      "category": "Water & Environmental",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 300,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9375,
+          "meshes": 155,
+          "materials": 84,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.38750000000000007,
+          "nearest": "br-levee-inspection-and-seepage",
+          "similarity": 0.2625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-levee-inspection-and-seepage",
+      "name": "Levee Inspection And Seepage",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 195,
+          "materials": 97,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.11534008683068031,
+          "nearest": "br-intertidal-invasive-removal-by-hand-crew",
+          "similarity": 0.31693198263386396
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "name": "Shoreline Cleanup — Sharps And Hazardous Debris",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 189,
+          "materials": 107,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "br-intertidal-invasive-removal-by-hand-crew",
+          "similarity": 0.3442622950819672
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage",
+      "name": "Culvert Retrofit For Fish Passage",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 323,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 256,
+          "materials": 102,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "br-tidal-marsh-grading-amphibious-excavator",
+          "similarity": 0.3691860465116279
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-native-planting-and-erosion-mats",
+      "name": "Native Planting & Erosion Control Mats",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 204,
+          "materials": 97,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "br-intertidal-invasive-removal-by-hand-crew",
+          "similarity": 0.447900466562986
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "fp-anchor-selection-and-rescue-plan",
+      "name": "Anchor Selection & Rescue Plan",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9406818181818182,
+          "meshes": 169,
+          "materials": 74,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.4500000000000001,
+          "nearest": "gg-tower-climb-and-tie-off",
+          "similarity": 0.25
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation",
+      "name": "Drum Staging & Compatibility Segregation",
+      "category": "Environmental Monitoring",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 314,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 98,
+          "interactables": 22
+        },
+        "originality": {
           "score": 0.4809647979139506,
-          "nearest": "hz-drum-staging-and-compatibility-segregation",
+          "nearest": "hz-level-b-entry-and-scba-change-out",
           "similarity": 0.2438070404172099
         }
       }
@@ -10098,9 +10930,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5428571428571429,
-          "nearest": "gg-tower-climb-and-tie-off",
-          "similarity": 0.23142857142857143
+          "score": 0.5168557536466776,
+          "nearest": "po-lashing-gear-inspection-and-tagging",
+          "similarity": 0.2366288492706645
         }
       }
     },
@@ -10358,9 +11190,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6673913043478261,
-          "nearest": "dredge-barge",
-          "similarity": 0.20652173913043478
+          "score": 0.6598811292719168,
+          "nearest": "fp-anchor-selection-and-rescue-plan",
+          "similarity": 0.20802377414561665
         }
       }
     },
@@ -10456,9 +11288,9 @@
           "got": 11
         },
         "scene": {
-          "score": 0.9974999999999999,
-          "meshes": 179,
-          "materials": 97,
+          "score": 1,
+          "meshes": 182,
+          "materials": 100,
           "interactables": 23
         },
         "originality": {
@@ -10769,8 +11601,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 226,
-          "materials": 91,
+          "meshes": 229,
+          "materials": 94,
           "interactables": 23
         },
         "originality": {
@@ -12906,9 +13738,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.3897001303780967,
-          "nearest": "haul-route-observation",
-          "similarity": 0.2620599739243807
+          "score": 0.38211920529801324,
+          "nearest": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+          "similarity": 0.2635761589403974
         }
       }
     },
@@ -13212,9 +14044,9 @@
           "got": 11
         },
         "scene": {
-          "score": 0.885,
-          "meshes": 134,
-          "materials": 77,
+          "score": 0.8925,
+          "meshes": 137,
+          "materials": 80,
           "interactables": 24
         },
         "originality": {
@@ -13686,9 +14518,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.6111389236545683,
-          "nearest": "abatement-perimeter-awareness",
-          "similarity": 0.21777221526908636
+          "score": 0.5924455825864278,
+          "nearest": "br-culvert-retrofit-for-fish-passage",
+          "similarity": 0.22151088348271447
         }
       }
     },
@@ -13842,9 +14674,9 @@
           "interactables": 32
         },
         "originality": {
-          "score": 0.39230769230769236,
-          "nearest": "bb-passing-and-catching",
-          "similarity": 0.26153846153846155
+          "score": 0.3227154046997391,
+          "nearest": "bb-reset-routine-after-a-miss",
+          "similarity": 0.2754569190600522
         }
       }
     },
@@ -13941,8 +14773,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 233,
-          "materials": 131,
+          "meshes": 236,
+          "materials": 134,
           "interactables": 33
         },
         "originality": {
@@ -14409,8 +15241,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 229,
-          "materials": 125,
+          "meshes": 232,
+          "materials": 128,
           "interactables": 35
         },
         "originality": {
@@ -15306,35 +16138,35 @@
     },
     {
       "app": "smartcity",
-      "id": "br-tidal-marsh-grading-amphibious-excavator",
-      "name": "Tidal Marsh Grading — Amphibious Excavator",
-      "category": "Water & Environmental",
-      "steps": 13,
+      "id": "rl-critical-lift-plan-and-signalperson",
+      "name": "Critical Lift Plan & Signalperson",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
       "score": 97,
       "d": {
         "variety": {
           "score": 1,
           "distinct": 8,
-          "longestRun": 1
+          "longestRun": 2
         },
         "decisions": {
-          "score": 1,
+          "score": 0.95,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 299,
+          "medianWhy": 279,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 4
         },
         "standards": {
           "score": 1,
-          "cited": 9,
-          "inScope": 9,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -15345,14 +16177,170 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 234,
-          "materials": 101,
-          "interactables": 27
+          "meshes": 191,
+          "materials": 77,
+          "interactables": 22
         },
         "originality": {
-          "score": 0.24861111111111112,
-          "nearest": "living-shoreline",
-          "similarity": 0.2902777777777778
+          "score": 0.40941558441558445,
+          "nearest": "mass-timber-panel-set",
+          "similarity": 0.25811688311688313
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-decon-corridor-for-a-mass-casualty-drill",
+      "name": "Decon Corridor for a Mass-Casualty Drill",
+      "category": "Emergency Services",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 300,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 262,
+          "materials": 125,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.4719298245614037,
+          "nearest": "hz-level-b-entry-and-scba-change-out",
+          "similarity": 0.24561403508771928
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-pre-game-routine-and-visualisation",
+      "name": "Pre-Game Routine and Visualisation",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 252,
+          "materials": 130,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.21444291609353516,
+          "nearest": "bb-reset-routine-after-a-miss",
+          "similarity": 0.297111416781293
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-reset-routine-after-a-miss",
+      "name": "Reset Routine After a Miss",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 311,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 200,
+          "materials": 117,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.21444291609353516,
+          "nearest": "bb-pre-game-routine-and-visualisation",
+          "similarity": 0.297111416781293
         }
       }
     },
@@ -15449,8 +16437,8 @@
         },
         "scene": {
           "score": 0.9681818181818183,
-          "meshes": 226,
-          "materials": 109,
+          "meshes": 229,
+          "materials": 112,
           "interactables": 20
         },
         "originality": {
@@ -18361,8 +19349,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 200,
-          "materials": 113,
+          "meshes": 203,
+          "materials": 116,
           "interactables": 26
         },
         "originality": {
@@ -19562,9 +20550,9 @@
           "interactables": 29
         },
         "originality": {
-          "score": 0.5502673796791444,
-          "nearest": "sediment-cap",
-          "similarity": 0.22994652406417113
+          "score": 0.5326848249027238,
+          "nearest": "br-culvert-retrofit-for-fish-passage",
+          "similarity": 0.23346303501945526
         }
       }
     },
@@ -20373,12 +21361,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 8
         },
         "standards": {
           "score": 1,
-          "cited": 10,
-          "inScope": 10,
+          "cited": 11,
+          "inScope": 11,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -20649,8 +21637,8 @@
         },
         "scene": {
           "score": 0.9522727272727273,
-          "meshes": 385,
-          "materials": 151,
+          "meshes": 388,
+          "materials": 154,
           "interactables": 19
         },
         "originality": {
@@ -20753,8 +21741,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 182,
-          "materials": 94,
+          "meshes": 185,
+          "materials": 97,
           "interactables": 22
         },
         "originality": {
