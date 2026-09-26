@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 425
+      "stations": 426
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-below-grade-waterproofing-and-drainage-board",
         "rf-standing-seam-metal-panel-and-clip",
         "rf-hot-asphalt-kettle-and-mop",
         "rf-single-ply-tpo-heat-welding-and-seam-probe",
@@ -7645,6 +7646,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-below-grade-waterproofing-and-drainage-board",
+      "name": "Below-Grade Waterproofing & Drainage Board",
+      "title": "SmartCiti.X~ Below-Grade Waterproofing & Drainage Board VR",
+      "tagline": "The excavation plan read, the barricade confirmed and the ladder climbed, a torn roll and a damp patch on the wall found, the wall's moisture checked, the trench air tested, the membrane brought down out of the wind, the heater lit, the wall mopped at a steady rate and its coverage checked, the drainage board pressed in and held, the wall walked for gaps, the day logged, with a gust catching a board at grade and a second worker calling up about fumes pooling below along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Waterproofer applying hot rubberized-asphalt waterproofing and drainage board to a foundation wall inside an open excavation",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926 Subpart P Excavations for the protective system, the barricade and the ladder access; 29 CFR 1926.1053 for the ladder itself; NFPA 51B for the small heater warming the hot material; NRCA and URW below-grade waterproofing practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "wall-sealed-clean",
+        "name": "Wall Sealed Clean",
+        "note": "A wall waterproofed to coverage and boarded before backfill, with the trench edge, the heater and the air all answered for"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf5",
+      "flat": false,
+      "system": "Trench Run",
+      "currency": "SEAL",
+      "ranks": [
+        "Apprentice",
+        "Wall Hand",
+        "Membrane Runner",
+        "Lead Waterproofer",
+        "Below-Grade Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The excavation plan read before the ladder was ever climbed"
+        },
+        {
+          "id": "steady-wall",
+          "name": "Steady Wall",
+          "note": "The wall was mopped without a break in pace"
+        },
+        {
+          "id": "never-past-the-barricade",
+          "name": "Never Past The Barricade",
+          "note": "No step past the spoil pile edge, no primer left open, no board carried across the wind"
+        },
+        {
+          "id": "clean-wall",
+          "name": "Clean Wall",
+          "note": "No corrections anywhere on this run"
+        },
+        {
+          "id": "on-the-mil",
+          "name": "On The Mil",
+          "note": "The coverage reading committed inside the band first time"
+        },
+        {
+          "id": "wall-closed",
+          "name": "Wall Closed",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-below-grade-waterproofing-and-drainage-board"
     },
     {
       "app": "smartcity",
@@ -27921,7 +28005,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28581,7 +28665,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

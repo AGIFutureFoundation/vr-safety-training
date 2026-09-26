@@ -18130,5 +18130,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rf-below-grade-waterproofing-and-drainage-board",
+    "index": "rf5",
+    "domain": "Construction & Structural Trades",
+    "trade": "Waterproofer applying hot rubberized-asphalt waterproofing and drainage board to a foundation wall inside an open excavation",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926 Subpart P Excavations for the protective system, the barricade and the ladder access; 29 CFR 1926.1053 for the ladder itself; NFPA 51B for the small heater warming the hot material; NRCA and URW below-grade waterproofing practice; Roofers Local 40 apprenticeship and training",
+    "name": "Below-Grade Waterproofing & Drainage Board",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Below-Grade Waterproofing & Drainage Board VR",
+    "tagline": "The excavation plan read, the barricade confirmed and the ladder climbed, a torn roll and a damp patch on the wall found, the wall's moisture checked, the trench air tested, the membrane brought down out of the wind, the heater lit, the wall mopped at a steady rate and its coverage checked, the drainage board pressed in and held, the wall walked for gaps, the day logged, with a gust catching a board at grade and a second worker calling up about fumes pooling below along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "wall-sealed-clean",
+      "name": "Wall Sealed Clean",
+      "note": "A wall waterproofed to coverage and boarded before backfill, with the trench edge, the heater and the air all answered for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Trench Run",
+      "currency": "SEAL",
+      "ranks": [
+        "Apprentice",
+        "Wall Hand",
+        "Membrane Runner",
+        "Lead Waterproofer",
+        "Below-Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
