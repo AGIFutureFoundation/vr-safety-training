@@ -1,28 +1,34 @@
 # Build status — SmartCiti.X and the WebXR training network
 
-Updated: 2026-09-23. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
+Updated: 2026-09-26. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
 
 ## Live totals
 
 | | Now | Where the number comes from |
 |---|---|---|
-| Procedures in the catalog | **225** — 216 SmartCiti.X stations (214 walkable, 2 flat briefings) and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
-| Categories | **17** — 16 SmartCiti.X trade-union categories plus Trade Skills Simulator | `catalog.json` |
-| Training programmes | **24** | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
-| Checkers | **29**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 29 checkers pass.` |
-| Content eval | corpus mean **95 / 100** over 225 procedures; every station at 90 or above except the two flat briefings (73) and seven at 86–89, listed below | `node tools/eval_content.mjs --json` |
-| Standards registry | **285** entries across 75 bodies over the 17 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
-| Competencies | **34** (24 programme, 10 core) over 213 distinct stations and 69 standards | `node tools/check_competency.mjs` |
+| Procedures in the catalog | **430** — 421 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
+| Categories | **18** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching) plus Trade Skills Simulator | `catalog.json` |
+| Training programmes | **31**, each a twenty-level ladder of 75-lesson levels (619 of 620 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
+| Checkers | **41**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 41 checkers pass.` |
+| Content eval | corpus mean **96 / 100** over 430 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
+| Standards registry | **396** entries across 109 bodies over the 18 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
+| Competencies | **41** (31 programme, 10 core) | `node tools/check_competency.mjs` |
 | Device profiles | **33** head-worn devices in 6 run profiles | `node tools/check_devices.mjs` |
-| App | published artifact (private until shared) | |
+| App | published artifact (private until shared), with the race, the arcade, the eggs and 31 track pages beside it | |
 
-Under 90 today: `hunters-point` 73 and `can-we-live-story` 73 (flat, sourced briefings — the eval's scene and variety dimensions do not apply to them and the rest is renormalised), `solar-deck` 86, `ambulance-scene-safety` 88, `salon` 88, `phlebotomy` 88, `signal-cabinet` 89, `stage-power` 89, `container-lashing` 89.
+Under 90 today: `hunters-point` 73, `can-we-live-story` 73, `civic-principles-briefing` 81, `trades-lineage-briefing` 84, `apprenticeship-standards-reading` 88 (flat, sourced briefings and readings — the eval's scene and variety dimensions do not apply to them and the rest is renormalised).
 
 How to read a score: `tools/eval_content.mjs` grades each procedure on variety of interaction, decision density, explanation depth, grounding in named bodies, **standards** (the share of cited authorities that resolve to a registry entry in scope for the station's category, less a penalty for citing out of scope), feedback coverage, scene and originality, and weights them into one number. It is the heartbeat between waves, not a gate; the gate is `node tools/check_all.mjs`.
 
 ---
 
 ## Waves, oldest first
+
+### 0. The post-restart run (2026-09-24 → 26)
+
+Merged branch by branch after the model limits stopped twelve teams mid-work, then finished by smaller teams and by hand: the `drive` step kind with six deep-driving stations and the fleet retrofits; twenty-level ladders with 75-lesson levels and a track page per programme; Basketball Fundamentals with the psychology of the game (18 stations on the gym-court district); the Bay Restoration & Cleanup programme (30 maritime, dive, sediment, shoreline and ecology stations, six new vessel builders); six civic and six dental-careers stations; bridge/builders, hotel/confined-space and ten ladder-gap stations; the site-dressing props kit; first- and third-person views on every simulator; the seeded random-events layer; realistic characters with eight trade outfits; a Home chip on every page; and the Easter eggs — Night Highway Circuit (ten original tracks, Battle Arena, Mirror class), the Break Room Arcade (three original cabinets), Hard Hat Hunt, Foreman's Radio, capstone liveries, photo mode, the golden wrench, the crane claw, the Holodeck arcade cabinet, toolbox-talk bingo and night shift. Films: driving, civic, dental careers, Bay restoration, basketball and a platform overview.
+
+
 
 ### 1. Inside wireman, ports, builders and hotel workers — the last four three-station waves before the bridge (2026-09-22)
 
