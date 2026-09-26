@@ -10038,6 +10038,9 @@ const STANDARDS = Object.fromEntries([
   S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
   S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
   S("nfpa-25", "NFPA", "25 Standard for the Inspection, Testing, and Maintenance of Water-Based Fire Protection Systems", ["Building Systems"]),
+  S("nfpa-13", "NFPA", "13 Standard for the Installation of Sprinkler Systems", ["Building Systems", "Construction"]),
+  S("nfpa-54", "NFPA", "54 National Fuel Gas Code", ["Building Systems", "Energy & Power"]),
+  S("nfpa-99", "NFPA", "99 Health Care Facilities Code", ["Building Systems", "Health & Clinical"]),
   S("nfpa-96", "NFPA", "96 Standard for Ventilation Control and Fire Protection of Commercial Cooking Operations", ["Food Service"]),
   S("nfpa-470", "NFPA", "470 Hazardous Materials/Weapons of Mass Destruction Standard for Responders", ["Hazmat & Environmental"]),
   S("nfpa-855", "NFPA", "855 Standard for the Installation of Stationary Energy Storage Systems", ["Energy & Power"]),
@@ -10049,6 +10052,8 @@ const STANDARDS = Object.fromEntries([
   S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
   S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
   S("asme-bpvc", "ASME", "Boiler and Pressure Vessel Code", ["Building Systems"]),
+  S("asme-b31-9", "ASME", "B31.9 Building Services Piping", ["Building Systems", "Energy & Power"]),
+  S("iapmo-upc", "IAPMO", "Uniform Plumbing Code (UPC)", ["Building Systems", "Water & Environmental", "Construction"], "unverified"),
   S("aws-d1-5", "AWS", "D1.5 Bridge Welding Code", ["Construction"]),
   S("ansi-e1-4", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
   S("ashrae-188", "ASHRAE", "Standard 188 Legionellosis: Risk Management for Building Water Systems", ["Building Systems"]),
@@ -10529,6 +10534,17 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "op-excavator-trench-and-utility-locate", "op-dozer-slope-work-and-rollover-protection", "op-loader-truck-loading-and-blind-spots", "op-grader-fine-grade-and-crown",
       "op-compactor-lift-thickness-and-edge", "op-crawler-crane-assembly-and-load-chart", "op-pile-driving-rig-and-lead-setup", "op-equipment-daily-walkaround-and-fluids"
+    ],
+    require: 4,
+  },
+  {
+    id: "plumbers-and-pipefitters",
+    title: "Rough in, test and prove eight distinct UA plumbing and pipefitting jobs",
+    kind: "programme",
+    standards: ["asme-b31-9", "iapmo-upc", "nfpa-13", "nfpa-25", "nfpa-54", "nfpa-99", "asme-bpvc", "osha-1910-147"],
+    stations: [
+      "pl-medical-gas-brazing-and-purge", "pl-hydronic-boiler-piping-and-hydrotest", "pl-underground-sewer-lateral-and-trench-shoring", "pl-fire-sprinkler-riser-and-flow-test",
+      "pl-copper-press-and-solder-rough-in", "pl-steam-trap-and-condensate-line-repair", "pl-water-heater-and-tpr-valve-replacement", "pl-natural-gas-pressure-test-and-leak-check"
     ],
     require: 4,
   },
@@ -33859,6 +33875,342 @@ const SIMS_META = [
         "Walkaround Certified",
         "Readiness Authority",
         "Fleet Readiness Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-medical-gas-brazing-and-purge",
+    "index": "pl-01",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA medical gas systems installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; NFPA 99 Health Care Facilities Code; ASSE 6010 medical gas systems installer and ASSE 6015 medical gas systems verifier professional qualifications; 29 CFR 1910.252 welding, cutting and brazing",
+    "name": "Medical Gas Brazing & Purge",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Medical Gas Brazing & Purge VR",
+    "tagline": "Zone valve locked and tagged, the run purged with nitrogen before the torch lights, every joint brazed under a continuous flow, and every outlet cross-tested against its own gas before the zone goes back to the floor",
+    "accent": 6280872,
+    "accentCss": "#5fd6a8",
+    "parSeconds": 260,
+    "badge": {
+      "id": "purged-and-proven",
+      "name": "Purged and Proven",
+      "note": "A medical gas zone brazed under a continuous purge and cross-tested outlet by outlet before sign-off"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Life Safety Gas",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Gas Installer",
+        "Verified Installer",
+        "Medical Gas Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-hydronic-boiler-piping-and-hydrotest",
+    "index": "pl-02",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA pipefitter / hydronic piping installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; the ASME Boiler and Pressure Vessel Code for the boiler this loop ties into; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+    "name": "Hydronic Boiler Piping & Hydrotest",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Hydronic Boiler Piping & Hydrotest VR",
+    "tagline": "The boiler locked and tagged before a coupling opens near it, a new heating loop assembled in a proven pattern, and the whole run walked joint by joint under a hydrostatic test before it is ever insulated over",
+    "accent": 15900986,
+    "accentCss": "#f2a13a",
+    "parSeconds": 270,
+    "badge": {
+      "id": "loop-proven",
+      "name": "Loop Proven",
+      "note": "A hydronic loop assembled off a locked-out boiler and hydrotested joint by joint before cover-up"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hydronic Authority",
+      "currency": "PSI",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Pipefitter",
+        "Lead Fitter",
+        "Hydronic Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-underground-sewer-lateral-and-trench-shoring",
+    "index": "pl-03",
+    "domain": "Water & Environmental",
+    "trade": "UA pipelayer / underground plumbing installer",
+    "category": "Water & Environmental",
+    "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for the lateral's slope and joints; 29 CFR 1926 Subpart P Excavations; 29 CFR 1926 for the site as a whole; 8 CCR 3203 injury and illness prevention",
+    "name": "Underground Sewer Lateral & Trench Shoring",
+    "weather": "rain",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Underground Sewer Lateral & Trench Shoring VR",
+    "tagline": "A protective system placed before anyone works below grade, a sewer lateral laid and jointed on a proven fall, and the shield pulled a lift at a time as the backfill takes over holding the wall — never yanked clear of ground still standing open on its own",
+    "accent": 7319114,
+    "accentCss": "#6fae4a",
+    "parSeconds": 275,
+    "badge": {
+      "id": "lateral-proven",
+      "name": "Lateral Proven",
+      "note": "A sewer lateral trenched, shored, laid to a checked fall and air-tested before backfill closes over it for good"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Ground and Grade",
+      "currency": "FALL",
+      "ranks": [
+        "Apprentice",
+        "Pipelayer",
+        "Journeyman",
+        "Lead Pipelayer",
+        "Underground Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-fire-sprinkler-riser-and-flow-test",
+    "index": "pl-04",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA sprinkler fitter",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship (Road Sprinkler Fitters); NFPA 13 installation of sprinkler systems; NFPA 25 inspection, testing and maintenance of water-based fire protection systems; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+    "name": "Fire Sprinkler Riser & Flow Test",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Fire Sprinkler Riser & Flow Test VR",
+    "tagline": "The monitoring company called before a drop of water moves, the main drain and the inspector's test connection each read in order, and the alarm proven to reach the gong and the panel before the riser goes back to normal",
+    "accent": 14164778,
+    "accentCss": "#d8232a",
+    "parSeconds": 265,
+    "badge": {
+      "id": "riser-proven",
+      "name": "Riser Proven",
+      "note": "An annual flow test run with the monitoring company notified first and the alarm proven all the way to the panel"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Water-Based Protection",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Sprinkler Fitter",
+        "Journeyman",
+        "Lead Fitter",
+        "ITM Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-copper-press-and-solder-rough-in",
+    "index": "pl-05",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA plumber / rough-in installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; the Uniform Plumbing Code (UPC) for potable water materials and joints; 8 CCR 3203 injury and illness prevention; 29 CFR 1910.132 personal protective equipment",
+    "name": "Copper Press & Solder Rough-In",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Copper Press & Solder Rough-In VR",
+    "tagline": "A rough-in run two ways on the same wall: a press fitting proven with a go/no-go gauge rather than trusted by eye, a soldered joint made with the alloy potable water actually allows, and a nail plate on before the line disappears behind drywall for good",
+    "accent": 5935064,
+    "accentCss": "#5a8fd8",
+    "parSeconds": 260,
+    "badge": {
+      "id": "rough-in-proven",
+      "name": "Rough-In Proven",
+      "note": "A press joint gauge-checked, a solder joint made in the right alloy, and every line protected before the wall closes over it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Rough-In Authority",
+      "currency": "JOINT",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Rough-In Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-steam-trap-and-condensate-line-repair",
+    "index": "pl-06",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA pipefitter / steam and condensate systems",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.132 personal protective equipment; 8 CCR 3203 injury and illness prevention",
+    "name": "Steam Trap & Condensate Line Repair",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Steam Trap & Condensate Line Repair VR",
+    "tagline": "A failed trap isolated, vented and proven at zero before the body ever opens, the correct trap type fitted for this application, and the line warmed back up slowly enough that condensate boils off instead of hammering through the pipe",
+    "accent": 14191162,
+    "accentCss": "#d88a3a",
+    "parSeconds": 265,
+    "badge": {
+      "id": "trap-proven",
+      "name": "Trap Proven",
+      "note": "A failed steam trap replaced on a vented, zeroed line and brought back into service without a hammer"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Steam and Condensate",
+      "currency": "PSIG",
+      "ranks": [
+        "Apprentice",
+        "Pipefitter",
+        "Journeyman",
+        "Lead Fitter",
+        "Steam Systems Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-water-heater-and-tpr-valve-replacement",
+    "index": "pl-07",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA plumber / water heater installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for water heater installation, seismic strapping and relief valve discharge piping; the ASME Boiler and Pressure Vessel Code for the relief valve's rating; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+    "name": "Water Heater & TPR Valve Replacement",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Water Heater & TPR Valve Replacement VR",
+    "tagline": "The old tank isolated and drained, a new heater strapped against a seismic event before it is ever filled, the TPR valve matched to the tank's own rating with its discharge piped where it can actually do its job, and the gas connection tested before the pilot ever lights",
+    "accent": 5224570,
+    "accentCss": "#4fb87a",
+    "parSeconds": 275,
+    "badge": {
+      "id": "tank-proven",
+      "name": "Tank Proven",
+      "note": "A water heater installed, strapped, relief-valved to its own rating and gas-tested before the pilot ever lit"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pressure Vessel Authority",
+      "currency": "BTU",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Water Heater Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "pl-natural-gas-pressure-test-and-leak-check",
+    "index": "pl-08",
+    "domain": "Building Systems & Facilities",
+    "trade": "UA plumber / gas piping installer",
+    "category": "Building Systems & Facilities",
+    "certification": "UA plumbers and pipefitters apprenticeship; NFPA 54 National Fuel Gas Code; ANSI Z223.1 National Fuel Gas Code; the Uniform Plumbing Code (UPC) for gas piping installation; 29 CFR 1910.147 the control of hazardous energy",
+    "name": "Natural Gas Pressure Test & Leak Check",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Natural Gas Pressure Test & Leak Check VR",
+    "tagline": "New gas piping tested with air rather than fuel, every joint soap-checked rather than trusted to a gauge alone, and the line purged outdoors before any appliance is ever lit on it",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 270,
+    "badge": {
+      "id": "line-proven",
+      "name": "Line Proven",
+      "note": "A new gas run air-tested, soap-checked joint by joint and purged outdoors before any appliance saw live gas"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fuel Gas Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Gas Piping Certified"
       ],
       "rankAt": [
         0,

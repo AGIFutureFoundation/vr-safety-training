@@ -634,6 +634,10 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "op-excavator-trench-and-utility-locate", "op-dozer-slope-work-and-rollover-protection", "op-loader-truck-loading-and-blind-spots", "op-grader-fine-grade-and-crown",
       "op-compactor-lift-thickness-and-edge", "op-crawler-crane-assembly-and-load-chart", "op-pile-driving-rig-and-lead-setup", "op-equipment-daily-walkaround-and-fluids"
+    ],
+    require: 4,
+  },
+  {
     id: "plumbers-and-pipefitters",
     title: "Rough in, test and prove eight distinct UA plumbing and pipefitting jobs",
     kind: "programme",

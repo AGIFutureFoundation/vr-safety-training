@@ -170,5 +170,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "heavy-equipment-operators",
     "name": "Heavy Equipment Operators — IUOE Local 3",
     "accent": "#dba428"
+  },
+  {
+    "programme": "plumbers-and-pipefitters",
+    "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
+    "accent": "#2f6f4a"
   }
 ];

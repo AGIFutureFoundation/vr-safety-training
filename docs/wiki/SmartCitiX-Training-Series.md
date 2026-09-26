@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 442 SmartCiti.X stations across 17 categories and 33 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 450 SmartCiti.X stations across 17 categories and 34 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -39,6 +39,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [SF Bay Restoration & Cleanup — Maritime and Underwater](#bay-restoration-maritime-underwater)
 - [Railroad Crafts — Track, Car and Cab](#railroad-crafts)
 - [Heavy Equipment Operators — IUOE Local 3](#heavy-equipment-operators)
+- [Plumbers and Pipefitters — Journeyman Rough-In and Test Block](#plumbers-and-pipefitters)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1136,6 +1137,26 @@ Eight machines, eight IUOE jobs: an excavator trenching over a located utility, 
 | op-6 | [Crawler Crane Assembly & Load Chart](../../WebXR/smartcity/index.html?sim=op-crawler-crane-assembly-and-load-chart) | Crawler crane operator — IUOE Local 3 operating engineer | wind | 14 | 2 | — | An assembly that looks finished from the ground is not the same as one inspected pin by pin, so this station proves it with a barricaded swing, a chart reading and a held test lift before the first real pick. |
 | op-7 | [Pile Driving Rig & Lead Setup](../../WebXR/smartcity/index.html?sim=op-pile-driving-rig-and-lead-setup) | Pile driving rig operator — IUOE Local 3 operating engineer | overcast | 14 | 2 | — | A pile that starts out of plumb never corrects itself, so this station plumbs the leads in two planes and starts the first blows on low energy where a lean can still be caught. |
 | op-8 | [Equipment Daily Walkaround & Fluids](../../WebXR/smartcity/index.html?sim=op-equipment-daily-walkaround-and-fluids) | Heavy equipment operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | Every machine in this pack starts its day the same way: walked for a defect, its fluids read against their own gauges, chocked before anyone works near it, and its brakes and hydraulics proved before the first real load. |
+
+<a id="plumbers-and-pipefitters"></a>
+## Plumbers and Pipefitters — Journeyman Rough-In and Test Block
+
+**Union:** UA Local 38 apprenticeship
+
+**Certifications and standards:** UA plumbers and pipefitters apprenticeship standards, tested against NFPA 99, NFPA 13, NFPA 25, NFPA 54, ASME B31.9, the ASME Boiler and Pressure Vessel Code and the Uniform Plumbing Code (UPC) across eight distinct union jobs
+
+Eight jobs a UA plumber or pipefitter actually rotates through: medical gas brazed under a nitrogen purge, a hydronic loop off a locked-out boiler hydrotested before cover-up, a sewer lateral trenched and shored to a proven fall, a sprinkler riser's annual flow test, a rough-in run both pressed and soldered, a failed steam trap replaced on a vented line, a water heater strapped and relief-valved to its own rating, and a new gas line air-tested and purged before anything is lit. Every station ends on a proof — a gauge, a witness mark, a signed report — rather than on how the joint looked going together.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| pl-01 | [Medical Gas Brazing & Purge](../../WebXR/smartcity/index.html?sim=pl-medical-gas-brazing-and-purge) | UA medical gas systems installer | indoor (service) | 13 | 2 | — | The zone valve is locked and tagged before any pipe opens, the nitrogen purge runs before the torch ever lights, and every outlet is cross-tested against its own gas before the zone goes back to the floor. |
+| pl-02 | [Hydronic Boiler Piping & Hydrotest](../../WebXR/smartcity/index.html?sim=pl-hydronic-boiler-piping-and-hydrotest) | UA pipefitter / hydronic piping installer | indoor (service) | 13 | 2 | — | A new heating loop off a locked-out boiler is assembled in a proven bolt pattern and then walked joint by joint under a hydrostatic test before a single section goes behind insulation. |
+| pl-03 | [Underground Sewer Lateral & Trench Shoring](../../WebXR/smartcity/index.html?sim=pl-underground-sewer-lateral-and-trench-shoring) | UA pipelayer / underground plumbing installer | rain | 14 | 2 | — | The protective system goes into the excavation before anyone works below grade, the lateral is laid to a fall checked against a laser at every joint, and the shield comes out a lift at a time as the backfill takes over holding the wall. |
+| pl-04 | [Fire Sprinkler Riser & Flow Test](../../WebXR/smartcity/index.html?sim=pl-fire-sprinkler-riser-and-flow-test) | UA sprinkler fitter | indoor (service) | 14 | 2 | — | The monitoring company is called before a valve moves, the main drain and the inspector's test connection are each read in order, and the alarm is proven all the way to the gong and the panel before the riser is signed off. |
+| pl-05 | [Copper Press & Solder Rough-In](../../WebXR/smartcity/index.html?sim=pl-copper-press-and-solder-rough-in) | UA plumber / rough-in installer | indoor (service) | 14 | 2 | — | A press fitting is proven on a go/no-go gauge rather than trusted by eye, a soldered joint is made in the alloy potable water actually allows, and a nail plate goes on before the line disappears behind drywall. |
+| pl-06 | [Steam Trap & Condensate Line Repair](../../WebXR/smartcity/index.html?sim=pl-steam-trap-and-condensate-line-repair) | UA pipefitter / steam and condensate systems | indoor (plant) | 14 | 2 | — | The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe. |
+| pl-07 | [Water Heater & TPR Valve Replacement](../../WebXR/smartcity/index.html?sim=pl-water-heater-and-tpr-valve-replacement) | UA plumber / water heater installer | indoor (service) | 15 | 2 | — | The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights. |
+| pl-08 | [Natural Gas Pressure Test & Leak Check](../../WebXR/smartcity/index.html?sim=pl-natural-gas-pressure-test-and-leak-check) | UA plumber / gas piping installer | indoor (service) | 14 | 2 | — | The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas. |
 
 ## Real-world environments
 
