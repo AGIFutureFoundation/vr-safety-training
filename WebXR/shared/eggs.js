@@ -1,9 +1,12 @@
 // Hard Hat Hunt — one of the platform's Easter eggs (see docs/easter-egg.md).
 //
-// A small golden hard hat is hidden in twelve stations, chosen across
-// programmes. A station calls plantHardHat() exactly once from its own
-// build(root), with a spot for the hat, and this module does everything
-// else: the mesh, the click, the localStorage record and the toast.
+// A small golden hard hat is hidden in fourteen stations, chosen across
+// programmes and districts — including one on the outdoor open-range
+// district and one on an underwater dive station, so a newer district is
+// never missing from the hunt. A station calls plantHardHat() exactly once
+// from its own build(root), with a spot for the hat, and this module does
+// everything else: the mesh, the click, the localStorage record and the
+// toast.
 //
 // The hard hat is deliberately kept OFF the station's own interaction system
 // (shared/kit.js's markInteractive / state.hits / Session.select): a real
@@ -21,7 +24,7 @@ const KEY = "vr-training-hardhats-v1";
 
 /** How many hard hats there are to find. The single source of truth for the
  *  counter on the homepage, the unlock rule in the race, and the checker. */
-export const HARD_HAT_TOTAL = 12;
+export const HARD_HAT_TOTAL = 14;
 
 function eggStorage(storage) {
   if (storage) return storage;

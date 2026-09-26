@@ -247,10 +247,11 @@ Every sprite, sound, tune, level layout and name in this game is original to thi
 A 20-second clip of play is at `screenshots/arcade/arcade-clip.webm`.
 ## Hard Hat Hunt
 
-A small golden hard hat is hidden in twelve training stations, chosen across
-programmes and both simulators. Click it and it is found — nothing about the
-station's own procedure changes, and finding one is never scored as a step or
-a mistake.
+A small golden hard hat is hidden in fourteen training stations, chosen
+across programmes, both simulators and — since the open-range district and
+the bay-underwater dive stations landed — outdoors and underwater too. Click
+it and it is found — nothing about the station's own procedure changes, and
+finding one is never scored as a step or a mistake.
 
 <img src="screenshots/race/livery-select.png" width="420" alt="the garage screen with Hard Hat Gold unlocked">
 
@@ -270,6 +271,8 @@ a mistake.
 | Patient Intake Screening | SmartCiti.X | Dental / outbreak-response programmes |
 | Welding | Trade Skills Simulator | Builders and trades |
 | Plumbing | Trade Skills Simulator | Builders and trades |
+| Solar Farm Tracker Row Maintenance | SmartCiti.X | Energy Transition — open-range district |
+| Underwater Debris Survey & Mapping | SmartCiti.X | SF Bay Restoration & Cleanup — bay-underwater district |
 
 ### How it is built
 
@@ -281,7 +284,7 @@ plantHardHat(root, THREE, "cooling-tower", [2.6, 1.15, -2.6]);
 ```
 
 That is the whole integration — one import and one call, nothing else in the
-twelve stations changes. The helper does everything else:
+fourteen stations changes. The helper does everything else:
 
 - **It never touches the station's interaction system.** A station's real
   controls are registered with `shared/kit.js`'s `markInteractive()` and
@@ -295,19 +298,36 @@ twelve stations changes. The helper does everything else:
   browser's `localStorage`, under the key `vr-training-hardhats-v1`, as the
   list of station ids found so far. Finding the same hat twice changes
   nothing.
-- **The homepage counts them.** The footer shows "hard hats found: n/12",
-  read from the same key when the page loads.
-- **Finding all twelve unlocks a livery in the race**, "Hard Hat Gold" — see
+- **The homepage counts them.** The footer shows "hard hats found: n/14"
+  (`tools/gen_home.mjs` reads the count from `shared/eggs.js`'s own
+  `HARD_HAT_TOTAL` rather than retyping it), read from the same key when the
+  page loads.
+- **Finding all fourteen unlocks a livery in the race**, "Hard Hat Gold" — see
   Capstone skins below for how liveries work in the garage.
+- **Placement follows the same reachability rule as every other control.**
+  `tools/check_layout.mjs` already holds every station's real interactive
+  targets to one rule: inside the roam circle (SmartCiti.X) or the room
+  (Trade Skills) a learner can walk to, plus a reach's worth of stretch, and
+  never below the floor slack a pit or a vault is allowed. The hard hat is
+  outside the interaction system `check_layout.mjs` itself audits, so
+  `tools/check_eggs.mjs` holds it to the identical numbers on its own —
+  including the two hosts on the open-range district and the bay-underwater
+  district, where "visible" and "reachable" are the same fact: the roam
+  circle is exactly the volume the app's own camera keeps a learner inside,
+  outdoors or underwater alike.
 
 ### Checks
 
 `node tools/check_eggs.mjs`, part of `tools/check_all.mjs`, holds this to:
 
-- All twelve host files exist, each imports `plantHardHat` from
+- All fourteen host files exist, each imports `plantHardHat` from
   `shared/eggs.js` and calls it exactly once, under a distinct id.
 - The hosts land in more than one app and more than one programme.
-- A find, a repeated find, and completing all twelve round-trip through a
+- Every planted hat resolves to a real mesh inside the reachable, visible
+  volume `check_layout.mjs` already defines for that station — the roam
+  circle (or room) plus a reach's worth of stretch, and no lower than the
+  floor slack.
+- A find, a repeated find, and completing all fourteen round-trip through a
   fake `localStorage` exactly as described above.
 
 ## Foreman's Radio

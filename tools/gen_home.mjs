@@ -28,11 +28,15 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { tracksSection } from "./gen_tracks.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
+// The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
+// than retyped, so a station added to or removed from the hunt can never
+// leave this page's footer counting against a stale number.
+const { HARD_HAT_TOTAL } = await import(pathToFileURL(join(WEBXR, "shared", "eggs.js")).href);
 const REPO = "https://github.com/AGIFutureFoundation/vr-safety-training";
 
 // --------------------------------------------------------------- escaping
@@ -526,11 +530,11 @@ const SCRIPT = `
   if (new URLSearchParams(location.search).get("egg") === "race") openEgg();
 
   // Hard Hat Hunt: a tiny counter in the footer for the golden hard hats
-  // hidden in twelve stations (shared/eggs.js). Read once on load — the find
-  // itself always happens on a different page, so there is nothing here to
-  // keep live.
+  // hidden in ${HARD_HAT_TOTAL} stations (shared/eggs.js). Read once on
+  // load — the find itself always happens on a different page, so there is
+  // nothing here to keep live.
   (function hardHatCounter() {
-    const HARDHAT_KEY = "vr-training-hardhats-v1", HARDHAT_TOTAL = 12;
+    const HARDHAT_KEY = "vr-training-hardhats-v1", HARDHAT_TOTAL = ${HARD_HAT_TOTAL};
     let found = 0;
     try { const raw = JSON.parse(localStorage.getItem(HARDHAT_KEY) || "[]"); found = Array.isArray(raw) ? raw.length : 0; } catch (_) { /* ignore */ }
     const el = document.getElementById("hardhat-count");

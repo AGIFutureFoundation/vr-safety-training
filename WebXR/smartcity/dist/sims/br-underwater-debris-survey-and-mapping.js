@@ -2,6 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { box, cyl, ball, torus, hose, group, decal, repaint, signFace, paperFace, mat } from "../../../shared/kit.js";
 import { CITY, holoPanel, holoTag, reg, surfaceTexture, texturedMat, siltFace } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Underwater Debris Survey & Mapping VR — SF Bay Restoration &
 // Cleanup, maritime and underwater, pack A, on the bay-underwater district.
@@ -215,6 +216,7 @@ export const SIM_BR_UNDERWATER_DEBRIS_SURVEY_AND_MAPPING = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "br-underwater-debris-survey-and-mapping", [-2.3, 0.95, 2.0]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
 
