@@ -107,6 +107,12 @@ export const SIM_CM_EPOXY_FLOOR_COATING_AND_VENTILATION = {
       why: "A fan switched on is not the same thing as a fan actually exchanging the air in a bay with limited natural airflow — a blocked intake or a fan aimed the wrong way can run for an hour and do almost nothing. Confirming moving air, not just a spinning blade, is what the SDS's ventilation requirement actually means.",
     },
     {
+      id: "don-ppe", kind: "select", target: "respirator-station",
+      title: "Don the respirator and gloves",
+      cue: "Put on the respirator the SDS calls for and the chemical-resistant gloves before either can is opened.",
+      why: "The respirator and gloves are fitted before mixing starts because the vapor concentration and the risk of skin contact are both highest in the first few minutes after the two parts meet, not sometime later once somebody notices a smell. Putting them on after the smell is already strong means the highest-exposure minutes already happened unprotected.",
+    },
+    {
       id: "mix-ratio", kind: "gauge", target: "ratio-gauge",
       title: "Batch the two parts to the can's ratio",
       cue: "Measure resin and hardener against the can's ratio and commit inside the manufacturer's band before mixing.",
@@ -121,12 +127,26 @@ export const SIM_CM_EPOXY_FLOOR_COATING_AND_VENTILATION = {
       holdBreakNote: "The paddle came up before the batch was fully blended. Put it back down and finish the mix before the pot life runs further.",
     },
     {
+      id: "cut-in-edges", kind: "turn", target: "cut-in-brush",
+      title: "Cut in the edges before rolling the field",
+      cue: "Work the brush along the wall lines and the drain first, while the batch is at its freshest.",
+      why: "A roller cannot reach tight against a wall or a drain ring without leaving a starved strip, so the edges are cut in by brush from the same batch before the roller ever starts the open field — cut in after the field is rolled, the two applications meet at different ages and the seam between them reads as a visible line once the floor is finished.",
+      turn: { turns: 1, label: "CUT-IN" },
+    },
+    {
       id: "roll-coat", kind: "track", target: "roller", seconds: 6,
       title: "Roll the coat to an even thickness across the bay",
       cue: "Work the roller in overlapping passes, keeping the wet-film thickness inside the manufacturer's band before the pot life runs out.",
       why: "Rolled too thin, the coat wears through to bare concrete at the first heavy traffic; rolled too thick, it can trap solvent as it skins over and stays soft underneath for weeks. An even pass across the whole bay, finished inside the pot life, is what keeps the floor performing the same everywhere it was coated.",
       track: { start: 0.2, green: [0.4, 0.6], rise: 0.5, fall: 0.46, drift: 0.12, label: "FILM THICKNESS", readout: (v) => (v < 0.4 ? "too thin — will wear through" : v > 0.6 ? "too thick — may trap solvent" : "on the manufacturer's band") },
       holdBreakNote: "The film thickness left the band while the roll kept going. Even it out before the batch runs past its pot life.",
+    },
+    {
+      id: "clean-tools", kind: "drag", target: "used-roller",
+      title: "Bag the cured-solvent tools for disposal",
+      cue: "Carry the used roller and tray to the hazardous-waste bin the SDS calls for, not the ordinary trash.",
+      why: "A roller and tray full of curing two-part epoxy keep reacting and off-gassing solvent right where they were set down, and thrown in an ordinary trash can they do that in a space nobody is ventilating on purpose. The SDS's disposal section treats them as the same hazardous waste as the uncured resin, and the hazardous-waste bin is what actually matches that.",
+      drag: { to: "waste-bin", radius: 0.6, missNote: "Not in the hazardous-waste bin — cured epoxy tools go where the SDS's disposal section sends them, not in the ordinary trash." },
     },
     {
       id: "mark-reentry", kind: "select", target: "reentry-sign",
@@ -252,10 +272,23 @@ export const SIM_CM_EPOXY_FLOOR_COATING_AND_VENTILATION = {
     const respiratorSupply = group(g, 1.4, 0.02, 1.8, 0.2);
     box(respiratorSupply, 0.16, 0.1, 0.14, 0, 0.08, 0, 0x3a4550, { rough: 0.6 });
     holoTag(respiratorSupply, "respirator", 0, 0.2, 0, { css: CMEP_CSS, w: 0.24 });
+    reg(hits, respiratorSupply, "respirator-station");
     const skipRespiratorHit = box(g, 0.4, 0.3, 0.4, 1.4, 1.3, 1.2, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "roll it without the respirator?", 1.4, 1.6, 1.2, { css: "#d2312b", w: 0.46 });
     reg(hits, skipRespiratorHit, "skip-respirator");
     const vapor = particles(g, 40, 0xbcdce6, { size: 0.03, life: 1.0, additive: true, opacity: 0.25 });
+    const cutInBrush = group(g, 2.6, 0.02, 0.8, 0.2);
+    box(cutInBrush, 0.14, 0.02, 0.05, 0, 0.03, 0, 0x8a6a42, { rough: 0.85 });
+    box(cutInBrush, 0.02, 0.16, 0.02, 0, 0.11, 0, 0x8a6a42, { rough: 0.85 });
+    holoTag(cutInBrush, "cut-in brush", 0, 0.24, 0, { css: CMEP_CSS, w: 0.26 });
+    reg(hits, cutInBrush, "cut-in-brush");
+    const usedTools = group(g, 3.0, 0.02, 1.0, 0.2);
+    box(usedTools, 0.4, 0.03, 0.12, 0, 0.08, 0, 0xb9bec4, { rough: 0.5, metal: 0.4 });
+    holoTag(usedTools, "used roller and tray", 0, 0.24, 0, { css: CMEP_CSS, w: 0.32 });
+    reg(hits, usedTools, "used-roller");
+    const wasteBin = box(g, 0.5, 0.5, 0.5, -3.6, 0.27, 1.2, 0xd2312b, { rough: 0.7 });
+    hits["waste-bin"] = wasteBin;
+    holoTag(g, "hazardous-waste bin", -3.6, 0.6, 1.2, { css: CMEP_CSS, w: 0.34 });
 
     // ------------------------------------------------------------- re-entry sign, coworker
     const reentrySign = group(g, 0.6, 0.02, 3.3, 0.1);
@@ -320,6 +353,7 @@ export const SIM_CM_EPOXY_FLOOR_COATING_AND_VENTILATION = {
         if (step.id === "fix") { moistureSpot.material.opacity = 0.05; torch.visible = false; fanBlades.userData.spin = true; }
         if (step.id === "mix-epoxy") mixing = false;
         if (step.id === "roll-coat") { coatLayer.visible = true; coatLayer.scale.x = 1; coating = false; }
+        if (step.id === "clean-tools") usedTools.position.set(-3.6, 0, 1.2);
         if (step.id === "close-out") repaint(log.userData.face, signFace("COATING LOG —\nCOATED + POSTED", { bg: "#171108", accent: "#59c97b", fg: "#d8f5e0", scale: 0.26 }));
         if (step.id === "crew-checkin") repaint(crewRadio.userData.screen, signFace("BAY 6 DONE", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.4 }));
       },
@@ -339,6 +373,7 @@ export const SIM_CM_EPOXY_FLOOR_COATING_AND_VENTILATION = {
         if (gg && !gg.committed && step?.id === "mix-ratio") repaint(ratioGauge.userData.screen, signFace(`${Math.round(gg.t * 100)}%`, { bg: "#22201a", accent: "#f2ae14", fg: "#f7f4ec", scale: 0.6 }));
         if (step?.id === "mix-epoxy" && session.holding) { mixing = true; mixerPaddle.rotation.y = t * 14; }
         if (step?.id === "roll-coat" && session.holding) { coating = true; coatProgress = Math.min(1, coatProgress + dt / 6); coatLayer.visible = true; coatLayer.scale.x = coatProgress; }
+        if (session?.turn && step?.id === "cut-in-edges") cutInBrush.rotation.y = session.turn.amount * Math.PI * 2;
         if (fanBlades.userData.spin !== false) fanBlades.rotation.z += dt * 5;
         if (vapor.visible) vapor.userData.step(dt, new THREE.Vector3(3.2, 0.5, 2.0), 0.3, 0.4, 0.2);
         if (coworker.visible) { coworker.userData.t = (coworker.userData.t ?? 0) + dt; coworker.position.z = 3.6 - Math.min(1, coworker.userData.t / 8) * 2.0; }
