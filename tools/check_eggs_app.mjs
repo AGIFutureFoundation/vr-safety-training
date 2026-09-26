@@ -106,6 +106,13 @@ await check("tools/bundle_webxr.py lists shared/eggs-app.js for all three apps, 
     assert(appJsAt >= 0, `${app}'s module list does not include its own app.js the way this checker expects`);
     assert(eggsAt < appJsAt, `${app} lists shared/eggs-app.js after its own app.js — the bundle would throw on load (mountXEggs would not be defined yet)`);
   }
+  const instructorStart = appsBlock.indexOf('"instructor": {');
+  const instructorEnd = appsBlock.indexOf('\n    },', instructorStart);
+  const instructorBlock = appsBlock.slice(instructorStart, instructorEnd);
+  const hazardsAt = instructorBlock.indexOf('SHARED / "bingo-hazards-data.js"');
+  const instructorAppJsAt = instructorBlock.indexOf('WEBXR / "instructor/js/app.js"');
+  assert(hazardsAt >= 0, "the instructor console's module list does not include shared/bingo-hazards-data.js");
+  assert(hazardsAt < instructorAppJsAt, "the instructor console lists shared/bingo-hazards-data.js after its own app.js — the bundle would throw on load (STATION_HAZARDS would not be defined yet)");
 });
 
 await check("this checker is registered in check_all.mjs", () => {
@@ -162,6 +169,44 @@ await check("a bingo card is a 5x5 with one FREE centre and 24 non-empty cells",
   eq(empty.length, 25, "bingo cells from an empty roster");
   eq(new Set(empty.filter((c) => !c.startsWith("FREE"))).size <= 24, true, "padded cells stayed in range");
   assert(_internal.EGG_HAZARD_PADDING.length >= 24, "the generic padding list is too short for a full card on a quiet day");
+});
+
+await check("a roster's own station hazards are read and slotted in ahead of the generic padding", () => {
+  const stationHazards = { "s1": ["Real Hazard One", "Real Hazard Two"] };
+  const roster = new Map([["r1", { station: "s1", events: [] }]]);
+  const fromStations = _internal.eggHazardsFromStations(roster, stationHazards);
+  eq(new Set(fromStations).size, 2, "both of the station's own labels should be read");
+  const cells = _internal.eggBingoCells(roster, stationHazards);
+  eq(cells.length, 25, "bingo cells");
+  const nonFree = cells.filter((_, i) => i !== 12);
+  assert(nonFree.includes("Real Hazard One") && nonFree.includes("Real Hazard Two"), "the station's own real hazards did not make the card");
+});
+
+await check("shared/bingo-hazards-data.js is generated straight from each station's own hazards", async () => {
+  const { buildBingoHazardsData, hazardIdsOf, hazardLabel } = await import(pathToFileURL(join(ROOT, "tools", "gen_bingo_hazards.mjs")).href);
+  const shipped = read("WebXR/shared/bingo-hazards-data.js");
+  const { text } = await buildBingoHazardsData();
+  eq(shipped, text, "WebXR/shared/bingo-hazards-data.js is stale — run node tools/gen_bingo_hazards.mjs (or node tools/gen_catalog.mjs)");
+  eq(hazardLabel("fouling-point"), "Fouling point", "hazardLabel formatting");
+  eq(hazardIdsOf('  hazards: {\n    "a-b": "x",\n    "c": "y",\n  },\n').join(","), "a-b,c", "hazardIdsOf brace-matching");
+});
+
+await check("every programme in CURRICULA yields a full, real bingo card from its own stations' hazards", async () => {
+  const { CURRICULA } = await import(pathToFileURL(join(WEBXR, "smartcity", "js", "curricula.js")).href);
+  const { STATION_HAZARDS, PROGRAMME_HAZARDS } = await import(pathToFileURL(join(WEBXR, "shared", "bingo-hazards-data.js")).href);
+  assert(CURRICULA.length > 0, "no programmes to check");
+  for (const p of CURRICULA) {
+    const roster = new Map(p.stations.map((s, i) => [`r${i}`, { station: s.id, events: [] }]));
+    const available = PROGRAMME_HAZARDS[p.id] ?? [];
+    const expectedReal = Math.min(24, available.length);
+    const cells = _internal.eggBingoCells(roster, STATION_HAZARDS);
+    eq(cells.length, 25, `${p.id}: bingo cells`);
+    assert(cells[12].startsWith("FREE"), `${p.id}: the centre cell is not FREE`);
+    const nonFree = cells.filter((_, i) => i !== 12);
+    for (const [i, c] of nonFree.entries()) assert(typeof c === "string" && c.trim().length > 0, `${p.id}: cell ${i} is empty`);
+    const realCount = nonFree.filter((c) => available.includes(c)).length;
+    eq(realCount, expectedReal, `${p.id}: expected ${expectedReal} of this programme's own hazard labels on its own card (has ${available.length} available), got ${realCount}`);
+  }
 });
 
 // ==================================================== 3. behaviour, stubbed

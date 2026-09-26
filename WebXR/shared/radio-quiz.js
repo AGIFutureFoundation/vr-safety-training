@@ -5,7 +5,7 @@
 // body and title — see tools/gen_radio_quiz.mjs) — never from an invented
 // fact. This module is pure: no DOM, so tools/check_eggs.mjs can generate and
 // grade quizzes headless.
-import { RADIO_STANDARDS, RADIO_BODIES } from "./radio-quiz-data.js";
+import { RADIO_STANDARDS, RADIO_BODIES, RADIO_CATEGORIES } from "./radio-quiz-data.js";
 
 /** A CFR-style clause, when the title states one plainly enough to quote on its own. */
 const CLAUSE = /\b\d{1,3}\s*CFR\s*[0-9]+(?:\.[0-9]+)?\b/;
@@ -45,9 +45,20 @@ export function questionText(standard) {
  * `count` questions, each { id, text, choices, answerIndex, standardId }, no
  * two drawn from the same standard. `choices` has one correct body plus three
  * distractor bodies, in a random order; `rng` defaults to Math.random.
+ *
+ * `category`, when given, narrows the pool to standards whose own `scope`
+ * (tools/standards.json, carried through verbatim by gen_radio_quiz.mjs)
+ * names that catalog category — a programme's own trade, for instance —
+ * before anything is picked. It changes which standards are eligible, never
+ * a single word of a question built from one: the body and the title are
+ * always that standard's own. Fewer than `count` in scope is honestly
+ * answered with fewer questions, never padded with one out of scope.
  */
-export function buildQuiz(count = 10, { rng: rand = Math.random, standards = RADIO_STANDARDS, bodies = RADIO_BODIES } = {}) {
-  const pool = standards.filter((s) => s.body && s.title);
+export function buildQuiz(count = 10, {
+  rng: rand = Math.random, standards = RADIO_STANDARDS, bodies = RADIO_BODIES, category = null,
+} = {}) {
+  let pool = standards.filter((s) => s.body && s.title);
+  if (category) pool = pool.filter((s) => Array.isArray(s.scope) && s.scope.includes(category));
   const chosen = pick(pool, Math.min(count, pool.length), rand);
   return chosen.map((s, i) => {
     const distractors = pick(bodies.filter((b) => b !== s.body), 3, rand);

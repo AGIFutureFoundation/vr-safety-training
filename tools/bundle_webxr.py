@@ -174,7 +174,10 @@ APPS = {
             SHARED / "observer.js",
             SHARED / "flowhub.js",
             WEBXR / "instructor/js/roster.js",
-            # Toolbox Talk Bingo (docs/easter-egg.md).
+            # Toolbox Talk Bingo (docs/easter-egg.md): the real per-station
+            # hazard-label pool (tools/gen_bingo_hazards.mjs), before the egg
+            # module and app.js that both read it.
+            SHARED / "bingo-hazards-data.js",
             SHARED / "eggs-app.js",
             # shared/tracking.js (docs/course-tracking.md) for the sign-off
             # panel, in dependency order: game.js has none, competency.js

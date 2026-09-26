@@ -150,12 +150,14 @@ await check("shared/radio-quiz-data.js is generated straight from tools/standard
   const end = rest.indexOf(";\nexport const RADIO_BODIES");
   assert(end !== -1, "radio-quiz-data.js does not export RADIO_BODIES after RADIO_STANDARDS as expected");
   const shipped = JSON.parse(rest.slice(0, end));
-  const want = (registry.standards ?? []).filter((s) => s?.id && s?.body && s?.title).map((s) => ({ id: s.id, body: s.body, title: s.title }));
+  const want = (registry.standards ?? []).filter((s) => s?.id && s?.body && s?.title)
+    .map((s) => ({ id: s.id, body: s.body, title: s.title, scope: Array.isArray(s.scope) ? [...s.scope].sort() : [] }));
   eq(shipped.length, want.length, "radio-quiz-data.js is stale — run node tools/gen_radio_quiz.mjs");
   for (let i = 0; i < want.length; i++) {
     eq(shipped[i].id, want[i].id, `radio-quiz-data.js entry ${i} id`);
     eq(shipped[i].body, want[i].body, `radio-quiz-data.js entry ${i} body`);
     eq(shipped[i].title, want[i].title, `radio-quiz-data.js entry ${i} title`);
+    eq(JSON.stringify(shipped[i].scope), JSON.stringify(want[i].scope), `radio-quiz-data.js entry ${i} scope — every scope fact still has to come straight from the registry`);
   }
 });
 
@@ -183,6 +185,51 @@ await check("the quiz generates ten distinct, honestly-sourced questions with on
     }
   }
 });
+
+// Every programme that landed recently gets its own honest quiz pool too: a
+// category-scoped buildQuiz() call still asks about nothing but a standard's
+// own body and title, just narrowed to standards in scope for that
+// programme's own trade (tools/standards.json's `scope`, carried through by
+// tools/gen_radio_quiz.mjs) — never a fact invented to pad a thin programme.
+const RADIO_PROGRAMME_CATEGORIES = {
+  "railroad-crafts": ["Mobility & Transit"],
+  "heavy-equipment-operators": ["Construction & Structural Trades"],
+  "plumbers-and-pipefitters": ["Building Systems & Facilities"],
+  "bay-restoration-maritime-underwater": ["Maritime & Ports"],
+  "basketball-fundamentals": ["Youth Sports & Coaching"],
+  // The four open-range (or-*) stations, each in its own station's own
+  // category rather than one district-wide category of their own.
+  "open-range": ["Energy & Power", "Construction & Structural Trades", "Emergency Services"],
+};
+
+await check("every recently-landed programme's own category has at least six honest quiz questions", async () => {
+  const quiz = await import(pathToFileURL(join(SHARED, "radio-quiz.js")));
+  const { RADIO_STANDARDS, RADIO_CATEGORIES } = await import(pathToFileURL(join(SHARED, "radio-quiz-data.js")));
+  const byId = new Map(RADIO_STANDARDS.map((s) => [s.id, s]));
+  for (const [programme, categories] of Object.entries(RADIO_PROGRAMME_CATEGORIES)) {
+    for (const category of categories) {
+      assert(RADIO_CATEGORIES.includes(category), `${programme}: "${category}" is not a catalog category the registry knows`);
+      const questions = quiz.buildQuiz(10, { rng: quiz.makeRng(eggSeedFor(programme, category)), category });
+      assert(questions.length >= 6, `${programme} (${category}): only ${questions.length} in-scope question(s), need at least 6`);
+      const ids = new Set(questions.map((q) => q.standardId));
+      eq(ids.size, questions.length, `${programme} (${category}): questions must be distinct`);
+      for (const q of questions) {
+        const standard = byId.get(q.standardId);
+        assert(standard, `${programme} (${category}): question cites a standard not in the registry`);
+        assert(standard.scope.includes(category), `${programme} (${category}): ${q.standardId} is out of scope for this category`);
+        eq(new Set(q.choices).size, 4, `${programme} (${category}): ${q.id} repeats a choice`);
+        eq(q.choices[q.answerIndex], standard.body, `${programme} (${category}): ${q.id}'s marked answer is not the standard's real body`);
+      }
+    }
+  }
+});
+
+/** A small deterministic seed from a string, for the per-programme quiz check above. */
+function eggSeedFor(...parts) {
+  let h = 0x811c9dc5;
+  for (const p of parts) for (const ch of String(p)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h >>> 0;
+}
 
 await check("the best radio-quiz score round-trips through localStorage", async () => {
   const quiz = await import(pathToFileURL(join(SHARED, "radio-quiz.js")));

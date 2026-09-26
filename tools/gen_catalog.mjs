@@ -144,3 +144,7 @@ writeRadioQuizData();
 // a ladder, regenerated from the ladders that gen_ladders.mjs just wrote.
 const { writeCapstoneLiveries } = await import("./gen_capstone_liveries.mjs");
 writeCapstoneLiveries();
+// Toolbox Talk Bingo's per-station hazard-label pool (docs/easter-egg.md) —
+// regenerated here too, so it can never drift from a station's own hazards.
+const { writeBingoHazardsData } = await import("./gen_bingo_hazards.mjs");
+await writeBingoHazardsData();

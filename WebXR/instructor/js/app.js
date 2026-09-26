@@ -6,8 +6,11 @@ import { buildRoster, matchStation, matchProgramme } from "./roster.js";
 // a date and a note attesting a learner's level, never a credential.
 import { SignOffs } from "../../shared/tracking.js";
 // Toolbox Talk Bingo (docs/easter-egg.md, "Inside the apps") — a printable
-// card for the room, generated from this console's own live roster.
+// card for the room, generated from this console's own live roster, topped
+// up with each roster station's own real hazard vocabulary before the
+// generic padding list (tools/gen_bingo_hazards.mjs).
 import { mountInstructorEggs } from "../../shared/eggs-app.js";
+import { STATION_HAZARDS } from "../../shared/bingo-hazards-data.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
 // the sessions it can hear — other tabs on this machine over a
@@ -604,4 +607,4 @@ setInterval(() => bus.roll(), 15000);
 setInterval(render, 1000);
 render();
 
-mountInstructorEggs({ getRoster: () => roster });
+mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS });
