@@ -102,6 +102,10 @@ APPS = {
             SHARED / "platform.js",
             SHARED / "flowhub.js",
             SHARED / "ladder.js",
+            # My Training, refreshers due, sign-offs and the transcript
+            # (docs/course-tracking.md); needs a11y.js, records.js and
+            # ladder.js, all already listed above.
+            SHARED / "tracking.js",
             SHARED / "variants.js",
             # Random events (docs/events.md): the seeded ambient scheduler and
             # the interrupt-timing jitter every station gets for free.
@@ -172,6 +176,16 @@ APPS = {
             WEBXR / "instructor/js/roster.js",
             # Toolbox Talk Bingo (docs/easter-egg.md).
             SHARED / "eggs-app.js",
+            # shared/tracking.js (docs/course-tracking.md) for the sign-off
+            # panel, in dependency order: game.js has none, competency.js
+            # needs game.js, ladder.js needs competency.js, tracking.js needs
+            # ladder.js, a11y.js and records.js.
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "ladder.js",
+            SHARED / "a11y.js",
+            SHARED / "records.js",
+            SHARED / "tracking.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

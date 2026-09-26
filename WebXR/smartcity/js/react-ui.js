@@ -78,6 +78,7 @@ const INTRO_BUTTONS = [
   { id: "enter-flat", label: "Free explore", action: "enterFlat" },
   { id: "view-leaderboard", label: "Leaderboards", action: "viewLeaderboard" },
   { id: "view-records", label: "Training records", action: "viewRecords" },
+  { id: "view-training", label: "My Training", action: "viewMyTraining" },
   { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
   { id: "view-flows", label: "Flows", action: "viewFlows" },
   { id: "open-signin", label: "Sign in", action: "viewSignIn" },
@@ -905,6 +906,73 @@ export function mountUI(store, actions) {
             lrs.error && h("p", { className: "lrs-error", role: "alert" }, lrs.error)));
   }
 
+  /** Whole seconds as "Hh Mm" / "Mm" / "Ss" — a card a learner reads, not a
+   *  stopwatch readout. Mirrors shared/tracking.js's clockText(). */
+  function fmtDuration(totalSeconds) {
+    const s = Math.max(0, Math.round(totalSeconds | 0));
+    const hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+    if (hh) return `${hh}h ${mm}m`;
+    if (mm) return `${mm}m ${ss}s`;
+    return `${ss}s`;
+  }
+
+  /**
+   * My Training (shared/tracking.js, docs/course-tracking.md): the union-
+   * accountability card. Every programme the learner has touched — levels,
+   * lessons, measured time on task, the last station and next level, badges
+   * and standards evidenced, refreshers due, and any instructor sign-off —
+   * plus the platform-wide streak and the gamification it earns. Plain data
+   * throughout: a station name, a crew tag and an instructor's own note are
+   * all untrusted here, the same rule the Records card follows.
+   */
+  function MyTrainingCard() {
+    const tr = useSlice("training");
+    if (!tr.visible) return h("div", { className: "overlay", id: "training", hidden: true });
+    const rows = tr.rows ?? [];
+    return h("div", { className: "overlay", id: "training", role: "dialog", "aria-modal": "true", "aria-label": "My Training" },
+      h("div", { className: "card card-wide" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · my training"),
+        h("h1", null, "My Training"),
+        h("p", { className: "lead" },
+          `${tr.streak.days} consecutive training day${tr.streak.days === 1 ? "" : "s"}${tr.streak.active ? "" : " (not current)"}` +
+          (tr.streakBonusXp ? ` — ${tr.streakBonusXp} bonus XP for the streak` : "") +
+          (tr.hazardFreeWeek ? ` · Hazard-Free Week badge earned (${tr.hazardFreeWeek.weeks} week${tr.hazardFreeWeek.weeks === 1 ? "" : "s"})` : "") +
+          ". Built from this browser's own training record — nothing here is a credential."),
+        rows.length
+          ? h("div", { className: "training-list" }, rows.map((p) => h("section", { key: p.id, className: "training-card" },
+              h("header", { className: "training-head" },
+                h("h2", null, p.name),
+                h("div", { className: "training-count" }, `${p.levelsCompleted}/${p.levelsTotal} levels`)),
+              h("p", { className: "training-meta" },
+                `${p.lessonsCompleted} of ${p.lessonsTotal} lessons · time on task ${fmtDuration(p.timeOnTaskSeconds)}`),
+              h("p", { className: "training-meta" },
+                `${p.lastStation ? `Last station: ${p.lastStation}` : "No station played yet"}` +
+                (p.nextLevel ? ` · Next level: ${p.nextLevel.n} — ${p.nextLevel.title}` : " · Ladder complete")),
+              h("p", { className: "training-line" },
+                h("b", null, "Badges: "), p.badgesEarned.length ? p.badgesEarned.join(", ") : "none yet",
+                p.cleanRunBadges.length ? `; ${p.cleanRunBadges.map((b) => b.label).join(", ")}` : ""),
+              h("p", { className: "training-line" },
+                h("b", null, "Standards evidenced: "), p.standardsEvidenced.length ? p.standardsEvidenced.join("; ") : "none yet"),
+              p.refreshersDue.length > 0 && h("p", { className: "training-due" },
+                h("b", null, "Refreshers due "), `(${p.dueLabel}): `,
+                p.refreshersDue.map((d) => `${d.stationName} — ${d.overdueDays}d overdue`).join(", ")),
+              p.onTimeRefreshers > 0 && h("p", { className: "training-line" },
+                `${p.onTimeRefreshers} refresher${p.onTimeRefreshers === 1 ? "" : "s"} completed on time this programme.`),
+              p.signOffs.length > 0 && h("div", { className: "training-attest" },
+                h("div", { className: "eyebrow" }, "Instructor attestation"),
+                h("ul", null, p.signOffs.map((s) => h("li", { key: s.id },
+                  `Level ${s.level}, attested by ${s.instructor} on ${String(s.at).slice(0, 10)}`,
+                  s.note ? ` — ${s.note}` : "")))),
+              p.leaderboard.length > 1 && h("div", { className: "training-board" },
+                h("div", { className: "eyebrow" }, "Programme leaderboard · lessons completed"),
+                h("ol", null, p.leaderboard.map((r) => h("li", { key: r.name }, `${r.name} — ${r.lessonsCompleted} lessons`)))))))
+          : h("p", { className: "lb-empty" }, "No programme trained yet — finish a station and its programme will appear here."),
+        h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "training-export-json", disabled: !rows.length, onClick: actions.exportTranscriptJson }, "Export transcript (JSON)"),
+          h("button", { id: "training-print", disabled: !rows.length, onClick: actions.printTrainingTranscript }, "Print transcript"),
+          h("button", { id: "training-close", onClick: actions.closeMyTraining }, "Close"))));
+  }
+
   function EditorStepRow({ step, i, count }) {
     return h("div", { className: `ed-step${step.on ? "" : " off"}` },
       h("input", { type: "checkbox", checked: step.on, onChange: (e) => actions.edToggleStep(i, e.target.checked) }),
@@ -1166,7 +1234,7 @@ export function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(MyTrainingCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
   }
 

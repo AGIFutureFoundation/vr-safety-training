@@ -58,7 +58,7 @@ function timeMs(at) {
 }
 
 /** Whole seconds as "Hh Mm" / "Mm" / "Ss", for a card a learner reads. */
-export function clockText(totalSeconds) {
+export function durationText(totalSeconds) {
   const s = Math.max(0, Math.round(totalSeconds | 0));
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
   if (h) return `${h}h ${m}m`;
@@ -319,7 +319,7 @@ export function transcriptHtml(data) {
   const sections = data.programmes.map((p) => `
     <section>
       <h2>${esc(p.name ?? p.id ?? "Programme")}</h2>
-      <p class="meta">${p.levelsCompleted} of ${p.levelsTotal} levels complete &middot; ${p.lessonsCompleted} of ${p.lessonsTotal} lessons &middot; time on task ${esc(clockText(p.timeOnTaskSeconds))}</p>
+      <p class="meta">${p.levelsCompleted} of ${p.levelsTotal} levels complete &middot; ${p.lessonsCompleted} of ${p.lessonsTotal} lessons &middot; time on task ${esc(durationText(p.timeOnTaskSeconds))}</p>
       <p class="meta">${p.lastStation ? `Last station: ${esc(p.lastStation)}` : "No station played yet"}${p.nextLevel ? ` &middot; Next level: ${p.nextLevel.n} &mdash; ${esc(p.nextLevel.title)}` : ""}</p>
       <p>Badges earned: ${p.badgesEarned.length ? p.badgesEarned.map(esc).join(", ") : "none yet"}</p>
       <p>Standards evidenced: ${p.standardsEvidenced.length ? p.standardsEvidenced.map(esc).join("; ") : "none yet"}</p>
@@ -347,7 +347,7 @@ export function transcriptHtml(data) {
   <p class="eyebrow">SmartCiti.X &middot; training activity record</p>
   <h1>Training Activity Record</h1>
   <p class="disclaimer"><b>${esc(data.disclaimer)}</b></p>
-  <p class="meta">${esc(data.learner)} &middot; ${t.attempts} attempt${t.attempts === 1 ? "" : "s"} &middot; time on task ${esc(clockText(t.timeOnTaskSeconds))} &middot; ${t.streak.days} consecutive training day${t.streak.days === 1 ? "" : "s"}${t.streak.active ? " (current)" : ""}</p>
+  <p class="meta">${esc(data.learner)} &middot; ${t.attempts} attempt${t.attempts === 1 ? "" : "s"} &middot; time on task ${esc(durationText(t.timeOnTaskSeconds))} &middot; ${t.streak.days} consecutive training day${t.streak.days === 1 ? "" : "s"}${t.streak.active ? " (current)" : ""}</p>
 ${sections}
   <footer>Generated ${esc(fmtStamp(data.generatedAt))} from this browser's own training record. A level's instructor attestation records that an instructor watched and signed it; it is not a licence or a certification issued by any standards body.</footer>
 </body>

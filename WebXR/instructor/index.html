@@ -179,6 +179,19 @@
             <button id="assign" class="small">Assign</button>
             <button id="open-programme" class="small">Open now</button>
           </div>
+          <h3>Instructor sign-off</h3>
+          <p class="fine">Attest that you watched this learner complete a level, in the programme selected above.
+            Stored as a dated attestation with your name and note — never a credential, and shown on the learner's
+            transcript as "instructor attestation."</p>
+          <div class="row">
+            <input type="number" id="signoff-level" min="1" max="20" placeholder="Level #" aria-label="Level number to sign off" style="width:6em">
+            <input type="text" id="signoff-instructor" placeholder="Your name" autocomplete="off" aria-label="Instructor name">
+          </div>
+          <div class="row" style="margin-top:8px">
+            <input type="text" id="signoff-note" placeholder="Note (optional)" autocomplete="off" aria-label="Sign-off note">
+            <button id="signoff-btn" class="primary small">Sign off</button>
+          </div>
+          <ul class="ints" id="signoff-list" aria-label="Sign-offs on file for this learner and programme"></ul>
           <h3>Flow</h3>
           <div class="row">
             <select id="flow-pick" aria-label="Example flow to load"></select>
