@@ -17,7 +17,7 @@
  * Every station in both apps goes through the splitter, so the guarantee is
  * about the splitter rather than about the handful of stations it splits.
  */
-import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
+import { loadSmartCity, loadTrades, buildSuite } from "./lib/headless.mjs";
 import { ROLES, PAIRS, splitByRole, roleView, roleViews, describeSplit } from "../WebXR/shared/crew.js";
 
 const city = await loadSmartCity();
@@ -256,6 +256,62 @@ if (alone) {
 }
 
 if (!failures) for (const line of splitNames) console.log(`    · ${line}`);
+
+// -------------------------------------------------------------- the figures
+//
+// A "crew" is not just the role split above; it is standingFigure itself —
+// the person every station and every role view stands in the room. That
+// contract is independent of any one station, so it is held here rather than
+// re-checked once per caller: every named outfit has to build without
+// throwing, every one has to stay inside the mesh budget the rest of this
+// platform holds every station to, and the seed that is supposed to vary a
+// crew's face has to actually vary it — the whole reason a crew reads as six
+// people and not one person stood in six places.
+{
+  const figures = await buildSuite(
+    ["shared/kit.js", "smartcity/js/citykit.js"],
+    "export { THREE, standingFigure, OUTFITS, figureLook };",
+    "check-crew-figures",
+  );
+  const { THREE: FTHREE, standingFigure, OUTFITS, figureLook } = figures;
+  // Today's richest gear combination (helmet, vest, gloves, a tool belt) cost
+  // 15 meshes; the brief for this figure allows two more, spent on the ears —
+  // so 17 is the ceiling regardless of which outfit is asked for.
+  const FIGURE_MESH_BUDGET = 17;
+
+  function meshCount(build) {
+    const root = new FTHREE.Group();
+    build(root);
+    let n = 0;
+    root.traverse((o) => { if (o.isMesh || o.isPoints || o.isLine) n += 1; });
+    return n;
+  }
+
+  for (const name of Object.keys(OUTFITS)) {
+    let n;
+    try {
+      n = meshCount((root) => standingFigure(root, 0, 0, { outfit: name }));
+    } catch (e) {
+      bad(`figures/${name}: standingFigure threw building this outfit — ${e.message}`);
+      continue;
+    }
+    if (n > FIGURE_MESH_BUDGET) bad(`figures/${name}: ${n} meshes, over the ${FIGURE_MESH_BUDGET}-mesh figure budget`);
+    else ok(`figures/${name}: ${n} meshes, within the ${FIGURE_MESH_BUDGET}-mesh figure budget`);
+  }
+
+  // Six positions, the way six coworkers would stand in a bay: skin, hair
+  // colour, hair style and face variant all come off the same seed, so any
+  // one differing is enough that two of them are not the same person.
+  const spots = [[0, 0], [1.2, 0], [0, 1.4], [-2, 3], [4, -1], [6.6, 2.2]];
+  const looks = spots.map(([x, z]) => figureLook({}, x, z));
+  const keys = looks.map((l) => `${l.skin}|${l.hair}|${l.style}|${l.face}`);
+  const uniq = new Set(keys);
+  if (uniq.size < keys.length) {
+    bad(`figures: ${keys.length - uniq.size} of ${keys.length} seeded look(s) collided — a crew this size would repeat a face`);
+  } else {
+    ok(`figures: ${keys.length} crew positions seeded ${uniq.size} distinct looks (skin, hair, style and face all vary)`);
+  }
+}
 
 console.log(failures ? `\n${failures} crew-role problem(s) found.` : "\nAll crew-role checks pass.");
 process.exit(failures ? 1 : 0);

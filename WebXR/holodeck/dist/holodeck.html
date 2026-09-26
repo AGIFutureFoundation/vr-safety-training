@@ -2653,10 +2653,11 @@ function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 //     when the caller does not name them, so a station gets a crew rather than
 //     sextuplets.
 //
-// Mesh budget, per figure, standing: torso, pelvis, head, face, hair (or a
-// helmet and its chin strap, or a cap), two legs, two boots, two upper arms,
-// two forearms = 13, which is exactly what the old stand-in cost, and one less
-// than the same figure in hi-vis cost before the bands were painted. The hand
+// Mesh budget, per figure, standing: torso, pelvis, head, ears, face, hair
+// (or a helmet and its chin strap, or a cap, a scrub cap or a dive hood), two
+// legs, two boots, two upper arms, two forearms = 14 — one over what the old
+// stand-in cost, spent entirely on the ears, and still one less than the same
+// figure in hi-vis cost before the bands were painted. The hand
 // is the end of the forearm lathe rather than a mesh of its own — the wrist
 // pinch, palm and thumb pad are in that profile — because a separate hand on
 // each arm would have made the figure 15. Safety glasses and a tool belt are
@@ -2682,6 +2683,99 @@ const WORK_TONES = [
 const TROUSER_TONES = [
   0x2f3740, 0x343d47, 0x293037, 0x3b4450, 0x3d4340, 0x2c3642,
 ];
+
+// ------------------------------------------------------------------ outfits
+//
+// Trade-correct gear, by name, for standingFigure/standingPerson. An outfit
+// only fills in the options a caller left unnamed — `helmet: true`, `vest:
+// true` and so on mean "yes, wear this," so the figure's own seeded skin,
+// hair and cloth colour still vary the way they always have; an outfit never
+// overrides a colour or a garment the caller actually named. This is what
+// lets an existing standingFigure(...) call improve with no edit to the
+// station that makes it: the station names none of this, so it all comes
+// from the outfit its category resolves to (see outfitFromContext below).
+const OUTFITS = {
+  construction: { helmet: true, vest: true, gloves: true, glasses: true },
+  clinical: { scrubCap: true, glasses: true, gloves: 0xe8e2d8 },
+  marine: { vest: true, gloves: true },
+  kitchen: { cap: 0xf2f0ea, gloves: 0xe8e2d8 },
+  office: {},
+  sport: {},
+  firefighter: { helmet: 0xd8342a, vest: true, bands: 0xf2c14b, gloves: 0x2b2f33, boots: 0x1b1e22 },
+  diver: { diveHood: true, mask: true, gloves: 0x2b2f33, boots: 0x2b2f33 },
+};
+
+// A station's own `category` (shared/curricula.js's ten-domain taxonomy)
+// maps onto an outfit directly where the trade is unambiguous; anything not
+// listed falls through to the keyword guesses below and, failing those, to
+// "office" — plain clothes, not a hard hat, because a category this cannot
+// place is exactly the case where guessing PPE would be more often wrong
+// than doing nothing.
+const CATEGORY_OUTFITS = {
+  "Construction & Structural Trades": "construction",
+  "Building Systems & Facilities": "construction",
+  "Connectivity & Telecom": "construction",
+  "Energy & Power": "construction",
+  "Manufacturing & Automation": "construction",
+  "Surface Prep & Coatings": "construction",
+  "Entertainment & Live Events": "construction",
+  "Environmental Monitoring": "construction",
+  "Mobility & Transit": "construction",
+  "Water & Environmental": "construction",
+  "Sewing & Garment Trades": "office",
+  "Maritime & Ports": "marine",
+  "Dental & Oral Health": "clinical",
+  "Culinary & Hospitality": "kitchen",
+  "Youth Sports & Coaching": "sport",
+  "Emergency Services": "firefighter",
+  "Community Environmental Justice": "office",
+};
+
+/**
+ * The outfit name a free-text context (a station's category, trade or id)
+ * resolves to. Exact category text is the fast path; everything else is a
+ * keyword guess over whatever string was handed in, so a caller can pass a
+ * category, a domain, an id, or all three joined together.
+ */
+function outfitFromContext(text = "") {
+  const raw = String(text ?? "");
+  if (CATEGORY_OUTFITS[raw]) return CATEGORY_OUTFITS[raw];
+  const t = raw.toLowerCase();
+  if (!t) return "office";
+  for (const [cat, name] of Object.entries(CATEGORY_OUTFITS)) {
+    if (t.includes(cat.toLowerCase())) return name;
+  }
+  if (/\bdive|diving|scuba|underwater\b/.test(t)) return "diver";
+  if (/marine|maritime|vessel|dock|port\b|\bbay\b|ferry|ship/.test(t)) return "marine";
+  if (/dental|oral|clinic|medical|health|hygien|patient|nurse/.test(t)) return "clinical";
+  if (/culinary|kitchen|hospitality|banquet|food|bakery|bartend|bar\b/.test(t)) return "kitchen";
+  if (/sport|coaching|basketball|athlet/.test(t)) return "sport";
+  if (/\bfire\b|firefight|hazmat|rescue/.test(t)) return "firefighter";
+  if (/construction|structural|energy|power|telecom|connectivity|manufactur|automation|surface prep|coating|environmental|water|transit|mobility|rigging|entertainment|scaffold|welding|electrical|crane/.test(t)) return "construction";
+  return "office";
+}
+
+// The station whose crew is being built right now, as free text (its
+// category, usually) — set by the app right before a room's build() runs, so
+// standingFigure can resolve an outfit without every station having to name
+// its own trade. Never used for anything else, and never trusted with more
+// than "what does this figure look like".
+//
+// Held on globalThis rather than a plain module-level variable: SmartCiti.X's
+// dist build inlines this file once for app.js/apron.js/stage.js and copies
+// it again, unmodified, for the sims that are lazy-loaded via a real
+// dynamic import() (see tools/bundle_webxr.py) — two separate module
+// instances of this same source, each with its own module scope. A `let`
+// here would only ever be seen by whichever copy set it. globalThis is the
+// one thing both copies share.
+const CONTEXT_KEY = "__smartcitix_active_context";
+/** Called by the app immediately before a station builds its scene. */
+function setActiveContext(text) {
+  try { globalThis[CONTEXT_KEY] = text || ""; } catch { /* no global object (very old headless stub) */ }
+}
+function getActiveContext() {
+  try { return globalThis[CONTEXT_KEY] || ""; } catch { return ""; }
+}
 
 // Brows, eye opening, lip shape and the soft shading that turns a decal into a
 // face. Six combinations is enough that a crew of six is six faces, and few
@@ -2739,7 +2833,7 @@ const HAIR_STYLES = [
   },
   { // 4 — long, to the nape
     profile: [[0.050, -0.170], [0.094, -0.150], [0.112, -0.110], [0.126, -0.060], [0.132, 0.000], [0.130, 0.056], [0.120, 0.098], [0.090, 0.126], [0.042, 0.142], [0.001, 0.148]],
-    sx: 1.06, sz: 1.14, dz: -0.046, tilt: -0.08,
+    sx: 1.30, sz: 1.18, dz: -0.040, tilt: -0.08,
   },
   { // 5 — close fade
     profile: [[0.072, -0.040], [0.116, 0.028], [0.118, 0.062], [0.115, 0.092], [0.098, 0.116], [0.058, 0.132], [0.001, 0.138]],
@@ -2774,6 +2868,28 @@ const GLASSES_PROFILE = [
 const RESPIRATOR_PROFILE = [
   [0.060, 0.000], [0.058, 0.025], [0.048, 0.055], [0.030, 0.072], [0.001, 0.078],
 ];
+// Both ears, one mesh: a small pinna profile swept the whole way round the
+// head like everything else in this file, but gated by angle (earGate below)
+// so it only surfaces near the two ear positions and collapses to a sliver on
+// the skull's own axis everywhere else — the same trick the cap's peak and
+// the glasses' temples already use to keep a one-sided feature to one mesh.
+//
+// Set low, at jaw height rather than temple height: every hair style's first
+// ring sits well above here (a crop or a fade has no hair mesh at all below
+// its hairline, by design — see HAIR_STYLES), so a short style shows the ear
+// against bare skin the way it would in life, while a bob or the long style,
+// whose hair genuinely reaches this low, still covers it. Sitting the ear at
+// eye height instead put it mid-mass in every short style, where a skin-toned
+// bump broke through a lighter hair colour as a stray dark blotch.
+const EAR_PROFILE = [
+  [0.001, -0.086], [0.046, -0.076], [0.056, -0.052], [0.050, -0.028], [0.001, -0.014],
+];
+/** 1 at the two ear angles (u≈0.25 right, u≈0.75 left), 0 everywhere else. */
+function earGate(u) {
+  const r = Math.pow(Math.max(0, Math.cos((u - 0.25) * TAU)), 10);
+  const l = Math.pow(Math.max(0, Math.cos((u - 0.75) * TAU)), 10);
+  return Math.max(r, l);
+}
 const PELVIS_PROFILE = [
   [0.001, 0.775], [0.120, 0.790], [0.148, 0.835], [0.150, 0.895],
   [0.132, 0.935], [0.001, 0.950],
@@ -3377,8 +3493,12 @@ function faceFace(variant = 0, o = {}) {
  * position is never this function's business.
  *
  * `helmet` replaces the hair with a hard hat and a chin strap; `cap` replaces
- * it with a baseball cap, one mesh, and wins over `helmet` when both are named;
- * `glasses` adds a wrap lens; `respirator` adds a half mask over nose and mouth.
+ * it with a baseball cap, `scrubCap` a soft brimless surgical cap and
+ * `diveHood` a neoprene hood — one mesh each, and only one wins, in that
+ * order (diveHood, scrubCap, cap, helmet, hair). `glasses` adds a wrap lens;
+ * `mask` replaces it with a dive mask over the same mesh, so a diver never
+ * pays for both; `respirator` adds a half mask over nose and mouth. Both ears
+ * are always there, one mesh, however the head is dressed.
  */
 function personHead(head, o = {}) {
   const look = o.look ?? figureLook(o);
@@ -3388,6 +3508,13 @@ function personHead(head, o = {}) {
   const k = o.k ?? 1;
   const skull = lathe(head, HEAD_PROFILE, 0, 0, 0, look.skin, { rough: 0.72, seg: 18 });
   skull.scale.set(0.95 * k, k, 1.02 * k);
+  // Both ears in one sweep, gated to the two sides and pulled back a touch so
+  // they read as set behind the jaw rather than glued flat to the cheek.
+  const ears = sweep(head, EAR_PROFILE, (u) => {
+    const g = earGate(u);
+    return { r: 0.03 + g * 1.9, z: -g * 0.016 };
+  }, 0, 0, 0, look.skin, { rough: 0.72, seg: 24 });
+  ears.scale.set(0.95 * k, k, 1.02 * k);
   // The face card sits just clear of the front of the skull. Its canvas is
   // transparent apart from the features, so the card itself cannot be seen.
   const face = decal(head, 0.120 * k, 0.115 * k, 0, -0.008 * k, 0.117 * k,
@@ -3395,7 +3522,20 @@ function personHead(head, o = {}) {
       brow: hex(look.hair),
       iris: IRIS_TONES[((look.seed ?? 0) >>> 7) % IRIS_TONES.length],
     }), { px: 512, transparent: true, rough: 0.68 });
-  if (o.cap) {
+  if (o.diveHood) {
+    // A close neoprene hood: the cap's own crown with no peak carried out —
+    // the same brimless shell scrubCap uses below, sized up a little and
+    // matte rather than tucked, since a hood comes down over the ears and a
+    // hard hat's flared brim would read as a sun hat underwater.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.diveHood === true ? 0x14171a : o.diveHood, { rough: 0.55, metal: 0.05, seg: 20, side: 2 });
+    shell.scale.set(1.02 * k, 1.06 * k, 1.08 * k);
+  } else if (o.scrubCap) {
+    // The cap's own crown with no peak carried out — round and brimless.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.scrubCap === true ? 0x5b8fae : o.scrubCap, { rough: 0.7, seg: 20, side: 2 });
+    shell.scale.set(0.97 * k, k, 1.03 * k);
+  } else if (o.cap) {
     const peak = (u, t, r, y, j) => {
       // Dead ahead only, and falling away fast: a peak that reaches round to
       // the ears is a sun hat, not a ball cap.
@@ -3424,13 +3564,22 @@ function personHead(head, o = {}) {
     cap.scale.set(0.95 * s.sx * k, k, 1.02 * s.sz * k);
     cap.rotation.x = s.tilt;
   }
-  if (o.glasses) {
-    // Full radius across the front and temples, tucked inside the skull behind
-    // the ears so the one mesh stops where a real pair of arms would.
-    const wrap = (u) => {
-      const behind = (1 - Math.cos(u * TAU)) / 2;
-      return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
-    };
+  // Full radius across the front and temples, tucked inside the skull behind
+  // the ears so the one mesh stops where a real pair of arms would — shared
+  // by safety glasses and a dive mask, which never appear on the same head.
+  const wrap = (u) => {
+    const behind = (1 - Math.cos(u * TAU)) / 2;
+    return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
+  };
+  if (o.mask) {
+    // A dive mask: the same wrap, sized up over the nose, glazed a cool
+    // blue-grey rather than the hood's flat black so the two read as two
+    // parts (skirt and lens) instead of merging into one dark shape.
+    const lens = sweep(head, GLASSES_PROFILE, wrap, 0, -0.010 * k, 0,
+      o.mask === true ? 0x33434f : o.mask,
+      { rough: 0.22, metal: 0.1, opacity: 0.8, seg: 22, cast: false });
+    lens.scale.set(1.05 * k, 1.22 * k, 1.08 * k);
+  } else if (o.glasses) {
     const lens = sweep(head, GLASSES_PROFILE, wrap, 0, 0, 0,
       o.glasses === true ? 0xaebfcb : o.glasses,
       { rough: 0.20, metal: 0.2, opacity: 0.42, seg: 22, cast: false });
@@ -3444,7 +3593,7 @@ function personHead(head, o = {}) {
     cup.rotation.x = Math.PI / 2;
     cup.scale.set(1.15 * k, k, 0.82 * k);
   }
-  return { skull, face };
+  return { skull, face, ears };
 }
 
 /**

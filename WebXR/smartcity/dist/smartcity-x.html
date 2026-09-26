@@ -3241,10 +3241,11 @@ function cabinet(parent, w, h, d, x, y, z, color = 0xd7dce1, o = {}) {
 //     when the caller does not name them, so a station gets a crew rather than
 //     sextuplets.
 //
-// Mesh budget, per figure, standing: torso, pelvis, head, face, hair (or a
-// helmet and its chin strap, or a cap), two legs, two boots, two upper arms,
-// two forearms = 13, which is exactly what the old stand-in cost, and one less
-// than the same figure in hi-vis cost before the bands were painted. The hand
+// Mesh budget, per figure, standing: torso, pelvis, head, ears, face, hair
+// (or a helmet and its chin strap, or a cap, a scrub cap or a dive hood), two
+// legs, two boots, two upper arms, two forearms = 14 — one over what the old
+// stand-in cost, spent entirely on the ears, and still one less than the same
+// figure in hi-vis cost before the bands were painted. The hand
 // is the end of the forearm lathe rather than a mesh of its own — the wrist
 // pinch, palm and thumb pad are in that profile — because a separate hand on
 // each arm would have made the figure 15. Safety glasses and a tool belt are
@@ -3270,6 +3271,99 @@ const WORK_TONES = [
 const TROUSER_TONES = [
   0x2f3740, 0x343d47, 0x293037, 0x3b4450, 0x3d4340, 0x2c3642,
 ];
+
+// ------------------------------------------------------------------ outfits
+//
+// Trade-correct gear, by name, for standingFigure/standingPerson. An outfit
+// only fills in the options a caller left unnamed — `helmet: true`, `vest:
+// true` and so on mean "yes, wear this," so the figure's own seeded skin,
+// hair and cloth colour still vary the way they always have; an outfit never
+// overrides a colour or a garment the caller actually named. This is what
+// lets an existing standingFigure(...) call improve with no edit to the
+// station that makes it: the station names none of this, so it all comes
+// from the outfit its category resolves to (see outfitFromContext below).
+const OUTFITS = {
+  construction: { helmet: true, vest: true, gloves: true, glasses: true },
+  clinical: { scrubCap: true, glasses: true, gloves: 0xe8e2d8 },
+  marine: { vest: true, gloves: true },
+  kitchen: { cap: 0xf2f0ea, gloves: 0xe8e2d8 },
+  office: {},
+  sport: {},
+  firefighter: { helmet: 0xd8342a, vest: true, bands: 0xf2c14b, gloves: 0x2b2f33, boots: 0x1b1e22 },
+  diver: { diveHood: true, mask: true, gloves: 0x2b2f33, boots: 0x2b2f33 },
+};
+
+// A station's own `category` (shared/curricula.js's ten-domain taxonomy)
+// maps onto an outfit directly where the trade is unambiguous; anything not
+// listed falls through to the keyword guesses below and, failing those, to
+// "office" — plain clothes, not a hard hat, because a category this cannot
+// place is exactly the case where guessing PPE would be more often wrong
+// than doing nothing.
+const CATEGORY_OUTFITS = {
+  "Construction & Structural Trades": "construction",
+  "Building Systems & Facilities": "construction",
+  "Connectivity & Telecom": "construction",
+  "Energy & Power": "construction",
+  "Manufacturing & Automation": "construction",
+  "Surface Prep & Coatings": "construction",
+  "Entertainment & Live Events": "construction",
+  "Environmental Monitoring": "construction",
+  "Mobility & Transit": "construction",
+  "Water & Environmental": "construction",
+  "Sewing & Garment Trades": "office",
+  "Maritime & Ports": "marine",
+  "Dental & Oral Health": "clinical",
+  "Culinary & Hospitality": "kitchen",
+  "Youth Sports & Coaching": "sport",
+  "Emergency Services": "firefighter",
+  "Community Environmental Justice": "office",
+};
+
+/**
+ * The outfit name a free-text context (a station's category, trade or id)
+ * resolves to. Exact category text is the fast path; everything else is a
+ * keyword guess over whatever string was handed in, so a caller can pass a
+ * category, a domain, an id, or all three joined together.
+ */
+function outfitFromContext(text = "") {
+  const raw = String(text ?? "");
+  if (CATEGORY_OUTFITS[raw]) return CATEGORY_OUTFITS[raw];
+  const t = raw.toLowerCase();
+  if (!t) return "office";
+  for (const [cat, name] of Object.entries(CATEGORY_OUTFITS)) {
+    if (t.includes(cat.toLowerCase())) return name;
+  }
+  if (/\bdive|diving|scuba|underwater\b/.test(t)) return "diver";
+  if (/marine|maritime|vessel|dock|port\b|\bbay\b|ferry|ship/.test(t)) return "marine";
+  if (/dental|oral|clinic|medical|health|hygien|patient|nurse/.test(t)) return "clinical";
+  if (/culinary|kitchen|hospitality|banquet|food|bakery|bartend|bar\b/.test(t)) return "kitchen";
+  if (/sport|coaching|basketball|athlet/.test(t)) return "sport";
+  if (/\bfire\b|firefight|hazmat|rescue/.test(t)) return "firefighter";
+  if (/construction|structural|energy|power|telecom|connectivity|manufactur|automation|surface prep|coating|environmental|water|transit|mobility|rigging|entertainment|scaffold|welding|electrical|crane/.test(t)) return "construction";
+  return "office";
+}
+
+// The station whose crew is being built right now, as free text (its
+// category, usually) — set by the app right before a room's build() runs, so
+// standingFigure can resolve an outfit without every station having to name
+// its own trade. Never used for anything else, and never trusted with more
+// than "what does this figure look like".
+//
+// Held on globalThis rather than a plain module-level variable: SmartCiti.X's
+// dist build inlines this file once for app.js/apron.js/stage.js and copies
+// it again, unmodified, for the sims that are lazy-loaded via a real
+// dynamic import() (see tools/bundle_webxr.py) — two separate module
+// instances of this same source, each with its own module scope. A `let`
+// here would only ever be seen by whichever copy set it. globalThis is the
+// one thing both copies share.
+const CONTEXT_KEY = "__smartcitix_active_context";
+/** Called by the app immediately before a station builds its scene. */
+function setActiveContext(text) {
+  try { globalThis[CONTEXT_KEY] = text || ""; } catch { /* no global object (very old headless stub) */ }
+}
+function getActiveContext() {
+  try { return globalThis[CONTEXT_KEY] || ""; } catch { return ""; }
+}
 
 // Brows, eye opening, lip shape and the soft shading that turns a decal into a
 // face. Six combinations is enough that a crew of six is six faces, and few
@@ -3327,7 +3421,7 @@ const HAIR_STYLES = [
   },
   { // 4 — long, to the nape
     profile: [[0.050, -0.170], [0.094, -0.150], [0.112, -0.110], [0.126, -0.060], [0.132, 0.000], [0.130, 0.056], [0.120, 0.098], [0.090, 0.126], [0.042, 0.142], [0.001, 0.148]],
-    sx: 1.06, sz: 1.14, dz: -0.046, tilt: -0.08,
+    sx: 1.30, sz: 1.18, dz: -0.040, tilt: -0.08,
   },
   { // 5 — close fade
     profile: [[0.072, -0.040], [0.116, 0.028], [0.118, 0.062], [0.115, 0.092], [0.098, 0.116], [0.058, 0.132], [0.001, 0.138]],
@@ -3362,6 +3456,28 @@ const GLASSES_PROFILE = [
 const RESPIRATOR_PROFILE = [
   [0.060, 0.000], [0.058, 0.025], [0.048, 0.055], [0.030, 0.072], [0.001, 0.078],
 ];
+// Both ears, one mesh: a small pinna profile swept the whole way round the
+// head like everything else in this file, but gated by angle (earGate below)
+// so it only surfaces near the two ear positions and collapses to a sliver on
+// the skull's own axis everywhere else — the same trick the cap's peak and
+// the glasses' temples already use to keep a one-sided feature to one mesh.
+//
+// Set low, at jaw height rather than temple height: every hair style's first
+// ring sits well above here (a crop or a fade has no hair mesh at all below
+// its hairline, by design — see HAIR_STYLES), so a short style shows the ear
+// against bare skin the way it would in life, while a bob or the long style,
+// whose hair genuinely reaches this low, still covers it. Sitting the ear at
+// eye height instead put it mid-mass in every short style, where a skin-toned
+// bump broke through a lighter hair colour as a stray dark blotch.
+const EAR_PROFILE = [
+  [0.001, -0.086], [0.046, -0.076], [0.056, -0.052], [0.050, -0.028], [0.001, -0.014],
+];
+/** 1 at the two ear angles (u≈0.25 right, u≈0.75 left), 0 everywhere else. */
+function earGate(u) {
+  const r = Math.pow(Math.max(0, Math.cos((u - 0.25) * TAU)), 10);
+  const l = Math.pow(Math.max(0, Math.cos((u - 0.75) * TAU)), 10);
+  return Math.max(r, l);
+}
 const PELVIS_PROFILE = [
   [0.001, 0.775], [0.120, 0.790], [0.148, 0.835], [0.150, 0.895],
   [0.132, 0.935], [0.001, 0.950],
@@ -3965,8 +4081,12 @@ function faceFace(variant = 0, o = {}) {
  * position is never this function's business.
  *
  * `helmet` replaces the hair with a hard hat and a chin strap; `cap` replaces
- * it with a baseball cap, one mesh, and wins over `helmet` when both are named;
- * `glasses` adds a wrap lens; `respirator` adds a half mask over nose and mouth.
+ * it with a baseball cap, `scrubCap` a soft brimless surgical cap and
+ * `diveHood` a neoprene hood — one mesh each, and only one wins, in that
+ * order (diveHood, scrubCap, cap, helmet, hair). `glasses` adds a wrap lens;
+ * `mask` replaces it with a dive mask over the same mesh, so a diver never
+ * pays for both; `respirator` adds a half mask over nose and mouth. Both ears
+ * are always there, one mesh, however the head is dressed.
  */
 function personHead(head, o = {}) {
   const look = o.look ?? figureLook(o);
@@ -3976,6 +4096,13 @@ function personHead(head, o = {}) {
   const k = o.k ?? 1;
   const skull = lathe(head, HEAD_PROFILE, 0, 0, 0, look.skin, { rough: 0.72, seg: 18 });
   skull.scale.set(0.95 * k, k, 1.02 * k);
+  // Both ears in one sweep, gated to the two sides and pulled back a touch so
+  // they read as set behind the jaw rather than glued flat to the cheek.
+  const ears = sweep(head, EAR_PROFILE, (u) => {
+    const g = earGate(u);
+    return { r: 0.03 + g * 1.9, z: -g * 0.016 };
+  }, 0, 0, 0, look.skin, { rough: 0.72, seg: 24 });
+  ears.scale.set(0.95 * k, k, 1.02 * k);
   // The face card sits just clear of the front of the skull. Its canvas is
   // transparent apart from the features, so the card itself cannot be seen.
   const face = decal(head, 0.120 * k, 0.115 * k, 0, -0.008 * k, 0.117 * k,
@@ -3983,7 +4110,20 @@ function personHead(head, o = {}) {
       brow: hex(look.hair),
       iris: IRIS_TONES[((look.seed ?? 0) >>> 7) % IRIS_TONES.length],
     }), { px: 512, transparent: true, rough: 0.68 });
-  if (o.cap) {
+  if (o.diveHood) {
+    // A close neoprene hood: the cap's own crown with no peak carried out —
+    // the same brimless shell scrubCap uses below, sized up a little and
+    // matte rather than tucked, since a hood comes down over the ears and a
+    // hard hat's flared brim would read as a sun hat underwater.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.diveHood === true ? 0x14171a : o.diveHood, { rough: 0.55, metal: 0.05, seg: 20, side: 2 });
+    shell.scale.set(1.02 * k, 1.06 * k, 1.08 * k);
+  } else if (o.scrubCap) {
+    // The cap's own crown with no peak carried out — round and brimless.
+    const shell = sweep(head, CAP_PROFILE, () => ({ r: 1 }), 0, 0, 0,
+      o.scrubCap === true ? 0x5b8fae : o.scrubCap, { rough: 0.7, seg: 20, side: 2 });
+    shell.scale.set(0.97 * k, k, 1.03 * k);
+  } else if (o.cap) {
     const peak = (u, t, r, y, j) => {
       // Dead ahead only, and falling away fast: a peak that reaches round to
       // the ears is a sun hat, not a ball cap.
@@ -4012,13 +4152,22 @@ function personHead(head, o = {}) {
     cap.scale.set(0.95 * s.sx * k, k, 1.02 * s.sz * k);
     cap.rotation.x = s.tilt;
   }
-  if (o.glasses) {
-    // Full radius across the front and temples, tucked inside the skull behind
-    // the ears so the one mesh stops where a real pair of arms would.
-    const wrap = (u) => {
-      const behind = (1 - Math.cos(u * TAU)) / 2;
-      return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
-    };
+  // Full radius across the front and temples, tucked inside the skull behind
+  // the ears so the one mesh stops where a real pair of arms would — shared
+  // by safety glasses and a dive mask, which never appear on the same head.
+  const wrap = (u) => {
+    const behind = (1 - Math.cos(u * TAU)) / 2;
+    return { r: 1 - 0.26 * Math.max(0, (behind - 0.60) / 0.40) };
+  };
+  if (o.mask) {
+    // A dive mask: the same wrap, sized up over the nose, glazed a cool
+    // blue-grey rather than the hood's flat black so the two read as two
+    // parts (skirt and lens) instead of merging into one dark shape.
+    const lens = sweep(head, GLASSES_PROFILE, wrap, 0, -0.010 * k, 0,
+      o.mask === true ? 0x33434f : o.mask,
+      { rough: 0.22, metal: 0.1, opacity: 0.8, seg: 22, cast: false });
+    lens.scale.set(1.05 * k, 1.22 * k, 1.08 * k);
+  } else if (o.glasses) {
     const lens = sweep(head, GLASSES_PROFILE, wrap, 0, 0, 0,
       o.glasses === true ? 0xaebfcb : o.glasses,
       { rough: 0.20, metal: 0.2, opacity: 0.42, seg: 22, cast: false });
@@ -4032,7 +4181,7 @@ function personHead(head, o = {}) {
     cup.rotation.x = Math.PI / 2;
     cup.scale.set(1.15 * k, k, 0.82 * k);
   }
-  return { skull, face };
+  return { skull, face, ears };
 }
 
 /**
@@ -16453,25 +16602,42 @@ function instrument(parent, x, y, z, o = {}) {
   return g;
 }
 
+/** true/a colour/undefined, resolved against an outfit default, to a paint colour or null. */
+function resolveTint(explicit, fallback, defaultColor) {
+  const v = explicit ?? fallback ?? null;
+  if (v === true) return defaultColor;
+  return v || null;
+}
+
 /**
  * Standing figure — casualties, bystanders, crew members.
  *
  * Built from the shared figure parts in shared/kit.js, so a SmartCiti.X crew
  * member and a Trade Skills bay hand are the same person in different work
- * dress. Thirteen meshes bare, which is what the old block-and-ball stand-in
- * cost: see the people section of kit.js for where each one goes.
+ * dress. Fourteen meshes bare — see the people section of kit.js for where
+ * each one goes and why that is one more than the old stand-in cost.
  *
  * `skin`, `cloth`, `trousers` and `seed` are optional — left alone, the figure
  * takes a skin tone, a hair colour, a hair style, one of six faces and its work
  * dress from its own position, so a crew of six is six people rather than one
  * person six times.
  *
- * `vest` is the hi-vis garment: naming a colour paints that colour over the
- * chest with two reflective bands across it, bands on the upper arms and lower
- * legs, chest pocket flaps and a zip — all canvas on meshes that are there
- * anyway, so it costs nothing. `helmet` is a hard hat, `cap` a baseball cap
- * (one mesh, and it wins over a helmet), `glasses` a wrap lens, `toolBelt` a
- * pouched belt, and `gloves` is paint on the hands rather than a garment.
+ * `outfit` names one of kit.js's OUTFITS (construction, clinical, marine,
+ * kitchen, office, sport, firefighter, diver) and fills in whatever gear
+ * below the caller left unnamed. Left out entirely, the outfit comes from
+ * `setActiveContext()` — the app calls it with the station's category right
+ * before the station builds, so an existing standingFigure(...) call with no
+ * gear at all still dresses its crew for the trade it stands in.
+ *
+ * `vest` is the hi-vis garment: naming a colour, or passing `true` for the
+ * figure's own cloth colour, paints two reflective bands across the chest,
+ * on the upper arms and the lower legs, chest pocket flaps and a zip — all
+ * canvas on meshes that are there anyway, so it costs nothing. `helmet` is a
+ * hard hat, `cap` a baseball cap, `scrubCap` a soft surgical cap and
+ * `diveHood` a neoprene hood — one mesh, and only one wins when more than one
+ * is named, in the order diveHood, scrubCap, cap, helmet, hair. `glasses` a
+ * wrap lens, or `mask` a dive mask over that same one mesh; `toolBelt` a
+ * pouched belt; `gloves` and `boots` are paint, not a garment.
  */
 function standingFigure(parent, x, z, o = {}) {
   const g = group(parent, x, 0, z, o.ry ?? 0);
@@ -16482,32 +16648,46 @@ function standingFigure(parent, x, z, o = {}) {
   // `atStation` is for a figure whose position against the equipment is the
   // content — a casualty down the hole, a coworker riding the forks. Those are
   // meant to be where they are; everyone else is standing somewhere and has to
-  // be standing somewhere real.
-  if (!o.lying && !o.atStation) g.userData.crew = true;
+  // be standing somewhere real. The same flag marks a figure as one the idle
+  // pass below may animate: a station that goes on to pose an "atStation" or
+  // "lying" figure's own arms and head never has that overwritten by a stray
+  // scratch or a head turn on top of it.
+  const crew = !o.lying && !o.atStation;
+  if (crew) g.userData.crew = true;
+  const outfit = OUTFITS[o.outfit ?? outfitFromContext(getActiveContext())] ?? OUTFITS.office;
   const look = figureLook(o, x, z);
   const cloth = o.cloth ?? look.cloth;
   const trousers = o.trousers ?? look.trousers;
   const lying = !!o.lying;
   const body = group(g, 0, 0, 0);
   if (lying) { body.rotation.x = -Math.PI / 2; body.position.set(0, 0.16, 0); }
+  const vestColor = resolveTint(o.vest, outfit.vest, cloth);
+  const helmet = resolveTint(o.helmet, outfit.helmet, 0xffcc00);
+  const cap = resolveTint(o.cap, outfit.cap, 0xd8532a);
+  const scrubCap = resolveTint(o.scrubCap, outfit.scrubCap, 0x5b8fae);
+  const diveHood = resolveTint(o.diveHood, outfit.diveHood, 0x14171a);
+  const mask = resolveTint(o.mask, outfit.mask, 0x33434f);
+  const glasses = mask ? null : resolveTint(o.glasses, outfit.glasses, 0xaebfcb);
+  const gloves = resolveTint(o.gloves, outfit.gloves, 0xd8a63a);
+  const boots = o.boots ?? outfit.boots ?? undefined;
   // A hi-vis vest is the garment worn over the shirt, so it takes the torso's
   // colour instead of costing a second shell around it, and the reflective
   // bands, pocket flaps and zip across it are painted on that same mesh.
   const dress = figureDress({
-    coat: o.vest ?? cloth,
+    coat: vestColor ?? cloth,
     trousers,
-    band: o.vest ? (o.bands ?? 0xdfe8ee) : null,
-    glove: o.gloves === true ? 0xd8a63a : (o.gloves || null),
+    band: vestColor ? (o.bands ?? outfit.bands ?? 0xdfe8ee) : null,
+    glove: gloves,
     skin: look.skin,
   });
-  personTorso(body, {
-    cloth, trousers, harness: o.harness, jacket: o.vest ?? cloth,
+  const { torso } = personTorso(body, {
+    cloth, trousers, harness: o.harness, jacket: vestColor ?? cloth,
     vis: dress.band, ei: 0.45, toolBelt: o.toolBelt, dress,
   });
-  personLegs(body, { trousers, dress });
+  personLegs(body, { trousers, dress, boots });
   const head = group(body, 0, 1.5, 0);
   personHead(head, {
-    look, k: 0.9, helmet: o.helmet, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
+    look, k: 0.9, helmet, cap, scrubCap, diveHood, glasses, mask, respirator: o.respirator,
   });
   // Kept as [{shoulder, fore}, ...] (left first, then right) rather than
   // discarded like most callers do: the third-person chase view (app.js)
@@ -16515,12 +16695,122 @@ function standingFigure(parent, x, z, o = {}) {
   // is on, the way sims/*.js already poses an NPC's arms.
   const arms = [];
   for (const sx of [-1, 1]) {
-    arms.push(personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress }));
+    arms.push(personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: gloves, dress }));
   }
   g.userData.head = head;
   g.userData.body = body;
+  g.userData.torso = torso;
   g.userData.arms = arms;
   return g;
+}
+
+// ---------------------------------------------------------------- idle life
+//
+// A crew figure that never moves reads as a mannequin the moment the learner
+// stands still and looks at it. This is the cheap end of "alive": no bones,
+// no clips, just a handful of small, continuous offsets laid on top of the
+// pose the figure already has — breathing, a slow shift of weight, an
+// occasional glance at the learner, and now and then a hand that goes to a
+// wrist or the back of a neck and comes back down.
+//
+// It only ever touches a figure standingFigure marked `userData.crew`: an
+// "atStation" or "lying" figure is exactly the one a station has posed
+// itself (a casualty, a coworker riding the forks), and this must never
+// undo that. Called once a frame with the whole room root — see
+// tools/check_crew.mjs and app.js's render loop — it is a no-op the instant
+// there is no crew in the room, and skips everything when the platform's own
+// prefers-reduced-motion helper (shared/a11y.js) says to hold still.
+const _idlePos = new THREE.Vector3();
+const _idleState = new WeakMap();
+
+function idleState(fig) {
+  let s = _idleState.get(fig);
+  if (!s) {
+    s = {
+      breathHz: 0.22 + Math.random() * 0.10, breathPhase: Math.random() * Math.PI * 2,
+      swayHz: 0.09 + Math.random() * 0.05, swayPhase: Math.random() * Math.PI * 2,
+      look: "idle", lookT: 2 + Math.random() * 5, lookYaw: 0,
+      gesture: "idle", gestureT: 4 + Math.random() * 8, gestureSide: Math.random() < 0.5 ? 0 : 1,
+      gestureBlend: 0, gestureWatch: Math.random() < 0.5,
+    };
+    _idleState.set(fig, s);
+  }
+  return s;
+}
+
+/** One figure's idle pass. `learnerPos`, if given, is in world space. */
+function animateOneFigure(fig, t, dt, learnerPos) {
+  const s = idleState(fig);
+  const torso = fig.userData.torso;
+  if (torso) {
+    torso.userData.idleBase ??= torso.scale.clone();
+    const b = torso.userData.idleBase;
+    const breathe = Math.sin(t * s.breathHz * Math.PI * 2 + s.breathPhase) * 0.012;
+    torso.scale.set(b.x * (1 + breathe * 0.6), b.y * (1 + breathe), b.z * (1 + breathe * 0.6));
+  }
+  const body = fig.userData.body;
+  if (body) {
+    const sway = Math.sin(t * s.swayHz * Math.PI * 2 + s.swayPhase);
+    body.rotation.z = sway * 0.018;
+    body.position.x = sway * 0.006;
+  }
+  const head = fig.userData.head;
+  if (head) {
+    s.lookT -= dt;
+    if (s.lookT <= 0) {
+      if (s.look === "idle") { s.look = "at"; s.lookT = 1.6 + Math.random() * 1.6; }
+      else { s.look = "idle"; s.lookT = 3 + Math.random() * 5; }
+    }
+    let yaw = 0;
+    if (s.look === "at" && learnerPos) {
+      _idlePos.copy(learnerPos);
+      fig.worldToLocal(_idlePos);
+      yaw = Math.max(-0.6, Math.min(0.6, Math.atan2(_idlePos.x, _idlePos.z || 1e-4)));
+    }
+    head.rotation.y += (yaw - head.rotation.y) * Math.min(1, dt * 3);
+  }
+  const arms = fig.userData.arms;
+  if (arms?.length === 2) {
+    s.gestureT -= dt;
+    if (s.gestureT <= 0) {
+      if (s.gesture === "idle") {
+        s.gesture = "up"; s.gestureT = 1.0 + Math.random() * 0.6;
+        s.gestureSide = Math.random() < 0.5 ? 0 : 1; s.gestureWatch = Math.random() < 0.5;
+      } else if (s.gesture === "up") { s.gesture = "down"; s.gestureT = 0.5 + Math.random() * 0.4; }
+      else { s.gesture = "idle"; s.gestureT = 6 + Math.random() * 10; }
+    }
+    const target = s.gesture === "up" ? 1 : 0;
+    s.gestureBlend += (target - s.gestureBlend) * Math.min(1, dt * 4);
+    const raised = arms[s.gestureSide], resting = arms[1 - s.gestureSide];
+    if (s.gestureWatch) {
+      // A glance at a wrist: the forearm lifts to chest height, palm in.
+      raised.shoulder.rotation.x = -1.15 * s.gestureBlend;
+      raised.shoulder.rotation.z = (s.gestureSide === 1 ? 1 : -1) * 0.3 * s.gestureBlend;
+      raised.fore.rotation.x = -1.35 * s.gestureBlend;
+    } else {
+      // A scratch at the back of the neck: the hand goes up and in.
+      raised.shoulder.rotation.x = -1.7 * s.gestureBlend;
+      raised.shoulder.rotation.z = (s.gestureSide === 1 ? -1 : 1) * 0.25 * s.gestureBlend;
+      raised.fore.rotation.x = -1.55 * s.gestureBlend;
+    }
+    const relax = Math.min(1, dt * 4);
+    resting.shoulder.rotation.x += (0 - resting.shoulder.rotation.x) * relax;
+    resting.shoulder.rotation.z += (0 - resting.shoulder.rotation.z) * relax;
+    resting.fore.rotation.x += (0 - resting.fore.rotation.x) * relax;
+  }
+}
+
+/**
+ * The idle pass for every crew figure under `root`, once a frame. `learnerPos`
+ * is the learner's world position (a camera or rig), used only so a figure
+ * can glance toward them — pass null to leave every head at rest.
+ * `reduceMotion` (shared/a11y.js's `reducedMotion()`) skips the whole pass,
+ * which leaves every figure exactly as standingFigure built it: no drift, no
+ * held-open gesture, nothing to disable one property at a time.
+ */
+function animateCrew(root, t, dt, learnerPos, reduceMotion) {
+  if (!root || reduceMotion) return;
+  root.traverse((o) => { if (o.userData?.crew) animateOneFigure(o, t, dt, learnerPos); });
 }
 
 // Discrete tone/finish sets — reused across towers so the material cache stays small
@@ -42367,6 +42657,10 @@ async function enterSim(id, { briefed = false } = {}) {
   // A driving course is its own site: a station that declares `apron: false`
   // keeps the plaza but not the gate, laydown and fence the apron lays across
   // the ground its route is driven over.
+  // Set before the stage builds: the site apron stands its own generic
+  // worker (shared/citykit.js's apron), and that figure resolves its trade
+  // dress from this the same as the station's own crew does.
+  setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
   state.stage = stage;
   applyStageCamera(stage);
@@ -42969,6 +43263,7 @@ async function startRobotTraining() {
     await nextFrame();
     const root = new THREE.Group();
     let api;
+    setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
     try { api = room.build(root); } catch (err) { console.warn("[robot training]", id, err); disposeTree(root); continue; }
     const probes = [];
     for (const skill of DIFFICULTY_LADDER) {
@@ -44399,6 +44694,7 @@ const _scratchM4 = new THREE.Matrix4();
 const _scratchV1 = new THREE.Vector3();
 const _scratchV2 = new THREE.Vector3();
 const _scratchBox = new THREE.Box3();
+const _crewLearnerPos = new THREE.Vector3();
 
 function findHit(intersections) {
   for (const it of intersections) {
@@ -46142,6 +46438,10 @@ renderer.setAnimationLoop((_, frame) => {
   if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
   if (state.session && !state.session.finished) { const snap = observerSnapshot(); if (snap) observer.state(snap); }
   state.stage?.animate?.(elapsedTotal, dt);
+  if (state.roomRoot) {
+    camera.getWorldPosition(_crewLearnerPos);
+    animateCrew(state.roomRoot, elapsedTotal, dt, _crewLearnerPos, reducedMotion());
+  }
 
   if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
   renderer.render(scene, camera);
