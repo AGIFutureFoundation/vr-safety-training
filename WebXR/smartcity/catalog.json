@@ -3514,13 +3514,38 @@
           "app": "smartcity",
           "id": "br-fish-screen-maintenance",
           "why": "A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed headcount says every hand that went on the disconnect is clear of it again."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-drone-shoreline-survey",
+          "why": "A shoreline survey line only means what it claims to mean when the airspace was actually checked, the buffer marker was set to the confirmed point, and the aircraft came home the moment a gust pushed past today's wind limit."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-volunteer-cleanup-day-safety-lead",
+          "why": "A volunteer crew that has never worked this shoreline before is briefed on sharps and the buddy system before a single bag is opened, and a missing volunteer or a surging tide gets an immediate call rather than a wait to see."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-restoration-data-qa-and-public-reporting",
+          "why": "Every field sheet is checked before it's scanned and every suspect value is flagged rather than typed straight in, so the one line the public dashboard is allowed to say about the Bay is a line the reviewed data actually backs up."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-beach-seine-fish-survey-and-handling",
+          "why": "The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-benthic-grab-and-invertebrate-sorting",
+          "why": "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1664,
-        "tasks": 120,
+        "lessons": 1641,
+        "tasks": 117,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -8012,7 +8037,7 @@
         "name": "Clean Line, Clean Log",
         "note": "The airspace was checked before launch, the buffer was held the whole line, the gust got an immediate return home, and the battery landed inside its reserve band"
       },
-      "meshes": 244,
+      "meshes": 243,
       "lights": 0,
       "overBudget": false,
       "index": "345",
@@ -28004,7 +28029,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
