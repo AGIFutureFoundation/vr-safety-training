@@ -18214,5 +18214,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-pile-driving-rig-and-lead-setup",
+    "index": "op-7",
+    "domain": "Construction",
+    "trade": "Pile driving rig operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.603 Pile driving equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around pile driving rigs",
+    "name": "Pile Driving Rig & Lead Setup",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Pile Driving Rig & Lead Setup VR",
+    "tagline": "Pile driving rig set up and proved before the first pile: the rig inspected, the drop zone barricaded, the leads plumbed in two planes, overhead clearance confirmed, and the pile started on low energy under a tender's signal",
+    "accent": 6967216,
+    "accentCss": "#6a4fb0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "pile-command",
+      "name": "Pile Command",
+      "note": "Leads plumbed in two planes, the drop zone held clear, and the pile started on low energy before full driving began"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Command",
+      "currency": "PILE",
+      "ranks": [
+        "Ground Hand",
+        "Rig Hand",
+        "Lead Certified",
+        "Drive Authority",
+        "Pile Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 427
+      "stations": 428
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-pile-driving-rig-and-lead-setup",
         "op-crawler-crane-assembly-and-load-chart",
         "op-compactor-lift-thickness-and-edge",
         "op-grader-fine-grade-and-crown",
@@ -7647,6 +7648,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-pile-driving-rig-and-lead-setup",
+      "name": "Pile Driving Rig & Lead Setup",
+      "title": "SmartCiti.X~ Pile Driving Rig & Lead Setup VR",
+      "tagline": "Pile driving rig set up and proved before the first pile: the rig inspected, the drop zone barricaded, the leads plumbed in two planes, overhead clearance confirmed, and the pile started on low energy under a tender's signal",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Pile driving rig operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.603 Pile driving equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around pile driving rigs",
+      "accent": "#6a4fb0",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "pile-command",
+        "name": "Pile Command",
+        "note": "Leads plumbed in two planes, the drop zone held clear, and the pile started on low energy before full driving began"
+      },
+      "meshes": 190,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-7",
+      "flat": false,
+      "system": "Pile Command",
+      "currency": "PILE",
+      "ranks": [
+        "Ground Hand",
+        "Rig Hand",
+        "Lead Certified",
+        "Drive Authority",
+        "Pile Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "plumb-first",
+          "name": "Plumb First",
+          "note": "Never drove a pile before the leads were confirmed plumb"
+        },
+        {
+          "id": "drop-zone-held",
+          "name": "Drop Zone Held",
+          "note": "Never let anyone stand under the suspended load"
+        },
+        {
+          "id": "steady-drive",
+          "name": "Steady Drive",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set Certified",
+          "note": "Set the pile clean, first try"
+        },
+        {
+          "id": "quick-setup",
+          "name": "Quick Setup",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "pile-streak",
+          "name": "Pile Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-pile-driving-rig-and-lead-setup"
     },
     {
       "app": "smartcity",
@@ -28119,7 +28208,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28779,7 +28868,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
