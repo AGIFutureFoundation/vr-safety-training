@@ -4798,10 +4798,11 @@ const PALETTES = {
   rail: { accent: 0x59c97b, ground: 0x3a3d41, structure: 0x8b98a5, trim: 0xf2c14b },
   aviation: { accent: 0xffb13a, ground: 0x2f333a, structure: 0xdfe6ea, trim: 0xc8201c },
   gym: { accent: 0xd8232a, ground: 0xc9a06a, structure: 0x2b3138, trim: 0x3b7bbf },
+  warehouse: { accent: 0xf0b323, ground: 0x6d7379, structure: 0x8b929a, trim: 0x2f6f8c },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
- *  utility, transit, rail, aviation, gym), each `{ accent, ground,
+ *  utility, transit, rail, aviation, gym, warehouse), each `{ accent, ground,
  *  structure, trim }`. An unknown name falls back to `construction` rather
  *  than throwing — a station that misspells a trade still paints something
  *  coherent instead of going grey. Returns a fresh object every call, so a
@@ -7985,6 +7986,153 @@ function pileDrivingRig(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.pileDrivingRig.footprint, livery: lv });
 }
 
+// -------------------------------------------------------- warehouse & logistics
+//
+// Five builders for the warehouse-and-logistics-automation pack: an AMR, a
+// conveyor bed section, a combined dock-leveler-and-restraint bay, a
+// robotic palletizer arm and a lift-truck battery charging station. Same
+// contract as the rest of this file.
+
+/**
+ * Autonomous mobile robot (AMR/AGV): a low chassis on four caster feet, a
+ * safety-yellow bumper strip all round, a lift plate that rises to carry a
+ * shelf or a pallet, a forward LiDAR puck and a status-light ring on top a
+ * station switches between travelling, yielding and fault colours. Parts:
+ * liftPlate, statusRing, lidar.
+ */
+function amrRobot(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xe4622a, fleetName: "FLEET NAV", unitNumber: "AMR-14" });
+  const rig = flRig(parent, x, y, z, opts, "amrRobot");
+  const S = rig.shell;
+  box(S, 0.62, 0.2, 0.86, 0, 0.14, 0, ...flPaint(lv.colour));
+  box(S, 0.68, 0.05, 0.92, 0, 0.05, 0, EQ_YELLOW, { rough: 0.6, finish: "painted" });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(S, 0.05, 0.05, 0.08, sx * 0.26, 0.04, sz * 0.36, 0x1c1e21, { rough: 0.7, metal: 0.2, seg: 10 });
+  }
+  const plate = rig.part("liftPlate", 0, 0.26, 0);
+  box(plate, 0.5, 0.03, 0.7, 0, 0, 0, 0x6f7a83, { rough: 0.5, metal: 0.4 });
+  const ring = rig.part("statusRing", 0, 0.27, 0);
+  const beacon = torus(ring, 0.16, 0.014, 0, 0, 0, 0x4fd1ff, { emissive: 0x2f8fdb, ei: 1.2, seg: 8, seg2: 18 });
+  beacon.rotation.x = Math.PI / 2;
+  const lidar = rig.part("lidar", 0, 0.34, 0.4);
+  cyl(lidar, 0.05, 0.06, 0.1, 0, 0, 0, 0x1c1e21, { rough: 0.4, metal: 0.5, seg: 14 });
+  cyl(lidar, 0.045, 0.045, 0.02, 0, 0.06, 0, 0x2f8fdb, { emissive: 0x2f8fdb, ei: 0.8, seg: 14 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.amrRobot.footprint, livery: lv });
+}
+
+/**
+ * One roller-conveyor bed section: a galvanised steel frame carrying a line
+ * of rollers, a hinged nip-point guard over the drive end and a yellow
+ * pull-cord E-stop strung along the run. A station stands several end to
+ * end to make a line. Parts: guard, estopCord, rollers (a list, for a spin
+ * animation).
+ */
+function conveyorSection(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0x4a5560;
+  const rig = flRig(parent, x, y, z, opts, "conveyorSection");
+  const S = rig.shell;
+  for (const sx of [-1, 1]) box(S, 0.05, 0.5, 1.2, sx * 0.26, 0.25, 0, colour, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) box(S, 0.08, 0.02, 0.08, sx * 0.26, 0.0, sz * 0.55, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  const rollers = [];
+  for (let i = 0; i < 5; i++) {
+    const rz = -0.4 + i * 0.2;
+    const r = cyl(S, 0.045, 0.045, 0.5, 0, 0.48, rz, 0x9aa2a8, { rough: 0.35, metal: 0.6, seg: 12 });
+    r.rotation.z = Math.PI / 2;
+    rollers.push(r);
+  }
+  rig.set("rollers", rollers);
+  const guard = rig.part("guard", 0, 0.5, 0.5);
+  box(guard, 0.56, 0.28, 0.04, 0, 0.14, 0, EQ_YELLOW, { rough: 0.5, finish: "painted" });
+  const cord = rig.part("estopCord", 0.29, 0.5, 0);
+  const rope = cyl(cord, 0.008, 0.008, 1.2, 0, 0, 0, 0xd2312b, { rough: 0.6, seg: 8 });
+  rope.rotation.x = Math.PI / 2;
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.conveyorSection.footprint });
+}
+
+/**
+ * A loading-dock bay: a leveler plate and lip flush with the door sill, two
+ * rubber dock bumpers, a red/green dock traffic light, and beneath the
+ * sill a vehicle (ICC bar) restraint hook with its own red/green status
+ * light. Faces +Z into the yard/trailer. Parts: leverPlate, lip,
+ * restraintArm, dockLightRed, dockLightGreen, restraintLightRed,
+ * restraintLightGreen.
+ */
+function dockLevelerBay(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "dockLevelerBay");
+  const S = rig.shell;
+  box(S, 2.3, 0.15, 0.9, 0, 0.9, -0.45, 0x9aa2a8, { rough: 0.7, finish: "concrete" });
+  for (const sx of [-0.95, 0.95]) box(S, 0.22, 0.5, 0.22, sx, 0.72, 0.35, 0x1c1e21, { rough: 0.85, finish: "rubber" });
+  const plate = rig.part("leverPlate", 0, 0.9, 0);
+  box(plate, 1.9, 0.06, 0.9, 0, 0, 0.45, 0x6f7a83, { rough: 0.4, metal: 0.55, finish: "galvanised" });
+  const lip = rig.part("lip", 0, 0.9, 0.9, plate);
+  box(lip, 1.9, 0.05, 0.3, 0, 0, 0.15, 0x6f7a83, { rough: 0.4, metal: 0.55, finish: "galvanised" });
+  const arm = rig.part("restraintArm", 0, 0.25, 0.85);
+  box(arm, 0.14, 0.14, 0.7, 0, 0, -0.35, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+  box(arm, 0.28, 0.1, 0.16, 0, 0.02, -0.7, 0xf0b323, { rough: 0.5, finish: "painted" });
+  const dockRed = rig.part("dockLightRed", -0.5, 2.6, -0.42);
+  ball(dockRed, 0.07, 0, 0, 0, 0x8a2020, { emissive: 0x000000, ei: 1, rough: 0.4, seg: 12, seg2: 10 });
+  const dockGreen = rig.part("dockLightGreen", 0.5, 2.6, -0.42);
+  ball(dockGreen, 0.07, 0, 0, 0, 0x2f7d4a, { emissive: 0x2f7d4a, ei: 1.4, rough: 0.4, seg: 12, seg2: 10 });
+  const restraintRed = rig.part("restraintLightRed", -0.4, 0.9, 1.0);
+  ball(restraintRed, 0.05, 0, 0, 0, 0x8a2020, { emissive: 0x000000, ei: 1, rough: 0.4, seg: 10, seg2: 8 });
+  const restraintGreen = rig.part("restraintLightGreen", 0.4, 0.9, 1.0);
+  ball(restraintGreen, 0.05, 0, 0, 0, 0x2f7d4a, { emissive: 0x2f7d4a, ei: 1.4, rough: 0.4, seg: 10, seg2: 8 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.dockLevelerBay.footprint });
+}
+
+/**
+ * A robotic palletizer arm: a pedestal base, a rotating turret, an upper
+ * arm and forearm, a suction-cup wrist, and a build-pallet turntable set
+ * out in front of it. Parts: turret, upperArm, foreArm, wrist, turntable.
+ */
+function roboticPalletizer(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xe4622a;
+  const rig = flRig(parent, x, y, z, opts, "roboticPalletizer", [0, 0, -0.83]);
+  const S = rig.shell;
+  cyl(S, 0.42, 0.46, 0.9, 0, 0.45, 0, 0xd8d9d4, { rough: 0.5, metal: 0.3, finish: "painted" });
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    box(S, 0.06, 0.9, 0.06, Math.sin(a) * 0.4, 0.45, Math.cos(a) * 0.4, 0xf0b323, { rough: 0.6, finish: "painted", cast: false });
+  }
+  const turret = rig.part("turret", 0, 0.9, 0);
+  cyl(turret, 0.3, 0.3, 0.3, 0, 0.15, 0, colour, { rough: 0.45, finish: "painted", seg: 16 });
+  const upperArm = rig.part("upperArm", 0, 0.3, 0.1, turret);
+  box(upperArm, 0.24, 0.9, 0.24, 0, 0.45, 0, colour, { rough: 0.45, finish: "painted" });
+  const foreArm = rig.part("foreArm", 0, 0.9, 0, upperArm);
+  box(foreArm, 0.2, 0.75, 0.2, 0, 0.38, 0.08, colour, { rough: 0.45, finish: "painted" });
+  const wrist = rig.part("wrist", 0, 0.75, 0.16, foreArm);
+  box(wrist, 0.42, 0.1, 0.42, 0, 0, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  for (const [sx, sz] of [[-0.16, -0.16], [0.16, -0.16], [-0.16, 0.16], [0.16, 0.16]]) {
+    cyl(wrist, 0.05, 0.05, 0.05, sx, -0.06, sz, 0x1c1e21, { rough: 0.7, finish: "rubber", seg: 10 });
+  }
+  const turntable = rig.part("turntable", 0, 0.06, 1.5);
+  cyl(turntable, 0.62, 0.62, 0.12, 0, 0, 0, 0x6f7a83, { rough: 0.5, metal: 0.4, seg: 24 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.roboticPalletizer.footprint });
+}
+
+/**
+ * A lift-truck battery charging station: a wall charger cabinet with a
+ * gauge screen, a coiled charging cable on a reel, and a ribbed spill
+ * containment tray on the floor beneath the connection point. Parts:
+ * cable, beacon.
+ */
+function batteryChargingStation(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xd8d9d4;
+  const rig = flRig(parent, x, y, z, opts, "batteryChargingStation", [0, 0, -0.15]);
+  const S = rig.shell;
+  box(S, 0.6, 0.9, 0.32, 0, 1.1, 0, colour, { rough: 0.5, finish: "painted" });
+  const screen = eqControlFaceMat("CHARGER");
+  flPanel(S, 0.5, 0.36, 0, 1.35, 0.161, screen, "+z");
+  box(S, 1.0, 0.05, 0.8, 0, 0.03, 0.15, 0x2b2f34, { rough: 0.75, finish: "grating" });
+  const reel = cyl(S, 0.16, 0.16, 0.1, 0.28, 0.75, 0.17, 0x2b2f34, { rough: 0.5, metal: 0.4, seg: 16 });
+  reel.rotation.z = Math.PI / 2;
+  const beacon = rig.part("beacon", 0, 1.62, 0);
+  ball(beacon, 0.05, 0, 0, 0, 0x59c97b, { emissive: 0x2f7d4a, ei: 1.1, rough: 0.4, seg: 12, seg2: 10 });
+  const cable = rig.part("cable", 0.28, 0.6, 0.3);
+  torus(cable, 0.13, 0.025, 0, 0, 0, 0x1c1e21, { rough: 0.7, finish: "rubber", seg: 10, seg2: 16 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.batteryChargingStation.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
@@ -8008,12 +8156,18 @@ const EQUIPMENT_BUDGET = {
   grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
   crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
   pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
+  amrRobot: { build: "amrRobot", meshes: 7, footprint: [0.68, 0.41, 0.92], parts: ["liftPlate", "statusRing", "lidar"], note: "autonomous mobile robot (AMR/AGV), low chassis on caster feet" },
+  conveyorSection: { build: "conveyorSection", meshes: 5, footprint: [0.6, 0.79, 1.2], parts: ["guard", "estopCord", "rollers"], note: "roller-conveyor bed section with nip-point guard and pull-cord E-stop" },
+  dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
+  roboticPalletizer: { build: "roboticPalletizer", meshes: 8, footprint: [1.24, 2.9, 2.58], parts: ["turret", "upperArm", "foreArm", "wrist", "turntable"], note: "articulated palletizer arm on a pedestal, with a build-pallet turntable" },
+  batteryChargingStation: { build: "batteryChargingStation", meshes: 6, footprint: [1, 1.67, 0.8], parts: ["beacon", "cable"], note: "lift-truck battery charger cabinet with a spill containment tray" },
 };
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
+  amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer, batteryChargingStation,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -8864,6 +9018,95 @@ function picnicTable(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: PROPS_BUDGET.picnicTable.footprint });
 }
 
+// ------------------------------------------------------------ warehouse
+
+/**
+ * A selective pallet-rack bay: two upright frames, three beam levels, a
+ * pair of rack-end protectors at the aisle-facing base, two loaded pallets
+ * under shrink film on the upper beams, and a capacity plaque — this
+ * platform is never certain of a rack's actual rated load, so the plaque
+ * reads "SEE RATING PLAQUE" rather than a number. `opts.count` (default 3)
+ * sets how many beam levels are loaded pallets versus bare beams.
+ */
+function palletRackBay(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "palletRackBay");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-1.2, 1.2]) box(S, 0.1, 4.0, 1.1, sx, 2.0, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const levels = [0.5, 1.9, 3.3];
+  for (const ly of levels) box(S, 2.5, 0.08, 1.05, 0, ly, 0, 0xf0b323, { rough: 0.55, finish: "painted" });
+  for (const sx of [-1.2, 1.2]) box(S, 0.15, 0.5, 0.15, sx, 0.25, 0.55, 0xf0b323, { rough: 0.5, finish: "painted" });
+  for (const ly of [levels[1] + 0.47, levels[2] + 0.47]) {
+    box(S, 1.0, 0.9, 1.0, 0, ly, 0, 0xcfa46a, { rough: 0.85, finish: "brushed" });
+  }
+  const plaqueFace = flCanvasMat("rackPlaque", 256, 160, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#f0b323"], [1, "#d89a1c"]]);
+    g.fillStyle = "#1a1a1a"; g.font = "700 30px Arial"; g.textAlign = "center";
+    g.fillText("RATED CAPACITY", w / 2, h * 0.32);
+    g.font = "700 22px Arial";
+    g.fillText("SEE RATING PLAQUE", w / 2, h * 0.62);
+    g.fillText("PER MANUFACTURER", w / 2, h * 0.84);
+  }, { rough: 0.5 });
+  flPanel(S, 0.4, 0.26, -1.14, 1.5, 0.53, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.palletRackBay.footprint });
+}
+
+/**
+ * An insulated cold-storage doorway: a steel lintel and jambs, a hinged
+ * insulated door leaf, a hanging PVC strip curtain across the opening, a
+ * dial thermometer, and a warning plaque. Parts: door.
+ */
+function coldRoomDoor(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "coldRoomDoor");
+  const S = rig.shell;
+  const jamb = 0xc7ccd0;
+  box(S, 1.9, 0.15, 0.25, 0, 2.475, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  for (const sx of [-0.875, 0.875]) box(S, 0.15, 2.4, 0.25, sx, 1.2, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  const door = rig.part("door", -0.75, 0, 0);
+  box(door, 1.5, 2.3, 0.08, 0.75, 1.15, 0, 0xe4e9ec, { rough: 0.4, metal: 0.15, finish: "painted" });
+  door.userData.openAngle = 1.2;
+  for (const sx of [-0.6, -0.2, 0.2, 0.6]) box(S, 0.38, 2.2, 0.015, sx, 1.1, 0.1, 0xd8c98a, { rough: 0.3, opacity: 0.45, cast: false });
+  const gauge = cyl(S, 0.07, 0.07, 0.02, 0.955, 1.6, 0.14, 0xe8eef2, { rough: 0.35, metal: 0.3, seg: 16 });
+  gauge.rotation.x = Math.PI / 2;
+  const plaqueFace = flCanvasMat("coldRoomPlaque", 256, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#1f6fa8"], [1, "#144e7a"]]);
+    g.fillStyle = "#eaf6fb"; g.font = "700 26px Arial"; g.textAlign = "center";
+    g.fillText("COLD STORAGE", w / 2, h * 0.4);
+    g.font = "700 18px Arial";
+    g.fillText("PPE PER LABEL", w / 2, h * 0.72);
+  }, { rough: 0.5 });
+  flPanel(S, 0.5, 0.25, 0, 2.55, 0.126, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.coldRoomDoor.footprint });
+}
+
+/**
+ * A pick-to-light shelf module: two uprights, three shelves, an LED pick
+ * light strip along each shelf's front edge (a station colours these to
+ * cue which bin to pick from), and a small digital pick-count display on
+ * top. Parts: lights (the three LED strips, front to back low-to-high).
+ */
+function pickToLightShelf(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "pickToLightShelf");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-0.75, 0.75]) box(S, 0.08, 2.2, 0.5, sx, 1.1, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const shelfY = [0.5, 1.1, 1.7];
+  for (const sy of shelfY) box(S, 1.6, 0.05, 0.48, 0, sy, 0, 0xc9a86b, { rough: 0.75, finish: "brushed" });
+  const lights = shelfY.map((sy) => {
+    const l = rig.part(`light${sy}`, 0, sy + 0.05, 0.25);
+    box(l, 1.5, 0.03, 0.02, 0, 0, 0, 0xf0b323, { emissive: 0xf0b323, ei: 1.0, rough: 0.4, cast: false });
+    return l;
+  });
+  rig.set("lights", lights);
+  const displayFace = flCanvasMat("pickDisplay", 220, 120, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#101820"], [1, "#0a1218"]]);
+    g.fillStyle = "#59c97b"; g.font = "700 26px monospace"; g.textAlign = "center";
+    g.fillText("PICK: 0", w / 2, h * 0.55);
+  }, { rough: 0.4 });
+  flPanel(S, 0.42, 0.24, 0, 2.32, 0.24, displayFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.pickToLightShelf.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -8899,6 +9142,9 @@ const PROPS_BUDGET = {
   generatorSkid: { build: "generatorSkid", meshes: 6, footprint: [1.0, 1.34, 2.2], parts: ["stack", "controlPanel"], note: "diesel generator on a skid" },
   counterweightStack: { build: "counterweightStack", meshes: 5, footprint: [2.5, 1.5, 1.0], parts: [], note: "mobile crane counterweight, five slabs" },
   picnicTable: { build: "picnicTable", meshes: 5, footprint: [1.6, 0.9, 1.5], parts: [], note: "A-frame picnic table" },
+  palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
+  coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
+  pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -8906,7 +9152,7 @@ const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable,
+  counterweightStack, picnicTable, palletRackBay, coldRoomDoor, pickToLightShelf,
 };
 
 
@@ -40392,6 +40638,48 @@ const SIMS_META = [
         "Plumber",
         "Lead Plumber",
         "Gas Piping Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-amr-traffic-zone-entry-and-lockout",
+    "index": "tw-1",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — automated traffic-zone entry",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them to a mobile-robot floor; NIOSH findings on struck-by incidents around automated material handling",
+    "name": "AMR Traffic-Zone Entry & Lockout",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
+    "tagline": "Crossing into a live autonomous-mobile-robot floor the way the zone is actually built for it: the map read and checked for what is already wrong, access requested at the gate rather than stepped past, the charging dock's power isolated and locked before anyone touches it, and the floor marked for the rest of the fleet before hands-on work starts",
+    "accent": 3117019,
+    "accentCss": "#2f8fdb",
+    "parSeconds": 260,
+    "badge": {
+      "id": "amr-zone-certified",
+      "name": "AMR Zone Certified",
+      "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zone Access Control",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Floor Visitor",
+        "Zone Aware",
+        "Manual-Access Handler",
+        "Zone Access Authority",
+        "AMR Zone Certified"
       ],
       "rankAt": [
         0,

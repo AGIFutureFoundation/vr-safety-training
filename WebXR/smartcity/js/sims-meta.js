@@ -19180,5 +19180,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "tw-amr-traffic-zone-entry-and-lockout",
+    "index": "tw-1",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — automated traffic-zone entry",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them to a mobile-robot floor; NIOSH findings on struck-by incidents around automated material handling",
+    "name": "AMR Traffic-Zone Entry & Lockout",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
+    "tagline": "Crossing into a live autonomous-mobile-robot floor the way the zone is actually built for it: the map read and checked for what is already wrong, access requested at the gate rather than stepped past, the charging dock's power isolated and locked before anyone touches it, and the floor marked for the rest of the fleet before hands-on work starts",
+    "accent": 3117019,
+    "accentCss": "#2f8fdb",
+    "parSeconds": 260,
+    "badge": {
+      "id": "amr-zone-certified",
+      "name": "AMR Zone Certified",
+      "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zone Access Control",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Floor Visitor",
+        "Zone Aware",
+        "Manual-Access Handler",
+        "Zone Access Authority",
+        "AMR Zone Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

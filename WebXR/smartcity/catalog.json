@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 450
+      "stations": 451
     },
     "trades": {
       "entry": "trades/index.html",
@@ -183,6 +183,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "tw-amr-traffic-zone-entry-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
         "sm-architectural-panels-at-height",
@@ -7878,6 +7879,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-amr-traffic-zone-entry-and-lockout",
+      "name": "AMR Traffic-Zone Entry & Lockout",
+      "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
+      "tagline": "Crossing into a live autonomous-mobile-robot floor the way the zone is actually built for it: the map read and checked for what is already wrong, access requested at the gate rather than stepped past, the charging dock's power isolated and locked before anyone touches it, and the floor marked for the rest of the fleet before hands-on work starts",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — automated traffic-zone entry",
+      "union": null,
+      "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them to a mobile-robot floor; NIOSH findings on struck-by incidents around automated material handling",
+      "accent": "#2f8fdb",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "amr-zone-certified",
+        "name": "AMR Zone Certified",
+        "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
+      },
+      "meshes": 113,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-1",
+      "flat": false,
+      "system": "Zone Access Control",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Floor Visitor",
+        "Zone Aware",
+        "Manual-Access Handler",
+        "Zone Access Authority",
+        "AMR Zone Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-step-past-the-gate",
+          "name": "Never Step Past the Gate",
+          "note": "Requested access every time, first try"
+        },
+        {
+          "id": "locked-before-touched",
+          "name": "Locked Before Touched",
+          "note": "Isolated and locked the dock before the first hands-on step"
+        },
+        {
+          "id": "steady-clearance",
+          "name": "Steady Clearance",
+          "note": "Held the clearance test near band centre all shift"
+        },
+        {
+          "id": "clean-walk",
+          "name": "Clean Walk",
+          "note": "Never missed a hazard on the zone read"
+        },
+        {
+          "id": "quick-entry",
+          "name": "Quick Entry",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "access-streak",
+          "name": "Access Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-amr-traffic-zone-entry-and-lockout"
     },
     {
       "app": "smartcity",
@@ -28236,7 +28325,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28896,7 +28985,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

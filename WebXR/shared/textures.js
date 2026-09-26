@@ -357,10 +357,11 @@ const PALETTES = {
   rail: { accent: 0x59c97b, ground: 0x3a3d41, structure: 0x8b98a5, trim: 0xf2c14b },
   aviation: { accent: 0xffb13a, ground: 0x2f333a, structure: 0xdfe6ea, trim: 0xc8201c },
   gym: { accent: 0xd8232a, ground: 0xc9a06a, structure: 0x2b3138, trim: 0x3b7bbf },
+  warehouse: { accent: 0xf0b323, ground: 0x6d7379, structure: 0x8b929a, trim: 0x2f6f8c },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
- *  utility, transit, rail, aviation, gym), each `{ accent, ground,
+ *  utility, transit, rail, aviation, gym, warehouse), each `{ accent, ground,
  *  structure, trim }`. An unknown name falls back to `construction` rather
  *  than throwing — a station that misspells a trade still paints something
  *  coherent instead of going grey. Returns a fresh object every call, so a
