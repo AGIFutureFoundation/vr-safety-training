@@ -41,6 +41,8 @@ import { BALL_RADIUS, buildCourse, createBall, putt, stepBall } from "./minigolf
 import { buildTrainingRoom } from "./training.js";
 import { createStore } from "./store.js";
 import { mountUI } from "./react-ui.js";
+// The Scaffold Climber arcade cabinet (docs/easter-egg.md, "Inside the apps").
+import { mountHolodeckEggs } from "../../shared/eggs-app.js";
 
 // This is the engine half of Holodeck: the Three.js scene, the ball
 // physics tick and the pointer-drag putting interaction. react-ui.js
@@ -1714,3 +1716,7 @@ addEventListener("keyup", (e) => {
   if (da && HOLO_DRIVE_CONTINUOUS.has(da)) holoDriveHeld[da] = false;
   if (e.code === "Space" && trainingSession) { e.preventDefault(); pressEnd(); }
 });
+
+// The arcade cabinet (docs/easter-egg.md): a standing prop in worldRoot, so
+// it survives every clearHole()/clearTraining() reset between generations.
+mountHolodeckEggs({ THREE, renderer, camera, worldRoot });

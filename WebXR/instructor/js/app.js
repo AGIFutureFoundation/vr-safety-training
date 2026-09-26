@@ -2,6 +2,9 @@ import { createConsole, reduceRoster, COMMAND_LABELS, relayFromSearch } from "..
 import { validateFlow, flowFromJSON } from "../../shared/flowhub.js";
 import { DEVICES, PROFILES } from "../../shared/devices.js";
 import { buildRoster, matchStation, matchProgramme } from "./roster.js";
+// Toolbox Talk Bingo (docs/easter-egg.md, "Inside the apps") — a printable
+// card for the room, generated from this console's own live roster.
+import { mountInstructorEggs } from "../../shared/eggs-app.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
 // the sessions it can hear — other tabs on this machine over a
@@ -546,3 +549,5 @@ bus.roll();
 setInterval(() => bus.roll(), 15000);
 setInterval(render, 1000);
 render();
+
+mountInstructorEggs({ getRoster: () => roster });

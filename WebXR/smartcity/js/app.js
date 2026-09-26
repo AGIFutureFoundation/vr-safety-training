@@ -47,6 +47,12 @@ import {
 import { CustomScenarios, buildCustomRoom, newScenarioId, estimateParSeconds } from "./scenarios.js";
 import { createStore } from "./store.js";
 import { mountUI, stripHtml, introMenu, diveReadout, courtReadout } from "./react-ui.js";
+// Easter eggs (docs/easter-egg.md, "Inside the apps"): Photo Mode, the Golden
+// Wrench, the Crane Claw and Night Shift. UNIONS_BY_ID is the one small data
+// lookup mountSmartCityEggs needs to caption a photo with the station's own
+// union abbreviation — everything else it does is self-contained.
+import { mountSmartCityEggs } from "../../shared/eggs-app.js";
+import { UNIONS_BY_ID } from "../../shared/unions.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
 // small, always-available metadata every display surface (hub kiosks,
@@ -155,7 +161,10 @@ Identity.listen(() => {
 
 // ------------------------------------------------------------------ renderer
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+// preserveDrawingBuffer: Photo Mode (shared/eggs-app.js) reads the canvas back
+// with toDataURL() outside the render loop; without this the drawing buffer
+// can already be cleared by the time it does.
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
@@ -4344,3 +4353,13 @@ renderer.setAnimationLoop((_, frame) => {
 });
 
 state.paused = true;
+
+// Mount the in-app Easter eggs (docs/easter-egg.md). `state` is handed over
+// by reference, so this module always sees the live room/stage/hits without
+// app.js calling back into it at every transition. The station's own union
+// sign (shared/signage.js, built inside buildStage) already carries the
+// union id — this just turns it into the abbreviation a photo caption reads.
+mountSmartCityEggs({
+  THREE, renderer, camera, worldRoot, state, store, SIMS_META,
+  unionAbbrev: () => UNIONS_BY_ID[state.stage?.signage?.plan?.unionId]?.abbrev ?? "",
+});
