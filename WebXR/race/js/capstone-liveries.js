@@ -195,5 +195,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "cement-masons-and-plasterers",
     "name": "Cement Masons and Plasterers",
     "accent": "#f2c14b"
+  },
+  {
+    "programme": "healthcare-support",
+    "name": "Healthcare Support",
+    "accent": "#5f8fd6"
   }
 ];

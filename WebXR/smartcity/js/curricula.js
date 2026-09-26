@@ -958,6 +958,30 @@ export const CURRICULA = [
       { app: "smartcity", id: "cm-cold-weather-curing-and-blankets", why: "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed." },
     ],
   },
+  {
+    id: "healthcare-support",
+    name: "Healthcare Support",
+    union: "SEIU-UHW and NUHW, the training bodies for California's hospital and clinic support workforce",
+    certification: "OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC's general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter <800> for hazardous drugs; HIPAA's privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA's workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation",
+    guides: [
+      "seiu-uhw-training", "nuhw-training", "osha-1910-1030", "osha-1910-1200", "osha-1910-134",
+      "cdc-guidance", "aami-st79", "usp-general-chapter-800", "hipaa-privacy-rule", "fda-food-code",
+      "servsafe-certification", "nfpa-101", "cal-osha-3342", "cal-osha-3203", "labor-code-6310",
+      "niosh-lifting-equation",
+    ],
+    summary: "The hospital support jobs that never touch a clinical decision but hold the whole building's safety together: an isolation room turned over with the barrier never broken, a surgical tray decontaminated and counted back against its own sheet, a patient moved with a gait belt instead of a solo lift, a tray line that sorts a real allergy flag from a routine one, three waste streams kept apart from the linen chute to the loading dock, a crash cart proven ready every day and a real code supported without ever touching the patient, a front desk that meets an escalating visitor with distance and a calm voice, and a hazardous-drug spill met with the kit built for exactly that.",
+    accent: "#5f8fd6",
+    stations: [
+      { app: "smartcity", id: "hc-environmental-services-isolation-room-turnover", why: "The room an EVS tech inherits the moment a precautions patient leaves: PPE donned to the posted barrier, linen bagged rather than shaken, regulated waste kept out of general trash, and the room logged clean and released." },
+      { app: "smartcity", id: "hc-sterile-processing-decontamination-and-assembly", why: "A hospital-wide case cart rather than a single tray: decontaminated and pre-treated by hand before the washer ever runs, counted back against its own count sheet on the clean side, and sterilized with the biological indicator that proves it." },
+      { app: "smartcity", id: "hc-patient-transport-and-safe-handling", why: "The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal handoff at the other end instead of a dropped chart." },
+      { app: "smartcity", id: "hc-dietary-tray-line-and-allergy-flags", why: "A tray ticket matched to the room, the allergy and NPO flags sorted from the ones that are just charted, a dedicated utensil for a flagged tray, and the ID band checked at the bedside before the tray is ever left behind." },
+      { app: "smartcity", id: "hc-linen-and-regulated-waste-handling", why: "Every bag off the chute checked for a leak or an overweight load, three waste streams kept apart from the sorting line to the loading dock, and a washed cart never mixed back with a soiled one." },
+      { app: "smartcity", id: "hc-code-response-support-and-crash-cart-check", why: "A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered." },
+      { app: "smartcity", id: "hc-workplace-violence-deescalation-at-the-desk", why: "The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk." },
+      { app: "smartcity", id: "hc-hazardous-drug-spill-kit-response", why: "A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream." },
+    ],
+  },
 ];
 
 /**

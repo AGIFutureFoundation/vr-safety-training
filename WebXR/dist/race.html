@@ -6889,6 +6889,8 @@ const UNIONS = [
   {"id":"iuec","abbrev":"IUEC","name":"International Union of Elevator Constructors","aliases":["IUEC","NEIEP"],"local":null,"colors":null,"trainingBody":"neiep-training","trainingTitle":"IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum","scope":["Building Systems & Facilities"],"note":"Elevator constructor and mechanic apprenticeship, taught to the National Elevator Industry Educational Program curriculum."},
   {"id":"insulators","abbrev":"IAHFIAW","name":"International Association of Heat and Frost Insulators and Allied Workers","aliases":["Insulators","Insulators Local 16"],"local":"Local 16","colors":null,"trainingBody":"insulators-local-16","trainingTitle":"Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body","scope":["Building Systems & Facilities"],"note":"Named by the Insulators and Boilermakers pack's mechanical insulation, firestop and abatement stations, carried by the registry as Insulators Local 16."},
   {"id":"opcmia","abbrev":"OPCMIA","name":"Operative Plasterers' and Cement Masons' International Association","aliases":["OPCMIA"],"local":"Local 300","colors":null,"trainingBody":"opcmia-local-300","trainingTitle":"OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body","scope":["Construction & Structural Trades"],"note":"Cement masons and plasterers. Local 300 is the one OPCMIA local this platform names, as a training body only."},
+  {"id":"seiu-uhw","abbrev":"SEIU-UHW","name":"SEIU United Healthcare Workers West","aliases":["SEIU-UHW","SEIU UHW"],"local":null,"colors":null,"trainingBody":"seiu-uhw-training","trainingTitle":"SEIU-UHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"California hospital, clinic and nursing-home support staff."},
+  {"id":"nuhw","abbrev":"NUHW","name":"National Union of Healthcare Workers","aliases":["NUHW"],"local":null,"colors":null,"trainingBody":"nuhw-training","trainingTitle":"NUHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"Healthcare workers, primarily in California, formed after a split from SEIU-UHW."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7854,6 +7856,30 @@ const CURRICULA = [
       { app: "smartcity", id: "cm-cold-weather-curing-and-blankets", why: "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed." },
     ],
   },
+  {
+    id: "healthcare-support",
+    name: "Healthcare Support",
+    union: "SEIU-UHW and NUHW, the training bodies for California's hospital and clinic support workforce",
+    certification: "OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC's general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter <800> for hazardous drugs; HIPAA's privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA's workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation",
+    guides: [
+      "seiu-uhw-training", "nuhw-training", "osha-1910-1030", "osha-1910-1200", "osha-1910-134",
+      "cdc-guidance", "aami-st79", "usp-general-chapter-800", "hipaa-privacy-rule", "fda-food-code",
+      "servsafe-certification", "nfpa-101", "cal-osha-3342", "cal-osha-3203", "labor-code-6310",
+      "niosh-lifting-equation",
+    ],
+    summary: "The hospital support jobs that never touch a clinical decision but hold the whole building's safety together: an isolation room turned over with the barrier never broken, a surgical tray decontaminated and counted back against its own sheet, a patient moved with a gait belt instead of a solo lift, a tray line that sorts a real allergy flag from a routine one, three waste streams kept apart from the linen chute to the loading dock, a crash cart proven ready every day and a real code supported without ever touching the patient, a front desk that meets an escalating visitor with distance and a calm voice, and a hazardous-drug spill met with the kit built for exactly that.",
+    accent: "#5f8fd6",
+    stations: [
+      { app: "smartcity", id: "hc-environmental-services-isolation-room-turnover", why: "The room an EVS tech inherits the moment a precautions patient leaves: PPE donned to the posted barrier, linen bagged rather than shaken, regulated waste kept out of general trash, and the room logged clean and released." },
+      { app: "smartcity", id: "hc-sterile-processing-decontamination-and-assembly", why: "A hospital-wide case cart rather than a single tray: decontaminated and pre-treated by hand before the washer ever runs, counted back against its own count sheet on the clean side, and sterilized with the biological indicator that proves it." },
+      { app: "smartcity", id: "hc-patient-transport-and-safe-handling", why: "The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal handoff at the other end instead of a dropped chart." },
+      { app: "smartcity", id: "hc-dietary-tray-line-and-allergy-flags", why: "A tray ticket matched to the room, the allergy and NPO flags sorted from the ones that are just charted, a dedicated utensil for a flagged tray, and the ID band checked at the bedside before the tray is ever left behind." },
+      { app: "smartcity", id: "hc-linen-and-regulated-waste-handling", why: "Every bag off the chute checked for a leak or an overweight load, three waste streams kept apart from the sorting line to the loading dock, and a washed cart never mixed back with a soiled one." },
+      { app: "smartcity", id: "hc-code-response-support-and-crash-cart-check", why: "A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered." },
+      { app: "smartcity", id: "hc-workplace-violence-deescalation-at-the-desk", why: "The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk." },
+      { app: "smartcity", id: "hc-hazardous-drug-spill-kit-response", why: "A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream." },
+    ],
+  },
 ];
 
 /**
@@ -7964,6 +7990,7 @@ const HAZARD_BY_CATEGORY = {
   "Sewing & Garment Trades": { header: "CAUTION", text: "Pinch points. Keep hands clear of the needle and the feed.", pictogram: "hazard" },
   "Surface Prep & Coatings": { header: "WARNING", text: "Lead and silica dust. Respirator and containment required.", pictogram: "mandatory" },
   "Youth Sports & Coaching": { header: "CAUTION", text: "Wet floor stops play. Report spills, injuries and head knocks to the coach.", pictogram: "hazard" },
+  "Healthcare Support": { header: "CAUTION", text: "Biohazard. Regulated waste and bloodborne pathogens past this point. PPE required.", pictogram: "mandatory" },
 };
 const HAZARD_DEFAULT = { header: "NOTICE", text: "Authorised personnel only. Sign in at the gate before entering.", pictogram: "none" };
 
@@ -7977,7 +8004,7 @@ const CATEGORY_DEFAULT_UNION = {
   "Entertainment & Live Events": "iatse", "Maritime & Ports": "ilwu", "Environmental Monitoring": "afscme",
   "Community Environmental Justice": "liuna", "Dental & Oral Health": "seiu", "Culinary & Hospitality": "unite-here",
   "Sewing & Garment Trades": "workers-united", "Surface Prep & Coatings": "iupat",
-  "Youth Sports & Coaching": "afscme",
+  "Youth Sports & Coaching": "afscme", "Healthcare Support": "seiu-uhw",
 };
 
 // ------------------------------------------------------------- resolution
@@ -9128,6 +9155,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "cement-masons-and-plasterers",
     "name": "Cement Masons and Plasterers",
     "accent": "#f2c14b"
+  },
+  {
+    "programme": "healthcare-support",
+    "name": "Healthcare Support",
+    "accent": "#5f8fd6"
   }
 ];
 

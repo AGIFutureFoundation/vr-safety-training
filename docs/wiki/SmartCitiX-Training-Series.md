@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 492 SmartCiti.X stations across 17 categories and 38 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 500 SmartCiti.X stations across 18 categories and 39 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -44,6 +44,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Elevator Constructor — IUEC Core Skills](#elevator-constructors)
 - [Insulators and Boilermakers — Building Systems](#insulators-and-boilermakers)
 - [Cement Masons and Plasterers](#cement-masons-and-plasterers)
+- [Healthcare Support](#healthcare-support)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1251,6 +1252,26 @@ Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and t
 | 705 | [Concrete Saw Cutting with Water & Silica Control](../../WebXR/smartcity/index.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control) | Cement mason — OPCMIA Local 300, concrete saw operator | indoor (plant) | 13 | 2 | — | The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust. |
 | 706 | [Epoxy Floor Coating & Ventilation](../../WebXR/smartcity/index.html?sim=cm-epoxy-floor-coating-and-ventilation) | Cement mason — OPCMIA Local 300, floor coating crew | indoor (plant) | 13 | 2 | — | A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected. |
 | 707 | [Cold Weather Curing & Blankets](../../WebXR/smartcity/index.html?sim=cm-cold-weather-curing-and-blankets) | Cement mason — OPCMIA Local 300, cold weather protection crew | wind | 13 | 2 | — | The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed. |
+
+<a id="healthcare-support"></a>
+## Healthcare Support
+
+**Union:** SEIU-UHW and NUHW, the training bodies for California's hospital and clinic support workforce
+
+**Certifications and standards:** OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC's general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter <800> for hazardous drugs; HIPAA's privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA's workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation
+
+The hospital support jobs that never touch a clinical decision but hold the whole building's safety together: an isolation room turned over with the barrier never broken, a surgical tray decontaminated and counted back against its own sheet, a patient moved with a gait belt instead of a solo lift, a tray line that sorts a real allergy flag from a routine one, three waste streams kept apart from the linen chute to the loading dock, a crash cart proven ready every day and a real code supported without ever touching the patient, a front desk that meets an escalating visitor with distance and a calm voice, and a hazardous-drug spill met with the kit built for exactly that.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 352 | [Isolation Room Turnover](../../WebXR/smartcity/index.html?sim=hc-environmental-services-isolation-room-turnover) | Environmental services technician | indoor (clinic) | 13 | 2 | — | The room an EVS tech inherits the moment a precautions patient leaves: PPE donned to the posted barrier, linen bagged rather than shaken, regulated waste kept out of general trash, and the room logged clean and released. |
+| 353 | [Sterile Processing Decon & Assembly](../../WebXR/smartcity/index.html?sim=hc-sterile-processing-decontamination-and-assembly) | Central sterile processing technician | indoor (clinic) | 15 | 2 | — | A hospital-wide case cart rather than a single tray: decontaminated and pre-treated by hand before the washer ever runs, counted back against its own count sheet on the clean side, and sterilized with the biological indicator that proves it. |
+| 354 | [Patient Transport & Safe Handling](../../WebXR/smartcity/index.html?sim=hc-patient-transport-and-safe-handling) | Patient transport technician | indoor (clinic) | 14 | 2 | — | The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal handoff at the other end instead of a dropped chart. |
+| 355 | [Dietary Tray Line & Allergy Flags](../../WebXR/smartcity/index.html?sim=hc-dietary-tray-line-and-allergy-flags) | Dietary aide | indoor (kitchen) | 15 | 2 | — | A tray ticket matched to the room, the allergy and NPO flags sorted from the ones that are just charted, a dedicated utensil for a flagged tray, and the ID band checked at the bedside before the tray is ever left behind. |
+| 356 | [Linen & Regulated Waste Handling](../../WebXR/smartcity/index.html?sim=hc-linen-and-regulated-waste-handling) | Linen and regulated waste handler | indoor (service) | 14 | 2 | — | Every bag off the chute checked for a leak or an overweight load, three waste streams kept apart from the sorting line to the loading dock, and a washed cart never mixed back with a soiled one. |
+| 357 | [Code Response Support & Crash Cart Check](../../WebXR/smartcity/index.html?sim=hc-code-response-support-and-crash-cart-check) | Clinical support technician | indoor (clinic) | 15 | 2 | — | A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered. |
+| 358 | [Workplace Violence De-escalation at the Desk](../../WebXR/smartcity/index.html?sim=hc-workplace-violence-deescalation-at-the-desk) | Patient registration clerk | indoor (clinic) | 13 | 2 | — | The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk. |
+| 359 | [Hazardous Drug Spill Kit Response](../../WebXR/smartcity/index.html?sim=hc-hazardous-drug-spill-kit-response) | Environmental services technician | indoor (clinic) | 14 | 2 | — | A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream. |
 
 ## Real-world environments
 

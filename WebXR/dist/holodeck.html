@@ -10143,6 +10143,8 @@ const STANDARDS = Object.fromEntries([
   S("hhs-45-cfr-46", "HHS", "45 CFR 46 Protection of human subjects — informed consent", ["Community Science"]),
   S("cdc-guidance", "CDC", "Guidelines for Infection Control in Dental Health-Care Settings", ["Health & Clinical"]),
   S("fda-food-code", "FDA", "Food Code, as adopted in the California Retail Food Code", ["Food Service"]),
+  S("aami-st79", "AAMI", "ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities", ["Health & Clinical"], "unverified"),
+  S("usp-general-chapter-800", "USP", "USP General Chapter <800> — Hazardous Drugs: Handling in Healthcare Settings", ["Health & Clinical"], "unverified"),
   S("epa-40-cfr-58", "EPA", "40 CFR 58 Ambient air quality surveillance", ["Air Quality"]),
   S("rcra-40-cfr-262", "EPA", "40 CFR 262 Standards applicable to generators of hazardous waste", ["Hazmat & Environmental"]),
   S("epa-40-cfr-441", "EPA", "40 CFR 441 Dental office point source category — amalgam separators", ["Health & Clinical"]),
@@ -10670,6 +10672,17 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "cm-slab-screed-bull-float-and-trowel", "cm-power-trowel-operation-and-guarding", "cm-curb-and-gutter-forms-and-finish", "cm-exterior-plaster-scratch-brown-and-finish-coats",
       "cm-shotcrete-nozzle-and-rebound", "cm-concrete-saw-cutting-with-water-and-silica-control", "cm-epoxy-floor-coating-and-ventilation", "cm-cold-weather-curing-and-blankets"
+    ],
+    require: 4,
+  },
+  {
+    id: "healthcare-support",
+    title: "Keep a hospital's non-clinical support work — turnover, sterile processing, transport, dietary, waste, code logistics, the front desk and hazardous-drug spills — safe without ever making a clinical call",
+    kind: "programme",
+    standards: ["osha-1910-1030", "osha-1910-1200", "aami-st79", "usp-general-chapter-800", "calosha-8-ccr-3342"],
+    stations: [
+      "hc-environmental-services-isolation-room-turnover", "hc-sterile-processing-decontamination-and-assembly", "hc-patient-transport-and-safe-handling", "hc-dietary-tray-line-and-allergy-flags",
+      "hc-linen-and-regulated-waste-handling", "hc-code-response-support-and-crash-cart-check", "hc-workplace-violence-deescalation-at-the-desk", "hc-hazardous-drug-spill-kit-response"
     ],
     require: 4,
   },
@@ -36108,6 +36121,342 @@ const SIMS_META = [
         "Cement Mason",
         "Lead Finisher",
         "Winter Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-environmental-services-isolation-room-turnover",
+    "index": "352",
+    "domain": "Healthcare Support",
+    "trade": "Environmental services technician",
+    "category": "Healthcare Support",
+    "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and the facility's exposure control plan; the CDC's guidance on cleaning and disinfection of environmental surfaces in healthcare settings and its transmission-based precautions; OSHA 29 CFR 1910.1200 hazard communication for the disinfectant's own label; SEIU-UHW and NUHW as the training bodies for hospital environmental services staff",
+    "name": "Isolation Room Turnover",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Isolation Room Turnover VR",
+    "tagline": "PPE donned to the posted precautions, linen bagged not shaken, regulated waste kept separate, every high-touch surface held to its label's wet-contact time, and the room logged clean and released",
+    "accent": 6273150,
+    "accentCss": "#5fb87e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "room-released",
+      "name": "Room Released",
+      "note": "An isolation room turned over start to finish with the precautions barrier never broken"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Turnover Standard",
+      "currency": "ROOM",
+      "ranks": [
+        "New Tech",
+        "Isolation Certified",
+        "Lead Tech",
+        "EVS Supervisor",
+        "Turnover Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-sterile-processing-decontamination-and-assembly",
+    "index": "353",
+    "domain": "Healthcare Support",
+    "trade": "Central sterile processing technician",
+    "category": "Healthcare Support",
+    "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication for the decontamination area's enzymatic chemicals; the CDC's guideline for disinfection and sterilization in healthcare facilities; ANSI/AAMI ST79 for steam sterilization and sterility assurance; every washer-disinfector and sterilizer's own manufacturer instructions for use; SEIU-UHW and NUHW as the training bodies for central sterile processing staff",
+    "name": "Sterile Processing Decon & Assembly",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Sterile Processing Decon & Assembly VR",
+    "tagline": "A case cart taken apart and pre-treated, washed to its cycle parameters, counted back against its own count sheet, assembled and latched, and sterilized with the biological indicator that proves it",
+    "accent": 5218262,
+    "accentCss": "#4f9fd6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tray-verified",
+      "name": "Tray Verified",
+      "note": "A surgical tray decontaminated, counted, assembled and sterilized with nothing skipped and nothing crossed over"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Central Sterile",
+      "currency": "TRAY",
+      "ranks": [
+        "New Tech",
+        "Decon Certified",
+        "Assembly Lead",
+        "SPD Supervisor",
+        "Central Sterile Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-patient-transport-and-safe-handling",
+    "index": "354",
+    "domain": "Healthcare Support",
+    "trade": "Patient transport technician",
+    "category": "Healthcare Support",
+    "certification": "OSHA's general duty clause and its ergonomics guidance for safe patient handling, drawing on the same lifting principles behind the Revised NIOSH Lifting Equation; OSHA 29 CFR 1910.1030 bloodborne pathogens for tubing and line handling; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for patient transport staff",
+    "name": "Patient Transport & Safe Handling",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Patient Transport & Safe Handling VR",
+    "tagline": "ID checked against the ticket, brakes locked before every transfer, a gait belt instead of a solo lift, the route scanned for a line or a footrest that bites, and a real handoff at the other end",
+    "accent": 13205457,
+    "accentCss": "#c97fd1",
+    "parSeconds": 300,
+    "badge": {
+      "id": "trip-complete",
+      "name": "Trip Complete",
+      "note": "A patient moved start to finish with the brakes set, the belt on and a real handoff at the other end"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Transport Standard",
+      "currency": "TRIP",
+      "ranks": [
+        "New Tech",
+        "Transport Certified",
+        "Lead Tech",
+        "Transport Supervisor",
+        "Safe Handling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-dietary-tray-line-and-allergy-flags",
+    "index": "355",
+    "domain": "Healthcare Support",
+    "trade": "Dietary aide",
+    "category": "Healthcare Support",
+    "certification": "The FDA Food Code as adopted by the state's retail food code for the tray line's own food-safety practice; ServSafe food-handler training; HIPAA's privacy rule for a ticket carrying a patient's name and room number in a shared line; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for hospital dietary staff",
+    "name": "Dietary Tray Line & Allergy Flags",
+    "weather": "clear",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Dietary Tray Line & Allergy Flags VR",
+    "tagline": "The ticket matched to the room, the flags that change this tray sorted from the ones that don't, the right texture and thickener, a dedicated utensil, and a bedside ID check before the tray is ever left behind",
+    "accent": 14721599,
+    "accentCss": "#e0a23f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tray-cleared",
+      "name": "Tray Cleared",
+      "note": "A tray built to its ticket, held safe, and checked against the patient's own ID band before delivery"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tray Line Standard",
+      "currency": "TRAY",
+      "ranks": [
+        "New Aide",
+        "Tray Line Certified",
+        "Lead Aide",
+        "Dietary Supervisor",
+        "Tray Line Certified Trainer"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-linen-and-regulated-waste-handling",
+    "index": "356",
+    "domain": "Healthcare Support",
+    "trade": "Linen and regulated waste handler",
+    "category": "Healthcare Support",
+    "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens for regulated waste and soiled linen; OSHA 29 CFR 1910.1200 hazard communication for the labelling every stream carries; the CDC's general infection-prevention guidance for handling contaminated laundry and waste; SEIU-UHW and NUHW as the training bodies for linen and waste handling staff",
+    "name": "Linen & Regulated Waste Handling",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Linen & Regulated Waste Handling VR",
+    "tagline": "Bags checked for a leak on arrival, three waste streams kept apart, a container weighed and sealed to its own limit, a spill met with its kit, and a washed cart never mixed back with a soiled one",
+    "accent": 6262742,
+    "accentCss": "#5f8fd6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "streams-clean",
+      "name": "Streams Clean",
+      "note": "A shift's linen and waste handled without a single stream crossing another"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Waste Room Standard",
+      "currency": "STREAM",
+      "ranks": [
+        "New Handler",
+        "Waste Room Certified",
+        "Lead Handler",
+        "Waste Room Supervisor",
+        "Streams Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-code-response-support-and-crash-cart-check",
+    "index": "357",
+    "domain": "Healthcare Support",
+    "trade": "Clinical support technician",
+    "category": "Healthcare Support",
+    "certification": "NFPA 101 Life Safety Code for the egress path a code response keeps clear; OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with a used device or a sharp on the cart; the CDC's general infection-prevention guidance for equipment turned over between patients; SEIU-UHW and NUHW as the training bodies for clinical support staff",
+    "name": "Code Response Support & Crash Cart Check",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Code Response Support & Crash Cart Check VR",
+    "tagline": "A crash cart proven ready every day, and the logistics of a real code run by someone who never touches the patient — the hallway kept clear, family redirected, a backup cart delivered, and the room's cart restocked and resealed the moment it clears",
+    "accent": 14701151,
+    "accentCss": "#e0525f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "cart-always-ready",
+      "name": "Cart Always Ready",
+      "note": "A crash cart checked, sealed and logged ready every single day, and a real code supported without ever touching the patient"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cart Readiness",
+      "currency": "CART",
+      "ranks": [
+        "New Support Tech",
+        "Cart Certified",
+        "Lead Tech",
+        "Response Supervisor",
+        "Cart Readiness Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-workplace-violence-deescalation-at-the-desk",
+    "index": "358",
+    "domain": "Healthcare Support",
+    "trade": "Patient registration clerk",
+    "category": "Healthcare Support",
+    "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342 (SB 553) — the written plan, a proven duress alarm, hazard correction and an honest violent-incident log; the Injury and Illness Prevention Program, 8 CCR 3203; Labor Code §6310 protection against retaliation for reporting a hazard; SEIU-UHW and NUHW as the training bodies for front-desk and registration staff",
+    "name": "Workplace Violence De-escalation at the Desk",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Workplace Violence De-escalation at the Desk VR",
+    "tagline": "The exit path and duress button proven before the first visitor, escalation noticed early, distance kept, a calm approach tried first, the button used the moment it isn't working, and the incident logged honestly with a debrief requested for the person who stood at that desk",
+    "accent": 14055999,
+    "accentCss": "#d67a3f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "desk-secured",
+      "name": "Desk Secured",
+      "note": "An escalating visitor met with distance and a calm approach, the duress alarm used the moment it stopped working, and the incident logged honestly"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Front Desk Standard",
+      "currency": "SHIFT",
+      "ranks": [
+        "New Clerk",
+        "Desk Certified",
+        "Lead Clerk",
+        "Front Desk Supervisor",
+        "De-escalation Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hc-hazardous-drug-spill-kit-response",
+    "index": "359",
+    "domain": "Healthcare Support",
+    "trade": "Environmental services technician",
+    "category": "Healthcare Support",
+    "certification": "USP General Chapter <800> for handling hazardous drugs outside a controlled pharmacy area; OSHA 29 CFR 1910.1200 hazard communication for the spilled substance's own safety data sheet; OSHA 29 CFR 1910.134 respiratory protection where the spill calls for it; the CDC's general infection-prevention guidance for contaminated surfaces; SEIU-UHW and NUHW as the training bodies for environmental services staff",
+    "name": "Hazardous Drug Spill Kit Response",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Hazardous Drug Spill Kit Response VR",
+    "tagline": "The area restricted first, PPE donned in order, the spill sized against the kit's own rated capacity, absorbed and collected with the kit's own tools, sealed into the hazardous-drug stream, decontaminated to the label's contact time, and logged",
+    "accent": 10444758,
+    "accentCss": "#9f5fd6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "spill-contained",
+      "name": "Spill Contained",
+      "note": "A hazardous drug spill restricted, absorbed, sealed into its own waste stream and decontaminated start to finish"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spill Response Standard",
+      "currency": "SPILL",
+      "ranks": [
+        "New Tech",
+        "Spill Certified",
+        "Lead Tech",
+        "EVS Supervisor",
+        "Hazardous Drug Certified"
       ],
       "rankAt": [
         0,

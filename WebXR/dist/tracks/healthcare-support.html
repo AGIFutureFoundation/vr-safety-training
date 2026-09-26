@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Healthcare Support — training track</title>
+<meta name="description" content="Healthcare Support: a twenty-level training track, 1702 lessons across 8 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#5f8fd6">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 8 stations · 20 levels · 1702 lessons</p>
+    <h1>Healthcare Support</h1>
+    <p class="union">SEIU-UHW and NUHW, the training bodies for California&#39;s hospital and clinic support workforce</p>
+    <p class="cert">OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC&#39;s general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter &lt;800&gt; for hazardous drugs; HIPAA&#39;s privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA&#39;s workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation</p>
+    <p class="summary">The hospital support jobs that never touch a clinical decision but hold the whole building&#39;s safety together: an isolation room turned over with the barrier never broken, a surgical tray decontaminated and counted back against its own sheet, a patient moved with a gait belt instead of a solo lift, a tray line that sorts a real allergy flag from a routine one, three waste streams kept apart from the linen chute to the loading dock, a crash cart proven ready every day and a real code supported without ever touching the patient, a front desk that meets an escalating visitor with distance and a calm voice, and a hazardous-drug spill met with the kit built for exactly that.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1702</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover">Isolation Room Turnover <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk">Workplace Violence De-escalation at the Desk <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling">Linen &amp; Regulated Waste Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling">Patient Transport &amp; Safe Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response">Hazardous Drug Spill Kit Response <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags">Dietary Tray Line &amp; Allergy Flags <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=day">Isolation Room Turnover <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=day">Workplace Violence De-escalation at the Desk <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=day">Patient Transport &amp; Safe Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day">Hazardous Drug Spill Kit Response <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=day">Dietary Tray Line &amp; Allergy Flags <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover">Isolation Room Turnover <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk">Workplace Violence De-escalation at the Desk <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling">Linen &amp; Regulated Waste Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling">Patient Transport &amp; Safe Handling <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response">Hazardous Drug Spill Kit Response <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags">Dietary Tray Line &amp; Allergy Flags <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=dusk">Isolation Room Turnover <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=dusk">Workplace Violence De-escalation at the Desk <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk">Linen &amp; Regulated Waste Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk">Patient Transport &amp; Safe Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=dusk">Hazardous Drug Spill Kit Response <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk">Dietary Tray Line &amp; Allergy Flags <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover">Isolation Room Turnover <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk">Workplace Violence De-escalation at the Desk <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=day">Patient Transport &amp; Safe Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day">Hazardous Drug Spill Kit Response <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags">Dietary Tray Line &amp; Allergy Flags <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=dusk">Isolation Room Turnover <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=dusk">Workplace Violence De-escalation at the Desk <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk">Linen &amp; Regulated Waste Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk">Patient Transport &amp; Safe Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=dusk">Hazardous Drug Spill Kit Response <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk">Dietary Tray Line &amp; Allergy Flags <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=day">Isolation Room Turnover <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=day">Workplace Violence De-escalation at the Desk <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=day">Patient Transport &amp; Safe Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day">Hazardous Drug Spill Kit Response <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=day">Dietary Tray Line &amp; Allergy Flags <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>83</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=dusk">Isolation Room Turnover <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=dusk">Workplace Violence De-escalation at the Desk <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk">Linen &amp; Regulated Waste Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk">Patient Transport &amp; Safe Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=dusk">Hazardous Drug Spill Kit Response <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk">Dietary Tray Line &amp; Allergy Flags <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>85</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=day">Workplace Violence De-escalation at the Desk <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=day">Patient Transport &amp; Safe Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day">Hazardous Drug Spill Kit Response <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=day">Dietary Tray Line &amp; Allergy Flags <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=day">Code Response Support &amp; Crash Cart Check <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>85</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=dusk">Workplace Violence De-escalation at the Desk <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk">Linen &amp; Regulated Waste Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk">Patient Transport &amp; Safe Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=dusk">Hazardous Drug Spill Kit Response <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk">Dietary Tray Line &amp; Allergy Flags <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=dusk">Code Response Support &amp; Crash Cart Check <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>85</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;hazard=assess">Workplace Violence De-escalation at the Desk <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;hazard=assess">Linen &amp; Regulated Waste Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;hazard=assess">Patient Transport &amp; Safe Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;hazard=assess">Hazardous Drug Spill Kit Response <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;hazard=assess">Dietary Tray Line &amp; Allergy Flags <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;hazard=assess">Code Response Support &amp; Crash Cart Check <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;interrupt=unlabeled-bag-found">Linen &amp; Regulated Waste Handling <span class="chip interrupt">interruption: unlabeled bag found</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=dizzy-patient">Patient Transport &amp; Safe Handling <span class="chip interrupt">interruption: dizzy patient</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=spill-larger-than-expected">Hazardous Drug Spill Kit Response <span class="chip interrupt">interruption: spill larger than expected</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=verbal-diet-request">Dietary Tray Line &amp; Allergy Flags <span class="chip interrupt">interruption: verbal diet request</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=family-pushes-past">Code Response Support &amp; Crash Cart Check <span class="chip interrupt">interruption: family pushes past</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=iuss-request">Sterile Processing Decon &amp; Assembly <span class="chip interrupt">interruption: iuss request</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;hazard=assess">Linen &amp; Regulated Waste Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;hazard=assess">Patient Transport &amp; Safe Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;hazard=assess">Hazardous Drug Spill Kit Response <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;hazard=assess">Dietary Tray Line &amp; Allergy Flags <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;hazard=assess">Code Response Support &amp; Crash Cart Check <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;hazard=assess">Sterile Processing Decon &amp; Assembly <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;interrupt=second-spill">Linen &amp; Regulated Waste Handling <span class="chip interrupt">interruption: second spill</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=bed-brake-slip">Patient Transport &amp; Safe Handling <span class="chip interrupt">interruption: bed brake slip</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=bystander-approaches-zone">Hazardous Drug Spill Kit Response <span class="chip interrupt">interruption: bystander approaches zone</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=cart-heater-fault">Dietary Tray Line &amp; Allergy Flags <span class="chip interrupt">interruption: cart heater fault</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=second-code-call">Code Response Support &amp; Crash Cart Check <span class="chip interrupt">interruption: second code call</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=sterilizer-fault">Sterile Processing Decon &amp; Assembly <span class="chip interrupt">interruption: sterilizer fault</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=dizzy-patient">Patient Transport &amp; Safe Handling <span class="chip interrupt">interruption: dizzy patient</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day">Hazardous Drug Spill Kit Response <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=verbal-diet-request">Dietary Tray Line &amp; Allergy Flags <span class="chip interrupt">interruption: verbal diet request</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=day">Code Response Support &amp; Crash Cart Check <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;time=day">Sterile Processing Decon &amp; Assembly <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;hazard=assess">Linen &amp; Regulated Waste Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk">Patient Transport &amp; Safe Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=spill-larger-than-expected">Hazardous Drug Spill Kit Response <span class="chip interrupt">interruption: spill larger than expected</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk">Dietary Tray Line &amp; Allergy Flags <span class="chip time">dusk</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=family-pushes-past">Code Response Support &amp; Crash Cart Check <span class="chip interrupt">interruption: family pushes past</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;hazard=assess">Sterile Processing Decon &amp; Assembly <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;interrupt=unlabeled-bag-found">Linen &amp; Regulated Waste Handling <span class="chip interrupt">interruption: unlabeled bag found</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;hazard=assess">Patient Transport &amp; Safe Handling <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=bystander-approaches-zone">Hazardous Drug Spill Kit Response <span class="chip interrupt">interruption: bystander approaches zone</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=cart-heater-fault">Dietary Tray Line &amp; Allergy Flags <span class="chip interrupt">interruption: cart heater fault</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=second-code-call">Code Response Support &amp; Crash Cart Check <span class="chip interrupt">interruption: second code call</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=iuss-request">Sterile Processing Decon &amp; Assembly <span class="chip interrupt">interruption: iuss request</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day">Linen &amp; Regulated Waste Handling <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=bed-brake-slip">Patient Transport &amp; Safe Handling <span class="chip interrupt">interruption: bed brake slip</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;hazard=assess">Hazardous Drug Spill Kit Response <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=day">Dietary Tray Line &amp; Allergy Flags <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=day">Code Response Support &amp; Crash Cart Check <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=sterilizer-fault">Sterile Processing Decon &amp; Assembly <span class="chip interrupt">interruption: sterilizer fault</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk">Linen &amp; Regulated Waste Handling <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=dizzy-patient">Patient Transport &amp; Safe Handling <span class="chip interrupt">interruption: dizzy patient</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=spill-larger-than-expected">Hazardous Drug Spill Kit Response <span class="chip interrupt">interruption: spill larger than expected</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;hazard=assess">Dietary Tray Line &amp; Allergy Flags <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;hazard=assess">Code Response Support &amp; Crash Cart Check <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly">Sterile Processing Decon &amp; Assembly <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>87</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;variant=assessment">Linen &amp; Regulated Waste Handling <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;variant=assessment">Patient Transport &amp; Safe Handling <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;variant=assessment">Hazardous Drug Spill Kit Response <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;variant=assessment">Dietary Tray Line &amp; Allergy Flags <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;variant=assessment">Code Response Support &amp; Crash Cart Check <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;variant=assessment">Sterile Processing Decon &amp; Assembly <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>13 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=healthcare-support&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#5fb87e">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Isolation Room Turnover</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The room an EVS tech inherits the moment a precautions patient leaves: PPE donned to the posted barrier, linen bagged rather than shaken, regulated waste kept out of general trash, and the room logged clean and released.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-environmental-services-isolation-room-turnover">Launch Isolation Room Turnover</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4f9fd6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Sterile Processing Decon &amp; Assembly</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">A hospital-wide case cart rather than a single tray: decontaminated and pre-treated by hand before the washer ever runs, counted back against its own count sheet on the clean side, and sterilized with the biological indicator that proves it.</p>
+            <ul class="st-std"><li>AAMI — ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities</li><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=iuss-request"><span class="chip interrupt">interruption: iuss request</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;interrupt=sterilizer-fault"><span class="chip interrupt">interruption: sterilizer fault</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-sterile-processing-decontamination-and-assembly">Launch Sterile Processing Decon &amp; Assembly</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c97fd1">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Patient Transport &amp; Safe Handling</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The ID band checked against the ticket, the brakes locked before every transfer, a gait belt used instead of a solo lift, and a real verbal handoff at the other end instead of a dropped chart.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>NIOSH — Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=dizzy-patient"><span class="chip interrupt">interruption: dizzy patient</span></a> <span class="st-meta">L12, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;interrupt=bed-brake-slip"><span class="chip interrupt">interruption: bed brake slip</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-patient-transport-and-safe-handling">Launch Patient Transport &amp; Safe Handling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a23f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Dietary Tray Line &amp; Allergy Flags</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">A tray ticket matched to the room, the allergy and NPO flags sorted from the ones that are just charted, a dedicated utensil for a flagged tray, and the ID band checked at the bedside before the tray is ever left behind.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>FDA — FDA Food Code — the model code for retail food establishments</li><li>HHS — HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li><li>ServSafe — ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=verbal-diet-request"><span class="chip interrupt">interruption: verbal diet request</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;interrupt=cart-heater-fault"><span class="chip interrupt">interruption: cart heater fault</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-dietary-tray-line-and-allergy-flags">Launch Dietary Tray Line &amp; Allergy Flags</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5f8fd6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Linen &amp; Regulated Waste Handling</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">Every bag off the chute checked for a leak or an overweight load, three waste streams kept apart from the sorting line to the loading dock, and a washed cart never mixed back with a soiled one.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;interrupt=unlabeled-bag-found"><span class="chip interrupt">interruption: unlabeled bag found</span></a> <span class="st-meta">L12, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;interrupt=second-spill"><span class="chip interrupt">interruption: second spill</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-linen-and-regulated-waste-handling">Launch Linen &amp; Regulated Waste Handling</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0525f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Code Response Support &amp; Crash Cart Check</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>NFPA — NFPA 101 — Life Safety Code</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L15, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=family-pushes-past"><span class="chip interrupt">interruption: family pushes past</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;interrupt=second-code-call"><span class="chip interrupt">interruption: second code call</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-code-response-support-and-crash-cart-check">Launch Code Response Support &amp; Crash Cart Check</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d67a3f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Workplace Violence De-escalation at the Desk</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5 min · indoors</p>
+            <p class="why">The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk.</p>
+            <ul class="st-std"><li>Cal/OSHA — 8 CCR 3203 — Injury and Illness Prevention Program</li><li>Cal/OSHA — 8 CCR 3342 — Workplace violence prevention plan</li><li>Cal. Labor Code — California Labor Code §6310 — no retaliation for reporting an unsafe condition</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-workplace-violence-deescalation-at-the-desk">Launch Workplace Violence De-escalation at the Desk</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#9f5fd6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Healthcare Support</p>
+            <h3>Hazardous Drug Spill Kit Response</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min · indoors</p>
+            <p class="why">A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream.</p>
+            <ul class="st-std"><li>CDC — CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</li><li>union — NUHW member education and safety training for hospital and clinic support staff</li><li>OSHA — 29 CFR 1910.1200 — Hazard communication</li><li>OSHA — 29 CFR 1910.134 — Respiratory protection</li><li>union — SEIU-UHW member education and safety training for hospital and clinic support staff</li><li>USP — USP General Chapter &lt;800&gt; — Hazardous Drugs: Handling in Healthcare Settings</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=spill-larger-than-expected"><span class="chip interrupt">interruption: spill larger than expected</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;interrupt=bystander-approaches-zone"><span class="chip interrupt">interruption: bystander approaches zone</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=hc-hazardous-drug-spill-kit-response">Launch Hazardous Drug Spill Kit Response</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>AAMI</td><td>ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities</td><td class="n">9 levels</td></tr>
+          <tr><td>Cal. Labor Code</td><td>California Labor Code §6310 — no retaliation for reporting an unsafe condition</td><td class="n">11 levels</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3203 — Injury and Illness Prevention Program</td><td class="n">11 levels</td></tr>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3342 — Workplace violence prevention plan</td><td class="n">11 levels</td></tr>
+          <tr><td>CDC</td><td>CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance</td><td class="n">all 20</td></tr>
+          <tr><td>FDA</td><td>FDA Food Code — the model code for retail food establishments</td><td class="n">all 20</td></tr>
+          <tr><td>HHS</td><td>HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 101 — Life Safety Code</td><td class="n">12 levels</td></tr>
+          <tr><td>NIOSH</td><td>Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1200 — Hazard communication</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.134 — Respiratory protection</td><td class="n">all 20</td></tr>
+          <tr><td>ServSafe</td><td>ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>NUHW member education and safety training for hospital and clinic support staff</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>SEIU-UHW member education and safety training for hospital and clinic support staff</td><td class="n">all 20</td></tr>
+          <tr><td>USP</td><td>USP General Chapter &lt;800&gt; — Hazardous Drugs: Handling in Healthcare Settings</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Keep a hospital&#39;s non-clinical support work — turnover, sterile processing, transport, dietary, waste, code logistics, the front desk and hazardous-drug spills — safe without ever making a clinical call</h3>
+        <p>Demonstrated with a mastery run on 4 of its 8 stations, against OSHA 29 CFR 1910.1030 Bloodborne pathogens; OSHA 29 CFR 1910.1200 Hazard communication; AAMI ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities; USP USP General Chapter &lt;800&gt; — Hazardous Drugs: Handling in Healthcare Settings; Cal/OSHA 8 CCR 3342 Workplace violence prevention plan.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; OSHA 29 CFR 1910.134 respiratory protection; the CDC&#39;s general infection-prevention guidance; ANSI/AAMI ST79 for steam sterilization; USP General Chapter &lt;800&gt; for hazardous drugs; HIPAA&#39;s privacy rule; the FDA Food Code and ServSafe food-handler training; NFPA 101 Life Safety Code; Cal/OSHA&#39;s workplace violence prevention standard (8 CCR 3342) and Injury and Illness Prevention Program (8 CCR 3203); Labor Code §6310; and lifting principles drawn from the Revised NIOSH Lifting Equation. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>
