@@ -10241,7 +10241,8 @@ const PROGRAMME_COMPETENCIES = [
       "br-sediment-chain-of-custody-and-lab-prep", "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service",
       "br-dredge-material-screening-and-disposal-decision", "br-marine-mammal-observer-during-pile-driving", "br-bird-nesting-buffer-and-work-window", "br-tidal-marsh-grading-amphibious-excavator",
       "br-native-planting-and-erosion-mats", "br-culvert-retrofit-for-fish-passage", "br-shoreline-cleanup-sharps-and-hazardous-debris", "br-intertidal-invasive-removal-by-hand-crew",
-      "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
+      "br-levee-inspection-and-seepage", "br-fish-screen-maintenance", "br-drone-shoreline-survey", "br-volunteer-cleanup-day-safety-lead",
+      "br-restoration-data-qa-and-public-reporting", "br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting"
     ],
     require: 6,
   },
@@ -32690,6 +32691,216 @@ const SIMS_META = [
         "Assistant Coach",
         "Head Coach",
         "Handles Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-drone-shoreline-survey",
+    "index": "345",
+    "domain": "Environmental Monitoring",
+    "trade": "FAA Part 107 remote pilot in command, flying a restoration bench's shoreline survey line with a visual observer beside them",
+    "category": "Environmental Monitoring",
+    "certification": "FAA 14 CFR Part 107 small unmanned aircraft systems rule and today's LAANC airspace authorization; U.S. Fish and Wildlife Service (USFWS) Endangered Species Act buffer conditions for the nesting birds at the bench's edge; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the survey; NOAA tide predictions the flight window is timed against; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a photographic record of the restoration bench",
+    "name": "Drone Shoreline Survey",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Drone Shoreline Survey VR",
+    "tagline": "The survey a restoration record is built from: the airspace authorization read before anything is unpacked, the gear checked for a cracked prop or a swollen cell, the compass calibrated, the bird buffer confirmed and marked, the survey line flown clean end to end, a wind gust answered with an immediate return home, the battery landed inside its reserve band and every pass logged the way the permit requires",
+    "accent": 5224672,
+    "accentCss": "#4fb8e0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-line-clean-log",
+      "name": "Clean Line, Clean Log",
+      "note": "The airspace was checked before launch, the buffer was held the whole line, the gust got an immediate return home, and the battery landed inside its reserve band"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shoreline Survey Watch",
+      "currency": "PASSES",
+      "ranks": [
+        "Ground Crew",
+        "Observer Pilot",
+        "Line Pilot",
+        "Senior Pilot",
+        "Shoreline Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-volunteer-cleanup-day-safety-lead",
+    "index": "346",
+    "domain": "Water & Environmental",
+    "trade": "Volunteer cleanup day safety lead, briefing and watching a shoreline cleanup crew of community volunteers for a sponsoring restoration agency",
+    "category": "Water & Environmental",
+    "certification": "Cal/OSHA 8 CCR 3395 heat illness prevention in outdoor places of employment; OSHA 29 CFR 1910.1030 bloodborne pathogens for sharps handling; Cal/OSHA 8 CCR 3203 Injury and Illness Prevention Program behind today's briefing; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NOAA tide predictions the work window is timed against",
+    "name": "Volunteer Cleanup Day Safety Lead",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Water & Environmental",
+    "title": "SmartCiti.X~ Volunteer Cleanup Day Safety Lead VR",
+    "tagline": "The watch a volunteer crew doesn't know it needs: the briefing that actually covers sharps and the buddy system, the right glove and tool handed out for the right hazard, a loose needle found before the crew ever fans out, the tide window read off the table rather than guessed at, a missing volunteer answered with an immediate headcount, a surging tide answered with an immediate recall, and every hour of the day logged the way the sponsoring agency needs it logged",
+    "accent": 14721596,
+    "accentCss": "#e0a23c",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-crew-clean-flat",
+      "name": "Clean Crew, Clean Flat",
+      "note": "The briefing covered sharps and the buddy system, the missing volunteer got an immediate headcount, the tide surge got an immediate recall, and the whole crew signed back in accounted for"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cleanup Day Watch",
+      "currency": "CHECK-INS",
+      "ranks": [
+        "New Safety Lead",
+        "Safety Lead",
+        "Senior Safety Lead",
+        "Lead Coordinator",
+        "Cleanup Day Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-restoration-data-qa-and-public-reporting",
+    "index": "347",
+    "domain": "Environmental Monitoring",
+    "trade": "Restoration data QA technician, moving field sheets into the shared database and preparing the public dashboard summary for the restoration programme's agency scientists",
+    "category": "Environmental Monitoring",
+    "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; EPA 40 CFR Part 136 test procedures for the analysis of pollutants; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a public accounting of the data; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit reporting conditions; NOAA tide predictions and species-detection timing behind several of the datasets this desk reviews",
+    "name": "Restoration Data QA & Public Reporting",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Restoration Data QA & Public Reporting VR",
+    "tagline": "The desk between a field sheet and the public: every incoming sheet checked for a missing signature or a value out of range before it's scanned, every sample logged into custody the moment it's handed off, a suspect record held for review rather than typed straight in, a reporter's early call routed to the agency's own public information line instead of answered off the cuff, a sync conflict resolved rather than overwritten, and a dashboard caption that says only what the reviewed data actually shows",
+    "accent": 5938888,
+    "accentCss": "#5a9ec8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-record-clean-caption",
+      "name": "Clean Record, Clean Caption",
+      "note": "Every field sheet was checked before scanning, the suspect value was flagged rather than typed straight in, the reporter's call was routed rather than answered off the cuff, and the dashboard caption said only what the data showed"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Data QA Watch",
+      "currency": "RECORDS",
+      "ranks": [
+        "Data Entry Aide",
+        "QA Technician",
+        "Senior QA Technician",
+        "Lead QA Reviewer",
+        "Data QA Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-beach-seine-fish-survey-and-handling",
+    "index": "348",
+    "domain": "Water & Environmental",
+    "trade": "Fisheries technician, running a beach seine survey and skiff set for a restoration monitoring programme under a CDFW permit",
+    "category": "Water & Environmental",
+    "certification": "California Department of Fish and Wildlife (CDFW) permit conditions for the take, handling and release of fish in survey work; NOAA tide predictions and Endangered Species Act consultation for any protected species encountered; USCG 33 CFR Part 83 Inland Navigation Rules for the skiff set; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+    "name": "Beach Seine Fish Survey & Handling",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Water & Environmental",
+    "title": "SmartCiti.X~ Beach Seine Fish Survey & Handling VR",
+    "tagline": "The survey that never costs a fish more than it has to: today's permit read before the net leaves the skiff, the gear checked for a torn panel before it's set, the net run out from the skiff and hauled in as one crew, a protected species released ahead of the routine tally, a snag answered by easing off rather than forcing the haul, every fish handled and identified inside the permit's window, and every one of them back in the water before that window closes",
+    "accent": 4890250,
+    "accentCss": "#4a9e8a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-haul-clean-release",
+      "name": "Clean Haul, Clean Release",
+      "note": "The permit was checked before the net was set, the protected species got priority release, the snag was eased off rather than forced, and every fish went back inside the handling window"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Seine Survey Watch",
+      "currency": "HAULS",
+      "ranks": [
+        "Beach Crew",
+        "Seine Technician",
+        "Lead Technician",
+        "Senior Technician",
+        "Beach Seine Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-benthic-grab-and-invertebrate-sorting",
+    "index": "349",
+    "domain": "Maritime & Ports",
+    "trade": "Benthic monitoring technician, taking grab samples from a workboat and sorting invertebrates for a restoration monitoring programme",
+    "category": "Maritime & Ports",
+    "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; USCG 33 CFR Part 83 Inland Navigation Rules for station-keeping while sampling; Regional Water Quality Control Board (RWQCB) monitoring conditions for the benthic community data; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+    "name": "Benthic Grab & Invertebrate Sorting",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Benthic Grab & Invertebrate Sorting VR",
+    "tagline": "The deck routine a benthic monitoring record depends on: the grab checked for a bent jaw before it goes over the rail, hands clear while it's cocked, the sample sieved and sorted at the generic level the reference calls for, a snag eased off rather than forced, a deckhand cleared before the grab swings inboard, every organism preserved inside the sort window, and every jar logged into custody before it leaves the deck",
+    "accent": 8030912,
+    "accentCss": "#7a8ac0",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-grab-clean-sort",
+      "name": "Clean Grab, Clean Sort",
+      "note": "The grab was checked and cocked correctly, hands stayed clear of the jaws, the snag was eased off, the deckhand was cleared before the swing, and every jar was logged inside the sort window"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Benthic Sampling Watch",
+      "currency": "GRABS",
+      "ranks": [
+        "Deckhand Aide",
+        "Benthic Technician",
+        "Lead Technician",
+        "Senior Technician",
+        "Benthic Grab Certified"
       ],
       "rankAt": [
         0,

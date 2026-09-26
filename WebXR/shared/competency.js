@@ -597,7 +597,8 @@ export const PROGRAMME_COMPETENCIES = [
       "br-sediment-chain-of-custody-and-lab-prep", "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service",
       "br-dredge-material-screening-and-disposal-decision", "br-marine-mammal-observer-during-pile-driving", "br-bird-nesting-buffer-and-work-window", "br-tidal-marsh-grading-amphibious-excavator",
       "br-native-planting-and-erosion-mats", "br-culvert-retrofit-for-fish-passage", "br-shoreline-cleanup-sharps-and-hazardous-debris", "br-intertidal-invasive-removal-by-hand-crew",
-      "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
+      "br-levee-inspection-and-seepage", "br-fish-screen-maintenance", "br-drone-shoreline-survey", "br-volunteer-cleanup-day-safety-lead",
+      "br-restoration-data-qa-and-public-reporting", "br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting"
     ],
     require: 6,
   },
