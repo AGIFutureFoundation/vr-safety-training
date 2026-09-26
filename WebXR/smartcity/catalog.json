@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 426
+      "stations": 427
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-crawler-crane-assembly-and-load-chart",
         "op-compactor-lift-thickness-and-edge",
         "op-grader-fine-grade-and-crown",
         "op-loader-truck-loading-and-blind-spots",
@@ -7646,6 +7647,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-crawler-crane-assembly-and-load-chart",
+      "name": "Crawler Crane Assembly & Load Chart",
+      "title": "SmartCiti.X~ Crawler Crane Assembly & Load Chart VR",
+      "tagline": "Crawler crane assembly closed out and proved before the first pick: ground bearing confirmed, every pin and lacing member inspected, the backstop engaged, the chart read at the planned radius, and a test lift held before anything real goes on the hook",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Crawler crane operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction and ASME B30.5; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on crane assembly and struck-by incidents",
+      "accent": "#3a5fc4",
+      "parSeconds": 285,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "boom-authority",
+        "name": "Boom Authority",
+        "note": "Assembly inspected and pinned, the chart read at the planned radius, and a test lift proved before the first real pick"
+      },
+      "meshes": 265,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-6",
+      "flat": false,
+      "system": "Boom Authority",
+      "currency": "BOOM",
+      "ranks": [
+        "Ground Hand",
+        "Rigger",
+        "Signal Person",
+        "Load Chart Certified",
+        "Boom Authority"
+      ],
+      "awards": [
+        {
+          "id": "pins-confirmed",
+          "name": "Pins Confirmed",
+          "note": "Never swung the boom before every pin was confirmed"
+        },
+        {
+          "id": "swing-held",
+          "name": "Swing Held",
+          "note": "Never let anyone stand in the swing radius"
+        },
+        {
+          "id": "steady-chart",
+          "name": "Steady Chart",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "test-lift-clean",
+          "name": "Test Lift Clean",
+          "note": "Prove the test lift clean, first try"
+        },
+        {
+          "id": "quick-close-out",
+          "name": "Quick Close-Out",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "boom-streak",
+          "name": "Boom Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-crawler-crane-assembly-and-load-chart"
     },
     {
       "app": "smartcity",
@@ -28030,7 +28119,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28690,7 +28779,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

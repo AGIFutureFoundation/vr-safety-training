@@ -18172,5 +18172,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-crawler-crane-assembly-and-load-chart",
+    "index": "op-6",
+    "domain": "Construction",
+    "trade": "Crawler crane operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction and ASME B30.5; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on crane assembly and struck-by incidents",
+    "name": "Crawler Crane Assembly & Load Chart",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Crawler Crane Assembly & Load Chart VR",
+    "tagline": "Crawler crane assembly closed out and proved before the first pick: ground bearing confirmed, every pin and lacing member inspected, the backstop engaged, the chart read at the planned radius, and a test lift held before anything real goes on the hook",
+    "accent": 3825604,
+    "accentCss": "#3a5fc4",
+    "parSeconds": 285,
+    "badge": {
+      "id": "boom-authority",
+      "name": "Boom Authority",
+      "note": "Assembly inspected and pinned, the chart read at the planned radius, and a test lift proved before the first real pick"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boom Authority",
+      "currency": "BOOM",
+      "ranks": [
+        "Ground Hand",
+        "Rigger",
+        "Signal Person",
+        "Load Chart Certified",
+        "Boom Authority"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
