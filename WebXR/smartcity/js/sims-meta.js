@@ -17710,5 +17710,257 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-composure-with-a-hostile-crowd-and-officials",
+    "index": "345",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching a young athlete's emotional response to officiating rather than the call itself; the Association for Applied Sport Psychology's guidance on a short composure routine under provocation — a breath, a cue word, and attention returned to the bench; NFHS basketball rules on technical fouls and its sportsmanship expectations for players, coaches and benches; the U.S. Center for SafeSport for protecting a young athlete from personal, targeted abuse from a spectator, and for calm, observable adult handling of a hostile fan; CDC Heads Up for a head knock taken in a courtside scramble; the American Red Cross first aid course for a spilled drink or a fall along the baseline",
+    "name": "Composure with a Hostile Crowd and Officials",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Composure with a Hostile Crowd and Officials VR",
+    "tagline": "A bad call and a heckling parent are not something a player can win an argument with — one breath, a cue word and eyes back on the bench keep the game the one thing still in their control",
+    "accent": 16739146,
+    "accentCss": "#ff6b4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "still-in-the-game",
+      "name": "Still in the Game",
+      "note": "A bad call and a hostile heckle both met with the routine instead of an argument, and the bench stayed calm around it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bench Composure Board",
+      "currency": "STEADY POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Composure Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-teammate-conflict-and-accountability",
+    "index": "346",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching team culture and conflict between young athletes rather than only the skills between them; the Association for Applied Sport Psychology's guidance on accountability that builds rather than shames a young athlete; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other on and off the ball; the U.S. Center for SafeSport for observable, non-shaming correction and for knowing when a physical incident between athletes has to be reported rather than only handled on the floor; CDC Heads Up for a head knock taken in the scramble that led to the shove; the American Red Cross first aid course for checking either player over before play resumes",
+    "name": "Teammate Conflict and Accountability",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Teammate Conflict and Accountability VR",
+    "tagline": "A shove over a loose ball does not end when the whistle blows it dead — separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again",
+    "accent": 16758863,
+    "accentCss": "#ffb84f",
+    "parSeconds": 340,
+    "badge": {
+      "id": "still-teammates",
+      "name": "Still Teammates",
+      "note": "A shove met with a real circle-up instead of a rushed sorry, and both players actually repaired before the next drill"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Circle-Up Board",
+      "currency": "REPAIR POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Culture Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-coach-feedback-and-growth-mindset",
+    "index": "347",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching feedback that builds a young athlete's game rather than their fear of the next mistake; the Association for Applied Sport Psychology's guidance on growth-mindset feedback — the specific behaviour, its impact, one actionable fix, and genuine credit for effort; NFHS basketball rules and its sportsmanship expectations for how a team treats a teammate's mistakes on film as much as on the court; the U.S. Center for SafeSport for private, observable correction rather than a mistake replayed for laughs in front of the team; CDC Heads Up for a knock to the head noticed while walking a correction through at game speed; the American Red Cross first aid course for a player who is unwell or dehydrated sitting through a long review session",
+    "name": "Coach Feedback and Growth Mindset",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Coach Feedback and Growth Mindset VR",
+    "tagline": "The same mistake on film either becomes one specific, fixable thing or a verdict on the player watching it — the difference is entirely in how the correction is given",
+    "accent": 5492928,
+    "accentCss": "#53d0c0",
+    "parSeconds": 335,
+    "badge": {
+      "id": "correction-not-collapse",
+      "name": "Correction, Not Collapse",
+      "note": "A hard mistake on film corrected specifically and taken by the player as something to fix, not as who they are"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Film Room Board",
+      "currency": "GROWTH POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Feedback Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-final-possession-decision-under-pressure",
+    "index": "348",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on developing every player's decision-making rather than funnelling every close game to one player; the Association for Applied Sport Psychology's guidance on decision-making under pressure and a read-in-order hierarchy a young athlete can actually run with a clock winding down; NFHS basketball rules on game administration and timing for a possession that has to be timed and called correctly; CDC Heads Up for a knock to the head taken diving for a loose ball late in a close game; the American Red Cross first aid course for checking a player over before sending them back in for a final possession; the U.S. Center for SafeSport for how a player who misses the final shot is treated afterwards",
+    "name": "Final Possession, Decision Under Pressure",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Final Possession, Decision Under Pressure VR",
+    "tagline": "The clock winding down does not change what the right read is, only how hard it is to make calmly — a decision hierarchy read in order beats a forced shot every time",
+    "accent": 16769126,
+    "accentCss": "#ffe066",
+    "parSeconds": 335,
+    "badge": {
+      "id": "read-it-dont-force-it",
+      "name": "Read It, Don't Force It",
+      "note": "A final possession run through the decision hierarchy in order, calm under the clock instead of forced into the first option that showed up"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Final Possession Board",
+      "currency": "READ POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Decision Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-layups-and-finishing-at-the-rim",
+    "index": "349",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on teaching finishing footwork with both hands rather than only a player's dominant side; NFHS basketball rules on legal footwork at the rim and its sportsmanship expectations for a crowded finishing line; CDC Heads Up for a knock to the head taken in contact under the rim; the U.S. Center for SafeSport for calm, observable correction of a footwork fault rather than a fault called out in front of the line; the American Red Cross first aid course for a player down after a hard finish",
+    "name": "Layups and Finishing at the Rim",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Layups and Finishing at the Rim VR",
+    "tagline": "The easiest drill on the practice plan is also the most collision-prone: gather, plant, drive, soft touch, and a controlled approach that keeps the line under the rim from becoming a pile-up",
+    "accent": 5234848,
+    "accentCss": "#4fe0a0",
+    "parSeconds": 325,
+    "badge": {
+      "id": "soft-touch-clean-line",
+      "name": "Soft Touch, Clean Line",
+      "note": "A finishing line run with clean footwork, a controlled approach and nobody colliding under the rim"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Finishing Line Board",
+      "currency": "SOFT-TOUCH POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Finishing Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-dribble-moves-and-change-of-pace",
+    "index": "350",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on live, defender-read ball-handling built on top of a player's basic dribble rather than skipped straight to game speed; NFHS basketball rules on legal dribbling and carrying, and its sportsmanship expectations for live moves run near a teammate; CDC Heads Up for a knock to the head taken in a collision between two live-move lines; the U.S. Center for SafeSport for calm, observable correction of a move that breaks down rather than a fault called out in front of the group; the American Red Cross first aid course for a rolled ankle on a hard change of pace",
+    "name": "Dribble Moves and Change of Pace",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Dribble Moves and Change of Pace VR",
+    "tagline": "A crossover only beats a defender because of what happens around it — a believable slow stretch that makes the sudden burst actually sudden, run low and under control the whole way through",
+    "accent": 14191359,
+    "accentCss": "#d88aff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "sell-it-then-burst",
+      "name": "Sell It, Then Burst",
+      "note": "A change of pace sharp enough to create separation, run low and under control from the hesitation to the burst"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Change-of-Pace Board",
+      "currency": "SEPARATION POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Handles Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

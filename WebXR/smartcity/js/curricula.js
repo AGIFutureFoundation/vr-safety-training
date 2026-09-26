@@ -761,6 +761,12 @@ export const CURRICULA = [
       { app: "smartcity", id: "bb-scrimmage-and-sportsmanship-debrief", why: "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is." },
       { app: "smartcity", id: "bb-reset-routine-after-a-miss", why: "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral." },
       { app: "smartcity", id: "bb-pre-game-routine-and-visualisation", why: "The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up." },
+      { app: "smartcity", id: "bb-composure-with-a-hostile-crowd-and-officials", why: "A bad call and a heckling parent are not an argument a player can win, so the routine underneath — a breath, a cue word, eyes back on the bench — keeps the game the one thing still in their control." },
+      { app: "smartcity", id: "bb-teammate-conflict-and-accountability", why: "A shove over a loose ball does not end when the whistle blows it dead: separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again." },
+      { app: "smartcity", id: "bb-coach-feedback-and-growth-mindset", why: "The same mistake on film becomes one specific, fixable thing or a verdict on the player watching it, and the difference is entirely in how the correction is given." },
+      { app: "smartcity", id: "bb-final-possession-decision-under-pressure", why: "The clock winding down does not change what the right read is, only how hard it is to make calmly, so a decision hierarchy read in order beats a shot forced the moment the pressure shows up." },
+      { app: "smartcity", id: "bb-layups-and-finishing-at-the-rim", why: "The easiest drill on the practice plan is also the most collision-prone, so gather, plant, drive and a soft-touch finish are built alongside a controlled approach that keeps the line under the rim from becoming a pile-up." },
+      { app: "smartcity", id: "bb-dribble-moves-and-change-of-pace", why: "A crossover only beats a defender because of what happens around it, so a believable hesitation and a sharp, controlled change of pace are drilled live against a real defensive read." },
     ],
   },
   {

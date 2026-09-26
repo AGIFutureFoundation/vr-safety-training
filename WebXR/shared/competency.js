@@ -578,7 +578,9 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
       "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
-      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation"
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation",
+      "bb-composure-with-a-hostile-crowd-and-officials", "bb-teammate-conflict-and-accountability", "bb-coach-feedback-and-growth-mindset", "bb-final-possession-decision-under-pressure",
+      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace"
     ],
     require: 6,
   },
