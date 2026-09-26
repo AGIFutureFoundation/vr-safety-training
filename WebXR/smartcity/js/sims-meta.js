@@ -18172,5 +18172,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "uw-lift-bag-rigging-and-object-recovery",
+    "index": "357",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver rigging a two-bag lift on a dropped hydraulic power unit skid, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools); ADCI International Consensus Standards for Commercial Diving and Underwater Operations, including its guidance on lift bag rigging; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Lift Bag Rigging & Object Recovery",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Lift Bag Rigging & Object Recovery VR",
+    "tagline": "The skid rigged for two bags: on-bottom report, the lift eyes and a trailing power cable found, the bridle's shackles set and moused in order, a bag clipped to each leg, the fill matched against the skid's tagged weight, the turnbuckle worked to bring it level, the cable and the umbilical checked clear before anything lifts, the skid guided off the silt on the tag line through a slide inside the bridle, the rise escorted while a bag threatens to run, the vent worked at the safety stop, the lift reported, and the crew checked in",
+    "accent": 14191183,
+    "accentCss": "#d88a4f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "level-and-escorted",
+      "name": "Level and Escorted",
+      "note": "Every shackle pin moused before a bag went on, the load brought level before it lifted, and the whole rise escorted without a hand ever on the load itself"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Two-Bag Lift",
+      "currency": "BUOYANCY",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Rigging Diver",
+        "Lead Rigging Diver",
+        "Lift Bag Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

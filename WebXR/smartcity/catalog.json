@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 426
+      "stations": 427
     },
     "trades": {
       "entry": "trades/index.html",
@@ -275,6 +275,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "uw-lift-bag-rigging-and-object-recovery",
         "uw-bridge-pier-scour-survey",
         "uw-intake-screen-cleaning-with-lockout",
         "uw-underwater-concrete-and-bag-placement",
@@ -2377,13 +2378,43 @@
           "app": "smartcity",
           "id": "mw-diver-emergency-and-recovery",
           "why": "The standby's dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor's call rather than flown up on a bag."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-rov-pre-dive-and-tether-management",
+          "why": "The small inspection ROV before it ever swims: the thruster shroud bolted on before any call for power, the tether's drag set and its route flown wide of a rebar cage and a ghost net, and the vehicle recalled and docked without ever flying blind on a frozen picture."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-pipeline-crossing-inspection-dive",
+          "why": "A submerged crossing walked cradle to cradle: the locator's gain set before the route is swum, cathodic protection read on the reference cell, and a coating holiday and an undermined cradle found and supported without ever passing under the span or fanning its scour pocket."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-underwater-concrete-and-bag-placement",
+          "why": "A corroded pile jacketed and poured: the form closed and sealed before the tremie ever goes in, its tip kept buried through a pump surge, the air bled at every stage, and the scour bags interlocked once the pour is confirmed full."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-intake-screen-cleaning-with-lockout",
+          "why": "The plant's own lockout worked above water first — breaker racked, locked and tagged, the isolation valve shut — before the diver ever proves the no-flow gauge again with their own hands and clears the screen."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-bridge-pier-scour-survey",
+          "why": "A pier's footing read against last year's survey: the benchmark found and the probe zeroed to it before any depth counts, the whole perimeter circled evenly, and the deepest point marked, flagged and logged rather than guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-lift-bag-rigging-and-object-recovery",
+          "why": "A dropped skid too heavy for one bag: both shackle pins moused before either bag goes on, the load brought level on the turnbuckle, and the whole rise escorted by eye rather than by a hand ever laid on the load itself."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1616,
-        "tasks": 123,
+        "lessons": 1612,
+        "tasks": 122,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -7649,6 +7680,89 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-lift-bag-rigging-and-object-recovery",
+      "name": "Lift Bag Rigging & Object Recovery",
+      "title": "SmartCiti.X~ Lift Bag Rigging & Object Recovery VR",
+      "tagline": "The skid rigged for two bags: on-bottom report, the lift eyes and a trailing power cable found, the bridle's shackles set and moused in order, a bag clipped to each leg, the fill matched against the skid's tagged weight, the turnbuckle worked to bring it level, the cable and the umbilical checked clear before anything lifts, the skid guided off the silt on the tag line through a slide inside the bridle, the rise escorted while a bag threatens to run, the vent worked at the safety stop, the lift reported, and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver rigging a two-bag lift on a dropped hydraulic power unit skid, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools); ADCI International Consensus Standards for Commercial Diving and Underwater Operations, including its guidance on lift bag rigging; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#d88a4f",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "level-and-escorted",
+        "name": "Level and Escorted",
+        "note": "Every shackle pin moused before a bag went on, the load brought level before it lifted, and the whole rise escorted without a hand ever on the load itself"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "357",
+      "flat": false,
+      "system": "Two-Bag Lift",
+      "currency": "BUOYANCY",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Rigging Diver",
+        "Lead Rigging Diver",
+        "Lift Bag Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "moused-before-lift",
+          "name": "Moused Before Lift",
+          "note": "Both shackle pins moused before either bag was clipped on, first time"
+        },
+        {
+          "id": "matched-capacity",
+          "name": "Matched Capacity",
+          "note": "The combined lift matched to the skid's tagged weight inside the band, first time"
+        },
+        {
+          "id": "hands-off-the-load",
+          "name": "Hands Off The Load",
+          "note": "Never a hand on the load itself, never an unmoused pin trusted, never the umbilical left across the bridle, never kept venting blind through dead comms"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-escort",
+          "name": "Steady Escort",
+          "note": "The ascent escorted in band the whole way up"
+        },
+        {
+          "id": "recovered-in-time",
+          "name": "Recovered In Time",
+          "note": "The lift reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-lift-bag-rigging-and-object-recovery"
+    },
+    {
+      "app": "smartcity",
       "id": "uw-bridge-pier-scour-survey",
       "name": "Bridge Pier Scour Survey",
       "title": "SmartCiti.X~ Bridge Pier Scour Survey VR",
@@ -7681,7 +7795,7 @@
         "name": "Zeroed and Marked",
         "note": "The probe zeroed to the benchmark before any reading counted, the deepest point flagged and logged, and never a hand in the undercut or a tool dropped into the hole"
       },
-      "meshes": 145,
+      "meshes": 168,
       "lights": 0,
       "overBudget": false,
       "index": "356",
@@ -28005,7 +28119,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 268,
+      "meshes": 245,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28665,7 +28779,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

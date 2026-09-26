@@ -5010,6 +5010,58 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-lift-bag-rigging-and-object-recovery",
+      "name": "Lift Bag Rigging & Object Recovery",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 353,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9166666666666666,
+          "want": 12,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 48,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.14460227272727277,
+          "nearest": "uw-underwater-concrete-and-bag-placement",
+          "similarity": 0.31107954545454547
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "uw-bridge-pier-scour-survey",
       "name": "Bridge Pier Scour Survey",
       "category": "Maritime & Ports",
@@ -5057,6 +5109,58 @@
           "score": 0.17968545216251658,
           "nearest": "uw-pipeline-crossing-inspection-dive",
           "similarity": 0.3040629095674967
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-underwater-concrete-and-bag-placement",
+      "name": "Underwater Concrete & Bag Placement",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 360,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9230769230769231,
+          "want": 13,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 51,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.14460227272727277,
+          "nearest": "uw-lift-bag-rigging-and-object-recovery",
+          "similarity": 0.31107954545454547
         }
       }
     },
@@ -6141,7 +6245,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -7241,58 +7345,6 @@
           "score": 0.3005256241787124,
           "nearest": "uw-pipeline-crossing-inspection-dive",
           "similarity": 0.27989487516425754
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "uw-underwater-concrete-and-bag-placement",
-      "name": "Underwater Concrete & Bag Placement",
-      "category": "Maritime & Ports",
-      "steps": 14,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 360,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 8,
-          "inScope": 8,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 0.9230769230769231,
-          "want": 13,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9675,
-          "meshes": 167,
-          "materials": 51,
-          "interactables": 25
-        },
-        "originality": {
-          "score": 0.3369863013698632,
-          "nearest": "uw-intake-screen-cleaning-with-lockout",
-          "similarity": 0.2726027397260274
         }
       }
     },
@@ -9885,7 +9937,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 263,
+          "meshes": 260,
           "materials": 92,
           "interactables": 29
         },
