@@ -17836,5 +17836,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-final-possession-decision-under-pressure",
+    "index": "348",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on developing every player's decision-making rather than funnelling every close game to one player; the Association for Applied Sport Psychology's guidance on decision-making under pressure and a read-in-order hierarchy a young athlete can actually run with a clock winding down; NFHS basketball rules on game administration and timing for a possession that has to be timed and called correctly; CDC Heads Up for a knock to the head taken diving for a loose ball late in a close game; the American Red Cross first aid course for checking a player over before sending them back in for a final possession; the U.S. Center for SafeSport for how a player who misses the final shot is treated afterwards",
+    "name": "Final Possession, Decision Under Pressure",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Final Possession, Decision Under Pressure VR",
+    "tagline": "The clock winding down does not change what the right read is, only how hard it is to make calmly — a decision hierarchy read in order beats a forced shot every time",
+    "accent": 16769126,
+    "accentCss": "#ffe066",
+    "parSeconds": 335,
+    "badge": {
+      "id": "read-it-dont-force-it",
+      "name": "Read It, Don't Force It",
+      "note": "A final possession run through the decision hierarchy in order, calm under the clock instead of forced into the first option that showed up"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Final Possession Board",
+      "currency": "READ POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Decision Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
