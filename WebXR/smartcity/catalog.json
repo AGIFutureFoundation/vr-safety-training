@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 422
     },
     "trades": {
       "entry": "trades/index.html",
@@ -275,6 +275,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "uw-rov-pre-dive-and-tether-management",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
         "vessel-gangway-and-hatch-cover-safety",
@@ -7641,6 +7642,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-rov-pre-dive-and-tether-management",
+      "name": "ROV Pre-Dive & Tether Management",
+      "title": "SmartCiti.X~ ROV Pre-Dive & Tether Management VR",
+      "tagline": "Before the vehicle ever swims: splash reported, the loose shroud bolt and the chafed tether found, the loose line coiled and the tool bag clipped off before the shroud goes on, the drag set on the reel, the trim gauge read neutral, the white card held for the camera, power called only once the shroud is on, the guideline flown out past a rebar cage and a ghost net while the tether snags and the picture freezes, position held for the tender's payout, and the vehicle recalled, docked and logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ROV technician, a Pile Drivers Local 34 commercial diver cross-trained to fly a small inspection-class ROV on its own tether at a Bay worksite, with a tender minding the ROV's tether and the diver's umbilical, a supervisor on the comms and a standby diver dressed to recover the vehicle by hand",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund, cross-trained to field a tethered inspection ROV; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection and the team briefing) and 29 CFR 1910.422 procedures during the dive (communications) as they govern the dive team fielding the vehicle; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the work is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#4fc3e8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "shroud-on-tether-clean",
+        "name": "Shroud On, Tether Clean",
+        "note": "The shroud bolted on before any call for power, the tether never flown over a snag, nothing carried by hand, and never flown on a frozen picture"
+      },
+      "meshes": 147,
+      "lights": 0,
+      "overBudget": false,
+      "index": "352",
+      "flat": false,
+      "system": "ROV Pre-Dive",
+      "currency": "SPOOL",
+      "ranks": [
+        "ROV Tender",
+        "ROV Technician",
+        "ROV Pilot",
+        "Lead ROV Pilot",
+        "ROV Pre-Dive Certified"
+      ],
+      "awards": [
+        {
+          "id": "shroud-first",
+          "name": "Shroud First",
+          "note": "Thruster shroud bolted on and checked before any call for power"
+        },
+        {
+          "id": "trim-true",
+          "name": "Trim True",
+          "note": "The ballast trim gauge read in the neutral band first time"
+        },
+        {
+          "id": "clean-transect",
+          "name": "Clean Transect",
+          "note": "Never a shroud left off, never the tether flown over a snag, never a tool carried by hand, never flown on a frozen picture"
+        },
+        {
+          "id": "clean-launch",
+          "name": "Clean Launch",
+          "note": "No corrections from the splash report to the recall"
+        },
+        {
+          "id": "steady-transect",
+          "name": "Steady Transect",
+          "note": "The guideline flown in band the whole way"
+        },
+        {
+          "id": "recalled-in-time",
+          "name": "Recalled In Time",
+          "note": "The vehicle docked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-rov-pre-dive-and-tether-management"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27669,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
