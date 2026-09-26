@@ -9244,7 +9244,8 @@ const PROGRAMME_COMPETENCIES = [
       "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
       "br-cold-water-immersion-and-mob-recovery", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment", "br-sediment-chain-of-custody-and-lab-prep",
       "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision",
-      "br-tidal-marsh-grading-amphibious-excavator"
+      "br-tidal-marsh-grading-amphibious-excavator", "br-native-planting-and-erosion-mats", "br-culvert-retrofit-for-fish-passage", "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "br-intertidal-invasive-removal-by-hand-crew", "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
     ],
     require: 6,
   },
@@ -30553,6 +30554,258 @@ const SIMS_META = [
         "Operator",
         "Lead Operator",
         "Amphibious Excavator Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-native-planting-and-erosion-mats",
+    "index": "br-c2",
+    "domain": "Environmental",
+    "trade": "Restoration laborer — native planting and erosion control crew",
+    "category": "Water & Environmental",
+    "certification": "LIUNA Local 261 laborers — native planting and erosion control; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+    "name": "Native Planting & Erosion Control Mats",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Native Planting & Erosion Control Mats VR",
+    "tagline": "Revegetating a graded bank on a permit and a buffer: plan and nesting closure checked, coir matting pinned top to bottom before a single plug goes in, holes bored and moisture read at the design depth, plants tamped in on a steady cart haul, the drip line opened, and the bench walked for anything the next gust or tide can still take",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "bank-held",
+      "name": "Bank Held",
+      "note": "Every mat pinned before the plugs went in, buffer never crossed, nothing left for the next gust to take — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Planting Crew",
+      "currency": "ROOT",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Restoration Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-culvert-retrofit-for-fish-passage",
+    "index": "br-c3",
+    "domain": "Environmental",
+    "trade": "Operating engineer — excavator, culvert retrofit crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineer — excavator; LIUNA Local 261 laborers — confined space and dewatering ground crew; OSHA 29 CFR 1926 Subpart P excavations; OSHA 29 CFR 1926 Subpart AA confined spaces in construction; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement for fish passage; U.S. Fish and Wildlife Service Endangered Species Act consultation; work window per the permit",
+    "name": "Culvert Retrofit For Fish Passage",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Culvert Retrofit For Fish Passage VR",
+    "tagline": "Replacing a perched culvert with a fish-passage crossing on a dewatered reach: fish excluded and the channel dammed before the pump starts, the old bedding dug to a controlled swing, the barrel entered only on a confined space permit, the new box set to the laser and backfilled lift by lift, and the invert grade checked before the dam ever comes out",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "passage-restored",
+      "name": "Passage Restored",
+      "note": "Every fish out, every lift compacted to grade, invert reading true — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Culvert Crew",
+      "currency": "CULVERT",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Culvert Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+    "index": "br-c4",
+    "domain": "Environmental",
+    "trade": "Restoration laborer — shoreline debris and hazardous materials awareness crew",
+    "category": "Water & Environmental",
+    "certification": "LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew; OSHA 29 CFR 1926 general construction safety; OSHA 29 CFR 1910.1030 bloodborne pathogens exposure control plan; OSHA 29 CFR 1910.120 HAZWOPER site worker awareness level; RCRA 40 CFR Part 261 hazardous waste identification; RCRA 40 CFR Part 262 generator and manifest requirements; San Francisco Bay Conservation and Development Commission (BCDC) shoreline access permit; California Department of Fish and Wildlife shoreline habitat protections; nesting buffer per the Endangered Species Act",
+    "name": "Shoreline Cleanup — Sharps And Hazardous Debris",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Shoreline Cleanup — Sharps And Hazardous Debris VR",
+    "tagline": "Cleaning a storm-tide shoreline where ordinary trash hides sharps and a leaking drum: sharps containers staged and air read before anyone works the debris line, tongs for anything that punctures, the drum flagged and called in instead of opened, decon before the exclusion zone is left, and the beach walked clean before the truck pulls out",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "beach-clear",
+      "name": "Beach Cleared Clean",
+      "note": "Every sharp bagged by tongs, the drum never touched, nothing left on the sand — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cleanup Crew",
+      "currency": "DEBRIS",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Hazmat Awareness Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-intertidal-invasive-removal-by-hand-crew",
+    "index": "br-c5",
+    "domain": "Environmental",
+    "trade": "Invasive species control laborer — hand-removal crew",
+    "category": "Water & Environmental",
+    "certification": "LIUNA Local 261 laborers — hand-removal and biosecurity crew; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification for decon wash water; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+    "name": "Intertidal Invasive Removal By Hand Crew",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Intertidal Invasive Removal By Hand Crew VR",
+    "tagline": "Hand-pulling an invasive stand out of the upper intertidal with no sprayer at all: zones and buffer checked, roots levered whole and fragments hunted out of the disturbed soil, every bag tagged and held shut against the wind, boots decontaminated between zones, and the bench walked before a single stray fragment gets the chance to resprout or hitch a ride into clean ground",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "root-and-branch",
+      "name": "Root And Branch",
+      "note": "Every fragment found, every boot decontaminated, buffer never crossed — first time"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Removal Crew",
+      "currency": "ROOTWAD",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Invasive Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-levee-inspection-and-seepage",
+    "index": "br-c6",
+    "domain": "Environmental",
+    "trade": "Levee inspection laborer — flood control patrol crew",
+    "category": "Water & Environmental",
+    "certification": "LIUNA Local 261 laborers — levee inspection and patrol crew; OSHA 29 CFR 1926 general construction safety; USACE Levee Safety Program periodic inspection protocol; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act reporting for a protected burrow",
+    "name": "Levee Inspection And Seepage",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Levee Inspection And Seepage VR",
+    "tagline": "Walking a bay levee's crown and toe on a routine patrol: stations and the piezometer read before the walk starts, a sand boil ringed with sandbags instead of blocked, a crack measured and every deficiency flagged and logged, a burrow reported instead of disturbed, and the trail closed to the public before the crew works an unmarked hazard beside it",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "levee-sound",
+      "name": "Levee Read Sound",
+      "note": "Every deficiency flagged, the boil ringed not blocked, nothing left unreported — first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Crew",
+      "currency": "REACH",
+      "ranks": [
+        "Laborer",
+        "Patrol Hand",
+        "Lead Patrol",
+        "Site Steward",
+        "Levee Inspection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-fish-screen-maintenance",
+    "index": "br-c7",
+    "domain": "Environmental",
+    "trade": "Water diversion technician — fish screen maintenance crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineers — fish screen mechanical maintenance; LIUNA Local 261 laborers — screen cleaning and debris crew; OSHA 29 CFR 1910.147 lockout/tagout of the screen drive motor; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife fish screening criteria under the Fish and Game Code; U.S. Fish and Wildlife Service Endangered Species Act fish passage protections; work window per the permit",
+    "name": "Fish Screen Maintenance",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Fish Screen Maintenance VR",
+    "tagline": "Servicing a positive-barrier fish screen on a tidal diversion intake: the drive motor locked out before anyone works the drum, the approach velocity read before and after, fouling found and cleared, a torn panel patched and cross-torqued back down, the bypass opened the moment a debris surge hits, and the lock never comes off until every hand is confirmed clear",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "screen-clear",
+      "name": "Screen Clear And Locked Right",
+      "note": "LOTO applied and removed clean, approach velocity true both times, nobody near the drum under power — first time"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Screen Crew",
+      "currency": "MESH",
+      "ranks": [
+        "Laborer",
+        "Technician",
+        "Lead Technician",
+        "Site Steward",
+        "Fish Screen Certified"
       ],
       "rankAt": [
         0,

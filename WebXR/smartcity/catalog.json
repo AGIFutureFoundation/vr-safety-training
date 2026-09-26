@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 394
+      "stations": 400
     },
     "trades": {
       "entry": "trades/index.html",
@@ -90,6 +90,12 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "br-fish-screen-maintenance",
+        "br-levee-inspection-and-seepage",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-shoreline-cleanup-sharps-and-hazardous-debris",
+        "br-culvert-retrofit-for-fish-passage",
+        "br-native-planting-and-erosion-mats",
         "cs-non-entry-retrieval-and-tripod",
         "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
@@ -3347,12 +3353,42 @@
           "app": "smartcity",
           "id": "br-tidal-marsh-grading-amphibious-excavator",
           "why": "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-native-planting-and-erosion-mats",
+          "why": "The graded bank above the marsh is only held until roots can hold it themselves, so the coir mat goes down pinned top to toe before a single native plug is bored, tamped and watered in."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-culvert-retrofit-for-fish-passage",
+          "why": "A perched culvert that a fish cannot swim through only becomes passable on a dry, fish-excluded channel, dug and backfilled to a laser-checked invert instead of a grade that just looks about right."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+          "why": "A storm-tide beach cleanup is ordinary trash until the moment it isn't, so sharps get tongs and a staged container, a suspect drum gets flagged and called in, and nothing this crew is not trained to handle ever gets opened by hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-intertidal-invasive-removal-by-hand-crew",
+          "why": "With no sprayer on this crew at all, every plant comes out whole on a wrench, every root fragment gets hunted out of the disturbed soil, and boots get brushed clean at the buffer so nothing this crew pulls ever gets a second chance to spread."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-levee-inspection-and-seepage",
+          "why": "A sand boil gets ringed with sandbags and never blocked, and a burrow gets flagged and reported and never dug at, because on a levee patrol the counterintuitive answer is usually the one that keeps a small seepage path from becoming a bigger one."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-fish-screen-maintenance",
+          "why": "A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed headcount says every hand that went on the disconnect is clear of it again."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1647,
+        "lessons": 1662,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7479,6 +7515,504 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance",
+      "name": "Fish Screen Maintenance",
+      "title": "SmartCiti.X~ Fish Screen Maintenance VR",
+      "tagline": "Servicing a positive-barrier fish screen on a tidal diversion intake: the drive motor locked out before anyone works the drum, the approach velocity read before and after, fouling found and cleared, a torn panel patched and cross-torqued back down, the bypass opened the moment a debris surge hits, and the lock never comes off until every hand is confirmed clear",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Water diversion technician — fish screen maintenance crew",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineers — fish screen mechanical maintenance; LIUNA Local 261 laborers — screen cleaning and debris crew; OSHA 29 CFR 1910.147 lockout/tagout of the screen drive motor; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife fish screening criteria under the Fish and Game Code; U.S. Fish and Wildlife Service Endangered Species Act fish passage protections; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "screen-clear",
+        "name": "Screen Clear And Locked Right",
+        "note": "LOTO applied and removed clean, approach velocity true both times, nobody near the drum under power — first time"
+      },
+      "meshes": 298,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c7",
+      "flat": false,
+      "system": "Screen Crew",
+      "currency": "MESH",
+      "ranks": [
+        "Laborer",
+        "Technician",
+        "Lead Technician",
+        "Site Steward",
+        "Fish Screen Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-energy",
+          "name": "No Stored Energy",
+          "note": "Never a hazard, the drive motor locked out for the whole job"
+        },
+        {
+          "id": "velocity-true",
+          "name": "Velocity Read True",
+          "note": "Approach velocity and motor startup both read inside the working band"
+        },
+        {
+          "id": "screen-first",
+          "name": "Screen Read Clean",
+          "note": "Access points and the first velocity reading both read clean before LOTO was applied"
+        },
+        {
+          "id": "clean-screen",
+          "name": "Clean Screen",
+          "note": "No corrections across the whole maintenance run"
+        },
+        {
+          "id": "steady-startup",
+          "name": "Steady Startup",
+          "note": "Held the motor startup inside the working band the whole ramp"
+        },
+        {
+          "id": "screen-fast",
+          "name": "Screen Cleared Fast",
+          "note": "Maintenance closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-fish-screen-maintenance"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-levee-inspection-and-seepage",
+      "name": "Levee Inspection And Seepage",
+      "title": "SmartCiti.X~ Levee Inspection And Seepage VR",
+      "tagline": "Walking a bay levee's crown and toe on a routine patrol: stations and the piezometer read before the walk starts, a sand boil ringed with sandbags instead of blocked, a crack measured and every deficiency flagged and logged, a burrow reported instead of disturbed, and the trail closed to the public before the crew works an unmarked hazard beside it",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Levee inspection laborer — flood control patrol crew",
+      "union": null,
+      "certification": "LIUNA Local 261 laborers — levee inspection and patrol crew; OSHA 29 CFR 1926 general construction safety; USACE Levee Safety Program periodic inspection protocol; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act reporting for a protected burrow",
+      "accent": "#5f9e5a",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "track",
+        "drag",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "levee-sound",
+        "name": "Levee Read Sound",
+        "note": "Every deficiency flagged, the boil ringed not blocked, nothing left unreported — first time"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c6",
+      "flat": false,
+      "system": "Patrol Crew",
+      "currency": "REACH",
+      "ranks": [
+        "Laborer",
+        "Patrol Hand",
+        "Lead Patrol",
+        "Site Steward",
+        "Levee Inspection Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-blowout",
+          "name": "No Blowout Risk",
+          "note": "Never a hazard, the boil always ringed and never blocked"
+        },
+        {
+          "id": "reach-true",
+          "name": "Reach Read True",
+          "note": "The piezometer reading held inside the expected band"
+        },
+        {
+          "id": "stations-first",
+          "name": "Stations Read Clean",
+          "note": "Station markers and the piezometer both read clean before the walk started"
+        },
+        {
+          "id": "clean-reach",
+          "name": "Clean Reach",
+          "note": "No corrections across the whole patrol"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "Held the crown walk inside the working band the whole pass"
+        },
+        {
+          "id": "reach-fast",
+          "name": "Reach Cleared Fast",
+          "note": "Patrol closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-levee-inspection-and-seepage"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-intertidal-invasive-removal-by-hand-crew",
+      "name": "Intertidal Invasive Removal By Hand Crew",
+      "title": "SmartCiti.X~ Intertidal Invasive Removal By Hand Crew VR",
+      "tagline": "Hand-pulling an invasive stand out of the upper intertidal with no sprayer at all: zones and buffer checked, roots levered whole and fragments hunted out of the disturbed soil, every bag tagged and held shut against the wind, boots decontaminated between zones, and the bench walked before a single stray fragment gets the chance to resprout or hitch a ride into clean ground",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Invasive species control laborer — hand-removal crew",
+      "union": null,
+      "certification": "LIUNA Local 261 laborers — hand-removal and biosecurity crew; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification for decon wash water; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "root-and-branch",
+        "name": "Root And Branch",
+        "note": "Every fragment found, every boot decontaminated, buffer never crossed — first time"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c5",
+      "flat": false,
+      "system": "Removal Crew",
+      "currency": "ROOTWAD",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Invasive Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-spread",
+          "name": "No Spread",
+          "note": "Never a hazard, boots decontaminated between every zone"
+        },
+        {
+          "id": "clean-decon",
+          "name": "Decon Read Clean",
+          "note": "The decon wash reading held inside the safe band"
+        },
+        {
+          "id": "zones-first",
+          "name": "Zones Read Clean",
+          "note": "Zones and buffer both read clean before the first plant came out"
+        },
+        {
+          "id": "clean-bench",
+          "name": "Clean Bench",
+          "note": "No corrections across the whole removal run"
+        },
+        {
+          "id": "steady-haul",
+          "name": "Steady Haul",
+          "note": "Held the cart haul inside the working band the whole pass"
+        },
+        {
+          "id": "bench-fast",
+          "name": "Bench Cleared Fast",
+          "note": "Removal closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-intertidal-invasive-removal-by-hand-crew"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "name": "Shoreline Cleanup — Sharps And Hazardous Debris",
+      "title": "SmartCiti.X~ Shoreline Cleanup — Sharps And Hazardous Debris VR",
+      "tagline": "Cleaning a storm-tide shoreline where ordinary trash hides sharps and a leaking drum: sharps containers staged and air read before anyone works the debris line, tongs for anything that punctures, the drum flagged and called in instead of opened, decon before the exclusion zone is left, and the beach walked clean before the truck pulls out",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Restoration laborer — shoreline debris and hazardous materials awareness crew",
+      "union": null,
+      "certification": "LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew; OSHA 29 CFR 1926 general construction safety; OSHA 29 CFR 1910.1030 bloodborne pathogens exposure control plan; OSHA 29 CFR 1910.120 HAZWOPER site worker awareness level; RCRA 40 CFR Part 261 hazardous waste identification; RCRA 40 CFR Part 262 generator and manifest requirements; San Francisco Bay Conservation and Development Commission (BCDC) shoreline access permit; California Department of Fish and Wildlife shoreline habitat protections; nesting buffer per the Endangered Species Act",
+      "accent": "#5f9e5a",
+      "parSeconds": 310,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "track",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "beach-clear",
+        "name": "Beach Cleared Clean",
+        "note": "Every sharp bagged by tongs, the drum never touched, nothing left on the sand — first time"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c4",
+      "flat": false,
+      "system": "Cleanup Crew",
+      "currency": "DEBRIS",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Hazmat Awareness Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-exposure",
+          "name": "No Exposure",
+          "note": "Never a hazard, every sharp handled by tongs"
+        },
+        {
+          "id": "air-clean",
+          "name": "Air Read Clean",
+          "note": "The air monitor reading held inside the safe band"
+        },
+        {
+          "id": "site-first",
+          "name": "Site Read Clean",
+          "note": "Safety plan and sharps containers both read clean before collection started"
+        },
+        {
+          "id": "clean-beach",
+          "name": "Clean Beach",
+          "note": "No corrections across the whole cleanup"
+        },
+        {
+          "id": "steady-haul",
+          "name": "Steady Haul",
+          "note": "Held the net haul inside the working band the whole pass"
+        },
+        {
+          "id": "beach-fast",
+          "name": "Beach Cleared Fast",
+          "note": "Cleanup closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-shoreline-cleanup-sharps-and-hazardous-debris"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage",
+      "name": "Culvert Retrofit For Fish Passage",
+      "title": "SmartCiti.X~ Culvert Retrofit For Fish Passage VR",
+      "tagline": "Replacing a perched culvert with a fish-passage crossing on a dewatered reach: fish excluded and the channel dammed before the pump starts, the old bedding dug to a controlled swing, the barrel entered only on a confined space permit, the new box set to the laser and backfilled lift by lift, and the invert grade checked before the dam ever comes out",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Operating engineer — excavator, culvert retrofit crew",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer — excavator; LIUNA Local 261 laborers — confined space and dewatering ground crew; OSHA 29 CFR 1926 Subpart P excavations; OSHA 29 CFR 1926 Subpart AA confined spaces in construction; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement for fish passage; U.S. Fish and Wildlife Service Endangered Species Act consultation; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "passage-restored",
+        "name": "Passage Restored",
+        "note": "Every fish out, every lift compacted to grade, invert reading true — first time"
+      },
+      "meshes": 257,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c3",
+      "flat": false,
+      "system": "Culvert Crew",
+      "currency": "CULVERT",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Culvert Certified"
+      ],
+      "awards": [
+        {
+          "id": "dry-clean",
+          "name": "Dry And Clean",
+          "note": "Never a hazard, dewatering discharge always filtered"
+        },
+        {
+          "id": "grade-true",
+          "name": "Invert True",
+          "note": "Dewatering meter and invert grade both read inside the working band"
+        },
+        {
+          "id": "channel-first",
+          "name": "Channel Read Clean",
+          "note": "Fish exclusion and dam both read clean before the pump ever started"
+        },
+        {
+          "id": "clean-crossing",
+          "name": "Clean Crossing",
+          "note": "No corrections across the whole retrofit"
+        },
+        {
+          "id": "steady-swing",
+          "name": "Steady Swing",
+          "note": "Held the excavator swing inside the working band the whole pass"
+        },
+        {
+          "id": "crossing-fast",
+          "name": "Crossing Closed Fast",
+          "note": "Retrofit closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-culvert-retrofit-for-fish-passage"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-native-planting-and-erosion-mats",
+      "name": "Native Planting & Erosion Control Mats",
+      "title": "SmartCiti.X~ Native Planting & Erosion Control Mats VR",
+      "tagline": "Revegetating a graded bank on a permit and a buffer: plan and nesting closure checked, coir matting pinned top to bottom before a single plug goes in, holes bored and moisture read at the design depth, plants tamped in on a steady cart haul, the drip line opened, and the bench walked for anything the next gust or tide can still take",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Restoration laborer — native planting and erosion control crew",
+      "union": null,
+      "certification": "LIUNA Local 261 laborers — native planting and erosion control; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "bank-held",
+        "name": "Bank Held",
+        "note": "Every mat pinned before the plugs went in, buffer never crossed, nothing left for the next gust to take — first time"
+      },
+      "meshes": 205,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c2",
+      "flat": false,
+      "system": "Planting Crew",
+      "currency": "ROOT",
+      "ranks": [
+        "Laborer",
+        "Crew Hand",
+        "Lead Hand",
+        "Site Steward",
+        "Restoration Certified"
+      ],
+      "awards": [
+        {
+          "id": "buffer-held",
+          "name": "Buffer Held",
+          "note": "Never a hazard, never a step past the nesting closure"
+        },
+        {
+          "id": "grade-true",
+          "name": "Moisture And Grade True",
+          "note": "Soil moisture and the auger depth both read inside the working band"
+        },
+        {
+          "id": "bench-first",
+          "name": "Plan Read Clean",
+          "note": "Planting plan and buffer both read clean before the first mat went down"
+        },
+        {
+          "id": "clean-bank",
+          "name": "Clean Bank",
+          "note": "No corrections across the whole planting run"
+        },
+        {
+          "id": "steady-haul",
+          "name": "Steady Haul",
+          "note": "Held the cart haul inside the working band the whole pass"
+        },
+        {
+          "id": "bank-fast",
+          "name": "Bank Closed Fast",
+          "note": "Planting closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-native-planting-and-erosion-mats"
     },
     {
       "app": "smartcity",
@@ -26843,7 +27377,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27503,7 +28037,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 251,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
