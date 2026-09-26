@@ -778,9 +778,13 @@ function eggShuffled(list) {
 }
 
 function eggBingoCells(roster) {
-  const named = eggHazardsFromRoster(roster);
-  const pool = [...new Set([...named, ...EGG_HAZARD_PADDING])];
-  const picked = eggShuffled(pool).slice(0, 24);
+  // The room's own hazards come first — every one of them makes the card
+  // while there is space — and the generic padding only fills what is left,
+  // so a small roster is never crowded off its own bingo card.
+  const named = [...new Set(eggHazardsFromRoster(roster))];
+  const picked = eggShuffled(named).slice(0, 24);
+  const padding = eggShuffled(EGG_HAZARD_PADDING.filter((h) => !named.includes(h)));
+  for (const h of padding) { if (picked.length >= 24) break; picked.push(h); }
   while (picked.length < 24) picked.push(EGG_HAZARD_PADDING[picked.length % EGG_HAZARD_PADDING.length]);
   const cells = picked.slice(0, 12).concat(["FREE — SAFETY FIRST"]).concat(picked.slice(12, 24));
   return cells;
