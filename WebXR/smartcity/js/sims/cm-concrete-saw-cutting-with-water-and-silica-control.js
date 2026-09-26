@@ -120,6 +120,12 @@ export const SIM_CM_CONCRETE_SAW_CUTTING_WITH_WATER_AND_SILICA_CONTROL = {
       turn: { turns: 1, label: "DEPTH" },
     },
     {
+      id: "don-ppe", kind: "select", target: "hearing-eye-ppe",
+      title: "Don hearing and eye protection",
+      cue: "Put on hearing protection and a face shield before the blade ever turns.",
+      why: "A gas or electric saw running at full speed is loud enough on its own to cause hearing damage over a shift, and a wet-cut blade still throws slurry droplets and the occasional chip back at the operator even with the guard fitted. Both go on before the first cut, not after the first close call.",
+    },
+    {
       id: "make-cut", kind: "hold", target: "saw-trigger", seconds: 5,
       title: "Make the first pass along the joint",
       cue: "Hold the saw steady on the chalk line and guide it through the first pass at a controlled feed rate.",
@@ -231,6 +237,10 @@ export const SIM_CM_CONCRETE_SAW_CUTTING_WITH_WATER_AND_SILICA_CONTROL = {
     const killSwitch = box(saw, 0.08, 0.06, 0.03, -0.2, 0.4, 0.4, 0xd2312b, { rough: 0.5, metal: 0.3 });
     holoTag(saw, "saw kill switch", -0.2, 0.52, 0.4, { css: CMSAW_CSS, w: 0.26 });
     reg(hits, killSwitch, "saw-kill");
+    const ppeSupply = group(g, -1.4, 0.02, 1.7, 0.2);
+    box(ppeSupply, 0.16, 0.08, 0.14, 0, 0.06, 0, 0x3a4550, { rough: 0.6 });
+    holoTag(ppeSupply, "hearing and eye PPE", 0, 0.2, 0, { css: CMSAW_CSS, w: 0.34 });
+    reg(hits, ppeSupply, "hearing-eye-ppe");
     const dryCutHit = box(saw, 0.4, 0.2, 0.6, 0, 0.28, -0.8, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(saw, "cut it with the water off?", 0, 0.5, -0.8, { css: "#d2312b", w: 0.42 });
     reg(hits, dryCutHit, "dry-cut-no-water");
@@ -342,12 +352,12 @@ export const SIM_CM_CONCRETE_SAW_CUTTING_WITH_WATER_AND_SILICA_CONTROL = {
       onHazard() {},
       onInterrupt(it) {
         if (it.id === "water-line-fails") { water.visible = false; dust.visible = true; }
-        if (it.id === "co-alarm") { repaint(coFace, signFace("CO —\nALARM", { bg: "#3a0d0d", accent: "#d2312b", fg: "#ffd6d6", scale: 0.32 })); coLevel = 1; }
+        if (it.id === "co-alarm") { repaint(coFace, signFace("CO —\nALARM", { bg: "#3a0d0d", accent: "#d2312b", fg: "#ffd6d6", scale: 0.32 })); coLevel = 1; dust.visible = true; fanBlades.userData.spin = false; }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
         if (it.id === "water-line-fails") { water.visible = true; dust.visible = false; }
-        if (it.id === "co-alarm") { repaint(coFace, signFace("CO —\nCLEAR", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.32 })); coLevel = 0; fanBlades.userData.spin = true; }
+        if (it.id === "co-alarm") { repaint(coFace, signFace("CO —\nCLEAR", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.32 })); coLevel = 0; fanBlades.userData.spin = true; dust.visible = false; }
       },
       animate(t, dt, session) {
         const step = session?.step;
