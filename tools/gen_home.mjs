@@ -369,6 +369,17 @@ const CSS = `
   .dlg-fine{margin:12px 0 0; font-size:12px; color:var(--dim)}
   .dlg-row{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap}
 
+  /* ---- share to train agents & robots (shared/share-engagement.js) ---- */
+  .dlg-section{margin:0 0 14px; padding:10px 12px; background:var(--raised); border:1px solid var(--edge-strong); border-radius:var(--r-sm)}
+  .dlg-section .eyebrow{margin-bottom:6px}
+  .licence-opts{display:grid; gap:8px}
+  .licence-opt{display:flex; gap:8px; align-items:flex-start; font-size:13.5px; cursor:pointer}
+  .licence-opt.on{color:var(--accent)}
+  .receipt-list{list-style:none; margin:4px 0 0; padding:0; display:grid; gap:4px; max-height:150px; overflow-y:auto}
+  .receipt-list li{font-size:12.5px; padding:6px 8px; border-radius:6px; background:var(--void); border-left:3px solid var(--edge-strong)}
+  .receipt-list li.ok{border-left-color:var(--good)}
+  .receipt-list li.fail{border-left-color:var(--danger)}
+
   @media (min-width:560px){
     .apps{grid-template-columns:1fr 1fr}
     .grid{grid-template-columns:1fr 1fr}
@@ -494,6 +505,126 @@ const SCRIPT = `
     openBtn.hidden = false;
     showWho();
   }).catch(() => { openBtn.hidden = true; });
+
+  // Share to train agents & robots (shared/share-engagement.js,
+  // shared/wallet.js, shared/agent-protocols.js). Lazily loaded, like sign-in
+  // above — the roster above never depends on it, and nothing is sent
+  // anywhere until Share is pressed, inside these modules themselves.
+  const shareDialog = document.getElementById("share-dialog");
+  const shareOpenLink = document.getElementById("share-open");
+  const shareWalletStatus = document.getElementById("share-wallet-status");
+  const shareWalletConnect = document.getElementById("share-wallet-connect");
+  const shareWalletDisconnect = document.getElementById("share-wallet-disconnect");
+  const shareLicenceEl = document.getElementById("share-licence");
+  const shareMsg = document.getElementById("share-msg");
+  const shareOptinBtn = document.getElementById("share-optin");
+  const shareNowBtn = document.getElementById("share-now");
+  const shareRevokeBtn = document.getElementById("share-revoke");
+  const shareReceiptsEl = document.getElementById("share-receipts");
+  const shareNoReceipts = document.getElementById("share-no-receipts");
+  const LICENCE_NOTES = [["CC0", "CC0 — public domain dedication"], ["CC-BY-4.0", "CC-BY-4.0 — attribution required"]];
+  let Share = null, shareLicence = "CC0";
+
+  function setShareMsg(text) { shareMsg.textContent = text || ""; shareMsg.hidden = !text; }
+
+  function renderLicence() {
+    shareLicenceEl.textContent = "";
+    const optedIn = !!(Share && Share.optedIn());
+    for (const [id, note] of LICENCE_NOTES) {
+      const label = document.createElement("label");
+      label.className = "licence-opt" + (shareLicence === id ? " on" : "");
+      const input = document.createElement("input");
+      input.type = "radio"; input.name = "share-licence"; input.value = id; input.checked = shareLicence === id;
+      input.disabled = optedIn;
+      input.addEventListener("change", () => { shareLicence = id; renderLicence(); });
+      const span = document.createElement("span"); span.textContent = note;
+      label.append(input, span);
+      shareLicenceEl.append(label);
+    }
+  }
+  renderLicence();
+
+  function renderReceipts() {
+    const list = Share ? Share.receipts() : [];
+    shareReceiptsEl.textContent = "";
+    shareNoReceipts.hidden = list.length > 0;
+    for (const r of list.slice().reverse().slice(0, 20)) {
+      const li = document.createElement("li");
+      li.className = r.ok ? "ok" : "fail";
+      li.textContent = new Date(r.at).toLocaleString() + " · " + r.provider + " · " + (r.ok ? "sent" : (r.reason || "failed"));
+      shareReceiptsEl.append(li);
+    }
+  }
+
+  function renderShareState() {
+    const wallet = Share ? Share.walletDescribe() : null;
+    shareWalletStatus.textContent = wallet
+      ? "Connected: " + wallet.shortAddress + (wallet.chainId ? " · chain " + wallet.chainId : "")
+      : "Connecting a wallet lets your opt-in be signed (personal_sign) so a relay can check who gave it. Without one, "
+        + "opting in still works as a plain, unsigned record kept in this browser. This page never asks for a private "
+        + "key or a seed phrase.";
+    shareWalletConnect.hidden = !!wallet;
+    shareWalletDisconnect.hidden = !wallet;
+    const optedIn = !!(Share && Share.optedIn());
+    shareOptinBtn.hidden = optedIn;
+    shareNowBtn.hidden = !optedIn;
+    shareRevokeBtn.hidden = !optedIn;
+    renderLicence();
+    renderReceipts();
+  }
+
+  shareOpenLink.addEventListener("click", () => { shareDialog.showModal(); renderShareState(); });
+  document.getElementById("share-close").addEventListener("click", () => shareDialog.close());
+
+  shareWalletConnect.addEventListener("click", async () => {
+    if (!Share) return;
+    shareWalletConnect.disabled = true;
+    const res = await Share.connectWallet();
+    shareWalletConnect.disabled = false;
+    setShareMsg(res.connected ? "" : (res.reason || ""));
+    renderShareState();
+  });
+  shareWalletDisconnect.addEventListener("click", () => { if (Share) Share.disconnectWallet(); renderShareState(); });
+
+  shareOptinBtn.addEventListener("click", async () => {
+    if (!Share) return;
+    setShareMsg("");
+    const res = await Share.optIn(shareLicence);
+    setShareMsg(res.ok ? "" : (res.reason || ""));
+    renderShareState();
+  });
+  shareRevokeBtn.addEventListener("click", () => {
+    if (Share) Share.revoke();
+    setShareMsg("Consent revoked. Anything already shared is not un-sent.");
+    renderShareState();
+  });
+  shareNowBtn.addEventListener("click", async () => {
+    if (!Share) return;
+    shareNowBtn.disabled = true;
+    const res = await Share.share();
+    shareNowBtn.disabled = false;
+    setShareMsg(res.ok ? "Shared." : (res.reason || "Nothing was sent."));
+    renderShareState();
+  });
+
+  import("./shared/share-engagement.js").then(async (se) => {
+    const [{ Wallet, makeWalletEnv }, { Adapters }] = await Promise.all([
+      import("./shared/wallet.js"), import("./shared/agent-protocols.js"),
+    ]);
+    se.ShareEngagement.load();
+    Share = {
+      optedIn: () => se.ShareEngagement.optedIn,
+      walletDescribe: () => Wallet.describe(),
+      connectWallet: () => Wallet.connect({ env: makeWalletEnv() }),
+      disconnectWallet: () => Wallet.disconnect(),
+      optIn: (lic) => se.ShareEngagement.optIn({ licence: lic, wallet: Wallet }),
+      revoke: () => se.ShareEngagement.revoke(),
+      receipts: () => se.ShareEngagement.receipts(),
+      share: () => se.ShareEngagement.share(Adapters["cloudflare-relay"]),
+    };
+    Wallet.onChange = () => renderShareState();
+    renderShareState();
+  }).catch(() => { shareOpenLink.disabled = true; });
 
   // The Easter egg: the classic up-up-down-down-left-right-left-right-B-A
   // key sequence, five taps on the hard hat in the footer, or ?egg=race opens
@@ -795,6 +926,8 @@ ${cards}
     ["Standards and authorities", layout.doc("standards/README.md")],
     ["Instructor console", layout.doc("instructor-console.md")],
     ["Sign-in options", layout.doc("sign-in.md")],
+    ["Wallets and sharing", layout.doc("wallets-and-sharing.md")],
+    ["Agent protocols", layout.doc("agent-protocols.md")],
   ].map(([label, href]) => `        <li><a href="${href}">${esc(label)}</a></li>`).join("\n");
 
   return `<!doctype html>
@@ -840,6 +973,8 @@ ${apps}
     <p class="aside">Also here: <a href="${layout.aside.portal}">the app map</a>,
     <a href="${layout.aside.verify}">the credential verifier</a> for an exported badge, and
     <a href="${layout.aside.campus}">Safety Campus</a>, the hazard-spotting web companion to the Unity headset build.</p>
+    <p class="aside">Off by default: <button type="button" class="linkbtn" id="share-open">share your anonymised training engagement to help train agents and robots</button> —
+    episode digests and roll-up scores only, never your name or free text, on the licence you choose, revocable any time.</p>
   </section>
 
   <section class="continue" id="continue" hidden>
@@ -907,6 +1042,52 @@ ${docs}
       <button class="btn" id="dlg-close" type="button">Close</button>
     </div>
     <p class="dlg-fine">Signing in is optional. Without it you are a crew tag in this browser, and every record still works.</p>
+  </div>
+</dialog>
+
+<dialog id="share-dialog" aria-labelledby="share-title">
+  <div class="dlg">
+    <p class="eyebrow">Share to train agents & robots</p>
+    <h2 id="share-title">Help train agents and robots</h2>
+    <p>Opt in to share anonymised training engagement — episode digests and roll-up scores only, never your name,
+    free text or launch identity — with agent-protocol platforms so they can train software agents and robots on
+    real practice patterns. This is off by default, and nothing is sent until you press Share, below.</p>
+    <div class="dlg-section">
+      <p class="eyebrow">Wallet (optional)</p>
+      <p id="share-wallet-status">Connecting a wallet lets your opt-in be signed (personal_sign) so a relay can check who gave it.
+      Without one, opting in still works as a plain, unsigned record kept in this browser. This page never asks for a
+      private key or a seed phrase.</p>
+      <div class="dlg-row">
+        <button class="btn" id="share-wallet-connect" type="button">Connect wallet</button>
+        <button class="btn quiet" id="share-wallet-disconnect" type="button" hidden>Disconnect wallet</button>
+      </div>
+    </div>
+    <div class="dlg-section">
+      <p class="eyebrow">Licence</p>
+      <div class="licence-opts" id="share-licence"></div>
+    </div>
+    <p class="dlg-msg" id="share-msg" hidden></p>
+    <div class="dlg-row">
+      <button class="btn primary" id="share-optin" type="button">Opt in</button>
+      <button class="btn primary" id="share-now" type="button" hidden>Share</button>
+      <button class="btn quiet" id="share-revoke" type="button" hidden>Revoke</button>
+    </div>
+    <div class="dlg-section">
+      <p class="eyebrow">What is shared, and what never is</p>
+      <ul>
+        <li>Shared: anonymised episode digests and the per-category roll-up scores already in Training Records.</li>
+        <li>Never shared: your name, crew tag, free text, or any launch identity.</li>
+      </ul>
+      <p class="eyebrow" style="margin-top:8px">Receipts</p>
+      <ul class="receipt-list" id="share-receipts"></ul>
+      <p id="share-no-receipts">Nothing has been shared yet.</p>
+    </div>
+    <div class="dlg-row">
+      <button class="btn" id="share-close" type="button">Close</button>
+    </div>
+    <p class="dlg-fine">Sharing is optional and revocable at any time. Revoking removes the local consent record; it
+    does not un-send anything already delivered to a relay. See <a href="${layout.doc("wallets-and-sharing.md")}">wallets and sharing</a>
+    and <a href="${layout.doc("agent-protocols.md")}">agent protocols</a>.</p>
   </div>
 </dialog>
 

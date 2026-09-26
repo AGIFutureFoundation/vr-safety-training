@@ -430,6 +430,20 @@
   .signin-field input{ width:100%; margin-top:5px; padding:11px 12px; font:inherit; font-size:16px; color:var(--text);
     background:var(--void); border:1px solid var(--edge-strong); border-radius:6px }
   .signin-msg{ margin:0 0 12px; font-size:13px; color:var(--warn) }
+  /* Share to train agents & robots (shared/share-engagement.js): a wallet
+     status line, a licence choice, and a receipts list — all plain data,
+     styled with the same section rhythm the sign-in dialog already uses. */
+  .share-section{ margin:0 0 16px; padding:12px 14px; background:var(--surface-raised); border:1px solid var(--edge); border-radius:10px }
+  .share-section .eyebrow{ margin-bottom:6px }
+  .share-licence{ display:grid; gap:8px }
+  .share-licence-opt{ display:flex; align-items:flex-start; gap:8px; cursor:pointer; font-size:13.5px; color:var(--text) }
+  .share-licence-opt input{ margin-top:3px }
+  .share-licence-opt.on span{ color:var(--accent); font-weight:600 }
+  .share-list{ margin:4px 0 0; padding-left:18px; font-size:13px; color:var(--muted); line-height:1.6 }
+  .share-receipts{ list-style:none; margin:4px 0 0; padding:0; display:grid; gap:4px; max-height:160px; overflow-y:auto }
+  .share-receipts li{ font-size:12.5px; padding:6px 8px; border-radius:6px; background:var(--surface-2,var(--void)); border-left:3px solid var(--edge-strong) }
+  .share-receipts li.ok{ border-left-color:var(--good) }
+  .share-receipts li.fail{ border-left-color:var(--danger) }
   /* Training programmes: one card per block, with a progress bar in the
      programme's own accent and the station list underneath. */
   .prog-list{ display:grid; gap:14px; margin:6px 0 16px }

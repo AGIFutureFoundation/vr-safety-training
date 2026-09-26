@@ -430,6 +430,20 @@
   .signin-field input{ width:100%; margin-top:5px; padding:11px 12px; font:inherit; font-size:16px; color:var(--text);
     background:var(--void); border:1px solid var(--edge-strong); border-radius:6px }
   .signin-msg{ margin:0 0 12px; font-size:13px; color:var(--warn) }
+  /* Share to train agents & robots (shared/share-engagement.js): a wallet
+     status line, a licence choice, and a receipts list — all plain data,
+     styled with the same section rhythm the sign-in dialog already uses. */
+  .share-section{ margin:0 0 16px; padding:12px 14px; background:var(--surface-raised); border:1px solid var(--edge); border-radius:10px }
+  .share-section .eyebrow{ margin-bottom:6px }
+  .share-licence{ display:grid; gap:8px }
+  .share-licence-opt{ display:flex; align-items:flex-start; gap:8px; cursor:pointer; font-size:13.5px; color:var(--text) }
+  .share-licence-opt input{ margin-top:3px }
+  .share-licence-opt.on span{ color:var(--accent); font-weight:600 }
+  .share-list{ margin:4px 0 0; padding-left:18px; font-size:13px; color:var(--muted); line-height:1.6 }
+  .share-receipts{ list-style:none; margin:4px 0 0; padding:0; display:grid; gap:4px; max-height:160px; overflow-y:auto }
+  .share-receipts li{ font-size:12.5px; padding:6px 8px; border-radius:6px; background:var(--surface-2,var(--void)); border-left:3px solid var(--edge-strong) }
+  .share-receipts li.ok{ border-left-color:var(--good) }
+  .share-receipts li.fail{ border-left-color:var(--danger) }
   /* Training programmes: one card per block, with a progress bar in the
      programme's own accent and the station list underneath. */
   .prog-list{ display:grid; gap:14px; margin:6px 0 16px }
@@ -12777,6 +12791,563 @@ const Lrs = {
     let host = null;
     try { host = this.config ? new URL(this.config.endpoint).host : null; } catch (_) { /* ignore */ }
     return { configured: this.configured, endpoint: this.config?.endpoint ?? null, host, authed: !!this.config?.auth, pending: this.pending(), last: this.last };
+  },
+};
+
+
+/* ===== shared/wallet.js ===== */
+/**
+ * Wallet connection for a static page — the browser's own injected wallet
+ * only. This module never sees, stores or requests a private key or a seed
+ * phrase: everything it does is a request to an already-unlocked extension
+ * (EIP-1193's `window.ethereum`, or one announced over EIP-6963), which
+ * prompts the person and returns only what they approve. Nothing here
+ * reaches a network beyond the wallet's own extension, and nothing in this
+ * module posts anything anywhere — that is shared/share-engagement.js's job,
+ * and its own rule is that nothing is transmitted before an explicit press
+ * of Share.
+ *
+ * EIP-6963 (multi-provider discovery): a page can no longer assume
+ * `window.ethereum` is the only wallet, or even the one the person meant,
+ * once more than one extension is installed — the last one to load simply
+ * overwrites the global. This module dispatches "eip6963:requestProvider"
+ * and collects every "eip6963:announceProvider" reply within a short
+ * window, so a person can pick the wallet they actually meant. A browser
+ * with only a legacy `window.ethereum` and no EIP-6963 announcements still
+ * gets one entry for it, so the no-wallet and one-wallet cases both work
+ * without a person needing to know which standard their extension speaks.
+ *
+ * `shortAddress` and address cleaning are the exact functions shared/auth.js
+ * already carries for its own "Sign in with Ethereum" option — reused here
+ * rather than re-implemented, so the two never disagree on what a valid
+ * address or a HUD-sized label looks like.
+ */
+
+
+
+const DISCOVERY_WINDOW_MS = 150;
+
+/**
+ * Everything this module touches in the browser, in one injectable object —
+ * the same shape auth.js's makeAuthEnv uses — so a checker can drive every
+ * path headlessly and a reader can see the whole outside surface at a
+ * glance.
+ */
+function makeWalletEnv(overrides = {}) {
+  const g = globalThis;
+  const at = (fn, fallback) => { try { return fn() ?? fallback; } catch (_) { return fallback; } };
+  const w = at(() => g.window, g);
+  return {
+    ethereum: at(() => w?.ethereum ?? g.ethereum, null),
+    addEventListener: at(() => w?.addEventListener?.bind(w), null),
+    removeEventListener: at(() => w?.removeEventListener?.bind(w), null),
+    dispatchEvent: at(() => w?.dispatchEvent?.bind(w), null),
+    CustomEvent: at(() => g.CustomEvent, null),
+    now: () => new Date().toISOString(),
+    ...overrides,
+  };
+}
+
+/**
+ * Collect every EIP-6963 provider announced within `windowMs`, plus the
+ * legacy `window.ethereum` as a fallback entry when nothing announces (an
+ * older wallet, or a browser that has not adopted EIP-6963 yet). Resolves to
+ * `[{ uuid, name, icon, rdns, provider }]`, in announcement order; a browser
+ * with no wallet at all and no announcements resolves to `[]`.
+ */
+function discoverProviders(env = makeWalletEnv(), { windowMs = DISCOVERY_WINDOW_MS } = {}) {
+  return new Promise((resolve) => {
+    if (!env.addEventListener || !env.dispatchEvent || !env.CustomEvent) {
+      resolve(env.ethereum ? [{ uuid: "legacy", name: "Browser wallet", icon: null, rdns: null, provider: env.ethereum }] : []);
+      return;
+    }
+    const found = new Map();
+    const onAnnounce = (e) => {
+      const detail = e?.detail;
+      if (!detail?.provider || !detail?.info?.uuid) return;
+      found.set(detail.info.uuid, { uuid: detail.info.uuid, name: detail.info.name ?? "Wallet", icon: detail.info.icon ?? null, rdns: detail.info.rdns ?? null, provider: detail.provider });
+    };
+    env.addEventListener("eip6963:announceProvider", onAnnounce);
+    try { env.dispatchEvent(new env.CustomEvent("eip6963:requestProvider")); } catch (_) { /* a browser that does not support this still resolves below */ }
+    setTimeout(() => {
+      env.removeEventListener?.("eip6963:announceProvider", onAnnounce);
+      if (!found.size && env.ethereum) found.set("legacy", { uuid: "legacy", name: "Browser wallet", icon: null, rdns: null, provider: env.ethereum });
+      resolve([...found.values()]);
+    }, windowMs);
+  });
+}
+
+function walletRefuse(reason) { return { connected: false, reason }; }
+
+/**
+ * The one wallet connection this page holds. `connect()` is the only call
+ * that ever reaches the extension for accounts, and it is always in
+ * response to a person's own click — nothing here auto-connects on load.
+ */
+const Wallet = {
+  provider: null,
+  address: null,
+  chainId: null,
+  providerName: null,
+  providers: [],
+  env: null,
+  _unsub: null,
+  /** Set by a caller that wants a live update on account/chain change. */
+  onChange: null,
+
+  get connected() { return !!this.address; },
+
+  /** Find what wallets this browser actually offers. Touches no account. */
+  async discover(env = this.env ?? makeWalletEnv()) {
+    this.env = env;
+    this.providers = await discoverProviders(env);
+    return this.providers;
+  },
+
+  /**
+   * Connect the chosen provider (by its EIP-6963 uuid) or the first one
+   * discovered. This is `eth_requestAccounts` — a wallet only answers it
+   * after the person approves the connection in their own extension; no
+   * private key or seed phrase ever reaches this page.
+   */
+  async connect({ uuid = null, env = this.env ?? makeWalletEnv() } = {}) {
+    this.env = env;
+    if (!this.providers.length) await this.discover(env);
+    const entry = uuid ? this.providers.find((p) => p.uuid === uuid) : this.providers[0];
+    const eth = entry?.provider ?? env.ethereum;
+    if (!eth?.request) return walletRefuse("No wallet extension was found in this browser.");
+    let accounts;
+    try { accounts = await eth.request({ method: "eth_requestAccounts" }); }
+    catch (err) { return walletRefuse(err?.code === 4001 ? "The wallet declined the connection." : "The wallet could not be reached."); }
+    const address = cleanAddress(Array.isArray(accounts) ? accounts[0] : null);
+    if (!address) return walletRefuse("The wallet returned no account.");
+    let chainId = null;
+    try { chainId = await eth.request({ method: "eth_chainId" }); } catch (_) { /* optional — chain-change handling still works without it */ }
+    this.provider = eth; this.address = address; this.chainId = chainId ?? null; this.providerName = entry?.name ?? "Browser wallet";
+    this._listen(eth);
+    return this.describe();
+  },
+
+  /** Chain-change and account-change handling: the HUD stays in sync, and an
+   * account switch or a disconnect from the wallet's own UI is reflected
+   * here rather than left stale. */
+  _listen(eth) {
+    this._unsub?.();
+    const onAccounts = (accounts) => {
+      const a = cleanAddress(Array.isArray(accounts) ? accounts[0] : null);
+      this.address = a;
+      if (!a) { this.provider = null; this.chainId = null; this.providerName = null; }
+      this.onChange?.(this.describe());
+    };
+    const onChain = (chainId) => { this.chainId = chainId; this.onChange?.(this.describe()); };
+    eth.on?.("accountsChanged", onAccounts);
+    eth.on?.("chainChanged", onChain);
+    this._unsub = () => { eth.removeListener?.("accountsChanged", onAccounts); eth.removeListener?.("chainChanged", onChain); };
+  },
+
+  /** Forget the connection on this page. This never revokes the extension's
+   * own permission — that stays with the wallet, as it should. */
+  disconnect() {
+    this._unsub?.();
+    this._unsub = null; this.provider = null; this.address = null; this.chainId = null; this.providerName = null;
+    this.onChange?.(this.describe());
+    return true;
+  },
+
+  /**
+   * Sign a plain-text statement with `personal_sign` (EIP-191). The wallet
+   * shows the exact text to the person before it signs; this module never
+   * alters, hides or pre-fills it, and never sees or asks for anything
+   * beyond the signature the wallet returns. Never throws.
+   */
+  async signConsent(text) {
+    if (!this.provider || !this.address) return { signed: false, reason: "No wallet is connected." };
+    if (typeof text !== "string" || !text) return { signed: false, reason: "Nothing to sign." };
+    let signature;
+    try { signature = await this.provider.request({ method: "personal_sign", params: [text, this.address] }); }
+    catch (err) { return { signed: false, reason: err?.code === 4001 ? "The wallet declined to sign." : "The wallet could not sign." }; }
+    if (typeof signature !== "string" || !signature) return { signed: false, reason: "The wallet returned no signature." };
+    return { signed: true, signature, address: this.address, chainId: this.chainId, message: text };
+  },
+
+  /** Plain data for a HUD: null when nothing is connected. */
+  describe() {
+    if (!this.address) return null;
+    return { connected: true, address: this.address, shortAddress: shortAddress(this.address), chainId: this.chainId, providerName: this.providerName };
+  },
+};
+
+
+/* ===== shared/agent-protocols.js ===== */
+/**
+ * A provider-agnostic adapter over the bundle shared/share-engagement.js
+ * builds: `describe()`, `offer(bundle)`, `deliver(bundle, consent)`,
+ * `status(receipt)` — the one shape every agent-protocol adapter speaks, so
+ * the UI and the sharing flow never know or care which platform a
+ * deployment pointed a given adapter at.
+ *
+ * Every adapter starts fully unconfigured: no endpoint, chain id, contract
+ * address, schema id, token, fee or account is ever defaulted here. A field
+ * only exists to be filled in by a deployment, from that provider's own
+ * current documentation, at deploy time — never invented, assumed or
+ * hard-coded in this file. Until every field an adapter needs is set,
+ * `offer()` and `deliver()` refuse outright, before touching the network,
+ * with the one sentence: "configure per the provider's current
+ * documentation". `status()` never claims a live connection either — it
+ * only ever reports what the deployment's own configured endpoint answers,
+ * and says so.
+ *
+ * Four adapters, four generic shapes — never a description of how the named
+ * platform actually works beyond this:
+ *   virtuals             an agent-commerce style job offer and deliverable.
+ *   singularitynet       a service-descriptor style offer with a payment-
+ *                        channel placeholder.
+ *   generic-attestation  an on-chain attestation payload with a schema-id
+ *                        placeholder — usable against any attestation
+ *                        registry a deployment configures, named or not.
+ *   cloudflare-relay     the relay template in integrations/cloudflare/ —
+ *                        still nothing but a configured endpoint from this
+ *                        side; see integrations/cloudflare/README.md.
+ */
+
+const REFUSAL = "configure per the provider's current documentation";
+
+/** Every schema field this adapter needs, always starting unset. */
+const SCHEMAS = {
+  virtuals: ["endpoint", "chainId", "agentRegistryAddress", "paymentTokenAddress"],
+  singularitynet: ["endpoint", "organizationId", "serviceId", "paymentChannelAddress"],
+  "generic-attestation": ["endpoint", "chainId", "attestationRegistryAddress", "schemaId"],
+  "cloudflare-relay": ["endpoint"],
+};
+
+function isUnset(v) { return v == null || v === ""; }
+
+async function postJson(endpoint, body, fetchImpl) {
+  const fetchFn = fetchImpl ?? (typeof fetch === "function" ? fetch : null);
+  if (!fetchFn) return { ok: false, reason: "This environment cannot reach the network." };
+  try {
+    const res = await fetchFn(endpoint, {
+      method: "POST", mode: "cors", credentials: "omit",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    let json = null;
+    try { json = await res.json(); } catch (_) { /* a relay may answer with no body */ }
+    return { ok: !!res?.ok, status: res?.status ?? null, body: json };
+  } catch (err) { return { ok: false, reason: err?.message ?? "the request failed" }; }
+}
+
+/**
+ * One fresh adapter instance with its own configuration. Every deployment
+ * (and every test) gets an isolated set of fields — configuring one adapter
+ * never leaks into another, or into a previous test's adapter of the same
+ * kind.
+ */
+function createAdapter(id, { fetchImpl } = {}) {
+  const fields = SCHEMAS[id];
+  if (!fields) throw new Error(`agent-protocols: unknown adapter "${id}"`);
+  const config = Object.fromEntries(fields.map((f) => [f, null]));
+
+  function missingFields() { return fields.filter((f) => isUnset(config[f])); }
+  function refuse() { return { ok: false, provider: id, reason: REFUSAL, missing: missingFields() }; }
+
+  return {
+    id,
+    fields: [...fields],
+
+    /** The adapter's current configuration and what is still unset. Never
+     * guesses or fills in a value that was not explicitly configured. */
+    describe() {
+      const missing = missingFields();
+      return { id, fields: [...fields], config: { ...config }, configured: missing.length === 0, missing };
+    },
+
+    /** Merge deployment-supplied fields. A field this adapter does not have
+     * is silently dropped rather than accepted and ignored elsewhere. */
+    configure(next = {}) {
+      for (const f of fields) if (f in next) config[f] = next[f] ?? null;
+      return this.describe();
+    },
+
+    /**
+     * Offer the bundle for a job/service/attestation slot on the configured
+     * endpoint — the generic first step every one of these shapes has in
+     * common (a job offer, a service call, an attestation request). Refuses
+     * with nothing sent while any field is unset.
+     */
+    async offer(bundle) {
+      if (missingFields().length) return refuse();
+      return { ok: true, provider: id, ...(await postJson(config.endpoint, { action: "offer", provider: id, bundle }, fetchImpl)) };
+    },
+
+    /**
+     * Deliver the bundle plus its signed or local consent record. Refuses
+     * outright, with nothing sent, when the adapter is unconfigured or the
+     * consent was never actually given — this is the one place a bundle
+     * would leave the page for this provider, and it never does so silently.
+     */
+    async deliver(bundle, consent) {
+      if (missingFields().length) return refuse();
+      if (!consent?.optIn) return { ok: false, provider: id, reason: "no consent to share" };
+      return { ok: true, provider: id, ...(await postJson(config.endpoint, { action: "deliver", provider: id, bundle, consent }, fetchImpl)) };
+    },
+
+    /**
+     * Ask the configured endpoint about a receipt. This never polls a chain
+     * or a platform on the adapter's own initiative, and never states that a
+     * delivery succeeded beyond what the endpoint's own answer says.
+     */
+    async status(receipt) {
+      if (missingFields().length) return refuse();
+      const result = await postJson(config.endpoint, { action: "status", provider: id, receiptId: receipt?.id ?? null }, fetchImpl);
+      return { ok: !!result.ok, provider: id, receiptId: receipt?.id ?? null, remote: result.body ?? null };
+    },
+  };
+}
+
+/** The set of adapter kinds this module knows the generic shape of. */
+const ADAPTER_IDS = Object.keys(SCHEMAS);
+
+/** Default, unconfigured instances — convenient for a page that wants one of
+ * each; a test that configures an adapter should use createAdapter() instead
+ * so its configuration cannot leak into another test or another caller. */
+const Adapters = Object.fromEntries(ADAPTER_IDS.map((id) => [id, createAdapter(id)]));
+
+function adapterById(id) { return Adapters[id] ?? null; }
+function listAdapters() { return ADAPTER_IDS.map((id) => Adapters[id].describe()); }
+
+
+/* ===== shared/share-engagement.js ===== */
+/**
+ * Opt-in sharing of training engagement, so agent-protocol platforms
+ * (shared/agent-protocols.js) and the robots and software agents run
+ * through them can train on real practice patterns.
+ *
+ * The default is off, and it stays off until a person presses Share:
+ *   1. Opt in — build and store a consent record (what is shared, what
+ *      never is, the licence choice, revocable at any time). Signed with a
+ *      connected wallet (personal_sign / EIP-191, shared/wallet.js) when one
+ *      is connected; otherwise a plain, unsigned local record. Either way
+ *      this step only ever writes to this browser.
+ *   2. Share — build a bundle from the consent and this browser's own
+ *      training data, and POST it to one configured adapter
+ *      (shared/agent-protocols.js). This is the only network call this
+ *      module makes, and it never runs on its own.
+ *
+ * What is shared: anonymised episode digests and the per-category roll-up
+ * scores shared/records.js already keeps.
+ * What is never shared: a learner's name, crew tag, free text, or any
+ * launch identity from shared/identity.js. `recordDigest()` below is the one
+ * function that turns a training record into what leaves the browser, and it
+ * carries no field that could name a person.
+ *
+ * ROBO2's shared/episodes.js (getEpisodes(), sessionDigest()) is a richer
+ * trajectory recorder than the roll-up here, and this module speaks its
+ * small interface the moment it exists — `loadEpisodesApi()` tries to import
+ * it and falls back to a records.js-based digest while it is not yet in this
+ * build, so this module works whether or not that file has landed.
+ */
+
+
+
+const CONSENT_KEY = "vr-training-share-consent-v1";
+const RECEIPTS_KEY = "vr-training-share-receipts-v1";
+const MAX_RECEIPTS = 200;
+
+/** The only two choices offered, spelled exactly as the licences themselves are. */
+const LICENCES = ["CC0", "CC-BY-4.0"];
+function cleanLicence(v) { return LICENCES.includes(v) ? v : null; }
+
+// ---------------------------------------------------------- episodes.js hook
+
+let episodesApiPromise = null;
+
+/**
+ * `{ getEpisodes(), sessionDigest(ep), source }` — ROBO2's module when it is
+ * present in this build, a records.js-based fallback otherwise. Cached after
+ * the first attempt so a missing module is not re-imported on every call.
+ */
+function loadEpisodesApi() {
+  if (episodesApiPromise) return episodesApiPromise;
+  episodesApiPromise = (async () => {
+    try {
+      // A relative dynamic import, not in bundle_webxr.py's static module
+      // chain: the bundler only tracks `import … from` lines, so this file
+      // works whether shared/episodes.js exists in this checkout or not, and
+      // a bundle built before it lands simply keeps the fallback below.
+      const mod = await import("./episodes.js");
+      if (typeof mod.getEpisodes === "function" && typeof mod.sessionDigest === "function") {
+        return { getEpisodes: mod.getEpisodes, sessionDigest: mod.sessionDigest, source: "episodes" };
+      }
+    } catch (_) { /* shared/episodes.js is another team's module and may not be in this build yet */ }
+    return { getEpisodes: () => TrainingRecords.list(), sessionDigest: recordDigest, source: "records-fallback" };
+  })();
+  return episodesApiPromise;
+}
+
+/** The anonymised shape of one attempt while shared/episodes.js is not yet
+ * present: a station roll-up's worth of fields, nothing a person is named
+ * by — no learner, learnerName, learnerId, homePage or crew tag. */
+function recordDigest(r) {
+  return {
+    app: r.app ?? null, simId: r.simId ?? null, category: r.category ?? null,
+    stars: r.stars | 0, score: r.score | 0, hazardHits: r.hazardHits | 0, errors: r.errors | 0,
+    seconds: r.seconds ?? null, parSeconds: r.parSeconds ?? null, passed: !!r.passed,
+    interrupts: r.interrupts ?? null, at: r.at ?? null,
+  };
+}
+
+// --------------------------------------------------------------- storage
+
+function loadJson(key, fallback) {
+  try { const v = JSON.parse(localStorage.getItem(key) || "null"); return v ?? fallback; } catch (_) { return fallback; }
+}
+function saveJson(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) { /* private mode */ } }
+
+// --------------------------------------------------------------- consent
+
+/**
+ * The exact text a connected wallet is asked to sign, and the text a plain
+ * local consent carries verbatim — built once, deterministically, from only
+ * the fields that make it into the stored record. `integrations/cloudflare/
+ * worker.js` keeps a byte-identical copy so it can rebuild the same text and
+ * check it against the signature without trusting anything else the page
+ * sends; `tools/check_share.mjs` asserts the two never drift apart.
+ */
+function consentStatement({ licence, at }) {
+  return [
+    "I opt in to share my anonymised training engagement (episode digests and",
+    "roll-up scores only — no name, no free text, no raw identity) with",
+    "agent-protocol platforms and their relay, for training software agents",
+    "and robots.",
+    `Licence: ${licence}.`,
+    "This consent is revocable at any time and grants nothing else.",
+    `At: ${at}`,
+  ].join("\n");
+}
+
+function makeConsentId(crypto = globalThis.crypto) {
+  const bytes = new Uint8Array(8);
+  if (crypto?.getRandomValues) crypto.getRandomValues(bytes);
+  else for (let i = 0; i < bytes.length; i += 1) bytes[i] = Math.floor(Math.random() * 256);
+  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// ---------------------------------------------------------- content hashing
+
+/** A value with every object key sorted, recursively — so two payloads that
+ * differ only in key order hash identically. */
+function canonical(v) {
+  if (Array.isArray(v)) return v.map(canonical);
+  if (v && typeof v === "object") return Object.fromEntries(Object.keys(v).sort().map((k) => [k, canonical(v[k])]));
+  return v;
+}
+function canonicalJson(value) { return JSON.stringify(canonical(value)); }
+
+/** SHA-256 of the payload's canonical JSON, hex-encoded — deterministic
+ * regardless of key order or object identity. Falls back to a small non-
+ * cryptographic hash only where SubtleCrypto is unavailable (never in a
+ * signed record, only as a last resort for the determinism check itself). */
+async function contentHash(payload, subtle = globalThis.crypto?.subtle) {
+  const json = canonicalJson(payload);
+  if (subtle?.digest) {
+    const digest = await subtle.digest("SHA-256", new TextEncoder().encode(json));
+    return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  let h = 0x811c9dc5;
+  for (let i = 0; i < json.length; i++) { h ^= json.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  return (h >>> 0).toString(16).padStart(8, "0");
+}
+
+// ------------------------------------------------------------ the flow
+
+const ShareEngagement = {
+  consent: null,
+
+  load() { this.consent = loadJson(CONSENT_KEY, null); return this.consent; },
+
+  get optedIn() { return !!this.consent?.optIn; },
+
+  /**
+   * Opt in. `wallet` defaults to the page's shared Wallet singleton; pass a
+   * stub for a headless test. When a wallet is connected the consent is
+   * signed with `personal_sign`; otherwise it is a plain local record. This
+   * call only ever writes to this browser — nothing is sent anywhere yet.
+   */
+  async optIn({ licence, wallet = Wallet, crypto = globalThis.crypto } = {}) {
+    const cleanLic = cleanLicence(licence);
+    if (!cleanLic) return { ok: false, reason: `Choose a licence: ${LICENCES.join(" or ")}.` };
+    const at = new Date().toISOString();
+    const statement = consentStatement({ licence: cleanLic, at });
+    let mode = "local", address = null, chainId = null, signature = null;
+    if (wallet?.connected) {
+      const signed = await wallet.signConsent(statement);
+      if (!signed.signed) return { ok: false, reason: signed.reason || "The wallet did not sign the consent." };
+      mode = "wallet"; address = wallet.address; chainId = wallet.chainId ?? null; signature = signed.signature;
+    }
+    const consent = {
+      id: makeConsentId(crypto), at, licence: cleanLic, mode, address, chainId, signature, statement,
+      optIn: true,
+      shares: { episodeDigests: true, rollupScores: true },
+      neverShares: ["name", "crewTag", "freeText", "rawIdentity"],
+    };
+    this.consent = consent;
+    saveJson(CONSENT_KEY, consent);
+    return { ok: true, consent };
+  },
+
+  /** Revoke. The local consent is deleted; a bundle already delivered to a
+   * relay is not un-sent, which the UI says plainly. Past receipts are kept
+   * as the record of what was shared while consent was active. */
+  revoke() {
+    this.consent = null;
+    try { localStorage.removeItem(CONSENT_KEY); } catch (_) { /* ignore */ }
+    return true;
+  },
+
+  /** Build the share bundle: digests + the roll-up summary + a content hash.
+   * Returns null while not opted in — there is nothing to build without a
+   * consent record to attach. */
+  async buildBundle() {
+    if (!this.optedIn) return null;
+    const api = await loadEpisodesApi();
+    const episodes = api.getEpisodes() ?? [];
+    const digests = episodes.map((ep) => api.sessionDigest(ep));
+    const payload = {
+      digests, summary: TrainingRecords.summary(), licence: this.consent.licence,
+      generatedAt: new Date().toISOString(), source: api.source,
+    };
+    const hash = await contentHash(payload);
+    return { payload, hash, consentId: this.consent.id };
+  },
+
+  receipts() { return loadJson(RECEIPTS_KEY, []); },
+  addReceipt(receipt) {
+    const list = this.receipts();
+    list.push(receipt);
+    if (list.length > MAX_RECEIPTS) list.splice(0, list.length - MAX_RECEIPTS);
+    saveJson(RECEIPTS_KEY, list);
+    return list;
+  },
+  clearReceipts() { try { localStorage.removeItem(RECEIPTS_KEY); } catch (_) { /* ignore */ } },
+
+  /**
+   * The only call in this module that reaches the network, and only when a
+   * person presses it: build the bundle, hand it and the consent to the
+   * given shared/agent-protocols.js adapter, and record the receipt.
+   * Refuses outright, with nothing built or sent, when not opted in.
+   */
+  async share(adapter) {
+    if (!this.optedIn) return { ok: false, reason: "Opt in first — nothing is shared by default." };
+    const bundle = await this.buildBundle();
+    const result = await adapter.deliver(bundle, this.consent);
+    const receipt = {
+      at: new Date().toISOString(), provider: adapter.id, ok: !!result.ok,
+      reason: result.reason ?? null, hash: bundle.hash, consentId: this.consent.id,
+      receiptId: result.body?.receipt?.id ?? null,
+    };
+    this.addReceipt(receipt);
+    return { ok: !!result.ok, receipt, result };
   },
 };
 
@@ -45870,6 +46441,7 @@ const INTRO_BUTTONS = [
   { id: "view-programs", label: "Training programmes", action: "viewPrograms" },
   { id: "view-flows", label: "Flows", action: "viewFlows" },
   { id: "open-signin", label: "Sign in", action: "viewSignIn" },
+  { id: "open-share", label: "Share to train agents & robots", action: "viewShare" },
   { id: "open-editor", label: "Create a scenario", action: "openEditor" },
   { id: "open-controls", label: "Controls", action: "openControls" },
   { id: "reset-progress", label: "Reset progress", action: "resetProgress", textFromSlice: "resetProgressText" },
@@ -46343,6 +46915,91 @@ function mountUI(store, actions) {
           h("button", { id: "signin-close", onClick: actions.closeSignIn }, "Close")),
         h("p", { className: "fineprint" },
           "Signing in is optional. Without it you are a crew tag in this browser, and every record still works.")));
+  }
+
+  /**
+   * Share to train agents & robots (shared/share-engagement.js,
+   * shared/agent-protocols.js, shared/wallet.js). Default is off: opting in
+   * only ever writes a consent record to this browser, and pressing Share is
+   * the one action that sends anything, to the one relay this deployment
+   * configured. Every value here is plain data — a wallet address, a
+   * receipt reason — rendered as text, never markup.
+   */
+  function ShareCard() {
+    const sh = useSlice("share");
+    if (!sh.visible) return h("div", { className: "overlay", id: "share", hidden: true });
+    const optedIn = !!sh.consent?.optIn;
+
+    const walletSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Wallet (optional)"),
+      sh.wallet
+        ? h("p", { className: "signin-msg", role: "status" },
+            `Connected: ${sh.wallet.shortAddress}${sh.wallet.chainId ? ` · chain ${sh.wallet.chainId}` : ""}`)
+        : h("p", { className: "fineprint" },
+            "Connecting a wallet lets your opt-in be signed (personal_sign) so a relay can check who gave it. " +
+            "Without one, opting in still works as a plain, unsigned record kept in this browser. " +
+            "This page never asks for a private key or a seed phrase."),
+      h("div", { className: "btnrow" },
+        sh.wallet
+          ? h("button", { id: "share-wallet-disconnect", onClick: actions.disconnectWallet }, "Disconnect wallet")
+          : h("button", { id: "share-wallet-connect", disabled: sh.walletBusy, onClick: actions.connectWallet }, sh.walletBusy ? "Connecting…" : "Connect wallet")),
+      sh.walletMessage ? h("p", { className: "signin-msg", role: "status" }, sh.walletMessage) : null);
+
+    const licenceOption = (lic, note) => h("label", { key: lic, className: `share-licence-opt${sh.licence === lic ? " on" : ""}` },
+      h("input", { type: "radio", name: "share-licence", value: lic, checked: sh.licence === lic, onChange: () => actions.setShareLicence(lic), disabled: optedIn }),
+      h("span", null, note));
+    const licenceSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "Licence"),
+      h("div", { className: "share-licence", role: "radiogroup", "aria-label": "Licence" },
+        licenceOption("CC0", "CC0 — public domain dedication"),
+        licenceOption("CC-BY-4.0", "CC-BY-4.0 — attribution required")));
+
+    const consentRow = optedIn
+      ? h(Fragment, null,
+          h("p", { className: "signin-msg", role: "status" },
+            `Opted in under ${sh.consent.licence} on ${new Date(sh.consent.at).toLocaleDateString()} — ` +
+            `${sh.consent.mode === "wallet" ? `signed by ${sh.consent.address}` : "an unsigned local record"}.`),
+          h("div", { className: "btnrow" },
+            h("button", { className: "primary", id: "share-now", disabled: sh.busy, onClick: actions.shareNow }, sh.busy ? "Sharing…" : "Share"),
+            h("button", { id: "share-revoke", onClick: actions.revokeShare }, "Revoke")))
+      : h("div", { className: "btnrow" },
+          h("button", { className: "primary", id: "share-optin", disabled: sh.busy, onClick: actions.optInShare }, sh.busy ? "Working…" : "Opt in"));
+
+    const receiptRows = [...sh.receipts].reverse().slice(0, 20).map((r, i) => h("li", {
+      key: `${r.at}-${i}`, className: r.ok ? "ok" : "fail",
+    }, `${new Date(r.at).toLocaleString()} · ${r.provider} · ${r.ok ? "sent" : (r.reason ?? "failed")}`));
+    const infoSection = h("div", { className: "share-section" },
+      h("div", { className: "eyebrow" }, "What is shared, and what never is"),
+      h("ul", { className: "share-list" },
+        h("li", null, "Shared: anonymised episode digests and the per-category roll-up scores already in Training Records."),
+        h("li", null, "Never shared: your name, crew tag, free text, or any launch identity.")),
+      h("div", { className: "eyebrow", style: { marginTop: "8px" } }, "Receipts"),
+      sh.receipts.length
+        ? h("ul", { className: "share-receipts" }, receiptRows)
+        : h("p", { className: "fineprint" }, "Nothing has been shared yet."));
+
+    return h("div", { className: "overlay", id: "share", role: "dialog", "aria-modal": "true", "aria-label": "Share to train agents & robots" },
+      h("div", { className: "card" },
+        h("div", { className: "eyebrow" }, "SmartCiti.X · share to train agents & robots"),
+        h("h1", null, "Help train agents and robots"),
+        h("p", { className: "lead" },
+          "Opt in to share anonymised training engagement — episode digests and roll-up scores only, never your name, " +
+          "free text or launch identity — with agent-protocol platforms (Virtuals Protocol, SingularityNET and others) " +
+          "so they can train software agents and robots on real practice patterns. This is off by default, and nothing " +
+          "is sent until you press Share, below."),
+        walletSection,
+        licenceSection,
+        consentRow,
+        sh.message ? h("p", { className: "signin-msg", role: "status" }, sh.message) : null,
+        infoSection,
+        h("p", { className: "fineprint" },
+          "Sharing is optional and revocable at any time. Revoking removes the local consent record; it does not " +
+          "un-send anything already delivered to a relay. See ",
+          h("a", { href: "../docs/wallets-and-sharing.md", target: "_blank", rel: "noopener" }, "wallets and sharing"),
+          " and ",
+          h("a", { href: "../docs/agent-protocols.md", target: "_blank", rel: "noopener" }, "agent protocols"), "."),
+        h("div", { className: "btnrow" },
+          h("button", { id: "share-close", onClick: actions.closeShare }, "Close"))));
   }
 
   /** A programme's twenty-level ladder (shared/ladder.js), top rung first:
@@ -47022,7 +47679,7 @@ function mountUI(store, actions) {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
-      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(MyTrainingCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
+      h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(MyTrainingCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard), h(ShareCard),
       h(ControlsCard));
   }
 
@@ -48133,6 +48790,15 @@ const store = createStore({
   // this browser can actually do, plus the one line that says where the
   // credential is verified — which is never here.
   signin: { visible: false, providers: [], session: null, field: "", fieldFor: null, message: "" },
+  // Opt-in sharing of anonymised training engagement with agent-protocol
+  // platforms (shared/share-engagement.js, shared/agent-protocols.js,
+  // shared/wallet.js). Default off; nothing here is sent anywhere until a
+  // press of Share, and this slice only ever mirrors what those modules
+  // already hold.
+  share: {
+    visible: false, wallet: null, walletBusy: false, walletMessage: "",
+    consent: null, licence: "CC0", receipts: [], busy: false, message: "",
+  },
   // The dental programme's robot-training card: a headless calibration of
   // every station in the block, run in slices on this thread so the panel can
   // show the difficulty curve filling in rather than freezing until it is done.
@@ -50704,6 +51370,54 @@ Lrs.listen(() => Identity.current?.homePage, () => { refreshLrs(); Lrs.flush().t
 refreshLrs();
 if (Lrs.pending()) Lrs.flush().then(() => refreshLrs());
 
+// ------------------------------------------------- share to train agents & robots
+//
+// Opt-in sharing of anonymised training engagement (shared/share-engagement.js)
+// with agent-protocol platforms (shared/agent-protocols.js), by way of a
+// wallet a person connects themselves (shared/wallet.js). Default is off;
+// this section only ever mirrors those modules' own state into the "share"
+// slice for react-ui.js, and every network call still happens inside them.
+
+function refreshShare(extra = {}) {
+  store.patch("share", {
+    wallet: Wallet.describe(), consent: ShareEngagement.consent, receipts: ShareEngagement.receipts(),
+    ...extra,
+  });
+}
+function viewShare() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  refreshShare({ visible: true, message: "" });
+}
+function closeShare() { state.paused = pausedBeforeOverlay; store.patch("share", { visible: false }); }
+function setShareLicence(v) { store.patch("share", { licence: SHARE_LICENCES.includes(v) ? v : store.get().share.licence }); }
+
+async function connectWallet() {
+  refreshShare({ walletBusy: true, walletMessage: "" });
+  const result = await Wallet.connect({ env: makeWalletEnv() });
+  refreshShare({ walletBusy: false, walletMessage: result.connected ? "" : (result.reason || "") });
+}
+function disconnectWallet() { Wallet.disconnect(); refreshShare({}); }
+Wallet.onChange = () => refreshShare({});
+
+async function optInShare() {
+  const licence = store.get().share.licence;
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.optIn({ licence, wallet: Wallet });
+  refreshShare({ busy: false, message: result.ok ? "" : (result.reason || "") });
+}
+function revokeShare() {
+  ShareEngagement.revoke();
+  refreshShare({ message: "Consent revoked. Anything already shared is not un-sent." });
+}
+async function shareNow() {
+  refreshShare({ busy: true, message: "" });
+  const result = await ShareEngagement.share(AGENT_ADAPTERS["cloudflare-relay"]);
+  refreshShare({ busy: false, message: result.ok ? "Shared." : (result.receipt?.reason || result.result?.reason || "Nothing was sent.") });
+}
+
+refreshShare();
+
 // ------------------------------------------------------------- scenario editor
 //
 // A custom scenario never invents new steps or new 3D content — it curates
@@ -52372,6 +53086,7 @@ const uiActions = {
   viewMyTraining, closeMyTraining, exportTranscriptJson, printTrainingTranscript,
   viewPrograms, closePrograms, programStart, toggleLadder, startLevel,
   viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
+  viewShare, closeShare, connectWallet, disconnectWallet, setShareLicence, optInShare, revokeShare, shareNow,
   startRobotTraining, stopRobotTraining,
   viewFlows, closeFlows, flowContinue, flowRestart, flowSelect,
   prebriefStart, prebriefSkip, prebriefClose,
