@@ -72,8 +72,8 @@ export const SIM_ED_PLAYGROUND_EQUIPMENT_INSPECTION = {
   },
 
   lateNotes: {
-    "surfacing-probe": "Not yet — the fall zone gets probed once the perimeter and the gate are already secured, not before.",
-    "crimp-s-hook": "The hook gets crimped once the close inspection has actually found it open, not before.",
+    "depth-probe": "Not yet — the fall zone gets probed once the perimeter and the gate are already secured, not before.",
+    "s-hook-crimper": "The hook gets crimped once the close inspection has actually found it open, not before.",
   },
 
   steps: [
@@ -320,6 +320,9 @@ export const SIM_ED_PLAYGROUND_EQUIPMENT_INSPECTION = {
     hook.rotation.z = 1.0;
     holoTag(swingSet, "sprung S-hook", 0.6, 1.78, 0, { css: "#f0645b", w: 0.36 });
     reg(hits, hook, "s-hook-crimper");
+    const fingerPinchSpot = ball(swingSet, 0.02, 0.66, 1.6, 0.02, 0x000000, { opacity: 0.001, transparent: true, cast: false });
+    holoTag(swingSet, "force it shut with a thumb?", 0.66, 1.9, 0.02, { css: "#f0645b", w: 0.56 });
+    reg(hits, fingerPinchSpot, "force-hook-bare-fingers");
     const brokenSeat = box(swingSet, 0.4, 0.04, 0.14, 0.6, 1.55, 0, 0xd8532a, { rough: 0.6 });
     holoTag(swingSet, "already tagged — do not ride", 0.6, 1.4, 0, { css: "#f0645b", w: 0.6 });
     reg(hits, brokenSeat, "test-ride-tagged-swing");
@@ -388,7 +391,7 @@ export const SIM_ED_PLAYGROUND_EQUIPMENT_INSPECTION = {
     void barrier;
 
     // Crew: a supervising groundskeeper, clear of every control.
-    const supervisor = standingFigure(g, 3.0, 2.3, { ry: -2.3, cloth: 0x2b3138, vest: 0xd8f23a, cap: 0x2f6f4a });
+    const supervisor = standingFigure(g, 3.3, 1.0, { ry: -2.3, cloth: 0x2b3138, vest: 0xd8f23a, cap: 0x2f6f4a });
     holoTag(supervisor, "lead groundskeeper", 0, 1.95, 0, { css: PG_CSS, w: 0.34 });
 
     // A student, hidden until an interrupt calls for them.
