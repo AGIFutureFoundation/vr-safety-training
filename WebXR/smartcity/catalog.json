@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 427
+      "stations": 428
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-skylight-and-hatch-guarding",
         "rf-roof-tear-off-and-debris-chute",
         "rf-below-grade-waterproofing-and-drainage-board",
         "rf-standing-seam-metal-panel-and-clip",
@@ -7650,6 +7651,89 @@
     },
     {
       "app": "smartcity",
+      "id": "rf-skylight-and-hatch-guarding",
+      "name": "Skylight & Hatch Guarding",
+      "title": "SmartCiti.X~ Skylight & Hatch Guarding VR",
+      "tagline": "The guarding plan read, harness clipped, a cracked dome and a backed-out screen fastener found, an existing screen proof-tested, the heat gun set down cold, a new screen carried out of the wind, fastened, seated and sealed, its own proof test held, the hatch's rail and gate confirmed in order, a second dome and an unmarked vent found on the walk-round, and the day logged, with a gust catching the next panel and a coworker radioing that a second hatch was left open along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer screening skylights and railing roof hatches ahead of a re-roof crew",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection, skylight screens and hole covers, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; NRCA skylight and hatch guarding practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "every-opening-guarded",
+        "name": "Every Opening Guarded",
+        "note": "Every skylight screened, the hatch railed and gated, and nobody left an opening for the membrane crew to find the hard way"
+      },
+      "meshes": 149,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf7",
+      "flat": false,
+      "system": "Guard Line",
+      "currency": "GUARD",
+      "ranks": [
+        "Apprentice",
+        "Screen Hand",
+        "Guard Runner",
+        "Lead Guardsman",
+        "Guarding Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The guarding plan read before the first screen came out"
+        },
+        {
+          "id": "steady-seal",
+          "name": "Steady Seal",
+          "note": "The sealant bead ran the whole frame without a break in pace"
+        },
+        {
+          "id": "never-left-open",
+          "name": "Never Left Open",
+          "note": "No dome stepped on, no heat gun left hot, no panel carried across the wind"
+        },
+        {
+          "id": "clean-guard",
+          "name": "Clean Guard",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "proof-positive",
+          "name": "Proof Positive",
+          "note": "Both proof-load readings committed inside band first time"
+        },
+        {
+          "id": "roof-closed",
+          "name": "Roof Closed",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-skylight-and-hatch-guarding"
+    },
+    {
+      "app": "smartcity",
       "id": "rf-roof-tear-off-and-debris-chute",
       "name": "Roof Tear-Off & Debris Chute",
       "title": "SmartCiti.X~ Roof Tear-Off & Debris Chute VR",
@@ -7682,7 +7766,7 @@
         "name": "Deck Scanned Clean",
         "note": "A strip torn off, scanned and dried in with nobody stepping on an open hole or a fastener left in the chute's path"
       },
-      "meshes": 142,
+      "meshes": 144,
       "lights": 0,
       "overBudget": false,
       "index": "rf6",
@@ -28089,7 +28173,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28749,7 +28833,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -7142,6 +7142,58 @@
     },
     {
       "app": "smartcity",
+      "id": "rf-skylight-and-hatch-guarding",
+      "name": "Skylight & Hatch Guarding",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.92,
+          "meshes": 148,
+          "materials": 72,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.2524256651017215,
+          "nearest": "rf-below-grade-waterproofing-and-drainage-board",
+          "similarity": 0.2895148669796557
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "rf-roof-tear-off-and-debris-chute",
       "name": "Roof Tear-Off & Debris Chute",
       "category": "Construction & Structural Trades",
@@ -7189,6 +7241,58 @@
           "score": 0.37107195301027907,
           "nearest": "rf-below-grade-waterproofing-and-drainage-board",
           "similarity": 0.2657856093979442
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-below-grade-waterproofing-and-drainage-board",
+      "name": "Below-Grade Waterproofing & Drainage Board",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 286,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.2524256651017215,
+          "nearest": "rf-skylight-and-hatch-guarding",
+          "similarity": 0.2895148669796557
         }
       }
     },
@@ -9885,7 +9989,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 260,
+          "meshes": 255,
           "materials": 92,
           "interactables": 29
         },
@@ -11921,58 +12025,6 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "rf-below-grade-waterproofing-and-drainage-board",
-      "name": "Below-Grade Waterproofing & Drainage Board",
-      "category": "Construction & Structural Trades",
-      "steps": 14,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 286,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 13,
-          "got": 13
-        },
-        "scene": {
-          "score": 0.9400000000000001,
-          "meshes": 156,
-          "materials": 75,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.34145658263305345,
-          "nearest": "rf-single-ply-tpo-heat-welding-and-seam-probe",
-          "similarity": 0.27170868347338933
         }
       }
     },
@@ -19718,9 +19770,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.5509749303621171,
-          "nearest": "pm-elevator-machine-room",
-          "similarity": 0.2298050139275766
+          "score": 0.5029197080291972,
+          "nearest": "rf-skylight-and-hatch-guarding",
+          "similarity": 0.23941605839416058
         }
       }
     },
