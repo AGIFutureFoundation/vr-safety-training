@@ -810,6 +810,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "br-fish-screen-maintenance", why: "A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed headcount says every hand that went on the disconnect is clear of it again." },
     ],
   },
+  {
+    id: "roofers-and-waterproofers",
+    name: "Roofers and Waterproofers",
+    union: "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers (URW)",
+    certification: "NRCA roofing and waterproofing practice, and the fall-protection, hot-work and silica standards behind every station in the block",
+    guides: ["roofers-local-40-training", "osha-1926-501", "osha-1926-502", "osha-1926-subpart-m", "osha-1926-1153", "osha-1926-1053", "nrca-roofing-practices"],
+    summary: "Eight ways a roof gets covered, guarded and closed out — the flame, the kettle, the panel, the trench, the tear-off, the opening and the growing medium — and the fall protection, hot-work and dust controls that run under every one of them.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "rf-torch-applied-membrane-and-fire-watch", why: "A modified-bitumen cap sheet torched on with a dedicated fire watch, where the permit and the extinguisher matter as much as the flame." },
+      { app: "smartcity", id: "rf-single-ply-tpo-heat-welding-and-seam-probe", why: "A single-ply roof welded to its wind-uplift pattern, where every seam is probed clean before it is trusted." },
+      { app: "smartcity", id: "rf-hot-asphalt-kettle-and-mop", why: "The kettle and the mop behind a built-up roof, where a damp block or a foaming brew is the whole hazard." },
+      { app: "smartcity", id: "rf-standing-seam-metal-panel-and-clip", why: "A standing-seam roof clipped and double-locked, where a panel carried the wrong way across the wind is a sail." },
+      { app: "smartcity", id: "rf-below-grade-waterproofing-and-drainage-board", why: "The one wall on this crew's list that faces the wrong way — a foundation waterproofed and boarded from inside an open trench." },
+      { app: "smartcity", id: "rf-roof-tear-off-and-debris-chute", why: "An old roof opened up strip by strip, scanned for what decades of cover hid, and sent down the chute instead of piled on the deck." },
+      { app: "smartcity", id: "rf-skylight-and-hatch-guarding", why: "Every opening on the roof matched to what actually guards it, proof-tested rather than assumed." },
+      { app: "smartcity", id: "rf-green-roof-and-overburden-placement", why: "The roof that ends as a garden, where the load, the depth and the irrigation all have to check out before anything green goes down." },
+    ],
+  },
 ];
 
 /**
