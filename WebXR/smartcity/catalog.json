@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 428
+      "stations": 429
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-green-roof-and-overburden-placement",
         "rf-skylight-and-hatch-guarding",
         "rf-roof-tear-off-and-debris-chute",
         "rf-below-grade-waterproofing-and-drainage-board",
@@ -7648,6 +7649,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-green-roof-and-overburden-placement",
+      "name": "Green Roof & Overburden Placement",
+      "title": "SmartCiti.X~ Green Roof & Overburden Placement VR",
+      "tagline": "The build-up plan read, harness clipped, a puncture risk and a torn root barrier found, the structural load checked, the heat-weld area cleared, the root barrier rolled and welded, filter fabric rolled out, the irrigation line tested, growing media spread at a steady rate and its depth checked, an unweighted fabric edge and a missed leak found on the walk-round, and the day logged, with a gust lifting the fabric before it is weighted and a coworker downstream calling out a leak in the irrigation line along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for dust from pouring lightweight growing media; NRCA and URW green-roof build-up practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "hold",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "build-up-weighted-clean",
+        "name": "Build-Up Weighted Clean",
+        "note": "Every layer welded, weighted and checked against the load plan before the media went down"
+      },
+      "meshes": 135,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf8",
+      "flat": false,
+      "system": "Overburden Run",
+      "currency": "LAYER",
+      "ranks": [
+        "Apprentice",
+        "Layer Hand",
+        "Media Runner",
+        "Lead Green-Roofer",
+        "Green-Roof Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The build-up plan read before the first layer went down"
+        },
+        {
+          "id": "steady-spread",
+          "name": "Steady Spread",
+          "note": "The media spread ran the whole strip without a break in pace"
+        },
+        {
+          "id": "never-left-unweighted",
+          "name": "Never Left Unweighted",
+          "note": "No fabric left loose, no heat gun left hot, no load left unchecked"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections anywhere on this run"
+        },
+        {
+          "id": "on-the-depth",
+          "name": "On The Depth",
+          "note": "The media depth reading committed inside band first time"
+        },
+        {
+          "id": "strip-closed",
+          "name": "Strip Closed",
+          "note": "Logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-green-roof-and-overburden-placement"
     },
     {
       "app": "smartcity",
@@ -28173,7 +28257,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 251,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",

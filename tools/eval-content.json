@@ -2814,7 +2814,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 80,
+          "materials": 79,
           "interactables": 22
         },
         "originality": {
@@ -6089,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -9989,7 +9989,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 257,
           "materials": 92,
           "interactables": 29
         },
@@ -12025,6 +12025,58 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-green-roof-and-overburden-placement",
+      "name": "Green Roof & Overburden Placement",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 282,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 87,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.36965620328849036,
+          "nearest": "rf-below-grade-waterproofing-and-drainage-board",
+          "similarity": 0.26606875934230195
         }
       }
     },

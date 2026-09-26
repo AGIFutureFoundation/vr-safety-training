@@ -18256,5 +18256,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rf-green-roof-and-overburden-placement",
+    "index": "rf8",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for dust from pouring lightweight growing media; NRCA and URW green-roof build-up practice; Roofers Local 40 apprenticeship and training",
+    "name": "Green Roof & Overburden Placement",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Green Roof & Overburden Placement VR",
+    "tagline": "The build-up plan read, harness clipped, a puncture risk and a torn root barrier found, the structural load checked, the heat-weld area cleared, the root barrier rolled and welded, filter fabric rolled out, the irrigation line tested, growing media spread at a steady rate and its depth checked, an unweighted fabric edge and a missed leak found on the walk-round, and the day logged, with a gust lifting the fabric before it is weighted and a coworker downstream calling out a leak in the irrigation line along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "build-up-weighted-clean",
+      "name": "Build-Up Weighted Clean",
+      "note": "Every layer welded, weighted and checked against the load plan before the media went down"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Overburden Run",
+      "currency": "LAYER",
+      "ranks": [
+        "Apprentice",
+        "Layer Hand",
+        "Media Runner",
+        "Lead Green-Roofer",
+        "Green-Roof Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
