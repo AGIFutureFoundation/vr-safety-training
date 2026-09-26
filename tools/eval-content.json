@@ -6089,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 270,
+          "meshes": 250,
           "materials": 83,
           "interactables": 28
         },
@@ -7137,6 +7137,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-hot-asphalt-kettle-and-mop",
+      "name": "Hot Asphalt Kettle & Mop",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 307,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9225,
+          "meshes": 149,
+          "materials": 83,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3463730569948187,
+          "nearest": "rf-torch-applied-membrane-and-fire-watch",
+          "similarity": 0.2707253886010363
         }
       }
     },
@@ -9729,7 +9781,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 268,
           "materials": 92,
           "interactables": 29
         },

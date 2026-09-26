@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 424
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-hot-asphalt-kettle-and-mop",
         "rf-single-ply-tpo-heat-welding-and-seam-probe",
         "rf-torch-applied-membrane-and-fire-watch",
         "leading-edge-and-horizontal-lifeline",
@@ -7643,6 +7644,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-hot-asphalt-kettle-and-mop",
+      "name": "Hot Asphalt Kettle & Mop",
+      "title": "SmartCiti.X~ Hot Asphalt Kettle & Mop VR",
+      "tagline": "The kettle plan read, harness clipped, the shield, valve and a felt block checked, the asphalt brought to temperature, the burner lit, a bucket hoisted steady, the felt mopped at a steady rate and its coverage checked, the lap confirmed, gravel embedded in the flood coat, the kettle shut down and logged, with a gust pushing the flame at a felt stack and the kettle foaming without warning along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer running a hot asphalt kettle and hot-mopping a built-up roof toward a gravel flood coat",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for the kettle's open flame and the fire watch it needs; ANSI Z359 for the harness and anchor; NRCA kettle and tanker safety practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "kettle-run-clean",
+        "name": "Kettle Run Clean",
+        "note": "A course mopped to coverage, a flareup and a foamover both caught, and nobody carried hot asphalt against their body to do it"
+      },
+      "meshes": 150,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf3",
+      "flat": false,
+      "system": "Kettle Watch",
+      "currency": "MOP",
+      "ranks": [
+        "Apprentice",
+        "Kettle Hand",
+        "Mop Runner",
+        "Lead Kettleman",
+        "Kettle Safety Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The kettle plan read before the burner was ever lit"
+        },
+        {
+          "id": "steady-mop",
+          "name": "Steady Mop",
+          "note": "The mop swept the whole course without a break in pace"
+        },
+        {
+          "id": "never-carried-close",
+          "name": "Never Carried Close",
+          "note": "No lugger overfilled, no ladder unsecured, no hoist grabbed by hand"
+        },
+        {
+          "id": "clean-course",
+          "name": "Clean Course",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "on-the-evt",
+          "name": "On The EVT",
+          "note": "The asphalt temperature committed inside the band first time"
+        },
+        {
+          "id": "course-closed",
+          "name": "Course Closed",
+          "note": "Kettle shut down inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-hot-asphalt-kettle-and-mop"
     },
     {
       "app": "smartcity",
@@ -27753,7 +27837,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28413,7 +28497,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
