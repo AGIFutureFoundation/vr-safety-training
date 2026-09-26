@@ -190,7 +190,10 @@ export function rcBuildVehicle(parent, builder, scale, livery, opts = {}) {
 
 function rcRacerModel(parent, r, night) {
   const veh = r.veh;
-  const wrap = rcBuildVehicle(parent, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(r.id + 1) });
+  // A cosmetic livery earned elsewhere on the platform (docs/easter-egg.md)
+  // repaints the hull and its fleet name; nothing else about the racer changes.
+  const skin = r.eggLivery;
+  const wrap = rcBuildVehicle(parent, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(r.id + 1) });
   const [w, h, l] = veh.dims.map((x) => x * veh.scale);
   // The hard-hat shield: a translucent dome.
   const shield = new THREE.Mesh(new THREE.SphereGeometry(Math.max(w, l) * 0.62, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2),

@@ -10,6 +10,9 @@ import {
 import { rcBuildWorld, rcEnvironment, rcBuildVehicle, RC_PLAYER_COLOURS } from "./world.js";
 import { rcCreateAudio } from "./audio.js";
 import { rcOpenLink } from "./net.js";
+import { liveryList } from "./liveries.js";
+import { hardHatsFound } from "../../shared/eggs.js";
+import { TrainingRecords } from "../../shared/records.js";
 
 // Night Highway Circuit — the app: menus, input, split-screen cameras, HUD,
 // Grand Prix, time trial and the two-tab link. The game itself is sim.js;
@@ -345,7 +348,47 @@ function rcRenderGarage() {
     c.querySelectorAll("[data-d]").forEach((btn) => btn.addEventListener("click", () => rcCycleVehicle(i, Number(btn.dataset.d))));
     cards.append(c);
   }
+  rcRenderLiveries();
   rcShowroom();
+}
+
+/** Every livery, unlocked or not — see WebXR/race/js/liveries.js. */
+function rcLiveries() {
+  return liveryList(TrainingRecords.list(), hardHatsFound(rcStore).length);
+}
+
+/** Player 1's chosen livery, if any and if it is still unlocked. */
+function rcActiveLivery() {
+  const id = rcSave.settings.livery;
+  if (!id) return null;
+  const l = rcLiveries().find((x) => x.id === id);
+  return l && l.unlocked ? l : null;
+}
+
+function rcRenderLiveries() {
+  const list = $("livery-list");
+  if (!list) return;
+  list.textContent = "";
+  const active = rcSave.settings.livery;
+  for (const l of rcLiveries()) {
+    const b = document.createElement("button");
+    b.className = `pick${active === l.id && l.unlocked ? " on" : ""}`;
+    b.setAttribute("aria-disabled", String(!l.unlocked));
+    b.setAttribute("aria-pressed", String(active === l.id && l.unlocked));
+    b.style.setProperty("--tint", rcCss(l.colour));
+    b.innerHTML = `<b></b><span></span>${l.unlocked ? "" : '<span class="lock">LOCKED</span>'}`;
+    b.querySelector("b").textContent = l.name;
+    b.querySelector("span").textContent = l.unlocked ? "Tap to wear it on the grid." : l.note;
+    b.addEventListener("click", () => {
+      if (!l.unlocked) { rcToast(`${l.name} is locked. ${l.note}.`); return; }
+      rcSave.settings.livery = active === l.id ? null : l.id;
+      rcStoreSave(rcStore, rcSave);
+      rcAudio.play("select");
+      rcRenderLiveries();
+      rcShowroom();
+    });
+    list.append(b);
+  }
 }
 
 function rcCycleVehicle(i, d) {
@@ -463,7 +506,7 @@ function rcStartRace({ trackId, mode = "race", humans = 1, demo = 0, drivers = n
   let racers;
   if (drivers) racers = drivers;
   else if (demo) racers = [];
-  else racers = app.players.slice(0, humans).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: humans > 1 ? `P${i + 1}` : "You" }));
+  else racers = app.players.slice(0, humans).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: humans > 1 ? `P${i + 1}` : "You", eggLivery: i === 0 ? rcActiveLivery() : null }));
   if (remote) racers.push(remote);
   app.demo = demo;
   const race = rcCreateRace({
@@ -529,10 +572,10 @@ function rcQuitToMenu() {
 
 function rcStartGrandPrix() {
   const seed = rcSeed();
-  const humans = app.players.slice(0, app.nPlayers).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: app.nPlayers > 1 ? `P${i + 1}` : "You" }));
+  const humans = app.players.slice(0, app.nPlayers).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: app.nPlayers > 1 ? `P${i + 1}` : "You", eggLivery: i === 0 ? rcActiveLivery() : null }));
   // Fix the AI field for the whole cup so the points table means something.
   const probe = rcCreateRace({ track: rcTrack(RACE_TRACKS[0].id), cls: app.cls, racers: humans, seed });
-  const drivers = probe.racers.map((r) => ({ vehicle: r.vehicle, human: r.human, player: r.player, name: r.name }));
+  const drivers = probe.racers.map((r) => ({ vehicle: r.vehicle, human: r.human, player: r.player, name: r.name, eggLivery: r.eggLivery ?? null }));
   app.gp = { round: 0, drivers, totals: drivers.map(() => 0), seed, results: [] };
   rcStartGrandPrixRound();
 }
@@ -861,7 +904,8 @@ function rcPodium() {
     blk.position.set(xs[k], heights[k] / 2, 0); scene.add(blk);
     const d = gp.drivers[o.i];
     const veh = RC_VEHICLES.find((v) => v.id === d.vehicle);
-    const w = rcBuildVehicle(scene, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(o.i + 1) });
+    const skin = d.eggLivery;
+    const w = rcBuildVehicle(scene, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(o.i + 1) });
     w.position.set(xs[k], heights[k], 0); w.rotation.y = Math.PI * 0.15 * (k === 1 ? 1 : k === 2 ? -1 : 0);
   }
   // Confetti.
@@ -936,9 +980,11 @@ function rcShowroom() {
   const light2 = new THREE.PointLight(0x9fc4ff, 250, 60); light2.position.set(-10, 8, -8); g.add(light2);
   const n = app.mode === "tt" || app.mode === "net" ? 1 : app.nPlayers;
   const turn = new THREE.Group(); g.add(turn);
+  const livery = rcActiveLivery();
   for (let i = 0; i < n; i++) {
     const veh = RC_VEHICLES.find((v) => v.id === app.players[i].vehicle);
-    const w = rcBuildVehicle(turn, veh.builder, veh.scale, { colour: veh.colour, fleetName: "NIGHT CIRCUIT", unitNumber: String(i + 1) });
+    const skin = i === 0 && livery ? livery : null;
+    const w = rcBuildVehicle(turn, veh.builder, veh.scale, { colour: skin?.colour ?? veh.colour, fleetName: skin?.fleetName ?? "NIGHT CIRCUIT", unitNumber: String(i + 1) });
     w.position.set((i - (n - 1) / 2) * 6.5, 0, 0);
   }
   app.root.add(g);

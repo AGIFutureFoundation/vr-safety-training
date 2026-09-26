@@ -53,7 +53,7 @@
   .mode b{display:block;font-family:var(--cond);font-size:20px;letter-spacing:.03em;text-transform:uppercase}
   .mode span{display:block;font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4}
   .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
-  .pick{text-align:left;padding:12px;border-radius:10px;border:1px solid var(--edge);background:var(--panel);cursor:pointer;position:relative}
+  .pick{text-align:left;padding:12px;border-radius:10px;border:1px solid var(--edge);border-left:3px solid var(--tint,var(--edge));background:var(--panel);cursor:pointer;position:relative}
   .pick.on{border-color:var(--amber);box-shadow:0 0 0 2px rgba(255,201,60,.25) inset}
   .pick[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
   .pick b{display:block;font-family:var(--cond);font-size:19px;letter-spacing:.03em;text-transform:uppercase}
@@ -188,6 +188,9 @@
     <div class="row" id="count-row"><span class="eyebrow">Players on this machine</span><div class="seg" id="pcount"></div></div>
     <div class="players" id="player-cards"></div>
     <p class="note">Each player steers with their own keys, or the gamepad with the same number. Cycle your vehicle with your own left and right keys. The other seats on the grid of eight are AI drivers.</p>
+    <p class="eyebrow" style="margin-top:18px">Liveries — player 1's car</p>
+    <p class="note" id="livery-note">Paint schemes earned elsewhere on the platform. Locked ones are greyed, with what unlocks them.</p>
+    <div class="grid" id="livery-list"></div>
     <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="garage-go">To the grid</button></div>
   </div>
 </section>
