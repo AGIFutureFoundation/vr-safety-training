@@ -44692,7 +44692,7 @@ const _chaseDir = new THREE.Vector3();
 const _chaseAim = new THREE.Vector3();
 const _chaseToAim = new THREE.Vector3();
 const _chaseFwd = new THREE.Vector3();
-const CHASE_BACK = 2.4, CHASE_UP = 1.15;             // behind and above the learner, walking
+const CHASE_BACK = 3.0, CHASE_UP = 0.85;             // behind and above the learner, walking
 const CHASE_BACK_DRIVE = 5.4, CHASE_UP_DRIVE = 2.35; // a vehicle needs more clearance
 
 function setViewMode(mode, { announceIt = true } = {}) {
@@ -44752,7 +44752,10 @@ function updateViewCamera() {
   const up = drive ? CHASE_UP_DRIVE : CHASE_UP;
   _chaseEye.set(0, EYE_HEIGHT, 0);
   rig.localToWorld(_chaseEye);
-  _chaseDesired.set(Math.sin(yaw) * back, EYE_HEIGHT + up, Math.cos(yaw) * back);
+  // Over the right shoulder on foot, so the figure stands left of centre and
+  // clear of the caption card; a vehicle is framed square from behind.
+  const side = drive ? 0 : 0.7;
+  _chaseDesired.set(Math.sin(yaw) * back + Math.cos(yaw) * side, EYE_HEIGHT + up, Math.cos(yaw) * back - Math.sin(yaw) * side);
   rig.localToWorld(_chaseDesired);
   _chaseDir.subVectors(_chaseDesired, _chaseEye);
   const full = _chaseDir.length();
@@ -44782,15 +44785,20 @@ function updateViewCamera() {
   // camera position at this point, so this runs before it is converted back
   // to rig-local space below.
   const vehicle = drive ? state.hits[state.session?.step?.target] : null;
+  _chaseFwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)).applyQuaternion(rig.quaternion);
   if (vehicle) { vehicle.getWorldPosition(_chaseAim); _chaseAim.y += 1.35; }
-  else _chaseAim.set(rig.position.x, 1.4, rig.position.z);
+  else {
+    // On foot the camera looks past the figure's shoulder at what the learner
+    // is facing, not down at the figure: the aim sits a stride ahead at chest
+    // height, so even a camera pulled in close by a wall keeps a gentle tilt.
+    _chaseAim.set(rig.position.x + _chaseFwd.x * 1.8, 1.3, rig.position.z + _chaseFwd.z * 1.8);
+  }
   _chaseToAim.subVectors(_chaseAim, _chaseDesired);
   // Yaw is untouched — the chase camera looks the same way the learner is
   // already facing or steering, it just needs to tilt down enough to catch
   // whatever it should. Projecting the offset onto that same forward axis
   // (rather than a full look-at, which would swing the yaw to stare at the
   // figure behind the lens) is what keeps this a tilt and not a spin.
-  _chaseFwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)).applyQuaternion(rig.quaternion);
   const ahead = Math.max(0.4, _chaseToAim.dot(_chaseFwd));
   const tiltPitch = clamp(Math.atan2(_chaseToAim.y, ahead), -1.4, 0.6);
   rig.worldToLocal(_chaseDesired);
