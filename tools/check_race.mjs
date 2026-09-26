@@ -27,7 +27,7 @@
  *     and the app is wired: bundled, linked from the homepage and registered
  *     in check_all.
  */
-import { readFileSync, writeFileSync, mkdtempSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -361,6 +361,7 @@ await check("the race app is in the bundler's list with every race module, and i
 
 installDomStubs();
 const dir = mkdtempSync(join(tmpdir(), "race-world-"));
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const worldModules = bundled.filter((f) => !/race\/js\/(app|audio|net)\.js$/.test(f) && f !== "shared/input.js");
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${worldModules.map((f) => strip(readFileSync(join(WEBXR, f), "utf8"))).join("\n\n")}\n\nexport { rcBuildWorld, rcEnvironment, RACE_TRACKS as SUITE_TRACKS, rcCompileTrack as suiteCompile, rcCreateRace as suiteRace, THREE };\n`);

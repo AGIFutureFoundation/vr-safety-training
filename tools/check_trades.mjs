@@ -10,7 +10,7 @@
  *     node tools/check_trades.mjs
  */
 
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -171,6 +171,8 @@ function strip(src) {
 }
 
 const dir = mkdtempSync(join(tmpdir(), "trades-check-"));
+
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));

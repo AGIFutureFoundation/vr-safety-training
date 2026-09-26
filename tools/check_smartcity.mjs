@@ -10,7 +10,7 @@
  *     node tools/check_smartcity.mjs
  */
 
-import { readFileSync, writeFileSync, mkdtempSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -508,6 +508,9 @@ const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm
 function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, ""); }
 
 const dir = mkdtempSync(join(tmpdir(), "smartcity-check-"));
+// The suite folder is scratch: remove it when the process ends, so a day of
+// checker runs does not fill the disk with thousands of copies.
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `

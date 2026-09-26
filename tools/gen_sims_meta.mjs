@@ -15,7 +15,7 @@
  *     node tools/gen_sims_meta.mjs
  */
 
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -423,6 +423,8 @@ const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm
 function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, ""); }
 
 const dir = mkdtempSync(join(tmpdir(), "smartcity-meta-"));
+
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const parts = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const harness = `

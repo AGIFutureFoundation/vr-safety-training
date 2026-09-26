@@ -29,7 +29,7 @@
  *
  *     node tools/check_districts.mjs
  */
-import { readFileSync, readdirSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -58,6 +58,7 @@ const MODULES = ["shared/kit.js", "shared/a11y.js", "shared/weather.js", "smartc
 // it gets the one above.
 installDomStubs();
 const dir = mkdtempSync(join(tmpdir(), "districts-"));
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), STUB);
 const body = MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8"))).join("\n\n");
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${body}\n\nexport { DISTRICTS, SCENIC_DISTRICTS, SCENIC_BUDGET, buildStage, THREE };`);

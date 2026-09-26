@@ -25,7 +25,7 @@
  * keeps each geometry's parameters and each object's transform so a world
  * bounding box can be computed without a renderer.
  */
-import { readFileSync, writeFileSync, mkdtempSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -189,6 +189,7 @@ const TOOL_CEILING = 4;
 
 installDomStubs();
 const dir = mkdtempSync(join(tmpdir(), "fleet-"));
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const present = KITS.filter((k) => existsSync(join(WEBXR, k.file)));
 const parts = ["shared/kit.js", ...present.map((k) => k.file)].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));

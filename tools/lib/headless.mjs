@@ -6,7 +6,7 @@
  * gate and must not depend on anything else; this is for tooling built on
  * top of them.
  */
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -127,6 +127,9 @@ export function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BL
 export async function buildSuite(modules, harness, label = "suite") {
   installDomStubs();
   const dir = mkdtempSync(join(tmpdir(), `${label}-`));
+  // The suite folder is scratch: remove it when the process ends, so a day of
+  // checker runs does not fill the disk with thousands of copies.
+  process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ } });
   writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
   const parts = modules.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
   writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\n${harness}`);

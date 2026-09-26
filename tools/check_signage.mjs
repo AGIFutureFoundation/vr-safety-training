@@ -25,7 +25,7 @@
  *
  *     node tools/check_signage.mjs
  */
-import { readFileSync, readdirSync, existsSync, writeFileSync, mkdtempSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -213,6 +213,7 @@ const STAGE_MODULES = ["shared/kit.js", "shared/a11y.js", "shared/weather.js", "
   "smartcity/js/citykit.js", "smartcity/js/ambient.js", "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 installDomStubs();
 const dir = mkdtempSync(join(tmpdir(), "signage-stage-"));
+process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), STAGE_STUB);
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${STAGE_MODULES.map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8"))).join("\n\n")}\n\nexport { buildStage, THREE };`);
 const ST = await import(pathToFileURL(join(dir, "suite.mjs")).href);
