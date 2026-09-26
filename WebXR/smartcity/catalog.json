@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 454
+      "stations": 455
     },
     "trades": {
       "entry": "trades/index.html",
@@ -205,6 +205,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "ed-custodial-chemical-dilution-and-floor-machine",
         "pm-storage-and-bike-room",
         "pm-playground-and-courtyard",
         "pm-landscaping-and-irrigation",
@@ -7903,6 +7904,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-custodial-chemical-dilution-and-floor-machine",
+      "name": "Custodial Chemical Dilution & Floor Machine",
+      "title": "SmartCiti.X~ Custodial Chemical Dilution & Floor Machine VR",
+      "tagline": "The hallway after the bell: the SDS read before the jug is touched, the dispenser metering the dilution instead of a guess, the machine walked round before it's plugged in, a wet-floor cone up before the pad turns, the eyewash proven, and the pad changed only once the cord is out of the wall",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "AFT- or CSEA-represented school custodian running chemical dilution and floor-care equipment",
+      "union": null,
+      "certification": "AFT and CSEA custodial training; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the GHS-labelled concentrate, the safety data sheet on file and the label on every secondary container; OSHA's PPE standards (29 CFR 1910.132, 29 CFR 1910.133, 29 CFR 1910.138) for gloves, goggles and hand protection at the dispenser and the machine; ANSI/ISEA Z358.1 for the eyewash station; OSHA's control of hazardous energy (29 CFR 1910.147) for unplugging the floor machine before a pad or brush change; the chemical manufacturer's own dilution-control system and label directions; the district's custodial procedure for chemical storage and floor care",
+      "accent": "#5fb87a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "find",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "metered-not-guessed",
+        "name": "Metered, Not Guessed",
+        "note": "Every dilution off the dispenser's own dial, the machine grounded and chocked with its cord clear of the walkway, and the eyewash proven before the shift ends"
+      },
+      "meshes": 147,
+      "lights": 0,
+      "overBudget": false,
+      "index": "620",
+      "flat": false,
+      "system": "Hallway Shift",
+      "currency": "OZ",
+      "ranks": [
+        "Custodial Aide",
+        "Floor Tech",
+        "Lead Custodian",
+        "Building Engineer",
+        "Facilities Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-eyeballed",
+          "name": "Never Eyeballed",
+          "note": "Every chemical metered through the dispenser, never poured by eye"
+        },
+        {
+          "id": "clean-pass",
+          "name": "Clean Pass",
+          "note": "No corrections across the whole hallway"
+        },
+        {
+          "id": "steady-pad",
+          "name": "Steady Pad",
+          "note": "The floor machine held in its pressure band without a break"
+        },
+        {
+          "id": "closet-open-on-time",
+          "name": "Closet Open on Time",
+          "note": "Set up and machine plugged in inside 80% of par"
+        },
+        {
+          "id": "one-pass-walkaround",
+          "name": "One-Pass Walkaround",
+          "note": "Machine inspection clean on the first pass"
+        },
+        {
+          "id": "eight-in-a-row",
+          "name": "Eight in a Row",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ed-custodial-chemical-dilution-and-floor-machine"
     },
     {
       "app": "smartcity",
@@ -28261,7 +28345,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",

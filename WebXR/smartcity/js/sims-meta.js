@@ -19348,5 +19348,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ed-custodial-chemical-dilution-and-floor-machine",
+    "index": "620",
+    "domain": "Building Systems & Facilities",
+    "trade": "AFT- or CSEA-represented school custodian running chemical dilution and floor-care equipment",
+    "category": "Building Systems & Facilities",
+    "certification": "AFT and CSEA custodial training; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the GHS-labelled concentrate, the safety data sheet on file and the label on every secondary container; OSHA's PPE standards (29 CFR 1910.132, 29 CFR 1910.133, 29 CFR 1910.138) for gloves, goggles and hand protection at the dispenser and the machine; ANSI/ISEA Z358.1 for the eyewash station; OSHA's control of hazardous energy (29 CFR 1910.147) for unplugging the floor machine before a pad or brush change; the chemical manufacturer's own dilution-control system and label directions; the district's custodial procedure for chemical storage and floor care",
+    "name": "Custodial Chemical Dilution & Floor Machine",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Custodial Chemical Dilution & Floor Machine VR",
+    "tagline": "The hallway after the bell: the SDS read before the jug is touched, the dispenser metering the dilution instead of a guess, the machine walked round before it's plugged in, a wet-floor cone up before the pad turns, the eyewash proven, and the pad changed only once the cord is out of the wall",
+    "accent": 6273146,
+    "accentCss": "#5fb87a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "metered-not-guessed",
+      "name": "Metered, Not Guessed",
+      "note": "Every dilution off the dispenser's own dial, the machine grounded and chocked with its cord clear of the walkway, and the eyewash proven before the shift ends"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hallway Shift",
+      "currency": "OZ",
+      "ranks": [
+        "Custodial Aide",
+        "Floor Tech",
+        "Lead Custodian",
+        "Building Engineer",
+        "Facilities Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
