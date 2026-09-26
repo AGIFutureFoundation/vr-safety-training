@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,8 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-dozer-slope-work-and-rollover-protection",
+        "op-excavator-trench-and-utility-locate",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
@@ -7641,6 +7643,182 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-dozer-slope-work-and-rollover-protection",
+      "name": "Dozer Slope Work & Rollover Protection",
+      "title": "SmartCiti.X~ Dozer Slope Work & Rollover Protection VR",
+      "tagline": "Crawler dozer cutting a bench into a slope: ROPS inspected, seatbelt buckled, the slope walked for an undercut edge, an escape route flagged, and the ripper kept up for the whole crossing",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Dozer operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart W Rollover protective structures; overhead protection and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents",
+      "accent": "#b5502a",
+      "parSeconds": 275,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "slope-control",
+        "name": "Slope Control",
+        "note": "ROPS inspected, seatbelt buckled, the edge walked and flagged, and the cut held clean the whole crossing"
+      },
+      "meshes": 210,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-2",
+      "flat": false,
+      "system": "Slope Control",
+      "currency": "SLOPE",
+      "ranks": [
+        "Ground Hand",
+        "Dozer Hand",
+        "Slope Certified",
+        "Bench Authority",
+        "Slope Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "belted-every-time",
+          "name": "Belted Every Time",
+          "note": "Never ran the blade without the seatbelt buckled"
+        },
+        {
+          "id": "edge-respected",
+          "name": "Edge Respected",
+          "note": "Never stood or cut inside the undercut zone"
+        },
+        {
+          "id": "steady-bench",
+          "name": "Steady Bench",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "clean-cut",
+          "name": "Clean Cut Certified",
+          "note": "Cut the bench clean, first try"
+        },
+        {
+          "id": "quick-bench",
+          "name": "Quick Bench",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "slope-streak",
+          "name": "Slope Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-dozer-slope-work-and-rollover-protection"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-excavator-trench-and-utility-locate",
+      "name": "Excavator Trench & Utility Locate",
+      "title": "SmartCiti.X~ Excavator Trench & Utility Locate VR",
+      "tagline": "Excavator trenching over a located utility: the ticket verified against the paint, the swing radius barricaded, the coupler locked, the line hand-exposed, and a spotter and grade checker both doing their own job",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Excavator operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart P Excavations and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and utility-strike incidents",
+      "accent": "#dba428",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "dig-command",
+        "name": "Dig Command",
+        "note": "Locate verified, swing radius held, coupler locked, and the line exposed before the bucket ever went near it"
+      },
+      "meshes": 255,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-1",
+      "flat": false,
+      "system": "Dig Command",
+      "currency": "DIG",
+      "ranks": [
+        "Ground Hand",
+        "Excavator Hand",
+        "Locate Certified",
+        "Swing Authority",
+        "Dig Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "locate-first",
+          "name": "Locate First",
+          "note": "Never cut before the locate marks were checked against the ticket"
+        },
+        {
+          "id": "swing-held",
+          "name": "Swing Held",
+          "note": "Never let anyone stand in the swing radius"
+        },
+        {
+          "id": "coupler-sure",
+          "name": "Coupler Sure",
+          "note": "Lock the coupler clean, first try"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "Hold the gauge readings near band centre all shift"
+        },
+        {
+          "id": "quick-open",
+          "name": "Quick Open",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "dig-streak",
+          "name": "Dig Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-excavator-trench-and-utility-locate"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27763,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28245,7 +28423,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -18004,5 +18004,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-dozer-slope-work-and-rollover-protection",
+    "index": "op-2",
+    "domain": "Construction",
+    "trade": "Dozer operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart W Rollover protective structures; overhead protection and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents",
+    "name": "Dozer Slope Work & Rollover Protection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dozer Slope Work & Rollover Protection VR",
+    "tagline": "Crawler dozer cutting a bench into a slope: ROPS inspected, seatbelt buckled, the slope walked for an undercut edge, an escape route flagged, and the ripper kept up for the whole crossing",
+    "accent": 11882538,
+    "accentCss": "#b5502a",
+    "parSeconds": 275,
+    "badge": {
+      "id": "slope-control",
+      "name": "Slope Control",
+      "note": "ROPS inspected, seatbelt buckled, the edge walked and flagged, and the cut held clean the whole crossing"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Slope Control",
+      "currency": "SLOPE",
+      "ranks": [
+        "Ground Hand",
+        "Dozer Hand",
+        "Slope Certified",
+        "Bench Authority",
+        "Slope Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
