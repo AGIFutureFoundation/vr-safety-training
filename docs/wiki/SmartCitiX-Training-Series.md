@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 500 SmartCiti.X stations across 18 categories and 39 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 508 SmartCiti.X stations across 18 categories and 40 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 44 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -45,6 +45,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Insulators and Boilermakers — Building Systems](#insulators-and-boilermakers)
 - [Cement Masons and Plasterers](#cement-masons-and-plasterers)
 - [Healthcare Support](#healthcare-support)
+- [Roofers and Waterproofers](#roofers-and-waterproofers)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1272,6 +1273,26 @@ The hospital support jobs that never touch a clinical decision but hold the whol
 | 357 | [Code Response Support & Crash Cart Check](../../WebXR/smartcity/index.html?sim=hc-code-response-support-and-crash-cart-check) | Clinical support technician | indoor (clinic) | 15 | 2 | — | A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered. |
 | 358 | [Workplace Violence De-escalation at the Desk](../../WebXR/smartcity/index.html?sim=hc-workplace-violence-deescalation-at-the-desk) | Patient registration clerk | indoor (clinic) | 13 | 2 | — | The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk. |
 | 359 | [Hazardous Drug Spill Kit Response](../../WebXR/smartcity/index.html?sim=hc-hazardous-drug-spill-kit-response) | Environmental services technician | indoor (clinic) | 14 | 2 | — | A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream. |
+
+<a id="roofers-and-waterproofers"></a>
+## Roofers and Waterproofers
+
+**Union:** Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers (URW)
+
+**Certifications and standards:** NRCA roofing and waterproofing practice, and the fall-protection, hot-work and silica standards behind every station in the block
+
+Eight ways a roof gets covered, guarded and closed out — the flame, the kettle, the panel, the trench, the tear-off, the opening and the growing medium — and the fall protection, hot-work and dust controls that run under every one of them.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| rf1 | [Torch-Applied Membrane & Fire Watch](../../WebXR/smartcity/index.html?sim=rf-torch-applied-membrane-and-fire-watch) | Roofer running a torch on a modified-bitumen cap sheet, with a dedicated fire watch on deck | wind | 14 | 2 | — | A modified-bitumen cap sheet torched on with a dedicated fire watch, where the permit and the extinguisher matter as much as the flame. |
+| rf2 | [Single-Ply TPO Heat Welding & Seam Probe](../../WebXR/smartcity/index.html?sim=rf-single-ply-tpo-heat-welding-and-seam-probe) | Roofer heat-welding a mechanically-attached TPO membrane and probing every seam before it is signed off | wind | 14 | 2 | — | A single-ply roof welded to its wind-uplift pattern, where every seam is probed clean before it is trusted. |
+| rf3 | [Hot Asphalt Kettle & Mop](../../WebXR/smartcity/index.html?sim=rf-hot-asphalt-kettle-and-mop) | Roofer running a hot asphalt kettle and hot-mopping a built-up roof toward a gravel flood coat | wind | 14 | 2 | — | The kettle and the mop behind a built-up roof, where a damp block or a foaming brew is the whole hazard. |
+| rf4 | [Standing-Seam Metal Panel & Clip](../../WebXR/smartcity/index.html?sim=rf-standing-seam-metal-panel-and-clip) | Roofer installing standing-seam metal panels on concealed clips and running the mechanical seamer | wind | 14 | 2 | — | A standing-seam roof clipped and double-locked, where a panel carried the wrong way across the wind is a sail. |
+| rf5 | [Below-Grade Waterproofing & Drainage Board](../../WebXR/smartcity/index.html?sim=rf-below-grade-waterproofing-and-drainage-board) | Waterproofer applying hot rubberized-asphalt waterproofing and drainage board to a foundation wall inside an open excavation | wind | 14 | 2 | — | The one wall on this crew's list that faces the wrong way — a foundation waterproofed and boarded from inside an open trench. |
+| rf6 | [Roof Tear-Off & Debris Chute](../../WebXR/smartcity/index.html?sim=rf-roof-tear-off-and-debris-chute) | Roofer tearing off an old built-up roof and running debris down a chute to the dumpster | wind | 14 | 2 | — | An old roof opened up strip by strip, scanned for what decades of cover hid, and sent down the chute instead of piled on the deck. |
+| rf7 | [Skylight & Hatch Guarding](../../WebXR/smartcity/index.html?sim=rf-skylight-and-hatch-guarding) | Roofer screening skylights and railing roof hatches ahead of a re-roof crew | wind | 14 | 2 | — | Every opening on the roof matched to what actually guards it, proof-tested rather than assumed. |
+| rf8 | [Green Roof & Overburden Placement](../../WebXR/smartcity/index.html?sim=rf-green-roof-and-overburden-placement) | Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation | wind | 14 | 2 | — | The roof that ends as a garden, where the load, the depth and the irrigation all have to check out before anything green goes down. |
 
 ## Real-world environments
 

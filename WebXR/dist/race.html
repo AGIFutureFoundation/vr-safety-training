@@ -6891,6 +6891,7 @@ const UNIONS = [
   {"id":"opcmia","abbrev":"OPCMIA","name":"Operative Plasterers' and Cement Masons' International Association","aliases":["OPCMIA"],"local":"Local 300","colors":null,"trainingBody":"opcmia-local-300","trainingTitle":"OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body","scope":["Construction & Structural Trades"],"note":"Cement masons and plasterers. Local 300 is the one OPCMIA local this platform names, as a training body only."},
   {"id":"seiu-uhw","abbrev":"SEIU-UHW","name":"SEIU United Healthcare Workers West","aliases":["SEIU-UHW","SEIU UHW"],"local":null,"colors":null,"trainingBody":"seiu-uhw-training","trainingTitle":"SEIU-UHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"California hospital, clinic and nursing-home support staff."},
   {"id":"nuhw","abbrev":"NUHW","name":"National Union of Healthcare Workers","aliases":["NUHW"],"local":null,"colors":null,"trainingBody":"nuhw-training","trainingTitle":"NUHW member education and safety training for hospital and clinic support staff","scope":["Healthcare Support"],"note":"Healthcare workers, primarily in California, formed after a split from SEIU-UHW."},
+  {"id":"urw","abbrev":"URW","name":"United Union of Roofers, Waterproofers and Allied Workers","aliases":["Roofers Local 40","Roofers","URW"],"local":"Local 40","colors":null,"trainingBody":"roofers-local-40-training","trainingTitle":"Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training","scope":["Construction & Structural Trades"],"note":"Roofing and waterproofing craft workers. Local 40 is the one Roofers local the repository names (the Roofers and Waterproofers programme)."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7878,6 +7879,25 @@ const CURRICULA = [
       { app: "smartcity", id: "hc-code-response-support-and-crash-cart-check", why: "A crash cart proven ready every single day by seal and self-test, and the logistics of a real code handled by someone who never touches the patient — the hallway held, family redirected, a backup cart delivered." },
       { app: "smartcity", id: "hc-workplace-violence-deescalation-at-the-desk", why: "The duress button proven before the first visitor of the day, an escalating visitor met with distance and a calm scripted approach, and the incident logged honestly with a debrief requested for the clerk." },
       { app: "smartcity", id: "hc-hazardous-drug-spill-kit-response", why: "A hazardous-drug spill outside the pharmacy met with the kit built for exactly this: the area restricted first, PPE donned in order, every trace of secondary contamination found, and the waste sealed into its own stream." },
+    ],
+  },
+  {
+    id: "roofers-and-waterproofers",
+    name: "Roofers and Waterproofers",
+    union: "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers (URW)",
+    certification: "NRCA roofing and waterproofing practice, and the fall-protection, hot-work and silica standards behind every station in the block",
+    guides: ["roofers-local-40-training", "osha-1926-501", "osha-1926-502", "osha-1926-subpart-m", "osha-1926-1153", "osha-1926-1053", "nrca-roofing-practices"],
+    summary: "Eight ways a roof gets covered, guarded and closed out — the flame, the kettle, the panel, the trench, the tear-off, the opening and the growing medium — and the fall protection, hot-work and dust controls that run under every one of them.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "rf-torch-applied-membrane-and-fire-watch", why: "A modified-bitumen cap sheet torched on with a dedicated fire watch, where the permit and the extinguisher matter as much as the flame." },
+      { app: "smartcity", id: "rf-single-ply-tpo-heat-welding-and-seam-probe", why: "A single-ply roof welded to its wind-uplift pattern, where every seam is probed clean before it is trusted." },
+      { app: "smartcity", id: "rf-hot-asphalt-kettle-and-mop", why: "The kettle and the mop behind a built-up roof, where a damp block or a foaming brew is the whole hazard." },
+      { app: "smartcity", id: "rf-standing-seam-metal-panel-and-clip", why: "A standing-seam roof clipped and double-locked, where a panel carried the wrong way across the wind is a sail." },
+      { app: "smartcity", id: "rf-below-grade-waterproofing-and-drainage-board", why: "The one wall on this crew's list that faces the wrong way — a foundation waterproofed and boarded from inside an open trench." },
+      { app: "smartcity", id: "rf-roof-tear-off-and-debris-chute", why: "An old roof opened up strip by strip, scanned for what decades of cover hid, and sent down the chute instead of piled on the deck." },
+      { app: "smartcity", id: "rf-skylight-and-hatch-guarding", why: "Every opening on the roof matched to what actually guards it, proof-tested rather than assumed." },
+      { app: "smartcity", id: "rf-green-roof-and-overburden-placement", why: "The roof that ends as a garden, where the load, the depth and the irrigation all have to check out before anything green goes down." },
     ],
   },
 ];
@@ -9278,6 +9298,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "healthcare-support",
     "name": "Healthcare Support",
     "accent": "#5f8fd6"
+  },
+  {
+    "programme": "roofers-and-waterproofers",
+    "name": "Roofers and Waterproofers",
+    "accent": "#f2c14b"
   }
 ];
 

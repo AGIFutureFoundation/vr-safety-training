@@ -200,5 +200,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "healthcare-support",
     "name": "Healthcare Support",
     "accent": "#5f8fd6"
+  },
+  {
+    "programme": "roofers-and-waterproofers",
+    "name": "Roofers and Waterproofers",
+    "accent": "#f2c14b"
   }
 ];

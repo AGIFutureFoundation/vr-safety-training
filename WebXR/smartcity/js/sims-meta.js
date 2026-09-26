@@ -21280,5 +21280,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rf-torch-applied-membrane-and-fire-watch",
+    "index": "rf1",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer running a torch on a modified-bitumen cap sheet, with a dedicated fire watch on deck",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for hot work, fire watch and extinguishers; ANSI Z359 for the harness and anchor; NRCA torch-application and fire-watch practice; Roofers Local 40 apprenticeship and training",
+    "name": "Torch-Applied Membrane & Fire Watch",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Torch-Applied Membrane & Fire Watch VR",
+    "tagline": "The hot work permit read and the extinguisher confirmed, harness clipped, the torch and hose inspected, the cylinder read, the torch lit, a cap-sheet roll rolled to the lap line and welded at a steady pace, the seam rolled and checked, the torch purged cold, the deck scanned, the permit closed and the cylinder shut, with a gust threatening a loose corner and smoke reported two floors down along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seam-welded-clean",
+      "name": "Seam Welded Clean",
+      "note": "A cap sheet torched on with the fire watch answered, nobody burned, and the permit closed before the cart rolled off"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Torch Watch",
+      "currency": "SEAM",
+      "ranks": [
+        "Apprentice",
+        "Torch Hand",
+        "Seam Welder",
+        "Lead Mopman",
+        "Fire Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+    "index": "rf2",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer heat-welding a mechanically-attached TPO membrane and probing every seam before it is signed off",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and around the open hatch, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for any cutting or grinding dust nearby; NRCA single-ply installation and wind-uplift practice; Roofers Local 40 apprenticeship and training",
+    "name": "Single-Ply TPO Heat Welding & Seam Probe",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Single-Ply TPO Heat Welding & Seam Probe VR",
+    "tagline": "The fastening plan read, harness clipped, the welder and a staged sheet inspected, the welder's nozzle brought to temperature, a sheet dragged out and fastened to the wind-uplift pattern, the seam welded at a steady pace and probed clean, the primer capped, scrap hauled off, the perimeter checked and the day logged, with a gust testing an unfinished edge and fumes pooling behind the parapet along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seam-probed-clean",
+      "name": "Seam Probed Clean",
+      "note": "Every seam probed fused, the perimeter fastened to the wind-uplift pattern, and nobody caught a lungful of fumes doing it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Probe Line",
+      "currency": "FUSE",
+      "ranks": [
+        "Apprentice",
+        "Welder Hand",
+        "Seam Prober",
+        "Lead Mechanic",
+        "Wind-Uplift Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-hot-asphalt-kettle-and-mop",
+    "index": "rf3",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer running a hot asphalt kettle and hot-mopping a built-up roof toward a gravel flood coat",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for the kettle's open flame and the fire watch it needs; ANSI Z359 for the harness and anchor; NRCA kettle and tanker safety practice; Roofers Local 40 apprenticeship and training",
+    "name": "Hot Asphalt Kettle & Mop",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Hot Asphalt Kettle & Mop VR",
+    "tagline": "The kettle plan read, harness clipped, the shield, valve and a felt block checked, the asphalt brought to temperature, the burner lit, a bucket hoisted steady, the felt mopped at a steady rate and its coverage checked, the lap confirmed, gravel embedded in the flood coat, the kettle shut down and logged, with a gust pushing the flame at a felt stack and the kettle foaming without warning along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "kettle-run-clean",
+      "name": "Kettle Run Clean",
+      "note": "A course mopped to coverage, a flareup and a foamover both caught, and nobody carried hot asphalt against their body to do it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Kettle Watch",
+      "currency": "MOP",
+      "ranks": [
+        "Apprentice",
+        "Kettle Hand",
+        "Mop Runner",
+        "Lead Kettleman",
+        "Kettle Safety Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-standing-seam-metal-panel-and-clip",
+    "index": "rf4",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer installing standing-seam metal panels on concealed clips and running the mechanical seamer",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for coating dust from cutting or grinding; NRCA standing-seam metal roofing practice; Roofers Local 40 apprenticeship and training",
+    "name": "Standing-Seam Metal Panel & Clip",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Standing-Seam Metal Panel & Clip VR",
+    "tagline": "The panel layout and clip plan read, harness clipped, a sharp edge and a bent clip found, the panel's surface temperature checked, a panel carried out of the wind, its clip driven, the panel held aligned, the seam run and its lock checked, the cutting station ventilated, a skipped clip found on the walk-round, offcuts hauled off and the day logged, with a gust catching the panel mid-carry and a coworker cutting coated steel without ventilation along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seam-locked-clean",
+      "name": "Seam Locked Clean",
+      "note": "Every panel clipped to the plan, every seam locked, and nobody carried a panel across the wind or a lungful of coating fume to do it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Seam Run",
+      "currency": "CLIP",
+      "ranks": [
+        "Apprentice",
+        "Panel Hand",
+        "Seam Runner",
+        "Lead Mechanic",
+        "Standing-Seam Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-below-grade-waterproofing-and-drainage-board",
+    "index": "rf5",
+    "domain": "Construction & Structural Trades",
+    "trade": "Waterproofer applying hot rubberized-asphalt waterproofing and drainage board to a foundation wall inside an open excavation",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926 Subpart P Excavations for the protective system, the barricade and the ladder access; 29 CFR 1926.1053 for the ladder itself; NFPA 51B for the small heater warming the hot material; NRCA and URW below-grade waterproofing practice; Roofers Local 40 apprenticeship and training",
+    "name": "Below-Grade Waterproofing & Drainage Board",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Below-Grade Waterproofing & Drainage Board VR",
+    "tagline": "The excavation plan read, the barricade confirmed and the ladder climbed, a torn roll and a damp patch on the wall found, the wall's moisture checked, the trench air tested, the membrane brought down out of the wind, the heater lit, the wall mopped at a steady rate and its coverage checked, the drainage board pressed in and held, the wall walked for gaps, the day logged, with a gust catching a board at grade and a second worker calling up about fumes pooling below along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "wall-sealed-clean",
+      "name": "Wall Sealed Clean",
+      "note": "A wall waterproofed to coverage and boarded before backfill, with the trench edge, the heater and the air all answered for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Trench Run",
+      "currency": "SEAL",
+      "ranks": [
+        "Apprentice",
+        "Wall Hand",
+        "Membrane Runner",
+        "Lead Waterproofer",
+        "Below-Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-roof-tear-off-and-debris-chute",
+    "index": "rf6",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer tearing off an old built-up roof and running debris down a chute to the dumpster",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and any hole opened in the deck, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for silica dust from cutting into a concrete curb or nailer; NRCA tear-off and dry-in practice; Roofers Local 40 apprenticeship and training",
+    "name": "Roof Tear-Off & Debris Chute",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Roof Tear-Off & Debris Chute VR",
+    "tagline": "The tear-off plan and the extinguisher read, harness clipped, a popped nail and a hidden conduit found, the wind read, old fasteners backed out, debris carted to the chute and fed down at a steady rate, the strip cut to its line, the exposed deck scanned and dried in, a missed fastener and leftover debris found on the walk-round, and the day logged, with a gust scattering staged debris and a second crew member flagging an uncovered hole along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "deck-scanned-clean",
+      "name": "Deck Scanned Clean",
+      "note": "A strip torn off, scanned and dried in with nobody stepping on an open hole or a fastener left in the chute's path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tear-Off Run",
+      "currency": "STRIP",
+      "ranks": [
+        "Apprentice",
+        "Tear-Off Hand",
+        "Chute Runner",
+        "Lead Stripper",
+        "Tear-Off Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-skylight-and-hatch-guarding",
+    "index": "rf7",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer screening skylights and railing roof hatches ahead of a re-roof crew",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection, skylight screens and hole covers, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; NRCA skylight and hatch guarding practice; Roofers Local 40 apprenticeship and training",
+    "name": "Skylight & Hatch Guarding",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Skylight & Hatch Guarding VR",
+    "tagline": "The guarding plan read, harness clipped, a cracked dome and a backed-out screen fastener found, an existing screen proof-tested, the heat gun set down cold, a new screen carried out of the wind, fastened, seated and sealed, its own proof test held, the hatch's rail and gate confirmed in order, a second dome and an unmarked vent found on the walk-round, and the day logged, with a gust catching the next panel and a coworker radioing that a second hatch was left open along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "every-opening-guarded",
+      "name": "Every Opening Guarded",
+      "note": "Every skylight screened, the hatch railed and gated, and nobody left an opening for the membrane crew to find the hard way"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Guard Line",
+      "currency": "GUARD",
+      "ranks": [
+        "Apprentice",
+        "Screen Hand",
+        "Guard Runner",
+        "Lead Guardsman",
+        "Guarding Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "rf-green-roof-and-overburden-placement",
+    "index": "rf8",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for dust from pouring lightweight growing media; NRCA and URW green-roof build-up practice; Roofers Local 40 apprenticeship and training",
+    "name": "Green Roof & Overburden Placement",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Green Roof & Overburden Placement VR",
+    "tagline": "The build-up plan read, harness clipped, a puncture risk and a torn root barrier found, the structural load checked, the heat-weld area cleared, the root barrier rolled and welded, filter fabric rolled out, the irrigation line tested, growing media spread at a steady rate and its depth checked, an unweighted fabric edge and a missed leak found on the walk-round, and the day logged, with a gust lifting the fabric before it is weighted and a coworker downstream calling out a leak in the irrigation line along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "build-up-weighted-clean",
+      "name": "Build-Up Weighted Clean",
+      "note": "Every layer welded, weighted and checked against the load plan before the media went down"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Overburden Run",
+      "currency": "LAYER",
+      "ranks": [
+        "Apprentice",
+        "Layer Hand",
+        "Media Runner",
+        "Lead Green-Roofer",
+        "Green-Roof Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
