@@ -39302,14 +39302,7 @@ function mountSmartCityEggs(ctx) {
   // their registration order, capture or not) — so this has to be above the
   // canvas in the tree to reliably win the race and suppress the drag-look
   // app.js's own canvas listener would otherwise start on this same click.
-  window.addEventListener("pointerdown", (e) => {
-    if (!craneHook || renderer.xr.isPresenting) return;
-    const ndc = eggNdc(e, canvas);
-    const ray = new THREE.Raycaster();
-    ray.setFromCamera(ndc, camera);
-    if (!ray.intersectObject(craneHook, true).length) return;
-    e.stopImmediatePropagation();
-    e.preventDefault();
+  function craneHookClicked() {
     eggPlayClunk(1 + craneClicks * 0.12);
     craneClicks += 1;
     clearTimeout(craneClickTimer);
@@ -39319,6 +39312,16 @@ function mountSmartCityEggs(ctx) {
     } else {
       craneClickTimer = setTimeout(() => { craneClicks = 0; }, 4000);
     }
+  }
+  window.addEventListener("pointerdown", (e) => {
+    if (!craneHook || renderer.xr.isPresenting) return;
+    const ndc = eggNdc(e, canvas);
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(ndc, camera);
+    if (!ray.intersectObject(craneHook, true).length) return;
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    craneHookClicked();
   }, true);
 
   function openClawGame() {
@@ -39450,6 +39453,16 @@ function mountSmartCityEggs(ctx) {
       if (hud?.feedback) store.patch("hud", { feedback: `${hud.feedback} ${NIGHT_LINE}` });
     }
   }, 300);
+
+  // Test-only, same convention as Holodeck's own window.__holodeckTest: a
+  // tiny screen target three metres up a crane is not something an
+  // automated browser test should have to pixel-hunt for, so this calls the
+  // exact same handler a real hit on the hook calls — see docs/easter-egg.md.
+  window.__eggsTest = {
+    pressPhotoModeKey: () => window.dispatchEvent(new KeyboardEvent("keydown", { key: "p" })),
+    clickCraneHook: (times = 1) => { for (let i = 0; i < times; i++) craneHookClicked(); },
+    craneArmed: () => !!craneHook,
+  };
 }
 
 // =====================================================================
