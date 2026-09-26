@@ -219,9 +219,18 @@ dataset a training pipeline consumes directly is a separate, smaller layer:
   (through this layer's own `runEpisode()`/`runEmbodiedEpisode()`) across a
   sample of every registered station with any human episodes exported from
   the app, into JSON Lines shards, a manifest and a dataset card.
+* `tools/eval_dataset.mjs` — reads an exporter output folder back and scores
+  it: coverage, action-class balance, hazard/interruption coverage,
+  duplicate-episode rate, pose-track presence and schema validity, rolled
+  into one documented 0–100 quality number.
+* `tools/train_baseline.mjs` — a small behaviour-cloning baseline (plain JS,
+  no dependencies) fit on an exporter output folder, evaluated by both
+  held-out action-classification accuracy and a replay of the learned policy
+  through this layer's own engine against the scripted expert and novice.
 
 See **[docs/robot-datasets.md](robot-datasets.md)** for the full picture:
-schema, field mapping, licence and how to run the exporter.
+schema, field mapping, licence, the exporter, the quality reporter and the
+baseline trainer.
 
 ## In the app
 
