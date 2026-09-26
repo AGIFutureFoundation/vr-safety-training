@@ -137,6 +137,12 @@ export const SIM_CM_COLD_WEATHER_CURING_AND_BLANKETS = {
       holdBreakNote: "The switch let go before the flame held steady. Reset it and hold until the heater is confirmed running clear.",
     },
     {
+      id: "cold-stress-check", kind: "select", target: "crew-radio",
+      title: "Set the crew's cold exposure rotation before the overnight watch",
+      cue: "Confirm who is watching the enclosure on what rotation, with exposed skin covered per the cold weather plan's limits.",
+      why: "The concrete is not the only thing this plan protects — a crew member watching the enclosure through the coldest hours is exposed to the same freeze the blankets are fighting, and frostbite sets in on a schedule the cold weather plan sets a rotation against. Confirming the rotation before the watch starts is what keeps the overnight check from costing the crew what it is protecting the slab from.",
+    },
+    {
       id: "overnight-track", kind: "track", target: "temp-monitor", seconds: 7,
       title: "Track the under-blanket temperature overnight",
       cue: "Watch the temperature reading through the coldest part of the night and keep it inside the plan's protection band.",
@@ -171,10 +177,10 @@ export const SIM_CM_COLD_WEATHER_CURING_AND_BLANKETS = {
       after: "heater-start", delay: 2, seconds: 12,
       alert: "The heater's exhaust duct has worked loose and is now venting straight into the enclosure instead of outside it.",
       cue: "Shut the heater down before the enclosure fills with exhaust.",
-      target: "heater-switch",
-      why: "Carbon monoxide has no smell and no colour, and a duct venting into a sealed, wind-skirted enclosure builds a dangerous concentration long before anyone inside would notice anything wrong. The heater has to stop producing exhaust immediately; reconnecting the duct comes after it is already off, not while it is still running.",
+      target: "fuel-shutoff",
+      why: "Carbon monoxide has no smell and no colour, and a duct venting into a sealed, wind-skirted enclosure builds a dangerous concentration long before anyone inside would notice anything wrong. The fuel shutoff kills the flame at its source immediately; reconnecting the duct comes after it is already off, not while it is still running.",
       missNote: "The heater kept running with the duct loose for the rest of the check; the enclosure's air stayed thick with exhaust the whole time nobody was watching it.",
-      wrongNote: "The heater switch — a duct venting into a sealed enclosure means the heater stops producing exhaust before anything else happens.",
+      wrongNote: "The fuel shutoff — a duct venting into a sealed enclosure means the flame has to stop before anything else happens.",
     },
     {
       id: "wind-gust-skirt",
@@ -231,6 +237,9 @@ export const SIM_CM_COLD_WEATHER_CURING_AND_BLANKETS = {
     const heaterSwitch = box(heater, 0.08, 0.06, 0.03, 0.3, 0.5, 0.4, 0xd2312b, { rough: 0.5, metal: 0.3 });
     holoTag(heater, "heater start switch", 0.3, 0.62, 0.4, { css: CMCW_CSS, w: 0.3 });
     reg(hits, heaterSwitch, "heater-switch");
+    const fuelShutoff = cyl(heater, 0.03, 0.03, 0.1, -0.32, 0.35, 0.3, CMCW_PAL.trim, { rough: 0.5, metal: 0.5, seg: 10 });
+    holoTag(heater, "fuel shutoff valve", -0.32, 0.44, 0.3, { css: CMCW_CSS, w: 0.32 });
+    reg(hits, fuelShutoff, "fuel-shutoff");
     const moveHeaterSupply = group(g, 2.4, 0.02, -0.2, 0.2);
     box(moveHeaterSupply, 0.14, 0.12, 0.12, 0, 0.06, 0, CMCW_PAL.trim, { rough: 0.6, metal: 0.4 });
     holoTag(moveHeaterSupply, "move the heater clear", 0, 0.2, 0, { css: CMCW_CSS, w: 0.32 });
