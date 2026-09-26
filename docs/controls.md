@@ -170,3 +170,5 @@ node tools/check_a11y.mjs      # the keyboard cursor and the live region it read
 ```
 
 In a browser, `window.__smartcityInputTest` drives the real handlers from a headless test: `gamepad(fakePad)` polls the real poller with a fake Standard Gamepad, `key("Tab")` goes through the real keydown path and the saved bindings, and `voice("read step")` goes through the real grammar.
+
+None of the controls above ever move because of a random event — `?events=on` (see [Random events](events.md)) only ever changes the scene (weather, a passing vehicle, a radio call) and the timing of a station's own declared interruptions, never a binding, a preset or the grammar.

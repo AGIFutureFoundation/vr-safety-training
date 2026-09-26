@@ -80,6 +80,15 @@
   #hud-combo{ font-family:var(--cond); font-weight:600; font-size:12.5px; letter-spacing:.1em; color:var(--accent);
     margin-top:3px; transition:color .15s, transform .15s; }
 
+  /* Random events (shared/events.js): the last few ambient beats this run's
+     own seed has staged. Centred above the feedback rail, clear of the
+     corner chips (mission/metrics/dive/court) and the drive HUD either side. */
+  #hud-events{ bottom:150px; left:50%; transform:translateX(-50%); max-width:min(92vw,420px); text-align:center; border-bottom:3px solid #8fa0c9; }
+  #hud-events .eyebrow{ text-align:center; }
+  #hud-events-list{ list-style:none; margin:2px 0 0; padding:0; font-size:12px; line-height:1.35; color:var(--text); }
+  #hud-events-list li{ padding:1px 0; opacity:.85; }
+  #hud-events-list li:last-child{ opacity:1; font-weight:600; }
+
   /* Drive HUD: a 'drive' step's speed against its band, the lane bar, the
      route progress and the next check; the check buttons along the bottom
      edge, and on a touch screen the pedals and the wheel. */
@@ -13452,6 +13461,725 @@ function describeVariant(v) {
   if (!v?.variant) return "";
   const { baseName, level, seed } = v.variant;
   return `${baseName} · ${findLevel(level).name} · seed ${seed} · ${v.steps.length} steps · ${v.interrupts?.length ?? 0} interruptions · par ${v.parSeconds}s`;
+}
+
+
+/* ===== shared/events.js ===== */
+/**
+ * Random events: the ambient-event scheduler every SmartCiti.X station gets
+ * for free, without a single station file being touched.
+ *
+ * A station that never varies teaches the answer key on the second run — a
+ * different problem from the one shared/variants.js solves. A variant makes
+ * the *assessment* harder to memorise (hints off, alarms moved, the clock
+ * tighter). This module makes the *run* feel less like a fixed diorama:
+ * weather drifts, a truck goes by, a crew member wanders through, the radio
+ * clicks on, a tool clatters off a bench, a mast light flickers at night.
+ * None of it is graded and none of it is a step — see the two rules below.
+ *
+ * This module is pure and knows nothing about three.js, SIMS_META or the DOM.
+ * It decides WHEN an ambient beat happens and WHAT it is (a kind plus a
+ * small, already-resolved payload — which weather kind, which vehicle), from
+ * a seed and the plain facts the caller (smartcity/js/app.js) hands it. The
+ * caller is the one holding the live scene, so it is the one that turns a
+ * fired event into a mesh, a light or a spoken line; this module never
+ * reaches for THREE, so it is automatically a no-op wherever the caller's own
+ * three.js or SIMS_META is stubbed or missing — there is nothing here for
+ * that to break.
+ *
+ * Two rules, held by tools/check_events.mjs:
+ *
+ *   1. An ambient event changes the SCENE, never the PROCEDURE or the SCORE.
+ *      It never touches session.step, session.index or session.score, and it
+ *      never counts as a hazard. If a kind cannot be shown honestly for a
+ *      station (weather indoors, a road where there is none, a radio line
+ *      with nothing real to say) it is simply not offered — see eligible().
+ *   2. Everything here is seeded. The same room id + seed always produces the
+ *      same ambient timeline and the same interrupt-timing jitter, so an
+ *      instructor can replay a learner's exact run with `?seed=`.
+ *
+ * The other half of "less scripted" is timing variance on the station's OWN
+ * declared interruptions (shared/game.js): a seeded jitter of up to ±40% on
+ * each one's `delay`, and — where a station declares more than two — a
+ * seeded reshuffle of which of the extra ones lands on which of their steps.
+ * The first two interruptions keep the step they were authored on; only the
+ * timing (and, for the extras, the assignment among themselves) varies. See
+ * varyInterruptTiming() below. What never varies: which control answers an
+ * interruption, its wording, or the fact that it fires at all.
+ */
+
+// ---------------------------------------------------------------- utilities
+
+/** Small deterministic PRNG (same xorshift as shared/variants.js, kept local
+ *  so this module imports nothing). A string seed is hashed to a 32-bit
+ *  start value; a number seed is used directly. */
+function eventsRng(seed) {
+  let s = (typeof seed === "string"
+    ? [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7)
+    : (seed >>> 0)) || 1;
+  return () => {
+    s ^= s << 13; s >>>= 0;
+    s ^= s >> 17;
+    s ^= s << 5; s >>>= 0;
+    return s / 4294967296;
+  };
+}
+
+/** Fisher-Yates, seeded. */
+function shuffleSeeded(list, rand) {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pick(list, rand) {
+  return list.length ? list[Math.floor(rand() * list.length) % list.length] : null;
+}
+
+// ---------------------------------------------------------------- on/off
+
+/** `?events=on` / `?events=off` from the URL, or null when it says nothing. */
+function eventsFromQuery(search = "") {
+  const q = new URLSearchParams(search ?? "").get("events");
+  return q === "on" ? "on" : q === "off" ? "off" : null;
+}
+
+/**
+ * Whether this attempt runs with events on.
+ *
+ *   explicit        "on" | "off" | null — the `?events=` override, if any
+ *   ladderLevel     the ladder rung this task is running as part of, or null
+ *   isVariant       true for an assessment/pressure variant (shared/variants.js)
+ *   instructorArmed true when an instructor is driving THIS run's interruption
+ *                   themselves — a live CMD_INTERRUPT, or the station opened
+ *                   under a ladder task's own `?interrupt=` condition. Either
+ *                   way the room they staged must not compete with a
+ *                   randomly-timed one, so this always wins over `?events=on`.
+ *
+ * Default on for level 11+ of a ladder and for assessment variants (both are
+ * meant to be less predictable than a first pass); off in the base run.
+ */
+function eventsEnabled({ explicit = null, ladderLevel = null, isVariant = false, instructorArmed = false } = {}) {
+  if (instructorArmed) return false;
+  if (explicit === "off") return false;
+  if (explicit === "on") return true;
+  if (isVariant) return true;
+  if (Number.isFinite(ladderLevel) && ladderLevel >= 11) return true;
+  return false;
+}
+
+// --------------------------------------------------------- interrupt timing
+
+/**
+ * Seeded jitter on a station's own declared interruptions: never changes
+ * which step one is armed on, its target, its wording, or the number of
+ * them — only:
+ *
+ *   - each interruption's `delay`, by up to ±40% (never under the 2s floor
+ *     tools/check_interrupts.mjs already holds every delay to)
+ *   - where a station declares MORE than two, which of the ones after the
+ *     first two lands on which of their own steps — a seeded reshuffle among
+ *     that group only, and only where the swap stays valid: an interruption
+ *     never lands on a step whose own target is the interruption's answer,
+ *     which would turn it from something to notice into a nudge (the same
+ *     rule shared/variants.js and tools/check_interrupts.mjs already hold
+ *     every interruption to). A swap that would break that is left as it was
+ *     rather than silently dropped.
+ *
+ * Returns `room` unchanged (same reference) when it has no interruptions to
+ * vary, so a caller never needs to branch on whether anything changed.
+ */
+function varyInterruptTiming(room, { seed = 0, rand = null } = {}) {
+  const list = room?.interrupts;
+  if (!Array.isArray(list) || list.length === 0) return room;
+  const rng = rand ?? eventsRng(`${room.id ?? "room"}:${seed}:events-timing`);
+
+  const jittered = list.map((it) => {
+    const factor = 1 + (rng() * 2 - 1) * 0.4; // ±40%
+    const delay = Math.max(2, Math.round((Number(it.delay) || 3) * factor));
+    return { ...it, delay };
+  });
+
+  if (jittered.length <= 2) return { ...room, interrupts: jittered };
+
+  const head = jittered.slice(0, 2);
+  const extra = jittered.slice(2);
+  const steps = room.steps ?? [];
+  const order = shuffleSeeded(extra.map((it) => it.after), rng);
+  const reassigned = extra.map((it, i) => {
+    const after = order[i];
+    if (after === it.after) return it;
+    const host = steps.find((s) => s.id === after);
+    if (!host) return it; // the step this extra would move to no longer exists — leave it
+    const conflict = host.target === it.target || (host.targets ?? []).includes(it.target);
+    return conflict ? it : { ...it, after };
+  });
+  return { ...room, interrupts: [...head, ...reassigned] };
+}
+
+// ---------------------------------------------------------------- ambient events
+
+/** Every ambient kind this scheduler can plan. The caller renders each one;
+ *  this module only ever decides when and (for the kinds that need it) which
+ *  variant of it — a weather kind, a vehicle. */
+const AMBIENT_KINDS = ["weather-shift", "vehicle-pass", "crew-walkthrough", "radio-call", "dropped-tool", "mast-light"];
+
+const VEHICLE_KINDS = ["pickup", "sedan", "cargoVan", "boxTruck"];
+
+/** Whether `kind` can be honestly shown for this station, given only what the
+ *  caller told us about it — never invented, only withheld. */
+function eligible(kind, ctx) {
+  const { room, night, weatherKinds, radioLine } = ctx;
+  switch (kind) {
+    case "weather-shift": return !room.indoor && Array.isArray(weatherKinds) && weatherKinds.length > 1;
+    case "vehicle-pass": return !!ctx.hasRoad;
+    case "mast-light": return !room.indoor && !!night;
+    case "radio-call": return typeof radioLine === "string" && radioLine.trim().length > 0;
+    case "crew-walkthrough": return !room.indoor;
+    case "dropped-tool": return true;
+    default: return false;
+  }
+}
+
+/** The plain-language line this event's own log entry and the HUD chip show.
+ *  Everything in it is either a fixed description of the beat itself or a
+ *  value the caller already resolved (a weather kind, a radio line lifted
+ *  from the station's own supportLine/crew post) — nothing is invented here. */
+function describe(kind, payload, ctx) {
+  switch (kind) {
+    case "weather-shift": return `The weather turned to ${payload.weatherKind}.`;
+    case "vehicle-pass": return "A kit vehicle passed on the district road.";
+    case "crew-walkthrough": return "A crew member walked through and stopped to watch.";
+    case "radio-call": return `Radio: ${ctx.radioLine}`;
+    case "dropped-tool": return "A tool clattered off a bench nearby.";
+    case "mast-light": return "The mast light flickered.";
+    default: return kind;
+  }
+}
+
+/**
+ * Build one run's ambient timeline up front, seeded — an instructor can hand
+ * a learner the same `?seed=` and see the same beats land at the same
+ * moments. `ctx`:
+ *
+ *   seed         anything JSON-ish; usually the station id or `?seed=`
+ *   parSeconds   the run's own par, to space events across its length
+ *   weatherKinds the kinds this station may honestly shift to (empty/absent
+ *                for an indoor station — see shared/weather.js's WEATHER_KINDS)
+ *   night        true when the stage is standing at its night hour
+ *   hasRoad      true when this station's district has traffic to pass
+ *   radioLine    a short, real line the station could plausibly say over the
+ *                radio (its own supportLine, or a crew post from
+ *                shared/crew.js's splitByRole) — omit rather than invent one
+ *
+ * Returns `[]` when nothing on the station is eligible for any kind, or when
+ * the run is too short to hold even one beat.
+ */
+function planAmbientEvents(room, {
+  seed = 0, parSeconds = null, weatherKinds = [], night = false, hasRoad = false, radioLine = null, rand = null,
+} = {}) {
+  const rng = rand ?? eventsRng(`${room?.id ?? "room"}:${seed}:events-ambient`);
+  const span = Math.max(30, parSeconds ?? room?.parSeconds ?? 180);
+  const ctx = { room: room ?? {}, night, weatherKinds, hasRoad, radioLine };
+  const pool = AMBIENT_KINDS.filter((k) => eligible(k, ctx));
+  if (!pool.length) return [];
+
+  // Roughly one beat every 30-45s of the run, capped so a short station is
+  // not swamped and a long one does not go quiet for minutes at a time.
+  const count = Math.max(1, Math.min(5, Math.round(span / 38)));
+  const order = shuffleSeeded(pool, rng);
+  const slot = span / (count + 1);
+  const events = [];
+  for (let i = 0; i < count; i++) {
+    const kind = order[i % order.length];
+    const jitter = (rng() * 2 - 1) * slot * 0.3;
+    const at = Math.max(4, Math.min(span - 3, Math.round(slot * (i + 1) + jitter)));
+    const payload = kind === "weather-shift"
+      ? { weatherKind: pick(weatherKinds.filter((w) => w !== room?.weather), rng) ?? pick(weatherKinds, rng) }
+      : kind === "vehicle-pass" ? { vehicleKind: pick(VEHICLE_KINDS, rng) }
+      : {};
+    events.push({ id: `amb-${i}-${kind}`, kind, at, payload, text: describe(kind, payload, ctx) });
+  }
+  events.sort((a, b) => a.at - b.at);
+  return events;
+}
+
+/**
+ * The live scheduler for one run: builds the timeline once (or holds none,
+ * when `enabled` is false or the query turned events off) and fires each
+ * beat in `tick()` once the session's clock reaches it.
+ *
+ * `tick(session)` is the only thing called every frame. It:
+ *   - never fires while the session is finished or already mid-interrupt
+ *     (rule 1 above: an ambient beat must never compete with, or be mistaken
+ *     for, a real interruption)
+ *   - never reads or writes anything on `session` beyond `.elapsed`,
+ *     `.finished` and `.activeInterrupt`
+ *   - returns the fired event (for the caller to render and log), or null
+ *
+ * `disable()` turns off everything still to come — called the moment an
+ * instructor takes over this run's interruptions live (CMD_INTERRUPT),
+ * because from that instant the room is theirs to stage, not the seed's.
+ * Whatever already fired stays in `log`.
+ */
+function createEventScheduler(room, opts = {}) {
+  const { seed = 0, enabled = true, onFire = null } = opts;
+  let live = !!enabled;
+  const timeline = live ? planAmbientEvents(room, { seed, ...opts }) : [];
+  const log = [];
+  let idx = 0;
+  return {
+    get enabled() { return live; },
+    get timeline() { return timeline; },
+    get log() { return log; },
+    disable() { live = false; },
+    tick(session) {
+      if (!live || !session || session.finished || session.activeInterrupt) return null;
+      if (idx >= timeline.length) return null;
+      const next = timeline[idx];
+      if ((session.elapsed || 0) < next.at) return null;
+      idx += 1;
+      const entry = { id: next.id, kind: next.kind, payload: next.payload, text: next.text, at: Math.round((session.elapsed || 0) * 10) / 10 };
+      log.push(entry);
+      onFire?.(entry);
+      return entry;
+    },
+  };
+}
+
+
+/* ===== shared/crew.js ===== */
+/**
+ * Crew roles: the same procedure, split between two people.
+ *
+ * Several stations in this platform are authored as one learner doing a job
+ * that nobody does alone. A confined-space entry has an attendant and an
+ * entrant. A crane pick has an operator and a signaller. Hot work has a
+ * welder and a fire watch. Played as one person, all of that collapses into
+ * a single ordered list and the single most important property of the job
+ * disappears: the two people stand in different places, can see different
+ * things, and each one's duty is invisible to the other. The way these jobs
+ * kill people is not that somebody forgot a step — it is that each of them
+ * assumed the other had done it.
+ *
+ * A role view does not change the procedure. It changes who performs each
+ * step. The steps this role owns are played exactly as authored; the rest
+ * become watch steps — the learner has to confirm the other person has done
+ * them before the procedure moves on, and cannot do them instead.
+ *
+ *   varied      who performs a step, and therefore what the learner practises
+ *   never       the steps, their ids, their targets, their order, the hazards,
+ *               or the reason any of it is right
+ *
+ * The hard part is not the view, it is the split. A role split that is wrong
+ * teaches a wrong division of duties to everyone who plays it, which is worse
+ * than not splitting at all — so everything below is built to decline. A
+ * station is split only when the station itself contains the evidence: the
+ * second person exists in the scene as something the learner interacts with,
+ * every step attributes to exactly one of the two roles with no evidence
+ * pointing the other way, and both roles end up owning real work. Anything
+ * less and splitByRole() reports the station as single-role and says why.
+ */
+
+/**
+ * Role archetypes.
+ *
+ * These are derived from what the stations actually contain, not from a
+ * taxonomy of trades. Each pair is two posts in one procedure: two places a
+ * person physically stands, with different information at each. `post` is
+ * what the role may never stop doing, because that is the duty a role view
+ * exists to teach.
+ */
+const ROLES = {
+  attendant: {
+    id: "attendant", name: "Attendant", pair: "permit-space", counterpart: "entrant",
+    post: "At the opening. Holds the permit and the log, isolates and ventilates the space, watches the meter and the walls, and never goes in.",
+    // Ids that ARE this person or the post they hold: a step reaching for one
+    // of them is by definition not performed by them. Only posts belong here.
+    // The coworker trying to climb in is a person in the scene but not a post,
+    // so stopping them stays the attendant's own duty.
+    posts: /^(attendant|tender-station|spotter|badge-attendant|badge-supervisor|outside-operator|floor-watch|ground-crew|observer|observer-post)$/,
+  },
+  entrant: {
+    id: "entrant", name: "Entrant", pair: "permit-space", counterpart: "attendant",
+    post: "Inside the space or below grade. Does the work the entry was opened for, and can see none of what is happening at the surface.",
+    posts: /^(entrant|badge-entrant|entrant-descend|buddy-present)$/,
+  },
+  operator: {
+    id: "operator", name: "Operator", pair: "lift", counterpart: "signaller",
+    post: "At the controls. Sets the machine up, reads the chart, and moves only on one person's signal — because from the cab the load is the one thing that cannot always be seen.",
+    // The radio to the crane is the operator's post, not the ground crew's:
+    // whoever reaches for it is calling the cab, so they are not in it.
+    posts: /^(crane-radio|crane-radio-clear)$/,
+  },
+  signaller: {
+    id: "signaller", name: "Signaller / rigger", pair: "lift", counterpart: "operator",
+    post: "On the ground with the load. Rigs it, keeps the zone under it clear, and is the only voice the operator answers to.",
+    posts: /^(signal-person|signaller-radio|rigger-radio|deck-check|marshal-wands)$/,
+  },
+  welder: {
+    id: "welder", name: "Welder", pair: "hot-work", counterpart: "fire-watch",
+    post: "Behind the hood. Under a dark lens with an arc in front of them, they cannot see where their own sparks land.",
+    posts: null,
+  },
+  "fire-watch": {
+    id: "fire-watch", name: "Fire watch", pair: "hot-work", counterpart: "welder",
+    post: "Outside the hood with the extinguisher. Clears and shields the radius, watches where the sparks go, and stays on after the arc stops.",
+    posts: null,
+  },
+  // Not a job title: the honest name for how this platform runs today, and
+  // what a station reports when it cannot be split. Naming it keeps every
+  // caller on one code path instead of special-casing a null.
+  solo: {
+    id: "solo", name: "Whole crew", pair: null, counterpart: null,
+    post: "One learner performs every duty in the procedure.",
+    posts: null,
+  },
+};
+
+/**
+ * The two-role procedures this platform contains, and the evidence that
+ * proves a station is one of them.
+ *
+ * `evidence` is deliberately about the scene rather than the prose. Any
+ * station can mention a spotter in a `why`; only a station that actually
+ * models one has an interactable the learner can reach for. That is the line
+ * between a procedure written for two people and a procedure written for one
+ * with a second person described in the margin. Hot work is the exception and
+ * says so: its fire watch is a duty (a step the learner holds) rather than a
+ * person in the scene, so its evidence is the duty.
+ */
+const PAIRS = [
+  {
+    id: "permit-space", name: "Permit space", roles: ["attendant", "entrant"],
+    evidence: "ids", test: /^(attendant|tender-station|spotter|badge-attendant|outside-operator|floor-watch|observer|observer-post)$/,
+    signals: {
+      attendant: [
+        /\bpermit\b|\bwork order\b|\bsize ?-?up\b/,
+        /\bcone\b|\bbarrier|\bbarricade|\bguard rail\b|guard the (opening|excavation|hatch)/,
+        /\bisolat|lock ?-?out|lock and tag|\btag ?-?out|\bblank\b|blanking plate|feed valve/,
+        /\bventilat|\bblower\b|\bduct\b/,
+        /\batmospher|gas meter|4-gas|\boxygen\b|\bmeter\b/,
+        /\btripod\b|\bretrieval\b|\bwinch\b|\bbelay\b|mechanical advantage|\breeve\b|rig the system/,
+        /\bheadcount\b|tool tally|everyone is out|account for everyone/,
+        /\bspoil\b|\bthe edge\b|above grade|at the opening|at the surface/,
+        /\bladder\b|trench box|protective (box|system)/,
+        /\bbackfill|secure the space|hand ?-?over|sign the (permit|plan)|close the permit/,
+        /competent[- ]person|classif(y|ication)|inspect the (trench|walls)/,
+        /grade[- ]control|\bwaypoint|machine control|\bgrader\b/,
+        /assign the .*role|\bbadge\b/,
+        /hold the crew|stop the (coworker|crew)/,
+      ],
+      entrant: [
+        /below grade|\bin the trench\b|inside the space|\bat the bottom\b|climb down|\bdown the ladder\b/,
+        // The patient is packaged from inside the hole and hauled out from
+        // above, so "the patient" alone says nothing about which post.
+        /package the patient|\bairway\b/,
+        /make the repair|the repair to|\brefractory\b|complete the .*repair/,
+        /maintain contact|hold contact|continuous communication/,
+      ],
+    },
+  },
+  {
+    id: "lift", name: "Lift", roles: ["operator", "signaller"],
+    evidence: "ids", test: /^(signal-person|signaller-radio|rigger-radio|crane-radio|deck-check|marshal-wands)$/,
+    signals: {
+      operator: [
+        /\boutrigger|\bstabilizer|\bpad\b/,
+        /\blevel\b|\bbubble\b|\bplumb\b/,
+        // "load chart" and "capacity plate", never bare "rated capacity" —
+        // a shackle carries a rated capacity too, and matching it turned the
+        // rigger's own shackle inspection into a contested step.
+        /load chart|capacity plate|\bthe chart\b/,
+        /\bboom\b|\bswing\b|\bslew\b|\bradius\b|\bluff\b/,
+        /\bhoist\b|\blower\b|\braise\b|\bretract\b|\bextend\b|set ?-?down/,
+        /\bcab\b|\bconsole\b|\bRCI\b|rated capacity indicator|anti-collision|\blever\b/,
+        /\bwind\b|anemometer/,
+        /lift plan|lift log|crane log|\bbriefing\b|pre-?lift/,
+        /\bAGV\b|\bwaypoint|\bdry-?run\b|machine control/,
+      ],
+      signaller: [
+        /\bsling\b|\bshackle\b|\bhook block\b|\brigging rack\b|\bthe rigging\b/,
+        /\btag line\b/,
+        /\blashing|\bturnbuckle|twist-?lock|\brod\b/,
+        /\bred zone\b|swing radius|under the (load|boom)/,
+        /corner casting|\bspreader\b/,
+      ],
+    },
+  },
+  {
+    id: "hot-work", name: "Hot work", roles: ["welder", "fire-watch"],
+    evidence: "text", test: /\bfire watch\b/,
+    signals: {
+      welder: [
+        /\barc\b|\bbead\b|\bpuddle\b|\belectrode\b|\bamperage\b|\bcurrent\b|\bweld\b/,
+        /\bhelmet\b|\blens\b|\bshade\b|\bleathers\b|\bgloves\b|\bjacket\b/,
+        /work clamp|return lead/,
+        /\bfume\b|extraction/,
+        /hot work permit|\bthe permit\b/,
+      ],
+      "fire-watch": [
+        /\bcombustible/,
+        /fire blanket|\bthe blanket\b|\bshielded?\b/,
+        /extinguisher|\bthe watch\b|\btimer\b/,
+        /\bsparks?\b|\bsmoulder|hot work area/,
+      ],
+    },
+  },
+];
+
+/** A role must own this much of the procedure for the split to mean anything. */
+const MIN_ROLE_STEPS = 2;
+
+function pairOf(id) { return PAIRS.find((p) => p.id === id) ?? null; }
+
+/** SmartCiti.X stations carry `name`; Trade Skills rooms only carry `title`. */
+function stationName(station) { return station?.name ?? station?.title ?? station?.id ?? "station"; }
+
+/** Every interactable id a station's steps and interruptions can reach for. */
+function interactableIds(station) {
+  const ids = new Set();
+  for (const step of station.steps ?? []) {
+    if (step.target) ids.add(step.target);
+    for (const t of step.targets ?? []) ids.add(t);
+  }
+  for (const it of station.interrupts ?? []) if (it.target) ids.add(it.target);
+  return [...ids];
+}
+
+/**
+ * The two halves of a step's text, kept apart on purpose.
+ *
+ * `action` is what the learner does — the title, the cue, the ids of the
+ * things they touch. `why` is the reason it is right, and it routinely names
+ * the other role ("the attendant never leaves the hole") in a step that role
+ * does not perform. Scoring the two together is how a splitter talks itself
+ * into a confident wrong answer, so `why` is only ever consulted when the
+ * action text said nothing at all.
+ */
+function stepText(step) {
+  const ids = [step.target, ...(step.targets ?? [])].filter(Boolean);
+  const names = Object.values(step.itemNames ?? {});
+  return {
+    ids,
+    action: [step.id, ...ids, ...names, step.title ?? "", step.cue ?? ""].join(" ").toLowerCase(),
+    why: (step.why ?? "").toLowerCase(),
+  };
+}
+
+function score(signals, text) {
+  let n = 0;
+  for (const re of signals) if (re.test(text)) n += 1;
+  return n;
+}
+
+/**
+ * Attribute one step to one of a pair's two roles, or to neither.
+ *
+ * Three rules, in order, and each one refuses rather than guesses:
+ *
+ *  1. You cannot be the person you are reaching for. A step whose target is
+ *     the attendant, the spotter or the signal person is performed by the
+ *     other role — that is what makes it a coordination step at all.
+ *  2. Otherwise the action text decides, and only when one role's evidence is
+ *     the only evidence. A step with signals on both sides is a step the
+ *     author wrote for two people at once; splitting it either way invents a
+ *     division of duties the station never stated.
+ *  3. A step whose action text says nothing falls back to its reason, under
+ *     the same one-sided rule.
+ */
+function attribute(step, pair) {
+  const [a, b] = pair.roles;
+  const text = stepText(step);
+
+  const reaches = (roleId) => {
+    const posts = ROLES[roleId].posts;
+    return !!posts && text.ids.some((id) => posts.test(id));
+  };
+  if (reaches(a) && !reaches(b)) return { role: b, by: "post" };
+  if (reaches(b) && !reaches(a)) return { role: a, by: "post" };
+  if (reaches(a) && reaches(b)) return { role: null, by: "both-posts" };
+
+  for (const [field, by] of [["action", "action"], ["why", "why"]]) {
+    const sa = score(pair.signals[a], text[field]);
+    const sb = score(pair.signals[b], text[field]);
+    if (sa > 0 && sb === 0) return { role: a, by };
+    if (sb > 0 && sa === 0) return { role: b, by };
+    if (sa > 0 && sb > 0) return { role: null, by: "contested" };
+  }
+  return { role: null, by: "silent" };
+}
+
+function declined(station, reason, unassigned = []) {
+  const assignments = {};
+  for (const step of station.steps ?? []) assignments[step.id] = "solo";
+  return { split: false, pair: null, roles: [ROLES.solo], assignments, basis: {}, unassigned, reason };
+}
+
+/**
+ * Which role owns each step of an authored station.
+ *
+ * Returns `{ split, pair, roles, assignments, basis, unassigned, reason }`. When
+ * `split` is false the station is single-role: `roles` is the whole crew,
+ * every step is assigned to it, and `reason` says in one sentence what the
+ * station did not provide. `unassigned` is the diagnostic — the steps that
+ * defeated the split — and it is empty when no split was attempted, because
+ * the station models nobody to split with.
+ *
+ * A split is only returned when every single step attributed cleanly. A
+ * procedure with one orphan step is precisely the failure this feature exists
+ * to teach about, so it is not a thing to ship in the feature itself.
+ */
+function splitByRole(station) {
+  const steps = station?.steps ?? [];
+  if (!steps.length) return declined(station ?? { steps: [] }, "the station has no steps");
+
+  const ids = interactableIds(station);
+  const text = [stationName(station), station.trade ?? "",
+    ...steps.map((s) => `${s.title ?? ""} ${s.cue ?? ""} ${s.why ?? ""}`),
+    ...(station.interrupts ?? []).map((i) => `${i.kind ?? ""} ${i.alert ?? ""} ${i.why ?? ""}`)].join(" ").toLowerCase();
+
+  const matched = PAIRS.filter((p) => (p.evidence === "ids" ? ids.some((id) => p.test.test(id)) : p.test.test(text)));
+  if (!matched.length) {
+    return declined(station, "no second role is modelled in this station — the other person is not something the learner can reach for");
+  }
+  if (matched.length > 1) {
+    // Three posts is a different exercise from two, and picking the loudest
+    // pair would be inventing the crew structure rather than reading it.
+    return declined(station, `more than one crew pairing is modelled here (${matched.map((p) => p.name).join(", ")}) — a two-role view would have to pick one`);
+  }
+
+  const pair = matched[0];
+  const [a, b] = pair.roles;
+  const assignments = {};
+  // Which of the three rules decided each step, so an author reviewing a
+  // split can see what it read rather than only what it concluded.
+  const basis = {};
+  const unassigned = [];
+  for (const step of steps) {
+    const { role, by } = attribute(step, pair);
+    basis[step.id] = by;
+    if (role) assignments[step.id] = role; else unassigned.push(step.id);
+  }
+  if (unassigned.length) {
+    return declined(station,
+      `${unassigned.length} of ${steps.length} step(s) could not be attributed to one side of a ${pair.name.toLowerCase()} pair without guessing`,
+      unassigned);
+  }
+
+  const owned = { [a]: [], [b]: [] };
+  for (const step of steps) owned[assignments[step.id]].push(step.id);
+  for (const roleId of pair.roles) {
+    if (owned[roleId].length < MIN_ROLE_STEPS) {
+      return declined(station,
+        `every duty here belongs to the ${ROLES[roleId === a ? b : a].name.toLowerCase()} — the ${ROLES[roleId].name.toLowerCase()} owns ${owned[roleId].length} step(s), so this is a one-post procedure with a second person in the scene`);
+    }
+  }
+
+  const roles = pair.roles.map((id) => ({
+    ...ROLES[id],
+    owns: owned[id].length,
+    watches: steps.length - owned[id].length,
+    share: Math.round((owned[id].length / steps.length) * 100) / 100,
+  }));
+  return { split: true, pair: pair.id, roles, assignments, basis, unassigned: [], reason: null };
+}
+
+/**
+ * Turn a step the learner does not own into a watch step.
+ *
+ * The kind has to change — the whole point is that they do not run the gauge,
+ * hold the line or spin the valve — but nothing else may be lost, so the
+ * authored kind and every target the step had are kept verbatim under
+ * `watch`. What the learner is left with is one deliberate act: look at the
+ * thing the other person was supposed to have dealt with, and confirm it.
+ * That is the drill. It is also the only moment in a two-person job where the
+ * assumption that kills people is available to be caught.
+ */
+function watchStep(step, mine, theirs) {
+  const targets = [step.target, ...(step.targets ?? [])].filter(Boolean);
+  const out = { ...step };
+  // Kind-specific configuration would make the engine run the task rather
+  // than a confirmation, so it moves wholesale onto `watch`.
+  for (const key of ["targets", "anyOrder", "gauge", "track", "turn", "drag", "seconds",
+    "itemNames", "itemNotes", "decoyNotes", "outOfOrderNote", "holdBreakNote"]) delete out[key];
+  out.kind = "select";
+  out.target = step.target ?? targets[0];
+  out.title = `Confirm — ${step.title}`;
+  out.cue = `${theirs.name} does this one. Check it is done, then carry on.`;
+  out.why = `${step.why} This is ${theirs.name.toLowerCase()}'s step, not yours. You confirm it because the way a two-person job goes wrong is each of you assuming the other one did it.`;
+  out.watch = {
+    of: step.kind,
+    by: theirs.id,
+    byName: theirs.name,
+    for: mine.id,
+    targets,
+    // Kept so a HUD can still name the items the other person worked through.
+    itemNames: step.itemNames ?? null,
+  };
+  return out;
+}
+
+/**
+ * One role's view of a station, as a room the Session engine plays unchanged.
+ *
+ * Same id, same order, same targets, same hazards, same reasons. The steps
+ * this role owns are the authored steps; the rest are watch steps. An
+ * interruption whose answer is this role's own post is dropped, because an
+ * alarm that says the attendant has left the hole cannot be answered by the
+ * attendant — every other interruption stays, since noticing is a duty both
+ * posts have.
+ *
+ * A station that cannot be split honestly returns itself, so a caller never
+ * has to branch on whether the split succeeded.
+ */
+function roleView(station, roleId, split = splitByRole(station)) {
+  if (!split.split) return station;
+  const mine = ROLES[roleId];
+  if (!mine || !split.roles.some((r) => r.id === roleId)) return null;
+  const theirs = ROLES[mine.counterpart];
+
+  const steps = station.steps.map((step) =>
+    (split.assignments[step.id] === roleId ? { ...step } : watchStep(step, mine, theirs)));
+
+  const interrupts = (station.interrupts ?? []).filter((it) =>
+    !(mine.posts && it.target && mine.posts.test(it.target)));
+
+  const owned = steps.filter((s) => !s.watch).length;
+  return {
+    ...station,
+    id: `crew:${station.id}:${roleId}`,
+    index: "◈",
+    name: `${stationName(station)} — ${mine.name}`,
+    title: `${station.title ?? stationName(station)} · ${mine.name}`,
+    tagline: `${mine.post} The rest of the procedure belongs to the ${theirs.name.toLowerCase()} — you confirm it, you do not do it.`,
+    steps,
+    interrupts,
+    isCrewView: true,
+    crew: {
+      baseId: station.id, baseName: stationName(station), pair: split.pair,
+      role: roleId, roleName: mine.name, counterpart: theirs.id, counterpartName: theirs.name,
+      owns: owned, watches: steps.length - owned,
+      droppedInterrupts: (station.interrupts ?? []).length - interrupts.length,
+    },
+    build: (root) => station.build(root),
+  };
+}
+
+/** Every playable view of a station — one per role, or the station itself. */
+function roleViews(station, split = splitByRole(station)) {
+  if (!split.split) return [station];
+  return split.roles.map((r) => roleView(station, r.id, split));
+}
+
+/** A one-line description an instructor can read before issuing it. */
+function describeSplit(station, split = splitByRole(station)) {
+  if (!split.split) return `${stationName(station)} · single-role · ${split.reason}`;
+  const parts = split.roles.map((r) => `${r.name} ${r.owns}/${station.steps.length}`);
+  return `${stationName(station)} · ${pairOf(split.pair)?.name ?? split.pair} pair · ${parts.join(" · ")}`;
 }
 
 
@@ -39846,6 +40574,21 @@ function CourtChip({ court }) {
     h("div", { id: "hud-court-clock" }, court.clock));
 }
 
+/**
+ * The events HUD chip (shared/events.js): the last few random beats this
+ * run's own seed has staged — a weather shift, a passing vehicle, a crew
+ * member walking through, a radio call, a dropped tool, a mast light
+ * flicker. Nothing here is scored; it exists so a learner (and later, the
+ * debrief) can name what just happened rather than wonder about it. Nothing
+ * at all when the run has fired none yet, including every run with events off.
+ */
+function EventsChip({ events }) {
+  if (!events?.length) return null;
+  return h("div", { className: "chip", id: "hud-events", role: "status", "aria-label": `Events this run: ${events.join(". ")}` },
+    h("div", { className: "eyebrow" }, "Events"),
+    h("ul", { id: "hud-events-list" }, events.map((e, i) => h("li", { key: i }, e))));
+}
+
 function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -39916,6 +40659,11 @@ function mountUI(store, actions) {
   function HudCourt() {
     const hud = useSlice("hud");
     return h(CourtChip, { court: hud.court ?? null });
+  }
+
+  function HudEvents() {
+    const hud = useSlice("hud");
+    return h(EventsChip, { events: hud.events ?? [] });
   }
 
   function HudObjective() {
@@ -40800,7 +41548,7 @@ function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
@@ -41865,6 +42613,9 @@ const store = createStore({
     scorePops: [],
     dive: null,
     court: null,
+    // Random events (shared/events.js): what the run's own seed has staged so
+    // far this attempt — the debrief and the events HUD chip both read this.
+    events: [],
   },
   gestureTip: { html: "", show: false },
   // The drive HUD (a 'drive' step): speed and band, lane offset, next check.
@@ -42053,6 +42804,7 @@ const state = {
   paused: true,
   placed: false,          // AR: has the learner tapped a surface yet
   stage: null,
+  eventsScheduler: null,  // the live run's ambient-event scheduler (shared/events.js), or null when events are off
   tour: null,             // { i } while walking the built-in curriculum in order
   level: null,            // a ladder level run (shared/ladder.js) while a level chain is being played
 };
@@ -42160,6 +42912,12 @@ function clearRoom() {
   hint.visible = false;
   gauge.visible = false;
   store.patch("flat", { visible: false });
+  // Random events: whatever this run's ambient scheduler had left to fire
+  // dies with the station — an in-flight vehicle or a still-walking crew
+  // figure belonged to the stage just disposed above, so nothing left ticking
+  // in ambientAnimators can safely touch it any more.
+  state.eventsScheduler = null;
+  ambientAnimators.length = 0;
 }
 
 function collectSelectables() {
@@ -42331,6 +43089,19 @@ async function enterSim(id, { briefed = false } = {}) {
     const v = makeVariant(room, { seed: urlQuery.get("seed") ?? room.id, level: variantLevel });
     if (v) room = { ...v, id: room.id, variantId: v.id };
   }
+  // Random events (shared/events.js, docs/events.md): on by default past
+  // level 10 of a ladder and for an assessment variant, off in the base run,
+  // and always off when the instructor is already driving this run's own
+  // interruption — a live CMD_INTERRUPT, or a ladder task's own ?interrupt=
+  // condition. `?events=` always overrides, except that instructor case.
+  const eventsSeed = urlQuery.get("seed") ?? room.id;
+  const runEventsOn = eventsEnabled({
+    explicit: eventsFromQuery(location.search),
+    ladderLevel: state.level?.level ?? null,
+    isVariant: !!room.isVariant,
+    instructorArmed: !!state.urlInterrupt,
+  });
+  if (runEventsOn && room.steps?.length) room = varyInterruptTiming(room, { seed: eventsSeed });
   const flat = !!(room.flat ?? SIMS_META_BY_ID[room.baseId]?.flat);
   if (flat && state.mode !== "flat") {
     // A dossier card cannot be shown inside an immersive session; say so
@@ -42523,6 +43294,20 @@ async function enterSim(id, { briefed = false } = {}) {
     },
   });
   state.session.start();
+  // Random events: the ambient half (see the interrupt-timing half above).
+  // Built fresh for every station, always — when events are off this just
+  // holds an empty timeline, so tickAmbientAnimators/performAmbientEvent
+  // never have anything to do.
+  store.patch("hud", { events: [] });
+  state.eventsScheduler = createEventScheduler(room, {
+    seed: eventsSeed,
+    enabled: runEventsOn,
+    parSeconds: room.parSeconds,
+    weatherKinds: room.indoor ? [] : WEATHER_KINDS,
+    night: timeOfDay() === "night",
+    hasRoad: ambientHasRoad(room),
+    radioLine: radioLineFor(room),
+  });
   armQueuedLevelInterrupts(room.id);
   if (robot.active) startRobot(room);
   if (!flat) faceFirstTask();
@@ -42560,6 +43345,134 @@ function updateHintForStep(step) {
 function flashDanger() {
   document.body.classList.add("danger-flash");
   setTimeout(() => document.body.classList.remove("danger-flash"), 420);
+}
+
+// -------------------------------------------------------------- random events
+//
+// shared/events.js decides WHEN a beat fires and WHICH one; everything here
+// is the other half — turning a fired beat into something the learner can
+// actually see or hear. Every renderer below is deliberately small and
+// disposable: it lives in ambientAnimators only until its own step() says
+// it is done, then removes exactly what it added and nothing else. None of
+// this ever touches state.session, state.hits or the station's own scoring —
+// see shared/events.js's rule 1.
+
+const ambientAnimators = []; // { t, step(elapsed, dt) -> done, cleanup() }
+
+/** Where an ambient prop or light is parented — the stage's own root when the
+ *  station has one (so it is disposed with the stage on the way out), the
+ *  shared world group otherwise. */
+function ambientParent() {
+  return state.stage?.root ?? worldRoot;
+}
+
+function tickAmbientAnimators(dt) {
+  for (let i = ambientAnimators.length - 1; i >= 0; i--) {
+    const a = ambientAnimators[i];
+    a.t += dt;
+    let done = false;
+    try { done = !!a.step(a.t, dt); } catch (_) { done = true; }
+    if (done) { ambientAnimators.splice(i, 1); try { a.cleanup?.(); } catch (_) { /* ignore */ } }
+  }
+}
+
+function shiftAmbientWeather(kind) {
+  if (!kind || !WEATHER_KINDS.includes(kind) || !state.stage) return;
+  const parent = ambientParent();
+  const prev = state.stage.weather;
+  try {
+    const next = buildWeather(parent, scene, kind, {});
+    state.stage.weather = next;
+    if (prev?.root) disposeTree(prev.root);
+  } catch (_) { /* a stage that cannot rebuild its weather just keeps its own */ }
+}
+
+const AMBIENT_VEHICLE_BUILDERS = { pickup, sedan, cargoVan, boxTruck };
+
+/** A kit vehicle crosses well behind the station pad and is gone — never on
+ *  the pad itself, so it can never be mistaken for a registered interactable. */
+function spawnAmbientVehicle(kind) {
+  const build = AMBIENT_VEHICLE_BUILDERS[kind] ?? pickup;
+  const parent = ambientParent();
+  let rig = null;
+  try { rig = build(parent, -13, 0, 9.6, {}); } catch (_) { return; }
+  if (!rig) return;
+  rig.rotation.y = Math.PI / 2;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { rig.position.x = -13 + 26 * Math.min(1, elapsed / 4.5); return elapsed >= 4.5; },
+    cleanup() { try { parent.remove(rig); disposeTree(rig); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A crew figure walks across the background, then turns to watch for a
+ *  moment before the beat ends and it is removed. */
+function spawnAmbientCrew() {
+  const parent = ambientParent();
+  let figure = null;
+  try { figure = standingFigure(parent, -6.5, 8.6, { ry: Math.PI / 2, vest: 0xf2c14b, cloth: 0x2b3138 }); } catch (_) { return; }
+  if (!figure) return;
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) {
+      if (elapsed < 2.6) figure.position.x = -6.5 + 5.5 * (elapsed / 2.6);
+      else figure.rotation.y = Math.PI * 1.5; // turns to watch the station
+      return elapsed >= 5.4;
+    },
+    cleanup() { try { parent.remove(figure); disposeTree(figure); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** A short-lived point light near the pad, flickering — never one of the
+ *  station's own registered lights, so nothing about the procedure changes. */
+function spawnAmbientMastFlicker() {
+  const parent = ambientParent();
+  let light = null;
+  try { light = new THREE.PointLight(0xfff3d0, 0, 14); light.position.set(0, 4.4, -6); parent.add(light); }
+  catch (_) { return; }
+  ambientAnimators.push({
+    t: 0,
+    step(elapsed) { light.intensity = elapsed < 1.2 ? (Math.sin(elapsed * 42) > 0 ? 2.2 : 0.1) : 0; return elapsed >= 1.3; },
+    cleanup() { try { parent.remove(light); } catch (_) { /* ignore */ } },
+  });
+}
+
+/** Turn one fired ambient event (shared/events.js) into scene/sound and log
+ *  it on the events HUD chip. Called from the frame loop; never called for a
+ *  station's own declared interruption, which has its own alarm path. */
+function performAmbientEvent(entry) {
+  store.patch("hud", (prev) => ({ events: [...(prev.events ?? []), entry.text].slice(-4) }));
+  switch (entry.kind) {
+    case "weather-shift": shiftAmbientWeather(entry.payload?.weatherKind); break;
+    case "vehicle-pass": spawnAmbientVehicle(entry.payload?.vehicleKind); break;
+    case "crew-walkthrough": spawnAmbientCrew(); break;
+    case "mast-light": spawnAmbientMastFlicker(); break;
+    case "dropped-tool": Sfx.bad(); break;
+    case "radio-call": announce(entry.text); break;
+    default: break;
+  }
+}
+
+/** Whether this station's district has traffic to pass — every outdoor pad
+ *  has a laydown/access road behind it except the two special-cased grounds
+ *  that plainly do not: the bay floor and the gym court. */
+function ambientHasRoad(room) {
+  const d = room.district ?? room.category ?? null;
+  return !room.indoor && d !== "bay-underwater" && d !== "gym-court";
+}
+
+/** A short, real line the station could plausibly say over the radio — its
+ *  own supportLine, or (failing that) the duty the station's own crew split
+ *  (shared/crew.js) hands the counterpart role. Never invented: a station
+ *  with neither gets no radio-call event (see events.js's eligible()). */
+function radioLineFor(room) {
+  const support = room.supportLine ?? SIMS_META_BY_ID[room.baseId ?? room.id]?.supportLine;
+  if (support) return support;
+  try {
+    const split = splitByRole(room);
+    if (split.split) return split.roles[1]?.post ?? split.roles[0]?.post ?? null;
+  } catch (_) { /* a station this cannot read gets no radio-call event */ }
+  return null;
 }
 
 // ------------------------------------------------------------------- results
@@ -42603,9 +43516,14 @@ function renderDebrief(s) {
   }).join("") : "";
   const ivBlock = iv ? `<p class="res-note"><b>Interruptions:</b> ${iv.answered} of ${iv.total} caught${iv.missed ? `, ${iv.missed} missed` : ""}${iv.wrong ? `, ${iv.wrong} answered wrong` : ""}.</p>
     <ol class="db-list">${ivRows}</ol>` : "";
+  // Random events (shared/events.js): named here too, so a run that felt
+  // different is not left unexplained — none of it scored, all of it real.
+  const ev = state.eventsScheduler?.log ?? [];
+  const evBlock = ev.length ? `<p class="res-note"><b>This run's events:</b></p>
+    <ul class="db-list">${ev.map((e) => `<li class="db-row"><span class="db-n">·</span><span class="db-title">${escapeHtml(e.text)}</span></li>`).join("")}</ul>` : "";
   return `<details class="debrief" open>
     <summary>Step-by-step debrief — ${head}</summary>
-    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}
+    <ol class="db-list">${rows}</ol>${slow}${bad}${ivBlock}${evBlock}
   </details>`;
 }
 
@@ -42672,6 +43590,10 @@ function showResults(s, summary) {
     instructorActions: [...instructorActions],
     hazardMode: (inLevel && !state.level.coaching) || state.hazardPinned ? "assess" : hazardMode,
     condition: state.condition ?? "base",
+    // Random events (shared/events.js): what this run's own seed staged, in
+    // order — never a step, never a hazard, just what the scene did while the
+    // learner worked. Empty whenever events were off for this attempt.
+    events: state.eventsScheduler?.log ?? [],
     ...(room.variant ? { variant: { level: room.variant.level, seed: room.variant.seed, differs: room.variant.differs } } : {}),
     ...(inLevel ? { ladder: levelTag(state.level, levelTask.index) } : {}),
   });
@@ -43123,6 +44045,10 @@ observer.onCommand((cmd) => {
     // layer in shared/game.js). Nothing here shortcuts that path.
     it.armedAt = s.elapsed;
     if (observerFrozen) { observerFrozen = false; state.paused = false; }
+    // From here on the instructor is staging this run's interruptions
+    // themselves — a randomly-timed ambient beat must not land on top of one
+    // they just armed. Whatever already fired stays; nothing more will.
+    state.eventsScheduler?.disable();
     logInstructorAction("interrupt", cmd.detail, { note: "armed for now; the station fires it" });
     return;
   }
@@ -45966,6 +46892,13 @@ window.__smartcityTest = {
   press: (id) => pressStart(id),
   release: () => pressEnd(),
   session: () => state.session,
+  // Random events (shared/events.js): the live run's scheduler, for a live
+  // test to read its timeline/log without waiting out the whole run, and to
+  // render one of the timeline's own (seeded) entries on demand — the same
+  // performAmbientEvent() path the scheduler's own tick() calls — for a
+  // verification screenshot that cannot wait out a real run's clock.
+  events: () => state.eventsScheduler ? { enabled: state.eventsScheduler.enabled, timeline: state.eventsScheduler.timeline, log: state.eventsScheduler.log } : null,
+  fireAmbientForTest: (entry) => performAmbientEvent(entry),
   // Scene and camera for live verification scripts (screenshots of the
   // stage districts, headset-budget spot checks); read-only by convention.
   scene: () => scene,
@@ -46057,7 +46990,13 @@ renderer.setAnimationLoop((_, frame) => {
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track" || state.session.step?.kind === "drive") syncHud();
       // The bottom-time chip counts in whole seconds; refresh it once a second.
       else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
+      // Random events: the ambient scheduler's own clock is the session's —
+      // it never fires once the session is finished or mid-interrupt (see
+      // shared/events.js's tick()), so this can run unconditionally here.
+      const firedAmbient = state.eventsScheduler?.tick(state.session);
+      if (firedAmbient) performAmbientEvent(firedAmbient);
     }
+    tickAmbientAnimators(dt);
   }
 
   // Third-person camera: after driveCamera() (above) has this frame's yaw and

@@ -190,6 +190,21 @@ export function CourtChip({ court }) {
     h("div", { id: "hud-court-clock" }, court.clock));
 }
 
+/**
+ * The events HUD chip (shared/events.js): the last few random beats this
+ * run's own seed has staged — a weather shift, a passing vehicle, a crew
+ * member walking through, a radio call, a dropped tool, a mast light
+ * flicker. Nothing here is scored; it exists so a learner (and later, the
+ * debrief) can name what just happened rather than wonder about it. Nothing
+ * at all when the run has fired none yet, including every run with events off.
+ */
+export function EventsChip({ events }) {
+  if (!events?.length) return null;
+  return h("div", { className: "chip", id: "hud-events", role: "status", "aria-label": `Events this run: ${events.join(". ")}` },
+    h("div", { className: "eyebrow" }, "Events"),
+    h("ul", { id: "hud-events-list" }, events.map((e, i) => h("li", { key: i }, e))));
+}
+
 export function mountUI(store, actions) {
   function useSlice(key) {
     return useSyncExternalStore(store.subscribe, () => store.get()[key]);
@@ -260,6 +275,11 @@ export function mountUI(store, actions) {
   function HudCourt() {
     const hud = useSlice("hud");
     return h(CourtChip, { court: hud.court ?? null });
+  }
+
+  function HudEvents() {
+    const hud = useSlice("hud");
+    return h(EventsChip, { events: hud.events ?? [] });
   }
 
   function HudObjective() {
@@ -1144,7 +1164,7 @@ export function mountUI(store, actions) {
 
   function App() {
     return h(Fragment, null,
-      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudObjective), h(HudRail), h(HudHint),
+      h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudEvents), h(HudObjective), h(HudRail), h(HudHint),
       h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
