@@ -6,12 +6,12 @@ Updated: 2026-09-26. A dated log of what landed, wave by wave, over the last six
 
 | | Now | Where the number comes from |
 |---|---|---|
-| Procedures in the catalog | **430** — 421 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
-| Categories | **18** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching) plus Trade Skills Simulator | `catalog.json` |
-| Training programmes | **31**, each a twenty-level ladder of 75-lesson levels (619 of 620 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
-| Checkers | **41**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 41 checkers pass.` |
-| Content eval | corpus mean **96 / 100** over 430 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
-| Standards registry | **396** entries across 109 bodies over the 18 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
+| Procedures in the catalog | **517** — 508 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
+| Categories | **19** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching and Healthcare Support) plus Trade Skills Simulator | `catalog.json` |
+| Training programmes | **40**, each a twenty-level ladder of 75-lesson levels (799 of 800 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
+| Checkers | **44**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 44 checkers pass.` |
+| Content eval | corpus mean **96 / 100** over 517 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
+| Standards registry | **430** entries across 95 bodies over the 19 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
 | Competencies | **41** (31 programme, 10 core) | `node tools/check_competency.mjs` |
 | Device profiles | **33** head-worn devices in 6 run profiles | `node tools/check_devices.mjs` |
 | App | published artifact (private until shared), with the race, the arcade, the eggs and 31 track pages beside it | |
@@ -21,6 +21,10 @@ Under 90 today: `hunters-point` 73, `can-we-live-story` 73, `civic-principles-br
 How to read a score: `tools/eval_content.mjs` grades each procedure on variety of interaction, decision density, explanation depth, grounding in named bodies, **standards** (the share of cited authorities that resolve to a registry entry in scope for the station's category, less a penalty for citing out of scope), feedback coverage, scene and originality, and weights them into one number. It is the heartbeat between waves, not a gate; the gate is `node tools/check_all.mjs`.
 
 ---
+
+## Wave 100 — thirteen union packs, accountability, robot data and opt-in sharing (2026-09-26, later)
+
+Eleven of the thirteen wave-100 packs have landed (railroad crafts, heavy equipment operators, plumbers and pipefitters, elevator constructors, glaziers and architectural metal, insulators and boilermakers, cement masons and plasterers, healthcare support, roofers and waterproofers, plus the open-range outdoor district and the Bay underwater edition); warehouse automation, aviation ground, education support and water-and-gas utility crews are in flight. Alongside them: course tracking and accountability (`WebXR/shared/tracking.js` — My Training card, refreshers due, transcript export, instructor attestation, streak and clean-run badges), the episode recorder and dataset exporter for robot and model training (`WebXR/shared/episodes.js`, `tools/export_dataset.mjs`, `docs/robot-datasets.md`), wallet connection and opt-in, consent-signed sharing of anonymised engagement through provider-agnostic agent-protocol adapters with a Cloudflare Workers relay template (`WebXR/shared/wallet.js`, `share-engagement.js`, `agent-protocols.js`, `integrations/cloudflare/`, `docs/wallets-and-sharing.md`), six field-note Easter eggs with an egg ledger and a fourth arcade cabinet. The published copy now ships its stations as 25 chunked modules so it fits the host's file cap.
 
 ## Waves, oldest first
 

@@ -6,6 +6,7 @@ import {
   CITY, stationPad, holoPanel, holoTag, toolChest, instrument, lockTag, standingFigure, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Solar Farm Tracker Row Maintenance VR — Energy & Power, on
 // the open-range district. A single-axis tracker row on a utility-scale
@@ -197,6 +198,7 @@ export const SIM_OR_SOLAR_FARM_TRACKER_ROW_MAINTENANCE = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "or-solar-farm-tracker-row-maintenance", [-2.6, 0.9, 1.8]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.8, ORS_ACCENT);

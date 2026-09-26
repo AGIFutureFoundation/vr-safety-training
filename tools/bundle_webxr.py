@@ -57,6 +57,7 @@ APPS = {
             SHARED / "lrs.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             SHARED / "observer.js",
             SHARED / "perf.js",
@@ -109,6 +110,7 @@ APPS = {
             SHARED / "share-engagement.js",
             SHARED / "platform.js",
             SHARED / "flowhub.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             # My Training, refreshers due, sign-offs and the transcript
             # (docs/course-tracking.md); needs a11y.js, records.js and
@@ -187,7 +189,10 @@ APPS = {
             SHARED / "observer.js",
             SHARED / "flowhub.js",
             WEBXR / "instructor/js/roster.js",
-            # Toolbox Talk Bingo (docs/easter-egg.md).
+            # Toolbox Talk Bingo (docs/easter-egg.md): the real per-station
+            # hazard-label pool (tools/gen_bingo_hazards.mjs), before the egg
+            # module and app.js that both read it.
+            SHARED / "bingo-hazards-data.js",
             SHARED / "eggs-app.js",
             # shared/tracking.js (docs/course-tracking.md) for the sign-off
             # panel, in dependency order: game.js has none, competency.js
@@ -195,6 +200,7 @@ APPS = {
             # ladder.js, a11y.js and records.js.
             SHARED / "game.js",
             SHARED / "competency.js",
+            SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             SHARED / "a11y.js",
             SHARED / "records.js",

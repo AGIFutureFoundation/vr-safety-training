@@ -258,10 +258,11 @@ Every sprite, sound, tune, level layout and name in this game is original to thi
 A 20-second clip of play is at `screenshots/arcade/arcade-clip.webm`.
 ## Hard Hat Hunt
 
-A small golden hard hat is hidden in twelve training stations, chosen across
-programmes and both simulators. Click it and it is found — nothing about the
-station's own procedure changes, and finding one is never scored as a step or
-a mistake.
+A small golden hard hat is hidden in fourteen training stations, chosen
+across programmes, both simulators and — since the open-range district and
+the bay-underwater dive stations landed — outdoors and underwater too. Click
+it and it is found — nothing about the station's own procedure changes, and
+finding one is never scored as a step or a mistake.
 
 <img src="screenshots/race/livery-select.png" width="420" alt="the garage screen with Hard Hat Gold unlocked">
 
@@ -281,6 +282,8 @@ a mistake.
 | Patient Intake Screening | SmartCiti.X | Dental / outbreak-response programmes |
 | Welding | Trade Skills Simulator | Builders and trades |
 | Plumbing | Trade Skills Simulator | Builders and trades |
+| Solar Farm Tracker Row Maintenance | SmartCiti.X | Energy Transition — open-range district |
+| Underwater Debris Survey & Mapping | SmartCiti.X | SF Bay Restoration & Cleanup — bay-underwater district |
 
 ### How it is built
 
@@ -292,7 +295,7 @@ plantHardHat(root, THREE, "cooling-tower", [2.6, 1.15, -2.6]);
 ```
 
 That is the whole integration — one import and one call, nothing else in the
-twelve stations changes. The helper does everything else:
+fourteen stations changes. The helper does everything else:
 
 - **It never touches the station's interaction system.** A station's real
   controls are registered with `shared/kit.js`'s `markInteractive()` and
@@ -306,19 +309,36 @@ twelve stations changes. The helper does everything else:
   browser's `localStorage`, under the key `vr-training-hardhats-v1`, as the
   list of station ids found so far. Finding the same hat twice changes
   nothing.
-- **The homepage counts them.** The footer shows "hard hats found: n/12",
-  read from the same key when the page loads.
-- **Finding all twelve unlocks a livery in the race**, "Hard Hat Gold" — see
+- **The homepage counts them.** The footer shows "hard hats found: n/14"
+  (`tools/gen_home.mjs` reads the count from `shared/eggs.js`'s own
+  `HARD_HAT_TOTAL` rather than retyping it), read from the same key when the
+  page loads.
+- **Finding all fourteen unlocks a livery in the race**, "Hard Hat Gold" — see
   Capstone skins below for how liveries work in the garage.
+- **Placement follows the same reachability rule as every other control.**
+  `tools/check_layout.mjs` already holds every station's real interactive
+  targets to one rule: inside the roam circle (SmartCiti.X) or the room
+  (Trade Skills) a learner can walk to, plus a reach's worth of stretch, and
+  never below the floor slack a pit or a vault is allowed. The hard hat is
+  outside the interaction system `check_layout.mjs` itself audits, so
+  `tools/check_eggs.mjs` holds it to the identical numbers on its own —
+  including the two hosts on the open-range district and the bay-underwater
+  district, where "visible" and "reachable" are the same fact: the roam
+  circle is exactly the volume the app's own camera keeps a learner inside,
+  outdoors or underwater alike.
 
 ### Checks
 
 `node tools/check_eggs.mjs`, part of `tools/check_all.mjs`, holds this to:
 
-- All twelve host files exist, each imports `plantHardHat` from
+- All fourteen host files exist, each imports `plantHardHat` from
   `shared/eggs.js` and calls it exactly once, under a distinct id.
 - The hosts land in more than one app and more than one programme.
-- A find, a repeated find, and completing all twelve round-trip through a
+- Every planted hat resolves to a real mesh inside the reachable, visible
+  volume `check_layout.mjs` already defines for that station — the roam
+  circle (or room) plus a reach's worth of stretch, and no lower than the
+  floor slack.
+- A find, a repeated find, and completing all fourteen round-trip through a
   fake `localStorage` exactly as described above.
 
 ## Foreman's Radio
@@ -334,14 +354,19 @@ passing it earns nothing but a better line in the score card.
 
 Every question is generated from `tools/standards.json` — the one registry of
 standards, codes and union training programmes this platform teaches
-against — and nothing else. `tools/gen_radio_quiz.mjs` lifts only the `id`,
-`body` and `title` of every entry into `WebXR/shared/radio-quiz-data.js`
-(regenerated whenever `node tools/gen_catalog.mjs` runs); no `scope`,
-`source` or `cites` field is carried over, because a quiz question is never
-built on anything but the body that publishes a standard and the standard's
-own title. `WebXR/shared/radio-quiz.js` then:
+against — and nothing else. `tools/gen_radio_quiz.mjs` lifts the `id`,
+`body`, `title` and `scope` of every entry into `WebXR/shared/radio-quiz-data.js`
+(regenerated whenever `node tools/gen_catalog.mjs` runs); no `source` or
+`cites` field is carried over, because a quiz question's own text and answer
+are never built on anything but the body that publishes a standard and the
+standard's own title — `scope` rides along only so the pool can be narrowed to
+one catalog category, never so a question can state a fact `scope` itself
+never says. `WebXR/shared/radio-quiz.js` then:
 
-1. Picks ten standards at random, no two alike.
+1. Picks ten standards at random, no two alike — or, when a `category` is
+   given, ten from the standards in scope for that category alone (a
+   programme's own trade), honestly answered with fewer questions when fewer
+   than ten are in scope, rather than padding the rest from somewhere else.
 2. Asks "which body publishes …?", quoting the standard's own CFR-style
    clause when its title states one plainly (`29 CFR 1910.146`), or the
    standard's full title otherwise.
@@ -351,17 +376,28 @@ own title. `WebXR/shared/radio-quiz.js` then:
 A score card follows the last question, and a best score is kept in this
 browser under `vr-training-radio-quiz-v1`.
 
+Every programme in `WebXR/smartcity/js/curricula.js` is deep enough in its own
+category (the trade `guides` and stations already stand behind) to draw a full
+six-question quiz honestly this way — including the five newest ones, railroad
+crafts, heavy equipment operators, plumbers and pipefitters, SF Bay Restoration
+& Cleanup's maritime and underwater block, and Basketball Fundamentals, plus
+the four open-range stations, each in its own station's own category. See the
+coverage table below.
+
 ### Checks
 
 `node tools/check_eggs.mjs` holds this to:
 
-- `shared/radio-quiz-data.js` matches `tools/standards.json` exactly (stale
-  data fails the build).
+- `shared/radio-quiz-data.js` matches `tools/standards.json` exactly, `scope`
+  included (stale data fails the build).
 - Across several seeds, `buildQuiz()` returns ten questions, all built from
   distinct standards, each with exactly four distinct choices and one correct
   answer that matches the standard's real body — and the question text is
   built only from that standard's own title or the clause inside it, never an
   invented fact.
+- Every recently-landed programme's own catalog category resolves to at least
+  six distinct, honestly in-scope questions when `buildQuiz()` is asked for
+  that category.
 - A best score round-trips through a fake `localStorage`, and a worse run
   never overwrites it.
 - The homepage carries the `radio` key sequence, the hard-hat counter, and
@@ -477,13 +513,24 @@ off. A best score is kept in `holodeck-egg-scaffold-best-v1`.
 
 A small **🎯 Toolbox Talk Bingo** button floats in the corner of the
 instructor console. It builds a real 5×5 bingo card — one FREE centre square,
-24 hazard-named cells drawn from the hazards this class's own live sessions
-have actually named, topped up with common toolbox-talk hazard categories
-when the room hasn't produced 24 of its own yet — and opens it in a fresh,
-printable window. It says plainly, on the card itself, that it is **"for the
-room, not for the record"**: nothing about it is saved to any learner's
-training record, and the console never reads anything from a simulator to
-build it.
+24 hazard-named cells — filled in three passes, roster hazards first: the
+hazards this class's own live sessions have actually named; then, for
+whichever stations the roster is actually on, that station's own real hazard
+vocabulary (`WebXR/shared/bingo-hazards-data.js`, generated by
+`tools/gen_bingo_hazards.mjs` straight off each station module's own
+`hazards: {}` object — never invented, never the hazard's own long sentence,
+just its id title-cased into a short label); and only then the generic
+toolbox-talk categories, for whatever a quiet room and a newer, thin-hazard
+programme still leave empty. It opens in a fresh, printable window and says
+plainly, on the card itself, that it is **"for the room, not for the
+record"**: nothing about it is saved to any learner's training record, and the
+console never reads anything from a simulator to build it — only the
+generated label pool, which is static data with no simulation behind it.
+
+Because that label pool is built from every station in every programme in
+`WebXR/smartcity/js/curricula.js`, a class on any programme — including the
+five newest — gets real, in-trade cells rather than only the generic list.
+See the coverage table below.
 
 <img src="screenshots/eggs/toolbox-bingo.png" width="480" alt="a printed Toolbox Talk Bingo card">
 
@@ -576,3 +623,88 @@ the same DOM stub once a fixture's condition is met, without ever writing to
 `recordLedgerFind()` is idempotent per `(id, programme)` pair but adds a new
 row for a new programme, `ledgerByProgramme()` groups and sorts it, and the
 homepage carries the Egg ledger button, dialog and the ledger's storage key.
+## Coverage by programme
+
+<details>
+<summary><b>Spoiler — every programme's own numbers</b> (click to expand: what
+Foreman's Radio, Toolbox Talk Bingo, Hard Hat Hunt and the level-ladder
+milestones each give every programme in <code>WebXR/smartcity/js/curricula.js</code>,
+including the five that landed most recently)</summary>
+
+**Radio quiz** is the number of distinct, honestly in-scope questions
+`buildQuiz()` can draw for that programme's own catalog category — the
+smallest of its categories, for a programme that spans more than one —
+capped at ten, the quiz's own per-run size. **Toolbox bingo** is
+`PROGRAMME_HAZARDS[id].length` (`WebXR/shared/bingo-hazards-data.js`): the
+number of real, in-trade hazard labels that programme's own stations
+contribute. **Hard Hat Hunt** names the one host station when a programme
+happens to be one of the fourteen — most programmes have none, since the
+hunt was never meant to reach every programme, only to be spread honestly
+across them. **Ladder milestones** is always four: level 5, 10, 15 and 20 of
+that programme's own twenty-level ladder, each with its own real quote.
+
+Every programme clears the six-question radio bar and the 24-cell bingo bar
+this page's own Checks hold it to — including Basketball Fundamentals, the
+thinnest category in the registry today, which still clears both.
+
+| Programme | Radio quiz | Toolbox bingo | Hard Hat Hunt | Ladder milestones |
+|---|---|---|---|---|
+| Air Quality — Monitoring and Control | 10 | 24 | — | 4 |
+| Bartending — Behind the Bar | 10 | 63 | — | 4 |
+| **Basketball Fundamentals** | 8 | 72 | `bb-rebounding-and-boxing-out` | 4 |
+| Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine | 10 | 169 | — | 4 |
+| Bridge and Structural Trades | 10 | 28 | — | 4 |
+| Builders — Carpenters, Laborers and Masons (includes the ranch-road-grading open-range station) | 10 | 32 | — | 4 |
+| Civic Leadership and Emotional Intelligence | 10 | 69 | `cv-restorative-justice-circle-facilitation` | 4 |
+| Confined Space — Entry and Rescue | 10 | 32 | — | 4 |
+| Culinary — The Working Kitchen | 10 | 64 | — | 4 |
+| Dental Careers — Unspoken Smiles | 10 | 76 | `patient-intake-screening` | 4 |
+| Dental Hygiene — Unspoken Smiles | 10 | 76 | `patient-intake-screening` | 4 |
+| Energy Transition Systems (includes two of the four open-range stations) | 10 | 37 | `or-solar-farm-tracker-row-maintenance` | 4 |
+| First Responders — Fire, EMS, Police, Crisis and Relief (includes the wildland-fireline open-range station) | 10 | 70 | — | 4 |
+| Glaziers and Architectural Metal | 10 | 32 | — | 4 |
+| Hazmat and Environmental Response | 10 | 41 | `hz-level-b-entry-and-scba-change-out` | 4 |
+| **Heavy Equipment Operators — IUOE Local 3** | 10 | 31 | — | 4 |
+| Hotel Workers — Back of House | 10 | 28 | — | 4 |
+| Hunters Point Clean-up and Bay Restoration | 10 | 101 | `tide-gate` | 4 |
+| Hunters Point Edition — Can We Live? | 10 | 99 | — | 4 |
+| Inside Wireman — First Period | 10 | 32 | — | 4 |
+| Job Readiness Edition — wojrc.org programmes | 10 | 128 | — | 4 |
+| Live Events Production | 10 | 29 | `stage-load-in-and-truss-rigging` | 4 |
+| Outbreak and Disease Response — WHO and UN Practice | 10 | 44 | — | 4 |
+| **Plumbers and Pipefitters — Journeyman Rough-In and Test Block** | 10 | 32 | — | 4 |
+| Port and Terminal Operations | 10 | 29 | — | 4 |
+| Ports, Maritime and Bay Ecology | 10 | 45 | — | 4 |
+| Property Management — Twenty Zones | 10 | 84 | `pm-unit-turnover` | 4 |
+| **Railroad Crafts — Track, Car and Cab** | 10 | 32 | — | 4 |
+| Rigging and Lifting | 10 | 24 | — | 4 |
+| Sewing and Garment Trades | 10 | 44 | — | 4 |
+| **SF Bay Restoration & Cleanup — Maritime and Underwater** | 10 | 134 | `br-underwater-debris-survey-and-mapping` | 4 |
+| Situational Awareness — Interruption Drill | 10 | 88 | `welding` | 4 |
+| Stationary Engineer — Building Plant | 10 | 28 | `cooling-tower` | 4 |
+| Transit and Ramp Operations | 10 | 29 | — | 4 |
+| Working at Height — Fall Protection | 10 | 28 | — | 4 |
+
+The four open-range (`or-*`) stations sit inside three existing programmes
+rather than a programme of their own: `or-transmission-line-right-of-way-patrol`
+and `or-solar-farm-tracker-row-maintenance` in Energy Transition Systems,
+`or-wildland-fireline-construction-and-lookout` in First Responders, and
+`or-ranch-road-grading-and-culvert` in Builders — Carpenters, Laborers and
+Masons — each already carries its own Hard Hat Hunt eligibility, bingo
+hazards and radio quiz coverage through that programme's own row above.
+
+</details>
+
+### Checks (coverage)
+
+The counts in this table are read from the same generated data every other
+check in this file already holds to the real source: `tools/check_eggs.mjs`
+proves the radio-quiz and bingo bars for the five newest programmes plus the
+open-range stations' own categories; `tools/check_eggs_app.mjs` proves every
+programme in `CURRICULA` yields a full, real bingo card; and
+`tools/check_ladders.mjs` proves all 140 milestone quotes (35 programmes × 4
+levels). This table itself is not regenerated by a script — it is a snapshot
+computed from those same generated files (`WebXR/smartcity/catalog.json`,
+`WebXR/shared/bingo-hazards-data.js`, `tools/standards.json`) when this
+section was last written, so a future contributor changing any of those
+numbers should re-read it rather than trust it blindly.

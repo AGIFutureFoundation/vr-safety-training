@@ -1,7 +1,7 @@
 // Liveries the race unlocks from the rest of the platform (docs/easter-egg.md):
 //
-//  - Hard Hat Gold, unlocked when all twelve hard hats (shared/eggs.js) are
-//    found.
+//  - Hard Hat Gold, unlocked when every hard hat (shared/eggs.js's own
+//    HARD_HAT_TOTAL) is found.
 //  - One skin per programme with a twenty-level ladder, named after the
 //    programme, unlocked by a passed attempt tagged as that programme's
 //    level-20 capstone (shared/ladder.js's LADDER_LEVELS) — see

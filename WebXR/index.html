@@ -4876,11 +4876,11 @@
   if (new URLSearchParams(location.search).get("egg") === "race") openEgg();
 
   // Hard Hat Hunt: a tiny counter in the footer for the golden hard hats
-  // hidden in twelve stations (shared/eggs.js). Read once on load — the find
-  // itself always happens on a different page, so there is nothing here to
-  // keep live.
+  // hidden in 14 stations (shared/eggs.js). Read once on
+  // load — the find itself always happens on a different page, so there is
+  // nothing here to keep live.
   (function hardHatCounter() {
-    const HARDHAT_KEY = "vr-training-hardhats-v1", HARDHAT_TOTAL = 12;
+    const HARDHAT_KEY = "vr-training-hardhats-v1", HARDHAT_TOTAL = 14;
     let found = 0;
     try { const raw = JSON.parse(localStorage.getItem(HARDHAT_KEY) || "[]"); found = Array.isArray(raw) ? raw.length : 0; } catch (_) { /* ignore */ }
     const el = document.getElementById("hardhat-count");

@@ -3,10 +3,15 @@
  *
  *     node tools/check_eggs.mjs
  *
- *  1. **Hard Hat Hunt.** The twelve chosen station files exist and each calls
- *     shared/eggs.js's plantHardHat() exactly once, and nowhere else edits
- *     the station beyond that one call. The unlock flag (found === 12) and a
- *     single find both round-trip through a fake localStorage.
+ *  1. **Hard Hat Hunt.** The fourteen chosen station files exist and each
+ *     calls shared/eggs.js's plantHardHat() exactly once, and nowhere else
+ *     edits the station beyond that one call. Every planted hat sits where
+ *     tools/check_layout.mjs already says the rest of a station's controls
+ *     have to sit — inside the roam circle (or the room) a learner can
+ *     actually walk to, and no lower than the floor slack a pit or a vault
+ *     is allowed — including the two new hosts on the open-range district
+ *     and on a bay-underwater dive station. The unlock flag (found === 14)
+ *     and a single find both round-trip through a fake localStorage.
  *  2. **Foreman's Radio.** shared/radio-quiz.js generates ten distinct,
  *     answerable questions — each with exactly one correct choice among its
  *     four, and that choice is the real body of the standard it was built
@@ -26,6 +31,7 @@ import { readFileSync, mkdtempSync, rmSync, writeFileSync, existsSync } from "no
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { loadSmartCity, loadTrades } from "./lib/headless.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
@@ -56,7 +62,7 @@ console.log("Hard Hat Hunt, Foreman's Radio and Capstone skins — self-test\n")
 
 // -------------------------------------------------------- 1. Hard Hat Hunt
 
-/** The twelve hosts, chosen across programmes (docs/easter-egg.md). */
+/** The fourteen hosts, chosen across programmes and districts (docs/easter-egg.md). */
 const HARD_HAT_HOSTS = [
   "smartcity/js/sims/cooling-tower.js",
   "smartcity/js/sims/sampling-well.js",
@@ -70,6 +76,10 @@ const HARD_HAT_HOSTS = [
   "smartcity/js/sims/patient-intake-screening.js",
   "trades/js/rooms/welding.js",
   "trades/js/rooms/plumbing.js",
+  // The open-range district and a bay-underwater dive station — landed after
+  // the original twelve, so the hunt has one of each.
+  "smartcity/js/sims/or-solar-farm-tracker-row-maintenance.js",
+  "smartcity/js/sims/br-underwater-debris-survey-and-mapping.js",
 ];
 
 await check("shared/eggs.js exists and exports the hard-hat helper", () => {
@@ -79,7 +89,7 @@ await check("shared/eggs.js exists and exports the hard-hat helper", () => {
   assert(/export const HARD_HAT_TOTAL/.test(src), "eggs.js does not export HARD_HAT_TOTAL");
 });
 
-await check("all twelve hard-hat hosts exist and call plantHardHat() exactly once", () => {
+await check("all fourteen hard-hat hosts exist and call plantHardHat() exactly once", () => {
   const missing = [], wrongCount = [], ids = new Set();
   for (const rel of HARD_HAT_HOSTS) {
     const path = join(WEBXR, rel);
@@ -96,7 +106,7 @@ await check("all twelve hard-hat hosts exist and call plantHardHat() exactly onc
   }
   assert(missing.length === 0, `missing host file(s): ${missing.join(", ")}`);
   assert(wrongCount.length === 0, `host(s) not calling plantHardHat exactly once: ${wrongCount.join(", ")}`);
-  eq(HARD_HAT_HOSTS.length, 12, "the hard-hat host list itself should list twelve stations");
+  eq(HARD_HAT_HOSTS.length, 14, "the hard-hat host list itself should list fourteen stations");
 });
 
 await check("the hosts are chosen across more than one app and more than one programme", () => {
@@ -116,9 +126,51 @@ await check("the hosts are chosen across more than one app and more than one pro
   assert(programmesHit.size >= 4, `hard-hat hosts land in only ${programmesHit.size} programme(s): ${[...programmesHit].join(", ")}`);
 });
 
-await check("finding a hard hat, and finding all twelve, round-trips through localStorage", async () => {
+// A hard hat has no interaction-system entry of its own (see eggs.js's own
+// header), so nothing else in this suite ever asks whether one sits somewhere
+// a learner could actually reach it. This rebuilds each host exactly the way
+// tools/check_layout.mjs builds every station, and holds the planted hat to
+// the same two rules that checker already holds every real control to: not
+// past the roam circle (or room) a learner can walk to, plus a reach's worth
+// of stretch, and not below the floor slack a pit or a vault is allowed.
+// "Visible" and "reachable" are the same fact here — the roam circle is
+// exactly the volume the app's own camera keeps the learner inside.
+const CITY_ROAM = (footprint) => (footprint ?? 2) + 2.4; // mirrors check_layout.mjs
+const REACH = 1.6;                                       // mirrors check_layout.mjs
+const FLOOR_SLACK = -2.4;                                // mirrors check_layout.mjs
+
+await check("every hard-hat host plants its hat somewhere a learner can actually reach and see", async () => {
+  const { ROOMS: cityRooms, THREE: cityThree } = await loadSmartCity();
+  const { ROOMS: tradeRooms, THREE: tradeThree } = await loadTrades();
+  let checked = 0;
+  for (const rel of HARD_HAT_HOSTS) {
+    const app = rel.split("/")[0];
+    const id = rel.split("/").pop().replace(/\.js$/, "");
+    const [rooms, THREE] = app === "trades" ? [tradeRooms, tradeThree] : [cityRooms, cityThree];
+    const r = rooms.find((x) => x.id === id);
+    assert(r, `${rel}: no ${app} room/station named "${id}" in the headless harness`);
+    const root = new THREE.Group();
+    const api = r.build(root);
+    void api;
+    let hat = null;
+    root.traverse?.((o) => { if (!hat && o.userData?.hardHatEgg === id) hat = o; });
+    assert(hat, `${rel}: no golden-hat mesh with userData.hardHatEgg === "${id}" was found in the built scene`);
+    const { x, y, z } = hat.position;
+    for (const [axis, v] of [["x", x], ["y", y], ["z", z]]) assert(Number.isFinite(v), `${rel}: the hard hat's ${axis} is not finite`);
+    const reachFrom = app === "trades"
+      ? Math.hypot((r.size?.w ?? 9) / 2 - 0.85, (r.size?.d ?? 8.6) / 2 - 0.85)
+      : CITY_ROAM(r.footprint);
+    const d = Math.hypot(x, z);
+    assert(d <= reachFrom + REACH, `${rel}: the hard hat is ${d.toFixed(1)}m out, past the ${reachFrom.toFixed(1)}m a learner may walk (+${REACH}m reach)`);
+    assert(y >= FLOOR_SLACK, `${rel}: the hard hat sits at y=${y.toFixed(2)}, below anywhere a learner can reach`);
+    checked += 1;
+  }
+  eq(checked, HARD_HAT_HOSTS.length, "every host should have been built and checked");
+});
+
+await check("finding a hard hat, and finding all fourteen, round-trips through localStorage", async () => {
   const { recordHardHat, hardHatsFound, HARD_HAT_TOTAL, clearHardHats } = await import(pathToFileURL(join(SHARED, "eggs.js")));
-  eq(HARD_HAT_TOTAL, 12, "HARD_HAT_TOTAL");
+  eq(HARD_HAT_TOTAL, 14, "HARD_HAT_TOTAL");
   const storage = fakeStorage();
   eq(hardHatsFound(storage).length, 0, "a fresh store starts with none found");
   let r = recordHardHat(HARD_HAT_HOSTS[0].split("/").pop().replace(/\.js$/, ""), storage);
@@ -129,13 +181,13 @@ await check("finding a hard hat, and finding all twelve, round-trips through loc
   eq(again.found, 1, "finding the same hard hat twice must not double-count");
   const ids = HARD_HAT_HOSTS.map((p) => p.split("/").pop().replace(/\.js$/, ""));
   for (const id of ids) r = recordHardHat(id, storage);
-  eq(r.found, 12, "all twelve recorded");
-  assert(r.allFound, "the set should read complete at twelve");
-  assert(r.justCompleted, "the twelfth find should report justCompleted");
-  eq(hardHatsFound(storage).length, 12, "hardHatsFound reflects the same store");
+  eq(r.found, 14, "all fourteen recorded");
+  assert(r.allFound, "the set should read complete at fourteen");
+  assert(r.justCompleted, "the fourteenth find should report justCompleted");
+  eq(hardHatsFound(storage).length, 14, "hardHatsFound reflects the same store");
   clearHardHats(storage);
   eq(hardHatsFound(storage).length, 0, "clearHardHats empties the store");
-  writeFileSync(join(scratch, "hardhats.json"), JSON.stringify({ ids, finalCount: 12 }));
+  writeFileSync(join(scratch, "hardhats.json"), JSON.stringify({ ids, finalCount: 14 }));
 });
 
 // ------------------------------------------------------- 2. Foreman's Radio
@@ -150,12 +202,14 @@ await check("shared/radio-quiz-data.js is generated straight from tools/standard
   const end = rest.indexOf(";\nexport const RADIO_BODIES");
   assert(end !== -1, "radio-quiz-data.js does not export RADIO_BODIES after RADIO_STANDARDS as expected");
   const shipped = JSON.parse(rest.slice(0, end));
-  const want = (registry.standards ?? []).filter((s) => s?.id && s?.body && s?.title).map((s) => ({ id: s.id, body: s.body, title: s.title }));
+  const want = (registry.standards ?? []).filter((s) => s?.id && s?.body && s?.title)
+    .map((s) => ({ id: s.id, body: s.body, title: s.title, scope: Array.isArray(s.scope) ? [...s.scope].sort() : [] }));
   eq(shipped.length, want.length, "radio-quiz-data.js is stale — run node tools/gen_radio_quiz.mjs");
   for (let i = 0; i < want.length; i++) {
     eq(shipped[i].id, want[i].id, `radio-quiz-data.js entry ${i} id`);
     eq(shipped[i].body, want[i].body, `radio-quiz-data.js entry ${i} body`);
     eq(shipped[i].title, want[i].title, `radio-quiz-data.js entry ${i} title`);
+    eq(JSON.stringify(shipped[i].scope), JSON.stringify(want[i].scope), `radio-quiz-data.js entry ${i} scope — every scope fact still has to come straight from the registry`);
   }
 });
 
@@ -183,6 +237,51 @@ await check("the quiz generates ten distinct, honestly-sourced questions with on
     }
   }
 });
+
+// Every programme that landed recently gets its own honest quiz pool too: a
+// category-scoped buildQuiz() call still asks about nothing but a standard's
+// own body and title, just narrowed to standards in scope for that
+// programme's own trade (tools/standards.json's `scope`, carried through by
+// tools/gen_radio_quiz.mjs) — never a fact invented to pad a thin programme.
+const RADIO_PROGRAMME_CATEGORIES = {
+  "railroad-crafts": ["Mobility & Transit"],
+  "heavy-equipment-operators": ["Construction & Structural Trades"],
+  "plumbers-and-pipefitters": ["Building Systems & Facilities"],
+  "bay-restoration-maritime-underwater": ["Maritime & Ports"],
+  "basketball-fundamentals": ["Youth Sports & Coaching"],
+  // The four open-range (or-*) stations, each in its own station's own
+  // category rather than one district-wide category of their own.
+  "open-range": ["Energy & Power", "Construction & Structural Trades", "Emergency Services"],
+};
+
+await check("every recently-landed programme's own category has at least six honest quiz questions", async () => {
+  const quiz = await import(pathToFileURL(join(SHARED, "radio-quiz.js")));
+  const { RADIO_STANDARDS, RADIO_CATEGORIES } = await import(pathToFileURL(join(SHARED, "radio-quiz-data.js")));
+  const byId = new Map(RADIO_STANDARDS.map((s) => [s.id, s]));
+  for (const [programme, categories] of Object.entries(RADIO_PROGRAMME_CATEGORIES)) {
+    for (const category of categories) {
+      assert(RADIO_CATEGORIES.includes(category), `${programme}: "${category}" is not a catalog category the registry knows`);
+      const questions = quiz.buildQuiz(10, { rng: quiz.makeRng(eggSeedFor(programme, category)), category });
+      assert(questions.length >= 6, `${programme} (${category}): only ${questions.length} in-scope question(s), need at least 6`);
+      const ids = new Set(questions.map((q) => q.standardId));
+      eq(ids.size, questions.length, `${programme} (${category}): questions must be distinct`);
+      for (const q of questions) {
+        const standard = byId.get(q.standardId);
+        assert(standard, `${programme} (${category}): question cites a standard not in the registry`);
+        assert(standard.scope.includes(category), `${programme} (${category}): ${q.standardId} is out of scope for this category`);
+        eq(new Set(q.choices).size, 4, `${programme} (${category}): ${q.id} repeats a choice`);
+        eq(q.choices[q.answerIndex], standard.body, `${programme} (${category}): ${q.id}'s marked answer is not the standard's real body`);
+      }
+    }
+  }
+});
+
+/** A small deterministic seed from a string, for the per-programme quiz check above. */
+function eggSeedFor(...parts) {
+  let h = 0x811c9dc5;
+  for (const p of parts) for (const ch of String(p)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h >>> 0;
+}
 
 await check("the best radio-quiz score round-trips through localStorage", async () => {
   const quiz = await import(pathToFileURL(join(SHARED, "radio-quiz.js")));
@@ -214,6 +313,7 @@ await check("race/js/capstone-liveries.js is generated straight from the ladders
 
 await check("a capstone livery unlocks only for a passed level-20 attempt on its own programme", async () => {
   const { capstoneUnlocked, liveryList, LADDER_CAPSTONE_LEVEL } = await import(pathToFileURL(join(WEBXR, "race", "js", "liveries.js")));
+  const { HARD_HAT_TOTAL } = await import(pathToFileURL(join(SHARED, "eggs.js")));
   const { CAPSTONE_LIVERIES } = await import(pathToFileURL(join(WEBXR, "race", "js", "capstone-liveries.js")));
   eq(LADDER_CAPSTONE_LEVEL, 20, "the capstone is level 20 (shared/ladder.js's LADDER_LEVELS)");
   const p = CAPSTONE_LIVERIES[0].programme, other = CAPSTONE_LIVERIES[1].programme;
@@ -232,8 +332,8 @@ await check("a capstone livery unlocks only for a passed level-20 attempt on its
   const otherRow = list.find((l) => l.programme === other);
   assert(!otherRow.unlocked, "a programme with no capstone record must stay locked");
 
-  const full = liveryList([], 12);
-  assert(full[0].unlocked, "Hard Hat Gold should unlock once all twelve hard hats are reported found");
+  const full = liveryList([], HARD_HAT_TOTAL);
+  assert(full[0].unlocked, `Hard Hat Gold should unlock once all ${HARD_HAT_TOTAL} hard hats are reported found`);
 });
 
 // --------------------------------------------------------------- 3b. Egg ledger
@@ -307,5 +407,5 @@ await check("the new shared files are wired into the bundler and check_all.mjs",
   }
 });
 
-console.log(failures ? `\n${failures} check(s) failed.` : `\nAll checks pass: twelve hard-hat hosts, a ten-question honest quiz, the capstone unlock rule, and the egg ledger.`);
+console.log(failures ? `\n${failures} check(s) failed.` : `\nAll checks pass: fourteen hard-hat hosts, a ten-question honest quiz, the capstone unlock rule, and the egg ledger.`);
 process.exit(failures ? 1 : 0);

@@ -1035,21 +1035,39 @@ function eggShuffled(list) {
   return a;
 }
 
-function eggBingoCells(roster) {
+/** The hazard labels for whatever stations this class's own roster is
+ *  actually on right now, from `stationHazards` (a station id -> labels map —
+ *  see tools/gen_bingo_hazards.mjs, WebXR/shared/bingo-hazards-data.js). Real,
+ *  in-trade hazards straight off each station's own `hazards: {}` object,
+ *  never invented, so a room running a newer programme still gets its own
+ *  cells rather than only the generic list below. */
+function eggHazardsFromStations(roster, stationHazards) {
+  const seen = new Set();
+  for (const row of roster?.values?.() ?? []) {
+    for (const label of stationHazards?.[row?.station] ?? []) seen.add(label);
+  }
+  return [...seen];
+}
+
+function eggBingoCells(roster, stationHazards = {}) {
   // The room's own hazards come first — every one of them makes the card
-  // while there is space — and the generic padding only fills what is left,
-  // so a small roster is never crowded off its own bingo card.
+  // while there is space — then the programme's own hazard vocabulary for
+  // whatever stations the roster is actually on, and the generic padding
+  // only fills what is left, so a small roster (or a roster on a programme
+  // this list has never named) is never crowded off its own bingo card.
   const named = [...new Set(eggHazardsFromRoster(roster))];
-  const picked = eggShuffled(named).slice(0, 24);
-  const padding = eggShuffled(EGG_HAZARD_PADDING.filter((h) => !named.includes(h)));
+  const fromStations = eggHazardsFromStations(roster, stationHazards).filter((h) => !named.includes(h));
+  const specific = [...named, ...fromStations];
+  const picked = eggShuffled(specific).slice(0, 24);
+  const padding = eggShuffled(EGG_HAZARD_PADDING.filter((h) => !specific.includes(h)));
   for (const h of padding) { if (picked.length >= 24) break; picked.push(h); }
   while (picked.length < 24) picked.push(EGG_HAZARD_PADDING[picked.length % EGG_HAZARD_PADDING.length]);
   const cells = picked.slice(0, 12).concat(["FREE — SAFETY FIRST"]).concat(picked.slice(12, 24));
   return cells;
 }
 
-function eggOpenBingoWindow(roster) {
-  const cells = eggBingoCells(roster);
+function eggOpenBingoWindow(roster, stationHazards) {
+  const cells = eggBingoCells(roster, stationHazards);
   const w = window.open("", "_blank", "width=520,height=640");
   if (!w) { alert("Your browser blocked the new window — allow pop-ups to print the bingo card."); return; }
   const rows = [];
@@ -1084,10 +1102,14 @@ function eggOpenBingoWindow(roster) {
 /**
  * Mounts the instructor console's one egg: a floating button that opens a
  * fresh, printable bingo card in a new window. `ctx.getRoster()` returns the
- * console's own live `roster` Map (id -> row), read only for its `.events`.
+ * console's own live `roster` Map (id -> row), read only for its `.station`
+ * and `.events`. `ctx.stationHazards` is the station id -> hazard-label map
+ * from WebXR/shared/bingo-hazards-data.js (tools/gen_bingo_hazards.mjs) —
+ * optional, so a caller that has not wired it up yet still gets the old,
+ * roster-and-generic-padding card rather than an error.
  */
 export function mountInstructorEggs(ctx) {
-  const { getRoster } = ctx;
+  const { getRoster, stationHazards } = ctx;
   const btn = document.createElement("button");
   btn.type = "button";
   btn.textContent = "🎯 Toolbox Talk Bingo";
@@ -1095,7 +1117,7 @@ export function mountInstructorEggs(ctx) {
   btn.style.cssText = "position:fixed;right:16px;bottom:16px;z-index:9990;"
     + "font:600 13px 'Barlow',Arial,sans-serif;padding:9px 14px;border-radius:20px;cursor:pointer;"
     + "background:#f2c14b;color:#191307;border:1px solid #d9a72c;box-shadow:0 4px 14px rgba(0,0,0,0.35);";
-  btn.addEventListener("click", () => eggOpenBingoWindow(getRoster?.() ?? new Map()));
+  btn.addEventListener("click", () => eggOpenBingoWindow(getRoster?.() ?? new Map(), stationHazards ?? {}));
   document.body.appendChild(btn);
 }
 
@@ -1104,7 +1126,7 @@ export function mountInstructorEggs(ctx) {
 // assert on it directly rather than only on side effects. Never imported by
 // an app — mount*Eggs() above is the real public surface.
 export const _internal = {
-  eggLocalDateKey, eggHash, eggSeededIndex, eggBingoCells, eggHazardsFromRoster, EGG_HAZARD_PADDING,
+  eggLocalDateKey, eggHash, eggSeededIndex, eggBingoCells, eggHazardsFromRoster, eggHazardsFromStations, EGG_HAZARD_PADDING,
   FIELD_NOTES,
   fieldNoteCleanSweep, fieldNoteFirstPass, fieldNoteHotStreak, fieldNoteCrossTrained,
   fieldNoteNoResetProgrammes, fieldNoteRadioAnswered,

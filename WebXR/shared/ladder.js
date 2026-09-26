@@ -21,11 +21,16 @@
 //   - levelBadge / levelXAPI: the Open Badges 2.0 assertion a passed level
 //     earns and the xAPI statement a finished level sends.
 //
-// Pure: no DOM, no three.js, no import of an app. The only import is the
-// mastery rule itself, so the rule that gates a level is the rule that earns
-// a competency. tools/check_ladders.mjs runs all of it in Node.
+// Pure: no DOM, no three.js, no import of an app. The mastery rule is one
+// import (so the rule that gates a level is the rule that earns a
+// competency); the milestone quote bank is the other, itself generated data
+// with no logic of its own (tools/gen_ladder_milestones.mjs). Even the
+// milestone's confetti is drawn as an inline SVG string, not a DOM call, so
+// this file stays pure. tools/check_ladders.mjs runs all of it in Node.
 
 import { MASTERY, masteryShortfall } from "./competency.js";
+import { LADDER_MILESTONES, MILESTONE_LEVELS as LADDER_MILESTONE_LEVELS } from "./ladder-milestones-data.js";
+export { LADDER_MILESTONE_LEVELS };
 
 export const LADDER_LEVELS = 20;
 /** The lessons a level must hold (the sum of its tasks' steps); fewer is `partial`. */
@@ -431,4 +436,69 @@ export function levelXAPI(level, result, {
     },
     context: { platform: "SmartCiti.X ~VR Simulators", extensions: { [ext("level-run")]: result?.run ?? null, [ext("partial")]: !!level.partial } },
   };
+}
+
+// ------------------------------------------------------------------ milestones
+//
+// A small celebration at levels 5, 10, 15 and 20 of any ladder — informative,
+// not just decorative: the toast quotes one real rule out of that level's own
+// first station, never an invented fact or number (tools/gen_ladder_milestones.mjs
+// pulls it straight from that station's own first step's own `why` text).
+
+/**
+ * The milestone for level `n` of `programme`, or null when `n` is not a
+ * milestone level or this ladder has no quote for it (a level with no tasks
+ * yet, say). `{ quote, stationApp, stationId, stationName }`.
+ */
+export function levelMilestone(programme, n) {
+  if (!LADDER_MILESTONE_LEVELS.includes(n)) return null;
+  return LADDER_MILESTONES[programme]?.[n] ?? null;
+}
+
+/** A small, deterministic string hash (FNV-1a) — the same one shared/eggs-app.js
+ *  uses for its own daily picks, kept local here so this module still takes no
+ *  import but the mastery rule and the milestone data. */
+function milestoneHash(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  return h >>> 0;
+}
+
+/** seed -> a reproducible stream of [0,1) values — an xorshift PRNG, not
+ *  cryptographic, only ever asked to draw the same confetti burst twice for
+ *  the same programme and level. */
+function milestoneRng(seed) {
+  let x = seed || 1;
+  return () => {
+    x ^= x << 13; x >>>= 0;
+    x ^= x >>> 17;
+    x ^= x << 5; x >>>= 0;
+    return (x >>> 0) / 4294967296;
+  };
+}
+
+const MILESTONE_CONFETTI_COLORS = ["#f2c14b", "#7ee6ff", "#59c97b", "#f0645b", "#c9a36b", "#a079ff"];
+
+/**
+ * A small inline-SVG confetti burst for a milestone toast — original artwork
+ * drawn as plain rectangles, never an animation library and never a network
+ * asset. Deterministic: the same programme and level always draw the same
+ * burst, so a screenshot or a snapshot test never flakes. The caller supplies
+ * the CSS (`.milestone-confetti`, `.milestone-piece`) that animates it; this
+ * function only ever returns a static markup string.
+ */
+export function milestoneConfettiSvg(programme, n, { pieces = 18 } = {}) {
+  const rand = milestoneRng(milestoneHash(`milestone-confetti:${programme}:${n}`));
+  const shapes = [];
+  for (let i = 0; i < pieces; i++) {
+    const x = Math.round(rand() * 190) + 5;
+    const y = Math.round(rand() * 46) + 4;
+    const rot = Math.round(rand() * 360);
+    const color = MILESTONE_CONFETTI_COLORS[Math.floor(rand() * MILESTONE_CONFETTI_COLORS.length)];
+    const w = 5 + Math.round(rand() * 4);
+    const h = 3 + Math.round(rand() * 3);
+    const delay = (rand() * 0.5).toFixed(2);
+    shapes.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1" fill="${color}" transform="rotate(${rot} ${x} ${y})" class="milestone-piece" style="animation-delay:${delay}s"/>`);
+  }
+  return `<svg class="milestone-confetti" viewBox="0 0 200 60" role="img" aria-label="A small confetti burst celebrating level ${n}.">${shapes.join("")}</svg>`;
 }
