@@ -8,6 +8,7 @@ import {
 } from "../citykit.js";
 import { eiLine } from "../../../shared/ei-guide.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Restorative Justice Circle VR — Civic Leadership and Emotional
 // Intelligence, deepening the programme.
@@ -261,6 +262,7 @@ export const SIM_CV_RESTORATIVE_JUSTICE_CIRCLE_FACILITATION = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "cv-restorative-justice-circle-facilitation", [2.4, 1.1, -2.4]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.3, RJK_ACCENT);

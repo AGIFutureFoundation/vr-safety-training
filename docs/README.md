@@ -35,7 +35,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 | [devices.md](devices.md) | The 33 head-worn devices and six run profiles, what each device record carries, the three procurement questions the app cannot answer, a pilot short list and how to test a device. |
 | [instructor-console.md](instructor-console.md) | The instructor console: its three views, what each control does to a learner's session, what is logged where, the relay for a networked class and the observer protocol. |
 | [ei-guide.md](ei-guide.md) | The guide's emotional-intelligence layer: what it says after a hazard, a repeat or a missed interruption, and the unscored end-of-run check-in. |
-| [easter-egg.md](easter-egg.md) | The hidden arcade racer, Night Highway Circuit: how to open it from the homepage, its five courses, engine classes and unlock ladder, items, controls, the safety bonus, and the honest multiplayer note (local only, no server). |
+| [easter-egg.md](easter-egg.md) | The platform's four Easter eggs: the hidden arcade racer Night Highway Circuit (courses, engine classes, items, controls, the safety bonus, the honest multiplayer note); Hard Hat Hunt, a collectible in twelve stations; Foreman's Radio, a ten-question quiz built only from the standards registry; and Capstone skins, race liveries unlocked by a programme's level-20 capstone. |
 | [robot-training.md](robot-training.md) | The dental block as a robot training simulator: the embodiment schema, keep-out volumes, force classes, off-limits steps, the dataset layout and how to run an episode. |
 
 ## Unity prototype

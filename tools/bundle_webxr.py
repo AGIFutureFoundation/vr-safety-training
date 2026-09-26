@@ -58,6 +58,9 @@ APPS = {
             SHARED / "ladder.js",
             SHARED / "observer.js",
             SHARED / "perf.js",
+            # Hard Hat Hunt (docs/easter-egg.md): welding.js and plumbing.js
+            # each plant one hard hat.
+            SHARED / "eggs.js",
             WEBXR / "trades/js/shopfit.js",
             WEBXR / "trades/js/hub.js",
             WEBXR / "trades/js/rooms/electrical.js",
@@ -107,6 +110,9 @@ APPS = {
             # tools/gen_unions.mjs after editing tools/unions.json).
             SHARED / "unions.js",
             SHARED / "signage.js",
+            # Hard Hat Hunt (docs/easter-egg.md): ten of the twelve stations
+            # planting a hard hat live here.
+            SHARED / "eggs.js",
             WEBXR / "smartcity/js/citykit.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",
@@ -222,6 +228,12 @@ APPS = {
             SHARED / "unions.js",
             WEBXR / "smartcity/js/curricula.js",
             SHARED / "signage.js",
+            # Hard Hat Hunt and the capstone liveries (docs/easter-egg.md):
+            # the unlock flags the garage screen reads.
+            SHARED / "eggs.js",
+            SHARED / "records.js",
+            WEBXR / "race/js/liveries.js",
+            WEBXR / "race/js/capstone-liveries.js",
             WEBXR / "race/tracks/night-highway.js",
             WEBXR / "race/tracks/port-terminal.js",
             WEBXR / "race/tracks/bay-fog-span.js",
@@ -418,6 +430,8 @@ def build(app: str) -> int:
 # The sims SmartCiti.X lazy-loads, its citykit/gamify and the hub's guide model
 # come along at the same relative depth, and shared/auth.js (with the two
 # modules it imports) so the homepage's sign-in dialog works here too.
+# shared/radio-quiz.js and its radio-quiz-data.js come along for the Foreman's
+# Radio Easter egg the homepage's own script lazy-loads (docs/easter-egg.md).
 DIST = WEBXR / "dist"
 DIST_PAGES = {
     "smartcity": "smartcity-x.html",
@@ -427,7 +441,7 @@ DIST_PAGES = {
     "race": "race.html",
     "arcade": "arcade.html",
 }
-DIST_SHARED = ["auth.js", "identity.js", "records.js"]
+DIST_SHARED = ["auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js"]
 
 
 def combined_fixup(html: str) -> str:

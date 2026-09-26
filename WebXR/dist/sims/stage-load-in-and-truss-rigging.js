@@ -5,6 +5,7 @@ import {
   standingFigure, reg, surfaceTexture, texturedMat, deckPlateFace,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Stage Load-In & Truss Rigging VR — Entertainment & Live
 // Events, the live events block.
@@ -199,6 +200,7 @@ export const SIM_STAGE_LOAD_IN_AND_TRUSS_RIGGING = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "stage-load-in-and-truss-rigging", [3.0, 1.2, 3.0]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.6, SLT_ACCENT);

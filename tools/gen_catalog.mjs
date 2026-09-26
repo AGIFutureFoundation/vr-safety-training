@@ -136,3 +136,11 @@ writeHome();
 // just written (tools/gen_tracks.mjs; bundled into WebXR/dist/tracks/).
 const { writeTracks } = await import("./gen_tracks.mjs");
 await writeTracks();
+// The Foreman's Radio quiz data (docs/easter-egg.md) — regenerated here too,
+// so it can never drift from tools/standards.json.
+const { writeRadioQuizData } = await import("./gen_radio_quiz.mjs");
+writeRadioQuizData();
+// The race's capstone liveries (docs/easter-egg.md) — one per programme with
+// a ladder, regenerated from the ladders that gen_ladders.mjs just wrote.
+const { writeCapstoneLiveries } = await import("./gen_capstone_liveries.mjs");
+writeCapstoneLiveries();

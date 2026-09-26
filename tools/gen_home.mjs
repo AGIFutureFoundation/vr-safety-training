@@ -314,6 +314,24 @@ const CSS = `
   .egg-toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:60; max-width:calc(100vw - 32px);
     background:var(--panel-2); border:1px solid var(--warn); border-radius:var(--r-sm); padding:10px 16px;
     font-size:14px; color:var(--text); box-shadow:var(--shadow-2)}
+  .hardhat-count{display:inline-block; margin:6px 0 0 10px; font-size:12px; color:var(--dim); vertical-align:middle; font-variant-numeric:tabular-nums}
+
+  /* ---- Foreman's Radio (Easter egg) ---- */
+  .radio-card{
+    width:calc(100vw - 32px); max-width:420px; padding:0; color:var(--text);
+    background:var(--panel-2); border:1px solid var(--edge-strong); border-radius:var(--r-md);
+    box-shadow:var(--shadow-2);
+  }
+  .radio-card::backdrop{background:rgba(3,7,12,.74)}
+  .radio-in{padding:18px}
+  .radio-in h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.04em; font-size:19px; margin:6px 0 8px}
+  .radio-in p{margin:0 0 12px; font-size:13.5px; color:var(--muted)}
+  .radio-opts{display:grid; gap:8px; margin:0 0 14px}
+  .radio-opt{display:block; width:100%; text-align:left; cursor:pointer; background:var(--raised,var(--panel)); border:1px solid var(--edge-strong); border-radius:var(--r-sm); padding:10px 12px; color:inherit; font:inherit}
+  .radio-opt:hover{background:rgba(126,170,200,.14)}
+  .radio-opt.right{border-color:var(--good); background:rgba(89,201,123,.12)}
+  .radio-opt.wrong{border-color:var(--danger); background:rgba(240,100,91,.12)}
+  .radio-row{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; margin-top:8px}
 
   /* ---- sign-in dialog ---- */
   dialog{
@@ -498,6 +516,122 @@ const SCRIPT = `
     if (eggTaps.length >= 5) openEgg();
   });
   if (new URLSearchParams(location.search).get("egg") === "race") openEgg();
+
+  // Hard Hat Hunt: a tiny counter in the footer for the golden hard hats
+  // hidden in twelve stations (shared/eggs.js). Read once on load — the find
+  // itself always happens on a different page, so there is nothing here to
+  // keep live.
+  (function hardHatCounter() {
+    const HARDHAT_KEY = "vr-training-hardhats-v1", HARDHAT_TOTAL = 12;
+    let found = 0;
+    try { const raw = JSON.parse(localStorage.getItem(HARDHAT_KEY) || "[]"); found = Array.isArray(raw) ? raw.length : 0; } catch (_) { /* ignore */ }
+    const el = document.getElementById("hardhat-count");
+    el.textContent = "hard hats found: " + found + "/" + HARDHAT_TOTAL;
+    el.hidden = false;
+  })();
+
+  // Foreman's Radio: typing "radio" (letters only, same rule as the racer's
+  // code — nothing typed in the search box counts) opens a ten-question quiz
+  // built only from tools/standards.json's bodies and titles (see
+  // shared/radio-quiz.js). Honest about what it is: a quiz, with a best score
+  // kept in this browser, not a real radio and not a certification.
+  const radioCode = ["KeyR", "KeyA", "KeyD", "KeyI", "KeyO"];
+  const radioKeys = [];
+  document.addEventListener("keydown", (e) => {
+    if (e.target && e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+    radioKeys.push(e.code);
+    if (radioKeys.length > radioCode.length) radioKeys.shift();
+    if (radioKeys.join() === radioCode.join()) openRadio();
+  });
+  let radioGoing = false;
+  function openRadio() {
+    if (radioGoing) return;
+    radioGoing = true;
+    import("./shared/radio-quiz.js").then((quiz) => runRadio(quiz)).catch(() => { radioGoing = false; });
+  }
+  function runRadio(quiz) {
+    const dlg = document.createElement("dialog");
+    dlg.className = "radio-card";
+    dlg.setAttribute("aria-labelledby", "radio-title");
+    document.getElementById("radio-mount").append(dlg);
+    dlg.addEventListener("close", () => { radioGoing = false; dlg.remove(); });
+    const questions = quiz.buildQuiz(10);
+    let i = 0, score = 0;
+    function render() {
+      const q = questions[i];
+      const answered = q._answered;
+      dlg.innerHTML = "";
+      const wrap = document.createElement("div");
+      wrap.className = "radio-in";
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "eyebrow";
+      eyebrow.textContent = "Foreman's radio · question " + (i + 1) + " of " + questions.length;
+      const h2 = document.createElement("h2");
+      h2.id = "radio-title";
+      h2.textContent = q.text;
+      const opts = document.createElement("div");
+      opts.className = "radio-opts";
+      q.choices.forEach((choice, ci) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "radio-opt"; b.textContent = choice;
+        if (answered) {
+          b.disabled = true;
+          if (ci === q.answerIndex) b.classList.add("right");
+          else if (ci === q._picked) b.classList.add("wrong");
+        } else {
+          b.addEventListener("click", () => {
+            q._answered = true; q._picked = ci;
+            if (ci === q.answerIndex) score += 1;
+            render();
+          });
+        }
+        opts.append(b);
+      });
+      const row = document.createElement("div");
+      row.className = "radio-row";
+      const closeBtn = document.createElement("button");
+      closeBtn.type = "button"; closeBtn.className = "btn"; closeBtn.textContent = "Close";
+      closeBtn.addEventListener("click", () => dlg.close());
+      row.append(closeBtn);
+      if (answered) {
+        const nextBtn = document.createElement("button");
+        nextBtn.type = "button"; nextBtn.className = "btn primary";
+        nextBtn.textContent = i + 1 < questions.length ? "Next question" : "See score";
+        nextBtn.addEventListener("click", () => { i += 1; i < questions.length ? render() : renderScore(); });
+        row.append(nextBtn);
+      }
+      wrap.append(eyebrow, h2, opts, row);
+      dlg.append(wrap);
+      if (!dlg.open) dlg.showModal();
+    }
+    function renderScore() {
+      const best = quiz.recordRadioScore(score, questions.length);
+      dlg.innerHTML = "";
+      const wrap = document.createElement("div");
+      wrap.className = "radio-in";
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "eyebrow";
+      eyebrow.textContent = "Foreman's radio";
+      const h2 = document.createElement("h2");
+      h2.id = "radio-title";
+      h2.textContent = "Score: " + score + " / " + questions.length;
+      const p = document.createElement("p");
+      p.textContent = "Best score in this browser: " + best.best + " / " + best.of + (best.isNewBest ? " — a new best." : ".")
+        + " Every question here comes straight from the standards registry (tools/standards.json) — the body that publishes each named standard.";
+      const row = document.createElement("div");
+      row.className = "radio-row";
+      const closeBtn = document.createElement("button");
+      closeBtn.type = "button"; closeBtn.className = "btn"; closeBtn.textContent = "Close";
+      closeBtn.addEventListener("click", () => dlg.close());
+      const againBtn = document.createElement("button");
+      againBtn.type = "button"; againBtn.className = "btn primary"; againBtn.textContent = "Play again";
+      againBtn.addEventListener("click", () => { i = 0; score = 0; questions.length = 0; questions.push(...quiz.buildQuiz(10)); render(); });
+      row.append(closeBtn, againBtn);
+      wrap.append(eyebrow, h2, p, row);
+      dlg.append(wrap);
+    }
+    render();
+  }
 `;
 
 function appCard(layout, { href, tint: t, count, name, blurb, go }) {
@@ -674,9 +808,11 @@ ${docs}
     <p>See the <a href="${layout.accessibility}">accessibility statement</a> and
     <a href="${REPO}">the repository</a>. ${esc(catalog.network ?? "")}</p>
     <button class="egg" id="egg" type="button" data-egg="${layout.egg}" aria-label="Hard hat" title="Hard hat"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 32 C9 20 16 12 24 12 C32 12 39 20 39 32 Z" fill="#f2c14b"/><rect x="5" y="31" width="38" height="5" rx="2" fill="#c99a2e"/><rect x="21" y="12" width="6" height="19" rx="2" fill="#ffd97a"/></svg></button>
+    <span class="hardhat-count" id="hardhat-count" hidden></span>
   </div>
 </footer>
 <div class="egg-toast" id="egg-toast" role="status" hidden>Night Highway Circuit — the hidden arcade racer, local multiplayer. Opening…</div>
+<div id="radio-mount"></div>
 
 <dialog id="signin-dialog" aria-labelledby="dlg-title">
   <div class="dlg">

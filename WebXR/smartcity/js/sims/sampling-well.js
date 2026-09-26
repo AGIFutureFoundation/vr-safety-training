@@ -6,6 +6,7 @@ import {
   CITY, stationPad, holoPanel, holoTag, toolChest, cone, barrierPanel, instrument, standingFigure, reg,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Sampling Well VR — Environmental Monitoring, station three.
 // Low-flow groundwater sampling at a monitoring well on a contaminated site.
@@ -178,6 +179,7 @@ export const SIM_SAMPLING_WELL = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "sampling-well", [-2.6, 1.15, 2.6]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.2, SW_ACCENT);

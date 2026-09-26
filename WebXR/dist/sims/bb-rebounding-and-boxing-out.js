@@ -7,6 +7,7 @@ import {
   surfaceTexture, texturedMat, pavingFace,
 } from "../citykit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
+import { plantHardHat } from "../../../shared/eggs.js";
 
 // SmartCiti.X~ Basketball Fundamentals VR — station eight: rebounding and
 // boxing out, the first real contact most young players meet. The paint
@@ -239,6 +240,7 @@ export const SIM_BB_REBOUNDING_AND_BOXING_OUT = {
   ],
 
   build(root) {
+    plantHardHat(root, THREE, "bb-rebounding-and-boxing-out", [3.2, 1.2, -1.2]); // Hard Hat Hunt — docs/easter-egg.md
     const hits = {};
     const g = group(root);
     stationPad(g, 2.6, BBR_ACCENT);

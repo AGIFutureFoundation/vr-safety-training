@@ -168,6 +168,10 @@ export function rcCreateRace({ track, cls, laps = 3, racers = [], field = 8, mod
     const name = spec.name ?? names.splice(Math.floor(rng() * names.length), 1)[0] ?? `Racer ${k + 1}`;
     race.racers.push({
       id: k, name, vehicle: vehicle.id, veh: vehicle, human: !!spec.human, player: spec.player ?? null, remote: !!spec.remote,
+      // A cosmetic paint override, opaque to the sim itself — see
+      // WebXR/race/js/liveries.js and docs/easter-egg.md. Never read by
+      // anything here; only world.js's rcRacerModel draws from it.
+      eggLivery: spec.eggLivery ?? null,
       p: rcParams(vehicle, klass), grid: slot,
       x: pt.x, y: pt.y, z: pt.z, h: pt.head, m: pt.head, v: 0, s, d, idx: rcIndexAt(tr, s), prevS: s,
       crossings: 0, half: false, lapStart: 0, lapTimes: [], bestLap: null, finishT: null, place: slot + 1, progress: s - tr.L,
