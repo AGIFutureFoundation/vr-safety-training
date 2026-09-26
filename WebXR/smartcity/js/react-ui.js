@@ -873,7 +873,8 @@ export function mountUI(store, actions) {
         h("div", { className: "btnrow" },
           h("button", { className: "primary", id: "rec-export-csv", disabled: !rec.total, onClick: actions.exportRecordsCsv }, "Export CSV"),
           h("button", { id: "rec-export-xapi", disabled: !rec.total, onClick: actions.exportRecordsXapi }, "Export xAPI (LRS)"),
-          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)")));
+          h("button", { id: "rec-export-badges", disabled: !rec.credentials.length, onClick: actions.exportCredentials }, "Export credentials (Open Badges)"),
+          h("button", { id: "rec-export-episodes", disabled: !rec.episodes, onClick: actions.exportEpisodesJson }, `Export episodes${rec.episodes ? ` (${rec.episodes})` : ""}`)));
   }
 
   /**
