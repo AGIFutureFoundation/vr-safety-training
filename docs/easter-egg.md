@@ -144,3 +144,68 @@ No other game's names, characters, items, logos, music, sounds or course geometr
 | <img src="screenshots/race/quarry-haul.png" width="420" alt="Quarry Haul Road"> | <img src="screenshots/race/downtown-site.png" width="420" alt="Downtown Site Shuffle"> |
 
 A 20-second clip of AI racing is at `screenshots/race/race-clip.webm`.
+
+# The other Easter egg: Break Room Arcade
+
+There is a second hidden page: a crew break room with three retro cabinets against the wall, each running an original 2D canvas game in the spirit of a classic arcade genre. Every sprite is chunky pixel art drawn in code, every sound and the backing loop are synthesised live with WebAudio, and each cabinet keeps its own high-score table in this browser. A CRT scanline overlay can be toggled on or off from the header.
+
+## How to open it
+
+Open `WebXR/arcade/index.html` directly from source, or `WebXR/dist/arcade.html` as a single bundled file (also present at `WebXR/arcade/dist/arcade.html`). It stands alone — it is not wired into the race's own menu or the homepage's key-sequence Easter egg, both of which belong to other parts of the platform, but its header links back to the training platform's homepage.
+
+## The cabinets
+
+| Cabinet | Genre | Players | What it is |
+|---|---|---|---|
+| **Spool Yard** | Climbing platformer | 1 | Climb ladders and girders up a steel frame while cable spools roll down off the loading ramps. Tie off at each level's anchor point for a bonus, then reach the crane cab at the top. Four boards, each with a tighter ladder layout and faster spools than the last. |
+| **Crew Run** | Side-scrolling platformer | 1 | A hard-hatted apprentice runs a jobsite: jump the trenches, duck the swinging loads, stomp the hazard icons, and pick up PPE along the way. A foreman checks your PPE count at the end of each of three stages. |
+| **Pallet Stacker** | Falling-block stacker | 1–2 (split screen) | Pallets of different shapes drop into the truck bed; complete a row to ship it. The load shifts if the stack leans too far to one side, and levels speed up. Two players get one independent board each, side by side. |
+
+Each cabinet opens on a title card with its genre, controls and a "what this teaches" line, and every run ends on a game-over card with the run's score and, if it qualifies, an entry onto that cabinet's high-score table.
+
+## What each one teaches
+
+- **Spool Yard** — tie off before you climb: an anchored line turns a slip into a stop, not a fall.
+- **Crew Run** — PPE only helps if you're still wearing it when you need it: pick it up, keep it on, get checked.
+- **Pallet Stacker** — a leaning load is an unstable load: keep the stack square, or it comes down on its own schedule, not yours.
+
+## Controls
+
+Keyboard and gamepad both work on every cabinet; pad 1 is player 1 and pad 2 is player 2, read through `WebXR/shared/input.js` on the standard gamepad mapping.
+
+| | Spool Yard | Crew Run | Pallet Stacker — P1 | Pallet Stacker — P2 |
+|---|---|---|---|---|
+| Move | ← → or A/D | — | A / D | ← / → |
+| Climb / jump / rotate | ↑ ↓ or W/S (against a ladder) | ↑ / W / Space to jump | W to rotate | ↑ to rotate |
+| Duck / soft drop | — | ↓ / S (hold under a swinging load) | S | ↓ |
+| Hard drop | — | — | Space | Enter |
+| Gamepad | Left stick or D-pad | A jumps, B ducks, D-pad down ducks | Left stick/D-pad move, A rotates, RT hard drops | (pad 2) same buttons |
+
+Esc pauses any cabinet, and M mutes. The CRT scanline overlay toggle sits in the header and applies while a game is running.
+
+## High scores
+
+Every cabinet keeps its own top-eight table in this browser under one `localStorage` key, `break-room-arcade-v1`. A run that beats the lowest saved score prompts for three initials and is added to that cabinet's table; the menu, each title card and the game-over card all show it.
+
+## Originality
+
+Every sprite, sound, tune, level layout and name in this game is original to this platform. The three genres — a climbing platformer, a side-scrolling runner and a falling-block stacker — are generic arcade genres, not any specific existing game, and no other game's names, characters, sprites, level layouts, music or sounds appear here.
+
+## Checks
+
+`node tools/check_arcade.mjs` is part of `tools/check_all.mjs`. It checks:
+
+- Each cabinet's engine runs a scripted 30-second session (1800 steps at 1/60 s) with no exception and no non-finite value anywhere in its state.
+- Score never decreases and is never negative; level (board or stage) stays in range and never decreases; lives never go negative; stepping a finished game is a no-op.
+- Pallet Stacker's two boards run independently in split screen, and a deliberately lopsided stack triggers a shift that moves a block without creating, losing or corrupting one.
+- The high-score table round-trips through a stubbed `localStorage`, including ranking, the eight-row cap, and a corrupt value falling back to fresh, empty tables.
+- All three cabinets are registered with a genre, a teaching line, controls text and a working engine, and the app is bundled and registered in `check_all`.
+
+## Screenshots
+
+| | |
+|---|---|
+| <img src="screenshots/arcade/row.png" width="420" alt="the three cabinets in the break room"> | <img src="screenshots/arcade/spoolyard.png" width="420" alt="Spool Yard mid-climb"> |
+| <img src="screenshots/arcade/crewrun.png" width="420" alt="Crew Run mid-stage"> | <img src="screenshots/arcade/palletstacker.png" width="420" alt="Pallet Stacker two-player split screen"> |
+
+A 20-second clip of play is at `screenshots/arcade/arcade-clip.webm`.

@@ -1,0 +1,2415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Break Room Arcade</title>
+<meta name="description" content="The training platform's other Easter egg: a row of three retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner and a falling-block stacker — with pixel art, a chiptune soundtrack and local high scores.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#07080c; --panel:#111319; --glass:rgba(10,11,16,.86); --raised:#191c24; --raised-2:#22262f;
+    --text:#f1f5fb; --muted:#a3aabb; --dim:#6d7488; --accent:#4fd1ff; --amber:#ffc93c; --pink:#ff5a7a; --green:#8cff5a;
+    --edge:rgba(160,170,200,.18); --edge-strong:rgba(160,170,200,.36);
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed","Barlow",system-ui,sans-serif; --pixel:"Press Start 2P", "Barlow Condensed", monospace;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:radial-gradient(1200px 800px at 50% -10%, #171a22, var(--void) 60%);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;
+    background:radial-gradient(1100px 650px at 50% 115%, rgba(79,209,255,.08), transparent 60%);}
+  .card{width:min(980px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);
+    border-radius:14px;padding:22px 22px 18px;backdrop-filter:blur(6px);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-family:var(--pixel);text-transform:uppercase;letter-spacing:0;margin:10px 0 4px;font-size:clamp(20px,5vw,38px);line-height:1.3;
+    color:var(--amber);text-shadow:3px 3px 0 var(--pink),0 0 30px rgba(255,201,60,.3)}
+  .stripe{height:6px;width:220px;margin:10px 0 16px;background:repeating-linear-gradient(-45deg,var(--amber) 0 12px,#15171a 12px 24px);border-radius:2px}
+  h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:26px;margin:4px 0 10px}
+  p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.55}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:14px 0 0;max-width:86ch}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+    font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#ffd862,var(--amber));color:#1b1300;border-color:transparent}
+  .btn.ghost{background:transparent}
+  a.btn{display:inline-block;text-decoration:none;color:var(--text)}
+
+  /* ---------- cabinet row ---------- */
+  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(180px,1fr));margin:14px 0 6px}
+  @media (max-width:760px){ .cab-row{grid-template-columns:1fr} }
+  .cabinet{text-align:left;cursor:pointer;background:linear-gradient(180deg,#20232c,#14161c);border:2px solid #2c303b;
+    border-radius:10px 10px 4px 4px;padding:10px;position:relative;box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 0 0 3px #0a0b0e}
+  .cabinet:hover,.cabinet:focus-visible{border-color:var(--amber)}
+  .cabinet .marquee{font-family:var(--pixel);font-size:10px;text-align:center;color:#1b1300;background:linear-gradient(180deg,#ffe28a,var(--amber));
+    padding:6px 4px;border-radius:4px;margin-bottom:8px;letter-spacing:.02em;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+  .cabinet canvas.cab-screen{display:block;width:100%;height:auto;background:#04060a;border-radius:3px;box-shadow:inset 0 0 0 4px #05060a, inset 0 0 18px rgba(0,0,0,.6);image-rendering:pixelated}
+  .cab-meta{margin-top:8px;font-size:12.5px;color:var(--muted)}
+  .cab-meta b{display:block;font-family:var(--cond);color:var(--text);font-size:14px;letter-spacing:.03em;text-transform:uppercase}
+
+  /* ---------- title card ---------- */
+  .title-grid{display:grid;gap:10px;grid-template-columns:1fr}
+  #title-teaches{font-size:13px;color:var(--green);border-left:3px solid var(--green);padding-left:10px;margin:8px 0}
+  #title-controls{font-size:13.5px;color:var(--muted);margin:6px 0}
+  ol.mini-scores,ul.mini-scores{list-style:none;margin:6px 0 0;padding:0;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  /* ---------- stage ---------- */
+  #stage-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:1}
+  #game{image-rendering:pixelated;box-shadow:0 0 0 3px #000, 0 0 60px rgba(79,209,255,.08)}
+  #crt{position:fixed;inset:0;z-index:5;pointer-events:none;
+    background:repeating-linear-gradient(rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 3px 4px),
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.4) 100%);
+    mix-blend-mode:multiply}
+  #hud-top{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:8;display:flex;gap:8px}
+  #hud-top .btn{padding:6px 10px;font-size:12px}
+
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;background:var(--glass);border:1px solid var(--edge-strong);border-radius:8px;
+    padding:10px 16px;font-size:14px;color:var(--text);max-width:min(620px,calc(100vw - 32px));text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+  #toast.on{opacity:1}
+
+  .score-tables{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin-top:10px}
+  @media (max-width:760px){ .score-tables{grid-template-columns:1fr} }
+  .score-box{border:1px solid var(--edge);border-radius:10px;padding:12px;background:var(--panel)}
+  .score-box.hi{border-color:var(--amber)}
+  .score-box h3{margin:0 0 6px;font-family:var(--cond);text-transform:uppercase;font-size:15px}
+  .score-box ol{margin:0;padding-left:20px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  #go-initials{font-family:var(--pixel);font-size:16px;letter-spacing:.3em;text-transform:uppercase;background:#0e1017;
+    border:2px solid var(--edge-strong);border-radius:6px;color:var(--amber);padding:8px 10px;width:120px;text-align:center}
+  @media (max-width:640px){ h2{font-size:20px} .card{padding:16px} }
+</style>
+</head>
+<body>
+<!-- Generated by tools/bundle_webxr.py from WebXR/arcade/js — edit the modules, not this file. -->
+
+<a class="home-chip" href="./index.html" aria-label="Back to the homepage">&#8962; Home · Race is next door</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+
+<div id="stage-wrap" hidden><canvas id="game" width="256" height="224"></canvas></div>
+<div id="crt" hidden></div>
+<div id="hud-top">
+  <button class="btn ghost" id="btn-crt" aria-pressed="true">CRT scanlines: on</button>
+</div>
+<div id="toast" role="status"></div>
+
+<section class="screen" id="scr-menu" aria-labelledby="t-menu">
+  <div class="card">
+    <p class="eyebrow">The crew's other Easter egg</p>
+    <h1 class="logo" id="t-menu">BREAK ROOM ARCADE</h1>
+    <div class="stripe"></div>
+    <p class="lead">Three retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
+    <div class="cab-row" id="cab-row"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="btn-scores">High scores</button>
+      <a class="btn ghost" href="./index.html">Back to the training platform</a>
+    </div>
+    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2). Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
+  </div>
+</section>
+
+<section class="screen" id="scr-title" hidden aria-labelledby="t-title">
+  <div class="card title-grid">
+    <p class="eyebrow" id="title-genre"></p>
+    <h2 id="title-name"></h2>
+    <p class="lead" id="title-blurb"></p>
+    <p id="title-controls"></p>
+    <p id="title-teaches"></p>
+    <p class="eyebrow" style="margin-top:8px">High scores</p>
+    <ol class="mini-scores" id="title-scores"></ol>
+    <div class="row" style="margin-top:14px" id="title-players">
+      <button class="btn ghost" data-back>Back</button>
+      <button class="btn primary" id="title-1p">1 player</button>
+      <button class="btn" id="title-2p">2 players</button>
+    </div>
+    <div class="row" style="margin-top:14px" id="title-players-solo" hidden>
+      <button class="btn ghost" data-back>Back</button>
+      <button class="btn primary" id="title-start">Insert token</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="scr-pause" hidden aria-labelledby="t-pause">
+  <div class="card" style="width:min(420px,100%)">
+    <h2 id="t-pause">Paused</h2>
+    <div class="row"><button class="btn primary" id="pause-resume">Resume</button><button class="btn" id="pause-restart">Restart</button><button class="btn ghost" id="pause-quit">Quit to menu</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-gameover" hidden aria-labelledby="t-go">
+  <div class="card" style="width:min(560px,100%)">
+    <h2 id="t-go"><span id="go-title">Game over</span></h2>
+    <div id="go-score" style="font-family:var(--cond);font-size:24px;margin:6px 0 12px"></div>
+    <div id="go-entry">
+      <p class="note">High score! Enter your initials.</p>
+      <div class="row"><input id="go-initials" maxlength="3" value="CRW" autocomplete="off"><button class="btn primary" id="go-save">Save</button></div>
+    </div>
+    <p class="note" id="go-noentry" hidden></p>
+    <div class="score-tables" id="scores-tables-go"></div>
+    <div class="row" style="margin-top:14px"><button class="btn primary" id="go-again">Play again</button><button class="btn ghost" id="go-menu">Quit to menu</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-scores" hidden aria-labelledby="t-scores">
+  <div class="card">
+    <h2 id="t-scores">High scores</h2>
+    <div class="score-tables" id="scores-tables-view"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button></div>
+  </div>
+</section>
+
+<script type="module">
+/* ===== shared/input.js ===== */
+/**
+ * The deep input layer: the gamepad poller, the keyboard binding table and
+ * the voice grammar — all of it pure, so every one of them can be driven
+ * headless from Node with a fake `navigator` (see tools/check_input.mjs).
+ *
+ * Why this is one module rather than three:
+ *
+ * - The three devices name the same small set of actions. A d-pad press, a
+ *   Tab key and the word "next" all mean "focus the next control this step
+ *   names". Keeping one action table is what makes the interface brief's rule
+ *   — every bound action is also reachable by keyboard and mouse — checkable
+ *   rather than aspirational.
+ * - None of it may complete a step. Voice and the pads navigate, focus,
+ *   adjust, read back and open panels; the select/press/drag/turn paths in
+ *   shared/game.js stay where they are. `focus` moves the keyboard cursor and
+ *   nothing else, which is why it lives here and not near the Session.
+ * - The app is the only place that knows what a control IS. This module deals
+ *   in action ids, key tokens, button indices and parsed phrases; app.js maps
+ *   those onto the station's own hit ids.
+ *
+ * Nothing here touches the DOM, three.js or a Session. `localStorage` is
+ * reached through an injectable handle, so a checker passes a plain object.
+ */
+
+// --------------------------------------------------------------- the actions
+//
+// One row per thing a learner can ask for with a key or a button. `group`
+// only orders the panel. Locomotion (WASD/arrows to walk, the mouse or a
+// stick to look) is continuous rather than an action, and is listed
+// separately as CONTINUOUS_ACTIONS below.
+
+const INPUT_ACTIONS = [
+  { id: "focusPrev", group: "step", label: "Focus previous control", what: "Walks the cursor back through the controls this step names." },
+  { id: "focusNext", group: "step", label: "Focus next control", what: "Walks the cursor forward through the controls this step names, in procedure order." },
+  { id: "activate", group: "step", label: "Take the focused control", what: "Exactly what a click does: select it, or place what you are carrying." },
+  { id: "hold", group: "step", label: "Press and hold", what: "Holds the focused control down for a hold or track step; let go to release." },
+  { id: "adjustUp", group: "step", label: "Adjust up", what: "Raises a gauge reading, a tracked value, or a valve's turns." },
+  { id: "adjustDown", group: "step", label: "Adjust down", what: "Lowers a gauge reading, a tracked value, or a valve's turns." },
+  { id: "turnLeft", group: "step", label: "Turn anticlockwise", what: "Turns a turn step's target the way a wrist roll or a mouse arc would." },
+  { id: "turnRight", group: "step", label: "Turn clockwise", what: "The same, the other way." },
+  { id: "speakHint", group: "assist", label: "Read the step aloud", what: "Speaks the live step's title and cue, and writes it to the live region." },
+  { id: "voice", group: "assist", label: "Start or stop listening", what: "The microphone button, from the keyboard." },
+  { id: "mute", group: "assist", label: "Mute or unmute", what: "Silences the sound effects and the spoken lines." },
+  { id: "controls", group: "panel", label: "Open the controls panel", what: "This panel." },
+  { id: "back", group: "panel", label: "Close the panel, or back to the campus", what: "Closes the topmost overlay first, then leaves the station." },
+];
+
+/** Continuous input: not remappable, and each one already has a pointer or
+ *  keyboard equivalent, which is the fallback rule the brief states. */
+const CONTINUOUS_ACTIONS = [
+  { id: "look", label: "Look around", fallback: "Drag with the mouse" },
+  { id: "walk", label: "Walk and strafe", fallback: "WASD or the arrow keys" },
+];
+
+const ACTION_IDS = INPUT_ACTIONS.map((a) => a.id);
+const ACTION_BY_ID = Object.fromEntries(INPUT_ACTIONS.map((a) => [a.id, a]));
+
+// ------------------------------------------------------------ keyboard presets
+//
+// A binding is a list of key tokens: a `KeyboardEvent.code`, optionally with a
+// `Shift+` prefix. Codes rather than `key` values, so a binding survives a
+// non-US layout and a caps-lock state the way the existing Tab/Enter/Space
+// scheme does.
+//
+// Two rules hold in every preset, and tools/check_input.mjs enforces both:
+// every action is bound, and no key is bound twice inside one preset.
+
+const KEYBOARD_PRESETS = {
+  standard: {
+    label: "Standard",
+    note: "What the app has always used: Tab walks the step's controls, Enter takes the one in focus, the space bar is the hold, the arrows work an analogue control.",
+    keys: {
+      focusPrev: ["Shift+Tab", "ArrowLeft"],
+      focusNext: ["Tab", "ArrowRight"],
+      activate: ["Enter", "NumpadEnter"],
+      hold: ["Space"],
+      adjustUp: ["ArrowUp"],
+      adjustDown: ["ArrowDown"],
+      turnLeft: ["KeyQ"],
+      turnRight: ["KeyE"],
+      speakHint: ["KeyH"],
+      voice: ["KeyV"],
+      mute: ["KeyM"],
+      controls: ["Slash", "F1"],
+      back: ["Escape"],
+    },
+  },
+  wasd: {
+    label: "WASD + IJKL",
+    note: "The left hand stays on WASD to walk; the right hand works the step on the IJKL cluster instead of reaching for Tab.",
+    keys: {
+      focusPrev: ["KeyJ"],
+      focusNext: ["KeyL"],
+      activate: ["Enter"],
+      hold: ["Space"],
+      adjustUp: ["KeyI"],
+      adjustDown: ["KeyK"],
+      turnLeft: ["KeyU"],
+      turnRight: ["KeyO"],
+      speakHint: ["KeyH"],
+      voice: ["KeyY"],
+      mute: ["KeyM"],
+      controls: ["Slash", "F1"],
+      back: ["Escape"],
+    },
+  },
+  "left-hand": {
+    label: "Left hand",
+    note: "For a learner who keeps the mouse in the right hand: every action sits on the left third of the board, with Enter moved to G.",
+    keys: {
+      focusPrev: ["Shift+Tab"],
+      focusNext: ["Tab"],
+      activate: ["KeyG"],
+      hold: ["Space"],
+      adjustUp: ["KeyR"],
+      adjustDown: ["KeyF"],
+      turnLeft: ["KeyZ"],
+      turnRight: ["KeyC"],
+      speakHint: ["KeyT"],
+      voice: ["KeyB"],
+      mute: ["KeyV"],
+      controls: ["Backquote", "F1"],
+      back: ["Escape"],
+    },
+  },
+  numpad: {
+    label: "Numeric keypad",
+    note: "The whole procedure from the keypad, the way an operator works a panel: 4 and 6 walk the controls, 8 and 2 adjust, 5 takes, 0 holds.",
+    keys: {
+      focusPrev: ["Numpad4"],
+      focusNext: ["Numpad6"],
+      activate: ["Numpad5", "NumpadEnter"],
+      hold: ["Numpad0"],
+      adjustUp: ["Numpad8"],
+      adjustDown: ["Numpad2"],
+      turnLeft: ["Numpad7"],
+      turnRight: ["Numpad9"],
+      speakHint: ["Numpad1"],
+      voice: ["NumpadMultiply"],
+      mute: ["Numpad3"],
+      controls: ["NumpadDivide", "F1"],
+      back: ["NumpadSubtract", "Escape"],
+    },
+  },
+  "one-hand": {
+    label: "One hand",
+    note: "Every action inside the span of one hand, with no chord, no modifier, no Tab and no function key — the preset to pick when the other hand is holding a tool, a rail or a radio.",
+    keys: {
+      focusPrev: ["KeyZ"],
+      focusNext: ["KeyX"],
+      activate: ["KeyC"],
+      hold: ["Space"],
+      adjustUp: ["KeyR"],
+      adjustDown: ["KeyV"],
+      turnLeft: ["KeyQ"],
+      turnRight: ["KeyE"],
+      speakHint: ["KeyT"],
+      voice: ["KeyB"],
+      mute: ["KeyF"],
+      controls: ["KeyG"],
+      back: ["Escape"],
+    },
+  },
+};
+
+const PRESET_IDS = Object.keys(KEYBOARD_PRESETS);
+const INPUT_STORAGE_KEY = "smartcitix-input-v1";
+
+function cloneKeys(keys) {
+  const out = {};
+  for (const [action, list] of Object.entries(keys ?? {})) out[action] = [...list];
+  return out;
+}
+
+/** The bindings a preset ships with, as a fresh object nobody else shares. */
+function presetBindings(presetId = "standard") {
+  const id = KEYBOARD_PRESETS[presetId] ? presetId : "standard";
+  return { preset: id, keys: cloneKeys(KEYBOARD_PRESETS[id].keys) };
+}
+
+/** Keys bound to more than one action inside one binding set. */
+function duplicateKeys(keys = {}) {
+  const seen = new Map();
+  const dupes = [];
+  for (const action of Object.keys(keys)) {
+    for (const token of keys[action] ?? []) {
+      if (seen.has(token)) dupes.push({ token, actions: [seen.get(token), action] });
+      else seen.set(token, action);
+    }
+  }
+  return dupes;
+}
+
+function storageHandle(storage) {
+  if (storage) return storage;
+  try { return typeof localStorage !== "undefined" ? localStorage : null; } catch { return null; }
+}
+
+/** Read the saved profile, repairing anything odd rather than throwing: an
+ *  unknown preset falls back to standard, a malformed list is ignored, and an
+ *  action the saved file never heard of (because it was added after that file
+ *  was written) keeps its preset default instead of going unbound. */
+function loadBindings(storage) {
+  const handle = storageHandle(storage);
+  let saved = null;
+  try { saved = JSON.parse(handle?.getItem(INPUT_STORAGE_KEY) ?? "null"); } catch { saved = null; }
+  const base = presetBindings(saved?.preset);
+  if (saved && saved.keys && typeof saved.keys === "object") {
+    for (const action of ACTION_IDS) {
+      const list = saved.keys[action];
+      if (!Array.isArray(list)) continue;
+      const clean = list.filter((t) => typeof t === "string" && t.length > 0 && t.length < 40);
+      if (clean.length) base.keys[action] = clean;
+    }
+  }
+  return base;
+}
+
+function saveBindings(profile, storage) {
+  const handle = storageHandle(storage);
+  const safe = {
+    preset: KEYBOARD_PRESETS[profile?.preset] ? profile.preset : "standard",
+    keys: cloneKeys(profile?.keys ?? presetBindings(profile?.preset).keys),
+  };
+  // A locked, full or private-mode store is not a reason to stop taking input.
+  try { handle?.setItem(INPUT_STORAGE_KEY, JSON.stringify(safe)); } catch { /* ignore */ }
+  return safe;
+}
+
+/** Back to a preset's own keys, and forget the saved overrides. */
+function resetBindings(presetId = "standard", storage) {
+  const handle = storageHandle(storage);
+  try { handle?.removeItem(INPUT_STORAGE_KEY); } catch { /* ignore */ }
+  return presetBindings(presetId);
+}
+
+/** Bind one key to one action. The token comes off every other action first,
+ *  so a remap can never create the duplicate the checker forbids, and an
+ *  action left with nothing falls back to its preset key rather than going
+ *  dark — an unreachable action is the one thing the brief rules out. */
+function remapAction(profile, action, token) {
+  if (!ACTION_BY_ID[action] || typeof token !== "string" || !token) return profile;
+  const keys = cloneKeys(profile?.keys ?? presetBindings(profile?.preset).keys);
+  for (const other of Object.keys(keys)) {
+    if (other === action) continue;
+    keys[other] = keys[other].filter((t) => t !== token);
+  }
+  const preset = KEYBOARD_PRESETS[profile?.preset] ?? KEYBOARD_PRESETS.standard;
+  for (const other of Object.keys(keys)) {
+    if (other === action || keys[other].length) continue;
+    const fallback = (preset.keys[other] ?? []).filter((t) => t !== token);
+    keys[other] = fallback.length ? fallback : [`Unbound:${other}`];
+  }
+  keys[action] = [token];
+  return { preset: profile?.preset ?? "standard", keys };
+}
+
+/** A `KeyboardEvent` as the token a binding is written with. */
+function keyToken(event) {
+  const code = event?.code ?? "";
+  if (!code) return "";
+  if (code === "ShiftLeft" || code === "ShiftRight") return code;
+  return `${event.shiftKey ? "Shift+" : ""}${code}`;
+}
+
+/** Which action this key runs, or null. Tab and Shift+Tab are two separate
+ *  bindings; a binding written without the prefix still answers to the
+ *  shifted form, so Shift+M is mute, unless something else claims it. */
+function actionForKey(profile, token) {
+  if (!token) return null;
+  const keys = profile?.keys ?? {};
+  for (const action of ACTION_IDS) if ((keys[action] ?? []).includes(token)) return action;
+  if (!token.startsWith("Shift+")) return null;
+  const bare = token.slice(6);
+  for (const action of ACTION_IDS) if ((keys[action] ?? []).includes(bare)) return action;
+  return null;
+}
+
+const KEY_NAMES = {
+  Space: "Space", Escape: "Esc", Enter: "Enter", NumpadEnter: "Numpad Enter", Tab: "Tab",
+  ArrowUp: "↑", ArrowDown: "↓", ArrowLeft: "←", ArrowRight: "→",
+  Slash: "/", Backquote: "`", NumpadDivide: "Numpad /", NumpadMultiply: "Numpad ×",
+  NumpadSubtract: "Numpad −", NumpadAdd: "Numpad +", NumpadDecimal: "Numpad .",
+};
+
+/** A key token the way a learner reads it on the panel. */
+function prettyKey(token = "") {
+  const shift = token.startsWith("Shift+");
+  const code = shift ? token.slice(6) : token;
+  let name = KEY_NAMES[code];
+  if (!name && code.startsWith("Key")) name = code.slice(3);
+  if (!name && code.startsWith("Digit")) name = code.slice(5);
+  if (!name && code.startsWith("Numpad")) name = `Numpad ${code.slice(6)}`;
+  if (!name && code.startsWith("Unbound:")) name = "not bound";
+  if (!name) name = code;
+  return shift ? `Shift + ${name}` : name;
+}
+
+/** One row per action for the Keyboard tab: the action, what it does, the
+ *  keys bound to it now, and whether that differs from the preset. */
+function describeBindings(profile) {
+  const active = profile?.keys ? profile : presetBindings(profile?.preset ?? "standard");
+  const preset = KEYBOARD_PRESETS[active.preset] ?? KEYBOARD_PRESETS.standard;
+  return INPUT_ACTIONS.map((action) => {
+    const keys = active.keys[action.id] ?? [];
+    const base = preset.keys[action.id] ?? [];
+    return {
+      action: action.id,
+      label: action.label,
+      what: action.what,
+      group: action.group,
+      keys: [...keys],
+      pretty: keys.map(prettyKey),
+      custom: keys.join("|") !== base.join("|"),
+      unbound: keys.length === 0 || keys.every((t) => t.startsWith("Unbound:")),
+    };
+  });
+}
+
+// --------------------------------------------------------------- the gamepad
+//
+// The W3C Standard Gamepad mapping, by index only. An Xbox pad, a PlayStation
+// pad and a generic one all report the same indices when
+// `gamepad.mapping === "standard"`; only the printing on the plastic differs,
+// so the detected vendor decides the LABELS and never the mapping. This runs
+// in flat/desktop mode only: inside an immersive session the controllers
+// arrive as `XRInputSource.gamepad`, which app.js's xrMove already reads.
+
+const GAMEPAD_DEADZONE = 0.18;
+
+const PAD_LABELS = {
+  xbox: {
+    name: "Xbox",
+    buttons: ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "View", "Menu", "L3", "R3", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "Guide"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+  playstation: {
+    name: "PlayStation",
+    buttons: ["Cross", "Circle", "Square", "Triangle", "L1", "R1", "L2", "R2", "Share / Create", "Options", "L3", "R3", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "PS"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+  generic: {
+    name: "Generic",
+    buttons: ["Bottom face", "Right face", "Left face", "Top face", "Left bumper", "Right bumper", "Left trigger", "Right trigger", "Select", "Start", "Left stick press", "Right stick press", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "Home"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+};
+
+/** Which printing to use for the labels. A vendor id is the only hint a
+ *  browser gives, and a pad nobody recognises still works — it just gets the
+ *  neutral names. */
+function detectPadVendor(id = "") {
+  const s = String(id).toLowerCase();
+  if (/xbox|xinput|microsoft|045e/.test(s)) return "xbox";
+  if (/playstation|dualsense|dualshock|sony|054c/.test(s)) return "playstation";
+  return "generic";
+}
+
+function padButtonLabel(index, vendor = "generic") {
+  const set = PAD_LABELS[vendor] ?? PAD_LABELS.generic;
+  return set.buttons[index] ?? `Button ${index}`;
+}
+
+function padAxisLabel(index, vendor = "generic") {
+  const set = PAD_LABELS[vendor] ?? PAD_LABELS.generic;
+  return set.axes[index] ?? `Axis ${index}`;
+}
+
+// `mode` is how a button repeats, and it is the whole of the edge detection:
+//   edge        — fires once on the press, however long it is held
+//   repeat      — fires on the press, then every repeatMs while held
+//   analog      — a trigger: fires every poll above its threshold, with value
+//   press-hold  — a tap is `activate`; keeping it down is `hold` (start/end)
+const GAMEPAD_MAP = [
+  { index: 0, mode: "press-hold", action: "activate", holdAction: "hold", note: "Tap to take the control in focus; keep it down for a hold or track step." },
+  { index: 1, mode: "edge", action: "back", note: "Closes the topmost panel, then leaves the station — the Escape path." },
+  { index: 2, mode: "edge", action: "voice", note: "Starts and stops listening." },
+  { index: 3, mode: "edge", action: "speakHint", note: "Reads the live step aloud." },
+  { index: 4, mode: "repeat", action: "turnLeft", note: "Turns a turn step's target anticlockwise while held." },
+  { index: 5, mode: "repeat", action: "turnRight", note: "Turns it clockwise while held." },
+  { index: 6, mode: "analog", action: "adjustDown", note: "Gauge, tracked value or valve down, as far as the trigger is pulled." },
+  { index: 7, mode: "analog", action: "adjustUp", note: "The same, up." },
+  { index: 8, mode: "edge", action: "back", note: "Back to the campus." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens and closes the controls panel." },
+  { index: 10, mode: "edge", action: "mute", note: "Mutes the sound and the spoken lines." },
+  { index: 12, mode: "repeat", action: "adjustUp", note: "Steps a gauge, a tracked value or a valve up." },
+  { index: 13, mode: "repeat", action: "adjustDown", note: "Steps it down." },
+  { index: 14, mode: "edge", action: "focusPrev", note: "Focus the previous control this step names." },
+  { index: 15, mode: "edge", action: "focusNext", note: "Focus the next one." },
+];
+
+const GAMEPAD_AXIS_MAP = [
+  { axes: [0, 1], action: "look", note: "Orbits and pitches the view, the way dragging with the mouse does." },
+  { axes: [2, 3], action: "walk", note: "Walks and strafes inside the station's roam limit, like WASD." },
+];
+
+function applyDeadzone(value, deadzone) {
+  const v = typeof value === "number" && Number.isFinite(value) ? value : 0;
+  const a = Math.abs(v);
+  if (a < deadzone) return 0;
+  return Math.sign(v) * ((a - deadzone) / (1 - deadzone));
+}
+
+function buttonValue(button) {
+  if (button == null) return 0;
+  if (typeof button === "number") return button;
+  if (typeof button.value === "number" && Number.isFinite(button.value)) return button.value;
+  return button.pressed ? 1 : 0;
+}
+
+/**
+ * The poller. `getGamepads` is whatever returns an array-like of pads:
+ * `() => navigator.getGamepads()` in a browser, `() => [fakePad]` in a test.
+ * `onAction(action, info)` is called for every action the pad produces, with
+ * `info` carrying `{ value, phase, repeat, dx, dy, dt, index, source }`.
+ *
+ *     const pad = createGamepad({ getGamepads: () => navigator.getGamepads(), onAction });
+ *     pad.poll(dt);   // once per frame, outside an immersive session
+ */
+function createGamepad({
+  getGamepads,
+  bindings = GAMEPAD_MAP,
+  axisBindings = GAMEPAD_AXIS_MAP,
+  onAction = () => {},
+  onConnect = null,
+  deadzone = GAMEPAD_DEADZONE,
+  holdMs = 320,
+  repeatMs = 140,
+  triggerThreshold = 0.12,
+  shouldPoll = () => true,
+  now = () => (typeof performance !== "undefined" && performance.now ? performance.now() : Date.now()),
+} = {}) {
+  const down = new Map();      // button index → { since, firedAt, holding }
+  let padId = null, vendor = "generic", connected = false;
+  let last = { connected: false, id: "", vendor: "generic", mapping: "", buttons: [], axes: [] };
+
+  function pickPad() {
+    let pads = [];
+    try { pads = getGamepads?.() ?? []; } catch { pads = []; }
+    for (const pad of Array.from(pads)) {
+      if (!pad || pad.connected === false) continue;
+      if (!pad.buttons && !pad.axes) continue;
+      return pad;
+    }
+    return null;
+  }
+
+  function reset() { down.clear(); }
+
+  function poll(dt = 1 / 60) {
+    if (!shouldPoll()) {
+      if (connected) { connected = false; reset(); }
+      return null;
+    }
+    const pad = pickPad();
+    if (!pad) {
+      if (connected) { connected = false; reset(); last = { ...last, connected: false }; onConnect?.(last); }
+      return null;
+    }
+    const id = String(pad.id ?? "");
+    if (!connected || id !== padId) {
+      padId = id; vendor = detectPadVendor(id); connected = true; reset();
+      last = { connected: true, id, vendor, mapping: String(pad.mapping ?? ""), buttons: [], axes: [] };
+      onConnect?.(last);
+    }
+    const t = now();
+    const buttons = pad.buttons ?? [];
+    const axes = pad.axes ?? [];
+
+    for (const bind of bindings) {
+      const value = buttonValue(buttons[bind.index]);
+      if (bind.mode === "analog") {
+        if (value > triggerThreshold) onAction(bind.action, { value, analog: true, dt, index: bind.index, source: "gamepad" });
+        continue;
+      }
+      const isDown = value > 0.5;
+      const state = down.get(bind.index);
+      if (isDown && !state) {
+        down.set(bind.index, { since: t, firedAt: t, holding: false });
+        // A press-hold button decides on release, or when the hold timer runs
+        // out below — that is what makes one physical press one action.
+        if (bind.mode !== "press-hold") onAction(bind.action, { value: 1, dt, index: bind.index, source: "gamepad" });
+      } else if (isDown && state) {
+        if (bind.mode === "repeat" && t - state.firedAt >= repeatMs) {
+          state.firedAt = t;
+          onAction(bind.action, { value: 1, repeat: true, dt, index: bind.index, source: "gamepad" });
+        }
+        if (bind.mode === "press-hold" && !state.holding && t - state.since >= holdMs) {
+          state.holding = true;
+          onAction(bind.holdAction ?? "hold", { phase: "start", dt, index: bind.index, source: "gamepad" });
+        }
+      } else if (!isDown && state) {
+        down.delete(bind.index);
+        if (bind.mode === "press-hold") {
+          if (state.holding) onAction(bind.holdAction ?? "hold", { phase: "end", dt, index: bind.index, source: "gamepad" });
+          else onAction(bind.action, { value: 1, dt, index: bind.index, source: "gamepad", tap: true });
+        }
+      }
+    }
+
+    for (const bind of axisBindings) {
+      const [xi, yi] = bind.axes;
+      const dx = applyDeadzone(axes[xi], deadzone);
+      const dy = applyDeadzone(axes[yi], deadzone);
+      if (dx || dy) onAction(bind.action, { dx, dy, dt, source: "gamepad" });
+    }
+
+    last = {
+      connected: true, id, vendor, mapping: String(pad.mapping ?? ""),
+      buttons: Array.from(buttons, (b, i) => {
+        const bind = bindings.find((x) => x.index === i);
+        const v = buttonValue(b);
+        return { index: i, label: padButtonLabel(i, vendor), value: Number(v.toFixed(3)), pressed: v > 0.5, action: bind?.action ?? null, mode: bind?.mode ?? null };
+      }),
+      axes: Array.from(axes, (v, i) => ({
+        index: i, label: padAxisLabel(i, vendor),
+        value: Number((typeof v === "number" ? v : 0).toFixed(3)),
+        live: applyDeadzone(v, deadzone) !== 0,
+      })),
+    };
+    return last;
+  }
+
+  return {
+    poll,
+    reset,
+    get vendor() { return vendor; },
+    get connected() { return connected; },
+    snapshot() { return last; },
+    /** The panel's map table for whichever pad is in hand. */
+    describe(forVendor = vendor) {
+      return bindings.map((b) => ({
+        index: b.index, mode: b.mode, action: b.action,
+        label: padButtonLabel(b.index, forVendor),
+        actionLabel: ACTION_BY_ID[b.action]?.label ?? b.action,
+        note: b.note ?? "",
+      }));
+    },
+  };
+}
+
+/** The gamepad map as rows without a live pad — for the docs and for the
+ *  panel before anything is plugged in. */
+function describeGamepadMap(vendor = "generic") {
+  const rows = GAMEPAD_MAP.map((b) => ({
+    index: b.index, mode: b.mode, action: b.action,
+    label: padButtonLabel(b.index, vendor),
+    actionLabel: ACTION_BY_ID[b.action]?.label ?? b.action,
+    note: b.note ?? "",
+  }));
+  for (const a of GAMEPAD_AXIS_MAP) {
+    rows.push({
+      index: null, mode: "axis", action: a.action,
+      label: a.axes.map((i) => padAxisLabel(i, vendor)).join(" / "),
+      actionLabel: CONTINUOUS_ACTIONS.find((c) => c.id === a.action)?.label ?? a.action,
+      note: a.note,
+    });
+  }
+  return rows;
+}
+
+// ------------------------------------------------------------ driving
+//
+// A 'drive' step (shared/game.js) is the one place a learner operates a
+// vehicle rather than a control, so while one is live the keys and the pad
+// speak a second, smaller vocabulary: throttle, brake and steer as continuous
+// inputs, and the discrete checks a route asks for — mirrors, signals, the
+// horn, a gear, the lights — plus the CB radio an interruption may call for.
+// The table is the same shape as the ones above, and the same two rules hold:
+// every drive action is reachable from the keyboard, and no key or button is
+// bound twice inside it. It only applies while a drive step is live, so it
+// can reuse keys the presets give to step actions a drive step never asks
+// for (Q/E turn a valve; there is no valve to turn at the wheel). The step
+// actions that still matter while driving — the controls panel, mute, back —
+// keep their own keys, which is why none of them appears here.
+
+const DRIVE_ACTIONS = [
+  { id: "throttle", group: "drive", continuous: true, label: "Throttle", what: "Hold to speed up; let go and the vehicle coasts down. In reverse it backs." },
+  { id: "brake", group: "drive", continuous: true, label: "Brake", what: "Hold to slow and stop. A fresh press also answers an interruption that asks you to stop." },
+  { id: "steerLeft", group: "drive", continuous: true, label: "Steer left", what: "Moves the vehicle toward the left of its lane." },
+  { id: "steerRight", group: "drive", continuous: true, label: "Steer right", what: "Moves the vehicle toward the right of its lane." },
+  { id: "mirror-left", group: "check", label: "Check the left mirror", what: "A mirror check on the driver's side, where the route calls for one." },
+  { id: "mirror-right", group: "check", label: "Check the right mirror", what: "A mirror check on the passenger side — the side a right turn and a trailer's cut-in live on." },
+  { id: "signal-left", group: "check", label: "Signal left", what: "The left turn signal, before a left turn, a lane change or a pull-out." },
+  { id: "signal-right", group: "check", label: "Signal right", what: "The right turn signal." },
+  { id: "horn", group: "check", label: "Horn", what: "A tap of the horn: before backing, at a blind corner, to warn a person in the path." },
+  { id: "gear-down", group: "check", label: "Gear down", what: "Down a gear: before a grade, before a crossing, before a stop." },
+  { id: "gear-up", group: "check", label: "Gear up", what: "Up a gear once the vehicle is moving and settled." },
+  { id: "lights", group: "check", label: "Lights", what: "Headlamps on (low beams in fog), or the four-way flashers where the route says so." },
+  { id: "radio", group: "control", label: "CB radio", what: "Keys the CB or company radio — for a call an interruption says you must make." },
+];
+const DRIVE_ACTION_IDS = DRIVE_ACTIONS.map((a) => a.id);
+const DRIVE_CHECK_ACTIONS = DRIVE_ACTIONS.filter((a) => a.group === "check").map((a) => a.id);
+
+/** Keys while a drive step is live. Arrows left/right are the signals, as a
+ *  stalk is under the left hand; up and down double for throttle and brake. */
+const DRIVE_KEYS = {
+  throttle: ["KeyW", "ArrowUp"],
+  brake: ["KeyS", "ArrowDown", "Space"],
+  steerLeft: ["KeyA"],
+  steerRight: ["KeyD"],
+  "mirror-left": ["KeyQ"],
+  "mirror-right": ["KeyE"],
+  "signal-left": ["ArrowLeft"],
+  "signal-right": ["ArrowRight"],
+  horn: ["KeyH"],
+  "gear-down": ["KeyZ"],
+  "gear-up": ["KeyX"],
+  lights: ["KeyL"],
+  radio: ["KeyR"],
+};
+
+/** Which drive action a key runs, or null. Shift is ignored: a learner
+ *  holding Shift to walk faster still reaches the brake. */
+function driveActionForKey(token) {
+  if (!token) return null;
+  const bare = token.startsWith("Shift+") ? token.slice(6) : token;
+  for (const id of DRIVE_ACTION_IDS) if ((DRIVE_KEYS[id] ?? []).includes(bare)) return id;
+  return null;
+}
+
+/** Buttons while a drive step is live, by Standard Gamepad index. `back`
+ *  and `controls` stay where they always are, so a pad can still leave. */
+const DRIVE_GAMEPAD_MAP = [
+  { index: 4, mode: "edge", action: "mirror-left", note: "Left bumper: the left mirror." },
+  { index: 5, mode: "edge", action: "mirror-right", note: "Right bumper: the right mirror." },
+  { index: 14, mode: "edge", action: "signal-left", note: "D-pad left: signal left." },
+  { index: 15, mode: "edge", action: "signal-right", note: "D-pad right: signal right." },
+  { index: 3, mode: "edge", action: "horn", note: "Top face (Y / Triangle): the horn." },
+  { index: 6, mode: "edge", action: "gear-down", note: "Left trigger: down a gear." },
+  { index: 7, mode: "edge", action: "gear-up", note: "Right trigger: up a gear." },
+  { index: 2, mode: "edge", action: "lights", note: "Left face (X / Square): the lights." },
+  { index: 12, mode: "edge", action: "radio", note: "D-pad up: key the radio." },
+  { index: 1, mode: "edge", action: "back", note: "Leaves the station, the Escape path." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens the controls panel." },
+];
+/** Continuous pad input while driving: the left stick steers, the right
+ *  stick's forward and back are throttle and brake, and the bottom face and
+ *  d-pad down are a brake you can hold without a stick. */
+const DRIVE_PAD_AXES = { steer: 0, throttle: 3 };
+const DRIVE_PAD_BRAKE_BUTTONS = [0, 13];
+
+/**
+ * One throttle and steer from everything that can drive: `held` is the set
+ * of drive actions whose keys are down ({ throttle: true, … }), `pad` a
+ * createGamepad() snapshot, `touch` the on-screen controls ({ throttle,
+ * brake, steer }). Pure, so the checker drives it with plain objects.
+ */
+function driveInputFrom({ held = {}, pad = null, touch = null, deadzone = GAMEPAD_DEADZONE } = {}) {
+  let throttle = (held.throttle ? 1 : 0) - (held.brake ? 1 : 0);
+  let steer = (held.steerRight ? 1 : 0) - (held.steerLeft ? 1 : 0);
+  let brake = !!held.brake;
+  if (pad?.connected) {
+    const axis = (i) => applyDeadzone(pad.axes?.find((a) => a.index === i)?.value ?? 0, deadzone);
+    const sx = axis(DRIVE_PAD_AXES.steer);
+    const ty = axis(DRIVE_PAD_AXES.throttle);
+    if (sx) steer = sx;
+    if (ty) throttle = -ty;          // stick forward reads negative
+    if (DRIVE_PAD_BRAKE_BUTTONS.some((i) => pad.buttons?.find((b) => b.index === i)?.pressed)) { throttle = -1; brake = true; }
+  }
+  if (touch) {
+    if (touch.throttle) throttle = 1;
+    if (touch.brake) { throttle = -1; brake = true; }
+    if (touch.steer) steer = Math.max(-1, Math.min(1, touch.steer));
+  }
+  return { throttle: Math.max(-1, Math.min(1, throttle)), steer: Math.max(-1, Math.min(1, steer)), brake: brake || throttle <= -1 };
+}
+
+/** The driving table as rows for the controls panel and docs/controls.md. */
+function describeDriveBindings(vendor = "generic") {
+  return DRIVE_ACTIONS.map((a) => {
+    const buttons = DRIVE_GAMEPAD_MAP.filter((b) => b.action === a.id).map((b) => padButtonLabel(b.index, vendor));
+    if (a.id === "brake") buttons.push(...DRIVE_PAD_BRAKE_BUTTONS.map((i) => padButtonLabel(i, vendor)), `${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} back`);
+    if (a.id === "throttle") buttons.push(`${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} forward`);
+    if (a.id === "steerLeft" || a.id === "steerRight") buttons.push(padAxisLabel(DRIVE_PAD_AXES.steer, vendor));
+    return { action: a.id, label: a.label, what: a.what, group: a.group, keys: [...(DRIVE_KEYS[a.id] ?? [])], pretty: (DRIVE_KEYS[a.id] ?? []).map(prettyKey), pad: buttons };
+  });
+}
+
+// ----------------------------------------------------------- the voice grammar
+//
+// Navigation, focus, read-back and panels. Nothing here completes a step:
+// `focus` moves the keyboard cursor, `next`/`previous` walk it, `read step`
+// and `repeat` only speak. That is the interface brief's first rule, and it is
+// why "select item N" numbers the hub's cards and the panel's buttons rather
+// than the station's own controls.
+
+const NUMBER_WORDS = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+  eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16,
+  seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20,
+  // What a recogniser hears instead, on a noisy site.
+  won: 1, to: 2, too: 2, tu: 2, free: 3, tree: 3, for: 4, ate: 8, nein: 9,
+};
+
+function spokenNumber(word) {
+  if (word == null) return null;
+  const s = String(word).trim().toLowerCase();
+  if (/^\d+$/.test(s)) { const n = parseInt(s, 10); return n > 0 ? n : null; }
+  return NUMBER_WORDS[s] ?? null;
+}
+
+/** The item a "select item N" refers to, from the numbered menu the app
+ *  passes as `ctx.menu` (hub cards and panel buttons, in badge order). */
+function resolveMenuItem(n, menu = []) {
+  if (!Array.isArray(menu) || !n || n < 1 || n > menu.length) return null;
+  return menu[n - 1] ?? null;
+}
+
+/** Match a spoken name against `[{ id, name }]`: exact first, then a
+ *  containment either way, longest name first so a short name cannot shadow
+ *  a longer one that contains it. */
+function matchTargetName(spoken, entries = []) {
+  const flatten = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  const want = flatten(spoken);
+  if (!want) return null;
+  const rows = [...entries]
+    .filter((e) => e && (e.name || e.id))
+    .map((e) => ({ ...e, hay: flatten(e.name ?? e.id) }))
+    .sort((a, b) => b.hay.length - a.hay.length);
+  return rows.find((r) => r.hay === want)
+    ?? rows.find((r) => r.hay.includes(want) || want.includes(r.hay))
+    ?? null;
+}
+
+// Order is the grammar: the specific phrases are matched before the general
+// ones, so "what next" stays a hint instead of becoming "next".
+const VOICE_GRAMMAR = [
+  { type: "help", scope: "any", phrases: ["help", "what can I say"], what: "Lists what can be said.", re: /\b(help|commands|what can i say)\b/ },
+  // Plural "controls" only: the singular belongs to "next control" and
+  // "last control", which walk the focus and must not open a panel.
+  { type: "controls", scope: "any", phrases: ["controls", "show controls"], what: "Opens the controls panel.", re: /\b(controls|control panel|key ?bindings?|button map)\b/ },
+  { type: "showNumbers", scope: "any", phrases: ["show numbers", "hide numbers"], what: "Puts a small number badge on every hub card and panel button, so each can be chosen by number.", re: /\b(show|hide|turn off|turn on)\s+(?:the\s+)?numbers?\b/, parse: (m) => ({ on: /show|turn on/.test(m[1]) }) },
+  { type: "selectItem", scope: "any", phrases: ["select item 3", "item three", "number 7"], what: "Takes the numbered hub card or panel button — the voice-first path on a monocular display.", re: /\b(?:select|pick|choose|open|activate)?\s*(?:item|option|number|card|button)\s+([a-z0-9]+)\b|\b(?:select|pick|choose)\s+([a-z0-9]+)\b/, parse: (m, ctx) => { const n = spokenNumber(m[1] ?? m[2]); return n ? { index: n, item: resolveMenuItem(n, ctx?.menu) } : null; } },
+  { type: "whereIs", scope: "run", phrases: ["where is the isolation valve"], what: "Says where a control is, relative to where the learner is standing. It never touches it.", re: /\bwhere(?:'s| is| are)\s+(?:the\s+)?(.+?)\s*\??$/, parse: (m) => ({ name: m[1].trim() }) },
+  { type: "focus", scope: "run", phrases: ["focus the tag bag", "highlight the gauge"], what: "Moves the keyboard cursor onto a named control and reads it out. It never takes it — hands do that.", re: /\b(?:focus(?: on)?|highlight|point (?:at|to))\s+(?:the\s+)?(.+?)\s*\??$/, parse: (m) => ({ name: m[1].trim() }) },
+  { type: "readStep", scope: "run", phrases: ["read step", "read the step"], what: "Reads the live step's title, cue and progress.", re: /\bread(?: me)?(?: out)?(?: the)?\s+(step|cue|objective)\b/ },
+  { type: "repeat", scope: "any", phrases: ["repeat", "say that again"], what: "Says the last spoken line again.", re: /\b(repeat|say (?:that|it) again|again please)\b/ },
+  { type: "hint", scope: "any", phrases: ["hint", "what now"], what: "The live step's title and cue, or how to start a station.", re: /\b(hint|what now|what next|what do i do|current step)\b/ },
+  { type: "checkIn", scope: "any", phrases: ["check in"], what: "Opens the well-being check-in: how the learner is after a hard run. Nothing about it is scored.", re: /\bcheck[- ]?in\b|\bchecking in\b/ },
+  { type: "checkInAnswer", scope: "any", phrases: ["steady", "a bit shaken", "need a minute"], what: "Answers the check-in.", re: /\b(steady|shaken|need a minute|give me a minute)\b/, parse: (m) => ({ answer: /steady/.test(m[1]) ? "steady" : /shaken/.test(m[1]) ? "shaken" : "minute" }) },
+  { type: "previous", scope: "run", phrases: ["previous", "back one"], what: "Moves the keyboard cursor to the previous control this step names.", re: /\b(previous|prev|back one|one back|last control)\b/ },
+  { type: "next", scope: "run", phrases: ["next", "next control"], what: "Moves the keyboard cursor to the next control this step names. It never takes it.", re: /\b(next|forward one|next control|next one)\b/ },
+  { type: "unmute", scope: "any", phrases: ["unmute"], what: "Sound back on.", re: /\b(unmute|un mute|sound on)\b/ },
+  { type: "mute", scope: "any", phrases: ["mute"], what: "Sound and spoken lines off.", re: /\b(mute|quiet|silence)\b/ },
+  { type: "bigger", scope: "any", phrases: ["bigger"], what: "A larger HUD, or a larger diorama in AR — the command a monocular display needs most.", re: /\b(bigger|larger|zoom in|magnify|scale up)\b/ },
+  { type: "smaller", scope: "any", phrases: ["smaller"], what: "A smaller HUD, or a smaller diorama in AR.", re: /\b(smaller|zoom out|shrink|scale down)\b/ },
+  { type: "leaderboard", scope: "hub", phrases: ["leaderboards"], what: "Opens the leaderboards.", re: /\bleaderboards?\b/ },
+  { type: "programs", scope: "hub", phrases: ["programmes"], what: "Opens the training programmes.", re: /\b(programme?s?|programs?|curricul(?:um|a)|pathway)\b/ },
+  { type: "records", scope: "hub", phrases: ["records"], what: "Opens the training records.", re: /\b(records?|training records?|transcript)\b/ },
+  { type: "tour", scope: "hub", phrases: ["tour"], what: "Starts the guided tour.", re: /\btour\b/ },
+  { type: "editor", scope: "hub", phrases: ["editor"], what: "Opens the scenario editor.", re: /\b(scenario|editor)\b/ },
+  { type: "reset", scope: "hub", phrases: ["reset"], what: "Clears the progress held in this browser.", re: /\breset\b/ },
+  { type: "brief", scope: "any", phrases: ["brief"], what: "Reads the station's briefing line.", re: /\b(brief|briefing|about this station)\b/ },
+  { type: "status", scope: "any", phrases: ["status"], what: "Stations cleared, stars, level.", re: /\b(status|progress|score)\b/ },
+  { type: "hub", scope: "any", phrases: ["hub", "campus"], what: "Back to the campus.", re: /\b(hub|campus|home|back)\b/ },
+];
+
+const VOICE_HELP_LINE =
+  'Say a station name, or "next", "previous", "focus" and a control\'s name, "where is" and a control\'s name, ' +
+  '"read step", "repeat", "hint", "brief", "status", "select item" and a number, "show numbers", "bigger", "smaller", ' +
+  '"mute", "unmute", "controls", "check in", "hub", "leaderboards", "records", "programmes", "tour", "editor", "reset", or "help".';
+
+/**
+ * Parse one heard phrase into `{ type, ... }`, with `type: "unknown"` when
+ * nothing matches. Station names are NOT matched here — app.js owns the
+ * roster, matches a station name first, and delegates everything else to
+ * this. `ctx.menu` is the numbered menu for "select item N".
+ */
+function parseVoice(text, ctx = {}) {
+  const lower = String(text ?? "").toLowerCase().trim();
+  if (!lower) return { type: "unknown", text: "" };
+  for (const entry of VOICE_GRAMMAR) {
+    const m = entry.re.exec(lower);
+    if (!m) continue;
+    const extra = entry.parse ? entry.parse(m, ctx, lower) : {};
+    // An entry may decline: "select the valve" is not an item number.
+    if (extra === null) continue;
+    return { type: entry.type, text: lower, ...extra };
+  }
+  return { type: "unknown", text: lower };
+}
+
+/** The check-in's spoken short forms. The fuller wording a peer-support
+ *  trainer would use is in shared/ei-guide.js; these are what a monocular
+ *  display reads aloud, where every line has to fit one breath. */
+const CHECKIN_QUESTION =
+  'How are you doing after that one? Nothing about this is scored. Say "steady", "shaken", or "need a minute".';
+const CHECKIN_REPLIES = {
+  steady: "Good. Take the debrief with you.",
+  shaken: "That is a normal reaction to a run that felt real. Give it a minute before the next one.",
+  minute: "Take it. The station will be here, and peer support exists for exactly this.",
+};
+
+// ------------------------------------------------- what this device can drive
+//
+// devices.js is the one place a headset is described (interface brief), so
+// this reads a device rather than sniffing anything itself. A DEVICES entry
+// may carry an `input` object — { primary, voiceFirst, controllers, hands,
+// keyboard } — and when it does, that decides which tabs the controls panel
+// shows and in what order. Entries that list input kinds as a plain array,
+// and any device with no entry at all, fall back to the run profile.
+
+const PROFILE_INPUTS = {
+  desktop: { primary: "keyboard", voiceFirst: false, controllers: true, hands: false, keyboard: true },
+  vr: { primary: "controllers", voiceFirst: false, controllers: true, hands: true, keyboard: true },
+  mr: { primary: "hands", voiceFirst: true, controllers: false, hands: true, keyboard: true },
+  seethrough: { primary: "voice", voiceFirst: true, controllers: false, hands: false, keyboard: true },
+  assisted: { primary: "voice", voiceFirst: true, controllers: false, hands: false, keyboard: true },
+};
+
+const TAB_FOR_PRIMARY = { keyboard: "keyboard", controllers: "gamepad", gamepad: "gamepad", voice: "voice", hands: "voice" };
+
+/**
+ * Which controls tabs to show, in which order, and which to hide.
+ * `device` is a devices.js entry (or the detector's result) and `profile` is
+ * what applyProfile returned. Returns `{ tabs, primary, voiceFirst, hands,
+ * controllers, keyboard, source }` — `source` says whether the device or the
+ * profile decided.
+ */
+function describeInputs(device = null, profile = null) {
+  const raw = device?.input;
+  const fromDevice = !!raw && !Array.isArray(raw) && typeof raw === "object";
+  const io = fromDevice
+    ? { primary: "keyboard", voiceFirst: false, controllers: true, hands: false, keyboard: true, ...raw }
+    : (PROFILE_INPUTS[profile?.id ?? device?.profile] ?? PROFILE_INPUTS.desktop);
+  const tabs = [];
+  const add = (id) => {
+    if (!id || tabs.includes(id)) return;
+    if (id === "gamepad" && io.controllers === false) return;
+    if (id === "keyboard" && io.keyboard === false) return;
+    tabs.push(id);
+  };
+  add(TAB_FOR_PRIMARY[io.primary]);
+  if (io.voiceFirst) add("voice");
+  add("keyboard");
+  add("gamepad");
+  add("voice");
+  return {
+    tabs: tabs.length ? tabs : ["voice"],
+    primary: io.primary ?? "keyboard",
+    voiceFirst: !!io.voiceFirst,
+    hands: !!io.hands,
+    controllers: io.controllers !== false,
+    keyboard: io.keyboard !== false,
+    source: fromDevice ? "device" : "profile",
+  };
+}
+
+
+/* ===== arcade/js/scores.js ===== */
+// Break Room Arcade — high-score tables.
+//
+// One localStorage key holds a small table (top ARCADE_TABLE_SIZE scores) per
+// cabinet. Pure and store-injectable, exactly like race/js/sim.js's save
+// helpers, so tools/check_arcade.mjs can round-trip it against a stubbed
+// store without a browser.
+
+const ARCADE_STORAGE_KEY = "break-room-arcade-v1";
+const ARCADE_TABLE_SIZE = 8;
+const ARCADE_GAMES = ["spoolyard", "crewrun", "palletstacker"];
+
+function arNewScores() {
+  const out = { v: 1 };
+  for (const g of ARCADE_GAMES) out[g] = [];
+  return out;
+}
+
+function cleanRow(r) {
+  if (!r || typeof r.score !== "number" || !Number.isFinite(r.score)) return null;
+  const name = String(r.name ?? "CREW").toUpperCase().replace(/[^A-Z0-9 ]/g, "").slice(0, 3) || "CRW";
+  return { name, score: Math.max(0, Math.round(r.score)) };
+}
+
+function arLoadScores(store) {
+  const fresh = arNewScores();
+  try {
+    const raw = store?.getItem?.(ARCADE_STORAGE_KEY);
+    if (!raw) return fresh;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== "object") return fresh;
+    for (const g of ARCADE_GAMES) {
+      const rows = Array.isArray(data[g]) ? data[g].map(cleanRow).filter(Boolean) : [];
+      rows.sort((a, b) => b.score - a.score);
+      fresh[g] = rows.slice(0, ARCADE_TABLE_SIZE);
+    }
+    return fresh;
+  } catch {
+    return fresh;
+  }
+}
+
+function arStoreScores(store, data) {
+  try {
+    store?.setItem?.(ARCADE_STORAGE_KEY, JSON.stringify(data));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Adds a score to one cabinet's table, keeping the top ARCADE_TABLE_SIZE,
+ * highest first. Returns the updated table and the new row's rank (1-based)
+ * if it made the table, or null if it did not.
+ */
+function arSubmitScore(store, game, name, score) {
+  if (!ARCADE_GAMES.includes(game)) throw new Error(`unknown cabinet: ${game}`);
+  const data = arLoadScores(store);
+  const table = data[game];
+  const entry = cleanRow({ name, score });
+  table.push(entry);
+  table.sort((a, b) => b.score - a.score);
+  const rankIdx = table.indexOf(entry);
+  table.length = Math.min(table.length, ARCADE_TABLE_SIZE);
+  data[game] = table;
+  arStoreScores(store, data);
+  return { data, table, rank: rankIdx >= 0 && rankIdx < ARCADE_TABLE_SIZE ? rankIdx + 1 : null };
+}
+
+
+/* ===== arcade/js/audio.js ===== */
+// Break Room Arcade — sound.
+//
+// Everything is synthesised on the spot with WebAudio: short chiptune-style
+// effects for menus and in-game events, plus a quiet looping backing track
+// written for this game (a four-bar square/triangle arpeggio over a
+// triangle bass). No sample files, nothing borrowed. Browsers only start
+// audio after a user gesture, so nothing sounds until resume() is called
+// from one — same contract as WebXR/race/js/audio.js.
+
+function arCreateAudio() {
+  let ctx = null, master = null, sfx = null, bus = null, muted = false, musicOn = true;
+  let musicTimer = null, step = 0;
+
+  function ensure() {
+    if (ctx) return ctx;
+    const AC = typeof window !== "undefined" ? (window.AudioContext || window.webkitAudioContext) : null;
+    if (!AC) return null;
+    try { ctx = new AC(); } catch { return null; }
+    master = ctx.createGain(); master.gain.value = 0.7; master.connect(ctx.destination);
+    sfx = ctx.createGain(); sfx.gain.value = 0.9; sfx.connect(master);
+    bus = ctx.createGain(); bus.gain.value = 0.14; bus.connect(master);
+    return ctx;
+  }
+
+  function tone(freq, dur, type = "square", vol = 0.16, when = 0, slideTo = null, out = null) {
+    if (!ensure() || muted) return;
+    const t0 = ctx.currentTime + when;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, t0);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(out ?? sfx);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+
+  let noiseBuf = null;
+  function noise(dur, vol = 0.2, freq = 1200, when = 0, sweepTo = null, q = 0.9) {
+    if (!ensure() || muted) return;
+    if (!noiseBuf) {
+      noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    const t0 = ctx.currentTime + when;
+    const src = ctx.createBufferSource(); src.buffer = noiseBuf; src.loop = true;
+    const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.Q.value = q;
+    f.frequency.setValueAtTime(freq, t0);
+    if (sweepTo) f.frequency.exponentialRampToValueAtTime(sweepTo, t0 + dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(vol, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    src.connect(f); f.connect(g); g.connect(sfx);
+    src.start(t0); src.stop(t0 + dur + 0.05);
+  }
+
+  const arp = (notes, gap, type = "square", vol = 0.14, dur = 0.13) =>
+    notes.forEach((n, i) => tone(n, dur, type, vol, i * gap));
+
+  const SOUNDS = {
+    select: () => tone(660, 0.08, "square", 0.12),
+    start: () => arp([523, 659, 784, 1047], 0.06, "triangle", 0.14, 0.14),
+    pause: () => tone(392, 0.14, "triangle", 0.12),
+    jump: () => tone(440, 0.14, "square", 0.12, 0, 880),
+    land: () => noise(0.08, 0.1, 300, 0, 150),
+    step: () => tone(220, 0.03, "square", 0.03),
+    coin: () => arp([988, 1319], 0.05, "triangle", 0.12, 0.09),
+    ppe: () => arp([784, 988, 1319], 0.05, "triangle", 0.13, 0.1),
+    anchor: () => arp([659, 880, 1109], 0.06, "triangle", 0.14, 0.13),
+    stomp: () => { tone(200, 0.1, "square", 0.14, 0, 90); noise(0.08, 0.12, 400); },
+    hit: () => { noise(0.28, 0.26, 500, 0, 120, 1); tone(150, 0.25, "square", 0.1, 0, 60); },
+    ship: () => arp([523, 659, 784, 988, 1319], 0.05, "square", 0.12, 0.11),
+    tetris: () => arp([523, 659, 784, 1047, 1319, 1568], 0.045, "triangle", 0.14, 0.12),
+    shift: () => noise(0.3, 0.18, 220, 0, 90, 1.4),
+    levelup: () => arp([440, 554, 659, 880], 0.07, "square", 0.13, 0.14),
+    checkpoint: () => arp([784, 659, 880, 1175], 0.08, "triangle", 0.14, 0.16),
+    win: () => arp([659, 784, 988, 1319, 1568, 1976], 0.09, "triangle", 0.16, 0.2),
+    over: () => arp([392, 330, 262, 196], 0.14, "sawtooth", 0.14, 0.22),
+    highscore: () => arp([659, 880, 1109, 1319, 1760], 0.07, "square", 0.15, 0.14),
+  };
+
+  function play(name) { SOUNDS[name]?.(); }
+
+  // A four-bar chiptune loop: a triangle bass walking a simple I–vi–IV–V,
+  // with a square arpeggio riding on top. Original to this game.
+  const BASS = [196, 220, 175, 147];
+  const ARPS = [[392, 494, 587], [440, 523, 659], [349, 440, 523], [294, 370, 440]];
+  function musicStep() {
+    if (!ctx || muted || !musicOn) return;
+    const bar = step % 4;
+    tone(BASS[bar], 0.85, "triangle", 0.1, 0, null, bus);
+    ARPS[bar].forEach((n, i) => tone(n, 0.18, "square", 0.05, i * 0.2, null, bus));
+    step += 1;
+  }
+  function music(on) {
+    musicOn = on;
+    clearInterval(musicTimer);
+    if (on) { ensure(); musicStep(); musicTimer = setInterval(musicStep, 900); }
+  }
+
+  return {
+    resume() { const c = ensure(); if (c?.state === "suspended") c.resume().catch(() => {}); },
+    play,
+    music,
+    setMuted(v) { muted = v; if (v) clearInterval(musicTimer); else if (musicOn) music(true); },
+    get muted() { return muted; },
+    stop() { clearInterval(musicTimer); musicTimer = null; },
+  };
+}
+
+
+/* ===== arcade/js/games/spoolyard.js ===== */
+// Spool Yard — single-screen climbing platformer.
+//
+// Climb ladders and girders up a steel frame while cable spools roll down
+// off the loading ramps above. Tie off at each level's anchor point for a
+// bonus, then reach the crane cab at the top. Four boards, each with a
+// tighter ladder layout and faster spools than the last.
+//
+// create()/step() are pure — no DOM, no canvas, no audio — so
+// tools/check_arcade.mjs can run a whole session headless. render() is the
+// only function that touches a canvas, and only when the app calls it.
+//
+// "What this teaches": tie off before you climb. An anchored line is what
+// turns a slip into nothing worse than a stop, instead of a fall.
+
+const SY_WIDTH = 256;
+const SY_HEIGHT = 224;
+const SY_TEACHES = "Tie off before you climb: an anchored line turns a slip into a stop, not a fall.";
+
+const FLOOR_COUNT = 5; // 0 = yard level, 4 = crane cab
+const FLOOR_GAP = 42;
+const FLOOR_MARGIN = 20;
+const syFloorY = (f) => SY_HEIGHT - FLOOR_MARGIN - f * FLOOR_GAP;
+const PLAYER_SPEED = 66;
+const CLIMB_SPEED = 58;
+const LADDER_SNAP = 11;
+const START_X = 18;
+
+function syRandFn(seed) {
+  let s = (seed >>> 0) || 1;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+// ladders[f] = x positions of ladders climbing from floor f to floor f+1.
+// anchorX[f] = the tie-off point on floor f+1 (there is no anchor on the
+// ground floor). dir[f] = which way spools roll while resting on floor f
+// before they drop to the ramp below (1 right, -1 left).
+const SY_BOARDS = [
+  { name: "Ground rig", ladders: [[40, 190], [90, 220], [30, 150], [195]], anchorX: [160, 60, 205, 40], dir: [1, -1, 1, -1], spoolRate: 2.5, spoolSpeed: 42 },
+  { name: "Mid stack", ladders: [[60, 205], [30, 165], [95, 225], [55]], anchorX: [40, 195, 70, 210], dir: [-1, 1, -1, 1], spoolRate: 2.0, spoolSpeed: 52 },
+  { name: "High reach", ladders: [[30, 150, 220], [70, 200], [40, 185], [115]], anchorX: [205, 50, 180, 100], dir: [1, -1, 1, -1], spoolRate: 1.6, spoolSpeed: 60 },
+  { name: "Crane deck", ladders: [[50, 195], [30, 150, 210], [70, 200], [45]], anchorX: [70, 210, 40, 190], dir: [-1, 1, -1, 1], spoolRate: 1.3, spoolSpeed: 68 },
+];
+
+function boardDef(state) { return SY_BOARDS[Math.min(state.board, SY_BOARDS.length - 1)]; }
+
+function resetPlayer(state) {
+  state.floor = 0;
+  state.x = START_X;
+  state.climbing = null;
+  state.invuln = 1.1;
+}
+
+function sySay(state, text, dur = 1.3) { state.message = text; state.messageT = dur; }
+
+function hitPlayer(state, events) {
+  if (state.invuln > 0 || state.over) return;
+  state.lives -= 1;
+  events.push({ type: "hit", lives: state.lives });
+  if (state.lives <= 0) { state.over = true; sySay(state, "Game over", 3); }
+  else { sySay(state, "Watch the spools!"); resetPlayer(state); }
+}
+
+function spawnSpool(state) {
+  const b = boardDef(state);
+  const topFloor = FLOOR_COUNT - 2;
+  const dir = b.dir[topFloor] ?? 1;
+  state.spools.push({ floor: topFloor, x: dir > 0 ? -12 : SY_WIDTH + 12, dir });
+}
+
+function syCreate(opts = {}) {
+  const state = {
+    rng: syRandFn(opts.seed ?? 1),
+    board: 0,
+    level: 1,
+    floor: 0,
+    x: START_X,
+    climbing: null,
+    lives: 3,
+    score: 0,
+    over: false,
+    win: false,
+    maxFloor: 0,
+    anchors: [false, false, false, false],
+    spools: [],
+    spoolTimer: 1,
+    invuln: 0,
+    t: 0,
+    message: "Climb!",
+    messageT: 1.5,
+  };
+  return state;
+}
+
+function syStep(state, dt, input = {}) {
+  const events = [];
+  if (state.over) return events;
+  state.t += dt;
+  if (state.messageT > 0) state.messageT -= dt;
+  if (state.invuln > 0) state.invuln -= dt;
+  const b = boardDef(state);
+
+  if (state.climbing) {
+    const c = state.climbing;
+    const dir = c.to > c.from ? 1 : -1;
+    c.t += dt * dir * (CLIMB_SPEED / FLOOR_GAP);
+    if ((dir > 0 && c.t >= c.to) || (dir < 0 && c.t <= c.to)) {
+      state.floor = c.to;
+      state.climbing = null;
+      if (state.floor > state.maxFloor) {
+        state.maxFloor = state.floor;
+        state.score += 10;
+        events.push({ type: "floor", floor: state.floor });
+      }
+    } else {
+      state.floor = c.t;
+    }
+  } else {
+    let dx = 0;
+    if (input.left) dx -= 1;
+    if (input.right) dx += 1;
+    state.x = Math.max(4, Math.min(SY_WIDTH - 4, state.x + dx * PLAYER_SPEED * dt));
+    const floorIdx = Math.round(state.floor);
+    if (input.up && floorIdx < FLOOR_COUNT - 1) {
+      const lx = (b.ladders[floorIdx] || []).find((x) => Math.abs(x - state.x) < LADDER_SNAP);
+      if (lx != null) state.climbing = { from: floorIdx, to: floorIdx + 1, t: floorIdx, x: lx };
+    } else if (input.down && floorIdx > 0) {
+      const lx = (b.ladders[floorIdx - 1] || []).find((x) => Math.abs(x - state.x) < LADDER_SNAP);
+      if (lx != null) state.climbing = { from: floorIdx, to: floorIdx - 1, t: floorIdx, x: lx };
+    }
+  }
+  if (state.climbing) state.x = state.climbing.x;
+
+  const floorIdx = Math.round(state.floor);
+  if (!state.climbing && floorIdx > 0) {
+    const ai = floorIdx - 1;
+    if (!state.anchors[ai] && Math.abs(state.x - b.anchorX[ai]) < 9) {
+      state.anchors[ai] = true;
+      state.score += 50;
+      sySay(state, "Tied off · +50");
+      events.push({ type: "anchor", floor: floorIdx });
+    }
+  }
+
+  if (!state.climbing && floorIdx === FLOOR_COUNT - 1 && state.x > SY_WIDTH - 26) {
+    const bonus = 300 + state.level * 50;
+    state.score += bonus;
+    events.push({ type: "board-complete", board: state.board });
+    if (state.board >= SY_BOARDS.length - 1) {
+      state.over = true;
+      state.win = true;
+      sySay(state, "All boards climbed!", 3);
+    } else {
+      state.board += 1;
+      state.level = state.board + 1;
+      state.anchors = state.anchors.map(() => false);
+      state.spools = [];
+      state.maxFloor = 0;
+      resetPlayer(state);
+      sySay(state, `Board ${state.level}`, 1.6);
+    }
+  }
+
+  state.spoolTimer -= dt;
+  if (state.spoolTimer <= 0) {
+    spawnSpool(state);
+    state.spoolTimer = boardDef(state).spoolRate * (0.7 + state.rng() * 0.6);
+  }
+  for (const s of state.spools) {
+    const bd = boardDef(state);
+    s.x += s.dir * bd.spoolSpeed * dt;
+    const dir = bd.dir[s.floor] ?? 1;
+    if ((dir > 0 && s.x > SY_WIDTH + 14) || (dir < 0 && s.x < -14)) {
+      if (s.floor > 0) {
+        s.floor -= 1;
+        s.dir = bd.dir[s.floor] ?? -s.dir;
+        s.x = s.dir > 0 ? -12 : SY_WIDTH + 12;
+      } else {
+        s.dead = true;
+      }
+    }
+  }
+  state.spools = state.spools.filter((s) => !s.dead);
+
+  if (!state.climbing) {
+    for (const s of state.spools) {
+      if (s.floor === Math.round(state.floor) && Math.abs(s.x - state.x) < 8) {
+        hitPlayer(state, events);
+        break;
+      }
+    }
+  }
+
+  return events;
+}
+
+// ---------------------------------------------------------------- rendering
+
+const SY_PALETTE = { steel: "#2c3648", steelLight: "#46536c", ladder: "#ffb02a", spool: "#8a5a2b", spoolCore: "#d9b25a", anchor: "#5adf7a", anchorDone: "#2f8f4c", player: "#4fd1ff", cab: "#ff8a3c" };
+
+function syRender(ctx, state, W = SY_WIDTH, H = SY_HEIGHT) {
+  const b = boardDef(state);
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#0a0e18";
+  ctx.fillRect(0, 0, W, H);
+  // girders
+  for (let f = 0; f < FLOOR_COUNT; f++) {
+    const y = syFloorY(f);
+    ctx.fillStyle = SY_PALETTE.steel;
+    ctx.fillRect(0, y, W, 6);
+    ctx.fillStyle = SY_PALETTE.steelLight;
+    for (let x = 6; x < W; x += 18) ctx.fillRect(x, y, 4, 6);
+  }
+  // ladders
+  ctx.fillStyle = SY_PALETTE.ladder;
+  for (let f = 0; f < FLOOR_COUNT - 1; f++) {
+    for (const x of b.ladders[f] || []) {
+      const y0 = syFloorY(f + 1), y1 = syFloorY(f);
+      ctx.fillRect(x - 5, y0, 2, y1 - y0);
+      ctx.fillRect(x + 3, y0, 2, y1 - y0);
+      for (let ry = y0 + 4; ry < y1; ry += 7) ctx.fillRect(x - 5, ry, 10, 2);
+    }
+  }
+  // anchors
+  for (let f = 0; f < FLOOR_COUNT - 1; f++) {
+    const x = b.anchorX[f], y = syFloorY(f + 1);
+    ctx.fillStyle = state.anchors[f] ? SY_PALETTE.anchorDone : SY_PALETTE.anchor;
+    ctx.fillRect(x - 4, y - 10, 8, 10);
+    ctx.fillStyle = "#0a0e18";
+    ctx.fillRect(x - 1, y - 7, 2, 5);
+  }
+  // crane cab (goal)
+  ctx.fillStyle = SY_PALETTE.cab;
+  ctx.fillRect(W - 26, syFloorY(FLOOR_COUNT - 1) - 26, 24, 26);
+  ctx.fillStyle = "#1b1300";
+  ctx.fillRect(W - 22, syFloorY(FLOOR_COUNT - 1) - 22, 8, 8);
+  // spools
+  for (const s of state.spools) {
+    const y = syFloorY(s.floor) - 9;
+    ctx.fillStyle = SY_PALETTE.spool;
+    ctx.beginPath(); ctx.arc(s.x, y, 8, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = SY_PALETTE.spoolCore;
+    ctx.beginPath(); ctx.arc(s.x, y, 3.5, 0, Math.PI * 2); ctx.fill();
+  }
+  // player
+  const py = syFloorY(state.floor) - 15;
+  const blink = state.invuln > 0 && Math.floor(state.t * 12) % 2 === 0;
+  if (!blink) {
+    ctx.fillStyle = "#ffc93c";
+    ctx.fillRect(state.x - 5, py - 15, 10, 5);
+    ctx.fillStyle = SY_PALETTE.player;
+    ctx.fillRect(state.x - 4, py - 10, 8, 10);
+    ctx.fillStyle = "#2c3648";
+    ctx.fillRect(state.x - 4, py, 3, 6);
+    ctx.fillRect(state.x + 1, py, 3, 6);
+  }
+  // HUD
+  ctx.fillStyle = "#f1f5fb";
+  ctx.font = "10px monospace";
+  ctx.fillText(`SCORE ${Math.floor(state.score)}`, 6, 12);
+  ctx.fillText(`BOARD ${state.level}/4`, W - 74, 12);
+  ctx.fillText("♥".repeat(Math.max(0, state.lives)), 6, H - 6);
+  if (state.messageT > 0) {
+    ctx.fillStyle = "#ffc93c";
+    ctx.font = "bold 12px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText(state.message, W / 2, 24);
+    ctx.textAlign = "left";
+  }
+}
+
+
+/* ===== arcade/js/games/crewrun.js ===== */
+// Crew Run — side-scrolling platformer.
+//
+// A hard-hatted apprentice runs a jobsite: jump the trenches, duck the
+// swinging loads, stomp the hazard icons, and pick up PPE along the way. A
+// foreman checks your PPE count at the end of each of three stages.
+//
+// create()/step() are pure (no DOM, no canvas, no audio); render() draws the
+// pixel art and is the only function that touches a canvas.
+//
+// "What this teaches": PPE only helps if you're still wearing it when you
+// need it — pick it up, keep it on, get checked.
+
+const CR_WIDTH = 256;
+const CR_HEIGHT = 160;
+const CR_TEACHES = "PPE only helps if you're still wearing it when you need it: pick it up, keep it on, get checked.";
+
+const GROUND_Y = 0;
+const GRAVITY = 780;
+const JUMP_V = 300;
+const HITBOX_W = 14;
+const SPAWN_AHEAD = 300;
+
+function crRandFn(seed) {
+  let s = (seed >>> 0) || 1;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+const CR_STAGES = [
+  { name: "Laydown yard", length: 1100, speed: 100, gapMin: 1.05, gapMax: 1.7, ppeNeeded: 3 },
+  { name: "Steel erection", length: 1400, speed: 128, gapMin: 0.9, gapMax: 1.45, ppeNeeded: 4 },
+  { name: "Punch list", length: 1700, speed: 156, gapMin: 0.78, gapMax: 1.25, ppeNeeded: 5 },
+];
+
+function stageDef(state) { return CR_STAGES[Math.min(state.stage - 1, CR_STAGES.length - 1)]; }
+function crSay(state, text, dur = 1.4) { state.message = text; state.messageT = dur; }
+
+function spawnObstacle(state) {
+  const r = state.rng();
+  const kind = r < 0.24 ? "trench" : r < 0.48 ? "load" : r < 0.72 ? "hazard" : "ppe";
+  const x = state.stageDistance + SPAWN_AHEAD + state.rng() * 60;
+  if (kind === "trench") state.obstacles.push({ kind, x, w: 40 + state.rng() * 26 });
+  else if (kind === "load") state.obstacles.push({ kind, x, w: 40, h: 44 });
+  else if (kind === "hazard") state.obstacles.push({ kind, x, w: 18, alive: true });
+  else state.obstacles.push({ kind: "ppe", x, taken: false, y: state.rng() < 0.4 ? 46 : 0 });
+}
+
+function hit(state, events) {
+  if (state.invuln > 0 || state.over) return;
+  state.lives -= 1;
+  state.invuln = 1.1;
+  events.push({ type: "hit", lives: state.lives });
+  if (state.lives <= 0) { state.over = true; crSay(state, "Game over", 3); }
+  else crSay(state, "Mind the site!");
+}
+
+function crCreate(opts = {}) {
+  return {
+    rng: crRandFn(opts.seed ?? 1),
+    stage: 1,
+    level: 1,
+    distance: 0,
+    stageDistance: 0,
+    y: 0,
+    vy: 0,
+    ducking: false,
+    airborne: false,
+    lives: 3,
+    score: 0,
+    ppe: 0,
+    over: false,
+    win: false,
+    obstacles: [],
+    nextSpawn: 0.4,
+    invuln: 0.4,
+    message: "Run!",
+    messageT: 1.2,
+    t: 0,
+  };
+}
+
+function crStep(state, dt, input = {}) {
+  const events = [];
+  if (state.over) return events;
+  state.t += dt;
+  if (state.messageT > 0) state.messageT -= dt;
+  if (state.invuln > 0) state.invuln -= dt;
+  const s = stageDef(state);
+
+  if (input.up && !state.airborne && !state.ducking) { state.vy = JUMP_V; state.airborne = true; }
+  state.ducking = !!input.down && !state.airborne;
+
+  state.vy -= GRAVITY * dt;
+  state.y += state.vy * dt;
+  if (state.y <= GROUND_Y) { state.y = GROUND_Y; state.vy = 0; state.airborne = false; }
+  else state.airborne = true;
+
+  const dx = s.speed * dt;
+  state.distance += dx;
+  state.stageDistance += dx;
+  state.score += dx * 0.05;
+
+  state.nextSpawn -= dt;
+  if (state.nextSpawn <= 0) {
+    spawnObstacle(state);
+    state.nextSpawn = s.gapMin + state.rng() * (s.gapMax - s.gapMin);
+  }
+
+  for (const o of state.obstacles) {
+    if (o.dead) continue;
+    const near = Math.abs(state.stageDistance - o.x) < ((o.w ?? 18) / 2 + HITBOX_W / 2);
+    if (!near) continue;
+    if (o.kind === "trench") {
+      if (!state.airborne && state.y <= 0.001) hit(state, events);
+    } else if (o.kind === "load") {
+      if (!state.ducking && state.y < (o.h ?? 44)) hit(state, events);
+    } else if (o.kind === "hazard" && o.alive) {
+      if (state.airborne && state.vy < 0 && state.y < 34) {
+        o.alive = false; o.dead = true; state.score += 30;
+        events.push({ type: "stomp" });
+      } else if (!state.airborne) {
+        hit(state, events);
+      }
+    } else if (o.kind === "ppe" && !o.taken) {
+      const reachable = o.y > 0 ? state.airborne : !state.ducking;
+      if (reachable) {
+        o.taken = true; o.dead = true; state.ppe += 1; state.score += 20;
+        events.push({ type: "ppe" });
+      }
+    }
+  }
+  state.obstacles = state.obstacles.filter((o) => state.stageDistance - o.x < 90 && !o.dead);
+
+  if (state.stageDistance >= s.length) {
+    const passed = state.ppe >= s.ppeNeeded;
+    state.score += passed ? 200 * state.stage : 50;
+    events.push({ type: "checkpoint", passed });
+    crSay(state, passed ? "Foreman: fully kitted — pass" : "Foreman: short on PPE", 2);
+    if (state.stage >= CR_STAGES.length) {
+      state.over = true; state.win = true; crSay(state, "Site cleared!", 3);
+    } else {
+      state.stage += 1;
+      state.level = state.stage;
+      state.stageDistance = 0;
+      state.ppe = 0;
+      state.obstacles = [];
+    }
+  }
+
+  return events;
+}
+
+// ---------------------------------------------------------------- rendering
+
+const CR_GROUND_PX = CR_HEIGHT - 24;
+const worldToScreen = (state, wx) => CR_WIDTH * 0.24 + (wx - state.stageDistance);
+
+function crRender(ctx, state, W = CR_WIDTH, H = CR_HEIGHT) {
+  const groundPx = H - 24;
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#0e1a12";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "#1c2a1f";
+  for (let i = 0; i < 6; i++) {
+    const x = (i * 60 - (state.distance * 0.2) % 60);
+    ctx.fillRect(x, 10, 26, H - 34);
+  }
+  ctx.fillStyle = "#3a4b3d";
+  ctx.fillRect(0, groundPx, W, H - groundPx);
+  ctx.fillStyle = "#2a382c";
+  for (let x = -((state.stageDistance | 0) % 20); x < W; x += 20) ctx.fillRect(x, groundPx, 10, 3);
+
+  for (const o of state.obstacles) {
+    const sx = worldToScreen(state, o.x);
+    if (sx < -40 || sx > W + 40) continue;
+    if (o.kind === "trench") {
+      ctx.fillStyle = "#0e1a12";
+      ctx.fillRect(sx - o.w / 2, groundPx, o.w, H - groundPx);
+    } else if (o.kind === "load") {
+      ctx.strokeStyle = "#556"; ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, groundPx - o.h); ctx.stroke();
+      ctx.fillStyle = "#ffc93c";
+      ctx.fillRect(sx - o.w / 2, groundPx - o.h, o.w, 14);
+    } else if (o.kind === "hazard" && o.alive) {
+      ctx.fillStyle = "#ff5a5a";
+      ctx.beginPath();
+      ctx.moveTo(sx, groundPx - 18); ctx.lineTo(sx - 9, groundPx); ctx.lineTo(sx + 9, groundPx);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#1b1300"; ctx.fillRect(sx - 1, groundPx - 12, 2, 6);
+    } else if (o.kind === "ppe" && !o.taken) {
+      const py = groundPx - 10 - (o.y > 0 ? 30 : 0);
+      ctx.fillStyle = "#ffc93c";
+      ctx.fillRect(sx - 6, py - 6, 12, 8);
+      ctx.fillStyle = "#0e1a12";
+      ctx.fillRect(sx - 3, py - 3, 6, 2);
+    }
+  }
+
+  const px = CR_WIDTH * 0.24;
+  const py = groundPx - 22 - state.y;
+  const blink = state.invuln > 0 && Math.floor(state.t * 12) % 2 === 0;
+  if (!blink) {
+    ctx.fillStyle = "#ffc93c";
+    ctx.fillRect(px - 6, py, 12, 5);
+    ctx.fillStyle = "#4fd1ff";
+    const h = state.ducking ? 10 : 18;
+    ctx.fillRect(px - 5, py + 5, 10, h);
+    if (!state.ducking) { ctx.fillStyle = "#2c3648"; ctx.fillRect(px - 5, py + 23, 4, 6); ctx.fillRect(px + 1, py + 23, 4, 6); }
+  }
+
+  ctx.fillStyle = "#f1f5fb";
+  ctx.font = "10px monospace";
+  ctx.fillText(`SCORE ${Math.floor(state.score)}`, 6, 12);
+  ctx.fillText(`STAGE ${state.level}/3`, W - 60, 12);
+  ctx.fillText(`PPE ${state.ppe}/${stageDef(state).ppeNeeded}`, 6, H - 6);
+  ctx.fillText("♥".repeat(Math.max(0, state.lives)), W - 40, H - 6);
+  if (state.messageT > 0) {
+    ctx.fillStyle = "#ffc93c";
+    ctx.font = "bold 12px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText(state.message, W / 2, 24);
+    ctx.textAlign = "left";
+  }
+}
+
+
+/* ===== arcade/js/games/palletstacker.js ===== */
+// Pallet Stacker — falling-block stacker, two-player split screen.
+//
+// Pallets of different shapes drop into the truck bed; complete a row to
+// ship it. The stack shifts if it leans too far to one side. Levels speed
+// up. Two players get one independent board each, side by side.
+//
+// create()/step() are pure (no DOM, no canvas, no audio); render() draws the
+// pixel art and is the only function that touches a canvas.
+//
+// "What this teaches": a leaning load is an unstable load — keep the stack
+// square, or it comes down on its own schedule, not yours.
+
+const PS_COLS = 8;
+const PS_ROWS = 16;
+const PS_TEACHES = "A leaning load is an unstable load: keep the stack square, or it comes down on its own schedule.";
+
+const SHAPES = {
+  I: [[1, 1, 1, 1]],
+  O: [[1, 1], [1, 1]],
+  T: [[0, 1, 0], [1, 1, 1]],
+  S: [[0, 1, 1], [1, 1, 0]],
+  Z: [[1, 1, 0], [0, 1, 1]],
+  J: [[1, 0, 0], [1, 1, 1]],
+  L: [[0, 0, 1], [1, 1, 1]],
+};
+const SHAPE_IDS = Object.keys(SHAPES);
+const COLOURS = { I: 1, O: 2, T: 3, S: 4, Z: 5, J: 6, L: 7 };
+const PS_COLOUR_CSS = { 1: "#4fd1ff", 2: "#ffc93c", 3: "#c98cff", 4: "#8cff5a", 5: "#ff5a7a", 6: "#5a8cff", 7: "#ff8a3c" };
+
+function psRandFn(seed) {
+  let s = (seed >>> 0) || 1;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+function rotateShape(shape) {
+  const h = shape.length, w = shape[0].length;
+  const out = Array.from({ length: w }, () => Array(h).fill(0));
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) out[x][h - 1 - y] = shape[y][x];
+  return out;
+}
+
+function pick(rng) { return SHAPE_IDS[Math.floor(rng() * SHAPE_IDS.length)]; }
+
+function fits(board, shape, px, py) {
+  for (let y = 0; y < shape.length; y++) {
+    for (let x = 0; x < shape[0].length; x++) {
+      if (!shape[y][x]) continue;
+      const gx = px + x, gy = py + y;
+      if (gx < 0 || gx >= PS_COLS || gy >= PS_ROWS) return false;
+      if (gy >= 0 && board.grid[gy][gx]) return false;
+    }
+  }
+  return true;
+}
+
+function spawn(board) {
+  const id = board.next;
+  board.next = pick(board.rng);
+  const shape = SHAPES[id];
+  board.piece = { id, shape, x: Math.floor((PS_COLS - shape[0].length) / 2), y: 0 };
+  if (!fits(board, board.piece.shape, board.piece.x, board.piece.y)) {
+    board.over = true;
+    board.piece = null;
+  }
+}
+
+function clearLines(board) {
+  let cleared = 0;
+  for (let y = PS_ROWS - 1; y >= 0; y--) {
+    if (board.grid[y].every((c) => c)) {
+      board.grid.splice(y, 1);
+      board.grid.unshift(Array(PS_COLS).fill(0));
+      cleared += 1;
+      y += 1;
+    }
+  }
+  if (cleared) {
+    const table = [0, 100, 300, 500, 800];
+    board.score += (table[cleared] ?? 800) * board.level;
+    board.lines += cleared;
+    board.level = 1 + Math.floor(board.lines / 10);
+    board.dropInterval = Math.max(0.12, 0.8 - (board.level - 1) * 0.06);
+  }
+  return cleared;
+}
+
+function lockPiece(board, events) {
+  const { shape, x, y, id } = board.piece;
+  for (let sy = 0; sy < shape.length; sy++) {
+    for (let sx = 0; sx < shape[0].length; sx++) {
+      if (!shape[sy][sx]) continue;
+      const gy = y + sy, gx = x + sx;
+      if (gy >= 0) board.grid[gy][gx] = COLOURS[id];
+    }
+  }
+  const cleared = clearLines(board);
+  if (cleared) events.push({ type: "ship", rows: cleared });
+  spawn(board);
+}
+
+/** The stack leans too far: settle the tallest column's top block one step
+ *  toward the shortest column, if there is room — a gentle penalty, never a
+ *  crash, and it never removes a block, only moves one. */
+function maybeShift(board) {
+  const heights = Array.from({ length: PS_COLS }, (_, x) => {
+    for (let y = 0; y < PS_ROWS; y++) if (board.grid[y][x]) return PS_ROWS - y;
+    return 0;
+  });
+  const maxH = Math.max(...heights), minH = Math.min(...heights);
+  if (maxH - minH < 6) return false;
+  const tall = heights.indexOf(maxH);
+  const leftH = tall > 0 ? heights[tall - 1] : Infinity;
+  const rightH = tall < PS_COLS - 1 ? heights[tall + 1] : Infinity;
+  const dir = leftH <= rightH ? -1 : 1;
+  const target = tall + dir;
+  if (target < 0 || target >= PS_COLS) return false;
+  const topY = PS_ROWS - maxH;
+  const cell = board.grid[topY][tall];
+  if (!cell) return false;
+  let ty = PS_ROWS - 1;
+  while (ty >= 0 && board.grid[ty][target]) ty -= 1;
+  if (ty < 0) return false;
+  board.grid[topY][tall] = 0;
+  board.grid[ty][target] = cell;
+  board.message = "Load shift!";
+  board.messageT = 1.1;
+  return true;
+}
+
+function freshBoard(seed) {
+  const rng = psRandFn(seed);
+  const board = {
+    rng,
+    grid: Array.from({ length: PS_ROWS }, () => Array(PS_COLS).fill(0)),
+    score: 0,
+    lines: 0,
+    level: 1,
+    over: false,
+    dropT: 0,
+    dropInterval: 0.8,
+    piece: null,
+    next: pick(rng),
+    message: "",
+    messageT: 0,
+    shiftT: 2.5 + rng() * 3,
+  };
+  spawn(board);
+  return board;
+}
+
+function psCreate(opts = {}) {
+  const n = opts.players === 2 ? 2 : 1;
+  const seed = opts.seed ?? 1;
+  return {
+    n,
+    boards: Array.from({ length: n }, (_, i) => freshBoard(seed + i * 7919 + 1)),
+    over: false,
+  };
+}
+
+function stepBoard(board, dt, input = {}) {
+  const events = [];
+  if (board.over || !board.piece) return events;
+  if (board.messageT > 0) board.messageT -= dt;
+  const p = board.piece;
+  if (input.left && fits(board, p.shape, p.x - 1, p.y)) p.x -= 1;
+  if (input.right && fits(board, p.shape, p.x + 1, p.y)) p.x += 1;
+  if (input.rotate && !board._rotateHeld) {
+    const r = rotateShape(p.shape);
+    for (const k of [0, -1, 1, -2, 2]) {
+      if (fits(board, r, p.x + k, p.y)) { p.shape = r; p.x += k; break; }
+    }
+  }
+  board._rotateHeld = !!input.rotate;
+
+  board.dropT += dt * (input.down ? 7 : 1);
+  if (input.hardDrop && !board._hardDropHeld) {
+    while (fits(board, p.shape, p.x, p.y + 1)) p.y += 1;
+    board.dropT = board.dropInterval;
+  }
+  board._hardDropHeld = !!input.hardDrop;
+
+  if (board.dropT >= board.dropInterval) {
+    board.dropT = 0;
+    if (fits(board, p.shape, p.x, p.y + 1)) p.y += 1;
+    else lockPiece(board, events);
+  }
+
+  board.shiftT -= dt;
+  if (board.shiftT <= 0) {
+    if (maybeShift(board)) events.push({ type: "shift" });
+    board.shiftT = 3 + board.rng() * 4;
+  }
+  return events;
+}
+
+function psStep(state, dt, inputs = {}) {
+  const events = [];
+  for (let i = 0; i < state.boards.length; i++) {
+    const input = inputs[i] ?? inputs[`p${i + 1}`] ?? {};
+    const ev = stepBoard(state.boards[i], dt, input);
+    for (const e of ev) events.push({ ...e, player: i });
+  }
+  state.over = state.boards.every((b) => b.over);
+  return events;
+}
+
+// ---------------------------------------------------------------- rendering
+
+const PS_CELL = 12;
+function psBoardSize() { return { w: PS_COLS * PS_CELL, h: PS_ROWS * PS_CELL }; }
+
+function drawBoard(ctx, board, ox, oy) {
+  ctx.fillStyle = "#0a0e18";
+  ctx.fillRect(ox, oy, PS_COLS * PS_CELL, PS_ROWS * PS_CELL);
+  for (let y = 0; y < PS_ROWS; y++) {
+    for (let x = 0; x < PS_COLS; x++) {
+      const c = board.grid[y][x];
+      if (!c) continue;
+      ctx.fillStyle = PS_COLOUR_CSS[c];
+      ctx.fillRect(ox + x * PS_CELL + 1, oy + y * PS_CELL + 1, PS_CELL - 2, PS_CELL - 2);
+    }
+  }
+  if (board.piece) {
+    const { shape, x, y, id } = board.piece;
+    ctx.fillStyle = PS_COLOUR_CSS[COLOURS[id]];
+    for (let sy = 0; sy < shape.length; sy++) {
+      for (let sx = 0; sx < shape[0].length; sx++) {
+        if (!shape[sy][sx]) continue;
+        const gy = y + sy;
+        if (gy < 0) continue;
+        ctx.fillRect(ox + (x + sx) * PS_CELL + 1, oy + gy * PS_CELL + 1, PS_CELL - 2, PS_CELL - 2);
+      }
+    }
+  }
+  ctx.strokeStyle = "rgba(120,160,220,.25)";
+  ctx.strokeRect(ox + 0.5, oy + 0.5, PS_COLS * PS_CELL - 1, PS_ROWS * PS_CELL - 1);
+  ctx.fillStyle = "#f1f5fb";
+  ctx.font = "9px monospace";
+  ctx.fillText(`SCORE ${board.score}`, ox, oy - 14);
+  ctx.fillText(`LVL ${board.level}`, ox, oy - 4);
+  ctx.fillText(`NEXT ${board.next}`, ox + PS_COLS * PS_CELL - 46, oy - 4);
+  if (board.messageT > 0) {
+    ctx.fillStyle = "#ffc93c";
+    ctx.fillText(board.message, ox, oy + PS_ROWS * PS_CELL + 12);
+  }
+  if (board.over) {
+    ctx.fillStyle = "rgba(4,6,12,.72)";
+    ctx.fillRect(ox, oy, PS_COLS * PS_CELL, PS_ROWS * PS_CELL);
+    ctx.fillStyle = "#ff5a7a";
+    ctx.font = "bold 11px monospace";
+    ctx.fillText("TRUCK", ox + 16, oy + PS_ROWS * PS_CELL / 2 - 6);
+    ctx.fillText("FULL", ox + 22, oy + PS_ROWS * PS_CELL / 2 + 8);
+  }
+}
+
+function psRender(ctx, state, W, H) {
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#04060c";
+  ctx.fillRect(0, 0, W, H);
+  const { w } = psBoardSize();
+  const gap = 24;
+  const totalW = state.boards.length * w + (state.boards.length - 1) * gap;
+  let ox = (W - totalW) / 2;
+  const oy = 24;
+  for (const board of state.boards) {
+    drawBoard(ctx, board, ox, oy);
+    ox += w + gap;
+  }
+}
+
+
+/* ===== arcade/js/cabinets.js ===== */
+// Break Room Arcade — the cabinet registry. Three original games, each with
+// a pure engine module (create()/step()/render()), a title/controls card and
+// its teaching line. Adding a fourth cabinet means a new games/*.js engine,
+// an entry here, and a slot in tools/check_arcade.mjs.
+
+
+
+
+const ARCADE_CABINETS = [
+  {
+    id: "spoolyard",
+    name: "Spool Yard",
+    genre: "Climbing platformer",
+    players: 1,
+    blurb: "Climb the steel frame while cable spools roll down off the ramps. Tie off at each level's anchor for a bonus, then reach the crane cab. Four boards, rising difficulty.",
+    teaches: SpoolYard.SY_TEACHES,
+    controls: "Move: ← → or A/D. Climb: hold ↑/↓ or W/S against a ladder. Esc pauses.",
+    width: SpoolYard.SY_WIDTH,
+    height: SpoolYard.SY_HEIGHT,
+    engine: { create: SpoolYard.syCreate, step: SpoolYard.syStep, render: SpoolYard.syRender },
+  },
+  {
+    id: "crewrun",
+    name: "Crew Run",
+    genre: "Side-scrolling platformer",
+    players: 1,
+    blurb: "A hard-hatted apprentice runs the jobsite: jump the trenches, duck the swinging loads, stomp the hazard icons and pick up PPE. A foreman checks your kit at the end of each of three stages.",
+    teaches: CrewRun.CR_TEACHES,
+    controls: "Jump: ↑ / W / Space. Duck: ↓ / S (hold under a swinging load). Esc pauses.",
+    width: CrewRun.CR_WIDTH,
+    height: CrewRun.CR_HEIGHT,
+    engine: { create: CrewRun.crCreate, step: CrewRun.crStep, render: CrewRun.crRender },
+  },
+  {
+    id: "palletstacker",
+    name: "Pallet Stacker",
+    genre: "Falling-block stacker",
+    players: 2,
+    blurb: "Pallets of different shapes drop into the truck bed. Complete a row to ship it. The load shifts if the stack leans, and levels speed up. Two-player split screen.",
+    teaches: PalletStacker.PS_TEACHES,
+    controls: "P1: A/D move, W rotate, S soft drop, Space hard drop. P2: ← → move, ↑ rotate, ↓ soft drop, Enter hard drop. Esc pauses.",
+    width: null, // sized from psBoardSize() × player count at run time
+    height: null,
+    engine: { create: PalletStacker.psCreate, step: PalletStacker.psStep, render: PalletStacker.psRender },
+  },
+];
+
+const ARCADE_CABINET_IDS = ARCADE_CABINETS.map((c) => c.id);
+
+
+/* ===== arcade/js/app.js ===== */
+// Break Room Arcade — the app: cabinet select, title/controls cards, the
+// game loop, pause, game over, high scores and the CRT toggle. Each
+// cabinet's own engine (create/step/render) is pure and lives under
+// games/*.js; this file only wires input, canvas and audio around it.
+
+const $ = (id) => document.getElementById(id);
+const aaStore = (() => { try { return window.localStorage; } catch { return null; } })();
+const aaAudio = arCreateAudio();
+
+const aa = {
+  screen: "menu",
+  cabinet: null,
+  players: 1,
+  state: null,
+  paused: false,
+  crt: true,
+  attract: ARCADE_CABINETS.map((c, i) => ({ cab: c, state: c.engine.create({ seed: i + 11, players: c.players === 2 ? 1 : undefined }) })),
+  t: 0,
+  lastScores: null,
+  initials: ["C", "R", "W"],
+  initialsSlot: 0,
+};
+
+// ------------------------------------------------------------------- input
+
+const AA_SOLO_SETS = [
+  { up: "KeyW", down: "KeyS", left: "KeyA", right: "KeyD" },
+  { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" },
+];
+const AA_DUO_SETS = [
+  { up: "KeyW", down: "KeyS", left: "KeyA", right: "KeyD", rotate: "KeyW", hard: "Space" },
+  { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight", rotate: "ArrowUp", hard: "Enter" },
+];
+const AA_GAME_KEYS = new Set([...AA_SOLO_SETS, ...AA_DUO_SETS].flatMap((k) => Object.values(k)));
+
+const aaKeys = new Set();
+window.addEventListener("keydown", (e) => {
+  if (document.activeElement && document.activeElement.tagName === "INPUT") return;
+  if (e.repeat) return;
+  aaKeys.add(e.code);
+  aaAudio.resume();
+  if (aa.screen === "playing") {
+    if (AA_GAME_KEYS.has(e.code) || e.code === "Space" || e.code === "Enter") e.preventDefault();
+    if (e.code === "Escape" || e.code === "KeyP") aaTogglePause();
+    if (e.code === "KeyM") { aaAudio.setMuted(!aaAudio.muted); aaToast(aaAudio.muted ? "Sound off" : "Sound on"); }
+  } else if (aa.screen === "pause" && (e.code === "Escape" || e.code === "KeyP")) {
+    aaTogglePause();
+  } else if (e.code === "Escape") {
+    document.querySelector(".screen:not([hidden]) [data-back]")?.click();
+  }
+});
+window.addEventListener("keyup", (e) => aaKeys.delete(e.code));
+window.addEventListener("blur", () => aaKeys.clear());
+window.addEventListener("pointerdown", () => aaAudio.resume(), { passive: true });
+
+const aaPads = [0, 1].map((i) => createGamepad({
+  getGamepads: () => {
+    const all = navigator.getGamepads ? navigator.getGamepads() : [];
+    const p = all?.[i];
+    return p ? [p] : [];
+  },
+  bindings: [], axisBindings: [],
+  onConnect: (info) => { if (info.connected) aaToast(`Gamepad ${i + 1} connected (${detectPadVendor(info.id)} labels).`); },
+}));
+const aaPadState = [0, 1].map(() => ({ prev: {}, edge: {} }));
+function aaPollPads(dt) {
+  aaPads.forEach((p, i) => {
+    const st = aaPadState[i];
+    const snap = p.poll(dt);
+    st.snap = snap;
+    const b = snap?.buttons ?? [];
+    st.edge = {};
+    for (const k of [0, 1, 7, 9, 12, 13, 14, 15]) {
+      const now = !!b[k]?.pressed;
+      st.edge[k] = now && !st.prev[k];
+      st.prev[k] = now;
+    }
+  });
+}
+
+function aaPadAxis(i) {
+  const s = aaPadState[i]?.snap;
+  if (!s?.connected) return { x: 0, y: 0 };
+  const ax = s.axes?.[0]?.value ?? 0, ay = s.axes?.[1]?.value ?? 0;
+  return { x: Math.abs(ax) > GAMEPAD_DEADZONE ? ax : 0, y: Math.abs(ay) > GAMEPAD_DEADZONE ? ay : 0 };
+}
+
+function aaReadSolo() {
+  const inp = { up: false, down: false, left: false, right: false };
+  for (const k of AA_SOLO_SETS) {
+    if (aaKeys.has(k.up)) inp.up = true;
+    if (aaKeys.has(k.down)) inp.down = true;
+    if (aaKeys.has(k.left)) inp.left = true;
+    if (aaKeys.has(k.right)) inp.right = true;
+  }
+  const st = aaPadState[0]?.snap;
+  const ax = aaPadAxis(0);
+  if (ax.x < 0) inp.left = true;
+  if (ax.x > 0) inp.right = true;
+  if (ax.y < 0) inp.up = true;
+  if (ax.y > 0) inp.down = true;
+  const dp = st?.buttons ?? [];
+  if (dp[12]?.pressed) inp.up = true;
+  if (dp[13]?.pressed) inp.down = true;
+  if (dp[14]?.pressed) inp.left = true;
+  if (dp[15]?.pressed) inp.right = true;
+  if (dp[0]?.pressed) inp.up = true; // A: jump, in Crew Run
+  if (dp[1]?.pressed) inp.down = true; // B: duck, in Crew Run
+  if (st?.connected && aaPadState[0].edge?.[9] && aa.screen === "playing") aaTogglePause();
+  return inp;
+}
+
+function aaReadDuo(i) {
+  const k = AA_DUO_SETS[i];
+  const inp = { left: false, right: false, down: false, rotate: false, hardDrop: false };
+  if (aaKeys.has(k.left)) inp.left = true;
+  if (aaKeys.has(k.right)) inp.right = true;
+  if (aaKeys.has(k.down)) inp.down = true;
+  if (aaKeys.has(k.rotate)) inp.rotate = true;
+  if (aaKeys.has(k.hard)) inp.hardDrop = true;
+  const ax = aaPadAxis(i);
+  const st = aaPadState[i]?.snap;
+  if (ax.x < 0) inp.left = true;
+  if (ax.x > 0) inp.right = true;
+  const dp = st?.buttons ?? [];
+  if (dp[14]?.pressed) inp.left = true;
+  if (dp[15]?.pressed) inp.right = true;
+  if (dp[13]?.pressed) inp.down = true;
+  if (dp[0]?.pressed) inp.rotate = true;
+  if (dp[7]?.pressed) inp.hardDrop = true;
+  if (st?.connected && aaPadState[i].edge?.[9] && aa.screen === "playing") aaTogglePause();
+  return inp;
+}
+
+function aaReadInput() {
+  if (aa.cabinet.id === "palletstacker") {
+    const inputs = { 0: aaReadDuo(0) };
+    if (aa.players === 2) inputs[1] = aaReadDuo(1);
+    return inputs;
+  }
+  return aaReadSolo();
+}
+
+// ------------------------------------------------------------------- canvas
+
+const canvas = $("game");
+const ctx = canvas.getContext("2d");
+function aaCanvasSize() {
+  if (aa.cabinet?.id === "palletstacker") {
+    const { w, h } = psBoardSize();
+    return { w: aa.players * w + (aa.players - 1) * 24 + 8, h: h + 40 };
+  }
+  return { w: aa.cabinet?.width ?? 256, h: aa.cabinet?.height ?? 224 };
+}
+function aaFitCanvas() {
+  const { w, h } = aaCanvasSize();
+  canvas.width = w; canvas.height = h;
+  const wrap = $("stage-wrap");
+  const scale = Math.max(1, Math.floor(Math.min(wrap.clientWidth / w, wrap.clientHeight / h, 4)));
+  canvas.style.width = `${w * scale}px`;
+  canvas.style.height = `${h * scale}px`;
+}
+window.addEventListener("resize", () => { if (aa.screen === "playing" || aa.screen === "pause") aaFitCanvas(); });
+
+// ------------------------------------------------------------------- screens
+
+const AA_SCREENS = ["menu", "title", "playing", "pause", "gameover", "scores"];
+function aaShow(name) {
+  aa.screen = name;
+  for (const s of AA_SCREENS) $(`scr-${s}`).hidden = s !== name;
+  $("stage-wrap").hidden = !(name === "playing" || name === "pause");
+  $("crt").hidden = !(name === "playing" || name === "pause") || !aa.crt;
+  if (name === "menu") aaRenderMenu();
+  if (name === "title") aaRenderTitle();
+  if (name === "scores") aaRenderScores(null);
+  aaAudio.play("select");
+}
+
+let aaToastT = null;
+function aaToast(text, ms = 2400) {
+  const t = $("toast");
+  t.textContent = text; t.classList.add("on");
+  clearTimeout(aaToastT);
+  aaToastT = setTimeout(() => t.classList.remove("on"), ms);
+}
+
+// ---- menu: three cabinets, attract-mode preview canvases
+
+function aaRenderMenu() {
+  const row = $("cab-row");
+  row.textContent = "";
+  ARCADE_CABINETS.forEach((cab, i) => {
+    const card = document.createElement("button");
+    card.className = "cabinet";
+    card.setAttribute("aria-label", `Play ${cab.name}`);
+    const cv = document.createElement("canvas");
+    cv.width = 128; cv.height = cab.id === "palletstacker" ? 112 : Math.round(128 * (cab.height / cab.width));
+    cv.className = "cab-screen";
+    card.innerHTML = `<div class="marquee"></div>`;
+    card.querySelector(".marquee").textContent = cab.name;
+    card.append(cv);
+    const meta = document.createElement("div");
+    meta.className = "cab-meta";
+    meta.innerHTML = `<b></b><span></span>`;
+    meta.querySelector("b").textContent = cab.genre;
+    meta.querySelector("span").textContent = cab.players === 2 ? "1-2 players" : "1 player";
+    card.append(meta);
+    card.addEventListener("click", () => { aa.cabinet = cab; aa.players = 1; aaShow("title"); });
+    row.append(card);
+    aa.attract[i].canvas = cv;
+  });
+}
+
+function aaAttractInput(id, t) {
+  if (id === "spoolyard") return { left: Math.sin(t * 0.7) > 0.25, right: Math.sin(t * 0.7) < -0.25, up: Math.sin(t * 1.3) > 0.55, down: Math.sin(t * 1.3 + 1) > 0.85 };
+  if (id === "crewrun") return { up: Math.sin(t * 1.05) > 0.88, down: Math.sin(t * 1.7 + 2) < -0.9 };
+  return { 0: { left: Math.sin(t * 0.9) > 0.35, right: Math.sin(t * 0.9) < -0.35, rotate: Math.sin(t * 2.3) > 0.92, down: Math.sin(t * 1.6) > 0.8 } };
+}
+
+function aaStepAttract(dt) {
+  for (const a of aa.attract) {
+    if (!a.canvas || a.state.over) { if (a.state.over) a.state = a.cab.engine.create({ seed: Math.random() * 1e6 | 0, players: a.cab.players === 2 ? 1 : undefined }); continue; }
+    a.cab.engine.step(a.state, dt, aaAttractInput(a.cab.id, aa.t));
+    const c = a.canvas.getContext("2d");
+    a.cab.engine.render(c, a.state, a.canvas.width, a.canvas.height);
+  }
+}
+
+// ---- title card
+
+function aaRenderTitle() {
+  const cab = aa.cabinet;
+  $("title-name").textContent = cab.name;
+  $("title-genre").textContent = cab.genre;
+  $("title-blurb").textContent = cab.blurb;
+  $("title-controls").textContent = cab.controls;
+  $("title-teaches").textContent = `What this teaches: ${cab.teaches}`;
+  $("title-players").hidden = cab.players !== 2;
+  $("title-players-solo").hidden = cab.players === 2;
+  const table = arLoadScores(aaStore)[cab.id] ?? [];
+  const list = $("title-scores");
+  list.textContent = "";
+  table.slice(0, 5).forEach((row, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}. ${row.name} — ${row.score}`;
+    list.append(li);
+  });
+  if (!table.length) { const li = document.createElement("li"); li.textContent = "No scores yet — be the first."; list.append(li); }
+}
+$("title-1p").addEventListener("click", () => { aa.players = 1; aaStartGame(); });
+$("title-2p").addEventListener("click", () => { aa.players = 2; aaStartGame(); });
+$("title-start").addEventListener("click", () => { aa.players = 1; aaStartGame(); });
+
+function aaStartGame() {
+  aa.state = aa.cabinet.engine.create({ seed: (Date.now() / 1000 | 0) % 1e6, players: aa.players });
+  aa.paused = false;
+  aaFitCanvas();
+  aaShow("playing");
+  aaAudio.play("start");
+  aaAudio.resume();
+  if (aaStore) aaAudio.music(true);
+}
+
+function aaTogglePause() {
+  if (!aa.state) return;
+  aa.paused = !aa.paused;
+  if (aa.paused) { aaShow("pause"); aaAudio.play("pause"); } else { aaShow("playing"); aaFitCanvas(); }
+}
+$("pause-resume").addEventListener("click", aaTogglePause);
+$("pause-restart").addEventListener("click", () => aaStartGame());
+$("pause-quit").addEventListener("click", () => aaQuitToMenu());
+
+function aaQuitToMenu() {
+  aa.paused = false; aa.state = null; aa.cabinet = null;
+  aaAudio.stop();
+  aaShow("menu");
+}
+
+// ---- game over + high scores
+
+function aaBoardScores(state) {
+  if (aa.cabinet.id === "palletstacker") return state.boards.map((b) => b.score);
+  return [state.score];
+}
+
+function aaShowGameOver() {
+  aaAudio.stop();
+  const scores = aaBoardScores(aa.state).map(Math.round);
+  aa.lastScores = scores;
+  const table = arLoadScores(aaStore)[aa.cabinet.id] ?? [];
+  const lowest = table.length < ARCADE_TABLE_SIZE ? -1 : table[table.length - 1].score;
+  const qualifies = scores.some((s) => s > lowest);
+  aaAudio.play(aa.state.win ? "win" : "over");
+  $("go-title").textContent = aa.state.win ? "Board cleared!" : "Game over";
+  $("go-score").innerHTML = scores.map((s, i) => `<div>${scores.length > 1 ? `Player ${i + 1}: ` : "Score: "}<b>${s}</b></div>`).join("");
+  $("go-entry").hidden = !qualifies;
+  $("go-noentry").hidden = qualifies;
+  if (qualifies) {
+    aa.initials = ["C", "R", "W"];
+    aa.pendingIdx = scores.findIndex((s) => s > lowest);
+    $("go-initials").value = "CRW";
+    aaAudio.play("highscore");
+  }
+  aaRenderScores(aa.cabinet.id, "scores-tables-go");
+  aaShow("gameover");
+}
+$("go-save").addEventListener("click", () => {
+  const name = ($("go-initials").value || "CRW").slice(0, 3);
+  const score = aa.lastScores[aa.pendingIdx ?? 0];
+  arSubmitScore(aaStore, aa.cabinet.id, name, score);
+  aaRenderScores(aa.cabinet.id, "scores-tables-go");
+  $("go-entry").hidden = true;
+  $("go-noentry").hidden = false;
+  $("go-noentry").textContent = "Saved to the high score table.";
+});
+$("go-again").addEventListener("click", () => aaStartGame());
+$("go-menu").addEventListener("click", () => aaQuitToMenu());
+
+function aaRenderScores(highlightGame, targetId = "scores-tables-view") {
+  const wrap = $(targetId);
+  wrap.textContent = "";
+  const all = arLoadScores(aaStore);
+  for (const cab of ARCADE_CABINETS) {
+    const box = document.createElement("div");
+    box.className = "score-box";
+    if (cab.id === highlightGame) box.classList.add("hi");
+    const rows = all[cab.id] ?? [];
+    box.innerHTML = `<h3></h3><ol></ol>`;
+    box.querySelector("h3").textContent = cab.name;
+    const ol = box.querySelector("ol");
+    if (!rows.length) { const li = document.createElement("li"); li.textContent = "—"; ol.append(li); }
+    rows.forEach((r) => { const li = document.createElement("li"); li.textContent = `${r.name} — ${r.score}`; ol.append(li); });
+    wrap.append(box);
+  }
+}
+$("btn-scores").addEventListener("click", () => aaShow("scores"));
+document.querySelectorAll("[data-back]").forEach((b) => b.addEventListener("click", () => aaShow("menu")));
+
+// ---- CRT toggle
+
+$("btn-crt").addEventListener("click", () => {
+  aa.crt = !aa.crt;
+  $("btn-crt").setAttribute("aria-pressed", String(aa.crt));
+  $("btn-crt").textContent = `CRT scanlines: ${aa.crt ? "on" : "off"}`;
+  $("crt").hidden = !aa.crt || !(aa.screen === "playing" || aa.screen === "pause");
+});
+
+// ------------------------------------------------------------------- loop
+
+let aaLast = performance.now();
+function aaFrame(now) {
+  requestAnimationFrame(aaFrame);
+  let dt = Math.min(0.05, (now - aaLast) / 1000);
+  aaLast = now;
+  aa.t += dt;
+  aaPollPads(dt);
+  if (aa.screen === "menu") { aaStepAttract(dt); return; }
+  if (aa.screen !== "playing" || !aa.state) return;
+  const before = aa.state.over;
+  const events = aa.cabinet.engine.step(aa.state, dt, aaReadInput());
+  for (const e of events) aaOnEvent(e);
+  aa.cabinet.engine.render(ctx, aa.state, canvas.width, canvas.height);
+  if (!before && aa.state.over) aaShowGameOver();
+}
+
+const AA_EVENT_SOUND = {
+  floor: "step", anchor: "anchor", "board-complete": "levelup",
+  hit: "hit", ppe: "ppe", stomp: "stomp", checkpoint: "checkpoint",
+  ship: "ship", shift: "shift", lock: null,
+};
+function aaOnEvent(e) {
+  if (e.type === "ship" && e.rows >= 4) return aaAudio.play("tetris");
+  const s = AA_EVENT_SOUND[e.type];
+  if (s) aaAudio.play(s);
+}
+
+requestAnimationFrame(aaFrame);
+aaShow("menu");
+
+</script>
+</body>
+</html>

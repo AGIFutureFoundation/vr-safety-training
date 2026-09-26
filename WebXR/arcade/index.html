@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Break Room Arcade</title>
+<meta name="description" content="The training platform's other Easter egg: a row of three retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner and a falling-block stacker — with pixel art, a chiptune soundtrack and local high scores.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#07080c; --panel:#111319; --glass:rgba(10,11,16,.86); --raised:#191c24; --raised-2:#22262f;
+    --text:#f1f5fb; --muted:#a3aabb; --dim:#6d7488; --accent:#4fd1ff; --amber:#ffc93c; --pink:#ff5a7a; --green:#8cff5a;
+    --edge:rgba(160,170,200,.18); --edge-strong:rgba(160,170,200,.36);
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed","Barlow",system-ui,sans-serif; --pixel:"Press Start 2P", "Barlow Condensed", monospace;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:radial-gradient(1200px 800px at 50% -10%, #171a22, var(--void) 60%);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;
+    background:radial-gradient(1100px 650px at 50% 115%, rgba(79,209,255,.08), transparent 60%);}
+  .card{width:min(980px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);
+    border-radius:14px;padding:22px 22px 18px;backdrop-filter:blur(6px);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-family:var(--pixel);text-transform:uppercase;letter-spacing:0;margin:10px 0 4px;font-size:clamp(20px,5vw,38px);line-height:1.3;
+    color:var(--amber);text-shadow:3px 3px 0 var(--pink),0 0 30px rgba(255,201,60,.3)}
+  .stripe{height:6px;width:220px;margin:10px 0 16px;background:repeating-linear-gradient(-45deg,var(--amber) 0 12px,#15171a 12px 24px);border-radius:2px}
+  h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:26px;margin:4px 0 10px}
+  p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.55}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:14px 0 0;max-width:86ch}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+    font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:15px}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#ffd862,var(--amber));color:#1b1300;border-color:transparent}
+  .btn.ghost{background:transparent}
+  a.btn{display:inline-block;text-decoration:none;color:var(--text)}
+
+  /* ---------- cabinet row ---------- */
+  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(180px,1fr));margin:14px 0 6px}
+  @media (max-width:760px){ .cab-row{grid-template-columns:1fr} }
+  .cabinet{text-align:left;cursor:pointer;background:linear-gradient(180deg,#20232c,#14161c);border:2px solid #2c303b;
+    border-radius:10px 10px 4px 4px;padding:10px;position:relative;box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 0 0 3px #0a0b0e}
+  .cabinet:hover,.cabinet:focus-visible{border-color:var(--amber)}
+  .cabinet .marquee{font-family:var(--pixel);font-size:10px;text-align:center;color:#1b1300;background:linear-gradient(180deg,#ffe28a,var(--amber));
+    padding:6px 4px;border-radius:4px;margin-bottom:8px;letter-spacing:.02em;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+  .cabinet canvas.cab-screen{display:block;width:100%;height:auto;background:#04060a;border-radius:3px;box-shadow:inset 0 0 0 4px #05060a, inset 0 0 18px rgba(0,0,0,.6);image-rendering:pixelated}
+  .cab-meta{margin-top:8px;font-size:12.5px;color:var(--muted)}
+  .cab-meta b{display:block;font-family:var(--cond);color:var(--text);font-size:14px;letter-spacing:.03em;text-transform:uppercase}
+
+  /* ---------- title card ---------- */
+  .title-grid{display:grid;gap:10px;grid-template-columns:1fr}
+  #title-teaches{font-size:13px;color:var(--green);border-left:3px solid var(--green);padding-left:10px;margin:8px 0}
+  #title-controls{font-size:13.5px;color:var(--muted);margin:6px 0}
+  ol.mini-scores,ul.mini-scores{list-style:none;margin:6px 0 0;padding:0;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  /* ---------- stage ---------- */
+  #stage-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:1}
+  #game{image-rendering:pixelated;box-shadow:0 0 0 3px #000, 0 0 60px rgba(79,209,255,.08)}
+  #crt{position:fixed;inset:0;z-index:5;pointer-events:none;
+    background:repeating-linear-gradient(rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 3px 4px),
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.4) 100%);
+    mix-blend-mode:multiply}
+  #hud-top{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:8;display:flex;gap:8px}
+  #hud-top .btn{padding:6px 10px;font-size:12px}
+
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;background:var(--glass);border:1px solid var(--edge-strong);border-radius:8px;
+    padding:10px 16px;font-size:14px;color:var(--text);max-width:min(620px,calc(100vw - 32px));text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+  #toast.on{opacity:1}
+
+  .score-tables{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin-top:10px}
+  @media (max-width:760px){ .score-tables{grid-template-columns:1fr} }
+  .score-box{border:1px solid var(--edge);border-radius:10px;padding:12px;background:var(--panel)}
+  .score-box.hi{border-color:var(--amber)}
+  .score-box h3{margin:0 0 6px;font-family:var(--cond);text-transform:uppercase;font-size:15px}
+  .score-box ol{margin:0;padding-left:20px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  #go-initials{font-family:var(--pixel);font-size:16px;letter-spacing:.3em;text-transform:uppercase;background:#0e1017;
+    border:2px solid var(--edge-strong);border-radius:6px;color:var(--amber);padding:8px 10px;width:120px;text-align:center}
+  @media (max-width:640px){ h2{font-size:20px} .card{padding:16px} }
+</style>
+</head>
+<body>
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home · Race is next door</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+
+<div id="stage-wrap" hidden><canvas id="game" width="256" height="224"></canvas></div>
+<div id="crt" hidden></div>
+<div id="hud-top">
+  <button class="btn ghost" id="btn-crt" aria-pressed="true">CRT scanlines: on</button>
+</div>
+<div id="toast" role="status"></div>
+
+<section class="screen" id="scr-menu" aria-labelledby="t-menu">
+  <div class="card">
+    <p class="eyebrow">The crew's other Easter egg</p>
+    <h1 class="logo" id="t-menu">BREAK ROOM ARCADE</h1>
+    <div class="stripe"></div>
+    <p class="lead">Three retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
+    <div class="cab-row" id="cab-row"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="btn-scores">High scores</button>
+      <a class="btn ghost" href="../index.html">Back to the training platform</a>
+    </div>
+    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2). Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
+  </div>
+</section>
+
+<section class="screen" id="scr-title" hidden aria-labelledby="t-title">
+  <div class="card title-grid">
+    <p class="eyebrow" id="title-genre"></p>
+    <h2 id="title-name"></h2>
+    <p class="lead" id="title-blurb"></p>
+    <p id="title-controls"></p>
+    <p id="title-teaches"></p>
+    <p class="eyebrow" style="margin-top:8px">High scores</p>
+    <ol class="mini-scores" id="title-scores"></ol>
+    <div class="row" style="margin-top:14px" id="title-players">
+      <button class="btn ghost" data-back>Back</button>
+      <button class="btn primary" id="title-1p">1 player</button>
+      <button class="btn" id="title-2p">2 players</button>
+    </div>
+    <div class="row" style="margin-top:14px" id="title-players-solo" hidden>
+      <button class="btn ghost" data-back>Back</button>
+      <button class="btn primary" id="title-start">Insert token</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="scr-pause" hidden aria-labelledby="t-pause">
+  <div class="card" style="width:min(420px,100%)">
+    <h2 id="t-pause">Paused</h2>
+    <div class="row"><button class="btn primary" id="pause-resume">Resume</button><button class="btn" id="pause-restart">Restart</button><button class="btn ghost" id="pause-quit">Quit to menu</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-gameover" hidden aria-labelledby="t-go">
+  <div class="card" style="width:min(560px,100%)">
+    <h2 id="t-go"><span id="go-title">Game over</span></h2>
+    <div id="go-score" style="font-family:var(--cond);font-size:24px;margin:6px 0 12px"></div>
+    <div id="go-entry">
+      <p class="note">High score! Enter your initials.</p>
+      <div class="row"><input id="go-initials" maxlength="3" value="CRW" autocomplete="off"><button class="btn primary" id="go-save">Save</button></div>
+    </div>
+    <p class="note" id="go-noentry" hidden></p>
+    <div class="score-tables" id="scores-tables-go"></div>
+    <div class="row" style="margin-top:14px"><button class="btn primary" id="go-again">Play again</button><button class="btn ghost" id="go-menu">Quit to menu</button></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-scores" hidden aria-labelledby="t-scores">
+  <div class="card">
+    <h2 id="t-scores">High scores</h2>
+    <div class="score-tables" id="scores-tables-view"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button></div>
+  </div>
+</section>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

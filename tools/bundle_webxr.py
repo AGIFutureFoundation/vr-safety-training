@@ -191,6 +191,24 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # The other Easter egg (WebXR/arcade): three original 2D canvas games on
+    # retro cabinets in the crew break room. Each game's engine is a pure
+    # module under arcade/js/games/; a new cabinet is a new file there, an
+    # entry in arcade/js/cabinets.js and a slot in tools/check_arcade.mjs.
+    "arcade": {
+        "out": "arcade.html",
+        "modules": [
+            SHARED / "input.js",
+            WEBXR / "arcade/js/scores.js",
+            WEBXR / "arcade/js/audio.js",
+            WEBXR / "arcade/js/games/spoolyard.js",
+            WEBXR / "arcade/js/games/crewrun.js",
+            WEBXR / "arcade/js/games/palletstacker.js",
+            WEBXR / "arcade/js/cabinets.js",
+            WEBXR / "arcade/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Easter egg (WebXR/race): an arcade racer on the platform's own fleet.
     # Tracks are data modules under race/tracks/, one per course; a new course
     # is a new file here, in race/js/tracks.js and in tools/check_race.mjs.
@@ -398,6 +416,7 @@ DIST_PAGES = {
     "holodeck": "holodeck.html",
     "instructor": "instructor-console.html",
     "race": "race.html",
+    "arcade": "arcade.html",
 }
 DIST_SHARED = ["auth.js", "identity.js", "records.js"]
 
