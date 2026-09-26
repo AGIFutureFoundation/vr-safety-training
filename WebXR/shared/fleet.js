@@ -1484,6 +1484,107 @@ export function busTransit(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.busTransit.footprint, livery: lv });
 }
 
+/**
+ * Yellow school bus, Type C conventional: a truck-chassis hood and cab ahead
+ * of a bench-seat body, one continuous roofline, National School Bus Glossy
+ * Yellow with a black roof cap and skirt, "SCHOOL BUS" lettered on the side
+ * and rear. 10.7 m long, 2.44 m wide, 3 m to the roof. The entry door and the
+ * stop arm are on the curb side (−X, opposite the driver); the crossing
+ * (pedestrian-safety) gate hangs off the front bumper on the same side.
+ * Parts: doorEntry, doorRear, mirrorL, mirrorR, crossviewMirrorL,
+ * crossviewMirrorR, wheels, lights, stopArm (rotates about Y, 0 folded flat
+ * to −PI/2 deployed across the curb lane), crossingGate (rotates about Y, 0
+ * folded to −1.3 swept out ahead of the bumper), warningLights (the 8-way
+ * alternating red/amber roof lamps — `userData.redOn`/`amberOn` switch them
+ * via lightSwitch()).
+ */
+export function schoolBus(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf5c518, fleetName: "SCHOOL BUS", unitNumber: "42", accent: 0x14171a });
+  const L = 10.7, W = 2.44, ROOF = 3.0, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "schoolBus");
+  const S = rig.shell, P = flPaint(lv.colour);
+  const cab = flMediumCab(rig, lv, Z, {
+    body: lv.colour, cabW: W, roof: ROOF, cabBack: 2.5, hoodS: 1.35, frontAxle: 1.0, doorMarks: "none",
+  });
+  const H = ROOF - 1.1, b0 = cab.back;
+  box(S, W, H, L - b0 - 0.05, 0, 1.1 + H / 2, Z((b0 + L - 0.05) / 2), ...P);
+  // Black roof cap and lower skirt read as trim on the same yellow shell.
+  box(S, W + 0.02, 0.05, L - b0 + 0.05, 0, 1.1 + H + 0.02, Z((b0 + L - 0.1) / 2), 0x1a1d20, { rough: 0.6 });
+  box(S, W + 0.01, 0.1, L - b0 - 0.05, 0, 1.12, Z((b0 + L - 0.05) / 2), 0x1a1d20, { rough: 0.55, metal: 0.2 });
+  const side = flCanvasMat(`schoolBusSide:${lv.key}`, 2048, 384, (g, w, h) => {
+    g.fillStyle = flCss(lv.colour); g.fillRect(0, 0, w, h);
+    g.fillStyle = "#1a1d20"; g.fillRect(0, 0, w, h * 0.06); g.fillRect(0, h * 0.86, w, h * 0.14);
+    const wins = 11, wx = w * 0.03, ww = (w * 0.94) / wins - w * 0.012;
+    for (let i = 0; i < wins; i++) {
+      const x0 = wx + i * (w * 0.94 / wins);
+      flGlassPaint(g, x0, h * 0.14, ww, h * 0.38);
+      g.fillStyle = "#0e1114"; g.fillRect(x0, h * 0.5, ww, h * 0.03);
+    }
+    g.fillStyle = "#17191c"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.font = `800 ${Math.round(h * 0.22)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.fillText("SCHOOL BUS", w / 2, h * 0.72);
+    g.font = `700 ${Math.round(h * 0.1)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "right"; g.fillText(lv.unitNumber, w * 0.97, h * 0.93);
+  }, { rough: 0.4, metal: 0.15 });
+  for (const sx of [1, -1]) flPanel(S, L - b0 - 0.15, H - 0.05, sx * (W / 2 + 0.006), 1.1 + H / 2, Z((b0 + L - 0.05) / 2), side, sx > 0 ? "+x" : "-x");
+  const rear = flCanvasMat(`schoolBusRear:${lv.key}`, 512, 384, (g, w, h) => {
+    g.fillStyle = flCss(lv.colour); g.fillRect(0, 0, w, h);
+    g.fillStyle = "#1a1d20"; g.fillRect(0, 0, w, h * 0.08); g.fillRect(0, h * 0.7, w, h * 0.3);
+    flGlassPaint(g, w * 0.14, h * 0.12, w * 0.72, h * 0.34);
+    g.fillStyle = "#c8102e"; g.fillRect(w * 0.1, h * 0.74, w * 0.8, h * 0.1);
+    g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.font = `800 ${Math.round(h * 0.08)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.fillText("STOP WHEN RED LIGHTS FLASH", w / 2, h * 0.79);
+  }, { rough: 0.4 });
+  flPanel(S, W - 0.1, H - 0.05, 0, 1.1 + H / 2, Z(L - 0.02), rear, "-z");
+  const rd = rig.part("doorRear", 0, 1.15, Z(L - 0.02));
+  box(rd, 0.03, 0.14, 0.14, 0, H / 2 - 0.1, 0, 0x1a1d20, { rough: 0.5 });
+  const entryZ = Z(b0 + 0.5);
+  const doorGlass = flCanvasMat("schoolBusDoor", 96, 256, (g, w, h) => { flGlassPaint(g, 6, 10, w - 12, h - 20); }, { rough: 0.2, metal: 0.3 });
+  const entry = flDoor(rig, "doorEntry", -1, -(W / 2 + 0.015), 1.05, entryZ, 0.85, H * 0.75, doorGlass, { t: 0.04 });
+  void entry;
+  const stopFace = flCanvasMat(`schoolBusStop:${lv.key}`, 256, 256, (g, w, h) => {
+    g.fillStyle = "#c8102e"; g.fillRect(0, 0, w, h);
+    g.strokeStyle = "#ffffff"; g.lineWidth = w * 0.07; g.strokeRect(w * 0.09, h * 0.09, w * 0.82, h * 0.82);
+    g.fillStyle = "#ffffff"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.font = `800 ${Math.round(h * 0.3)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.fillText("STOP", w / 2, h / 2);
+  }, { rough: 0.5 });
+  const stopArm = rig.part("stopArm", W / 2 + 0.015, 1.05, Z(cab.hoodS + 0.3));
+  box(stopArm, 0.02, 0.4, 0.4, 0.21, 0, 0, 0xc8102e, { rough: 0.5 });
+  flPanel(stopArm, 0.34, 0.34, 0.221, 0, 0, stopFace, "+x");
+  for (const dz of [-0.14, 0.14]) ball(stopArm, 0.02, 0.221, 0, dz, 0xff3a2a, { emissive: 0xff2200, ei: 1.4 });
+  const gate = rig.part("crossingGate", -(W / 2 - 0.32), 0.55, Z(0.06));
+  box(gate, 0.02, 0.02, 1.15, 0, 0, -0.575, 0xe8b02e, { rough: 0.5 });
+  for (let i = 0; i < 3; i++) box(gate, 0.03, 0.03, 0.03, 0, 0, -0.2 - i * 0.35, 0x1a1d20, { rough: 0.6 });
+  flMirror(rig, "mirrorL", 1, W / 2 + 0.02, 2.15, Z(cab.hoodS + 0.25), { h: 0.34 });
+  flMirror(rig, "mirrorR", -1, -(W / 2 + 0.02), 2.15, Z(cab.hoodS + 0.25), { h: 0.34, convex: true });
+  const cross = rig.part("crossviewMirror", 0, 0, 0);
+  const crL = ball(cross, 0.09, W / 2 + 0.05, 1.5, Z(0.05), 0xd8dde2, { rough: 0.2, metal: 0.6 });
+  const crR = ball(cross, 0.09, -(W / 2 + 0.05), 1.5, Z(0.05), 0xd8dde2, { rough: 0.2, metal: 0.6 });
+  void crL; void crR;
+  rig.set("wheels", [
+    flSteerWheel(rig, "wheelFL", 1.05, Z(1.0), 0.46, 0.28, { style: "steel" }),
+    flSteerWheel(rig, "wheelFR", -1.05, Z(1.0), 0.46, 0.28, { style: "steel" }),
+    flAxle(rig, "axle2", Z(8.1), 0.46, 1.94, { dual: true, style: "steel" }),
+  ]);
+  flLights(rig, [[0.8, 1.15, Z(0.05)], [-0.8, 1.15, Z(0.05)]],
+    null, [[1.0, 1.3, Z(L - 0.02)], [-1.0, 1.3, Z(L - 0.02)]]);
+  const warn = rig.part("warningLights"); warn.userData.fleetBake = false;
+  const warnY = ROOF + 0.05;
+  const redFront = rig.part("warnRedFront", 0, warnY, Z(0.15), warn);
+  const amberFront = rig.part("warnAmberFront", 0, warnY, Z(0.42), warn);
+  const redRear = rig.part("warnRedRear", 0, warnY, Z(L - 0.15), warn);
+  const amberRear = rig.part("warnAmberRear", 0, warnY, Z(L - 0.42), warn);
+  for (const [grp, colour] of [[redFront, FL.red], [amberFront, FL.amber], [redRear, FL.red], [amberRear, FL.amber]]) {
+    for (const sx of [1, -1]) ball(grp, 0.045, sx * 0.45, 0, 0, colour[0], colour[1]);
+  }
+  return flDone(rig, {
+    footprint: FLEET_BUDGET.schoolBus.footprint, livery: lv,
+    warningParts: { redFront, amberFront, redRear, amberRear },
+  });
+}
+
 // ----------------------------------------------------------- yard vehicles
 
 /**
@@ -2127,6 +2228,7 @@ export const FLEET_BUDGET = {
   fireEngine: { build: "fireEngine", meshes: 28, footprint: [3.2, 3.23, 10.25], parts: ["doorL", "doorR", "doorCrewL", "doorCrewR", "pumpPanel", "pumpControls", "hoseBed", "ladder", "compartments", "warningLights", "wheels", "mirrorL", "mirrorR", "lights"], note: "pumper: pump panel, hose bed, roof ladders" },
   bucketTruck: { build: "bucketTruck", meshes: 32, footprint: [3.3, 3.44, 9.6], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "turret", "boom", "boomUpper", "bucket", "outriggers", "compartments", "controls"], note: "insulated aerial device, articulated turret-boom-bucket" },
   busTransit: { build: "busTransit", meshes: 16, footprint: [3.3, 3.26, 12.42], parts: ["doorFront", "doorRear", "destinationSign", "wheels", "mirrorL", "mirrorR", "lights"], note: "40 ft low-floor" },
+  schoolBus: { build: "schoolBus", meshes: 33, footprint: [3.16, 3.1, 10.79], parts: ["doorEntry", "doorRear", "mirrorL", "mirrorR", "crossviewMirror", "wheels", "lights", "stopArm", "crossingGate", "warningLights"], note: "Type C conventional, 35 ft, 8-way warning lights, stop arm and crossing gate" },
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
@@ -2143,6 +2245,6 @@ export const FLEET_BUDGET = {
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
-  bucketTruck, busTransit, forkliftCounterbalance, yardHustler, workboat,
+  bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat,
   skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };
