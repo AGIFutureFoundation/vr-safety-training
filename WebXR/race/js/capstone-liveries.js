@@ -160,5 +160,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "bay-restoration-maritime-underwater",
     "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
     "accent": "#4fb3c8"
+  },
+  {
+    "programme": "insulators-and-boilermakers",
+    "name": "Insulators and Boilermakers — Building Systems",
+    "accent": "#d8663a"
   }
 ];

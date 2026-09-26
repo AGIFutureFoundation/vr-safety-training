@@ -6576,7 +6576,8 @@ const UNIONS = [
   {"id":"cna","abbrev":"CNA","name":"California Nurses Association","aliases":["CNA"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the outbreak-response programme; an NNU affiliate. The registry carries no CNA training entry."},
   {"id":"nage","abbrev":"NAGE","name":"National Association of Government Employees","aliases":["NAGE"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme for EMS locals; an SEIU affiliate. The registry carries no NAGE training entry."},
   {"id":"fop","abbrev":"FOP","name":"Fraternal Order of Police","aliases":["FOP"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme; the registry carries no FOP training entry."},
-  {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named by the shipyard hot-work station's certification; the registry carries no IBB training entry."},
+  {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers","Boilermakers Local 549"],"local":"Local 549","colors":null,"trainingBody":"boilermakers-local-549","trainingTitle":"Boilermakers Local 549 apprenticeship and training, as a training body","scope":["Building Systems & Facilities"],"note":"Named by the shipyard hot-work station's certification and the Insulators and Boilermakers pack's boiler and pressure-vessel stations, carried by the registry as Boilermakers Local 549."},
+  {"id":"insulators","abbrev":"IAHFIAW","name":"International Association of Heat and Frost Insulators and Allied Workers","aliases":["Insulators","Insulators Local 16"],"local":"Local 16","colors":null,"trainingBody":"insulators-local-16","trainingTitle":"Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body","scope":["Building Systems & Facilities"],"note":"Named by the Insulators and Boilermakers pack's mechanical insulation, firestop and abatement stations, carried by the registry as Insulators Local 16."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7392,6 +7393,25 @@ const CURRICULA = [
       { app: "smartcity", id: "br-intertidal-invasive-removal-by-hand-crew", why: "With no sprayer on this crew at all, every plant comes out whole on a wrench, every root fragment gets hunted out of the disturbed soil, and boots get brushed clean at the buffer so nothing this crew pulls ever gets a second chance to spread." },
       { app: "smartcity", id: "br-levee-inspection-and-seepage", why: "A sand boil gets ringed with sandbags and never blocked, and a burrow gets flagged and reported and never dug at, because on a levee patrol the counterintuitive answer is usually the one that keeps a small seepage path from becoming a bigger one." },
       { app: "smartcity", id: "br-fish-screen-maintenance", why: "A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed headcount says every hand that went on the disconnect is clear of it again." },
+    ],
+  },
+  {
+    id: "insulators-and-boilermakers",
+    name: "Insulators and Boilermakers — Building Systems",
+    union: "Insulators Local 16 and Boilermakers Local 549",
+    certification: "Insulators Local 16 and Boilermakers Local 549 apprenticeship and training, OSHA 29 CFR 1926.1101 asbestos in construction, 29 CFR 1910.146 permit-required confined spaces, ASME Section I and Section IX, and the National Board Inspection Code (NBIC), as taught across mechanical insulation, firestop, abatement, boiler and pressure-vessel repair work",
+    guides: ["insulators-local-16", "boilermakers-local-549", "osha-1926-1101", "osha-1910-146", "asme-bpvc", "asme-section-i", "asme-section-ix", "nbic"],
+    summary: "Eight stations across the two trades that keep a plant's pipes, walls and pressure equipment doing what they are rated for: pipe insulation and jacketing, a firestopped penetration, an asbestos glovebag removal, a boiler tube rolled and welded back in, a pressure vessel entered and hot-worked, a furnace wall relined in castable, a repair proven on a hydrostatic test, and a mechanical room sprayed in foam behind a respirator that was actually fit-tested first.",
+    accent: "#d8663a",
+    stations: [
+      { app: "smartcity", id: "ib-mechanical-insulation-pipe-and-jacketing", why: "A hot process pipe only gets insulated and jacketed once the bare metal's surface temperature is proven safe to touch, because the burn hazard under an unfinished run is invisible to anyone judging it by eye alone." },
+      { app: "smartcity", id: "ib-firestop-and-fire-wrap-installation", why: "A wall or floor opened for someone else's pipes and cables only goes back to being a rated assembly when it is closed to the exact listed system the annular space and the penetrant mix were tested against, not to whichever detail looks close enough." },
+      { app: "smartcity", id: "ib-asbestos-glovebag-removal-on-a-pipe", why: "Stripping asbestos pipe insulation inside a sealed glovebag while the header stays in service means the seal is proven before a single strip, because a contained job and a fibre release inside that same bag are separated only by whether the bag actually holds." },
+      { app: "smartcity", id: "ib-boiler-tube-replacement-and-rolling", why: "A failed firetube only gets replaced by rolling the new stub to a specified expansion and welding it clean, and the drum only closes again once a foreign-object walk proves nothing was left inside it to travel loose at pressure." },
+      { app: "smartcity", id: "ib-pressure-vessel-confined-entry-and-hot-work", why: "Welding a patch inside a vessel means the confined-space permit and the hot-work permit are read as one job, because an atmosphere proven safe and a fire watch posted are both preconditions for the same few minutes of work, not separate boxes to check." },
+      { app: "smartcity", id: "ib-refractory-and-castable-installation", why: "A furnace wall relined in castable is only as sound as the anchors it was poured over and the dryout ramp that follows, because rushing either one bakes a weak spot into a lining nobody can see the inside of once it cures." },
+      { app: "smartcity", id: "ib-hydrostatic-test-and-inspector-witness", why: "A repaired vessel is proven safe by a hydrostatic test only when the trapped air is vented before the fill, the walk for weeps happens from beside every joint rather than in front of it, and an inspector actually witnesses the hold." },
+      { app: "smartcity", id: "ib-spray-foam-and-respirator-fit", why: "Spraying closed-cell foam next to an open isocyanate drum only starts once the respirator has been quantitatively fit-tested on the person wearing it, because a mask nobody has proven seals is a hope, not a control." },
     ],
   },
 ];
@@ -8633,6 +8653,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "bay-restoration-maritime-underwater",
     "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
     "accent": "#4fb3c8"
+  },
+  {
+    "programme": "insulators-and-boilermakers",
+    "name": "Insulators and Boilermakers — Building Systems",
+    "accent": "#d8663a"
   }
 ];
 
