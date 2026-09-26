@@ -19348,5 +19348,257 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "uw-rov-pre-dive-and-tether-management",
+    "index": "352",
+    "domain": "Maritime & Ports",
+    "trade": "ROV technician, a Pile Drivers Local 34 commercial diver cross-trained to fly a small inspection-class ROV on its own tether at a Bay worksite, with a tender minding the ROV's tether and the diver's umbilical, a supervisor on the comms and a standby diver dressed to recover the vehicle by hand",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund, cross-trained to field a tethered inspection ROV; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection and the team briefing) and 29 CFR 1910.422 procedures during the dive (communications) as they govern the dive team fielding the vehicle; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the work is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "ROV Pre-Dive & Tether Management",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ ROV Pre-Dive & Tether Management VR",
+    "tagline": "Before the vehicle ever swims: splash reported, the loose shroud bolt and the chafed tether found, the loose line coiled and the tool bag clipped off before the shroud goes on, the drag set on the reel, the trim gauge read neutral, the white card held for the camera, power called only once the shroud is on, the guideline flown out past a rebar cage and a ghost net while the tether snags and the picture freezes, position held for the tender's payout, and the vehicle recalled, docked and logged",
+    "accent": 5227496,
+    "accentCss": "#4fc3e8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "shroud-on-tether-clean",
+      "name": "Shroud On, Tether Clean",
+      "note": "The shroud bolted on before any call for power, the tether never flown over a snag, nothing carried by hand, and never flown on a frozen picture"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "ROV Pre-Dive",
+      "currency": "SPOOL",
+      "ranks": [
+        "ROV Tender",
+        "ROV Technician",
+        "ROV Pilot",
+        "Lead ROV Pilot",
+        "ROV Pre-Dive Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "uw-pipeline-crossing-inspection-dive",
+    "index": "353",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a submerged pipeline crossing integrity survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; pipeline defects handled per the work plan",
+    "name": "Pipeline Crossing Inspection Dive",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Pipeline Crossing Inspection Dive VR",
+    "tagline": "The crossing surveyed cradle to cradle: on the bottom at the marker chain, the crossing sign and buoy chain found, the locator's gain set, the route swum steady while the current pushes off the pipe, the reference cell read for cathodic protection, the coating holiday and the undermined cradle found, a mat rigged under the free span, the defect held for a photo, the marker floated and logged in order, the loose anode strap and the vent riser found and left alone, position held while the umbilical catches the cradle, the hazards reported for the work plan, the survey bag sent up and the crew checked in",
+    "accent": 15245628,
+    "accentCss": "#e8a13c",
+    "parSeconds": 300,
+    "badge": {
+      "id": "span-marked-not-touched",
+      "name": "Span Marked, Not Touched",
+      "note": "Every defect floated and logged, the free span supported, and never the strap, the riser or the span itself taken as a way through"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crossing Survey",
+      "currency": "STATIONING",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Pipeline Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "uw-underwater-concrete-and-bag-placement",
+    "index": "354",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver placing a tremie-filled repair jacket and grout-filled fabric bags on a corroded pile base, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; ACI concrete field testing technician certification and ACI 301 specifications for structural concrete governing the tremie placement; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Underwater Concrete & Bag Placement",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Underwater Concrete & Bag Placement VR",
+    "tagline": "The repair from form to bag: on the bottom reported, the corrosion band and a seam gap found inside the form, the form's lower half closed and the strap buckled in order, the mudline seal set, the tremie seated in its port, the pump called for, the pipe kept embedded as the pour rises through a line surge, the air-bleed valve worked, the pour rate read on the gauge, the fill height held on the sounding rod through a loosened strap, the hazards found, the pour reported, and the scour bags laid interlocking in order before the crew checks in",
+    "accent": 10127962,
+    "accentCss": "#c9b06a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "embedded-and-bled",
+      "name": "Embedded and Bled",
+      "note": "The tremie tip never lifted clear of the rising concrete, the air bled at every stage, and nothing unclipped before it was landed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tremie Pour",
+      "currency": "YARDAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Placement Diver",
+        "Lead Placement Diver",
+        "Underwater Concrete Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "uw-intake-screen-cleaning-with-lockout",
+    "index": "355",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver clearing a raw-water pump station's intake screen, with the plant operator holding the electrical and isolation lockouts above water, the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout) at the pump station above water; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Intake Screen Cleaning With Lockout",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Intake Screen Cleaning With Lockout VR",
+    "tagline": "Above water first: the motor breaker and the rake drive found, the breaker racked out and locked and tagged in order, the try-start proving dead, the isolation valve closed, the lockouts reported and the splash called — then below: the descent through a current shift, the clogged screen and the bent panel found, the no-flow gauge read again with your own hands, the debris cleared, the face scraped through a flickering flow indicator, the loose mesh and the dropped-tool risk found, the screen reported clear, and the diver's own signal held before the crew checks in",
+    "accent": 7324648,
+    "accentCss": "#6fc3e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "dead-before-clean",
+      "name": "Dead Before Clean",
+      "note": "The breaker locked and tagged before the valve was touched, the no-flow gauge proven with your own hands, and the diver's own clear signal held before anything was restored"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Screen Clear",
+      "currency": "AMP-HOUR",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Screen Diver",
+        "Lead Screen Diver",
+        "Intake Lockout Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "uw-bridge-pier-scour-survey",
+    "index": "356",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a bridge pier scour survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment of the dive) and 29 CFR 1910.423 post-dive procedures (the record of dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; scour findings measured against the bridge owner's own monitoring plan, never against an invented number",
+    "name": "Bridge Pier Scour Survey",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Bridge Pier Scour Survey VR",
+    "tagline": "The footing read against last year's survey: the benchmark and the footing's toe found, the probe zeroed against the benchmark, the perimeter swum at the mudline through an accelerating current, the scour hole probed against the critical elevation, the exposed footing and the undermined riprap found, the deepest point marked, flagged and logged in order, the exposed rebar and the accelerated flow through the undercut found, position held for the read-back while the umbilical catches the rebar, and the findings reported before the crew checks in",
+    "accent": 9090264,
+    "accentCss": "#8ab4d8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "zeroed-and-marked",
+      "name": "Zeroed and Marked",
+      "note": "The probe zeroed to the benchmark before any reading counted, the deepest point flagged and logged, and never a hand in the undercut or a tool dropped into the hole"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scour Survey",
+      "currency": "ELEVATION",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Scour Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "uw-lift-bag-rigging-and-object-recovery",
+    "index": "357",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver rigging a two-bag lift on a dropped hydraulic power unit skid, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools); ADCI International Consensus Standards for Commercial Diving and Underwater Operations, including its guidance on lift bag rigging; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+    "name": "Lift Bag Rigging & Object Recovery",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Lift Bag Rigging & Object Recovery VR",
+    "tagline": "The skid rigged for two bags: on-bottom report, the lift eyes and a trailing power cable found, the bridle's shackles set and moused in order, a bag clipped to each leg, the fill matched against the skid's tagged weight, the turnbuckle worked to bring it level, the cable and the umbilical checked clear before anything lifts, the skid guided off the silt on the tag line through a slide inside the bridle, the rise escorted while a bag threatens to run, the vent worked at the safety stop, the lift reported, and the crew checked in",
+    "accent": 14191183,
+    "accentCss": "#d88a4f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "level-and-escorted",
+      "name": "Level and Escorted",
+      "note": "Every shackle pin moused before a bag went on, the load brought level before it lifted, and the whole rise escorted without a hand ever on the load itself"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Two-Bag Lift",
+      "currency": "BUOYANCY",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Rigging Diver",
+        "Lead Rigging Diver",
+        "Lift Bag Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

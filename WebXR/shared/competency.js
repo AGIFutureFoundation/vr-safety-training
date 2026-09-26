@@ -397,7 +397,9 @@ export const PROGRAMME_COMPETENCIES = [
       "pt-crane-boom-hoist-brake-service", "pt-straddle-carrier-hydraulics", "pt-reefer-plug-and-power-panel", "pt-dock-fender-and-bollard-inspection",
       "pt-terminal-lighting-mast-service", "pt-stormwater-at-the-terminal", "pt-chassis-and-genset-yard", "mooring-line",
       "mw-ferry-deckhand-and-passenger-safety", "mw-workboat-towing-and-line-handling", "mw-oil-transfer-watch-and-boom", "mw-dive-supervisor-and-dive-plan",
-      "mw-pier-pile-inspection-dive", "mw-hull-inspection-and-cleaning-dive", "mw-underwater-welding-and-cutting", "mw-diver-emergency-and-recovery"
+      "mw-pier-pile-inspection-dive", "mw-hull-inspection-and-cleaning-dive", "mw-underwater-welding-and-cutting", "mw-diver-emergency-and-recovery",
+      "uw-rov-pre-dive-and-tether-management", "uw-pipeline-crossing-inspection-dive", "uw-underwater-concrete-and-bag-placement", "uw-intake-screen-cleaning-with-lockout",
+      "uw-bridge-pier-scour-survey", "uw-lift-bag-rigging-and-object-recovery"
     ],
     require: 6,
   },

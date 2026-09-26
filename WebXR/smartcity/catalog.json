@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 454
+      "stations": 460
     },
     "trades": {
       "entry": "trades/index.html",
@@ -350,7 +350,13 @@
         "br-derelict-vessel-salvage-rigging",
         "po-yard-hostler-and-pedestrian-separation",
         "po-lashing-gear-inspection-and-tagging",
-        "br-marine-mammal-observer-during-pile-driving"
+        "br-marine-mammal-observer-during-pile-driving",
+        "uw-lift-bag-rigging-and-object-recovery",
+        "uw-bridge-pier-scour-survey",
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-underwater-concrete-and-bag-placement",
+        "uw-pipeline-crossing-inspection-dive",
+        "uw-rov-pre-dive-and-tether-management"
       ]
     },
     {
@@ -2416,13 +2422,43 @@
           "app": "smartcity",
           "id": "mw-diver-emergency-and-recovery",
           "why": "The standby's dive: the fouled diver reached along his own umbilical, his gas first, the snag cut and never his umbilical, and brought up on the stage at the supervisor's call rather than flown up on a bag."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-rov-pre-dive-and-tether-management",
+          "why": "The small inspection ROV before it ever swims: the thruster shroud bolted on before any call for power, the tether's drag set and its route flown wide of a rebar cage and a ghost net, and the vehicle recalled and docked without ever flying blind on a frozen picture."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-pipeline-crossing-inspection-dive",
+          "why": "A submerged crossing walked cradle to cradle: the locator's gain set before the route is swum, cathodic protection read on the reference cell, and a coating holiday and an undermined cradle found and supported without ever passing under the span or fanning its scour pocket."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-underwater-concrete-and-bag-placement",
+          "why": "A corroded pile jacketed and poured: the form closed and sealed before the tremie ever goes in, its tip kept buried through a pump surge, the air bled at every stage, and the scour bags interlocked once the pour is confirmed full."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-intake-screen-cleaning-with-lockout",
+          "why": "The plant's own lockout worked above water first — breaker racked, locked and tagged, the isolation valve shut — before the diver ever proves the no-flow gauge again with their own hands and clears the screen."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-bridge-pier-scour-survey",
+          "why": "A pier's footing read against last year's survey: the benchmark found and the probe zeroed to it before any depth counts, the whole perimeter circled evenly, and the deepest point marked, flagged and logged rather than guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "uw-lift-bag-rigging-and-object-recovery",
+          "why": "A dropped skid too heavy for one bag: both shackle pins moused before either bag goes on, the load brought level on the turnbuckle, and the whole rise escorted by eye rather than by a hand ever laid on the load itself."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1616,
-        "tasks": 123,
+        "lessons": 1612,
+        "tasks": 122,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -28261,7 +28297,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 250,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28921,7 +28957,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -41435,6 +41471,504 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=or-transmission-line-right-of-way-patrol"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-lift-bag-rigging-and-object-recovery",
+      "name": "Lift Bag Rigging & Object Recovery",
+      "title": "SmartCiti.X~ Lift Bag Rigging & Object Recovery VR",
+      "tagline": "The skid rigged for two bags: on-bottom report, the lift eyes and a trailing power cable found, the bridle's shackles set and moused in order, a bag clipped to each leg, the fill matched against the skid's tagged weight, the turnbuckle worked to bring it level, the cable and the umbilical checked clear before anything lifts, the skid guided off the silt on the tag line through a slide inside the bridle, the rise escorted while a bag threatens to run, the vent worked at the safety stop, the lift reported, and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver rigging a two-bag lift on a dropped hydraulic power unit skid, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools); ADCI International Consensus Standards for Commercial Diving and Underwater Operations, including its guidance on lift bag rigging; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#d88a4f",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "level-and-escorted",
+        "name": "Level and Escorted",
+        "note": "Every shackle pin moused before a bag went on, the load brought level before it lifted, and the whole rise escorted without a hand ever on the load itself"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "357",
+      "flat": false,
+      "system": "Two-Bag Lift",
+      "currency": "BUOYANCY",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Rigging Diver",
+        "Lead Rigging Diver",
+        "Lift Bag Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "moused-before-lift",
+          "name": "Moused Before Lift",
+          "note": "Both shackle pins moused before either bag was clipped on, first time"
+        },
+        {
+          "id": "matched-capacity",
+          "name": "Matched Capacity",
+          "note": "The combined lift matched to the skid's tagged weight inside the band, first time"
+        },
+        {
+          "id": "hands-off-the-load",
+          "name": "Hands Off The Load",
+          "note": "Never a hand on the load itself, never an unmoused pin trusted, never the umbilical left across the bridle, never kept venting blind through dead comms"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Lift",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-escort",
+          "name": "Steady Escort",
+          "note": "The ascent escorted in band the whole way up"
+        },
+        {
+          "id": "recovered-in-time",
+          "name": "Recovered In Time",
+          "note": "The lift reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-lift-bag-rigging-and-object-recovery"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-bridge-pier-scour-survey",
+      "name": "Bridge Pier Scour Survey",
+      "title": "SmartCiti.X~ Bridge Pier Scour Survey VR",
+      "tagline": "The footing read against last year's survey: the benchmark and the footing's toe found, the probe zeroed against the benchmark, the perimeter swum at the mudline through an accelerating current, the scour hole probed against the critical elevation, the exposed footing and the undermined riprap found, the deepest point marked, flagged and logged in order, the exposed rebar and the accelerated flow through the undercut found, position held for the read-back while the umbilical catches the rebar, and the findings reported before the crew checks in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver on a bridge pier scour survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment of the dive) and 29 CFR 1910.423 post-dive procedures (the record of dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; scour findings measured against the bridge owner's own monitoring plan, never against an invented number",
+      "accent": "#8ab4d8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "track",
+        "gauge",
+        "hold",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "zeroed-and-marked",
+        "name": "Zeroed and Marked",
+        "note": "The probe zeroed to the benchmark before any reading counted, the deepest point flagged and logged, and never a hand in the undercut or a tool dropped into the hole"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "356",
+      "flat": false,
+      "system": "Scour Survey",
+      "currency": "ELEVATION",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Scour Survey Certified"
+      ],
+      "awards": [
+        {
+          "id": "zeroed-first",
+          "name": "Zeroed First",
+          "note": "The probe zeroed against the benchmark before the perimeter was swum"
+        },
+        {
+          "id": "true-depth",
+          "name": "True Depth",
+          "note": "The scour probe read inside the band first time"
+        },
+        {
+          "id": "clear-of-the-undercut",
+          "name": "Clear Of The Undercut",
+          "note": "Never a hand in the undercut, never through the exposed rebar, never a tool let fall into the hole, never the umbilical left on the rebar"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-perimeter",
+          "name": "Steady Perimeter",
+          "note": "The perimeter swum in band the whole way"
+        },
+        {
+          "id": "surveyed-in-time",
+          "name": "Surveyed In Time",
+          "note": "Findings reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-bridge-pier-scour-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-intake-screen-cleaning-with-lockout",
+      "name": "Intake Screen Cleaning With Lockout",
+      "title": "SmartCiti.X~ Intake Screen Cleaning With Lockout VR",
+      "tagline": "Above water first: the motor breaker and the rake drive found, the breaker racked out and locked and tagged in order, the try-start proving dead, the isolation valve closed, the lockouts reported and the splash called — then below: the descent through a current shift, the clogged screen and the bent panel found, the no-flow gauge read again with your own hands, the debris cleared, the face scraped through a flickering flow indicator, the loose mesh and the dropped-tool risk found, the screen reported clear, and the diver's own signal held before the crew checks in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver clearing a raw-water pump station's intake screen, with the plant operator holding the electrical and isolation lockouts above water, the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout) at the pump station above water; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#6fc3e8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "sequence",
+        "select",
+        "turn",
+        "track",
+        "gauge",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "dead-before-clean",
+        "name": "Dead Before Clean",
+        "note": "The breaker locked and tagged before the valve was touched, the no-flow gauge proven with your own hands, and the diver's own clear signal held before anything was restored"
+      },
+      "meshes": 167,
+      "lights": 0,
+      "overBudget": false,
+      "index": "355",
+      "flat": false,
+      "system": "Screen Clear",
+      "currency": "AMP-HOUR",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Screen Diver",
+        "Lead Screen Diver",
+        "Intake Lockout Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-then-tag",
+          "name": "Lock Then Tag",
+          "note": "The breaker racked out before the lock and tag went on, first time"
+        },
+        {
+          "id": "true-no-flow",
+          "name": "True No-Flow",
+          "note": "The no-flow gauge read inside the band first time"
+        },
+        {
+          "id": "never-trusted-blind",
+          "name": "Never Trusted Blind",
+          "note": "Never a hand on the screen face before the no-flow check, never through the torn mesh, never kept scraping with the comms dead, never a tool let fall toward the throat"
+        },
+        {
+          "id": "clean-lockout",
+          "name": "Clean Lockout",
+          "note": "No corrections from the energy-source check to the check-in"
+        },
+        {
+          "id": "steady-descent",
+          "name": "Steady Descent",
+          "note": "The descent held in band through the current shift"
+        },
+        {
+          "id": "cleared-in-time",
+          "name": "Cleared In Time",
+          "note": "The screen reported clear inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-intake-screen-cleaning-with-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-underwater-concrete-and-bag-placement",
+      "name": "Underwater Concrete & Bag Placement",
+      "title": "SmartCiti.X~ Underwater Concrete & Bag Placement VR",
+      "tagline": "The repair from form to bag: on the bottom reported, the corrosion band and a seam gap found inside the form, the form's lower half closed and the strap buckled in order, the mudline seal set, the tremie seated in its port, the pump called for, the pipe kept embedded as the pour rises through a line surge, the air-bleed valve worked, the pour rate read on the gauge, the fill height held on the sounding rod through a loosened strap, the hazards found, the pour reported, and the scour bags laid interlocking in order before the crew checks in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver placing a tremie-filled repair jacket and grout-filled fabric bags on a corroded pile base, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; ACI concrete field testing technician certification and ACI 301 specifications for structural concrete governing the tremie placement; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#c9b06a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "track",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "embedded-and-bled",
+        "name": "Embedded and Bled",
+        "note": "The tremie tip never lifted clear of the rising concrete, the air bled at every stage, and nothing unclipped before it was landed"
+      },
+      "meshes": 167,
+      "lights": 0,
+      "overBudget": false,
+      "index": "354",
+      "flat": false,
+      "system": "Tremie Pour",
+      "currency": "YARDAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Placement Diver",
+        "Lead Placement Diver",
+        "Underwater Concrete Certified"
+      ],
+      "awards": [
+        {
+          "id": "form-first",
+          "name": "Form First",
+          "note": "The form closed and strapped in order before the tremie went in"
+        },
+        {
+          "id": "true-rate",
+          "name": "True Rate",
+          "note": "The pour rate gauge read inside the band first time"
+        },
+        {
+          "id": "nothing-dropped",
+          "name": "Nothing Dropped",
+          "note": "Never unclipped early, never stood in the discharge, never the umbilical under the strap, never tangled in the sling"
+        },
+        {
+          "id": "clean-pour",
+          "name": "Clean Pour",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-embedment",
+          "name": "Steady Embedment",
+          "note": "The tremie tip held embedded the whole pour"
+        },
+        {
+          "id": "poured-in-time",
+          "name": "Poured In Time",
+          "note": "The pour reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-underwater-concrete-and-bag-placement"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-pipeline-crossing-inspection-dive",
+      "name": "Pipeline Crossing Inspection Dive",
+      "title": "SmartCiti.X~ Pipeline Crossing Inspection Dive VR",
+      "tagline": "The crossing surveyed cradle to cradle: on the bottom at the marker chain, the crossing sign and buoy chain found, the locator's gain set, the route swum steady while the current pushes off the pipe, the reference cell read for cathodic protection, the coating holiday and the undermined cradle found, a mat rigged under the free span, the defect held for a photo, the marker floated and logged in order, the loose anode strap and the vent riser found and left alone, position held while the umbilical catches the cradle, the hazards reported for the work plan, the survey bag sent up and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver on a submerged pipeline crossing integrity survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; pipeline defects handled per the work plan",
+      "accent": "#e8a13c",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "track",
+        "gauge",
+        "drag",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "span-marked-not-touched",
+        "name": "Span Marked, Not Touched",
+        "note": "Every defect floated and logged, the free span supported, and never the strap, the riser or the span itself taken as a way through"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "353",
+      "flat": false,
+      "system": "Crossing Survey",
+      "currency": "STATIONING",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Pipeline Survey Certified"
+      ],
+      "awards": [
+        {
+          "id": "on-route",
+          "name": "On Route",
+          "note": "The locator gain set first time before the route was swum"
+        },
+        {
+          "id": "true-potential",
+          "name": "True Potential",
+          "note": "The reference cell read inside the band first time"
+        },
+        {
+          "id": "clear-of-the-line",
+          "name": "Clear Of The Line",
+          "note": "Never through the strap, never a hand in the riser, never under the span, never fanning the scour pocket"
+        },
+        {
+          "id": "clean-crossing",
+          "name": "Clean Crossing",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-route",
+          "name": "Steady Route",
+          "note": "The crossing swum in band the whole way"
+        },
+        {
+          "id": "surveyed-in-time",
+          "name": "Surveyed In Time",
+          "note": "Survey bag sent up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-pipeline-crossing-inspection-dive"
+    },
+    {
+      "app": "smartcity",
+      "id": "uw-rov-pre-dive-and-tether-management",
+      "name": "ROV Pre-Dive & Tether Management",
+      "title": "SmartCiti.X~ ROV Pre-Dive & Tether Management VR",
+      "tagline": "Before the vehicle ever swims: splash reported, the loose shroud bolt and the chafed tether found, the loose line coiled and the tool bag clipped off before the shroud goes on, the drag set on the reel, the trim gauge read neutral, the white card held for the camera, power called only once the shroud is on, the guideline flown out past a rebar cage and a ghost net while the tether snags and the picture freezes, position held for the tender's payout, and the vehicle recalled, docked and logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "ROV technician, a Pile Drivers Local 34 commercial diver cross-trained to fly a small inspection-class ROV on its own tether at a Bay worksite, with a tender minding the ROV's tether and the diver's umbilical, a supervisor on the comms and a standby diver dressed to recover the vehicle by hand",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund, cross-trained to field a tethered inspection ROV; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection and the team briefing) and 29 CFR 1910.422 procedures during the dive (communications) as they govern the dive team fielding the vehicle; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the work is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#4fc3e8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "shroud-on-tether-clean",
+        "name": "Shroud On, Tether Clean",
+        "note": "The shroud bolted on before any call for power, the tether never flown over a snag, nothing carried by hand, and never flown on a frozen picture"
+      },
+      "meshes": 169,
+      "lights": 0,
+      "overBudget": false,
+      "index": "352",
+      "flat": false,
+      "system": "ROV Pre-Dive",
+      "currency": "SPOOL",
+      "ranks": [
+        "ROV Tender",
+        "ROV Technician",
+        "ROV Pilot",
+        "Lead ROV Pilot",
+        "ROV Pre-Dive Certified"
+      ],
+      "awards": [
+        {
+          "id": "shroud-first",
+          "name": "Shroud First",
+          "note": "Thruster shroud bolted on and checked before any call for power"
+        },
+        {
+          "id": "trim-true",
+          "name": "Trim True",
+          "note": "The ballast trim gauge read in the neutral band first time"
+        },
+        {
+          "id": "clean-transect",
+          "name": "Clean Transect",
+          "note": "Never a shroud left off, never the tether flown over a snag, never a tool carried by hand, never flown on a frozen picture"
+        },
+        {
+          "id": "clean-launch",
+          "name": "Clean Launch",
+          "note": "No corrections from the splash report to the recall"
+        },
+        {
+          "id": "steady-transect",
+          "name": "Steady Transect",
+          "note": "The guideline flown in band the whole way"
+        },
+        {
+          "id": "recalled-in-time",
+          "name": "Recalled In Time",
+          "note": "The vehicle docked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-rov-pre-dive-and-tether-management"
     },
     {
       "app": "trades",
