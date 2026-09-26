@@ -13,11 +13,11 @@
   "results": [
     {
       "app": "smartcity",
-      "id": "ew-machine-room-lockout-and-brake-test",
-      "name": "Machine Room Lockout and Brake Test",
+      "id": "ew-pit-work-and-buffer-inspection",
+      "name": "Pit Work and Buffer Inspection",
       "category": "Building Systems & Facilities",
-      "steps": 14,
-      "score": 95,
+      "steps": 13,
+      "score": 96,
       "d": {
         "variety": {
           "score": 1,
@@ -25,13 +25,13 @@
           "longestRun": 2
         },
         "decisions": {
-          "score": 0.95,
+          "score": 0.9884615384615384,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 285,
+          "medianWhy": 273,
           "thin": 0
         },
         "grounding": {
@@ -47,19 +47,19 @@
         },
         "feedback": {
           "score": 1,
-          "want": 11,
-          "got": 11
+          "want": 10,
+          "got": 10
         },
         "scene": {
-          "score": 0.9122727272727272,
-          "meshes": 164,
-          "materials": 73,
-          "interactables": 19
+          "score": 0.8790909090909091,
+          "meshes": 138,
+          "materials": 64,
+          "interactables": 21
         },
         "originality": {
-          "score": 0.1380032206119164,
+          "score": 0.27027463651050104,
           "nearest": "elevator-pit",
-          "similarity": 0.31239935587761675
+          "similarity": 0.2859450726978998
         }
       }
     }

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 424
     },
     "trades": {
       "entry": "trades/index.html",
@@ -191,6 +191,7 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "ew-pit-work-and-buffer-inspection",
         "ew-machine-room-lockout-and-brake-test",
         "ew-hoistway-false-car-and-rail-setting",
         "pm-storage-and-bike-room",
@@ -7646,6 +7647,87 @@
     },
     {
       "app": "smartcity",
+      "id": "ew-pit-work-and-buffer-inspection",
+      "name": "Pit Work and Buffer Inspection",
+      "title": "SmartCiti.X~ Pit Work and Buffer Inspection VR",
+      "tagline": "A full pit service: refuge space, ladder, sump pump, spring and oil buffer testing, and counterweight runby, logged before anyone climbs back out",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for pit and buffer maintenance; ASME A17.1 the safety code for elevators and escalators, whose buffer provisions this test is run against; OSHA 29 CFR 1910.147 control of hazardous energy for the sump pump circuit; OSHA 29 CFR 1910.23 ladders, for the fixed pit access ladder",
+      "accent": "#27ae60",
+      "parSeconds": 250,
+      "weather": "wind",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "find",
+        "gauge",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "pit-cleared",
+        "name": "Pit Cleared",
+        "note": "Both buffers proven, runby measured and the refuge space kept clear the whole visit"
+      },
+      "meshes": 139,
+      "lights": 0,
+      "overBudget": false,
+      "index": "354",
+      "flat": false,
+      "system": "Pit Authority",
+      "currency": "RUNBY",
+      "ranks": [
+        "Pit Hand",
+        "Pit Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Pit Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "switch-first",
+          "name": "Switch First",
+          "note": "Never entered the pit before the stop switch was confirmed"
+        },
+        {
+          "id": "both-buffers",
+          "name": "Both Buffers",
+          "note": "Held both buffer readings and the runby reading near band centre"
+        },
+        {
+          "id": "clean-exit",
+          "name": "Clean Exit",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ladder-held",
+          "name": "Ladder Held",
+          "note": "Never let the ladder latch slip while deploying it"
+        },
+        {
+          "id": "pit-fast",
+          "name": "Pit Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-pit-work-and-buffer-inspection"
+    },
+    {
+      "app": "smartcity",
       "id": "ew-machine-room-lockout-and-brake-test",
       "name": "Machine Room Lockout and Brake Test",
       "title": "SmartCiti.X~ Machine Room Lockout and Brake Test VR",
@@ -7676,7 +7758,7 @@
         "name": "Brake Proven",
         "note": "Isolated, guarded and measured to the manufacturer's wear limits, with a clean stopping test before release"
       },
-      "meshes": 127,
+      "meshes": 164,
       "lights": 0,
       "overBudget": false,
       "index": "353",
@@ -28410,7 +28492,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
